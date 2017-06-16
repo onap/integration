@@ -1,0 +1,76 @@
+- builder:
+    name: docker-login
+    builders:
+      - shell: !include-raw: include-docker-login.sh
+
+- job-template:
+    name: 'java-{project}'
+    project-type: freestyle
+    scm:
+      - git:
+          url: 'http://gerrit.onap.org/r/{repo}'
+          branches:
+            - '*/master'
+          wipe-workspace: false
+          skip-tag: true
+          timeout: 30
+    builders:
+      - maven-target:
+          goals: '-B clean install'
+          pom: '{pom}'
+          properties:
+            - skipTests=true
+
+- job-template:
+    id: docker-with-pom
+    name: 'docker-{project}'
+    project-type: freestyle
+    pom: 'pom.xml'
+    mvn-options: ''
+    shell-cmd: ''
+    scm:
+      - git:
+          url: 'http://gerrit.onap.org/r/{repo}'
+          branches:
+            - '*/master'
+          wipe-workspace: false
+          skip-tag: true
+          timeout: 30
+    properties:
+      - inject:
+          properties-content: |
+            GIT_NO_PROJECT=http://gerrit.onap.org/r
+    builders:
+      - docker-login
+      - maven-target:
+          goals: '-B clean package {mvn-options}'
+          pom: '{pom}'
+          properties:
+            - skipTests=true
+            - docker.pull.registry=nexus3.onap.org:10001
+            - docker.push.registry=nexus3.onap.org:10003
+      - shell: "{shell-cmd}"
+
+- job-template:
+    id: docker-without-pom
+    name: 'docker-{project}'
+    project-type: freestyle
+    shell-cmd: ''
+    scm:
+      - git:
+          url: 'http://gerrit.onap.org/r/{repo}'
+          branches:
+            - '*/master'
+          wipe-workspace: false
+          skip-tag: true
+          timeout: 30
+    properties:
+      - inject:
+          properties-content: |
+            GIT_NO_PROJECT=http://gerrit.onap.org/r
+            GLOBAL_SETTINGS_FILE=/var/lib/jenkins/.m2/settings.xml
+            SETTINGS_FILE=/var/lib/jenkins/.m2/settings.xml
+            MVN=mvn
+    builders:
+      - docker-login
+      - shell: "{shell-cmd}"
