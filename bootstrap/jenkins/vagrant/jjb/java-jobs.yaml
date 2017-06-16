@@ -30,6 +30,9 @@
      - 'aai_search-data-service':
          repo: 'aai/search-data-service'
          pom: 'pom.xml'
+     - 'aai_sparky-be':
+         repo: 'aai/sparky-be'
+         pom: 'pom.xml'
      - 'aai_sparky-fe':
          repo: 'aai/sparky-fe'
          pom: 'pom.xml'
