@@ -14,3 +14,6 @@ env.properties
 *.zip
 *.tar
 *.gz
+*.log
+.vagrant
+*~
