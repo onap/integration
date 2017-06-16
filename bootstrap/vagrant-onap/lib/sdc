@@ -1,0 +1,79 @@
+#!/bin/bash
+
+set -o xtrace
+
+# mount_external_partition() - Create partition and mount the external volume
+function mount_external_partition {
+    cat <<EOL > /tmp/asdc_ext_volume_partitions.txt
+# partition table of /dev/sdb
+unit: sectors
+
+/dev/sdb1 : start=     2048, size=209713152, Id=83
+/dev/sdb2 : start=        0, size=        0, Id= 0
+/dev/sdb3 : start=        0, size=        0, Id= 0
+/dev/sdb4 : start=        0, size=        0, Id= 0
+EOL
+    sfdisk --force /dev/sdb < /tmp/asdc_ext_volume_partitions.txt
+    mkfs -t ext4 /dev/sdb1
+    mkdir -p /data
+    mount /dev/sdb1 /data
+    echo "/dev/sdb1  /data           ext4    errors=remount-ro,noatime,barrier=0 0       1" >> /etc/fstab
+}
+
+# init_data_folders() - Function that initialize the data folders
+function init_data_folders {
+    mkdir -p /data/environments
+    mkdir -p /data/scripts
+    mkdir -p /data/logs/BE
+    mkdir -p /data/logs/FE
+    chmod 777 /data
+    chmod 777 /data/logs/BE
+    chmod 777 /data/logs/FE
+}
+
+# setup_docker_aliases() - Function that setups the aliases required by sdc scripts
+function setup_docker_aliases {
+    cat <<EOL > /root/.bash_aliases
+alias dcls='/data/scripts/docker_clean.sh \$1'
+alias dlog='/data/scripts/docker_login.sh \$1'
+alias rund='/data/scripts/docker_run.sh'
+alias health='/data/scripts/docker_health.sh'
+EOL
+}
+
+# install_sdc() - Function that pull templates and executes
+function install_sdc {
+    IP_ADDRESS=$(ifconfig eth0 | grep "inet addr" | tr -s ' ' | cut -d' ' -f3 | cut -d':' -f2)
+    local ENV_NAME=$dmaap_topic
+    local MR_IP_ADDR='10.0.11.1'
+    local RELEASE=$docker_version
+    NEXUS_DOCKER_PORT=$(echo $nexus_docker_repo | cut -d':' -f2)
+    local src_folder=/opt/sdc
+    clone_repo sdc $src_folder
+    if [[ "$build_image" == "True" ]]; then
+        compile_src $src_folder
+        build_docker_image $src_folder/sdc-os-chef
+    fi
+    cp $src_folder/sdc-os-chef/environments/Template.json /data/environments
+    cp $src_folder/sdc-os-chef/scripts/docker_run.sh /data/scripts
+    cp $src_folder/sdc-os-chef/scripts/docker_health.sh /data/scripts
+    chmod +x /data/scripts/docker_run.sh
+    chmod +x /data/scripts/docker_health.sh
+
+    cat /data/environments/Template.json | sed "s/yyy/"$IP_ADDRESS"/g" > /data/environments/$ENV_NAME.json
+    sed -i "s/xxx/"$ENV_NAME"/g" /data/environments/$ENV_NAME.json
+    sed -i "s/\"ueb_url_list\":.*/\"ueb_url_list\": \""$MR_IP_ADDR","$MR_IP_ADDR"\",/g" /data/environments/$ENV_NAME.json
+    sed -i "s/\"fqdn\":.*/\"fqdn\": [\""$MR_IP_ADDR"\", \""$MR_IP_ADDR"\"]/g" /data/environments/$ENV_NAME.json
+
+    is_package_installed docker-ce || install_docker
+    docker login -u $nexus_username -p $nexus_password $nexus_docker_repo
+    bash /data/scripts/docker_run.sh -e $ENV_NAME -r $RELEASE -p $NEXUS_DOCKER_PORT
+}
+
+# init_sdc() - Function that initialize SDC services
+function init_sdc {
+    mount_external_partition
+    init_data_folders
+    setup_docker_aliases
+    install_sdc
+}

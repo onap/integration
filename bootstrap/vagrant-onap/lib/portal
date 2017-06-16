@@ -1,0 +1,60 @@
+#!/bin/bash
+
+set -o xtrace
+
+source /var/onap/functions
+
+# install_mariadb() - Pull and create a MariaDB container
+function install_mariadb {
+    is_package_installed docker-ce || install_docker
+    docker pull mariadb
+    docker create --name data_vol_portal -v /var/lib/mysql mariadb
+}
+
+# install_portal() - Function that pulls and install the source code of Portal
+function install_portal {
+    local src_folder=/opt/portal
+    clone_repo portal $src_folder
+    install_docker
+    docker rm -f ecompdb_portal
+    docker rm -f 1610-1
+    if [[ "$build_image" == "True" ]]; then
+        # Build locally
+        install_maven
+
+        clone_repo ecompsdkos $src_folder/ecompsdkos
+        clone_repo "ui/dmaapbc" $src_folder/dmaapbc
+        pushd $src_folder/deliveries
+        chmod +x *.sh
+        bash run.sh
+        popd
+    else
+        pull_openecomp_image portaldb ecompdb:portal
+        pull_openecomp_image portalapps ep:1610-1
+
+        chmod +x $src_folder/deliveries/new_start.sh
+        chmod +x $src_folder/deliveries/new_stop.sh
+        chmod +x $src_folder/deliveries/dbstart.sh
+        mkdir -p /PROJECT/OpenSource/UbuntuEP/logs
+        install_package unzip
+        unzip -o $src_folder/deliveries/etc.zip -d /PROJECT/OpenSource/UbuntuEP/
+
+        bash $src_folder/deliveries/dbstart.sh
+        bash $src_folder/deliveries/new_start.sh
+
+        sleep 180
+
+        if [ ! -e /opt/config/boot.txt ]; then
+            IP_ADDRESS=$(ifconfig eth0 | grep "inet addr" | tr -s ' ' | cut -d' ' -f3 | cut -d':' -f2)
+            install_package mysql-client
+            mysql -u root -p'Aa123456' -h $IP_ADDRESS < $src_folder/deliveries/Apps_Users_OnBoarding_Script.sql
+            echo "yes" > /opt/config/boot.txt
+        fi
+    fi
+}
+
+# init_portal() - Function that initialize Portal services
+function init_portal {
+    install_mariadb
+    install_portal
+}

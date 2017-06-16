@@ -1,0 +1,31 @@
+#!/bin/bash
+
+set -o xtrace
+
+# install_testsuite_properties() - Download and install testsuite properties
+function install_testsuite_properties {
+    mkdir -p /opt/eteshare/config
+
+    local $src_folder=/opt/testsuite/properties
+    clone_repo testsuite/properties $src_folder
+    cp $src_folder/integration_* /opt/eteshare/config
+    cp $src_folder/vm_config2robot.sh /opt/eteshare/config
+    cp $src_folder/ete.sh /opt
+    cp $src_folderdemo.sh /opt
+
+    chmod +x /opt/ete.sh
+    chmod +x /opt/demo.sh
+}
+
+# run_testsuite_image() - Pull and run testsuite docker image
+function run_testsuite_image {
+    pull_openecomp_image testsuite
+    docker rm -f openecompete_container
+    docker run -d --name openecompete_container -v /opt/eteshare:/share -p 88:88 $nexus_docker_repo/openecomp/testsuite:$docker_version
+}
+
+# init_robot() - Function that initialize Robot services
+function init_robot {
+    install_testsuite_properties
+    run_testsuite_image
+}

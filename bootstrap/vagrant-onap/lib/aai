@@ -1,0 +1,92 @@
+#!/bin/bash
+
+set -o xtrace
+
+source /var/onap/functions
+
+hbase_version=1.2.3
+
+# pull_hbase_image() - Pull HBase container image from a Docker Registry Hub
+function pull_hbase_image {
+    is_package_installed docker-ce || install_docker
+    docker login -u $nexus_username -p $nexus_password $nexus_docker_repo
+    docker pull $nexus_docker_repo/aaidocker/aai-hbase-${hbase_version}
+}
+
+# install_hbase() - Install HBase Service
+function install_hbase {
+    docker rm -f hbase
+    pull_hbase_image
+    docker run -d --net=host --name="hbase" $nexus_docker_repo/aaidocker/aai-hbase-${hbase_version}
+}
+
+# install_ajsc() - Install ASJC Java service container
+function install_ajsc_aai {
+    cat <<EOL > /etc/ajsc-aai.conf
+AAI_REPO_PATH=r/aai
+AAI_CHEF_ENV=simpledemo
+AAI_CHEF_LOC=/var/chef/aai-data/environments
+docker_gitbranch=master
+EOL
+    docker rm -f aai-service
+    pull_openecomp_image ajsc-aai
+    docker run --env-file /etc/ajsc-aai.conf --name=aai-service --net=host -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt -it -d $nexus_docker_repo/openecomp/ajsc-aai:$docker_version
+}
+
+# install_model_loader() Install Model Loader 
+function install_model_loader {
+    local src_folder=/opt/aai/model-loader/
+    cat <<EOL > /etc/model-loader.conf
+DISTR_CLIENT_ASDC_ADDRESS=${SDC_ADDRESS:-c2.vm1.sdc.simpledemo.openecomp.org:8443}
+DISTR_CLIENT_CONSUMER_GROUP=${UEB_CONSUMER_GROUP:-SDCGroup}
+DISTR_CLIENT_CONSUMER_ID=${UEB_CONSUMER_GROUP_ID:-UEB}
+DISTR_CLIENT_ENVIRONMENT_NAME=${dmaap_topic}
+DISTR_CLIENT_PASSWORD=${SDC_PASSWORD:-OBF:1ks51l8d1o3i1pcc1r2r1e211r391kls1pyj1z7u1njf1lx51go21hnj1y0k1mli1sop1k8o1j651vu91mxw1vun1mze1vv11j8x1k5i1sp11mjc1y161hlr1gm41m111nkj1z781pw31kku1r4p1e391r571pbm1o741l4x1ksp}
+DISTR_CLIENT_USER=${SDC_USER:-aai}
+                     
+APP_SERVER_BASE_URL=${APP_SERVER_URL:-https://c1.vm1.aai.simpledemo.openecomp.org:8443}
+APP_SERVER_AUTH_USER=${APP_USER:-ModelLoader}
+APP_SERVER_KEYSTORE_PASSWORD=OBF:1i9a1u2a1unz1lr61wn51wn11lss1unz1u301i6o
+APP_SERVER_AUTH_PASSWORD=${APP_PASSWORD:-OBF:1qvu1v2h1sov1sar1wfw1j7j1wg21saj1sov1v1x1qxw}
+EOL
+
+    docker rm -f model-loader-service
+    if [[ "$build_image" == "True" ]]; then
+        clone_repo aai/model-loader $src_folder
+        build_docker_image $src_folder
+        docker run --env-file /etc/model-loader.conf model-loader
+    else
+        pull_openecomp_image model-loader
+        docker run --name=model-loader-service -it -d --env-file /etc/model-loader.conf $nexus_docker_repo/openecomp/model-loader:$docker_version
+    fi
+}
+
+# wait_for_sdc() - Function that determines if SDC is up and running
+function wait_for_sdc {
+    if [[ -s "/opt/config/sdc_ip_addr.txt" ]]; then
+        SDC_IP_ADDR=$(cat /opt/config/sdc_ip_addr.txt)
+    else
+        SDC_IP_ADDR="10.0.3.1"
+    fi
+
+     # Run Health Check against SDC and verify that all five components are up
+    RES=$(curl http://$SDC_IP_ADDR:8181/sdc1/rest/healthCheck | grep -c "OK")
+    while [[ $RES -lt 5 ]]; do
+        RES=$(curl http://$SDC_IP_ADDR:8181/sdc1/rest/healthCheck | grep -c "OK")
+    done
+}
+
+# init_aai() - Function that initialize AAI services
+function init_aai {
+    mkdir -p /opt/openecomp/aai/logs
+    mkdir -p /opt/openecomp/aai/data
+
+    install_hbase
+
+    # Wait 3 minutes before instantiating the A&AI container
+    sleep 180
+
+    install_ajsc_aai
+    wait_for_sdc
+    install_model_loader
+}

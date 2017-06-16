@@ -1,0 +1,28 @@
+#!/bin/bash
+
+set -o xtrace
+
+# update_repos() - Function that updates linux repositories
+function update_repos {
+    if [ -f /var/onap/files/sources.list ]; then
+        cp /var/onap/files/sources.list /etc/apt/sources.list
+    fi
+    apt-get update -y
+}
+
+# is_package_installed() - Function to tell if a package is installed
+function is_package_installed {
+    if [[ -z "$@" ]]; then
+        return 1
+    fi
+    dpkg -s "$@" > /dev/null 2> /dev/null
+}
+
+# install_package() - Install specific package if doesn't exist
+function install_package {
+    local package=$1
+    if ! is_package_installed $package; then
+        update_repos
+        apt-get install -y $package
+    fi
+}

@@ -1,0 +1,204 @@
+#!/bin/bash
+
+set -o xtrace
+
+source /var/onap/commons
+
+# configure_dns() - DNS/GW IP address configuration
+function configure_dns {
+    echo "nameserver 10.0.0.1" >> /etc/resolvconf/resolv.conf.d/head
+    resolvconf -u
+}
+
+# create_configuration_files() -  Store credentials in files
+function create_configuration_files {
+    mkdir -p /opt/config
+    echo $nexus_docker_repo > /opt/config/nexus_docker_repo.txt
+    echo $nexus_username > /opt/config/nexus_username.txt
+    echo $nexus_password > /opt/config/nexus_password.txt
+    echo $openstack_username > /opt/config/openstack_username.txt
+    echo $openstack_tenant_id > /opt/config/tenant_id.txt
+    echo $dmaap_topic > /opt/config/dmaap_topic.txt
+    echo $docker_version > /opt/config/docker_version.txt
+}
+
+# pull_openecomp_image() - Pull Docker container image from a Docker Registry Hub
+function pull_openecomp_image {
+    install_docker
+    local image=$1
+    local tag=$2
+    docker login -u $nexus_username -p $nexus_password $nexus_docker_repo
+    docker pull $nexus_docker_repo/openecomp/${image}:$docker_version
+    if [ ${tag} ]; then
+        docker tag $nexus_docker_repo/openecomp/${image}:$docker_version $tag
+    fi
+}
+
+# git_timed() - git can sometimes get itself infinitely stuck with transient network
+# errors or other issues with the remote end.  This wraps git in a
+# timeout/retry loop and is intended to watch over non-local git
+# processes that might hang.
+function git_timed {
+    local count=0
+    local timeout=0
+
+    install_package git
+    until timeout -s SIGINT ${timeout} git "$@"; do
+        # 124 is timeout(1)'s special return code when it reached the
+        # timeout; otherwise assume fatal failure
+        if [[ $? -ne 124 ]]; then
+            exit 1
+        fi
+
+        count=$(($count + 1))
+        if [ $count -eq 3 ]; then
+            exit 1
+        fi
+        sleep 5
+    done
+}
+
+# clone_repo() - Clone Git repository into specific folder
+function clone_repo {
+    local repo_url=https://git.onap.org/
+    local repo=$1
+    local dest_folder=$2
+    if [ ! -d $2 ]; then
+        git_timed clone -b $gerrit_branch --single-branch ${repo_url}${repo} $dest_folder
+    else
+        pushd $dest_folder
+        git_timed pull
+        popd
+    fi
+}
+
+# install_dev_tools() - Install basic dependencies
+function install_dev_tools {
+    install_package apt-transport-https
+    install_package ca-certificates
+    install_package curl
+}
+
+# install_bind() - Install bind utils
+function install_bind {
+    install_package bind9
+    install_package bind9utils
+}
+
+# configure_bind()- Configure bind utils
+function configure_bind {
+    install_bind
+    mkdir /etc/bind/zones
+
+    curl -k $nexus_repo/org.openecomp.demo/boot/$artifacts_version/db_simpledemo_openecomp_org -o /etc/bind/zones/db.simpledemo.openecomp.org
+    curl -k $nexus_repo/org.openecomp.demo/boot/$artifacts_version/named.conf.options -o /etc/bind/named.conf.options
+    curl -k $nexus_repo/org.openecomp.demo/boot/$artifacts_version/named.conf.local -o /etc/bind/named.conf.local
+
+    modprobe ip_gre
+    sed -i "s/OPTIONS=.*/OPTIONS=\"-4 -u bind\"/g" /etc/default/bind9
+    service bind9 restart
+}
+
+# install_java() - Install java binaries
+function install_java {
+    install_package software-properties-common
+    add-apt-repository -y ppa:openjdk-r/ppa
+    install_package openjdk-8-jdk
+}
+
+# install_maven() - Install maven binaries
+function install_maven {
+    if is_package_installed maven; then
+        return
+    fi
+    if ! is_package_installed openjdk-8-jdk; then
+        install_java
+    fi
+    install_package software-properties-common
+    add-apt-repository -y ppa:andrei-pozolotin/maven3
+    install_package maven3
+
+    # Force Maven3 to use jdk8
+    apt-get purge openjdk-7-jdk -y
+}
+
+# configure_docker_proxy() - Configures proxy in Docker from ENV
+function configure_docker_proxy {
+    if [ $http_proxy ]; then
+        echo "export http_proxy=$http_proxy" >> /etc/default/docker
+    fi
+    if [ $https_proxy ]; then
+        echo "export https_proxy=$https_proxy" >> /etc/default/docker
+    fi
+}
+
+# build_docker_image() - Build Docker container image from source code
+function build_docker_image {
+    local src_folder=$1
+    local profile=$2
+    install_maven
+    install_docker
+    pushd $src_folder
+
+    # Cleanup external repo
+    sed -i 's|${docker.push.registry}/||g' pom.xml
+    local mvn_docker="mvn clean package docker:build"
+    if [ $profile ]; then
+        mvn_docker+=" -P $profile"
+    fi
+    if [ $http_proxy ]; then
+        mvn_docker+=" -Ddocker.buildArg.http_proxy=$http_proxy"
+        mvn_docker+=" -Ddocker.buildArg.HTTP_PROXY=$http_proxy"
+    fi
+    if [ $https_proxy ]; then
+        mvn_docker+=" -Ddocker.buildArg.https_proxy=$https_proxy"
+        mvn_docker+=" -Ddocker.buildArg.HTTPS_PROXY=$https_proxy"
+    fi
+    eval $mvn_docker
+    popd
+}
+
+# compile_src() - Function that compiles the java source code thru maven
+function compile_src {
+    local src_folder=$1
+    pushd $src_folder
+    if [ -f pom.xml ]; then
+        install_maven
+        mvn clean install -DskipTests=true -Dmaven.test.skip=true -Dadditionalparam=-Xdoclint:none
+    fi
+    popd
+}
+
+# install_docker() - Download and install docker-engine 
+function install_docker {
+    if is_package_installed docker-ce; then
+        return
+    fi
+    install_package software-properties-common
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    add-apt-repository \
+        "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+        $(lsb_release -cs) \
+        stable"
+    install_package docker-ce
+    configure_docker_proxy
+    service docker restart
+}
+
+# install_docker_compose() - Download and install docker-engine 
+function install_docker_compose {
+    local docker_compose_version=${1:-1.12.0}
+    if [ ! -d /opt/docker ]; then
+        mkdir /opt/docker
+        curl -L https://github.com/docker/compose/releases/download/$docker_compose_version/docker-compose-`uname -s`-`uname -m` > /opt/docker/docker-compose
+        chmod +x /opt/docker/docker-compose
+    fi
+}
+
+# configure_service() - Download and configure a specific service in upstart
+function configure_service {
+    local service_script=$1
+    curl -k $nexus_repo/org.openecomp.demo/boot/$artifacts_version/$service_script -o /etc/init.d/$service_script
+    chmod +x /etc/init.d/$service_script
+    update-rc.d $service_script defaults
+}

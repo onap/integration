@@ -1,0 +1,29 @@
+#!/bin/bash
+
+set -o xtrace
+
+# pull_mariadb_image() - Pull MariaDB container image from a Docker Registry Hub
+function pull_mariadb_image {
+    is_package_installed docker-ce || install_docker
+    docker login -u $nexus_username -p $nexus_password $nexus_docker_repo
+    docker pull $nexus_docker_repo/library/mariadb:10
+}
+
+# install_vid() - Download and configure Vid source code
+function install_vid {
+    local src_folder=/opt/vid
+    clone_repo vid $src_folder
+    pull_openecomp_image vid
+    pull_mariadb_image
+
+    docker rm -f vid-mariadb
+    docker rm -f vid-server
+
+    docker run --name vid-mariadb -e MYSQL_DATABASE=vid_openecomp -e MYSQL_USER=vidadmin -e MYSQL_PASSWORD=Kp8bJ4SXszM0WXlhak3eHlcse2gAw84vaoGGmJvUy2U -e MYSQL_ROOT_PASSWORD=LF+tp_1WqgSY -v /opt/vid/lf_config/vid-my.cnf:/etc/mysql/my.cnf -v /opt/vid/lf_config/vid-pre-init.sql:/docker-entrypoint-initdb.d/vid-pre-init.sql -v /var/lib/mysql -d mariadb:10
+    docker run -e VID_MYSQL_DBNAME=vid_openecomp -e VID_MYSQL_PASS=Kp8bJ4SXszM0WXlhak3eHlcse2gAw84vaoGGmJvUy2U --name vid-server -p 8080:8080 --link vid-mariadb:vid-mariadb-docker-instance -d $nexus_docker_repo/openecomp/vid:$docker_version
+}
+
+# init_vid() - Function that initialize Vid services
+function init_vid {
+    install_vid
+}

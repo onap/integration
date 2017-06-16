@@ -1,0 +1,38 @@
+#!/bin/bash
+
+set -o xtrace
+
+# build_sdnc_images() - Builds SDNC images from source code
+function build_sdnc_images {
+    local src_folder=/opt/sdnc/oam
+    clone_repo sdnc/oam $src_folder
+    build_docker_image $src_folder/installation/ubuntu
+    /var/lib/dpkg/info/ca-certificates-java.postinst configure
+    build_docker_image $src_folder/installation/sdnc
+    build_docker_image $src_folder/installation/admportal
+    build_docker_image $src_folder/installation/dgbuilder
+}
+
+# install_sdnc() -  Download and install SDNC services from source code
+function install_sdnc {
+    install_package unzip
+    local src_folder=/opt/sdnc/oam
+    export MTU=$(/sbin/ifconfig | grep MTU | sed 's/.*MTU://' | sed 's/ .*//' | sort -n | head -1)
+    clone_repo sdnc/oam $src_folder
+    if [[ "$build_image" == "True" ]]; then
+        build_sdnc_images
+    else
+        pull_openecomp_image sdnc-image openecomp/sdnc-image:latest
+        pull_openecomp_image admportal-sdnc-image openecomp/admportal-sdnc-image:latest
+        pull_openecomp_image dgbuilder-sdnc-image openecomp/dgbuilder-sdnc-image:latest
+    fi
+    pushd $src_folder/installation/src/main/yaml
+    install_docker_compose
+    /opt/docker/docker-compose up -d
+    popd
+}
+
+# init_sdnc() - Function that initialize SDNC services
+function init_sdnc {
+    install_sdnc
+}

@@ -1,0 +1,18 @@
+#!/bin/bash
+
+set -o xtrace
+
+# install_message_router() - Downloads and configure message router source code
+function install_message_router {
+    local src_folder=/opt/dcae/message-router
+    clone_repo dcae/demo/startup/message-router $src_folder
+    pushd $src_folder
+    is_package_installed docker-ce || install_docker
+    bash deploy.sh
+    popd
+}
+
+# init_mr() - Function that initialize Message Router services
+function init_mr {
+    install_message_router
+}

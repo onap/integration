@@ -1,0 +1,25 @@
+#!/bin/bash
+
+set -o xtrace
+
+# install_policy() - Function that clones and installs the Policy services from source code
+function install_policy {
+    local src_folder=/opt/policy
+    clone_repo policy/docker $src_folder
+    pushd $src_folder
+    chmod +x config/drools/drools-tweaks.sh
+    IP_ADDRESS=$(ifconfig eth0 | grep "inet addr" | tr -s ' ' | cut -d' ' -f3 | cut -d':' -f2)
+    echo $IP_ADDRESS > config/pe/ip_addr.txt
+    install_docker_compose
+    /opt/docker/docker-compose up -d
+    popd
+}
+
+# init_policy() - Function that initialize Policy services
+function init_policy {
+    pull_onap_image policy/policy-db onap/policy/policy-db:latest
+    pull_onap_image policy/policy-pe onap/policy/policy-pe:latest
+    pull_onap_image policy/policy-drools onap/policy/policy-drools:latest
+    pull_onap_image policy/policy-nexus onap/policy/policy-nexus:latest
+    install_policy
+}

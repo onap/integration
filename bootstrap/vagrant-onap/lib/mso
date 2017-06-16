@@ -1,0 +1,84 @@
+#!/bin/bash
+
+set -o xtrace
+
+source /var/onap/functions
+
+# install_mso() - Installation of mso images
+function install_mso {
+    local src_folder=/opt/mso
+    if [[ "$build_image" == "True" ]]; then
+        clone_repo mso $src_folder
+        export GIT_NO_PROJECT=/opt/
+        build_docker_image $src_folder/packages/docker
+    fi
+}
+
+# install_mso_docker_config() - Download and install MSO Docker configuration project
+function install_mso_docker_config {
+    local src_folder=/opt/mso/docker-config
+    clone_repo mso/docker-config $src_folder
+    MSO_ENCRYPTION_KEY=$(cat /opt/mso/docker-config/encryption.key)
+    echo -n "$openstack_api_key" | openssl aes-128-ecb -e -K $MSO_ENCRYPTION_KEY -nosalt | xxd -c 256 -p > /opt/config/api_key.txt
+
+    # Deployments in OpenStack require a keystone file
+    if [ -e /opt/config/keystone.txt ]; then
+        KEYSTONE_URL=$(cat /opt/config/keystone.txt)
+        DCP_CLLI="DEFAULT_KEYSTONE"
+        AUTH_TYPE="USERNAME_PASSWORD"
+    else
+        KEYSTONE_URL="https://identity.api.rackspacecloud.com/v2.0"
+        DCP_CLLI="RAX_KEYSTONE"
+        AUTH_TYPE="RACKSPACE_APIKEY"
+    fi
+
+    # Update the MSO configuration file.
+    read -d '' MSO_CONFIG_UPDATES <<-EOF
+{
+"default_attributes":
+    {
+    "asdc-connections":
+        {
+            "asdc-controller1":
+            {
+                "environmentName": "$dmaap_topic"
+            }
+        },
+        "mso-po-adapter-config":
+        {
+            "identity_services":
+            [
+                {
+                    "dcp_clli": "$DCP_CLLI",
+                    "identity_url": "$KEYSTONE_URL",
+                    "mso_id": "$openstack_username",
+                    "mso_pass": "$openstack_password",
+                    "admin_tenant": "service",
+                    "member_role": "admin",
+                    "tenant_metadata": "true",
+                    "identity_server_type": "KEYSTONE",
+                    "identity_authentication_type": "$AUTH_TYPE"
+                }
+            ]
+        }
+    }
+}
+EOF
+    export MSO_CONFIG_UPDATES
+    export MSO_DOCKER_IMAGE_VERSION=$docker_version
+
+    # Deploy the environment
+    pushd $src_folder
+    chmod +x deploy.sh
+    is_package_installed docker-ce || install_docker
+    install_docker_compose
+    # This script takes in input 2 nexus repos (the first one for the MSO image, the second one for mariadb)
+    ./deploy.sh $nexus_docker_repo $nexus_username $nexus_password $nexus_docker_repo $nexus_username $nexus_password
+    popd
+}
+
+# init_mso() - Function that initialize MSO services
+function init_mso {
+    install_mso
+    install_mso_docker_config
+}

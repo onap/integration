@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -o xtrace
+
+# asserts_image() - Function that verifies if a specific image was created
+function asserts_image {
+    if [[ "$(docker images -q $1 2> /dev/null)" == "" ]]; then
+        echo "There is no $1 image"
+        exit 1
+    fi
+}
