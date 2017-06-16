@@ -22,8 +22,8 @@ policy,onap/policy/policy-nexus,policy/docker,pom.xml,,./docker_build.sh
 policy,onap/policy/policy-base,policy/docker,pom.xml,,./docker_build.sh
 policy,onap/policy/policy-pe,policy/docker,pom.xml,,./docker_build.sh
 policy,onap/policy/policy-drools,policy/docker,pom.xml,,./docker_build.sh
-portal,openecomp/portalapps,portal,pom.xml,,git -C ecompsdkos pull || git clone $GIT_NO_PROJECT/ecompsdkos; git -C dmaapbc pull || git clone $GIT_NO_PROJECT/ui/dmaapbc dmaapbc; cd deliveries; chmod +x *.sh; ./os_docker_push.sh
-portal,openecomp/portaldb,portal,pom.xml,,git -C ecompsdkos pull || git clone $GIT_NO_PROJECT/ecompsdkos; git -C dmaapbc pull || git clone $GIT_NO_PROJECT/ui/dmaapbc dmaapbc; cd deliveries; chmod +x *.sh; ./os_docker_push.sh
+portal,openecomp/portalapps,portal,pom.xml,,git -C ecompsdkos pull || git clone $GIT_NO_PROJECT/ecompsdkos; git -C dmaapbc pull || git clone $GIT_NO_PROJECT/ui/dmaapbc dmaapbc; cd deliveries; chmod +x *.sh; ./run.sh
+portal,openecomp/portaldb,portal,pom.xml,,git -C ecompsdkos pull || git clone $GIT_NO_PROJECT/ecompsdkos; git -C dmaapbc pull || git clone $GIT_NO_PROJECT/ui/dmaapbc dmaapbc; cd deliveries; chmod +x *.sh; ./run.sh
 portal,widget-ms,portal,ecomp-portal-widget-ms/pom.xml,docker:build,
 sdc,openecomp/sdc-backend,sdc,pom.xml,-P docker,
 sdc,openecomp/sdc-frontend,sdc,pom.xml,-P docker,
