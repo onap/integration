@@ -1,0 +1,16 @@
+.project
+.classpath
+.settings/
+target/
+autorelease/build/*/
+autorelease/dist
+log.html
+output.xml
+report.html
+env.properties
+.vagrant
+/archives/
+*.jar
+*.zip
+*.tar
+*.gz
