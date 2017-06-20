@@ -22,13 +22,3 @@ EOF
 git add -A
 git commit -m 'Set up initial jobs'
 
-
-# pull 3rd party docker images
-docker pull ubuntu:14.04
-docker pull ubuntu:16.04
-docker pull openjdk:8-jre
-docker pull tomcat:8.0-jre8
-docker pull jetty:9.3-jre8
-docker pull frolvlad/alpine-oraclejdk8:slim
-docker pull java:openjdk-8-jre
-docker pull node:4.6.0
