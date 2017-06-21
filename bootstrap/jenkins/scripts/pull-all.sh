@@ -1,8 +1,14 @@
-#!/bin/sh
+#!/bin/bash
 while read p; do
-    echo $p
-    cd ~/Projects/onap/$p
-    git fetch
-    git reset --hard origin
-    git clean -f -d -x
+    if [ ! -e $p ]; then
+	echo $p
+	git clone ssh://gerrit.onap.org:29418/$p $p
+    else
+	pushd $p > /dev/null
+	# git fetch
+	# git reset --hard origin
+	echo -ne "$p:\t"
+	git pull
+	popd > /dev/null
+    fi
 done < projects.txt
