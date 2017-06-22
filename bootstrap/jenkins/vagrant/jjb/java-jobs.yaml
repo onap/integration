@@ -45,6 +45,9 @@
      - 'appc_deployment':
          repo: 'appc/deployment'
          pom: 'pom.xml'
+     - 'clamp':
+         repo: 'clamp'
+         pom: 'pom.xml'
      - 'dcae_apod_analytics':
          repo: 'dcae/apod/analytics'
          pom: 'pom.xml'
@@ -107,6 +110,9 @@
          pom: 'pom.xml'
      - 'ncomp_utils':
          repo: 'ncomp/utils'
+         pom: 'pom.xml'
+     - 'oparent':
+         repo: 'oparent'
          pom: 'pom.xml'
      - 'policy_common':
          repo: 'policy/common'
