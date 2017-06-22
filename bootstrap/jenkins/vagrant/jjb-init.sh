@@ -1,5 +1,6 @@
 #!/bin/bash
 
+cd ~jenkins
 git add -A
 git commit -m 'Installed plugins, restarted Jenkins'
 

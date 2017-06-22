@@ -3,7 +3,7 @@
 git config --global user.email "jenkins@localhost"
 git config --global user.name "jenkins"
 
-cd ~/jenkins
+cd ~jenkins
 
 cp /etc/skel/.profile .
 cat > .bashrc <<EOF
