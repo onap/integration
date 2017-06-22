@@ -32,12 +32,12 @@ sudo usermod -aG docker jenkins
 su -l jenkins -c "/vagrant/jenkins-init-1.sh"
 
 sudo systemctl restart jenkins
-sleep 5
+sleep 10
 
 su -l jenkins -c "/vagrant/jenkins-init-2.sh"
 
 sudo systemctl restart jenkins
-sleep 5
+sleep 10
 
 su -l jenkins -c "/vagrant/jjb-init.sh"
 
