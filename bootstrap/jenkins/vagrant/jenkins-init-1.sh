@@ -13,7 +13,7 @@ EOF
 git init
 
 git add -A
-git commit -m 'Initial installation config'
+git commit -m 'Initial installation config' > /dev/null
 
 mkdir -p ~/.m2
 cp /vagrant/settings.xml ~/.m2
@@ -22,5 +22,5 @@ rm -rf users/admin
 rsync -avP /vagrant/jenkins/ .
 
 git add -A
-git commit -m 'Set up jenkins user'
+git commit -m 'Set up jenkins user' > /dev/null
 

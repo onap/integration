@@ -11,5 +11,5 @@ java -jar jenkins-cli.jar -s http://localhost:8080/ -auth jenkins:jenkins instal
 java -jar jenkins-cli.jar -s http://localhost:8080/ -auth jenkins:jenkins install-plugin envinject
 
 git add -A
-git commit -m 'Install initial plugins'
+git commit -m 'Install initial plugins' > /dev/null
 

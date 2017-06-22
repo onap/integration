@@ -1,7 +1,20 @@
-#!/bin/sh
+#!/bin/bash
+
+function restart_jenkins() {
+    sudo systemctl restart jenkins
+    sleep 1
+    echo -n "Restarting jenkins"
+    until $(curl --output /dev/null --silent --head --fail http://localhost:8080/login); do
+	printf '.'
+	sleep 3
+    done
+    echo
+    sleep 1
+}
 
 sed -i 's|archive\.ubuntu\.com|mirrors.ocf.berkeley.edu|g' /etc/apt/sources.list
 
+# Assume that the vagrant host is running a local Nexus proxy
 echo "192.168.33.1 nexus-proxy" >> /etc/hosts
 
 
@@ -15,8 +28,8 @@ EOF
 
 apt-get update
 apt-get -y install git
-git config --global user.email "gary.i.wu@huawei.com"
-git config --global user.name "Gary Wu"
+git config --global user.email "jenkins@localhost"
+git config --global user.name "jenkins"
 apt-get -y install curl openjdk-8-jdk maven unzip
 
 # install Jenkins
@@ -31,13 +44,11 @@ sudo usermod -aG docker jenkins
 
 su -l jenkins -c "/vagrant/jenkins-init-1.sh"
 
-sudo systemctl restart jenkins
-sleep 10
+restart_jenkins
 
 su -l jenkins -c "/vagrant/jenkins-init-2.sh"
 
-sudo systemctl restart jenkins
-sleep 10
+restart_jenkins
 
 su -l jenkins -c "/vagrant/jjb-init.sh"
 

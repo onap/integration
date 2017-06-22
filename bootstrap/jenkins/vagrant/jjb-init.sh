@@ -2,7 +2,7 @@
 
 cd ~jenkins
 git add -A
-git commit -m 'Installed plugins, restarted Jenkins'
+git commit -m 'Installed plugins, restarted Jenkins' > /dev/null
 
 
 mkdir -p ~/.config/jenkins_jobs
@@ -21,5 +21,5 @@ logs/
 EOF
 
 git add -A
-git commit -m 'Set up initial jobs'
+git commit -m 'Set up initial jobs' > /dev/null
 
