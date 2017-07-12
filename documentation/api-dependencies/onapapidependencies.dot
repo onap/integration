@@ -1,0 +1,117 @@
+/*
+ * Copyright 2017 Huawei Technologies Co., Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*
+Usage: dot -T png -O onapapidependecies.dot   This cmd will generate a png graph dependency file.
+Graphiz is the open source tool used to generate the graph.
+Graphiz is available and documented at http://www.graphviz.org
+This text file represents the API dependencies between ONAP projects
+The relation between producer and consumer is formalized by the following convention:
+consumer -> producer; 
+*/
+ 
+digraph {
+newrank=true;
+fontsize = 20;
+label="ONAP Projects API Dependencies";
+rankdir=TB;
+ranksep="1 equally"; 
+edge [color=Blue]
+
+aai				[shape=box,label="Active and Available Inventory"]
+aaf				[shape=box,label="Application Authorization Framework"]
+appc			[shape=box,label="APP-C"]
+ccsdk			[shape=box,label="CCSDK"]
+clamp			[shape=box,label="CLAMP"]
+cli			    [shape=box,label="CLI"]
+clamp			[shape=box,label="CLAMP"]
+dcaegen2		[shape=box,label="DCAE"]
+dmaap			[shape=box,label="Data Movement as Platform"]
+extapi			[shape=box,label="External API Framewok"]
+holmes			[shape=box,label="Holmes"]
+modeling		[shape=box,label="Modeling"]
+msb				[shape=box,label="Microservices Bus"]
+multicloud		[shape=box,label="Multi VIM/Cloud"]
+oom			    [shape=box,label="ONAP Operation Manager"]
+policy			[shape=box,label="Policy Framework"]
+portal			[shape=box,label="Portal Platform"]
+sdc				[shape=box,label="Service Design & Creation"]
+sdnc			[shape=box,label="SDNC"]
+so				[shape=box,label="Service Orchestrator"]
+vfc         	[shape=box,label="VF-C"]
+vid  			[shape=box,label="VID"]
+vnfsdk			[shape=box,label="VNF SDK"]
+usecaseui		[shape=box,label="Use Case UI"]
+
+
+aai -> aaf;
+aai -> dmaap;
+aai -> msb;
+aaf -> aai;
+appc -> aai;
+appc -> multicloud;
+appc -> sdc;
+ccsdk -> aai;
+ccsdk -> sdc;
+clamp -> dcaegen2;
+clamp -> policy;
+clamp -> sdc;
+cli -> aaf;
+cli -> aai;
+cli -> msb;
+dcaegen2 -> dmaap;
+dcaegen2 -> multicloud;
+dcaegen2 -> policy;
+dcaegen2 -> sdc;
+dmaap -> aai;
+extapi -> so;
+holmes -> aai;
+holmes -> clamp;
+holmes -> dmaap;
+holmes -> policy;
+multicloud -> aai;
+multicloud -> dcaegen2;
+oom -> msb;
+policy -> aai;
+policy -> appc;
+policy -> dcaegen2;
+policy -> vfc;
+portal -> aaf;
+sdc -> aai;
+sdc -> modeling;
+sdnc -> aai;
+sdnc -> sdc;
+so -> aai;
+so -> appc;
+so -> multicloud;
+so -> sdc;
+so -> sdnc;
+so -> vfc;
+usecaseui -> dcaegen2;
+usecaseui -> msb;
+usecaseui -> portal;
+usecaseui -> so;
+usecaseui -> vfc;
+vid -> aai;
+vfc -> aai;
+vfc -> dcaegen2;
+vfc -> modeling;
+vfc -> multicloud;
+vfc -> msb;
+vfc -> sdc;
+vnfsdk -> msb;
+vnfsdk -> sdc;
+}
