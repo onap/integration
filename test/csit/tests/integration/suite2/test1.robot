@@ -15,8 +15,8 @@ Dir Test
     CheckDir           /tmp
 
 Url Test
-    [Documentation]    Check if www.open-o.org can be reached
-    Create Session     openo          http://www.open-o.org
+    [Documentation]    Check if www.onap.org can be reached
+    Create Session     openo          http://www.onap.org
     CheckUrl           openo          /
 
 Mock Hello Server Test
