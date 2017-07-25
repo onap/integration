@@ -45,8 +45,17 @@
      - 'appc_deployment':
          repo: 'appc/deployment'
          pom: 'pom.xml'
+     - 'ccsdk_parent':
+         repo: 'ccsdk/parent'
+         pom: 'pom.xml'
+     - 'ccsdk_sli_core':
+         repo: 'ccsdk/sli/core'
+         pom: 'pom.xml'
      - 'clamp':
          repo: 'clamp'
+         pom: 'pom.xml'
+     - 'cli':
+         repo: 'cli'
          pom: 'pom.xml'
      - 'dcae_apod_analytics':
          repo: 'dcae/apod/analytics'
@@ -84,6 +93,12 @@
      - 'ecompsdkos_ecomp-sdk':
          repo: 'ecompsdkos'
          pom: 'ecomp-sdk/pom.xml'
+     - 'msb_apigateway':
+         repo: 'msb/apigateway'
+         pom: 'pom.xml'
+     - 'msb_discovery':
+         repo: 'msb/discovery'
+         pom: 'pom.xml'
      - 'mso':
          repo: 'mso'
          pom: 'pom.xml'
@@ -165,8 +180,47 @@
      - 'sdnc_plugins':
          repo: 'sdnc/plugins'
          pom: 'pom.xml'
+     - 'so':
+         repo: 'so'
+         pom: 'pom.xml'
+     - 'so_libs':
+         repo: 'so/libs'
+         pom: 'pom.xml'
      - 'ui_dmaapbc':
          repo: 'ui/dmaapbc'
+         pom: 'pom.xml'
+     - 'vfc_gvnfm_vnflcm_lcm':
+         repo: 'vfc/gvnfm/vnflcm'
+         pom: 'lcm/pom.xml'
+     - 'vfc_gvnfm_vnfmgr_mgr':
+         repo: 'vfc/gvnfm/vnfmgr'
+         pom: 'mgr/pom.xml'
+     - 'vfc_gvnfm_vnfres_res':
+         repo: 'vfc/gvnfm/vnfres'
+         pom: 'res/pom.xml'
+     - 'vfc_nfvo_driver_ems_ems_sems_boco_ems-driver':
+         repo: 'vfc/nfvo/driver/ems'
+         pom: 'ems/sems/boco/ems-driver/pom.xml'
+     - 'vfc_nfvo_driver_sfc_zte_sfc-driver':
+         repo: 'vfc/nfvo/driver/sfc'
+         pom: 'zte/sfc-driver/pom.xml'
+     - 'vfc_nfvo_driver_vnfm_gvnfm_gvnfmadapter':
+         repo: 'vfc/nfvo/driver/vnfm/gvnfm'
+         pom: 'gvnfmadapter/pom.xml'
+     - 'vfc_nfvo_driver_vnfm_gvnfm_juju_juju-vnfmadapter':
+         repo: 'vfc/nfvo/driver/vnfm/gvnfm'
+         pom: 'juju/juju-vnfmadapter/pom.xml'
+     - 'vfc_nfvo_driver_vnfm_svnfm_huawei_vnfmadapter':
+         repo: 'vfc/nfvo/driver/vnfm/svnfm'
+         pom: 'huawei/vnfmadapter/pom.xml'
+     - 'vfc_nfvo_driver_vnfm_svnfm_zte_vmanager':
+         repo: 'vfc/nfvo/driver/vnfm/svnfm'
+         pom: 'zte/vmanager/pom.xml'
+     - 'vfc_nfvo_lcm':
+         repo: 'vfc/nfvo/lcm'
+         pom: 'pom.xml'
+     - 'vfc_nfvo_resmanagement':
+         repo: 'vfc/nfvo/resmanagement'
          pom: 'pom.xml'
      - 'vid':
          repo: 'vid'
