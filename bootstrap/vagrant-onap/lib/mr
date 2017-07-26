@@ -2,17 +2,24 @@
 
 set -o xtrace
 
+source /var/onap/functions
+source /var/onap/asserts
+
+src_folder=$git_src_folder/dcae/message-router
+
 # install_message_router() - Downloads and configure message router source code
-function install_message_router {
-    local src_folder=/opt/dcae/message-router
+function _install_message_router {
     clone_repo dcae/demo/startup/message-router $src_folder
     pushd $src_folder
-    is_package_installed docker-ce || install_docker
+    pull_docker_image attos/dmaap
+    pull_docker_image wurstmeister/zookeeper
+    install_docker_compose
     bash deploy.sh
+    asserts_image dockerfiles_kafka
     popd
 }
 
 # init_mr() - Function that initialize Message Router services
 function init_mr {
-    install_message_router
+    _install_message_router
 }

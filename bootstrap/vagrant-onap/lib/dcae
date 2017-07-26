@@ -57,16 +57,40 @@ function compile_docker_image {
     popd
 }
 
+# clone_all_dcae_repos() - Function that clones DCAE source repo.
+function clone_all_dcae_repos {
+    local src_folder=/opt/dcae
+    clone_repo dcae $src_folder
+
+    for dirc in apod apod/analytics apod/buildtools apod/buildtools collectors collectors/ves controller controller/analytics dcae-inventory \
+        demo demo/startup demo/startup/aaf demo/startup/controller demo/startup/message-router dmaapbc operation operation/utils pgaas utils utils/buildtools; do
+        clone_repo dcae/$dirc $src_folder/$dirc
+    done
+}
+
+# compile_all_dcae_repos() - Function that compiles DCAE source repo.
+function compile_all_dcae_repos {
+    local src_folder=/opt/dcae
+
+    for dirc in apod apod/analytics apod/buildtools apod/buildtools collectors collectors/ves controller controller/analytics dcae-inventory \
+        demo demo/startup demo/startup/aaf demo/startup/controller demo/startup/message-router dmaapbc operation operation/utils pgaas utils utils/buildtools; do
+        compile_src $src_folder/$dirc
+    done
+}
+
+
 # install_dcae() - Function that clones and installs the DCAE controller services from source code
 function install_dcae {
-    export MTU=$(/sbin/ifconfig | grep MTU | sed 's/.*MTU://' | sed 's/ .*//' | sort -n | head -1)
-    local src_folder=/opt/dcae-startup-vm-controller
-    clone_repo dcae/demo/startup/controller $src_folder
-    pushd $src_folder
     install_docker_compose
+
+    clone_all_dcae_repos
+    if [[ "$compile_repo" == "True" ]]; then
+        compile_all_dcae_repos
+    fi
+
     if [[ "$build_image" == "True" ]]; then
         install_docker
-        src_folder=/opt/dcae
+        local src_folder=/opt/dcae
 
         compile_docker_image dcae/dmaapb $src_folder/dmaapbc openecomp/dcae-dmaapbc
         compile_docker_image dcae/orch-dispatcher $src_folder/orch-dispatcher dcae/orch-dispatcher
@@ -84,16 +108,18 @@ function install_dcae {
         asserts_image dcae-inventory
 
         dcae_image=`docker images | grep dcae-controller | awk '{print $1 ":" $2}'`
+        pushd $src_folder/demo/startup/controller
         sed -i "s|DOCKER-REGISTRY/openecomp/dcae-controller:DCAE-VERSION|$dcae_image|g" docker-compose.yml
         sed -i "s|MTU|$MTU|g" docker-compose.yml
         /opt/docker/docker-compose up -d
+        popd
     else
+        pushd /opt/dcae/demo/startup/controller
         bash init.sh
         install_package make
         make up
+        popd
     fi
-
-    popd
 }
 
 # init_dcae() - Function that initialize DCAE Controller services

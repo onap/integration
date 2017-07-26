@@ -6,7 +6,7 @@ set -o xtrace
 function install_testsuite_properties {
     mkdir -p /opt/eteshare/config
 
-    local $src_folder=/opt/testsuite/properties
+    local src_folder=/opt/testsuite/properties
     clone_repo testsuite/properties $src_folder
     cp $src_folder/integration_* /opt/eteshare/config
     cp $src_folder/vm_config2robot.sh /opt/eteshare/config

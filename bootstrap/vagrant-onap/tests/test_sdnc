@@ -1,0 +1,45 @@
+#!/bin/bash
+
+source /var/onap_tests/_test_base
+source /var/onap/sdnc
+
+covered_functions=(
+"clone_all_sdnc_repos" "compile_all_sdnc_repos" "get_sdnc_images"
+)
+
+# test_clone_all_sdnc_repos() - Verify the source code retrieve of SDNC project
+function test_clone_all_sdnc_repos {
+    clone_all_sdnc_repos
+
+    asserts_file_exist $src_folder/core/pom.xml
+    asserts_file_exist $src_folder/adaptors/pom.xml
+    asserts_file_exist $src_folder/northbound/pom.xml
+    asserts_file_exist $src_folder/plugins/pom.xml
+    asserts_file_exist $src_folder/oam/pom.xml
+}
+
+# test_compile_all_sdnc_repos() - Verify the correct compilation of SDNC projects
+function test_compile_all_sdnc_repos {
+    clone_all_sdnc_repos
+    compile_all_sdnc_repos
+
+    asserts_file_exist $src_folder/core/rootpom/boron-sr1/target/classes/LICENSE
+    asserts_file_exist $src_folder/core/rootpom/boron-sr3/target/classes/LICENSE
+    asserts_file_exist $src_folder/core/rootpom/target/rootpom-1.1.0-site_en.xml
+}
+
+# test_get_sdnc_images() - Verify that the SDNC images are created or retrieved
+function test_get_sdnc_images {
+    clone_all_sdnc_repos
+    get_sdnc_images
+
+    asserts_image openecomp/sdnc-image
+    asserts_image openecomp/admportal-sdnc-image
+    asserts_image openecomp/dgbuilder-sdnc-image
+}
+
+if [ "$1" != '*' ]; then
+    unset covered_functions
+    covered_functions=$1
+fi
+main "${covered_functions[@]}"

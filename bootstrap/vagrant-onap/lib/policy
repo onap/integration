@@ -2,11 +2,52 @@
 
 set -o xtrace
 
+source /var/onap/functions
+source /var/onap/asserts
+
+# clone_all_policy_repos() - Function that clones Policy source repo.
+function clone_all_policy_repos {
+    local src_folder=/opt/policy
+
+    for dirc in api common docker drools-applications drools-pdp engine gui pap pdp; do
+        clone_repo policy/$dirc $src_folder/$dirc
+    done
+}
+
+# # compile_all_policy_repos() - Function that compiles Policy source repo.
+function compile_all_policy_repos {
+    local src_folder=/opt/policy
+
+    for dirc in api common docker drools-applications drools-pdp engine gui pap pdp; do
+        compile_src $src_folder/$dirc
+    done
+}
+
 # install_policy() - Function that clones and installs the Policy services from source code
 function install_policy {
     local src_folder=/opt/policy
-    clone_repo policy/docker $src_folder
-    pushd $src_folder
+
+    clone_all_policy_repos
+    if [[ "$compile_repo" == "True" ]]; then
+        compile_all_policy_repos
+    fi
+
+    if [[ "$build_image" == "True" ]]; then
+        compile_src $src_folder/docker
+        install_docker
+        pushd $src_folder/docker
+        bash docker_verify.sh
+        for image in os nexus db base drools pe; do
+            asserts_image onap/policy/policy-$image
+        done
+        popd
+    else
+        pull_onap_image policy/policy-db onap/policy/policy-db:latest
+        pull_onap_image policy/policy-pe onap/policy/policy-pe:latest
+        pull_onap_image policy/policy-drools onap/policy/policy-drools:latest
+        pull_onap_image policy/policy-nexus onap/policy/policy-nexus:latest
+    fi
+    pushd $src_folder/docker
     chmod +x config/drools/drools-tweaks.sh
     IP_ADDRESS=$(ifconfig eth0 | grep "inet addr" | tr -s ' ' | cut -d' ' -f3 | cut -d':' -f2)
     echo $IP_ADDRESS > config/pe/ip_addr.txt
@@ -17,9 +58,5 @@ function install_policy {
 
 # init_policy() - Function that initialize Policy services
 function init_policy {
-    pull_onap_image policy/policy-db onap/policy/policy-db:latest
-    pull_onap_image policy/policy-pe onap/policy/policy-pe:latest
-    pull_onap_image policy/policy-drools onap/policy/policy-drools:latest
-    pull_onap_image policy/policy-nexus onap/policy/policy-nexus:latest
     install_policy
 }

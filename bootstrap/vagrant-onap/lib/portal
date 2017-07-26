@@ -3,6 +3,7 @@
 set -o xtrace
 
 source /var/onap/functions
+source /var/onap/asserts
 
 # install_mariadb() - Pull and create a MariaDB container
 function install_mariadb {
@@ -15,42 +16,51 @@ function install_mariadb {
 function install_portal {
     local src_folder=/opt/portal
     clone_repo portal $src_folder
+    clone_repo portal/sdk $src_folder/sdk
     install_docker
     docker rm -f ecompdb_portal
     docker rm -f 1610-1
+    pushd $src_folder/deliveries
     if [[ "$build_image" == "True" ]]; then
-        # Build locally
         install_maven
 
         clone_repo ecompsdkos $src_folder/ecompsdkos
         clone_repo "ui/dmaapbc" $src_folder/dmaapbc
-        pushd $src_folder/deliveries
         chmod +x *.sh
+        export MVN=$(which mvn)
+        export GLOBAL_SETTINGS_FILE=/usr/share/maven3/conf/settings.xml
+        export SETTINGS_FILE=$HOME/.m2/settings.xml
         bash run.sh
-        popd
+        compile_src $src_folder/ecomp-portal-widget-ms
+        build_docker_image $src_folder/ecomp-portal-widget-ms
     else
         pull_openecomp_image portaldb ecompdb:portal
         pull_openecomp_image portalapps ep:1610-1
 
-        chmod +x $src_folder/deliveries/new_start.sh
-        chmod +x $src_folder/deliveries/new_stop.sh
-        chmod +x $src_folder/deliveries/dbstart.sh
-        mkdir -p /PROJECT/OpenSource/UbuntuEP/logs
-        install_package unzip
-        unzip -o $src_folder/deliveries/etc.zip -d /PROJECT/OpenSource/UbuntuEP/
-
-        bash $src_folder/deliveries/dbstart.sh
-        bash $src_folder/deliveries/new_start.sh
-
-        sleep 180
-
-        if [ ! -e /opt/config/boot.txt ]; then
-            IP_ADDRESS=$(ifconfig eth0 | grep "inet addr" | tr -s ' ' | cut -d' ' -f3 | cut -d':' -f2)
-            install_package mysql-client
-            mysql -u root -p'Aa123456' -h $IP_ADDRESS < $src_folder/deliveries/Apps_Users_OnBoarding_Script.sql
-            echo "yes" > /opt/config/boot.txt
-        fi
     fi
+    for image in ecompdb:portal ep:1610-1; do
+        asserts_image $image
+    done
+
+    chmod +x new_start.sh
+    chmod +x new_stop.sh
+    chmod +x dbstart.sh
+    mkdir -p /PROJECT/OpenSource/UbuntuEP/logs
+    install_package unzip
+    unzip -o etc.zip -d /PROJECT/OpenSource/UbuntuEP/
+
+    bash dbstart.sh
+    bash new_start.sh
+
+    sleep 180
+
+    if [ ! -e /opt/config/boot.txt ]; then
+        IP_ADDRESS=$(ifconfig eth0 | grep "inet addr" | tr -s ' ' | cut -d' ' -f3 | cut -d':' -f2)
+        install_package mysql-client
+        mysql -u root -p'Aa123456' -h $IP_ADDRESS < Apps_Users_OnBoarding_Script.sql
+        echo "yes" > /opt/config/boot.txt
+    fi
+    popd
 }
 
 # init_portal() - Function that initialize Portal services

@@ -3,19 +3,44 @@
 set -o xtrace
 
 source /var/onap/sdnc
+source /var/onap/asserts
+
+# clone_all_appc_repos() - Function that clones APPC source repo.
+function clone_all_appc_repos {
+    local src_folder=/opt/appc
+
+    clone_repo appc $src_folder
+    clone_repo appc/deployment $src_folder/deployment
+}
+
+# compile_all_appc_repos() - Function that compiles APPC source repo.
+function compile_all_appc_repos {
+    local src_folder=/opt/appc
+
+    compile_src $src_folder
+    compile_src $src_folder/deployment
+}
 
 # install_appc() - Function that clones and installs the APPC services from source code
 function install_appc {
+    install_package unzip
     local src_folder=/opt/appc
-    clone_repo appc/deployment $src_folder
+
+    clone_all_appc_repos
+    if [[ "$compile_repo" == "True" ]]; then
+        compile_all_appc_repos
+    fi
+
     if [[ "$build_image" == "True" ]]; then
-        build_sdnc_images
+        clone_repo sdnc/oam /opt/sdnc/oam
+        build_sdnc_images /opt/sdnc/oam
         build_docker_image $src_folder/deployment/installation/appc docker
+        asserts_image openecomp/appc-image
     else
         pull_openecomp_image appc-image openecomp/appc-image:latest
         pull_openecomp_image dgbuilder-sdnc-image openecomp/dgbuilder-sdnc-image:latest
     fi
-    pushd $src_folder
+    pushd $src_folder/deployment
     install_docker_compose
     /opt/docker/docker-compose up -d
     popd

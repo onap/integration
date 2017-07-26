@@ -1,0 +1,24 @@
+#!/bin/bash
+
+source /var/onap_tests/_test_base
+source /var/onap/mr
+
+covered_functions=(
+"init_mr"
+)
+
+# test_init_mr() - Verify the built and start of Message Router services
+function test_init_mr {
+    init_mr
+
+    asserts_image dockerfiles_kafka
+    asserts_image anapsix/alpine-java
+    asserts_image attos/dmaap
+    asserts_image wurstmeister/zookeeper
+}
+
+if [ "$1" != '*' ]; then
+    unset covered_functions
+    covered_functions=$1
+fi
+main "${covered_functions[@]}"

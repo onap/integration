@@ -2,6 +2,11 @@
 
 set -o xtrace
 
+source /var/onap/functions
+source /var/onap/asserts
+
+src_folder=$git_src_folder/sdc
+
 # mount_external_partition() - Create partition and mount the external volume
 function mount_external_partition {
     cat <<EOL > /tmp/asdc_ext_volume_partitions.txt
@@ -41,6 +46,25 @@ alias health='/data/scripts/docker_health.sh'
 EOL
 }
 
+# clone_all_sdc_repos() - Function that clones SDC source repo.
+function clone_all_sdc_repos {
+    clone_repo sdc $src_folder
+
+    for dirc in sdc-os-chef jtosca sdc-distribution-client sdc-titan-cassandra sdc-tosca sdc_common ; do
+        clone_repo sdc/$dirc $src_folder/$dirc
+    done
+}
+
+# compile_all_sdc_repos() - Function that compiles SDC source repo.
+function compile_all_sdc_repos {
+    local src_folder=/opt/sdc
+    clone_repo sdc $src_folder
+
+    for dirc in jtosca sdc-distribution-client sdc-titan-cassandra sdc-tosca sdc_common ; do
+        compile_src $src_folder/$dirc
+    done
+}
+
 # install_sdc() - Function that pull templates and executes
 function install_sdc {
     IP_ADDRESS=$(ifconfig eth0 | grep "inet addr" | tr -s ' ' | cut -d' ' -f3 | cut -d':' -f2)
@@ -48,11 +72,18 @@ function install_sdc {
     local MR_IP_ADDR='10.0.11.1'
     local RELEASE=$docker_version
     NEXUS_DOCKER_PORT=$(echo $nexus_docker_repo | cut -d':' -f2)
-    local src_folder=/opt/sdc
-    clone_repo sdc $src_folder
+
+    clone_all_sdc_repos
+    if [[ "$compile_repo" == "True" ]]; then
+        compile_all_sdc_repos
+    fi
+
     if [[ "$build_image" == "True" ]]; then
         compile_src $src_folder
-        build_docker_image $src_folder/sdc-os-chef
+        build_docker_image $src_folder/sdc-os-chef docker
+        for image in backend frontend elasticsearch kibana cassandra sanity; do
+            asserts_image openecomp/sdc-$image
+        done
     fi
     cp $src_folder/sdc-os-chef/environments/Template.json /data/environments
     cp $src_folder/sdc-os-chef/scripts/docker_run.sh /data/scripts
@@ -65,8 +96,7 @@ function install_sdc {
     sed -i "s/\"ueb_url_list\":.*/\"ueb_url_list\": \""$MR_IP_ADDR","$MR_IP_ADDR"\",/g" /data/environments/$ENV_NAME.json
     sed -i "s/\"fqdn\":.*/\"fqdn\": [\""$MR_IP_ADDR"\", \""$MR_IP_ADDR"\"]/g" /data/environments/$ENV_NAME.json
 
-    is_package_installed docker-ce || install_docker
-    docker login -u $nexus_username -p $nexus_password $nexus_docker_repo
+    docker_openecomp_login
     bash /data/scripts/docker_run.sh -e $ENV_NAME -r $RELEASE -p $NEXUS_DOCKER_PORT
 }
 

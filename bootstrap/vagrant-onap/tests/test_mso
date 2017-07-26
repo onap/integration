@@ -1,0 +1,48 @@
+#!/bin/bash
+
+source /var/onap_tests/_test_base
+source /var/onap/mso
+
+covered_functions=(
+"clone_all_mso_repos" "compile_all_mso_repos"
+)
+
+# test_clone_all_mso_repos() - Verify the source code retrieve of MSO project
+function test_clone_all_mso_repos {
+    clone_all_mso_repos
+
+    asserts_file_exist $src_folder/pom.xml
+    asserts_file_exist $src_folder/chef-repo/LICENSE.txt
+    asserts_file_exist $src_folder/docker-config/LICENSE.txt
+    asserts_file_exist $src_folder/libs/pom.xml
+    asserts_file_exist $src_folder/mso-config/LICENSE.txt
+}
+
+# test_compile_all_mso_repos() - Verify the correct compilation of MSO projects
+function test_compile_all_mso_repos {
+    clone_all_mso_repos
+    compile_all_mso_repos
+
+    asserts_file_exist $src_folder/libs/ceilometer-client/target/ceilometer-client-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $src_folder/libs/ceilometer-model/target/ceilometer-model-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $src_folder/libs/glance-client/target/glance-client-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $src_folder/libs/glance-model/target/glance-model-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $src_folder/libs/heat-client/target/heat-client-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $src_folder/libs/heat-model/target/heat-model-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $src_folder/libs/keystone-client/target/keystone-client-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $src_folder/libs/keystone-model/target/keystone-model-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $src_folder/libs/nova-client/target/nova-client-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $src_folder/libs/nova-model/target/nova-model-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $src_folder/libs/openstack-client/target/openstack-client-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $src_folder/libs/quantum-client/target/quantum-client-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $src_folder/libs/quantum-model/target/quantum-model-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $src_folder/libs/swift-client/target/swift-client-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $src_folder/libs/swift-model/target/swift-model-1.1.0-SNAPSHOT.jar
+}
+
+
+if [ "$1" != '*' ]; then
+    unset covered_functions
+    covered_functions=$1
+fi
+main "${covered_functions[@]}"

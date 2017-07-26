@@ -3,13 +3,31 @@
 set -o xtrace
 
 source /var/onap/functions
+source /var/onap/asserts
 
 hbase_version=1.2.3
 
+# clone_all_aai_repos() - Function that clones AAI source repo.
+function clone_all_aai_repos {
+    local src_folder=/opt/aai
+
+    for dirc in aai-common aai-config aai-data aai-service data-router logging-service model-loader resources rest-client router-core search-data-service sparky-be sparky-fe test-config traversal; do
+        clone_repo aai/$dirc $src_folder/$dirc
+    done
+}
+
+# compile_all_aai_repos() - Function that compiles AAI source repo.
+function compile_all_aai_repos {
+    local src_folder=/opt/aai
+
+    for dirc in aai-common aai-config aai-data aai-service data-router logging-service model-loader resources rest-client router-core search-data-service sparky-be sparky-fe test-config traversal; do
+        compile_src $src_folder/$dirc
+    done
+}
+
 # pull_hbase_image() - Pull HBase container image from a Docker Registry Hub
 function pull_hbase_image {
-    is_package_installed docker-ce || install_docker
-    docker login -u $nexus_username -p $nexus_password $nexus_docker_repo
+    docker_openecomp_login
     docker pull $nexus_docker_repo/aaidocker/aai-hbase-${hbase_version}
 }
 
@@ -22,6 +40,7 @@ function install_hbase {
 
 # install_ajsc() - Install ASJC Java service container
 function install_ajsc_aai {
+    local src_folder=/opt/aai/aai-service
     cat <<EOL > /etc/ajsc-aai.conf
 AAI_REPO_PATH=r/aai
 AAI_CHEF_ENV=simpledemo
@@ -29,7 +48,15 @@ AAI_CHEF_LOC=/var/chef/aai-data/environments
 docker_gitbranch=master
 EOL
     docker rm -f aai-service
-    pull_openecomp_image ajsc-aai
+    if [[ "$build_image" == "True" ]]; then
+        clone_repo aai/aai-service $src_folder
+        build_docker_image $src_folder/ajsc-aai
+    else
+        pull_openecomp_image ajsc-aai
+    fi
+
+    asserts_image openecomp/ajsc-aai
+
     docker run --env-file /etc/ajsc-aai.conf --name=aai-service --net=host -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt -it -d $nexus_docker_repo/openecomp/ajsc-aai:$docker_version
 }
 
@@ -50,15 +77,19 @@ APP_SERVER_KEYSTORE_PASSWORD=OBF:1i9a1u2a1unz1lr61wn51wn11lss1unz1u301i6o
 APP_SERVER_AUTH_PASSWORD=${APP_PASSWORD:-OBF:1qvu1v2h1sov1sar1wfw1j7j1wg21saj1sov1v1x1qxw}
 EOL
 
+    ARGS=""
+
     docker rm -f model-loader-service
     if [[ "$build_image" == "True" ]]; then
         clone_repo aai/model-loader $src_folder
         build_docker_image $src_folder
-        docker run --env-file /etc/model-loader.conf model-loader
+        ARGS+="--env-file /etc/model-loader.conf model-loader"
     else
         pull_openecomp_image model-loader
-        docker run --name=model-loader-service -it -d --env-file /etc/model-loader.conf $nexus_docker_repo/openecomp/model-loader:$docker_version
+        ARGS+="--name=model-loader-service -it -d --env-file /etc/model-loader.conf $nexus_docker_repo/openecomp/model-loader:$docker_version"
     fi
+    asserts_image openecomp/model-loader
+    docker run ${ARGS}
 }
 
 # wait_for_sdc() - Function that determines if SDC is up and running
@@ -80,6 +111,11 @@ function wait_for_sdc {
 function init_aai {
     mkdir -p /opt/openecomp/aai/logs
     mkdir -p /opt/openecomp/aai/data
+
+    clone_all_aai_repos
+    if [[ "$compile_repo" == "True" ]]; then
+        compile_all_aai_repos
+    fi
 
     install_hbase
 
