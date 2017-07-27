@@ -1,0 +1,44 @@
+#!/bin/bash
+
+source /var/onap_tests/_test_base
+source /var/onap/policy
+
+covered_functions=(
+"clone_all_policy_repos"
+"compile_all_policy_repos"
+"init_policy"
+)
+
+src_folder=/opt/policy
+
+# test_clone_all_policy_repos() - Verify cloning of Policy source code
+function test_clone_all_policy_repos {
+    clone_all_policy_repos
+
+    for dirc in api common docker drools-applications drools-pdp engine gui pap pdp; do
+        asserts_file_exist policy/$dirc $src_folder/$dirc
+    done
+}
+
+# test_compile_all_policy_repos() - Verify compiling of Policy source code
+function test_compile_all_policy_repos {
+    clone_all_policy_repos
+    compile_all_policy_repos
+
+    asserts_file_exist $src_folder/drools-applications/controlloop/common/actors/actor.test/target/actor.test-1.1.0-SNAPSHOT.jar
+}
+
+# test_init_policy() - Verify Policy images are created or cloned
+function test_init_policy {
+    init_policy
+
+    for image in os nexus db base drools pe; do
+        asserts_image onap/policy/policy-$image
+    done
+}
+
+if [ "$1" != '*' ]; then
+    unset covered_functions
+    covered_functions=$1
+fi
+main "${covered_functions[@]}"
