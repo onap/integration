@@ -83,6 +83,10 @@ Vagrant.configure("2") do |config|
   config.vm.box = 'ubuntu/trusty64'
   if provider == :libvirt
     config.vm.box = 'sputnik13/trusty64'
+    if not Vagrant.has_plugin?('vagrant-libvirt')
+      system 'vagrant plugin install vagrant-libvirt'
+      raise 'vagrant-libvirt was installed but it requires to execute again'
+    end
   end
   if provider == :openstack
     config.vm.box = nil
