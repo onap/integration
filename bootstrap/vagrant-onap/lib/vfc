@@ -17,6 +17,8 @@ function clone_all_vfc_repos {
 
 # compile_all_vfc_repos() - Function that compiles VF-C source repo.
 function compile_all_vfc_repos {
+    install_python_package tox
+
     pushd $src_folder/gvnfm/vnflcm/lcm
     tox -e py27
     popd
