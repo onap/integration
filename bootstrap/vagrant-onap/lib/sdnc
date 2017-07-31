@@ -32,7 +32,6 @@ function _build_sdnc_images {
     build_docker_image $folder/installation/ubuntu
     asserts_image openecomp/ubuntu-sdnc-image
 
-    /var/lib/dpkg/info/ca-certificates-java.postinst configure
     build_docker_image $folder/installation/sdnc
     asserts_image openecomp/sdnc-image
 
