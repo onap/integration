@@ -6,22 +6,85 @@ source /var/onap/functions
 source /var/onap/asserts
 
 hbase_version=1.2.3
+src_folder=$git_src_folder/aai
+aai_repos=("aai-common" "aai-config" "aai-data" "aai-service" "data-router" "logging-service" "model-loader" "resources" "rest-client" "router-core" "search-data-service" "sparky-be" "sparky-fe" "test-config" "traversal")
+
+# install_hadoop() - Function that installs Hadoop
+function install_hadoop {
+    local release=titan
+    local version=1.0.0
+    local filename=$release-$version-hadoop1
+    local dest_folder=/opt/hadoop/current
+
+    if [ ! -d $dest_folder ]; then
+        curl http://s3.thinkaurelius.com/downloads/$release/$filename.zip -o /tmp/${filename}.zip
+        install_package unzip
+        mkdir -p $dest_folder
+        unzip /tmp/${filename}.zip -d $dest_folder
+        pushd $dest_folder/${filename}
+        ./bin/titan.sh start
+        popd
+    fi
+}
+
+# install_haproxy() - Function that install HAProxy
+function install_haproxy {
+    install_package haproxy
+    sed -i "s|ENABLED=0|ENABLED=1|g" /etc/default/haproxy
+#    cp /var/onap/files/haproxy.cfg /etc/haproxy/
+    cp /var/onap/files/aai.pem /etc/ssl/private/
+    chmod 640 /etc/ssl/private/aai.pem
+    chown root:ssl-cert /etc/ssl/private/aai.pem
+    mkdir /usr/local/etc/haproxy
+    echo "127.0.0.1 localhost aai-traversal.api.simpledemo.openecomp.org aai-resources.api.simpledemo.openecomp.org" >> /etc/hosts
+
+    service haproxy restart
+}
 
 # clone_all_aai_repos() - Function that clones AAI source repo.
 function clone_all_aai_repos {
-    local src_folder=/opt/aai
-
-    for dirc in aai-common aai-config aai-data aai-service data-router logging-service model-loader resources rest-client router-core search-data-service sparky-be sparky-fe test-config traversal; do
+    for dirc in ${aai_repos[@]}; do
         clone_repo aai/$dirc $src_folder/$dirc
     done
 }
 
-# compile_all_aai_repos() - Function that compiles AAI source repo.
-function compile_all_aai_repos {
-    local src_folder=/opt/aai
+# compile_aai_repos() - Function that compiles AAI source repo.
+function compile_aai_repos {
+    local repos=("aai-common" "resources" "logging-service" "traversal")
+    if [[ "$compile_repo" == "True" ]]; then
+        repos=aai_repos
+    fi
 
-    for dirc in aai-common aai-config aai-data aai-service data-router logging-service model-loader resources rest-client router-core search-data-service sparky-be sparky-fe test-config traversal; do
+    for dirc in ${repos[@]}; do
         compile_src $src_folder/$dirc
+    done
+}
+
+# setup_titan() - Function that configures AAI services to connect to Hadoop Titan
+function setup_titan {
+    local $subdirectory=bundleconfig-local/etc/appprops
+    install_python_package crudini
+
+    for dirc in resources/aai-resources traversal/aai-travers; do
+        for file in titan-cached.properties titan-realtime.properties; do
+            crudini --set --existing $src_folder/$dirc/$subdirectory/$file "" storage.backend cassandra
+            crudini --set --existing $src_folder/$dirc/$subdirectory/$file "" storage.hostname localhost
+        done
+    done
+
+    # Addthe schema to the local isntance
+    pushd $src_folder
+    java -DAJSC_HOME=$src_folder/resources/aai-resources -DBUNDLECONFIG_DIR="bundleconfig-local" -cp aai-common/aai-core/target/aai-core-1.1.0-SNAPSHOT.jar:resources/aai-resources/target/aai-resources.jar:resources/aai-resources/target/userjars/* org.openecomp.aai.dbgen.GenTester
+    popd
+}
+
+# start_aai_microservices() - Function that starts AAI microservices
+function start_aai_microservices {
+    MAVEN_OPTS="-Xms1024m -Xmx5120m -XX:PermSize=2024m -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=9446,server=y,suspend=n"
+    for svc in resources traversal; do
+        pushd $src_folder/resources
+        mvn -P runAjsc
+        popd
     done
 }
 
@@ -109,13 +172,17 @@ function wait_for_sdc {
 
 # init_aai() - Function that initialize AAI services
 function init_aai {
-    mkdir -p /opt/openecomp/aai/logs
-    mkdir -p /opt/openecomp/aai/data
+    install_hadoop
+    install_haproxy
 
     clone_all_aai_repos
-    if [[ "$compile_repo" == "True" ]]; then
-        compile_all_aai_repos
-    fi
+    compile_aai_repos
+
+    setup_titan
+    start_aai_microservices
+
+    mkdir -p /opt/openecomp/aai/logs
+    mkdir -p /opt/openecomp/aai/data
 
     install_hbase
 

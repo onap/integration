@@ -1,7 +1,6 @@
 <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
-
   <!-- offline
    | Determines whether maven should attempt to connect to the network when executing a build.
    | This will have an effect on artifact downloads, artifact deployment, and others.
@@ -29,7 +28,6 @@
    | repository, to be used as an alternate download site. The mirror site will be the preferred
    | server for that repository.
    |-->
-
   <!-- profiles
    | This is a list of profiles which can be activated in a variety of ways, and which can modify
    | the build process. Profiles provided in the settings.xml are intended to provide local machine-
@@ -51,17 +49,18 @@
    |       variables for plugins in the POM.
    |
    |-->
-
-
-
-  
-  
   <profiles>
       <profile>
-          
+          <id>00_maven</id>
+          <repositories>
+              <repository>
+                  <id>00_maven</id>
+                  <url>https://maven.restlet.com</url>
+              </repository>
+          </repositories>
+      </profile>
+      <profile>
           <id>10_nexus</id>
-          <!--Enable snapshots for the built in central repo to direct -->
-          <!--all requests to nexus via the mirror -->
           <repositories>
               <repository>
                   <id>10_nexus</id>
@@ -70,7 +69,6 @@
                   <snapshots><enabled>true</enabled></snapshots>
               </repository>
           </repositories>
-          
           <pluginRepositories>
               <pluginRepository>
                   <id>10_nexus</id>
@@ -79,7 +77,6 @@
                   <snapshots><enabled>true</enabled></snapshots>
               </pluginRepository>
           </pluginRepositories>
-          
       </profile>
       <profile>
           <id>20_openecomp-public</id>
@@ -174,7 +171,6 @@
               </pluginRepository>
           </pluginRepositories>
       </profile>
-      
       <profile>
           <id>50_openecomp-snapshots</id>
           <repositories>
@@ -235,7 +231,6 @@
               </pluginRepository>
           </pluginRepositories>
       </profile>
-      
       <profile>
           <id>70_opendaylight-snapshots</id>
           <repositories>
@@ -266,8 +261,8 @@
           </pluginRepositories>
       </profile>
   </profiles>
-  
   <activeProfiles>
+      <activeProfile>00_maven</activeProfile>
       <activeProfile>10_nexus</activeProfile>
       <activeProfile>20_openecomp-public</activeProfile>
       <activeProfile>30_openecomp-staging</activeProfile>
@@ -275,7 +270,5 @@
       <activeProfile>50_openecomp-snapshots</activeProfile>
       <activeProfile>60_opendaylight-release</activeProfile>
       <activeProfile>70_opendaylight-snapshots</activeProfile>
-
   </activeProfiles>
-  
 </settings>

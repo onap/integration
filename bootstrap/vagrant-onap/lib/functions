@@ -62,8 +62,6 @@ function clone_repo {
 function install_dev_tools {
     install_package apt-transport-https
     install_package ca-certificates
-    # ca-certificates-java is not a dependency in the Oracle JDK/JRE so this must be explicitly installed.
-    /var/lib/dpkg/info/ca-certificates-java.postinst configure
     install_package curl
 }
 
@@ -78,6 +76,8 @@ function install_java {
     install_package software-properties-common
     add-apt-repository -y ppa:openjdk-r/ppa
     install_package openjdk-8-jdk
+    # ca-certificates-java is not a dependency in the Oracle JDK/JRE so this must be explicitly installed.
+    /var/lib/dpkg/info/ca-certificates-java.postinst configure
 }
 
 # install_maven() - Install maven binaries
