@@ -62,6 +62,8 @@ function clone_repo {
 function install_dev_tools {
     install_package apt-transport-https
     install_package ca-certificates
+    # ca-certificates-java is not a dependency in the Oracle JDK/JRE so this must be explicitly installed.
+    /var/lib/dpkg/info/ca-certificates-java.postinst configure
     install_package curl
 }
 
@@ -122,8 +124,20 @@ function install_nodejs {
 function install_python {
     install_package python2.7
     install_package python-dev
+}
+
+# _install_pip() - Install Python Package Manager
+function _install_pip {
     curl -sL https://bootstrap.pypa.io/get-pip.py | python
-    pip install tox
+}
+
+# install_python_package() - Install a python module
+function install_python_package {
+    local python_package=$1
+
+    install_python
+    _install_pip
+    pip install $python_package
 }
 
 # install_docker() - Download and install docker-engine 
@@ -192,7 +206,7 @@ function compile_src {
     pushd $src_folder
     if [ -f pom.xml ]; then
         install_maven
-        mvn clean install -U -DskipTests=true -Dmaven.test.skip=true -Dmaven.javadoc.skip=true -Dadditionalparam=-Xdoclint:none
+        mvn clean install -DskipTests=true -Dmaven.test.skip=true -Dmaven.javadoc.skip=true -Dadditionalparam=-Xdoclint:none
     fi
     popd
 }
