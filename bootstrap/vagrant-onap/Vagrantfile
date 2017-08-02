@@ -152,7 +152,7 @@ Vagrant.configure("2") do |config|
         v.flavor = 'm1.xlarge'
       end
       all_in_one.vm.provision 'shell' do |s|
-        s.path = 'postinstall.sh'
+        s.path = 'vagrant_utils/postinstall.sh'
         s.args = ['mr', 'sdc', 'aai', 'mso', 'robot', 'vid', 'sdnc', 'portal', 'dcae', 'policy', 'appc', 'vfc']
         s.env = conf
       end
@@ -366,7 +366,7 @@ Vagrant.configure("2") do |config|
         v.flavor      = 'm1.small'
       end
       testing.vm.provision 'shell' do |s|
-        s.path = 'unit_testing.sh'
+        s.path = 'vagrant_utils/unit_testing.sh'
         s.args = [test_suite, test_case]
         s.env = conf
       end
