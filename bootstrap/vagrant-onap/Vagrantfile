@@ -354,10 +354,10 @@ Vagrant.configure("2") do |config|
       testing.vm.network :private_network, ip: '192.168.50.3'
       testing.vm.synced_folder './tests', '/var/onap_tests/', create: true
       testing.vm.provider "virtualbox" do |v|
-        v.customize ["modifyvm", :id, "--memory", 2 * 1024]
+        v.customize ["modifyvm", :id, "--memory", 4 * 1024]
       end
       testing.vm.provider "libvirt" do |v|
-        v.memory = 2 * 1024
+        v.memory = 4 * 1024
         v.nested = true
       end
       testing.vm.provider "openstack" do |v|

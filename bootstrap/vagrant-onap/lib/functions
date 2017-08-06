@@ -129,7 +129,9 @@ function install_python {
 # _install_pip() - Install Python Package Manager
 function _install_pip {
     install_python
-    curl -sL https://bootstrap.pypa.io/get-pip.py | python
+    if [ ! -f /usr/local/bin/pip ]; then
+        curl -sL https://bootstrap.pypa.io/get-pip.py | python
+    fi
 }
 
 # install_python_package() - Install a python module

@@ -1,0 +1,123 @@
+#!/bin/bash
+
+source /var/onap_tests/_test_base
+source /var/onap/aai
+
+covered_functions=(
+"install_hadoop" "install_haproxy" "clone_all_aai_repos" "compile_aai_repos" "setup_titan" "start_aai_microservices" "install_hbase" "install_ajsc_aai" "install_model_loader"
+)
+
+# TODO(electrocucaracha): Remove/Modify functions that doesn't support proxy settings
+if [ -z $http_proxy ] & [ -z $https_proxy ]; then
+    covered_functions=(${covered_functions[@]} "install_hbase")
+fi
+
+# test_install_hadoop() - Verify that Hadoop is downloaded and started properly
+function test_install_hadoop {
+    install_hadoop
+
+    asserts_file_exist /opt/hadoop/current/titan-1.0.0-hadoop1/bin/titan.sh
+    asserts_java_process Elasticsearch
+    asserts_java_process GremlinServer
+    asserts_java_process CassandraDaemon
+}
+
+# test_install_haproxy() - Verify that HAProxy is installed properly
+function test_install_haproxy {
+    install_haproxy
+
+    asserts_installed_package haproxy
+    asserts_process haproxy
+}
+
+# test_clone_all_aai_repos() - Verify that all the AAI Repos are cloned
+function test_clone_all_aai_repos {
+    clone_all_aai_repos
+
+    asserts_file_exist $src_folder/aai-common/pom.xml
+    asserts_file_exist $src_folder/aai-config/cookbooks/aai-resources/runlist-aai-resources.json
+    asserts_file_exist $src_folder/aai-data/environments/solo.json
+    asserts_file_exist $src_folder/aai-service/pom.xml
+    asserts_file_exist $src_folder/data-router/pom.xml
+    asserts_file_exist $src_folder/logging-service/pom.xml
+    asserts_file_exist $src_folder/model-loader/pom.xml
+    asserts_file_exist $src_folder/resources/pom.xml
+    asserts_file_exist $src_folder/rest-client/pom.xml
+    asserts_file_exist $src_folder/router-core/pom.xml
+    asserts_file_exist $src_folder/search-data-service/pom.xml
+    asserts_file_exist $src_folder/sparky-be/pom.xml
+    asserts_file_exist $src_folder/sparky-fe/pom.xml
+    asserts_file_exist $src_folder/test-config/docker-compose-app.yml
+    asserts_file_exist $src_folder/traversal/pom.xml
+}
+
+# test_compile_aai_repos() - Verify that all the AAI Repositories complile properly
+function test_compile_aai_repos {
+    clone_all_aai_repos
+    export compile_repo="True"
+    compile_aai_repos
+
+    asserts_file_exist $src_folder/aai-common/aai-annotations/target/aai-annotations-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $src_folder/aai-common/aai-auth/target/aai-auth-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $src_folder/aai-common/aai-core/target/aai-core-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $src_folder/aai-common/aai-schema/target/aai-schema-1.1.0-SNAPSHOT.jar
+
+    asserts_file_exist $src_folder/aai-service/aai-schema/target/aai-schema-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $src_folder/aai-service/ajsc-aai/target/aai.jar
+    asserts_file_exist $src_folder/aai-service/annotations/target/annotations-1.1.0-SNAPSHOT.jar
+
+    asserts_file_exist $src_folder/data-router/target/data-router-1.1.0-SNAPSHOT.jar
+
+    asserts_file_exist $src_folder/logging-service/common-logging/target/common-logging-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $src_folder/logging-service/eelf-logging/target/eelf-logging-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $src_folder/logging-service/logging-api/target/logging-api-1.1.0-SNAPSHOT.jar
+
+    asserts_file_exist $src_folder/model-loader/target/model-loader-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $src_folder/resources/aai-resources/target/aai-resources.jar
+    asserts_file_exist $src_folder/rest-client/target/rest-client-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $src_folder/router-core/target/router-core-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $src_folder/search-data-service/target/search-data-service-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $src_folder/sparky-be/target/sparky-be-1.0-SNAPSHOT.jar
+    asserts_file_exist $src_folder/sparky-fe/target/sparky-fe-1.0.0-SNAPSHOT.war
+    asserts_file_exist $src_folder/traversal/aai-traversal/target/traversal.jar
+}
+
+# test_setup_titan() - Verify that Titan Cassandra DB is up and running
+function test_setup_titan {
+    setup_titan
+}
+
+# test_start_aai_microservices() - Verify that AAI Resources and Traversal images works
+function test_start_aai_microservices {
+    clone_all_aai_repos
+    start_aai_microservices
+}
+
+# test_install_hbase() - Verify that AAI HBase service is up and running properly
+function test_install_hbase {
+    install_hbase
+
+    asserts_image_running aai-hbase-${hbase_version}
+}
+
+# test_install_ajsc_aai() - Verify that AJSC AAI service is up and running properly
+function test_install_ajsc_aai {
+    clone_all_aai_repos
+    install_ajsc_aai
+
+    asserts_image_running openecomp/ajsc-aai
+}
+
+# test_install_model_loader() - Verify that Model AAI service is up and running properly
+function test_install_model_loader {
+    clone_all_aai_repos
+    install_model_loader
+
+    asserts_image openecomp/model-loader
+}
+
+if [ "$1" != '*' ]; then
+    unset covered_functions
+    covered_functions=$1
+fi
+main "${covered_functions[@]}"

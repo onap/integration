@@ -4,11 +4,44 @@ set -o xtrace
 
 source /var/onap/commons
 
+# asserts_process() - Function that verifies if a specific process is running
+function asserts_process {
+    local process=$1
+    local error_msg=${2:-"There is no $process running process"}
+
+    if [[ "ps -ef | grep $process" == "" ]]; then
+        raise_error $error_msg
+    fi
+}
+
+# asserts_java_process() - Function that verifies if a specific java process is running
+function asserts_java_process {
+    local process=$1
+    local error_msg=${2:-"There is no $process java running process"}
+
+    install_java
+    if [[ "jps | grep $process" == "" ]]; then
+        raise_error $error_msg
+    fi
+}
+
+# asserts_image_running() - Function that verifies if a specific image is running
+function asserts_image_running {
+    local image=$1
+    local error_msg=${2:-"There is no process with $image image running"}
+
+    asserts_image $image
+    if [[ "$(docker ps -q --filter=ancestor=$image 2> /dev/null)" == "" ]]; then
+        raise_error $error_msg
+    fi
+}
+
 # asserts_image() - Function that verifies if a specific image was created
 function asserts_image {
     local image=$1
     local error_msg=${2:-"There is no $image image"}
 
+    install_docker
     if [[ "$(docker images -q $image 2> /dev/null)" == "" ]]; then
         raise_error $error_msg
     fi

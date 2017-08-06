@@ -7,7 +7,7 @@ source /var/onap/asserts
 
 hbase_version=1.2.3
 src_folder=$git_src_folder/aai
-aai_repos=("aai-common" "aai-config" "aai-data" "aai-service" "data-router" "logging-service" "model-loader" "resources" "rest-client" "router-core" "search-data-service" "sparky-be" "sparky-fe" "test-config" "traversal")
+aai_repos=("aai-common" "aai-config" "aai-data" "aai-service" "data-router" "logging-service" "model-loader" "resources" "rest-client" "router-core" "search-data-service" "test-config" "traversal" "sparky-fe" "sparky-be")
 
 # install_hadoop() - Function that installs Hadoop
 function install_hadoop {
@@ -22,6 +22,11 @@ function install_hadoop {
         mkdir -p $dest_folder
         unzip /tmp/${filename}.zip -d $dest_folder
         pushd $dest_folder/${filename}
+        # Change commitlog_directory and data_file_directories values (https://stackoverflow.com/a/26856246/1707651)
+        sed -i "s|db/cassandra/data|/tmp/data|g" conf/cassandra/cassandra.yaml
+        sed -i "s|db/cassandra/commitlog|/tmp/commitlog|g" conf/cassandra/cassandra.yaml
+
+        install_java
         ./bin/titan.sh start
         popd
     fi
@@ -52,7 +57,7 @@ function clone_all_aai_repos {
 function compile_aai_repos {
     local repos=("aai-common" "resources" "logging-service" "traversal")
     if [[ "$compile_repo" == "True" ]]; then
-        repos=aai_repos
+        repos=("${aai_repos[@]}")
     fi
 
     for dirc in ${repos[@]}; do
@@ -74,6 +79,7 @@ function setup_titan {
 
     # Addthe schema to the local isntance
     pushd $src_folder
+    install_java
     java -DAJSC_HOME=$src_folder/resources/aai-resources -DBUNDLECONFIG_DIR="bundleconfig-local" -cp aai-common/aai-core/target/aai-core-1.1.0-SNAPSHOT.jar:resources/aai-resources/target/aai-resources.jar:resources/aai-resources/target/userjars/* org.openecomp.aai.dbgen.GenTester
     popd
 }
@@ -88,8 +94,8 @@ function start_aai_microservices {
     done
 }
 
-# pull_hbase_image() - Pull HBase container image from a Docker Registry Hub
-function pull_hbase_image {
+# _pull_hbase_image() - Pull HBase container image from a Docker Registry Hub
+function _pull_hbase_image {
     docker_openecomp_login
     docker pull $nexus_docker_repo/aaidocker/aai-hbase-${hbase_version}
 }
@@ -97,13 +103,12 @@ function pull_hbase_image {
 # install_hbase() - Install HBase Service
 function install_hbase {
     docker rm -f hbase
-    pull_hbase_image
+    _pull_hbase_image
     docker run -d --net=host --name="hbase" $nexus_docker_repo/aaidocker/aai-hbase-${hbase_version}
 }
 
 # install_ajsc() - Install ASJC Java service container
 function install_ajsc_aai {
-    local src_folder=/opt/aai/aai-service
     cat <<EOL > /etc/ajsc-aai.conf
 AAI_REPO_PATH=r/aai
 AAI_CHEF_ENV=simpledemo
@@ -112,13 +117,10 @@ docker_gitbranch=master
 EOL
     docker rm -f aai-service
     if [[ "$build_image" == "True" ]]; then
-        clone_repo aai/aai-service $src_folder
-        build_docker_image $src_folder/ajsc-aai
+        build_docker_image $src_folder/aai-service/ajsc-aai
     else
         pull_openecomp_image ajsc-aai
     fi
-
-    asserts_image openecomp/ajsc-aai
 
     docker run --env-file /etc/ajsc-aai.conf --name=aai-service --net=host -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt -it -d $nexus_docker_repo/openecomp/ajsc-aai:$docker_version
 }
@@ -151,12 +153,11 @@ EOL
         pull_openecomp_image model-loader
         ARGS+="--name=model-loader-service -it -d --env-file /etc/model-loader.conf $nexus_docker_repo/openecomp/model-loader:$docker_version"
     fi
-    asserts_image openecomp/model-loader
     docker run ${ARGS}
 }
 
-# wait_for_sdc() - Function that determines if SDC is up and running
-function wait_for_sdc {
+# _wait_for_sdc() - Function that determines if SDC is up and running
+function _wait_for_sdc {
     if [[ -s "/opt/config/sdc_ip_addr.txt" ]]; then
         SDC_IP_ADDR=$(cat /opt/config/sdc_ip_addr.txt)
     else
@@ -190,6 +191,6 @@ function init_aai {
     sleep 180
 
     install_ajsc_aai
-    wait_for_sdc
+    _wait_for_sdc
     install_model_loader
 }
