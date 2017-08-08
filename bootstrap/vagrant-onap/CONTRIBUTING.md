@@ -17,6 +17,11 @@ command:
 
     $ ./tools/run.sh testing [test_suite] [function]
 
+or using PowerShell
+
+    PS C:\> Set-ExecutionPolicy Bypass -Scope CurrentUser
+    PS C:\> .\tools\Run.ps1 [test_suite] [function]
+
 Examples
 --------
 
