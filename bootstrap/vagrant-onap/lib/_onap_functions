@@ -67,7 +67,14 @@ function _configure_maven {
     fi
 
     if [ ! -f $mvn_conf_file ]; then
-        cp /var/onap/files/settings.template $mvn_conf_file
+        if [[ "$enable_oparent" == "True" ]]; then
+            clone_repo oparent
+            cp $git_src_folder/oparent/settings.xml $mvn_conf_file
+            sed -i "s|<\/profiles>|<\/profiles>\n%PROXIES_START% <proxies>\n%PROXIES% %HTTP_PROXY%\n%PROXIES% %HTTPS_PROXY%\n%PROXIES_END%  <\/proxies>|g" $mvn_conf_file
+        else
+            cp /var/onap/files/settings.xml $mvn_conf_file
+        fi
+
         sed -e "
             s|%PROXIES_START%|$proxies_start|g;
             s|%PROXIES%|$proxies|g;

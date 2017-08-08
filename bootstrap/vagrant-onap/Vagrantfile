@@ -26,7 +26,8 @@ conf = {
   'gitlab_branch'       => 'master',
   'build_image'         => 'True',
   'odl_version'         => '0.5.3-Boron-SR3',
-  'compile_repo'        => 'False'
+  'compile_repo'        => 'False',
+  'enable_oparent'      => 'True'
 }
 
 Vagrant.require_version ">= 1.8.6"
