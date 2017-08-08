@@ -107,6 +107,9 @@ export PATH=${PATH}:${WORKSPACE}/test/csit/docker/scripts:${WORKSPACE}/test/csit
 export SCRIPTS=${WORKSPACE}/test/csit/scripts
 export ROBOT_VARIABLES=
 
+# Sign in to nexus3 docker repo
+docker login -u anonymous -p anonymous nexus3.onap.org:10001
+
 # Run setup script plan if it exists
 cd ${TESTPLANDIR}
 SETUP=${TESTPLANDIR}/setup.sh
