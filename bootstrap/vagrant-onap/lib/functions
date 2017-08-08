@@ -73,6 +73,9 @@ function _install_bind {
 
 # install_java() - Install java binaries
 function install_java {
+    if is_package_installed openjdk-8-jdk; then
+        return
+    fi
     install_package software-properties-common
     add-apt-repository -y ppa:openjdk-r/ppa
     install_package openjdk-8-jdk
@@ -85,9 +88,7 @@ function install_maven {
     if is_package_installed maven3; then
         return
     fi
-    if ! is_package_installed openjdk-8-jdk; then
-        install_java
-    fi
+    install_java
     install_package software-properties-common
     add-apt-repository -y ppa:andrei-pozolotin/maven3
     install_package maven3
