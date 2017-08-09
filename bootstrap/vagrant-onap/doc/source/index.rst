@@ -17,5 +17,6 @@ Advanced features
 .. toctree::
    :maxdepth: 2
 
-   Advanced Features <features/index>
+   Installation Guide <install/index>
+   Advanced Features <features/features>
 

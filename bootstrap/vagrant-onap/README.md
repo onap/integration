@@ -17,8 +17,8 @@ questions faced by new developers
 | Component        | Requirement                           |
 |------------------|---------------------------------------|
 | Vagrant          | >= 1.8.6                              |
-| Hypervisor       | VirtualBox or Libvirt                 |
-| Operating System | Linux, Mac OS or Windows(In Progress) |
+| Provider         | VirtualBox, Libvirt or OpenStack      |
+| Operating System | Linux, Mac OS or Windows              |
 | Hard Disk        | > 8 GB of free disk                   |
 | Memory           | > 12 GB                               |
 
