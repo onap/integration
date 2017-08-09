@@ -51,9 +51,9 @@ function _configure_maven {
     local mvn_https=""
 
     if [ $http_proxy ] | [ $https_proxy ]; then
-        proxies_start="   "
+        proxies_start="   <proxies>"
         proxies="   "
-        proxies_end="   "
+        proxies_end="   <\/proxies>"
         if [ $http_proxy ]; then
             proxy_domain=`echo $http_proxy | awk -F/ '{print $3}' | awk -F: '{print $1}'`
             proxy_port=`echo $http_proxy | awk -F/ '{print $3}' | awk -F: '{print $2}'`
@@ -70,7 +70,7 @@ function _configure_maven {
         if [[ "$enable_oparent" == "True" ]]; then
             clone_repo oparent
             cp $git_src_folder/oparent/settings.xml $mvn_conf_file
-            sed -i "s|<\/profiles>|<\/profiles>\n%PROXIES_START% <proxies>\n%PROXIES% %HTTP_PROXY%\n%PROXIES% %HTTPS_PROXY%\n%PROXIES_END%  <\/proxies>|g" $mvn_conf_file
+            sed -i "s|<\/profiles>|<\/profiles>\n%PROXIES_START%\n%PROXIES% %HTTP_PROXY%\n%PROXIES% %HTTPS_PROXY%\n%PROXIES_END%|g" $mvn_conf_file
         else
             cp /var/onap/files/settings.xml $mvn_conf_file
         fi

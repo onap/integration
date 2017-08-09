@@ -12,8 +12,13 @@ switch ($args[0])
                 if (!$args[2]) { $test_case=$args[2] }
                 $env:TEST_CASE=$test_case
 
-                rm ./opt/ -Recurse -Force
-                rm $HOME/.m2/ -Recurse -Force
+                Remove-Item ./opt/ -Recurse -Force
+                Remove-Item $HOME/.m2/ -Recurse -Force
+             }
+         default
+             {
+                Write-Output $"Usage: $0 {all_in_one|dns|mr|sdc|aai|mso|robot|vid|sdnc|portal|dcae|policy|appc|testing}"
+                exit 1
              }
     }
 

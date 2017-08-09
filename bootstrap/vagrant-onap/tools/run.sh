@@ -12,6 +12,9 @@ case $1 in
 
         rm -rf ../opt/
         rm -rf ~/.m2/;;
+    * )
+        echo $"Usage: $0 {all_in_one|dns|mr|sdc|aai|mso|robot|vid|sdnc|portal|dcae|policy|appc|testing}"
+        exit 1
 esac
 vagrant destroy -f $1
 vagrant up $1

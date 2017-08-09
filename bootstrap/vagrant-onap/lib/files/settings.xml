@@ -9,10 +9,10 @@
 		to connect to the network. | Unless otherwise specified (by system property 
 		or command-line switch), the first proxy | specification in this list marked 
 		as active will be used. | -->
-%PROXIES_START%<proxies>
+%PROXIES_START%
 %PROXIES% %HTTP_PROXY%
 %PROXIES% %HTTPS_PROXY%
-%PROXIES_END%</proxies>
+%PROXIES_END%
 	<!-- mirrors | This is a list of mirrors to be used in downloading artifacts 
 		from remote repositories. | | It works like this: a POM may declare a repository 
 		to use in resolving certain artifacts. | However, this repository may have 
