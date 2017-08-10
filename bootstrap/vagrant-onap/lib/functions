@@ -12,6 +12,7 @@ git_src_folder=/opt
 # export_env_vars() - Export environment variables
 function export_env_vars {
     export MTU=$(/sbin/ifconfig | grep MTU | sed 's/.*MTU://' | sed 's/ .*//' |sort -n | head -1)
+    export IP_ADDRESS=$(ifconfig eth0 | grep "inet addr" | tr -s ' ' | cut -d' ' -f3 | cut -d':' -f2)
 }
 
 # configure_dns() - DNS/GW IP address configuration

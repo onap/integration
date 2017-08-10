@@ -67,7 +67,6 @@ function compile_all_sdc_repos {
 
 # install_sdc() - Function that pull templates and executes
 function install_sdc {
-    IP_ADDRESS=$(ifconfig eth0 | grep "inet addr" | tr -s ' ' | cut -d' ' -f3 | cut -d':' -f2)
     local ENV_NAME=$dmaap_topic
     local MR_IP_ADDR='10.0.11.1'
     local RELEASE=$docker_version
