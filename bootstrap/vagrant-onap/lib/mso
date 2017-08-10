@@ -32,9 +32,6 @@ function install_mso {
         export GIT_NO_PROJECT=/opt/
         compile_src $src_folder
         build_docker_image $src_folder/packages/docker docker
-        for image in mso mso-arquillian wildfly ubuntu-update jacoco; do
-            asserts_image openecomp/$image
-        done
     fi
 }
 
