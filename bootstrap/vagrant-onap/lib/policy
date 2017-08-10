@@ -44,7 +44,6 @@ function install_policy {
     fi
     pushd $src_folder/docker
     chmod +x config/drools/drools-tweaks.sh
-    IP_ADDRESS=$(ifconfig eth0 | grep "inet addr" | tr -s ' ' | cut -d' ' -f3 | cut -d':' -f2)
     echo $IP_ADDRESS > config/pe/ip_addr.txt
     install_docker_compose
     /opt/docker/docker-compose up -d
