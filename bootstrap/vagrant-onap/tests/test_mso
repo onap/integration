@@ -4,7 +4,7 @@ source /var/onap_tests/_test_base
 source /var/onap/mso
 
 covered_functions=(
-"clone_all_mso_repos" "compile_all_mso_repos"
+"clone_all_mso_repos" "compile_all_mso_repos" "install_mso" "install_mso_docker_config"
 )
 
 # test_clone_all_mso_repos() - Verify the source code retrieve of MSO project
@@ -40,6 +40,25 @@ function test_compile_all_mso_repos {
     asserts_file_exist $src_folder/libs/swift-model/target/swift-model-1.1.0-SNAPSHOT.jar
 }
 
+# test_install_mso() - Verify the creation of MSO Docker images
+function test_install_mso {
+    clone_all_mso_repos
+    install_mso
+
+    for image in mso mso-arquillian wildfly ubuntu-update jacoco; do
+        asserts_image openecomp/$image
+    done
+}
+
+# test_install_mso_docker_config - Verify the execution of MSO Docker images
+function test_install_mso_docker_config {
+    clone_all_mso_repos
+    install_mso
+    install_mso_docker_config
+
+    asserts_image_running openecomp/mso
+    asserts_image_running mariadb:10.1.11
+}
 
 if [ "$1" != '*' ]; then
     unset covered_functions
