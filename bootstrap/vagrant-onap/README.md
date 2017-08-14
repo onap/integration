@@ -30,53 +30,46 @@ questions faced by new developers
 
 * Windows
 
-    C:\> vagrant up <app_name>
+    PS C:\> cd integration\bootstrap\vagrant-onap
+    PS C:\integration\bootstrap\vagrant-onap> Set-ExecutionPolicy Bypass -Scope CurrentUser
+    PS C:\integration\bootstrap\vagrant-onap> .\tools\Run.ps1 <app_name>
 
 * Linux or Mac OS
 
+    $ cd integration/bootstrap/vagrant-onap
     $ ./tools/run.sh <app_name>
 
 current options include:
 
-| app_name  | description                         |
-|:---------:|-------------------------------------|
-| aai       | Active and Available Inventory      |
-| appc      | Application Controller              |
-| dcae      | Data Collection Analytics & Events  |
-| mr        | Message Router                      |
-| mso       | Master Service Orchestrator         |
-| policy    | Policy                              |
-| portal    | Portal                              |
-| robot     | Robot                               |
-| sdc       | Service Design & Creation           |
-| sdnc      | Software Defined Network Controller |
-| vid       | Virtual Infrastructure Development  |
-| vfc       | Virtual Function Controller (WIP)   |
+| app_name   | description                         |
+|:----------:|-------------------------------------|
+| aai        | Active and Available Inventory      |
+| appc       | Application Controller              |
+| dcae       | Data Collection Analytics & Events  |
+| mr         | Message Router                      |
+| mso        | Master Service Orchestrator         |
+| policy     | Policy                              |
+| portal     | Portal                              |
+| robot      | Robot                               |
+| sdc        | Service Design & Creation           |
+| sdnc       | Software Defined Network Controller |
+| vid        | Virtual Infrastructure Development  |
+| vfc        | Virtual Function Controller (WIP)   |
+| all_in_one | All ONAP services in a VM           |
+| testing    | Unit Test VM                        |
 
-#### setting up proxy in case you are behind a firewall
+#### generating documentation
 
-add http_proxy and https_proxy to your environment variables
+The documentation of this project was written in reStructuredText
+format which is located under the [docs folder](../blob/master/doc/source/index.rst).
+It's possible to format this documents to HTML using Sphinix python
+tool.
 
-Linux or Mac
+    $ tox -e docs
 
-    $ export http_proxy=<proxy>
-    $ export https_proxy=<proxy>
-    $ export no_proxy=<no_proxy_urls>
-
-Windows
-
-    C:\> setx http_proxy <proxy>
-    C:\> setx https_proxy <proxy>
-    C:\> setx no_proxy <no_proxy_urls>
-
-##### choosing vagrant provider
-force VirtualBox provider
-
-    C:\> vagrant up --provider=virtualbox
-
-setup the default provider on Windows
-
-    C:\> setx VAGRANT_DEFAULT_PROVIDER=virtualbox
+This results in the creation of a new *doc/build/html* folder with
+the documentation converted in HTML pages that can be viewed through
+the prefered Web Browser.
 
 ## Contributing
 

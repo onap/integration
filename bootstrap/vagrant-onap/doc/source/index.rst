@@ -11,7 +11,7 @@ using different providers like VirtualBox, Libvirt or OpenStack.
 
     __ https://wiki.onap.org/display/DW/ONAP+on+Vagrant
 
-Advanced features
+Table of contents
 -----------------
 
 .. toctree::

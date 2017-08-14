@@ -61,3 +61,36 @@ Windows 7+ (PowerShell v2+)
     PS C:\> choco install virtualbox
 
 .. end
+
+.. note::
+
+    Some corporations use Proxy Servers to protect their assets
+    from security threats. This project uses the Proxy Environment
+    variables to connect to those servers in order to download the
+    content required during the setup. The methods to setup these
+    variables depends on the Operating system that is used.
+
+    * Linux or Mac OS
+
+    .. code-block:: console
+
+        $ export http_proxy=<proxy>
+        $ export https_proxy=<proxy>
+        $ export no_proxy=<no_proxy_urls>
+
+    .. end
+
+    * Windows
+
+    .. code-block:: console
+
+        C:\> setx http_proxy <proxy>
+        C:\> setx https_proxy <proxy>
+        C:\> setx no_proxy <no_proxy_urls>
+
+    .. end
+
+.. note::
+
+    Vagrant can be configured to use a different default provider
+    through the environment variable **VAGRANT_DEFAULT_PROVIDER**.
