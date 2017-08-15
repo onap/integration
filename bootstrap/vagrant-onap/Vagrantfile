@@ -81,6 +81,11 @@ Vagrant.configure("2") do |config|
     config.proxy.no_proxy = ENV['no_proxy']
   end
 
+  if Vagrant.has_plugin?('vagrant-vbguest')
+    puts 'vagrant-vbguest auto_update feature will be disable to avoid sharing conflicts'
+    config.vbguest.auto_update = false
+  end
+
   config.vm.box = 'ubuntu/trusty64'
   if provider == :libvirt
     config.vm.box = 'sputnik13/trusty64'
@@ -214,27 +219,27 @@ Vagrant.configure("2") do |config|
         s.env = conf
       end
     end
-  
+
     config.vm.define :aai do |aai|
       aai.vm.hostname = 'aai'
       aai.vm.network :private_network, ip: '192.168.50.6'
       aai.vm.provider "openstack" do |v|
         v.server_name = 'aai'
       end
-      aai.vm.provision 'shell' do |s| 
+      aai.vm.provision 'shell' do |s|
         s.path = 'vagrant_utils/postinstall.sh'
         s.args = ['aai']
         s.env = conf
       end 
     end
-  
+
     config.vm.define :mso do |mso|
       mso.vm.hostname = 'mso'
       mso.vm.network :private_network, ip: '192.168.50.7'
       mso.vm.provider "openstack" do |v|
         v.server_name = 'mso'
       end
-      mso.vm.provision 'shell' do |s| 
+      mso.vm.provision 'shell' do |s|
         s.path = 'vagrant_utils/postinstall.sh'
         s.args = ['mso']
         s.env = conf
@@ -253,7 +258,7 @@ Vagrant.configure("2") do |config|
         s.env = conf
       end
     end
-  
+
     config.vm.define :vid do |vid|
       vid.vm.hostname = 'vid'
       vid.vm.network :private_network, ip: '192.168.50.9'
@@ -266,7 +271,7 @@ Vagrant.configure("2") do |config|
         s.env = conf
       end
     end
-  
+
     config.vm.define :sdnc do |sdnc|
       sdnc.vm.hostname = 'sdnc'
       sdnc.vm.network :private_network, ip: '192.168.50.10'
@@ -279,7 +284,7 @@ Vagrant.configure("2") do |config|
         s.env = conf
       end
     end
-  
+
     config.vm.define :portal do |portal|
       portal.vm.hostname = 'portal'
       portal.vm.network :private_network, ip: '192.168.50.11'
@@ -292,7 +297,7 @@ Vagrant.configure("2") do |config|
         s.env = conf
       end
     end
-  
+
     config.vm.define :dcae do |dcae|
       dcae.vm.hostname = 'dcae'
       dcae.vm.network :private_network, ip: '192.168.50.12'
@@ -305,7 +310,7 @@ Vagrant.configure("2") do |config|
         s.env = conf
       end
     end
-  
+
     config.vm.define :policy do |policy|
       policy.vm.hostname = 'policy'
       policy.vm.network :private_network, ip: '192.168.50.13'
@@ -318,7 +323,7 @@ Vagrant.configure("2") do |config|
         s.env = conf
       end
     end
-  
+
     config.vm.define :appc do |appc|
       appc.vm.hostname = 'appc'
       appc.vm.network :private_network, ip: '192.168.50.14'

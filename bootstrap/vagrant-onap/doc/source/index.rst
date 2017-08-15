@@ -18,5 +18,6 @@ Table of contents
    :maxdepth: 2
 
    Installation Guide <install/index>
+   Known Issues <install/known_issues>
    Advanced Features <features/features>
 
