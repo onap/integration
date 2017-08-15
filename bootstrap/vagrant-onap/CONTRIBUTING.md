@@ -12,15 +12,15 @@ Unit Testing
 
 The **_tests_** folder contains ~~scripts~~ _test suites_ that ensure the proper
 implementation of the _functions_ created on **_lib_** folder.  In order to
-execute the Unit Tests defined for this project, you must run the following
-command:
+display the Usage information you must execute the script with question mark as
+an argument like follows:
 
-    $ ./tools/run.sh -s [test_suite] -c [function] testing
+    $ ./tools/run.sh -?
 
 or using PowerShell
 
     PS C:\> Set-ExecutionPolicy Bypass -Scope CurrentUser
-    PS C:\> .\tools\Run.ps1 testing [test_suite] [function]
+    PS C:\> .\tools\Run.ps1 testing -?
 
 Examples
 --------

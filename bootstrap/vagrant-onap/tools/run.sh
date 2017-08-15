@@ -3,11 +3,11 @@
 usage ()
 {
 cat <<EOF
-Usage: run.sh [-y] [-h] Command
+Usage: run.sh [-y] [-?] Command
 Optional arguments:
     -y
         Skips warning prompt.
-    -h
+    -?
         Shows help about this program.
     -s <suite>
         Test suite to use in testing mode.
@@ -26,32 +26,32 @@ test_case="*"
 
 COMMAND=${@: -1}
 
-while getopts "yhs:c:" OPTION; do
-  case "$OPTION" in
+while getopts "y?s:c:" OPTION; do
+    case "$OPTION" in
     y)
-      run=true
-      ;;
+        run=true
+        ;;
     s)
-      if [ "$COMMAND" != "testing" ] ; then
-        echo "Test suite should only be specified in testing mode."
-        echo "./run.sh -h for usage."
-        exit 0
-      fi
-      test_suite=$OPTARG
-      ;;
+        if [ "$COMMAND" != "testing" ] ; then
+            echo "Test suite should only be specified in testing mode."
+            echo "./tools/run.sh -? for usage."
+            exit 1
+        fi
+        test_suite=$OPTARG
+        ;;
     c)
-      if [ "$COMMAND" != "testing" ] ; then
-        echo "Test case should only be specified in testing mode."
-        echo "./run.sh -h for usage."
+        if [ "$COMMAND" != "testing" ] ; then
+            echo "Test case should only be specified in testing mode."
+            echo "./tools/run.sh -? for usage."
+            exit 1
+        fi
+        test_case=$OPTARG
+        ;;
+    ?)
+        usage
         exit 0
-      fi
-      test_case=$OPTARG
-      ;;
-    h)
-      usage
-      exit 0
-      ;;
-  esac
+        ;;
+    esac
 done
 
 case $COMMAND in
@@ -64,19 +64,19 @@ case $COMMAND in
     "testing" )
         export DEPLOY_MODE='testing'
         if  [ "$run" == false ] ; then
-          while true ; do
-            echo "Warning: This test script will delete the contents of ../opt/ and ~/.m2."
-            read -p "Would you like to continue? [y]es/[n]o: " yn
-            case $yn in
-              [Yy]*)
-                break
-                ;;
-              [Nn]*)
-                echo "Exiting."
-                exit 0
-                ;;
-            esac
-          done
+            while true ; do
+                echo "Warning: This test script will delete the contents of ../opt/ and ~/.m2."
+                read -p "Would you like to continue? [y]es/[n]o: " yn
+                case $yn in
+                    [Yy]*)
+                        break
+                        ;;
+                    [Nn]*)
+                        echo "Exiting."
+                        exit 0
+                        ;;
+                esac
+            done
         fi
 
         export TEST_SUITE=$test_suite
