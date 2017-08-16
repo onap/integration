@@ -6,10 +6,9 @@ source /var/onap/policy
 covered_functions=(
 "clone_all_policy_repos"
 "compile_all_policy_repos"
-"init_policy"
+"get_policy_images"
+"install_policy"
 )
-
-src_folder=/opt/policy
 
 # test_clone_all_policy_repos() - Verify cloning of Policy source code
 function test_clone_all_policy_repos {
@@ -28,12 +27,24 @@ function test_compile_all_policy_repos {
     asserts_file_exist $src_folder/drools-applications/controlloop/common/actors/actor.test/target/actor.test-1.1.0-SNAPSHOT.jar
 }
 
-# test_init_policy() - Verify Policy images are created or cloned
-function test_init_policy {
-    init_policy
+# test_get_policy_images() - Verify that Policy Docker images are retrieved properly
+function test_get_policy_images {
+    clone_all_policy_repos
+    get_policy_images
 
     for image in os nexus db base drools pe; do
         asserts_image onap/policy/policy-$image
+    done
+}
+
+# test_install_policy() - Verify that Policy services are started properly
+function test_install_policy {
+    clone_all_policy_repos
+    get_policy_images
+    install_policy
+
+    for image in pe drools db nexus; do
+        asserts_image_running onap/policy/policy-$image
     done
 }
 
