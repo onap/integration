@@ -1,14 +1,11 @@
 #!/bin/bash
 
-usage ()
-{
-cat <<EOF
-Usage: run.sh [-y] [-?] Command
+function usage {
+    cat <<EOF
+Usage: run.sh Command [-y] [-?]
 Optional arguments:
     -y
         Skips warning prompt.
-    -?
-        Shows help about this program.
     -s <suite>
         Test suite to use in testing mode.
     -c <case>
@@ -24,9 +21,9 @@ run=false
 test_suite="*"
 test_case="*"
 
-COMMAND=${@: -1}
+COMMAND=$1
 
-while getopts "y?s:c:" OPTION; do
+while getopts "ys:c:" OPTION "${@:2}"; do
     case "$OPTION" in
     y)
         run=true
@@ -47,9 +44,9 @@ while getopts "y?s:c:" OPTION; do
         fi
         test_case=$OPTARG
         ;;
-    ?)
+    \?)
         usage
-        exit 0
+        exit 1
         ;;
     esac
 done

@@ -15,7 +15,7 @@ implementation of the _functions_ created on **_lib_** folder.  In order to
 display the Usage information you must execute the script with question mark as
 an argument like follows:
 
-    $ ./tools/run.sh -?
+    $ ./tools/run.sh
 
 or using PowerShell
 
