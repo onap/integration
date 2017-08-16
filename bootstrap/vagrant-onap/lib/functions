@@ -108,6 +108,10 @@ function _configure_docker_proxy {
     if [ $https_proxy ]; then
         echo "export https_proxy=$https_proxy" >> /etc/default/docker
     fi
+	
+	echo "DOCKER_OPTS=\"-H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock\"" >> /etc/default/docker
+	
+	usermod -a -G docker vagrant
 }
 
 # install_nodejs() - Download and install NodeJS
@@ -156,7 +160,7 @@ function install_docker {
         $(lsb_release -cs) \
         stable"
     install_package docker-ce
-    _configure_docker_proxy
+    _configure_docker_settings
     service docker restart
     sleep 10
 }
