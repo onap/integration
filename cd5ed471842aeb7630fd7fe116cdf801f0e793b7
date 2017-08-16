@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_69bfc9d1",
+        "filename": "bootstrap/vagrant-onap/lib/functions",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2017-08-16T14:11:06Z",
+      "side": 1,
+      "message": "nit: Could you use spaces instead of tabs?",
+      "range": {
+        "startLine": 111,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 1
+      },
+      "revId": "cd5ed471842aeb7630fd7fe116cdf801f0e793b7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
