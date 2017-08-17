@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_3b2b4232",
+        "filename": "bootstrap/vagrant-onap/lib/sdc",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2017-08-17T15:03:45Z",
+      "side": 1,
+      "message": "This instruction must be executed outside of the if sentence, the reason behind is that compile_all_sdc_repos depends on clone_all_sdc_repos",
+      "range": {
+        "startLine": 77,
+        "startChar": 1,
+        "endLine": 77,
+        "endChar": 20
+      },
+      "revId": "b3def968f7748b09a24f5ca5c5507c12736596e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_9bd34e38",
+        "filename": "bootstrap/vagrant-onap/lib/sdc",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2017-08-17T15:03:45Z",
+      "side": 1,
+      "message": "I\u0027m trying to understand this, is the idea to avoid the execution of docker_run.sh in some scenarios and only install docker?",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 6
+      },
+      "revId": "b3def968f7748b09a24f5ca5c5507c12736596e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
