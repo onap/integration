@@ -5,6 +5,27 @@ set -o xtrace
 source /var/onap/functions
 source /var/onap/asserts
 
+src_folder=$git_src_folder/portal
+policy_repos=("sdk")
+
+# clone_all_portal_repos() - Function that clones Portal source repo.
+function clone_all_portal_repos {
+    clone_repo portal $src_folder
+
+    for dirc in ${policy_repos[@]}; do
+        clone_repo portal/$dirc $src_folder/$dirc
+    done
+}
+
+# compile_all_portal_repos() - Function that compiles Portal source repo.
+function compile_all_portal_repos {
+    compile_src $src_folder
+
+    for dirc in ${policy_repos[@]}; do
+        compile_src $src_folder/$dirc
+    done
+}
+
 # install_mariadb() - Pull and create a MariaDB container
 function install_mariadb {
     is_package_installed docker-ce || install_docker
@@ -14,9 +35,6 @@ function install_mariadb {
 
 # install_portal() - Function that pulls and install the source code of Portal
 function install_portal {
-    local src_folder=/opt/portal
-    clone_repo portal $src_folder
-    clone_repo portal/sdk $src_folder/sdk
     install_docker
     docker rm -f ecompdb_portal
     docker rm -f 1610-1
@@ -33,14 +51,14 @@ function install_portal {
         bash run.sh
         compile_src $src_folder/ecomp-portal-widget-ms
         build_docker_image $src_folder/ecomp-portal-widget-ms
+        asserts_image widget-ms
     else
         pull_openecomp_image portaldb ecompdb:portal
         pull_openecomp_image portalapps ep:1610-1
-
+        for image in ecompdb:portal ep:1610-1; do
+            asserts_image $image
+        done
     fi
-    for image in ecompdb:portal ep:1610-1; do
-        asserts_image $image
-    done
 
     chmod +x new_start.sh
     chmod +x new_stop.sh
@@ -64,6 +82,10 @@ function install_portal {
 
 # init_portal() - Function that initialize Portal services
 function init_portal {
+    clone_all_portal_repos
+    if [[ "$compile_repo" == "True" ]]; then
+        compile_all_portal_repos
+    fi
     install_mariadb
     install_portal
 }
