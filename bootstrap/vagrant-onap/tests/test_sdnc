@@ -4,7 +4,7 @@ source /var/onap_tests/_test_base
 source /var/onap/sdnc
 
 covered_functions=(
-"clone_all_sdnc_repos" "compile_all_sdnc_repos" "get_sdnc_images"
+"clone_all_sdnc_repos" "compile_all_sdnc_repos" "get_sdnc_images" "install_sdnc"
 )
 
 # test_clone_all_sdnc_repos() - Verify the source code retrieve of SDNC project
@@ -23,9 +23,37 @@ function test_compile_all_sdnc_repos {
     clone_all_sdnc_repos
     compile_all_sdnc_repos
 
-    asserts_file_exist $src_folder/core/rootpom/boron-sr1/target/classes/LICENSE
-    asserts_file_exist $src_folder/core/rootpom/boron-sr3/target/classes/LICENSE
+    for adaptor in aai-service mdsal-resource resource-assignment sql-resource; do
+        asserts_file_exist $src_folder/adaptors/$adaptor/features/target/$adaptor-features-1.1.2-SNAPSHOT.jar
+        asserts_file_exist $src_folder/adaptors/$adaptor/installer/target/sdnc-$adaptor-1.1.2-SNAPSHOT-installer.zip
+        asserts_file_exist $src_folder/adaptors/$adaptor/provider/target/$adaptor-provider-1.1.2-SNAPSHOT.jar
+    done
+
+    asserts_file_exist $src_folder/core/dblib/provider/target/dblib-provider-1.1.2-SNAPSHOT.jar
     asserts_file_exist $src_folder/core/rootpom/target/rootpom-1.1.0-site_en.xml
+    asserts_file_exist $src_folder/core/target/sdnc-core-1.1.2-SNAPSHOT-site.xml
+
+    for component in asdcApi dataChange vnfapi vnftools; do
+        asserts_file_exist $src_folder/northbound/$component/features/target/$component-features-1.1.2-SNAPSHOT.jar
+        asserts_file_exist $src_folder/northbound/$component/installer/target/sdnc-$component-1.1.2-SNAPSHOT-installer.zip
+        if [[ "$component" != "vnftools" ]]; then
+            asserts_file_exist $src_folder/northbound/$component/model/target/$component-model-1.1.2-SNAPSHOT.jar
+        fi
+        asserts_file_exist $src_folder/northbound/$component/provider/target/$component-provider-1.1.2-SNAPSHOT.jar
+    done
+    asserts_file_exist $src_folder/northbound/dmaap-listener/target/dmaap-listener-1.1.2-SNAPSHOT.jar
+    asserts_file_exist $src_folder/northbound/ueb-listener/target/ueb-listener-1.1.2-SNAPSHOT.jar
+
+    asserts_file_exist $src_folder/oam/admportal/target/admportal.1.1.2-SNAPSHOT.zip
+    asserts_file_exist $src_folder/oam/dgbuilder/target/dgbuilder.1.1.2-SNAPSHOT.zip
+    asserts_file_exist $src_folder/oam/installation/dgbuilder/target/docker-stage/opt/openecomp/sdnc/dgbuilder/target/dgbuilder.1.1.2-SNAPSHOT.zip
+    asserts_file_exist $src_folder/oam/platform-logic/installer/target/platform-logic-installer-1.1.2-SNAPSHOT.zip
+
+    for plugin in properties-node restapi-call-node; do
+        asserts_file_exist $src_folder/plugins/$plugin/features/target/$plugin-features-1.1.2-SNAPSHOT.jar
+        asserts_file_exist $src_folder/plugins/$plugin/installer/target/sdnc-$plugin-1.1.2-SNAPSHOT-installer.zip
+        asserts_file_exist $src_folder/plugins/$plugin/provider/target/$plugin-provider-1.1.2-SNAPSHOT.jar
+    done
 }
 
 # test_get_sdnc_images() - Verify that the SDNC images are created or retrieved
@@ -36,6 +64,19 @@ function test_get_sdnc_images {
     asserts_image openecomp/sdnc-image
     asserts_image openecomp/admportal-sdnc-image
     asserts_image openecomp/dgbuilder-sdnc-image
+    asserts_image mysql/mysql-server:5.6
+}
+
+# test_install_sdnc() - Verify that the SDNC Docker containers are up and running
+function test_install_sdnc {
+    clone_all_sdnc_repos
+    get_sdnc_images
+    install_sdnc
+
+    asserts_image_running openecomp/dgbuilder-sdnc-image
+    asserts_image_running openecomp/admportal-sdnc-image
+    asserts_image_running openecomp/sdnc-image
+    asserts_image_running mysql/mysql-server:5.6
 }
 
 if [ "$1" != '*' ]; then
