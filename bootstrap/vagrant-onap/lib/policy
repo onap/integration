@@ -9,39 +9,45 @@ policy_repos=("api" "common" "docker" "drools-applications" "drools-pdp" "engine
 
 # clone_all_policy_repos() - Function that clones Policy source repo.
 function clone_all_policy_repos {
-    for dirc in ${aai_repos[@]}; do
+    for dirc in ${policy_repos[@]}; do
         clone_repo policy/$dirc $src_folder/$dirc
     done
 }
 
-# # compile_all_policy_repos() - Function that compiles Policy source repo.
+# compile_all_policy_repos() - Function that compiles Policy source repo.
 function compile_all_policy_repos {
     for dirc in ${aai_repos[@]}; do
         compile_src $src_folder/$dirc
     done
 }
 
-# install_policy() - Function that clones and installs the Policy services from source code
-function install_policy {
+# _build_policy_images() - Function that build Policy docker images from source code
+function _build_policy_images {
+    compile_src $src_folder/docker
+    pushd $src_folder/docker
+    install_maven
+    mvn prepare-package
+    cp -r target/policy-pe/* policy-pe/
+    cp -r target/policy-drools/* policy-drools
+    install_docker
+    bash docker_verify.sh
+    popd
+}
+
+# get_policy_images() - Function that retrieves Policy docker images
+function get_policy_images {
     if [[ "$build_image" == "True" ]]; then
-        compile_src $src_folder/docker
-        install_docker
-        pushd $src_folder/docker
-        install_maven
-        mvn prepare-package
-        cp -r target/policy-pe/* policy-pe/
-        cp -r target/policy-drools/* policy-drools
-        bash docker_verify.sh
-        for image in os nexus db base drools pe; do
-            asserts_image onap/policy/policy-$image
-        done
-        popd
+        _build_policy_images
     else
         pull_onap_image policy/policy-db onap/policy/policy-db:latest
         pull_onap_image policy/policy-pe onap/policy/policy-pe:latest
         pull_onap_image policy/policy-drools onap/policy/policy-drools:latest
         pull_onap_image policy/policy-nexus onap/policy/policy-nexus:latest
     fi
+}
+
+# install_policy() - Function that clones and installs the Policy services from source code
+function install_policy {
     pushd $src_folder/docker
     chmod +x config/drools/drools-tweaks.sh
     echo $IP_ADDRESS > config/pe/ip_addr.txt
@@ -57,5 +63,6 @@ function init_policy {
         compile_all_policy_repos
     fi
 
+    get_policy_images
     install_policy
 }
