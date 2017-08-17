@@ -25,6 +25,7 @@ conf = {
   'nexus_url_snapshot'  => 'https://nexus.onap.org/content/repositories/snapshots',
   'gitlab_branch'       => 'master',
   'build_image'         => 'True',
+  'pull_docker_image'	=> 'True',
   'odl_version'         => '0.5.3-Boron-SR3',
   'compile_repo'        => 'False',
   'enable_oparent'      => 'True'
