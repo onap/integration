@@ -5,27 +5,35 @@ set -o xtrace
 source /var/onap/functions
 source /var/onap/asserts
 
-# install_mariadb() - Pull and create a MariaDB container
-function install_mariadb {
-    is_package_installed docker-ce || install_docker
-    docker pull mariadb
-    docker create --name data_vol_portal -v /var/lib/mysql mariadb
+src_folder=$git_src_folder/portal
+policy_repos=("sdk")
+
+# clone_all_portal_repos() - Function that clones Portal source repo.
+function clone_all_portal_repos {
+    clone_repo portal $src_folder
+
+    for dirc in ${policy_repos[@]}; do
+        clone_repo portal/$dirc $src_folder/$dirc
+    done
 }
 
-# install_portal() - Function that pulls and install the source code of Portal
-function install_portal {
-    local src_folder=/opt/portal
-    clone_repo portal $src_folder
-    clone_repo portal/sdk $src_folder/sdk
-    install_docker
-    docker rm -f ecompdb_portal
-    docker rm -f 1610-1
-    pushd $src_folder/deliveries
-    if [[ "$build_image" == "True" ]]; then
+# compile_all_portal_repos() - Function that compiles Portal source repo.
+function compile_all_portal_repos {
+    compile_src $src_folder
+
+    for dirc in ${policy_repos[@]}; do
+        compile_src $src_folder/$dirc
+    done
+}
+
+# get_portal_images() - Function to get Portal images.
+function get_portal_images {
+if [[ "$build_image" == "True" ]]; then
         install_maven
 
         clone_repo ecompsdkos $src_folder/ecompsdkos
         clone_repo "ui/dmaapbc" $src_folder/dmaapbc
+        pushd $src_folder/deliveries
         chmod +x *.sh
         export MVN=$(which mvn)
         export GLOBAL_SETTINGS_FILE=/usr/share/maven3/conf/settings.xml
@@ -33,14 +41,28 @@ function install_portal {
         bash run.sh
         compile_src $src_folder/ecomp-portal-widget-ms
         build_docker_image $src_folder/ecomp-portal-widget-ms
+        popd
     else
         pull_openecomp_image portaldb ecompdb:portal
         pull_openecomp_image portalapps ep:1610-1
-
     fi
-    for image in ecompdb:portal ep:1610-1; do
-        asserts_image $image
-    done
+
+}
+
+# install_mariadb() - Pull and create a MariaDB container
+function install_mariadb {
+    is_package_installed docker-ce || install_docker
+    docker pull mariadb
+    docker create --name data_vol_portal -v /var/lib/mysql mariadb
+}
+
+# install_portal() - Function that installs the source code of Portal
+function install_portal {
+    install_docker
+    docker rm -f ecompdb_portal
+    docker rm -f 1610-1
+    pushd $src_folder/deliveries
+
 
     chmod +x new_start.sh
     chmod +x new_stop.sh
@@ -64,6 +86,11 @@ function install_portal {
 
 # init_portal() - Function that initialize Portal services
 function init_portal {
+    clone_all_portal_repos
+    if [[ "$compile_repo" == "True" ]]; then
+        compile_all_portal_repos
+    fi
     install_mariadb
+    get_portal_images
     install_portal
 }
