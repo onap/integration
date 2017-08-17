@@ -1,0 +1,59 @@
+#!/bin/bash
+
+source /var/onap_tests/_test_base
+source /var/onap/portal
+
+covered_functions=(
+"clone_all_portal_repos"
+"compile_all_portal_repos"
+"get_portal_images"
+"install_portal"
+)
+
+# test_clone_all_portal_repos() - Verify cloning of Portal source code
+function test_clone_all_portal_repos {
+    clone_all_portal_repos
+
+    asserts_file_exist $policy_src_folder/pom.xml
+    asserts_file_exist $policy_src_folder/ecompsdkos/LICENSE.txt
+    asserts_file_exist $policy_src_folder/dmaapbc/pom.xml
+    asserts_file_exist $policy_src_folder/sdk/LICENSE.txt
+}
+
+# test_compile_all_portal_repos() - Verify compiling of Portal source code
+function test_compile_all_portal_repos {
+    clone_all_portal_repos
+    compile_all_portal_repos
+
+    asserts_file_exist $policy_src_folder/ecomp-portal-BE-common/target/ecompportal-be-common.war
+    asserts_file_exist $policy_src_folder/ecomp-portal-BE-common-test/target/ecomp-portal-BE-common-test.jar
+    asserts_file_exist $policy_src_folder/ecomp-portal-BE-os/target/ecompportal-be-os.war
+}
+
+# test_get_portal_images() - Verify that Portal Docker images are retrieved or built properly
+function test_get_portal_images {
+    clone_all_portal_repos
+    get_portal_images
+
+    asserts_image portal-db
+    asserts_image portal-wms
+    asserts_image portal-apps
+    asserts_image mariadb
+}
+
+# test_install_portal() - Verify installation of Portal services
+function test_install_portal {
+    clone_all_portal_repos
+    install_mariadb
+    install_portal
+
+    asserts_image_running portal-db
+    asserts_image_running portal-wms
+    asserts_image_running portal-apps
+}
+
+if [ "$1" != '*' ]; then
+    unset covered_functions
+    covered_functions=$1
+fi
+main "${covered_functions[@]}"
