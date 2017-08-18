@@ -4,13 +4,28 @@ source /var/onap_tests/_test_base
 source /var/onap/vfc
 
 covered_functions=(
-"clone_all_vfc_repos"
+"clone_all_vfc_repos" "compile_all_vfc_repos" "install_vfc"
 )
 
 # test_clone_all_vfc_repos() - Verify cloning and pulling source code from repositories
 function test_clone_all_vfc_repos {
     # TODO(sshank)
     echo ""
+}
+
+# test_compile_all_vfc_repos() - Verify that all the VFC modules are compiled properly
+function test_compile_all_vfc_repos {
+    clone_all_vfc_repos
+    compile_all_vfc_repos
+
+    # TODO(electrocucaracha): Add asserts_file_exist
+}
+
+# test_install_vfc() - Verify that the VFC are up and running
+function test_install_vfc {
+    install_vfc
+
+    # TODO(electrocucaracha): Add whatever asserts are needed
 }
 
 if [ "$1" != '*' ]; then
