@@ -4,7 +4,7 @@ Library       RequestsLibrary
 Library       requests
 
 *** Variables ***
-${TARGETURL}  https://10.147.124.100:9509/services/search-data-service/v1/search/indexes/test-index3
+${TARGETURL}  https://${HOST_IP}:9509/services/search-data-service/v1/search/indexes/test-index3
 ${INDEXDATA}  {"fields": [{"name": "Name", "data-type": "string"}, {"name": "Number", "data-type": "long"}]}
 ${DOCUMENTDATA}  {"Name": "A", "Number": 5}
 

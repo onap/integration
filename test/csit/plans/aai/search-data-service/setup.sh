@@ -32,3 +32,6 @@ docker-compose -f docker-compose.yml up -d aai.searchservice.simpledemo.openecom
 
 echo sleeping for 10 seconds while services start up
 sleep 10
+
+ROBOT_VARIABLES="-v HOST_IP:`ip addr show docker0 | head -3 | tail -1 | cut -d' ' -f6 | cut -d'/' -f1`"
+
