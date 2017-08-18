@@ -25,6 +25,87 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_d1a9b725",
+        "filename": "bootstrap/vagrant-onap/lib/sdc",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1341
+      },
+      "writtenOn": "2017-08-18T12:58:42Z",
+      "side": 1,
+      "message": "I wanted to achieve a scenario that the user might not want to compile and clone the sdc code into the vagrant.\nWe for example would like to use this vagrant not for developing sdc. I\u0027ll switch the function call for clone to be above the compile but I still thinks that only if you want to compile the code you should clone it",
+      "parentUuid": "9a437d4f_3b2b4232",
+      "range": {
+        "startLine": 77,
+        "startChar": 1,
+        "endLine": 77,
+        "endChar": 20
+      },
+      "revId": "b3def968f7748b09a24f5ca5c5507c12736596e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_d82e7ca5",
+        "filename": "bootstrap/vagrant-onap/lib/sdc",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1341
+      },
+      "writtenOn": "2017-08-18T12:58:42Z",
+      "side": 1,
+      "message": "Put the function inside the compile_repo scope.\nClone the code only if you intend to compile it",
+      "range": {
+        "startLine": 77,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 1
+      },
+      "revId": "b3def968f7748b09a24f5ca5c5507c12736596e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_781d5073",
+        "filename": "bootstrap/vagrant-onap/lib/sdc",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1341
+      },
+      "writtenOn": "2017-08-18T12:58:42Z",
+      "side": 1,
+      "message": "As part of adding the option to choose if I want to pull the docker images on startup I\u0027ve put the code handling that here.",
+      "revId": "b3def968f7748b09a24f5ca5c5507c12736596e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_58128c63",
+        "filename": "bootstrap/vagrant-onap/lib/sdc",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1341
+      },
+      "writtenOn": "2017-08-18T12:58:42Z",
+      "side": 1,
+      "message": "If I don\u0027t want to pull the docker images I only want to install the docker engine on the machine",
+      "revId": "b3def968f7748b09a24f5ca5c5507c12736596e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_9bd34e38",
         "filename": "bootstrap/vagrant-onap/lib/sdc",
         "patchSetId": 2
@@ -36,6 +117,30 @@
       "writtenOn": "2017-08-17T15:03:45Z",
       "side": 1,
       "message": "I\u0027m trying to understand this, is the idea to avoid the execution of docker_run.sh in some scenarios and only install docker?",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 6
+      },
+      "revId": "b3def968f7748b09a24f5ca5c5507c12736596e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_317243e6",
+        "filename": "bootstrap/vagrant-onap/lib/sdc",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1341
+      },
+      "writtenOn": "2017-08-18T12:58:42Z",
+      "side": 1,
+      "message": "yes. When I\u0027m starting my vagrant I don\u0027t necessarily want to execute docker run. For example If you want to upload local dockers to the machine it\u0027s unnecessary to pull the dockers from the nexus. But still I want to install the docker engine on the machine",
+      "parentUuid": "9a437d4f_9bd34e38",
       "range": {
         "startLine": 98,
         "startChar": 0,
