@@ -99,8 +99,8 @@ function install_sdc {
     bash /data/scripts/docker_run.sh -e $ENV_NAME -r $RELEASE -p $NEXUS_DOCKER_PORT
 }
 
-# init_sdc() - Function that initialize SDC services
-function init_sdc {
+# init_asdc() - Function that initialize SDC services
+function init_asdc {
     mount_external_partition
     init_data_folders
     setup_docker_aliases
