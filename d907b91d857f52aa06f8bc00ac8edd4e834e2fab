@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_073ee1b8",
+        "filename": "test/csit/plans/aai/search-data-service/setup.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 931
+      },
+      "writtenOn": "2017-08-18T20:14:55Z",
+      "side": 1,
+      "message": "Don\u0027t need to pull before running, but it may be a good idea to include it in the docker compose so that it matches our deployments",
+      "parentUuid": "9a437d4f_ac601a36",
+      "revId": "d907b91d857f52aa06f8bc00ac8edd4e834e2fab",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_6c5a3285",
         "filename": "test/csit/tests/aai/search-data-service/suite1/test1.robot",
         "patchSetId": 1
