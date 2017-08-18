@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_e702bdb3",
+        "filename": "bootstrap/vagrant-onap/lib/portal",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2017-08-18T23:24:41Z",
+      "side": 1,
+      "message": "nit: wrong indentation",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 2
+      },
+      "revId": "0a88a8786fcfb36ad19c50cbc7a725decbb96804",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_a7d39537",
+        "filename": "bootstrap/vagrant-onap/lib/portal",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2017-08-18T23:24:41Z",
+      "side": 1,
+      "message": "These steps can be moved to a private _build_portal_image method",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 12
+      },
+      "revId": "0a88a8786fcfb36ad19c50cbc7a725decbb96804",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_c7ffb9a9",
+        "filename": "bootstrap/vagrant-onap/lib/portal",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2017-08-18T23:24:41Z",
+      "side": 1,
+      "message": "there is a function that install this package called install_docker\n\n* https://git.onap.org/integration/tree/bootstrap/vagrant-onap/lib/functions#n148",
+      "revId": "0a88a8786fcfb36ad19c50cbc7a725decbb96804",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_8731b1a4",
+        "filename": "bootstrap/vagrant-onap/lib/portal",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2017-08-18T23:24:41Z",
+      "side": 1,
+      "message": "You won\u0027t need the previous line if you use pull_docker_image function\n\n* https://git.onap.org/integration/tree/bootstrap/vagrant-onap/lib/functions#n165",
+      "range": {
+        "startLine": 55,
+        "startChar": 4,
+        "endLine": 55,
+        "endChar": 23
+      },
+      "revId": "0a88a8786fcfb36ad19c50cbc7a725decbb96804",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_472bc930",
+        "filename": "bootstrap/vagrant-onap/tests/test_portal.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2017-08-18T23:24:41Z",
+      "side": 1,
+      "message": "I use to verify the existence of pom.xml files or any other file contained in the repository.",
+      "range": {
+        "startLine": 17,
+        "startChar": 3,
+        "endLine": 18,
+        "endChar": 38
+      },
+      "revId": "0a88a8786fcfb36ad19c50cbc7a725decbb96804",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_2720c548",
+        "filename": "bootstrap/vagrant-onap/tests/test_portal.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2017-08-18T23:24:41Z",
+      "side": 1,
+      "message": "Don\u0027t you have an output into the target folders?",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 26,
+        "endChar": 34
+      },
+      "revId": "0a88a8786fcfb36ad19c50cbc7a725decbb96804",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_e7199d23",
+        "filename": "bootstrap/vagrant-onap/tests/test_portal.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2017-08-18T23:24:41Z",
+      "side": 1,
+      "message": "Maybe you can use asserts_image_running here if not, you can change the scope of install_mariadb to private like _install_mariadb",
+      "range": {
+        "startLine": 32,
+        "startChar": 5,
+        "endLine": 32,
+        "endChar": 33
+      },
+      "revId": "0a88a8786fcfb36ad19c50cbc7a725decbb96804",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_c71699f1",
+        "filename": "bootstrap/vagrant-onap/tests/test_portal.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2017-08-18T23:24:41Z",
+      "side": 1,
+      "message": "this is not required because is already doing in the next method\n\n* https://git.onap.org/integration/tree/bootstrap/vagrant-onap/lib/asserts#n33",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 27
+      },
+      "revId": "0a88a8786fcfb36ad19c50cbc7a725decbb96804",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
