@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_4caaced5",
+        "filename": "bootstrap/vagrant-onap/lib/portal",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2017-08-18T14:35:46Z",
+      "side": 1,
+      "message": "These instructions should be moved to a function called get_portal_images and the assert functions should be moved into the test_portal script",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 61,
+        "endChar": 6
+      },
+      "revId": "b75790ffdea2716c56177f3c3c9af7247e32edbb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_4c81ae49",
+        "filename": "bootstrap/vagrant-onap/tests/test_portal.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2017-08-18T14:35:46Z",
+      "side": 1,
+      "message": "I think that you have to validate that the images are up and running with the asserts_image_running function\n\n* https://git.onap.org/integration/tree/bootstrap/vagrant-onap/lib/asserts#n29",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 27
+      },
+      "revId": "b75790ffdea2716c56177f3c3c9af7247e32edbb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
