@@ -3,44 +3,41 @@
 set -o xtrace
 
 source /var/onap/sdnc
-source /var/onap/asserts
+source /var/onap/functions
+
+appc_src_folder=$git_src_folder/appc
 
 # clone_all_appc_repos() - Function that clones APPC source repo.
 function clone_all_appc_repos {
-    local src_folder=/opt/appc
-
-    clone_repo appc $src_folder
-    clone_repo appc/deployment $src_folder/deployment
+    clone_repo appc $appc_src_folder
+    clone_repo appc/deployment $appc_src_folder/deployment
 }
 
 # compile_all_appc_repos() - Function that compiles APPC source repo.
 function compile_all_appc_repos {
-    local src_folder=/opt/appc
-
-    compile_src $src_folder
-    compile_src $src_folder/deployment
+    compile_src $appc_src_folder
+    compile_src $appc_src_folder/deployment
 }
 
-# install_appc() - Function that clones and installs the APPC services from source code
-function install_appc {
-    install_package unzip
-    local src_folder=/opt/appc
+# _build_appc_images() - Function that creates APPC images from source code.
+function _build_appc_images {
+    get_sdnc_images
+    build_docker_image $appc_src_folder/deployment/installation/appc docker
+}
 
-    clone_all_appc_repos
-    if [[ "$compile_repo" == "True" ]]; then
-        compile_all_appc_repos
-    fi
-
+# get_appc_images() - Function that gets or build APPC docker images
+function get_appc_images {
     if [[ "$build_image" == "True" ]]; then
-        clone_repo sdnc/oam /opt/sdnc/oam
-        build_sdnc_images /opt/sdnc/oam
-        build_docker_image $src_folder/deployment/installation/appc docker
-        asserts_image openecomp/appc-image
+        _build_appc_images
     else
         pull_openecomp_image appc-image openecomp/appc-image:latest
         pull_openecomp_image dgbuilder-sdnc-image openecomp/dgbuilder-sdnc-image:latest
     fi
-    pushd $src_folder/deployment
+}
+
+# install_appc() - Function that clones and installs the APPC services from source code
+function install_appc {
+    pushd $appc_src_folder/deployment/docker-compose
     install_docker_compose
     /opt/docker/docker-compose up -d
     popd
@@ -48,5 +45,11 @@ function install_appc {
 
 # init_appc() - Function that initialize APPC services
 function init_appc {
+    clone_all_appc_repos
+    if [[ "$compile_repo" == "True" ]]; then
+        compile_all_appc_repos
+    fi
+
+    get_appc_images
     install_appc
 }

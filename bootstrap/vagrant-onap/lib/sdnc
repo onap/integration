@@ -4,13 +4,13 @@ set -o xtrace
 
 source /var/onap/functions
 
-src_folder=$git_src_folder/openecomp/sdnc
+sdnc_src_folder=$git_src_folder/openecomp/sdnc
 sdnc_repos=("core" "adaptors" "northbound" "plugins" "oam")
 
 # clone_all_sdnc_repos() - Function that clones SDNC source repo.
 function clone_all_sdnc_repos {
     for dirc in ${sdnc_repos[@]}; do
-        clone_repo sdnc/$dirc $src_folder/$dirc
+        clone_repo sdnc/$dirc $sdnc_src_folder/$dirc
     done
 }
 
@@ -18,21 +18,21 @@ function clone_all_sdnc_repos {
 function compile_all_sdnc_repos {
     for dirc in ${sdnc_repos[@]}; do
         if [[ "$dirc" == "core" ]]; then
-            compile_src $src_folder/core/rootpom
+            compile_src $sdnc_src_folder/core/rootpom
         fi
-        compile_src $src_folder/$dirc
+        compile_src $sdnc_src_folder/$dirc
     done
 }
 
-# build_sdnc_images() - Builds SDNC images from source code
-function build_sdnc_images {
-    local folder=${1:-$src_folder/oam}
+# _build_sdnc_images() - Builds SDNC images from source code
+function _build_sdnc_images {
+    local folder=$sdnc_src_folder/oam
 
     install_package unzip
-    clone_repo sdnc/oam $src_folder/oam
+    clone_repo sdnc/oam $folder
     # The OAM code depends on all the SDNC repos which should be downloaded and compiled first
-    if [[ "$compile_repo" == "False" ]]; then
-        compile_src $src_folder/oam/
+    if [[ "$compile_repo" != "True" ]]; then
+        compile_src $folder
     fi
     for dirc in ubuntu sdnc admportal dgbuilder; do
         build_docker_image $folder/installation/$dirc
@@ -42,7 +42,7 @@ function build_sdnc_images {
 # get_sdnc_images() - Build or retrieve necessary images
 function get_sdnc_images {
     if [[ "$build_image" == "True" ]]; then
-        build_sdnc_images
+        _build_sdnc_images
     else
         pull_openecomp_image sdnc-image openecomp/sdnc-image:latest
         pull_openecomp_image admportal-sdnc-image openecomp/admportal-sdnc-image:latest
@@ -53,8 +53,8 @@ function get_sdnc_images {
 
 # install_sdnc() -  Download and install SDNC services from source code
 function install_sdnc {
-    clone_repo sdnc/oam $src_folder/oam
-    pushd $src_folder/oam/installation/src/main/yaml
+    clone_repo sdnc/oam $sdnc_src_folder/oam
+    pushd $sdnc_src_folder/oam/installation/src/main/yaml
     install_docker_compose
     /opt/docker/docker-compose up -d
     popd
