@@ -160,7 +160,7 @@ Vagrant.configure("2") do |config|
       end
       all_in_one.vm.provision 'shell' do |s|
         s.path = 'vagrant_utils/postinstall.sh'
-        s.args = ['mr', 'asdc', 'aai', 'mso', 'robot', 'vid', 'sdnc', 'portal', 'dcae', 'policy', 'appc', 'vfc']
+        s.args = ['mr', 'sdc', 'aai', 'mso', 'robot', 'vid', 'sdnc', 'portal', 'dcae', 'policy', 'appc', 'vfc']
         s.env = conf
       end
     end
@@ -217,7 +217,7 @@ Vagrant.configure("2") do |config|
       end
       sdc.vm.provision 'shell' do |s|
         s.path = 'vagrant_utils/postinstall.sh'
-        s.args = ['asdc']
+        s.args = ['sdc']
         s.env = conf
       end
     end

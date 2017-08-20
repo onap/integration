@@ -9,7 +9,7 @@ src_folder=$git_src_folder/sdc
 
 # mount_external_partition() - Create partition and mount the external volume
 function mount_external_partition {
-    cat <<EOL > /tmp/asdc_ext_volume_partitions.txt
+    cat <<EOL > /tmp/sdc_ext_volume_partitions.txt
 # partition table of /dev/sdb
 unit: sectors
 
@@ -18,7 +18,7 @@ unit: sectors
 /dev/sdb3 : start=        0, size=        0, Id= 0
 /dev/sdb4 : start=        0, size=        0, Id= 0
 EOL
-    sfdisk --force /dev/sdb < /tmp/asdc_ext_volume_partitions.txt
+    sfdisk --force /dev/sdb < /tmp/sdc_ext_volume_partitions.txt
     mkfs -t ext4 /dev/sdb1
     mkdir -p /data
     mount /dev/sdb1 /data
@@ -96,8 +96,8 @@ function install_sdc {
     fi
 }
 
-# init_asdc() - Function that initialize SDC services
-function init_asdc {
+# init_sdc() - Function that initialize SDC services
+function init_sdc {
     mount_external_partition
     init_data_folders
     setup_docker_aliases
