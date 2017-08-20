@@ -71,9 +71,9 @@ function install_sdc {
     local RELEASE=$docker_version
     NEXUS_DOCKER_PORT=$(echo $nexus_docker_repo | cut -d':' -f2)
 
-    clone_all_sdc_repos
     if [[ "$compile_repo" == "True" ]]; then
-        compile_all_sdc_repos
+		clone_all_sdc_repos
+        compile_all_sdc_repos		
     fi
 
     if [[ "$build_image" == "True" ]]; then
@@ -94,11 +94,12 @@ function install_sdc {
     sed -i "s/\"ueb_url_list\":.*/\"ueb_url_list\": \""$MR_IP_ADDR","$MR_IP_ADDR"\",/g" /data/environments/$ENV_NAME.json
     sed -i "s/\"fqdn\":.*/\"fqdn\": [\""$MR_IP_ADDR"\", \""$MR_IP_ADDR"\"]/g" /data/environments/$ENV_NAME.json
 
-    install_docker
     if [[ "$pull_docker_image" == "True" ]]; then
-        docker_openecomp_login
-        bash /data/scripts/docker_run.sh -e $ENV_NAME -r $RELEASE -p $NEXUS_DOCKER_PORT
-    fi
+		docker_openecomp_login
+		bash /data/scripts/docker_run.sh -e $ENV_NAME -r $RELEASE -p $NEXUS_DOCKER_PORT
+	else
+		install_docker
+	fi
 }
 
 # init_asdc() - Function that initialize SDC services
