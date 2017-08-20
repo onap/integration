@@ -73,8 +73,8 @@ function install_sdc {
     NEXUS_DOCKER_PORT=$(echo $nexus_docker_repo | cut -d':' -f2)
 
     if [[ "$compile_repo" == "True" ]]; then
-        compile_all_sdc_repos
 		clone_all_sdc_repos
+        compile_all_sdc_repos		
     fi
 
     if [[ "$build_image" == "True" ]]; then
