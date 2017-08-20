@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_47174952",
+        "filename": "bootstrap/vagrant-onap/lib/sdc",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1341
+      },
+      "writtenOn": "2017-08-20T13:09:11Z",
+      "side": 1,
+      "message": "Changed the name back to sdc.\n\nWhen we decided to put the code in open source we\u0027ve changed the component name to be sdc and not asdc anymore",
+      "revId": "67e87696ecb68c9e8507b7271df61410fb714ff2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
