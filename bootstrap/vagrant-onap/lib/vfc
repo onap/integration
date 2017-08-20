@@ -52,9 +52,11 @@ function install_vfc {
 function init_vfc {
     install_package libmysqlclient-dev
 
-    clone_all_vfc_repos
-    if [[ "$compile_repo" == "False" ]]; then
-        compile_all_vfc_repos
+    if [[ "$clone_repo" == "True" ]]; then
+        clone_all_vfc_repos
+        if [[ "$compile_repo" == "False" ]]; then
+            compile_all_vfc_repos
+        fi
     fi
 
     install_vfc

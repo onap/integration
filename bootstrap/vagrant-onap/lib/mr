@@ -28,7 +28,9 @@ function install_message_router {
 
 # init_mr() - Function that initialize Message Router services
 function init_mr {
-    clone_mr_repos
+    if [[ "$clone_repo" == "True" ]]; then
+        clone_mr_repos
+    fi
     get_mr_images
     install_message_router
 }

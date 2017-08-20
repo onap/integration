@@ -27,6 +27,7 @@ conf = {
   'build_image'         => 'True',
   'pull_docker_image'   => 'True',
   'odl_version'         => '0.5.3-Boron-SR3',
+  'clone_repo'          => 'True',
   'compile_repo'        => 'False',
   'enable_oparent'      => 'True'
 }

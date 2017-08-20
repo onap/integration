@@ -58,9 +58,11 @@ function install_policy {
 
 # init_policy() - Function that initialize Policy services
 function init_policy {
-    clone_all_policy_repos
-    if [[ "$compile_repo" == "True" ]]; then
-        compile_all_policy_repos
+    if [[ "$clone_repo" == "True" ]]; then
+        clone_all_policy_repos
+        if [[ "$compile_repo" == "True" ]]; then
+            compile_all_policy_repos
+        fi
     fi
 
     get_policy_images

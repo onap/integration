@@ -179,8 +179,12 @@ function init_aai {
     install_hadoop
     install_haproxy
 
-    clone_all_aai_repos
-    compile_aai_repos
+    if [[ "$clone_repo" == "True" ]]; then
+        clone_all_aai_repos
+        if [[ "$compile_repo" == "True" ]]; then
+            compile_aai_repos
+        fi
+    fi
 
     setup_titan
     #start_aai_microservices

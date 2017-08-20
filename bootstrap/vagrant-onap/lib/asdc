@@ -71,11 +71,6 @@ function install_sdc {
     local RELEASE=$docker_version
     NEXUS_DOCKER_PORT=$(echo $nexus_docker_repo | cut -d':' -f2)
 
-    clone_all_sdc_repos
-    if [[ "$compile_repo" == "True" ]]; then
-        compile_all_sdc_repos
-    fi
-
     if [[ "$build_image" == "True" ]]; then
         compile_src $src_folder
         build_docker_image $src_folder/sdc-os-chef docker
@@ -106,5 +101,11 @@ function init_asdc {
     mount_external_partition
     init_data_folders
     setup_docker_aliases
+    if [[ "$clone_repo" == "True" ]]; then
+        clone_all_sdc_repos
+        if [[ "$compile_repo" == "True" ]]; then
+            compile_all_sdc_repos
+        fi
+    fi
     install_sdc
 }

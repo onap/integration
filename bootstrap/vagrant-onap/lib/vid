@@ -49,9 +49,11 @@ function install_vid {
 
 # init_vid() - Function that initialize Vid services
 function init_vid {
-    clone_all_vid_repos
-    if [[ "$compile_repo" == "True" ]]; then
-        compile_all_vid_repos
+    if [[ "$clone_repo" == "True" ]]; then
+        clone_all_vid_repos
+        if [[ "$compile_repo" == "True" ]]; then
+            compile_all_vid_repos
+        fi
     fi
 
     get_vid_images

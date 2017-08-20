@@ -45,9 +45,11 @@ function install_appc {
 
 # init_appc() - Function that initialize APPC services
 function init_appc {
-    clone_all_appc_repos
-    if [[ "$compile_repo" == "True" ]]; then
-        compile_all_appc_repos
+    if [[ "$clone_repo" == "True" ]]; then
+        clone_all_appc_repos
+        if [[ "$compile_repo" == "True" ]]; then
+            compile_all_appc_repos
+        fi
     fi
 
     get_appc_images

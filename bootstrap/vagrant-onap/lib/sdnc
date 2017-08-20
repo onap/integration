@@ -63,9 +63,11 @@ function install_sdnc {
 # init_sdnc() - Function that initialize SDNC services
 function init_sdnc {
     start_ODL
-    clone_all_sdnc_repos
-    if [[ "$compile_repo" == "True" ]]; then
-        compile_all_sdnc_repos
+    if [[ "$clone_repo" == "True" ]]; then
+        clone_all_sdnc_repos
+        if [[ "$compile_repo" == "True" ]]; then
+            compile_all_sdnc_repos
+        fi
     fi
     get_sdnc_images
     install_sdnc

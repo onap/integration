@@ -101,9 +101,11 @@ EOF
 
 # init_mso() - Function that initialize MSO services
 function init_mso {
-    clone_all_mso_repos
-    if [[ "$compile_repo" == "True" ]]; then
-        compile_all_mso_repos
+    if [[ "$clone_repo" == "True" ]]; then
+        clone_all_mso_repos
+        if [[ "$compile_repo" == "True" ]]; then
+            compile_all_mso_repos
+        fi
     fi
 
     install_mso

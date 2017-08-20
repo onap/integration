@@ -120,9 +120,11 @@ function install_dcae {
 
 # init_dcae() - Function that initialize DCAE Controller services
 function init_dcae {
-    clone_all_dcae_repos
-    if [[ "$compile_repo" == "True" ]]; then
-        compile_all_dcae_repos
+    if [[ "$clone_repo" == "True" ]]; then
+        clone_all_dcae_repos
+        if [[ "$compile_repo" == "True" ]]; then
+            compile_all_dcae_repos
+        fi
     fi
 
     _create_config_file
