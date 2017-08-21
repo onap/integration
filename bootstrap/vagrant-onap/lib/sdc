@@ -32,8 +32,7 @@ function init_data_folders {
     mkdir -p /data/logs/BE
     mkdir -p /data/logs/FE
     chmod 777 /data
-    chmod 777 /data/logs/BE
-    chmod 777 /data/logs/FE
+    chmod 777 /data/logs
 }
 
 # setup_docker_aliases() - Function that setups the aliases required by sdc scripts
