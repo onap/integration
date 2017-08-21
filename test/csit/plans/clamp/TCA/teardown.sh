@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+# Modifications copyright (c) 2017 AT&T Intellectual Property
+#
 
 kill-instance.sh clamp_clamp_1
 kill-instance.sh clamp_db_1

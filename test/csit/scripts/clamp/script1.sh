@@ -14,4 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+# Modifications copyright (c) 2017 AT&T Intellectual Property
+#
+
 echo "This is ${WORKSPACE}/test/csit/scripts/clamp/script1.sh"
