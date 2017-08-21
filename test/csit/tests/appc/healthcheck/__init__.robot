@@ -1,0 +1,2 @@
+*** Settings ***
+Documentation    APPC - healthcheck
