@@ -34,21 +34,21 @@ function test_install_haproxy {
 function test_clone_all_aai_repos {
     clone_all_aai_repos
 
-    asserts_file_exist $src_folder/aai-common/pom.xml
-    asserts_file_exist $src_folder/aai-config/cookbooks/aai-resources/runlist-aai-resources.json
-    asserts_file_exist $src_folder/aai-data/environments/solo.json
-    asserts_file_exist $src_folder/aai-service/pom.xml
-    asserts_file_exist $src_folder/data-router/pom.xml
-    asserts_file_exist $src_folder/logging-service/pom.xml
-    asserts_file_exist $src_folder/model-loader/pom.xml
-    asserts_file_exist $src_folder/resources/pom.xml
-    asserts_file_exist $src_folder/rest-client/pom.xml
-    asserts_file_exist $src_folder/router-core/pom.xml
-    asserts_file_exist $src_folder/search-data-service/pom.xml
-    asserts_file_exist $src_folder/sparky-be/pom.xml
-    asserts_file_exist $src_folder/sparky-fe/pom.xml
-    asserts_file_exist $src_folder/test-config/docker-compose-app.yml
-    asserts_file_exist $src_folder/traversal/pom.xml
+    asserts_file_exist $aai_src_folder/aai-common/pom.xml
+    asserts_file_exist $aai_src_folder/aai-config/cookbooks/aai-resources/runlist-aai-resources.json
+    asserts_file_exist $aai_src_folder/aai-data/environments/solo.json
+    asserts_file_exist $aai_src_folder/aai-service/pom.xml
+    asserts_file_exist $aai_src_folder/data-router/pom.xml
+    asserts_file_exist $aai_src_folder/logging-service/pom.xml
+    asserts_file_exist $aai_src_folder/model-loader/pom.xml
+    asserts_file_exist $aai_src_folder/resources/pom.xml
+    asserts_file_exist $aai_src_folder/rest-client/pom.xml
+    asserts_file_exist $aai_src_folder/router-core/pom.xml
+    asserts_file_exist $aai_src_folder/search-data-service/pom.xml
+    asserts_file_exist $aai_src_folder/sparky-be/pom.xml
+    asserts_file_exist $aai_src_folder/sparky-fe/pom.xml
+    asserts_file_exist $aai_src_folder/test-config/docker-compose-app.yml
+    asserts_file_exist $aai_src_folder/traversal/pom.xml
 }
 
 # test_compile_aai_repos() - Verify that all the AAI Repositories complile properly
@@ -57,29 +57,29 @@ function test_compile_aai_repos {
     export compile_repo="True"
     compile_aai_repos
 
-    asserts_file_exist $src_folder/aai-common/aai-annotations/target/aai-annotations-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $src_folder/aai-common/aai-auth/target/aai-auth-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $src_folder/aai-common/aai-core/target/aai-core-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $src_folder/aai-common/aai-schema/target/aai-schema-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $aai_src_folder/aai-common/aai-annotations/target/aai-annotations-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $aai_src_folder/aai-common/aai-auth/target/aai-auth-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $aai_src_folder/aai-common/aai-core/target/aai-core-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $aai_src_folder/aai-common/aai-schema/target/aai-schema-1.1.0-SNAPSHOT.jar
 
-    asserts_file_exist $src_folder/aai-service/aai-schema/target/aai-schema-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $src_folder/aai-service/ajsc-aai/target/aai.jar
-    asserts_file_exist $src_folder/aai-service/annotations/target/annotations-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $aai_src_folder/aai-service/aai-schema/target/aai-schema-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $aai_src_folder/aai-service/ajsc-aai/target/aai.jar
+    asserts_file_exist $aai_src_folder/aai-service/annotations/target/annotations-1.1.0-SNAPSHOT.jar
 
-    asserts_file_exist $src_folder/data-router/target/data-router-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $aai_src_folder/data-router/target/data-router-1.1.0-SNAPSHOT.jar
 
-    asserts_file_exist $src_folder/logging-service/common-logging/target/common-logging-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $src_folder/logging-service/eelf-logging/target/eelf-logging-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $src_folder/logging-service/logging-api/target/logging-api-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $aai_src_folder/logging-service/common-logging/target/common-logging-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $aai_src_folder/logging-service/eelf-logging/target/eelf-logging-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $aai_src_folder/logging-service/logging-api/target/logging-api-1.1.0-SNAPSHOT.jar
 
-    asserts_file_exist $src_folder/model-loader/target/model-loader-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $src_folder/resources/aai-resources/target/aai-resources.jar
-    asserts_file_exist $src_folder/rest-client/target/rest-client-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $src_folder/router-core/target/router-core-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $src_folder/search-data-service/target/search-data-service-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $src_folder/sparky-be/target/sparky-be-1.0-SNAPSHOT.jar
-    asserts_file_exist $src_folder/sparky-fe/target/sparky-fe-1.0.0-SNAPSHOT.war
-    asserts_file_exist $src_folder/traversal/aai-traversal/target/traversal.jar
+    asserts_file_exist $aai_src_folder/model-loader/target/model-loader-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $aai_src_folder/resources/aai-resources/target/aai-resources.jar
+    asserts_file_exist $aai_src_folder/rest-client/target/rest-client-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $aai_src_folder/router-core/target/router-core-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $aai_src_folder/search-data-service/target/search-data-service-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $aai_src_folder/sparky-be/target/sparky-be-1.0-SNAPSHOT.jar
+    asserts_file_exist $aai_src_folder/sparky-fe/target/sparky-fe-1.0.0-SNAPSHOT.war
+    asserts_file_exist $aai_src_folder/traversal/aai-traversal/target/traversal.jar
 }
 
 # test_setup_titan() - Verify that Titan Cassandra DB is up and running
