@@ -5,7 +5,7 @@ set -o xtrace
 source /var/onap/functions
 
 hbase_version=1.2.3
-src_folder=$git_src_folder/aai
+aai_src_folder=$git_src_folder/aai
 aai_repos=("aai-common" "aai-config" "aai-data" "aai-service" "data-router" "logging-service" "model-loader" "resources" "rest-client" "router-core" "search-data-service" "test-config" "traversal" "sparky-fe" "sparky-be")
 
 # install_hadoop() - Function that installs Hadoop
@@ -48,7 +48,7 @@ function install_haproxy {
 # clone_all_aai_repos() - Function that clones AAI source repo.
 function clone_all_aai_repos {
     for dirc in ${aai_repos[@]}; do
-        clone_repo aai/$dirc $src_folder/$dirc
+        clone_repo aai/$dirc $aai_src_folder/$dirc
     done
 }
 
@@ -60,7 +60,7 @@ function compile_aai_repos {
     fi
 
     for dirc in ${repos[@]}; do
-        compile_src $src_folder/$dirc
+        compile_src $aai_src_folder/$dirc
     done
 }
 
@@ -71,15 +71,15 @@ function setup_titan {
 
     for dirc in resources/aai-resources traversal/aai-travers; do
         for file in titan-cached.properties titan-realtime.properties; do
-            crudini --set --existing $src_folder/$dirc/$subdirectory/$file "" storage.backend cassandra
-            crudini --set --existing $src_folder/$dirc/$subdirectory/$file "" storage.hostname localhost
+            crudini --set --existing $aai_src_folder/$dirc/$subdirectory/$file "" storage.backend cassandra
+            crudini --set --existing $aai_src_folder/$dirc/$subdirectory/$file "" storage.hostname localhost
         done
     done
 
     # Addthe schema to the local isntance
-    pushd $src_folder
+    pushd $aai_src_folder
     install_java
-    java -DAJSC_HOME=$src_folder/resources/aai-resources -DBUNDLECONFIG_DIR="bundleconfig-local" -cp aai-common/aai-core/target/aai-core-1.1.0-SNAPSHOT.jar:resources/aai-resources/target/aai-resources.jar:resources/aai-resources/target/userjars/* org.openecomp.aai.dbgen.GenTester
+    java -DAJSC_HOME=$aai_src_folder/resources/aai-resources -DBUNDLECONFIG_DIR="bundleconfig-local" -cp aai-common/aai-core/target/aai-core-1.1.0-SNAPSHOT.jar:resources/aai-resources/target/aai-resources.jar:resources/aai-resources/target/userjars/* org.openecomp.aai.dbgen.GenTester
     popd
 }
 
@@ -87,7 +87,7 @@ function setup_titan {
 function start_aai_microservices {
     MAVEN_OPTS="-Xms1024m -Xmx5120m -XX:PermSize=2024m -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=9446,server=y,suspend=n"
     for svc in resources traversal; do
-        pushd $src_folder/resources
+        pushd $aai_src_folder/resources
         mvn -P runAjsc
         popd
     done
@@ -116,7 +116,7 @@ docker_gitbranch=master
 EOL
     docker rm -f aai-service
     if [[ "$build_image" == "True" ]]; then
-        build_docker_image $src_folder/aai-service/ajsc-aai
+        build_docker_image $aai_src_folder/aai-service/ajsc-aai
     else
         pull_openecomp_image ajsc-aai
     fi
@@ -126,7 +126,6 @@ EOL
 
 # install_model_loader() Install Model Loader 
 function install_model_loader {
-    local src_folder=/opt/aai/model-loader/
     cat <<EOL > /etc/model-loader.conf
 DISTR_CLIENT_ASDC_ADDRESS=${SDC_ADDRESS:-c2.vm1.sdc.simpledemo.openecomp.org:8443}
 DISTR_CLIENT_CONSUMER_GROUP=${UEB_CONSUMER_GROUP:-SDCGroup}
@@ -145,8 +144,7 @@ EOL
 
     docker rm -f model-loader-service
     if [[ "$build_image" == "True" ]]; then
-        clone_repo aai/model-loader $src_folder
-        build_docker_image $src_folder
+        build_docker_image $aai_src_folder/model-loader/
         ARGS+="--env-file /etc/model-loader.conf model-loader"
     else
         pull_openecomp_image model-loader
