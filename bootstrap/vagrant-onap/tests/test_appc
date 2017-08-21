@@ -1,0 +1,97 @@
+#!/bin/bash
+
+source /var/onap_tests/_test_base
+source /var/onap/appc
+
+covered_functions=(
+"clone_all_appc_repos" "compile_all_appc_repos" "get_appc_images" "install_appc"
+)
+
+# test_clone_all_appc_repos() - Verify that the APPC source code is cloned
+function test_clone_all_appc_repos {
+    clone_all_appc_repos
+
+    asserts_file_exist $appc_src_folder/pom.xml
+    asserts_file_exist $appc_src_folder/deployment/pom.xml
+}
+
+# test_compile_all_appc_repos() - Verify that the APPC source code is compiled properly
+function test_compile_all_appc_repos {
+    clone_all_appc_repos
+    compile_all_appc_repos
+
+    for adapter in appc-ansible-adapter appc-chef-adapter appc-dmaap-adapter appc-iaas-adapter appc-netconf-adapter appc-rest-adapter appc-rest-healthcheck-adapter; do
+        asserts_file_exist $appc_src_folder/appc-adapters/$adapter/$adapter-bundle/target/$adapter-bundle-1.1.0-SNAPSHOT.jar
+        asserts_file_exist $appc_src_folder/appc-adapters/$adapter/$adapter-features/target/$adapter-features-1.1.0-SNAPSHOT.jar
+        if [[ "$adapter" == "appc-netconf-adapter" ]]; then
+            asserts_file_exist $appc_src_folder/appc-adapters/$adapter/appc-netconf-installer/target/$adapter-1.1.0-SNAPSHOT.zip
+        else
+            asserts_file_exist $appc_src_folder/appc-adapters/$adapter/$adapter-installer/target/$adapter-1.1.0-SNAPSHOT.zip
+        fi
+    done
+    asserts_file_exist $appc_src_folder/appc-adapters/appc-dmaap-adapter/appc-message-adapter-api/target/appc-message-adapter-api-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $appc_src_folder/appc-adapters/appc-dmaap-adapter/appc-message-adapter-factory/target/appc-message-adapter-factory-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $appc_src_folder/appc-adapters/appc-ssh-adapter/appc-ssh-adapter-api/target/appc-ssh-adapter-api-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $appc_src_folder/appc-adapters/appc-ssh-adapter/appc-ssh-adapter-features/target/appc-ssh-adapter-features-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $appc_src_folder/appc-adapters/appc-ssh-adapter/appc-ssh-adapter-sshd/target/appc-ssh-adapter-sshd-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $appc_src_folder/appc-adapters/appc-ssh-adapter/appc-ssh-adapter-tests/target/appc-ssh-adapter-tests-1.1.0-SNAPSHOT.jar
+
+    for component in appc-asdc-listener appc-event-listener appc-oam appc-provider; do
+        asserts_file_exist $appc_src_folder/$component/$component-bundle/target/$component-bundle-1.1.0-SNAPSHOT.jar
+        asserts_file_exist $appc_src_folder/$component/$component-features/target/$component-features-1.1.0-SNAPSHOT.jar
+        asserts_file_exist $appc_src_folder/$component/$component-installer/target/$component-1.1.0-SNAPSHOT.zip
+    done
+    for component in appc-oam appc-provider; do
+        asserts_file_exist $appc_src_folder/$component/$component-model/target/$component-model-1.1.0-SNAPSHOT.jar
+    done
+
+    asserts_file_exist $appc_src_folder/appc-asdc-listener/appc-yang-generator/target/appc-yang-generator-1.1.0-SNAPSHOT.jar
+
+    asserts_file_exist $appc_src_folder/appc-common/target/appc-common-1.1.0-SNAPSHOT.jar
+
+    asserts_file_exist $appc_src_folder/appc-dg/appc-dg-shared/appc-dg-dependency-model/target/appc-dg-dependency-model-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $appc_src_folder/appc-dg/appc-dg-shared/appc-dg-domain-model-lib/target/appc-dg-domain-model-lib-1.1.0-SNAPSHOT.jar
+
+    asserts_file_exist $appc_src_folder/appc-dispatcher/appc-command-executor/appc-command-executor-api/target/appc-command-executor-api-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $appc_src_folder/appc-dispatcher/appc-dispatcher-common/appc-data-access-lib/target/appc-data-access-lib-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $appc_src_folder/appc-dispatcher/appc-dispatcher-common/domain-model-lib/target/domain-model-lib-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $appc_src_folder/appc-dispatcher/appc-dispatcher-common/execution-queue-management-lib/target/execution-queue-management-lib-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $appc_src_folder/appc-dispatcher/appc-license-manager/appc-license-manager-api/target/appc-license-manager-api-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $appc_src_folder/appc-dispatcher/appc-request-handler/appc-request-handler-api/target/appc-request-handler-api-1.1.0-SNAPSHOT.jar
+
+
+    asserts_file_exist $appc_src_folder/appc-lifecycle-management/appc-lifecycle-management-api/target/appc-lifecycle-management-api-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $appc_src_folder/appc-lifecycle-management/appc-lifecycle-management-core/target/appc-lifecycle-management-core-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $appc_src_folder/appc-lifecycle-management/appc-lifecycle-management-features/target/appc-lifecycle-management-features-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $appc_src_folder/appc-lifecycle-management/appc-lifecycle-management-installer/target/appc-lifecycle-management-1.1.0-SNAPSHOT.zip
+    asserts_file_exist $appc_src_folder/appc-lifecycle-management/state-machine-lib/target/state-machine-lib-1.1.0-SNAPSHOT.jar
+
+    asserts_file_exist $appc_src_folder/appc-metric/appc-metric-bundle/target/appc-metric-bundle-1.1.0-SNAPSHOT.jar
+
+    asserts_file_exist $appc_src_folder/deployment/platform-logic/installer/target/platform-logic-installer-1.1.0-SNAPSHOT.zip
+}
+
+# test_get_appc_images() - Verify that APPC Docker images can be retrieved
+function test_get_appc_images {
+    clone_all_appc_repo
+    get_appc_images
+
+    asserts_image openecomp/appc-image
+}
+
+# test_install_appc() - Verify that the APPC Docker images are up and running
+function test_install_appc {
+    clone_all_appc_repos
+    get_appc_images
+    install_appc
+
+    asserts_image_running openecomp/dgbuilder-sdnc-image
+    asserts_image_running openecomp/appc-image
+    asserts_image_running mysql/mysql-server:5.6
+}
+
+if [ "$1" != '*' ]; then
+    unset covered_functions
+    covered_functions=$1
+fi
+main "${covered_functions[@]}"
