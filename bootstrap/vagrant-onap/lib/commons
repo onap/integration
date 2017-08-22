@@ -31,11 +31,32 @@ function is_package_installed {
     dpkg -s "$@" > /dev/null 2> /dev/null
 }
 
+# install_packages() - Install a list of packages
+function install_packages {
+    local package=$@
+    update_repos
+    apt-get install -y -qq $package
+}
+
 # install_package() - Install specific package if doesn't exist
 function install_package {
     local package=$1
     if ! is_package_installed $package; then
         update_repos
         apt-get install -y -qq $package
+    fi
+}
+
+# uninstall_packages() - Uninstall a list of packages
+function uninstall_packages {
+    local packages=$@
+    apt-get purge -y -qq $packages
+}
+
+# uninstall_package() - Uninstall specific package if exists
+function uninstall_package {
+    local package=$1
+    if is_package_installed $package; then
+        apt-get purge -y -qq $package
     fi
 }

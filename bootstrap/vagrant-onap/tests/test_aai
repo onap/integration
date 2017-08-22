@@ -54,7 +54,6 @@ function test_clone_all_aai_repos {
 # test_compile_aai_repos() - Verify that all the AAI Repositories complile properly
 function test_compile_aai_repos {
     clone_all_aai_repos
-    export compile_repo="True"
     compile_aai_repos
 
     asserts_file_exist $aai_src_folder/aai-common/aai-annotations/target/aai-annotations-1.1.0-SNAPSHOT.jar
@@ -84,13 +83,19 @@ function test_compile_aai_repos {
 
 # test_setup_titan() - Verify that Titan Cassandra DB is up and running
 function test_setup_titan {
+    clone_all_aai_repos
+    install_hadoop
     setup_titan
+
+    # TODO(electrocucaracha): Validate the DB creation
 }
 
 # test_start_aai_microservices() - Verify that AAI Resources and Traversal images works
 function test_start_aai_microservices {
     clone_all_aai_repos
     start_aai_microservices
+
+    # TODO(electrocucaracha): Investigate how to run AAI microservices in background
 }
 
 # test_install_hbase() - Verify that AAI HBase service is up and running properly

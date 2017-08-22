@@ -33,14 +33,18 @@ function install_hadoop {
 
 # install_haproxy() - Function that install HAProxy
 function install_haproxy {
+    if is_package_installed haproxy; then
+        return
+    fi
+    install_package software-properties-common
+    add-apt-repository -y ppa:vbernat/haproxy-1.7
     install_package haproxy
-    sed -i "s|ENABLED=0|ENABLED=1|g" /etc/default/haproxy
-#    cp /var/onap/files/haproxy.cfg /etc/haproxy/
+    cp /var/onap/files/haproxy.cfg /etc/haproxy/
     cp /var/onap/files/aai.pem /etc/ssl/private/
     chmod 640 /etc/ssl/private/aai.pem
     chown root:ssl-cert /etc/ssl/private/aai.pem
     mkdir /usr/local/etc/haproxy
-    echo "127.0.0.1 localhost aai-traversal.api.simpledemo.openecomp.org aai-resources.api.simpledemo.openecomp.org" >> /etc/hosts
+    #echo "127.0.0.1 localhost aai-traversal.api.simpledemo.openecomp.org aai-resources.api.simpledemo.openecomp.org" >> /etc/hosts
 
     service haproxy restart
 }
@@ -66,26 +70,28 @@ function compile_aai_repos {
 
 # setup_titan() - Function that configures AAI services to connect to Hadoop Titan
 function setup_titan {
-    local $subdirectory=bundleconfig-local/etc/appprops
+    local subdirectory="bundleconfig-local/etc/appprops"
     install_python_package crudini
 
-    for dirc in resources/aai-resources traversal/aai-travers; do
+    for dirc in resources/aai-resources traversal/aai-traversal; do
         for file in titan-cached.properties titan-realtime.properties; do
-            crudini --set --existing $aai_src_folder/$dirc/$subdirectory/$file "" storage.backend cassandra
-            crudini --set --existing $aai_src_folder/$dirc/$subdirectory/$file "" storage.hostname localhost
+            crudini --set "$aai_src_folder/$dirc/$subdirectory/$file" "" "storage.backend" "cassandra"
+            crudini --set "$aai_src_folder/$dirc/$subdirectory/$file" "" "storage.hostname" "localhost"
         done
     done
 
-    # Addthe schema to the local isntance
+    # Add the schema to the local isntance
+    compile_src $aai_src_folder/resources/aai-resources/
+    uninstall_packages default-jre openjdk-7-jdk openjdk-7-jre openjdk-7-jre-headless
     pushd $aai_src_folder
-    install_java
     java -DAJSC_HOME=$aai_src_folder/resources/aai-resources -DBUNDLECONFIG_DIR="bundleconfig-local" -cp aai-common/aai-core/target/aai-core-1.1.0-SNAPSHOT.jar:resources/aai-resources/target/aai-resources.jar:resources/aai-resources/target/userjars/* org.openecomp.aai.dbgen.GenTester
     popd
 }
 
 # start_aai_microservices() - Function that starts AAI microservices
 function start_aai_microservices {
-    MAVEN_OPTS="-Xms1024m -Xmx5120m -XX:PermSize=2024m -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=9446,server=y,suspend=n"
+    install_maven
+    export MAVEN_OPTS="-Xms1024m -Xmx5120m -XX:PermSize=2024m -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=9446,server=y,suspend=n"
     for svc in resources traversal; do
         pushd $aai_src_folder/resources
         mvn -P runAjsc

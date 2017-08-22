@@ -58,15 +58,12 @@ function clone_repo {
 
 # install_dev_tools() - Install basic dependencies
 function install_dev_tools {
-    install_package apt-transport-https
-    install_package ca-certificates
-    install_package curl
+    install_packages apt-transport-https ca-certificates curl
 }
 
 # _install_bind() - Install bind utils
 function _install_bind {
-    install_package bind9
-    install_package bind9utils
+    install_packages bind9 bind9utils
 }
 
 # install_java() - Install java binaries
@@ -76,6 +73,10 @@ function install_java {
     fi
     install_package software-properties-common
     add-apt-repository -y ppa:openjdk-r/ppa
+
+    # Remove Java 7
+    uninstall_packages default-jre openjdk-7-jdk openjdk-7-jre openjdk-7-jre-headless
+
     install_package openjdk-8-jdk
     # ca-certificates-java is not a dependency in the Oracle JDK/JRE so this must be explicitly installed.
     /var/lib/dpkg/info/ca-certificates-java.postinst configure
@@ -91,8 +92,8 @@ function install_maven {
     add-apt-repository -y ppa:andrei-pozolotin/maven3
     install_package maven3
 
-    # Force Maven3 to use jdk8
-    apt-get purge openjdk-7-jdk -y
+    # Remove Java 7
+    uninstall_package openjdk-7-jdk
 
     _configure_maven
 }
@@ -124,8 +125,7 @@ function install_nodejs {
 
 # install_python() - Install Python 2.7 and other tools necessary for development.
 function install_python {
-    install_package python2.7
-    install_package python-dev
+    install_packages python2.7 python-dev
 }
 
 # _install_pip() - Install Python Package Manager
