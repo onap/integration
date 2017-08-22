@@ -78,7 +78,7 @@ case $COMMAND in
 
         export TEST_SUITE=$test_suite
         export TEST_CASE=$test_case
-        rm -rf ../opt/
+        rm -rf ./opt/
         rm -rf ~/.m2/
         ;;
     * )
