@@ -183,7 +183,7 @@ function init_aai {
     compile_aai_repos
 
     setup_titan
-    start_aai_microservices
+    #start_aai_microservices
 
     mkdir -p /opt/openecomp/aai/logs
     mkdir -p /opt/openecomp/aai/data

@@ -69,7 +69,7 @@ tool.
 
 This results in the creation of a new *doc/build/html* folder with
 the documentation converted in HTML pages that can be viewed through
-the prefered Web Browser.
+the preferred Web Browser.
 
 ## Contributing
 

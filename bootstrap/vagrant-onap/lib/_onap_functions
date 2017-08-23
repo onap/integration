@@ -66,6 +66,7 @@ function _configure_maven {
         fi
     fi
 
+    mkdir -p $(dirname $mvn_conf_file)
     if [ ! -f $mvn_conf_file ]; then
         if [[ "$enable_oparent" == "True" ]]; then
             clone_repo oparent
