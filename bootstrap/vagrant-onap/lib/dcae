@@ -72,7 +72,7 @@ function compile_all_dcae_repos {
     done
 }
 
-# _build_dcae_images() Function taht builds DCAE docker images from source code.
+# _build_dcae_images() Function that builds DCAE docker images from source code.
 function _build_dcae_images {
     if [[ "$compile_repo" != "True" ]]; then
         compile_src $dcae_src_folder/dmaapbc
