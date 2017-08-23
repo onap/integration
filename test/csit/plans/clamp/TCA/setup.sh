@@ -25,6 +25,9 @@ cd $WORKSPACE/archives/clamp-clone
 git clone --depth 1 http://gerrit.onap.org/r/clamp -b master
 cd clamp/extra/docker/clamp/
 
+# Pull the Clamp docker image from nexus instead of local image by default in the docker-compose.yml
+sed -i '/image: onap\/clamp/c\    image: nexus3.onap.org:10001\/onap\/clamp' docker-compose.yml
+
 # start Clamp and MariaDB containers with docker compose and configuration from clamp/extra/docker/clamp/docker-compose.yml
 docker-compose up -d
 
