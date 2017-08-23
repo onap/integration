@@ -7,8 +7,7 @@ source /var/onap/asserts
 
 # install_mariadb() - Pull and create a MariaDB container
 function install_mariadb {
-    is_package_installed docker-ce || install_docker
-    docker pull mariadb
+    pull_docker_image mariadb
     docker create --name data_vol_portal -v /var/lib/mysql mariadb
 }
 
