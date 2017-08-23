@@ -17,37 +17,10 @@
 # Modifications copyright (c) 2017 AT&T Intellectual Property
 #
 # Place the scripts in run order:
-source ${WORKSPACE}/test/csit/scripts/clamp/script1.sh
 
-# Clone Clamp repo to get extra folder that has all needed to run docker with docker-compose to start DB and Clamp
-mkdir -p $WORKSPACE/archives/clamp-clone
-cd $WORKSPACE/archives/clamp-clone
-git clone --depth 1 http://gerrit.onap.org/r/clamp -b master
-cd clamp/extra/docker/clamp/
+source ${WORKSPACE}/test/csit/scripts/clamp/clone_clamp_and_change_dockercompose.sh
 
-# start Clamp and MariaDB containers with docker compose and configuration from clamp/extra/docker/clamp/docker-compose.yml
-docker-compose up -d
-
-# WAIT 5 minutes maximum and test every 5 seconds if Clamp up using HealthCheck API
-TIME_OUT=300
-INTERVAL=5
-TIME=0
-while [ "$TIME" -lt "$TIME_OUT" ]; do
-  response=$(curl --write-out '%{http_code}' --silent --output /dev/null http://localhost:8080/restservices/clds/v1/clds/healthcheck); echo $response
-
-  if [ "$response" == "200" ]; then
-    echo Clamp and its database well started in $TIME seconds
-    break;
-  fi
-
-  echo Sleep: $INTERVAL seconds before testing if Clamp is up. Total wait time up now is: $TIME seconds. Timeout is: $TIME_OUT seconds
-  sleep $INTERVAL
-  TIME=$(($TIME+$INTERVAL))
-done
-
-if [ "$TIME" -ge "$TIME_OUT" ]; then
-   echo TIME OUT: Docker containers not started in $TIME_OUT seconds... Could cause problems for tests...
-fi
+source ${WORKSPACE}/test/csit/scripts/clamp/start_clamp_containers.sh
 
 # Pass any variables required by Robot test suites in ROBOT_VARIABLES
 #ROBOT_VARIABLES="-v TEST:${TEST}"
