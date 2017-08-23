@@ -8,6 +8,7 @@ Advanced features
    :maxdepth: 1
 
    openstack.rst
+   consuming_scripts.rst
 
 This chapter explains how to use ONAP on Vagrant Advanced features
 like different providers.
