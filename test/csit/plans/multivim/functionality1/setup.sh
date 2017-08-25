@@ -17,18 +17,24 @@
 # Place the scripts in run order:
 # Start all process required for executing test case
 
-source ${SCRIPTS}/common_functions.sh
+# start msb
+# Replace this when msb is ready for onap
+docker run -d --name i-msb -p 80:80 openoint/common-services-msb
+MSB_IP=`get-instance-ip.sh i-msb`
+
+# start esr
+# docker run -d --name i-esr -e MSB_ADDR=${MSB_IP}:80 openoint/common-services-extsys
 
 # start multivim-broker
-run-instance.sh openoint/multivim-broker multivim-broker  " -i -t -e MSB_ADDR=${MSB_IP}:80"
-extsys_ip=`get-instance-ip.sh multivim-broker`
-sleep_msg="Waiting_for_multivim-broker"
-curl_path='http://'${MSB_IP}':80/openoapi/multivim/v1/swagger.json'
-wait_curl_driver CURL_COMMAND=$curl_path WAIT_MESSAGE='"$sleep_msg"' REPEAT_NUMBER=25 GREP_STRING="swagger"
+# Replace this when multivim-broker container is ready
+docker run -d --name multivim-broker -e MSB_ADDR=${MSB_IP}:80 openoint/multivim-broker
+BROKER_IP=`get-instance-ip.sh multivim-broker`
+for i in {1..50}; do
+    curl -sS ${BROKER_IP}:9001 && break
+    echo sleep $i
+    sleep $i
+done
 
 echo SCRIPTS
 # Pass any variables required by Robot test suites in ROBOT_VARIABLES
-ROBOT_VARIABLES="-v MSB_IP:${MSB_IP}  -v SCRIPTS:${SCRIPTS}"
-
-
-
+ROBOT_VARIABLES="-v MSB_IP:${MSB_IP}"

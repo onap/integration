@@ -1,16 +1,12 @@
 *** settings ***
-Resource    ../../common.robot
 Library     Collections
 Library     RequestsLibrary
 Library     OperatingSystem
 Library     json
-Library     HttpLibrary.HTTP
 
 *** Variables ***
 @{return_ok_list}=   200  201  202
 ${queryswagger_broker_url}    /openoapi/multivim/v1/swagger.json
-${queryswagger_kilo_url}    /openoapi/multivim-kilo/v1/swagger.json
-${queryswagger_newton_url}    /openoapi/multivim-newton/v1/swagger.json
 
 
 *** Test Cases ***
