@@ -37,6 +37,7 @@ Good Login to Clamp UI and Verify logged in
     Element Text Should Be      xpath=//*[@class="navbar-brand logo_name ng-binding"]       expected=Hello:admin
 
 Create Template from Menu
+    Wait Until Element Is Visible       xpath=//*[@id="navbar"]/ul/li[1]/a       timeout=60
     Click Element    xpath=//*[@id="navbar"]/ul/li[1]/a
     Wait Until Element Is Visible       locator=Create Template       timeout=60
     Click Element    locator=Create Template
