@@ -3,12 +3,12 @@
 set -o xtrace
 
 source /var/onap/functions
-source /var/onap/asserts
 
-src_folder=$git_src_folder/sdc
+sdc_src_folder=$git_src_folder/sdc
+sdc_repos=("sdc-os-chef" "jtosca" "sdc-distribution-client" "sdc-titan-cassandra" "sdc-tosca" "sdc_common")
 
-# mount_external_partition() - Create partition and mount the external volume
-function mount_external_partition {
+# _mount_external_partition() - Create partition and mount the external volume
+function _mount_external_partition {
     cat <<EOL > /tmp/asdc_ext_volume_partitions.txt
 # partition table of /dev/sdb
 unit: sectors
@@ -25,8 +25,8 @@ EOL
     echo "/dev/sdb1  /data           ext4    errors=remount-ro,noatime,barrier=0 0       1" >> /etc/fstab
 }
 
-# init_data_folders() - Function that initialize the data folders
-function init_data_folders {
+# _init_data_folders() - Function that initialize the data folders
+function _init_data_folders {
     mkdir -p /data/environments
     mkdir -p /data/scripts
     mkdir -p /data/logs/BE
@@ -35,8 +35,8 @@ function init_data_folders {
     chmod 777 /data/logs
 }
 
-# setup_docker_aliases() - Function that setups the aliases required by sdc scripts
-function setup_docker_aliases {
+# _setup_docker_aliases() - Function that setups the aliases required by sdc scripts
+function _setup_docker_aliases {
     cat <<EOL > /root/.bash_aliases
 alias dcls='/data/scripts/docker_clean.sh \$1'
 alias dlog='/data/scripts/docker_login.sh \$1'
@@ -47,21 +47,34 @@ EOL
 
 # clone_all_sdc_repos() - Function that clones SDC source repo.
 function clone_all_sdc_repos {
-    clone_repo sdc $src_folder
+    clone_repo sdc $sdc_src_folder
 
-    for dirc in sdc-os-chef jtosca sdc-distribution-client sdc-titan-cassandra sdc-tosca sdc_common ; do
-        clone_repo sdc/$dirc $src_folder/$dirc
+    for dirc in ${sdc_repos[@]}; do
+        clone_repo sdc/$dirc $sdc_src_folder/$dirc
     done
 }
 
 # compile_all_sdc_repos() - Function that compiles SDC source repo.
 function compile_all_sdc_repos {
-    local src_folder=/opt/sdc
-    clone_repo sdc $src_folder
+    clone_repo sdc $sdc_src_folder
 
-    for dirc in jtosca sdc-distribution-client sdc-titan-cassandra sdc-tosca sdc_common ; do
-        compile_src $src_folder/$dirc
+    for dirc in ${sdc_repos[@]}; do
+        compile_src $sdc_src_folder/$dirc
     done
+}
+
+# get_sdc_images() - Function that retrieves the SDC docker images
+function get_sdc_images {
+    if [[ "$build_image" == "True" ]]; then
+        if [[ "$compile_repo" != "True" ]]; then
+            compile_src $sdc_src_folder
+        fi
+        build_docker_image $sdc_src_folder/sdc-os-chef docker
+    else
+        for image in backend frontend elasticsearch kibana cassandra sanity; do
+            pull_openecomp_image  openecomp/sdc-$image
+        done
+    fi
 }
 
 # install_sdc() - Function that pull templates and executes
@@ -71,16 +84,10 @@ function install_sdc {
     local RELEASE=$docker_version
     NEXUS_DOCKER_PORT=$(echo $nexus_docker_repo | cut -d':' -f2)
 
-    if [[ "$build_image" == "True" ]]; then
-        compile_src $src_folder
-        build_docker_image $src_folder/sdc-os-chef docker
-        for image in backend frontend elasticsearch kibana cassandra sanity; do
-            asserts_image openecomp/sdc-$image
-        done
-    fi
-    cp $src_folder/sdc-os-chef/environments/Template.json /data/environments
-    cp $src_folder/sdc-os-chef/scripts/docker_run.sh /data/scripts
-    cp $src_folder/sdc-os-chef/scripts/docker_health.sh /data/scripts
+    _init_data_folders
+    cp $sdc_src_folder/sdc-os-chef/environments/Template.json /data/environments
+    cp $sdc_src_folder/sdc-os-chef/scripts/docker_run.sh /data/scripts
+    cp $sdc_src_folder/sdc-os-chef/scripts/docker_health.sh /data/scripts
     chmod +x /data/scripts/docker_run.sh
     chmod +x /data/scripts/docker_health.sh
 
@@ -98,14 +105,14 @@ function install_sdc {
 
 # init_asdc() - Function that initialize SDC services
 function init_asdc {
-    mount_external_partition
-    init_data_folders
-    setup_docker_aliases
+    _mount_external_partition
     if [[ "$clone_repo" == "True" ]]; then
         clone_all_sdc_repos
         if [[ "$compile_repo" == "True" ]]; then
             compile_all_sdc_repos
         fi
     fi
+    get_sdc_images
     install_sdc
+    _setup_docker_aliases
 }
