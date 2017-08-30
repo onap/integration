@@ -3,53 +3,74 @@
 set -o xtrace
 
 source /var/onap/functions
-source /var/onap/asserts
 
-# install_mariadb() - Pull and create a MariaDB container
-function install_mariadb {
-    pull_docker_image mariadb
-    docker create --name data_vol_portal -v /var/lib/mysql mariadb
+policy_src_folder=$git_src_folder/portal
+policy_repos=("sdk")
+
+# clone_all_portal_repos() - Function that clones Portal source repo.
+function clone_all_portal_repos {
+    clone_repo portal $policy_src_folder
+    clone_repo ecompsdkos $policy_src_folder/ecompsdkos
+    clone_repo "ui/dmaapbc" $policy_src_folder/dmaapbc
+
+    for dirc in ${policy_repos[@]}; do
+        clone_repo portal/$dirc $policy_src_folder/$dirc
+    done
 }
 
-# install_portal() - Function that pulls and install the source code of Portal
-function install_portal {
-    local src_folder=/opt/portal
-    clone_repo portal $src_folder
-    clone_repo portal/sdk $src_folder/sdk
-    install_docker
-    docker rm -f ecompdb_portal
-    docker rm -f 1610-1
-    pushd $src_folder/deliveries
-    if [[ "$build_image" == "True" ]]; then
-        install_maven
+# compile_all_portal_repos() - Function that compiles Portal source repo.
+function compile_all_portal_repos {
+    compile_src $policy_src_folder
 
-        clone_repo ecompsdkos $src_folder/ecompsdkos
-        clone_repo "ui/dmaapbc" $src_folder/dmaapbc
-        chmod +x *.sh
-        export MVN=$(which mvn)
-        export GLOBAL_SETTINGS_FILE=/usr/share/maven3/conf/settings.xml
-        export SETTINGS_FILE=$HOME/.m2/settings.xml
-        bash run.sh
-        compile_src $src_folder/ecomp-portal-widget-ms
-        build_docker_image $src_folder/ecomp-portal-widget-ms
+    for dirc in ${policy_repos[@]}; do
+        compile_src $policy_src_folder/$dirc
+    done
+}
+
+# _build_portal_images() - Function that builds Portal Docker images from source code
+function _build_portal_images {
+    install_maven
+
+    pushd $policy_src_folder/deliveries
+    chmod +x *.sh
+    export MVN=$(which mvn)
+    export GLOBAL_SETTINGS_FILE=/usr/share/maven3/conf/settings.xml
+    export SETTINGS_FILE=$HOME/.m2/settings.xml
+    bash build_portalapps_dockers.sh
+    compile_src $policy_src_folder/ecomp-portal-widget-ms
+    build_docker_image $policy_src_folder/ecomp-portal-widget-ms
+    popd
+}
+
+# get_portal_images() - Function to get Portal images.
+function get_portal_images {
+    if [[ "$build_image" == "True" ]]; then
+        _build_portal_images
     else
         pull_openecomp_image portaldb ecompdb:portal
         pull_openecomp_image portalapps ep:1610-1
-
     fi
-    for image in ecompdb:portal ep:1610-1; do
-        asserts_image $image
-    done
+    pull_docker_image mariadb
+}
 
-    chmod +x new_start.sh
-    chmod +x new_stop.sh
-    chmod +x dbstart.sh
+# _install_mariadb() - Pull and create a MariaDB container
+function _install_mariadb {
+    docker create --name data_vol_portal -v /var/lib/mysql mariadb
+}
+
+# install_portal() - Function that installs the source code of Portal
+function install_portal {
+    install_docker
+    docker rm -f ecompdb_portal
+    docker rm -f 1610-1
+
+    pushd $policy_src_folder/deliveries
     mkdir -p /PROJECT/OpenSource/UbuntuEP/logs
     install_package unzip
     unzip -o etc.zip -d /PROJECT/OpenSource/UbuntuEP/
 
-    bash dbstart.sh
-    bash new_start.sh
+    install_docker_compose
+    bash portal_vm_init.sh
 
     sleep 180
 
@@ -63,6 +84,13 @@ function install_portal {
 
 # init_portal() - Function that initialize Portal services
 function init_portal {
-    install_mariadb
+    if [[ "$clone_repo" == "True" ]]; then
+        clone_all_portal_repos
+        if [[ "$compile_repo" == "True" ]]; then
+            compile_all_portal_repos
+        fi
+    fi
+    get_portal_images
+    _install_mariadb
     install_portal
 }
