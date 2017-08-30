@@ -4,11 +4,11 @@ set -o xtrace
 
 source /var/onap/functions
 
-src_folder=$git_src_folder/dcae/message-router
+mr_src_folder=$git_src_folder/dcae/message-router
 
 # clone_mr_repos() - Function that clones the Message Router repositories
 function clone_mr_repos {
-    clone_repo dcae/demo/startup/message-router $src_folder
+    clone_repo dcae/demo/startup/message-router $mr_src_folder
 }
 
 # get_mr_images() - Function that retrieves the Message Router Docker images
@@ -21,7 +21,7 @@ function get_mr_images {
 function install_message_router {
     install_docker_compose
 
-    pushd $src_folder
+    pushd $mr_src_folder
     bash deploy.sh
     popd
 }

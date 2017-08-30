@@ -11,7 +11,7 @@ covered_functions=(
 function test_clone_mr_repos {
     clone_mr_repos
 
-    asserts_file_exist $src_folder/deploy.sh
+    asserts_file_exist $mr_src_folder/deploy.sh
 }
 
 # test_get_mr_images() - Verify that Message Router Docker images are retrieved
