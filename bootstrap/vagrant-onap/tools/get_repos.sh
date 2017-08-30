@@ -19,7 +19,7 @@ repos=(
 
 function git_clone_or_pull {
     local repo=$1
-    local folder="../opt/$1"
+    local folder="./opt/$1"
     local mvn_build=$2
     if [ ! -d $folder ]; then
         git clone https://git.onap.org/$repo $folder
@@ -29,9 +29,6 @@ function git_clone_or_pull {
     if [ -f .gitreview ]; then
         git review -s
     fi
-    #if [ -f pom.xml ] && [ -n ${mvn_build+x} ]; then
-        #mvn clean -q install -U -DskipTests=true -Dmaven.test.skip=true -Dadditionalparam=-Xdoclint:none
-    #fi
     popd > /dev/null
 }
 
