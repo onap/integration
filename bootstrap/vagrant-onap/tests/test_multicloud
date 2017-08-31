@@ -1,0 +1,38 @@
+#!/bin/bash
+
+source /var/onap_tests/_test_base
+source /var/onap/multicloud
+
+covered_functions=(
+"clone_multicloud_repos" "compile_multicloud_repos" "install_multicloud"
+)
+
+# test_clone_multicloud_repos() - Verify that Multi Cloud repositories are cloned properly
+function test_clone_multicloud_repos {
+    clone_multicloud_repos
+
+    asserts_file_exist $multicloud_src_folder/framework/multivimbroker/pom.xml
+    asserts_file_exist $multicloud_src_folder/openstack/pom.xml
+    asserts_file_exist $multicloud_src_folder/openstack/vmware/pom.xml
+}
+
+# test_compile_multicloud_repos() -
+function test_compile_multicloud_repos {
+    clone_multicloud_repos
+    compile_multicloud_repos
+
+    asserts_file_exist $multicloud_src_folder/openstack/newton/target/multicloud-openstack-newton-1.0.0-SNAPSHOT.zip
+    asserts_file_exist $multicloud_src_folder/openstack/vmware/vio/target/multivimdriver-vio-1.1.0-SNAPSHOT.zip
+}
+
+# test_install_multicloud() - Verify the built and start of Multi Cloud services
+function test_install_multicloud {
+    clone_multicloud_repos
+    install_multicloud
+}
+
+if [ "$1" != '*' ]; then
+    unset covered_functions
+    covered_functions=$1
+fi
+main "${covered_functions[@]}"

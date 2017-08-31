@@ -54,7 +54,8 @@ current options include:
 | sdc        | Service Design & Creation           |
 | sdnc       | Software Defined Network Controller |
 | vid        | Virtual Infrastructure Development  |
-| vfc        | Virtual Function Controller (WIP)   |
+| vfc        | Virtual Function Controller         |
+| multicloud | Multi Cloud                         |
 | all_in_one | All ONAP services in a VM           |
 | testing    | Unit Test VM                        |
 
