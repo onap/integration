@@ -4,27 +4,27 @@ set -o xtrace
 
 source /var/onap/functions
 
-src_folder=$git_src_folder/policy
+policy_src_folder=$git_src_folder/policy
 policy_repos=("api" "common" "docker" "drools-applications" "drools-pdp" "engine" "gui" "pap" "pdp")
 
 # clone_all_policy_repos() - Function that clones Policy source repo.
 function clone_all_policy_repos {
     for dirc in ${policy_repos[@]}; do
-        clone_repo policy/$dirc $src_folder/$dirc
+        clone_repo policy/$dirc $policy_src_folder/$dirc
     done
 }
 
 # compile_all_policy_repos() - Function that compiles Policy source repo.
 function compile_all_policy_repos {
-    for dirc in ${aai_repos[@]}; do
-        compile_src $src_folder/$dirc
+    for dirc in ${policy_repos[@]}; do
+        compile_src $policy_src_folder/$dirc
     done
 }
 
 # _build_policy_images() - Function that build Policy docker images from source code
 function _build_policy_images {
-    compile_src $src_folder/docker
-    pushd $src_folder/docker
+    compile_src $policy_src_folder/docker
+    pushd $policy_src_folder/docker
     install_maven
     mvn prepare-package
     cp -r target/policy-pe/* policy-pe/
@@ -48,7 +48,7 @@ function get_policy_images {
 
 # install_policy() - Function that clones and installs the Policy services from source code
 function install_policy {
-    pushd $src_folder/docker
+    pushd $policy_src_folder/docker
     chmod +x config/drools/drools-tweaks.sh
     echo $IP_ADDRESS > config/pe/ip_addr.txt
     install_docker_compose
