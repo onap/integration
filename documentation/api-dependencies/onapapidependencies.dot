@@ -15,7 +15,7 @@
  */
 
 /*
-Usage: dot -T png -O onapapidependecies.dot   This cmd will generate a png graph dependency file.
+Usage: dot -T png -O onapapidependencies.dot   This cmd will generate a png graph dependency file.
 Graphiz is the open source tool used to generate the graph.
 Graphiz is available and documented at http://www.graphviz.org
 This text file represents the API dependencies between ONAP projects
@@ -61,6 +61,8 @@ aai -> msb;
 appc -> aai;			//https://wiki.onap.org/pages/viewpage.action?pageId=6593279#APPCM1ReleasePlanning(AmsterdamRelease)-APIIncomingDependencies
 appc -> multicloud;
 appc -> sdc;
+appc -> ccsdk;
+appc -> dmaap;
 ccsdk -> aai;			//https://wiki.onap.org/display/DW/Release+Planning+Template+%3A+CCSDK+Amsterdam+Release#ReleasePlanningTemplate:CCSDKAmsterdamRelease-APIIncomingDependencies
 ccsdk -> sdc;
 clamp -> dcaegen2;		//https://wiki.onap.org/display/DW/CLAMP+Release+Planning+M1#CLAMPReleasePlanningM1-APIIncomingDependencies
@@ -72,7 +74,8 @@ cli -> msb;
 dcaegen2 -> dmaap;		//https://wiki.onap.org/display/DW/DCAE+R1+Release+Planning#DCAER1ReleasePlanning-APIIncomingDependencies
 dcaegen2 -> multicloud;
 dcaegen2 -> policy;
-dcaegen2 -> sdc;			
+dcaegen2 -> sdc;
+dmaap -> aaf;			//https://wiki.onap.org/display/DW/DMaaP+Amsterdam+M1+Release#DMaaPAmsterdamM1Release-APIIncomingDependencies			
 extapi -> so;			//https://wiki.onap.org/pages/viewpage.action?pageId=8227006#ExternalAPIFrameworkM1ReleasePlanning(AmsterdamRelease)-APIIncomingDependencies		
 extapi -> sdc;
 holmes -> aai;			//https://wiki.onap.org/pages/viewpage.action?pageId=6593583#HolmesReleasePlanningforAmsterdam-APIIncomingDependencies		
@@ -85,11 +88,13 @@ oom -> msb;				//https://wiki.onap.org/display/DW/OOM+M1+Release+Planning+Templa
 policy -> aai;			//https://wiki.onap.org/display/DW/Policy+Framework+R1+-+M1+Release+Planning+Template#PolicyFrameworkR1-M1ReleasePlanningTemplate-APIIncomingDependencies
 policy -> appc;
 policy -> dcaegen2;
+policy -> dmaap;
 policy -> vfc;
 policy -> so;
 portal -> aaf;			//https://wiki.onap.org/pages/viewpage.action?pageId=8227559#PortalPlatformM1ReleasePlanning(AmsterdamRelease)-APIIncomingDependencies
 sdnc -> aai;			//https://wiki.onap.org/display/DW/Release+Planning+Template+%3A+SDNC+Amsterdam+Release#ReleasePlanningTemplate:SDNCAmsterdamRelease-APIIncomingDependencies
 sdnc -> sdc;
+sdnc -> dmaap;
 so -> aai;				//https://wiki.onap.org/display/DW/Service+Orchestrator+Release+Planning#ServiceOrchestratorReleasePlanning-APIIncomingDependencies
 so -> appc;
 so -> multicloud;
