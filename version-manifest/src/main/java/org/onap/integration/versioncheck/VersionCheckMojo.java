@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.onap.oparent.versioncheck;
+package org.onap.integration.versioncheck;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
