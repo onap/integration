@@ -1,0 +1,51 @@
+tosca_definitions_version: cloudify_dsl_1_2
+
+imports:
+- http://www.getcloudify.org/spec/cloudify/3.3.1/types.yaml
+- http://135.207.127.211/1607_prod/type_files/cdap_app.yaml
+
+node_templates:
+  MTCA:
+    type: dcae.nodes.cdap_app
+    properties:
+      service_name: "cdap-mtca-central"
+      deployment_JSON: |-
+          {
+            "clusterService": {"$ref": "/services/vm-cdap-cluster-central/instances/rdm2c"},
+            "namespace": "MTCA",
+            "appNames": [ "cdap-mtca" ],
+            "flowNames": [ "cdap-mtca.TCAVESCollectorFlow" ],
+            "workerNames": ["cdap-mtca.TCADMaaPMRSubscriberWorker", "cdap-mtca.TCADMaaPMRPublisherWorker"],
+            "serviceNames" : [],
+            "apps": {
+              "cdap-mtca": {
+                "jarFile": "/opt/app/cdap-apps/dcae-analytics-mtca-1.0.0.jar",
+                "artifactName": "dcae-analytics-mtca",
+                "version": "1.0.0",
+                "appConfigFileContent": "{config:{ \"appName\":\"cdap-mtca\", \"appDescription\":\"DCAE Analytics Threshold Crossing Alert Application\", \"tcaSubscriberOutputStreamName\":\"TCASubscriberOutputStream\", \"thresholdCalculatorFlowletInstances\":2, \"tcaVESMessageStatusTableName\":\"TCAVESMessageStatusTable\", \"tcaVESMessageStatusTableTTLSeconds\":864000, \"tcaVESAlertsTableName\":\"TCAVESAlertsTable\", \"tcaVESAlertsTableTTLSeconds\":1728000 }}"
+              }
+            },
+
+            "configuration": {
+                "$class": "com.att.ecomp.dcae.clamp.common.MThresholdCrossingConfiguration",
+                "subscriberContentType": "",
+                "subscriberConsumerId": "c12",
+                "subscriberConsumerGroup": "OpenDCAE-c12",
+                "subscriberTimeoutMS": "-1",
+                "subscriberMessageLimit": "-1",
+                "subscriberPollingInterval": "20000",
+                "publisherContentType": "application/json",
+                "publisherMaxBatchSize": "10",
+                "publisherMaxRecoveryQueueSize": "100000",
+                "publisherPollingInterval": "20000",
+                "publisherAlertWindowingTime": "86400",
+                "policyName": "policy.dcae.configuration",
+                "policyScope": "pnf=eNodeB;type=configuration",
+                "policyVersion": "1.0.0",
+                "domain" : "measurementsForVfScaling",
+
+                "signatures" : {
+             	 }
+
+             }
+          }
