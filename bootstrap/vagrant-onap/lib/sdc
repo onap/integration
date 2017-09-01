@@ -56,7 +56,7 @@ function clone_all_sdc_repos {
 
 # compile_all_sdc_repos() - Function that compiles SDC source repo.
 function compile_all_sdc_repos {
-    clone_repo sdc $sdc_src_folder
+    compile_src sdc $sdc_src_folder
 
     for dirc in ${sdc_repos[@]}; do
         compile_src $sdc_src_folder/$dirc
