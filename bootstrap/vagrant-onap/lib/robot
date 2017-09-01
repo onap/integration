@@ -2,12 +2,34 @@
 
 set -o xtrace
 
-# install_testsuite_properties() - Download and install testsuite properties
-function install_testsuite_properties {
+source /var/onap/functions
+
+robot_src_folder=$git_src_folder/testsuite
+robot_repos=("heatbridge" "properties" "python-testing-utils")
+
+# clone_robot_repos() - Function that clones Robot source repo.
+function clone_robot_repos {
+    clone_repo testsuite $robot_src_folder
+
+    for dirc in ${robot_repos[@]}; do
+        clone_repo testsuite/$dirc $robot_src_folder/$dirc
+    done
+}
+
+# compile_robot_repos() - Function that compile Robot source repo.
+function compile_robot_repos {
+    install_python_package tox
+    compile_src $robot_src_folder
+
+    for dirc in ${robot_repos[@]}; do
+        compile_src $robot_src_folder/$dirc
+    done
+}
+
+# _setup_ete_folder() - Create and copy ete folder structure
+function _setup_ete_folder {
     mkdir -p /opt/eteshare/config
 
-    local src_folder=/opt/testsuite/properties
-    clone_repo testsuite/properties $src_folder
     cp $src_folder/integration_* /opt/eteshare/config
     cp $src_folder/vm_config2robot.sh /opt/eteshare/config
     cp $src_folder/ete.sh /opt
@@ -17,15 +39,26 @@ function install_testsuite_properties {
     chmod +x /opt/demo.sh
 }
 
-# run_testsuite_image() - Pull and run testsuite docker image
-function run_testsuite_image {
+# get_robot_images() - Pull or build the Robot Docker images
+function get_robot_images {
     pull_openecomp_image testsuite
+}
+
+# install_robot() - Run Robot services
+function install_robot {
     docker rm -f openecompete_container
     docker run -d --name openecompete_container -v /opt/eteshare:/share -p 88:88 $nexus_docker_repo/openecomp/testsuite:$docker_version
 }
 
 # init_robot() - Function that initialize Robot services
 function init_robot {
-    install_testsuite_properties
-    run_testsuite_image
+    if [[ "$clone_repo" == "True" ]]; then
+        clone_robot_repos
+        _setup_ete_folder
+        if [[ "$compile_repo" == "True" ]]; then
+            compile_robot_repos
+        fi
+    fi
+    get_robot_images
+    install_robot
 }
