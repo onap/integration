@@ -19,12 +19,12 @@
 
 
 #Start market place
-docker run -d -i -t --name=vnfmarket   -p 8702:8702 onap/vnfmarket
+docker run -d -i -t --name=refrepo   -p 8702:8702 nexus3.onap.org:10001/onap/refrepo:1.0-STAGING-latest
 
-REPO_IP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' vnfmarket`
+REPO_IP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' refrepo`
 
 
 # Pass any variables required by Robot test suites in ROBOT_VARIABLES
-ROBOT_VARIABLES="-v REPO_IP:${REPO_IP}"
-
+ROBOT_VARIABLES="-v SCRIPTS:{SCRIPTS} -v REPO_IP:${REPO_IP}"
+echo ${ROBOT_VARIABLES}
 
