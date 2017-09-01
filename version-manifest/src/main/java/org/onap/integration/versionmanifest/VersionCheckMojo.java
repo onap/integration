@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package org.onap.integration.versioncheck;
+package org.onap.integration.versionmanifest;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,17 +51,17 @@ public class VersionCheckMojo extends AbstractMojo {
     /**
      * Location of the file.
      */
-    @Parameter(property = "manifestUri", required = true)
-    private URI manifestUri;
+    @Parameter(property = "manifest", required = true, defaultValue = "/java-manifest.csv")
+    private String manifest;
 
     public void execute() throws MojoExecutionException {
         final Log log = getLog();
 
-        log.info("Checking version manifest " + manifestUri);
+        log.info("Checking version manifest " + manifest);
 
         Map<String, String> expectedVersions = new HashMap<>();
 
-        try (InputStreamReader in = new InputStreamReader(manifestUri.toURL().openStream(),
+        try (InputStreamReader in = new InputStreamReader(getClass().getResourceAsStream(manifest),
                 StandardCharsets.ISO_8859_1)) {
             Iterable<CSVRecord> records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(in);
             for (CSVRecord record : records) {
