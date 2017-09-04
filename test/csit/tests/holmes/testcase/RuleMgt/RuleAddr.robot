@@ -1,3 +1,3 @@
 *** Variables ***
 ${ruleMgtHost}    http://${MSB_IP}
-${ruleMgtUrl}     /openoapi/holmes-rule-mgmt/v1/rule
+${ruleMgtUrl}     /onapapi/holmes-rule-mgmt/v1/rule
