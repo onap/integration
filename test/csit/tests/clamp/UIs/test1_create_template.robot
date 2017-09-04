@@ -75,6 +75,7 @@ Save Template from Menu
     Click Element    xpath=//*[@id="navbar"]/ul/li[1]/a
     Wait Until Element Is Visible       locator=Save Template      timeout=60
     Click Element    locator=Save Template
+    Wait Until Element Is Visible       xpath=//*[@id="alert_message_"]      timeout=60
     Element Text Should Be      xpath=//*[@id="alert_message_"]       expected=Action Successful:SAVE
 
 Close Browser
