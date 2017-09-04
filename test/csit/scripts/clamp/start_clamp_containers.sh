@@ -28,7 +28,7 @@ echo "This is ${WORKSPACE}/test/csit/scripts/clamp/start_clamp_containers.sh"
 docker-compose up -d
 
 # WAIT 5 minutes maximum and test every 5 seconds if Clamp up using HealthCheck API
-TIME_OUT=600
+TIME_OUT=1200
 INTERVAL=5
 TIME=0
 while [ "$TIME" -lt "$TIME_OUT" ]; do
