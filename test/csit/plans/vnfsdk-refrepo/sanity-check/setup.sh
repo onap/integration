@@ -21,6 +21,12 @@
 #Start market place
 docker run -d -i -t --name=refrepo   -p 8702:8702 nexus3.onap.org:10001/onap/refrepo:1.0-STAGING-latest
 
+# Wait for Market place initialization
+echo Wait for VNF Repository initialization
+for i in {1..30}; do
+    sleep 1
+done
+
 REPO_IP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' refrepo`
 
 
