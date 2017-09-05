@@ -20,7 +20,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -58,8 +60,11 @@ public class VersionCheckMojo extends AbstractMojo {
         final Log log = getLog();
 
         log.info("Checking version manifest " + manifest);
+        log.info("");
 
-        Map<String, String> expectedVersions = new HashMap<>();
+        final List<String> groupIdPrefixes = Arrays.asList("org.onap", "org.openecomp", "org.openo");
+
+        final Map<String, String> expectedVersions = new HashMap<>();
 
         try (InputStreamReader in = new InputStreamReader(getClass().getResourceAsStream(manifest),
                 StandardCharsets.ISO_8859_1)) {
@@ -79,8 +84,8 @@ public class VersionCheckMojo extends AbstractMojo {
             throw new MojoExecutionException(e.getMessage());
         }
 
-        Map<String, String> actualVersions = new HashMap<>();
-        MavenProject parent = project.getParent();
+        final Map<String, String> actualVersions = new HashMap<>();
+        final MavenProject parent = project.getParent();
         if (parent != null) {
             log.debug("Parent: " + parent);
             actualVersions.put(parent.getGroupId() + ":" + parent.getArtifactId(), parent.getVersion());
@@ -93,15 +98,27 @@ public class VersionCheckMojo extends AbstractMojo {
             actualVersions.put(dep.getGroupId() + ":" + dep.getArtifactId(), dep.getVersion());
         }
 
-        Set<String> mismatches = new TreeSet<>();
-        for (Entry<String, String> expected : expectedVersions.entrySet()) {
-            String artifact = expected.getKey();
+        final Set<String> mismatches = new TreeSet<>();
+        final Set<String> missingArtifacts = new TreeSet<>();
+
+        for (Entry<String, String> actualVersion : actualVersions.entrySet()) {
+            String artifact = actualVersion.getKey();
             String expectedVersion = expectedVersions.get(artifact);
-            String actualVersion = actualVersions.get(artifact);
-            if (actualVersion != null && !actualVersion.equals(expectedVersion)) {
+            if (expectedVersion == null) {
+                if (artifact.startsWith("org.onap") || artifact.startsWith("org.openecomp")) {
+                    missingArtifacts.add(artifact);
+                }
+            } else if (!expectedVersion.equals(actualVersion)) {
                 mismatches.add(artifact);
             }
         }
+
+        // used for formatting
+        int[] columnWidths = new int[10];
+        columnWidths[0] = actualVersions.keySet().stream().mapToInt(String::length).max().orElse(1);
+        columnWidths[1] = actualVersions.values().stream().mapToInt(String::length).max().orElse(1);
+        columnWidths[2] = expectedVersions.values().stream().mapToInt(String::length).max().orElse(1);
+        String format = "  %-" + columnWidths[0] + "s" + "  %" + columnWidths[1] + "s -> %" + columnWidths[2] + "s";
 
         if (mismatches.isEmpty()) {
             log.debug("No version mismatches found");
@@ -110,11 +127,22 @@ public class VersionCheckMojo extends AbstractMojo {
             for (String artifact : mismatches) {
                 String expectedVersion = expectedVersions.get(artifact);
                 String actualVersion = actualVersions.get(artifact);
+
                 if (actualVersion != null && !actualVersion.equals(expectedVersion)) {
-                    log.warn("  " + artifact + " " + actualVersion + " -> " + expectedVersion);
+                    log.warn(String.format(format, artifact, actualVersion, expectedVersion));
                 }
             }
         }
+        log.info("");
+
+        if (!missingArtifacts.isEmpty()) {
+            log.warn("The following dependencies are missing in the version manifest:");
+            for (String artifact : missingArtifacts) {
+                String actualVersion = actualVersions.get(artifact);
+                log.warn(String.format(format, artifact, actualVersion, "?"));
+            }
+        }
+        log.info("");
 
     }
 }

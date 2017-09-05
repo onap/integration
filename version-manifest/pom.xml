@@ -48,7 +48,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
-        <version>3.2</version>
+        <version>3.4</version>
         <configuration>
           <goalPrefix>version-manifest</goalPrefix>
           <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
