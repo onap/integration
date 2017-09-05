@@ -17,10 +17,10 @@
 # Place the scripts in run order:
 
 # Download and start MySQL
-docker pull mysql/mysql-server
-docker run --name mysql-holmes -e MYSQL_ROOT_PASSWORD=rootpass -e MYSQL_ROOT_HOST=% -d mysql/mysql-server 
-MYSQL_IP=`get-instance-ip.sh mysql-holmes`
-echo MYSQL_IP=${MYSQL_IP}
+docker pull postgresql:9.5
+docker run --name postgres-holmes -p 5432:5432 -e POSTGRES_USER=holmes -e POSTGRES_PASSWORD=holmespwd -d postgres:9.5 
+DB_IP=`get-instance-ip.sh postgres-holmes`
+echo DB_IP=${DB_IP}
 
 #login to the onap nexus docker repo
 docker login -u docker -p docker nexus3.onap.org:10001
@@ -33,11 +33,11 @@ docker run -d -p 10081:10081 -e CONSUL_IP=$CONSUL_IP --name msb_discovery nexus3
 DISCOVERY_IP=`get-instance-ip.sh msb_discovery`
 echo DISCOVERY_IP=${DISCOVERY_IP}
 docker run -d -p 80:80 -e CONSUL_IP=$CONSUL_IP -e SDCLIENT_IP=$DISCOVERY_IP --name msb_internal_apigateway nexus3.onap.org:10001/onap/msb/msb_apigateway
-MSB_IP==`get-instance-ip.sh msb_internal_apigateway`
+MSB_IP=`get-instance-ip.sh msb_internal_apigateway`
 echo MSB_IP=${MSB_IP}
 
 # Start rulemgt
-source ${SCRIPTS}/holmes/rule-management/startup.sh i-rulemgt ${MYSQL_IP} ${MSB_IP} 80
+source ${SCRIPTS}/holmes/rule-management/startup.sh i-rulemgt ${DB_IP} ${MSB_IP} 80
 RULEMGT_IP=`get-instance-ip.sh i-rulemgt`
 echo RULEMGT_IP=${RULEMGT_IP}
 
@@ -49,7 +49,7 @@ for i in {1..20}; do
 done
 
 # Start engine-d
-source ${SCRIPTS}/holmes/engine-management/startup.sh i-engine-d ${MYSQL_IP} ${MSB_IP} 80
+source ${SCRIPTS}/holmes/engine-management/startup.sh i-engine-d ${DB_IP} ${MSB_IP} 80
 ENGINE_D_IP=`get-instance-ip.sh i-engine-d`
 echo ENGINE_D_IP=${ENGINE_D_IP}
 
