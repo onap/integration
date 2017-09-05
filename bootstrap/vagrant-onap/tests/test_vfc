@@ -5,12 +5,15 @@ source /var/onap/vfc
 
 covered_functions=(
 "clone_all_vfc_repos" "compile_all_vfc_repos" "install_vfc"
+"build_nfvo_lcm_image" "get_vfc_images" "run_vfc_images"
 )
 
 # test_clone_all_vfc_repos() - Verify cloning and pulling source code from repositories
 function test_clone_all_vfc_repos {
-    # TODO(sshank)
-    echo ""
+
+    # TODO(sshank):  Add other asserts
+    asserts_file_exist $src_folder/nfvo/lcm/run.sh
+
 }
 
 # test_compile_all_vfc_repos() - Verify that all the VFC modules are compiled properly
@@ -21,11 +24,22 @@ function test_compile_all_vfc_repos {
     # TODO(electrocucaracha): Add asserts_file_exist
 }
 
+# test_get_vfc_images() - Verify all VFC images are built correctly.
+function test_get_vfc_images {
+    get_vfc_images
+
+    asserts_image nexus3.onap.org:10003/onap/vfc/nslcm
+
+    # TODO(sshank): Add asserts for other VFC component docker image builds when they are ready.
+}
+
 # test_install_vfc() - Verify that the VFC are up and running
 function test_install_vfc {
     install_vfc
 
-    # TODO(electrocucaracha): Add whatever asserts are needed
+    asserts_image_running vfc-nslcm
+
+    # TODO(sshank): Add asserts for other running VFC component docker images when they are ready.
 }
 
 if [ "$1" != '*' ]; then
