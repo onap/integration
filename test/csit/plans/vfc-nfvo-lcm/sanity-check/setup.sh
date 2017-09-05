@@ -34,7 +34,7 @@ echo MSB_IP=${MSB_IP}
 # start vfc-nslcm
 docker run -d --name vfc-nslcm -e MSB_ADDR=${MSB_IP}:80 nexus3.onap.org:10001/onap/vfc/nslcm
 NSLCM_IP=`get-instance-ip.sh vfc-nslcm`
-for i in {1..50}; do
+for i in {1..10}; do
     curl -sS ${NSLCM_IP}:8403 && break
     echo sleep $i
     sleep $i
