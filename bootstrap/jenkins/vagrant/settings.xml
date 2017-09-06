@@ -33,6 +33,17 @@
             <enabled>true</enabled>
           </snapshots>
         </repository>
+		<repository>
+          <id>open-o-thirdparty</id>
+          <name>open-o-thirdparty</name>
+          <url>https://nexus.open-o.org/content/repositories/thirdparty/</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </repository>
       </repositories>
       <pluginRepositories>
         <pluginRepository>
