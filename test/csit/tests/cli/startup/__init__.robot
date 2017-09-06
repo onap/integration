@@ -1,0 +1,2 @@
+*** Settings ***
+Documentation    cli - Startup
