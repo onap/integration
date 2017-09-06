@@ -3,14 +3,38 @@
     jobs:
      - 'java-{project}'
     project:
+     - 'aaf_authz':
+         repo: 'aaf/authz'
+         pom: 'pom.xml'
+     - 'aaf_cadi':
+         repo: 'aaf/cadi'
+         pom: 'pom.xml'
+     - 'aaf_inno':
+         repo: 'aaf/inno'
+         pom: 'pom.xml'
+     - 'aaf_luaplugin':
+         repo: 'aaf/luaplugin'
+         pom: 'pom.xml'
      - 'aai_aai-common':
          repo: 'aai/aai-common'
          pom: 'pom.xml'
      - 'aai_aai-service':
          repo: 'aai/aai-service'
          pom: 'pom.xml'
+     - 'aai_champ':
+         repo: 'aai/champ'
+         pom: 'pom.xml'
      - 'aai_data-router':
          repo: 'aai/data-router'
+         pom: 'pom.xml'
+     - 'aai_esr-gui':
+         repo: 'aai/esr-gui'
+         pom: 'pom.xml'
+     - 'aai_esr-server':
+         repo: 'aai/esr-server'
+         pom: 'pom.xml'
+     - 'aai_gizmo':
+         repo: 'aai/gizmo'
          pom: 'pom.xml'
      - 'aai_logging-service':
          repo: 'aai/logging-service'
@@ -45,11 +69,44 @@
      - 'appc_deployment':
          repo: 'appc/deployment'
          pom: 'pom.xml'
+     - 'ccsdk_dashboard':
+         repo: 'ccsdk/dashboard'
+         pom: 'pom.xml'
+     - 'ccsdk_distribution':
+         repo: 'ccsdk/distribution'
+         pom: 'pom.xml'
      - 'ccsdk_parent':
          repo: 'ccsdk/parent'
          pom: 'pom.xml'
+     - 'ccsdk_platform_blueprints':
+         repo: 'ccsdk/platform/blueprints'
+         pom: 'pom.xml'
+     - 'ccsdk_platform_nbapi':
+         repo: 'ccsdk/platform/nbapi'
+         pom: 'pom.xml'
+     - 'ccsdk_platform_plugins':
+         repo: 'ccsdk/platform/plugins'
+         pom: 'pom.xml'
+     - 'ccsdk_sli_adaptors':
+         repo: 'ccsdk/sli/adaptors'
+         pom: 'pom.xml'
      - 'ccsdk_sli_core':
          repo: 'ccsdk/sli/core'
+         pom: 'pom.xml'
+     - 'ccsdk_sli_northbound':
+         repo: 'ccsdk/sli/northbound'
+         pom: 'pom.xml'
+     - 'ccsdk_sli_plugins':
+         repo: 'ccsdk/sli/plugins'
+         pom: 'pom.xml'
+     - 'ccsdk_storage_esaas':
+         repo: 'ccsdk/storage/esaas'
+         pom: 'pom.xml'
+     - 'ccsdk_storage_pgaas':
+         repo: 'ccsdk/storage/pgaas'
+         pom: 'pom.xml'
+     - 'ccsdk_utils':
+         repo: 'ccsdk/utils'
          pom: 'pom.xml'
      - 'clamp':
          repo: 'clamp'
@@ -87,23 +144,131 @@
      - 'dcae_pgaas_cdf_src_cdf-prop-value_cdf-util':
          repo: 'dcae/pgaas'
          pom: 'cdf/src/cdf-prop-value/cdf-util/pom.xml'
+     - 'dcaegen2':
+         repo: 'dcaegen2'
+         pom: 'pom.xml'
+     - 'dcaegen2_analytics':
+         repo: 'dcaegen2/analytics'
+         pom: 'pom.xml'
+     - 'dcaegen2_analytics_tca':
+         repo: 'dcaegen2/analytics/tca'
+         pom: 'pom.xml'
+     - 'dcaegen2_collectors':
+         repo: 'dcaegen2/collectors'
+         pom: 'pom.xml'
+     - 'dcaegen2_collectors_snmptrap':
+         repo: 'dcaegen2/collectors/snmptrap'
+         pom: 'pom.xml'
+     - 'dcaegen2_collectors_ves':
+         repo: 'dcaegen2/collectors/ves'
+         pom: 'pom.xml'
+     - 'dcaegen2_deployments':
+         repo: 'dcaegen2/deployments'
+         pom: 'pom.xml'
+     - 'dcaegen2_platform':
+         repo: 'dcaegen2/platform'
+         pom: 'pom.xml'
+     - 'dcaegen2_platform_blueprints':
+         repo: 'dcaegen2/platform/blueprints'
+         pom: 'pom.xml'
+     - 'dcaegen2_platform_cdapbroker':
+         repo: 'dcaegen2/platform/cdapbroker'
+         pom: 'pom.xml'
+     - 'dcaegen2_platform_cli':
+         repo: 'dcaegen2/platform/cli'
+         pom: 'pom.xml'
+     - 'dcaegen2_platform_configbinding':
+         repo: 'dcaegen2/platform/configbinding'
+         pom: 'pom.xml'
+     - 'dcaegen2_platform_deployment-handler':
+         repo: 'dcaegen2/platform/deployment-handler'
+         pom: 'pom.xml'
+     - 'dcaegen2_platform_inventory-api':
+         repo: 'dcaegen2/platform/inventory-api'
+         pom: 'pom.xml'
+     - 'dcaegen2_platform_plugins':
+         repo: 'dcaegen2/platform/plugins'
+         pom: 'pom.xml'
+     - 'dcaegen2_platform_policy-handler':
+         repo: 'dcaegen2/platform/policy-handler'
+         pom: 'pom.xml'
+     - 'dcaegen2_platform_servicechange-handler':
+         repo: 'dcaegen2/platform/servicechange-handler'
+         pom: 'pom.xml'
+     - 'dcaegen2_utils':
+         repo: 'dcaegen2/utils'
+         pom: 'pom.xml'
      - 'demo':
          repo: 'demo'
+         pom: 'pom.xml'
+     - 'dmaap_buscontroller':
+         repo: 'dmaap/buscontroller'
+         pom: 'pom.xml'
+     - 'dmaap_datarouter':
+         repo: 'dmaap/datarouter'
+         pom: 'pom.xml'
+     - 'dmaap_dbcapi':
+         repo: 'dmaap/dbcapi'
+         pom: 'pom.xml'
+     - 'dmaap_messagerouter_dmaapclient':
+         repo: 'dmaap/messagerouter/dmaapclient'
+         pom: 'pom.xml'
+     - 'dmaap_messagerouter_messageservice':
+         repo: 'dmaap/messagerouter/messageservice'
+         pom: 'pom.xml'
+     - 'dmaap_messagerouter_mirroragent':
+         repo: 'dmaap/messagerouter/mirroragent'
+         pom: 'pom.xml'
+     - 'dmaap_messagerouter_msgrtr':
+         repo: 'dmaap/messagerouter/msgrtr'
          pom: 'pom.xml'
      - 'ecompsdkos_ecomp-sdk':
          repo: 'ecompsdkos'
          pom: 'ecomp-sdk/pom.xml'
+     - 'holmes_common':
+         repo: 'holmes/common'
+         pom: 'pom.xml'
+     - 'holmes_dsa':
+         repo: 'holmes/dsa'
+         pom: 'pom.xml'
+     - 'holmes_engine-management':
+         repo: 'holmes/engine-management'
+         pom: 'pom.xml'
+     - 'holmes_rule-management':
+         repo: 'holmes/rule-management'
+         pom: 'pom.xml'
+     - 'integration':
+         repo: 'integration'
+         pom: 'pom.xml'
+     - 'modeling_toscaparsers_javatoscachecker':
+         repo: 'modeling/toscaparsers'
+         pom: 'javatoscachecker/pom.xml'
      - 'msb_apigateway':
          repo: 'msb/apigateway'
          pom: 'pom.xml'
      - 'msb_discovery':
          repo: 'msb/discovery'
          pom: 'pom.xml'
+     - 'msb_java-sdk':
+         repo: 'msb/java-sdk'
+         pom: 'pom.xml'
+     - 'msb_swagger-sdk':
+         repo: 'msb/swagger-sdk'
+         pom: 'pom.xml'
      - 'mso':
          repo: 'mso'
          pom: 'pom.xml'
      - 'mso_libs':
          repo: 'mso/libs'
+         pom: 'pom.xml'
+     - 'multicloud_framework_multivimbroker':
+         repo: 'multicloud/framework'
+         pom: 'multivimbroker/pom.xml'
+     - 'multicloud_openstack':
+         repo: 'multicloud/openstack'
+         pom: 'pom.xml'
+     - 'multicloud_openstack_vmware':
+         repo: 'multicloud/openstack/vmware'
          pom: 'pom.xml'
      - 'ncomp_cdap':
          repo: 'ncomp/cdap'
@@ -126,8 +291,17 @@
      - 'ncomp_utils':
          repo: 'ncomp/utils'
          pom: 'pom.xml'
+     - 'oom_registrator':
+         repo: 'oom'
+         pom: 'registrator/pom.xml'
+     - 'oom_registrator':
+         repo: 'oom/registrator'
+         pom: 'pom.xml'
      - 'oparent':
          repo: 'oparent'
+         pom: 'pom.xml'
+     - 'policy_api':
+         repo: 'policy/api'
          pom: 'pom.xml'
      - 'policy_common':
          repo: 'policy/common'
@@ -144,9 +318,21 @@
      - 'policy_engine':
          repo: 'policy/engine'
          pom: 'pom.xml'
+     - 'policy_gui':
+         repo: 'policy/gui'
+         pom: 'pom.xml'
+     - 'policy_pap':
+         repo: 'policy/pap'
+         pom: 'pom.xml'
+     - 'policy_pdp':
+         repo: 'policy/pdp'
+         pom: 'pom.xml'
      - 'portal':
          repo: 'portal'
          pom: 'pom.xml'
+     - 'portal_sdk_ecomp-sdk':
+         repo: 'portal/sdk'
+         pom: 'ecomp-sdk/pom.xml'
      - 'sdc':
          repo: 'sdc'
          pom: 'pom.xml'
@@ -156,11 +342,17 @@
      - 'sdc_sdc-distribution-client':
          repo: 'sdc/sdc-distribution-client'
          pom: 'pom.xml'
+     - 'sdc_sdc-docker-base':
+         repo: 'sdc/sdc-docker-base'
+         pom: 'pom.xml'
      - 'sdc_sdc-titan-cassandra':
          repo: 'sdc/sdc-titan-cassandra'
          pom: 'pom.xml'
      - 'sdc_sdc-tosca':
          repo: 'sdc/sdc-tosca'
+         pom: 'pom.xml'
+     - 'sdc_sdc-workflow-designer':
+         repo: 'sdc/sdc-workflow-designer'
          pom: 'pom.xml'
      - 'sdc_sdc_common':
          repo: 'sdc/sdc_common'
@@ -186,45 +378,72 @@
      - 'so_libs':
          repo: 'so/libs'
          pom: 'pom.xml'
+     - 'testsuite_heatbridge':
+         repo: 'testsuite'
+         pom: 'heatbridge/pom.xml'
+     - 'testsuite_heatbridge':
+         repo: 'testsuite/heatbridge'
+         pom: 'pom.xml'
      - 'ui_dmaapbc':
          repo: 'ui/dmaapbc'
          pom: 'pom.xml'
-     - 'vfc_gvnfm_vnflcm_lcm':
+     - 'usecase-ui':
+         repo: 'usecase-ui'
+         pom: 'pom.xml'
+     - 'vfc_gvnfm_vnflcm':
          repo: 'vfc/gvnfm/vnflcm'
-         pom: 'lcm/pom.xml'
-     - 'vfc_gvnfm_vnfmgr_mgr':
+         pom: 'pom.xml'
+     - 'vfc_gvnfm_vnfmgr':
          repo: 'vfc/gvnfm/vnfmgr'
-         pom: 'mgr/pom.xml'
-     - 'vfc_gvnfm_vnfres_res':
+         pom: 'pom.xml'
+     - 'vfc_gvnfm_vnfres':
          repo: 'vfc/gvnfm/vnfres'
-         pom: 'res/pom.xml'
-     - 'vfc_nfvo_driver_ems_ems_sems_boco_ems-driver':
+         pom: 'pom.xml'
+     - 'vfc_nfvo_catalog':
+         repo: 'vfc/nfvo/catalog'
+         pom: 'pom.xml'
+     - 'vfc_nfvo_driver_ems':
          repo: 'vfc/nfvo/driver/ems'
-         pom: 'ems/sems/boco/ems-driver/pom.xml'
+         pom: 'pom.xml'
      - 'vfc_nfvo_driver_sfc_zte_sfc-driver':
          repo: 'vfc/nfvo/driver/sfc'
          pom: 'zte/sfc-driver/pom.xml'
-     - 'vfc_nfvo_driver_vnfm_gvnfm_gvnfmadapter':
+     - 'vfc_nfvo_driver_vnfm_gvnfm':
          repo: 'vfc/nfvo/driver/vnfm/gvnfm'
-         pom: 'gvnfmadapter/pom.xml'
-     - 'vfc_nfvo_driver_vnfm_gvnfm_juju_juju-vnfmadapter':
-         repo: 'vfc/nfvo/driver/vnfm/gvnfm'
-         pom: 'juju/juju-vnfmadapter/pom.xml'
-     - 'vfc_nfvo_driver_vnfm_svnfm_huawei_vnfmadapter':
+         pom: 'pom.xml'
+     - 'vfc_nfvo_driver_vnfm_svnfm':
          repo: 'vfc/nfvo/driver/vnfm/svnfm'
-         pom: 'huawei/vnfmadapter/pom.xml'
-     - 'vfc_nfvo_driver_vnfm_svnfm_zte_vmanager':
-         repo: 'vfc/nfvo/driver/vnfm/svnfm'
-         pom: 'zte/vmanager/pom.xml'
+         pom: 'pom.xml'
      - 'vfc_nfvo_lcm':
          repo: 'vfc/nfvo/lcm'
          pom: 'pom.xml'
      - 'vfc_nfvo_resmanagement':
          repo: 'vfc/nfvo/resmanagement'
          pom: 'pom.xml'
+     - 'vfc_nfvo_wfengine_activiti-extension':
+         repo: 'vfc/nfvo/wfengine'
+         pom: 'activiti-extension/pom.xml'
+     - 'vfc_nfvo_wfengine_wfenginemgrservice':
+         repo: 'vfc/nfvo/wfengine'
+         pom: 'wfenginemgrservice/pom.xml'
+     - 'vfc_nfvo_wfengine_wso2':
+         repo: 'vfc/nfvo/wfengine'
+         pom: 'wso2/pom.xml'
      - 'vid':
          repo: 'vid'
          pom: 'pom.xml'
      - 'vid_asdcclient':
          repo: 'vid/asdcclient'
+         pom: 'pom.xml'
+     - 'vnfsdk_functest':
+         repo: 'vnfsdk/functest'
+         pom: 'pom.xml'
+     - 'vnfsdk_lctest':
+         repo: 'vnfsdk/lctest'
+         pom: 'pom.xml'
+     - 'vnfsdk_pkgtools':
+         repo: 'vnfsdk/pkgtools'
+         pom: 'pom.xml'
+     - 'vnfsdk_refrepo':
+         repo: 'vnfsdk/refrepo'
          pom: 'pom.xml'
