@@ -3,7 +3,6 @@ Library     Collections
 Library     RequestsLibrary
 Library     OperatingSystem
 Library     json
-Library     HttpLibrary.HTTP
 Library     Selenium2Library
 Library     XvfbRobot
 
@@ -42,15 +41,15 @@ Create Template from Menu
     Click Element    xpath=//*[@id="navbar"]/ul/li[1]/a
     Wait Until Element Is Visible       locator=Create Template       timeout=60
     Click Element    locator=Create Template
-    Input Text      locator=modelName       text=template1
+    Input Text      locator=modelName       text=template
     Click Button    locator=OK
 
 Drag and Drop Boxes for template
-    Wait Until Element Is Visible       xpath=//*[@id="js-canvas"]/div/div/div[4]/div[1]/div/div[2]       timeout=60
-    Drag And Drop By Offset     xpath=//*[@id="js-canvas"]/div/div/div[4]/div[1]/div/div[2]       280      280
-    Drag And Drop By Offset     xpath=//*[@id="js-canvas"]/div/div/div[4]/div[1]/div/div[4]       550      280
-    Drag And Drop By Offset     xpath=//*[@id="js-canvas"]/div/div/div[4]/div[1]/div/div[5]       800      280
-    Drag And Drop By Offset     xpath=//*[@id="js-canvas"]/div/div/div[4]/div[1]/div/div[6]       1000      280
+    Wait Until Element Is Visible       xpath=//*[@class="entry icon-collector-node"]       timeout=60
+    Drag And Drop By Offset     xpath=//*[@class="entry icon-collector-node"]       280      280
+    Drag And Drop By Offset     xpath=//*[@class="entry icon-tca-node"]       550      280
+    Drag And Drop By Offset     xpath=//*[@class="entry icon-policy-node"]       800      280
+    Drag And Drop By Offset     xpath=//*[@class="entry icon-end-event-none"]       1000      280
 
 Drag and Drop Connectors for template
     Click Element    xpath=//*[starts-with(@data-element-id, "StartEvent_")]

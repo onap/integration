@@ -3,7 +3,6 @@ Library     Collections
 Library     RequestsLibrary
 Library     OperatingSystem
 Library     json
-Library     HttpLibrary.HTTP
 
 
 *** Test Cases ***
