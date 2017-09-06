@@ -17,6 +17,7 @@
 package org.onap.integration.versionmanifest;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
@@ -25,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -59,7 +61,17 @@ public class VersionCheckMojo extends AbstractMojo {
     public void execute() throws MojoExecutionException {
         final Log log = getLog();
 
-        log.info("Checking version manifest " + manifest);
+        final Properties gitProps = new Properties();
+        try (InputStream in = getClass().getResourceAsStream("/git.properties")) {
+            gitProps.load(in);
+        } catch (IOException e) {
+            log.error(e);
+            throw new MojoExecutionException(e.getMessage());
+        }
+
+        log.info("Manifest version: " + gitProps.getProperty("git.remote.origin.url") + " "
+                + gitProps.getProperty("git.commit.id") + " " + gitProps.getProperty("git.build.time"));
+
         log.info("");
 
         final List<String> groupIdPrefixes = Arrays.asList("org.onap", "org.openecomp", "org.openo");
@@ -105,7 +117,7 @@ public class VersionCheckMojo extends AbstractMojo {
             String artifact = actualVersion.getKey();
             String expectedVersion = expectedVersions.get(artifact);
             if (expectedVersion == null) {
-                if (artifact.startsWith("org.onap") || artifact.startsWith("org.openecomp")) {
+                if (groupIdPrefixes.stream().anyMatch(prefix -> artifact.startsWith(prefix))) {
                     missingArtifacts.add(artifact);
                 }
             } else if (!expectedVersion.equals(actualVersion)) {
