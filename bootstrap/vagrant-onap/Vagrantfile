@@ -345,6 +345,7 @@ Vagrant.configure("2") do |config|
       vfc.vm.provider "openstack" do |v|
         v.server_name = 'vfc'
       end
+      vfc.vm.provision 'docker'
       vfc.vm.provision 'shell' do |s|
         s.path = 'vagrant_utils/postinstall.sh'
         s.args = ['vfc']

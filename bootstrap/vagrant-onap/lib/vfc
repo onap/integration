@@ -23,6 +23,11 @@ function compile_all_vfc_repos {
     tox -e py27
     popd
 
+
+    pushd $src_folder/nfvo/lcm
+    tox -e py27
+    popd
+
     # TODO(sshank): Add compile for other vfc_repos. (Both Java and Python based.)
     # Python based:
     # gvnfm/vnflcm/lcm
@@ -30,7 +35,6 @@ function compile_all_vfc_repos {
     # gvnfm/vnfres/res
     # nfvo/driver/vnfm/gvnfm/gvnfmadapter
     # nfvo/driver/vnfm/svnfm/zte/vmanager
-    # nfvo/lcm
 
     # Java based:
     # nfvo/catalog
@@ -42,10 +46,34 @@ function compile_all_vfc_repos {
     # nfvo/wfengine
 }
 
+# build_nfvo_lcm_image() - Build VFC NFVO LCM docker image
+function build_nfvo_lcm_image {
+    pushd $src_folder/nfvo/lcm/docker
+    sed -i '$ d' build_image.sh
+    ./build_image.sh
+    popd
+}
+
+# get_vfc_images() - Build VFC docker images
+function get_vfc_images {
+    if [[ "$build_image" == "True" ]]; then
+        install_docker
+        build_nfvo_lcm_image
+        # TODO(sshank): Add other VFC component docker image builds when they are ready.
+    else
+        pull_docker_image nexus3.onap.org:10003/onap/vfc/nslcm latest
+    fi
+}
+
+# run_vfc_images() - Run VFC docker images
+function run_vfc_images() {
+    docker run -d --name vfc-nslcm -p 3306:3306 -p 8403:8403 -e MSB_ADDR=127.0.0.1 nexus3.onap.org:10003/onap/vfc/nslcm
+    # TODO(sshank): Run other VFC component docker images when they are ready.
+}
+
 # install_vfc() - Download and install vfc service from source code
 function install_vfc {
-    # TODO(sshank): Add further installation steps if necessary.
-    echo ""
+    run_vfc_images
 }
 
 # init_vfc() - Function that initialize VF-C services
@@ -59,5 +87,6 @@ function init_vfc {
         fi
     fi
 
+    get_vfc_images
     install_vfc
 }
