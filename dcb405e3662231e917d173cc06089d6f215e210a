@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_5569018a",
+        "filename": "test/csit/plans/vfc-gvnfm-vnflcm/sanity-check/setup.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1647
+      },
+      "writtenOn": "2017-09-06T08:51:18Z",
+      "side": 1,
+      "message": "License should be at the top of this file",
+      "revId": "dcb405e3662231e917d173cc06089d6f215e210a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
