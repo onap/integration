@@ -20,4 +20,4 @@
 
 docker login -u docker -p docker nexus3.onap.org:10001
 
-run-instance.sh nexus3.onap.org:10001/onap/holmes/engine-management:latest $1 "-e URL_JDBC=$2:5432 -e MSB_ADDR=$3 -e MSB_PORT=$4"
+run-instance.sh nexus3.onap.org:10001/onap/holmes/engine-management:latest $1 "-e URL_JDBC=$2:5432 -e MSB_ADDR=$3 -e MSB_PORT=$4 -p 9102:9102"
