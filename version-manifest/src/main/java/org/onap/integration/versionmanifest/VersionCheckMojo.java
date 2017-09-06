@@ -32,7 +32,7 @@ import java.util.TreeSet;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
-import org.apache.maven.model.Dependency;
+import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
@@ -108,8 +108,8 @@ public class VersionCheckMojo extends AbstractMojo {
             log.debug("No parent");
         }
 
-        for (Dependency dep : project.getDependencies()) {
-            log.debug("Dependency: " + dep.toString());
+        for (Artifact dep : project.getDependencyArtifacts()) {
+            log.debug("DependencyArtifact: " + dep.toString());
             // don't warn within the same groupId
             if (!project.getGroupId().equals(dep.getGroupId())) {
                 actualVersions.put(dep.getGroupId() + ":" + dep.getArtifactId(), dep.getVersion());
