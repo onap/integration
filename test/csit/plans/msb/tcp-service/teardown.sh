@@ -18,3 +18,4 @@
 kill-instance.sh msb_consul
 kill-instance.sh msb_discovery
 kill-instance.sh msb_internal_apigateway
+kill-instance.sh i-activemq
