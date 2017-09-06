@@ -69,8 +69,8 @@ public class VersionCheckMojo extends AbstractMojo {
             throw new MojoExecutionException(e.getMessage());
         }
 
-        log.info("Manifest version: " + gitProps.getProperty("git.remote.origin.url") + " "
-                + gitProps.getProperty("git.commit.id") + " " + gitProps.getProperty("git.build.time"));
+        log.info("Manifest version: " + gitProps.getProperty("git.build.time") + " "
+                + gitProps.getProperty("git.commit.id") + " " + gitProps.getProperty("git.remote.origin.url"));
 
         log.info("");
 
@@ -100,21 +100,28 @@ public class VersionCheckMojo extends AbstractMojo {
         final MavenProject parent = project.getParent();
         if (parent != null) {
             log.debug("Parent: " + parent);
-            actualVersions.put(parent.getGroupId() + ":" + parent.getArtifactId(), parent.getVersion());
+            // don't warn within the same groupId
+            if (!project.getGroupId().equals(parent.getGroupId())) {
+                actualVersions.put(parent.getGroupId() + ":" + parent.getArtifactId(), parent.getVersion());
+            }
         } else {
             log.debug("No parent");
         }
 
         for (Dependency dep : project.getDependencies()) {
             log.debug("Dependency: " + dep.toString());
-            actualVersions.put(dep.getGroupId() + ":" + dep.getArtifactId(), dep.getVersion());
+            // don't warn within the same groupId
+            if (!project.getGroupId().equals(dep.getGroupId())) {
+                actualVersions.put(dep.getGroupId() + ":" + dep.getArtifactId(), dep.getVersion());
+            }
         }
 
         final Set<String> mismatches = new TreeSet<>();
         final Set<String> missingArtifacts = new TreeSet<>();
 
-        for (Entry<String, String> actualVersion : actualVersions.entrySet()) {
-            String artifact = actualVersion.getKey();
+        for (Entry<String, String> actualVersionEntry : actualVersions.entrySet()) {
+            String artifact = actualVersionEntry.getKey();
+            String actualVersion = actualVersionEntry.getValue();
             String expectedVersion = expectedVersions.get(artifact);
             if (expectedVersion == null) {
                 if (groupIdPrefixes.stream().anyMatch(prefix -> artifact.startsWith(prefix))) {
@@ -144,17 +151,19 @@ public class VersionCheckMojo extends AbstractMojo {
                     log.warn(String.format(format, artifact, actualVersion, expectedVersion));
                 }
             }
+            log.warn("");
         }
-        log.info("");
 
-        if (!missingArtifacts.isEmpty()) {
+        if (missingArtifacts.isEmpty()) {
+            log.debug("No artifacts found missing in the version manifest");
+        } else {
             log.warn("The following dependencies are missing in the version manifest:");
             for (String artifact : missingArtifacts) {
                 String actualVersion = actualVersions.get(artifact);
                 log.warn(String.format(format, artifact, actualVersion, "?"));
             }
+            log.warn("");
         }
-        log.info("");
 
     }
 }

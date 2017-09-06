@@ -20,7 +20,7 @@
   <parent>
     <groupId>org.onap.oparent</groupId>
     <artifactId>oparent</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.1</version>
   </parent>
   <name>integration</name>
   <groupId>org.onap.integration</groupId>
