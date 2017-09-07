@@ -17,21 +17,18 @@
 # Place the scripts in run order:
 # Start all process required for executing test case
 
-source ${SCRIPTS}/common_functions.sh
+#start so
+docker run -d -i -t --name=so -p 8080:8080 nexus3.onap.org:10001/openecomp/mso
 
-#Start gso
-run-instance.sh openoint/gso-service-manager gso " -i -t -e MSB_ADDR=${MSB_IP}:80 -e MYSQL_ADDR=${INV_ADDR}:3306"
-sleep_msg="Waiting_for_so"
-curl_path='http://'${MSB_IP}':80/api/so/v1/services'
-wait_curl_driver CURL_COMMAND=$curl_path WAIT_MESSAGE='"$sleep_msg"' REPEAT_NUMBER=25 GREP_STRING="\["
+SO_IP=`get-instance-ip.sh so`
+# Wait for initialization
+for i in {1..10}; do
+    curl -sS ${SO_IP}:1080 && break
+    echo sleep $i
+    sleep $i
+done
 
-#run simulator
-docker run -d -i -t --name gso_csit_simulator -e SIMULATOR_JSON=Stubs/testcase/so/main.json -p 18009:18009 -p 18008:18008  openoint/simulate-test-docker
-SIMULATOR_IP=`get-instance-ip.sh gso_csit_simulator`
-sleep_msg="Waiting_for_simulator"
-curl_path='http://'${SIMULATOR_IP}':18009/api/extsys/v1/vims'
-wait_curl_driver CURL_COMMAND=$curl_path WAIT_MESSAGE='"$sleep_msg"' REPEAT_NUMBER=16 GREP_STRING="\["
+REPO_IP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' so`
 
-
-ROBOT_VARIABLES="-v MSB_IP:${MSB_IP}  -v SCRIPTS:${SCRIPTS}  -v SIMULATOR_IP:${SIMULATOR_IP}"
-robot ${ROBOT_VARIABLES} ${SCRIPTS}/../tests/so/sanity-check/register_simulator_to_msb.robot
+# Pass any variables required by Robot test suites in ROBOT_VARIABLES
+ROBOT_VARIABLES="-v REPO_IP:${REPO_IP}"
