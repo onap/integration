@@ -28,7 +28,7 @@ docker run -d -p 10081:10081 -e CONSUL_IP=$CONSUL_IP --name msb_discovery nexus3
 DISCOVERY_IP=`get-instance-ip.sh msb_discovery`
 echo DISCOVERY_IP=${DISCOVERY_IP}
 docker run -d -p 80:80 -e CONSUL_IP=$CONSUL_IP -e SDCLIENT_IP=$DISCOVERY_IP --name msb_internal_apigateway nexus3.onap.org:10001/onap/msb/msb_apigateway
-MSB_IP==`get-instance-ip.sh msb_internal_apigateway`
+MSB_IP=`get-instance-ip.sh msb_internal_apigateway`
 echo MSB_IP=${MSB_IP}
 
 # start vfc-nslcm
