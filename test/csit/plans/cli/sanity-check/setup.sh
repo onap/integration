@@ -18,7 +18,13 @@
 source ${SCRIPTS}/common_functions.sh
 
 # Start auth
-docker run -d --name cli -e CLI_MODE=daemon -p nexus3.onap.org:10001/onap/cli:1.1-STAGING-latest
+docker run -d --name cli -e CLI_MODE=daemon nexus3.onap.org:10001/onap/cli:1.1-STAGING-latest
+
+# Wait for cli initialization
+echo Wait for CLI initialization
+for i in {1..30}; do
+    sleep 1
+done
 
 CLI_IP=`get-instance-ip.sh cli`
 
