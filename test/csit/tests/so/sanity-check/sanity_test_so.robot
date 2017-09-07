@@ -1,25 +1,28 @@
-*** settings ***
-Resource    ../../common.robot
+*** Settings ***
 Library     Collections
 Library     RequestsLibrary
 Library     OperatingSystem
 Library     json
-Library     HttpLibrary.HTTP
 
 *** Variables ***
-@{return_ok_list}=   200  201  202
-${queryservice_url}       /api/so/v1/services/5212b49f-fe70-414f-9519-88bec35b3190
-${service_id}
-${operation_id}
-*** Test Cases ***
-soQueryServiceFuncTest
-    [Documentation]    query single service rest test
-    ${headers}    Create Dictionary    Content-Type=application/json    Accept=application/json
-    Create Session    web_session    http://${MSB_IP}    headers=${headers}
-    ${resp}=  Get Request    web_session    ${queryservice_url}
-    ${responese_code}=     Convert To String      ${resp.status_code}
-    List Should Contain Value    ${return_ok_list}   ${responese_code}
-    ${response_json}    json.loads    ${resp.content}
-    ${serviceName}=    Convert To String      ${response_json['serviceName']}
-    Should Be Equal    ${serviceName}    test_so
+${resp}    Post Request refrepo/ecomp/mso/infra/serviceInstance/v2 headers
+${resp1}    Delete Request refrepo /ecomp/mso/infra/serviceInstance/v2/ff305d54-75b4-431b-adb2-eb6b9e5ff000
+${resp2}    Get Request refrepo /ecomp/mso/infra/orchestrationRequest/v2/rq1234d1-5a33-55df-13ab-12abad84e333
 
+
+*** Test Cases ***
+
+Create ServiceInstance for invalid input
+    Create Session   refrepo  http://localhost:8080
+    &{headers}=  Create Dictionary    Authorization=Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==    Content-Type=application/json    Accept=application/json
+    Should Not Be Equal As Strings  ${resp}     400
+
+Delete ServiceInstance for invalid input
+    Create Session   refrepo  http://localhost:8080
+    &{headers}=  Create Dictionary    Authorization=Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==    Content-Type=application/json    Accept=application/json
+    Should Not Contain Match  ${resp1}     400
+
+SO ServiceInstance health check
+    Create Session   refrepo  http://localhost:8080
+    &{headers}=  Create Dictionary    Authorization=Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==    Content-Type=application/json    Accept=application/json
+    Should Not Contain Match     ${resp2}      *success*
