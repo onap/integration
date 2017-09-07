@@ -20,18 +20,23 @@
 source ${SCRIPTS}/common_functions.sh
 
 #Start gso
-run-instance.sh openoint/gso-service-manager gso " -i -t -e MSB_ADDR=${MSB_IP}:80 -e MYSQL_ADDR=${INV_ADDR}:3306"
-sleep_msg="Waiting_for_so"
-curl_path='http://'${MSB_IP}':80/api/so/v1/services'
-wait_curl_driver CURL_COMMAND=$curl_path WAIT_MESSAGE='"$sleep_msg"' REPEAT_NUMBER=25 GREP_STRING="\["
+#run-instance.sh openoint/gso-service-manager gso " -i -t -e MSB_ADDR=${MSB_IP}:80 -e MYSQL_ADDR=${INV_ADDR}:3306"
+#sleep_msg="Waiting_for_so"
+#curl_path='http://'${MSB_IP}':80/api/so/v1/services'
+#wait_curl_driver CURL_COMMAND=$curl_path WAIT_MESSAGE='"$sleep_msg"' REPEAT_NUMBER=25 GREP_STRING="\["
 
 #run simulator
-docker run -d -i -t --name gso_csit_simulator -e SIMULATOR_JSON=Stubs/testcase/so/main.json -p 18009:18009 -p 18008:18008  openoint/simulate-test-docker
-SIMULATOR_IP=`get-instance-ip.sh gso_csit_simulator`
-sleep_msg="Waiting_for_simulator"
-curl_path='http://'${SIMULATOR_IP}':18009/api/extsys/v1/vims'
-wait_curl_driver CURL_COMMAND=$curl_path WAIT_MESSAGE='"$sleep_msg"' REPEAT_NUMBER=16 GREP_STRING="\["
+#docker run -d -i -t --name gso_csit_simulator -e SIMULATOR_JSON=Stubs/testcase/so/main.json -p 18009:18009 -p 18008:18008  openoint/simulate-test-docker
+#SIMULATOR_IP=`get-instance-ip.sh gso_csit_simulator`
+#sleep_msg="Waiting_for_simulator"
+#curl_path='http://'${SIMULATOR_IP}':18009/api/extsys/v1/vims'
+#wait_curl_driver CURL_COMMAND=$curl_path WAIT_MESSAGE='"$sleep_msg"' REPEAT_NUMBER=16 GREP_STRING="\["
 
 
-ROBOT_VARIABLES="-v MSB_IP:${MSB_IP}  -v SCRIPTS:${SCRIPTS}  -v SIMULATOR_IP:${SIMULATOR_IP}"
-robot ${ROBOT_VARIABLES} ${SCRIPTS}/../tests/so/sanity-check/register_simulator_to_msb.robot
+#ROBOT_VARIABLES="-v MSB_IP:${MSB_IP}  -v SCRIPTS:${SCRIPTS}  -v SIMULATOR_IP:${SIMULATOR_IP}"
+#robot ${ROBOT_VARIABLES} ${SCRIPTS}/../tests/so/sanity-check/register_simulator_to_msb.robot
+
+#start so
+docker run -d -t --name so -p 8080:8080 nexus3.onap.org:10001/openecomp/mso
+
+ROBOT_VARIABLES="-v MOCK_IP:${MOCK_IP}"
