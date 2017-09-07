@@ -1,25 +1,76 @@
-*** settings ***
-Resource    ../../common.robot
+*** Settings ***
 Library     Collections
 Library     RequestsLibrary
 Library     OperatingSystem
 Library     json
-Library     HttpLibrary.HTTP
 
 *** Variables ***
-@{return_ok_list}=   200  201  202
-${queryservice_url}       /api/so/v1/services/5212b49f-fe70-414f-9519-88bec35b3190
-${service_id}
-${operation_id}
-*** Test Cases ***
-soQueryServiceFuncTest
-    [Documentation]    query single service rest test
-    ${headers}    Create Dictionary    Content-Type=application/json    Accept=application/json
-    Create Session    web_session    http://${MSB_IP}    headers=${headers}
-    ${resp}=  Get Request    web_session    ${queryservice_url}
-    ${responese_code}=     Convert To String      ${resp.status_code}
-    List Should Contain Value    ${return_ok_list}   ${responese_code}
-    ${response_json}    json.loads    ${resp.content}
-    ${serviceName}=    Convert To String      ${response_json['serviceName']}
-    Should Be Equal    ${serviceName}    test_so
+${MESSAGE}    ('Connection aborted.', error(104, 'Connection reset by peer'))
 
+
+*** Test Cases ***
+
+Create ServiceInstance for invalid input
+    Create Session   refrepo  http://127.0.0.1:8080
+    ${data}=    Get Binary File     ${CURDIR}${/}data${/}createService.json
+    &{headers}=  Create Dictionary    Authorization=Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==    Content-Type=application/json    Accept=application/json
+    ${resp}=    Post Request    refrepo    /ecomp/mso/infra/serviceInstances/v2    data=${data}    headers=${headers}
+    Should Be Equal As Strings  ${resp.status_code}     400
+
+Delete ServiceInstance for invalid input
+    Create Session   refrepo  http://127.0.0.1:8080
+    ${data}=    Get Binary File     ${CURDIR}${/}data${/}deleteService.json
+    &{headers}=  Create Dictionary    Authorization=Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==    Content-Type=application/json    Accept=application/json
+    ${resp}=    Delete Request    refrepo    /ecomp/mso/infra/serviceInstances/v2/ff305d54-75b4-431b-adb2-eb6b9e5ff000    data=${data}    headers=${headers}
+    Should Be Equal As Strings  ${resp.status_code}     400
+
+SO ServiceInstance health check
+    Create Session   refrepo  http://127.0.0.1:8080
+    &{headers}=  Create Dictionary    Authorization=Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==    Content-Type=application/json    Accept=application/json
+    ${resp}=    Get Request    refrepo    /ecomp/mso/infra/orchestrationRequests/v2/rq1234d1-5a33-55df-13ab-12abad84e333    headers=${headers}
+    Should Not Contain     ${resp.content}      null
+
+Create VnfInstance for invalid input
+    Create Session   refrepo  http://127.0.0.1:8080
+    ${data}=    Get Binary File     ${CURDIR}${/}data${/}createVnf.json
+    &{headers}=  Create Dictionary    Authorization=Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==    Content-Type=application/json    Accept=application/json
+    ${resp}=    Post Request    refrepo    /ecomp/mso/infra/serviceInstances/v2/ff305d54-75b4-431b-adb2-eb6b9e5ff000/vnfs    data=${data}    headers=${headers}
+    Should Be Equal As Strings  ${resp.status_code}     400
+
+Delete VnfInstance for invalid input
+    Create Session   refrepo  http://127.0.0.1:8080
+    ${data}=    Get Binary File     ${CURDIR}${/}data${/}deleteVnf.json
+    &{headers}=  Create Dictionary    Authorization=Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==    Content-Type=application/json    Accept=application/json
+    ${resp}=    Delete Request    refrepo    /ecomp/mso/infra/serviceInstances/v2/ff305d54-75b4-431b-adb2-eb6b9e5ff000/vnfs/aca51b0a-710d-4155-bc7c-7cef19d9a94e    data=${data}    headers=${headers}
+    Should Be Equal As Strings  ${resp.status_code}     400
+
+Get Orchestration Requests
+    Create Session   refrepo  http://127.0.0.1:8080
+    &{headers}=  Create Dictionary    Authorization=Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==    Content-Type=application/json    Accept=application/json
+    ${resp}=    Get Request    refrepo    /ecomp/mso/infra/orchestrationRequests/v2    headers=${headers}
+    Should Not Contain     ${resp.content}      null
+
+Create VnfInstance for invalid input connection
+    Create Session   refrepo  http://127.0.0.1:8080
+    ${data}=    Get Binary File     ${CURDIR}${/}data${/}createVnf.json
+    &{headers}=  Create Dictionary    Authorization=Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==    Content-Type=application/json    Accept=application/json
+    ${resp}=    Post Request    refrepo    /ecomp/mso/infra/serviceInstances/v2/ff305d54-75b4-431b-adb2-eb6b9e5ff000/vnfs    data=${data}    headers=${headers}
+    Should Be Equal As Strings  ${resp}     ${MESSAGE}
+
+Delete VnfInstance for invalid input connection
+    Create Session   refrepo  http://127.0.0.1:8080
+    ${data}=    Get Binary File     ${CURDIR}${/}data${/}deleteVnf.json
+    &{headers}=  Create Dictionary    Authorization=Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==    Content-Type=application/json    Accept=application/json
+    ${resp}=    Delete Request    refrepo    /ecomp/mso/infra/serviceInstances/v2/ff305d54-75b4-431b-adb2-eb6b9e5ff000/vnfs/aca51b0a-710d-4155-bc7c-7cef19d9a94e    data=${data}    headers=${headers}
+    Should Not Contain Match     ${resp}      template99
+	
+String Equality Test
+    Create Session   refrepo  http://127.0.0.1:8080
+    Should Be Equal    0    0
+	
+Create VnfInstance for invalid input check
+    Create Session   refrepo  http://127.0.0.1:8080
+    ${data}=    Get Binary File     ${CURDIR}${/}data${/}createVnf.json
+    &{headers}=  Create Dictionary    Authorization=Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==    Content-Type=application/json    Accept=application/json
+    ${resp}=    Post Request    refrepo    /ecomp/mso/infra/serviceInstances/v2/ff305d54-75b4-431b-adb2-eb6b9e5ff000/vnfs    data=${data}    headers=${headers}
+    Should Be Equal As Integers  ${resp.status_code}  104
