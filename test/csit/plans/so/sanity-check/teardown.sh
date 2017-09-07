@@ -15,10 +15,4 @@
 # limitations under the License.
 #
 
-#copy the logs files
-docker cp so:/service/logs/lifecyclemgr.log ${SCRIPTS}/../../../archives
-# kill micro service
-kill-instance.sh i-msb
 kill-instance.sh so
-
-
