@@ -17,28 +17,62 @@
 # Place the scripts in run order:
 # Start all process required for executing test case
 
-#login to the onap nexus docker repo
-docker login -u docker -p docker nexus3.onap.org:10001
+source ${SCRIPTS}/common_functions.sh
 
-# Start MSB
-docker run -d -p 8500:8500 --name msb_consul nexus3.onap.org:10001/onap/msb/msb_base
-CONSUL_IP=`get-instance-ip.sh msb_consul`
-echo CONSUL_IP=${CONSUL_IP}
-docker run -d -p 10081:10081 -e CONSUL_IP=$CONSUL_IP --name msb_discovery nexus3.onap.org:10001/onap/msb/msb_discovery
-DISCOVERY_IP=`get-instance-ip.sh msb_discovery`
-echo DISCOVERY_IP=${DISCOVERY_IP}
-docker run -d -p 80:80 -e CONSUL_IP=$CONSUL_IP -e SDCLIENT_IP=$DISCOVERY_IP --name msb_internal_apigateway nexus3.onap.org:10001/onap/msb/msb_apigateway
-MSB_IP==`get-instance-ip.sh msb_internal_apigateway`
-echo MSB_IP=${MSB_IP}
 
-# start vfc-vnfres
-docker run -d --name vfc-vnfres -e MSB_ADDR=${MSB_IP}:80 nexus3.onap.org:10001/onap/vfc/vnfres
-VNFRES_IP=`get-instance-ip.sh vfc-vnfres`
+#start msb
+docker run -d -p 8500:8500  --name msb_consul consul
+MSB_CONSUL_IP=`get-instance-ip.sh msb_consul`
+echo MSB_CONSUL_IP=${MSB_CONSUL_IP}
+docker run -d  -p 10081:10081  -e CONSUL_IP=$MSB_CONSUL_IP --name msb_discovery nexus3.onap.org:10001/onap/msb/msb_discovery
+MSB_DISCOVERY_IP=`get-instance-ip.sh msb_discovery`
+echo MSB_DISCOVERY_IP=${MSB_DISCOVERY_IP}
+docker run -d -p 80:80 -e CONSUL_IP=$MSB_CONSUL_IP -e SDCLIENT_IP=$MSB_DISCOVERY_IP -e "ROUTE_LABELS=visualRange:1" --name msb_internal_apigateway nexus3.onap.org:10001/onap/msb/msb_apigateway
+MSB_IAG_IP=`get-instance-ip.sh msb_internal_apigateway`
+echo MSB_IAG_IP=${MSB_IAG_IP}
+
+# Wait for initialization(8500 Consul, 10081 Service Registration & Discovery, 80 api gateway)
 for i in {1..10}; do
-    curl -sS ${VNFRES_IP}:8803 && break
+    curl -sS -m 1 ${MSB_CONSUL_IP}:8500 && curl -sS -m 1 ${MSB_DISCOVERY_IP}:10081 && curl -sS -m 1 ${MSB_IAG_IP}:80 && break
     echo sleep $i
     sleep $i
 done
 
+# wait for container initalization
+echo sleep 60
+sleep 60
+# start vfc-vnfres
+docker run -d --name vfc-vnfres -v /var/lib/mysql -e MSB_ADDR=${MSB_DISCOVERY_IP}:10081 nexus3.onap.org:10001/onap/vfc/vnfres
+VNFRES_IP=`get-instance-ip.sh vfc-vnfres`
+
+docker logs -f vfc-vnfres > vfc-vnfres.log &
+# Wait for initialization
+for i in {1..10}; do
+    curl -sS ${VNFRES_IP}:8802 && break
+    echo sleep $i
+    sleep $i
+done
+cat vfc-vnfres.log
+
+echo "================================================"
+docker cp vfc-vnfres:/service/vfc/gvnfm/vnfres/res/docker/docker-entrypoint.sh ./
+cat docker-entrypoint.sh
+
+echo "================================================"
+docker cp vfc-vnfres:/service/vfc/gvnfm/vnfres/res/docker/instance_config.sh ./
+cat instance_config.sh
+
+echo "================================================"
+docker cp vfc-vnfres:/service/vfc/gvnfm/vnfres/res/docker/instance_init.sh ./
+cat instance_init.sh
+
+echo "================================================"
+docker cp vfc-vnfres:/service/vfc/gvnfm/vnfres/res/docker/instance_run.sh ./
+cat instance_run.sh
+
+#echo "================================================"
+#docker cp vfc-vnfres:/service/vfc/gvnfm/vnfres/res/logs/runtime_res.log ./
+#cat instance_init.sh
+
 # Pass any variables required by Robot test suites in ROBOT_VARIABLES
-ROBOT_VARIABLES="-v MSB_IP:${MSB_IP} -v VNFRES_IP:${VNFRES_IP}"
+ROBOT_VARIABLES="-v MSB_IAG_IP:${MSB_IAG_IP} -v MSB_DISCOVERY_IP:${MSB_DISCOVERY_IP} -v VNFRES_IP:${VNFRES_IP}"
