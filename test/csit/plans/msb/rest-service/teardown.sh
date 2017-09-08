@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 
-#kill-instance.sh msb_consul
-#kill-instance.sh msb_discovery
-#kill-instance.sh msb_internal_apigateway
-#kill-instance.sh i-rest-example
+kill-instance.sh msb_consul
+kill-instance.sh msb_discovery
+kill-instance.sh msb_internal_apigateway
+kill-instance.sh i-rest-example
