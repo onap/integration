@@ -23,9 +23,8 @@ queryConditionRule
     [Arguments]    ${queryParam}    ${codeFlag}=1
     [Documentation]    ${queryParam} : The data type is Json .
     create session    microservices    ${ruleMgtHost}
-    ${param}    set variable    queryrequest\=${queryParam}
-    ${headers}    set variable
-    ${getResponse}    get request    microservices    ${ruleMgtUrl}    ${headers}    ${param}
+    Comment    ${param}    set variable    queryrequest\=${queryParam}
+    ${getResponse}    get request    microservices    ${ruleMgtUrl}?queryrequest\=${queryParam}
     log    ${getResponse.content}
     run keyword if    ${codeFlag}==1    Should be equal as strings    ${getResponse.status_code}    200
     run keyword if    ${codeFlag}!=1    Should be equal as strings    ${getResponse.status_code}    499
