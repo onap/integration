@@ -15,11 +15,11 @@
 # limitations under the License.
 #
 
-kill-instance.sh i-rulemgt
-kill-instance.sh i-engine-d
-kill-instance.sh msb_internal_apigateway
-kill-instance.sh msb_discovery
-kill-instance.sh msb_consul
-kill-instance.sh mysql-holmes
+#kill-instance.sh i-rulemgt
+#kill-instance.sh i-engine-d
+#kill-instance.sh msb_internal_apigateway
+#kill-instance.sh msb_discovery
+#kill-instance.sh msb_consul
+#kill-instance.sh mysql-holmes
 
 
