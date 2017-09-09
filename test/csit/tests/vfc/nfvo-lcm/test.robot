@@ -12,7 +12,7 @@ ${queryswagger_url}    /api/nslcm/v1/swagger.json
 NslcmSwaggerTest
     [Documentation]    query swagger info nslcm
     ${headers}    Create Dictionary    Content-Type=application/json    Accept=application/json
-    Create Session    web_session    http://${MSB_IAG_IP}:80    headers=${headers}
+    Create Session    web_session    http://${NSLCM_IP}:8403    headers=${headers}
     ${resp}=  Get Request    web_session    ${queryswagger_url}
     ${responese_code}=     Convert To String      ${resp.status_code}
     List Should Contain Value    ${return_ok_list}   ${responese_code}

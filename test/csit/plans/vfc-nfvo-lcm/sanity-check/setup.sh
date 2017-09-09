@@ -44,7 +44,7 @@ echo sleep 30
 sleep 30
 
 # start vfc-nslcm
-docker run -d --name vfc-nslcm -v /var/lib/mysql -e MSB_ADDR=${MSB_IAG_IP}:80 nexus3.onap.org:10001/onap/vfc/nslcm
+docker run -d --name vfc-nslcm -v /var/lib/mysql -e MSB_ADDR=${MSB_DISCOVERY_IP}:10081 nexus3.onap.org:10001/onap/vfc/nslcm
 NSLCM_IP=`get-instance-ip.sh vfc-nslcm`
 
 # Wait for initialization
