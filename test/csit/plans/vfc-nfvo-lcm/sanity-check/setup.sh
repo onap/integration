@@ -54,5 +54,9 @@ for i in {1..10}; do
     sleep $i
 done
 
+# wait for register data synchronization from MSB_DISCOVER to MSB_IAG
+echo sleep 60
+sleep 60
+
 # Pass any variables required by Robot test suites in ROBOT_VARIABLES
 ROBOT_VARIABLES="-v MSB_IAG_IP:${MSB_IAG_IP} -v MSB_DISCOVERY_IP:${MSB_DISCOVERY_IP} -v NSLCM_IP:${NSLCM_IP}"
