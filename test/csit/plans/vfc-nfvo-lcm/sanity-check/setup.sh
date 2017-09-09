@@ -28,7 +28,7 @@ docker run -d  -p 10081:10081  -e CONSUL_IP=$MSB_CONSUL_IP --name msb_discovery 
 MSB_DISCOVERY_IP=`get-instance-ip.sh msb_discovery`
 echo DISCOVERY_IP=${MSB_DISCOVERY_IP}
 
-docker run -d -p 80:80 -e CONSUL_IP=$MSB_CONSUL_IP -e SDCLIENT_IP=$MSB_DISCOVERY_IP --name msb_internal_apigateway nexus3.onap.org:10001/onap/msb/msb_apigateway
+docker run -d -p 80:80 -e CONSUL_IP=$MSB_CONSUL_IP -e SDCLIENT_IP=$MSB_DISCOVERY_IP -e "ROUTE_LABELS=visualRange:1" --name msb_internal_apigateway nexus3.onap.org:10001/onap/msb/msb_apigateway
 MSB_IAG_IP=`get-instance-ip.sh msb_internal_apigateway`
 echo MSB_IAG_IP=${MSB_IAG_IP}
 
@@ -39,9 +39,9 @@ for i in {1..10}; do
     sleep $i
 done
 
-# wait for container initalization
-echo sleep 30
-sleep 30
+# Need some time so service info can be synced from discovery to api gateway
+echo sleep 60
+sleep 60
 
 # start vfc-nslcm
 docker run -d --name vfc-nslcm -v /var/lib/mysql -e MSB_ADDR=${MSB_DISCOVERY_IP}:10081 nexus3.onap.org:10001/onap/vfc/nslcm
