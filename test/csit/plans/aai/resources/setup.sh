@@ -24,9 +24,7 @@ NEXUS_PASSWD=$(cat /opt/config/nexus_password.txt)
 NEXUS_DOCKER_REPO=$(cat /opt/config/nexus_docker_repo.txt)
 DOCKER_IMAGE_VERSION=$(cat /opt/config/docker_version.txt)
 DOCKER_REGISTRY=${NEXUS_DOCKER_REPO}
-DOCKER_IMAGE_VERSION=$(cat /opt/config/docker_version.txt)
-
-docker login -u $NEXUS_USERNAME -p $NEXUS_PASSWD $NEXUS_DOCKER_REPO
+DOCKER_IMAGE_VERSION=1.1-STAGING-latest
 
 function wait_for_container() {
 
@@ -76,7 +74,7 @@ RESOURCES_CONTAINER_NAME=$(${DOCKER_COMPOSE_CMD} up -d aai-resources.api.simpled
 wait_for_container ${RESOURCES_CONTAINER_NAME} '0.0.0.0:8447';
 
 # Start the traversal microservice
-GRAPH_CONTAINER_NAME=$($DOCKER_COMPOSE_CMD up -d aai-traversal.api.simpledemo.openecomp.org 2>&1 | grep 'Creating' | awk '{ print $2; }' | head -1);
+GRAPH_CONTAINER_NAME=$(${DOCKER_COMPOSE_CMD} up -d aai-traversal.api.simpledemo.openecomp.org 2>&1 | grep 'Creating' | awk '{ print $2; }' | head -1);
 wait_for_container ${GRAPH_CONTAINER_NAME} '0.0.0.0:8446';
 
 # Start the haproxy to route requests between resources and traversal
@@ -84,12 +82,11 @@ HAPROXY_CONTAINER_NAME=$(${DOCKER_COMPOSE_CMD} up -d aai.api.simpledemo.openecom
 
 echo "A&AI Microservices, resources and traversal, are up and running along with HAProxy";
 
-docker exec -it $GRAPH_CONTAINER_NAME "/opt/app/aai-traversal/scripts/install/updateQueryData.sh" && {
+docker exec $GRAPH_CONTAINER_NAME "/opt/app/aai-traversal/scripts/install/updateQueryData.sh" && {
 	echo "Successfully loaded the widget related data into db";
 } || {
 	echo "Unable to load widget related data into db";
 }
 
-HAPROXY_IP=$(${SCRIPTS}/get-instance-ip.sh ${HAPROXY_CONTAINER_NAME});
 # Set the host ip for robot from the haproxy
-ROBOT_VARIABLES="-v HOST_IP:${HAPROXY_IP}"
+ROBOT_VARIABLES="-v HOST_IP:`ip addr show docker0 | head -3 | tail -1 | cut -d' ' -f6 | cut -d'/' -f1`"
