@@ -31,8 +31,7 @@ Run AAI Delete Pserver
 PutWithCert
     [Arguments]      ${url}      ${data}
     ${auth}=         Create List  AAI AAI
-    ${uuid}=         Generate UUID
-    ${headers}=      Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${uuid}    X-FromAppId=integration-aai
+    ${headers}=      Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=integration-aai    X-FromAppId=integration-aai
     ${certinfo}=     Evaluate    ('${CURDIR}/aai.crt', '${CURDIR}/aai.key')
     ${resp}=         Evaluate    requests.put('${url}', data='${data}', auth=${auth}, headers=${headers}, cert=${certinfo}, verify=False)    requests
     [return]         ${resp}
@@ -40,8 +39,7 @@ PutWithCert
 PostWithCert
     [Arguments]      ${url}      ${data}
     ${auth}=         Create List  AAI AAI
-    ${uuid}=         Generate UUID
-    ${headers}=      Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${uuid}    X-FromAppId=integration-aai
+    ${headers}=      Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=integration-aai    X-FromAppId=integration-aai
     ${certinfo}=     Evaluate    ('${CURDIR}/aai.crt', '${CURDIR}/aai.key')
     ${resp}=         Evaluate    requests.post('${url}', data='${data}', auth=${auth}, headers=${headers}, cert=${certinfo}, verify=False)    requests
     [return]         ${resp}
@@ -49,8 +47,7 @@ PostWithCert
 GetWithCert
     [Arguments]      ${url}
     ${auth}=         Create List  AAI AAI
-    ${uuid}=         Generate UUID
-    ${headers}=      Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${uuid}    X-FromAppId=integration-aai
+    ${headers}=      Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=integration-aai    X-FromAppId=integration-aai
     ${certinfo}=     Evaluate    ('${CURDIR}/aai.crt', '${CURDIR}/aai.key')
     ${resp}=         Evaluate    requests.get('${url}', auth=${auth}, headers=${headers}, cert=${certinfo}, verify=False)    requests
     [return]         ${resp}
@@ -58,8 +55,7 @@ GetWithCert
 DeleteWithCert
     [Arguments]      ${url}
     ${auth}=         Create List  AAI AAI
-    ${uuid}=         Generate UUID
-    ${headers}=      Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${uuid}    X-FromAppId=integration-aai
+    ${headers}=      Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=integration-aai    X-FromAppId=integration-aai
     ${certinfo}=     Evaluate    ('${CURDIR}/aai.crt', '${CURDIR}/aai.key')
     ${resp}=         Evaluate    requests.delete('${url}', auth=${auth}, headers=${headers}, cert=${certinfo}, verify=False)    requests
     [return]         ${resp}
