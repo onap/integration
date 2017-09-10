@@ -1,6 +1,7 @@
 *** Settings ***
 Library       OperatingSystem
 Library       RequestsLibrary
+Library       UUID
 Library       requests
 Library       Collections
 
