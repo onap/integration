@@ -30,37 +30,31 @@ Run AAI Delete Pserver
 *** Keywords ***
 PutWithCert
     [Arguments]      ${url}      ${data}
-    ${auth}=         Create List  AAI AAI
-    ${uuid}=         Generate UUID
-    ${headers}=      Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${uuid}    X-FromAppId=integration-aai
+    ${headers}=      Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=integration-aai    X-FromAppId=integration-aai   Authorization=Basic QUFJOkFBSQ==
     ${certinfo}=     Evaluate    ('${CURDIR}/aai.crt', '${CURDIR}/aai.key')
-    ${resp}=         Evaluate    requests.put('${url}', data='${data}', auth=${auth}, headers=${headers}, cert=${certinfo}, verify=False)    requests
+    ${resp}=         Evaluate    requests.put('${url}', data='${data}', headers=${headers}, cert=${certinfo}, verify=False)    requests
     [return]         ${resp}
 
 PostWithCert
     [Arguments]      ${url}      ${data}
     ${auth}=         Create List  AAI AAI
-    ${uuid}=         Generate UUID
-    ${headers}=      Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${uuid}    X-FromAppId=integration-aai
+    ${headers}=      Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=integration-aai    X-FromAppId=integration-aai   Authorization=Basic QUFJOkFBSQ==
     ${certinfo}=     Evaluate    ('${CURDIR}/aai.crt', '${CURDIR}/aai.key')
-    ${resp}=         Evaluate    requests.post('${url}', data='${data}', auth=${auth}, headers=${headers}, cert=${certinfo}, verify=False)    requests
+    ${resp}=         Evaluate    requests.post('${url}', data='${data}', headers=${headers}, cert=${certinfo}, verify=False)    requests
     [return]         ${resp}
 
 GetWithCert
     [Arguments]      ${url}
-    ${auth}=         Create List  AAI AAI
-    ${uuid}=         Generate UUID
-    ${headers}=      Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${uuid}    X-FromAppId=integration-aai
+    ${headers}=      Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=integration-aai    X-FromAppId=integration-aai   Authorization=Basic QUFJOkFBSQ==
     ${certinfo}=     Evaluate    ('${CURDIR}/aai.crt', '${CURDIR}/aai.key')
-    ${resp}=         Evaluate    requests.get('${url}', auth=${auth}, headers=${headers}, cert=${certinfo}, verify=False)    requests
+    ${resp}=         Evaluate    requests.get('${url}', headers=${headers}, cert=${certinfo}, verify=False)    requests
     [return]         ${resp}
 
 DeleteWithCert
     [Arguments]      ${url}
     ${auth}=         Create List  AAI AAI
-    ${uuid}=         Generate UUID
-    ${headers}=      Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${uuid}    X-FromAppId=integration-aai
+    ${headers}=      Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=integration-aai    X-FromAppId=integration-aai   Authorization=Basic QUFJOkFBSQ==
     ${certinfo}=     Evaluate    ('${CURDIR}/aai.crt', '${CURDIR}/aai.key')
-    ${resp}=         Evaluate    requests.delete('${url}', auth=${auth}, headers=${headers}, cert=${certinfo}, verify=False)    requests
+    ${resp}=         Evaluate    requests.delete('${url}', headers=${headers}, cert=${certinfo}, verify=False)    requests
     [return]         ${resp}
     
