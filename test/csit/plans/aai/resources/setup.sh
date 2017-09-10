@@ -24,16 +24,14 @@ NEXUS_PASSWD=$(cat /opt/config/nexus_password.txt)
 NEXUS_DOCKER_REPO=$(cat /opt/config/nexus_docker_repo.txt)
 DOCKER_IMAGE_VERSION=$(cat /opt/config/docker_version.txt)
 DOCKER_REGISTRY=${NEXUS_DOCKER_REPO}
-DOCKER_IMAGE_VERSION=$(cat /opt/config/docker_version.txt)
-
-docker login -u $NEXUS_USERNAME -p $NEXUS_PASSWD $NEXUS_DOCKER_REPO
+DOCKER_IMAGE_VERSION=1.1-STAGING-latest
 
 function wait_for_container() {
 
     CONTAINER_NAME="$1";
     START_TEXT="$2";
 
-    TIMEOUT=160
+    TIMEOUT=240
 
     # wait for the real startup
     AMOUNT_STARTUP=$(docker logs ${CONTAINER_NAME} 2>&1 | grep "$START_TEXT" | wc -l)
@@ -43,6 +41,7 @@ function wait_for_container() {
         AMOUNT_STARTUP=$(docker logs ${CONTAINER_NAME} 2>&1 | grep "$START_TEXT" | wc -l)
         if [ "$TIMEOUT" = "0" ];
         then
+            docker logs ${CONTAINER_NAME};
             echo "ERROR: $CONTAINER_NAME deployment failed."
             exit 1
         fi
@@ -54,6 +53,7 @@ function wait_for_container() {
 DOCKER_COMPOSE_CMD="docker-compose";
 export MTU=$(/sbin/ifconfig | grep MTU | sed 's/.*MTU://' | sed 's/ .*//' | sort -n | head -1);
 export DOCKER_REGISTRY="nexus3.onap.org:10001";
+export AAI_HAPROXY_IMAGE="${AAI_HAPROXY_IMAGE:-aaionap/haproxy}";
 export HBASE_IMAGE="${HBASE_IMAGE:-harisekhon/hbase}";
 
 docker pull ${DOCKER_REGISTRY}/openecomp/aai-resources:${DOCKER_IMAGE_VERSION};
@@ -74,9 +74,10 @@ wait_for_container ${HBASE_CONTAINER_NAME} ' Started SelectChannelConnector@0.0.
 # Start the resources microservice
 RESOURCES_CONTAINER_NAME=$(${DOCKER_COMPOSE_CMD} up -d aai-resources.api.simpledemo.openecomp.org 2>&1 | grep 'Creating' | grep -v 'volume' | grep -v 'network' | awk '{ print $2; }' | head -1);
 wait_for_container ${RESOURCES_CONTAINER_NAME} '0.0.0.0:8447';
+docker logs ${CONTAINER_NAME};
 
 # Start the traversal microservice
-GRAPH_CONTAINER_NAME=$($DOCKER_COMPOSE_CMD up -d aai-traversal.api.simpledemo.openecomp.org 2>&1 | grep 'Creating' | awk '{ print $2; }' | head -1);
+GRAPH_CONTAINER_NAME=$(${DOCKER_COMPOSE_CMD} up -d aai-traversal.api.simpledemo.openecomp.org 2>&1 | grep 'Creating' | awk '{ print $2; }' | head -1);
 wait_for_container ${GRAPH_CONTAINER_NAME} '0.0.0.0:8446';
 
 # Start the haproxy to route requests between resources and traversal
@@ -84,12 +85,11 @@ HAPROXY_CONTAINER_NAME=$(${DOCKER_COMPOSE_CMD} up -d aai.api.simpledemo.openecom
 
 echo "A&AI Microservices, resources and traversal, are up and running along with HAProxy";
 
-docker exec -it $GRAPH_CONTAINER_NAME "/opt/app/aai-traversal/scripts/install/updateQueryData.sh" && {
+docker exec $GRAPH_CONTAINER_NAME "/opt/app/aai-traversal/scripts/install/updateQueryData.sh" && {
 	echo "Successfully loaded the widget related data into db";
 } || {
 	echo "Unable to load widget related data into db";
 }
 
-HAPROXY_IP=$(${SCRIPTS}/get-instance-ip.sh ${HAPROXY_CONTAINER_NAME});
 # Set the host ip for robot from the haproxy
-ROBOT_VARIABLES="-v HOST_IP:${HAPROXY_IP}"
+ROBOT_VARIABLES="-v HOST_IP:`ip addr show docker0 | head -3 | tail -1 | cut -d' ' -f6 | cut -d'/' -f1`"
