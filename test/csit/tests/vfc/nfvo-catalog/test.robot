@@ -13,7 +13,7 @@ ${queryNSPackages_url}     /api/catalog/v1/nspackages
 *** Test Cases ***
 GetVNFPackages
     ${headers}            Create Dictionary    Content-Type=application/json    Accept=application/json
-    Create Session        web_session          http://${CATALOG_IP}             headers=${headers}
+    Create Session        web_session          http://${CATALOG_IP}:8806             headers=${headers}
     ${resp}=              Get Request          web_session                      ${queryVNFPackage_url}
     ${responese_code}=    Convert To String    ${resp.status_code}
     List Should Contain Value    ${return_ok_list}   ${responese_code}
