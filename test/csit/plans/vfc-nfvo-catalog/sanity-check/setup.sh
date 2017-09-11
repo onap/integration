@@ -20,19 +20,32 @@
 #login to the onap nexus docker repo
 docker login -u docker -p docker nexus3.onap.org:10001
 
-# Start MSB
-docker run -d -p 8500:8500 --name msb_consul nexus3.onap.org:10001/onap/msb/msb_base
+# start msb
+docker run -d -p 8500:8500 --name msb_consul
 CONSUL_IP=`get-instance-ip.sh msb_consul`
 echo CONSUL_IP=${CONSUL_IP}
+
 docker run -d -p 10081:10081 -e CONSUL_IP=$CONSUL_IP --name msb_discovery nexus3.onap.org:10001/onap/msb/msb_discovery
 DISCOVERY_IP=`get-instance-ip.sh msb_discovery`
 echo DISCOVERY_IP=${DISCOVERY_IP}
-docker run -d -p 80:80 -e CONSUL_IP=$CONSUL_IP -e SDCLIENT_IP=$DISCOVERY_IP --name msb_internal_apigateway nexus3.onap.org:10001/onap/msb/msb_apigateway
+
+docker run -d -p 80:80 -e CONSUL_IP=$CONSUL_IP -e SDCLIENT_IP=$DISCOVERY_IP -e "ROUTE_LABELS=visualRange:1" --name msb_internal_apigateway nexus3.onap.org:10001/onap/msb/msb_apigateway
 MSB_IP==`get-instance-ip.sh msb_internal_apigateway`
 echo MSB_IP=${MSB_IP}
 
+# Wait for initialization(8500 Consul, 10081 Service Registration & Discovery, 80 api gateway)
+for i in {1..10}; do
+    curl -sS -m 1 ${CONSUL_IP}:8500 && curl -sS -m 1 ${DISCOVERY_IP}:10081 && curl -sS -m 1 ${MSB_IP}:80 && break
+    echo sleep $i
+    sleep $i
+done
+
+# Need some time so service info can be synced from discovery to api gateway
+echo sleep 60
+sleep 60
+
 # start vfc-catalog
-docker run -d --name vfc-catalog -e MSB_ADDR=${MSB_IP}:80 nexus3.onap.org:10001/onap/vfc/catalog
+docker run -d --name vfc-catalog -v /var/lib/mysql -e MSB_ADDR=${DISCOVERY_IP}:10081 nexus3.onap.org:10001/onap/vfc/catalog
 CATALOG_IP=`get-instance-ip.sh vfc-catalog`
 for i in {1..10}; do
     curl -sS ${CATALOG_IP}:8806 && break
@@ -41,4 +54,4 @@ for i in {1..10}; do
 done
 
 # Pass any variables required by Robot test suites in ROBOT_VARIABLES
-ROBOT_VARIABLES="-v MSB_IP:${MSB_IP} -v CATALOG_IP:${CATALOG_IP}"
+ROBOT_VARIABLES="-v MSB_IP:${MSB_IP} -v CATALOG_IP:${CATALOG_IP} -v MSB_DISCOVERY_IP:${DISCOVERY_IP}"
