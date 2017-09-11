@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_bc6243d6",
+        "filename": "test/csit/plans/vfc-nfvo-catalog/sanity-check/setup.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1337
+      },
+      "writtenOn": "2017-09-11T06:01:58Z",
+      "side": 1,
+      "message": "this should be \"MSB_DISCOVERY_IP\"",
+      "range": {
+        "startLine": 48,
+        "startChar": 65,
+        "endLine": 48,
+        "endChar": 71
+      },
+      "revId": "51113540c93f5c93b4f3b76fe4da2c7ab80f0e0b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_9c5d3f18",
+        "filename": "test/csit/plans/vfc-nfvo-catalog/sanity-check/setup.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1337
+      },
+      "writtenOn": "2017-09-11T06:01:58Z",
+      "side": 1,
+      "message": "Should add \"-v MSB_DISCOVERY_IP:${MSB_DISCOVERY_IP}\" here",
+      "range": {
+        "startLine": 57,
+        "startChar": 36,
+        "endLine": 57,
+        "endChar": 37
+      },
+      "revId": "51113540c93f5c93b4f3b76fe4da2c7ab80f0e0b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
