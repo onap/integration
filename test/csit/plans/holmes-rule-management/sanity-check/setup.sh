@@ -17,7 +17,7 @@
 # Place the scripts in run order:
 
 # Download and start MySQL
-docker pull postgresql:9.5
+docker pull postgres:9.5
 docker run --name postgres-holmes -p 5432:5432 -e POSTGRES_USER=holmes -e POSTGRES_PASSWORD=holmespwd -d postgres:9.5 
 DB_IP=`get-instance-ip.sh postgres-holmes`
 echo DB_IP=${DB_IP}
@@ -26,7 +26,7 @@ echo DB_IP=${DB_IP}
 docker login -u docker -p docker nexus3.onap.org:10001
 
 # Start MSB
-docker run -d -p 8500:8500 --name msb_consul nexus3.onap.org:10001/onap/msb/msb_base
+docker run -d -p 8500:8500 --name msb_consul consul
 CONSUL_IP=`get-instance-ip.sh msb_consul`
 echo CONSUL_IP=${CONSUL_IP}
 docker run -d -p 10081:10081 -e CONSUL_IP=$CONSUL_IP --name msb_discovery nexus3.onap.org:10001/onap/msb/msb_discovery
