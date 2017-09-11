@@ -17,7 +17,7 @@
 # Place the scripts in run order:
 
 # Download and start MySQL
-docker pull postgresql:9.5
+docker pull postgres:9.5
 docker run --name postgres-holmes -p 5432:5432 -e POSTGRES_USER=holmes -e POSTGRES_PASSWORD=holmespwd -d postgres:9.5 
 DB_IP=`get-instance-ip.sh postgres-holmes`
 echo DB_IP=${DB_IP}
