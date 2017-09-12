@@ -22,6 +22,10 @@ source ${WORKSPACE}/test/csit/scripts/appc/script1.sh
 
 export MTU=$(/sbin/ifconfig | grep MTU | sed 's/.*MTU://' | sed 's/ .*//' | sort -n | head -1)
 
+if [ "$MTU" == "" ]; then
+	  export MTU="1450"
+fi
+
 
 # Clone APPC repo to get docker-compose for APPC
 mkdir -p $WORKSPACE/archives/appc
@@ -42,7 +46,7 @@ docker pull nexus3.onap.org:10001/openecomp/dgbuilder-sdnc-image:1.1-STAGING-lat
 docker tag nexus3.onap.org:10001/openecomp/dgbuilder-sdnc-image:1.1-STAGING-latest openecomp/dgbuilder-sdnc-image:latest
 
 # start APPC containers with docker compose and configuration from docker-compose.yml
-/opt/docker/docker-compose up -d
+docker-compose up -d
 
 # WAIT 5 minutes maximum and test every 5 seconds if APPC is up using HealthCheck API
 TIME_OUT=500
