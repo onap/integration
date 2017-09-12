@@ -21,4 +21,4 @@ kill-instance.sh msb_discovery
 kill-instance.sh msb_consul
 kill-instance.sh  vfc-ztevmanagerdriver
 
-# kill-instance.sh vfc-svnfm-huawei
+kill-instance.sh vfc-svnfm-huawei
