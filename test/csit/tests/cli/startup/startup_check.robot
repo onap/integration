@@ -20,7 +20,7 @@ Check Cli help
     ${cli_cmd_output}=    Run Process   ${cli_exec} --help    shell=yes
     Log    ${cli_cmd_output.stdout}
     Should Be Equal As Strings    ${cli_cmd_output.rc}    0
-    Should Contain    ${cli_cmd_output.stdout}    ONAP Command-line interface
+    Should Contain    ${cli_cmd_output.stdout}    ONAP Command-line interface    case_insensitive=True
 
 Check Cli Version Default
     [Documentation]    check cli default version
