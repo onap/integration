@@ -28,6 +28,15 @@ function pull_openecomp_image {
     docker logout
 }
 
+# pull_onap_image() - Pull Docker container image from a Docker Registry Hub
+function pull_onap_image {
+    local image=$1
+    local tag=$2
+    docker_openecomp_login
+    pull_docker_image $nexus_docker_repo/onap/${image}:$docker_version $tag
+    docker logout
+}
+
 # configure_bind()- Configure bind utils
 function configure_bind {
     _install_bind

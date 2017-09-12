@@ -160,7 +160,7 @@ Vagrant.configure("2") do |config|
       end
       all_in_one.vm.provision 'shell' do |s|
         s.path = 'vagrant_utils/postinstall.sh'
-        s.args = ['mr', 'sdc', 'aai', 'mso', 'robot', 'vid', 'sdnc', 'portal', 'dcae', 'policy', 'appc', 'vfc']
+        s.args = ['mr', 'sdc', 'aai', 'mso', 'robot', 'vid', 'sdnc', 'portal', 'dcae', 'policy', 'appc', 'vfc', 'ccsdk']
         s.env = conf
       end
     end
@@ -362,6 +362,19 @@ Vagrant.configure("2") do |config|
       multicloud.vm.provision 'shell' do |s|
         s.path = 'vagrant_utils/postinstall.sh'
         s.args = ['multicloud']
+        s.env = conf
+      end
+    end
+
+    config.vm.define :ccsdk do |ccsdk|
+      ccsdk.vm.hostname = 'ccsdk'
+      ccsdk.vm.network :private_network, ip: '192.168.50.17'
+      ccsdk.vm.provider "openstack" do |v|
+        v.server_name = 'ccsdk'
+      end
+      ccsdk.vm.provision 'shell' do |s|
+        s.path = 'vagrant_utils/postinstall.sh'
+        s.args = ['ccsdk']
         s.env = conf
       end
     end

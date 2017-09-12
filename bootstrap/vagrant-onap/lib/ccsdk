@@ -1,0 +1,64 @@
+#!/bin/bash
+
+set -o xtrace
+
+source /var/onap/functions
+
+ccsdk_src_folder=$git_src_folder/ccsdk
+ccsdk_repos=("dashboard" "distribution" "parent" "platform/blueprints" "platform/nbapi" "platform/plugins" "sli" "sli/adaptors" "sli/core" "sli/northbound" "sli/plugins" "storage" "storage/esaas" "storage/pgaas" "utils")
+
+# clone_ccsdk_repos() - Function that clones the CCSDK repositories
+function clone_ccsdk_repos {
+    clone_repo ccsdk $ccsdk_src_folder
+
+    for dirc in ${ccsdk_repos[@]}; do
+        clone_repo ccsdk/$dirc $ccsdk_src_folder/$dirc
+    done
+}
+
+# compile_ccsdk_repos() - 
+function compile_ccsdk_repos {
+    compile_src ccsdk $ccsdk_src_folder
+
+    for dirc in ${ccsdk_repos[@]}; do
+        compile_src $ccsdk_src_folder/$dirc
+    done
+}
+
+# _build_ccsdk_images() - Build CCSDK Docker images from source code
+function _build_ccsdk_images {
+    install_package unzip
+    compile_src $ccsdk_src_folder/distribution
+    clone_repo ccsdk/distribution $ccsdk_src_folder/distribution
+    for image in ubuntu opendaylight odlsli dgbuilder-docker; do
+        build_docker_image $ccsdk_src_folder/distribution/$image docker
+    done
+}
+
+# get_ccsdk_images() - Get CCSDK Docker images
+function get_ccsdk_images {
+    if [[ "$build_image" == "True" ]]; then
+        _build_ccsdk_images
+    else
+        for image in ubuntu odl dgbuilder; do
+            pull_onap_image ccsdk-$image-image
+        done
+    fi
+
+}
+
+# install_ccsdk() - 
+function install_ccsdk {
+    echo "pass"
+}
+
+# init_ccsdk() - Function that initialize Multi Cloud services
+function init_ccsdk {
+    if [[ "$clone_repo" == "True" ]]; then
+        clone_ccsdk_repos
+        if [[ "$compile_repo" == "True" ]]; then
+            compile_ccsdk_repos
+        fi
+    fi
+    install_ccsdk
+}
