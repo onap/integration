@@ -6,6 +6,7 @@ Library           Process
 
 ${bundle_query}    ${SCRIPTS}/bundle_query.sh
 ${health_check}    ${SCRIPTS}/health_check.sh
+${db_query}    ${SCRIPTS}/db_query.sh
 
 
 *** Test Cases ***
@@ -19,4 +20,8 @@ Query bundle test case for APPC
     ${result_bq}=    Run Process   bash ${bundle_query} > log_bq.txt    shell=yes
     Should Be Equal As Integers    ${result_bq.rc}    0
 
+Query database test case for APPC
+    [Documentation]   Query database
+    ${result_db}=    Run Process   bash ${db_query} > log_db.txt    shell=yes
+    Should Be Equal As Integers    ${result_db.rc}    0
 
