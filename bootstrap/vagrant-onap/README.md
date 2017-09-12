@@ -56,6 +56,7 @@ current options include:
 | vid        | Virtual Infrastructure Development  |
 | vfc        | Virtual Function Controller         |
 | multicloud | Multi Cloud                         |
+| ccsdk      | Common Controller SDK               |
 | all_in_one | All ONAP services in a VM           |
 | testing    | Unit Test VM                        |
 

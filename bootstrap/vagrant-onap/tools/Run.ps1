@@ -25,7 +25,7 @@ https://wiki.onap.org/display/DW/ONAP+on+Vagrant
 #>
 
 Param(
-    [ValidateSet("all_in_one","dns", "mr", "sdc", "aai", "mso", "robot", "vid", "sdnc", "portal", "dcae", "policy", "appc", "vfc", "multicloud", "testing")]
+    [ValidateSet("all_in_one","dns", "mr", "sdc", "aai", "mso", "robot", "vid", "sdnc", "portal", "dcae", "policy", "appc", "vfc", "multicloud", "ccsdk", "testing")]
     [Parameter(Mandatory=$True,Position=0)]
     [ValidateNotNullOrEmpty()]
     [String]
