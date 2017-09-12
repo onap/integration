@@ -3,4 +3,4 @@
 
 vfc/nfvo-driver-svnfm/ztevmanager.robot
 
-# vfc/nfvo-driver-svnfm/huawei.robot
+vfc/nfvo-driver-svnfm/huawei.robot
