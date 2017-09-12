@@ -18,20 +18,20 @@
 source ${SCRIPTS}/common_functions.sh
 
 #start msb
-sudo docker run -d -p 8500:8500  --name msb_consul consul
+docker run -d -p 8500:8500  --name msb_consul consul
 MSB_CONSUL_IP=`get-instance-ip.sh msb_consul`
 echo MSB_CONSUL_IP=${MSB_CONSUL_IP}
 
-sudo docker run -d  -p 10081:10081  -e CONSUL_IP=$MSB_CONSUL_IP --name msb_discovery nexus3.onap.org:10001/onap/msb/msb_discovery
+docker run -d  -p 10081:10081  -e CONSUL_IP=$MSB_CONSUL_IP --name msb_discovery nexus3.onap.org:10001/onap/msb/msb_discovery
 MSB_DISCOVERY_IP=`get-instance-ip.sh msb_discovery`
 echo DISCOVERY_IP=${MSB_DISCOVERY_IP}
 
-sudo docker run -d -p 80:80 -e CONSUL_IP=$MSB_CONSUL_IP -e SDCLIENT_IP=$MSB_DISCOVERY_IP -e "ROUTE_LABELS=visualRange:1" --name msb_internal_apigateway nexus3.onap.org:10001/onap/msb/msb_apigateway
+docker run -d -p 80:80 -e CONSUL_IP=$MSB_CONSUL_IP -e SDCLIENT_IP=$MSB_DISCOVERY_IP -e "ROUTE_LABELS=visualRange:1" --name msb_internal_apigateway nexus3.onap.org:10001/onap/msb/msb_apigateway
 MSB_IAG_IP=`get-instance-ip.sh msb_internal_apigateway`
 echo MSB_IAG_IP=${MSB_IAG_IP}
 
 # Start rest example service
-sudo docker run -d -p 9090:9090 --name i-rest-example zhaohuabing/rest-example
+docker run -d -p 9090:9090 --name i-rest-example zhaohuabing/rest-example
 REST_EXAMPLE_IP=`get-instance-ip.sh i-rest-example`
 echo REST_EXAMPLE_IP=${REST_EXAMPLE_IP}
 
