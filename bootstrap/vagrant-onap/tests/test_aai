@@ -4,7 +4,8 @@ source /var/onap_tests/_test_base
 source /var/onap/aai
 
 covered_functions=(
-"install_hadoop" "install_haproxy" "clone_all_aai_repos" "compile_aai_repos" "setup_titan" "start_aai_microservices" "install_hbase" "install_ajsc_aai" "install_model_loader"
+#"install_hadoop" "install_haproxy" "clone_all_aai_repos" "compile_aai_repos" "setup_titan" "start_aai_microservices" "install_hbase" "install_ajsc_aai" "install_model_loader"
+"install_hadoop" "install_haproxy" "clone_all_aai_repos" "compile_aai_repos" "setup_titan" "install_hbase" "install_ajsc_aai" "install_model_loader"
 )
 
 # TODO(electrocucaracha): Remove/Modify functions that doesn't support proxy settings
@@ -61,23 +62,11 @@ function test_compile_aai_repos {
     asserts_file_exist $aai_src_folder/aai-common/aai-core/target/aai-core-1.1.0-SNAPSHOT.jar
     asserts_file_exist $aai_src_folder/aai-common/aai-schema/target/aai-schema-1.1.0-SNAPSHOT.jar
 
-    asserts_file_exist $aai_src_folder/aai-service/aai-schema/target/aai-schema-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $aai_src_folder/aai-service/ajsc-aai/target/aai.jar
-    asserts_file_exist $aai_src_folder/aai-service/annotations/target/annotations-1.1.0-SNAPSHOT.jar
-
-    asserts_file_exist $aai_src_folder/data-router/target/data-router-1.1.0-SNAPSHOT.jar
-
     asserts_file_exist $aai_src_folder/logging-service/common-logging/target/common-logging-1.1.0-SNAPSHOT.jar
     asserts_file_exist $aai_src_folder/logging-service/eelf-logging/target/eelf-logging-1.1.0-SNAPSHOT.jar
     asserts_file_exist $aai_src_folder/logging-service/logging-api/target/logging-api-1.1.0-SNAPSHOT.jar
 
-    asserts_file_exist $aai_src_folder/model-loader/target/model-loader-1.1.0-SNAPSHOT.jar
     asserts_file_exist $aai_src_folder/resources/aai-resources/target/aai-resources.jar
-    asserts_file_exist $aai_src_folder/rest-client/target/rest-client-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $aai_src_folder/router-core/target/router-core-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $aai_src_folder/search-data-service/target/search-data-service-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $aai_src_folder/sparky-be/target/sparky-be-1.0-SNAPSHOT.jar
-    asserts_file_exist $aai_src_folder/sparky-fe/target/sparky-fe-1.0.0-SNAPSHOT.war
     asserts_file_exist $aai_src_folder/traversal/aai-traversal/target/traversal.jar
 }
 
