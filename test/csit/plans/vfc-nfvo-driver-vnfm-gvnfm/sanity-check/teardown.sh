@@ -21,4 +21,4 @@ kill-instance.sh msb_discovery
 kill-instance.sh msb_consul
 kill-instance.sh  vfc-gvnfmdriver
 
-# kill-instance.sh vfc-jujudriver
+kill-instance.sh vfc-jujudriver

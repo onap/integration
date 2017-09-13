@@ -3,4 +3,4 @@
 
 vfc/nfvo-driver-gvnfm/gvnfmdriver.robot
 
-# vfc/nfvo-driver-gvnfm/jujudriver.robot
+vfc/nfvo-driver-gvnfm/jujudriver.robot
