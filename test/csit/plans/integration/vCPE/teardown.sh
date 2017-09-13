@@ -15,5 +15,4 @@
 # limitations under the License.
 #
 
-kill-instance.sh i-so
 

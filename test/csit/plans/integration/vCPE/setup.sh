@@ -16,17 +16,6 @@
 #
 # Place the scripts in run order:
 
-run-instance.sh nexus3.onap.org:10001/openecomp/mso i-so ""
-
-SO_IP=`get-instance-ip.sh i-so`
-
-# Wait for initialization
-for i in {1..10}; do
-    curl -sS ${SO_IP}:8080 && break
-    echo sleep $i
-    sleep $i
-done
-
 # Pass any variables required by Robot test suites in ROBOT_VARIABLES
-ROBOT_VARIABLES="-v SO_IP:${SO_IP}"
+ROBOT_VARIABLES=""
 
