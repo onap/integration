@@ -41,34 +41,18 @@ done
 # wait for container initalization
 echo sleep 60
 sleep 60
+
 # start vfc-ztevmanagerdriver
 docker run -d --name vfc-ztevmanagerdriver -e MSB_ADDR=${MSB_DISCOVERY_IP}:10081 nexus3.onap.org:10001/onap/vfc/ztevmanagerdriver
 ZTEVMANAGERDRIVER_IP=`get-instance-ip.sh vfc-ztevmanagerdriver`
 
-docker logs -f vfc-ztevmanagerdriver > vfc-ztevmanagerdriver &
 # Wait for initialization
 for i in {1..10}; do
     curl -sS ${ZTEVMANAGERDRIVER_IP}:8410 && break
     echo sleep $i
     sleep $i
 done
-cat vfc-ztevmanagerdriver.log
 
-echo "================================================"
-docker cp vfc-ztevmanagerdriver:/service/vfc/nfvo/driver/vnfm/svnfm/zte/vmanager/docker/docker-entrypoint.sh ./
-cat docker-entrypoint.sh
-
-echo "================================================"
-docker cp vfc-ztevmanagerdriver:/service/vfc/nfvo/driver/vnfm/svnfm/zte/vmanager/docker/instance_config.sh ./
-cat instance_config.sh
-
-echo "================================================"
-docker cp vfc-ztevmanagerdriver:/service/vfc/nfvo/driver/vnfm/svnfm/zte/vmanager/docker/instance_init.sh ./
-cat instance_init.sh
-
-echo "================================================"
-docker cp vfc-ztevmanagerdriver:/service/vfc/nfvo/driver/vnfm/svnfm/zte/vmanager/docker/instance_run.sh ./
-cat instance_run.sh
 
 # Start svnfm-huawei
 docker run -d --name vfc-svnfm-huawei -e MSB_ADDR=${MSB_IAG_IP}:80 nexus3.onap.org:10001/onap/vfc/nfvo/svnfm/huawei

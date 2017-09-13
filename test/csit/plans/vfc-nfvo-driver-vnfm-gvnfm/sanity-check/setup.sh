@@ -45,30 +45,12 @@ sleep 60
 docker run -d --name vfc-gvnfmdriver -e MSB_ADDR=${MSB_DISCOVERY_IP}:10081 nexus3.onap.org:10001/onap/vfc/gvnfmdriver
 GVNFMDRIVER_IP=`get-instance-ip.sh vfc-gvnfmdriver`
 
-docker logs -f vfc-gvnfmdriver > vfc-gvnfmdriver &
 # Wait for initialization
 for i in {1..10}; do
     curl -sS ${GVNFMDRIVER_IP}:8484 && break
     echo sleep $i
     sleep $i
 done
-cat vfc-gvnfmdriver.log
-
-echo "================================================"
-docker cp vfc-gvnfmdriver:/service/vfc/nfvo/driver/vnfm/gvnfm/gvnfmadapter/docker/docker-entrypoint.sh ./
-cat docker-entrypoint.sh
-
-echo "================================================"
-docker cp vfc-gvnfmdriver:/service/vfc/nfvo/driver/vnfm/gvnfm/gvnfmadapter/docker/instance_config.sh ./
-cat instance_config.sh
-
-echo "================================================"
-docker cp vfc-gvnfmdriver:/service/vfc/nfvo/driver/vnfm/gvnfm/gvnfmadapter/docker/instance_init.sh ./
-cat instance_init.sh
-
-echo "================================================"
-docker cp vfc-gvnfmdriver:/service/vfc/nfvo/driver/vnfm/gvnfm/gvnfmadapter/docker/instance_run.sh ./
-cat instance_run.sh
 
 # Pass any variables required by Robot test suites in ROBOT_VARIABLES
 ROBOT_VARIABLES="-v MSB_IAG_IP:${MSB_IAG_IP} -v MSB_DISCOVERY_IP:${MSB_DISCOVERY_IP} -v GVNFMDRIVER_IP:${GVNFMDRIVER_IP}"
