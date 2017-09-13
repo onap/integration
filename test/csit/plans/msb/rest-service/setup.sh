@@ -43,7 +43,7 @@ for i in {1..10}; do
     sleep $i
 done
 
-#Need some time so service info can be synced from discovery to api gateway
+#Need some time for the initialization of MSB services
 sleep 60
 
 curl -X POST \
