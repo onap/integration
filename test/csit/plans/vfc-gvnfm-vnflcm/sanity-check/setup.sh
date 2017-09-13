@@ -44,7 +44,7 @@ echo sleep 30
 sleep 30
 
 # start vfc-vnflcm
-docker run -d --name vfc-vnflcm -v /var/lib/mysql -e MSB_ADDR=${MSB_DISCOVERY_IP}:10081 nexus3.onap.org:10001/onap/vfc/vnflcm
+docker run -d --name vfc-vnflcm -v /var/lib/mysql -e MSB_ADDR=${MSB_IAG_IP}:80 nexus3.onap.org:10001/onap/vfc/vnflcm
 VNFLCM_IP=`get-instance-ip.sh vfc-vnflcm`
 
 # Wait for initialization
@@ -58,4 +58,4 @@ docker cp vfc-vnflcm:/service/vfc/gvnfm/vnflcm/lcm/logs/runtime_lcm.log ./
 cat runtime_lcm.log
 
 # Pass any variables required by Robot test suites in ROBOT_VARIABLES
-ROBOT_VARIABLES="-v MSB_IAG_IP:${MSB_IAG_IP} -v MSB_DISCOVERY_IP:${MSB_DISCOVERY_IP} -v VNFLCM_IP:${VNFLCM_IP}"
+ROBOT_VARIABLES="-v MSB_IAG_IP:${MSB_IAG_IP} -v VNFLCM_IP:${VNFLCM_IP}"

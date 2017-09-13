@@ -42,7 +42,7 @@ done
 echo sleep 60
 sleep 60
 # start vfc-gvnfmdriver
-docker run -d --name vfc-gvnfmdriver -e MSB_ADDR=${MSB_DISCOVERY_IP}:10081 nexus3.onap.org:10001/onap/vfc/gvnfmdriver
+docker run -d --name vfc-gvnfmdriver -e MSB_ADDR=${MSB_IAG_IP}:80 nexus3.onap.org:10001/onap/vfc/gvnfmdriver
 GVNFMDRIVER_IP=`get-instance-ip.sh vfc-gvnfmdriver`
 
 # Wait for initialization
@@ -53,7 +53,7 @@ for i in {1..10}; do
 done
 
 # start vfc-jujudriver
-docker run -d --name vfc-jujudriver -e MSB_ADDR=${MSB_DISCOVERY_IP}:10081 nexus3.onap.org:10001/onap/vfc/jujudriver
+docker run -d --name vfc-jujudriver -e MSB_ADDR=${MSB_IAG_IP}:80 nexus3.onap.org:10001/onap/vfc/jujudriver
 JUJUDRIVER_IP=`get-instance-ip.sh vfc-jujudriver`
 
 # Wait for initialization
@@ -64,4 +64,4 @@ for i in {1..10}; do
 done
 
 # Pass any variables required by Robot test suites in ROBOT_VARIABLES
-ROBOT_VARIABLES="-v MSB_IAG_IP:${MSB_IAG_IP} -v MSB_DISCOVERY_IP:${MSB_DISCOVERY_IP} -v GVNFMDRIVER_IP:${GVNFMDRIVER_IP} -v JUJUDRIVER_IP:${JUJUDRIVER_IP}"
+ROBOT_VARIABLES="-v MSB_IAG_IP:${MSB_IAG_IP} -v GVNFMDRIVER_IP:${GVNFMDRIVER_IP} -v JUJUDRIVER_IP:${JUJUDRIVER_IP}"
