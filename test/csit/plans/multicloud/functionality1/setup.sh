@@ -17,17 +17,10 @@
 # Place the scripts in run order:
 # Start all process required for executing test case
 
-# start msb
-# Replace this when msb is ready for onap
-docker run -d --name i-msb -p 80:80 openoint/common-services-msb
-MSB_IP=`get-instance-ip.sh i-msb`
-
-# start esr
-# docker run -d --name i-esr -e MSB_ADDR=${MSB_IP}:80 openoint/common-services-extsys
+source ${SCRIPTS}/common_functions.sh
 
 # start multivim-broker
-# Replace this when multivim-broker container is ready
-docker run -d --name multivim-broker -e MSB_ADDR=${MSB_IP}:80 openoint/multivim-broker
+docker run -d --name multivim-broker nexus3.onap.org:10001/onap/multicloud/framework
 BROKER_IP=`get-instance-ip.sh multivim-broker`
 for i in {1..50}; do
     curl -sS ${BROKER_IP}:9001 && break
@@ -37,4 +30,4 @@ done
 
 echo SCRIPTS
 # Pass any variables required by Robot test suites in ROBOT_VARIABLES
-ROBOT_VARIABLES="-v MSB_IP:${MSB_IP}"
+ROBOT_VARIABLES="-v BROKER_IP:${BROKER_IP}"

@@ -6,14 +6,14 @@ Library     json
 
 *** Variables ***
 @{return_ok_list}=   200  201  202
-${queryswagger_broker_url}    /openoapi/multivim/v1/swagger.json
+${queryswagger_broker_url}    /api/multicloud/v0/swagger.json
 
 
 *** Test Cases ***
 BrokerSwaggerTest
     [Documentation]    query swagger info rest test
     ${headers}    Create Dictionary    Content-Type=application/json    Accept=application/json
-    Create Session    web_session    http://${MSB_IP}    headers=${headers}
+    Create Session    web_session    http://${BROKER_IP}:9001    headers=${headers}
     ${resp}=  Get Request    web_session    ${queryswagger_broker_url}
     ${responese_code}=     Convert To String      ${resp.status_code}
     List Should Contain Value    ${return_ok_list}   ${responese_code}
