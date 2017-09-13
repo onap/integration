@@ -42,37 +42,15 @@ done
 echo sleep 60
 sleep 60
 # start vfc-vnfres
-docker run -d --name vfc-vnfres -v /var/lib/mysql -e MSB_ADDR=${MSB_DISCOVERY_IP}:10081 nexus3.onap.org:10001/onap/vfc/vnfres
+docker run -d --name vfc-vnfres -v /var/lib/mysql -e MSB_ADDR=${MSB_IAG_IP}:80 nexus3.onap.org:10001/onap/vfc/vnfres
 VNFRES_IP=`get-instance-ip.sh vfc-vnfres`
 
-docker logs -f vfc-vnfres > vfc-vnfres.log &
 # Wait for initialization
 for i in {1..10}; do
     curl -sS ${VNFRES_IP}:8802 && break
     echo sleep $i
     sleep $i
 done
-cat vfc-vnfres.log
-
-echo "================================================"
-docker cp vfc-vnfres:/service/vfc/gvnfm/vnfres/res/docker/docker-entrypoint.sh ./
-cat docker-entrypoint.sh
-
-echo "================================================"
-docker cp vfc-vnfres:/service/vfc/gvnfm/vnfres/res/docker/instance_config.sh ./
-cat instance_config.sh
-
-echo "================================================"
-docker cp vfc-vnfres:/service/vfc/gvnfm/vnfres/res/docker/instance_init.sh ./
-cat instance_init.sh
-
-echo "================================================"
-docker cp vfc-vnfres:/service/vfc/gvnfm/vnfres/res/docker/instance_run.sh ./
-cat instance_run.sh
-
-#echo "================================================"
-#docker cp vfc-vnfres:/service/vfc/gvnfm/vnfres/res/logs/runtime_res.log ./
-#cat instance_init.sh
 
 # Pass any variables required by Robot test suites in ROBOT_VARIABLES
-ROBOT_VARIABLES="-v MSB_IAG_IP:${MSB_IAG_IP} -v MSB_DISCOVERY_IP:${MSB_DISCOVERY_IP} -v VNFRES_IP:${VNFRES_IP}"
+ROBOT_VARIABLES="-v MSB_IAG_IP:${MSB_IAG_IP} -v VNFRES_IP:${VNFRES_IP}"
