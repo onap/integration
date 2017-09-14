@@ -1,4 +1,5 @@
 *** settings ***
+Resource    ../../common.robot
 Library     Collections
 Library     RequestsLibrary
 Library     OperatingSystem
