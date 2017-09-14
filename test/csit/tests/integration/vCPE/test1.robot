@@ -17,15 +17,24 @@ SO ServiceInstance health check
 Run Docker
     [Arguments]    ${image}    ${name}    ${parameters}=${EMPTY}
     ${result}=    Run Process    docker run --name ${name} ${parameters} -d ${image}    shell=True
-    Log    all output: ${result.stdout}
+    Should Be Equal As Integers    ${result.rc}    0
+    Log    ${result.stdout}
     ${result}=    Run Process    docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${name}    shell=True
+    Should Be Equal As Integers    ${result.rc}    0
+    Log    ${result.stdout}
     [Return]    ${result.stdout}
 
 Kill Docker
     [Arguments]    ${name}
     ${result}=    Run Process    docker logs ${name}    shell=True
+    Should Be Equal As Integers    ${result.rc}    0
+    Log    ${result.stdout}
     ${result}=    Run Process    docker kill ${name}    shell=True
+    Should Be Equal As Integers    ${result.rc}    0
+    Log    ${result.stdout}
     ${result}=    Run Process    docker rm ${name}    shell=True
+    Should Be Equal As Integers    ${result.rc}    0
+    Log    ${result.stdout}
 
 CheckUrl
     [Arguments]    ${url}
