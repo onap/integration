@@ -60,9 +60,9 @@ function test_get_sdnc_images {
     clone_all_sdnc_repos
     get_sdnc_images
 
-    asserts_image openecomp/sdnc-image
-    asserts_image openecomp/admportal-sdnc-image
-    asserts_image openecomp/dgbuilder-sdnc-image
+    asserts_image onap/sdnc-image
+    asserts_image onap/admportal-sdnc-image
+    asserts_image onap/dgbuilder-sdnc-image
     asserts_image mysql/mysql-server:5.6
 }
 
@@ -72,9 +72,9 @@ function test_install_sdnc {
     get_sdnc_images
     install_sdnc
 
-    asserts_image_running openecomp/dgbuilder-sdnc-image
-    asserts_image_running openecomp/admportal-sdnc-image
-    asserts_image_running openecomp/sdnc-image
+    asserts_image_running onap/ccsdk-dgbuilder-image
+    asserts_image_running onap/admportal-sdnc-image
+    asserts_image_running onap/sdnc-image
     asserts_image_running mysql/mysql-server:5.6
 }
 

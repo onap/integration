@@ -36,7 +36,7 @@ function test_compile_all_appc_repos {
     asserts_file_exist $appc_src_folder/appc-adapters/appc-ssh-adapter/appc-ssh-adapter-sshd/target/appc-ssh-adapter-sshd-1.1.0-SNAPSHOT.jar
     asserts_file_exist $appc_src_folder/appc-adapters/appc-ssh-adapter/appc-ssh-adapter-tests/target/appc-ssh-adapter-tests-1.1.0-SNAPSHOT.jar
 
-    for component in appc-asdc-listener appc-event-listener appc-oam appc-provider; do
+    for component in appc-event-listener appc-oam appc-provider; do
         asserts_file_exist $appc_src_folder/$component/$component-bundle/target/$component-bundle-1.1.0-SNAPSHOT.jar
         asserts_file_exist $appc_src_folder/$component/$component-features/target/$component-features-1.1.0-SNAPSHOT.jar
         asserts_file_exist $appc_src_folder/$component/$component-installer/target/$component-1.1.0-SNAPSHOT.zip
@@ -44,8 +44,6 @@ function test_compile_all_appc_repos {
     for component in appc-oam appc-provider; do
         asserts_file_exist $appc_src_folder/$component/$component-model/target/$component-model-1.1.0-SNAPSHOT.jar
     done
-
-    asserts_file_exist $appc_src_folder/appc-asdc-listener/appc-yang-generator/target/appc-yang-generator-1.1.0-SNAPSHOT.jar
 
     asserts_file_exist $appc_src_folder/appc-common/target/appc-common-1.1.0-SNAPSHOT.jar
 
@@ -85,9 +83,7 @@ function test_install_appc {
     get_appc_images
     install_appc
 
-    asserts_image_running openecomp/dgbuilder-sdnc-image
     asserts_image_running openecomp/appc-image
-    asserts_image_running mysql/mysql-server:5.6
 }
 
 if [ "$1" != '*' ]; then
