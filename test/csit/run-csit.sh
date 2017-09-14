@@ -93,6 +93,12 @@ if ! type pybot > /dev/null; then
     source ${ROBOT_VENV}/bin/activate
 fi
 
+# install eteutils
+rm -rf python-testing-utils/
+git clone https://gerrit.onap.org/r/testsuite/python-testing-utils.git
+
+
+
 
 WORKDIR=`mktemp -d --suffix=-robot-workdir`
 cd ${WORKDIR}
