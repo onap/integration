@@ -3,6 +3,7 @@
 set -o xtrace
 
 source /var/onap/functions
+source /var/onap/ccsdk
 
 sdnc_src_folder=$git_src_folder/openecomp/sdnc
 sdnc_repos=("core" "adaptors" "northbound" "plugins" "oam")
@@ -28,6 +29,7 @@ function compile_all_sdnc_repos {
 function _build_sdnc_images {
     local folder=$sdnc_src_folder/oam
 
+    get_ccsdk_images
     install_package unzip
     clone_repo sdnc/oam $folder
     # The OAM code depends on all the SDNC repos which should be downloaded and compiled first
