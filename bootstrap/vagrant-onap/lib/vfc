@@ -19,22 +19,15 @@ function clone_all_vfc_repos {
 function compile_all_vfc_repos {
     install_python_package tox
 
-    pushd $src_folder/gvnfm/vnflcm/lcm
-    tox -e py27
-    popd
+    tox_repos=("gvnfm/vnflcm/lcm" "gvnfm/vnfmgr/mgr" "gvnfm/vnfres/res" "nfvo/lcm"
+               "nfvo/driver/vnfm/gvnfm/gvnfmadapter" "nfvo/driver/vnfm/svnfm/zte/vmanager")
+    for dirc in ${tox_repos[@]}; do
+        pushd $src_folder/$dirc
+        tox -e py27
+        popd
+    done
 
-
-    pushd $src_folder/nfvo/lcm
-    tox -e py27
-    popd
-
-    # TODO(sshank): Add compile for other vfc_repos. (Both Java and Python based.)
-    # Python based:
-    # gvnfm/vnflcm/lcm
-    # gvnfm/vnfmgr/mgr
-    # gvnfm/vnfres/res
-    # nfvo/driver/vnfm/gvnfm/gvnfmadapter
-    # nfvo/driver/vnfm/svnfm/zte/vmanager
+    # TODO(sshank): Add compile for other vfc_repos. (Java based.)
 
     # Java based:
     # nfvo/catalog
@@ -46,10 +39,42 @@ function compile_all_vfc_repos {
     # nfvo/wfengine
 }
 
+# build_gvnfm_lcm_image() - Build VFC GVNFM VNF LCM docker image
+function build_gvnfm_lcm_image {
+    pushd $src_folder/gvnfm/vnflcm/lcm/docker
+    sed -i '$ {s/^/#/}' build_image.sh
+    ./build_image.sh
+    popd
+}
+
+# build_gvnfm_vnfmgr_image() - Build VFC GVNFM VNF Manager docker image
+function build_gvnfm_vnfmgr_image {
+    pushd $src_folder/gvnfm/vnfmgr/mgr/docker
+    sed -i '$ {s/^/#/}' build_image.sh
+    ./build_image.sh
+    popd
+}
+
+# build_gvnfm_vnfres_image() - Build VFC GVNFM VNF Resource Management docker image
+function build_gvnfm_vnfres_image {
+    pushd $src_folder/gvnfm/vnfres/res/docker
+    sed -i '$ {s/^/#/}' build_image.sh
+    ./build_image.sh
+    popd
+}
+
 # build_nfvo_lcm_image() - Build VFC NFVO LCM docker image
 function build_nfvo_lcm_image {
     pushd $src_folder/nfvo/lcm/docker
-    sed -i '$ d' build_image.sh
+    sed -i '$ {s/^/#/}' build_image.sh
+    ./build_image.sh
+    popd
+}
+
+# build_nfvo_vnfm_gvnfmadapter_image() - Build VFC NFVO General VNF Adapter docker image
+function build_nfvo_vnfm_gvnfmadapter_image {
+    pushd $src_folder/nfvo/driver/vnfm/gvnfm/gvnfmadapter/docker
+    sed -i '$ {s/^/#/}' build_image.sh
     ./build_image.sh
     popd
 }
@@ -58,18 +83,37 @@ function build_nfvo_lcm_image {
 function get_vfc_images {
     if [[ "$build_image" == "True" ]]; then
         install_docker
+        # Separate methods are required since the image build process will change.
+        build_gvnfm_lcm_image
+        build_gvnfm_vnfmgr_image
+        build_gvnfm_vnfres_image
         build_nfvo_lcm_image
-        # TODO(sshank): Add other VFC component docker image builds when they are ready.
+        build_nfvo_vnfm_gvnfmadapter_image
+        # TODO(sshank): Add other VFC component docker image builds.
     else
-        pull_onap_image vfc/nslcm
+        pull_onap_image vfc/gvnfm/vnflcm/lcm
+        pull_onap_image vfc/gvnfm/vnfmgr/mgr
+        pull_onap_image vfc/gvnfm/vnfres/res
+        pull_onap_image vfc/nfvo/lcm
+        pull_onap_image vfc/nfvo/driver/vnfm/gvnfm/gvnfmadapter
     fi
 }
 
 # install_vfc() - Download and install vfc service from source code
 function install_vfc {
     nslcm_image=`docker images | grep nslcm | grep latest| awk '{print $1 ":" $2}'`
-    docker run -d --name vfc-nslcm -p 3306:3306 -p 8403:8403 -e MSB_ADDR=127.0.0.1 $nslcm_image
-    # TODO(sshank): Run other VFC component docker images when they are ready.
+    vnflcm_image=`docker images | grep vnflcm | grep latest| awk '{print $1 ":" $2}'`
+    vnfmgr_image=`docker images | grep vnfmgr | grep latest| awk '{print $1 ":" $2}'`
+    vnfres_image=`docker images | grep vnfres | grep latest| awk '{print $1 ":" $2}'`
+    gvnfmdriver_image=`docker images | grep gvnfmdriver | grep latest| awk '{print $1 ":" $2}'`
+
+    docker run -d --name vfc-nslcm -p 8403:8403 -e MSB_ADDR=127.0.0.1 $nslcm_image
+    docker run -d --name vfc-vnflcm -p 8801:8801 -e MSB_ADDR=127.0.0.1 $vnflcm_image
+    docker run -d --name vfc-vnfmgr -p 8803:8803 -e MSB_ADDR=127.0.0.1 $vnfmgr_image
+    docker run -d --name vfc-vnfres -p 8802:8802 -e MSB_ADDR=127.0.0.1 $vnfres_image
+    docker run -d --name vfc-gvnfmdriver -p 8484:8484 -e MSB_ADDR=127.0.0.1 $gvnfmdriver_image
+
+    # TODO(sshank): Run other VFC component docker images.
 }
 
 # init_vfc() - Function that initialize VF-C services
@@ -78,7 +122,7 @@ function init_vfc {
 
     if [[ "$clone_repo" == "True" ]]; then
         clone_all_vfc_repos
-        if [[ "$compile_repo" == "False" ]]; then
+        if [[ "$compile_repo" == "True" ]]; then
             compile_all_vfc_repos
         fi
     fi

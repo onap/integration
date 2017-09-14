@@ -5,7 +5,9 @@ source /var/onap/vfc
 
 covered_functions=(
 "clone_all_vfc_repos" "compile_all_vfc_repos" "install_vfc"
-"build_nfvo_lcm_image" "get_vfc_images" "run_vfc_images"
+"get_vfc_images" "run_vfc_images" "build_nfvo_lcm_image"
+"build_gvnfm_lcm_image" "build_gvnfm_vnfmgr_image" "build_gvnfm_vnfres_image"
+"build_nfvo_lcm_image" "build_nfvo_vnfm_gvnfmadapter_image"
 )
 
 # test_clone_all_vfc_repos() - Verify cloning and pulling source code from repositories
@@ -29,17 +31,25 @@ function test_get_vfc_images {
     get_vfc_images
 
     asserts_image nexus3.onap.org:10003/onap/vfc/nslcm
+    asserts_image nexus3.onap.org:10003/onap/vfc/gvnfmdriver
+    asserts_image nexus3.onap.org:10003/onap/vfc/vnfres
+    asserts_image nexus3.onap.org:10003/onap/vfc/vnfmgr
+    asserts_image nexus3.onap.org:10003/onap/vfc/vnflcm
 
-    # TODO(sshank): Add asserts for other VFC component docker image builds when they are ready.
+    # TODO(sshank): Add asserts for other VFC component docker image builds.
 }
 
 # test_install_vfc() - Verify that the VFC are up and running
 function test_install_vfc {
     install_vfc
 
-    asserts_image_running vfc-nslcm
+    asserts_image_running nexus3.onap.org:10003/onap/vfc/nslcm:latest
+    asserts_image_running nexus3.onap.org:10003/onap/vfc/gvnfmdriver:latest
+    asserts_image_running nexus3.onap.org:10003/onap/vfc/vnfres:latest
+    asserts_image_running nexus3.onap.org:10003/onap/vfc/vnfmgr:latest
+    asserts_image_running nexus3.onap.org:10003/onap/vfc/vnflcm:latest
 
-    # TODO(sshank): Add asserts for other running VFC component docker images when they are ready.
+    # TODO(sshank): Add asserts for other running VFC component docker images.
 }
 
 if [ "$1" != '*' ]; then
