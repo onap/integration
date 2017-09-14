@@ -1,0 +1,32 @@
+{
+  "domain": "measurementsForVfScaling",
+  "metricsPerEventName": [
+    {
+      "eventName": "vLoadBalancer",
+      "controlLoopSchemaType": "VM",
+      "policyScope": "DCAE",
+      "policyName": "${policy_name}",
+      "policyVersion": "v0.0.1",
+      "thresholds": [
+        {
+          "closedLoopControlName": "CL-LBAL-LOW-TRAFFIC-SIG-FB480F95-A453-6F24-B767-FD703241AB1A",
+          "version": "1.0.2",
+          "fieldPath": "$$.event.measurementsForVfScalingFields.vNicPerformanceArray[*].receivedBroadcastPacketsAccumulated",
+          "thresholdValue": 500,
+          "direction": "LESS_OR_EQUAL",
+          "severity": "MAJOR",
+          "closedLoopEventStatus": "ONSET"
+        },
+        {
+          "closedLoopControlName": "CL-LBAL-HIGH-TRAFFIC-SIG-0C5920A6-B564-8035-C878-0E814352BC2B",
+          "version": "1.0.2",
+          "fieldPath": "$$.event.measurementsForVfScalingFields.vNicPerformanceArray[*].receivedBroadcastPacketsAccumulated",
+          "thresholdValue": 5000,
+          "direction": "GREATER_OR_EQUAL",
+          "severity": "CRITICAL",
+          "closedLoopEventStatus": "ONSET"
+        }
+      ]
+    }
+   ]
+}
