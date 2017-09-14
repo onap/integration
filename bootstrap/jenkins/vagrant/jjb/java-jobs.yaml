@@ -243,6 +243,9 @@
      - 'modeling_toscaparsers_javatoscachecker':
          repo: 'modeling/toscaparsers'
          pom: 'javatoscachecker/pom.xml'
+     - 'modeling_toscaparsers_nfvparser':
+         repo: 'modeling/toscaparsers'
+         pom: 'nfvparser/pom.xml'
      - 'msb_apigateway':
          repo: 'msb/apigateway'
          pom: 'pom.xml'
@@ -261,9 +264,9 @@
      - 'mso_libs':
          repo: 'mso/libs'
          pom: 'pom.xml'
-     - 'multicloud_framework_multivimbroker':
+     - 'multicloud_framework':
          repo: 'multicloud/framework'
-         pom: 'multivimbroker/pom.xml'
+         pom: 'pom.xml'
      - 'multicloud_openstack':
          repo: 'multicloud/openstack'
          pom: 'pom.xml'
@@ -405,9 +408,9 @@
      - 'vfc_nfvo_driver_ems':
          repo: 'vfc/nfvo/driver/ems'
          pom: 'pom.xml'
-     - 'vfc_nfvo_driver_sfc_zte_sfc-driver':
+     - 'vfc_nfvo_driver_sfc':
          repo: 'vfc/nfvo/driver/sfc'
-         pom: 'zte/sfc-driver/pom.xml'
+         pom: 'pom.xml'
      - 'vfc_nfvo_driver_vnfm_gvnfm':
          repo: 'vfc/nfvo/driver/vnfm/gvnfm'
          pom: 'pom.xml'
@@ -446,4 +449,7 @@
          pom: 'pom.xml'
      - 'vnfsdk_refrepo':
          repo: 'vnfsdk/refrepo'
+         pom: 'pom.xml'
+     - 'vnfsdk_validation':
+         repo: 'vnfsdk/validation'
          pom: 'pom.xml'
