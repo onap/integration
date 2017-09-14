@@ -12,7 +12,7 @@ ${create_ns_url}    /api/nslcm/v1/ns
 ${delete_ns_url}    /api/nslcm/v1/ns
 
 #json files
-${create_ns_json}    ${SCRIPTS}/../test/vfc/nfvo-lcm/jsoninput/create_ns.json
+${create_ns_json}    ${SCRIPTS}/../tests/vfc/nfvo-lcm/jsoninput/create_ns.json
 
 #global variables
 ${nsInstId}
