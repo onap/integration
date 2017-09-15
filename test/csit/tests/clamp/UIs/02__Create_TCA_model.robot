@@ -34,10 +34,12 @@ Create Model from Menu
     Click Element    xpath=//*[@id="navbar"]/ul/li[2]/a
     Wait Until Element Is Visible       locator=Create CL       timeout=60
     Click Element    locator=Create CL
-    Input Text      locator=modelName       text=model1
+    Input Text      locator=modelName       text=TCAModel
+    Select From List By Label       id=templateName      TCATemplate
     Click Button    locator=Create
 
 Save Model from Menu
+    Wait Until Element Is Visible       xpath=//*[@id="navbar"]/ul/li[2]/a      timeout=60
     Click Element    xpath=//*[@id="navbar"]/ul/li[2]/a
     Wait Until Element Is Visible       locator=Save CL      timeout=60
     Click Element    locator=Save CL
