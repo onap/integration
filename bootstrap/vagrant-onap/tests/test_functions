@@ -102,7 +102,6 @@ function test_install_python {
     install_python
     asserts_installed_package python2.7
     asserts_installed_package python-dev
-    asserts_file_exist /usr/local/bin/tox
 }
 
 # test_install_docker() - Verify the correct installation of Docker
@@ -158,13 +157,12 @@ function test_compile_src {
 
 # test_build_docker_image() - Verify that a docker image is created from source code
 function test_build_docker_image {
-    clone_repo portal
-    compile_src $git_src_folder/portal/ecomp-portal-widget-ms
-    build_docker_image $git_src_folder/portal/ecomp-portal-widget-ms
+    clone_repo ccsdk/distribution
+    build_docker_image $git_src_folder/ccsdk/distribution/ubuntu docker
 
-    asserts_image widget-ms
+    asserts_image onap/ccsdk-ubuntu-image
 
-    docker rmi -f widget-ms
+    docker rmi -f onap/ccsdk-ubuntu-image
 }
 
 if [ "$1" != '*' ]; then
