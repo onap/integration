@@ -41,7 +41,7 @@ Create Template from Menu
     Click Element    xpath=//*[@id="navbar"]/ul/li[1]/a
     Wait Until Element Is Visible       locator=Create Template       timeout=60
     Click Element    locator=Create Template
-    Input Text      locator=modelName       text=template
+    Input Text      locator=modelName       text=TCATemplate
     Click Button    locator=OK
 
 Drag and Drop Boxes for template
