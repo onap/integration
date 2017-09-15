@@ -94,9 +94,10 @@ if ! type pybot > /dev/null; then
 fi
 
 # install eteutils
-rm -rf ${WORKSPACE}/test/testsuite
-git clone https://gerrit.onap.org/r/testsuite/python-testing-utils.git ${WORKSPACE}/test/testsuite/python-testing-utils
-pip install --upgrade ${WORKSPACE}/test/testsuite/python-testing-utils
+mkdir -p ${ROBOT_VENV}/src/onap
+rm -rf ${ROBOT_VENV}/src/onap/testsuite
+git clone https://gerrit.onap.org/r/testsuite/python-testing-utils.git ${ROBOT_VENV}/src/onap/testsuite/python-testing-utils
+pip install --upgrade ${ROBOT_VENV}/src/onap/testsuite/python-testing-utils
 
 
 WORKDIR=`mktemp -d --suffix=-robot-workdir`

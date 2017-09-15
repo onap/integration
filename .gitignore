@@ -18,4 +18,3 @@ env.properties
 .vagrant
 *~
 .checkstyle
-test/testsuite/
