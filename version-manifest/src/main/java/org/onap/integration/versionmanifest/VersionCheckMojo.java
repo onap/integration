@@ -19,7 +19,6 @@ package org.onap.integration.versionmanifest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -88,9 +87,6 @@ public class VersionCheckMojo extends AbstractMojo {
                 log.debug("Expected version: " + groupId + ":" + artifactId + ":" + version);
                 expectedVersions.put(groupId + ":" + artifactId, version);
             }
-        } catch (MalformedURLException e) {
-            log.error(e);
-            throw new MojoExecutionException(e.getMessage());
         } catch (IOException e) {
             log.error(e);
             throw new MojoExecutionException(e.getMessage());
