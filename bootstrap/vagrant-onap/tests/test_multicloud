@@ -22,7 +22,6 @@ function test_compile_multicloud_repos {
     compile_multicloud_repos
 
     asserts_file_exist $multicloud_src_folder/openstack/newton/target/multicloud-openstack-newton-1.0.0-SNAPSHOT.zip
-    asserts_file_exist $multicloud_src_folder/openstack/vmware/vio/target/multivimdriver-vio-1.1.0-SNAPSHOT.zip
 }
 
 # test_install_multicloud() - Verify the built and start of Multi Cloud services
