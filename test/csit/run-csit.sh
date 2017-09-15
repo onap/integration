@@ -96,8 +96,7 @@ fi
 # install eteutils
 rm -rf ${WORKSPACE}/test/testsuite
 git clone https://gerrit.onap.org/r/testsuite/python-testing-utils.git ${WORKSPACE}/test/testsuite/python-testing-utils
-
-
+pip install --upgrade ${WORKSPACE}/test/testsuite/python-testing-utils
 
 
 WORKDIR=`mktemp -d --suffix=-robot-workdir`

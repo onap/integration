@@ -4,7 +4,7 @@ Suite Teardown    Suite Teardown
 Library           OperatingSystem
 Library           RequestsLibrary
 Library           Process
-Library           ../../../../testsuite/python-testing-utils/eteutils/UUID.py
+Library           eteutils/UUID.py
 
 *** Variables ***
 ${GLOBAL_APPLICATION_ID}    csit-vCPE
