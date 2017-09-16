@@ -1,4 +1,5 @@
 # Test suites are relative paths under [integration.git]/test/csit/tests/.
 # Place the suites in run order.
-aai/resources/suite1
-aai/resources/suite2
+aai/resources/api_suite
+aai/resources/relationship_suite
+aai/resources/error_handling_suite
