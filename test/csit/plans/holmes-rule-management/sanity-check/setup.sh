@@ -37,7 +37,7 @@ MSB_IP=`get-instance-ip.sh msb_internal_apigateway`
 echo MSB_IP=${MSB_IP}
 
 # Start rulemgt
-source ${SCRIPTS}/holmes/rule-management/startup.sh i-rulemgt ${DB_IP} ${MSB_IP} 80
+source ${SCRIPTS}/holmes/rule-management/startup.sh i-rulemgt ${DB_IP} ${MSB_IP} 1
 RULEMGT_IP=`get-instance-ip.sh i-rulemgt`
 echo RULEMGT_IP=${RULEMGT_IP}
 
@@ -49,7 +49,7 @@ for i in {1..20}; do
 done
 
 # Start engine-d
-source ${SCRIPTS}/holmes/engine-management/startup.sh i-engine-d ${DB_IP} ${MSB_IP} 80
+source ${SCRIPTS}/holmes/engine-management/startup.sh i-engine-d ${DB_IP} ${MSB_IP} 1
 ENGINE_D_IP=`get-instance-ip.sh i-engine-d`
 echo ENGINE_D_IP=${ENGINE_D_IP}
 
