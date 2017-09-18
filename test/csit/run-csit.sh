@@ -102,6 +102,15 @@ rm -rf ${ROBOT_VENV}/src/onap/testsuite
 git clone https://gerrit.onap.org/r/testsuite/python-testing-utils.git ${ROBOT_VENV}/src/onap/testsuite/python-testing-utils
 pip install --upgrade ${ROBOT_VENV}/src/onap/testsuite/python-testing-utils
 
+# install chrome driver
+if [ ! -x ${ROBOT_VENV}/bin/chromedriver ]; then
+    pushd ${ROBOT_VENV}/bin
+    wget -N http://chromedriver.storage.googleapis.com/2.32/chromedriver_linux64.zip
+    unzip chromedriver_linux64.zip
+    chmod +x chromedriver
+    popd
+fi
+
 
 WORKDIR=`mktemp -d --suffix=-robot-workdir`
 cd ${WORKDIR}
@@ -112,7 +121,7 @@ set -x
 
 
 # Add csit scripts to PATH
-export PATH=${PATH}:${WORKSPACE}/test/csit/docker/scripts:${WORKSPACE}/test/csit/scripts
+export PATH=${PATH}:${WORKSPACE}/test/csit/docker/scripts:${WORKSPACE}/test/csit/scripts:${ROBOT_VENV}/bin
 export SCRIPTS=${WORKSPACE}/test/csit/scripts
 export ROBOT_VARIABLES=
 
