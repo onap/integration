@@ -18,4 +18,6 @@
 
 
 kill-instance.sh refrepo
+kill-instance.sh postgres
+
 
