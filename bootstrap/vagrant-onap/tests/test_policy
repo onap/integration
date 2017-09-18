@@ -27,20 +27,20 @@ function test_clone_all_policy_repos {
 
 # test_compile_all_policy_repos() - Verify compiling of Policy source code
 function test_compile_all_policy_repos {
-#    clone_all_policy_repos
-#    compile_all_policy_repos
+    clone_all_policy_repos
+    compile_all_policy_repos
 
     asserts_file_exist $policy_src_folder/common/common-logging/target/ONAP-Logging-1.1.0-SNAPSHOT.jar
     asserts_file_exist $policy_src_folder/common/integrity-audit/target/integrity-audit-1.1.0-SNAPSHOT.jar
     asserts_file_exist $policy_src_folder/common/integrity-monitor/target/integrity-monitor-1.1.0-SNAPSHOT.jar
     asserts_file_exist $policy_src_folder/common/site-manager/target/site-manager-1.1.0-SNAPSHOT.jar
-    for actor in appc mso test vfc; do
+    for actor in appc appclcm so test vfc; do
         asserts_file_exist $policy_src_folder/drools-applications/controlloop/common/actors/actor.$actor/target/actor.$actor-1.1.0-SNAPSHOT.jar
     done
     asserts_file_exist $policy_src_folder/drools-applications/controlloop/common/actors/actorServiceProvider/target/actorServiceProvider-1.1.0-SNAPSHOT.jar
     asserts_file_exist $policy_src_folder/drools-applications/controlloop/common/eventmanager/target/eventmanager-1.1.0-SNAPSHOT.jar
     asserts_file_exist $policy_src_folder/drools-applications/controlloop/common/guard/target/guard-1.1.0-SNAPSHOT.jar
-    for module in aai appc events mso rest sdc trafficgenerator vfc; do
+    for module in aai appc appclcm events rest sdc so trafficgenerator vfc; do
         asserts_file_exist $policy_src_folder/drools-applications/controlloop/common/model-impl/$module/target/$module-1.1.0-SNAPSHOT.jar
     done
     asserts_file_exist $policy_src_folder/drools-applications/controlloop/common/policy-yaml/target/policy-yaml-1.1.0-SNAPSHOT.jar
