@@ -4,26 +4,26 @@ set -o xtrace
 
 source /var/onap/functions
 
-policy_src_folder=$git_src_folder/portal
-policy_repos=("sdk")
+portal_src_folder=$git_src_folder/portal
+portal_repos=("sdk")
 
 # clone_all_portal_repos() - Function that clones Portal source repo.
 function clone_all_portal_repos {
-    clone_repo portal $policy_src_folder
-    clone_repo ecompsdkos $policy_src_folder/ecompsdkos
-    clone_repo "ui/dmaapbc" $policy_src_folder/dmaapbc
+    clone_repo portal $portal_src_folder
+    clone_repo ecompsdkos $portal_src_folder/ecompsdkos
+    clone_repo "ui/dmaapbc" $portal_src_folder/dmaapbc
 
-    for dirc in ${policy_repos[@]}; do
-        clone_repo portal/$dirc $policy_src_folder/$dirc
+    for dirc in ${portal_repos[@]}; do
+        clone_repo portal/$dirc $portal_src_folder/$dirc
     done
 }
 
 # compile_all_portal_repos() - Function that compiles Portal source repo.
 function compile_all_portal_repos {
-    compile_src $policy_src_folder
+    compile_src $portal_src_folder
 
-    for dirc in ${policy_repos[@]}; do
-        compile_src $policy_src_folder/$dirc
+    for dirc in ${portal_repos[@]}; do
+        compile_src $portal_src_folder/$dirc
     done
 }
 
@@ -31,14 +31,12 @@ function compile_all_portal_repos {
 function _build_portal_images {
     install_maven
 
-    pushd $policy_src_folder/deliveries
+    pushd $portal_src_folder/deliveries
     chmod +x *.sh
     export MVN=$(which mvn)
     export GLOBAL_SETTINGS_FILE=/usr/share/maven3/conf/settings.xml
     export SETTINGS_FILE=$HOME/.m2/settings.xml
     bash build_portalapps_dockers.sh
-    compile_src $policy_src_folder/ecomp-portal-widget-ms
-    build_docker_image $policy_src_folder/ecomp-portal-widget-ms
     popd
 }
 
@@ -64,7 +62,7 @@ function install_portal {
     docker rm -f ecompdb_portal
     docker rm -f 1610-1
 
-    pushd $policy_src_folder/deliveries
+    pushd $portal_src_folder/deliveries
     mkdir -p /PROJECT/OpenSource/UbuntuEP/logs
     install_package unzip
     unzip -o etc.zip -d /PROJECT/OpenSource/UbuntuEP/
