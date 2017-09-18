@@ -93,6 +93,9 @@ if ! type pybot > /dev/null; then
     source ${ROBOT_VENV}/bin/activate
 fi
 
+# install required Robot libraries
+pip install --upgrade robotframework-extendedselenium2library
+
 # install eteutils
 mkdir -p ${ROBOT_VENV}/src/onap
 rm -rf ${ROBOT_VENV}/src/onap/testsuite
