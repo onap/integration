@@ -41,20 +41,20 @@ else
   exit 1;
 fi
 
-if [ "$NODE_TYPES" -eq "0" ]; then
-  echo "There is no data in table NODE_TYPES. "
-  exit 1;
-fi
+#if [ "$NODE_TYPES" -eq "0" ]; then
+#  echo "There is no data in table NODE_TYPES. "
+#  exit 1;
+#fi
 
-if [ "$SVC_LOGIC" -eq "0" ] ; then
-  echo "There is no data in table SVC_LOGIC. "
-  exit 1;
-fi
+#if [ "$SVC_LOGIC" -eq "0" ] ; then
+#  echo "There is no data in table SVC_LOGIC. "
+#  exit 1;
+#fi
 
-if [ "$VNF_DG_MAPPING" -eq "0" ]; then
-  echo "There is no data in table VNF_DG_MAPPING. "
-  exit 1;
-fi 
+#if [ "$VNF_DG_MAPPING" -eq "0" ]; then
+#  echo "There is no data in table VNF_DG_MAPPING. "
+#  exit 1;
+#fi 
 
 echo "Expected table data is present."
 exit 0 )

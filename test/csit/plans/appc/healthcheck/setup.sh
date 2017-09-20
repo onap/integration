@@ -20,6 +20,12 @@
 SCRIPTS="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source ${WORKSPACE}/test/csit/scripts/appc/script1.sh
 
+export NEXUS_USERNAME=docker
+export NEXUS_PASSWD=docker
+export NEXUS_DOCKER_REPO=nexus3.onap.org:10001
+export DMAAP_TOPIC=AUTO
+export DOCKER_IMAGE_VERSION=1.1.0-SNAPSHOT-latest
+
 export MTU=$(/sbin/ifconfig | grep MTU | sed 's/.*MTU://' | sed 's/ .*//' | sort -n | head -1)
 
 if [ "$MTU" == "" ]; then
@@ -36,14 +42,14 @@ git pull
 unset http_proxy https_proxy
 cd $WORKSPACE/archives/appc/docker-compose
 
-sed -i "s/DMAAP_TOPIC_ENV=.*/DMAAP_TOPIC_ENV="AUTO"/g" docker-compose.yml
-docker login -u docker -p docker nexus3.onap.org:10001
+sed -i "s/DMAAP_TOPIC_ENV=.*/DMAAP_TOPIC_ENV="$DMAAP_TOPIC"/g" docker-compose.yml
+docker login -u $NEXUS_USERNAME -p $NEXUS_PASSWD $NEXUS_DOCKER_REPO
 
-docker pull nexus3.onap.org:10001/openecomp/appc-image:1.1-STAGING-latest
-docker tag nexus3.onap.org:10001/openecomp/appc-image:1.1-STAGING-latest openecomp/appc-image:latest
+docker pull $NEXUS_DOCKER_REPO/openecomp/appc-image:$DOCKER_IMAGE_VERSION
+docker tag $NEXUS_DOCKER_REPO/openecomp/appc-image:$DOCKER_IMAGE_VERSION openecomp/appc-image:latest
 
-docker pull nexus3.onap.org:10001/openecomp/dgbuilder-sdnc-image:1.1-STAGING-latest
-docker tag nexus3.onap.org:10001/openecomp/dgbuilder-sdnc-image:1.1-STAGING-latest openecomp/dgbuilder-sdnc-image:latest
+docker pull $NEXUS_DOCKER_REPO/onap/ccsdk-dgbuilder-image:latest
+docker tag $NEXUS_DOCKER_REPO/onap/ccsdk-dgbuilder-image:latest onap/ccsdk-dgbuilder-image:latest
 
 # start APPC containers with docker compose and configuration from docker-compose.yml
 docker-compose up -d
@@ -71,7 +77,7 @@ fi
 
 #sleep 800
 
-TIME_OUT=1500
+TIME_OUT=1000
 INTERVAL=60
 TIME=0
 while [ "$TIME" -lt "$TIME_OUT" ]; do
@@ -79,7 +85,7 @@ while [ "$TIME" -lt "$TIME_OUT" ]; do
 response=$(docker exec appc_controller_container /opt/opendaylight/current/bin/client -u karaf system:start-level)
 num_bundles=$(docker exec appc_controller_container /opt/opendaylight/current/bin/client -u karaf bundle:list | tail -1 | cut -d\| -f1)
 
-  if [ "$response" == "Level 100" ] && [ "$num_bundles" -ge 394 ]; then
+  if [ "$response" == "Level 100" ] && [ "$num_bundles" -ge 400 ]; then
     echo APPC karaf started in $TIME seconds
     break;
   fi
@@ -96,7 +102,7 @@ fi
 response=$(docker exec appc_controller_container /opt/opendaylight/current/bin/client -u karaf system:start-level)
 num_bundles=$(docker exec appc_controller_container /opt/opendaylight/current/bin/client -u karaf bundle:list | tail -1 | cut -d\| -f1)
 
-  if [ "$response" == "Level 100" ] && [ "$num_bundles" -ge 394 ]; then
+  if [ "$response" == "Level 100" ] && [ "$num_bundles" -ge 400 ]; then
     num_bundles=$(docker exec appc_controller_container /opt/opendaylight/current/bin/client -u karaf bundle:list | tail -1 | cut -d\| -f1)
     num_failed_bundles=$(docker exec appc_controller_container /opt/opendaylight/current/bin/client -u karaf bundle:list | grep Failure | wc -l)
     failed_bundles=$(docker exec appc_controller_container /opt/opendaylight/current/bin/client -u karaf bundle:list | grep Failure)
@@ -110,4 +116,10 @@ fi
 
 # Pass any variables required by Robot test suites in ROBOT_VARIABLES
 ROBOT_VARIABLES="-v SCRIPTS:${SCRIPTS}"
+
+if [ "$response" == "" ] || [ "$num_bundles" == "" ]; then
+  echo "Docker container appc_controller_container is not available. Exiting."
+  exit 1
+fi
+
 
