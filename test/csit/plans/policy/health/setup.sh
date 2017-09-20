@@ -15,10 +15,17 @@
 # limitations under the License.
 #
 # Place the scripts in run order:
-source ${WORKSPACE}/test/csit/scripts/policy/script1.sh
+source ${SCRIPTS}/common_functions.sh
+
+#Get current IP of VM
+HOST_IP=$(ip route get 8.8.8.8 | awk '/8.8.8.8/ {print $NF}')
+export HOST_IP=${HOST_IP}
 
 docker run --name i-mock -d jamesdbloom/mockserver
 MOCK_IP=`get-instance-ip.sh i-mock`
+echo ${MOCK_IP}
+
+docker inspect i-mock
 
 # Wait for initialization
 for i in {1..10}; do
@@ -29,6 +36,9 @@ done
 
 ${WORKSPACE}/test/csit/scripts/policy/mock-hello.sh ${MOCK_IP}
 
+source ${WORKSPACE}/test/csit/scripts/policy/script1.sh
+
+
 # Pass any variables required by Robot test suites in ROBOT_VARIABLES
-ROBOT_VARIABLES="-v MOCK_IP:${MOCK_IP}"
+ROBOT_VARIABLES="-v MOCK_IP:${MOCK_IP} -v IP:${IP} -v POLICY_IP:${POLICY_IP}"
 
