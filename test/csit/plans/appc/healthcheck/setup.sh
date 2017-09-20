@@ -115,7 +115,8 @@ if [ "$num_failed_bundles" -ge 1 ]; then
 fi
 
 # Pass any variables required by Robot test suites in ROBOT_VARIABLES
-ROBOT_VARIABLES="-v SCRIPTS:${SCRIPTS}"
+ROBOT_VARIABLES="-v SCRIPTS:${SCRIPTS} -v HOST_IP:${HOST_IP}"
+export HOST_IP=${HOST_IP}
 
 if [ "$response" == "" ] || [ "$num_bundles" == "" ]; then
   echo "Docker container appc_controller_container is not available. Exiting."

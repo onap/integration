@@ -104,7 +104,7 @@ echo ${POLICY_IP}
 sleep 3m
 
 for i in {1..30}; do
-    curl -i --user healthcheck:zb!XztG34 -H "ContentType: application/json" -H "Accept: application/json" ${POLICY_IP}:6969 && break
+    curl -i --user healthcheck:zb!XztG34 -H "ContentType: application/json" -H "Accept: application/json" ${POLICY_IP}:6969/healthcheck && break
     echo sleep $i
     sleep $i
 	
