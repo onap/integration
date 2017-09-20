@@ -19,8 +19,8 @@ function clone_all_vfc_repos {
 function compile_all_vfc_repos {
     install_python_package tox
 
-    tox_repos=("gvnfm/vnflcm/lcm" "gvnfm/vnfmgr/mgr" "gvnfm/vnfres/res" "nfvo/lcm"
-               "nfvo/driver/vnfm/gvnfm/gvnfmadapter" "nfvo/driver/vnfm/svnfm/zte/vmanager")
+    tox_repos=("gvnfm/vnflcm/lcm" "gvnfm/vnfmgr/mgr" "gvnfm/vnfres/res" "nfvo/lcm" \
+        "nfvo/driver/vnfm/gvnfm/gvnfmadapter" "nfvo/driver/vnfm/svnfm/zte/vmanager")
     for dirc in ${tox_repos[@]}; do
         pushd $src_folder/$dirc
         tox -e py27

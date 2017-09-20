@@ -5,7 +5,7 @@ set -o xtrace
 source /var/onap/functions
 
 sdc_src_folder=$git_src_folder/sdc
-sdc_repos=("sdc-os-chef" "jtosca" "sdc-distribution-client" "sdc-titan-cassandra" "sdc-tosca" "sdc_common")
+sdc_repos=("jtosca" "sdc-distribution-client" "sdc-docker-base" "sdc-titan-cassandra" "sdc-tosca" "sdc-vnfdesign" "sdc-workflow-designer" "sdc_common")
 
 # _mount_external_partition() - Create partition and mount the external volume
 function _mount_external_partition {
@@ -69,7 +69,7 @@ function get_sdc_images {
         if [[ "$compile_repo" != "True" ]]; then
             compile_src $sdc_src_folder
         fi
-        build_docker_image $sdc_src_folder/sdc-os-chef docker
+        build_docker_image $sdc_src_folder/sdc-docker-base
     else
         for image in backend frontend elasticsearch kibana cassandra sanity; do
             pull_openecomp_image  openecomp/sdc-$image
@@ -81,8 +81,6 @@ function get_sdc_images {
 function install_sdc {
     local ENV_NAME=$dmaap_topic
     local MR_IP_ADDR='10.0.11.1'
-    local RELEASE=$docker_version
-    NEXUS_DOCKER_PORT=$(echo $nexus_docker_repo | cut -d':' -f2)
 
     _init_data_folders
     cp $sdc_src_folder/sdc-os-chef/environments/Template.json /data/environments
@@ -99,7 +97,9 @@ function install_sdc {
     install_docker
     if [[ "$pull_docker_image" == "True" ]]; then
         docker_openecomp_login
-        bash /data/scripts/docker_run.sh -e $ENV_NAME -r $RELEASE -p $NEXUS_DOCKER_PORT
+        bash /data/scripts/docker_run.sh -e $ENV_NAME -r $docker_version -p $(echo $nexus_docker_repo | cut -d':' -f2)
+    else
+        bash /data/scripts/docker_run.sh -e $ENV_NAME  -l
     fi
 }
 

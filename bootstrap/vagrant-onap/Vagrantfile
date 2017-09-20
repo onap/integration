@@ -42,7 +42,7 @@ box = {
 
 
 nodes = [
-    { 
+    {
     :name   => "aai",
     :ips    => ['10.252.0.6', "192.168.50.6"],
     :macs   => [],
@@ -52,7 +52,7 @@ nodes = [
     :groups => ["individual"],
     :args   => ["aai"]
   },
-  { 
+  {
     :name   => "all-in-one",
     :ips    => ['10.252.0.3', "192.168.50.3"],
     :macs   => [],
@@ -63,7 +63,7 @@ nodes = [
     :flavor => 'm1.xlarge',
     :args   => ['mr', 'sdc', 'aai', 'mso', 'robot', 'vid', 'sdnc', 'portal', 'dcae', 'policy', 'appc', 'vfc', 'ccsdk'],
   },
-  { 
+  {
     :name   => "appc",
     :ips    => ['10.252.0.14', "192.168.50.14"],
     :macs   => [],
@@ -73,7 +73,7 @@ nodes = [
     :groups => ["individual"],
     :args   => ["appc"],
   },
-  { 
+  {
     :name   => "ccsdk",
     :ips    => ['10.252.0.14', "192.168.50.17"],
     :macs   => [],
@@ -83,7 +83,7 @@ nodes = [
     :groups => ["individual"],
     :args   => ["ccsdk"],
   },
-  { 
+  {
     :name   => "dcae",
     :ips    => ['10.252.0.12', "192.168.50.12"],
     :macs   => [],
@@ -93,7 +93,7 @@ nodes = [
     :groups => ["individual"],
     :args   => ["dcae"],
   },
-  { 
+  {
     :name   => "dns",
     :ips    => ['10.252.0.3', "192.168.50.3"],
     :macs   => [],
@@ -104,7 +104,7 @@ nodes = [
     :flavor => 'm1.small',
     :args   => [" "]
   },
-  { 
+  {
     :name   => "message-router",
     :ips    => ['10.252.0.4', "192.168.50.4"],
     :macs   => [],
@@ -114,7 +114,7 @@ nodes = [
     :groups => ["individual"],
     :args   => ["mr"],
   },
-  { 
+  {
     :name   => "mso",
     :ips    => ['10.252.0.7', "192.168.50.7"],
     :macs   => [],
@@ -124,7 +124,7 @@ nodes = [
     :groups => ["individual"],
     :args   => ["mso"],
   },
-  { 
+  {
     :name   => "multicloud",
     :ips    => ['10.252.0.16', "192.168.50.16"],
     :macs   => [],
@@ -134,7 +134,7 @@ nodes = [
     :groups => ["individual"],
     :args   => ["multicloud"],
   },
-  { 
+  {
     :name   => "policy",
     :ips    => ['10.252.0.13', "192.168.50.13"],
     :macs   => [],
@@ -144,7 +144,7 @@ nodes = [
     :groups => ["individual"],
     :args   => ["policy"],
   },
-  { 
+  {
     :name   => "portal",
     :ips    => ['10.252.0.11', "192.168.50.11"],
     :macs   => [],
@@ -154,7 +154,7 @@ nodes = [
     :groups => ["individual"],
     :args   => ["portal"],
   },
-  { 
+  {
     :name   => "robot",
     :ips    => ['10.252.0.8', "192.168.50.8"],
     :macs   => [],
@@ -164,7 +164,7 @@ nodes = [
     :groups => ["individual"],
     :args   => ["robot"],
   },
-  { 
+  {
     :name   => "sdc",
     :ips    => ['10.252.0.5', "192.168.50.5"],
     :macs   => [],
@@ -174,7 +174,7 @@ nodes = [
     :groups => ["individual"],
     :args   => ["sdc"],
   },
-  { 
+  {
     :name   => "sdnc",
     :ips    => ['10.252.0.10', "192.168.50.10"],
     :macs   => [],
@@ -182,9 +182,9 @@ nodes = [
     :cpu    => "50",
     :ram    => 4 * 1024,
     :groups => ["individual"],
-    :args   => ["sdnc"],    
+    :args   => ["sdnc"],
   },
-  { 
+  {
     :name   => "testing",
     :ips    => ['10.252.0.3', "192.168.50.3"],
     :macs   => [],
@@ -195,7 +195,7 @@ nodes = [
     :flavor => 'm1.small',
     :args   => [""],
   },
-  { 
+  {
     :name   => "vfc",
     :ips    => ['10.252.0.15', "192.168.50.15"],
     :macs   => [],
@@ -205,8 +205,7 @@ nodes = [
     :groups => ["individual"],
     :args   => ['vfc'],
   },
-  
-  { 
+  {
     :name   => "vid",
     :ips    => ['10.252.0.9', "192.168.50.9"],
     :macs   => [],
@@ -215,20 +214,18 @@ nodes = [
     :ram    => 4 * 1024,
     :groups => ["individual"],
     :args   => ['vid'],
-  }, 
+  },
 ]
 
 
-run_path = 'vagrant_utils/postinstall.sh'
-
-sdc_volume='vol1-sdc-data.vdi'
+run_path   = 'vagrant_utils/postinstall.sh'
+sdc_volume = 'vol1-sdc-data.vdi'
 
 Vagrant.require_version ">= 1.8.6"
 
 # Determine the provider used
 provider = (ENV['VAGRANT_DEFAULT_PROVIDER'] || :virtualbox).to_sym
 puts "[INFO] Provider: #{provider} "
-
 
 vd_conf = ENV.fetch('VD_CONF', 'etc/settings.yaml')
 if File.exist?(vd_conf)
@@ -277,7 +274,6 @@ case deploy_mode
         nodes.select! do |node|
             if node[:groups][0].include?("individual")
               true if node[:name]
-               
             end
         end
 
@@ -325,22 +321,22 @@ Vagrant.configure("2") do |config|
       config.vm.define node[:name] do |nodeconfig|
 
         # Common Settings:
-        
+
         nodeconfig.vm.provider "virtualbox" do |vbox|
           vbox.customize ['modifyvm', :id, '--nictype1', 'virtio']
           vbox.customize ['modifyvm', :id, '--audio', 'none']
           vbox.customize ['modifyvm', :id, '--vram', '1']
           vbox.customize ['modifyvm', :id, "--cpuhotplug", "off"]
           vbox.customize ['modifyvm', :id, "--cpuexecutioncap", node[:cpu]]
-          vbox.customize ['modifyvm', :id, "--cpus", node[:cpus]]  
+          vbox.customize ['modifyvm', :id, "--cpus", node[:cpus]]
           vbox.customize ["modifyvm", :id, "--memory", node[:ram]]
         end
-        
+
         nodeconfig.vm.provider "libvirt" do |lbox|
           lbox.memory = node[:ram]
           lbox.nested = true
         end
-        
+
         nodeconfig.vm.provider :openstack do |obox|
           obox.openstack_auth_url               = ENV.fetch('OS_AUTH_URL', '')
           obox.tenant_name                      = ENV.fetch('OS_TENANT_NAME', '')
@@ -357,15 +353,14 @@ Vagrant.configure("2") do |config|
           obox.networks                         = ENV.fetch('OS_NETWORK', '')
           obox.flavor                           = node[:flavor]
           obox.server_name                      = node[:name]
-
         end
 
         # Set Box type
         nodeconfig.vm.box = box[provider]
-        
+
         # Set Node name
         nodeconfig.vm.hostname = node[:name]
-        
+
         # Set Sync Folder
         nodeconfig.vm.synced_folder ".", "/vagrant", disabled: true
         nodeconfig.vm.synced_folder './opt', '/opt/', create: true
@@ -373,11 +368,11 @@ Vagrant.configure("2") do |config|
         if !is_windows
           nodeconfig.vm.synced_folder '~/.m2', '/root/.m2/', create: true
         end
-        # Set Network 
+        # Set Network
         nodeconfig.vm.network :private_network, ip: node[:ips][1]
 
         # Specific settings:
-        
+
         #Set Storage (For SDC or All-in-one)
         if node[:name].include?("all-in-one") || node[:name].include?("sdc")
           nodeconfig.vm.provider "virtualbox" do |v|
@@ -386,7 +381,7 @@ Vagrant.configure("2") do |config|
               end
               v.customize ['storageattach', :id, '--storagectl', 'SATAController', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', sdc_volume]
             end
-            
+
             nodeconfig.vm.provider "libvirt" do |v|
                 v.storage :file, path: sdc_volume, bus: 'sata', device: 'vdb', size: '2G'
             end
@@ -416,4 +411,3 @@ Vagrant.configure("2") do |config|
       end #nodeconfig
     end #node
 end #config
-  
