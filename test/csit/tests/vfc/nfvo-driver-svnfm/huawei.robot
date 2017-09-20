@@ -1,4 +1,5 @@
 *** settings ***
+Resource    ../../common.robot
 Library     Collections
 Library     RequestsLibrary
 Library     simplejson
@@ -18,7 +19,7 @@ ${hwvnfm_createtoken_json}    ${SCRIPTS}/../tests/vfc/nfvo-driver-svnfm/jsoninpu
 SwaggerFuncTest
     [Documentation]    query swagger info rest test
     ${headers}    Create Dictionary    Content-Type=application/json    Accept=application/json
-    Create Session    web_session    http://${MSB_IP}:80    headers=${headers}
+    Create Session    web_session    http://${SERVICE_IP}:8482    headers=${headers}
     ${resp}=  Get Request    web_session    ${queryswagger_url}
     ${responese_code}=     Convert To String      ${resp.status_code}
     List Should Contain Value    ${return_ok_list}   ${responese_code}
@@ -31,7 +32,7 @@ AuthTokenFuncTest
     ${json_value}=     json_from_file      ${hwvnfm_createtoken_json}
     ${json_string}=     string_from_json   ${json_value}
     ${headers}    Create Dictionary    Content-Type=application/json    Accept=application/json
-    Create Session    web_session    http://${MSB_IP}:80    headers=${headers}
+    Create Session    web_session    http://${SERVICE_IP}:8482    headers=${headers}
     Set Request Body    ${json_string}
     ${resp}=  Post Request    web_session    ${createauthtoken_url}    ${json_string}
     ${responese_code}=     Convert To String      ${resp.status_code}
