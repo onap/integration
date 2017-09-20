@@ -17,7 +17,30 @@
 # Place the scripts in run order:
 source ${SCRIPTS}/common_functions.sh
 
-# Start auth
+#start msb
+docker run -d -p 8500:8500  --name msb_consul consul
+MSB_CONSUL_IP=`get-instance-ip.sh msb_consul`
+echo MSB_CONSUL_IP=${MSB_CONSUL_IP}
+
+docker run -d  -p 10081:10081  -e CONSUL_IP=$MSB_CONSUL_IP --name msb_discovery nexus3.onap.org:10001/onap/msb/msb_discovery
+MSB_DISCOVERY_IP=`get-instance-ip.sh msb_discovery`
+echo DISCOVERY_IP=${MSB_DISCOVERY_IP}
+
+docker run -d -p 80:80 -e CONSUL_IP=$MSB_CONSUL_IP -e SDCLIENT_IP=$MSB_DISCOVERY_IP -e "ROUTE_LABELS=visualRange:1" --name msb_internal_apigateway nexus3.onap.org:10001/onap/msb/msb_apigateway
+MSB_IAG_IP=`get-instance-ip.sh msb_internal_apigateway`
+echo MSB_IAG_IP=${MSB_IAG_IP}
+
+# Wait for initialization(8500 Consul, 10081 Service Registration & Discovery, 80 api gateway)
+for i in {1..10}; do
+    curl -sS -m 1 ${MSB_CONSUL_IP}:8500 && curl -sS -m 1 ${MSB_DISCOVERY_IP}:10081 && curl -sS -m 1 ${MSB_IAG_IP}:80 && break
+    echo sleep $i
+    sleep $i
+done
+
+#Need some time for the initialization of MSB services
+sleep 60
+
+# Start cli
 docker run -d --name cli -e CLI_MODE=daemon nexus3.onap.org:10001/onap/cli:1.1-STAGING-latest
 
 # Wait for cli initialization
@@ -29,4 +52,4 @@ done
 CLI_IP=`get-instance-ip.sh cli`
 
 # Pass any variables required by Robot test suites in ROBOT_VARIABLES
-ROBOT_VARIABLES="-v CLI_IP:${CLI_IP}"
+ROBOT_VARIABLES="-v CLI_IP:${CLI_IP} -v MSB_IAG_IP:${MSB_IAG_IP}"
