@@ -6,7 +6,7 @@ source /var/onap/functions
 source /var/onap/ccsdk
 
 sdnc_src_folder=$git_src_folder/openecomp/sdnc
-sdnc_repos=("core" "adaptors" "northbound" "plugins" "oam")
+sdnc_repos=("adaptors" "architecture" "core" "features" "northbound" "oam" "parent" "plugins")
 
 # clone_all_sdnc_repos() - Function that clones SDNC source repo.
 function clone_all_sdnc_repos {
