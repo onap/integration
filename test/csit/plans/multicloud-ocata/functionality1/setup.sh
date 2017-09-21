@@ -20,7 +20,7 @@ source ${SCRIPTS}/common_functions.sh
 # start multicloud-ocata
 docker run -d --name multicloud-ocata nexus3.onap.org:10001/onap/multicloud/openstack-ocata
 SERVICE_IP=`get-instance-ip.sh multicloud-ocata`
-SERVICE_PORT=9004
+SERVICE_PORT=9006
 
 for i in {1..50}; do
     curl -sS ${SERVICE_IP}:${SERVICE_PORT} && break
