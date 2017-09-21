@@ -72,8 +72,8 @@ modifyRule
     [Return]    ${response}
 
 deleteRule
-    [Arguments]    ${jsonParam}    ${codeFlag}=1
-    ${response}    httpDelete    ${ruleMgtHost}    ${ruleMgtUrl}    ${jsonParam}
+    [Arguments]    ${ruleId}    ${codeFlag}=1
+    ${response}    httpDelete    ${ruleMgtHost}    ${ruleMgtUrl}/${ruleId}
     log    ${response.content}
     run keyword if    ${codeFlag}==1    Should be equal as strings    ${response.status_code}    200
     run keyword if    ${codeFlag}!=1    Should be equal as strings    ${response.status_code}    499

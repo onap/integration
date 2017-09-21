@@ -30,8 +30,8 @@ httpPost
     [Return]    ${postResponse}
 
 httpDelete
-    [Arguments]    ${restHost}    ${restUrl}    ${data}
+    [Arguments]    ${restHost}    ${restUrl}
     ${headers}    create dictionary    Content-Type=application/json    Accept=application/json
     create session    microservices    ${restHost}    ${headers}
-    ${deleteResponse}    delete request    microservices    ${restUrl}    ${data}
+    ${deleteResponse}    delete request    microservices    ${restUrl}
     [Return]    ${deleteResponse}

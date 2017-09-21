@@ -120,8 +120,8 @@ modify_rule_with_description
 delete_existing_rule
     [Documentation]    Delete an existing rule.
     should not be empty    ${RULEID}
-    deleteRule    {"ruleid":"${RULEID}"}
+    deleteRule    ${RULEID}
 
 delete_non_existing_rule
     [Documentation]    Delete a non-existing rule.
-    deleteRule    {"ruleid":"${RULEID}"}    -1
+    deleteRule    ${RULEID}    -1
