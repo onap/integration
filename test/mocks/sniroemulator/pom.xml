@@ -17,6 +17,7 @@
 </parent>
 
 <properties>
+    <dockerLocation>${basedir}/target</dockerLocation>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.version>1.8</java.version>
@@ -136,6 +137,47 @@
         </plugin>
         <plugin>
             <artifactId>maven-dependency-plugin</artifactId>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-resources-plugin</artifactId>
+            <version>2.7</version>
+            <executions>
+                <execution>
+                    <id>copy-docker-file</id>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>copy-resources</goal>
+                    </goals>
+                    <configuration>
+                        <outputDirectory>target</outputDirectory>
+                        <overwrite>true</overwrite>
+                        <resources>
+                            <resource>
+                                <directory>${basedir}/src/main/docker</directory>
+                                <filtering>true</filtering>
+                                <includes>
+                                    <include>**/*</include>
+                                </includes>
+                            </resource>
+                        </resources>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+        <plugin>
+            <groupId>com.spotify</groupId>
+            <artifactId>docker-maven-plugin</artifactId>
+            <version>0.4.11</version>
+            <configuration>
+                <imageName>openecomp/${project.artifactId}</imageName>
+                <dockerDirectory>${dockerLocation}</dockerDirectory>
+                <serverId>docker-hub</serverId>
+                <imageTags>
+                    <imageTag>latest</imageTag>
+                </imageTags>
+                <forceTags>true</forceTags>
+            </configuration>
         </plugin>
     </plugins>
 </build>
