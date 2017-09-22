@@ -14,4 +14,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-kill-instance.sh cli
+kill-instance.sh cli msb_consul msb_discovery msb_internal_apigateway
