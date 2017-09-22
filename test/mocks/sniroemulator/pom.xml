@@ -23,6 +23,9 @@
     <java.version>1.8</java.version>
     <versions.jackson>2.8.9</versions.jackson>
     <jetty.version>9.2.22.v20170606</jetty.version>
+
+    <!-- This should be defined by oparent -->
+    <onap.nexus.dockerregistry.daily>nexus3.onap.org:10003</onap.nexus.dockerregistry.daily>
 </properties>
 
 <dependencies>
@@ -170,9 +173,8 @@
             <artifactId>docker-maven-plugin</artifactId>
             <version>0.4.11</version>
             <configuration>
-                <imageName>openecomp/${project.artifactId}</imageName>
+                <imageName>${onap.nexus.dockerregistry.daily}/onap/${project.artifactId}</imageName>
                 <dockerDirectory>${dockerLocation}</dockerDirectory>
-                <serverId>docker-hub</serverId>
                 <imageTags>
                     <imageTag>latest</imageTag>
                 </imageTags>
