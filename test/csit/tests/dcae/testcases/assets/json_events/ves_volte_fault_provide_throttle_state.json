@@ -1,0 +1,30 @@
+{
+   "eventThrottlingState": {
+      "eventThrottlingMode": "throttled",
+      "eventDomainThrottleSpecificationList": [
+         {
+            "eventDomain": "fault",
+            "suppressedFieldNames": [
+               "alarmInterfaceA",
+               "alarmAdditionalInformation" 
+            ]
+         },
+         {
+            "eventDomain": "thresholdCrossingAlert",
+            "suppressedFieldNames": [
+               "associatedAlertIdList",
+               "possibleRootCause" 
+            ],
+            "suppressedNvPairsList": [
+               {
+                  "nvPairFieldName": "additionalParameters",
+                  "suppressedNvPairNames": [
+                     "someCounterName",
+                     "someOtherCounterName"
+                  ]
+               }
+            ]
+         }
+      ]
+   }
+}
