@@ -1,4 +1,4 @@
-package org.onap.integration.test.mock.extension;
+package org.onap.integration.test.mocks.sniroemulator.extension;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;

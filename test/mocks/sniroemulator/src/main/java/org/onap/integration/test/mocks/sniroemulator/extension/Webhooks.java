@@ -1,4 +1,4 @@
-package org.onap.integration.test.mock.extension;
+package org.onap.integration.test.mocks.sniroemulator.extension;
 
 import com.github.tomakehurst.wiremock.common.Notifier;
 import com.github.tomakehurst.wiremock.core.Admin;

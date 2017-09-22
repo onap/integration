@@ -1,4 +1,4 @@
-package org.onap.integration.test.mock;
+package org.onap.integration.test.mocks.sniroemulator;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,4 +1,4 @@
-package org.onap.integration.test.mock;
+package org.onap.integration.test.mocks.sniroemulator;
 
 import static com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder.responseDefinition;
 import static com.github.tomakehurst.wiremock.client.WireMock.anyUrl;
@@ -71,7 +71,7 @@ public class MockApplication {
 		mappingsFileSource.createIfNecessary();
 		
 		// Register extension
-		options.extensions("org.onap.integration.test.mock.extension.Webhooks");
+		options.extensions("org.onap.integration.test.mocks.sniroemulator.extension.Webhooks");
 		// Register notifier
         options.notifier(new ConsoleNotifier(true));   
         wireMockServer = new WireMockServer(options);

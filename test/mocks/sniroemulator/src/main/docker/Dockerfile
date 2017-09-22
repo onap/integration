@@ -4,7 +4,7 @@ MAINTAINER Geora Barsky <georab@amdocs.com>
 
 RUN mkdir -p /var/wiremock/lib/ 
 
-ADD mock.jar /var/wiremock/lib/app.jar
+ADD sniroemulator.jar /var/wiremock/lib/app.jar
 
 WORKDIR /home/wiremock
 
