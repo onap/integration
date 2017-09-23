@@ -15,3 +15,66 @@
 # limitations under the License.
 #
 echo "This is ${WORKSPACE}/test/csit/scripts/policy/script1.sh"
+
+# the directory of the script
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+echo ${DIR}
+
+# the temp directory used, within $DIR
+# omit the -p parameter to create a temporal directory in the default location
+WORK_DIR=`mktemp -d -p "$DIR"`
+echo ${WORK_DIR}
+
+cd ${WORK_DIR}
+
+# check if tmp dir was created
+if [[ ! "$WORK_DIR" || ! -d "$WORK_DIR" ]]; then
+  echo "Could not create temp dir"
+  exit 1
+fi
+
+if ! ifconfig eth0; then
+	if ! ifconfig ens3; then
+		echo "Could not determine IP address"
+		exit 1
+	fi
+	export IP=`ifconfig ens3 | awk -F: '/inet addr/ {gsub(/ .*/,"",$2); print $2}'`
+else
+	export IP=`ifconfig eth0 | awk -F: '/inet addr/ {gsub(/ .*/,"",$2); print $2}'`
+fi
+echo $IP
+
+git clone http://gerrit.onap.org/r/oparent
+
+git clone http://gerrit.onap.org/r/policy/docker
+cd docker
+
+mvn clean install prepare-package --settings ../oparent/settings.xml
+cp policy-pe/* target/policy-pe
+cp policy-drools/* target/policy-drools
+
+docker build -t onap/policy/policy-os     policy-os
+docker build -t onap/policy/policy-db     policy-db
+docker build -t onap/policy/policy-nexus  policy-nexus
+docker build -t onap/policy/policy-base   policy-base
+docker build -t onap/policy/policy-pe     target/policy-pe
+docker build -t onap/policy/policy-drools target/policy-drools
+
+chmod +x config/drools/drools-tweaks.sh
+
+echo $IP > config/pe/ip_addr.txt
+
+export MTU=9126
+
+docker-compose up -d
+
+docker ps
+
+POLICY_IP=`get-instance-ip.sh drools`
+echo ${POLICY_IP}
+
+for i in {1..10}; do
+    curl -sS ${POLICY_IP}:6969 --user healthcheck:zb!XztG34 && break
+    echo sleep $i
+    sleep $i
+done
