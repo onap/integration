@@ -17,4 +17,4 @@
 
 kill-instance.sh i-mock
 
-
+rm -fr ${WORK_DIR}
