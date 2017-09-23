@@ -6,17 +6,9 @@ Library       RequestsLibrary
 ${MESSAGE}    Hello, world!
 
 *** Test Cases ***
-String Equality Test
-    Should Be Equal    ${MESSAGE}    Hello, world!
-
-Dir Test
-    [Documentation]    Check if /tmp exists
-    Log                ${MESSAGE}
-    CheckDir           /tmp
-
-Url Test
-    [Documentation]    Check if google.com can be reached
-    CheckUrl           http://www.google.com
+Health Test
+    [Documentation]    Health Check
+    CheckUrl           ${IP}:6969
 
 *** Keywords ***
 CheckDir
@@ -25,6 +17,15 @@ CheckDir
 
 CheckUrl
     [Arguments]                  ${url}
-    Create Session               session              ${url}
-    ${resp}=                     Get Request          session                  /
-    Should Be Equal As Integers  ${resp.status_code}  200
+    Log To Console    ${url}
+    ${auth}=    Create List    healthcheck    zb!XztG34
+    Log To Console    ${auth}
+    ${headers}=    Create Dictionary     Accept=application/json    Content-Type=application/json
+    Log To Console    ${headers}
+    ${session}=    Create Session    session    ${url}    auth=${auth}
+    ${resp}= 	Get Request 	session    /healthcheck     headers=${headers}
+    Log To Console    Received response from policy ${resp.text}
+    Should Not Be Empty    ${url}
+
+
+***    Should Be Equal As Integers  ${resp.status_code}  200 ***
