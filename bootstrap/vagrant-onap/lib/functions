@@ -105,14 +105,14 @@ function _configure_docker_settings {
     fi
     if [ $https_proxy ]; then
         echo "export https_proxy=$https_proxy" >> /etc/default/docker
-        #If you have a socks proxy, then use that to connect to the nexus repo 
+        #If you have a socks proxy, then use that to connect to the nexus repo
         #via a redsocks container
         if [ $socks_proxy ]; then
-          wget https://raw.githubusercontent.com/crops/chameleonsocks/master/chameleonsocks.sh
-          chmod 755 chameleonsocks.sh
-          local socks=$(echo $socks_proxy | sed -e "s/^.*\///" | sed -e "s/:.*$//")
-          local port=$(echo $socks_proxy | sed -e "s/^.*://")
-          PROXY=$socks PORT=$port ./chameleonsocks.sh --install
+            wget https://raw.githubusercontent.com/crops/chameleonsocks/master/chameleonsocks.sh
+            chmod 755 chameleonsocks.sh
+            socks=$(echo $socks_proxy | sed -e "s/^.*\///" | sed -e "s/:.*$//")
+            port=$(echo $socks_proxy | sed -e "s/^.*://")
+            PROXY=$socks PORT=$port ./chameleonsocks.sh --install
         fi
     fi
 
