@@ -24,7 +24,7 @@ failed_bundles=$(docker exec appc_controller_container /opt/opendaylight/current
 
 echo "There are $num_failed_bundles failed bundles out of $num_bundles installed bundles."
 
-if [ "$num_failed_bundles" -ge 1 ] || [ $num_bundles -le 400 ]; then
+if [ "$num_failed_bundles" -ge 1 ] || [ "$num_bundles" == "" ]; then
   echo "There are $num_bundles bundles with $num_failed_bundles in a failed state. "
   echo "The following bundle(s) are in a failed state: "
   echo "  $failed_bundles"
