@@ -31,7 +31,7 @@ function wait_for_container() {
     CONTAINER_NAME="$1";
     START_TEXT="$2";
 
-    TIMEOUT=240
+    TIMEOUT=360
 
     # wait for the real startup
     AMOUNT_STARTUP=$(docker logs ${CONTAINER_NAME} 2>&1 | grep "$START_TEXT" | wc -l)
@@ -59,6 +59,7 @@ export HBASE_VERSION="${HBASE_VERSION:-1.2.0}";
 
 docker pull ${HBASE_IMAGE}:${HBASE_VERSION};
 
+docker pull ${HBASE_IMAGE}:${HBASE_VERSION};
 docker pull ${DOCKER_REGISTRY}/openecomp/aai-resources:${DOCKER_IMAGE_VERSION};
 docker tag ${DOCKER_REGISTRY}/openecomp/aai-resources:${DOCKER_IMAGE_VERSION} ${DOCKER_REGISTRY}/openecomp/aai-resources:latest;
 
@@ -74,25 +75,36 @@ wait_for_container ${HBASE_CONTAINER_NAME} ' Started SelectChannelConnector@0.0.
 wait_for_container ${HBASE_CONTAINER_NAME} ' Started SelectChannelConnector@0.0.0.0:8080';
 wait_for_container ${HBASE_CONTAINER_NAME} ' Started SelectChannelConnector@0.0.0.0:9095';
 
-# Start the resources microservice
-RESOURCES_CONTAINER_NAME=$(${DOCKER_COMPOSE_CMD} up -d aai-resources.api.simpledemo.openecomp.org 2>&1 | grep 'Creating' | grep -v 'volume' | grep -v 'network' | awk '{ print $2; }' | head -1);
-wait_for_container ${RESOURCES_CONTAINER_NAME} '0.0.0.0:8447';
-docker logs ${CONTAINER_NAME};
+USER_EXISTS=$(check_if_user_exists aaiadmin);
 
-# Start the traversal microservice
-GRAPH_CONTAINER_NAME=$(${DOCKER_COMPOSE_CMD} up -d aai-traversal.api.simpledemo.openecomp.org 2>&1 | grep 'Creating' | awk '{ print $2; }' | head -1);
-wait_for_container ${GRAPH_CONTAINER_NAME} '0.0.0.0:8446';
+function check_if_user_exists(){
+    local user_id=$1;
 
-# Start the haproxy to route requests between resources and traversal
-HAPROXY_CONTAINER_NAME=$(${DOCKER_COMPOSE_CMD} up -d aai.api.simpledemo.openecomp.org 2>&1 |grep 'Creating' | grep -v 'volume' | grep -v 'network' | awk '{ print $2; }' | head -1);
+    if [ -z "$user_id" ]; then
+        echo "Needs to provide at least one argument for check_if_user_exists func";
+        exit 1;
+    fi;
 
-echo "A&AI Microservices, resources and traversal, are up and running along with HAProxy";
-
-docker exec $GRAPH_CONTAINER_NAME "/opt/app/aai-traversal/scripts/install/updateQueryData.sh" && {
-	echo "Successfully loaded the widget related data into db";
-} || {
-	echo "Unable to load widget related data into db";
+    id -u ${user_id} > /dev/null 2>&1 && {
+        echo "1";
+    } || {
+        echo "0";
+    }
 }
 
+
+if [ "${USER_EXISTS}" -eq 0 ]; then
+        export USER_ID=9000;
+else
+        export USER_ID=$(id -u aaiadmin);
+fi;
+
+RESOURCES_CONTAINER_NAME=$(${DOCKER_COMPOSE_CMD} up -d aai-resources.api.simpledemo.openecomp.org 2>&1 | grep 'Creating' | grep -v 'volume' | grep -v 'network' | awk '{ print $2; }' | head -1);
+wait_for_container ${RESOURCES_CONTAINER_NAME} '0.0.0.0:8447';
+
+docker logs ${RESOURCES_CONTAINER_NAME};
+
+${DOCKER_COMPOSE_CMD} up -d aai-traversal.api.simpledemo.openecomp.org aai.api.simpledemo.openecomp.org
+echo "A&AI Microservices, resources and traversal, are up and running along with HAProxy";
 # Set the host ip for robot from the haproxy
 ROBOT_VARIABLES="-v HOST_IP:`ip addr show docker0 | head -3 | tail -1 | cut -d' ' -f6 | cut -d'/' -f1`"

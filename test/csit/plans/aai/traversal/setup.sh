@@ -58,6 +58,7 @@ export HBASE_IMAGE="${HBASE_IMAGE:-aaionap/hbase}";
 export HBASE_VERSION="${HBASE_VERSION:-1.2.0}";
 
 docker pull ${HBASE_IMAGE}:${HBASE_VERSION};
+
 docker pull ${DOCKER_REGISTRY}/openecomp/aai-resources:${DOCKER_IMAGE_VERSION};
 docker tag ${DOCKER_REGISTRY}/openecomp/aai-resources:${DOCKER_IMAGE_VERSION} ${DOCKER_REGISTRY}/openecomp/aai-resources:latest;
 
