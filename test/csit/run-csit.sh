@@ -102,14 +102,42 @@ rm -rf ${ROBOT_VENV}/src/onap/testsuite
 git clone https://gerrit.onap.org/r/testsuite/python-testing-utils.git ${ROBOT_VENV}/src/onap/testsuite/python-testing-utils
 pip install --upgrade ${ROBOT_VENV}/src/onap/testsuite/python-testing-utils
 
-# install chrome driver
-if [ ! -x ${ROBOT_VENV}/bin/chromedriver ]; then
-    pushd ${ROBOT_VENV}/bin
-    wget -N http://chromedriver.storage.googleapis.com/2.27/chromedriver_linux64.zip
-    unzip chromedriver_linux64.zip
-    chmod +x chromedriver
-    popd
+
+# Get the appropriate chromedriver. Default to linux64
+#
+CHROMEDRIVER_URL=http://chromedriver.storage.googleapis.com/2.27
+CHROMEDRIVER_ZIP=chromedriver_linux64.zip
+
+# Handle mac and windows
+OS=`uname -s`
+case $OS in
+  MINGW*_NT*)
+                CHROMEDRIVER_ZIP=chromedriver_win32.zip
+                ;;
+  Darwin*)
+                CHROMEDRIVER_ZIP=chromedriver_mac64.zip
+                ;;
+  *) echo "Defaulting to Linux 64" ;;
+esac
+
+if [ $CHROMEDRIVER_ZIP == 'chromedriver_linux64.zip' ]
+then
+    wget -O chromedriver.zip $CHROMEDRIVER_URL/$CHROMEDRIVER_ZIP
+                unzip chromedriver.zip -d  ${ROBOT_VENV}/bin
+else
+    curl $CHROMEDRIVER_URL/$CHROMEDRIVER_ZIP -o chromedriver.zip
+                unzip chromedriver.zip
 fi
+
+
+
+# Install chrome
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
+    echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list  && \
+    apt-get update && \
+    apt-get --assume-yes install google-chrome-stable
+
+
 
 
 WORKDIR=`mktemp -d --suffix=-robot-workdir`
