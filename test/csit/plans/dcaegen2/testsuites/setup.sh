@@ -31,7 +31,7 @@ docker run -d -p 8080:8080/tcp -p 8443:8443/tcp -P --name vesc -e DMAAPHOST=${HO
 VESC_IP=`get-instance-ip.sh vesc`
 export VESC_IP=${VESC_IP}
 
-export ROBOT_VARIABLES="--pythonpath ${WORKSPACE}/test/csit/tests/dcae/testcases/resources"
+export ROBOT_VARIABLES="--pythonpath ${WORKSPACE}/test/csit/tests/dcaegen2/testcases/resources"
 
 # Wait container ready
 sleep 5

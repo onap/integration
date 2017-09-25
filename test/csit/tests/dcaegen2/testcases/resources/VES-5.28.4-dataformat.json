@@ -1,44 +1,81 @@
 {
 	"self": {
 		"name": "VES_specification",
-		"version": "5.28.3",
-		"description": "VES spec for 5.3"
+		"version": "5.28.4",
+		"description": "VES spec for 5.4"
 	},
 	"dataformatversion": "1.0.0",
 	"jsonschema": {
 		"$schema": "http://json-schema.org/draft-04/schema#",
+		"title": "VES Event Listener",
+		"type": "object",
+		"properties": {
+			"event": {
+				"$ref": "#/definitions/event"
+			},
+			"eventList": {
+				"$ref": "#/definitions/eventList"
+			}
+		},
+
 		"definitions": {
-					"attCopyrightNotice": {
-				"description": "Copyright (c) <2017>, AT&T Intellectual Property. All rights reserved. Licensed under the Apache License, Version 2.0 (the License)",
+			"schemaHeaderBlock": {
+				"description": "schema date, version, author and associated API",
 				"type": "object",
 				"properties": {
-					"useAndRedistribution": {
-						"description": "You may not use this file except in compliance with the License.You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0",
+					"associatedApi": {
+						"description": "VES Event Listener",
 						"type": "string"
 					},
-					"licenseLink": "http://www.apache.org/licenses/LICENSE-2.0",
-					"condition1": {
-						"description": "Unless required by applicable law or agreed to in writing, software 13 * distributed under the License is distributed on an AS IS BASIS,",
+					"lastUpdatedBy": {
+						"description": "re2947",
 						"type": "string"
 					},
-					"condition2": {
-						"description": "Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.",
+					"schemaDate": {
+						"description": "September 12, 2017",
 						"type": "string"
 					},
-					"condition3": {
-						"description": "WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.",
-						"type": "string"
-					},
-					"condition4": {
-						"description": "See the License for the specific language governing permissions and limitations under the License.",
-						"type": "string"
-					},
-					"Trademarks": {
-						"description": "ECOMP and OpenECOMP are trademarks and service marks of AT&T Intellectual Property.",
-						"type": "string"
+					"schemaVersion": {
+						"description": "28.4",
+						"type": "number"
 					}
-				   }
+				}
+			},
+			"attCopyrightNotice": {
+					"description": "Copyright (c) <2017>, AT&T Intellectual Property. All rights reserved. Licensed under the Apache License, Version 2.0 (the License)",
+					"type": "object",
+					"properties": {
+						"useAndRedistribution": {
+							"description": "You may not use this file except in compliance with the License.You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0",
+							"type": "string"
+						},
+						"licenseLink": {
+						 "description": "http://www.apache.org/licenses/LICENSE-2.0",
+						 "type":"string"
+						},
+						"condition1": {
+							"description": "Unless required by applicable law or agreed to in writing, software 13 * distributed under the License is distributed on an AS IS BASIS,",
+							"type": "string"
+						},
+						"condition2": {
+							"description": "Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.",
+							"type": "string"
+						},
+						"condition3": {
+							"description": "WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.",
+							"type": "string"
+						},
+						"condition4": {
+							"description": "See the License for the specific language governing permissions and limitations under the License.",
+							"type": "string"
+						},
+						"Trademarks": {
+							"description": "ECOMP and OpenECOMP are trademarks and service marks of AT&T Intellectual Property.",
+							"type": "string"
+						}
+					}
 				},
+			
 			"codecsInUse": {
 				"description": "number of times an identified codec was used over the measurementInterval",
 				"type": "object",
@@ -50,10 +87,7 @@
 						"type": "integer"
 					}
 				},
-				"required": [
-					"codecIdentifier",
-					"numberInUse"
-				]
+				"required": ["codecIdentifier", "numberInUse"]
 			},
 			"command": {
 				"description": "command from an event collector toward an event source",
@@ -78,9 +112,7 @@
 						"type": "integer"
 					}
 				},
-				"required": [
-					"commandType"
-				]
+				"required": ["commandType"]
 			},
 			"commandList": {
 				"description": "array of commands from an event collector toward an event source",
@@ -176,17 +208,9 @@
 						"type": "number"
 					}
 				},
-				"required": [
-					"domain",
-					"eventId",
-					"eventName",
-					"lastEpochMicrosec",
-					"priority",
-					"reportingEntityName",
-					"sequence",
-					"sourceName",
-					"startEpochMicrosec",
-					"version"
+				"required": ["domain", "eventId", "eventName", "lastEpochMicrosec",
+					"priority", "reportingEntityName", "sequence", "sourceName",
+					"startEpochMicrosec", "version"
 				]
 			},
 			"counter": {
@@ -195,10 +219,7 @@
 				"properties": {
 					"criticality": {
 						"type": "string",
-						"enum": [
-							"CRIT",
-							"MAJ"
-						]
+						"enum": ["CRIT", "MAJ"]
 					},
 					"name": {
 						"type": "string"
@@ -210,12 +231,7 @@
 						"type": "string"
 					}
 				},
-				"required": [
-					"criticality",
-					"name",
-					"thresholdCrossed",
-					"value"
-				]
+				"required": ["criticality", "name", "thresholdCrossed", "value"]
 			},
 			"cpuUsage": {
 				"description": "usage of an identified CPU",
@@ -262,10 +278,7 @@
 						"type": "number"
 					}
 				},
-				"required": [
-					"cpuIdentifier",
-					"percentUsage"
-				]
+				"required": ["cpuIdentifier", "percentUsage"]
 			},
 			"diskUsage": {
 				"description": "usage of an identified disk",
@@ -436,9 +449,7 @@
 						"type": "number"
 					}
 				},
-				"required": [
-					"diskIdentifier"
-				]
+				"required": ["diskIdentifier"]
 			},
 			"endOfCallVqmSummaries": {
 				"description": "provides end of call voice quality metrics",
@@ -451,10 +462,7 @@
 					"endpointDescription": {
 						"description": "Either Caller or Callee",
 						"type": "string",
-						"enum": [
-							"Caller",
-							"Callee"
-						]
+						"enum": ["Caller", "Callee"]
 					},
 					"endpointJitter": {
 						"description": "",
@@ -533,10 +541,7 @@
 						"type": "number"
 					}
 				},
-				"required": [
-					"adjacencyName",
-					"endpointDescription"
-				]
+				"required": ["adjacencyName", "endpointDescription"]
 			},
 			"event": {
 				"description": "the root level of the common event format",
@@ -576,9 +581,7 @@
 						"$ref": "#/definitions/voiceQualityFields"
 					}
 				},
-				"required": [
-					"commonEventHeader"
-				]
+				"required": ["commonEventHeader"]
 			},
 			"eventDomainThrottleSpecification": {
 				"description": "specification of what information to suppress within an event domain",
@@ -603,9 +606,7 @@
 						}
 					}
 				},
-				"required": [
-					"eventDomain"
-				]
+				"required": ["eventDomain"]
 			},
 			"eventDomainThrottleSpecificationList": {
 				"description": "array of eventDomainThrottleSpecifications",
@@ -638,9 +639,7 @@
 						"$ref": "#/definitions/eventDomainThrottleSpecificationList"
 					}
 				},
-				"required": [
-					"eventThrottlingMode"
-				]
+				"required": ["eventThrottlingMode"]
 			},
 			"faultFields": {
 				"description": "fields specific to fault events",
@@ -700,13 +699,8 @@
 						]
 					}
 				},
-				"required": [
-					"alarmCondition",
-					"eventSeverity",
-					"eventSourceType",
-					"faultFieldsVersion",
-					"specificProblem",
-					"vfStatus"
+				"required": ["alarmCondition", "eventSeverity", "eventSourceType",
+					"faultFieldsVersion", "specificProblem", "vfStatus"
 				]
 			},
 			"featuresInUse": {
@@ -720,10 +714,7 @@
 						"type": "integer"
 					}
 				},
-				"required": [
-					"featureIdentifier",
-					"featureUtilization"
-				]
+				"required": ["featureIdentifier", "featureUtilization"]
 			},
 			"field": {
 				"description": "name value pair",
@@ -736,10 +727,7 @@
 						"type": "string"
 					}
 				},
-				"required": [
-					"name",
-					"value"
-				]
+				"required": ["name", "value"]
 			},
 			"filesystemUsage": {
 				"description": "disk usage of an identified virtual machine in gigabytes and/or gigabytes per second",
@@ -767,14 +755,8 @@
 						"type": "string"
 					}
 				},
-				"required": [
-					"blockConfigured",
-					"blockIops",
-					"blockUsed",
-					"ephemeralConfigured",
-					"ephemeralIops",
-					"ephemeralUsed",
-					"filesystemName"
+				"required": ["blockConfigured", "blockIops", "blockUsed", "ephemeralConfigured",
+					"ephemeralIops", "ephemeralUsed", "filesystemName"
 				]
 			},
 			"gtpPerFlowMetrics": {
@@ -858,8 +840,7 @@
 						"type": "array",
 						"items": {
 							"type": "array",
-							"items": [
-								{
+							"items": [{
 									"type": "string"
 								},
 								{
@@ -900,8 +881,7 @@
 						"type": "array",
 						"items": {
 							"type": "array",
-							"items": [
-								{
+							"items": [{
 									"type": "string"
 								},
 								{
@@ -1002,8 +982,7 @@
 						"type": "array",
 						"items": {
 							"type": "array",
-							"items": [
-								{
+							"items": [{
 									"type": "string"
 								},
 								{
@@ -1024,37 +1003,21 @@
 						"type": "number"
 					}
 				},
-				"required": [
-					"avgBitErrorRate",
-					"avgPacketDelayVariation",
-					"avgPacketLatency",
-					"avgReceiveThroughput",
-					"avgTransmitThroughput",
-					"flowActivationEpoch",
-					"flowActivationMicrosec",
-					"flowDeactivationEpoch",
-					"flowDeactivationMicrosec",
-					"flowDeactivationTime",
-					"flowStatus",
-					"maxPacketDelayVariation",
-					"numActivationFailures",
-					"numBitErrors",
-					"numBytesReceived",
-					"numBytesTransmitted",
-					"numDroppedPackets",
-					"numL7BytesReceived",
-					"numL7BytesTransmitted",
-					"numLostPackets",
-					"numOutOfOrderPackets",
-					"numPacketErrors",
+				"required": ["avgBitErrorRate", "avgPacketDelayVariation", "avgPacketLatency",
+					"avgReceiveThroughput", "avgTransmitThroughput",
+					"flowActivationEpoch", "flowActivationMicrosec",
+					"flowDeactivationEpoch", "flowDeactivationMicrosec",
+					"flowDeactivationTime", "flowStatus",
+					"maxPacketDelayVariation", "numActivationFailures",
+					"numBitErrors", "numBytesReceived", "numBytesTransmitted",
+					"numDroppedPackets", "numL7BytesReceived",
+					"numL7BytesTransmitted", "numLostPackets",
+					"numOutOfOrderPackets", "numPacketErrors",
 					"numPacketsReceivedExclRetrans",
 					"numPacketsReceivedInclRetrans",
 					"numPacketsTransmittedInclRetrans",
-					"numRetries",
-					"numTimeouts",
-					"numTunneledL7BytesReceived",
-					"roundTripTime",
-					"timeToFirstByte"
+					"numRetries", "numTimeouts", "numTunneledL7BytesReceived",
+					"roundTripTime", "timeToFirstByte"
 				]
 			},
 			"heartbeatFields": {
@@ -1077,10 +1040,7 @@
 						"type": "integer"
 					}
 				},
-				"required": [
-					"heartbeatFieldsVersion",
-					"heartbeatInterval"
-				]
+				"required": ["heartbeatFieldsVersion", "heartbeatInterval"]
 			},
 			"internalHeaderFields": {
 				"description": "enrichment fields for internal VES Event Listener service use only, not supplied by event sources",
@@ -1118,10 +1078,7 @@
 						"type": "string"
 					}
 				},
-				"required": [
-					"objectInstances",
-					"objectName"
-				]
+				"required": ["objectInstances", "objectName"]
 			},
 			"jsonObjectInstance": {
 				"description": "meta-information about an instance of a jsonObject along with the actual object instance",
@@ -1143,9 +1100,7 @@
 						}
 					}
 				},
-				"required": [
-					"objectInstance"
-				]
+				"required": ["objectInstance"]
 			},
 			"key": {
 				"description": "tuple which provides the name of a key along with its value and relative order",
@@ -1164,9 +1119,7 @@
 						"type": "string"
 					}
 				},
-				"required": [
-					"keyName"
-				]
+				"required": ["keyName"]
 			},
 			"latencyBucketMeasure": {
 				"description": "number of counts falling within a defined latency bucket",
@@ -1182,9 +1135,7 @@
 						"type": "number"
 					}
 				},
-				"required": [
-					"countsInTheBucket"
-				]
+				"required": ["countsInTheBucket"]
 			},
 			"measurementsForVfScalingFields": {
 				"description": "measurementsForVfScaling fields",
@@ -1300,10 +1251,7 @@
 						}
 					}
 				},
-				"required": [
-					"measurementInterval",
-					"measurementsForVfScalingVersion"
-				]
+				"required": ["measurementInterval", "measurementsForVfScalingVersion"]
 			},
 			"memoryUsage": {
 				"description": "memory usage of an identified virtual machine",
@@ -1342,11 +1290,7 @@
 						"type": "string"
 					}
 				},
-				"required": [
-					"memoryFree",
-					"memoryUsed",
-					"vmIdentifier"
-				]
+				"required": ["memoryFree", "memoryUsed", "vmIdentifier"]
 			},
 			"mobileFlowFields": {
 				"description": "mobileFlow fields",
@@ -1487,16 +1431,9 @@
 						"type": "string"
 					}
 				},
-				"required": [
-					"flowDirection",
-					"gtpPerFlowMetrics",
-					"ipProtocolType",
-					"ipVersion",
-					"mobileFlowFieldsVersion",
-					"otherEndpointIpAddress",
-					"otherEndpointPort",
-					"reportingEndpointIpAddr",
-					"reportingEndpointPort"
+				"required": ["flowDirection", "gtpPerFlowMetrics", "ipProtocolType", "ipVersion",
+					"mobileFlowFieldsVersion", "otherEndpointIpAddress", "otherEndpointPort",
+					"reportingEndpointIpAddr", "reportingEndpointPort"
 				]
 			},
 			"namedArrayOfFields": {
@@ -1514,10 +1451,7 @@
 						}
 					}
 				},
-				"required": [
-					"name",
-					"arrayOfFields"
-				]
+				"required": ["name", "arrayOfFields"]
 			},
 			"otherFields": {
 				"description": "fields for events belonging to the 'other' domain of the commonEventHeader domain enumeration",
@@ -1549,9 +1483,7 @@
 						"type": "number"
 					}
 				},
-				"required": [
-					"otherFieldsVersion"
-				]
+				"required": ["otherFieldsVersion"]
 			},
 			"requestError": {
 				"description": "standard request error data structure",
@@ -1574,10 +1506,7 @@
 						"type": "string"
 					}
 				},
-				"required": [
-					"messageId",
-					"text"
-				]
+				"required": ["messageId", "text"]
 			},
 			"sipSignalingFields": {
 				"description": "sip signaling fields",
@@ -1619,21 +1548,15 @@
 						"type": "number"
 					},
 					"summarySip": {
-						"description": "the SIP Method or Response (‘INVITE’, ‘200 OK’, ‘BYE’, etc)",
+						"description": "the SIP Method or Response (â€˜INVITEâ€™, â€˜200 OKâ€™, â€˜BYEâ€™, etc)",
 						"type": "string"
 					},
 					"vendorVnfNameFields": {
 						"$ref": "#/definitions/vendorVnfNameFields"
 					}
 				},
-				"required": [
-					"correlator",
-					"localIpAddress",
-					"localPort",
-					"remoteIpAddress",
-					"remotePort",
-					"sipSignalingFieldsVersion",
-					"vendorVnfNameFields"
+				"required": ["correlator", "localIpAddress", "localPort", "remoteIpAddress",
+					"remotePort", "sipSignalingFieldsVersion", "vendorVnfNameFields"
 				]
 			},
 			"stateChangeFields": {
@@ -1674,12 +1597,7 @@
 						"type": "string"
 					}
 				},
-				"required": [
-					"newState",
-					"oldState",
-					"stateChangeFieldsVersion",
-					"stateInterface"
-				]
+				"required": ["newState", "oldState", "stateChangeFieldsVersion", "stateInterface"]
 			},
 			"suppressedNvPairs": {
 				"description": "List of specific NvPairsNames to suppress within a given Name-Value Field for event Throttling",
@@ -1697,17 +1615,14 @@
 						}
 					}
 				},
-				"required": [
-					"nvPairFieldName",
-					"suppressedNvPairNames"
-				]
+				"required": ["nvPairFieldName", "suppressedNvPairNames"]
 			},
 			"syslogFields": {
 				"description": "sysLog fields",
 				"type": "object",
 				"properties": {
 					"additionalFields": {
-						"description": "additional syslog fields if needed provided as name=value delimited by a pipe ‘|’ symbol, for example: 'name1=value1|name2=value2|…'",
+						"description": "additional syslog fields if needed provided as name=value delimited by a pipe â€˜|â€™ symbol, for example: 'name1=value1|name2=value2|â€¦'",
 						"type": "string"
 					},
 					"eventSourceHost": {
@@ -1773,12 +1688,7 @@
 						"type": "number"
 					}
 				},
-				"required": [
-					"eventSourceType",
-					"syslogFieldsVersion",
-					"syslogMsg",
-					"syslogTag"
-				]
+				"required": ["eventSourceType", "syslogFieldsVersion", "syslogMsg", "syslogTag"]
 			},
 			"thresholdCrossingAlertFields": {
 				"description": "fields specific to threshold crossing alert events",
@@ -1904,9 +1814,7 @@
 						"type": "string"
 					}
 				},
-				"required": [
-					"vendorName"
-				]
+				"required": ["vendorName"]
 			},
 			"vNicPerformance": {
 				"description": "describes the performance and errors of an identified virtual network interface card",
@@ -2027,20 +1935,14 @@
 					"valuesAreSuspect": {
 						"description": "Indicates whether vNicPerformance values are likely inaccurate due to counter overflow or other condtions",
 						"type": "string",
-						"enum": [
-							"true",
-							"false"
-						]
+						"enum": ["true", "false"]
 					},
 					"vNicIdentifier": {
 						"description": "vNic identification",
 						"type": "string"
 					}
 				},
-				"required": [
-					"valuesAreSuspect",
-					"vNicIdentifier"
-				]
+				"required": ["valuesAreSuspect", "vNicIdentifier"]
 			},
 			"voiceQualityFields": {
 				"description": "provides statistics related to customer facing voice products",
@@ -2084,21 +1986,9 @@
 						"type": "number"
 					}
 				},
-				"required": [
-					"calleeSideCodec",
-					"callerSideCodec",
-					"correlator",
-					"midCallRtcp",
-					"vendorVnfNameFields",
-					"voiceQualityFieldsVersion"
+				"required": ["calleeSideCodec", "callerSideCodec", "correlator", "midCallRtcp",
+					"vendorVnfNameFields", "voiceQualityFieldsVersion"
 				]
-			}
-		},
-		"title": "Event Listener",
-		"type": "object",
-		"properties": {
-			"event": {
-				"$ref": "#/definitions/event"
 			}
 		}
 	}
