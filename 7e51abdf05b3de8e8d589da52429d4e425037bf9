@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_29812afb",
+        "filename": "test/csit/run-csit.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 35
+      },
+      "writtenOn": "2017-09-25T22:24:25Z",
+      "side": 1,
+      "message": "This would not work.  RUN is a docker command.  Also, we cannot run apt-get since we don\u0027t have root privileges.\n\nThe installation of chrome has been submitted in https://gerrit.onap.org/r/#/c/14711/.",
+      "range": {
+        "startLine": 133,
+        "startChar": 0,
+        "endLine": 138,
+        "endChar": 53
+      },
+      "revId": "7e51abdf05b3de8e8d589da52429d4e425037bf9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
