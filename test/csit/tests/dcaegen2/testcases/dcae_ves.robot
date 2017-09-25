@@ -20,11 +20,11 @@ ${VES_ANY_EVENT_PATH}                    /eventListener/v5
 ${VES_BATCH_EVENT_PATH}             	 /eventListener/v5/eventBatch
 ${VES_THROTTLE_STATE_EVENT_PATH}         /eventListener/v5/clientThrottlingState
 ${HEADER_STRING}                         content-type=application/json
-${EVENT_DATA_FILE}                       %{WORKSPACE}/test/csit/tests/dcae/testcases/assets/json_events/ves_volte_single_fault_event.json
-${EVENT_MEASURE_FILE}                    %{WORKSPACE}/test/csit/tests/dcae/testcases/assets/json_events/ves_vfirewall_measurement.json
-${EVENT_DATA_FILE_BAD}                   %{WORKSPACE}/test/csit/tests/dcae/testcases/assets/json_events/ves_volte_single_fault_event_bad.json
-${EVENT_BATCH_DATA_FILE}                 %{WORKSPACE}/test/csit/tests/dcae/testcases/assets/json_events/ves_volte_fault_eventlist_batch.json
-${EVENT_THROTTLING_STATE_DATA_FILE}      %{WORKSPACE}/test/csit/tests/dcae/testcases/assets/json_events/ves_volte_fault_provide_throttle_state.json
+${EVENT_DATA_FILE}                       %{WORKSPACE}/test/csit/tests/dcaegen2/testcases/assets/json_events/ves_volte_single_fault_event.json
+${EVENT_MEASURE_FILE}                    %{WORKSPACE}/test/csit/tests/dcaegen2/testcases/assets/json_events/ves_vfirewall_measurement.json
+${EVENT_DATA_FILE_BAD}                   %{WORKSPACE}/test/csit/tests/dcaegen2/testcases/assets/json_events/ves_volte_single_fault_event_bad.json
+${EVENT_BATCH_DATA_FILE}                 %{WORKSPACE}/test/csit/tests/dcaegen2/testcases/assets/json_events/ves_volte_fault_eventlist_batch.json
+${EVENT_THROTTLING_STATE_DATA_FILE}      %{WORKSPACE}/test/csit/tests/dcaegen2/testcases/assets/json_events/ves_volte_fault_provide_throttle_state.json
 
 
 #DCAE Health Check
