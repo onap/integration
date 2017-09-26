@@ -34,7 +34,7 @@ echo MSB_IP=${MSB_IP}
 # Start resmgr
 docker run -d --name vfc-resmanagement -e MSB_ADDR=${MSB_IP}:80 nexus3.onap.org:10001/onap/vfc/resmanagement
 RESMGR_IP=`get-instance-ip.sh vfc-resmanagement`
-for i in {1..10}; do
+for i in {1..20}; do
     curl -sS ${RESMGR_IP}:8480 && break
     echo sleep $i
     sleep $i
