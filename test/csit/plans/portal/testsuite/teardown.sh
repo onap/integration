@@ -15,6 +15,6 @@
 # limitations under the License.
 #
 
-kill-instance.sh i-mock
+docker kill $(docker ps -q)
 
 
