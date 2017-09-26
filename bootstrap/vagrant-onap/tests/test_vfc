@@ -4,10 +4,7 @@ source /var/onap_tests/_test_base
 source /var/onap/vfc
 
 covered_functions=(
-"clone_all_vfc_repos" "compile_all_vfc_repos" "install_vfc"
-"get_vfc_images" "run_vfc_images" "build_nfvo_lcm_image"
-"build_gvnfm_lcm_image" "build_gvnfm_vnfmgr_image" "build_gvnfm_vnfres_image"
-"build_nfvo_lcm_image" "build_nfvo_vnfm_gvnfmadapter_image"
+"clone_all_vfc_repos" "compile_all_vfc_repos" "install_vfc" "get_vfc_images"
 )
 
 # test_clone_all_vfc_repos() - Verify cloning and pulling source code from repositories
