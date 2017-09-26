@@ -12,10 +12,23 @@ covered_functions=(
 
 # test_clone_all_vfc_repos() - Verify cloning and pulling source code from repositories
 function test_clone_all_vfc_repos {
+    clone_all_vfc_repos
 
-    # TODO(sshank):  Add other asserts
-    asserts_file_exist $src_folder/nfvo/lcm/run.sh
-
+    #asserts_file_exist $vfc_src_folder/pom.xml
+    #asserts_file_exist $vfc_src_folder/gvnfm
+    asserts_file_exist $vfc_src_folder/gvnfm/vnflcm/pom.xml
+    asserts_file_exist $vfc_src_folder/gvnfm/vnfmgr/pom.xml
+    asserts_file_exist $vfc_src_folder/gvnfm/vnfres/pom.xml
+    #asserts_file_exist $vfc_src_folder/nfvo
+    asserts_file_exist $vfc_src_folder/nfvo/catalog/run.sh
+    #asserts_file_exist $vfc_src_folder/nfvo/driver
+    asserts_file_exist $vfc_src_folder/nfvo/driver/ems/pom.xml
+    asserts_file_exist $vfc_src_folder/nfvo/driver/sfc/pom.xml
+    #asserts_file_exist $vfc_src_folder/nfvo/driver/vnfm
+    asserts_file_exist $vfc_src_folder/nfvo/driver/vnfm/gvnfm/pom.xml
+    asserts_file_exist $vfc_src_folder/nfvo/driver/vnfm/svnfm/pom.xml
+    asserts_file_exist $vfc_src_folder/nfvo/lcm/pom.xml
+    asserts_file_exist $vfc_src_folder/nfvo/wfengine/wso2/pom.xml
 }
 
 # test_compile_all_vfc_repos() - Verify that all the VFC modules are compiled properly
@@ -28,28 +41,27 @@ function test_compile_all_vfc_repos {
 
 # test_get_vfc_images() - Verify all VFC images are built correctly.
 function test_get_vfc_images {
+    clone_all_vfc_repos
     get_vfc_images
 
-    asserts_image nexus3.onap.org:10003/onap/vfc/nslcm
-    asserts_image nexus3.onap.org:10003/onap/vfc/gvnfmdriver
-    asserts_image nexus3.onap.org:10003/onap/vfc/vnfres
-    asserts_image nexus3.onap.org:10003/onap/vfc/vnfmgr
-    asserts_image nexus3.onap.org:10003/onap/vfc/vnflcm
-
-    # TODO(sshank): Add asserts for other VFC component docker image builds.
+    asserts_image onap/gvnfmdriver
+    asserts_image onap/nslcm
+    asserts_image onap/vnfres
+    asserts_image onap/vnfmgr
+    asserts_image onap/vnflcm
 }
 
 # test_install_vfc() - Verify that the VFC are up and running
 function test_install_vfc {
+    clone_all_vfc_repos
+    get_vfc_images
     install_vfc
 
-    asserts_image_running nexus3.onap.org:10003/onap/vfc/nslcm:latest
-    asserts_image_running nexus3.onap.org:10003/onap/vfc/gvnfmdriver:latest
-    asserts_image_running nexus3.onap.org:10003/onap/vfc/vnfres:latest
-    asserts_image_running nexus3.onap.org:10003/onap/vfc/vnfmgr:latest
-    asserts_image_running nexus3.onap.org:10003/onap/vfc/vnflcm:latest
-
-    # TODO(sshank): Add asserts for other running VFC component docker images.
+    asserts_image_running onap/nslcm
+    asserts_image_running onap/gvnfmdriver
+    asserts_image_running onap/vnfres
+    asserts_image_running onap/vnfmgr
+    asserts_image_running onap/vnflcm
 }
 
 if [ "$1" != '*' ]; then
