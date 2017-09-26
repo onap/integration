@@ -687,14 +687,14 @@ Application admin Login To Portal GUI
     Maximize Browser Window
     Set Selenium Speed    ${GLOBAL_SELENIUM_DELAY}
     Set Browser Implicit Wait    ${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}
-    Log    Logging in to ${GLOBAL_PORTAL_SERVER}${PORTAL_ENV}
+    Log    Logging in to ${PORTAL_URL}${PORTAL_ENV}
    # Handle Proxy Warning
     Title Should Be    Login
-    Input Text    xpath=//input[@ng-model='loginId']    ${GLOBAL_APP_ADMIN_USER}
-    Input Password    xpath=//input[@ng-model='password']    ${GLOBAL_APP_ADMIN_PWD}
+    Input Text    xpath=//input[@ng-model='loginId']    ${App_LoginID}
+    Input Password    xpath=//input[@ng-model='password']    ${App_Loginpwd}
     Click Link    xpath=//a[@id='loginBtn']
     Wait Until Page Contains Element    xpath=//img[@alt='Onap Logo']    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}    
-    Log    Logged in to ${GLOBAL_PORTAL_SERVER}${PORTAL_ENV}    
+    Log    Logged in to ${PORTAL_URL}${PORTAL_ENV}    
     
 Application Admin Navigation Application Link Tab    
     [Documentation]   Logs into Portal GUI as application admin
@@ -787,14 +787,14 @@ Standared user Login To Portal GUI
     Maximize Browser Window
     Set Selenium Speed    ${GLOBAL_SELENIUM_DELAY}
     Set Browser Implicit Wait    ${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}
-    Log    Logging in to ${GLOBAL_PORTAL_SERVER}${PORTAL_ENV}
+    Log    Logging in to ${PORTAL_URL}${PORTAL_ENV}
    # Handle Proxy Warning
     Title Should Be    Login
-    Input Text    xpath=//input[@ng-model='loginId']    ${GLOBAL_STA_USER_USER}
-    Input Password    xpath=//input[@ng-model='password']    ${GLOBAL_STA_USER_PWD}
+    Input Text    xpath=//input[@ng-model='loginId']    ${Sta_LoginID}
+    Input Password    xpath=//input[@ng-model='password']    ${Sta_Loginpwd}
     Click Link    xpath=//a[@id='loginBtn']
     Wait Until Page Contains Element    xpath=//img[@alt='Onap Logo']    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}    
-    Log    Logged in to ${GLOBAL_PORTAL_SERVER}${PORTAL_ENV}       
+    Log    Logged in to ${PORTAL_URL}${PORTAL_ENV}       
      
  
 Standared user Navigation Application Link Tab    

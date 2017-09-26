@@ -103,13 +103,44 @@ git clone https://gerrit.onap.org/r/testsuite/python-testing-utils.git ${ROBOT_V
 pip install --upgrade ${ROBOT_VENV}/src/onap/testsuite/python-testing-utils
 
 # install chrome driver
-if [ ! -x ${ROBOT_VENV}/bin/chromedriver ]; then
-    pushd ${ROBOT_VENV}/bin
-    wget -N http://chromedriver.storage.googleapis.com/2.32/chromedriver_linux64.zip
-    unzip chromedriver_linux64.zip
-    chmod +x chromedriver
-    popd
+#if [ ! -x ${ROBOT_VENV}/bin/chromedriver ]; then
+#    pushd ${ROBOT_VENV}/bin
+#    wget -N http://chromedriver.storage.googleapis.com/2.32/chromedriver_linux64.zip
+#    unzip chromedriver_linux64.zip
+#    chmod +x chromedriver
+#    popd
+#fi
+
+# Get the appropriate chromedriver. Default to linux64
+#
+CHROMEDRIVER_URL=http://chromedriver.storage.googleapis.com/2.27
+CHROMEDRIVER_ZIP=chromedriver_linux64.zip
+
+# Handle mac and windows
+OS=`uname -s`
+case $OS in
+  MINGW*_NT*)
+                CHROMEDRIVER_ZIP=chromedriver_win32.zip
+                ;;
+  Darwin*)
+                CHROMEDRIVER_ZIP=chromedriver_mac64.zip
+                ;;
+  *) echo "Defaulting to Linux 64" ;;
+esac
+
+if [ $CHROMEDRIVER_ZIP == 'chromedriver_linux64.zip' ]
+then
+    wget -O chromedriver.zip $CHROMEDRIVER_URL/$CHROMEDRIVER_ZIP
+                unzip chromedriver.zip -d /usr/local/bin
+else
+    curl $CHROMEDRIVER_URL/$CHROMEDRIVER_ZIP -o chromedriver.zip
+                unzip chromedriver.zip
 fi
+
+
+docker run -d -P  /plans/portal/testsuite/docker
+
+
 
 
 WORKDIR=`mktemp -d --suffix=-robot-workdir`
