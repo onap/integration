@@ -8,6 +8,7 @@ Library     json
 @{return_ok_list}=   200  201  202
 ${queryswagger_url}    /api/vnflcm/v1/swagger.json
 ${create_vnf_url}    /api/vnflcm/v1/vnf_instances
+${delete_vnf_url}    /api/vnflcm/v1/vnf_instances
 
 #json files
 ${create_vnf_json}    ./jsoninput/create_vnf.json
@@ -37,3 +38,11 @@ CreateVnfTest
     ${response_json}    json.loads    ${resp.content}
     ${vnfInstId}=    Convert To String      ${response_json['vnfInstanceId']}
     Set Global Variable     ${vnfInstId}
+
+DeleteVnfTest
+    [Documentation]    Delete Vnf function test
+    ${headers}    Create Dictionary    Content-Type=application/json    Accept=application/json
+    Create Session    web_session    http://${MSB_IAG_IP}:80    headers=${headers}
+    ${resp}=    Delete Request    web_session     ${delete_vnf_url}/${vnfInstId}
+    ${responese_code}=     Convert To String      ${resp.status_code}
+    List Should Contain Value    ${return_ok_list}   ${responese_code}
