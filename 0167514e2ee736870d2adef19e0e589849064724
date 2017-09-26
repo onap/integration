@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_9e9de5be",
+        "filename": "test/csit/plans/aai/esr-server/sanity-check/teardown.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1337
+      },
+      "writtenOn": "2017-09-26T08:48:06Z",
+      "side": 1,
+      "message": "This license should be changed",
+      "range": {
+        "startLine": 3,
+        "startChar": 28,
+        "endLine": 3,
+        "endChar": 29
+      },
+      "revId": "0167514e2ee736870d2adef19e0e589849064724",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_9e84c55e",
+        "filename": "test/csit/plans/aai/esr-server/sanity-check/teardown.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1337
+      },
+      "writtenOn": "2017-09-26T08:48:06Z",
+      "side": 1,
+      "message": "As i know, MSB has three docker mcroservices, so you should kill them all.\nkill-instance.sh msb_internal_apigateway\nkill-instance.sh msb_discovery\nkill-instance.sh msb_consul",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 22
+      },
+      "revId": "0167514e2ee736870d2adef19e0e589849064724",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
