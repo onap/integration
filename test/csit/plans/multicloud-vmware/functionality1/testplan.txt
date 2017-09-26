@@ -1,0 +1,4 @@
+# Test suites are relative paths under [integration.git]/test/csit/tests/.
+# Place the suites in run order.
+multicloud-vmware/provision/sanity_test_vio.robot
+multicloud-vmware/provision/sanity_test_tenant.robot
