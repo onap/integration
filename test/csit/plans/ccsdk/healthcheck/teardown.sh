@@ -18,7 +18,7 @@
 #
 
 kill-instance.sh ccsdk_db_container
-kill-instance.sh sdnc_dgbuilder_container
+kill-instance.sh ccsdk_dgbuilder_container
 kill-instance.sh ccsdk_bareodl_container
 kill-instance.sh ccsdk_odlsli_container
 
