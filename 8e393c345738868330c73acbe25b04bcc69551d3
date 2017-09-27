@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_5881c8c1",
+        "filename": "bootstrap/vagrant-onap/lib/sdc",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2017-09-27T15:46:42Z",
+      "side": 1,
+      "message": "The line 117 will compile the repos if the user has specified.   My understanding is the docker images cannot created if you haven\u0027t compile the repos before.  Therefore it\u0027s necessary to compile the repos no matter the user input. Is that true?",
+      "revId": "8e393c345738868330c73acbe25b04bcc69551d3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_b8df94d5",
+        "filename": "bootstrap/vagrant-onap/lib/sdc",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2017-09-27T15:46:42Z",
+      "side": 1,
+      "message": "This instruction should be base on build_image variable instead of pull_docker_image",
+      "range": {
+        "startLine": 104,
+        "startChar": 11,
+        "endLine": 104,
+        "endChar": 40
+      },
+      "revId": "8e393c345738868330c73acbe25b04bcc69551d3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
