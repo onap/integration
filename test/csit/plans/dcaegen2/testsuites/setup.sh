@@ -16,7 +16,7 @@
 #
 # Place the scripts in run order:
 #Make sure python-uuid is installed
-
+pip install jsonschema
 
 #get current host IP addres
 HOST_IP=$(ip route get 8.8.8.8 | awk '/8.8.8.8/ {print $NF}')
