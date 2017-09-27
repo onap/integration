@@ -32,7 +32,7 @@ SwaggerFuncTest
 QueryNetworksFuncTest
     [Documentation]    query networks info rest test
     ${headers}    Create Dictionary    Content-Type=application/json    Accept=application/json
-    Create Session    web_session    http://${MSB_IP}    headers=${headers}
+    Create Session    web_session    http://${RESMGR_IP}:8480    headers=${headers}
     ${resp}=  Get Request    web_session    ${querynetworks_url}
     ${responese_code}=     Convert To String      ${resp.status_code}
     ${response_json}    json.loads    ${resp.content}
@@ -42,7 +42,7 @@ QueryNetworksFuncTest
 QueryPortsFuncTest
     [Documentation]    query ports info rest test
     ${headers}    Create Dictionary    Content-Type=application/json    Accept=application/json
-    Create Session    web_session    http://${MSB_IP}    headers=${headers}
+    Create Session    web_session    http://${RESMGR_IP}:8480    headers=${headers}
     ${resp}=  Get Request    web_session    ${queryports_url}
     ${responese_code}=     Convert To String      ${resp.status_code}
     ${response_json}    json.loads    ${resp.content}
@@ -51,7 +51,7 @@ QueryPortsFuncTest
 QueryHostsFuncTest
     [Documentation]    query hosts info rest test
     ${headers}    Create Dictionary    Content-Type=application/json    Accept=application/json
-    Create Session    web_session    http://${MSB_IP}    headers=${headers}
+    Create Session    web_session    http://${RESMGR_IP}:8480    headers=${headers}
     ${resp}=  Get Request    web_session    ${queryhosts_url}
     ${responese_code}=     Convert To String      ${resp.status_code}
     ${response_json}    json.loads    ${resp.content}
@@ -60,7 +60,7 @@ QueryHostsFuncTest
 QueryLocationsFuncTest
     [Documentation]    query locations info rest test
     ${headers}    Create Dictionary    Content-Type=application/json    Accept=application/json
-    Create Session    web_session    http://${MSB_IP}    headers=${headers}
+    Create Session    web_session    http://${RESMGR_IP}:8480    headers=${headers}
     ${resp}=  Get Request    web_session    ${querylocations_url}
     ${responese_code}=     Convert To String      ${resp.status_code}
     ${response_json}    json.loads    ${resp.content}
@@ -69,7 +69,7 @@ QueryLocationsFuncTest
 QueryDatacentersFuncTest
     [Documentation]    query datacenters info rest test
     ${headers}    Create Dictionary    Content-Type=application/json    Accept=application/json
-    Create Session    web_session    http://${MSB_IP}    headers=${headers}
+    Create Session    web_session    http://${RESMGR_IP}:8480    headers=${headers}
     ${resp}=  Get Request    web_session    ${querydatacenters_url}
     ${responese_code}=     Convert To String      ${resp.status_code}
     ${response_json}    json.loads    ${resp.content}
@@ -78,7 +78,7 @@ QueryDatacentersFuncTest
 QueryVlsFuncTest
     [Documentation]    query vls info rest test
     ${headers}    Create Dictionary    Content-Type=application/json    Accept=application/json
-    Create Session    web_session    http://${MSB_IP}    headers=${headers}
+    Create Session    web_session    http://${RESMGR_IP}:8480    headers=${headers}
     ${resp}=  Get Request    web_session    ${queryvls_url}
     ${responese_code}=     Convert To String      ${resp.status_code}
     ${response_json}    json.loads    ${resp.content}
