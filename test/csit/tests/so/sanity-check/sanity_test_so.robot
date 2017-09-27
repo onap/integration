@@ -72,11 +72,25 @@ Create VF Module instance
     ${resp}=    Post Request    refrepo    /ecomp/mso/infra/serviceInstances/v3/ff305d54-75b4-431b-adb2-eb6b9e5ff000/vnfs/aca51b0a-710d-4155-bc7c-7cef19d9a94e/vfModules    data=${data}    headers=${headers}
     Run Keyword If  '${resp.status_code}' == '400' or '${resp.status_code}' == '404' or '${resp.status_code}' == '405'  log to console  \nexecuted with expected result
 
+Update VF Module instance
+    Create Session   refrepo  http://${REPO_IP}:8080
+    ${data}=    Get Binary File     ${CURDIR}${/}data${/}updateVF.json
+    &{headers}=  Create Dictionary    Authorization=Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==    Content-Type=application/json    Accept=application/json
+    ${resp}=    Post Request    refrepo    /ecomp/mso/infra/serviceInstances/v5/ff305d54-75b4-431b-adb2-eb6b9e5ff000/vnfs/aca51b0a-710d-4155-bc7c-7cef19d9a94e/vfModules/ff305d54-75b4-ff1b-bdb2-eb6b9e5460ff    data=${data}    headers=${headers}
+    Run Keyword If  '${resp.status_code}' == '400' or '${resp.status_code}' == '404' or '${resp.status_code}' == '405'  log to console  \nexecuted with expected result
+
 Delete VF Module instance
     Create Session   refrepo  http://${REPO_IP}:8080
     ${data}=    Get Binary File     ${CURDIR}${/}data${/}deleteVF.json
     &{headers}=  Create Dictionary    Authorization=Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==    Content-Type=application/json    Accept=application/json
     ${resp}=    Delete Request    refrepo    /ecomp/mso/infra/serviceInstances/v3/ff305d54-75b4-431b-adb2-eb6b9e5ff000/vnfs/aca51b0a-710d-4155-bc7c-7cef19d9a94e/vfModules/ff305d54-75b4-ff1b-bdb2-eb6b9e5460ff    data=${data}    headers=${headers}
+    Run Keyword If  '${resp.status_code}' == '400' or '${resp.status_code}' == '404' or '${resp.status_code}' == '405'  log to console  \nexecuted with expected result
+
+Replace VF Module instance
+    Create Session   refrepo  http://${REPO_IP}:8080
+    ${data}=    Get Binary File     ${CURDIR}${/}data${/}replaceVF.json
+    &{headers}=  Create Dictionary    Authorization=Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==    Content-Type=application/json    Accept=application/json
+    ${resp}=    Post Request    refrepo    /ecomp/mso/infra/serviceInstances/v5/ff305d54-75b4-431b-adb2-eb6b9e5ff000/vnfs/aca51b0a-710d-4155-bc7c-7cef19d9a94e/vfModules/ff305d54-75b4-ff1b-bdb2-eb6b9e5460ff/replace    data=${data}    headers=${headers}
     Run Keyword If  '${resp.status_code}' == '400' or '${resp.status_code}' == '404' or '${resp.status_code}' == '405'  log to console  \nexecuted with expected result
 
 Create Network instance
