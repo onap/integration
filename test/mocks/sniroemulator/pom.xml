@@ -228,6 +228,8 @@
             <artifactId>docker-maven-plugin</artifactId>
             <version>0.4.11</version>
             <configuration>
+                <verbose>true</verbose>
+                <serverId>docker-hub</serverId>
                 <imageName>${docker.push.registry}/onap/${project.artifactId}</imageName>
                 <dockerDirectory>${dockerLocation}</dockerDirectory>
                 <imageTags>
