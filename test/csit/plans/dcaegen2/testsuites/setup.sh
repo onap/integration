@@ -20,7 +20,6 @@
 
 #get current host IP addres
 HOST_IP=$(ip route get 8.8.8.8 | awk '/8.8.8.8/ {print $NF}')
-echo HOST_IP=${HOST_IP}
 
 VESC_IMAGE=nexus3.onap.org:10001/onap/org.onap.dcaegen2.collectors.ves.vescollector:1.1
 echo VESC_IMAGE=${VESC_IMAGE}
@@ -30,9 +29,11 @@ docker run -d -p 8080:8080/tcp -p 8443:8443/tcp -P --name vesc -e DMAAPHOST=${HO
 
 VESC_IP=`get-instance-ip.sh vesc`
 export VESC_IP=${VESC_IP}
+export HOST_IP=${HOST_IP}
 
 export ROBOT_VARIABLES="--pythonpath ${WORKSPACE}/test/csit/tests/dcaegen2/testcases/resources"
 
+pip install jsonschema uuid
 # Wait container ready
 sleep 5
 
