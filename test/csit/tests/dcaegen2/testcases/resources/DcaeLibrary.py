@@ -5,14 +5,14 @@ Created on Aug 18, 2017
 '''
 from robot.api import logger
 from Queue import Queue
-import uuid, time, datetime,json, threading
+import uuid, time, datetime,json, threading,os, platform, subprocess,paramiko
 import DcaeVariables
 import DMaaP
 
 class DcaeLibrary(object):
     
     def __init__(self):
-        pass
+        pass 
     
     def setup_dmaap_server(self, portNum=3904):
         if DcaeVariables.HttpServerThread != None:
@@ -50,6 +50,28 @@ class DcaeLibrary(object):
             return "true"
         logger.console("DMaaP server not started yet")
         return "false"
+    
+    def enable_vesc_https_auth(self):
+        if 'Windows' in platform.system():
+            try:
+                client = paramiko.SSHClient()
+                client.load_system_host_keys()
+                #client.set_missing_host_key_policy(paramiko.WarningPolicy)
+                client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+                
+                client.connect(os.environ['CSIT_IP'], port=22, username=os.environ['CSIT_USER'], password=os.environ['CSIT_PD'])
+                stdin, stdout, stderr = client.exec_command('%{WORKSPACE}/test/csit/tests/dcaegen2/testcases/resources/vesc_enable_https_auth.sh')
+                logger.console(stdout.read())    
+            finally:
+                client.close()
+            return
+        ws = os.environ['WORKSPACE']
+        script2run = ws + "/test/csit/tests/dcaegen2/testcases/resources/vesc_enable_https_auth.sh"
+        logger.info("Running script: " + script2run)
+        logger.console("Running script: " + script2run)
+        subprocess.call(script2run)
+        time.sleep(5)
+        return  
                    
     def dmaap_message_receive(self, evtobj, action='contain'):
         
@@ -129,7 +151,9 @@ if __name__ == '__main__':
     '''
     
     lib = DcaeLibrary()
+    lib.enable_vesc_https_auth()
+    
     ret = lib.setup_dmaap_server()
     print ret
-    time.sleep(10000000000)
+    time.sleep(100000)
     
