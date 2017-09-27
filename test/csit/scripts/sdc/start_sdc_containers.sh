@@ -25,15 +25,13 @@
 echo "This is ${WORKSPACE}/test/csit/scripts/sdc/start_sdc_containers.sh"
 
 
-RELEASE=latest
-LOCAL=false
-SKIPTESTS=false
-DEP_ENV=CSIT
+export RELEASE='1.1-STAGING-latest'
+export DEP_ENV=$ENV_NAME
 #[ -f /opt/config/nexus_username.txt ] && NEXUS_USERNAME=$(cat /opt/config/nexus_username.txt)    || NEXUS_USERNAME=release
 #[ -f /opt/config/nexus_password.txt ] && NEXUS_PASSWD=$(cat /opt/config/nexus_password.txt)      || NEXUS_PASSWD=sfWU3DFVdBr7GVxB85mTYgAW
 #[ -f /opt/config/nexus_docker_repo.txt ] && NEXUS_DOCKER_REPO=$(cat /opt/config/nexus_docker_repo.txt) || NEXUS_DOCKER_REPO=ecomp-nexus:${PORT}
 #[ -f /opt/config/nexus_username.txt ] && docker login -u $NEXUS_USERNAME -p $NEXUS_PASSWD $NEXUS_DOCKER_REPO
-export IP=`ifconfig eth0 | awk -F: '/inet addr/ {gsub(/ .*/,"",$2); print $2}'`
+export IP=$HOST_IP
 #export PREFIX=${NEXUS_DOCKER_REPO}'/openecomp'
 export PREFIX='nexus3.onap.org:10001/openecomp'
 
@@ -63,7 +61,7 @@ docker run --detach --name sdc-BE --env HOST_IP=${IP} --env ENVNAME="${DEP_ENV}"
 
 echo "please wait while BE is starting..."
 echo ""
-c=120 # seconds to wait
+c=90 # seconds to wait
 REWRITE="\e[45D\e[1A\e[K"
 while [ $c -gt 0 ]; do
     c=$((c-1))
@@ -77,7 +75,7 @@ docker run --detach --name sdc-FE --env HOST_IP=${IP} --env ENVNAME="${DEP_ENV}"
 
 echo "please wait while FE is starting..."
 echo ""
-c=120 # seconds to wait
+c=60 # seconds to wait
 REWRITE="\e[45D\e[1A\e[K"
 while [ $c -gt 0 ]; do
     c=$((c-1))
@@ -86,23 +84,26 @@ while [ $c -gt 0 ]; do
 done
 echo -e ""
 
+# WAIT 5 minutes maximum and test every 5 seconds if SDC up using HealthCheck API
+echo " WAIT 5 minutes maximum and test every 5 seconds if SDC up using HealthCheck API...."
+
+TIME_OUT=600
+INTERVAL=5
+TIME=0
+while [ "$TIME" -lt "$TIME_OUT" ]; do
+  response=$(curl --write-out '%{http_code}' --silent --output /dev/null http://localhost:8080/sdc2/rest/healthCheck); echo $response
+
+  if [ "$response" == "200" ]; then
+    echo SDC well started in $TIME seconds
+    break;
+  fi
+
+  echo Sleep: $INTERVAL seconds before testing if SDC is up. Total wait time up now is: $TIME seconds. Timeout is: $TIME_OUT seconds
+  sleep $INTERVAL
+  TIME=$(($TIME+$INTERVAL))
+done
+
+if [ "$TIME" -ge "$TIME_OUT" ]; then
+   echo TIME OUT: Docker containers not started in $TIME_OUT seconds... Could cause problems for tests...
 
 
-
-#TIME=0
-#while [ "$TIME" -lt "$TIME_OUT" ]; do
-#  response=$(curl --write-out '%{http_code}' --silent --output /dev/null http://localhost:8080/restservices/clds/v1/clds/healthcheck); echo $response
-
-#  if [ "$response" == "200" ]; then
-#    echo Clamp and its database well started in $TIME seconds
-#    break;
-#  fi
-
-#  echo Sleep: $INTERVAL seconds before testing if Clamp is up. Total wait time up now is: $TIME seconds. Timeout is: $TIME_OUT seconds
-#  sleep $INTERVAL
-# TIME=$(($TIME+$INTERVAL))
-#done
-
-#if [ "$TIME" -ge "$TIME_OUT" ]; then
-#   echo TIME OUT: Docker containers not started in $TIME_OUT seconds... Could cause problems for tests...
-#fi

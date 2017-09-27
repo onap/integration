@@ -26,6 +26,6 @@ docker rm $(docker ps -a -q --filter="name=sdc")
 
 #delete data folder
 
-rm -rf ${WORKSPACE}/data/*
+#rm -rf ${WORKSPACE}/data/*
 
 

@@ -31,18 +31,25 @@ mkdir -p ${WORKSPACE}/data/clone/
 cd ${WORKSPACE}/data/clone
 git clone --depth 1 http://gerrit.onap.org/r/sdc -b master
 
+chmod -R 775 ${WORKSPACE}/data/
 
 # set enviroment variables
 
-ENV_NAME=CSIT
-MR_IP_ADDR=10.0.0.1
+export ENV_NAME='CSIT'
+export MR_IP_ADDR='10.0.0.1'
 
-if [ -e /opt/config/public_ip.txt ]
-  then
-    IP_ADDRESS=$(cat /opt/config/public_ip.txt)
-   else
-    IP_ADDRESS=$(ifconfig eth0 | grep "inet addr" | tr -s ' ' | cut -d' ' -f3 | cut -d':' -f2)
-   fi
+ifconfig
+
+#if [ -e /opt/config/public_ip.txt ]
+#  then
+#    IP_ADDRESS=$(cat /opt/config/public_ip.txt)
+#   else
+#    IP_ADDRESS=$(ifconfig ens3 | grep "inet addr" | tr -s ' ' | cut -d' ' -f3 | cut -d':' -f2)
+#   fi
+
+IP_ADDRESS=`ip route get 8.8.8.8 | awk '/src/{ print $7 }'`
+export HOST_IP=$IP_ADDRESS
+
    
   cat ${WORKSPACE}/data/clone/sdc/sdc-os-chef/environments/Template.json | sed "s/yyy/"$IP_ADDRESS"/g" > ${WORKSPACE}/data/environments/$ENV_NAME.json
   sed -i "s/xxx/"$ENV_NAME"/g" ${WORKSPACE}/data/environments/$ENV_NAME.json
