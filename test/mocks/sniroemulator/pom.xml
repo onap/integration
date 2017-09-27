@@ -228,9 +228,8 @@
             <artifactId>docker-maven-plugin</artifactId>
             <version>0.4.11</version>
             <configuration>
-                <imageName>openecomp/${project.artifactId}</imageName>
+                <imageName>${docker.push.registry}/onap/${project.artifactId}</imageName>
                 <dockerDirectory>${dockerLocation}</dockerDirectory>
-                <serverId>docker-hub</serverId>
                 <imageTags>
                     <imageTag>latest</imageTag>
                 </imageTags>
