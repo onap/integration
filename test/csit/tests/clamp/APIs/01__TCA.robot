@@ -52,7 +52,7 @@ Put Requests to add Close Loop TCA Model2
     ${resp}=    Put Request    clamp   /restservices/clds/v1/clds/model/TCAModel2     data=${data}   headers=${headers}
     Should Be Equal As Strings      ${resp.status_code}     200
 
-Get Requests verify Model1 and Model2 found
+Get Requests verify TCA Model1 and Model2 found
     ${auth}=    Create List     admin    5f4dcc3b5aa765d61d8327deb882cf99
     Create Session   clamp  http://localhost:8080   auth=${auth}
     ${resp}=    Get Request    clamp   /restservices/clds/v1/clds/model-names
