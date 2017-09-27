@@ -86,10 +86,10 @@ INTERVAL=60
 TIME=0
 while [ "$TIME" -lt "$TIME_OUT" ]; do
 
-response=$(docker exec ccsdk_bareodl_container /opt/opendaylight/current/bin/client -u karaf system:start-level)
-num_bundles=$(docker exec ccsdk_bareodl_container /opt/opendaylight/current/bin/client -u karaf bundle:list | tail -1 | cut -d\| -f1)
+response=$(docker exec ccsdk_odlsli_container /opt/opendaylight/current/bin/client -u karaf system:start-level)
+num_bundles=$(docker exec ccsdk_odlsli_container /opt/opendaylight/current/bin/client -u karaf bundle:list | tail -1 | cut -d\| -f1)
 
-  if [ "$response" == "Level 100" ] && [ "$num_bundles" -ge 64 ]; then
+  if [ "$response" == "Level 100" ] && [ "$num_bundles" -ge 333 ]; then
     echo CCSDK karaf started in $TIME seconds
     break;
   fi
@@ -103,13 +103,13 @@ if [ "$TIME" -ge "$TIME_OUT" ]; then
    echo TIME OUT: karaf session not started in $TIME_OUT seconds... Could cause problems for testing activities...
 fi
 
-response=$(docker exec ccsdk_bareodl_container /opt/opendaylight/current/bin/client -u karaf system:start-level)
-num_bundles=$(docker exec ccsdk_bareodl_container /opt/opendaylight/current/bin/client -u karaf bundle:list | tail -1 | cut -d\| -f1)
+response=$(docker exec ccsdk_odlsli_container /opt/opendaylight/current/bin/client -u karaf system:start-level)
+num_bundles=$(docker exec ccsdk_odlsli_container /opt/opendaylight/current/bin/client -u karaf bundle:list | tail -1 | cut -d\| -f1)
 
-  if [ "$response" == "Level 100" ] && [ "$num_bundles" -ge 64 ]; then
-    num_bundles=$(docker exec ccsdk_bareodl_container /opt/opendaylight/current/bin/client -u karaf bundle:list | tail -1 | cut -d\| -f1)
-    num_failed_bundles=$(docker exec ccsdk_bareodl_container /opt/opendaylight/current/bin/client -u karaf bundle:list | grep Failure | wc -l)
-    failed_bundles=$(docker exec ccsdk_bareodl_container /opt/opendaylight/current/bin/client -u karaf bundle:list | grep Failure)
+  if [ "$response" == "Level 100" ] && [ "$num_bundles" -ge 333 ]; then
+    num_bundles=$(docker exec ccsdk_odlsli_container /opt/opendaylight/current/bin/client -u karaf bundle:list | tail -1 | cut -d\| -f1)
+    num_failed_bundles=$(docker exec ccsdk_odlsli_container /opt/opendaylight/current/bin/client -u karaf bundle:list | grep Failure | wc -l)
+    failed_bundles=$(docker exec ccsdk_odlsli_container /opt/opendaylight/current/bin/client -u karaf bundle:list | grep Failure)
     echo There is/are $num_failed_bundles failed bundles out of $num_bundles installed bundles.
   fi
 
