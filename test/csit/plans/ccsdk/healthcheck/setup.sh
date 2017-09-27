@@ -22,6 +22,11 @@ source ${WORKSPACE}/test/csit/scripts/ccsdk/script1.sh
 
 export MTU=$(/sbin/ifconfig | grep MTU | sed 's/.*MTU://' | sed 's/ .*//' | sort -n | head -1)
 export NEXUS_DOCKER_REPO="nexus3.onap.org:10001"
+export NEXUS_USERNAME=docker
+export NEXUS_PASSWD=docker
+export DMAAP_TOPIC=AUTO
+export CCSDK_DOCKER_IMAGE_VERSION=0.1-STAGING-latest
+
 if [ "$MTU" == "" ]; then
 	  export MTU="1450"
 fi
@@ -37,16 +42,16 @@ unset http_proxy https_proxy
 cd $WORKSPACE/archives/ccsdk/src/main/yaml
 
 sed -i "s/DMAAP_TOPIC_ENV=.*/DMAAP_TOPIC_ENV="AUTO"/g" docker-compose.yml
-docker login -u docker -p docker nexus3.onap.org:10001
+docker login -u $NEXUS_USERNAME -p $NEXUS_PASSWD $NEXUS_DOCKER_REPO
 
-docker pull nexus3.onap.org:10001/onap/ccsdk-odl-image:0.1-STAGING-latest
-docker tag nexus3.onap.org:10001/onap/ccsdk-odl-image:latest onap/ccsdk-odl-image:0.1-STAGING-latest
+docker pull $NEXUS_DOCKER_REPO/onap/ccsdk-odl-image:$CCSDK_DOCKER_IMAGE_VERSION
+docker tag $NEXUS_DOCKER_REPO/onap/ccsdk-odl-image:$CCSDK_DOCKER_IMAGE_VERSION onap/ccsdk-odl-image:0.1-STAGING-latest
 
-docker pull nexus3.onap.org:10001/onap/ccsdk-dgbuilder-image:0.1-STAGING-latest
-docker tag nexus3.onap.org:10001/onap/ccsdk-dgbuilder-image:latest onap/ccsdk-dgbuilder-image:0.1-STAGING-latest
+docker pull $NEXUS_DOCKER_REPO/onap/ccsdk-dgbuilder-image:$CCSDK_DOCKER_IMAGE_VERSION
+docker tag $NEXUS_DOCKER_REPO/onap/ccsdk-dgbuilder-image:$CCSDK_DOCKER_IMAGE_VERSION onap/ccsdk-dgbuilder-image:0.1-STAGING-latest
 
-docker pull nexus3.onap.org:10001/onap/ccsdk-odlsli-image:0.1-STAGING-latest
-docker tag nexus3.onap.org:10001/onap/ccsdk-odlsli-image:latest onap/ccsdk-odlsli-image:0.1-STAGING-latest
+docker pull $NEXUS_DOCKER_REPO/onap/ccsdk-odlsli-image:$CCSDK_DOCKER_IMAGE_VERSION
+docker tag $NEXUS_DOCKER_REPO/onap/ccsdk-odlsli-image:$CCSDK_DOCKER_IMAGE_VERSION onap/ccsdk-odlsli-image:0.1-STAGING-latest
 
 # start CCSDK containers with docker compose and configuration from docker-compose.yml
 curl -L https://github.com/docker/compose/releases/download/1.9.0/docker-compose-`uname -s`-`uname -m` > docker-compose
@@ -58,7 +63,7 @@ TIME_OUT=500
 INTERVAL=30
 TIME=0
 while [ "$TIME" -lt "$TIME_OUT" ]; do
-  response=$(curl --write-out '%{http_code}' --silent --output /dev/null -H "Authorization: Basic YWRtaW46S3A4Yko0U1hzek0wV1hsaGFrM2VIbGNzZTJnQXc4NHZhb0dHbUp2VXkyVQ==" -X POST -H "X-FromAppId: csit-ccsdk" -H "X-TransactionId: csit-ccsdk" -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8282/restconf/operations/SLI-API:healthcheck ); echo $response
+  response=$(curl --write-out '%{http_code}' --silent --output /dev/null -H "Authorization: Basic YWRtaW46S3A4Yko0U1hzek0wV1hsaGFrM2VIbGNzZTJnQXc4NHZhb0dHbUp2VXkyVQ==" -X POST -H "X-FromAppId: csit-ccsdk" -H "X-TransactionId: csit-ccsdk" -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8383/restconf/operations/SLI-API:healthcheck ); echo $response
 
   if [ "$response" == "200" ]; then
     echo CCSDK started in $TIME seconds

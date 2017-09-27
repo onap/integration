@@ -20,6 +20,13 @@
 SCRIPTS="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source ${WORKSPACE}/test/csit/scripts/sdnc/script1.sh
 
+export NEXUS_USERNAME=docker
+export NEXUS_PASSWD=docker
+export NEXUS_DOCKER_REPO=nexus3.onap.org:10003
+export DMAAP_TOPIC=AUTO
+export DOCKER_IMAGE_VERSION=1.2-STAGING-latest
+export CCSDK_DOCKER_IMAGE_VERSION=0.1-STAGING-latest
+
 export MTU=$(/sbin/ifconfig | grep MTU | sed 's/.*MTU://' | sed 's/ .*//' | sort -n | head -1)
 
 if [ "$MTU" == "" ]; then
@@ -37,16 +44,16 @@ unset http_proxy https_proxy
 cd $WORKSPACE/archives/sdnc/installation/src/main/yaml
 
 sed -i "s/DMAAP_TOPIC_ENV=.*/DMAAP_TOPIC_ENV="AUTO"/g" docker-compose.yml
-docker login -u docker -p docker nexus3.onap.org:10001
+docker login -u $NEXUS_USERNAME -p $NEXUS_PASSWD $NEXUS_DOCKER_REPO
 
-docker pull nexus3.onap.org:10001/onap/sdnc-image:latest
-docker tag nexus3.onap.org:10001/onap/sdnc-image:latest onap/sdnc-image:latest
+docker pull $NEXUS_DOCKER_REPO/onap/sdnc-image:$DOCKER_IMAGE_VERSION
+docker tag $NEXUS_DOCKER_REPO/onap/sdnc-image:$DOCKER_IMAGE_VERSION onap/sdnc-image:latest
 
-docker pull nexus3.onap.org:10001/onap/ccsdk-dgbuilder-image:latest
-docker tag nexus3.onap.org:10001/onap/ccsdk-dgbuilder-image:latest onap/ccsdk-dgbuilder-image:latest
+docker pull $NEXUS_DOCKER_REPO/onap/ccsdk-dgbuilder-image:$CCSDK_DOCKER_IMAGE_VERSION
+docker tag $NEXUS_DOCKER_REPO/onap/ccsdk-dgbuilder-image:$CCSDK_DOCKER_IMAGE_VERSION onap/ccsdk-dgbuilder-image:latest
 
-docker pull nexus3.onap.org:10001/onap/admportal-sdnc-image:latest
-docker tag nexus3.onap.org:10001/onap/admportal-sdnc-image:latest onap/admportal-sdnc-image:latest
+docker pull $NEXUS_DOCKER_REPO/onap/admportal-sdnc-image:$DOCKER_IMAGE_VERSION
+docker tag $NEXUS_DOCKER_REPO/onap/admportal-sdnc-image:$DOCKER_IMAGE_VERSION onap/admportal-sdnc-image:latest
 
 # start SDNC containers with docker compose and configuration from docker-compose.yml
 curl -L https://github.com/docker/compose/releases/download/1.9.0/docker-compose-`uname -s`-`uname -m` > docker-compose
