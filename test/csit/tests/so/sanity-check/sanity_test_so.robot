@@ -37,6 +37,20 @@ Delete ServiceInstance for invalid user
     ${resp}=    Delete Request    refrepo    /ecomp/mso/infra/serviceInstances/v3/ff305d54-75b4-431b-adb2-eb6b9e5ff000    data=${data}    headers=${headers}
     Run Keyword If  '${resp.status_code}' == '400' or '${resp.status_code}' == '404' or '${resp.status_code}' == '405'  log to console  \nexecuted with expected result
 
+Activate ServiceInstance
+    Create Session   refrepo  http://${REPO_IP}:8080
+    ${data}=    Get Binary File     ${CURDIR}${/}data${/}activateService.json
+    &{headers}=  Create Dictionary    Authorization=Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==    Content-Type=application/json    Accept=application/json
+    ${resp}=    Post Request    refrepo    /ecomp/mso/infra/serviceInstances/v5/ff305d54-75b4-431b-adb2-eb6b9e5ff000/activate    data=${data}    headers=${headers}
+    Run Keyword If  '${resp.status_code}' == '400' or '${resp.status_code}' == '404' or '${resp.status_code}' == '405'  log to console  \nexecuted with expected result
+
+Deactivate ServiceInstance
+    Create Session   refrepo  http://${REPO_IP}:8080
+    ${data}=    Get Binary File     ${CURDIR}${/}data${/}deactivateService.json
+    &{headers}=  Create Dictionary    Authorization=Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==    Content-Type=application/json    Accept=application/json
+    ${resp}=    Post Request    refrepo    /ecomp/mso/infra/serviceInstances/v5/ff305d54-75b4-431b-adb2-eb6b9e5ff000/deactivate    data=${data}    headers=${headers}
+    Run Keyword If  '${resp.status_code}' == '400' or '${resp.status_code}' == '404' or '${resp.status_code}' == '405'  log to console  \nexecuted with expected result
+
 Create Volume Group instance
     Create Session   refrepo  http://${REPO_IP}:8080
     ${data}=    Get Binary File     ${CURDIR}${/}data${/}createVG.json
@@ -98,6 +112,13 @@ Create VnfInstance for invalid input
     &{headers}=  Create Dictionary    Authorization=Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==    Content-Type=application/json    Accept=application/json
     ${resp}=    Delete Request    refrepo    /ecomp/mso/infra/serviceInstances/v3/ff305d54-75b4-431b-adb2-eb6b9e5ff000/vnfs    data=${data}    headers=${headers}
     Run Keyword If  '${resp.status_code}' == '400' or '${resp.status_code}' == '404' or '${resp.status_code}' == '405'  log to console  \nexecuted with expected result
+
+Update VnfInstance for invalid input
+    Create Session   refrepo  http://${REPO_IP}:8080
+    ${data}=    Get Binary File     ${CURDIR}${/}data${/}updateVnf.json
+    &{headers}=  Create Dictionary    Authorization=Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==    Content-Type=application/json    Accept=application/json
+    ${resp}=    Delete Request    refrepo    /ecomp/mso/infra/serviceInstances/v5/ff305d54-75b4-431b-adb2-eb6b9e5ff000/vnfs/aca51b0a-710d-4155-bc7c-7cef19d9a94e    data=${data}    headers=${headers}
+    Run Keyword If  '${resp.status_code}' == '400' or '${resp.status_code}' == '404' or '${resp.status_code}' == '405'  log to console  \nexecuted with expected result
 	
 Create VnfInstance for invalid credential
     Create Session   refrepo  http://${REPO_IP}:8080
@@ -113,12 +134,24 @@ Delete VnfInstance for invalid input
     ${resp}=    Delete Request    refrepo    /ecomp/mso/infra/serviceInstances/v3/ff305d54-75b4-431b-adb2-eb6b9e5ff000/vnfs/aca51b0a-710d-4155-bc7c-7cef19d9a94e    data=${data}    headers=${headers}
     Run Keyword If  '${resp.status_code}' == '400' or '${resp.status_code}' == '404' or '${resp.status_code}' == '405'  log to console  \nexecuted with expected result
 
+Replace VnfInstance
+    Create Session   refrepo  http://${REPO_IP}:8080
+    ${data}=    Get Binary File     ${CURDIR}${/}data${/}replaceVnf.json
+    &{headers}=  Create Dictionary    Authorization=Basic SW5mcmFQb3J0YWxDbGllbnQxOnBhc3N3b3JkMTI=    Content-Type=application/json    Accept=application/json
+    ${resp}=    Post Request    refrepo    /ecomp/mso/infra/serviceInstances/v5/ff305d54-75b4-431b-adb2-eb6b9e5ff000/vnfs/aca51b0a-710d-4155-bc7c-c7cef19d94e/replace    data=${data}    headers=${headers}
+    Run Keyword If  '${resp.status_code}' == '400' or '${resp.status_code}' == '404' or '${resp.status_code}' == '405'  log to console  \nexecuted with expected result
 	
 Get Orchestration Requests
     Create Session   refrepo  http://${REPO_IP}:8080
     &{headers}=  Create Dictionary    Authorization=Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==    Content-Type=application/json    Accept=application/json
     ${resp}=    Get Request    refrepo    /ecomp/mso/infra/orchestrationRequests/v3    headers=${headers}
     Should Not Contain     ${resp.content}      null
+
+Get Orchestration Requests Filter criteria
+    Create Session   refrepo  http://${REPO_IP}:8080
+    &{headers}=  Create Dictionary    Authorization=Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==    Content-Type=application/json    Accept=application/json
+    ${resp}=    Get Request    refrepo    /ecomp/mso/infra/orchestrationRequests/v3?filter=serviceInstanceId:EQUALS:bc305d54-75b4-431b-adb2-eb6b9e546014    headers=${headers}
+    Run Keyword If  '${resp.status_code}' == '400' or '${resp.status_code}' == '404' or '${resp.status_code}' == '405'  log to console  \nexecuted with expected result
 
 Create E2EService
     Create Session   refrepo  http://${REPO_IP}:8080
