@@ -15,6 +15,23 @@
 # limitations under the License.
 #
 
-kill-instance.sh i-mock
+function kill_instance() {
+local name=$1
+docker logs "${name}" >> "${WORKSPACE}"/archives/"${name}".log
+docker kill "${name}"
+docker rm -v "${name}"
+}
+
+mkdir -p "${WORKSPACE}"/archives
+
+kill_instance i-mock
+kill_instance drools
+kill_instance pdp
+kill_instance brmsgw
+kill_instance pap
+kill_instance nexus
+kill_instance mariadb
+
+rm -fr "${WORK_DIR}"
 
 
