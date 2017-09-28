@@ -4,4 +4,6 @@ multicloud-vmware/provision/sanity_test_vio.robot
 multicloud-vmware/provision/sanity_test_tenant.robot
 multicloud-vmware/provision/sanity_test_image.robot
 multicloud-vmware/provision/sanity_test_neutron.robot
-
+multicloud-vmware/nova/sanity-flavor.robot
+multicloud-vmware/nova/sanity-host.robot
+multicloud-vmware/nova/sanity-server.robot
