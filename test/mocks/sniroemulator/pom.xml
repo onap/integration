@@ -226,10 +226,10 @@
         <plugin>
             <groupId>com.spotify</groupId>
             <artifactId>docker-maven-plugin</artifactId>
-            <version>0.4.11</version>
+            <version>1.0.0</version>
             <configuration>
                 <verbose>true</verbose>
-                <serverId>docker-hub</serverId>
+                <registryUrl>${docker.push.registry}</registryUrl>
                 <imageName>${docker.push.registry}/onap/${project.artifactId}</imageName>
                 <dockerDirectory>${dockerLocation}</dockerDirectory>
                 <imageTags>
