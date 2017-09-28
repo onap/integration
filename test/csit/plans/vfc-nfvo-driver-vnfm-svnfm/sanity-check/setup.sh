@@ -57,7 +57,7 @@ done
 # Start svnfm-huawei
 docker run -d --name vfc-svnfm-huawei -e MSB_ADDR=${MSB_IAG_IP}:80 nexus3.onap.org:10001/onap/vfc/nfvo/svnfm/huawei
 SERVICE_IP=`get-instance-ip.sh vfc-svnfm-huawei`
-for i in {1..10}; do
+for i in {1..20}; do
     curl -sS ${SERVICE_IP}:8482 && break
     echo sleep $i
     sleep $i
