@@ -16,5 +16,13 @@
 #
 
 kill-instance.sh i-mock
+kill-instance.sh drools
+kill-instance.sh pdp
+kill-instance.sh brmsgw
+kill-instance.sh pap
+kill-instance.sh nexus
+kill-instance.sh mariadb
+
+rm -fr ${WORK_DIR}
 
 
