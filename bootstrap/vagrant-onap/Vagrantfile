@@ -235,11 +235,10 @@ if File.exist?(vd_conf)
 end
 
 #Set network interface
+net_interface = 'vboxnet0'
 is_windows = Gem.win_platform?
 if is_windows
     net_interface = 'VirtualBox Host-Only Ethernet Adapter #2'
-else
-    net_interface = 'vboxnet0'
 end
 puts "[INFO] Net interface: #{net_interface}"
 
@@ -309,6 +308,7 @@ Vagrant.configure("2") do |config|
         raise 'vagrant-libvirt was installed but it requires to execute again'
       end
     end
+
     if provider == :openstack
       config.ssh.username = 'ubuntu'
       if not Vagrant.has_plugin?('vagrant-openstack-provider')
@@ -369,7 +369,15 @@ Vagrant.configure("2") do |config|
           nodeconfig.vm.synced_folder '~/.m2', '/root/.m2/', create: true
         end
         # Set Network
-        nodeconfig.vm.network :private_network, ip: node[:ips][1]
+        nodeconfig.vm.network :private_network,
+            :adapter => 2,
+            :name => net_interface,
+            :ip  => node[:ips][0]
+
+        nodeconfig.vm.network :private_network,
+            :adapter => 3,
+            :ip  => node[:ips][1],
+            :type => :static
 
         # Specific settings:
 
@@ -386,8 +394,7 @@ Vagrant.configure("2") do |config|
                 v.storage :file, path: sdc_volume, bus: 'sata', device: 'vdb', size: '2G'
             end
         end
-        
-        
+
         if node[:name].include? "testing"
             nodeconfig.vm.synced_folder './tests', '/var/onap_tests/', create: true
             test_suite = ENV.fetch('TEST_SUITE', '*')
