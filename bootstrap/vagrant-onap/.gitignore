@@ -7,3 +7,4 @@ lib/files/proxyrc
 lib/files/sources.list
 openrc
 doc/build/
+etc/settings.yaml

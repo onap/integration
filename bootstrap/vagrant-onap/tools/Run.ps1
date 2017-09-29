@@ -20,6 +20,12 @@ Test case to use in testing mode.
 .PARAMETER y
 Skips warning prompt.
 
+.PARAMETER g
+Skips creation or retrieve image process.
+
+.PARAMETER i
+Skips installation service process.
+
 .LINK
 https://wiki.onap.org/display/DW/ONAP+on+Vagrant
 #>
@@ -44,7 +50,17 @@ Param(
     [Parameter(Mandatory=$False,HelpMessage="Skips warning prompt.")]
     [AllowNull()]
     [Switch]
-    $y = $false
+    $y = $True
+,
+    [Parameter(Mandatory=$False,HelpMessage="Skips creation or retrieve image process.")]
+    [AllowNull()]
+    [Switch]
+    $skip_get_images = $True
+,
+    [Parameter(Mandatory=$False,HelpMessage="Skips warning prompt.")]
+    [AllowNull()]
+    [Switch]
+    $skip_install = $True
 )
 
 if ( -Not "testing".Equals($Command) )
@@ -62,6 +78,9 @@ if ( -Not "testing".Equals($Command) )
                 exit 1
             }
     }
+
+$env:SKIP_GET_IMAGES=$skip_get_images
+$env:SKIP_INSTALL=$skip_install
 
 switch ($Command)
     {

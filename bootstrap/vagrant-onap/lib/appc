@@ -52,6 +52,10 @@ function init_appc {
         fi
     fi
 
-    get_appc_images
-    install_appc
+    if [[ "$skip_get_images" == "False" ]]; then
+        get_appc_images
+        if [[ "$skip_install" == "False" ]]; then
+            install_appc
+        fi
+    fi
 }

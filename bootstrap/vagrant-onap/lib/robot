@@ -59,6 +59,11 @@ function init_robot {
             compile_robot_repos
         fi
     fi
-    get_robot_images
-    install_robot
+
+    if [[ "$skip_get_images" == "False" ]]; then
+        get_robot_images
+        if [[ "$skip_install" == "False" ]]; then
+            install_robot
+        fi
+    fi
 }

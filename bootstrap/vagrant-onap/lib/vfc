@@ -106,6 +106,10 @@ function init_vfc {
         fi
     fi
 
-    get_vfc_images
-    install_vfc
+    if [[ "$skip_get_images" == "False" ]]; then
+        get_vfc_images
+        if [[ "$skip_install" == "False" ]]; then
+            install_vfc
+        fi
+    fi
 }

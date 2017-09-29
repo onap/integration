@@ -25,6 +25,11 @@ function compile_multicloud_repos {
     done
 }
 
+# get_multicloud_images() -
+function get_multicloud_images {
+    echo "pass"
+}
+
 # install_multicloud() - 
 function install_multicloud {
     echo "pass"
@@ -38,5 +43,10 @@ function init_multicloud {
             compile_multicloud_repos
         fi
     fi
-    install_multicloud
+    if [[ "$skip_get_images" == "False" ]]; then
+        get_multicloud_images
+        if [[ "$skip_install" == "False" ]]; then
+            install_multicloud
+        fi
+    fi
 }

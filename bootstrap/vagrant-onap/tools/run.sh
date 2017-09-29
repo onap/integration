@@ -6,6 +6,10 @@ Usage: run.sh Command [-y] [-?]
 Optional arguments:
     -y
         Skips warning prompt.
+    -g
+        Skips creation or retrieve image process.
+    -i
+        Skips installation service process.
     -s <suite>
         Test suite to use in testing mode.
     -c <case>
@@ -23,10 +27,16 @@ test_case="*"
 
 COMMAND=$1
 
-while getopts "ys:c:" OPTION "${@:2}"; do
+while getopts "ygis:c:" OPTION "${@:2}"; do
     case "$OPTION" in
     y)
         run=true
+        ;;
+    g)
+        export SKIP_GET_IMAGES="True"
+        ;;
+    i)
+        export SKIP_INSTALL="True"
         ;;
     s)
         if [ "$COMMAND" != "testing" ] ; then

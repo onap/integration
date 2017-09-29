@@ -31,6 +31,10 @@ function init_mr {
     if [[ "$clone_repo" == "True" ]]; then
         clone_mr_repos
     fi
-    get_mr_images
-    install_message_router
+    if [[ "$skip_get_images" == "False" ]]; then
+        get_mr_images
+        if [[ "$skip_install" == "False" ]]; then
+            install_message_router
+        fi
+    fi
 }

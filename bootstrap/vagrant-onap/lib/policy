@@ -65,6 +65,10 @@ function init_policy {
         fi
     fi
 
-    get_policy_images
-    install_policy
+    if [[ "$skip_get_images" == "False" ]]; then
+        get_policy_images
+        if [[ "$skip_install" == "False" ]]; then
+            install_policy
+        fi
+    fi
 }

@@ -67,6 +67,7 @@ function install_portal {
     install_package unzip
     unzip -o etc.zip -d /PROJECT/OpenSource/UbuntuEP/
 
+    _install_mariadb
     install_docker_compose
     bash portal_vm_init.sh
 
@@ -88,7 +89,11 @@ function init_portal {
             compile_all_portal_repos
         fi
     fi
-    get_portal_images
-    _install_mariadb
-    install_portal
+
+    if [[ "$skip_get_images" == "False" ]]; then
+        get_portal_images
+        if [[ "$skip_install" == "False" ]]; then
+            install_portal
+        fi
+    fi
 }
