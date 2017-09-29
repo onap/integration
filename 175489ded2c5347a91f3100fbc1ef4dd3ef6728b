@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_2fcd8e85",
+        "filename": "test/csit/scripts/policy/script1.sh",
+        "patchSetId": 21
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-29T12:14:50Z",
+      "side": 1,
+      "message": "Please check this value. Perhaps this address is the reason pdp cannot talk to pap.",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 25
+      },
+      "revId": "175489ded2c5347a91f3100fbc1ef4dd3ef6728b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
