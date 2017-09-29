@@ -66,16 +66,11 @@ function compile_all_sdc_repos {
 # get_sdc_images() - Function that retrieves the SDC docker images
 function get_sdc_images {
     if [[ "$build_image" == "True" ]]; then
-        if [[ "$compile_repo" == "True" ]]; then
-            compile_src $sdc_src_folder
-        fi
         build_docker_image $sdc_src_folder/sdc-docker-base
     else
-		if [["$pull_docker_image" == True]]; then
-			for image in backend frontend elasticsearch kibana cassandra sanity; do
-				pull_openecomp_image openecomp/sdc-$image
-			done
-		fi
+        for image in backend frontend elasticsearch kibana cassandra sanity; do
+            pull_openecomp_image openecomp/sdc-$image
+        done
     fi
 }
 
@@ -85,28 +80,23 @@ function install_sdc {
     local MR_IP_ADDR='10.0.11.1'
 
     _init_data_folders
-	cp $sdc_src_folder/sdc-os-chef/environments/Template.json /data/environments
-	cp $sdc_src_folder/sdc-os-chef/scripts/docker_run.sh /data/scripts
-	cp $sdc_src_folder/sdc-os-chef/scripts/docker_health.sh /data/scripts
-	cp $sdc_src_folder/sdc-os-chef/scripts/docker_login.sh /data/scripts
-	cp $sdc_src_folder/sdc-os-chef/scripts/docker_clean.sh /data/scripts
-	chmod +x /data/scripts/docker_run.sh
-	chmod +x /data/scripts/docker_health.sh
-	chmod +x /data/scripts/docker_login.sh
-	chmod +x /data/scripts/docker_clean.sh
-	
+    cp $sdc_src_folder/sdc-os-chef/environments/Template.json /data/environments
+    cp $sdc_src_folder/sdc-os-chef/scripts/docker_run.sh /data/scripts
+    cp $sdc_src_folder/sdc-os-chef/scripts/docker_health.sh /data/scripts
+    cp $sdc_src_folder/sdc-os-chef/scripts/docker_login.sh /data/scripts
+    cp $sdc_src_folder/sdc-os-chef/scripts/docker_clean.sh /data/scripts
+    chmod +x /data/scripts/docker_run.sh
+    chmod +x /data/scripts/docker_health.sh
+    chmod +x /data/scripts/docker_login.sh
+    chmod +x /data/scripts/docker_clean.sh
+
     cat /data/environments/Template.json | sed "s/yyy/"$IP_ADDRESS"/g" > /data/environments/$ENV_NAME.json
     sed -i "s/xxx/"$ENV_NAME"/g" /data/environments/$ENV_NAME.json
     sed -i "s/\"ueb_url_list\":.*/\"ueb_url_list\": \""$MR_IP_ADDR","$MR_IP_ADDR"\",/g" /data/environments/$ENV_NAME.json
     sed -i "s/\"fqdn\":.*/\"fqdn\": [\""$MR_IP_ADDR"\", \""$MR_IP_ADDR"\"]/g" /data/environments/$ENV_NAME.json
 
     install_docker
-    if [[ "$pull_docker_image" == "True" ]]; then
-        docker_openecomp_login
-        bash /data/scripts/docker_run.sh -e $ENV_NAME -r $docker_version -p $(echo $nexus_docker_repo | cut -d':' -f2)
-    else
-        bash /data/scripts/docker_run.sh -e $ENV_NAME  -l
-    fi
+    bash /data/scripts/docker_run.sh -e $ENV_NAME  -l
 }
 
 # init_sdc() - Function that initialize SDC services
@@ -118,7 +108,12 @@ function init_sdc {
             compile_all_sdc_repos
         fi
     fi
-    get_sdc_images
-    install_sdc
+
+    if [[ "$skip_get_images" == "False" ]]; then
+        get_sdc_images
+        if [[ "$skip_install" == "False" ]]; then
+            install_sdc
+        fi
+    fi
     _setup_docker_aliases
 }

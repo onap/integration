@@ -4,7 +4,7 @@ source /var/onap_tests/_test_base
 source /var/onap/mso
 
 covered_functions=(
-"clone_all_mso_repos" "compile_all_mso_repos" "install_mso" "install_mso_docker_config"
+"clone_all_mso_repos" "compile_all_mso_repos" "get_mso_images" "install_mso"
 )
 
 # test_clone_all_mso_repos() - Verify the source code retrieve of MSO project
@@ -40,8 +40,8 @@ function test_compile_all_mso_repos {
     asserts_file_exist $src_folder/libs/swift-model/target/swift-model-1.1.0-SNAPSHOT.jar
 }
 
-# test_install_mso() - Verify the creation of MSO Docker images
-function test_install_mso {
+# test_get_mso_images() - Verify the creation of MSO Docker images
+function test_get_mso_images {
     clone_all_mso_repos
     install_mso
 
@@ -50,8 +50,8 @@ function test_install_mso {
     done
 }
 
-# test_install_mso_docker_config - Verify the execution of MSO Docker images
-function test_install_mso_docker_config {
+# test_install_mso - Verify the execution of MSO Docker images
+function test_install_mso {
     clone_all_mso_repos
     install_mso
     install_mso_docker_config

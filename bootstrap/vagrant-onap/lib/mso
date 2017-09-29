@@ -25,8 +25,8 @@ function compile_all_mso_repos {
     done
 }
 
-# install_mso() - Installation of mso images
-function install_mso {
+# get_mso_images() - Function that retrieves or create MSO Docker images
+function get_mso_images {
     if [[ "$build_image" == "True" ]]; then
         export GIT_NO_PROJECT=/opt/
         compile_src $src_folder
@@ -34,8 +34,8 @@ function install_mso {
     fi
 }
 
-# install_mso_docker_config() - Download and install MSO Docker configuration project
-function install_mso_docker_config {
+# install_mso() - Install MSO Docker configuration project
+function install_mso {
     MSO_ENCRYPTION_KEY=$(cat /opt/mso/docker-config/encryption.key)
     echo -n "$openstack_api_key" | openssl aes-128-ecb -e -K $MSO_ENCRYPTION_KEY -nosalt | xxd -c 256 -p > /opt/config/api_key.txt
 
@@ -108,6 +108,10 @@ function init_mso {
         fi
     fi
 
-    install_mso
-    install_mso_docker_config
+    if [[ "$skip_get_images" == "False" ]]; then
+        get_mso_images
+        if [[ "$skip_install" == "False" ]]; then
+            install_mso
+        fi
+    fi
 }

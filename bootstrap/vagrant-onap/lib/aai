@@ -199,5 +199,7 @@ function init_aai {
 
     install_ajsc_aai
     _wait_for_sdc
-    install_model_loader
+    if [[ "$skip_install" == "False" ]]; then
+        install_model_loader
+    fi
 }

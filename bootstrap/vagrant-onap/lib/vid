@@ -56,6 +56,10 @@ function init_vid {
         fi
     fi
 
-    get_vid_images
-    install_vid
+    if [[ "$skip_get_images" == "False" ]]; then
+        get_vid_images
+        if [[ "$skip_install" == "False" ]]; then
+            install_vid
+        fi
+    fi
 }

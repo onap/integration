@@ -44,12 +44,6 @@ function get_ccsdk_images {
             pull_onap_image ccsdk-$image-image
         done
     fi
-
-}
-
-# install_ccsdk() - 
-function install_ccsdk {
-    echo "pass"
 }
 
 # init_ccsdk() - Function that initialize Multi Cloud services
@@ -60,5 +54,4 @@ function init_ccsdk {
             compile_ccsdk_repos
         fi
     fi
-    install_ccsdk
 }

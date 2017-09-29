@@ -128,6 +128,10 @@ function init_dcae {
     fi
 
     _create_config_file
-    get_dcae_images
-    install_dcae
+    if [[ "$skip_get_images" == "False" ]]; then
+        get_dcae_images
+        if [[ "$skip_install" == "False" ]]; then
+            install_dcae
+        fi
+    fi
 }

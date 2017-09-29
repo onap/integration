@@ -1,45 +1,41 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-
 configuration = {
   # Generic parameters used across all ONAP components
-  'public_net_id'       => '00000000-0000-0000-0000-000000000000',
   'key_name'            => 'ecomp_key',
   'pub_key'             => '',
   'nexus_repo'          => 'https://nexus.onap.org/content/sites/raw',
+  'nexus_repo_root'     => 'https://nexus.onap.org',
+  'nexus_url_snapshot'  => 'https://nexus.onap.org/content/repositories/snapshots',
   'nexus_docker_repo'   => 'nexus3.onap.org:10001',
   'nexus_username'      => 'docker',
   'nexus_password'      => 'docker',
   'dmaap_topic'         => 'AUTO',
   'artifacts_version'   => '1.0.0',
   'docker_version'      => '1.0-STAGING-latest',
-  'gerrit_branch'       => 'master',
-# Parameters for DCAE instantiation
+  # Parameters for DCAE instantiation
   'dcae_zone'           => 'iad4',
   'dcae_state'          => 'vi',
   'openstack_tenant_id' => '',
   'openstack_username'  => '',
   'openstack_api_key'   => '',
   'openstack_password'  => '',
-  'nexus_repo_root'     => 'https://nexus.onap.org',
-  'nexus_url_snapshot'  => 'https://nexus.onap.org/content/repositories/snapshots',
-  'gitlab_branch'       => 'master',
-  'build_image'         => 'True',
-  'pull_docker_image'   => 'True',
   'odl_version'         => '0.5.3-Boron-SR3',
+  # Parameters for enabling features
+  'build_image'         => 'True',
   'clone_repo'          => 'True',
   'compile_repo'        => 'False',
-  'enable_oparent'      => 'True'
+  'enable_oparent'      => 'True',
+  'skip_get_images'     => 'False',
+  'skip_install'        => 'True'
 }
-
 
 box = {
   :virtualbox => 'ubuntu/trusty64',
   :libvirt => 'sputnik13/trusty64',
   :openstack => nil
 }
-
 
 nodes = [
     {
@@ -217,7 +213,6 @@ nodes = [
   },
 ]
 
-
 run_path   = 'vagrant_utils/postinstall.sh'
 sdc_volume = 'vol1-sdc-data.vdi'
 
@@ -234,7 +229,7 @@ if File.exist?(vd_conf)
   configuration.update(user_conf)
 end
 
-#Set network interface
+# Set network interface
 net_interface = 'vboxnet0'
 is_windows = Gem.win_platform?
 if is_windows
@@ -243,7 +238,7 @@ end
 puts "[INFO] Net interface: #{net_interface}"
 
 
-#If argument is given use it. Otherwise use Env: DEPLOY_MODE else use default
+# If argument is given use it. Otherwise use Env: DEPLOY_MODE else use default
 requested_machine = ARGV[1]
 
 deploy_mode = ENV.fetch('DEPLOY_MODE', 'individual')
@@ -253,14 +248,14 @@ if requested_machine != nil
     end
 end
 
-#Catch the status of all machines
+# Catch the status of all machines
 if ARGV[0] == 'status' || ARGV[0] == 'destroy'
     deploy_mode = 'NA'
 end
 
 puts "[INFO] Deploy Mode:  #{deploy_mode}"
 
-#In case of all-in-one or testing clean the nodes list
+# In case of all-in-one or testing clean the nodes list
 case deploy_mode
     when 'all-in-one'
         nodes.select! do |node|
@@ -368,6 +363,7 @@ Vagrant.configure("2") do |config|
         if !is_windows
           nodeconfig.vm.synced_folder '~/.m2', '/root/.m2/', create: true
         end
+
         # Set Network
         nodeconfig.vm.network :private_network,
             :adapter => 2,
@@ -381,7 +377,7 @@ Vagrant.configure("2") do |config|
 
         # Specific settings:
 
-        #Set Storage (For SDC or All-in-one)
+        # Set Storage (For SDC or All-in-one)
         if node[:name].include?("all-in-one") || node[:name].include?("sdc")
           nodeconfig.vm.provider "virtualbox" do |v|
               unless File.exist?(sdc_volume)
@@ -402,8 +398,10 @@ Vagrant.configure("2") do |config|
             # Override variables
             run_path = 'vagrant_utils/unit_testing.sh'
             node[:args] = [test_suite, test_case]
+        else
+            configuration['skip_get_images'] = ENV.fetch('SKIP_GET_IMAGES', configuration['skip_get_images'])
+            configuration['skip_install'] = ENV.fetch('SKIP_INSTALL', configuration['skip_install'])
         end
-
 
         if node[:name].include? "vfc"
           nodeconfig.vm.provision 'docker'

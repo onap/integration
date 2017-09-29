@@ -9,6 +9,7 @@ Advanced features
 
    openstack.rst
    consuming_scripts.rst
+   configure_execution.rst
 
 This chapter explains how to use ONAP on Vagrant Advanced features
 like different providers.
