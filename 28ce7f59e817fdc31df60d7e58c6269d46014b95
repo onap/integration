@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_8a80e8f7",
+        "filename": "test/csit/scripts/policy/script1.sh",
+        "patchSetId": 25
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2017-09-29T18:18:50Z",
+      "side": 1,
+      "message": "This curl command should be ${PDP_IP} instead of ${POLICY_IP}",
+      "revId": "28ce7f59e817fdc31df60d7e58c6269d46014b95",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
