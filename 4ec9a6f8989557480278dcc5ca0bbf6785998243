@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_6fb716f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-29T12:13:21Z",
+      "side": 1,
+      "message": "Please change the commit message back. \"Policy updated files\" is not sufficient.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 21
+      },
+      "revId": "4ec9a6f8989557480278dcc5ca0bbf6785998243",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_cfbcc2de",
+        "filename": "test/csit/plans/policy/health/teardown.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-09-29T12:13:21Z",
+      "side": 1,
+      "message": "Mannan, please add all of this back. These will dump the logs for the docker instances which can be useful for debugging.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 18
+      },
+      "revId": "4ec9a6f8989557480278dcc5ca0bbf6785998243",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
