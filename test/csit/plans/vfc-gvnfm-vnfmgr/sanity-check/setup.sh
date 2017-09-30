@@ -35,7 +35,7 @@ echo MSB_IP=${MSB_IP}
 docker run -d --name vfc-vnfmgr -e MSB_ADDR=${MSB_IP}:80 nexus3.onap.org:10001/onap/vfc/vnfmgr
 VNFMGR_IP=`get-instance-ip.sh vfc-vnfmgr`
 for i in {1..10}; do
-    curl -sS ${VNFMGR_IP}:8803 && break
+    curl -sS -m 1 ${VNFMGR_IP}:8803 && break
     echo sleep $i
     sleep $i
 done

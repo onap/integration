@@ -47,7 +47,7 @@ GVNFMDRIVER_IP=`get-instance-ip.sh vfc-gvnfmdriver`
 
 # Wait for initialization
 for i in {1..10}; do
-    curl -sS ${GVNFMDRIVER_IP}:8484 && break
+    curl -sS -m 1 ${GVNFMDRIVER_IP}:8484 && break
     echo sleep $i
     sleep $i
 done
