@@ -61,7 +61,7 @@ docker run --detach --name sdc-BE --env HOST_IP=${IP} --env ENVNAME="${DEP_ENV}"
 
 echo "please wait while BE is starting..."
 echo ""
-c=90 # seconds to wait
+c=180 # seconds to wait
 REWRITE="\e[45D\e[1A\e[K"
 while [ $c -gt 0 ]; do
     c=$((c-1))
@@ -75,7 +75,7 @@ docker run --detach --name sdc-FE --env HOST_IP=${IP} --env ENVNAME="${DEP_ENV}"
 
 echo "please wait while FE is starting..."
 echo ""
-c=60 # seconds to wait
+c=160 # seconds to wait
 REWRITE="\e[45D\e[1A\e[K"
 while [ $c -gt 0 ]; do
     c=$((c-1))
