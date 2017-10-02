@@ -1,1 +1,5 @@
 image,tag
+onap/cli,1.1-STAGING-latest
+onap/portal-apps,1.3-STAGING-latest
+onap/portal-db,1.3-STAGING-latest
+onap/portal-wms,1.3-STAGING-latest
