@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_5dbe43af",
+        "filename": "bootstrap/vagrant-onap/doc/source/features/example_usage.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 991
+      },
+      "writtenOn": "2017-10-02T20:57:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_e5456743",
+      "range": {
+        "startLine": 8,
+        "startChar": 43,
+        "endLine": 8,
+        "endChar": 48
+      },
+      "revId": "80a067510780f901fc4043e0e7ff276f53adee83",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_c576e3a3",
         "filename": "bootstrap/vagrant-onap/doc/source/features/example_usage.rst",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-09-29T23:07:37Z",
       "side": 1,
       "message": "s/settings.yaml.development/settings.yaml",
+      "range": {
+        "startLine": 17,
+        "startChar": 40,
+        "endLine": 17,
+        "endChar": 64
+      },
+      "revId": "80a067510780f901fc4043e0e7ff276f53adee83",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_3d2ffff8",
+        "filename": "bootstrap/vagrant-onap/doc/source/features/example_usage.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 991
+      },
+      "writtenOn": "2017-10-02T20:57:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_c576e3a3",
       "range": {
         "startLine": 17,
         "startChar": 40,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_5d43e3ae",
+        "filename": "bootstrap/vagrant-onap/doc/source/features/example_usage.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 991
+      },
+      "writtenOn": "2017-10-02T20:57:47Z",
+      "side": 1,
+      "message": "For now, I\u0027ll keep it as it is since we planning to remove the options?",
+      "parentUuid": "9a437d4f_657177a7",
+      "revId": "80a067510780f901fc4043e0e7ff276f53adee83",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_05606bcd",
         "filename": "bootstrap/vagrant-onap/doc/source/features/example_usage.rst",
         "patchSetId": 1
@@ -76,6 +142,30 @@
       "writtenOn": "2017-09-29T23:07:37Z",
       "side": 1,
       "message": "I think that rst supports references so you can link this.",
+      "range": {
+        "startLine": 30,
+        "startChar": 55,
+        "endLine": 30,
+        "endChar": 79
+      },
+      "revId": "80a067510780f901fc4043e0e7ff276f53adee83",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_1d32fb5e",
+        "filename": "bootstrap/vagrant-onap/doc/source/features/example_usage.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 991
+      },
+      "writtenOn": "2017-10-02T20:57:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_05606bcd",
       "range": {
         "startLine": 30,
         "startChar": 55,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_fd34d74a",
+        "filename": "bootstrap/vagrant-onap/doc/source/features/example_usage.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 991
+      },
+      "writtenOn": "2017-10-02T20:57:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_85a33bff",
+      "range": {
+        "startLine": 51,
+        "startChar": 32,
+        "endLine": 51,
+        "endChar": 57
+      },
+      "revId": "80a067510780f901fc4043e0e7ff276f53adee83",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_a5899f76",
         "filename": "bootstrap/vagrant-onap/doc/source/features/example_usage.rst",
         "patchSetId": 1
@@ -122,6 +236,30 @@
       "writtenOn": "2017-09-29T23:07:37Z",
       "side": 1,
       "message": "I\u0027d prefer to mention how to recreate the environment without losing his changes in the source code.",
+      "range": {
+        "startLine": 132,
+        "startChar": 13,
+        "endLine": 132,
+        "endChar": 69
+      },
+      "revId": "80a067510780f901fc4043e0e7ff276f53adee83",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_dd37d34b",
+        "filename": "bootstrap/vagrant-onap/doc/source/features/example_usage.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 991
+      },
+      "writtenOn": "2017-10-02T20:57:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a437d4f_a5899f76",
       "range": {
         "startLine": 132,
         "startChar": 13,
