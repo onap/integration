@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_8a56a8cc",
+        "filename": "test/csit/plans/portal/testsuite/setup.sh",
+        "patchSetId": 18
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 681
+      },
+      "writtenOn": "2017-10-02T18:35:17Z",
+      "side": 1,
+      "message": "Don\u0027t save the value of $(pwd).  This is used below incorrectly!",
+      "range": {
+        "startLine": 46,
+        "startChar": 11,
+        "endLine": 46,
+        "endChar": 13
+      },
+      "revId": "b13ecb10a70517b9d0753476e205ed75940fdbf4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_6a5b84f6",
+        "filename": "test/csit/plans/portal/testsuite/setup.sh",
+        "patchSetId": 18
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 681
+      },
+      "writtenOn": "2017-10-02T18:35:17Z",
+      "side": 1,
+      "message": "Note the \"cd\" command above - this source command fails",
+      "revId": "b13ecb10a70517b9d0753476e205ed75940fdbf4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
