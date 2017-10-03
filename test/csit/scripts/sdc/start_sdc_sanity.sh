@@ -47,7 +47,7 @@ INTERVAL=20
 TIME=0
 while [ "$TIME" -lt "$TIME_OUT" ]; do
   
-PID=`docker exec -it sdc-sanity ps -ef | grep java | awk '{print $2}'`
+PID=`docker exec -i sdc-sanity ps -ef | grep java | awk '{print $2}'`
 echo sanity PID is -- $PID
   
 if [ -z "$PID" ]
