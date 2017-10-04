@@ -22,7 +22,7 @@ source ${WORKSPACE}/test/csit/scripts/sdnc/script1.sh
 
 export NEXUS_USERNAME=docker
 export NEXUS_PASSWD=docker
-export NEXUS_DOCKER_REPO=nexus3.onap.org:10003
+export NEXUS_DOCKER_REPO=nexus3.onap.org:10001
 export DMAAP_TOPIC=AUTO
 export DOCKER_IMAGE_VERSION=1.2-STAGING-latest
 export CCSDK_DOCKER_IMAGE_VERSION=0.1-STAGING-latest
