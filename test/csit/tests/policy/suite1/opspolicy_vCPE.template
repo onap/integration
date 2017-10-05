@@ -1,0 +1,15 @@
+{  
+   "policyConfigType":"BRMS_PARAM",
+   "policyName":"${policy_name}",
+   "policyDescription":"sample BRMS Param policy",
+   "attributes":{  
+      "MATCHING":{  
+         "controller":"vCPE"
+      },
+      "RULE":{  
+         "templateName":"ControlLoopXacmlGuard",
+         "closedLoopControlName":"vCPE_f2bbd6cb-01c9-4d78-ab07-14b006ec50ae",
+         "controlLoopYaml":"controlLoop%3A%0A++version%3A+2.0.0%0A++controlLoopName%3A+ControlLoop-vCPE-48f0c2c3-a172-4192-9ae3-052274181b6e%0A++trigger_policy%3A+unique-policy-id-1-restart%0A++timeout%3A+3600%0A+%0Apolicies%3A%0A+%0A++-+id%3A+unique-policy-id-1-restart%0A++++name%3A+Restart+the+VM%0A++++description%3A%0A++++actor%3A+APPC%0A++++recipe%3A+Restart%0A++++target%3A%0A++++++type%3A+VM%0A++++retry%3A+3%0A++++timeout%3A+1200%0A++++success%3A+final_success%0A++++failure%3A+final_failure%0A++++failure_timeout%3A+final_failure_timeout%0A++++failure_retries%3A+final_failure_retries%0A++++failure_exception%3A+final_failure_exception%0A++++failure_guard%3A"
+      }
+   }
+}

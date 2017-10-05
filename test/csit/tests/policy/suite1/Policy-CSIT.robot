@@ -7,12 +7,12 @@ Resource    policy_interface.robot
 Resource    json_templater.robot
 
 *** Variables ***
-${RESOURCE_PATH_CREATE}        /pdp/createPolicy
-${RESOURCE_PATH_CREATE_PUSH}        /pdp/pushPolicy
-${RESOURCE_PATH_CREATE_DELETE}        /pdp/deletePolicy
-${RESOURCE_PATH_GET_CONFIG}    /pdp/getConfig
-${CREATE_CONFIG_VFW_TEMPLATE}    ${CURDIR}/configpolicy_vFW.template
-${CREATE_CONFIG_VDNS_TEMPLATE}    ${CURDIR}/configpolicy_vDNS.template
+${RESOURCE_PATH_CREATE}        /pdp/api/createPolicy
+${RESOURCE_PATH_CREATE_PUSH}        /pdp/api/pushPolicy
+${RESOURCE_PATH_CREATE_DELETE}        /pdp/api/deletePolicy
+${RESOURCE_PATH_GET_CONFIG}    /pdp/api/getConfig
+${CREATE_CONFIG_VFW_TEMPLATE}    ${CURDIR}/configpolicy_VFW_R1.template
+${CREATE_CONFIG_VDNS_TEMPLATE}    ${CURDIR}/configpolicy_VDNS_R1.template
 ${CREATE_CONFIG_VCPE_TEMPLATE}    ${CURDIR}/configpolicy_vCPE.template
 ${CREATE_OPS_VFW_TEMPLATE}    ${CURDIR}/opspolicy_VFW.template
 ${PUSH_POLICY_TEMPLATE}   ${CURDIR}/pushpolicy.template
@@ -60,7 +60,21 @@ VCPE Config Policy
     Push Config Policy    ${CONFIG_POLICY_VCPE_NAME}    ${CONFIG_POLICY_VCPE_TYPE}
     #VCPE Policy Tests
  
-#VOLTE Policy
+VFW Ops Policy
+     ${OPS_POLICY_VFW_NAME}=    Create Ops VFW Policy
+     Push Ops Policy    ${OPS_POLICY_VFW_NAME}    ${OPS_POLICY_VFW_TYPE}
+     
+VDNS Ops Policy
+     ${OPS_POLICY_VDNS_NAME}=    Create Ops VDNS Policy
+     Push Ops Policy    ${OPS_POLICY_VDNS_NAME}    ${OPS_POLICY_VDNS_TYPE}    
+     
+VCPE Ops Policy
+     ${OPS_POLICY_VCPE_NAME}=    Create Ops VCPE Policy
+     Push Ops Policy    ${OPS_POLICY_VCPE_NAME}    ${OPS_POLICY_VCPE_TYPE}    
+
+VOLTE Ops Policy
+     ${OPS_POLICY_VOLTE_NAME}=    Create Ops VOLTE Policy
+     Push Ops Policy    ${OPS_POLICY_VOLTE_NAME}    ${OPS_POLICY_VOLTE_TYPE}    
     #VOLTE Policy Tests
     
 *** Keywords ***
