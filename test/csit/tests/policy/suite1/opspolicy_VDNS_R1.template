@@ -8,7 +8,7 @@
 	    	"controller" : "amsterdam"
 	    },
 		"RULE": {
-			"templateName": "policy_ops_1",
+			"templateName": "ClosedLoopControlName",
 			"closedLoopControlName": "ControlLoop-vDNS-6f37f56d-a87d-4b85-b6a9-cc953cf779b3",
 			"controlLoopYaml": "controlLoop%3A%0D%0A++version%3A+2.0.0%0D%0A++controlLoopName%3A+ControlLoop-vDNS-6f37f56d-a87d-4b85-b6a9-cc953cf779b3%0D%0A++services%3A%0D%0A++++-+serviceName%3A+d4738992-6497-4dca-9db9%0D%0A++++++serviceInvariantUUID%3A+dc112d6e-7e73-4777-9c6f-1a7fb5fd1b6f%0D%0A++++++serviceUUID%3A+2eea06c6-e1d3-4c3a-b9c4-478c506eeedf%0D%0A++trigger_policy%3A+unique-policy-id-1-scale-up%0D%0A++timeout%3A+1200%0D%0A+%0D%0Apolicies%3A%0D%0A++-+id%3A+unique-policy-id-1-scale-up%0D%0A++++name%3A+Create+a+new+VF+Module%0D%0A++++description%3A%0D%0A++++actor%3A+MSO%0D%0A++++recipe%3A+VF+Module+Create%0D%0A++++target%3A%0D%0A++++++type%3A+VNF%0D%0A++++retry%3A+0%0D%0A++++timeout%3A+1200%0D%0A++++success%3A+final_success%0D%0A++++failure%3A+final_failure%0D%0A++++failure_timeout%3A+final_failure_timeout%0D%0A++++failure_retries%3A+final_failure_retries%0D%0A++++failure_exception%3A+final_failure_exception%0D%0A++++failure_guard%3A+final_failure_guard"
 		}
