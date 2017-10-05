@@ -38,31 +38,22 @@ Create Template from Menu
     Click Button    locator=OK
 
 Drag and Drop Boxes for template
-    Wait Until Element Is Visible       xpath=//*[@class="entry icon-collector-node"]       timeout=60
-    Drag And Drop By Offset     xpath=//*[@class="entry icon-collector-node"]       280      280
-    Drag And Drop By Offset     xpath=//*[@class="entry icon-stringmatch-node"]       480      280
-    Drag And Drop By Offset     xpath=//*[@class="entry icon-ves-collector-node"]       680      280
-    Drag And Drop By Offset     xpath=//*[@class="entry icon-holmes-node"]       880      280
-    Drag And Drop By Offset     xpath=//*[@class="entry icon-tca-node"]       1080      280
-    Drag And Drop By Offset     xpath=//*[@class="entry icon-policy-node"]       1280      280
-    Drag And Drop By Offset     xpath=//*[@class="entry icon-end-event-none"]       1480      280
+    Wait Until Element Is Visible       xpath=//*[@class="entry icon-ves-collector-node"]       timeout=60
+    Drag And Drop By Offset     xpath=//*[@class="entry icon-ves-collector-node"]       280      280
+    Drag And Drop By Offset     xpath=//*[@class="entry icon-holmes-node"]       480      280
+    Drag And Drop By Offset     xpath=//*[@class="entry icon-policy-node"]       680      280
+    Drag And Drop By Offset     xpath=//*[@class="entry icon-end-event-none"]       880      280
 
 Drag and Drop Connectors for template
     Click Element    xpath=//*[starts-with(@data-element-id, "StartEvent_")]
-    Wait Until Element Is Enabled       xpath=//*[@id="js-canvas"]/div/div/div[2]/div[8]/div/div/div[2]/div
-    Drag And Drop       xpath=//*[@id="js-canvas"]/div/div/div[2]/div[8]/div/div/div[2]/div      xpath=//*[starts-with(@data-element-id, "Collector_")]
-    Wait Until Element Is Enabled       xpath=//*[@id="js-canvas"]/div/div/div[2]/div[1]/div/div/div[3]/div
-    Drag And Drop       xpath=//*[@id="js-canvas"]/div/div/div[2]/div[1]/div/div/div[3]/div     xpath=//*[starts-with(@data-element-id, "StringMatch_")]
+    Wait Until Element Is Enabled       xpath=//*[@id="js-canvas"]/div/div/div[2]/div[5]/div/div/div[2]/div
+    Drag And Drop       xpath=//*[@id="js-canvas"]/div/div/div[2]/div[5]/div/div/div[2]/div     xpath=//*[starts-with(@data-element-id, "VesCollector_")]
+    Wait Until Element Is Enabled       xpath=//*[@id="js-canvas"]/div/div/div[2]/div[1]/div/div/div[2]/div
+    Drag And Drop       xpath=//*[@id="js-canvas"]/div/div/div[2]/div[1]/div/div/div[2]/div      xpath=//*[starts-with(@data-element-id, "Holmes_")]
     Wait Until Element Is Enabled       xpath=//*[@id="js-canvas"]/div/div/div[2]/div[2]/div/div/div[3]/div
-    Drag And Drop       xpath=//*[@id="js-canvas"]/div/div/div[2]/div[2]/div/div/div[3]/div     xpath=//*[starts-with(@data-element-id, "VesCollector_")]
-    Wait Until Element Is Enabled       xpath=//*[@id="js-canvas"]/div/div/div[2]/div[3]/div/div/div[2]/div
-    Drag And Drop       xpath=//*[@id="js-canvas"]/div/div/div[2]/div[3]/div/div/div[2]/div      xpath=//*[starts-with(@data-element-id, "Holmes_")]
-    Wait Until Element Is Enabled       xpath=//*[@id="js-canvas"]/div/div/div[2]/div[4]/div/div/div[3]/div
-    Drag And Drop       xpath=//*[@id="js-canvas"]/div/div/div[2]/div[4]/div/div/div[3]/div      xpath=//*[starts-with(@data-element-id, "TCA_")]
-    Wait Until Element Is Enabled       xpath=//*[@id="js-canvas"]/div/div/div[2]/div[5]/div/div/div[3]/div
-    Drag And Drop       xpath=//*[@id="js-canvas"]/div/div/div[2]/div[5]/div/div/div[3]/div      xpath=//*[starts-with(@data-element-id, "Policy_")]
-    Wait Until Element Is Enabled       xpath=//*[@id="js-canvas"]/div/div/div[2]/div[6]/div/div/div[3]/div
-    Drag And Drop       xpath=//*[@id="js-canvas"]/div/div/div[2]/div[6]/div/div/div[3]/div      xpath=//*[starts-with(@data-element-id, "EndEvent_")]
+    Drag And Drop       xpath=//*[@id="js-canvas"]/div/div/div[2]/div[2]/div/div/div[3]/div      xpath=//*[starts-with(@data-element-id, "Policy_")]
+    Wait Until Element Is Enabled       xpath=//*[@id="js-canvas"]/div/div/div[2]/div[3]/div/div/div[3]/div
+    Drag And Drop       xpath=//*[@id="js-canvas"]/div/div/div[2]/div[3]/div/div/div[3]/div      xpath=//*[starts-with(@data-element-id, "EndEvent_")]
 
 Save Template from Menu
     Click Element    xpath=//*[@id="navbar"]/ul/li[1]/a
