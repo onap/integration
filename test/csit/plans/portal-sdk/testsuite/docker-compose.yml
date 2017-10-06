@@ -1,0 +1,95 @@
+# docker-compose for ONAP portal containers: database, microservice, portal apps.
+# Relies on .env file in current directory.
+# Works in multiple environments; does not pull from a Nexus registry.
+# Exposes the portal apps docker (but not DB nor WMS dockers) on the host network.
+# Images must be pulled from ONAP Nexus registry after logging in like this:
+# docker login -u USER -p PASS nexus3.onap.org:10001
+
+version: '2.0'
+
+services:
+
+  cli:
+    image: ${CLI_IMG_NAME}:${PORTAL_TAG}
+    environment:
+      CLI_MODE: 'daemon'
+    ports:
+      - 8080:80
+      - 9090:8080
+    logging:
+      driver: json-file
+
+  # Config files may use hostname "portal-db"
+  portal-db:
+    image: ${DB_IMG_NAME}:${PORTAL_TAG}
+    environment:
+      MYSQL_ROOT_PASSWORD: 'Aa123456'
+    expose:
+      - 3306
+    volumes:
+      # Just specify a path and let the Engine create a volume
+      - /var/lib/mysql
+    logging:
+      driver: json-file
+
+  # An environment variable here CAN override the database URL;
+  # instead the value in the config file uses hostname from above
+  portal-wms:
+    image: ${WMS_IMG_NAME}:${PORTAL_TAG}
+    expose:
+      - 8082
+    links:
+      - portal-db
+    depends_on:
+      - portal-db
+    volumes:
+      - ${PROPS_DIR}/ECOMPWIDGETMS/application.properties:/application.properties
+    command:
+      - /wait-for.sh
+      - -t
+      - "420"
+      - portal-db:3306
+      - --
+      - /start-wms-cmd.sh
+    logging:
+      driver: json-file
+
+  # Environment variables here CANNOT override the database URL because
+  # two apps use identical configuration keys with different values
+  portal-apps:
+    image: ${EP_IMG_NAME}:${PORTAL_TAG}
+    expose:
+      - 8989
+    ports:
+      - 8989:8080
+      - 8010:8009
+      - 8006:8005
+    links:
+      - portal-db
+      - portal-wms
+    depends_on:
+      - portal-db
+      - portal-wms
+    volumes:
+      - ${PROPS_DIR}/ECOMPPORTALAPP/system.properties:${WEBAPPS_DIR}/ECOMPPORTAL/WEB-INF/conf/system.properties
+      - ${PROPS_DIR}/ECOMPPORTALAPP/fusion.properties:${WEBAPPS_DIR}/ECOMPPORTAL/WEB-INF/fusion/conf/fusion.properties
+      - ${PROPS_DIR}/ECOMPPORTALAPP/portal.properties:${WEBAPPS_DIR}/ECOMPPORTAL/WEB-INF/classes/portal.properties
+      - ${PROPS_DIR}/ECOMPPORTALAPP/openid-connect.properties:${WEBAPPS_DIR}/ECOMPPORTAL/WEB-INF/classes/openid-connect.properties
+      - ${PROPS_DIR}/ECOMPPORTALAPP/logback.xml:${WEBAPPS_DIR}/ECOMPPORTAL/WEB-INF/classes/logback.xml
+      - ${PROPS_DIR}/ECOMPSDKAPP/fusion.properties:${WEBAPPS_DIR}/ECOMPSDKAPP/WEB-INF/fusion/conf/fusion.properties
+      - ${PROPS_DIR}/ECOMPSDKAPP/system.properties:${WEBAPPS_DIR}/ECOMPSDKAPP/WEB-INF/conf/system.properties
+      - ${PROPS_DIR}/ECOMPSDKAPP/portal.properties:${WEBAPPS_DIR}/ECOMPSDKAPP/WEB-INF/classes/portal.properties
+      - ${PROPS_DIR}/ECOMPDBCAPP/system.properties:${WEBAPPS_DIR}/ECOMPDBCAPP/WEB-INF/conf/system.properties
+      - ${PROPS_DIR}/ECOMPDBCAPP/portal.properties:${WEBAPPS_DIR}/ECOMPDBCAPP/WEB-INF/classes/portal.properties
+      - ${PROPS_DIR}/ECOMPDBCAPP/dbcapp.properties:${WEBAPPS_DIR}/ECOMPDBCAPP/WEB-INF/dbcapp/dbcapp.properties
+      - ${PROPS_DIR}/ECOMPDBCAPP/fusion.properties:${WEBAPPS_DIR}/ECOMPDBCAPP/WEB-INF/fusion/conf/fusion.properties
+      - ${LOGS_DIR}:/opt/apache-tomcat-8.0.37/logs
+    command:
+      - /wait-for.sh
+      - -t
+      - "420"
+      - portal-db:3306
+      - --
+      - /start-apps-cmd.sh
+    logging:
+      driver: json-file
