@@ -91,7 +91,6 @@ docker tag $NEXUS_DOCKER_REPO/$CLI_IMG_NAME:$CLI_DOCKER_VERSION $CLI_IMG_NAME:$P
 docker-compose down
 docker-compose up -d
 
-
 #${HOSTNAME}="portal.api.simpledemo.openecomp.org"
 #echo "$HOST_IP ${HOSTNAME}" >> /etc/hosts
 
@@ -127,7 +126,7 @@ fi
 
 
 # WAIT 5 minutes maximum and test every 5 seconds if Portal up using HealthCheck API
-TIME_OUT=460
+TIME_OUT=500
 INTERVAL=20
 TIME=0
 while [ "$TIME" -lt "$TIME_OUT" ]; do

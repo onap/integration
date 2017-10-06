@@ -13,10 +13,9 @@ services:
     image: ${CLI_IMG_NAME}:${PORTAL_TAG}
     environment:
       CLI_MODE: 'daemon'
-    expose:
-      - 80
     ports:
       - 8080:80
+      - 9090:8080
     logging:
       driver: json-file
 
@@ -48,7 +47,7 @@ services:
     command:
       - /wait-for.sh
       - -t
-      - "300"
+      - "420"
       - portal-db:3306
       - --
       - /start-wms-cmd.sh
@@ -88,7 +87,7 @@ services:
     command:
       - /wait-for.sh
       - -t
-      - "300"
+      - "420"
       - portal-db:3306
       - --
       - /start-apps-cmd.sh
