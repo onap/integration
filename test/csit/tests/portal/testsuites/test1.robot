@@ -96,8 +96,8 @@ Delete Widget for all users
 Create Widget for Application Roles
         Portal Admin Create Widget for Application Roles
     
-#Delete Widget for Application Roles
-#        Portal Admin Delete Widget for Application Roles
+Delete Widget for Application Roles
+        Portal Admin Delete Widget for Application Roles
     
 Create a Test user for Application Admin
      Portal admin Add Application admin User New user -Test
