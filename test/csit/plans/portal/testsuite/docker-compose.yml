@@ -13,10 +13,9 @@ services:
     image: ${CLI_IMG_NAME}:${PORTAL_TAG}
     environment:
       CLI_MODE: 'daemon'
-    expose:
-      - 80
     ports:
       - 8080:80
+      - 9090:8080
     logging:
       driver: json-file
 
