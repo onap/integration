@@ -33,12 +33,6 @@ ROBOT_VARIABLES="-v MOCK_IP:${MOCK_IP} -v IP:${IP}  -v DOCKER_IP:${DOCKER_IP}"
 export DOCKER_IP=${DOCKER_IP}
 
 
-
-
-
-
-
-
 # be verbose
 set -x
 
@@ -90,6 +84,7 @@ docker tag $NEXUS_DOCKER_REPO/$CLI_IMG_NAME:$CLI_DOCKER_VERSION $CLI_IMG_NAME:$P
 # compose is not in /usr/bin
 docker-compose down
 docker-compose up -d
+
 
 #${HOSTNAME}="portal.api.simpledemo.openecomp.org"
 #echo "$HOST_IP ${HOSTNAME}" >> /etc/hosts
