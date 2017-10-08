@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a2585a7_ad4a5d53",
+        "filename": "bootstrap/vagrant-onap/lib/sdc",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1341
+      },
+      "writtenOn": "2017-10-08T07:25:22Z",
+      "side": 1,
+      "message": "This is better to my opinion but still there\u0027s the scenario where we only want to start the vagrant without running the docker_run.sh script. it\u0027s good that if we skipped the get images part that it won\u0027t be run locally but I also want the option to not install dockers at all on startup.\nAre we able to do this somehow?",
+      "revId": "a44489ef7f3e81475f3ef9718a8a4bda8b4dd029",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
