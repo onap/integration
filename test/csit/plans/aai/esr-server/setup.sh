@@ -32,7 +32,9 @@ MSB_IP=`get-instance-ip.sh msb_internal_apigateway`
 echo MSB_IP=${MSB_IP}
 
 # Start esr-server
-docker run -d --name esr-server --env msbDiscoveryIp=${DISCOVERY_IP} --env msbDiscoveryPort=10081 nexus3.onap.org:10001/onap/aai/esr-server
+#docker run -d --name esr-server --env msbDiscoveryIp=${DISCOVERY_IP} --env msbDiscoveryPort=10081 nexus3.onap.org:10001/onap/aai/esr-server
+#sudo docker run -e MSB_ADDR=${MSB_IP}:80 nexus3.onap.org:10001/onap/aai/esr-server -p  9518:9518 -d --net=host --name esr-server
+docker run -d --name esr-server -e MSB_ADDR=${MSB_IP}:80 nexus3.onap.org:10001/onap/aai/esr-server
 #source ${SCRIPTS}/aai/esr-server/startup.sh i-esrserver ${MSB_IP} 80
 ESRSERVER_IP=`get-instance-ip.sh esr-server`
 echo ESRSERVER_IP=${ESRSERVER_IP}
