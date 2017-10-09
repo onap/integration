@@ -12,3 +12,6 @@ onap/ccsdk-odlsli-image,0.1-STAGING-latest
 onap/ccsdk-dgbuilder-image,0.1-STAGING-latest
 onap/sdnc-image,1.2-STAGING-latest
 onap/admportal-sdnc-image,1.2-STAGING-latest
+onap/holmes/dsa,1.0.0-STAGING-latest
+onap/holmes/engine-management,1.0.0-STAGING-latest
+onap/holmes/rule-management,1.0.0-STAGING-latest

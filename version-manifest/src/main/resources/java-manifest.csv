@@ -31,4 +31,7 @@ org.onap.ccsdk.utils,utils,1.0.0
 org.onap.sdnc.northbound,generic-resource-api.provider,1.2.0
 org.onap.sdnc.northbound,vnfapi-provider,1.2.0
 org.onap.sdnc.northbound,vnftools-provider,1.2.0
-
+org.onap.holmes.common,holmes-actions,1.0.0
+org.onap.holmes.dsa,dmaap-dsa,1.0.0
+org.onap.holmes.engine-management,holmes-engine-d,1.0.0
+org.onap.holmes.rule-management,holmes-rulemgt,1.0.0
