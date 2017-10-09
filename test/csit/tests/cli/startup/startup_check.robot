@@ -62,14 +62,14 @@ Check Cli Scheam Validate With Invalid Path
     ${cli_cmd_output}=    Run Process    ${cli_exec_cli_10_schema_validate_invalid}    shell=yes
     Log    ${cli_cmd_output.stdout}
     Should Be Equal As Strings    ${cli_cmd_output.rc}    1
-    Should Contain    ${cli_cmd_output.stdout}    0x0007
+    Should Contain    ${cli_cmd_output.stdout}    0xb001
 
 Check Cli Scheam Validate Empty Argument
     [Documentation]    check cli schema validate with empty argument
     ${cli_cmd_output}=    Run Process    ${cli_exec_cli_10_schema_validate_empty}    shell=yes
     Log    ${cli_cmd_output.stdout}
     Should Be Equal As Strings    ${cli_cmd_output.rc}    1
-    Should Contain    ${cli_cmd_output.stdout}    0x0015
+    Should Contain    ${cli_cmd_output.stdout}    0x7003
 
 Check Cli create microservice
     [Documentation]    check create microservice
