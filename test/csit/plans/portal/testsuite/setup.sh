@@ -33,12 +33,6 @@ ROBOT_VARIABLES="-v MOCK_IP:${MOCK_IP} -v IP:${IP}  -v DOCKER_IP:${DOCKER_IP}"
 export DOCKER_IP=${DOCKER_IP}
 
 
-
-
-
-
-
-
 # be verbose
 set -x
 
@@ -76,21 +70,21 @@ mkdir -p $LOGS_DIR
 
 # Refresh images
 docker login -u $NEXUS_USERNAME -p $NEXUS_PASSWD $NEXUS_DOCKER_REPO
-docker pull $NEXUS_DOCKER_REPO/onap/${DB_IMG_NAME}:$DOCKER_IMAGE_VERSION
-docker pull $NEXUS_DOCKER_REPO/onap/${EP_IMG_NAME}:$DOCKER_IMAGE_VERSION
-docker pull $NEXUS_DOCKER_REPO/onap/${WMS_IMG_NAME}:$DOCKER_IMAGE_VERSION
+docker pull $NEXUS_DOCKER_REPO/${DB_IMG_NAME}:$DOCKER_IMAGE_VERSION
+docker pull $NEXUS_DOCKER_REPO/${EP_IMG_NAME}:$DOCKER_IMAGE_VERSION
+docker pull $NEXUS_DOCKER_REPO/${WMS_IMG_NAME}:$DOCKER_IMAGE_VERSION
 docker pull $NEXUS_DOCKER_REPO/$CLI_IMG_NAME:$CLI_DOCKER_VERSION
 
 # Tag them as expected by docker-compose file
-docker tag $NEXUS_DOCKER_REPO/onap/${DB_IMG_NAME}:$DOCKER_IMAGE_VERSION $DB_IMG_NAME:$PORTAL_TAG
-docker tag $NEXUS_DOCKER_REPO/onap/${EP_IMG_NAME}:$DOCKER_IMAGE_VERSION $EP_IMG_NAME:$PORTAL_TAG
-docker tag $NEXUS_DOCKER_REPO/onap/${WMS_IMG_NAME}:$DOCKER_IMAGE_VERSION $WMS_IMG_NAME:$PORTAL_TAG
+docker tag $NEXUS_DOCKER_REPO/${DB_IMG_NAME}:$DOCKER_IMAGE_VERSION $DB_IMG_NAME:$PORTAL_TAG
+docker tag $NEXUS_DOCKER_REPO/${EP_IMG_NAME}:$DOCKER_IMAGE_VERSION $EP_IMG_NAME:$PORTAL_TAG
+docker tag $NEXUS_DOCKER_REPO/${WMS_IMG_NAME}:$DOCKER_IMAGE_VERSION $WMS_IMG_NAME:$PORTAL_TAG
 docker tag $NEXUS_DOCKER_REPO/$CLI_IMG_NAME:$CLI_DOCKER_VERSION $CLI_IMG_NAME:$PORTAL_TAG
+
 
 # compose is not in /usr/bin
 docker-compose down
 docker-compose up -d
-
 
 #${HOSTNAME}="portal.api.simpledemo.openecomp.org"
 #echo "$HOST_IP ${HOSTNAME}" >> /etc/hosts
@@ -127,7 +121,7 @@ fi
 
 
 # WAIT 5 minutes maximum and test every 5 seconds if Portal up using HealthCheck API
-TIME_OUT=460
+TIME_OUT=500
 INTERVAL=20
 TIME=0
 while [ "$TIME" -lt "$TIME_OUT" ]; do

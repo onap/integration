@@ -13,14 +13,13 @@ services:
     image: ${CLI_IMG_NAME}:${PORTAL_TAG}
     environment:
       CLI_MODE: 'daemon'
-    expose:
-      - 80
     ports:
       - 8080:80
+      - 9090:8080
     logging:
       driver: json-file
 
-  # Config files may use hostname "portal-db"
+  # Config files may use hostname "portal-db".
   portal-db:
     image: ${DB_IMG_NAME}:${PORTAL_TAG}
     environment:
@@ -48,7 +47,7 @@ services:
     command:
       - /wait-for.sh
       - -t
-      - "300"
+      - "420"
       - portal-db:3306
       - --
       - /start-wms-cmd.sh
@@ -88,7 +87,7 @@ services:
     command:
       - /wait-for.sh
       - -t
-      - "300"
+      - "420"
       - portal-db:3306
       - --
       - /start-apps-cmd.sh
