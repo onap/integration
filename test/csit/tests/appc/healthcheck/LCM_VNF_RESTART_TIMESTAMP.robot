@@ -23,21 +23,21 @@ APPC LCM API VNF RESTART
 	Reload Page
 
 #	Wait Until Page Contains Element    xpath=//*[@id="resource_appc-provider-lcm(2016-01-08)"]/div/h2/a  
-	Set Selenium Speed	60
-	Click Element     xpath=.//*[contains(text(),'appc-provider-lcm(2016-01-08)')]
+#	Set Selenium Speed	60
+#	Click Element     xpath=.//*[contains(text(),'appc-provider-lcm(2016-01-08)')]
 
 
 #	Wait Until Page Contains Element    xpath=//*[@id="resource_appc-provider-lcm(2016-01-08)"]/div/h2/a//following::a[contains(text(),'/operations/appc-provider-lcm:restart')]        
-	Set Selenium Speed	60
-	Click Element     xpath=.//*[contains(text(),'appc-provider-lcm:restart')]
+#	Set Selenium Speed	60
+#	Click Element     xpath=.//*[contains(text(),'appc-provider-lcm:restart')]
 	
 #	Get Server time    ${GLOBAL_VNF_RESTART_REQUESTFILE}
-	${file_content}=    OperatingSystem.Get File    ${GLOBAL_VNF_RESTART_REQUESTFILE}
+#	${file_content}=    OperatingSystem.Get File    ${GLOBAL_VNF_RESTART_REQUESTFILE}
     
 #    Wait Until Page Contains Element    xpath=//td[contains(text(), '(restart)input-TOP')]//following::textarea[@name='(restart)input-TOP'][3]
-	Set Selenium Speed	90
-	Input Text	   xpath=(.//*[contains(text(),'(restart)input-TOP')])[5]/following::textarea[1]	${file_content} 
-	Click Element     xpath=//*[@id="resource_appc-provider-lcm(2016-01-08)"]/div/h2/a//following::a[contains(text(),'/operations/appc-provider-lcm:restart')]//following::form/div[2]/input[1]
+#	Set Selenium Speed	90
+#	Input Text	   xpath=(.//*[contains(text(),'(restart)input-TOP')])[5]/following::textarea[1]	${file_content} 
+#	Click Element     xpath=//*[@id="resource_appc-provider-lcm(2016-01-08)"]/div/h2/a//following::a[contains(text(),'/operations/appc-provider-lcm:restart')]//following::form/div[2]/input[1]
 
 #	Input Text     xpath= //td[contains(text(), '(restart)input-TOP')]//following::textarea[@name='(restart)input-TOP'][3]      ${file_content}
 	
