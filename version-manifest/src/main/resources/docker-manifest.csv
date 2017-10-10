@@ -18,3 +18,4 @@ onap/holmes/rule-management,1.0.0-STAGING-latest
 onap/msb/msb_discovery,1.0.0-STAGING-latest
 onap/msb/msb_apigateway,1.0.0-STAGING-latest
 onap/oom/kube2msb,1.0.0-STAGING-latest
+openecomp/mso,1.1-STAGING-latest
