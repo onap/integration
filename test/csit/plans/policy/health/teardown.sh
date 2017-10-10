@@ -34,4 +34,3 @@ kill_instance mariadb
 
 rm -fr "${WORK_DIR}"
 
-

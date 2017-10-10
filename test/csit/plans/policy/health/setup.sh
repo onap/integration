@@ -34,8 +34,6 @@ ${WORKSPACE}/test/csit/scripts/policy/mock-hello.sh ${MOCK_IP}
 
 source ${WORKSPACE}/test/csit/scripts/policy/script1.sh
 
-sleep 3m
-
 # Pass any variables required by Robot test suites in ROBOT_VARIABLES
 ROBOT_VARIABLES="-v MOCK_IP:${MOCK_IP} -v IP:${IP} -v POLICY_IP:${POLICY_IP} -v PDP_IP:${PDP_IP} -v DOCKER_IP:${DOCKER_IP}" 
 export PDP_IP=${PDP_IP}
