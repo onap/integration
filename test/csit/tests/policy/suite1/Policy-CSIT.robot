@@ -54,12 +54,16 @@ VDNS Config Policy
     ${CONFIG_POLICY_VDNS_NAME}=    Create Config VDNS Policy
     Push Config Policy    ${CONFIG_POLICY_VDNS_NAME}    ${CONFIG_POLICY_VDNS_TYPE}
     #VDNS Policy Tests
-   
+VDNS Get Configs Policy
+    Get Configs VDNS Policy  
+    
 VCPE Config Policy
     ${CONFIG_POLICY_VCPE_NAME}=    Create Config VCPE Policy
     Push Config Policy    ${CONFIG_POLICY_VCPE_NAME}    ${CONFIG_POLICY_VCPE_TYPE}
     #VCPE Policy Tests
- 
+VCPE Get Configs Policy
+    Get Configs VCPE Policy 
+
 VFW Ops Policy
      ${OPS_POLICY_VFW_NAME}=    Create Ops VFW Policy
      Push Ops Policy    ${OPS_POLICY_VFW_NAME}    ${OPS_POLICY_VFW_TYPE}
