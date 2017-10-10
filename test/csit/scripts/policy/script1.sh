@@ -94,47 +94,58 @@ export MTU=9126
 
 docker-compose -f docker-compose-integration.yml up -d 
 
+if [ ! $? -eq 0 ]; then
+	echo "Docker compose failed"
+	exit 1
+fi 
+
 docker ps
 
-docker inspect drools
+#sleep 4m
 
 POLICY_IP=`docker inspect --format '{{ .NetworkSettings.Networks.docker_default.IPAddress}}' drools`
 echo ${POLICY_IP}
 
-sleep 3m
-
-docker inspect pdp
-
 PDP_IP=`docker inspect --format '{{ .NetworkSettings.Networks.docker_default.IPAddress}}' pdp`
 echo ${PDP_IP}
 
-sleep 3m
+PAP_IP=`docker inspect --format '{{ .NetworkSettings.Networks.docker_default.IPAddress}}' pap`
+echo ${PAP_IP}
 
-#for i in {1..60}; do
-TIME_OUT=6000
+BRMS_IP=`docker inspect --format '{{ .NetworkSettings.Networks.docker_default.IPAddress}}' brmsgw`
+echo ${BRMS_IP}
+
+NEXUS_IP=`docker inspect --format '{{ .NetworkSettings.Networks.docker_default.IPAddress}}' nexus`
+echo ${NEXUS_IP}
+
+MARIADB_IP=`docker inspect --format '{{ .NetworkSettings.Networks.docker_default.IPAddress}}' mariadb`
+echo ${MARIADB_IP}
+
+${DIR}/wait_for_port.sh ${MARIADB_IP} 3306
+${DIR}/wait_for_port.sh ${PAP_IP} 9091
+${DIR}/wait_for_port.sh ${PDP_IP} 8081
+${DIR}/wait_for_port.sh ${BRMS_IP} 9989
+${DIR}/wait_for_port.sh ${NEXUS_IP} 8081
+${DIR}/wait_for_port.sh ${POLICY_IP} 6969
+
+TIME_OUT=600
 INTERVAL=20 
 TIME=0 
 while [ "$TIME" -lt "$TIME_OUT" ]; do 
     curl -i --user healthcheck:zb!XztG34 -H "ContentType: application/json" -H "Accept: application/json" ${POLICY_IP}:6969/healthcheck && break
-    echo sleep $i
-    sleep $i
 	
-echo Sleep: $INTERVAL seconds before testing if Policy is up. Total wait time up now is: $TIME seconds. Timeout is: $TIME_OUT seconds 
+  echo Sleep: $INTERVAL seconds before testing if Policy is up. Total wait time up now is: $TIME seconds. Timeout is: $TIME_OUT seconds 
   sleep $INTERVAL 
   TIME=$(($TIME+$INTERVAL))
 	
 done
 
-#curl -v --silent -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'ClientAuth: cHl0aG9uOnRlc3Q=' -H 'Authorization: Basic dGVzdHBkcDphbHBoYTEyMw==' -H 'Environment: TEST' -X POST -d '{"policyName": "*.*"}'
-
-TIME_OUT=6000
+TIME_OUT=600
 INTERVAL=20 
 TIME=0 
 while [ "$TIME" -lt "$TIME_OUT" ]; do 
 	
-	curl -v --silent -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'ClientAuth: cHl0aG9uOnRlc3Q=' -H 'Authorization: Basic dGVzdHBkcDphbHBoYTEyMw==' -H 'Environment: TEST' -X POST -d '{"policyName": "*.*"}' http://${PDP_IP}:8081/pdp/api/getConfig && break
-    echo sleep $i
-    sleep $i
+	curl -i -v -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'ClientAuth: cHl0aG9uOnRlc3Q=' -H 'Authorization: Basic dGVzdHBkcDphbHBoYTEyMw==' -H 'Environment: TEST' -X POST -d '{"policyName": ".*"}' http://${PDP_IP}:8081/pdp/api/getConfig && break
 	
 echo Sleep: $INTERVAL seconds before testing if Policy is up. Total wait time up now is: $TIME seconds. Timeout is: $TIME_OUT seconds 
   sleep $INTERVAL 
@@ -142,3 +153,7 @@ echo Sleep: $INTERVAL seconds before testing if Policy is up. Total wait time up
 	
 done
 
+#
+# Add more sleep for everything to settle
+#
+sleep 3m
