@@ -29,3 +29,25 @@ VnflcmSwaggerTest
     ${response_json}    json.loads    ${resp.content}
     ${swagger_version}=    Convert To String      ${response_json['swagger']}
     Should Be Equal    ${swagger_version}    2.0
+
+CreateVnfTest
+    [Documentation]    Create Vnf function test
+    ${json_value}=     json_from_file      ${create_vnf_json}
+    ${json_string}=     string_from_json   ${json_value}
+    ${headers}    Create Dictionary    Content-Type=application/json    Accept=application/json
+    Create Session    web_session    http://${VNFLCM_IP}:8801    headers=${headers}
+    Set Request Body    ${json_string}
+    ${resp}=    Post Request    web_session     ${create_vnf_url}    ${json_string}
+    ${responese_code}=     Convert To String      ${resp.status_code}
+    List Should Contain Value    ${return_ok_list}   ${responese_code}
+    ${response_json}    json.loads    ${resp.content}
+    ${vnfInstId}=    Convert To String      ${response_json['vnfInstanceId']}
+    Set Global Variable     ${vnfInstId}
+
+DeleteVnfTest
+    [Documentation]    Delete Vnf function test
+    ${headers}    Create Dictionary    Content-Type=application/json    Accept=application/json
+    Create Session    web_session    http://${VNFLCM_IP}:8801    headers=${headers}
+    ${resp}=    Delete Request    web_session     ${delete_vnf_url}/${vnfInstId}
+    ${responese_code}=     Convert To String      ${resp.status_code}
+    List Should Contain Value    ${return_ok_list}   ${responese_code}
