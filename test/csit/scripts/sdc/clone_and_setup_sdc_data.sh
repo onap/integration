@@ -27,6 +27,10 @@ echo "This is ${WORKSPACE}/test/csit/scripts/sdc/clone_and_setup_sdc_data.sh"
 # Clone sdc enviroment template 
 mkdir -p ${WORKSPACE}/data/environments/
 mkdir -p ${WORKSPACE}/data/clone/
+mkdir -p ${WORKSPACE}/data/logs/BE/ASDC/ASDC-BE
+mkdir -p ${WORKSPACE}/data/logs/FE/ASDC/ASDC-FE
+chmod -R 777 /data/logs
+
 
 cd ${WORKSPACE}/data/clone
 git clone --depth 1 http://gerrit.onap.org/r/sdc -b master
