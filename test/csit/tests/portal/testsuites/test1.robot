@@ -104,8 +104,8 @@ Create Widget for Application Roles
 #Create a Test user for Standared User    
 #     Portal admin Add Standard User New user
     
-#Create a Test user for Existing User    
-#     Portal admin Add Application Admin Exiting User -APPDEMO
+Create a Test user for Existing User    
+     Portal admin Add Application Admin Exiting User -APPDEMO
     
 #Add Application Admin for Exisitng User   
 #     Portal admin Add Application Admin Exiting User 
@@ -661,7 +661,7 @@ Portal Admin Create Widget for Application Roles
     
     
     
- Portal Admin Delete Widget for Application Roles 
+Portal Admin Delete Widget for Application Roles 
      #Wait Until Page Contains    ONAP-VID    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT} 
      #Page Should Contain    ONAP-VID
      #Click Image    xpath=//img[@alt='Onap Logo']
@@ -671,7 +671,8 @@ Portal Admin Create Widget for Application Roles
      #Wait Until Page Contains    xpath=(.//*[contains(text(),'ONAP-VID')]/followi
      #Wait Until Page Contains    xpath=(.//*[contains(text(),'ONAP-VID')]/following::*[@ng-click='widgetOnboarding.deleteWidget(rowData)'])[1]    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
 	 Click Button	xpath=//button[@ng-click='toggleSidebar()']
-     Click Element    xpath=(.//*[contains(text(),'ONAP-DMaaP')]/following::div[@ng-click='widgetOnboarding.deleteWidget(rowData)'])[1]
+	 Scroll Element Into View	xpath=//*[contains(text(),'ONAP-DMaaP')]/following::td[3]/div
+     Click Element    xpath=//*[contains(text(),'ONAP-DMaaP')]/following::td[3]/div
      Click Element    xpath=//button[@id='div-confirm-ok-button']
      Set Selenium Implicit Wait    3000
      Element Should Not Contain     xpath=//*[@table-data='portalAdmin.portalAdminsTableData']    ONAP-DMaaP
