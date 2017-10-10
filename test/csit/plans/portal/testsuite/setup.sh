@@ -14,6 +14,10 @@ XVFBPID=$!
 HOST_IP=$(ip route get 8.8.8.8 | awk '/8.8.8.8/ {print $NF}')
 export HOST_IP=${HOST_IP}
 
+# Make inter-app communication work in CSIT
+export EXTRA_HOST_IP="-i ${HOST_IP}"
+export EXTRA_HOST_NAME="-n portal.api.simpledemo.openecomp.org"
+
 if ! ifconfig docker0; then
 if ! ifconfig ens3; then
 echo "Could not determine IP address"
@@ -157,7 +161,7 @@ fi
 HOST_IP=$(ip route get 8.8.8.8 | awk '/8.8.8.8/ {print $NF}')
 export HOST_IP=${HOST_IP}
 
-docker logs deliveries_portal-db_1
+#docker logs deliveries_portal-db_1
 docker logs deliveries_portal-apps_1
 docker logs deliveries_portal-wms_1
 
