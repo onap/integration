@@ -14,6 +14,8 @@ XVFBPID=$!
 HOST_IP=$(ip route get 8.8.8.8 | awk '/8.8.8.8/ {print $NF}')
 export HOST_IP=${HOST_IP}
 
+
+
 if ! ifconfig docker0; then
 if ! ifconfig ens3; then
 echo "Could not determine IP address"
@@ -60,6 +62,7 @@ cp $CURR/docker-compose.yml .
 #cd ../..
 # Get image names used below from docker-compose environment file
 source $CURR/.env
+
 
 # Copy property files to new directory
 mkdir -p $PROPS_DIR
@@ -118,6 +121,10 @@ echo "Adding new hosts entry."
 echo "$host_entry" | sudo tee -a /etc/hosts > /dev/null
 fi
 
+# Make inter-app communication work in CSIT
+export EXTRA_HOST_IP="-i ${HOST_IP}"
+export EXTRA_HOST_NAME="-n portal.api.simpledemo.openecomp.org"
+
 sleep 3m
 
 # WAIT 5 minutes maximum and test every 5 seconds if Portal up using HealthCheck API
@@ -157,7 +164,7 @@ fi
 HOST_IP=$(ip route get 8.8.8.8 | awk '/8.8.8.8/ {print $NF}')
 export HOST_IP=${HOST_IP}
 
-docker logs deliveries_portal-db_1
+#docker logs deliveries_portal-db_1
 docker logs deliveries_portal-apps_1
 docker logs deliveries_portal-wms_1
 
