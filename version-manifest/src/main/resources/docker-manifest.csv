@@ -15,3 +15,6 @@ onap/admportal-sdnc-image,1.2-STAGING-latest
 onap/holmes/dsa,1.0.0-STAGING-latest
 onap/holmes/engine-management,1.0.0-STAGING-latest
 onap/holmes/rule-management,1.0.0-STAGING-latest
+onap/msb/msb_discovery,1.0.0-STAGING-latest
+onap/msb/msb_apigateway,1.0.0-STAGING-latest
+onap/oom/kube2msb,1.0.0-STAGING-latest
