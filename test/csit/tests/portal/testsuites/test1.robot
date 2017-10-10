@@ -83,17 +83,17 @@ Portal R1 Release for AAF
    [Documentation]    ONAP Portal R1 functionality for AAF test    
       Portal AAF new fields    
     
-Create Microse service onboarding
-    Portal admin Microservice Onboarding
+#Create Microse service onboarding
+#    Portal admin Microservice Onboarding
     
-Create Widget for all users
-    Portal Admin Create Widget for All users 
+#Create Widget for all users
+#    Portal Admin Create Widget for All users 
      
-Delete Widget for all users
-        Portal Admin Delete Widget for All users    
+#Delete Widget for all users
+#        Portal Admin Delete Widget for All users    
     
-Create Widget for Application Roles
-        Portal Admin Create Widget for Application Roles
+#Create Widget for Application Roles
+#        Portal Admin Create Widget for Application Roles
     
 #Delete Widget for Application Roles
 #        Portal Admin Delete Widget for Application Roles
@@ -103,8 +103,11 @@ Create Widget for Application Roles
  
 #Create a Test user for Standared User    
 #     Portal admin Add Standard User New user
+	 
+Create a Test User for Apllication Admin
+		Portal admin Add Application admin User New user
     
-#Create a Test user for Existing User    
+#Add Application Admin for  Existing User Test user 
 #     Portal admin Add Application Admin Exiting User -APPDEMO
     
 #Add Application Admin for Exisitng User   
@@ -123,19 +126,19 @@ Create Widget for Application Roles
 #Delete Standard User Role for Existing user    
 #     Portal admin Delete Standard User Existing user 
    
-Validate Functional Top Menu Get Access    
-     Functional Top Menu Get Access  
+##Validate Functional Top Menu Get Access    
+#     Functional Top Menu Get Access  
     
-Validate Functional Top Menu Contact Us      
-     Functional Top Menu Contact Us
+#Validate Functional Top Menu Contact Us      
+#     Functional Top Menu Contact Us
     
-Edit Functional Menu    
-     Portal admin Edit Functional menu
+#Edit Functional Menu    
+#     Portal admin Edit Functional menu
     
     
-Broadbond Notification functionality 
-     ${AdminBroadCastMsg}=    Portal Admin Broadcast Notifications 
-     set global variable    ${AdminBroadCastMsg}   
+#Broadbond Notification functionality 
+#     ${AdminBroadCastMsg}=    Portal Admin Broadcast Notifications 
+#     set global variable    ${AdminBroadCastMsg}   
    
    
 #Category Notification functionality 
@@ -143,8 +146,8 @@ Broadbond Notification functionality
 #       set global variable    ${AdminCategoryMsg} 
           
     
-Logout from Portal GUI as Portal Admin
-     Portal admin Logout from Portal GUI
+#Logout from Portal GUI as Portal Admin
+#     Portal admin Logout from Portal GUI
     
 #Login To Portal GUI as APP Admin    
 #     Application admin Login To Portal GUI
@@ -184,9 +187,9 @@ Logout from Portal GUI as Portal Admin
 #        Standared user Category Notifications    ${AdminCategoryMsg}      
       
 
-Teardown  
-     [Documentation]    Close All Open browsers     
-     Close All Browsers    
+##Teardown  
+#     [Documentation]    Close All Open browsers     
+#     Close All Browsers    
     
 
     
@@ -661,7 +664,7 @@ Portal Admin Create Widget for Application Roles
     
     
     
- Portal Admin Delete Widget for Application Roles 
+Portal Admin Delete Widget for Application Roles 
      #Wait Until Page Contains    ONAP-VID    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT} 
      #Page Should Contain    ONAP-VID
      #Click Image    xpath=//img[@alt='Onap Logo']
@@ -671,7 +674,8 @@ Portal Admin Create Widget for Application Roles
      #Wait Until Page Contains    xpath=(.//*[contains(text(),'ONAP-VID')]/followi
      #Wait Until Page Contains    xpath=(.//*[contains(text(),'ONAP-VID')]/following::*[@ng-click='widgetOnboarding.deleteWidget(rowData)'])[1]    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
 	 Click Button	xpath=//button[@ng-click='toggleSidebar()']
-     Click Element    xpath=(.//*[contains(text(),'ONAP-DMaaP')]/following::div[@ng-click='widgetOnboarding.deleteWidget(rowData)'])[1]
+	 Scroll Element Into View	xpath=//*[contains(text(),'ONAP-DMaaP')]/following::td[3]/div
+     Click Element    xpath=//*[contains(text(),'ONAP-DMaaP')]/following::td[3]/div
      Click Element    xpath=//button[@id='div-confirm-ok-button']
      Set Selenium Implicit Wait    3000
      Element Should Not Contain     xpath=//*[@table-data='portalAdmin.portalAdminsTableData']    ONAP-DMaaP
