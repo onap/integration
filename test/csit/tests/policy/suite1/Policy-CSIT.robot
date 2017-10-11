@@ -3,6 +3,7 @@ Documentation	  Policy ONAP CSIT Test cases
 Library    String
 Library    HttpLibrary.HTTP
 LIbrary    Process
+Library    BuiltIn
 Resource    policy_interface.robot
 Resource    json_templater.robot
 
@@ -45,21 +46,19 @@ Policy Health check
 
 VFW Config Policy
     ${CONFIG_POLICY_VFW_NAME}=    Create Config VFW Policy
-    Push Config Policy    ${CONFIG_POLICY_VFW_NAME}    ${CONFIG_POLICY_VFW_TYPE}
-VFW Get Configs Policy
-    Get Configs VFW Policy   
+    Push Config Policy    ${CONFIG_POLICY_VFW_NAME}    ${CONFIG_POLICY_VFW_TYPE}  
     #VFW Policy Tests
     
 VDNS Config Policy
     ${CONFIG_POLICY_VDNS_NAME}=    Create Config VDNS Policy
     Push Config Policy    ${CONFIG_POLICY_VDNS_NAME}    ${CONFIG_POLICY_VDNS_TYPE}
-    #VDNS Policy Tests
-   
+    #VDNS Policy Tests 
+    
 VCPE Config Policy
     ${CONFIG_POLICY_VCPE_NAME}=    Create Config VCPE Policy
     Push Config Policy    ${CONFIG_POLICY_VCPE_NAME}    ${CONFIG_POLICY_VCPE_TYPE}
     #VCPE Policy Tests
- 
+
 VFW Ops Policy
      ${OPS_POLICY_VFW_NAME}=    Create Ops VFW Policy
      Push Ops Policy    ${OPS_POLICY_VFW_NAME}    ${OPS_POLICY_VFW_TYPE}
@@ -76,6 +75,17 @@ VOLTE Ops Policy
      ${OPS_POLICY_VOLTE_NAME}=    Create Ops VOLTE Policy
      Push Ops Policy    ${OPS_POLICY_VOLTE_NAME}    ${OPS_POLICY_VOLTE_TYPE}    
     #VOLTE Policy Tests
+VFW Get Configs Policy
+    Sleep    5s
+    Get Configs VFW Policy 
+    
+VDNS Get Configs Policy
+    Sleep    5s
+    Get Configs VDNS Policy 
+    
+VCPE Get Configs Policy
+    Sleep    5s
+    Get Configs VCPE Policy 
     
 *** Keywords ***
 
