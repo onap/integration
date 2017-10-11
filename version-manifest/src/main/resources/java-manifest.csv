@@ -37,3 +37,11 @@ org.onap.holmes.engine-management,holmes-engine-d,1.0.0
 org.onap.holmes.rule-management,holmes-rulemgt,1.0.0
 org.onap.msb.java-sdk,msb-java-sdk,1.0.0
 org.onap.msb.swagger-sdk,swagger-sdk,1.0.0
+org.onap.vfc.nfvo.lcm,vfc-nfvo-lcm,1.0.0
+org.onap.vfc.nfvo.catalog,vfc-nfvo-catalog,1.0.0
+org.onap.vfc.nfvo.driver.ems.ems,emsdriver-standalone,1.0.0
+org.onap.vfc.nfvo.driver.vnfm.gvnfm.gvnfmadapter,vfc-nfvo-driver-vnfm-gvnfm-gvnfmadapter,1.0.0
+org.onap.vfc.nfvo.driver.vnfm.svnfm.zte.vmanager,vfc-nfvo-driver-vnfm-svnfm-zte-vmanager,1.0.0
+org.onap.vfc.gvnfm.vnflcm.lcm,vfc-gvnfm-vnflcm-lcm,1.0.0
+org.onap.vfc.gvnfm.vnfmgr.mgr,vfc-gvnfm-vnfmgr-mgr,1.0.0
+org.onap.vfc.gvnfm.vnfres.res,vfc-gvnfm-vnfres-res,1.0.0
