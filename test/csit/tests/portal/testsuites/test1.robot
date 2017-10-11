@@ -95,16 +95,19 @@ Delete Widget for all users
 Create Widget for Application Roles
         Portal Admin Create Widget for Application Roles
     
-#Delete Widget for Application Roles
-#        Portal Admin Delete Widget for Application Roles
+Delete Widget for Application Roles
+        Portal Admin Delete Widget for Application Roles
     
 #Create a Test user for Application Admin
 #     Portal admin Add Application admin User New user -Test
  
 #Create a Test user for Standared User    
 #     Portal admin Add Standard User New user
+	 
+#Create a Test User for Apllication Admin
+#		Portal admin Add Application admin User New user
     
-#Create a Test user for Existing User    
+#Add Application Admin for  Existing User Test user 
 #     Portal admin Add Application Admin Exiting User -APPDEMO
     
 #Add Application Admin for Exisitng User   
@@ -138,9 +141,9 @@ Broadbond Notification functionality
      set global variable    ${AdminBroadCastMsg}   
    
    
-#Category Notification functionality 
-#       ${AdminCategoryMsg}=   Portal Admin Category Notifications
-#       set global variable    ${AdminCategoryMsg} 
+Category Notification functionality 
+       ${AdminCategoryMsg}=   Portal Admin Category Notifications
+       set global variable    ${AdminCategoryMsg} 
           
     
 Logout from Portal GUI as Portal Admin
@@ -152,8 +155,8 @@ Logout from Portal GUI as Portal Admin
 #Navigate Application Link as APP Admin  
 #     Application Admin Navigation Application Link Tab 
     
-#Navigate Functional Link as APP Admin  
-#      Application Admin Navigation Functional Menu   
+##Navigate Functional Link as APP Admin  
+##      Application Admin Navigation Functional Menu   
     
 #Add Standard User Role for Existing user as APP Admin
 #     Application admin Add Standard User Existing user    
@@ -174,8 +177,8 @@ Logout from Portal GUI as Portal Admin
 #Navigate Application Link as Standared User  
 #     Standared user Navigation Application Link Tab 
     
-#Navigate Functional Link as Standared User  
-#      Standared user Navigation Functional Menu     
+##Navigate Functional Link as Standared User  
+##      Standared user Navigation Functional Menu     
      
 #Broadcast Notifications Standared user
 #         Standared user Broadcast Notifications    ${AdminBroadCastMsg} 
@@ -288,31 +291,34 @@ Portal admin Add Application Admin Exiting User
     Click Element    xpath=//span[@id='result-uuid-0']
     Click Button    xpath=//button[@id='search-users-button-next']
     Click Button    xpath=//input[@value='Select application']
-    Scroll Element Into View    xpath=(//input[@value='Select application']/following::*[contains(text(),'DMaaP Bus Ctrl' )])[1]
+    Scroll Element Into View    xpath=(//input[@value='Select application']/following::*[contains(text(),'xDemo App' )])[1]
     
-    Click Element    xpath=(//li[contains(.,'DMaaP Bus Ctrl' )])[2]
-    #Select From List    xpath=(//input[@value='Select application']/following::*[contains(text(),'DMaaP Bus Ctrl')])[1]   DMaaP Bus Ctrl
+    Click Element    xpath=(//li[contains(.,'xDemo App' )])[2]
+    #Select From List    xpath=(//input[@value='Select application']/following::*[contains(text(),'xDemo App')])[1]   xDemo App
     Click Button    xpath=//button[@id='div-updateAdminAppsRoles']
     Click Element    xpath=//button[@id='admin-div-ok-button']
     Click Element    xpath=//button[@id='div-confirm-ok-button']
     Get Selenium Implicit Wait
     Click Link    xpath=//a[@aria-label='Admins']
     Click Element    xpath=//input[@id='dropdown1']
-    Click Element    xpath=//li[contains(.,'DMaaP Bus Ctrl' )]
+    Click Element    xpath=//li[contains(.,'xDemo App' )]
     Input Text    xpath=//input[@id='input-table-search']    ${Existing_User}
     Element Text Should Be      xpath=(//span[contains(.,'portal')])[1]   ${Existing_User}
+	#Element Text Should Be      xpath=(//span[contains(.,'demo')])[1]   ${Existing_User}
     
     
 Portal admin Delete Application Admin Existing User  
     [Documentation]    Naviage to Admins tab
     Click Element    xpath=(//span[contains(.,'portal')] )[1] 
-    Click Element    xpath=//*[@id='select-app-DMaaP-Bus-Ctrl']/following::i[@id='i-delete-application']
+	#Click Element    xpath=(//span[contains(.,'demo')] )[1]
+    Click Element    xpath=//*[@id='select-app-xDemo-App']/following::i[@id='i-delete-application']
     Click Element    xpath=//button[@id='div-confirm-ok-button']
     Click Button    xpath=//button[@id='div-updateAdminAppsRoles']
     Click Element    xpath=//button[@id='admin-div-ok-button']
     #Is Element Visible      xpath=(//span[contains(.,'Portal')] )[2]
     #Is Element Visible    xpath=(//*[contains(.,'Portal')] )[2]
     Element Should Not Contain     xpath=//*[@table-data='admins.adminsTableData']    portal
+	#Element Should Not Contain     xpath=//*[@table-data='admins.adminsTableData']    demo
     
     
 Portal admin Add Application admin User New user
@@ -330,16 +336,16 @@ Portal admin Add Application admin User New user
     Input Text    xpath=//input[@ng-model='searchUsers.newUser.loginPwdCheck']    ${App_LoginPwdCheck}
     Click Button    xpath=//button[@ng-click='searchUsers.addNewUserFun()']
     Click Button    xpath=//button[@id='next-button']
-    #Scroll Element Into View    xpath=//div[@id='div-app-name-dropdown-DMaaP-Bus-Ctrl']
-    Click Element    xpath=//*[@id='div-app-name-dropdown-DMaaP-Bus-Ctrl']
-    Click Element    xpath=//*[@id='div-app-name-DMaaP-Bus-Ctrl']/following::input[@id='Standard-User-checkbox']
+    #Scroll Element Into View    xpath=//div[@id='div-app-name-dropdown-xDemo-App']
+    Click Element    xpath=//*[@id='div-app-name-dropdown-xDemo-App']
+    Click Element    xpath=//*[@id='div-app-name-xDemo-App']/following::input[@id='Standard-User-checkbox']
     Set Selenium Implicit Wait    3000
     Click Button    xpath=//button[@id='new-user-save-button']
     Set Selenium Implicit Wait    3000
     Go To    ${PORTAL_HOME_PAGE}
      Click Link    xpath=//a[@title='Users']
      Click Element    xpath=//input[@id='dropdown1']
-     Click Element    xpath=//li[contains(.,'DMaaP Bus Ctrl')]
+     Click Element    xpath=//li[contains(.,'xDemo App')]
 	Table Column Should Contain    xpath=//*[@table-data='users.accountUsers']    1    ${App_First_Name} 
     #Input Text    xpath=//input[@id='input-table-search']    ${App_First_Name}
     #Element Text Should Be      xpath=(//span[contains(.,'appdemo')] )[1]   ${App_First_Name}
@@ -360,16 +366,16 @@ Portal admin Add Standard User New user
     Input Text    xpath=//input[@ng-model='searchUsers.newUser.loginPwdCheck']    ${Sta_LoginPwdCheck}
     Click Button    xpath=//button[@ng-click='searchUsers.addNewUserFun()']
     Click Button    xpath=//button[@id='next-button']
-    #Scroll Element Into View    xpath=//div[@id='div-app-name-dropdown-DMaaP-Bus-Ctrl']
-    Click Element    xpath=//*[@id='div-app-name-dropdown-DMaaP-Bus-Ctrl']
-    Click Element    xpath=//*[@id='div-app-name-DMaaP-Bus-Ctrl']/following::input[@id='Standard-User-checkbox']
+    #Scroll Element Into View    xpath=//div[@id='div-app-name-dropdown-xDemo-App']
+    Click Element    xpath=//*[@id='div-app-name-dropdown-xDemo-App']
+    Click Element    xpath=//*[@id='div-app-name-xDemo-App']/following::input[@id='Standard-User-checkbox']
     Set Selenium Implicit Wait    3000
     Click Button    xpath=//button[@id='new-user-save-button']
     Set Selenium Implicit Wait    3000
     Go To    ${PORTAL_HOME_PAGE}
      Click Link    xpath=//a[@title='Users']
      Click Element    xpath=//input[@id='dropdown1']
-     Click Element    xpath=//li[contains(.,'DMaaP Bus Ctrl')]
+     Click Element    xpath=//li[contains(.,'xDemo App')]
 	 Table Column Should Contain    xpath=//*[@table-data='users.accountUsers']    1    ${Sta_First_Name}
     #Input Text    xpath=//input[@id='input-table-search']    ${Sta_First_Name}
     #Element Text Should Be      xpath=(//span[contains(.,'appdemo')] )[1]   ${Sta_First_Name} 
@@ -392,16 +398,16 @@ Portal admin Add Application admin User New user -Test
     Input Text    xpath=//input[@ng-model='searchUsers.newUser.loginPwdCheck']    ${Test_LoginPwdCheck}
     Click Button    xpath=//button[@ng-click='searchUsers.addNewUserFun()']
     Click Button    xpath=//button[@id='next-button']
-    #Scroll Element Into View    xpath=//div[@id='div-app-name-dropdown-DMaaP-Bus-Ctrl']
-    Click Element    xpath=//*[@id='div-app-name-dropdown-DMaaP-Bus-Ctrl']
-    Click Element    xpath=//*[@id='div-app-name-DMaaP-Bus-Ctrl']/following::input[@id='Standard-User-checkbox']
+    #Scroll Element Into View    xpath=//div[@id='div-app-name-dropdown-xDemo-App']
+    Click Element    xpath=//*[@id='div-app-name-dropdown-xDemo-App']
+    Click Element    xpath=//*[@id='div-app-name-xDemo-App']/following::input[@id='Standard-User-checkbox']
     Set Selenium Implicit Wait    3000
     Click Button    xpath=//button[@id='new-user-save-button']
     Set Selenium Implicit Wait    3000
     Go To    ${PORTAL_HOME_PAGE}
      Click Link    xpath=//a[@title='Users']
      Click Element    xpath=//input[@id='dropdown1']
-     Click Element    xpath=//li[contains(.,'DMaaP Bus Ctrl')]
+     Click Element    xpath=//li[contains(.,'xDemo App')]
 	 Table Column Should Contain    xpath=//*[@table-data='users.accountUsers']    1    ${Test_First_Name}
     #Input Text    xpath=//input[@id='input-table-search']    ${Test_First_Name}
     #Element Text Should Be      xpath=(//span[contains(.,'appdemo')] )[1]   ${Test_First_Name} 
@@ -421,17 +427,17 @@ Portal admin Add Application Admin Exiting User -APPDEMO
     Click Element    xpath=//span[@id='result-uuid-0']
     Click Button    xpath=//button[@id='search-users-button-next']
     Click Button    xpath=//input[@value='Select application']
-    Scroll Element Into View    xpath=(//input[@value='Select application']/following::*[contains(text(),'DMaaP Bus Ctrl' )])[1]
+    Scroll Element Into View    xpath=(//input[@value='Select application']/following::*[contains(text(),'xDemo App' )])[1]
     
-    Click Element    xpath=(//li[contains(.,'DMaaP Bus Ctrl' )])[2]
-    #Select From List    xpath=(//input[@value='Select application']/following::*[contains(text(),'DMaaP Bus Ctrl')])[1]   DMaaP Bus Ctrl
+    Click Element    xpath=(//li[contains(.,'xDemo App' )])[2]
+    #Select From List    xpath=(//input[@value='Select application']/following::*[contains(text(),'xDemo App')])[1]   xDemo App
     Click Button    xpath=//button[@id='div-updateAdminAppsRoles']
     Click Element    xpath=//button[@id='admin-div-ok-button']
     Click Element    xpath=//button[@id='div-confirm-ok-button']
     Get Selenium Implicit Wait
     Click Link    xpath=//a[@aria-label='Admins']
     Click Element    xpath=//input[@id='dropdown1']
-    Click Element    xpath=//li[contains(.,'DMaaP Bus Ctrl' )]
+    Click Element    xpath=//li[contains(.,'xDemo App' )]
 	
     Input Text    xpath=//input[@id='input-table-search']    ${App_First_Name}
     Element Text Should Be      xpath=(//span[contains(.,'appdemo')])[1]   ${App_First_Name}   
@@ -452,8 +458,8 @@ Portal admin Add Standard User Existing user
      Click Button    xpath=//button[@id='button-search-users']
      Click Element    xpath=//span[@id='result-uuid-0']
      Click Button    xpath=//button[@id='next-button']
-     Click Element    xpath=//*[@id='div-app-name-dropdown-DMaaP-Bus-Ctrl']
-     Click Element    xpath=//*[@id='div-app-name-DMaaP-Bus-Ctrl']/following::input[@id='Standard-User-checkbox']
+     Click Element    xpath=//*[@id='div-app-name-dropdown-xDemo-App']
+     Click Element    xpath=//*[@id='div-app-name-xDemo-App']/following::input[@id='Standard-User-checkbox']
      #Click Element    xpath=//div[@id='div-app-name-dropdown-xDemo-App']
      #Click Element    xpath=//div[@id='div-app-name-xDemo-App']/following::input[@id='Standard-User-checkbox']
      
@@ -461,7 +467,7 @@ Portal admin Add Standard User Existing user
      Click Button    xpath=//button[@id='new-user-save-button']
      Set Selenium Implicit Wait    3000
      #Set Browser Implicit Wait    ${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}
-     #Select From List    xpath=//input[@value='Select application']    DMaaP Bus Ctrl
+     #Select From List    xpath=//input[@value='Select application']    xDemo App
      #Click Link    xpath=//a[@title='Users']
      #Page Should Contain      Users
      #Focus    xpath=//input[@name='dropdown1']
@@ -469,7 +475,7 @@ Portal admin Add Standard User Existing user
      Go To    ${PORTAL_HOME_PAGE}
      Click Link    xpath=//a[@title='Users']
      Click Element    xpath=//input[@id='dropdown1']
-     Click Element    xpath=//li[contains(.,'DMaaP Bus Ctrl')]
+     Click Element    xpath=//li[contains(.,'xDemo App')]
      #Click Element    xpath=//li[contains(.,'XDemo App')]
      Input Text    xpath=//input[@id='input-table-search']    ${Existing_User}
      Element Text Should Be      xpath=(.//*[@id='rowheader_t1_0'])[2]   Standard User
@@ -478,15 +484,15 @@ Portal admin Add Standard User Existing user
 Portal admin Edit Standard User Existing user  
      [Documentation]    Naviage to Users tab
      Click Element    xpath=(.//*[@id='rowheader_t1_0'])[2]
-     Click Element    xpath=//*[@id='div-app-name-dropdown-DMaaP-Bus-Ctrl']
-     Click Element    xpath=//*[@id='div-app-name-DMaaP-Bus-Ctrl']/following::input[@id='Standard-User-checkbox']
-     Click Element    xpath=//*[@id='div-app-name-DMaaP-Bus-Ctrl']/following::input[@id='System-Administrator-checkbox']
+     Click Element    xpath=//*[@id='div-app-name-dropdown-xDemo-App']
+     Click Element    xpath=//*[@id='div-app-name-xDemo-App']/following::input[@id='Standard-User-checkbox']
+     Click Element    xpath=//*[@id='div-app-name-xDemo-App']/following::input[@id='System-Administrator-checkbox']
      Set Selenium Implicit Wait    3000
      Click Button    xpath=//button[@id='new-user-save-button']
      Set Selenium Implicit Wait    3000
      Page Should Contain      Users
      #Click Button    xpath=//input[@id='dropdown1']
-     #Click Element    xpath=//li[contains(.,'DMaaP Bus Ctrl')]
+     #Click Element    xpath=//li[contains(.,'xDemo App')]
      Input Text    xpath=//input[@id='input-table-search']    ${Existing_User}
      Element Text Should Be      xpath=(.//*[@id='rowheader_t1_0'])[2]   System Administrator
      
@@ -494,13 +500,14 @@ Portal admin Edit Standard User Existing user
  Portal admin Delete Standard User Existing user    
      [Documentation]    Naviage to Users tab
      Click Element    xpath=(.//*[@id='rowheader_t1_0'])[2]
-     Scroll Element Into View    xpath=//*[@id='div-app-name-DMaaP-Bus-Ctrl']/following::*[@id='app-item-delete'][1]
-     Click Element    xpath=//*[@id='div-app-name-DMaaP-Bus-Ctrl']/following::*[@id='app-item-delete'][1]
+     Scroll Element Into View    xpath=//*[@id='div-app-name-xDemo-App']/following::*[@id='app-item-delete'][1]
+     Click Element    xpath=//*[@id='div-app-name-xDemo-App']/following::*[@id='app-item-delete'][1]
      Click Element    xpath=//button[@id='div-confirm-ok-button']
      Click Button    xpath=//button[@id='new-user-save-button']
      #Input Text    xpath=//input[@id='input-table-search']    ${Existing_User}
      #Is Element Visible    xpath=(//*[contains(.,'Portal')] )[2]  
-      Element Should Not Contain     xpath=//*[@table-data='users.accountUsers']    portal  
+      Element Should Not Contain     xpath=//*[@table-data='users.accountUsers']    portal 
+	  #Element Should Not Contain     xpath=//*[@table-data='users.accountUsers']    demo	
      
      
      
@@ -533,8 +540,8 @@ Portal admin Edit Functional menu
     Input Text    xpath=//input[@id='input-title']    ONAP Test
     #Input Text    xpath=//input[@id='input-url']    http://google.com
     Click Element     xpath=//input[@id='select-app']
-    Scroll Element Into View    xpath=//li[contains(.,'DMaaP Bus Ctrl')]
-    Click Element    xpath=//li[contains(.,'DMaaP Bus Ctrl')]
+    Scroll Element Into View    xpath=//li[contains(.,'xDemo App')]
+    Click Element    xpath=//li[contains(.,'xDemo App')]
     Input Text    xpath=//input[@id='input-url']    http://google.com
     Click Button    xpath=//button[@id='button-save-continue']
     #Click Button    xpath=//div[@title='Select Roles']
@@ -573,8 +580,8 @@ Portal admin Microservice Onboarding
      Input Text    xpath=//input[@name='name']    Test Microservice
      Input Text    xpath=//*[@name='desc']    Test
      Click Element    xpath=//input[@id='microservice-details-input-app']
-     Scroll Element Into View    xpath=//li[contains(.,'DMaaP Bus Ctrl')]
-     Click Element    xpath=//li[contains(.,'DMaaP Bus Ctrl')]
+     Scroll Element Into View    xpath=//li[contains(.,'xDemo App')]
+     Click Element    xpath=//li[contains(.,'xDemo App')]
      Click Element     xpath=//*[@name='desc']
      Input Text    xpath=//input[@name='url']    ${PORTAL_MICRO_ENDPOINT}
      Click Element    xpath=//input[@id='microservice-details-input-security-type']
@@ -594,37 +601,37 @@ Portal Admin Create Widget for All users
     Click Link    xpath=//a[@title='Widget Onboarding']
 	Click Button	xpath=//button[@ng-click='toggleSidebar()']
     Click Button    xpath=//button[@id='widget-onboarding-button-add']
-    Input Text    xpath=//*[@name='name']    ONAP-VID
-    Input Text    xpath=//*[@name='desc']    ONAP VID
+    Input Text    xpath=//*[@name='name']    ONAP-xDemo
+    Input Text    xpath=//*[@name='desc']    ONAP xDemo
     Click Element    xpath=//*[@id='widgets-details-input-endpoint-url']
     Scroll Element Into View    xpath=//li[contains(.,'Test Microservice')]
     Click Element    xpath=//li[contains(.,'Test Microservice')]
     Click Element    xpath=//*[contains(text(),'Allow all user access')]/preceding::input[@ng-model='widgetOnboardingDetails.widget.allUser'][1] 
     Choose File    xpath=//input[@id='widget-onboarding-details-upload-file']    ${WidgetAttachment}
     Click Button    xpath=//button[@id='widgets-details-save-button']
-    Wait Until Page Contains    ONAP-VID    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT} 
-    Page Should Contain    ONAP-VID
+    Wait Until Page Contains    ONAP-xDemo    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT} 
+    Page Should Contain    ONAP-xDemo
      Set Selenium Implicit Wait    3000
     GO TO    ${PORTAL_HOME_PAGE}
     
     
 Portal Admin Delete Widget for All users 
      [Documentation]    Naviage to delete Widget menu tab
-     #Wait Until Page Contains    ONAP-VID    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT} 
-     #Page Should Contain    ONAP-VID
+     #Wait Until Page Contains    ONAP-xDemo    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT} 
+     #Page Should Contain    ONAP-xDemo
      #Click Image    xpath=//img[@alt='Onap Logo']
      Click Link    xpath=//a[@title='Widget Onboarding']
      Click Element    xpath=//input[@id='dropdown1']
-    Click Element    xpath=//li[contains(.,'DMaaP Bus Ctrl')]
-     #Wait Until Page Contains    xpath=(.//*[contains(text(),'ONAP-VID')]/followi
-     #Wait Until Page Contains    xpath=(.//*[contains(text(),'ONAP-VID')]/following::*[@ng-click='widgetOnboarding.deleteWidget(rowData)'])[1]    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
+    Click Element    xpath=//li[contains(.,'xDemo App')]
+     #Wait Until Page Contains    xpath=(.//*[contains(text(),'ONAP-xDemo')]/followi
+     #Wait Until Page Contains    xpath=(.//*[contains(text(),'ONAP-xDemo')]/following::*[@ng-click='widgetOnboarding.deleteWidget(rowData)'])[1]    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
 	 Click Button	xpath=//button[@ng-click='toggleSidebar()']
-     Click Element    xpath=(.//*[contains(text(),'ONAP-VID')]/following::*[@ng-click='widgetOnboarding.deleteWidget(rowData)'])[1]
+     Click Element    xpath=(.//*[contains(text(),'ONAP-xDemo')]/following::*[@ng-click='widgetOnboarding.deleteWidget(rowData)'])[1]
      Click Element    xpath=//button[@id='div-confirm-ok-button']
      Set Selenium Implicit Wait    3000
-     Element Should Not Contain     xpath=//*[@table-data='portalAdmin.portalAdminsTableData']    ONAP-VID
+     Element Should Not Contain     xpath=//*[@table-data='portalAdmin.portalAdminsTableData']    ONAP-xDemo
      #Is Element Visible    xpath=//*[@table-data='portalAdmin.portalAdminsTableData']
-     #Table Column Should Contain    .//*[@table-data='portalAdmin.portalAdminsTableData']    0       ONAP-VID    
+     #Table Column Should Contain    .//*[@table-data='portalAdmin.portalAdminsTableData']    0       ONAP-xDemo    
      #Set Selenium Implicit Wait    3000
     
     
@@ -634,13 +641,13 @@ Portal Admin Create Widget for Application Roles
     Click Link    xpath=//a[@title='Widget Onboarding'] 
 	Click Button	xpath=//button[@ng-click='toggleSidebar()']
     Click Button    xpath=//button[@id='widget-onboarding-button-add'] 
-    Input Text    xpath=//*[@name='name']    ONAP-DMaaP 
-    Input Text    xpath=//*[@name='desc']    ONAP DMaaP 
+    Input Text    xpath=//*[@name='name']    ONAP-xDemo 
+    Input Text    xpath=//*[@name='desc']    ONAP xDemo 
     Click Element    xpath=//*[@id='widgets-details-input-endpoint-url'] 
     Scroll Element Into View    xpath=//li[contains(.,'Test Microservice')] 
     Click Element    xpath=//li[contains(.,'Test Microservice')] 
     Click element    xpath=//*[@id="app-select-Select Applications"] 
-    click element    xpath=//*[@id="DMaaP-Bus-Ctrl-checkbox"] 
+    click element    xpath=//*[@id="xDemo-App-checkbox"] 
     Click element    xpath=//*[@name='desc'] 
     click element    xpath=//*[@id="app-select-Select Roles"] 
     click element    xpath=//*[@id="Standard-User-checkbox"] 
@@ -650,33 +657,34 @@ Portal Admin Create Widget for Application Roles
     Click Button    xpath=//button[@id='widgets-details-save-button'] 
      Click Image     xpath=//img[@alt='Onap Logo']
     Set Selenium Implicit Wait    3000
-    #Wait Until Page Contains    ONAP-VID    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT} 
+    #Wait Until Page Contains    ONAP-xDemo    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT} 
     Click Link    xpath=//a[@title='Widget Onboarding'] 
     Click Element    xpath=//input[@id='dropdown1']
-    Click Element    xpath=//li[contains(.,'DMaaP Bus Ctrl')]
-    Page Should Contain    ONAP-DMaaP 
+    Click Element    xpath=//li[contains(.,'xDemo App')]
+    Page Should Contain    ONAP-xDemo 
     Set Selenium Implicit Wait    3000 
     GO TO    ${PORTAL_HOME_PAGE}
     
     
     
     
- Portal Admin Delete Widget for Application Roles 
-     #Wait Until Page Contains    ONAP-VID    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT} 
-     #Page Should Contain    ONAP-VID
+Portal Admin Delete Widget for Application Roles 
+     #Wait Until Page Contains    ONAP-xDemo    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT} 
+     #Page Should Contain    ONAP-xDemo
      #Click Image    xpath=//img[@alt='Onap Logo']
      Click Link    xpath=//a[@title='Widget Onboarding']
      Click Element    xpath=//input[@id='dropdown1']
-    Click Element    xpath=//li[contains(.,'DMaaP Bus Ctrl')]
-     #Wait Until Page Contains    xpath=(.//*[contains(text(),'ONAP-VID')]/followi
-     #Wait Until Page Contains    xpath=(.//*[contains(text(),'ONAP-VID')]/following::*[@ng-click='widgetOnboarding.deleteWidget(rowData)'])[1]    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
+    Click Element    xpath=//li[contains(.,'xDemo App')]
+     #Wait Until Page Contains    xpath=(.//*[contains(text(),'ONAP-xDemo')]/followi
+     #Wait Until Page Contains    xpath=(.//*[contains(text(),'ONAP-xDemo')]/following::*[@ng-click='widgetOnboarding.deleteWidget(rowData)'])[1]    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
 	 Click Button	xpath=//button[@ng-click='toggleSidebar()']
-     Click Element    xpath=(.//*[contains(text(),'ONAP-DMaaP')]/following::div[@ng-click='widgetOnboarding.deleteWidget(rowData)'])[1]
+	 Scroll Element Into View	xpath=//*[contains(text(),'ONAP-xDemo')]/following::td[3]/div
+     Click Element    xpath=//*[contains(text(),'ONAP-xDemo')]/following::td[3]/div
      Click Element    xpath=//button[@id='div-confirm-ok-button']
      Set Selenium Implicit Wait    3000
-     Element Should Not Contain     xpath=//*[@table-data='portalAdmin.portalAdminsTableData']    ONAP-DMaaP
+     Element Should Not Contain     xpath=//*[@table-data='portalAdmin.portalAdminsTableData']    ONAP-xDemo
      #Is Element Visible    xpath=//*[@table-data='portalAdmin.portalAdminsTableData']
-     #Table Column Should Contain    .//*[@table-data='portalAdmin.portalAdminsTableData']    0       ONAP-VID    
+     #Table Column Should Contain    .//*[@table-data='portalAdmin.portalAdminsTableData']    0       ONAP-xDemo    
      #Set Selenium Implicit Wait    3000
     
     
@@ -741,7 +749,7 @@ Portal Admin Category Notifications
     Click Element    //*[contains(text(),'Broadcast to All Categories')]/following::*[contains(text(),'No')][1]
     #Select Radio Button    //label[@class='radio']    radio-button-approles
     Click Element    xpath=//*[contains(text(),'Categories')]/following::*[contains(text(),'Application Roles')][1]
-    Click Element    xpath=//*[contains(text(),'DMaaP Bus Ctrl')]/preceding::input[@ng-model='member.isSelected'][1] 
+    Click Element    xpath=//*[contains(text(),'xDemo App')]/preceding::input[@ng-model='member.isSelected'][1] 
     Input Text    xpath=//input[@id='datepicker-start']     ${CurrentDay} 
     Input Text    xpath=//input[@id='datepicker-end']     ${NextDay} 
     Input Text    xpath=//*[@id="add-notification-input-title"]    ONAP VID Category Automation 
@@ -784,8 +792,8 @@ Application admin Login To Portal GUI
 Application Admin Navigation Application Link Tab    
     [Documentation]   Logs into Portal GUI as application admin
     Click Link    xpath=//a[@id='parent-item-Home']
-    Click Element    xpath=.//h3[contains(text(),'Virtual Infras...')]/following::div[1]
-    Page Should Contain    Welcome to VID
+    Click Element    xpath=.//h3[contains(text(),'xDemo App')]/following::div[1]
+    Page Should Contain    ONAP Portal
     Click Element    xpath=//i[@class='ion-close-round']    
     Click Element    xpath=(.//span[@id='tab-Home'])[1]
     
@@ -795,7 +803,7 @@ Application Admin Navigation Functional Menu
     Click Link    xpath=//a[contains(.,'Manage')]
      Mouse Over    xpath=//*[contains(text(),'Technology Insertion')]
      Click Link    xpath= //*[contains(text(),'Infrastructure VNF Provisioning')] 
-     Page Should Contain    Welcome to VID
+     Page Should Contain    ONAP Portal
      Click Element    xpath=//i[@class='ion-close-round']
      Click Element    xpath=(.//span[@id='tab-Home'])[1]
      
@@ -810,20 +818,20 @@ Application admin Add Standard User Existing user
      Click Button    xpath=//button[@id='button-search-users']
      Click Element    xpath=//span[@id='result-uuid-0']
      Click Button    xpath=//button[@id='next-button']
-     Click Element    xpath=//*[@id='div-app-name-dropdown-DMaaP-Bus-Ctrl']
-     Click Element    xpath=//*[@id='div-app-name-DMaaP-Bus-Ctrl']/following::input[@id='Standard-User-checkbox']
+     Click Element    xpath=//*[@id='div-app-name-dropdown-xDemo-App']
+     Click Element    xpath=//*[@id='div-app-name-xDemo-App']/following::input[@id='Standard-User-checkbox']
      Set Selenium Implicit Wait    3000
      Click Button    xpath=//button[@id='new-user-save-button']
      Set Selenium Implicit Wait    3000
      #Set Browser Implicit Wait    ${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}
-     #Select From List    xpath=//input[@value='Select application']    DMaaP Bus Ctrl
+     #Select From List    xpath=//input[@value='Select application']    xDemo App
      #Click Link    xpath=//a[@title='Users']
      #Page Should Contain      Users
      Go To    ${PORTAL_HOME_PAGE}
      Set Selenium Implicit Wait    3000
      Click Link    xpath=//a[@title='Users']
      Click Element    xpath=//input[@id='dropdown1']
-     Click Element    xpath=//li[contains(.,'DMaaP Bus Ctrl')]
+     Click Element    xpath=//li[contains(.,'xDemo App')]
      Input Text    xpath=//input[@id='input-table-search']    ${Existing_User}
      Element Text Should Be      xpath=(.//*[@id='rowheader_t1_0'])[2]   Standard User
      
@@ -831,15 +839,15 @@ Application admin Add Standard User Existing user
 Application admin Edit Standard User Existing user  
      [Documentation]    Naviage to Users tab
      Click Element    xpath=(.//*[@id='rowheader_t1_0'])[2]
-     Click Element    xpath=//*[@id='div-app-name-dropdown-DMaaP-Bus-Ctrl']
-     Click Element    xpath=//*[@id='div-app-name-DMaaP-Bus-Ctrl']/following::input[@id='Standard-User-checkbox']
-     Click Element    xpath=//*[@id='div-app-name-DMaaP-Bus-Ctrl']/following::input[@id='System-Administrator-checkbox']
+     Click Element    xpath=//*[@id='div-app-name-dropdown-xDemo-App']
+     Click Element    xpath=//*[@id='div-app-name-xDemo-App']/following::input[@id='Standard-User-checkbox']
+     Click Element    xpath=//*[@id='div-app-name-xDemo-App']/following::input[@id='System-Administrator-checkbox']
      Set Selenium Implicit Wait    3000
      Click Button    xpath=//button[@id='new-user-save-button']
      Set Selenium Implicit Wait    3000
      Page Should Contain      Users
      #Click Button    xpath=//input[@id='dropdown1']
-     #Click Element    xpath=//li[contains(.,'DMaaP Bus Ctrl')]
+     #Click Element    xpath=//li[contains(.,'xDemo App')]
      Input Text    xpath=//input[@id='input-table-search']    ${Existing_User}
      Element Text Should Be      xpath=(.//*[@id='rowheader_t1_0'])[2]   System Administrator
      
@@ -847,8 +855,8 @@ Application admin Edit Standard User Existing user
 Application admin Delete Standard User Existing user    
      [Documentation]    Naviage to Users tab
      Click Element    xpath=(.//*[@id='rowheader_t1_0'])[2]
-     Scroll Element Into View    xpath=//*[@id='div-app-name-DMaaP-Bus-Ctrl']/following::*[@id='app-item-delete'][1]
-     Click Element    xpath=//*[@id='div-app-name-DMaaP-Bus-Ctrl']/following::*[@id='app-item-delete'][1]
+     Scroll Element Into View    xpath=//*[@id='div-app-name-xDemo-App']/following::*[@id='app-item-delete'][1]
+     Click Element    xpath=//*[@id='div-app-name-xDemo-App']/following::*[@id='app-item-delete'][1]
      Click Element    xpath=//button[@id='div-confirm-ok-button']
      Click Button    xpath=//button[@id='new-user-save-button']
      #Input Text    xpath=//input[@id='input-table-search']    ${Existing_User}
@@ -886,8 +894,8 @@ Standared user Login To Portal GUI
 Standared user Navigation Application Link Tab    
     [Documentation]   Logs into Portal GUI as application admin
     #Portal admin Go To Portal HOME
-    Click Element    xpath=.//h3[contains(text(),'Virtual Infras...')]/following::div[1]
-    Page Should Contain    Welcome to VID    
+    Click Element    xpath=.//h3[contains(text(),'xDemo App')]/following::div[1]
+    Page Should Contain    ONAP Portal    
     Click Element    xpath=(.//span[@id='tab-Home'])[1]
     
     
@@ -981,7 +989,7 @@ Portal Application Account Management validation
 Portal AAF new fields    
      [Documentation]    Naviage to user Application details tab 
     Click Link    xpath=//a[@title='Application Onboarding']
-    Click Element    xpath=//td[contains(.,'DMaaP Bus Ctrl')]
+    Click Element    xpath=//td[contains(.,'xDemo App')]
     Page Should Contain    Name Space
     Page Should Contain    Centralized
 	Click Element    xpath=//button[@id='button-notification-cancel']
