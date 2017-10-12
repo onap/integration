@@ -5,7 +5,7 @@
 # Images must be pulled from ONAP Nexus registry after logging in like this:
 # docker login -u USER -p PASS nexus3.onap.org:10001
 
-version: '2.0'
+version: '2.1'
 
 services:
 
@@ -47,7 +47,7 @@ services:
     command:
       - /wait-for.sh
       - -t
-      - "420"
+      - "300"
       - portal-db:3306
       - --
       - /start-wms-cmd.sh
@@ -58,8 +58,6 @@ services:
   # two apps use identical configuration keys with different values
   portal-apps:
     image: ${EP_IMG_NAME}:${PORTAL_TAG}
-    expose:
-      - 8989
     ports:
       - 8989:8080
       - 8010:8009
@@ -79,15 +77,11 @@ services:
       - ${PROPS_DIR}/ECOMPSDKAPP/fusion.properties:${WEBAPPS_DIR}/ECOMPSDKAPP/WEB-INF/fusion/conf/fusion.properties
       - ${PROPS_DIR}/ECOMPSDKAPP/system.properties:${WEBAPPS_DIR}/ECOMPSDKAPP/WEB-INF/conf/system.properties
       - ${PROPS_DIR}/ECOMPSDKAPP/portal.properties:${WEBAPPS_DIR}/ECOMPSDKAPP/WEB-INF/classes/portal.properties
-      - ${PROPS_DIR}/ECOMPDBCAPP/system.properties:${WEBAPPS_DIR}/ECOMPDBCAPP/WEB-INF/conf/system.properties
-      - ${PROPS_DIR}/ECOMPDBCAPP/portal.properties:${WEBAPPS_DIR}/ECOMPDBCAPP/WEB-INF/classes/portal.properties
-      - ${PROPS_DIR}/ECOMPDBCAPP/dbcapp.properties:${WEBAPPS_DIR}/ECOMPDBCAPP/WEB-INF/dbcapp/dbcapp.properties
-      - ${PROPS_DIR}/ECOMPDBCAPP/fusion.properties:${WEBAPPS_DIR}/ECOMPDBCAPP/WEB-INF/fusion/conf/fusion.properties
       - ${LOGS_DIR}:/opt/apache-tomcat-8.0.37/logs
     command:
       - /wait-for.sh
       - -t
-      - "420"
+      - "300"
       - portal-db:3306
       - --
       - /start-apps-cmd.sh
