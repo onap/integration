@@ -14,7 +14,6 @@ Resource        json_templater.robot
 
 
 *** Variables ***
-#${PORTAL_URL}      http://%{HOST_IP}:8989
 #${PORTAL_URL}		http://localhost:8989
 ${PORTAL_URL}		http://portal.api.simpledemo.openecomp.org:8989
 ${PORTAL_ENV}            /ECOMPPORTAL
@@ -22,16 +21,16 @@ ${PORTAL_LOGIN_URL}                ${PORTAL_URL}${PORTAL_ENV}/login.htm
 ${PORTAL_HOME_PAGE}        ${PORTAL_URL}${PORTAL_ENV}/applicationsHome
 ${PORTAL_MICRO_ENDPOINT}    ${PORTAL_URL}${PORTAL_ENV}/commonWidgets
 ${PORTAL_HOME_URL}                ${PORTAL_URL}${PORTAL_ENV}/applicationsHome
-${App_First_Name}    appdemo    
+${App_First_Name}    demoapp    
 ${App_Last_Name}    demo
-${App_Email_Address}    appdemo@onap.com
-${App_LoginID}     appdemo 
+${App_Email_Address}    demoapp@onap.com
+${App_LoginID}     demoapp 
 ${App_Loginpwd}    demo123456!
 ${App_LoginPwdCheck}    demo123456!
-${Sta_First_Name}    stademo   
+${Sta_First_Name}    demosta   
 ${Sta_Last_Name}    demo
-${Sta_Email_Address}    stademo@onap.com
-${Sta_LoginID}    stademo
+${Sta_Email_Address}    demosta@onap.com
+${Sta_LoginID}    demosta
 ${Sta_Loginpwd}    demo123456!
 ${Sta_LoginPwdCheck}    demo123456!
 ${Test_First_Name}    portal    
@@ -74,35 +73,36 @@ Portal Health Check
 Login into Portal URL   
     Portal admin Login To Portal GUI  
     
-Portal R1 Release
-   [Documentation]    ONAP Portal R1 functionality  test
-    Notification on ONAP Portal
-    Portal Application Account Management validation
+#Portal R1 Release
+#   [Documentation]    ONAP Portal R1 functionality  test
+#    Notification on ONAP Portal
+#    Portal Application Account Management validation
     
-Portal R1 Release for AAF
-   [Documentation]    ONAP Portal R1 functionality for AAF test    
-      Portal AAF new fields    
+#Portal R1 Release for AAF
+#   [Documentation]    ONAP Portal R1 functionality for AAF test    
+#      Portal AAF new fields    
     
-Create Microse service onboarding
-    Portal admin Microservice Onboarding
-    
-Create Widget for all users
-    Portal Admin Create Widget for All users 
+#Create Microse service onboarding
+#    Portal admin Microservice Onboarding
+	
+   
+#Create Widget for all users
+#    Portal Admin Create Widget for All users 
      
-Delete Widget for all users
-        Portal Admin Delete Widget for All users    
+#Delete Widget for all users
+#        Portal Admin Delete Widget for All users    
+		
+#Create Widget for Application Roles
+#    Portal Admin Create Widget for Application Roles
     
-Create Widget for Application Roles
-        Portal Admin Create Widget for Application Roles
+#Delete Widget for Application Roles
+#     Portal Admin Delete Widget for Application Roles		
     
-Delete Widget for Application Roles
-        Portal Admin Delete Widget for Application Roles
-    
-#Create a Test user for Application Admin
+#Create a Test user for Application Admin -Test
 #     Portal admin Add Application admin User New user -Test
  
-#Create a Test user for Standared User    
-#     Portal admin Add Standard User New user
+Create a Test user for Standared User    
+     Portal admin Add Standard User New user
 	 
 #Create a Test User for Apllication Admin
 #		Portal admin Add Application admin User New user
@@ -126,28 +126,28 @@ Delete Widget for Application Roles
 #Delete Standard User Role for Existing user    
 #     Portal admin Delete Standard User Existing user 
    
-Validate Functional Top Menu Get Access    
-     Functional Top Menu Get Access  
+#Validate Functional Top Menu Get Access    
+#     Functional Top Menu Get Access  
     
-Validate Functional Top Menu Contact Us      
-     Functional Top Menu Contact Us
+#Validate Functional Top Menu Contact Us      
+#     Functional Top Menu Contact Us
     
-Edit Functional Menu    
-     Portal admin Edit Functional menu
+#Edit Functional Menu    
+#     Portal admin Edit Functional menu
     
     
-Broadbond Notification functionality 
-     ${AdminBroadCastMsg}=    Portal Admin Broadcast Notifications 
-     set global variable    ${AdminBroadCastMsg}   
+#Broadbond Notification functionality 
+#     ${AdminBroadCastMsg}=    Portal Admin Broadcast Notifications 
+#     set global variable    ${AdminBroadCastMsg}   
    
    
-Category Notification functionality 
-       ${AdminCategoryMsg}=   Portal Admin Category Notifications
-       set global variable    ${AdminCategoryMsg} 
+#Category Notification functionality 
+#       ${AdminCategoryMsg}=   Portal Admin Category Notifications
+#       set global variable    ${AdminCategoryMsg} 
           
     
-Logout from Portal GUI as Portal Admin
-     Portal admin Logout from Portal GUI
+#Logout from Portal GUI as Portal Admin
+#     Portal admin Logout from Portal GUI
     
 #Login To Portal GUI as APP Admin    
 #     Application admin Login To Portal GUI
@@ -187,9 +187,9 @@ Logout from Portal GUI as Portal Admin
 #        Standared user Category Notifications    ${AdminCategoryMsg}      
       
 
-Teardown  
-     [Documentation]    Close All Open browsers     
-     Close All Browsers    
+#Teardown  
+#     [Documentation]    Close All Open browsers     
+#     Close All Browsers    
     
 
     
@@ -387,8 +387,7 @@ Portal admin Add Application admin User New user -Test
     Click Link    xpath=//a[@title='Users']
     Page Should Contain      Users
 	Click Button	xpath=//button[@ng-click='toggleSidebar()']
-	Set Selenium Implicit Wait    3000
-    Click Button    xpath=//button[@ng-click='users.openAddNewUserModal()']
+	Click Button    xpath=//button[@id='users-button-add']
     Click Button    xpath=//button[@id='Create-New-User-button']
     Input Text    xpath=//input[@ng-model='searchUsers.newUser.firstName']    ${Test_First_Name}
     Input Text    xpath=//input[@ng-model='searchUsers.newUser.lastName']    ${Test_Last_Name}
