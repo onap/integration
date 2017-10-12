@@ -14,7 +14,6 @@ Resource        json_templater.robot
 
 
 *** Variables ***
-#${PORTAL_URL}      http://%{HOST_IP}:8989
 #${PORTAL_URL}		http://localhost:8989
 ${PORTAL_URL}		http://portal.api.simpledemo.openecomp.org:8989
 ${PORTAL_ENV}            /ECOMPPORTAL
@@ -98,8 +97,8 @@ Create Widget for Application Roles
 Delete Widget for Application Roles
         Portal Admin Delete Widget for Application Roles
     
-#Create a Test user for Application Admin
-#     Portal admin Add Application admin User New user -Test
+Create a Test user for Application Admin
+     Portal admin Add Application admin User New user -Test
  
 #Create a Test user for Standared User    
 #     Portal admin Add Standard User New user
@@ -387,8 +386,7 @@ Portal admin Add Application admin User New user -Test
     Click Link    xpath=//a[@title='Users']
     Page Should Contain      Users
 	Click Button	xpath=//button[@ng-click='toggleSidebar()']
-	Set Selenium Implicit Wait    3000
-    Click Button    xpath=//button[@ng-click='users.openAddNewUserModal()']
+	Click Button    xpath=//button[@ng-click='users.openAddNewUserModal()']
     Click Button    xpath=//button[@id='Create-New-User-button']
     Input Text    xpath=//input[@ng-model='searchUsers.newUser.firstName']    ${Test_First_Name}
     Input Text    xpath=//input[@ng-model='searchUsers.newUser.lastName']    ${Test_Last_Name}
