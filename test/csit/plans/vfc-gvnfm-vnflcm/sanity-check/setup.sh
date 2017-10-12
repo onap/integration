@@ -54,6 +54,9 @@ for i in {1..10}; do
     sleep $i
 done
 
+docker cp vfc-vnflcm:/service/vfc/gvnfm/vnflcm/lcm/lcm/pub/config/config.py ./
+cat config.py
+
 docker cp vfc-vnflcm:/service/vfc/gvnfm/vnflcm/lcm/logs/runtime_lcm.log ./
 cat runtime_lcm.log
 
