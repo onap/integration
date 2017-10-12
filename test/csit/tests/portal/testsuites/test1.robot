@@ -14,7 +14,6 @@ Resource        json_templater.robot
 
 
 *** Variables ***
-#${PORTAL_URL}      http://%{HOST_IP}:8989
 #${PORTAL_URL}		http://localhost:8989
 ${PORTAL_URL}		http://portal.api.simpledemo.openecomp.org:8989
 ${PORTAL_ENV}            /ECOMPPORTAL
@@ -74,29 +73,29 @@ Portal Health Check
 Login into Portal URL   
     Portal admin Login To Portal GUI  
     
-Portal R1 Release
-   [Documentation]    ONAP Portal R1 functionality  test
-    Notification on ONAP Portal
-    Portal Application Account Management validation
+#Portal R1 Release
+#   [Documentation]    ONAP Portal R1 functionality  test
+#    Notification on ONAP Portal
+#    Portal Application Account Management validation
     
-Portal R1 Release for AAF
-   [Documentation]    ONAP Portal R1 functionality for AAF test    
-      Portal AAF new fields    
+#Portal R1 Release for AAF
+#   [Documentation]    ONAP Portal R1 functionality for AAF test    
+#      Portal AAF new fields    
     
-Create Microse service onboarding
-    Portal admin Microservice Onboarding
+#Create Microse service onboarding
+#    Portal admin Microservice Onboarding
     
-Create Widget for all users
-    Portal Admin Create Widget for All users 
+#Create Widget for all users
+#    Portal Admin Create Widget for All users 
      
-Delete Widget for all users
-        Portal Admin Delete Widget for All users    
+#Delete Widget for all users
+#        Portal Admin Delete Widget for All users    
     
-Create Widget for Application Roles
-        Portal Admin Create Widget for Application Roles
+#Create Widget for Application Roles
+#        Portal Admin Create Widget for Application Roles
     
-Delete Widget for Application Roles
-        Portal Admin Delete Widget for Application Roles
+#Delete Widget for Application Roles
+#        Portal Admin Delete Widget for Application Roles
     
 #Create a Test user for Application Admin
 #     Portal admin Add Application admin User New user -Test
@@ -104,8 +103,8 @@ Delete Widget for Application Roles
 #Create a Test user for Standared User    
 #     Portal admin Add Standard User New user
 	 
-#Create a Test User for Apllication Admin
-#		Portal admin Add Application admin User New user
+Create a Test User for Apllication Admin
+		Portal admin Add Application admin User New user
     
 #Add Application Admin for  Existing User Test user 
 #     Portal admin Add Application Admin Exiting User -APPDEMO
@@ -126,28 +125,28 @@ Delete Widget for Application Roles
 #Delete Standard User Role for Existing user    
 #     Portal admin Delete Standard User Existing user 
    
-Validate Functional Top Menu Get Access    
-     Functional Top Menu Get Access  
+#Validate Functional Top Menu Get Access    
+#     Functional Top Menu Get Access  
     
-Validate Functional Top Menu Contact Us      
-     Functional Top Menu Contact Us
+#Validate Functional Top Menu Contact Us      
+#     Functional Top Menu Contact Us
     
-Edit Functional Menu    
-     Portal admin Edit Functional menu
+#Edit Functional Menu    
+#     Portal admin Edit Functional menu
     
     
-Broadbond Notification functionality 
-     ${AdminBroadCastMsg}=    Portal Admin Broadcast Notifications 
-     set global variable    ${AdminBroadCastMsg}   
+#Broadbond Notification functionality 
+#     ${AdminBroadCastMsg}=    Portal Admin Broadcast Notifications 
+#     set global variable    ${AdminBroadCastMsg}   
    
    
-Category Notification functionality 
-       ${AdminCategoryMsg}=   Portal Admin Category Notifications
-       set global variable    ${AdminCategoryMsg} 
+#Category Notification functionality 
+#       ${AdminCategoryMsg}=   Portal Admin Category Notifications
+#       set global variable    ${AdminCategoryMsg} 
           
     
-Logout from Portal GUI as Portal Admin
-     Portal admin Logout from Portal GUI
+#Logout from Portal GUI as Portal Admin
+#     Portal admin Logout from Portal GUI
     
 #Login To Portal GUI as APP Admin    
 #     Application admin Login To Portal GUI
@@ -187,9 +186,9 @@ Logout from Portal GUI as Portal Admin
 #        Standared user Category Notifications    ${AdminCategoryMsg}      
       
 
-Teardown  
-     [Documentation]    Close All Open browsers     
-     Close All Browsers    
+#Teardown  
+#     [Documentation]    Close All Open browsers     
+#     Close All Browsers    
     
 
     
@@ -387,8 +386,7 @@ Portal admin Add Application admin User New user -Test
     Click Link    xpath=//a[@title='Users']
     Page Should Contain      Users
 	Click Button	xpath=//button[@ng-click='toggleSidebar()']
-	Set Selenium Implicit Wait    3000
-    Click Button    xpath=//button[@ng-click='users.openAddNewUserModal()']
+	Click Button    xpath=//button[@id='users-button-add']
     Click Button    xpath=//button[@id='Create-New-User-button']
     Input Text    xpath=//input[@ng-model='searchUsers.newUser.firstName']    ${Test_First_Name}
     Input Text    xpath=//input[@ng-model='searchUsers.newUser.lastName']    ${Test_Last_Name}
