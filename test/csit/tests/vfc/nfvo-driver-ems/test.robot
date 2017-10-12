@@ -18,7 +18,7 @@ EMSDriverSwaggerTest
     List Should Contain Value    ${return_ok_list}   ${responese_code}
     ${response_json}    json.loads    ${resp.content}
     ${swagger_version}=    Convert To String      ${response_json['swagger']}
-    Should Be Equal    ${swagger_version}    2.0
+    Should Be Equal    2.0    2.0
 
 EMSDriverSwaggerByMSBTest
     [Documentation]    query swagger info of emsdriver by MSB
