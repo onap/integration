@@ -39,7 +39,12 @@ function test_clone_all_aai_repos {
     asserts_file_exist $aai_src_folder/aai-config/cookbooks/aai-resources/runlist-aai-resources.json
     asserts_file_exist $aai_src_folder/aai-data/environments/solo.json
     asserts_file_exist $aai_src_folder/aai-service/pom.xml
+    asserts_file_exist $aai_src_folder/babel/README.md
+    asserts_file_exist $aai_src_folder/champ/pom.xml
     asserts_file_exist $aai_src_folder/data-router/pom.xml
+    asserts_file_exist $aai_src_folder/esr-gui/pom.xml
+    asserts_file_exist $aai_src_folder/esr-server/pom.xml
+    asserts_file_exist $aai_src_folder/gizmo/pom.xml
     asserts_file_exist $aai_src_folder/logging-service/pom.xml
     asserts_file_exist $aai_src_folder/model-loader/pom.xml
     asserts_file_exist $aai_src_folder/resources/pom.xml
@@ -57,14 +62,13 @@ function test_compile_aai_repos {
     clone_all_aai_repos
     compile_aai_repos
 
-    asserts_file_exist $aai_src_folder/aai-common/aai-annotations/target/aai-annotations-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $aai_src_folder/aai-common/aai-auth/target/aai-auth-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $aai_src_folder/aai-common/aai-core/target/aai-core-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $aai_src_folder/aai-common/aai-schema/target/aai-schema-1.1.0-SNAPSHOT.jar
+    for common in annotations auth core schema utils; do
+        asserts_file_exist $aai_src_folder/aai-common/aai-$common/target/aai-$common-1.1.0-SNAPSHOT.jar
+    done
 
-    asserts_file_exist $aai_src_folder/logging-service/common-logging/target/common-logging-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $aai_src_folder/logging-service/eelf-logging/target/eelf-logging-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $aai_src_folder/logging-service/logging-api/target/logging-api-1.1.0-SNAPSHOT.jar
+    for service in common-logging eelf-logging logging-api; do
+        asserts_file_exist $aai_src_folder/logging-service/$service/target/$service-1.1.0-SNAPSHOT.jar
+    done
 
     asserts_file_exist $aai_src_folder/resources/aai-resources/target/aai-resources.jar
     asserts_file_exist $aai_src_folder/traversal/aai-traversal/target/traversal.jar

@@ -6,7 +6,10 @@ source /var/onap/functions
 
 hbase_version=1.2.3
 aai_src_folder=$git_src_folder/aai
-aai_repos=("aai-common" "aai-config" "aai-data" "aai-service" "data-router" "logging-service" "model-loader" "resources" "rest-client" "router-core" "search-data-service" "test-config" "traversal" "sparky-fe" "sparky-be")
+aai_repos=("aai-common" "aai-config" "aai-data" "aai-service" "babel" "champ" \
+"data-router" "esr-gui" "esr-server" "gizmo" "logging-service" "model-loader" \
+"resources" "rest-client" "router-core" "search-data-service" "test-config" \
+"traversal" "sparky-fe" "sparky-be")
 
 # install_hadoop() - Function that installs Hadoop
 function install_hadoop {
