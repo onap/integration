@@ -91,5 +91,8 @@ services:
       - portal-db:3306
       - --
       - /start-apps-cmd.sh
+      # see comments in .env file
+      - $EXTRA_HOST_IP
+      - $EXTRA_HOST_NAME
     logging:
       driver: json-file
