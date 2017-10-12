@@ -29,8 +29,6 @@ echo $DOCKER_IP
 
 
 # Pass any variables required by Robot test suites in ROBOT_VARIABLES
-#ROBOT_VARIABLES="-v MOCK_IP:${MOCK_IP} -v IP:${IP} -v POLICY_IP:${POLICY_IP} -v DOCKER_IP:${DOCKER_IP}"
-#export PORTAL_IP=${PORTAL_IP}
 ROBOT_VARIABLES="-v MOCK_IP:${MOCK_IP} -v IP:${IP}  -v DOCKER_IP:${DOCKER_IP}"
 export DOCKER_IP=${DOCKER_IP}
 
