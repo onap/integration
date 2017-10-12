@@ -14,7 +14,6 @@ Resource        json_templater.robot
 
 
 *** Variables ***
-#${PORTAL_URL}      http://%{HOST_IP}:8989
 #${PORTAL_URL}		http://localhost:8989
 ${PORTAL_URL}		http://portal.api.simpledemo.openecomp.org:8989
 ${PORTAL_ENV}            /ECOMPPORTAL
@@ -22,16 +21,16 @@ ${PORTAL_LOGIN_URL}                ${PORTAL_URL}${PORTAL_ENV}/login.htm
 ${PORTAL_HOME_PAGE}        ${PORTAL_URL}${PORTAL_ENV}/applicationsHome
 ${PORTAL_MICRO_ENDPOINT}    ${PORTAL_URL}${PORTAL_ENV}/commonWidgets
 ${PORTAL_HOME_URL}                ${PORTAL_URL}${PORTAL_ENV}/applicationsHome
-${App_First_Name}    appdemo    
+${App_First_Name}    demoapp    
 ${App_Last_Name}    demo
-${App_Email_Address}    appdemo@onap.com
-${App_LoginID}     appdemo 
+${App_Email_Address}    demoapp@onap.com
+${App_LoginID}     demoapp 
 ${App_Loginpwd}    demo123456!
 ${App_LoginPwdCheck}    demo123456!
-${Sta_First_Name}    stademo   
+${Sta_First_Name}    demosta   
 ${Sta_Last_Name}    demo
-${Sta_Email_Address}    stademo@onap.com
-${Sta_LoginID}    stademo
+${Sta_Email_Address}    demosta@onap.com
+${Sta_LoginID}    demosta
 ${Sta_Loginpwd}    demo123456!
 ${Sta_LoginPwdCheck}    demo123456!
 ${Test_First_Name}    portal    
@@ -85,46 +84,47 @@ Portal R1 Release for AAF
     
 Create Microse service onboarding
     Portal admin Microservice Onboarding
-    
+	
+   
 Create Widget for all users
     Portal Admin Create Widget for All users 
      
 Delete Widget for all users
         Portal Admin Delete Widget for All users    
-    
+		
 Create Widget for Application Roles
-        Portal Admin Create Widget for Application Roles
+    Portal Admin Create Widget for Application Roles
     
-Delete Widget for Application Roles
-        Portal Admin Delete Widget for Application Roles
+#Delete Widget for Application Roles
+#     Portal Admin Delete Widget for Application Roles		
     
-#Create a Test user for Application Admin
-#     Portal admin Add Application admin User New user -Test
+Create a Test user for Application Admin -Test
+     Portal admin Add Application admin User New user -Test
  
-#Create a Test user for Standared User    
-#     Portal admin Add Standard User New user
+Create a Test user for Standared User    
+     Portal admin Add Standard User New user
 	 
-#Create a Test User for Apllication Admin
-#		Portal admin Add Application admin User New user
+Create a Test User for Apllication Admin
+		Portal admin Add Application admin User New user
     
-#Add Application Admin for  Existing User Test user 
-#     Portal admin Add Application Admin Exiting User -APPDEMO
+Add Application Admin for  Existing User Test user 
+     Portal admin Add Application Admin Exiting User -APPDEMO
     
-#Add Application Admin for Exisitng User   
-#     Portal admin Add Application Admin Exiting User 
+Add Application Admin for Exisitng User   
+     Portal admin Add Application Admin Exiting User 
             
-#Delete Application Admin for Exisitng User   
-#     Portal admin Delete Application Admin Existing User
+Delete Application Admin for Exisitng User   
+     Portal admin Delete Application Admin Existing User
     
-#Add Standard User Role for Existing user 
-#     Portal admin Add Standard User Existing user     
+Add Standard User Role for Existing user 
+     Portal admin Add Standard User Existing user     
     
-#Edit Standard User Role for Existing user
-#     Portal admin Edit Standard User Existing user 
+Edit Standard User Role for Existing user
+     Portal admin Edit Standard User Existing user 
     
  
-#Delete Standard User Role for Existing user    
-#     Portal admin Delete Standard User Existing user 
+Delete Standard User Role for Existing user    
+     Portal admin Delete Standard User Existing user 
    
 Validate Functional Top Menu Get Access    
      Functional Top Menu Get Access  
@@ -149,42 +149,42 @@ Category Notification functionality
 Logout from Portal GUI as Portal Admin
      Portal admin Logout from Portal GUI
     
-#Login To Portal GUI as APP Admin    
-#     Application admin Login To Portal GUI
+Login To Portal GUI as APP Admin    
+     Application admin Login To Portal GUI
     
-#Navigate Application Link as APP Admin  
-#     Application Admin Navigation Application Link Tab 
+Navigate Application Link as APP Admin  
+     Application Admin Navigation Application Link Tab 
     
 ##Navigate Functional Link as APP Admin  
 ##      Application Admin Navigation Functional Menu   
     
-#Add Standard User Role for Existing user as APP Admin
-#     Application admin Add Standard User Existing user    
+Add Standard User Role for Existing user as APP Admin
+     Application admin Add Standard User Existing user    
     
-#Edit Standard User Role for Existing user as APP Admin
-#     Application admin Edit Standard User Existing user 
+Edit Standard User Role for Existing user as APP Admin
+     Application admin Edit Standard User Existing user 
     
-#Delete Standard User Role for Existing user as APP Admin   
-#     Application admin Delete Standard User Existing user 
+Delete Standard User Role for Existing user as APP Admin   
+     Application admin Delete Standard User Existing user 
 
-#Logout from Portal GUI as APP Admin   
-#    Application admin Logout from Portal GUI
+Logout from Portal GUI as APP Admin   
+    Application admin Logout from Portal GUI
    
    
-#Login To Portal GUI as Standared User    
-#     Standared user Login To Portal GUI   
+Login To Portal GUI as Standared User    
+     Standared user Login To Portal GUI   
 
-#Navigate Application Link as Standared User  
-#     Standared user Navigation Application Link Tab 
+Navigate Application Link as Standared User  
+     Standared user Navigation Application Link Tab 
     
 ##Navigate Functional Link as Standared User  
 ##      Standared user Navigation Functional Menu     
      
-#Broadcast Notifications Standared user
-#         Standared user Broadcast Notifications    ${AdminBroadCastMsg} 
+Broadcast Notifications Standared user
+         Standared user Broadcast Notifications    ${AdminBroadCastMsg} 
       
-#Category Notifications Standared user
-#        Standared user Category Notifications    ${AdminCategoryMsg}      
+Category Notifications Standared user
+        Standared user Category Notifications    ${AdminCategoryMsg}      
       
 
 Teardown  
@@ -387,8 +387,7 @@ Portal admin Add Application admin User New user -Test
     Click Link    xpath=//a[@title='Users']
     Page Should Contain      Users
 	Click Button	xpath=//button[@ng-click='toggleSidebar()']
-	Set Selenium Implicit Wait    3000
-    Click Button    xpath=//button[@ng-click='users.openAddNewUserModal()']
+	Click Button    xpath=//button[@id='users-button-add']
     Click Button    xpath=//button[@id='Create-New-User-button']
     Input Text    xpath=//input[@ng-model='searchUsers.newUser.firstName']    ${Test_First_Name}
     Input Text    xpath=//input[@ng-model='searchUsers.newUser.lastName']    ${Test_Last_Name}
