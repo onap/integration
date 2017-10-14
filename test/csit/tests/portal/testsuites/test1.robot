@@ -14,7 +14,6 @@ Resource        json_templater.robot
 
 
 *** Variables ***
-#${PORTAL_URL}      http://%{HOST_IP}:8989
 #${PORTAL_URL}		http://localhost:8989
 ${PORTAL_URL}		http://portal.api.simpledemo.openecomp.org:8989
 ${PORTAL_ENV}            /ECOMPPORTAL
@@ -22,16 +21,16 @@ ${PORTAL_LOGIN_URL}                ${PORTAL_URL}${PORTAL_ENV}/login.htm
 ${PORTAL_HOME_PAGE}        ${PORTAL_URL}${PORTAL_ENV}/applicationsHome
 ${PORTAL_MICRO_ENDPOINT}    ${PORTAL_URL}${PORTAL_ENV}/commonWidgets
 ${PORTAL_HOME_URL}                ${PORTAL_URL}${PORTAL_ENV}/applicationsHome
-${App_First_Name}    appdemo    
+${App_First_Name}    demoapp    
 ${App_Last_Name}    demo
-${App_Email_Address}    appdemo@onap.com
-${App_LoginID}     appdemo 
+${App_Email_Address}    demoapp@onap.com
+${App_LoginID}     demoapp 
 ${App_Loginpwd}    demo123456!
 ${App_LoginPwdCheck}    demo123456!
-${Sta_First_Name}    stademo   
+${Sta_First_Name}    demosta   
 ${Sta_Last_Name}    demo
-${Sta_Email_Address}    stademo@onap.com
-${Sta_LoginID}    stademo
+${Sta_Email_Address}    demosta@onap.com
+${Sta_LoginID}    demosta
 ${Sta_Loginpwd}    demo123456!
 ${Sta_LoginPwdCheck}    demo123456!
 ${Test_First_Name}    portal    
@@ -85,47 +84,20 @@ Portal R1 Release for AAF
     
 Create Microse service onboarding
     Portal admin Microservice Onboarding
-    
+	
+   
 Create Widget for all users
     Portal Admin Create Widget for All users 
      
 Delete Widget for all users
         Portal Admin Delete Widget for All users    
-    
+		
 Create Widget for Application Roles
-        Portal Admin Create Widget for Application Roles
+    Portal Admin Create Widget for Application Roles
     
 Delete Widget for Application Roles
-        Portal Admin Delete Widget for Application Roles
-    
-#Create a Test user for Application Admin
-#     Portal admin Add Application admin User New user -Test
- 
-#Create a Test user for Standared User    
-#     Portal admin Add Standard User New user
-	 
-#Create a Test User for Apllication Admin
-#		Portal admin Add Application admin User New user
-    
-#Add Application Admin for  Existing User Test user 
-#     Portal admin Add Application Admin Exiting User -APPDEMO
-    
-#Add Application Admin for Exisitng User   
-#     Portal admin Add Application Admin Exiting User 
-            
-#Delete Application Admin for Exisitng User   
-#     Portal admin Delete Application Admin Existing User
-    
-#Add Standard User Role for Existing user 
-#     Portal admin Add Standard User Existing user     
-    
-#Edit Standard User Role for Existing user
-#     Portal admin Edit Standard User Existing user 
-    
- 
-#Delete Standard User Role for Existing user    
-#     Portal admin Delete Standard User Existing user 
-   
+     Portal Admin Delete Widget for Application Roles	
+
 Validate Functional Top Menu Get Access    
      Functional Top Menu Get Access  
     
@@ -143,36 +115,66 @@ Broadbond Notification functionality
    
 Category Notification functionality 
        ${AdminCategoryMsg}=   Portal Admin Category Notifications
-       set global variable    ${AdminCategoryMsg} 
+       set global variable    ${AdminCategoryMsg} 	
+    
+Create a Test user for Application Admin -Test
+     Portal admin Add Application admin User New user -Test
+	 
+Create a Test User for Apllication Admin
+		Portal admin Add Application admin User New user	 
+	 
+Add Application Admin for Existing User Test user 
+     Portal admin Add Application Admin Exiting User -APPDEMO	 
+ 
+Create a Test user for Standared User    
+     Portal admin Add Standard User New user
+    
+Add Application Admin for Exisitng User   
+     Portal admin Add Application Admin Exiting User 
+            
+Delete Application Admin for Exisitng User   
+     Portal admin Delete Application Admin Existing User
+    
+Add Standard User Role for Existing user 
+     Portal admin Add Standard User Existing user     
+    
+Edit Standard User Role for Existing user
+     Portal admin Edit Standard User Existing user 
+    
+ 
+Delete Standard User Role for Existing user    
+     Portal admin Delete Standard User Existing user 
+   
+
           
     
 Logout from Portal GUI as Portal Admin
      Portal admin Logout from Portal GUI
     
-#Login To Portal GUI as APP Admin    
-#     Application admin Login To Portal GUI
+Login To Portal GUI as APP Admin    
+     Application admin Login To Portal GUI
     
-#Navigate Application Link as APP Admin  
-#     Application Admin Navigation Application Link Tab 
+Navigate Application Link as APP Admin  
+     Application Admin Navigation Application Link Tab 
     
 ##Navigate Functional Link as APP Admin  
 ##      Application Admin Navigation Functional Menu   
     
-#Add Standard User Role for Existing user as APP Admin
-#     Application admin Add Standard User Existing user    
+Add Standard User Role for Existing user as APP Admin
+     Application admin Add Standard User Existing user    
     
-#Edit Standard User Role for Existing user as APP Admin
-#     Application admin Edit Standard User Existing user 
+Edit Standard User Role for Existing user as APP Admin
+     Application admin Edit Standard User Existing user 
     
-#Delete Standard User Role for Existing user as APP Admin   
-#     Application admin Delete Standard User Existing user 
+Delete Standard User Role for Existing user as APP Admin   
+     Application admin Delete Standard User Existing user 
 
-#Logout from Portal GUI as APP Admin   
-#    Application admin Logout from Portal GUI
+Logout from Portal GUI as APP Admin   
+    Application admin Logout from Portal GUI
    
    
-#Login To Portal GUI as Standared User    
-#     Standared user Login To Portal GUI   
+Login To Portal GUI as Standared User    
+     Standared user Login To Portal GUI   
 
 #Navigate Application Link as Standared User  
 #     Standared user Navigation Application Link Tab 
@@ -180,11 +182,11 @@ Logout from Portal GUI as Portal Admin
 ##Navigate Functional Link as Standared User  
 ##      Standared user Navigation Functional Menu     
      
-#Broadcast Notifications Standared user
-#         Standared user Broadcast Notifications    ${AdminBroadCastMsg} 
+Broadcast Notifications Standared user
+         Standared user Broadcast Notifications    ${AdminBroadCastMsg} 
       
-#Category Notifications Standared user
-#        Standared user Category Notifications    ${AdminCategoryMsg}      
+Category Notifications Standared user
+        Standared user Category Notifications    ${AdminCategoryMsg}      
       
 
 Teardown  
@@ -291,8 +293,7 @@ Portal admin Add Application Admin Exiting User
     Click Element    xpath=//span[@id='result-uuid-0']
     Click Button    xpath=//button[@id='search-users-button-next']
     Click Button    xpath=//input[@value='Select application']
-    Scroll Element Into View    xpath=(//input[@value='Select application']/following::*[contains(text(),'xDemo App' )])[1]
-    
+    Scroll Element Into View    xpath=(//input[@value='Select application']/following::*[contains(text(),'xDemo App' )])[1]    
     Click Element    xpath=(//li[contains(.,'xDemo App' )])[2]
     #Select From List    xpath=(//input[@value='Select application']/following::*[contains(text(),'xDemo App')])[1]   xDemo App
     Click Button    xpath=//button[@id='div-updateAdminAppsRoles']
@@ -303,7 +304,8 @@ Portal admin Add Application Admin Exiting User
     Click Element    xpath=//input[@id='dropdown1']
     Click Element    xpath=//li[contains(.,'xDemo App' )]
     Input Text    xpath=//input[@id='input-table-search']    ${Existing_User}
-    Element Text Should Be      xpath=(//span[contains(.,'portal')])[1]   ${Existing_User}
+	Table Column Should Contain    xpath=//*[@table-data='admins.adminsTableData']    1    ${Existing_User}
+    #Element Text Should Be      xpath=(//span[contains(.,'portal')])[1]   ${Existing_User}
 	#Element Text Should Be      xpath=(//span[contains(.,'demo')])[1]   ${Existing_User}
     
     
@@ -319,6 +321,8 @@ Portal admin Delete Application Admin Existing User
     #Is Element Visible    xpath=(//*[contains(.,'Portal')] )[2]
     Element Should Not Contain     xpath=//*[@table-data='admins.adminsTableData']    portal
 	#Element Should Not Contain     xpath=//*[@table-data='admins.adminsTableData']    demo
+	Click Image     xpath=//img[@alt='Onap Logo']
+    Set Selenium Implicit Wait    3000
     
     
 Portal admin Add Application admin User New user
@@ -326,7 +330,7 @@ Portal admin Add Application admin User New user
     Click Link    xpath=//a[@title='Users']
     Page Should Contain      Users
 	Click Button	xpath=//button[@ng-click='toggleSidebar()']
-    Click Button    xpath=//button[@ng-click='users.openAddNewUserModal()']
+    Click Button    xpath=//button[@id='users-button-add']
     Click Button    xpath=//button[@id='Create-New-User-button']
     Input Text    xpath=//input[@ng-model='searchUsers.newUser.firstName']    ${App_First_Name}
     Input Text    xpath=//input[@ng-model='searchUsers.newUser.lastName']    ${App_Last_Name}
@@ -348,7 +352,9 @@ Portal admin Add Application admin User New user
      Click Element    xpath=//li[contains(.,'xDemo App')]
 	Table Column Should Contain    xpath=//*[@table-data='users.accountUsers']    1    ${App_First_Name} 
     #Input Text    xpath=//input[@id='input-table-search']    ${App_First_Name}
-    #Element Text Should Be      xpath=(//span[contains(.,'appdemo')] )[1]   ${App_First_Name}
+    #Element Text Should Be      xpath=(//span[contains(.,'demoapp')] )[1]   ${App_First_Name}
+	 Click Image     xpath=//img[@alt='Onap Logo']
+    Set Selenium Implicit Wait    3000
     
     
 Portal admin Add Standard User New user
@@ -356,7 +362,7 @@ Portal admin Add Standard User New user
     Click Link    xpath=//a[@title='Users']
     Page Should Contain      Users
 	Click Button	xpath=//button[@ng-click='toggleSidebar()']
-    Click Button    xpath=//button[@ng-click='users.openAddNewUserModal()']
+    Click Button    xpath=//button[@id='users-button-add']
     Click Button    xpath=//button[@id='Create-New-User-button']
     Input Text    xpath=//input[@ng-model='searchUsers.newUser.firstName']    ${Sta_First_Name}
     Input Text    xpath=//input[@ng-model='searchUsers.newUser.lastName']    ${Sta_Last_Name}
@@ -378,7 +384,9 @@ Portal admin Add Standard User New user
      Click Element    xpath=//li[contains(.,'xDemo App')]
 	 Table Column Should Contain    xpath=//*[@table-data='users.accountUsers']    1    ${Sta_First_Name}
     #Input Text    xpath=//input[@id='input-table-search']    ${Sta_First_Name}
-    #Element Text Should Be      xpath=(//span[contains(.,'appdemo')] )[1]   ${Sta_First_Name} 
+    #Element Text Should Be      xpath=(//span[contains(.,'appdemo')] )[1]   ${Sta_First_Name}
+	 Click Image     xpath=//img[@alt='Onap Logo']
+    Set Selenium Implicit Wait    3000
     
     
     
@@ -387,8 +395,7 @@ Portal admin Add Application admin User New user -Test
     Click Link    xpath=//a[@title='Users']
     Page Should Contain      Users
 	Click Button	xpath=//button[@ng-click='toggleSidebar()']
-	Set Selenium Implicit Wait    3000
-    Click Button    xpath=//button[@ng-click='users.openAddNewUserModal()']
+	Click Button    xpath=//button[@id='users-button-add']
     Click Button    xpath=//button[@id='Create-New-User-button']
     Input Text    xpath=//input[@ng-model='searchUsers.newUser.firstName']    ${Test_First_Name}
     Input Text    xpath=//input[@ng-model='searchUsers.newUser.lastName']    ${Test_Last_Name}
@@ -397,18 +404,23 @@ Portal admin Add Application admin User New user -Test
     Input Text    xpath=//input[@ng-model='searchUsers.newUser.loginPwd']    ${Test_Loginpwd}
     Input Text    xpath=//input[@ng-model='searchUsers.newUser.loginPwdCheck']    ${Test_LoginPwdCheck}
     Click Button    xpath=//button[@ng-click='searchUsers.addNewUserFun()']
-    Click Button    xpath=//button[@id='next-button']
+	Click Button	xpath=//button[@id='search-users-button-cancel']
+	Click Image     xpath=//img[@alt='Onap Logo']
+    Set Selenium Implicit Wait    3000
+	
+	
+    #Click Button    xpath=//button[@id='next-button']
     #Scroll Element Into View    xpath=//div[@id='div-app-name-dropdown-xDemo-App']
-    Click Element    xpath=//*[@id='div-app-name-dropdown-xDemo-App']
-    Click Element    xpath=//*[@id='div-app-name-xDemo-App']/following::input[@id='Standard-User-checkbox']
-    Set Selenium Implicit Wait    3000
-    Click Button    xpath=//button[@id='new-user-save-button']
-    Set Selenium Implicit Wait    3000
-    Go To    ${PORTAL_HOME_PAGE}
-     Click Link    xpath=//a[@title='Users']
-     Click Element    xpath=//input[@id='dropdown1']
-     Click Element    xpath=//li[contains(.,'xDemo App')]
-	 Table Column Should Contain    xpath=//*[@table-data='users.accountUsers']    1    ${Test_First_Name}
+    #Click Element    xpath=//*[@id='div-app-name-dropdown-xDemo-App']
+    #Click Element    xpath=//*[@id='div-app-name-xDemo-App']/following::input[@id='Standard-User-checkbox']
+    #Set Selenium Implicit Wait    3000
+    #Click Button    xpath=//button[@id='new-user-save-button']
+    #Set Selenium Implicit Wait    3000
+    #Go To    ${PORTAL_HOME_PAGE}
+     #Click Link    xpath=//a[@title='Users']
+     #Click Element    xpath=//input[@id='dropdown1']
+     #Click Element    xpath=//li[contains(.,'xDemo App')]
+	 #Table Column Should Contain    xpath=//*[@table-data='users.accountUsers']    1    ${Test_First_Name}
     #Input Text    xpath=//input[@id='input-table-search']    ${Test_First_Name}
     #Element Text Should Be      xpath=(//span[contains(.,'appdemo')] )[1]   ${Test_First_Name} 
     
@@ -428,7 +440,6 @@ Portal admin Add Application Admin Exiting User -APPDEMO
     Click Button    xpath=//button[@id='search-users-button-next']
     Click Button    xpath=//input[@value='Select application']
     Scroll Element Into View    xpath=(//input[@value='Select application']/following::*[contains(text(),'xDemo App' )])[1]
-    
     Click Element    xpath=(//li[contains(.,'xDemo App' )])[2]
     #Select From List    xpath=(//input[@value='Select application']/following::*[contains(text(),'xDemo App')])[1]   xDemo App
     Click Button    xpath=//button[@id='div-updateAdminAppsRoles']
@@ -437,10 +448,12 @@ Portal admin Add Application Admin Exiting User -APPDEMO
     Get Selenium Implicit Wait
     Click Link    xpath=//a[@aria-label='Admins']
     Click Element    xpath=//input[@id='dropdown1']
-    Click Element    xpath=//li[contains(.,'xDemo App' )]
-	
+    Click Element    xpath=//li[contains(.,'xDemo App' )]	
     Input Text    xpath=//input[@id='input-table-search']    ${App_First_Name}
-    Element Text Should Be      xpath=(//span[contains(.,'appdemo')])[1]   ${App_First_Name}   
+    #Element Text Should Be      xpath=(//span[contains(.,'appdemo')])[1]   ${App_First_Name}
+	Table Column Should Contain    xpath=//*[@table-data='admins.adminsTableData']    1    ${App_First_Name}
+	Click Image     xpath=//img[@alt='Onap Logo']
+    Set Selenium Implicit Wait    3000	
     
     
     
@@ -462,7 +475,6 @@ Portal admin Add Standard User Existing user
      Click Element    xpath=//*[@id='div-app-name-xDemo-App']/following::input[@id='Standard-User-checkbox']
      #Click Element    xpath=//div[@id='div-app-name-dropdown-xDemo-App']
      #Click Element    xpath=//div[@id='div-app-name-xDemo-App']/following::input[@id='Standard-User-checkbox']
-     
      Set Selenium Implicit Wait    3000
      Click Button    xpath=//button[@id='new-user-save-button']
      Set Selenium Implicit Wait    3000
@@ -471,7 +483,6 @@ Portal admin Add Standard User Existing user
      #Click Link    xpath=//a[@title='Users']
      #Page Should Contain      Users
      #Focus    xpath=//input[@name='dropdown1']
-    
      Go To    ${PORTAL_HOME_PAGE}
      Click Link    xpath=//a[@title='Users']
      Click Element    xpath=//input[@id='dropdown1']
@@ -479,6 +490,7 @@ Portal admin Add Standard User Existing user
      #Click Element    xpath=//li[contains(.,'XDemo App')]
      Input Text    xpath=//input[@id='input-table-search']    ${Existing_User}
      Element Text Should Be      xpath=(.//*[@id='rowheader_t1_0'])[2]   Standard User
+	 
      
      
 Portal admin Edit Standard User Existing user  
@@ -794,8 +806,9 @@ Application Admin Navigation Application Link Tab
     Click Link    xpath=//a[@id='parent-item-Home']
     Click Element    xpath=.//h3[contains(text(),'xDemo App')]/following::div[1]
     Page Should Contain    ONAP Portal
-    Click Element    xpath=//i[@class='ion-close-round']    
-    Click Element    xpath=(.//span[@id='tab-Home'])[1]
+    Click Element    xpath=//i[@class='ion-close-round']
+    Set Selenium Implicit Wait    3000   
+    #Click Element    xpath=(.//span[@id='tab-Home'])[1]
     
     
 Application Admin Navigation Functional Menu     
