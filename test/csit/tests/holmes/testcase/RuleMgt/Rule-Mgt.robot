@@ -86,19 +86,19 @@ query_rule_with_combinational_fields
     ${response}    queryConditionRule    ${paramJson}
     ${respJson}    to json    ${response.content}
     ${count}    get from dictionary    ${respJson}    totalcount
-    run keyword if    ${count}<1    fail    Can't find the rules with the combination of different fields.
-    ...    ELSE    traversalRuleAttribute    ${respJson}    ${dic}
+    run keyword if    ${count}<1    fail    Can't find the rules with the combination of different fields.    ELSE    traversalRuleAttribute    ${respJson}
+    ...    ${dic}
 
 modify_rule_with_status
     [Documentation]    modify the rule with a valid status.
-    ${dic}    create dictionary    ruleid=${RULEID}    enabled=0    content=package rule03140002
+    ${dic}    create dictionary    ruleid=${RULEID}    enabled=0    content=package rule03140002    loopcontrolname=closedControlLoop
     ${modifyParam}    encode    ${dic}
     ${modifyResp}    modifyRule    ${modifyParam}
     ${response}    queryConditionRule    {"ruleid":"${RULEID}"}
     ${respJson}    to json    ${response.content}
     ${count}    get from dictionary    ${respJson}    totalcount
-    run keyword if    ${count}!=1    fail    query rule fails! (can't find the rule modified!)
-    ...    ELSE    traversalRuleAttribute    ${respJson}    ${dic}
+    run keyword if    ${count}!=1    fail    query rule fails! (can't find the rule modified!)    ELSE    traversalRuleAttribute    ${respJson}
+    ...    ${dic}
 
 modify_rule_with_invalid_status
     [Documentation]    modify the rule with an invalid status.
@@ -108,14 +108,14 @@ modify_rule_with_invalid_status
 
 modify_rule_with_description
     [Documentation]    modify the description of the rule with the new string.
-    ${dic}    create dictionary    ruleid=${RULEID}    description=now, i modifying the description of the rule.    content=package rule03140002
+    ${dic}    create dictionary    ruleid=${RULEID}    description=now, i modifying the description of the rule.    content=package rule03140002    loopcontrolname=closedControlLoop
     ${modifyParam}    encode    ${dic}
     ${modifyResp}    modifyRule    ${modifyParam}
     ${response}    queryConditionRule    {"ruleid":"${RULEID}"}    1
     ${respJson}    to json    ${response.content}
     ${count}    get from dictionary    ${respJson}    totalcount
-    run keyword if    ${count}!=1    fail    query rule fails!
-    ...    ELSE    traversalRuleAttribute    ${respJson}    ${dic}
+    run keyword if    ${count}!=1    fail    query rule fails!    ELSE    traversalRuleAttribute    ${respJson}
+    ...    ${dic}
 
 delete_existing_rule
     [Documentation]    Delete an existing rule.
