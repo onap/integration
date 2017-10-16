@@ -105,5 +105,5 @@ done
 
 if [ "$TIME" -ge "$TIME_OUT" ]; then
    echo TIME OUT: Docker containers not started in $TIME_OUT seconds... Could cause problems for tests...
-
+fi
 
