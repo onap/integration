@@ -18,6 +18,8 @@
 #
 # Place the scripts in run order:
 
+/usr/bin/Xvfb :0 -screen 0 1024x768x24&
+export DISPLAY=:0
 
 source ${WORKSPACE}/test/csit/scripts/vid/clone_and_setup_vid_data.sh
 
