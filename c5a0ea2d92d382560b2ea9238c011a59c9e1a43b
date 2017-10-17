@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a2f8d8d_556da531",
+        "filename": "test/csit/plans/vfc-nfvo-driver-vnfm-svnfm/sanity-check/setup.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1337
+      },
+      "writtenOn": "2017-10-17T07:13:42Z",
+      "side": 1,
+      "message": "The MSB_IP variable already exists, please delete this variable",
+      "range": {
+        "startLine": 76,
+        "startChar": 145,
+        "endLine": 76,
+        "endChar": 168
+      },
+      "revId": "c5a0ea2d92d382560b2ea9238c011a59c9e1a43b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
