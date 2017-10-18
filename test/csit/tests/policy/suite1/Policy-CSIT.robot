@@ -3,7 +3,6 @@ Documentation	  Policy ONAP CSIT Test cases
 Library    String
 Library    HttpLibrary.HTTP
 LIbrary    Process
-Library    BuiltIn
 Resource    policy_interface.robot
 Resource    json_templater.robot
 
@@ -12,9 +11,9 @@ ${RESOURCE_PATH_CREATE}        /pdp/api/createPolicy
 ${RESOURCE_PATH_CREATE_PUSH}        /pdp/api/pushPolicy
 ${RESOURCE_PATH_CREATE_DELETE}        /pdp/api/deletePolicy
 ${RESOURCE_PATH_GET_CONFIG}    /pdp/api/getConfig
-${CREATE_CONFIG_VFW_TEMPLATE}    ${CURDIR}/configpolicy_vFW.template
-${CREATE_CONFIG_VDNS_TEMPLATE}    ${CURDIR}/configpolicy_vDNS.template
-${CREATE_CONFIG_VCPE_TEMPLATE}    ${CURDIR}/configpolicy_vCPE.template
+${CREATE_CONFIG_VFW_TEMPLATE}    ${CURDIR}/configpolicy_vFW_R1.template
+${CREATE_CONFIG_VDNS_TEMPLATE}    ${CURDIR}/configpolicy_vDNS_R1.template
+${CREATE_CONFIG_VCPE_TEMPLATE}    ${CURDIR}/configpolicy_vCPE_R1.template
 ${CREATE_OPS_VFW_TEMPLATE}    ${CURDIR}/opspolicy_VFW_R1.template
 ${PUSH_POLICY_TEMPLATE}   ${CURDIR}/pushpolicy.template
 ${CREATE_OPS_VDNS_TEMPLATE}    ${CURDIR}/opspolicy_VDNS_R1.template
@@ -36,8 +35,8 @@ ${OPS_POLICY_VOLTE_NAME}    VoLTE
 ${OPS_POLICY_VOLTE_TYPE}    BRMS_PARAM
 ${file_path}        ../testsuite/robot/assets/templates/ControlLoopDemo__closedLoopControlName.drl
 ${RESOURCE_PATH_UPLOAD}  /pdp/api/policyEngineImport?importParametersJson=%7B%22serviceName%22%3A%22Manyu456%22%2C%20%22serviceType%22%3A%22BRMSPARAM%22%7D
-${CREATE_OPS_VCPE_TEMPLATE}      ${CURDIR}/opspolicy_vCPE.template  
-${CREATE_OPS_VOLTE_TEMPLATE}    ${CURDIR}/opspolicy_vOLTE.template
+${CREATE_OPS_VCPE_TEMPLATE}      ${CURDIR}/opspolicy_vCPE_R1.template  
+${CREATE_OPS_VOLTE_TEMPLATE}    ${CURDIR}/opspolicy_vOLTE_R1.template
 
 
 *** Test Cases ***
@@ -46,18 +45,24 @@ Policy Health check
 
 VFW Config Policy
     ${CONFIG_POLICY_VFW_NAME}=    Create Config VFW Policy
-    Push Config Policy    ${CONFIG_POLICY_VFW_NAME}    ${CONFIG_POLICY_VFW_TYPE}  
+    Push Config Policy    ${CONFIG_POLICY_VFW_NAME}    ${CONFIG_POLICY_VFW_TYPE}
+VFW Get Configs Policy
+    Get Configs VFW Policy   
     #VFW Policy Tests
     
 VDNS Config Policy
     ${CONFIG_POLICY_VDNS_NAME}=    Create Config VDNS Policy
     Push Config Policy    ${CONFIG_POLICY_VDNS_NAME}    ${CONFIG_POLICY_VDNS_TYPE}
-    #VDNS Policy Tests 
+    #VDNS Policy Tests
+VDNS Get Configs Policy
+    Get Configs VDNS Policy  
     
 VCPE Config Policy
     ${CONFIG_POLICY_VCPE_NAME}=    Create Config VCPE Policy
     Push Config Policy    ${CONFIG_POLICY_VCPE_NAME}    ${CONFIG_POLICY_VCPE_TYPE}
     #VCPE Policy Tests
+VCPE Get Configs Policy
+    Get Configs VCPE Policy 
 
 VFW Ops Policy
      ${OPS_POLICY_VFW_NAME}=    Create Ops VFW Policy
@@ -75,17 +80,6 @@ VOLTE Ops Policy
      ${OPS_POLICY_VOLTE_NAME}=    Create Ops VOLTE Policy
      Push Ops Policy    ${OPS_POLICY_VOLTE_NAME}    ${OPS_POLICY_VOLTE_TYPE}    
     #VOLTE Policy Tests
-VFW Get Configs Policy
-    Sleep    5s
-    Get Configs VFW Policy 
-    
-VDNS Get Configs Policy
-    Sleep    5s
-    Get Configs VDNS Policy 
-    
-VCPE Get Configs Policy
-    Sleep    5s
-    Get Configs VCPE Policy 
     
 *** Keywords ***
 
