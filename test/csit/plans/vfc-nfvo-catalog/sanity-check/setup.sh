@@ -21,7 +21,7 @@
 docker login -u docker -p docker nexus3.onap.org:10001
 
 # start msb
-docker run -d -p 8500:8500 --name msb_consul consul
+docker run -d -p 8500:8500 --name msb_consul consul:0.9.3
 CONSUL_IP=`get-instance-ip.sh msb_consul`
 echo CONSUL_IP=${CONSUL_IP}
 
