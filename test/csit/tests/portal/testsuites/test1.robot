@@ -14,9 +14,8 @@ Resource        json_templater.robot
 
 
 *** Variables ***
-#${PORTAL_URL}		http://localhost:8989
-${PORTAL_URL}		http://portal.api.simpledemo.openecomp.org:8989
-${PORTAL_ENV}            /ECOMPPORTAL
+${PORTAL_URL}		http://portal.api.simpledemo.onap.org:8989
+${PORTAL_ENV}            /ONAPPORTAL
 ${PORTAL_LOGIN_URL}                ${PORTAL_URL}${PORTAL_ENV}/login.htm
 ${PORTAL_HOME_PAGE}        ${PORTAL_URL}${PORTAL_ENV}/applicationsHome
 ${PORTAL_MICRO_ENDPOINT}    ${PORTAL_URL}${PORTAL_ENV}/commonWidgets
@@ -40,7 +39,7 @@ ${Test_LoginID}    portal
 ${Test_Loginpwd}    demo123456!
 ${Test_LoginPwdCheck}    demo123456!
 ${Existing_User}    portal
-${PORTAL_HEALTH_CHECK_PATH}        /ECOMPPORTAL/portalApi/healthCheck
+${PORTAL_HEALTH_CHECK_PATH}        /ONAPPORTAL/portalApi/healthCheck
 ${PORTAL_ASSETS_DIRECTORY}    ${CURDIR}
 ${GLOBAL_APPLICATION_ID}           robot-functional
 ${GLOBAL_PORTAL_ADMIN_USER}		demo
@@ -60,7 +59,7 @@ ${GLOBAL_OPENSTACK_KEYSTONE_SERVICE_TYPE}    identity
 ${GLOBAL_BUILD_NUMBER}    0
 ${GLOBAL_VM_PRIVATE_KEY}   ${EXECDIR}/robot/assets/keys/robot_ssh_private_key.pvt
 ${jira}    jira
-${RESOURCE_PATH}    ECOMPPORTAL/auxapi/ticketevent
+${RESOURCE_PATH}    ONAPPORTAL/auxapi/ticketevent
 ${portal_Template}    ${CURDIR}/portal.template
 
 
