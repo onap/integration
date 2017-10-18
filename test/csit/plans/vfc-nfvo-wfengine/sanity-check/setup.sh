@@ -21,7 +21,7 @@ source ${SCRIPTS}/common_functions.sh
 
 
 #start msb
-docker run -d -p 8500:8500  --name msb_consul consul
+docker run -d -p 8500:8500  --name msb_consul consul:0.9.3
 MSB_CONSUL_IP=`get-instance-ip.sh msb_consul`
 echo MSB_CONSUL_IP=${MSB_CONSUL_IP}
 docker run -d  -p 10081:10081  -e CONSUL_IP=$MSB_CONSUL_IP --name msb_discovery nexus3.onap.org:10001/onap/msb/msb_discovery
