@@ -92,6 +92,7 @@ cat config/pe/ip_addr.txt
 
 export MTU=9126
 
+export PRELOAD_POLICIES=false
 docker-compose -f docker-compose-integration.yml up -d 
 
 if [ ! $? -eq 0 ]; then
