@@ -8,11 +8,6 @@ covered_functions=(
 "install_hadoop" "install_haproxy" "clone_all_aai_repos" "compile_aai_repos" "setup_titan" "install_hbase" "install_ajsc_aai" "install_model_loader"
 )
 
-# TODO(electrocucaracha): Remove/Modify functions that doesn't support proxy settings
-if [ -z $http_proxy ] & [ -z $https_proxy ]; then
-    covered_functions=(${covered_functions[@]} "install_hbase")
-fi
-
 # test_install_hadoop() - Verify that Hadoop is downloaded and started properly
 function test_install_hadoop {
     install_hadoop

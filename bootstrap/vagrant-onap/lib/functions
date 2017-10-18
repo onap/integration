@@ -100,23 +100,31 @@ function install_maven {
 
 # _configure_docker_settings() - Configures Docker settings
 function _configure_docker_settings {
+    local docker_conf_backup=/tmp/docker.backup
+    local docker_conf=/etc/default/docker
+    local chameleonsocks_filename=chameleonsocks.sh
+
+    cp $docker_conf $docker_conf_backup
     if [ $http_proxy ]; then
-        echo "export http_proxy=$http_proxy" >> /etc/default/docker
+        echo "export http_proxy=$http_proxy" >> $docker_conf
     fi
     if [ $https_proxy ]; then
-        echo "export https_proxy=$https_proxy" >> /etc/default/docker
+        echo "export https_proxy=$https_proxy" >> $docker_conf
         #If you have a socks proxy, then use that to connect to the nexus repo
         #via a redsocks container
         if [ $socks_proxy ]; then
-            wget https://raw.githubusercontent.com/crops/chameleonsocks/master/chameleonsocks.sh
-            chmod 755 chameleonsocks.sh
+            wget https://raw.githubusercontent.com/crops/chameleonsocks/master/$chameleonsocks_filename
+            chmod 755 $chameleonsocks_filename
             socks=$(echo $socks_proxy | sed -e "s/^.*\///" | sed -e "s/:.*$//")
             port=$(echo $socks_proxy | sed -e "s/^.*://")
-            PROXY=$socks PORT=$port ./chameleonsocks.sh --install
+            PROXY=$socks PORT=$port ./$chameleonsocks_filename --install
+            rm $chameleonsocks_filename
+            cp $docker_conf_backup $docker_conf
         fi
     fi
+    rm $docker_conf_backup
 
-    echo "DOCKER_OPTS=\"-H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock\"" >> /etc/default/docker
+    echo "DOCKER_OPTS=\"-H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock\"" >> $docker_conf
     usermod -a -G docker vagrant
 }
 

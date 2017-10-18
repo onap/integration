@@ -15,6 +15,9 @@ function main {
         echo "ok $((i+1)) - test_${covered_functions[$i]}"
 
         # Teardown process
+        if ! is_package_installed docker-ce; then
+            docker images -q | xargs docker rmi -f
+        fi
         dpkg --get-selections > installed-software_new
         sort -o installed-software_new installed-software_new
         apt-get purge -y -qq $(comm -3 installed-software installed-software_new | awk '{print $1}')

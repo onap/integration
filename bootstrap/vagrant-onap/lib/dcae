@@ -44,7 +44,7 @@ function _build_docker_image {
     install_docker
 
     pushd $src_folder
-    # TODO(electrocucaracha) Workaround for dmmapbc images
+    # NOTE: Workaround for dmmapbc images
     sed -i '/LocalKey/d' Dockerfile
     local docker_build="docker build -t $name -f ./Dockerfile ."
     if [ $http_proxy ]; then
