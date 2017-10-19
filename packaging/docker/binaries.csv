@@ -19,6 +19,7 @@ gvnfm-vnfres,,GVNFM Virtual Resource Management,gvnfm-vnfres,org.openo.gvnfm.vnf
 nfvo,vim-vimadapter,NFVO VIM Driver,nfvo-driver-vim,org.openo.nfvo,vimadapter-deployment,zip,,8481,,,TRUE,,
 nfvo,gvnfm-gvnfmadapter,NFVO VNFM Driver GVNFM,nfvo-driver-vnfm-gvnfm,org.openo.nfvo,drivers-vnfm-gvnfm-gvnfmadapter,zip,,8484,,,,TRUE,
 nfvo,svnfm-huawei,NFVO VNFM Driver Huawei,nfvo-driver-vnfm-huawei,org.openo.nfvo,hw-vnfmadapter-deployment,zip,,8482,TRUE,,TRUE,,
+nfvo,svnfm-nokia,NFVO VNFM Driver Nokia,nfvo-driver-vnfm-nokia,org.openo.nfvo,vfcadaptor-deployment,zip,,8486,TRUE,,TRUE,,
 nfvo,gvnfm-juju,NFVO VNFM Driver JUJU,nfvo-driver-vnfm-juju,org.openo.nfvo,juju-vnfmadapterservice-deployment,zip,,8483,TRUE,,TRUE,,
 nfvo,svnfm-zte,NFVO VNFM Driver ZTE,nfvo-driver-vnfm-zte,org.openo.nfvo,drivers-vnfm-svnfm-zte-vmanager,zip,,8410,,,,TRUE,
 nfvo,vnfm-ericsson,NFVO VNFM Driver Ericsson,nfvo-driver-vnfm-ericsson,org.openo.nfvo,ericsson-vnfm-driver-deployment,zip,,8485,,,TRUE,,
