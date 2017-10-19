@@ -789,11 +789,11 @@ Application admin Login To Portal GUI
     [Documentation]   Logs into Portal GUI
     # Setup Browser Now being managed by test case
     ##Setup Browser
-    Go To    ${PORTAL_LOGIN_URL}
-    Maximize Browser Window
-    Set Selenium Speed    ${GLOBAL_SELENIUM_DELAY}
-    Set Browser Implicit Wait    ${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}
-    Log    Logging in to ${PORTAL_URL}${PORTAL_ENV}
+#    Go To    ${PORTAL_LOGIN_URL}
+#    Maximize Browser Window
+#    Set Selenium Speed    ${GLOBAL_SELENIUM_DELAY}
+#    Set Browser Implicit Wait    ${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}
+#    Log    Logging in to ${PORTAL_URL}${PORTAL_ENV}
    # Handle Proxy Warning
     Title Should Be    Login
     Input Text    xpath=//input[@ng-model='loginId']    ${App_LoginID}
@@ -877,17 +877,17 @@ Application admin Delete Standard User Existing user
      #Input Text    xpath=//input[@id='input-table-search']    ${Existing_User}
      #Is Element Visible    xpath=(//*[contains(.,'Portal')] )[2] 
      Element Should Not Contain     xpath=//*[@table-data='users.accountUsers']    Portal   
-	 Click Image     xpath=//img[@alt='Onap Logo']
-    Set Selenium Implicit Wait    3000
+	 #Click Image     xpath=//img[@alt='Onap Logo']
+    #Set Selenium Implicit Wait    3000
      
      
      
 Application admin Logout from Portal GUI
     [Documentation]   Logout from Portal GUI
     Click Element    xpath=//div[@id='header-user-icon']
-	Set Selenium Implicit Wait    3000
+	#Set Selenium Implicit Wait    3000
     Click Button    xpath=//button[contains(.,'Log out')]
-	Set Selenium Implicit Wait    3000
+	#Set Selenium Implicit Wait    3000
     Title Should Be    Login  
 
 	
@@ -898,11 +898,11 @@ Standared user Login To Portal GUI
     [Documentation]   Logs into Portal GUI
     # Setup Browser Now being managed by test case
     ##Setup Browser
-    Go To    ${PORTAL_LOGIN_URL}
-    Maximize Browser Window
-    Set Selenium Speed    ${GLOBAL_SELENIUM_DELAY}
-    Set Browser Implicit Wait    ${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}
-    Log    Logging in to ${PORTAL_URL}${PORTAL_ENV}
+#    Go To    ${PORTAL_LOGIN_URL}
+#    Maximize Browser Window
+#    Set Selenium Speed    ${GLOBAL_SELENIUM_DELAY}
+#    Set Browser Implicit Wait    ${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}
+#    Log    Logging in to ${PORTAL_URL}${PORTAL_ENV}
    # Handle Proxy Warning
     Title Should Be    Login
     Input Text    xpath=//input[@ng-model='loginId']    ${Sta_LoginID}
