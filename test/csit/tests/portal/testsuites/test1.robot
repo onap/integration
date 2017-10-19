@@ -789,11 +789,11 @@ Application admin Login To Portal GUI
     [Documentation]   Logs into Portal GUI
     # Setup Browser Now being managed by test case
     ##Setup Browser
-    Go To    ${PORTAL_LOGIN_URL}
-    Maximize Browser Window
-    Set Selenium Speed    ${GLOBAL_SELENIUM_DELAY}
-    Set Browser Implicit Wait    ${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}
-    Log    Logging in to ${PORTAL_URL}${PORTAL_ENV}
+#    Go To    ${PORTAL_LOGIN_URL}
+#    Maximize Browser Window
+#    Set Selenium Speed    ${GLOBAL_SELENIUM_DELAY}
+#    Set Browser Implicit Wait    ${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}
+#    Log    Logging in to ${PORTAL_URL}${PORTAL_ENV}
    # Handle Proxy Warning
     Title Should Be    Login
     Input Text    xpath=//input[@ng-model='loginId']    ${App_LoginID}
@@ -898,11 +898,11 @@ Standared user Login To Portal GUI
     [Documentation]   Logs into Portal GUI
     # Setup Browser Now being managed by test case
     ##Setup Browser
-    Go To    ${PORTAL_LOGIN_URL}
-    Maximize Browser Window
-    Set Selenium Speed    ${GLOBAL_SELENIUM_DELAY}
-    Set Browser Implicit Wait    ${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}
-    Log    Logging in to ${PORTAL_URL}${PORTAL_ENV}
+#    Go To    ${PORTAL_LOGIN_URL}
+#    Maximize Browser Window
+#    Set Selenium Speed    ${GLOBAL_SELENIUM_DELAY}
+#    Set Browser Implicit Wait    ${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}
+#    Log    Logging in to ${PORTAL_URL}${PORTAL_ENV}
    # Handle Proxy Warning
     Title Should Be    Login
     Input Text    xpath=//input[@ng-model='loginId']    ${Sta_LoginID}
