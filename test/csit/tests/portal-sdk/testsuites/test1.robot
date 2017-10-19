@@ -6,8 +6,8 @@ Library     	XvfbRobot
 
 
 *** Variables ***
-${PORTAL_URL}		http://portal.api.simpledemo.openecomp.org:8989
-${PORTAL_ENV}            /ECOMPPORTAL
+${PORTAL_URL}		http://portal.api.simpledemo.onap.org:8989
+${PORTAL_ENV}            /ONAPPORTAL
 ${PORTAL_LOGIN_URL}                ${PORTAL_URL}${PORTAL_ENV}/login.htm
 ${PORTAL_HOME_PAGE}        ${PORTAL_URL}${PORTAL_ENV}/applicationsHome
 ${PORTAL_MICRO_ENDPOINT}    ${PORTAL_URL}${PORTAL_ENV}/commonWidgets
