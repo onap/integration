@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a2f8d8d_24d1c457",
+        "filename": "test/csit/tests/policy/suite1/configpolicy_vCPE_R1.template",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-10-19T12:39:03Z",
+      "side": 1,
+      "message": "This should have controlLoopSchemaType of VNF. Please double check. I will check the push-policies.sh to make sure Ravi got it right.",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 1464
+      },
+      "revId": "a04d76a94dc1b4dcd06310d5076352dd90893012",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2f8d8d_e4ca9ca0",
+        "filename": "test/csit/tests/policy/suite1/opspolicy_VFW_R1.template",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-10-19T12:39:03Z",
+      "side": 1,
+      "message": "Missing the abatement\u003dfalse",
+      "revId": "a04d76a94dc1b4dcd06310d5076352dd90893012",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2f8d8d_c4cfa0af",
+        "filename": "test/csit/tests/policy/suite1/opspolicy_vOLTE_R1.template",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-10-19T12:39:03Z",
+      "side": 1,
+      "message": "missing abatement\u003dfalse",
+      "revId": "a04d76a94dc1b4dcd06310d5076352dd90893012",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
