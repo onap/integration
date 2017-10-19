@@ -55,9 +55,9 @@ cd portal
 git pull
 cd deliveries
 rm .env
-rm docker-compose.yml
+#rm docker-compose.yml
 cp $CURR/.env .
-cp $CURR/docker-compose.yml .
+#cp $CURR/docker-compose.yml .
 #cd  properties_simpledemo/ECOMPPORTALAPP
 #rm  system.properties
 #cp  $CURR/system.properties .
@@ -68,7 +68,7 @@ source $CURR/.env
 
 # Make inter-app communication work in CSIT
 export EXTRA_HOST_IP="-i ${HOST_IP}"
-export EXTRA_HOST_NAME="-n portal.api.simpledemo.openecomp.org"
+export EXTRA_HOST_NAME="-n portal.api.simpledemo.onap.org"
 
 
 # Copy property files to new directory
@@ -107,7 +107,7 @@ docker-compose up -d
 
 # insert/update hosts entry
 ip_address=$HOST_IP
-host_name="portal.api.simpledemo.openecomp.org"
+host_name="portal.api.simpledemo.onap.org"
 # find existing instances in the host file and save the line numbers
 matches_in_hosts="$(grep -n $host_name /etc/hosts | cut -f1 -d:)"
 host_entry="${ip_address} ${host_name}"
@@ -137,7 +137,7 @@ TIME_OUT=500
 INTERVAL=20
 TIME=0
 while [ "$TIME" -lt "$TIME_OUT" ]; do
-  response=$(curl --write-out '%{http_code}' --silent --output /dev/null http://portal.api.simpledemo.openecomp.org:8989/ECOMPPORTAL/portalApi/healthCheck); echo $response
+  response=$(curl --write-out '%{http_code}' --silent --output /dev/null http://portal.api.simpledemo.onap.org:8989/ONAPPORTAL/portalApi/healthCheck); echo $response
 
   if [ "$response" == "200" ]; then
     echo Portal and its database well started in $TIME seconds

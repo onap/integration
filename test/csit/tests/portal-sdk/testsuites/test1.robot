@@ -6,8 +6,8 @@ Library     	XvfbRobot
 
 
 *** Variables ***
-${PORTAL_URL}		http://portal.api.simpledemo.openecomp.org:8989
-${PORTAL_ENV}            /ECOMPPORTAL
+${PORTAL_URL}		http://portal.api.simpledemo.onap.org:8989
+${PORTAL_ENV}            /ONAPPORTAL
 ${PORTAL_LOGIN_URL}                ${PORTAL_URL}${PORTAL_ENV}/login.htm
 ${PORTAL_HOME_PAGE}        ${PORTAL_URL}${PORTAL_ENV}/applicationsHome
 ${PORTAL_MICRO_ENDPOINT}    ${PORTAL_URL}${PORTAL_ENV}/commonWidgets
@@ -28,7 +28,6 @@ ${GLOBAL_VM_PRIVATE_KEY}   ${EXECDIR}/robot/assets/keys/robot_ssh_private_key.pv
 
 Portal admin Login To Portal GUI
     [Documentation]   Logs into Portal GUI
-    ## Setup Browser Now being managed by test case
 #    Setup Browser
 	Start Virtual Display    1920    1080
 	Open Browser    ${PORTAL_LOGIN_URL}    chrome
@@ -60,8 +59,7 @@ Validate SDK Sub Menu
       Page Should Contain    Reports
       Page Should Contain    Profile
       Page Should Contain    Admin    
-    # Click Element    xpath=(.//span[@id='tab-Home'])[1]
-    
+        
 Click Sample Pages and validate sub Menu  
      [Documentation]   Click Sample Pages
     Select frame    xpath=.//*[@id='tabframe-xDemo-App']
