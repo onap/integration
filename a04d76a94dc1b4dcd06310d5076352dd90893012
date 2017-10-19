@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "1a2f8d8d_84c19882",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2017-10-19T12:40:11Z",
+      "side": 1,
+      "message": "Wrong JIRA ID, please use POLICY-337",
+      "range": {
+        "startLine": 9,
+        "startChar": 10,
+        "endLine": 9,
+        "endChar": 19
+      },
+      "revId": "a04d76a94dc1b4dcd06310d5076352dd90893012",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a2f8d8d_24d1c457",
         "filename": "test/csit/tests/policy/suite1/configpolicy_vCPE_R1.template",
         "patchSetId": 2
