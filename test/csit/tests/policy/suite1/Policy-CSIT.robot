@@ -12,9 +12,9 @@ ${RESOURCE_PATH_CREATE}        /pdp/api/createPolicy
 ${RESOURCE_PATH_CREATE_PUSH}        /pdp/api/pushPolicy
 ${RESOURCE_PATH_CREATE_DELETE}        /pdp/api/deletePolicy
 ${RESOURCE_PATH_GET_CONFIG}    /pdp/api/getConfig
-${CREATE_CONFIG_VFW_TEMPLATE}    ${CURDIR}/configpolicy_vFW.template
-${CREATE_CONFIG_VDNS_TEMPLATE}    ${CURDIR}/configpolicy_vDNS.template
-${CREATE_CONFIG_VCPE_TEMPLATE}    ${CURDIR}/configpolicy_vCPE.template
+${CREATE_CONFIG_VFW_TEMPLATE}    ${CURDIR}/configpolicy_vFW_R1.template
+${CREATE_CONFIG_VDNS_TEMPLATE}    ${CURDIR}/configpolicy_vDNS_R1.template
+${CREATE_CONFIG_VCPE_TEMPLATE}    ${CURDIR}/configpolicy_vCPE_R1.template
 ${CREATE_OPS_VFW_TEMPLATE}    ${CURDIR}/opspolicy_VFW_R1.template
 ${PUSH_POLICY_TEMPLATE}   ${CURDIR}/pushpolicy.template
 ${CREATE_OPS_VDNS_TEMPLATE}    ${CURDIR}/opspolicy_VDNS_R1.template
@@ -36,8 +36,8 @@ ${OPS_POLICY_VOLTE_NAME}    VoLTE
 ${OPS_POLICY_VOLTE_TYPE}    BRMS_PARAM
 ${file_path}        ../testsuite/robot/assets/templates/ControlLoopDemo__closedLoopControlName.drl
 ${RESOURCE_PATH_UPLOAD}  /pdp/api/policyEngineImport?importParametersJson=%7B%22serviceName%22%3A%22Manyu456%22%2C%20%22serviceType%22%3A%22BRMSPARAM%22%7D
-${CREATE_OPS_VCPE_TEMPLATE}      ${CURDIR}/opspolicy_vCPE.template  
-${CREATE_OPS_VOLTE_TEMPLATE}    ${CURDIR}/opspolicy_vOLTE.template
+${CREATE_OPS_VCPE_TEMPLATE}      ${CURDIR}/opspolicy_vCPE_R1.template  
+${CREATE_OPS_VOLTE_TEMPLATE}    ${CURDIR}/opspolicy_vOLTE_R1.template
 
 
 *** Test Cases ***
@@ -220,7 +220,7 @@ Create Ops VDNS Policy
 Create Config VCPE Policy
     [Documentation]    Create Config Policy
     ${randompolicyname} =     Create Policy Name
-    ${policyname1}=    Catenate   com.${randompolicyname}_vFirewall
+    ${policyname1}=    Catenate   com.${randompolicyname}_vCPE
     ${CONFIG_POLICY_VCPE_NAME}=    Set Test Variable    ${policyname1}
     ${configpolicy}=    Create Dictionary    policy_name=${policyname1}
     ${output} =     Fill JSON Template File     ${CREATE_CONFIG_VCPE_TEMPLATE}    ${configpolicy}
@@ -239,7 +239,7 @@ Get Configs VCPE Policy
 Create Ops vCPE Policy
 	[Documentation]    Create Opertional Policy
    	${randompolicyname} =     Create Policy Name
-	${policyname1}=    Catenate   com.${randompolicyname}
+	${policyname1}=    Catenate   com.${randompolicyname}_vCPE
 	${OPS_POLICY_VCPE_NAME}=    Set Test Variable    ${policyname1}
  	${dict}=     Create Dictionary    policy_name=${policyname1}
 	${output} =     Fill JSON Template File     ${CREATE_OPS_VCPE_TEMPLATE}    ${dict}
@@ -251,7 +251,7 @@ Create Ops vCPE Policy
 Create Ops VolTE Policy
 	[Documentation]    Create Opertional Policy
    	${randompolicyname} =     Create Policy Name
-	${policyname1}=    Catenate   com.${randompolicyname}
+	${policyname1}=    Catenate   com.${randompolicyname}_VoLTE
  	${dict}=     Create Dictionary    policy_name=${policyname1}
 	${output} =     Fill JSON Template File     ${CREATE_OPS_VOLTE_TEMPLATE}    ${dict}
     ${put_resp} =    Run Policy Put Request    ${RESOURCE_PATH_CREATE}  ${output}
