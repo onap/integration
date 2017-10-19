@@ -42,26 +42,38 @@ done
 echo sleep 60
 sleep 60
 
-# start vfc-ztevmanagerdriver
-docker run -d --name vfc-ztevmanagerdriver -e MSB_ADDR=${MSB_IAG_IP}:80 nexus3.onap.org:10001/onap/vfc/ztevmanagerdriver
-ZTEVMANAGERDRIVER_IP=`get-instance-ip.sh vfc-ztevmanagerdriver`
-
-# Wait for initialization
-for i in {1..10}; do
-    curl -sS ${ZTEVMANAGERDRIVER_IP}:8410 && break
-    echo sleep $i
-    sleep $i
-done
-
-
-# Start svnfm-huawei
-docker run -d --name vfc-svnfm-huawei -e MSB_ADDR=${MSB_IAG_IP}:80 nexus3.onap.org:10001/onap/vfc/nfvo/svnfm/huawei
-SERVICE_IP=`get-instance-ip.sh vfc-svnfm-huawei`
-for i in {1..20}; do
-    curl -sS ${SERVICE_IP}:8482 && break
-    echo sleep $i
-    sleep $i
-done
+## start vfc-ztevmanagerdriver
+#docker run -d --name vfc-ztevmanagerdriver -e MSB_ADDR=${MSB_IAG_IP}:80 nexus3.onap.org:10001/onap/vfc/ztevmanagerdriver
+#ZTEVMANAGERDRIVER_IP=`get-instance-ip.sh vfc-ztevmanagerdriver`
+#
+## Wait for initialization
+#for i in {1..10}; do
+#    curl -sS ${ZTEVMANAGERDRIVER_IP}:8410 && break
+#    echo sleep $i
+#    sleep $i
+#done
+#
+#
+## Start svnfm-huawei
+#docker run -d --name vfc-svnfm-huawei -e MSB_ADDR=${MSB_IAG_IP}:80 nexus3.onap.org:10001/onap/vfc/nfvo/svnfm/huawei
+#SERVICE_IP=`get-instance-ip.sh vfc-svnfm-huawei`
+#for i in {1..20}; do
+#    curl -sS ${SERVICE_IP}:8482 && break
+#    echo sleep $i
+#    sleep $i
+#done
+#
+## Start svnfm-nokia
+#docker run -d --name vfc-svnfm-nokia -v /var/lib/mysql -e MSB_ADDR=${MSB_IAG_IP}:80 nexus3.onap.org:10001/onap/vfc/nfvo/svnfm/nokia
+#NOKIAVNFMDRIVER_IP=`get-instance-ip.sh vfc-svnfm-nokia`
+#for i in {1..20}; do
+#    curl -sS ${NOKIAVNFMDRIVER_IP}:8486 && break
+#    echo sleep 30 * $i
+#    sleep $i
+#done
+#
+## Pass any variables required by Robot test suites in ROBOT_VARIABLES
+#ROBOT_VARIABLES="-v MSB_IAG_IP:${MSB_IAG_IP} -v ZTEVMANAGERDRIVER_IP:${ZTEVMANAGERDRIVER_IP} -v MSB_IP:${MSB_IAG_IP} -v SERVICE_IP:${SERVICE_IP} -v MSB_IP:${MSB_IAG_IP} -v NOKIAVNFMDRIVER_IP:${NOKIAVNFMDRIVER_IP} -v SCRIPTS:${SCRIPTS}"
 
 # Start svnfm-nokia
 docker run -d --name vfc-svnfm-nokia -v /var/lib/mysql -e MSB_ADDR=${MSB_IAG_IP}:80 nexus3.onap.org:10001/onap/vfc/nfvo/svnfm/nokia
@@ -73,7 +85,7 @@ for i in {1..20}; do
 done
 
 # Pass any variables required by Robot test suites in ROBOT_VARIABLES
-ROBOT_VARIABLES="-v MSB_IAG_IP:${MSB_IAG_IP} -v ZTEVMANAGERDRIVER_IP:${ZTEVMANAGERDRIVER_IP} -v MSB_IP:${MSB_IAG_IP} -v SERVICE_IP:${SERVICE_IP} -v MSB_IP:${MSB_IAG_IP} -v NOKIAVNFMDRIVER_IP:${NOKIAVNFMDRIVER_IP} -v SCRIPTS:${SCRIPTS}"
+ROBOT_VARIABLES=" -v MSB_IP:${MSB_IAG_IP} -v NOKIAVNFMDRIVER_IP:${NOKIAVNFMDRIVER_IP} -v SCRIPTS:${SCRIPTS}"
 
 
 
