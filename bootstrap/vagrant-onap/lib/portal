@@ -5,25 +5,29 @@ set -o xtrace
 source /var/onap/functions
 
 portal_src_folder=$git_src_folder/portal
-portal_repos=("sdk")
+portal_repos=("portal" "portal/sdk" "ecompsdkos" "ui/dmaapbc")
 
 # clone_all_portal_repos() - Function that clones Portal source repo.
 function clone_all_portal_repos {
-    clone_repo portal $portal_src_folder
-    clone_repo ecompsdkos $portal_src_folder/ecompsdkos
-    clone_repo "ui/dmaapbc" $portal_src_folder/dmaapbc
-
-    for dirc in ${portal_repos[@]}; do
-        clone_repo portal/$dirc $portal_src_folder/$dirc
+    for repo in ${portal_repos[@]}; do
+        if [[ "$repo" == "ui/dmaapbc" ]];then
+            prefix="ui"
+        else
+            prefix="portal"
+        fi
+        clone_repo $repo $portal_src_folder/${repo#*$prefix}
     done
 }
 
 # compile_all_portal_repos() - Function that compiles Portal source repo.
 function compile_all_portal_repos {
-    compile_src $portal_src_folder
-
-    for dirc in ${portal_repos[@]}; do
-        compile_src $portal_src_folder/$dirc
+    for repo in ${portal_repos[@]}; do
+        if [[ "$repo" == "ui/dmaapbc" ]];then
+            prefix="ui"
+        else
+            prefix="portal"
+        fi
+        compile_src $portal_src_folder/${repo#*$prefix}
     done
 }
 

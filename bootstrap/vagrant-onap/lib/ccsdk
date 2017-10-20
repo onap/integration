@@ -5,23 +5,24 @@ set -o xtrace
 source /var/onap/functions
 
 ccsdk_src_folder=$git_src_folder/ccsdk
-ccsdk_repos=("dashboard" "distribution" "parent" "platform/blueprints" "platform/nbapi" "platform/plugins" "sli" "sli/adaptors" "sli/core" "sli/northbound" "sli/plugins" "storage" "storage/esaas" "storage/pgaas" "utils")
+ccsdk_repos=("ccsdk" "ccsdk/dashboard" "ccsdk/distribution" "ccsdk/parent"
+"ccsdk/platform/blueprints" "ccsdk/platform/nbapi" "ccsdk/platform/plugins"
+"ccsdk/sli" "ccsdk/sli/adaptors" "ccsdk/sli/core" "ccsdk/sli/northbound"
+"ccsdk/sli/plugins" "ccsdk/storage" "ccsdk/storage/esaas" "ccsdk/storage/pgaas"
+"ccsdk/utils")
 
 # clone_ccsdk_repos() - Function that clones the CCSDK repositories
 function clone_ccsdk_repos {
-    clone_repo ccsdk $ccsdk_src_folder
-
-    for dirc in ${ccsdk_repos[@]}; do
-        clone_repo ccsdk/$dirc $ccsdk_src_folder/$dirc
+    for repo in ${ccsdk_repos[@]}; do
+        clone_repo $repo $ccsdk_src_folder${repo#ccsdk}
     done
 }
 
 # compile_ccsdk_repos() - 
 function compile_ccsdk_repos {
-    compile_src ccsdk $ccsdk_src_folder
-
-    for dirc in ${ccsdk_repos[@]}; do
-        compile_src $ccsdk_src_folder/$dirc
+    install_package unzip
+    for repo in ${ccsdk_repos[@]}; do
+        compile_src $ccsdk_src_folder${repo#ccsdk}
     done
 }
 

@@ -5,17 +5,20 @@ set -o xtrace
 source /var/onap/functions
 
 vid_src_folder=$git_src_folder/vid
+vid_repos=("vid" "vid/asdcclient")
 
 # clone_all_vid_repos() - Function that clones VID source code.
 function clone_all_vid_repos {
-    clone_repo vid $vid_src_folder
-    clone_repo vid/asdcclient $vid_src_folder/asdcclient
+    for repo in ${vid_repos[@]}; do
+        clone_repo $repo $vid_src_folder${repo#*vid}
+    done
 }
 
 # compile_all_vid_repos() - Function that compiles VID source repo.
 function compile_all_vid_repos {
-    compile_src $vid_src_folder/asdcclient
-    compile_src $vid_src_folder
+    for repo in ${vid_repos[@]}; do
+        compile_src $vid_src_folder${repo#*vid}
+    done
 }
 
 # _build_vid_images() - Function that builds VID docker images

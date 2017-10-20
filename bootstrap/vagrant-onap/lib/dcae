@@ -5,8 +5,12 @@ set -o xtrace
 source /var/onap/functions
 
 dcae_src_folder=$git_src_folder/dcae
-dcae_repos=("apod" "apod/analytics" "apod/buildtools" "apod/cdap" "collectors" "collectors/ves" "controller" "controller/analytics" "dcae-inventory"
-"demo" "demo/startup" "demo/startup/aaf" "demo/startup/controller" "demo/startup/message-router" "dmaapbc" "operation" "operation/utils" "pgaas" "utils" "utils/buildtools")
+dcae_repos=("dcae" "dcae/apod" "dcae/apod/analytics" "dcae/apod/buildtools"
+"dcae/apod/cdap" "dcae/collectors" "dcae/collectors/ves" "dcae/controller"
+"dcae/controller/analytics" "dcae/dcae-inventory" "dcae/demo"
+"dcae/demo/startup" "dcae/demo/startup/aaf" "dcae/demo/startup/controller"
+"dcae/demo/startup/message-router" "dcae/dmaapbc" "dcae/operation"
+"dcae/operation/utils" "dcae/orch-dispatcher" "dcae/pgaas" "dcae/utils" "dcae/utils/buildtools")
 
 # _create_config_file() - Creates a configuration yaml file for the controller
 function _create_config_file {
@@ -59,16 +63,15 @@ function _build_docker_image {
 
 # clone_all_dcae_repos() - Function that clones DCAE source repo.
 function clone_all_dcae_repos {
-    clone_repo dcae $dcae_src_folder
-    for dirc in ${dcae_repos[@]}; do
-        clone_repo dcae/$dirc $dcae_src_folder/$dirc
+    for repo in ${dcae_repos[@]}; do
+        clone_repo $repo $dcae_src_folder${repo#*dcae}
     done
 }
 
 # compile_all_dcae_repos() - Function that compiles DCAE source repo.
 function compile_all_dcae_repos {
-    for dirc in ${dcae_repos[@]}; do
-        compile_src $dcae_src_folder/$dirc
+    for repo in ${dcae_repos[@]}; do
+        compile_src $dcae_src_folder${repo#*dcae}
     done
 }
 

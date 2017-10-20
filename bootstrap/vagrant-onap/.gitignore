@@ -8,3 +8,5 @@ lib/files/sources.list
 openrc
 doc/build/
 etc/settings.yaml
+tests/remaining_projects.txt
+tests/installed-software*
