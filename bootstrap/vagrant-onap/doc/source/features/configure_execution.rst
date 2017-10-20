@@ -2,7 +2,7 @@
 Modify execution values
 =======================
 
-In order to provide a flexible plataform that adjusts to different developer
+In order to provide a flexible platform that adjusts to different developer
 needs, it has been implemented two mechanism to configure the execution of this
 project.
 
@@ -70,5 +70,4 @@ values that can be overriden using *-g* and *-i* respectively by the run scripts
    $ ./tools/run.sh sdc -g
 
 .. end
-
 

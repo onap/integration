@@ -1,0 +1,50 @@
+#!/bin/bash
+
+source /var/onap_tests/_test_base
+source /var/onap/vnfsdk
+
+covered_functions=(
+"clone_all_vnfsdk_repos" "compile_all_vnfsdk_repos" "get_vnfsdk_images" "install_vnfsdk"
+)
+
+# test_clone_all_vnfsdk_repos() - Verify the cloning of VNFSDK source repo.
+function test_clone_all_vnfsdk_repos {
+    clone_all_vnfsdk_repos
+
+    asserts_file_exist $vnfsdk_src_folder/refrepo/pom.xml
+}
+
+# test_compile_all_vnfsdk_repos () - Verify if VNFSDK source repo compiles correctly.
+function test_compile_all_vnfsdk_repos {
+    clone_all_vnfsdk_repos
+    {
+        compile_all_vnfsdk_repos
+    } || {
+        set -e
+    }
+}
+
+# test_get_vnfsdk_images() - Verify that the VNFSDK images are created or retrieved
+function  test_get_vnfsdk_images {
+    clone_all_vnfsdk_repos
+    get_vnfsdk_images
+
+    asserts_image refrepo:1.0-STAGING-latest
+    asserts_image refrepo:latest
+}
+
+# test_install_vnfsdk() - Verify that VNFSDK docker images are running.
+function test_install_vnfsdk {
+    clone_all_vnfsdk_repos
+    get_vnfsdk_images
+    install_vnfsdk
+
+    asserts_image_running refrepo:1.0-STAGING-latest
+    asserts_image refrepo:latest
+}
+
+if [ "$1" != '*' ]; then
+    unset covered_functions
+    covered_functions=$1
+fi
+main "${covered_functions[@]}"

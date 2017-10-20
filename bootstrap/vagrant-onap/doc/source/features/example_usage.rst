@@ -136,3 +136,16 @@ the ./opt files are in sync from the host to the VM.
    $ vagrant destroy vfc
 
 .. end
+
+Testing
+-------
+
+Use the run.sh script to test if the provisioning scripts run without errors.
+
+And example test to check the number of covered repositories with this tool.
+
+.. code-block:: console
+
+   $ ./tools/run.sh testing -y -c coverity_repos -s functions
+
+.. end
