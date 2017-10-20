@@ -18,3 +18,4 @@ env.properties
 .vagrant
 *~
 .checkstyle
+.DS_Store

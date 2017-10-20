@@ -5,23 +5,20 @@ set -o xtrace
 source /var/onap/functions
 
 src_folder=$git_src_folder/mso
-mso_repos=("chef-repo" "docker-config" "libs" "mso-config")
+mso_repos=("mso" "mso/chef-repo" "mso/docker-config" "mso/libs"
+"mso/mso-config")
 
 # clone_all_mso_repos() - Function that clones MSO source repo.
 function clone_all_mso_repos {
-    clone_repo mso $src_folder
-
-    for dirc in ${mso_repos[@]}; do
-        clone_repo mso/$dirc $src_folder/$dirc
+    for repo in ${mso_repos[@]}; do
+        clone_repo $repo $src_folder${repo#*mso}
     done
 }
 
 # compile_all_mso_repos() - Function that compiles MSO source repo.
 function compile_all_mso_repos {
-    compile_src $src_folder
-
-    for dirc in ${mso_repos[@]}; do
-        compile_src $src_folder/$dirc
+    for repo in ${mso_repos[@]}; do
+        compile_src $src_folder${repo#*mso}
     done
 }
 

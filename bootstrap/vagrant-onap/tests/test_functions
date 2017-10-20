@@ -8,7 +8,7 @@ covered_functions=(
 "configure_bind" "install_java" "install_maven" "install_nodejs" "install_python"
 "install_docker" "pull_docker_image" "install_docker_compose" "configure_service"
 "start_ODL" "compile_src" "build_docker_image" "docker_openecomp_login"
-"pull_openecomp_image" "pull_onap_image"
+"pull_openecomp_image" "pull_onap_image" "coverity_repos"
 )
 
 # test_create_configuration_files() - Verify the creation of a configuration files
@@ -163,6 +163,32 @@ function test_build_docker_image {
     build_docker_image $git_src_folder/ccsdk/distribution/ubuntu docker
 
     asserts_image onap/ccsdk-ubuntu-image
+}
+
+# test_coverity_repos() - Verify that all the repos are covered by scripts
+function test_coverity_repos {
+    # Get repositories list from source code files
+    repos_list=()
+    for module in $( stat -c "%F %n" /var/onap/* | grep -v "_\|functions\|commons\|files" | cut -d' ' -f 3-); do
+        source $module
+        module_repo_list=$(eval echo \${$(basename $module)_repos[@]})
+        repos_list=(${repos_list[@]} ${module_repo_list[@]})
+    done
+
+    pushd /var/onap_tests/
+    cp projects.txt remaining_projects.txt
+    for covered_repo in "${repos_list[@]}"; do
+        sed -i "/$covered_repo/d" remaining_projects.txt
+    done
+
+    threshold=75
+    num_projects=$(wc -l < projects.txt)
+    num_remaining_projects=$(wc -l < remaining_projects.txt)
+    coverage=`echo "scale=2; 100-($num_remaining_projects/$num_projects*100)" | bc | cut -d . -f 1`
+    if [ $coverage -lt $threshold ]; then
+        raise_error "There are repositories that are not covered by scripts"
+    fi
+    popd
 }
 
 if [ "$1" != '*' ]; then

@@ -27,13 +27,13 @@ function test_clone_ccsdk_repos {
 }
 
 # test_compile_ccsdk_repos() - Verify the compilation of CCSDK repositories
-function compile_ccsdk_repos {
-    clone_ccsdk_repos
-    compile_ccsdk_repos
+function test_compile_ccsdk_repos {
+    #clone_ccsdk_repos
+    #compile_ccsdk_repos
 
-    asserts_file_exist $ccsdk_src_folder/dashboard/oom-app-common/target/oom-app-common-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $ccsdk_src_folder/dashboard/oom-app-os/target/oom-app-os-1.1.0-SNAPSHOT.war
-    asserts_file_exist $ccsdk_src_folder/dashboard/oom-app-overlay/target/oom-app-overlay-1.1.0-SNAPSHOT.war
+    asserts_file_exist $ccsdk_src_folder/dashboard/ccsdk-app-common/target/ccsdk-app-common-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $ccsdk_src_folder/dashboard/ccsdk-app-os/target/ccsdk-app-os-1.1.0-SNAPSHOT.war
+    asserts_file_exist $ccsdk_src_folder/dashboard/ccsdk-app-overlay/target/ccsdk-app-overlay-1.1.0-SNAPSHOT.war
     asserts_file_exist $ccsdk_src_folder/distribution/dgbuilder/target/dgbuilder.0.1.0-SNAPSHOT.zip
     asserts_file_exist $ccsdk_src_folder/distribution/platform-logic/installer/target/platform-logic-installer-0.1.0-SNAPSHOT.zip
     asserts_file_exist $ccsdk_src_folder/platform/nbapi/target/commonnbapi-0.0.3.war

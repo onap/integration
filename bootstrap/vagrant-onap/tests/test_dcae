@@ -28,6 +28,7 @@ function test_clone_all_dcae_repos {
     asserts_file_exist $dcae_src_folder/dmaapbc/pom.xml
     asserts_file_exist $dcae_src_folder/operation/README.md
     asserts_file_exist $dcae_src_folder/operation/utils/pom.xml
+    asserts_file_exist $dcae_src_folder/orch-dispatcher/LICENSE.txt
     asserts_file_exist $dcae_src_folder/pgaas/LICENSE.txt
     asserts_file_exist $dcae_src_folder/utils/README.md
     asserts_file_exist $dcae_src_folder/utils/buildtools/LICENSE.txt
@@ -35,8 +36,8 @@ function test_clone_all_dcae_repos {
 
 # test_compile_all_dcae_repos() - Verify that the DCAE source code is compiled properly
 function test_compile_all_dcae_repos {
-    clone_all_dcae_repos
-    compile_all_dcae_repos
+    #clone_all_dcae_repos
+    #compile_all_dcae_repos
 
     asserts_file_exist $dcae_src_folder/collectors/ves/target/VESCollector-1.1.0-SNAPSHOT.jar
 
