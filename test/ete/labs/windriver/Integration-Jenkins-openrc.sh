@@ -32,14 +32,18 @@ export OS_USERNAME="gary_wu"
 # connecting to an HTTPS enabled endpoint
 CERT_MSG="Please enter a path for your CA certificate pem file, \
 or press enter if you are not using HTTPS "
-read -p "$CERT_MSG" OS_CACERT_INPUT
+if [ -z ${OS_CACERT_INPUT+x} ]; then
+    read -p "$CERT_MSG" OS_CACERT_INPUT
+fi
 if [ ! -z "$OS_CACERT_INPUT" ]
 then
     export OS_CACERT=$(readlink -f $OS_CACERT_INPUT)
 fi
 
 # With Keystone you pass the keystone password.
-read -sp "Please enter your OpenStack Password for project $OS_PROJECT_NAME as user $OS_USERNAME: " OS_PASSWORD_INPUT
+if [ -z ${OS_PASSWORD_INPUT+x} ]; then
+    read -sp "Please enter your OpenStack Password for project $OS_PROJECT_NAME as user $OS_USERNAME: " OS_PASSWORD_INPUT
+fi
 export OS_PASSWORD=$OS_PASSWORD_INPUT
 
 # If your configuration has multiple regions, we set that information here.
