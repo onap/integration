@@ -55,6 +55,7 @@ current options include:
 | vfc        | Virtual Function Controller         |
 | multicloud | Multi Cloud                         |
 | ccsdk      | Common Controller SDK               |
+| vnfsdk     | VNF SDK                             |
 | all_in_one | All ONAP services in a VM           |
 | testing    | Unit Test VM                        |
 
