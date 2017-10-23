@@ -49,5 +49,5 @@ fi
 
 STACK="ete-$(uuidgen | cut -c-8)"
 echo "Stack Name: ${STACK}"
-openstack stack create -t ${ONAP_WORKDIR}/demo/heat/ONAP/onap_openstack.yaml -e ${WORKSPACE}/test/ete/labs/windriver/onap.env $STACK
+openstack stack create -t ${ONAP_WORKDIR}/demo/heat/ONAP/onap_openstack.yaml -e ${WORKSPACE}/test/ete/labs/windriver/onap-openstack.env $STACK
 
