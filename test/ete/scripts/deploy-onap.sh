@@ -48,10 +48,8 @@ fi
 
 # Delete all existing stacks
 STACKS=$(openstack stack list -c "Stack Name" -f value)
-for stack in "${STACKS[@]}"; do
-    echo "Deleting Old Stack ${stack}"
-    openstack stack delete -y $stack
-done
+echo "Deleting Stacks ${STACKS}"
+openstack stack delete -y $STACKS
 
 STACK="ete-$(uuidgen | cut -c-8)"
 echo "New Stack Name: ${STACK}"
