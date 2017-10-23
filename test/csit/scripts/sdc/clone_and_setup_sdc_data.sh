@@ -30,6 +30,7 @@ mkdir -p ${WORKSPACE}/data/clone/
 mkdir -p ${WORKSPACE}/data/logs/BE/SDC/SDC-BE
 mkdir -p ${WORKSPACE}/data/logs/FE/SDC/SDC-FE
 chmod -R 777 ${WORKSPACE}/data/logs
+ls -lR ${WORKSPACE}/data/logs/
 
 
 cd ${WORKSPACE}/data/clone
