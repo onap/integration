@@ -46,8 +46,14 @@ else
 fi
 
 
+# Delete all existing stacks
+STACKS=$(openstack stack list -c "Stack Name" -f value)
+for stack in "${STACKS[@]}"; do
+    echo "Deleting Old Stack ${stack}"
+    openstack stack delete -y $stack
+done
 
 STACK="ete-$(uuidgen | cut -c-8)"
-echo "Stack Name: ${STACK}"
+echo "New Stack Name: ${STACK}"
 openstack stack create -t ${ONAP_WORKDIR}/demo/heat/ONAP/onap_openstack.yaml -e ${WORKSPACE}/test/ete/labs/windriver/onap-openstack.env $STACK
 
