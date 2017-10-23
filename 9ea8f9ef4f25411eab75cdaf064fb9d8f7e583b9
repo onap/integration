@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a2f8d8d_fd18e685",
+        "filename": "bootstrap/vagrant-onap/lib/multicloud",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2017-10-23T18:49:37Z",
+      "side": 1,
+      "message": "We should keep empty repos for now for two reasons, the first one is because they can add some files in the future and two because that affects our coverity metrics",
+      "revId": "9ea8f9ef4f25411eab75cdaf064fb9d8f7e583b9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
