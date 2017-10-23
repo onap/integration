@@ -5,23 +5,21 @@ set -o xtrace
 source /var/onap/functions
 
 multicloud_src_folder=$git_src_folder/multicloud
-multicloud_repos=("azure" "framework" "openstack" "openstack/vmware" "openstack/windriver")
+multicloud_repos=("multicloud" "multicloud/framework" "multicloud/openstack" \
+"multicloud/openstack/vmware" "multicloud/openstack/windriver" \
+"multicloud/azure")
 
 # clone_multicloud_repos() - Function that clones the Multi Cloud repositories
 function clone_multicloud_repos {
-    clone_repo multicloud $multicloud_src_folder
-
-    for dirc in ${multicloud_repos[@]}; do
-        clone_repo multicloud/$dirc $multicloud_src_folder/$dirc
+    for repo in ${multicloud_repos[@]}; do
+        clone_repo $repo $multicloud_src_folder${repo#*multicloud}
     done
 }
 
 # compile_multicloud_repos() - 
 function compile_multicloud_repos {
-    compile_src multicloud $multicloud_src_folder
-
-    for dirc in ${multicloud_repos[@]}; do
-        compile_src $multicloud_src_folder/$dirc
+    for repo in ${multicloud_repos[@]}; do
+        compile_src $multicloud_src_folder${repo#*multicloud}
     done
 }
 

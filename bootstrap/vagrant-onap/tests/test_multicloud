@@ -11,9 +11,12 @@ covered_functions=(
 function test_clone_multicloud_repos {
     clone_multicloud_repos
 
-    asserts_file_exist $multicloud_src_folder/framework/multivimbroker/pom.xml
+    #asserts_file_exist $multicloud_src_folder/
+    asserts_file_exist $multicloud_src_folder/framework/pom.xml
     asserts_file_exist $multicloud_src_folder/openstack/pom.xml
     asserts_file_exist $multicloud_src_folder/openstack/vmware/pom.xml
+    asserts_file_exist $multicloud_src_folder/openstack/windriver/pom.xml
+    #asserts_file_exist $multicloud_src_folder/azure/
 }
 
 # test_compile_multicloud_repos() -
@@ -22,6 +25,8 @@ function test_compile_multicloud_repos {
     compile_multicloud_repos
 
     asserts_file_exist $multicloud_src_folder/openstack/newton/target/multicloud-openstack-newton-1.0.0-SNAPSHOT.zip
+    asserts_file_exist $multicloud_src_folder/openstack/ocata/target/multicloud-openstack-ocata-1.0.0-SNAPSHOT.zip
+    asserts_file_exist $multicloud_src_folder/openstack/windriver/target/multicloud-openstack-windriver-1.0.0-SNAPSHOT.zip
 }
 
 # test_get_multicloud_images() -
