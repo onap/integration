@@ -63,5 +63,18 @@ for i in {1..20}; do
     sleep $i
 done
 
+# Start svnfm-nokia
+docker run -d --name vfc-svnfm-nokia -e MSB_ADDR=${MSB_IAG_IP}:80 nexus3.onap.org:10001/onap/vfc/nfvo/svnfm/nokia
+sleep 60
+NOKIAVNFMDRIVER_IP=`get-instance-ip.sh vfc-svnfm-nokia`
+for i in {1..20}; do
+    curl -sS ${NOKIAVNFMDRIVER_IP}:8486 && break
+    echo sleep 30 * $i
+    sleep $i
+done
+
 # Pass any variables required by Robot test suites in ROBOT_VARIABLES
-ROBOT_VARIABLES="-v MSB_IAG_IP:${MSB_IAG_IP} -v ZTEVMANAGERDRIVER_IP:${ZTEVMANAGERDRIVER_IP} -v MSB_IP:${MSB_IAG_IP} -v SERVICE_IP:${SERVICE_IP} -v SCRIPTS:${SCRIPTS}"
+ROBOT_VARIABLES="-v MSB_IAG_IP:${MSB_IAG_IP} -v ZTEVMANAGERDRIVER_IP:${ZTEVMANAGERDRIVER_IP} -v MSB_IP:${MSB_IAG_IP} -v SERVICE_IP:${SERVICE_IP} -v MSB_IP:${MSB_IAG_IP} -v NOKIAVNFMDRIVER_IP:${NOKIAVNFMDRIVER_IP} -v SCRIPTS:${SCRIPTS}"
+
+
+
