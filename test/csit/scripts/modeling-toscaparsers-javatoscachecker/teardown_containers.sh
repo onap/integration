@@ -20,7 +20,7 @@
 # ECOMP is a trademark and service mark of AT&T Intellectual Property.
 #
 
-echo "This is ${WORKSPACE}/test/csit/modeling/javatoscachecker/teardown_containers.sh"
+echo "This is ${WORKSPACE}/test/csit/scripts/modeling-toscaparsers-javatoscachecker/teardown_containers.sh"
 
 kill-instance.sh modeling_javatoscachecker_1
 
