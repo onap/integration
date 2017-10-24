@@ -21,6 +21,9 @@
      - 'aai_aai-service':
          repo: 'aai/aai-service'
          pom: 'pom.xml'
+     - 'aai_babel':
+         repo: 'aai/babel'
+         pom: 'pom.xml'
      - 'aai_champ':
          repo: 'aai/champ'
          pom: 'pom.xml'
@@ -237,9 +240,12 @@
      - 'holmes_rule-management':
          repo: 'holmes/rule-management'
          pom: 'pom.xml'
-     - 'integration':
+     - 'integration_test_mocks_sniroemulator':
          repo: 'integration'
-         pom: 'pom.xml'
+         pom: 'test/mocks/sniroemulator/pom.xml'
+     - 'integration_version-manifest':
+         repo: 'integration'
+         pom: 'version-manifest/pom.xml'
      - 'modeling_toscaparsers_javatoscachecker':
          repo: 'modeling/toscaparsers'
          pom: 'javatoscachecker/pom.xml'
@@ -272,6 +278,9 @@
          pom: 'pom.xml'
      - 'multicloud_openstack_vmware':
          repo: 'multicloud/openstack/vmware'
+         pom: 'pom.xml'
+     - 'multicloud_openstack_windriver':
+         repo: 'multicloud/openstack/windriver'
          pom: 'pom.xml'
      - 'ncomp_cdap':
          repo: 'ncomp/cdap'
@@ -357,9 +366,6 @@
      - 'sdc_sdc-workflow-designer':
          repo: 'sdc/sdc-workflow-designer'
          pom: 'pom.xml'
-     - 'sdc_sdc_common':
-         repo: 'sdc/sdc_common'
-         pom: 'pom.xml'
      - 'sdnc_adaptors':
          repo: 'sdnc/adaptors'
          pom: 'pom.xml'
@@ -393,6 +399,9 @@
      - 'usecase-ui':
          repo: 'usecase-ui'
          pom: 'pom.xml'
+     - 'usecase-ui_server':
+         repo: 'usecase-ui/server'
+         pom: 'pom.xml'
      - 'vfc_gvnfm_vnflcm':
          repo: 'vfc/gvnfm/vnflcm'
          pom: 'pom.xml'
@@ -423,21 +432,24 @@
      - 'vfc_nfvo_resmanagement':
          repo: 'vfc/nfvo/resmanagement'
          pom: 'pom.xml'
-     - 'vfc_nfvo_wfengine_activiti-extension':
+     - 'vfc_nfvo_wfengine':
          repo: 'vfc/nfvo/wfengine'
-         pom: 'activiti-extension/pom.xml'
-     - 'vfc_nfvo_wfengine_wfenginemgrservice':
-         repo: 'vfc/nfvo/wfengine'
-         pom: 'wfenginemgrservice/pom.xml'
-     - 'vfc_nfvo_wfengine_wso2':
-         repo: 'vfc/nfvo/wfengine'
-         pom: 'wso2/pom.xml'
+         pom: 'pom.xml'
      - 'vid':
          repo: 'vid'
          pom: 'pom.xml'
      - 'vid_asdcclient':
          repo: 'vid/asdcclient'
          pom: 'pom.xml'
+     - 'vnfsdk_compliance_veslibrary_ves_clibrary_VESreporting_vFW':
+         repo: 'vnfsdk/compliance'
+         pom: 'veslibrary/ves_clibrary/VESreporting_vFW/pom.xml'
+     - 'vnfsdk_compliance_veslibrary_ves_clibrary_VESreporting_vLB':
+         repo: 'vnfsdk/compliance'
+         pom: 'veslibrary/ves_clibrary/VESreporting_vLB/pom.xml'
+     - 'vnfsdk_compliance_veslibrary_ves_javalibrary_evel_javalib2':
+         repo: 'vnfsdk/compliance'
+         pom: 'veslibrary/ves_javalibrary/evel_javalib2/pom.xml'
      - 'vnfsdk_functest':
          repo: 'vnfsdk/functest'
          pom: 'pom.xml'
@@ -452,4 +464,28 @@
          pom: 'pom.xml'
      - 'vnfsdk_validation':
          repo: 'vnfsdk/validation'
+         pom: 'pom.xml'
+     - 'vvp_cms':
+         repo: 'vvp/cms'
+         pom: 'pom.xml'
+     - 'vvp_engagementmgr':
+         repo: 'vvp/engagementmgr'
+         pom: 'pom.xml'
+     - 'vvp_gitlab':
+         repo: 'vvp/gitlab'
+         pom: 'pom.xml'
+     - 'vvp_image-scanner':
+         repo: 'vvp/image-scanner'
+         pom: 'pom.xml'
+     - 'vvp_jenkins':
+         repo: 'vvp/jenkins'
+         pom: 'pom.xml'
+     - 'vvp_portal':
+         repo: 'vvp/portal'
+         pom: 'pom.xml'
+     - 'vvp_postgresql':
+         repo: 'vvp/postgresql'
+         pom: 'pom.xml'
+     - 'vvp_test-engine':
+         repo: 'vvp/test-engine'
          pom: 'pom.xml'
