@@ -14,9 +14,10 @@ Check service up
 
 Check standalone template
     CreateSession   checkerservice  http://localhost:8080
-    ${data}=    Get Binary File     ${CURDIR}${/}data${/}standalone.yaml
+    ${data}=    Get File     ${CURDIR}${/}data${/}standalone.yaml
     &{headers}=  Create Dictionary    Content-Type=application/json    Accept=application/json
-    ${resp}=    Post Request    checkerservice   /check_template     data=${data}     headers=${headers}
+    ${resp}=    Post Request    checkerservice   /check_template/     data=${data}     headers=${headers}
+    Log    Response received from checker ${resp.text}
     Should Be Equal As Strings      ${resp.status_code}     200
 
 Check schema new namespace
@@ -24,6 +25,7 @@ Check schema new namespace
     ${data}=    Get Binary File     ${CURDIR}${/}data${/}test_schema.yaml
     &{headers}=  Create Dictionary    Content-Type=application/json    Accept=application/json
     ${resp}=    Post Request    checkerservice   /check_template/test/schema.yaml     data=${data}     headers=${headers}
+    Log    Response received from checker ${resp.text}
     Should Be Equal As Strings      ${resp.status_code}     200
 
 Check template in namespace
@@ -31,10 +33,12 @@ Check template in namespace
     ${data}=    Get Binary File     ${CURDIR}${/}data${/}test_template.yaml
     &{headers}=  Create Dictionary    Content-Type=application/json    Accept=application/json
     ${resp}=    Post Request    checkerservice   /check_template/test/     data=${data}     headers=${headers}
+    Log    Response received from checker ${resp.text}
     Should Be Equal As Strings      ${resp.status_code}     200
 
 Check delete existing namespace
     CreateSession   checkerservice  http://localhost:8080
     &{headers}=  Create Dictionary    Content-Type=application/json    Accept=application/json
     ${resp}=    Delete Request    checkerservice   /check_template/test/     headers=${headers}
+    Log    Response received from checker ${resp.text}
     Should Be Equal As Strings  ${resp.status_code}     200
