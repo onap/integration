@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a2f8d8d_55deae12",
+        "filename": "bootstrap/vagrant-onap/lib/multicloud",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2017-10-24T23:43:15Z",
+      "side": 1,
+      "message": "let\u0027s keep the \"multicloud/\" prefix for these ones",
+      "range": {
+        "startLine": 8,
+        "startChar": 19,
+        "endLine": 8,
+        "endChar": 28
+      },
+      "revId": "b9340ec3b97f873a06663c79c617959b63ad9074",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
