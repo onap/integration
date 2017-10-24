@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright 2016-2017 Huawei Technologies Co., Ltd.
+# Copyright 2017 AT&T 
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 #
 # Modifications copyright (c) 2017 AT&T Intellectual Property
 #
+# Place the scripts in run order:
 
-source ${WORKSPACE}/test/csit/scripts/modeling/javatoscachecker/teardown_containers.sh
+source ${WORKSPACE}/test/csit/scripts/modeling-toscaparsers-javatoscachecker/setup_containers.sh
 
