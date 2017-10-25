@@ -1,0 +1,59 @@
+#!/bin/bash
+
+set -o xtrace
+
+source /var/onap/functions
+
+vvp_src_folder=$git_src_folder/vvp
+vvp_repos=("vvp/ansible-ice-bootstrap" "vvp/cms" "vvp/devkit" "vvp/documentation" "vvp/engagementmgr" "vvp/gitlab" "vvp/image-scanner" "vvp/jenkins" "vvp/portal" "vvp/postgresql" "vvp/test-engine" "vvp/validation-scripts")
+
+# clone_all_vvp_repos() - Function that clones vvp source repo.
+function clone_all_vvp_repos {
+    for repo in ${vvp_repos[@]}; do
+        clone_repo $repo $vvp_src_folder${repo#*vvp}
+    done
+}
+
+# compile_all_vvp_repos - Function that builds vvp source repo
+function compile_all_vvp_repos {
+    for repo in ${vvp_repos[@]}; do
+        compile_src $vvp_src_folder${repo#*vvp}
+    done
+}
+
+# _build_vvp_images() - Builds VNFSDK images from source code
+function _build_vvp_images {
+    echo "pass"
+}
+
+# get_vvp_images - Function that clones vvp Docker images
+function get_vvp_images {
+    if [[ "$build_image" == "True" ]]; then
+        _build_vvp_images
+    else
+        pull_docker_image refrepo:1.0-STAGING-latest
+        pull_docker_image refrepo:latest
+    fi
+}
+
+# install_vvp - Function that installs vvp Docker images
+function install_vvp {
+    echo "pass"
+}
+
+# init_vvp() - Init VNFSDK services
+function init_vvp {
+    if [[ "$clone_repo" == "True" ]]; then
+        clone_all_vvp_repos
+        if [[ "$compile_repo" == "True" ]]; then
+            compile_all_vvp_repos
+        fi
+    fi
+
+    if [[ "$skip_get_images" == "False" ]]; then
+        get_vvp_images
+        if [[ "$skip_install" == "False" ]]; then
+            install_vvp
+        fi
+    fi
+}
