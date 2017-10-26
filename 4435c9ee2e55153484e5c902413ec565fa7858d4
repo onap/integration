@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a2f8d8d_1e7f1ee2",
+        "filename": "bootstrap/vagrant-onap/lib/multicloud",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2017-10-26T23:41:22Z",
+      "side": 1,
+      "message": "s/vid/multicloud",
+      "range": {
+        "startLine": 14,
+        "startChar": 50,
+        "endLine": 14,
+        "endChar": 53
+      },
+      "revId": "4435c9ee2e55153484e5c902413ec565fa7858d4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2f8d8d_fe8332ca",
+        "filename": "bootstrap/vagrant-onap/lib/multicloud",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2017-10-26T23:41:22Z",
+      "side": 1,
+      "message": "ditto: line 14",
+      "range": {
+        "startLine": 21,
+        "startChar": 45,
+        "endLine": 21,
+        "endChar": 48
+      },
+      "revId": "4435c9ee2e55153484e5c902413ec565fa7858d4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
