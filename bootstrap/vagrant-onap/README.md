@@ -56,6 +56,7 @@ current options include:
 | multicloud | Multi Cloud                         |
 | ccsdk      | Common Controller SDK               |
 | vnfsdk     | VNF SDK                             |
+| vpp        | VNF Validation Program              |
 | all_in_one | All ONAP services in a VM           |
 | testing    | Unit Test VM                        |
 
