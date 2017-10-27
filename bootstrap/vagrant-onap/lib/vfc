@@ -5,17 +5,16 @@ set -o xtrace
 source /var/onap/functions
 
 vfc_src_folder=$git_src_folder/vfc
-vfc_repos=("gvnfm" "gvnfm/vnflcm" "gvnfm/vnfmgr" "gvnfm/vnfres" "nfvo" \
-"nfvo/catalog" "nfvo/driver" "nfvo/driver/ems" "nfvo/driver/sfc" \
-"nfvo/driver/vnfm" "nfvo/driver/vnfm/gvnfm" "nfvo/driver/vnfm/svnfm" \
-"nfvo/lcm" "nfvo/resmanagement" "nfvo/wfengine")
+vfc_repos=("vfc/gvnfm" "vfc/gvnfm/vnflcm" "vfc/gvnfm/vnfmgr"  \
+"vfc/gvnfm/vnfres" "vfc/nfvo" "vfc/nfvo/catalog" "vfc/nfvo/driver" \
+"vfc/nfvo/driver/ems" "vfc/nfvo/driver/sfc" "vfc/nfvo/driver/vnfm" \
+"vfc/nfvo/driver/vnfm/gvnfm" "vfc/nfvo/driver/vnfm/svnfm" "vfc/nfvo/lcm" \
+"vfc/nfvo/resmanagement" "vfc/nfvo/wfengine")
 
 # clone_all_vfc_repos() - Function that clones VF-C source repo.
 function clone_all_vfc_repos {
-    clone_repo vfc $vfc_src_folder
-
-    for dirc in ${vfc_repos[@]}; do
-        clone_repo vfc/$dirc $vfc_src_folder/$dirc
+    for repo in ${vfc_repos[@]}; do
+        clone_repo $repo $vfc_src_folder${repo#*vfc}
     done
 }
 

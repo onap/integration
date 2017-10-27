@@ -178,7 +178,7 @@ function test_coverity_repos {
     pushd /var/onap_tests/
     cp projects.txt remaining_projects.txt
     for covered_repo in "${repos_list[@]}"; do
-        sed -i "/$covered_repo/d" remaining_projects.txt
+        sed -i '/^'${covered_repo//\//\\/}'$/d' remaining_projects.txt
     done
 
     threshold=75

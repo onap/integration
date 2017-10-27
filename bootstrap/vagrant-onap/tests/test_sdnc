@@ -12,12 +12,12 @@ function test_clone_all_sdnc_repos {
     clone_all_sdnc_repos
 
     asserts_file_exist $sdnc_src_folder/adaptors/pom.xml
-    # asserts_file_exist $sdnc_src_folder/architecture/pom.xml
+    asserts_file_exist $sdnc_src_folder/architecture/docs/index.rst
     asserts_file_exist $sdnc_src_folder/core/pom.xml
-    # asserts_file_exist $sdnc_src_folder/features/pom.xml
+    asserts_file_exist $sdnc_src_folder/features/docs/index.rst
     asserts_file_exist $sdnc_src_folder/northbound/pom.xml
     asserts_file_exist $sdnc_src_folder/oam/pom.xml
-    # asserts_file_exist $sdnc_src_folder/parent/pom.xml
+    asserts_file_exist $sdnc_src_folder/parent/docs/index.rst
     asserts_file_exist $sdnc_src_folder/plugins/pom.xml
 }
 
@@ -27,19 +27,12 @@ function test_compile_all_sdnc_repos {
     compile_all_sdnc_repos
 
     for component in generic-resource-api vnfapi vnftools; do
-        if [[ "$component" != "generic-resource-api" ]]; then
-            if [[ "$component" == "vnfapi" ]]; then
-                asserts_file_exist $sdnc_src_folder/northbound/vnfapi/model/target/vnfapi-model-1.2.0-SNAPSHOT.jar
-            fi
-            asserts_file_exist $sdnc_src_folder/northbound/$component/installer/target/sdnc-$component-1.2.0-SNAPSHOT-installer.zip
-            asserts_file_exist $sdnc_src_folder/northbound/$component/features/target/$component-features-1.2.0-SNAPSHOT.jar
-            asserts_file_exist $sdnc_src_folder/northbound/$component/provider/target/$component-provider-1.2.0-SNAPSHOT.jar
-        else
-            asserts_file_exist $sdnc_src_folder/northbound/generic-resource-api/features/target/generic-resource-api.features-1.2.0-SNAPSHOT.jar
-            asserts_file_exist $sdnc_src_folder/northbound/generic-resource-api/installer/target/sdnc-generic-resources-api-1.2.0-SNAPSHOT-installer.zip
-            asserts_file_exist $sdnc_src_folder/northbound/generic-resource-api/model/target/generic-resource-api.model-1.2.0-SNAPSHOT.jar
-            asserts_file_exist $sdnc_src_folder/northbound/generic-resource-api/provider/target/generic-resource-api.provider-1.2.0-SNAPSHOT.jar
+        if [[ "$component" == "vnfapi" ]]; then
+            asserts_file_exist $sdnc_src_folder/northbound/vnfapi/model/target/vnfapi-model-1.2.0-SNAPSHOT.jar
         fi
+        asserts_file_exist $sdnc_src_folder/northbound/$component/installer/target/sdnc-$component-1.2.0-SNAPSHOT-installer.zip
+        asserts_file_exist $sdnc_src_folder/northbound/$component/features/target/$component-features-1.2.0-SNAPSHOT.jar
+        asserts_file_exist $sdnc_src_folder/northbound/$component/provider/target/$component-provider-1.2.0-SNAPSHOT.jar
     done
     asserts_file_exist $sdnc_src_folder/oam/admportal/target/admportal.*-SNAPSHOT.zip
     asserts_file_exist $sdnc_src_folder/oam/dgbuilder/target/dgbuilder.*-SNAPSHOT.zip
