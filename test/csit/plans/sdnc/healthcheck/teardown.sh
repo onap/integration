@@ -21,5 +21,6 @@ kill-instance.sh sdnc_controller_container
 kill-instance.sh sdnc_dgbuilder_container
 kill-instance.sh sdnc_portal_container
 kill-instance.sh sdnc_db_container
+kill-instance.sh sdnc_ueblistener_container
 
 # $WORKSPACE/archives/appc deleted with archives folder when tests starts so we keep it at the end for debugging
