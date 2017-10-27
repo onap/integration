@@ -49,8 +49,7 @@ function test_compile_all_policy_repos {
     done
     asserts_file_exist $policy_src_folder/drools-applications/controlloop/packages/basex/target/basex-1.1.0-SNAPSHOT.tar.gz
     asserts_file_exist $policy_src_folder/drools-applications/controlloop/templates/template.demo/target/template.demo-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $policy_src_folder/drools-applications/controlloop/templates/template.demo.v1.0.0/archetype-cl-legacy/target/archetype-cl-legacy-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $policy_src_folder/drools-applications/controlloop/templates/template.demo.v1.0.0/template.demo/target/demo-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $policy_src_folder/drools-applications/controlloop/templates/template.demo/target/template.demo-1.1.0-SNAPSHOT.jar
     for feature in eelf healthcheck session-persistence; do
         asserts_file_exist $policy_src_folder/drools-pdp/feature-$feature/target/feature-$feature-1.1.0-SNAPSHOT.jar
     done

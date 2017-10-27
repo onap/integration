@@ -6,22 +6,23 @@ source /var/onap/functions
 source /var/onap/ccsdk
 
 sdnc_src_folder=$git_src_folder/openecomp/sdnc
-sdnc_repos=("adaptors" "architecture" "core" "features" "northbound" "oam" "parent" "plugins")
+sdnc_repos=("sdnc/adaptors" "sdnc/architecture" "sdnc/core" "sdnc/features" \
+"sdnc/northbound" "sdnc/oam" "sdnc/parent" "sdnc/plugins")
 
 # clone_all_sdnc_repos() - Function that clones SDNC source repo.
 function clone_all_sdnc_repos {
-    for dirc in ${sdnc_repos[@]}; do
-        clone_repo sdnc/$dirc $sdnc_src_folder/$dirc
+    for repo in ${sdnc_repos[@]}; do
+        clone_repo $repo $sdnc_src_folder${repo#*sdnc}
     done
 }
 
 # compile_all_sdnc_repos() - Function that compiles SDNC source repo.
 function compile_all_sdnc_repos {
-    for dirc in ${sdnc_repos[@]}; do
-        if [[ "$dirc" == "core" ]]; then
+    for repo in ${sdnc_repos[@]}; do
+        if [[ "$repo" == "sdnc/core" ]]; then
             compile_src $sdnc_src_folder/core/rootpom
         fi
-        compile_src $sdnc_src_folder/$dirc
+        compile_src $sdnc_src_folder${repo#*sdnc}
     done
 }
 

@@ -6,10 +6,11 @@ source /var/onap/functions
 
 hbase_version=1.2.3
 aai_src_folder=$git_src_folder/aai
-aai_repos=("aai-common" "aai-config" "aai-data" "aai-service" "babel" "champ" \
-"data-router" "esr-gui" "esr-server" "gizmo" "logging-service" "model-loader" \
-"resources" "rest-client" "router-core" "search-data-service" "test-config" \
-"traversal" "sparky-fe" "sparky-be")
+aai_repos=("aai/aai-common" "aai/aai-config" "aai/aai-data" "aai/aai-service" \
+"aai/babel" "aai/champ" "aai/data-router" "aai/esr-gui" "aai/esr-server" \
+"aai/gizmo" "aai/logging-service" "aai/model-loader" "aai/resources" \
+"aai/rest-client" "aai/router-core" "aai/search-data-service" \
+"aai/test-config" "aai/traversal" "aai/sparky-fe" "aai/sparky-be")
 
 # install_hadoop() - Function that installs Hadoop
 function install_hadoop {
@@ -54,20 +55,20 @@ function install_haproxy {
 
 # clone_all_aai_repos() - Function that clones AAI source repo.
 function clone_all_aai_repos {
-    for dirc in ${aai_repos[@]}; do
-        clone_repo aai/$dirc $aai_src_folder/$dirc
+    for repo in ${aai_repos[@]}; do
+        clone_repo $repo $aai_src_folder${repo#*aai}
     done
 }
 
 # compile_aai_repos() - Function that compiles AAI source repo.
 function compile_aai_repos {
-    local repos=("aai-common" "resources" "logging-service" "traversal")
+    local repos=("aai/aai-common" "aai/resources" "aai/logging-service" "aai/traversal")
     if [[ "$compile_repo" == "True" ]]; then
         repos=("${aai_repos[@]}")
     fi
 
-    for dirc in ${repos[@]}; do
-        compile_src $aai_src_folder/$dirc
+    for repo in ${repos[@]}; do
+        compile_src $aai_src_folder${repo#*aai}
     done
 }
 

@@ -5,19 +5,21 @@ set -o xtrace
 source /var/onap/functions
 
 policy_src_folder=$git_src_folder/policy
-policy_repos=("api" "common" "docker" "drools-applications" "drools-pdp" "engine" "gui" "pap" "pdp")
+policy_repos=("policy/api" "policy/common" "policy/docker" \
+"policy/drools-applications" "policy/drools-pdp" "policy/engine" \
+"policy/gui" "policy/pap" "policy/pdp")
 
 # clone_all_policy_repos() - Function that clones Policy source repo.
 function clone_all_policy_repos {
-    for dirc in ${policy_repos[@]}; do
-        clone_repo policy/$dirc $policy_src_folder/$dirc
+    for repo in ${policy_repos[@]}; do
+        clone_repo $repo $policy_src_folder${repo#*policy}
     done
 }
 
 # compile_all_policy_repos() - Function that compiles Policy source repo.
 function compile_all_policy_repos {
-    for dirc in ${policy_repos[@]}; do
-        compile_src $policy_src_folder/$dirc
+    for repo in ${policy_repos[@]}; do
+        compile_src $policy_src_folder${repo#*policy}
     done
 }
 
