@@ -93,7 +93,7 @@ public class MockApplication {
 		// Register extension
 		options.extensions("org.onap.integration.test.mocks.sniroemulator.extension.Webhooks");
 		// Register notifier
-        options.notifier(new ConsoleNotifier(true));   
+        options.notifier(new ConsoleNotifier(true));
         wireMockServer = new WireMockServer(options);
         
         wireMockServer.enableRecordMappings(mappingsFileSource, filesFileSource);
