@@ -19,6 +19,12 @@
 # Place the scripts in run order:
 
 
+mkdir -P ${WORKSPACE}/archives
+chmod -R 777 ${WORKSPACE}/archives
+
+echo ${GERRIT_BRANCH}
+echo $GERRIT_BRANCH
+
 source ${WORKSPACE}/test/csit/scripts/sdc/clone_and_setup_sdc_data.sh
 
 source ${WORKSPACE}/test/csit/scripts/sdc/start_sdc_containers.sh
