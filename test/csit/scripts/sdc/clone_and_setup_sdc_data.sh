@@ -34,7 +34,7 @@ ls -lR ${WORKSPACE}/data/logs/
 
 
 cd ${WORKSPACE}/data/clone
-git clone --depth 1 http://gerrit.onap.org/r/sdc -b master
+git clone --depth 1 http://gerrit.onap.org/r/sdc -b ${GERRIT_BRANCH}
 
 chmod -R 777 ${WORKSPACE}/data/clone
 
