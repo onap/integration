@@ -19,6 +19,8 @@
  */
 package org.onap.integration.test.mocks.sniroemulator.extension;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.github.tomakehurst.wiremock.common.Notifier;
 import com.github.tomakehurst.wiremock.core.Admin;
 import com.github.tomakehurst.wiremock.extension.Parameters;
@@ -32,8 +34,11 @@ import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.util.EntityUtils;
+import com.github.tomakehurst.wiremock.common.Json;
+
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -62,13 +67,20 @@ public class Webhooks extends PostServeAction {
         final WebhookDefinition definition = parameters.as(WebhookDefinition.class);
         final Notifier notifier = notifier();
 
+
         scheduler.schedule(
             new Runnable() {
                 @Override
                 public void run() {
+                    JsonNode node = Json.node(serveEvent.getRequest().getBodyAsString());
+                    String callBackUrl = node.get("requestInfo").get("callbackUrl").asText();
+                    notifier.info("!!! Call Back Url : \n" + callBackUrl);
+                    definition.withUrl(callBackUrl);
                     HttpUriRequest request = buildRequest(definition);
 
                     try {
+                       // notifier.info("This is a request: \n" + Json.prettyPrint(serveEvent.getRequest().getBodyAsString()));
+
                         HttpResponse response = httpClient.execute(request);
                         notifier.info(
                             String.format("Webhook %s request to %s returned status %s\n\n%s",
@@ -86,6 +98,7 @@ public class Webhooks extends PostServeAction {
                         		)
                         );
                     } catch (IOException e) {
+                        e.printStackTrace();
                         throwUnchecked(e);
                     }
                 }
