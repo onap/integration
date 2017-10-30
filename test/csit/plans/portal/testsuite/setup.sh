@@ -48,7 +48,7 @@ NEXUS_DOCKER_REPO=nexus3.onap.org:10003
 
 
 CURR="$(pwd)"
-git clone http://gerrit.onap.org/r/portal
+git clone http://gerrit.onap.org/r/portal -b "release-1.3.0"
 
 # Refresh configuration and scripts
 cd portal
