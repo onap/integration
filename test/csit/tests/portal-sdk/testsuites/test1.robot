@@ -47,9 +47,10 @@ Portal admin Login To Portal GUI
 
 Portal Admin Navigation Application Link Tab    
     [Documentation]   Logs into Portal GUI as Portal admin
-    
-    Click Element    xpath=.//h3[contains(text(),'xDemo App')]/following::div[1]
-    Page Should Contain    ONAP Portal
+     Click Element    xpath=.//h3[contains(text(),'xDemo App')]/following::div[1]
+    Click Element    xpath=(//span[@id='tab-xDemo-App']/following::i[@class='ion-close-round'])[1]
+    #Set Selenium Implicit Wait     3000
+    Click Element    xpath=.//h3[contains(text(),'xDemo App')]/following::div[1]  
    
     
 Validate SDK Sub Menu    
@@ -72,7 +73,6 @@ Click Sample Pages and validate sub Menu
     Click Link      xpath=//a[@id='parent-item-Sample-Pages']
     Click Link     xpath=//a[contains(@title,'Notebook')]
     Element Text Should Be     xpath=//h1[contains(.,'Notebook')]    Notebook
-    #Click Link    xpath=//a[@id='parent-item-Home']
     
 Click Reports and validate sub Menu  
      [Documentation]   Click Reports Tab
