@@ -886,7 +886,7 @@ Application admin Logout from Portal GUI
     [Documentation]   Logout from Portal GUI
     Click Element    xpath=//div[@id='header-user-icon']
 	#Set Selenium Implicit Wait    3000
-    Click Button    xpath=//button[contains(.,'Log out')]
+    Click Button    xpath=//button[contains(text(),'Log out')]
 	#Set Selenium Implicit Wait    3000
     Title Should Be    Login  
 
