@@ -212,6 +212,16 @@ nodes = [
     :args   => ['vid'],
   },
   {
+        :name   => "vnfsdk",
+        :ips    => ['10.252.0.16', "192.168.50.16"],
+        :macs   => [],
+        :cpus   => 2,
+        :cpu    => "50",
+        :ram    => 4 * 1024,
+        :groups => ["individual"],
+        :args   => ['vnfsdk'],
+  },
+  {
     :name   => "vvp",
     :ips    => ['10.252.0.17', "192.168.50.17"],
     :macs   => [],
@@ -220,7 +230,7 @@ nodes = [
     :ram    => 4 * 1024,
     :groups => ["individual"],
     :args   => ['vvp'],
-  },
+  }
 ]
 
 run_path   = 'vagrant_utils/postinstall.sh'
