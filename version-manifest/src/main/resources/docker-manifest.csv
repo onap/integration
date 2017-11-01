@@ -35,4 +35,9 @@ onap/vfc/wfengine-activiti,1.0.0-STAGING-latest
 onap/vfc/ztevmanagerdriver,1.0.0-STAGING-latest
 onap/vfc/nfvo/svnfm/huawei,1.0.0-STAGING-latest
 onap/vfc/nfvo/svnfm/nokia,1.0.0-STAGING-latest
+openecomp/sdc-backend,1.1-STAGING-latest
+openecomp/sdc-frontend,1.1-STAGING-latest
+openecomp/sdc-elasticsearch,1.1-STAGING-latest
+openecomp/sdc-kibana,1.1-STAGING-latest
+openecomp/sdc-sanity,1.1-STAGING-latest
 
