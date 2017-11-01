@@ -35,6 +35,38 @@ export IP=$HOST_IP
 #export PREFIX=${NEXUS_DOCKER_REPO}'/openecomp'
 export PREFIX='nexus3.onap.org:10001/openecomp'
 
+
+function monitor_docker {
+
+echo monitor $1 Docker
+sleep 5
+TIME_OUT=800
+INTERVAL=20
+TIME=0
+while [ "$TIME" -lt "$TIME_OUT" ]; do
+
+MATCH=`docker logs --tail 30 $1 | grep "DOCKER STARTED"`
+echo MATCH is -- $MATCH
+
+if [ -n "$MATCH" ]
+ then
+    echo DOCKER start finished in $TIME seconds
+    break
+  fi
+
+  echo Sleep: $INTERVAL seconds before testing if $1 DOCKER is up. Total wait time up now is: $TIME seconds. Timeout is: $TIME_OUT seconds
+  sleep $INTERVAL
+  TIME=$(($TIME+$INTERVAL))
+done
+
+if [ "$TIME" -ge "$TIME_OUT" ]
+ then
+   echo -e "\e[1;31mTIME OUT: DOCKER was NOT fully started in $TIME_OUT seconds... Could cause problems ...\e[0m"
+fi
+
+
+}
+
 #start Elastic-Search
 docker run --detach --name sdc-es --env ENVNAME="${DEP_ENV}" --log-driver=json-file --log-opt max-size=100m --log-opt max-file=10 --memory 1g --memory-swap=1g --ulimit memlock=-1:-1 --ulimit nofile=4096:100000 --volume /etc/localtime:/etc/localtime:ro -e ES_HEAP_SIZE=1024M --volume ${WORKSPACE}/data/ES:/usr/share/elasticsearch/data --volume ${WORKSPACE}/data/environments:/root/chef-solo/environments --publish 9200:9200 --publish 9300:9300 ${PREFIX}/sdc-elasticsearch:${RELEASE}
 
@@ -42,15 +74,7 @@ docker run --detach --name sdc-es --env ENVNAME="${DEP_ENV}" --log-driver=json-f
 docker run --detach --name sdc-cs --env RELEASE="${RELEASE}" --env ENVNAME="${DEP_ENV}" --env HOST_IP=${IP} --log-driver=json-file --log-opt max-size=100m --log-opt max-file=10 --ulimit memlock=-1:-1 --ulimit nofile=4096:100000 --volume /etc/localtime:/etc/localtime:ro --volume ${WORKSPACE}/data/CS:/var/lib/cassandra --volume ${WORKSPACE}/data/environments:/root/chef-solo/environments --publish 9042:9042 --publish 9160:9160 ${PREFIX}/sdc-cassandra:${RELEASE}
 
 echo "please wait while CS is starting..."
-echo ""
-c=120 # seconds to wait
-REWRITE="\e[25D\e[1A\e[K"
-while [ $c -gt 0 ]; do
-    c=$((c-1))
-    sleep 1
-    echo -e "${REWRITE}$c"
-done
-echo -e ""
+monitor_docker sdc-cs
 
 
 #start kibana
@@ -60,34 +84,17 @@ echo -e ""
 docker run --detach --name sdc-BE --env HOST_IP=${IP} --env ENVNAME="${DEP_ENV}" --env http_proxy=${http_proxy} --env https_proxy=${https_proxy} --env no_proxy=${no_proxy} --log-driver=json-file --log-opt max-size=100m --log-opt max-file=10 --ulimit memlock=-1:-1 --memory 4g --memory-swap=4g --ulimit nofile=4096:100000 --volume /etc/localtime:/etc/localtime:ro --volume ${WORKSPACE}/data/logs/BE/:/var/lib/jetty/logs  --volume ${WORKSPACE}/data/environments:/root/chef-solo/environments --publish 8443:8443 --publish 8080:8080 ${PREFIX}/sdc-backend:${RELEASE}
 
 echo "please wait while BE is starting..."
-echo ""
-c=180 # seconds to wait
-REWRITE="\e[45D\e[1A\e[K"
-while [ $c -gt 0 ]; do
-    c=$((c-1))
-    sleep 1
-    echo -e "${REWRITE}$c"
-done
-echo -e ""
+monitor_docker sdc-BE
 
 #start Front-End
 docker run --detach --name sdc-FE --env HOST_IP=${IP} --env ENVNAME="${DEP_ENV}" --env http_proxy=${http_proxy} --env https_proxy=${https_proxy} --env no_proxy=${no_proxy} --log-driver=json-file --log-opt max-size=100m --log-opt max-file=10 --ulimit memlock=-1:-1 --memory 2g --memory-swap=2g --ulimit nofile=4096:100000 --volume /etc/localtime:/etc/localtime:ro  --volume ${WORKSPACE}/data/logs/FE/:/var/lib/jetty/logs --volume ${WORKSPACE}/data/environments:/root/chef-solo/environments --publish 9443:9443 --publish 8181:8181 ${PREFIX}/sdc-frontend:${RELEASE}
 
-echo "please wait while FE is starting..."
-echo ""
-c=160 # seconds to wait
-REWRITE="\e[45D\e[1A\e[K"
-while [ $c -gt 0 ]; do
-    c=$((c-1))
-    sleep 1
-    echo -e "${REWRITE}$c"
-done
-echo -e ""
+echo "docker run sdc-frontend..."
+monitor_docker sdc-FE
 
-# WAIT 5 minutes maximum and test every 5 seconds if SDC up using HealthCheck API
-echo " WAIT 5 minutes maximum and test every 5 seconds if SDC up using HealthCheck API...."
+echo " WAIT 1 minutes maximum and test every 5 seconds if SDC up using HealthCheck API...."
 
-TIME_OUT=600
+TIME_OUT=60
 INTERVAL=5
 TIME=0
 while [ "$TIME" -lt "$TIME_OUT" ]; do
