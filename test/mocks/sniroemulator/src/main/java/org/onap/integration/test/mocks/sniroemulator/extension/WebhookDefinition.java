@@ -74,6 +74,11 @@ public class WebhookDefinition {
         return body.isBinary() ? null : body.asString();
     }
 
+    public String getBase64BodyAsString() {
+        return body.asString();
+    }
+
+
     @JsonIgnore
     public byte[] getBinaryBody() {
         return body.asBytes();

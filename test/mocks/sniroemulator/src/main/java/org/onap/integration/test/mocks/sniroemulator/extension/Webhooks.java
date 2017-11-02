@@ -51,6 +51,9 @@ public class Webhooks extends PostServeAction {
 
     private final ScheduledExecutorService scheduler;
     private final HttpClient httpClient;
+    private String tunnelResourceId = "NONE";
+    private String brgResourceId = "NONE";
+    private String vgResourceId = "NONE";
 
     public Webhooks() {
         scheduler = Executors.newScheduledThreadPool(10);
@@ -73,14 +76,37 @@ public class Webhooks extends PostServeAction {
                 @Override
                 public void run() {
                     JsonNode node = Json.node(serveEvent.getRequest().getBodyAsString());
+               // set callback url from SO request
                     String callBackUrl = node.get("requestInfo").get("callbackUrl").asText();
                     notifier.info("!!! Call Back Url : \n" + callBackUrl);
                     definition.withUrl(callBackUrl);
+
+               // set servicesResourceIds for each resource from SO request placement Demand
+                    //System.out.println ("PI: \n" + node.textValue());
+                    JsonNode placementDemandList = node.get("placementInfo").get("demandInfo").get("placementDemand");
+                    if (placementDemandList !=null  &&  placementDemandList.isArray()){
+                        for (int i=0;i<placementDemandList.size();i++){
+                             JsonNode resourceInfo  = placementDemandList.get(i);
+                             String resourceModuleName = resourceInfo.get("resourceModuleName").asText();
+                             if (resourceModuleName.toLowerCase().matches("(.*)tunnel(.*)")){
+                                 tunnelResourceId = resourceInfo.get("serviceResourceId").asText();
+                             } else if (resourceModuleName.toLowerCase().matches("(.*)brg(.*)")) {
+                                 brgResourceId = resourceInfo.get("serviceResourceId").asText();
+                             }else {
+                                 vgResourceId = resourceInfo.get("serviceResourceId").asText();
+                             }
+                        }
+                    }
+
+                    String stubbedBodyStr = definition.getBase64BodyAsString();
+                    String newBodyStr = stubbedBodyStr.replace("TUNNEL-RESOURCE-ID-REPLACE",tunnelResourceId).replace("VGW-RESOURCE-ID-REPLACE",vgResourceId).replace("BRG-RESOURCE-ID-REPLACE",brgResourceId);
+
+                    definition.withBody(newBodyStr);
+                    notifier.info("SNIRO Async Callback response:\n" + definition.getBody());
+
                     HttpUriRequest request = buildRequest(definition);
 
                     try {
-                       // notifier.info("This is a request: \n" + Json.prettyPrint(serveEvent.getRequest().getBodyAsString()));
-
                         HttpResponse response = httpClient.execute(request);
                         notifier.info(
                             String.format("Webhook %s request to %s returned status %s\n\n%s",
@@ -90,13 +116,13 @@ public class Webhooks extends PostServeAction {
                                 EntityUtils.toString(response.getEntity())
                             )                            
                         );
-                        System.out.println(String.format("Webhook %s request to %s returned status %s\n\n%s",
-                                	definition.getMethod(),
-                                	definition.getUrl(),
-                                	response.getStatusLine(),
-                                	EntityUtils.toString(response.getEntity())                              
-                        		)
-                        );
+                        //System.out.println(String.format("Webhook %s request to %s returned status %s\n\n%s",
+                        //        	definition.getMethod(),
+                        //        	definition.getUrl(),
+                        //        	response.getStatusLine(),
+                        //        	EntityUtils.toString(response.getEntity())
+                        //		)
+                        //);
                     } catch (IOException e) {
                         e.printStackTrace();
                         throwUnchecked(e);
@@ -113,6 +139,7 @@ public class Webhooks extends PostServeAction {
                 definition.getMethod(),
                 definition.getUrl().toString()
         );
+
 
         for (HttpHeader header: definition.getHeaders().all()) {
             request.addHeader(header.key(), header.firstValue());
