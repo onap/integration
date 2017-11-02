@@ -65,6 +65,7 @@ if [ "$TIME" -ge "$TIME_OUT" ]
  then
    echo TIME OUT: Sany was NOT completed in $TIME_OUT seconds... Could cause problems for tests...
 fi
-cp -rf ${WORKSPACE}/data/logs/sdc-sanity/ExtentReport/* ${WORKSPACE}/archives/ 
+cp -rf ${WORKSPACE}/data/logs/sdc-sanity/ExtentReport/* ${WORKSPACE}/archives/
 cp -rf ${WORKSPACE}/data/logs/ ${WORKSPACE}/archives/ 
+cp -rf ${WORKSPACE}/data/logs/sdc-sanity/target/*.xml ${WORKSPACE}/archives/ 
 
