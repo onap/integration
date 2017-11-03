@@ -1,4 +1,4 @@
-build_images: "False"
+build_image: "False"
 clone_repo: "False"
 compile_repo: "False"
 enable_oparent: "False"
