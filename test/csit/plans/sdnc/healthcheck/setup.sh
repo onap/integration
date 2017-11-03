@@ -37,7 +37,7 @@ fi
 # Clone SDNC repo to get docker-compose for SDNC
 mkdir -p $WORKSPACE/archives/sdnc
 cd $WORKSPACE/archives
-git clone -b master --single-branch http://gerrit.onap.org/r/sdnc/oam.git sdnc
+git clone -b master --single-branch --depth=1 http://gerrit.onap.org/r/sdnc/oam.git sdnc
 cd $WORKSPACE/archives/sdnc
 git pull
 unset http_proxy https_proxy
@@ -54,6 +54,14 @@ docker tag $NEXUS_DOCKER_REPO/onap/ccsdk-dgbuilder-image:$CCSDK_DOCKER_IMAGE_VER
 
 docker pull $NEXUS_DOCKER_REPO/onap/admportal-sdnc-image:$DOCKER_IMAGE_VERSION
 docker tag $NEXUS_DOCKER_REPO/onap/admportal-sdnc-image:$DOCKER_IMAGE_VERSION onap/admportal-sdnc-image:latest
+
+docker pull $NEXUS_DOCKER_REPO/onap/sdnc-ueb-listener-image:$DOCKER_IMAGE_VERSION
+docker tag $NEXUS_DOCKER_REPO/onap/sdnc-ueb-listener-image:$DOCKER_IMAGE_VERSION onap/sdnc-ueb-listener-image:latest
+
+docker pull $NEXUS_DOCKER_REPO/onap/sdnc-dmaap-listener-image:$DOCKER_IMAGE_VERSION
+
+docker tag $NEXUS_DOCKER_REPO/onap/sdnc-dmaap-listener-image:$DOCKER_IMAGE_VERSION onap/sdnc-ueb-listener-image:latest
+
 
 # start SDNC containers with docker compose and configuration from docker-compose.yml
 curl -L https://github.com/docker/compose/releases/download/1.9.0/docker-compose-`uname -s`-`uname -m` > docker-compose
