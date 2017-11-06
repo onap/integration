@@ -24,7 +24,6 @@ function is_package_installed {
 # install_packages() - Install a list of packages
 function install_packages {
     local package=$@
-    update_repos
     apt-get install -y -qq $package
 }
 
