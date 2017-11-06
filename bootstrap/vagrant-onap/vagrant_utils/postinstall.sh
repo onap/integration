@@ -1,6 +1,8 @@
 #!/bin/bash
 
-set -o xtrace
+if [[ "$debug" == "True" ]]; then
+    set -o xtrace
+fi
 
 source /var/onap/functions
 

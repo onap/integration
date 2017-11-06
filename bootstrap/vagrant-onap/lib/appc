@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -o xtrace
-
 source /var/onap/sdnc
 source /var/onap/functions
 

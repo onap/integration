@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -o xtrace
-
 source /var/onap/functions
 
 hbase_version=1.2.3

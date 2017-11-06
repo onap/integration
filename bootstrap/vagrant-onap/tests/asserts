@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -o xtrace
-
 source /var/onap/commons
 
 # asserts_process() - Function that verifies if a specific process is running

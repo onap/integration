@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [[ "$debug" == "True" ]]; then
+    set -o xtrace
+fi
+
 set -o errexit
 
 TEST_SUITE=${1:-*}

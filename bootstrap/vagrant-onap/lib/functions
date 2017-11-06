@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -o xtrace
-
 source /var/onap/commons
 source /var/onap/_composed_functions
 source /var/onap/_onap_functions
@@ -48,7 +46,11 @@ function clone_repo {
     local repo=$1
     local dest_folder=${2:-$git_src_folder/$repo}
     if [ ! -d $dest_folder ]; then
-        _git_timed clone ${repo_url}${repo} $dest_folder
+        if [[ "$debug" == "False" ]]; then
+            _git_timed clone --quiet ${repo_url}${repo} $dest_folder
+        else
+            _git_timed clone ${repo_url}${repo} $dest_folder
+        fi
     else
         pushd $dest_folder
         _git_timed pull
@@ -168,10 +170,10 @@ function install_docker {
     fi
     install_package software-properties-common
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-    add-apt-repository \
+        add-apt-repository \
         "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-        $(lsb_release -cs) \
-        stable"
+        $(lsb_release -cs) stable"
+
     install_package docker-ce
     _configure_docker_settings
     service docker restart
@@ -225,9 +227,14 @@ function start_ODL {
 function compile_src {
     local src_folder=$1
     pushd $src_folder
+    local mvn_build='mvn clean install -DskipTests=true -Dmaven.test.skip=true -Dmaven.javadoc.skip=true -Dadditionalparam=-Xdoclint:none'
+    if [[ "$debug" == "False" ]]; then
+        mvn_build+=" -q"
+    fi
     if [ -f pom.xml ]; then
         install_maven
-        mvn clean install -DskipTests=true -Dmaven.test.skip=true -Dmaven.javadoc.skip=true -Dadditionalparam=-Xdoclint:none
+        echo "Compiling $src_folder folder..."
+        eval $mvn_build
     fi
     popd
 }

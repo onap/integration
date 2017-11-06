@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -o xtrace
-
 source /var/onap/functions
 
 vvp_src_folder=$git_src_folder/vvp
