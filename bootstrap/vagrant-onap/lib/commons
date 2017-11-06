@@ -1,26 +1,16 @@
 #!/bin/bash
 
-set -o xtrace
-
 # update_repos() - Function that updates linux repositories
 function update_repos {
+    echo "Updating repositories list..."
     if [ -f /var/onap/files/sources.list ]; then
         cp /var/onap/files/sources.list /etc/apt/sources.list
     fi
-    if [ -f /var/onap/files/proxyrc ]; then
-        source /var/onap/files/proxyrc
-        cp /var/onap/files/proxyrc /etc/profile.d/proxy.sh
-
-        if [ -f /etc/apt/apt.conf ]; then
-            echo "Acquire::http::Proxy \"${http_proxy}\";" >>  /etc/apt/apt.conf
-            echo "Acquire::https::Proxy \"${https_proxy}\";" >>  /etc/apt/apt.conf
-        fi
-        if [ -d /etc/apt/apt.conf.d ] & [ ! -f /etc/apt/apt.conf.d/70proxy.conf ]; then
-            echo "Acquire::http::Proxy \"${http_proxy}\";" >>  /etc/apt/apt.conf.d/70proxy.conf
-            echo "Acquire::https::Proxy \"${https_proxy}\";" >>  /etc/apt/apt.conf.d/70proxy.conf
-        fi
+    if [[ "$debug" == "False" ]]; then
+        apt-get update > /dev/null
+    else
+        apt-get update
     fi
-    apt-get update -qq -y
 }
 
 # is_package_installed() - Function to tell if a package is installed
@@ -41,9 +31,15 @@ function install_packages {
 # install_package() - Install specific package if doesn't exist
 function install_package {
     local package=$1
+
     if ! is_package_installed $package; then
-        update_repos
-        apt-get install -y -qq $package
+        echo "Installing $package..."
+
+        if [[ "$debug" == "False" ]]; then
+            apt-get install -y -qq -o=Dpkg::Use-Pty=0 $package
+        else
+            apt-get install -y $package
+        fi
     fi
 }
 

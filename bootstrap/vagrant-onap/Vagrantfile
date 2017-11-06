@@ -23,6 +23,7 @@ configuration = {
   'openstack_password'  => '',
   'odl_version'         => '0.5.3-Boron-SR3',
   # Parameters for enabling features
+  'debug'               => 'True',
   'build_image'         => 'True',
   'clone_repo'          => 'True',
   'compile_repo'        => 'False',
