@@ -35,7 +35,7 @@ services:
         max-size: "30m"
         max-file: "5"
   aai.api.simpledemo.openecomp.org:
-    image: ${AAI_HAPROXY_IMAGE}
+    image: ${AAI_HAPROXY_IMAGE}:${HAPROXY_VERSION}
     hostname: aai.api.simpledemo.openecomp.org
     ports:
       - 8443:8443
