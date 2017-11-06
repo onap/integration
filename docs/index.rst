@@ -1,8 +1,11 @@
 .. This work is licensed under a Creative Commons Attribution 4.0 International License.
 
-TODO Add files to toctree and delete this header
-------------------------------------------------
-.. toctree::
-   :maxdepth: 1
+INTEGRATION
+===========
+The Integration project provides the followning artifacts:
 
+- Heat template to deploy ONAP instance
+- Test suites to check the various ONAP components based on Robot Framework
+- Artifacts for the use-case deployments
 
+.. include:: heat.rst
