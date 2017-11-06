@@ -1,11 +1,13 @@
 #!/bin/bash
 
 source /var/onap_tests/asserts
+source /var/onap/commons
 
 # main() - Starting point for Unit Tests
 function main {
     local covered_functions=("$@")
 
+    update_repos
     len=${#covered_functions[@]}
     echo "1..$len"
     for i in ${!covered_functions[@]}; do

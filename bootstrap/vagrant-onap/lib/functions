@@ -75,6 +75,7 @@ function install_java {
     fi
     install_package software-properties-common
     add-apt-repository -y ppa:openjdk-r/ppa
+    update_repos
 
     # Remove Java 7
     uninstall_packages default-jre openjdk-7-jdk openjdk-7-jre openjdk-7-jre-headless
@@ -92,6 +93,7 @@ function install_maven {
     install_java
     install_package software-properties-common
     add-apt-repository -y ppa:andrei-pozolotin/maven3
+    update_repos
     install_package maven3
 
     # Remove Java 7
@@ -173,6 +175,7 @@ function install_docker {
         add-apt-repository \
         "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
         $(lsb_release -cs) stable"
+    update_repos
 
     install_package docker-ce
     _configure_docker_settings

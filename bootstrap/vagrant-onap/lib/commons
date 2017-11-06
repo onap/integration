@@ -6,11 +6,22 @@ function update_repos {
     if [ -f /var/onap/files/sources.list ]; then
         cp /var/onap/files/sources.list /etc/apt/sources.list
     fi
-    if [[ "$debug" == "False" ]]; then
-        apt-get update > /dev/null
-    else
-        apt-get update
-    fi
+    source /etc/os-release || source /usr/lib/os-release
+    case ${ID,,} in
+        *suse)
+            zypper -n ref
+        ;;
+        ubuntu|debian)
+            if [[ "$debug" == "False" ]]; then
+                apt-get update > /dev/null
+            else
+                apt-get update
+            fi
+        ;;
+        rhel|centos|fedora)
+            yum updateinfo
+        ;;
+    esac
 }
 
 # is_package_installed() - Function to tell if a package is installed
@@ -24,7 +35,6 @@ function is_package_installed {
 # install_packages() - Install a list of packages
 function install_packages {
     local package=$@
-    update_repos
     apt-get install -y -qq $package
 }
 
