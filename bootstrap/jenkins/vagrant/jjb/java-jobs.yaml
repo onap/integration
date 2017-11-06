@@ -304,9 +304,6 @@
          repo: 'ncomp/utils'
          pom: 'pom.xml'
      - 'oom_registrator':
-         repo: 'oom'
-         pom: 'registrator/pom.xml'
-     - 'oom_registrator':
          repo: 'oom/registrator'
          pom: 'pom.xml'
      - 'oparent':
@@ -387,9 +384,6 @@
      - 'so_libs':
          repo: 'so/libs'
          pom: 'pom.xml'
-     - 'testsuite_heatbridge':
-         repo: 'testsuite'
-         pom: 'heatbridge/pom.xml'
      - 'testsuite_heatbridge':
          repo: 'testsuite/heatbridge'
          pom: 'pom.xml'
