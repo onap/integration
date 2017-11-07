@@ -11,13 +11,13 @@ Description
 ~~~~~~~~~~~
 
 The ONAP HEAT template spins up the entire ONAP platform. The template,
-onap\_openstack.yaml, comes with an environment file,
-onap\_openstack.env, in which all the default values are defined.
+onap_openstack.yaml, comes with an environment file,
+onap_openstack.env, in which all the default values are defined.
 
 .. note::
- onap\_openstack.yaml AND onap\_openstack.env ARE THE HEAT TEMPLATE
+ onap_openstack.yaml AND onap_openstack.env ARE THE HEAT TEMPLATE
  AND ENVIRONMENT FILE CURRENTLY SUPPORTED.
- onap\_openstack\_float.yaml/env AND onap\_openstack\_nofloat.yaml/env
+ onap_openstack_float.yaml/env AND onap_openstack_nofloat.yaml/env
  AREN'T UPDATED AND THEIR USAGE IS NOT SUGGESTED.
 
 The HEAT template is composed of two sections: (i) parameters, and (ii)
@@ -52,8 +52,8 @@ Environment file
 ~~~~~~~~~~~~~~~~
 
 Before running HEAT, it is necessary to customize the environment file.
-Indeed, some parameters, namely public\_net\_id, pub\_key,
-openstack\_tenant\_id, openstack\_username, and openstack\_api\_key,
+Indeed, some parameters, namely public_net_id, pub_key,
+openstack_tenant_id, openstack_username, and openstack_api_key,
 need to be set depending on the user's environment:
 
 **Global parameters**
@@ -68,11 +68,11 @@ need to be set depending on the user's environment:
  horizon_url:         PUT THE HORIZON URL HERE
  keystone_url:        PUT THE KEYSTONE URL HERE (do not include version number)
 
-openstack\_region parameter is set to RegionOne (OpenStack default). If
+openstack_region parameter is set to RegionOne (OpenStack default). If
 your OpenStack is using another Region, please modify this parameter.
 
-public\_net\_id is the unique identifier (UUID) or name of the public
-network of the cloud provider. To get the public\_net\_id, use the
+public_net_id is the unique identifier (UUID) or name of the public
+network of the cloud provider. To get the public_net_id, use the
 following OpenStack CLI command (ext is the name of the external
 network, change it with the name of the external network of your
 installation)
@@ -81,7 +81,7 @@ installation)
 
  openstack network list  | grep ext |  awk '{print $2}'
 
-pub\_key is string value of the public key that will be installed in
+pub_key is string value of the public key that will be installed in
 each ONAP VM. To create a public/private key pair in Linux, please
 execute the following instruction:
 
@@ -101,21 +101,21 @@ The following operations to create the public/private key pair occur:
  Your identification has been saved in /home/user/.ssh/id_rsa.
  Your public key has been saved in /home/user/.ssh/id_rsa.pub.
 
-openstack\_username, openstack\_tenant\_id (password), and
-openstack\_api\_key are user's credentials to access the
+openstack_username, openstack_tenant_id (password), and
+openstack_api_key are user's credentials to access the
 OpenStack-based cloud.
 
 **Images and flavors parameters**
 
 ::
 
- ubuntu\_1404\_image: PUT THE UBUNTU 14.04 IMAGE NAME HERE
- ubuntu\_1604\_image: PUT THE UBUNTU 16.04 IMAGE NAME HERE
- flavor\_small:       PUT THE SMALL FLAVOR NAME HERE
- flavor\_medium:      PUT THE MEDIUM FLAVOR NAME HERE
- flavor\_large:       PUT THE LARGE FLAVOR NAME HERE
- flavor\_xlarge:      PUT THE XLARGE FLAVOR NAME HERE
- flavor\_xxlarge:     PUT THE XXLARGE FLAVOR NAME HERE
+ ubuntu_1404_image: PUT THE UBUNTU 14.04 IMAGE NAME HERE
+ ubuntu_1604_image: PUT THE UBUNTU 16.04 IMAGE NAME HERE
+ flavor_small:       PUT THE SMALL FLAVOR NAME HERE
+ flavor_medium:      PUT THE MEDIUM FLAVOR NAME HERE
+ flavor_large:       PUT THE LARGE FLAVOR NAME HERE
+ flavor_xlarge:      PUT THE XLARGE FLAVOR NAME HERE
+ flavor_xxlarge:     PUT THE XXLARGE FLAVOR NAME HERE
 
 To get the images in your OpenStack environment, use the following
 OpenStack CLI command:
@@ -135,8 +135,8 @@ following OpenStack CLI command:
 
 ::
 
- dns\_list: PUT THE ADDRESS OFTHE EXTERNAL DNS HERE (e.g. a comma-separated list of IP addresses in your /etc/resolv.conf in UNIX-based Operating Systems). THIS LIST MUST INCLUDE THE DNS SERVER THAT OFFERS DNS AS AS SERVICE (see DCAE section below for more details)
- external\_dns: PUT THE FIRST ADDRESS OF THE EXTERNAL DNS LIST HERE oam\_network\_cidr: 10.0.0.0/16
+ dns_list: PUT THE ADDRESS OFTHE EXTERNAL DNS HERE (e.g. a comma-separated list of IP addresses in your /etc/resolv.conf in UNIX-based Operating Systems). THIS LIST MUST INCLUDE THE DNS SERVER THAT OFFERS DNS AS AS SERVICE (see DCAE section below for more details)
+ external_dns: PUT THE FIRST ADDRESS OF THE EXTERNAL DNS LIST HERE oam_network_cidr: 10.0.0.0/16
 
 You can use the Google Public DNS 8.8.8.8 and 4.4.4.4 address or your internal DNS servers
 
@@ -194,8 +194,8 @@ or Command Line.
 - Login to Horizon URL with your personal credentials
 - Click "Stacks" from the "Orchestration" menu
 - Click "Launch Stack"
-- Paste or manually upload the HEAT template file (onap\_openstack.yaml) in the "Template Source" form
-- Paste or manually upload the HEAT environment file (onap\_openstack.env) in the "Environment Source" form
+- Paste or manually upload the HEAT template file (onap_openstack.yaml) in the "Template Source" form
+- Paste or manually upload the HEAT environment file (onap_openstack.env) in the "Environment Source" form
 - Click "Next" - Specify a name in the "Stack Name" form
 - Provide the password in the "Password" form
 - Click "Launch"
