@@ -19,5 +19,5 @@
 kill-instance.sh msb_internal_apigateway
 kill-instance.sh msb_discovery
 kill-instance.sh msb_consul
-##kill-instance.sh wfengine-mgrservice
-##kill-instance.sh wfengine-activiti
+kill-instance.sh wfengine-mgrservice
+kill-instance.sh wfengine-activiti
