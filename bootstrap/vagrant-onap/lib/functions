@@ -42,7 +42,7 @@ function _git_timed {
 
 # clone_repo() - Clone Git repository into specific folder
 function clone_repo {
-    local repo_url=https://git.onap.org/
+    local repo_url=${3:-"https://git.onap.org/"}
     local repo=$1
     local dest_folder=${2:-$git_src_folder/$repo}
     if [ ! -d $dest_folder ]; then
@@ -73,8 +73,17 @@ function install_java {
     if is_package_installed openjdk-8-jdk; then
         return
     fi
-    install_package software-properties-common
-    add-apt-repository -y ppa:openjdk-r/ppa
+    source /etc/os-release || source /usr/lib/os-release
+    case ${ID,,} in
+        *suse)
+        ;;
+        ubuntu|debian)
+            install_package software-properties-common
+            add-apt-repository -y ppa:openjdk-r/ppa
+        ;;
+        rhel|centos|fedora)
+        ;;
+    esac
     update_repos
 
     # Remove Java 7
@@ -91,8 +100,17 @@ function install_maven {
         return
     fi
     install_java
-    install_package software-properties-common
-    add-apt-repository -y ppa:andrei-pozolotin/maven3
+    source /etc/os-release || source /usr/lib/os-release
+    case ${ID,,} in
+        *suse)
+        ;;
+        ubuntu|debian)
+            install_package software-properties-common
+            add-apt-repository -y ppa:andrei-pozolotin/maven3
+        ;;
+        rhel|centos|fedora)
+        ;;
+    esac
     update_repos
     install_package maven3
 
@@ -170,11 +188,20 @@ function install_docker {
     if is_package_installed docker-ce; then
         return
     fi
-    install_package software-properties-common
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-        add-apt-repository \
-        "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-        $(lsb_release -cs) stable"
+    source /etc/os-release || source /usr/lib/os-release
+    case ${ID,,} in
+        *suse)
+        ;;
+        ubuntu|debian)
+            install_package software-properties-common
+            curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+            add-apt-repository \
+            "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+            $(lsb_release -cs) stable"
+        ;;
+        rhel|centos|fedora)
+        ;;
+    esac
     update_repos
 
     install_package docker-ce
