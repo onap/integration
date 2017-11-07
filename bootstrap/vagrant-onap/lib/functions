@@ -58,11 +58,6 @@ function clone_repo {
     fi
 }
 
-# install_dev_tools() - Install basic dependencies
-function install_dev_tools {
-    install_packages apt-transport-https ca-certificates curl
-}
-
 # _install_bind() - Install bind utils
 function _install_bind {
     install_packages bind9 bind9utils
@@ -193,7 +188,7 @@ function install_docker {
         *suse)
         ;;
         ubuntu|debian)
-            install_package software-properties-common
+            install_packages software-properties-common linux-image-extra-$(uname -r) linux-image-extra-virtual apt-transport-https ca-certificates curl
             curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
             add-apt-repository \
             "deb [arch=amd64] https://download.docker.com/linux/ubuntu \

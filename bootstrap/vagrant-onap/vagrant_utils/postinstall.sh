@@ -8,7 +8,6 @@ source /var/onap/functions
 
 update_repos
 create_configuration_files
-install_dev_tools
 configure_bind
 
 for serv in $@; do

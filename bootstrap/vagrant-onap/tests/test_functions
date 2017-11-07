@@ -4,7 +4,7 @@ source /var/onap_tests/_test_base
 source /var/onap/functions
 
 covered_functions=(
-"create_configuration_files" "clone_repo" "install_dev_tools"
+"create_configuration_files" "clone_repo"
 "configure_bind" "install_java" "install_maven" "install_nodejs" "install_python"
 "install_docker" "pull_docker_image" "install_docker_compose" "configure_service"
 "start_ODL" "compile_src" "build_docker_image" "docker_openecomp_login"
@@ -53,15 +53,6 @@ function test_clone_repo {
 
     asserts_installed_package git
     asserts_file_exist $git_src_folder/demo/LICENSE.TXT
-}
-
-# test_install_dev_tools() - Verify the correct installation of developer tools
-function test_install_dev_tools {
-    install_dev_tools
-
-    asserts_installed_package apt-transport-https
-    asserts_installed_package ca-certificates
-    asserts_installed_package curl
 }
 
 # test_configure_bind() - Verify the correct installation and configuration of bind
