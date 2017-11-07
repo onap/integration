@@ -1,13 +1,17 @@
 image,tag
+onap/aai/esr-server,1.0.0-STAGING-latest
+onap/aai/esr-gui,1.0.0-STAGING-latest
 onap/admportal-sdnc-image,1.2-STAGING-latest
 onap/ccsdk-dgbuilder-image,0.1-STAGING-latest
 onap/ccsdk-odl-image,0.1-STAGING-latest
 onap/ccsdk-odlsli-image,0.1-STAGING-latest
 onap/clamp,v1.1.0
 onap/cli,v1.1.0
+onap/data-router,1.1-STAGING-latest
 onap/holmes/dsa,1.0.0-STAGING-latest
 onap/holmes/engine-management,1.0.0-STAGING-latest
 onap/holmes/rule-management,1.0.0-STAGING-latest
+onap/model-loader,1.1-STAGING-latest
 onap/msb/msb_apigateway,1.0.0-STAGING-latest
 onap/msb/msb_discovery,1.0.0-STAGING-latest
 onap/oom/kube2msb,1.0.0-STAGING-latest
@@ -27,6 +31,8 @@ onap/portal-apps,v1.3.0
 onap/portal-db,v1.3.0
 onap/portal-wms,v1.3.0
 onap/sdnc-image,1.2-STAGING-latest
+onap/search-data-service,1.1-STAGING-latest
+onap/sparky-be,1.1-STAGING-latest
 onap/vfc/catalog,1.0.1-STAGING-latest
 onap/vfc/emsdriver,1.0.1-STAGING-latest
 onap/vfc/gvnfmdriver,1.0.1-STAGING-latest
@@ -43,6 +49,8 @@ onap/vfc/wfengine-mgrservice,1.0.0-STAGING-latest
 onap/vfc/ztesdncdriver,1.0.0-STAGING-latest
 onap/vfc/ztevmanagerdriver,1.0.1-STAGING-latest
 onap/vnfsdk/refrepo,1.0.0
+openecomp/aai-resources,1.1-STAGING-latest
+openecomp/aai-traversal,1.1-STAGING-latest
 openecomp/appc-image,v1.2.0
 openecomp/mso,1.1-STAGING-latest
 openecomp/sdc-backend,1.1-STAGING-latest
