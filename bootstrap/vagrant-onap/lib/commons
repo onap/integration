@@ -6,11 +6,22 @@ function update_repos {
     if [ -f /var/onap/files/sources.list ]; then
         cp /var/onap/files/sources.list /etc/apt/sources.list
     fi
-    if [[ "$debug" == "False" ]]; then
-        apt-get update > /dev/null
-    else
-        apt-get update
-    fi
+    source /etc/os-release || source /usr/lib/os-release
+    case ${ID,,} in
+        *suse)
+            zypper -n ref
+        ;;
+        ubuntu|debian)
+            if [[ "$debug" == "False" ]]; then
+                apt-get update > /dev/null
+            else
+                apt-get update
+            fi
+        ;;
+        rhel|centos|fedora)
+            yum updateinfo
+        ;;
+    esac
 }
 
 # is_package_installed() - Function to tell if a package is installed
@@ -18,13 +29,31 @@ function is_package_installed {
     if [[ -z "$@" ]]; then
         return 1
     fi
-    dpkg -s "$@" > /dev/null 2> /dev/null
+    source /etc/os-release || source /usr/lib/os-release
+    case ${ID,,} in
+        *suse)
+        ;;
+        ubuntu|debian)
+            dpkg -s "$@" > /dev/null 2> /dev/null
+        ;;
+        rhel|centos|fedora)
+        ;;
+    esac
 }
 
 # install_packages() - Install a list of packages
 function install_packages {
     local package=$@
-    apt-get install -y -qq $package
+    source /etc/os-release || source /usr/lib/os-release
+    case ${ID,,} in
+        *suse)
+        ;;
+        ubuntu|debian)
+            apt-get install -y -qq $package
+        ;;
+        rhel|centos|fedora)
+        ;;
+    esac
 }
 
 # install_package() - Install specific package if doesn't exist
@@ -34,24 +63,54 @@ function install_package {
     if ! is_package_installed $package; then
         echo "Installing $package..."
 
-        if [[ "$debug" == "False" ]]; then
-            apt-get install -y -qq -o=Dpkg::Use-Pty=0 $package
-        else
-            apt-get install -y $package
-        fi
+        source /etc/os-release || source /usr/lib/os-release
+        case ${ID,,} in
+            *suse)
+                zypper install -y $package
+            ;;
+            ubuntu|debian)
+                if [[ "$debug" == "False" ]]; then
+                    apt-get install -y -qq -o=Dpkg::Use-Pty=0 $package
+                else
+                    apt-get install -y $package
+                fi
+            ;;
+            rhel|centos|fedora)
+                PKG_MANAGER=$(which dnf || which yum)
+                ${PKG_MANAGER} -y install $package
+            ;;
+        esac
     fi
 }
 
 # uninstall_packages() - Uninstall a list of packages
 function uninstall_packages {
     local packages=$@
-    apt-get purge -y -qq $packages
+    source /etc/os-release || source /usr/lib/os-release
+    case ${ID,,} in
+        *suse)
+        ;;
+        ubuntu|debian)
+            apt-get purge -y -qq $packages
+        ;;
+        rhel|centos|fedora)
+        ;;
+    esac
 }
 
 # uninstall_package() - Uninstall specific package if exists
 function uninstall_package {
     local package=$1
     if is_package_installed $package; then
-        apt-get purge -y -qq $package
+        source /etc/os-release || source /usr/lib/os-release
+        case ${ID,,} in
+            *suse)
+            ;;
+            ubuntu|debian)
+                apt-get purge -y -qq $package
+            ;;
+            rhel|centos|fedora)
+            ;;
+        esac
     fi
 }
