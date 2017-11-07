@@ -51,3 +51,11 @@ openecomp/sdc-frontend,1.1-STAGING-latest
 openecomp/sdc-kibana,1.1-STAGING-latest
 openecomp/sdc-sanity,1.1-STAGING-latest
 openecomp/vid,v1.1.0
+openecomp/aai-resources,1.1-STAGING-latest
+openecomp/aai-traversal,1.1-STAGING-latest
+onap/search-data-service,1.1-STAGING-latest
+onap/sparky-be,1.1-STAGING-latest
+onap/model-loader,1.1-STAGING-latest
+onap/aai/esr-server,1.0.0-STAGING-latest
+onap/aai/esr-gui,1.0.0-STAGING-latest
+onap/data-router,1.1-STAGING-latest
