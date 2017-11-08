@@ -41,7 +41,7 @@ done
 sleep 60
 
 # Start cli
-docker run -d --name cli -e CLI_MODE=daemon nexus3.onap.org:10001/onap/cli:1.1-STAGING-latest
+docker run -d --name cli -e CLI_MODE=daemon nexus3.onap.org:10001/onap/cli:v1.1.0
 
 # Wait for cli initialization
 echo Wait for CLI initialization
