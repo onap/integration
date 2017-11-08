@@ -4,6 +4,12 @@ if [[ "$debug" == "True" ]]; then
     set -o xtrace
 fi
 
+if [[ "$1" == "openstack" ]]; then
+    source /var/onap/openstack
+    deploy_openstack
+    exit
+fi
+
 source /var/onap/functions
 
 update_repos

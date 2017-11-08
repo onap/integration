@@ -231,6 +231,16 @@ nodes = [
     :ram    => 4 * 1024,
     :groups => ["individual"],
     :args   => ['vvp'],
+  },
+  {
+    :name   => "openstack",
+    :ips    => ['10.252.3.3', "192.168.53.3"],
+    :macs   => [],
+    :cpus   => 2,
+    :cpu    => "50",
+    :ram    => 8 * 1024,
+    :groups => ["individual"],
+    :args   => ['openstack'],
   }
 ]
 
@@ -374,6 +384,9 @@ Vagrant.configure("2") do |config|
 
         # Set Box type
         nodeconfig.vm.box = box[provider]
+        if "openstack" == node[:name]
+          nodeconfig.vm.box = "ubuntu/xenial64"
+        end
 
         # Set Node name
         nodeconfig.vm.hostname = node[:name]
