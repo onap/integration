@@ -5,7 +5,8 @@ source /var/onap/_composed_functions
 source /var/onap/_onap_functions
 
 export MTU=$(/sbin/ifconfig | grep MTU | sed 's/.*MTU://' | sed 's/ .*//' |sort -n | head -1)
-export IP_ADDRESS=$(ifconfig eth0 | grep "inet addr" | tr -s ' ' | cut -d' ' -f3 | cut -d':' -f2)
+export NIC=$(ip route get 8.8.8.8 | awk '{ print $5; exit }')
+export IP_ADDRESS=$(ifconfig $NIC | grep "inet addr" | tr -s ' ' | cut -d' ' -f3 | cut -d':' -f2)
 
 mvn_conf_file=/root/.m2/settings.xml
 git_src_folder=/opt
@@ -14,6 +15,14 @@ git_src_folder=/opt
 function configure_dns {
     echo "nameserver 10.0.0.1" >> /etc/resolvconf/resolv.conf.d/head
     resolvconf -u
+}
+
+# get_next_ip() - Function that provides the next ip
+function get_next_ip {
+    local ip=${1:-$IP_ADDRESS}
+    ip_hex=$(printf '%.2X%.2X%.2X%.2X\n' `echo $ip | sed -e 's/\./ /g'`)
+    next_ip_hex=$(printf %.8X `echo $(( 0x$ip_hex + 1 ))`)
+    echo $(printf '%d.%d.%d.%d\n' `echo $next_ip_hex | sed -r 's/(..)/0x\1 /g'`)
 }
 
 # _git_timed() - git can sometimes get itself infinitely stuck with transient network
@@ -142,7 +151,6 @@ function _configure_docker_settings {
     rm $docker_conf_backup
 
     echo "DOCKER_OPTS=\"-H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock\"" >> $docker_conf
-    usermod -a -G docker vagrant
 }
 
 # install_nodejs() - Download and install NodeJS
@@ -165,17 +173,17 @@ function install_python {
 # _install_pip() - Install Python Package Manager
 function _install_pip {
     install_python
-    if [ ! -f /usr/local/bin/pip ]; then
+    if ! which pip; then
         curl -sL https://bootstrap.pypa.io/get-pip.py | python
     fi
 }
 
 # install_python_package() - Install a python module
 function install_python_package {
-    local python_package=$1
+    local python_packages=$@
 
     _install_pip
-    pip install $python_package
+    pip install $python_packages
 }
 
 # install_docker() - Download and install docker-engine
