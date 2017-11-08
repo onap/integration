@@ -31,7 +31,8 @@ https://wiki.onap.org/display/DW/ONAP+on+Vagrant
 #>
 
 Param(
-    [ValidateSet("all_in_one","dns", "mr", "sdc", "aai", "mso", "robot", "vid", "sdnc", "portal", "dcae", "policy", "appc", "vfc", "multicloud", "ccsdk", "vnfsdk", "vvp", "testing")]
+    [ValidateSet("all_in_one","dns", "mr", "sdc", "aai", "mso", "robot", "vid", "sdnc", "portal", "dcae", "policy", "appc", "vfc", "multicloud", "ccsdk", "vnfsdk", "vvp", "openstack", "testing")]
+
     [Parameter(Mandatory=$True,Position=0)]
     [ValidateNotNullOrEmpty()]
     [String]
@@ -85,7 +86,7 @@ $env:SKIP_INSTALL=$skip_install
 switch ($Command)
     {
         "all_in_one" { $env:DEPLOY_MODE="all-in-one" }
-        { @("dns", "mr", "sdc", "aai", "mso", "robot", "vid", "sdnc", "portal", "dcae", "policy", "appc", "vfc", "multicloud", "ccsdk", "vnfsdk", "vvp") -contains $_ } { $env:DEPLOY_MODE="individual" }
+        { @("dns", "mr", "sdc", "aai", "mso", "robot", "vid", "sdnc", "portal", "dcae", "policy", "appc", "vfc", "multicloud", "ccsdk", "vnfsdk", "vvp", "openstack") -contains $_ } { $env:DEPLOY_MODE="individual" }
         "testing"
             {
                 $env:DEPLOY_MODE="testing"

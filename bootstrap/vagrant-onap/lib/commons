@@ -34,7 +34,7 @@ function is_package_installed {
         *suse)
         ;;
         ubuntu|debian)
-            dpkg -s "$@" > /dev/null 2> /dev/null
+            dpkg -s "$@" > /dev/null 
         ;;
         rhel|centos|fedora)
         ;;

@@ -57,8 +57,11 @@ current options include:
 | ccsdk      | Common Controller SDK               |
 | vnfsdk     | VNF SDK                             |
 | vvp        | VNF Validation Program              |
+|:----------:|-------------------------------------|
 | all_in_one | All ONAP services in a VM           |
 | testing    | Unit Test VM                        |
+|:----------:|-------------------------------------|
+| openstack  | OpenStack Deployment                |
 
 #### Generating documentation
 
