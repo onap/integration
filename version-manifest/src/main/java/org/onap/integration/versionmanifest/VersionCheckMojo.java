@@ -130,9 +130,9 @@ public class VersionCheckMojo extends AbstractMojo {
 
         // used for formatting
         int[] columnWidths = new int[10];
-        columnWidths[0] = actualVersions.keySet().stream().mapToInt(String::length).max().orElse(1);
-        columnWidths[1] = actualVersions.values().stream().mapToInt(String::length).max().orElse(1);
-        columnWidths[2] = expectedVersions.values().stream().mapToInt(String::length).max().orElse(1);
+        columnWidths[0] = actualVersions.keySet().stream().mapToInt(s -> ("" + s).length()).max().orElse(1);
+        columnWidths[1] = actualVersions.values().stream().mapToInt(s -> ("" + s).length()).max().orElse(1);
+        columnWidths[2] = expectedVersions.values().stream().mapToInt(s -> ("" + s).length()).max().orElse(1);
         String format = "  %-" + columnWidths[0] + "s" + "  %" + columnWidths[1] + "s -> %" + columnWidths[2] + "s";
 
         if (mismatches.isEmpty()) {
