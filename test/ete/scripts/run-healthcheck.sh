@@ -21,7 +21,7 @@ ssh-keygen -R ${ROBOT_IP}
 
 ssh -o StrictHostKeychecking=no -i ${SSH_KEY} root@${ROBOT_IP} "OS_PASSWORD_INPUT=$OS_PASSWORD_INPUT bash -s" < ./remote/run-robot.sh
 
-if [ $? -eq 0 ]
+if [ ! $? -eq 0 ]
 then
     exit 1
 fi
