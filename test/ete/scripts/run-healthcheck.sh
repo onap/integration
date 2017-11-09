@@ -13,8 +13,7 @@ cd $WORKSPACE/test/ete/scripts
 ROBOT_IP=$(./get-floating-ip.sh onap-robot)
 echo "ROBOT_IP=${ROBOT_IP}"
 
-# allow direct login as root
-ssh -o StrictHostKeychecking=no -i ${SSH_KEY} ubuntu@${ROBOT_IP} 'sudo cp /home/ubuntu/.ssh/authorized_keys /root/.ssh/'
+ssh-keygen -R ${ROBOT_IP}
 
 ssh -o StrictHostKeychecking=no -i ${SSH_KEY} root@${ROBOT_IP} "OS_PASSWORD_INPUT=$OS_PASSWORD_INPUT bash -s" < ./remote/run-robot.sh
 LOG_DIR=$(ssh -o StrictHostKeychecking=no -i ${SSH_KEY} root@${ROBOT_IP} "ls -1t /opt/eteshare/logs | head -1")
