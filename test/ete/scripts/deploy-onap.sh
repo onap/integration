@@ -13,7 +13,7 @@ if [ ! -z "${STACKS}" ]; then
     echo "Deleting Stacks ${STACKS}"
     openstack stack delete -y $STACKS
     for STACK in ${STACKS}; do
-        until ! openstack stack show -c stack_status -f value $STACK; do
+        until [ "DELETE_IN_PROGRESS" != "$(openstack stack show -c stack_status -f value $STACK)" ]; do
             sleep 30
         done
     done
