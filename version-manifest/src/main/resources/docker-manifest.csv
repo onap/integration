@@ -34,7 +34,7 @@ onap/vfc/wfengine-activiti,1.0.0-STAGING-latest
 onap/vfc/wfengine-mgrservice,1.0.0-STAGING-latest
 onap/vfc/ztesdncdriver,1.0.0-STAGING-latest
 onap/vfc/ztevmanagerdriver,1.0.1-STAGING-latest
-onap/vnfsdk/refrepo,1.0.0-STAGING-latest
+onap/vnfsdk/refrepo,1.0.0
 openecomp/mso,1.1-STAGING-latest
 openecomp/sdc-backend,1.1-STAGING-latest
 openecomp/sdc-elasticsearch,1.1-STAGING-latest
