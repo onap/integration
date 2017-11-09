@@ -15,8 +15,8 @@ export OS_AUTH_URL=http://10.12.25.2:5000/v3
 
 # With the addition of Keystone we have standardized on the term **project**
 # as the entity that owns the resources.
-export OS_PROJECT_ID="09d8566ea45e43aa974cf447ed591d77"
-export OS_PROJECT_NAME="Integration-Jenkins"
+export OS_PROJECT_ID="d570c718cbc545029f40e50b75eb13df"
+export OS_PROJECT_NAME="Integration-SB-04"
 export OS_USER_DOMAIN_NAME="Default"
 if [ -z "$OS_USER_DOMAIN_NAME" ]; then unset OS_USER_DOMAIN_NAME; fi
 
@@ -26,7 +26,7 @@ unset OS_TENANT_NAME
 
 # In addition to the owning entity (tenant), OpenStack stores the entity
 # performing the action as the **user**.
-export OS_USERNAME="gary_wu"
+export OS_USERNAME="demo"
 
 # With Keystone you pass the keystone password.
 if [ -z ${OS_PASSWORD_INPUT+x} ]; then
