@@ -1,9 +1,10 @@
-#!/bin/bash
+#!/bin/bash -x
 
 cd /opt
 
-if [ ! -x /opt/demo.sh ]; then
-    echo "Robot VM not initialized"
+docker ps | grep -q openecompete_container
+if [ ! $? -eq 0 ]; then
+    echo "Robot not initialized"
     exit 2
 fi
 
@@ -12,7 +13,8 @@ if [ ! -d eteshare/logs/demo ]; then
     echo "gary_wu" > /opt/config/openstack_username.txt
     echo $OS_PASSWORD_INPUT > /opt/config/openstack_password.txt
     /bin/bash /opt/eteshare/config/vm_config2robot.sh
-    echo "test" | /opt/demo.sh init_robot
+    # set robot VM http server password
+    echo "admin" | /opt/demo.sh init_robot
 fi
 
 /opt/ete.sh health

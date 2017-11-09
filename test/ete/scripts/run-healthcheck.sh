@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 SSH_KEY=~/.ssh/onap_key
 
@@ -12,6 +12,10 @@ cd $WORKSPACE/test/ete/scripts
 
 ROBOT_IP=$(./get-floating-ip.sh onap-robot)
 echo "ROBOT_IP=${ROBOT_IP}"
+
+if [ "" == "${ROBOT_IP}" ]; then
+    exit 1
+fi
 
 ssh-keygen -R ${ROBOT_IP}
 
