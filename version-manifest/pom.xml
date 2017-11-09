@@ -87,6 +87,42 @@
           <generateGitPropertiesFile>true</generateGitPropertiesFile>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.6.0</version>
+        <configuration>
+          <executable>sort</executable>
+        </configuration>
+        <executions>
+          <execution>
+            <id>check-docker-manifest-sorted</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <arguments>
+                <argument>-c</argument>
+                <argument>${project.basedir}/src/main/resources/docker-manifest.csv</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>check-java-manifest-sorted</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <arguments>
+                <argument>-c</argument>
+                <argument>${project.basedir}/src/main/resources/java-manifest.csv</argument>
+              </arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 </project>
