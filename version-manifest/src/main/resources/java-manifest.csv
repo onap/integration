@@ -17,6 +17,10 @@ org.onap.portal.sdk,epsdk-app-overlay,1.3.2
 org.onap.portal.sdk,epsdk-core,1.3.2
 org.onap.portal.sdk,epsdk-fw,1.3.2
 org.onap.portal.sdk,epsdk-workflow,1.3.2
+org.onap.policy.common,common-modules,1.1.0
+org.onap.policy.drools-pdp,drools-pdp,1.1.0
+org.onap.policy.drools-applications,drools-pdp-apps,1.1.0
+org.onap.policy.engine,PolicyEngineSuite,1.1.0
 org.onap.ccsdk.parent,odlparent-carbon-sr1,0.0.2
 org.onap.ccsdk.sli.adaptors,aai-service-provider,0.1.0
 org.onap.ccsdk.sli.adaptors,mdsal-resource-provider,0.1.0
