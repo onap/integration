@@ -35,9 +35,29 @@ envsubst < ${WORKSPACE}/test/ete/labs/windriver/onap-openstack-template.env > ${
 openstack stack create -t ${ONAP_WORKDIR}/demo/heat/ONAP/onap_openstack.yaml -e ${WORKSPACE}/test/ete/labs/windriver/onap-openstack.env $STACK
 
 while [ "CREATE_IN_PROGRESS" == "$(openstack stack show -c stack_status -f value $STACK)" ]; do
-    sleep 10
+    sleep 15
 done
 
 STATUS=$(openstack stack show -c stack_status -f value $STACK)
 echo $STATUS
-[ "CREATE_COMPLETE" == "$STATUS" ]
+if [ "CREATE_COMPLETE" != "$STATUS" ]; then
+    exit 1
+fi
+
+
+# wait until Robot VM initializes
+ROBOT_IP=$(./get-floating-ip.sh onap-robot)
+echo "ROBOT_IP=${ROBOT_IP}"
+
+if [ "" == "${ROBOT_IP}" ]; then
+    exit 1
+fi
+
+ssh-keygen -R ${ROBOT_IP}
+
+SSH_KEY=~/.ssh/onap_key
+
+until ssh -o StrictHostKeychecking=no -i ${SSH_KEY} root@${ROBOT_IP} "docker ps | grep -q openecompete_container"
+do
+      sleep 1m
+done
