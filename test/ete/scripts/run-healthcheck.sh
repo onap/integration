@@ -16,6 +16,12 @@ echo "ROBOT_IP=${ROBOT_IP}"
 ssh-keygen -R ${ROBOT_IP}
 
 ssh -o StrictHostKeychecking=no -i ${SSH_KEY} root@${ROBOT_IP} "OS_PASSWORD_INPUT=$OS_PASSWORD_INPUT bash -s" < ./remote/run-robot.sh
+
+if [ $? -eq 0 ]
+then
+    exit 1
+fi
+
 LOG_DIR=$(ssh -o StrictHostKeychecking=no -i ${SSH_KEY} root@${ROBOT_IP} "ls -1t /opt/eteshare/logs | head -1")
 echo "Browse Robot results at http://${ROBOT_IP}:88/logs/${LOG_DIR}/"
 rsync -e "ssh -i ${SSH_KEY}" -avPz root@${ROBOT_IP}:/opt/eteshare/logs/${LOG_DIR}/ $WORKSPACE/archives/
