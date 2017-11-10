@@ -46,7 +46,7 @@ fi
 
 
 # wait until Robot VM initializes
-ROBOT_IP=$(./get-floating-ip.sh onap-robot)
+ROBOT_IP=$($WORKSPACE/test/ete/scripts/get-floating-ip.sh onap-robot)
 echo "ROBOT_IP=${ROBOT_IP}"
 
 if [ "" == "${ROBOT_IP}" ]; then
