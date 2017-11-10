@@ -208,3 +208,10 @@ Delete E2EService with invalid input data
     &{headers}=  Create Dictionary    Authorization=Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==    Content-Type=application/json    Accept=application/json
     ${resp}=    Delete Request    refrepo    /ecomp/mso/infra/e2eServiceInstances/v3/ff305d54-75b4-431b-adb2-eb6b9e5ff000    data=${data}    headers=${headers}
     Run Keyword If  '${resp.status_code}' == '400' or '${resp.status_code}' == '404' or '${resp.status_code}' == '405'  log to console  \nexecuted with expected result
+	
+Delete E2EService with valid request data
+    Create Session   refrepo  http://${REPO_IP}:8080
+    ${data}=    Get Binary File     ${CURDIR}${/}data${/}deleteE2eservice.json
+    &{headers}=  Create Dictionary    Authorization=Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==    Content-Type=application/json    Accept=application/json
+    ${resp}=    Delete Request    refrepo    /ecomp/mso/infra/e2eServiceInstances/v3/ff305d54-75b4-431b-adb2-eb6b9e5ff000    data=${data}    headers=${headers}
+    Should Be Equal As Strings  ${resp.status_code}     202
