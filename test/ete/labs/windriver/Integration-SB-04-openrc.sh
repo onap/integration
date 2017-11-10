@@ -31,7 +31,7 @@ unset OS_TENANT_NAME
 if [ -z ${OS_USERNAME_INPUT+x} ]; then
     read -sp "Please enter your OpenStack Username for project $OS_PROJECT_NAME: " OS_USERNAME_INPUT
 fi
-export OS_USERNAME=OS_USERNAME_INPUT
+export OS_USERNAME=$OS_USERNAME_INPUT
 
 # With Keystone you pass the keystone password.
 if [ -z ${OS_PASSWORD_INPUT+x} ]; then
