@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 #
 # Copyright 2017 Huawei Technologies Co., Ltd.
 #
@@ -17,9 +17,10 @@ git commit -m 'Installed plugins, restarted Jenkins' > /dev/null
 mkdir -p ~/.config/jenkins_jobs
 cp /vagrant/jenkins_jobs.ini ~/.config/jenkins_jobs
 
-pip install --user jenkins-job-builder
+pip -v install --user jenkins-job-builder
+pip list
 
-jenkins-job-builder update -r /vagrant/jjb
+jenkins-jobs update -r /vagrant/jjb
 
 cat > .gitignore <<EOF
 jobs/*/builds

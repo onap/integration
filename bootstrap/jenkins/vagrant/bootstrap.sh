@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 #
 # Copyright 2017 Huawei Technologies Co., Ltd.
 #
@@ -39,16 +39,16 @@ apt-get update
 apt-get -y install git
 git config --global user.email "jenkins@localhost"
 git config --global user.name "jenkins"
-apt-get -y install curl openjdk-8-jdk maven unzip
+apt-get -y install curl openjdk-8-jdk-headless maven unzip python-pip
 
 # install Jenkins
 wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
 sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
 apt-get update
-apt-get -y install jenkins jenkins-job-builder python-pip
+apt-get -y install jenkins
 
+# install docker
 apt-get -y install docker.io
-sudo usermod -aG docker ubuntu
 sudo usermod -aG docker jenkins
 
 su -l jenkins -c "/vagrant/jenkins-init-1.sh"
