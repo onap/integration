@@ -28,7 +28,7 @@ deploy_invalid_rule
 
 deploy_valid_rule
     [Documentation]    Add a rule with valid contents to the engine.
-    ${dic4}    create dictionary    content=package rule03080002    engineid=""    loopcontrolname=test
+    ${dic4}    create dictionary    content=package rule03080002;\n\nimport xxx.xxx.xxx;    engineid=""    loopcontrolname=test
     ${Jsonparam}    encode    ${dic4}
     ${response}    deployEngineRule    ${Jsonparam}
 
