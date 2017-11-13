@@ -68,8 +68,8 @@ curl -L https://github.com/docker/compose/releases/download/1.9.0/docker-compose
 chmod +x docker-compose
 ./docker-compose up -d
 
-# WAIT 5 minutes maximum and test every 5 seconds if SDNC is up using HealthCheck API
-TIME_OUT=500
+# WAIT 10 minutes maximum and test every 5 seconds if SDNC is up using HealthCheck API
+TIME_OUT=1000
 INTERVAL=30
 TIME=0
 while [ "$TIME" -lt "$TIME_OUT" ]; do
