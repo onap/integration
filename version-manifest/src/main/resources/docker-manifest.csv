@@ -5,6 +5,14 @@ onap/ccsdk-odl-image,0.1-STAGING-latest
 onap/ccsdk-odlsli-image,0.1-STAGING-latest
 onap/clamp,v1.1.0
 onap/cli,v1.1.0
+onap/org.onap.dcaegen2.collectors.ves.vescollector:v1.1.0
+onap/org.onap.dcaegen2.deployments.bootstrap:v1.1.0
+onap/org.onap.dcaegen2.platform.cdapbroker:v4.0.0
+onap/org.onap.dcaegen2.platform.configbinding:v1.2.0
+onap/org.onap.dcaegen2.platform.deployment-handler:v1.1.0
+onap/org.onap.dcaegen2.platform.inventory-api:v1.2.0
+onap/org.onap.dcaegen2.platform.policy-handler:v1.1.0
+onap/org.onap.dcaegen2.platform.servicechange-handler:v1.0.0
 onap/holmes/dsa,1.0.0-STAGING-latest
 onap/holmes/engine-management,1.0.0-STAGING-latest
 onap/holmes/rule-management,1.0.0-STAGING-latest
