@@ -5,9 +5,8 @@ onap/ccsdk-odl-image,0.1-STAGING-latest
 onap/ccsdk-odlsli-image,0.1-STAGING-latest
 onap/clamp,v1.1.0
 onap/cli,v1.1.0
-onap/holmes/dsa,1.0.0-STAGING-latest
-onap/holmes/engine-management,1.0.0-STAGING-latest
-onap/holmes/rule-management,1.0.0-STAGING-latest
+onap/holmes/engine-management,v1.0.0
+onap/holmes/rule-management,v1.0.0
 onap/msb/msb_apigateway,1.0.0-STAGING-latest
 onap/msb/msb_discovery,1.0.0-STAGING-latest
 onap/oom/kube2msb,1.0.0-STAGING-latest
