@@ -11,6 +11,14 @@ onap/holmes/rule-management,1.0.0-STAGING-latest
 onap/msb/msb_apigateway,1.0.0-STAGING-latest
 onap/msb/msb_discovery,1.0.0-STAGING-latest
 onap/oom/kube2msb,1.0.0-STAGING-latest
+onap/org.onap.dcaegen2.collectors.ves.vescollector,v1.1.0
+onap/org.onap.dcaegen2.deployments.bootstrap,v1.1.0
+onap/org.onap.dcaegen2.platform.cdapbroker,v4.0.0
+onap/org.onap.dcaegen2.platform.configbinding,v1.2.0
+onap/org.onap.dcaegen2.platform.deployment-handler,v1.1.0
+onap/org.onap.dcaegen2.platform.inventory-api,v1.2.0
+onap/org.onap.dcaegen2.platform.policy-handler,v1.1.0
+onap/org.onap.dcaegen2.platform.servicechange-handler,v1.0.0
 onap/policy/policy-db,v1.1.0
 onap/policy/policy-drools,1.1.0
 onap/policy/policy-nexus,1.1.0
