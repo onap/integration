@@ -48,3 +48,16 @@ Remove vagrant-vbguest plugin
 
     C:\> vagrant plugin uninstall vagrant-vbguest
 .. end
+
+
+Network configuration in Windows
+--------------------------------
+
+Some Virtual Machines present a problem in their network configuration so to
+make sure the install will work as it should install the virtualbox from the
+cmd window with the following command:
+
+.. code-block:: console
+
+    c:\downloads\VirtualBox-5.1.20-114628-Win.exe -msiparams NETWORKTYPE=NDIS5
+.. end
