@@ -11,7 +11,7 @@ onap/data-router,1.1-STAGING-latest
 onap/holmes/dsa,1.0.0-STAGING-latest
 onap/holmes/engine-management,v1.0.0
 onap/holmes/rule-management,v1.0.0
-onap/modeling/javatoscachecker,latest
+onap/modeling/javatoscachecker,v1.0.0
 onap/model-loader,1.1-STAGING-latest
 onap/msb/msb_apigateway,1.0.0-STAGING-latest
 onap/msb/msb_discovery,1.0.0-STAGING-latest
