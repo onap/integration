@@ -12,6 +12,7 @@ onap/holmes/dsa,1.0.0-STAGING-latest
 onap/holmes/engine-management,1.0.0-STAGING-latest
 onap/holmes/rule-management,1.0.0-STAGING-latest
 onap/model-loader,1.1-STAGING-latest
+onap/modeling/javatoscachecker,latest
 onap/msb/msb_apigateway,1.0.0-STAGING-latest
 onap/msb/msb_discovery,1.0.0-STAGING-latest
 onap/oom/kube2msb,1.0.0-STAGING-latest
