@@ -2,9 +2,9 @@ image,tag
 onap/aai/esr-gui,1.0.0-STAGING-latest
 onap/aai/esr-server,1.0.0-STAGING-latest
 onap/admportal-sdnc-image,1.2-STAGING-latest
-onap/ccsdk-dgbuilder-image,0.1-STAGING-latest
-onap/ccsdk-odl-image,0.1-STAGING-latest
-onap/ccsdk-odlsli-image,0.1-STAGING-latest
+onap/ccsdk-dgbuilder-image,v0.1.0
+onap/ccsdk-odl-image,v0.1.0
+onap/ccsdk-odlsli-image,v0.1.0
 onap/clamp,v1.1.0
 onap/cli,v1.1.0
 onap/data-router,1.1-STAGING-latest
