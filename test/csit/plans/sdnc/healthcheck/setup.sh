@@ -128,8 +128,8 @@ if [ "$num_failed_bundles" -ge 1 ]; then
   echo "  $failed_bundles"
 fi
 
-# Sleep additional 120 to give application time to finish
-sleep 240
+# Sleep additional 5 minutes (300 secs) to give application time to finish
+sleep 300
 
 # Pass any variables required by Robot test suites in ROBOT_VARIABLES
 ROBOT_VARIABLES="-v SCRIPTS:${SCRIPTS}"
