@@ -43,6 +43,8 @@ onap/sdnc-image,v1.2.1
 onap/sdnc-ueb-listener-image,v1.2.1
 onap/search-data-service,v1.1.0
 onap/sparky-be,v1.1.0
+onap/usecase-ui,v1.0.1
+onap/usecase-ui/usecase-ui-server,v1.0.1
 onap/vfc/catalog,v1.0.2
 onap/vfc/emsdriver,v1.0.1
 onap/vfc/gvnfmdriver,v1.0.1
