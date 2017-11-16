@@ -28,14 +28,23 @@ STACK="ete-$(uuidgen | cut -c-8)"
 echo "New Stack Name: ${STACK}"
 
 
+SENTINEL='Docker versions and branches'
+ENV_FILE=${WORKSPACE}/test/ete/labs/windriver/onap-openstack.env
 cp ${ONAP_WORKDIR}/demo/heat/ONAP/onap_openstack.env ${WORKSPACE}/test/ete/labs/windriver/onap-openstack-demo.env
-envsubst < ${WORKSPACE}/test/ete/labs/windriver/onap-openstack-template.env > ${WORKSPACE}/test/ete/labs/windriver/onap-openstack.env
+envsubst < ${WORKSPACE}/test/ete/labs/windriver/onap-openstack-template.env | sed -n "1,/${SENTINEL}/p" > ${ENV_FILE}
+pushd ${ONAP_WORKDIR}/demo
+echo "  # Rest of the file was AUTO-GENERATED from"
+echo "  #" $(git config --get remote.origin.url) heat/ONAP/onap_openstack.env $(git rev-parse HEAD) | tee -a ${ENV_FILE}
+popd
+sed "1,/${SENTINEL}/d" ${ONAP_WORKDIR}/demo/heat/ONAP/onap_openstack.env >> ${ENV_FILE}
+cat ${ENV_FILE}
+
 #diff ${WORKSPACE}/test/ete/labs/windriver/onap-openstack-template.env ${WORKSPACE}/test/ete/labs/windriver/onap-openstack.env
 
 openstack stack create -t ${ONAP_WORKDIR}/demo/heat/ONAP/onap_openstack.yaml -e ${WORKSPACE}/test/ete/labs/windriver/onap-openstack.env $STACK
 
 while [ "CREATE_IN_PROGRESS" == "$(openstack stack show -c stack_status -f value $STACK)" ]; do
-    sleep 15
+    sleep 20
 done
 
 STATUS=$(openstack stack show -c stack_status -f value $STACK)
@@ -59,5 +68,5 @@ SSH_KEY=~/.ssh/onap_key
 
 until ssh -o StrictHostKeychecking=no -i ${SSH_KEY} root@${ROBOT_IP} "docker ps | grep -q openecompete_container"
 do
-      sleep 1m
+      sleep 2m
 done
