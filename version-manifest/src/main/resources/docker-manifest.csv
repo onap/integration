@@ -62,7 +62,7 @@ onap/vnfsdk/refrepo,1.0.0
 openecomp/aai-resources,1.1-STAGING-latest
 openecomp/aai-traversal,1.1-STAGING-latest
 openecomp/appc-image,v1.2.0
-openecomp/mso,v1.1.0
+openecomp/mso,v1.1.1
 openecomp/sdc-backend,v1.1.0
 openecomp/sdc-elasticsearch,v1.1.0
 openecomp/sdc-frontend,v1.1.0
