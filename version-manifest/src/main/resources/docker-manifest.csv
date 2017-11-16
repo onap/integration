@@ -1,7 +1,7 @@
 image,tag
 onap/aai/esr-gui,v1.0.0
 onap/aai/esr-server,v1.0.0
-onap/admportal-sdnc-image,1.2-STAGING-latest
+onap/admportal-sdnc-image,v1.2.1
 onap/ccsdk-dgbuilder-image,v0.1.0
 onap/ccsdk-odl-image,v0.1.0
 onap/ccsdk-odlsli-image,v0.1.0
@@ -11,8 +11,8 @@ onap/data-router,1.1-STAGING-latest
 onap/holmes/dsa,1.0.0-STAGING-latest
 onap/holmes/engine-management,v1.0.0
 onap/holmes/rule-management,v1.0.0
-onap/modeling/javatoscachecker,v1.0.0
 onap/model-loader,1.1-STAGING-latest
+onap/modeling/javatoscachecker,v1.0.0
 onap/msb/msb_apigateway,1.0.0
 onap/msb/msb_discovery,1.0.0
 onap/multicloud/framework,1.0.0-STAGING
@@ -38,7 +38,9 @@ onap/portal-apps,v1.3.0
 onap/portal-db,v1.3.0
 onap/portal-wms,v1.3.0
 onap/sdc/sdc-workflow-designer,1.0.0-STAGING-latest
-onap/sdnc-image,1.2-STAGING-latest
+onap/sdnc-dmaap-listener-image,v1.2.1
+onap/sdnc-image,v1.2.1
+onap/sdnc-ueb-listener-image,v1.2.1
 onap/search-data-service,1.1-STAGING-latest
 onap/sparky-be,1.1-STAGING-latest
 onap/vfc/catalog,v1.0.2
