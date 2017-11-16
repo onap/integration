@@ -105,9 +105,9 @@ org.onap.portal.sdk,epsdk-core,1.3.2
 org.onap.portal.sdk,epsdk-fw,1.3.2
 org.onap.portal.sdk,epsdk-workflow,1.3.2
 org.onap.sdc.sdc-workflow-designer,sdc-workflow-designer,1.0.0
-org.onap.sdnc.northbound,generic-resource-api.provider,1.2.0
-org.onap.sdnc.northbound,vnfapi-provider,1.2.0
-org.onap.sdnc.northbound,vnftools-provider,1.2.0
+org.onap.sdnc.northbound,generic-resource-api.provider,1.2.2
+org.onap.sdnc.northbound,vnfapi-provider,1.2.2
+org.onap.sdnc.northbound,vnftools-provider,1.2.2
 org.onap.vfc.gvnfm.vnflcm.lcm,vfc-gvnfm-vnflcm-lcm,1.0.1
 org.onap.vfc.gvnfm.vnfmgr.mgr,vfc-gvnfm-vnfmgr-mgr,1.0.1
 org.onap.vfc.gvnfm.vnfres.res,vfc-gvnfm-vnfres-res,1.0.1
