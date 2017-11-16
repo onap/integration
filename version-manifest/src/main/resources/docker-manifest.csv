@@ -50,6 +50,7 @@ onap/vfc/wfengine-mgrservice,1.0.0-STAGING-latest
 onap/vfc/ztesdncdriver,1.0.0-STAGING-latest
 onap/vfc/ztevmanagerdriver,1.0.2-STAGING-latest
 onap/vnfsdk/refrepo,1.0.0
+onap/sdc/sdc-workflow-designer,1.0.0-SNAPSHOT-STAGING-latest
 openecomp/aai-resources,1.1-STAGING-latest
 openecomp/aai-traversal,1.1-STAGING-latest
 openecomp/appc-image,v1.2.0
