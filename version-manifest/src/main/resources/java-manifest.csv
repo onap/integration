@@ -189,3 +189,5 @@ org.openecomp.sdc.sdc-distribution-client,sdc-main-distribution-client,1.1.32
 org.openecomp.sdc.sdc-titan-cassandra,sdc-titan-cassandra,1.0.0
 org.openecomp.sdc.sdc-tosca,sdc-tosca,1.1.32
 org.openecomp.vid,asdcclient,1.0.2
+org.onap.usecase-ui.server,usecase-ui-server,1.0.1
+org.onap.usecase-ui,usecaseui-common,1.0.1
