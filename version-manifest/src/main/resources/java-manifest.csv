@@ -77,6 +77,10 @@ org.onap.dcaegen2.collectors.ves,VESCollector,1.1.4
 org.onap.dcaegen2,dcaegen2,1.1.0
 org.onap.dcaegen2.platform,inventory-api,1.0.0
 org.onap.dcaegen2.platform,servicechange-handler,1.0.0
+org.onap.dmaap.messagerouter.dmaapclient,dmaapClient,1.0.0
+org.onap.dmaap.messagerouter.messageservice,dmaapMR1,1.0.1
+org.onap.dmaap.messagerouter.mirroragent,dmaapMMAgent,1.0.0
+org.onap.dmaap.messagerouter.msgrtr,msgrtr,1.0.0
 org.onap.holmes.common,holmes-actions,1.0.0
 org.onap.holmes.dsa,dmaap-dsa,1.0.0
 org.onap.holmes.engine-management,holmes-engine-d,1.0.0
