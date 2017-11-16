@@ -189,3 +189,8 @@ org.openecomp.sdc.sdc-distribution-client,sdc-main-distribution-client,1.1.32
 org.openecomp.sdc.sdc-titan-cassandra,sdc-titan-cassandra,1.0.0
 org.openecomp.sdc.sdc-tosca,sdc-tosca,1.1.32
 org.openecomp.vid,asdcclient,1.0.2
+org.onap.dmaap.messagerouter.dmaapclient,1.0.0
+org.onap.dmaap.messagerouter.messageservice,1.0.1
+org.onap.dmaap.messagerouter.mirroragent,1.0.0
+org.onap.dmaap.messagerouter.msgrtr,1.0.0
+
