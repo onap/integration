@@ -7,12 +7,12 @@ onap/ccsdk-odl-image,v0.1.0
 onap/ccsdk-odlsli-image,v0.1.0
 onap/clamp,v1.1.0
 onap/cli,v1.1.0
-onap/data-router,1.1-STAGING-latest
+onap/data-router,v1.1.0
 onap/holmes/dsa,1.0.0-STAGING-latest
 onap/holmes/engine-management,v1.0.0
 onap/holmes/rule-management,v1.0.0
 onap/modeling/javatoscachecker,v1.0.0
-onap/model-loader,1.1-STAGING-latest
+onap/model-loader,v1.1.0
 onap/msb/msb_apigateway,1.0.0
 onap/msb/msb_discovery,1.0.0
 onap/multicloud/framework,1.0.0-STAGING
@@ -39,8 +39,8 @@ onap/portal-db,v1.3.0
 onap/portal-wms,v1.3.0
 onap/sdc/sdc-workflow-designer,1.0.0-STAGING-latest
 onap/sdnc-image,1.2-STAGING-latest
-onap/search-data-service,1.1-STAGING-latest
-onap/sparky-be,1.1-STAGING-latest
+onap/search-data-service,v1.1.0
+onap/sparky-be,v1.1.0
 onap/vfc/catalog,v1.0.2
 onap/vfc/emsdriver,v1.0.1
 onap/vfc/gvnfmdriver,v1.0.1
@@ -57,8 +57,8 @@ onap/vfc/wfengine-mgrservice,v1.0.0
 onap/vfc/ztesdncdriver,v1.0.0
 onap/vfc/ztevmanagerdriver,v1.0.2
 onap/vnfsdk/refrepo,1.0.0
-openecomp/aai-resources,1.1-STAGING-latest
-openecomp/aai-traversal,1.1-STAGING-latest
+openecomp/aai-resources,v1.1.0
+openecomp/aai-traversal,v1.1.0
 openecomp/appc-image,v1.2.0
 openecomp/mso,v1.1.0
 openecomp/sdc-backend,1.1-STAGING-latest
