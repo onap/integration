@@ -41,6 +41,8 @@ onap/sdc/sdc-workflow-designer,1.0.0-STAGING-latest
 onap/sdnc-image,1.2-STAGING-latest
 onap/search-data-service,1.1-STAGING-latest
 onap/sparky-be,1.1-STAGING-latest
+onap/usecase-ui,v1.0.1
+onap/usecase-ui/usecase-ui-server,v1.0.1
 onap/vfc/catalog,v1.0.2
 onap/vfc/emsdriver,v1.0.1
 onap/vfc/gvnfmdriver,v1.0.1
