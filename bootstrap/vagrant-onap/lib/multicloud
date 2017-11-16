@@ -6,6 +6,7 @@ multicloud_src_folder=$git_src_folder/multicloud
 multicloud_repos=("multicloud" "multicloud/framework" "multicloud/openstack" \
 "multicloud/openstack/vmware" "multicloud/openstack/windriver" \
 "multicloud/azure")
+openstack_release="newton"
 
 # clone_multicloud_repos() - Function that clones the Multi Cloud repositories
 function clone_multicloud_repos {
@@ -21,14 +22,28 @@ function compile_multicloud_repos {
     done
 }
 
+function _build_images {
+    install_docker
+    install_python_requirements $multicloud_src_folder/openstack/$openstack_release
+    pushd $multicloud_src_folder/openstack/$openstack_release
+    bash build_image.sh
+    popd
+}
+
 # get_multicloud_images() -
 function get_multicloud_images {
-    echo "pass"
+    if [[ "$build_image" == "True" ]]; then
+        _build_images
+    else
+        pull_onap_image multicloud/openstack-$openstack_release
+    fi
 }
 
 # install_multicloud() - 
 function install_multicloud {
-    echo "pass"
+    pushd $multicloud_src_folder/openstack/$openstack_release
+    /opt/docker/docker-compose up -d
+    popd
 }
 
 # init_multicloud() - Function that initialize Multi Cloud services

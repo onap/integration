@@ -33,6 +33,8 @@ function test_compile_multicloud_repos {
 function test_get_multicloud_images {
     clone_multicloud_repos
     get_multicloud_images
+
+    asserts_image onap/multicloud/openstack-$openstack_release
 }
 
 # test_install_multicloud() - Verify the built and start of Multi Cloud services
@@ -40,6 +42,9 @@ function test_install_multicloud {
     clone_multicloud_repos
     get_multicloud_images
     install_multicloud
+
+    # NOTE(electrocucaracha): Depends on https://gerrit.onap.org/r/#/c/23631/
+    asserts_http_status_code http://127.0.0.1:9003/api/multicloud-$openstack_release/v0/swagger.json
 }
 
 if [ "$1" != '*' ]; then
