@@ -8,7 +8,6 @@ onap/ccsdk-odlsli-image,v0.1.0
 onap/clamp,v1.1.0
 onap/cli,v1.1.0
 onap/data-router,v1.1.0
-onap/holmes/dsa,1.0.0-STAGING-latest
 onap/holmes/engine-management,v1.0.0
 onap/holmes/rule-management,v1.0.0
 onap/modeling/javatoscachecker,v1.0.0
