@@ -178,12 +178,22 @@ function _install_pip {
     fi
 }
 
-# install_python_package() - Install a python module
+# install_python_package() - Install python modules
 function install_python_package {
     local python_packages=$@
 
     _install_pip
     pip install $python_packages
+}
+
+# install_python_requirements() - Install a list of python modules defined in requirement.txt file
+function install_python_requirements {
+    local python_project_path=$1
+
+    _install_pip
+    pushd $python_project_path
+    pip install -r requirements.txt
+    popd
 }
 
 # install_docker() - Download and install docker-engine
