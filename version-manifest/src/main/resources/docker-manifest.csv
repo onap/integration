@@ -61,9 +61,9 @@ openecomp/aai-resources,1.1-STAGING-latest
 openecomp/aai-traversal,1.1-STAGING-latest
 openecomp/appc-image,v1.2.0
 openecomp/mso,v1.1.0
-openecomp/sdc-backend,1.1-STAGING-latest
-openecomp/sdc-elasticsearch,1.1-STAGING-latest
-openecomp/sdc-frontend,1.1-STAGING-latest
-openecomp/sdc-kibana,1.1-STAGING-latest
-openecomp/sdc-sanity,1.1-STAGING-latest
+openecomp/sdc-backend,v1.1.0
+openecomp/sdc-elasticsearch,v1.1.0
+openecomp/sdc-frontend,v1.1.0
+openecomp/sdc-kibana,v1.1.0
+openecomp/sdc-sanity,v1.1.0
 openecomp/vid,v1.1.0
