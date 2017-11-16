@@ -15,6 +15,12 @@ onap/modeling/javatoscachecker,v1.0.0
 onap/model-loader,1.1-STAGING-latest
 onap/msb/msb_apigateway,1.0.0
 onap/msb/msb_discovery,1.0.0
+onap/multicloud/framework,1.0.0-STAGING
+onap/multicloud/vio,1.0.0-STAGING
+onap/multicloud/openstack-ocata,1.0.0-STAGING
+onap/multicloud/openstack-windriver,1.0.0-STAGING
+onap/multicloud/openstack-newton,1.0.0-STAGING
+onap/multicloud/vio-vesagent,1.0.0-STAGING
 onap/oom/kube2msb,1.0.0
 onap/org.onap.dcaegen2.collectors.ves.vescollector,v1.1.0
 onap/org.onap.dcaegen2.deployments.bootstrap,v1.1.0
