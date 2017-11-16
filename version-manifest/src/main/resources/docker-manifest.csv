@@ -1,6 +1,6 @@
 image,tag
-onap/aai/esr-gui,1.0.0-STAGING-latest
-onap/aai/esr-server,1.0.0-STAGING-latest
+onap/aai/esr-gui,v1.0.0
+onap/aai/esr-server,v1.0.0
 onap/admportal-sdnc-image,1.2-STAGING-latest
 onap/ccsdk-dgbuilder-image,v0.1.0
 onap/ccsdk-odl-image,v0.1.0
