@@ -31,6 +31,7 @@ onap/policy/policy-pe,1.1.1
 onap/portal-apps,v1.3.0
 onap/portal-db,v1.3.0
 onap/portal-wms,v1.3.0
+onap/sdc/sdc-workflow-designer,1.0.0-STAGING-latest
 onap/sdnc-image,1.2-STAGING-latest
 onap/search-data-service,1.1-STAGING-latest
 onap/sparky-be,1.1-STAGING-latest
