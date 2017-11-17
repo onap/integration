@@ -61,6 +61,7 @@ onap/vfc/wfengine-mgrservice,v1.0.0
 onap/vfc/ztesdncdriver,v1.0.0
 onap/vfc/ztevmanagerdriver,v1.0.2
 onap/vnfsdk/refrepo,1.0.0
+onap/vnfsdk/refrepo-postgres,1.0.0
 openecomp/aai-resources,v1.1.0
 openecomp/aai-traversal,v1.1.0
 openecomp/appc-image,v1.2.0
