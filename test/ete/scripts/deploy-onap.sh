@@ -29,6 +29,7 @@ echo "New Stack Name: ${STACK}"
 
 
 SENTINEL='Docker versions and branches'
+YAML_FILE=${ONAP_WORKDIR}/demo/heat/ONAP/onap_openstack.yaml
 ENV_FILE=${WORKSPACE}/test/ete/labs/windriver/onap-openstack.env
 cp ${ONAP_WORKDIR}/demo/heat/ONAP/onap_openstack.env ${WORKSPACE}/test/ete/labs/windriver/onap-openstack-demo.env
 envsubst < ${WORKSPACE}/test/ete/labs/windriver/onap-openstack-template.env | sed -n "1,/${SENTINEL}/p" > ${ENV_FILE}
@@ -41,7 +42,11 @@ cat ${ENV_FILE}
 
 #diff ${WORKSPACE}/test/ete/labs/windriver/onap-openstack-template.env ${WORKSPACE}/test/ete/labs/windriver/onap-openstack.env
 
-openstack stack create -t ${ONAP_WORKDIR}/demo/heat/ONAP/onap_openstack.yaml -e ${WORKSPACE}/test/ete/labs/windriver/onap-openstack.env $STACK
+# reduce DCAE VM sizes
+sed -i 's|__dcaeos_flavor_id__:.*|__dcaeos_flavor_id__: { get_param: flavor_medium }|' ${YAML_FILE}
+sed -i 's|__dcaeos_flavor_id_cdap__:.*|__dcaeos_flavor_id_cdap__: { get_param: flavor_large }|' ${YAML_FILE}
+
+openstack stack create -t ${YAML_FILE} -e ${WORKSPACE}/test/ete/labs/windriver/onap-openstack.env $STACK
 
 while [ "CREATE_IN_PROGRESS" == "$(openstack stack show -c stack_status -f value $STACK)" ]; do
     sleep 20
