@@ -9,7 +9,7 @@ covered_functions=(
 
 # test_clone_multicloud_repos() - Verify that Multi Cloud repositories are cloned properly
 function test_clone_multicloud_repos {
-    clone_multicloud_repos
+    clone_repos "multicloud"
 
     #asserts_file_exist $multicloud_src_folder/
     asserts_file_exist $multicloud_src_folder/framework/pom.xml
@@ -21,8 +21,8 @@ function test_clone_multicloud_repos {
 
 # test_compile_multicloud_repos() -
 function test_compile_multicloud_repos {
-    clone_multicloud_repos
-    compile_multicloud_repos
+    clone_repos "multicloud"
+    compile_repos "multicloud"
 
     asserts_file_exist $multicloud_src_folder/openstack/newton/target/multicloud-openstack-newton-1.0.0-SNAPSHOT.zip
     asserts_file_exist $multicloud_src_folder/openstack/ocata/target/multicloud-openstack-ocata-1.0.0-SNAPSHOT.zip
@@ -31,7 +31,7 @@ function test_compile_multicloud_repos {
 
 # test_get_multicloud_images() -
 function test_get_multicloud_images {
-    clone_multicloud_repos
+    clone_repos "multicloud"
     get_multicloud_images
 
     asserts_image onap/multicloud/openstack-$openstack_release
@@ -39,7 +39,7 @@ function test_get_multicloud_images {
 
 # test_install_multicloud() - Verify the built and start of Multi Cloud services
 function test_install_multicloud {
-    clone_multicloud_repos
+    clone_repos "multicloud"
     get_multicloud_images
     install_multicloud
 

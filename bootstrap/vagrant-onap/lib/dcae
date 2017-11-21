@@ -59,27 +59,10 @@ function _build_docker_image {
     popd
 }
 
-# clone_all_dcae_repos() - Function that clones DCAE source repo.
-function clone_all_dcae_repos {
-    for repo in ${dcae_repos[@]}; do
-        clone_repo $repo $dcae_src_folder${repo#*dcae}
-    done
-}
-
-# compile_all_dcae_repos() - Function that compiles DCAE source repo.
-function compile_all_dcae_repos {
-    for repo in ${dcae_repos[@]}; do
-        compile_src $dcae_src_folder${repo#*dcae}
-    done
-}
-
 # _build_dcae_images() Function that builds DCAE docker images from source code.
 function _build_dcae_images {
     if [[ "$compile_repo" != "True" ]]; then
-        compile_src $dcae_src_folder/dmaapbc
-        compile_src $dcae_src_folder/orch-dispatcher
-        compile_src $dcae_src_folder/demo
-        compile_src $dcae_src_folder/dcae-inventory
+        compile_repos "dcae"
     fi
     _build_docker_image $dcae_src_folder/dmaapbc openecomp/dcae-dmaapbc
     _build_docker_image $dcae_src_folder/orch-dispatcher dcae/orch-dispatcher
@@ -122,9 +105,9 @@ function install_dcae {
 # init_dcae() - Function that initialize DCAE Controller services
 function init_dcae {
     if [[ "$clone_repo" == "True" ]]; then
-        clone_all_dcae_repos
+        clone_repos "dcae"
         if [[ "$compile_repo" == "True" ]]; then
-            compile_all_dcae_repos
+            compile_repos "dcae"
         fi
     fi
 

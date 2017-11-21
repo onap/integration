@@ -9,40 +9,40 @@ covered_functions=(
 
 # test_clone_all_mso_repos() - Verify the source code retrieve of MSO project
 function test_clone_all_mso_repos {
-    clone_all_mso_repos
+    clone_repos "mso"
 
-    asserts_file_exist $src_folder/pom.xml
-    asserts_file_exist $src_folder/chef-repo/LICENSE.txt
-    asserts_file_exist $src_folder/docker-config/LICENSE.txt
-    asserts_file_exist $src_folder/libs/pom.xml
-    asserts_file_exist $src_folder/mso-config/LICENSE.txt
+    asserts_file_exist $mso_src_folder/pom.xml
+    asserts_file_exist $mso_src_folder/chef-repo/LICENSE.txt
+    asserts_file_exist $mso_src_folder/docker-config/LICENSE.txt
+    asserts_file_exist $mso_src_folder/libs/pom.xml
+    asserts_file_exist $mso_src_folder/mso-config/LICENSE.txt
 }
 
 # test_compile_all_mso_repos() - Verify the correct compilation of MSO projects
 function test_compile_all_mso_repos {
-    clone_all_mso_repos
-    compile_all_mso_repos
+    clone_repos "mso"
+    compile_repos "mso"
 
-    asserts_file_exist $src_folder/libs/ceilometer-client/target/ceilometer-client-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $src_folder/libs/ceilometer-model/target/ceilometer-model-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $src_folder/libs/glance-client/target/glance-client-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $src_folder/libs/glance-model/target/glance-model-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $src_folder/libs/heat-client/target/heat-client-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $src_folder/libs/heat-model/target/heat-model-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $src_folder/libs/keystone-client/target/keystone-client-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $src_folder/libs/keystone-model/target/keystone-model-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $src_folder/libs/nova-client/target/nova-client-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $src_folder/libs/nova-model/target/nova-model-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $src_folder/libs/openstack-client/target/openstack-client-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $src_folder/libs/quantum-client/target/quantum-client-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $src_folder/libs/quantum-model/target/quantum-model-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $src_folder/libs/swift-client/target/swift-client-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $src_folder/libs/swift-model/target/swift-model-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $mso_src_folder/libs/ceilometer-client/target/ceilometer-client-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $mso_src_folder/libs/ceilometer-model/target/ceilometer-model-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $mso_src_folder/libs/glance-client/target/glance-client-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $mso_src_folder/libs/glance-model/target/glance-model-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $mso_src_folder/libs/heat-client/target/heat-client-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $mso_src_folder/libs/heat-model/target/heat-model-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $mso_src_folder/libs/keystone-client/target/keystone-client-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $mso_src_folder/libs/keystone-model/target/keystone-model-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $mso_src_folder/libs/nova-client/target/nova-client-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $mso_src_folder/libs/nova-model/target/nova-model-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $mso_src_folder/libs/openstack-client/target/openstack-client-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $mso_src_folder/libs/quantum-client/target/quantum-client-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $mso_src_folder/libs/quantum-model/target/quantum-model-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $mso_src_folder/libs/swift-client/target/swift-client-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $mso_src_folder/libs/swift-model/target/swift-model-1.1.0-SNAPSHOT.jar
 }
 
 # test_get_mso_images() - Verify the creation of MSO Docker images
 function test_get_mso_images {
-    clone_all_mso_repos
+    clone_repos "mso"
     install_mso
 
     for image in mso mso-arquillian wildfly ubuntu-update jacoco; do
@@ -52,7 +52,7 @@ function test_get_mso_images {
 
 # test_install_mso - Verify the execution of MSO Docker images
 function test_install_mso {
-    clone_all_mso_repos
+    clone_repos "mso"
     install_mso
     install_mso_docker_config
 

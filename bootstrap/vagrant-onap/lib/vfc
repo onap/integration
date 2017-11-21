@@ -9,13 +9,6 @@ vfc_repos=("vfc/gvnfm" "vfc/gvnfm/vnflcm" "vfc/gvnfm/vnfmgr"  \
 "vfc/nfvo/driver/vnfm/gvnfm" "vfc/nfvo/driver/vnfm/svnfm" "vfc/nfvo/lcm" \
 "vfc/nfvo/resmanagement" "vfc/nfvo/wfengine")
 
-# clone_all_vfc_repos() - Function that clones VF-C source repo.
-function clone_all_vfc_repos {
-    for repo in ${vfc_repos[@]}; do
-        clone_repo $repo $vfc_src_folder${repo#*vfc}
-    done
-}
-
 # compile_all_vfc_repos() - Function that compiles VF-C source repo.
 function compile_all_vfc_repos {
     install_python_package tox
@@ -97,7 +90,7 @@ function init_vfc {
     install_package libmysqlclient-dev
 
     if [[ "$clone_repo" == "True" ]]; then
-        clone_all_vfc_repos
+        clone_repos "vfc"
         if [[ "$compile_repo" == "True" ]]; then
             compile_all_vfc_repos
         fi

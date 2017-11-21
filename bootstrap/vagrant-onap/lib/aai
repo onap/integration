@@ -51,12 +51,6 @@ function install_haproxy {
     service haproxy restart
 }
 
-# clone_all_aai_repos() - Function that clones AAI source repo.
-function clone_all_aai_repos {
-    for repo in ${aai_repos[@]}; do
-        clone_repo $repo $aai_src_folder${repo#*aai}
-    done
-}
 
 # compile_aai_repos() - Function that compiles AAI source repo.
 function compile_aai_repos {
@@ -182,7 +176,7 @@ function init_aai {
     install_haproxy
 
     if [[ "$clone_repo" == "True" ]]; then
-        clone_all_aai_repos
+        clone_repos "aai"
         if [[ "$compile_repo" == "True" ]]; then
             compile_aai_repos
         fi

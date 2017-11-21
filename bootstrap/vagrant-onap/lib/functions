@@ -67,6 +67,19 @@ function clone_repo {
     fi
 }
 
+# clone_repos() - Function that clones source repositories for a given project
+function clone_repos {
+    local project=$1
+    local name=${project}_repos[@]
+    local src_name=${project}_src_folder
+    local repos_list=("${!name}")
+    local dest_folder=${3:-${!src_name}}
+
+    for repo in ${repos_list[@]}; do
+        clone_repo $repo $dest_folder${repo#*$project}
+    done
+}
+
 # _install_bind() - Install bind utils
 function _install_bind {
     install_packages bind9 bind9utils
@@ -280,6 +293,19 @@ function compile_src {
         eval $mvn_build
     fi
     popd
+}
+
+# compile_repos() - Function that compiles source repositories for a given project
+function compile_repos {
+    local project=$1
+    local name=${project}_repos[@]
+    local repos_list=("${!name}")
+    local dest_folder=${3:-$git_src_folder/$project}
+
+    install_package unzip
+    for repo in ${repos_list[@]}; do
+        compile_src $dest_folder${repo#*$project}
+    done
 }
 
 # build_docker_image() - Build Docker container image from source code

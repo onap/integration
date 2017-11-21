@@ -9,7 +9,7 @@ covered_functions=(
 
 # test_clone_all_vfc_repos() - Verify cloning and pulling source code from repositories
 function test_clone_all_vfc_repos {
-    clone_all_vfc_repos
+    clone_repos "vfc"
 
     #asserts_file_exist $vfc_src_folder/pom.xml
     #asserts_file_exist $vfc_src_folder/gvnfm
@@ -30,7 +30,7 @@ function test_clone_all_vfc_repos {
 
 # test_compile_all_vfc_repos() - Verify that all the VFC modules are compiled properly
 function test_compile_all_vfc_repos {
-    clone_all_vfc_repos
+    clone_repos "vfc"
     compile_all_vfc_repos
 
     # TODO(electrocucaracha): Add asserts_file_exist
@@ -38,7 +38,7 @@ function test_compile_all_vfc_repos {
 
 # test_get_vfc_images() - Verify all VFC images are built correctly.
 function test_get_vfc_images {
-    clone_all_vfc_repos
+    clone_repos "vfc"
     get_vfc_images
 
     asserts_image onap/gvnfmdriver
@@ -50,7 +50,7 @@ function test_get_vfc_images {
 
 # test_install_vfc() - Verify that the VFC are up and running
 function test_install_vfc {
-    clone_all_vfc_repos
+    clone_repos "vfc"
     get_vfc_images
     install_vfc
 

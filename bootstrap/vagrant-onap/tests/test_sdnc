@@ -9,21 +9,21 @@ covered_functions=(
 
 # test_clone_all_sdnc_repos() - Verify the source code retrieve of SDNC project
 function test_clone_all_sdnc_repos {
-    clone_all_sdnc_repos
+    clone_repos "sdnc"
 
     asserts_file_exist $sdnc_src_folder/adaptors/pom.xml
-    asserts_file_exist $sdnc_src_folder/architecture/docs/index.rst
+    #asserts_file_exist $sdnc_src_folder/architecture/docs/index.rst
     asserts_file_exist $sdnc_src_folder/core/pom.xml
-    asserts_file_exist $sdnc_src_folder/features/docs/index.rst
+    #asserts_file_exist $sdnc_src_folder/features/docs/index.rst
     asserts_file_exist $sdnc_src_folder/northbound/pom.xml
     asserts_file_exist $sdnc_src_folder/oam/pom.xml
-    asserts_file_exist $sdnc_src_folder/parent/docs/index.rst
+    #asserts_file_exist $sdnc_src_folder/parent/docs/index.rst
     asserts_file_exist $sdnc_src_folder/plugins/pom.xml
 }
 
 # test_compile_all_sdnc_repos() - Verify the correct compilation of SDNC projects
 function test_compile_all_sdnc_repos {
-    clone_all_sdnc_repos
+    clone_repos "sdnc"
     compile_all_sdnc_repos
 
     for component in generic-resource-api vnfapi vnftools; do
@@ -41,7 +41,7 @@ function test_compile_all_sdnc_repos {
 
 # test_get_sdnc_images() - Verify that the SDNC images are created or retrieved
 function test_get_sdnc_images {
-    clone_all_sdnc_repos
+    clone_repos "sdnc"
     get_sdnc_images
 
     asserts_image onap/sdnc-image
@@ -52,7 +52,7 @@ function test_get_sdnc_images {
 
 # test_install_sdnc() - Verify that the SDNC Docker containers are up and running
 function test_install_sdnc {
-    clone_all_sdnc_repos
+    clone_repos "sdnc"
     get_sdnc_images
     install_sdnc
 

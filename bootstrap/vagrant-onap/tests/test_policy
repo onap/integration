@@ -12,7 +12,7 @@ covered_functions=(
 
 # test_clone_all_policy_repos() - Verify cloning of Policy source code
 function test_clone_all_policy_repos {
-    clone_all_policy_repos
+    clone_repos "policy"
 
     asserts_file_exist $policy_src_folder/api/pom.xml
     asserts_file_exist $policy_src_folder/common/pom.xml
@@ -27,54 +27,54 @@ function test_clone_all_policy_repos {
 
 # test_compile_all_policy_repos() - Verify compiling of Policy source code
 function test_compile_all_policy_repos {
-    clone_all_policy_repos
-    compile_all_policy_repos
+    clone_repos "policy"
+    compile_repos "policy"
 
-    asserts_file_exist $policy_src_folder/common/common-logging/target/ONAP-Logging-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $policy_src_folder/common/integrity-audit/target/integrity-audit-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $policy_src_folder/common/integrity-monitor/target/integrity-monitor-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $policy_src_folder/common/site-manager/target/site-manager-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $policy_src_folder/common/common-logging/target/ONAP-Logging-*-SNAPSHOT.jar
+    asserts_file_exist $policy_src_folder/common/integrity-audit/target/integrity-audit-*-SNAPSHOT.jar
+    asserts_file_exist $policy_src_folder/common/integrity-monitor/target/integrity-monitor-*-SNAPSHOT.jar
+    asserts_file_exist $policy_src_folder/common/site-manager/target/site-manager-*-SNAPSHOT.jar
     for actor in appc appclcm so test vfc; do
-        asserts_file_exist $policy_src_folder/drools-applications/controlloop/common/actors/actor.$actor/target/actor.$actor-1.1.0-SNAPSHOT.jar
+        asserts_file_exist $policy_src_folder/drools-applications/controlloop/common/actors/actor.$actor/target/actor.$actor-*-SNAPSHOT.jar
     done
-    asserts_file_exist $policy_src_folder/drools-applications/controlloop/common/actors/actorServiceProvider/target/actorServiceProvider-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $policy_src_folder/drools-applications/controlloop/common/eventmanager/target/eventmanager-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $policy_src_folder/drools-applications/controlloop/common/guard/target/guard-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $policy_src_folder/drools-applications/controlloop/common/actors/actorServiceProvider/target/actorServiceProvider-*-SNAPSHOT.jar
+    asserts_file_exist $policy_src_folder/drools-applications/controlloop/common/eventmanager/target/eventmanager-*-SNAPSHOT.jar
+    asserts_file_exist $policy_src_folder/drools-applications/controlloop/common/guard/target/guard-*-SNAPSHOT.jar
     for module in aai appc appclcm events rest sdc so trafficgenerator vfc; do
-        asserts_file_exist $policy_src_folder/drools-applications/controlloop/common/model-impl/$module/target/$module-1.1.0-SNAPSHOT.jar
+        asserts_file_exist $policy_src_folder/drools-applications/controlloop/common/model-impl/$module/target/$module-*-SNAPSHOT.jar
     done
-    asserts_file_exist $policy_src_folder/drools-applications/controlloop/common/policy-yaml/target/policy-yaml-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $policy_src_folder/drools-applications/controlloop/common/policy-yaml/target/policy-yaml-*-SNAPSHOT.jar
     for package in apps artifacts; do
-        asserts_file_exist $policy_src_folder/drools-applications/controlloop/packages/$package/target/$package-1.1.0-SNAPSHOT.zip
+        asserts_file_exist $policy_src_folder/drools-applications/controlloop/packages/$package/target/$package-*-SNAPSHOT.zip
     done
-    asserts_file_exist $policy_src_folder/drools-applications/controlloop/packages/basex/target/basex-1.1.0-SNAPSHOT.tar.gz
-    asserts_file_exist $policy_src_folder/drools-applications/controlloop/templates/template.demo/target/template.demo-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $policy_src_folder/drools-applications/controlloop/templates/template.demo/target/template.demo-1.1.0-SNAPSHOT.jar
+    #asserts_file_exist $policy_src_folder/drools-applications/controlloop/packages/basex/target/basex-*-SNAPSHOT.tar.gz
+    asserts_file_exist $policy_src_folder/drools-applications/controlloop/templates/template.demo/target/template.demo-*-SNAPSHOT.jar
+    asserts_file_exist $policy_src_folder/drools-applications/controlloop/templates/template.demo/target/template.demo-*-SNAPSHOT.jar
     for feature in eelf healthcheck session-persistence; do
-        asserts_file_exist $policy_src_folder/drools-pdp/feature-$feature/target/feature-$feature-1.1.0-SNAPSHOT.jar
+        asserts_file_exist $policy_src_folder/drools-pdp/feature-$feature/target/feature-$feature-*-SNAPSHOT.jar
     done
-    asserts_file_exist $policy_src_folder/drools-pdp/packages/base/target/base-1.1.0-SNAPSHOT.tar.gz
-    asserts_file_exist $policy_src_folder/drools-pdp/packages/install/target/install-drools-1.1.0-SNAPSHOT.zip
+    #asserts_file_exist $policy_src_folder/drools-pdp/packages/base/target/base-*-SNAPSHOT.tar.gz
+    #asserts_file_exist $policy_src_folder/drools-pdp/packages/install/target/install-drools-*-SNAPSHOT.zip
     for policy in core endpoints management utils; do
-        asserts_file_exist $policy_src_folder/drools-pdp/policy-$policy/target/policy-$policy-1.1.0-SNAPSHOT.jar
+        asserts_file_exist $policy_src_folder/drools-pdp/policy-$policy/target/policy-$policy-*-SNAPSHOT.jar
     done
     for engine in BRMSGateway LogParser ONAP-PDP ONAP-XACML ONAP-REST; do
-        asserts_file_exist $policy_src_folder/engine/$engine/target/$engine-1.1.0-SNAPSHOT.jar
+        asserts_file_exist $policy_src_folder/engine/$engine/target/$engine-*-SNAPSHOT.jar
     done
     for engine in ONAP-PAP-REST ONAP-PDP-REST ONAP-SDK-APP; do
-        asserts_file_exist $policy_src_folder/engine/$engine/target/$engine-1.1.0-SNAPSHOT.war
+        asserts_file_exist $policy_src_folder/engine/$engine/target/$engine-*-SNAPSHOT.war
     done
-    asserts_file_exist $policy_src_folder/engine/packages/base/target/base-1.1.0-SNAPSHOT.tar.gz
-    asserts_file_exist $policy_src_folder/engine/packages/install/target/install-1.1.0-SNAPSHOT.zip
-    asserts_file_exist $policy_src_folder/engine/POLICY-SDK-APP/target/POLICY-SDK-APP-1.1.0-SNAPSHOT.war
-    asserts_file_exist $policy_src_folder/engine/PolicyEngineAPI/target/PolicyEngineAPI-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $policy_src_folder/engine/PolicyEngineClient/target/PolicyEngineClient-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $policy_src_folder/engine/PolicyEngineUtils/target/PolicyEngineUtils-1.1.0-SNAPSHOT.jar
+    asserts_file_exist $policy_src_folder/engine/packages/base/target/base-*-SNAPSHOT.tar.gz
+    asserts_file_exist $policy_src_folder/engine/packages/install/target/install-*-SNAPSHOT.zip
+    asserts_file_exist $policy_src_folder/engine/POLICY-SDK-APP/target/POLICY-SDK-APP-*-SNAPSHOT.war
+    asserts_file_exist $policy_src_folder/engine/PolicyEngineAPI/target/PolicyEngineAPI-*-SNAPSHOT.jar
+    asserts_file_exist $policy_src_folder/engine/PolicyEngineClient/target/PolicyEngineClient-*-SNAPSHOT.jar
+    asserts_file_exist $policy_src_folder/engine/PolicyEngineUtils/target/PolicyEngineUtils-*-SNAPSHOT.jar
 }
 
 # test_get_policy_images() - Verify that Policy Docker images are retrieved properly
 function test_get_policy_images {
-    clone_all_policy_repos
+    clone_repos "policy"
     get_policy_images
 
     for image in os nexus db base drools pe; do
@@ -84,7 +84,7 @@ function test_get_policy_images {
 
 # test_install_policy() - Verify that Policy services are started properly
 function test_install_policy {
-    clone_all_policy_repos
+    clone_repos "policy"
     get_policy_images
     install_policy
 

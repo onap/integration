@@ -9,7 +9,7 @@ covered_functions=(
 
 # test_clone_ccsdk_repos() - Verify that CCSDL repositories are retrieved properly
 function test_clone_ccsdk_repos {
-    clone_ccsdk_repos
+    clone_repos "ccsdk"
 
     asserts_file_exist $ccsdk_src_folder/dashboard/pom.xml
     asserts_file_exist $ccsdk_src_folder/distribution/pom.xml
@@ -28,53 +28,54 @@ function test_clone_ccsdk_repos {
 
 # test_compile_ccsdk_repos() - Verify the compilation of CCSDK repositories
 function test_compile_ccsdk_repos {
-    clone_ccsdk_repos
-    compile_ccsdk_repos
+    clone_repos "ccsdk"
+    compile_repos "ccsdk"
 
     asserts_file_exist $ccsdk_src_folder/dashboard/ccsdk-app-common/target/ccsdk-app-common-1.1.0-SNAPSHOT.jar
     asserts_file_exist $ccsdk_src_folder/dashboard/ccsdk-app-os/target/ccsdk-app-os-1.1.0-SNAPSHOT.war
     asserts_file_exist $ccsdk_src_folder/dashboard/ccsdk-app-overlay/target/ccsdk-app-overlay-1.1.0-SNAPSHOT.war
     asserts_file_exist $ccsdk_src_folder/distribution/dgbuilder/target/dgbuilder.0.1.0-SNAPSHOT.zip
     asserts_file_exist $ccsdk_src_folder/distribution/platform-logic/installer/target/platform-logic-installer-0.1.0-SNAPSHOT.zip
-    asserts_file_exist $ccsdk_src_folder/platform/nbapi/target/commonnbapi-0.0.3.war
+    asserts_file_exist $ccsdk_src_folder/platform/nbapi/target/commonnbapi-*.war
 
-    for adaptor in aai-service mdsal-resource resource-assignment sql-resource; do
-        for component in features provider; do
-            asserts_file_exist $ccsdk_src_folder/sli/adaptors/$adaptor/$component/target/$adaptor-$component-0.1.0-SNAPSHOT.jar
-        done
-        asserts_file_exist $ccsdk_src_folder/sli/adaptors/$adaptor/installer/target/sdnc-$adaptor-0.1.0-SNAPSHOT-installer.zip
-    done
+    #for adaptor in aai-service mdsal-resource resource-assignment sql-resource; do
+        #for component in features provider; do
+            #asserts_file_exist $ccsdk_src_folder/sli/adaptors/$adaptor/$component/target/$adaptor-$component-0.1.0-SNAPSHOT.jar
+        #done
+        #asserts_file_exist $ccsdk_src_folder/sli/adaptors/$adaptor/installer/target/sdnc-$adaptor-0.1.0-SNAPSHOT-installer.zip
+    #done
 
-    for core in dblib filters sli sliapi sliPluginUtils; do
+    #for core in dblib filters sli sliapi sliPluginUtils; do
+    for core in dblib; do
         for component in features provider; do
-            asserts_file_exist $ccsdk_src_folder/sli/core/$core/$component/target/$core-$component-0.1.2-SNAPSHOT.jar
+            asserts_file_exist $ccsdk_src_folder/sli/core/$core/$component/target/$core-$component-*-SNAPSHOT.jar
         done
-        asserts_file_exist $ccsdk_src_folder/sli/core/$core/installer/target/sdnc-$core-0.1.2-SNAPSHOT-installer.zip
+        asserts_file_exist $ccsdk_src_folder/sli/core/$core/installer/target/sdnc-$core-*-SNAPSHOT-installer.zip
     done
-    asserts_file_exist $ccsdk_src_folder/sli/core/sli/common/target/sli-common-0.1.2-SNAPSHOT.jar
-    asserts_file_exist $ccsdk_src_folder/sli/core/sli/recording/target/sli-recording-0.1.2-SNAPSHOT.jar
-    asserts_file_exist $ccsdk_src_folder/sli/core/sliapi/model/target/sliapi-model-0.1.2-SNAPSHOT.jar
+    #asserts_file_exist $ccsdk_src_folder/sli/core/sli/common/target/sli-common-*-SNAPSHOT.jar
+    #asserts_file_exist $ccsdk_src_folder/sli/core/sli/recording/target/sli-recording-*-SNAPSHOT.jar
+    #asserts_file_exist $ccsdk_src_folder/sli/core/sliapi/model/target/sliapi-model-*-SNAPSHOT.jar
 
     for northbound in asdcApi dataChange; do
         for component in features model provider; do
-            asserts_file_exist $ccsdk_src_folder/sli/northbound/$northbound/$component/target/$northbound-$component-0.1.0-SNAPSHOT.jar
+            asserts_file_exist $ccsdk_src_folder/sli/northbound/$northbound/$component/target/$northbound-$component-*-SNAPSHOT.jar
         done
-        asserts_file_exist $ccsdk_src_folder/sli/northbound/$northbound/installer/target/sdnc-$northbound-0.1.0-SNAPSHOT-installer.zip
+        asserts_file_exist $ccsdk_src_folder/sli/northbound/$northbound/installer/target/sdnc-$northbound-*-SNAPSHOT-installer.zip
     done
-    asserts_file_exist $ccsdk_src_folder/sli/northbound/dmaap-listener/target/dmaap-listener-0.1.0-SNAPSHOT.jar
-    asserts_file_exist $ccsdk_src_folder/sli/northbound/ueb-listener/target/ueb-listener-0.1.0-SNAPSHOT.jar
+    asserts_file_exist $ccsdk_src_folder/sli/northbound/dmaap-listener/target/dmaap-listener-*-SNAPSHOT.jar
+    asserts_file_exist $ccsdk_src_folder/sli/northbound/ueb-listener/target/ueb-listener-*-SNAPSHOT.jar
 
     for plugin in properties-node restapi-call-node; do
         for component in features provider; do
-            asserts_file_exist $ccsdk_src_folder/sli/plugins/$plugin/$component/target/$plugin-$component-0.1.0-SNAPSHOT.jar
+            asserts_file_exist $ccsdk_src_folder/sli/plugins/$plugin/$component/target/$plugin-$component-*-SNAPSHOT.jar
         done
-        asserts_file_exist $ccsdk_src_folder/sli/plugins/$plugin/installer/target/sdnc-$plugin-0.1.0-SNAPSHOT-installer.zip
+        asserts_file_exist $ccsdk_src_folder/sli/plugins/$plugin/installer/target/sdnc-$plugin-*-SNAPSHOT-installer.zip
     done
 }
 
 # test_get_ccsdk_images() - Verify that CCSDK images are retrieved or built properly
 function test_get_ccsdk_images {
-    clone_ccsdk_repos
+    clone_repos "ccsdk"
     get_ccsdk_images
 
     for image in dgbuilder odlsli odl ubuntu; do

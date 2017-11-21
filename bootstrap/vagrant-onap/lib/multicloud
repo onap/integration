@@ -8,20 +8,6 @@ multicloud_repos=("multicloud" "multicloud/framework" "multicloud/openstack" \
 "multicloud/azure")
 openstack_release="newton"
 
-# clone_multicloud_repos() - Function that clones the Multi Cloud repositories
-function clone_multicloud_repos {
-    for repo in ${multicloud_repos[@]}; do
-        clone_repo $repo $multicloud_src_folder${repo#*multicloud}
-    done
-}
-
-# compile_multicloud_repos() - 
-function compile_multicloud_repos {
-    for repo in ${multicloud_repos[@]}; do
-        compile_src $multicloud_src_folder${repo#*multicloud}
-    done
-}
-
 function _build_images {
     install_docker
     install_python_requirements $multicloud_src_folder/openstack/$openstack_release
@@ -49,9 +35,9 @@ function install_multicloud {
 # init_multicloud() - Function that initialize Multi Cloud services
 function init_multicloud {
     if [[ "$clone_repo" == "True" ]]; then
-        clone_multicloud_repos
+        clone_repos "multicloud"
         if [[ "$compile_repo" == "True" ]]; then
-            compile_multicloud_repos
+            compile_repos "multicloud"
         fi
     fi
     if [[ "$skip_get_images" == "False" ]]; then

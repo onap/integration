@@ -1,16 +1,5 @@
 #!/bin/bash
 
-# compile_src() - Function that compiles the java source code thru maven
-function compile_src {
-    local src_folder=$1
-    pushd $src_folder
-    if [ -f pom.xml ]; then
-        install_maven
-        mvn clean install -U -DskipTests=true -Dmaven.test.skip=true -Dmaven.javadoc.skip=true -Dadditionalparam=-Xdoclint:none
-    fi
-    popd
-}
-
 # build_docker_image() - Build Docker container image from source code
 function build_docker_image {
     local src_folder=$1

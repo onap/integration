@@ -9,7 +9,7 @@ covered_functions=(
 
 # test_clone_all_vvp_repos() - Verify the cloning of VNFSDK source repo.
 function test_clone_all_vvp_repos {
-    clone_all_vvp_repos
+    clone_repos "vvp"
 
     asserts_file_exist $vvp_src_folder/cms/pom.xml
     asserts_file_exist $vvp_src_folder/devkit/LICENSE.TXT
@@ -25,15 +25,15 @@ function test_clone_all_vvp_repos {
 
 # test_compile_all_vvp_repos () - Verify if VNFSDK source repo compiles correctly.
 function test_compile_all_vvp_repos {
-    clone_all_vvp_repos
-    compile_all_vvp_repos
+    clone_repos "vvp"
+    compile_repos "vvp"
 
    # asserts_file_exist $vvp_src_folder/
 }
 
 # test_get_vvp_images() - Verify that the VNFSDK images are created or retrieved
 function test_get_vvp_images {
-    clone_all_vvp_repos
+    clone_repos "vvp"
     get_vvp_images
 
     #asserts_image refrepo:latest
@@ -41,7 +41,7 @@ function test_get_vvp_images {
 
 # test_install_vvp() - Verify that VNFSDK docker images are running.
 function test_install_vvp {
-    clone_all_vvp_repos
+    clone_repos "vvp"
     get_vvp_images
     install_vvp
 

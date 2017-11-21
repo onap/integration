@@ -7,20 +7,6 @@ policy_repos=("policy/api" "policy/common" "policy/docker" \
 "policy/drools-applications" "policy/drools-pdp" "policy/engine" \
 "policy/gui" "policy/pap" "policy/pdp")
 
-# clone_all_policy_repos() - Function that clones Policy source repo.
-function clone_all_policy_repos {
-    for repo in ${policy_repos[@]}; do
-        clone_repo $repo $policy_src_folder${repo#*policy}
-    done
-}
-
-# compile_all_policy_repos() - Function that compiles Policy source repo.
-function compile_all_policy_repos {
-    for repo in ${policy_repos[@]}; do
-        compile_src $policy_src_folder${repo#*policy}
-    done
-}
-
 # _build_policy_images() - Function that build Policy docker images from source code
 function _build_policy_images {
     compile_src $policy_src_folder/docker
@@ -59,9 +45,9 @@ function install_policy {
 # init_policy() - Function that initialize Policy services
 function init_policy {
     if [[ "$clone_repo" == "True" ]]; then
-        clone_all_policy_repos
+        clone_repos "policy"
         if [[ "$compile_repo" == "True" ]]; then
-            compile_all_policy_repos
+            compile_repos "policy"
         fi
     fi
 

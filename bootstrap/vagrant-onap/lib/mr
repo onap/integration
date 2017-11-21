@@ -4,11 +4,6 @@ source /var/onap/functions
 
 mr_src_folder=$git_src_folder/dcae/message-router
 
-# clone_mr_repos() - Function that clones the Message Router repositories
-function clone_mr_repos {
-    clone_repo dcae/demo/startup/message-router $mr_src_folder
-}
-
 # get_mr_images() - Function that retrieves the Message Router Docker images
 function get_mr_images {
     pull_docker_image attos/dmaap
@@ -27,7 +22,7 @@ function install_message_router {
 # init_mr() - Function that initialize Message Router services
 function init_mr {
     if [[ "$clone_repo" == "True" ]]; then
-        clone_mr_repos
+        clone_repo dcae/demo/startup/message-router $mr_src_folder
     fi
     if [[ "$skip_get_images" == "False" ]]; then
         get_mr_images

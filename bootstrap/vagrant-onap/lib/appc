@@ -6,20 +6,6 @@ source /var/onap/functions
 appc_src_folder=$git_src_folder/appc
 appc_repos=("appc" "appc/deployment")
 
-# clone_all_appc_repos() - Function that clones APPC source repo.
-function clone_all_appc_repos {
-    for repo in ${appc_repos[@]}; do
-        clone_repo $repo $appc_src_folder${repo#*appc}
-    done
-}
-
-# compile_all_appc_repos() - Function that compiles APPC source repo.
-function compile_all_appc_repos {
-    for repo in ${appc_repos[@]}; do
-        compile_src $appc_src_folder${repo#*appc}
-    done
-}
-
 # _build_appc_images() - Function that creates APPC images from source code.
 function _build_appc_images {
     get_sdnc_images
@@ -47,9 +33,9 @@ function install_appc {
 # init_appc() - Function that initialize APPC services
 function init_appc {
     if [[ "$clone_repo" == "True" ]]; then
-        clone_all_appc_repos
+        clone_repos "appc"
         if [[ "$compile_repo" == "True" ]]; then
-            compile_all_appc_repos
+            compile_repos "appc"
         fi
     fi
 

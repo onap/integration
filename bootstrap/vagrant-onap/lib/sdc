@@ -45,20 +45,6 @@ alias health='/data/scripts/docker_health.sh'
 EOL
 }
 
-# clone_all_sdc_repos() - Function that clones SDC source repo.
-function clone_all_sdc_repos {
-    for repo in ${sdc_repos[@]}; do
-        clone_repo $repo $sdc_src_folder${repo#*sdc}
-    done
-}
-
-# compile_all_sdc_repos() - Function that compiles SDC source repo.
-function compile_all_sdc_repos {
-    for repo in ${sdc_repos[@]}; do
-        compile_src $sdc_src_folder${repo#*sdc}
-    done
-}
-
 # get_sdc_images() - Function that retrieves the SDC docker images
 function get_sdc_images {
     if [[ "$build_image" == "True" ]]; then
@@ -103,9 +89,9 @@ function install_sdc {
 function init_sdc {
     _mount_external_partition
     if [[ "$clone_repo" == "True" ]]; then
-        clone_all_sdc_repos
+        clone_repos "sdc"
         if [[ "$compile_repo" == "True" ]]; then
-            compile_all_sdc_repos
+            compile_repos "sdc"
         fi
     fi
 

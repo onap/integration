@@ -2,30 +2,16 @@
 
 source /var/onap/functions
 
-src_folder=$git_src_folder/mso
+mso_src_folder=$git_src_folder/mso
 mso_repos=("mso" "mso/chef-repo" "mso/docker-config" "mso/libs"
 "mso/mso-config")
-
-# clone_all_mso_repos() - Function that clones MSO source repo.
-function clone_all_mso_repos {
-    for repo in ${mso_repos[@]}; do
-        clone_repo $repo $src_folder${repo#*mso}
-    done
-}
-
-# compile_all_mso_repos() - Function that compiles MSO source repo.
-function compile_all_mso_repos {
-    for repo in ${mso_repos[@]}; do
-        compile_src $src_folder${repo#*mso}
-    done
-}
 
 # get_mso_images() - Function that retrieves or create MSO Docker images
 function get_mso_images {
     if [[ "$build_image" == "True" ]]; then
         export GIT_NO_PROJECT=/opt/
-        compile_src $src_folder
-        build_docker_image $src_folder/packages/docker docker
+        compile_src $mso_src_folder
+        build_docker_image $mso_src_folder/packages/docker docker
     fi
 }
 
@@ -80,10 +66,10 @@ EOF
     export MSO_CONFIG_UPDATES
     export MSO_DOCKER_IMAGE_VERSION=$docker_version
 
-    is_package_installed docker-ce || install_docker
+    install_docker
     install_docker_compose
     # Deploy the environment
-    pushd $src_folder/docker-config
+    pushd $mso_src_folder/docker-config
     chmod +x deploy.sh
     if [[ "$build_image" == "True" ]]; then
         bash deploy.sh
@@ -97,9 +83,9 @@ EOF
 # init_mso() - Function that initialize MSO services
 function init_mso {
     if [[ "$clone_repo" == "True" ]]; then
-        clone_all_mso_repos
+        clone_repos "mso"
         if [[ "$compile_repo" == "True" ]]; then
-            compile_all_mso_repos
+            compile_repos "mso"
         fi
     fi
 

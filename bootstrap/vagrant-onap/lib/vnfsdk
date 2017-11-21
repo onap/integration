@@ -3,21 +3,8 @@
 source /var/onap/functions
 
 vnfsdk_src_folder=$git_src_folder/vnfsdk
-vnfsdk_repos=("vnfsdk/compliance" "vnfsdk/functest" "vnfsdk/lctest" "vnfsdk/model" "vnfsdk/pkgtools" "vnfsdk/refrepo" "vnfsdk/validation")
-
-# clone_all_vnfsdk_repos() - Function that clones vnfsdk source repo.
-function clone_all_vnfsdk_repos {
-    for repo in ${vnfsdk_repos[@]}; do
-        clone_repo $repo $vnfsdk_src_folder${repo#*vnfsdk}
-    done
-}
-
-# compile_all_vnfsdk_repos - Function that builds vnfsdk source repo
-function compile_all_vnfsdk_repos {
-    for repo in ${vnfsdk_repos[@]}; do
-        compile_src $vnfsdk_src_folder${repo#*vnfsdk}
-    done
-}
+vnfsdk_repos=("vnfsdk/compliance" "vnfsdk/functest" "vnfsdk/lctest" \
+"vnfsdk/model" "vnfsdk/pkgtools" "vnfsdk/refrepo" "vnfsdk/validation")
 
 # _build_vnfsdk_images() - Builds VNFSDK images from source code
 function _build_vnfsdk_images {
@@ -49,9 +36,9 @@ function install_vnfsdk {
 # init_vnfsdk() - Init VNFSDK services
 function init_vnfsdk {
     if [[ "$clone_repo" == "True" ]]; then
-        clone_all_vnfsdk_repos
+        clone_repos "vnfsdk"
         if [[ "$compile_repo" == "True" ]]; then
-            compile_all_vnfsdk_repos
+            compile_repos "vnfsdk"
         fi
     fi
 

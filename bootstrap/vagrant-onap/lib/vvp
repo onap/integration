@@ -3,21 +3,10 @@
 source /var/onap/functions
 
 vvp_src_folder=$git_src_folder/vvp
-vvp_repos=("vvp/ansible-ice-bootstrap" "vvp/cms" "vvp/devkit" "vvp/documentation" "vvp/engagementmgr" "vvp/gitlab" "vvp/image-scanner" "vvp/jenkins" "vvp/portal" "vvp/postgresql" "vvp/test-engine" "vvp/validation-scripts")
-
-# clone_all_vvp_repos() - Function that clones vvp source repo.
-function clone_all_vvp_repos {
-    for repo in ${vvp_repos[@]}; do
-        clone_repo $repo $vvp_src_folder${repo#*vvp}
-    done
-}
-
-# compile_all_vvp_repos - Function that builds vvp source repo
-function compile_all_vvp_repos {
-    for repo in ${vvp_repos[@]}; do
-        compile_src $vvp_src_folder${repo#*vvp}
-    done
-}
+vvp_repos=("vvp/ansible-ice-bootstrap" "vvp/cms" "vvp/devkit" \
+"vvp/documentation" "vvp/engagementmgr" "vvp/gitlab" "vvp/image-scanner" \
+"vvp/jenkins" "vvp/portal" "vvp/postgresql" "vvp/test-engine" \
+"vvp/validation-scripts")
 
 # _build_vvp_images() - Builds VNFSDK images from source code
 function _build_vvp_images {
@@ -42,9 +31,9 @@ function install_vvp {
 # init_vvp() - Init VNFSDK services
 function init_vvp {
     if [[ "$clone_repo" == "True" ]]; then
-        clone_all_vvp_repos
+        clone_repos "vvp"
         if [[ "$compile_repo" == "True" ]]; then
-            compile_all_vvp_repos
+            compile_repos "vvp"
         fi
     fi
 

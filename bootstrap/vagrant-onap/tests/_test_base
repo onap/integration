@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [[ "$debug" == "True" ]]; then
+    set -o xtrace
+fi
+
 source /var/onap_tests/asserts
 source /var/onap/commons
 
@@ -17,7 +21,7 @@ function main {
         echo "ok $((i+1)) - test_${covered_functions[$i]}"
 
         # Teardown process
-        if ! is_package_installed docker-ce; then
+        if is_package_installed docker-ce; then
             docker images -q | xargs docker rmi -f
         fi
         dpkg --get-selections > installed-software_new

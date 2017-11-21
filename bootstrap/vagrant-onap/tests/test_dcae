@@ -9,7 +9,7 @@ covered_functions=(
 
 # test_clone_all_dcae_repos() - Verifies that can retrieve DCAE repositories properly
 function test_clone_all_dcae_repos {
-    clone_all_dcae_repos
+    clone_repos "dcae"
 
     asserts_file_exist $dcae_src_folder/apod/README.md
     asserts_file_exist $dcae_src_folder/apod/analytics/pom.xml
@@ -36,8 +36,8 @@ function test_clone_all_dcae_repos {
 
 # test_compile_all_dcae_repos() - Verify that the DCAE source code is compiled properly
 function test_compile_all_dcae_repos {
-    clone_all_dcae_repos
-    compile_all_dcae_repos
+    clone_repos "dcae"
+    compile_repos "dcae"
 
     asserts_file_exist $dcae_src_folder/collectors/ves/target/VESCollector-1.1.0-SNAPSHOT.jar
 
@@ -83,8 +83,8 @@ function test_compile_all_dcae_repos {
 
 # test_get_dcae_images() - Function that verifies DCAE images are retrieved properly
 function test_get_dcae_images {
-    clone_all_dcae_repos
-    compile_all_dcae_repos
+    clone_repos "dcae"
+    compile_repos "dcae"
     get_dcae_images
 
     asserts_image openecomp/dcae-dmaapbc
@@ -95,7 +95,7 @@ function test_get_dcae_images {
 
 # test_install_dcae() - Function that verifies that DCAE services are up and running
 function test_install_dcae {
-    clone_all_dcae_repos
+    clone_repos "dcae"
     compile_all_dcae_repos
     get_dcae_images
     install_dcae

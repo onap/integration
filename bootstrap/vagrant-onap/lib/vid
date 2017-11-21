@@ -5,20 +5,6 @@ source /var/onap/functions
 vid_src_folder=$git_src_folder/vid
 vid_repos=("vid" "vid/asdcclient")
 
-# clone_all_vid_repos() - Function that clones VID source code.
-function clone_all_vid_repos {
-    for repo in ${vid_repos[@]}; do
-        clone_repo $repo $vid_src_folder${repo#*vid}
-    done
-}
-
-# compile_all_vid_repos() - Function that compiles VID source repo.
-function compile_all_vid_repos {
-    for repo in ${vid_repos[@]}; do
-        compile_src $vid_src_folder${repo#*vid}
-    done
-}
-
 # _build_vid_images() - Function that builds VID docker images
 function _build_vid_images {
     if [[ "$compile_repo" != "True" ]]; then
@@ -51,9 +37,9 @@ function install_vid {
 # init_vid() - Function that initialize Vid services
 function init_vid {
     if [[ "$clone_repo" == "True" ]]; then
-        clone_all_vid_repos
+        clone_repos "vid"
         if [[ "$compile_repo" == "True" ]]; then
-            compile_all_vid_repos
+            compile_repos "vid"
         fi
     fi
 

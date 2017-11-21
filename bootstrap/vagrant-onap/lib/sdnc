@@ -7,13 +7,6 @@ sdnc_src_folder=$git_src_folder/openecomp/sdnc
 sdnc_repos=("sdnc/adaptors" "sdnc/architecture" "sdnc/core" "sdnc/features" \
 "sdnc/northbound" "sdnc/oam" "sdnc/parent" "sdnc/plugins")
 
-# clone_all_sdnc_repos() - Function that clones SDNC source repo.
-function clone_all_sdnc_repos {
-    for repo in ${sdnc_repos[@]}; do
-        clone_repo $repo $sdnc_src_folder${repo#*sdnc}
-    done
-}
-
 # compile_all_sdnc_repos() - Function that compiles SDNC source repo.
 function compile_all_sdnc_repos {
     for repo in ${sdnc_repos[@]}; do
@@ -30,7 +23,6 @@ function _build_sdnc_images {
 
     get_ccsdk_images
     install_package unzip
-    clone_repo sdnc/oam $folder
     # The OAM code depends on all the SDNC repos which should be downloaded and compiled first
     if [[ "$compile_repo" != "True" ]]; then
         compile_src $folder
@@ -54,7 +46,6 @@ function get_sdnc_images {
 
 # install_sdnc() -  Download and install SDNC services from source code
 function install_sdnc {
-    clone_repo sdnc/oam $sdnc_src_folder/oam
     pushd $sdnc_src_folder/oam/installation/src/main/yaml
     install_docker_compose
     /opt/docker/docker-compose up -d
@@ -64,7 +55,7 @@ function install_sdnc {
 # init_sdnc() - Function that initialize SDNC services
 function init_sdnc {
     if [[ "$clone_repo" == "True" ]]; then
-        clone_all_sdnc_repos
+        clone_repos "sdnc"
         if [[ "$compile_repo" == "True" ]]; then
             compile_all_sdnc_repos
         fi
