@@ -610,7 +610,7 @@ Portal admin Microservice Onboarding
     
 Portal Admin Create Widget for All users 
     [Documentation]    Naviage to Create Widget menu tab
-    ${WidgetAttachment}=    Catenate    ${PORTAL_ASSETS_DIRECTORY}//widget_news.zip
+    ${WidgetAttachment}=    Catenate    ${PORTAL_ASSETS_DIRECTORY}//news_widget.zip
     Click Link    xpath=//a[@title='Widget Onboarding']
 	Click Button	xpath=//button[@ng-click='toggleSidebar()']
     Click Button    xpath=//button[@id='widget-onboarding-button-add']
@@ -650,7 +650,7 @@ Portal Admin Delete Widget for All users
     
 Portal Admin Create Widget for Application Roles 
     [Documentation]    Naviage to Create Widget menu tab 
-    ${WidgetAttachment}=    Catenate    ${PORTAL_ASSETS_DIRECTORY}//widget_news.zip 
+    ${WidgetAttachment}=    Catenate    ${PORTAL_ASSETS_DIRECTORY}//news_widget.zip 
     Click Link    xpath=//a[@title='Widget Onboarding'] 
 	Click Button	xpath=//button[@ng-click='toggleSidebar()']
     Click Button    xpath=//button[@id='widget-onboarding-button-add'] 
