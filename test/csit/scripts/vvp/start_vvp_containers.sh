@@ -29,8 +29,23 @@ export PREFIX='nexus3.onap.org:10001/openecomp/vvp'
 export RELEASE='latest'
 
 #start Engagement Manager pod:
-docker run --detach --name vvp-engagementmgr --env HOST_IP=${IP} --env ENVNAME="${ENVIRONMENT}" --env http_proxy=${http_proxy} --env https_proxy=${https_proxy} --env no_proxy=${no_proxy} --env-file ${WORKSPACE}/data/environments/vvp_env --log-driver=json-file --log-opt max-size=100m --log-opt max-file=10 --ulimit memlock=-1:-1  --memory 4g --memory-swap=4g --ulimit nofile=4096:100000 --volume  /etc/localtime:/etc/localtime:ro --volume  ${WORKSPACE}/data/logs/engagementmgr/:/var/lib/jetty/logs  --volume  ${WORKSPACE}/data/environments:/root/chef-solo/environments --volume ${WORKSPACE}/data/clone/engagementmgr/django/vvp/settings:/opt/configmaps/settings/ --publish 8443:8443 --publish 8000:8000 ${PREFIX}/engagementmgr:${RELEASE}
+docker run \
+--detach \
+--entrypoint="" \
+--name vvp-engagementmgr \
+--env-file ${WORKSPACE}/data/environments/vvp_env.list \
+--log-driver=json-file \
+--log-opt max-size=100m \
+--log-opt max-file=10 \
+--ulimit memlock=-1:-1 \
+--memory 4g \
+--memory-swap=4g \
+--ulimit nofile=4096:100000 \
+--volume /etc/localtime:/etc/localtime:ro \
+--volume /opt/configmaps/settings:/opt/configmaps/settings/ \
+--publish 9090:80 ${PREFIX}/engagementmgr:${RELEASE}
 
+docker cp /opt/configmaps/settings/uwsgi.ini vvp-engagementmgr:/srv/vvp/settings/
 
 echo "please wait while Engagement Manager is starting..."
 echo ""
@@ -43,11 +58,23 @@ while [ $c -gt 0 ]; do
 done
 echo -e ""
 
+#run migration again:
+docker exec -d vvp-engagementmgr sh -c "python3 /srv/manage.py migrate"
+
+#run initial populate db again:
+docker exec -d vvp-engagementmgr sh -c "python3 /srv/manage.py initial_populate_db"
+
+
+echo "Will copy the generated DB sqlite3 file into the application directory in 30 seconds..."
+sleep 30
+#copy the generated DB sqlite3 file into the application directory:
+docker exec -d vvp-engagementmgr sh -c "cp emdb.db /srv/emdb.db -f"
+
 TIME_OUT=600
 INTERVAL=5
 TIME=0
 while [ "$TIME" -lt "$TIME_OUT" ]; do
-  response=$(curl --write-out '%{http_code}' --silent --output /dev/null http://localhost:8000/vvp/v1/engmgr/vendors); echo $response
+  response=$(curl --write-out '%{http_code}' --silent --output /dev/null http://localhost:9090/vvp/v1/engmgr/vendors); echo $response
 
   if [ "$response" == "200" ]; then
     echo VVP-Engagement-Manager well started in $TIME seconds
@@ -61,5 +88,6 @@ done
 
 if [ "$TIME" -ge "$TIME_OUT" ]; then
    echo TIME OUT: Docker containers not started in $TIME_OUT seconds... Could cause problems for tests...
-
-
+else
+   echo "Done starting vvp containers!"
+fi

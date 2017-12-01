@@ -4,13 +4,13 @@ Library           OperatingSystem
 Library           RequestsLibrary
 Library           json
 
-# http://localhost:8000/vvp/v1/engmgr/vendors
+# http://localhost:9090/vvp/v1/engmgr/vendors
 # vvp-engagementmgr
 
 *** Test Cases ***
 Get Requests health check ok
     [Tags]    get
-    CreateSession    vvp-engagementmgr    http://localhost:8000
+    CreateSession    vvp-engagementmgr    http://localhost:9090
     ${headers}=    Create Dictionary    Accept=application/json    Content-Type=application/json
     ${resp}=    Get Request    vvp-engagementmgr    /vvp/v1/engmgr/vendors    headers=&{headers}
     Should Be Equal As Strings    ${resp.status_code}    200

@@ -25,9 +25,8 @@
 echo "VVP-Engagement-Manager health-Check:"
 echo ""
 echo ""
-res=`curl -s -X GET -H "Accept: application/json" -H "Content-Type: application/json" -H "http://localhost:8000/vvp/v1/engmgr/vendors" | wc -l`
-if [[ ${res} == 0 ]]
-then
+res=`curl -s -X GET -H "Accept: application/json" -H "Content-Type: application/json" "http://localhost:9090/vvp/v1/engmgr/vendors" | wc -w`
+if [ ${res} == 0 ]; then
     echo "Error [${res}] while performing vvp engagement manager vendor existance check"
     exit 1
 fi

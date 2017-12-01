@@ -28,7 +28,7 @@ source ${WORKSPACE}/test/csit/scripts/vvp/docker_health.sh
 source ${WORKSPACE}/test/csit/scripts/vvp/start_vvp_sanity.sh
 
 
-VVP_IP=`get-instance-ip.sh vvp-engagementmgr`
+VVP_IP=`${WORKSPACE}/test/csit/scripts/get-instance-ip.sh vvp-engagementmgr`
 echo VVP_IP=${VVP_IP}
 
 

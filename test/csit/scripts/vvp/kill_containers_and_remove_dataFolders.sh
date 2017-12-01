@@ -19,11 +19,13 @@
 
 echo "This is ${WORKSPACE}/test/csit/scripts/vvp/kill_and_remove_dataFolder.sh"
 
+
+CONTAINER_NAME="vvp-engagementmgr"
+
 #kill and remove all vvp dockers
-docker stop $(docker ps -a -q --filter="name=vvp")
-docker rm $(docker ps -a -q --filter="name=vvp")
+docker stop $CONTAINER_NAME
+docker rm -f $CONTAINER_NAME
 
 
 #delete data folder
-#TODO: Remove the comment:
-#rm -rf ${WORKSPACE}/data/*
+rm -rf ${WORKSPACE}/data/*
