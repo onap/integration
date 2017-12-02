@@ -76,11 +76,11 @@ function install_vfc {
     vnfres_image=`docker images | grep vnfres | grep latest| awk '{print $1 ":" $2}'`
     gvnfmdriver_image=`docker images | grep gvnfmdriver | grep latest| awk '{print $1 ":" $2}'`
 
-    docker run -d --name vfc-nslcm -p 8403:8403 -e MSB_ADDR=127.0.0.1 $nslcm_image
-    docker run -d --name vfc-vnflcm -p 8801:8801 -e MSB_ADDR=127.0.0.1 $vnflcm_image
-    docker run -d --name vfc-vnfmgr -p 8803:8803 -e MSB_ADDR=127.0.0.1 $vnfmgr_image
-    docker run -d --name vfc-vnfres -p 8802:8802 -e MSB_ADDR=127.0.0.1 $vnfres_image
-    docker run -d --name vfc-gvnfmdriver -p 8484:8484 -e MSB_ADDR=127.0.0.1 $gvnfmdriver_image
+    run_docker_image -d --name vfc-nslcm -p 8403:8403 -e MSB_ADDR=127.0.0.1 $nslcm_image
+    run_docker_image -d --name vfc-vnflcm -p 8801:8801 -e MSB_ADDR=127.0.0.1 $vnflcm_image
+    run_docker_image -d --name vfc-vnfmgr -p 8803:8803 -e MSB_ADDR=127.0.0.1 $vnfmgr_image
+    run_docker_image -d --name vfc-vnfres -p 8802:8802 -e MSB_ADDR=127.0.0.1 $vnfres_image
+    run_docker_image -d --name vfc-gvnfmdriver -p 8484:8484 -e MSB_ADDR=127.0.0.1 $gvnfmdriver_image
 
     # TODO(sshank): Run other VFC component docker images.
 }

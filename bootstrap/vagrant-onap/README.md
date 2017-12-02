@@ -46,6 +46,7 @@ current options include:
 | dcae       | Data Collection Analytics & Events  |
 | mr         | Message Router                      |
 | mso        | Master Service Orchestrator         |
+| msb        | Microservices Bus Project           |
 | policy     | Policy                              |
 | portal     | Portal                              |
 | robot      | Robot                               |

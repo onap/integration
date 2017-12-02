@@ -39,33 +39,13 @@ GIT-MR-REPO: http://gerrit.onap.org/r/dcae/demo/startup/message-router.git
 EOL
 }
 
-# _build_docker_image() - Function that clones, compiles and build a Docker image
-function _build_docker_image {
-    local src_folder=$1
-    local name=$2
-    install_docker
-
-    pushd $src_folder
-    # NOTE: Workaround for dmmapbc images
-    sed -i '/LocalKey/d' Dockerfile
-    local docker_build="docker build -t $name -f ./Dockerfile ."
-    if [ $http_proxy ]; then
-        docker_build+=" --build-arg http_proxy=$http_proxy"
-    fi
-    if [ $https_proxy ]; then
-        docker_build+=" --build-arg https_proxy=$https_proxy"
-    fi
-    eval $docker_build
-    popd
-}
-
 # _build_dcae_images() Function that builds DCAE docker images from source code.
 function _build_dcae_images {
     if [[ "$compile_repo" != "True" ]]; then
         compile_repos "dcae"
     fi
-    _build_docker_image $dcae_src_folder/dmaapbc openecomp/dcae-dmaapbc
-    _build_docker_image $dcae_src_folder/orch-dispatcher dcae/orch-dispatcher
+    build_docker_image $dcae_src_folder/dmaapbc openecomp/dcae-dmaapbc
+    build_docker_image $dcae_src_folder/orch-dispatcher dcae/orch-dispatcher
 
     pushd $dcae_src_folder/demo
     bash dcae-demo-controller/src/main/docker-build/build.sh
@@ -99,7 +79,7 @@ function install_dcae {
         make up
     fi
     popd
-    # docker run -p 8080:8080 -d -v <some local directory>/config.yml:/opt/config.yml --name dcae-inventory <docker registry>/dcae-inventory:<version>
+    # run_docker_image -p 8080:8080 -d -v <some local directory>/config.yml:/opt/config.yml --name dcae-inventory <docker registry>/dcae-inventory:<version>
 }
 
 # init_dcae() - Function that initialize DCAE Controller services
