@@ -58,7 +58,7 @@ nodes = [
     :ram    => 12 * 1024,
     :groups => ["all-in-one"],
     :flavor => 'm1.xlarge',
-    :args   => ['mr', 'sdc', 'aai', 'mso', 'robot', 'vid', 'sdnc', 'portal', 'dcae', 'policy', 'appc', 'vfc', 'ccsdk'],
+    :args   => ['mr', 'sdc', 'aai', 'mso', 'robot', 'vid', 'sdnc', 'portal', 'dcae', 'policy', 'appc', 'vfc', 'ccsdk', 'multicloud', 'vnfsdk', 'vpp', 'msb'],
   },
   {
     :name   => "appc",
@@ -72,7 +72,7 @@ nodes = [
   },
   {
     :name   => "ccsdk",
-    :ips    => ['10.252.0.14', "192.168.50.17"],
+    :ips    => ['10.252.0.19', "192.168.50.19"],
     :macs   => [],
     :cpus   => 2,
     :cpu    => "50",
@@ -113,13 +113,23 @@ nodes = [
   },
   {
     :name   => "mso",
-    :ips    => ['10.252.0.7', "192.168.50.7"],
+    :ips    => ['10.252.0.20', "192.168.50.20"],
     :macs   => [],
     :cpus   => 2,
     :cpu    => "50",
     :ram    => 4 * 1024,
     :groups => ["individual"],
     :args   => ["mso"],
+  },
+  {
+    :name   => "msb",
+    :ips    => ['10.252.0.7', "192.168.50.7"],
+    :macs   => [],
+    :cpus   => 2,
+    :cpu    => "50",
+    :ram    => 4 * 1024,
+    :groups => ["individual"],
+    :args   => ["msb"],
   },
   {
     :name   => "multicloud",

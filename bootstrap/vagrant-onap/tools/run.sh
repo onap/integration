@@ -16,7 +16,7 @@ Optional arguments:
         Test case to use in testing mode.
 Commands:
     all_in_one  Deploy in all-in-one mode.
-    dns|mr|sdc|aai|mso|robot|vid|sdnc|portal|dcae|policy|appc|vfc|vnfsdk|multicloud|ccsdk|vvp|openstack  Deploy chosen service.
+    dns|mr|sdc|aai|mso|robot|vid|sdnc|portal|dcae|policy|appc|vfc|vnfsdk|multicloud|ccsdk|vvp|openstack|msb  Deploy chosen service.
     testing  Deploy in testing mode.
 EOF
 }
@@ -65,7 +65,7 @@ case $COMMAND in
     "all_in_one" )
         export DEPLOY_MODE='all-in-one'
         ;;
-    "dns" | "mr" | "sdc" | "aai" | "mso" | "robot" | "vid" | "sdnc" | "portal" | "dcae" | "policy" | "appc" | "vfc" | "vnfsdk"| "multicloud" | "ccsdk" | "vvp" | "openstack" )
+    "dns" | "mr" | "sdc" | "aai" | "mso" | "robot" | "vid" | "sdnc" | "portal" | "dcae" | "policy" | "appc" | "vfc" | "vnfsdk"| "multicloud" | "ccsdk" | "vvp" | "openstack" | "msb" )
         export DEPLOY_MODE='individual'
         ;;
     "testing" )

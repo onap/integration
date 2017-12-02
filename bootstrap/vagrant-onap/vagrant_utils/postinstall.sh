@@ -20,4 +20,7 @@ for serv in $@; do
     source /var/onap/${serv}
     configure_service ${serv}_serv.sh
     init_${serv}
+    echo "source /var/onap/${serv}" >> ~/.profile
 done
+
+echo "source /var/onap/functions" >> ~/.profile

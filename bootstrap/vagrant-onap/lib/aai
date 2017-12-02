@@ -95,17 +95,12 @@ function start_aai_microservices {
     done
 }
 
-# _pull_hbase_image() - Pull HBase container image from a Docker Registry Hub
-function _pull_hbase_image {
-    docker_openecomp_login
-    docker pull $nexus_docker_repo/aaidocker/aai-hbase-${hbase_version}
-}
-
 # install_hbase() - Install HBase Service
 function install_hbase {
     docker rm -f hbase
-    _pull_hbase_image
-    docker run -d --net=host --name="hbase" $nexus_docker_repo/aaidocker/aai-hbase-${hbase_version}
+    docker_openecomp_login
+    docker pull $nexus_docker_repo/aaidocker/aai-hbase-${hbase_version}
+    run_docker_image -d --net=host --name="hbase" $nexus_docker_repo/aaidocker/aai-hbase-${hbase_version}
 }
 
 # install_ajsc() - Install ASJC Java service container
@@ -123,7 +118,7 @@ EOL
         pull_openecomp_image ajsc-aai
     fi
 
-    docker run --env-file /etc/ajsc-aai.conf --name=aai-service --net=host -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt -it -d $nexus_docker_repo/openecomp/ajsc-aai:$docker_version
+    run_docker_image --env-file /etc/ajsc-aai.conf --name=aai-service --net=host -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt -it -d $nexus_docker_repo/openecomp/ajsc-aai:$docker_version
 }
 
 # install_model_loader() Install Model Loader 
@@ -152,7 +147,7 @@ EOL
         pull_openecomp_image model-loader
         ARGS+="--name=model-loader-service -it -d --env-file /etc/model-loader.conf $nexus_docker_repo/openecomp/model-loader:$docker_version"
     fi
-    docker run ${ARGS}
+    run_docker_image ${ARGS}
 }
 
 # _wait_for_sdc() - Function that determines if SDC is up and running

@@ -27,7 +27,7 @@ function get_robot_images {
 # install_robot() - Run Robot services
 function install_robot {
     docker rm -f openecompete_container
-    docker run -d --name openecompete_container -v /opt/eteshare:/share -p 88:88 $nexus_docker_repo/openecomp/testsuite:$docker_version
+    run_docker_image -d --name openecompete_container -v /opt/eteshare:/share -p 88:88 $nexus_docker_repo/openecomp/testsuite:$docker_version
 }
 
 # init_robot() - Function that initialize Robot services

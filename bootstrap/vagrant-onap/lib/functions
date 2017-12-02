@@ -247,6 +247,12 @@ function pull_docker_image {
     fi
 }
 
+# run_docker_image() - Starts a Docker instance
+function run_docker_image {
+    install_docker
+    docker run $@
+}
+
 # install_docker_compose() - Download and install docker-engine 
 function install_docker_compose {
     local docker_compose_version=${1:-1.12.0}
@@ -312,32 +318,48 @@ function compile_repos {
 function build_docker_image {
     local src_folder=$1
     local profile=$2
-    install_maven
     install_docker
     pushd $src_folder
 
-    # Cleanup external repo
-    sed -i 's|${docker.push.registry}/||g' pom.xml
-    local mvn_docker="mvn clean package docker:build"
-    if [ $profile ]; then
-        mvn_docker+=" -P $profile"
-    fi
-    if [ $http_proxy ]; then
-        if ! grep -ql "docker.buildArg.http_proxy" pom.xml ; then
-            mvn_docker+=" -Ddocker.buildArg.http_proxy=$http_proxy"
+    if [ -f pom.xml ]; then
+        install_maven
+        # Cleanup external repo
+        sed -i 's|${docker.push.registry}/||g' pom.xml
+        local docker_build="mvn clean package docker:build"
+        if [ $profile ]; then
+            docker_build+=" -P $profile"
         fi
+        if [ $http_proxy ]; then
+            if ! grep -ql "docker.buildArg.http_proxy" pom.xml ; then
+                docker_build+=" -Ddocker.buildArg.http_proxy=$http_proxy"
+            fi
         if ! grep -ql "docker.buildArg.HTTP_PROXY" pom.xml ; then
-            mvn_docker+=" -Ddocker.buildArg.HTTP_PROXY=$http_proxy"
+            docker_build+=" -Ddocker.buildArg.HTTP_PROXY=$http_proxy"
+        fi
+        fi
+        if [ $https_proxy ]; then
+            if ! grep -ql "docker.buildArg.https_proxy" pom.xml ; then
+                docker_build+=" -Ddocker.buildArg.https_proxy=$https_proxy"
+            fi
+            if ! grep -ql "docker.buildArg.HTTPS_PROXY" pom.xml ; then
+                docker_build+=" -Ddocker.buildArg.HTTPS_PROXY=$https_proxy"
+            fi
+        fi
+    elif [ -f Dockerfile ]; then
+        # NOTE: Workaround for dmmapbc images
+        sed -i '/LocalKey/d' Dockerfile
+        sed -i "s/nexus3.onap.org\:10003\///g" Dockerfile
+        local docker_build="docker build -t $profile -f ./Dockerfile ."
+        if [ $http_proxy ]; then
+            docker_build+=" --build-arg http_proxy=$http_proxy"
+            docker_build+=" --build-arg HTTP_PROXY=$http_proxy"
+        fi
+        if [ $https_proxy ]; then
+            docker_build+=" --build-arg https_proxy=$https_proxy"
+            docker_build+=" --build-arg HTTPS_PROXY=$https_proxy"
         fi
     fi
-    if [ $https_proxy ]; then
-        if ! grep -ql "docker.buildArg.https_proxy" pom.xml ; then
-            mvn_docker+=" -Ddocker.buildArg.https_proxy=$https_proxy"
-        fi
-        if ! grep -ql "docker.buildArg.HTTPS_PROXY" pom.xml ; then
-            mvn_docker+=" -Ddocker.buildArg.HTTPS_PROXY=$https_proxy"
-        fi
-    fi
-    eval $mvn_docker
+    echo $docker_build
+    eval $docker_build
     popd
 }

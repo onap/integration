@@ -9,7 +9,7 @@ function asserts_http_status_code {
 
     code=$(curl -I $url | head -n 1 | cut -d$' ' -f2)
     local error_msg=${3:-"The URL $url responded with $code status code"}
-    if [[ "$code" == "$expected_code" ]]; then
+    if [[ "$code" != "$expected_code" ]]; then
         raise_error $error_msg
     fi
 }
