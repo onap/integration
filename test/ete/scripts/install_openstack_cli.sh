@@ -39,8 +39,11 @@ fi
 echo "ONAP_WORKDIR=${ONAP_WORKDIR}"
 if [ ! -d ${ONAP_WORKDIR}/demo ]; then
     git clone https://gerrit.onap.org/r/demo ${ONAP_WORKDIR}/demo
+    cd demo
+    git checkout amsterdam
 else
     pushd ${ONAP_WORKDIR}/demo
+    git checkout amsterdam
     git pull
     popd
 fi
