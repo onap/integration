@@ -21,6 +21,14 @@ else
     echo "No existing stacks to delete."
 fi
 
+# miscellaneous cleanup
+openstack floating ip delete $(openstack floating ip list -c ID -f value)
+openstack port delete $(openstack port list -f value -c ID)
+openstack router delete $(openstack router list -f value -c ID)
+openstack port delete $(openstack port list -f value -c ID)
+openstack router delete $(openstack router list -f value -c ID)
+openstack port delete $(openstack port list -f value -c ID)
+openstack volume delete $(openstack volume list -f value -c ID)
 
 
 
