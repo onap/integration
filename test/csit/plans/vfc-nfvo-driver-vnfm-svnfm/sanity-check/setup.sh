@@ -42,13 +42,13 @@ done
 echo sleep 60
 sleep 60
 
-# start vfc-ztevmanagerdriver
-docker run -d --name vfc-ztevmanagerdriver -p 8410:8410 -e MSB_ADDR=${MSB_IAG_IP}:80 nexus3.onap.org:10001/onap/vfc/ztevmanagerdriver
-ZTEVMANAGERDRIVER_IP=`get-instance-ip.sh vfc-ztevmanagerdriver`
+# start vfc-ztevnfmdriver
+docker run -d --name vfc-ztevnfmdriver -p 8410:8410 -e MSB_ADDR=${MSB_IAG_IP}:80 nexus3.onap.org:10001/onap/vfc/ztevnfmdriver
+ZTEVNFMDRIVER_IP=`get-instance-ip.sh vfc-ztevnfmdriver`
 
 # Wait for initialization
 for i in {1..10}; do
-    curl -sS ${ZTEVMANAGERDRIVER_IP}:8410 && break
+    curl -sS ${ZTEVNFMDRIVER_IP}:8410 && break
     echo sleep $i
     sleep $i
 done
@@ -64,4 +64,4 @@ for i in {1..20}; do
 done
 
 # Pass any variables required by Robot test suites in ROBOT_VARIABLES
-ROBOT_VARIABLES="-v MSB_IAG_IP:${MSB_IAG_IP} -v ZTEVMANAGERDRIVER_IP:${ZTEVMANAGERDRIVER_IP} -v MSB_IP:${MSB_IAG_IP} -v SERVICE_IP:${SERVICE_IP} -v SCRIPTS:${SCRIPTS}"
+ROBOT_VARIABLES="-v MSB_IAG_IP:${MSB_IAG_IP} -v ZTEVNFMDRIVER_IP:${ZTEVNFMDRIVER_IP} -v MSB_IP:${MSB_IAG_IP} -v SERVICE_IP:${SERVICE_IP} -v SCRIPTS:${SCRIPTS}"
