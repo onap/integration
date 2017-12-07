@@ -36,7 +36,7 @@ function test_get_msb_images {
     get_msb_images
 
     for image in base apigateway discovery; do
-        asserts_image nexus3.onap.org:10001/onap/msb/msb_$image
+        asserts_image $nexus_docker_repo/onap/msb/msb_$image
     done
 }
 
@@ -47,7 +47,7 @@ function test_install_msb {
     install_msb
 
     for image in apigateway discovery; do
-        asserts_image_running nexus3.onap.org:10001/onap/msb/msb_$image
+        asserts_image_running $nexus_docker_repo/onap/msb/msb_$image
     done
 
     asserts_http_status_code "http://127.0.0.1:10081/api/microservices/v1/services"

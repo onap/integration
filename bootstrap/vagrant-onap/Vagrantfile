@@ -13,7 +13,7 @@ configuration = {
   'nexus_password'      => 'docker',
   'dmaap_topic'         => 'AUTO',
   'artifacts_version'   => '1.0.0',
-  'docker_version'      => '1.0-STAGING-latest',
+  'docker_version'      => 'latest',
   # Parameters for DCAE instantiation
   'dcae_zone'           => 'iad4',
   'dcae_state'          => 'vi',

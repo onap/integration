@@ -70,13 +70,14 @@ function clone_repo {
 # clone_repos() - Function that clones source repositories for a given project
 function clone_repos {
     local project=$1
+    local repo_name=${2:-$project}
     local name=${project}_repos[@]
     local src_name=${project}_src_folder
     local repos_list=("${!name}")
-    local dest_folder=${3:-${!src_name}}
+    local dest_folder=${!src_name}
 
     for repo in ${repos_list[@]}; do
-        clone_repo $repo $dest_folder${repo#*$project}
+        clone_repo $repo $dest_folder${repo#*$repo_name}
     done
 }
 
