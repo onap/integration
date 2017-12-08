@@ -2,13 +2,6 @@
 
 source /var/onap/functions
 
-vfc_src_folder=$git_src_folder/vfc
-vfc_repos=("vfc/gvnfm" "vfc/gvnfm/vnflcm" "vfc/gvnfm/vnfmgr"  \
-"vfc/gvnfm/vnfres" "vfc/nfvo" "vfc/nfvo/catalog" "vfc/nfvo/driver" \
-"vfc/nfvo/driver/ems" "vfc/nfvo/driver/sfc" "vfc/nfvo/driver/vnfm" \
-"vfc/nfvo/driver/vnfm/gvnfm" "vfc/nfvo/driver/vnfm/svnfm" "vfc/nfvo/lcm" \
-"vfc/nfvo/resmanagement" "vfc/nfvo/wfengine")
-
 # compile_all_vfc_repos() - Function that compiles VF-C source repo.
 function compile_all_vfc_repos {
     install_python_package tox

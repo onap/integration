@@ -158,18 +158,12 @@ function test_build_docker_image {
 
 # test_coverity_repos() - Verify that all the repos are covered by scripts
 function test_coverity_repos {
-    # Get repositories list from source code files
-    repos_list=()
-    for module in $( stat -c "%F %n" /var/onap/* | grep -v "_\|functions\|commons\|files" | cut -d' ' -f 3-); do
-        source $module
-        module_repo_list=$(eval echo \${$(basename $module)_repos[@]})
-        repos_list=(${repos_list[@]} ${module_repo_list[@]})
-    done
-
     pushd /var/onap_tests/
     cp projects.txt remaining_projects.txt
-    for covered_repo in "${repos_list[@]}"; do
-        sed -i '/^'${covered_repo//\//\\/}'$/d' remaining_projects.txt
+    for project in "${repos[@]}"; do
+        for covered_repo in $project; do
+            sed -i '/^'${covered_repo//\//\\/}'$/d' remaining_projects.txt
+        done
     done
 
     threshold=75

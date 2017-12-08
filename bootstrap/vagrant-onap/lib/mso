@@ -2,10 +2,6 @@
 
 source /var/onap/functions
 
-mso_src_folder=$git_src_folder/mso
-mso_repos=("mso" "mso/chef-repo" "mso/docker-config" "mso/libs"
-"mso/mso-config")
-
 # get_mso_images() - Function that retrieves or create MSO Docker images
 function get_mso_images {
     if [[ "$build_image" == "True" ]]; then

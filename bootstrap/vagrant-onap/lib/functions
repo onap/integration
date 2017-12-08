@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source /var/onap/commons
+source /var/onap/config/env-vars
 source /var/onap/_composed_functions
 source /var/onap/_onap_functions
 
@@ -9,7 +10,6 @@ export NIC=$(ip route get 8.8.8.8 | awk '{ print $5; exit }')
 export IP_ADDRESS=$(ifconfig $NIC | grep "inet addr" | tr -s ' ' | cut -d' ' -f3 | cut -d':' -f2)
 
 mvn_conf_file=/root/.m2/settings.xml
-git_src_folder=/opt
 
 # configure_dns() - DNS/GW IP address configuration
 function configure_dns {
@@ -71,13 +71,9 @@ function clone_repo {
 function clone_repos {
     local project=$1
     local repo_name=${2:-$project}
-    local name=${project}_repos[@]
-    local src_name=${project}_src_folder
-    local repos_list=("${!name}")
-    local dest_folder=${!src_name}
 
-    for repo in ${repos_list[@]}; do
-        clone_repo $repo $dest_folder${repo#*$repo_name}
+    for repo in ${repos[$project]}; do
+        clone_repo $repo ${src_folders[$project]}${repo#*$repo_name}
     done
 }
 
@@ -305,13 +301,9 @@ function compile_src {
 # compile_repos() - Function that compiles source repositories for a given project
 function compile_repos {
     local project=$1
-    local name=${project}_repos[@]
-    local repos_list=("${!name}")
-    local dest_folder=${3:-$git_src_folder/$project}
 
-    install_package unzip
-    for repo in ${repos_list[@]}; do
-        compile_src $dest_folder${repo#*$project}
+    for repo in ${repos[$project]}; do
+        compile_src ${src_folders[$project]}${repo#*$project}
     done
 }
 

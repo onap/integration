@@ -30,26 +30,26 @@ function test_install_haproxy {
 function test_clone_all_aai_repos {
     clone_repos "aai"
 
-    asserts_file_exist $aai_src_folder/aai-common/pom.xml
-    asserts_file_exist $aai_src_folder/aai-config/cookbooks/aai-resources/runlist-aai-resources.json
-    asserts_file_exist $aai_src_folder/aai-data/environments/solo.json
-    asserts_file_exist $aai_src_folder/aai-service/pom.xml
-    asserts_file_exist $aai_src_folder/babel/README.md
-    asserts_file_exist $aai_src_folder/champ/pom.xml
-    asserts_file_exist $aai_src_folder/data-router/pom.xml
-    asserts_file_exist $aai_src_folder/esr-gui/pom.xml
-    asserts_file_exist $aai_src_folder/esr-server/pom.xml
-    asserts_file_exist $aai_src_folder/gizmo/pom.xml
-    asserts_file_exist $aai_src_folder/logging-service/pom.xml
-    asserts_file_exist $aai_src_folder/model-loader/pom.xml
-    asserts_file_exist $aai_src_folder/resources/pom.xml
-    asserts_file_exist $aai_src_folder/rest-client/pom.xml
-    asserts_file_exist $aai_src_folder/router-core/pom.xml
-    asserts_file_exist $aai_src_folder/search-data-service/pom.xml
-    asserts_file_exist $aai_src_folder/sparky-be/pom.xml
-    asserts_file_exist $aai_src_folder/sparky-fe/pom.xml
-    asserts_file_exist $aai_src_folder/test-config/docker-compose-app.yml
-    asserts_file_exist $aai_src_folder/traversal/pom.xml
+    asserts_file_exist ${src_folders[aai]}/aai-common/pom.xml
+    asserts_file_exist ${src_folders[aai]}/aai-config/cookbooks/aai-resources/runlist-aai-resources.json
+    asserts_file_exist ${src_folders[aai]}/aai-data/environments/solo.json
+    asserts_file_exist ${src_folders[aai]}/aai-service/pom.xml
+    asserts_file_exist ${src_folders[aai]}/babel/README.md
+    asserts_file_exist ${src_folders[aai]}/champ/pom.xml
+    asserts_file_exist ${src_folders[aai]}/data-router/pom.xml
+    asserts_file_exist ${src_folders[aai]}/esr-gui/pom.xml
+    asserts_file_exist ${src_folders[aai]}/esr-server/pom.xml
+    asserts_file_exist ${src_folders[aai]}/gizmo/pom.xml
+    asserts_file_exist ${src_folders[aai]}/logging-service/pom.xml
+    asserts_file_exist ${src_folders[aai]}/model-loader/pom.xml
+    asserts_file_exist ${src_folders[aai]}/resources/pom.xml
+    asserts_file_exist ${src_folders[aai]}/rest-client/pom.xml
+    asserts_file_exist ${src_folders[aai]}/router-core/pom.xml
+    asserts_file_exist ${src_folders[aai]}/search-data-service/pom.xml
+    asserts_file_exist ${src_folders[aai]}/sparky-be/pom.xml
+    asserts_file_exist ${src_folders[aai]}/sparky-fe/pom.xml
+    asserts_file_exist ${src_folders[aai]}/test-config/docker-compose-app.yml
+    asserts_file_exist ${src_folders[aai]}/traversal/pom.xml
 }
 
 # test_compile_aai_repos() - Verify that all the AAI Repositories complile properly
@@ -58,15 +58,15 @@ function test_compile_aai_repos {
     compile_aai_repos
 
     for common in annotations auth core schema utils; do
-        asserts_file_exist $aai_src_folder/aai-common/aai-$common/target/aai-$common-1.1.0-SNAPSHOT.jar
+        asserts_file_exist ${src_folders[aai]}/aai-common/aai-$common/target/aai-$common-1.1.0-SNAPSHOT.jar
     done
 
     for service in common-logging eelf-logging logging-api; do
-        asserts_file_exist $aai_src_folder/logging-service/$service/target/$service-1.1.0-SNAPSHOT.jar
+        asserts_file_exist ${src_folders[aai]}/logging-service/$service/target/$service-1.1.0-SNAPSHOT.jar
     done
 
-    asserts_file_exist $aai_src_folder/resources/aai-resources/target/aai-resources.jar
-    asserts_file_exist $aai_src_folder/traversal/aai-traversal/target/traversal.jar
+    asserts_file_exist ${src_folders[aai]}/resources/aai-resources/target/aai-resources.jar
+    asserts_file_exist ${src_folders[aai]}/traversal/aai-traversal/target/traversal.jar
 }
 
 # test_setup_titan() - Verify that Titan Cassandra DB is up and running

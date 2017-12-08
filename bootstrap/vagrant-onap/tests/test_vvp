@@ -11,16 +11,16 @@ covered_functions=(
 function test_clone_all_vvp_repos {
     clone_repos "vvp"
 
-    asserts_file_exist $vvp_src_folder/cms/pom.xml
-    asserts_file_exist $vvp_src_folder/devkit/LICENSE.TXT
-    asserts_file_exist $vvp_src_folder/engagementmgr/pom.xml
-    asserts_file_exist $vvp_src_folder/gitlab/pom.xml
-    asserts_file_exist $vvp_src_folder/image-scanner/pom.xml
-    asserts_file_exist $vvp_src_folder/jenkins/pom.xml
-    asserts_file_exist $vvp_src_folder/portal/pom.xml
-    asserts_file_exist $vvp_src_folder/postgresql/pom.xml
-    asserts_file_exist $vvp_src_folder/test-engine/pom.xml
-    asserts_file_exist $vvp_src_folder/validation-scripts/LICENSE.txt
+    asserts_file_exist ${src_folders[vvp]}/cms/pom.xml
+    asserts_file_exist ${src_folders[vvp]}/devkit/LICENSE.TXT
+    asserts_file_exist ${src_folders[vvp]}/engagementmgr/pom.xml
+    asserts_file_exist ${src_folders[vvp]}/gitlab/pom.xml
+    asserts_file_exist ${src_folders[vvp]}/image-scanner/pom.xml
+    asserts_file_exist ${src_folders[vvp]}/jenkins/pom.xml
+    asserts_file_exist ${src_folders[vvp]}/portal/pom.xml
+    asserts_file_exist ${src_folders[vvp]}/postgresql/pom.xml
+    asserts_file_exist ${src_folders[vvp]}/test-engine/pom.xml
+    asserts_file_exist ${src_folders[vvp]}/validation-scripts/LICENSE.txt
 }
 
 # test_compile_all_vvp_repos () - Verify if VNFSDK source repo compiles correctly.
@@ -28,7 +28,7 @@ function test_compile_all_vvp_repos {
     clone_repos "vvp"
     compile_repos "vvp"
 
-   # asserts_file_exist $vvp_src_folder/
+   # asserts_file_exist ${src_folders[vvp]}/
 }
 
 # test_get_vvp_images() - Verify that the VNFSDK images are created or retrieved

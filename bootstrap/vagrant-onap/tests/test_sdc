@@ -11,13 +11,13 @@ covered_functions=(
 function test_clone_all_sdc_repos {
     clone_repos "sdc"
 
-    asserts_file_exist $sdc_src_folder/pom.xml
-    asserts_file_exist $sdc_src_folder/sdc-os-chef/pom.xml
-    asserts_file_exist $sdc_src_folder/jtosca/pom.xml
-    asserts_file_exist $sdc_src_folder/sdc-distribution-client/pom.xml
-    asserts_file_exist $sdc_src_folder/sdc-titan-cassandra/pom.xml
-    asserts_file_exist $sdc_src_folder/sdc-tosca/pom.xml
-    asserts_file_exist $sdc_src_folder/sdc_common/pom.xml
+    asserts_file_exist ${src_folders[sdc]}/pom.xml
+    asserts_file_exist ${src_folders[sdc]}/sdc-os-chef/pom.xml
+    asserts_file_exist ${src_folders[sdc]}/jtosca/pom.xml
+    asserts_file_exist ${src_folders[sdc]}/sdc-distribution-client/pom.xml
+    asserts_file_exist ${src_folders[sdc]}/sdc-titan-cassandra/pom.xml
+    asserts_file_exist ${src_folders[sdc]}/sdc-tosca/pom.xml
+    asserts_file_exist ${src_folders[sdc]}/sdc_common/pom.xml
 }
 
 # test_compile_all_sdc_repos() - Verifies the correct compilation of SDC repositories
@@ -25,18 +25,18 @@ function test_compile_all_sdc_repos {
     clone_repos "sdc"
     compile_repos "sdc"
 
-    #asserts_file_exist $sdc_src_folder/jtosca/target/jtosca-1.1.10-SNAPSHOT.jar
-    #asserts_file_exist $sdc_src_folder/sdc-distribution-client/sdc-distribution-ci/target/sdc-distribution-ci-1.1.*-SNAPSHOT.jar
-    #asserts_file_exist $sdc_src_folder/sdc-distribution-client/sdc-distribution-client/target/sdc-distribution-client-1.1.*-SNAPSHOT.jar
-    #asserts_file_exist $sdc_src_folder/sdc-titan-cassandra/target/jamm-0.3.0.jar
-    #asserts_file_exist $sdc_src_folder/sdc-tosca/target/sdc-tosca-1.1.*-SNAPSHOT.jar
+    #asserts_file_exist ${src_folders[sdc]}/jtosca/target/jtosca-1.1.10-SNAPSHOT.jar
+    #asserts_file_exist ${src_folders[sdc]}/sdc-distribution-client/sdc-distribution-ci/target/sdc-distribution-ci-1.1.*-SNAPSHOT.jar
+    #asserts_file_exist ${src_folders[sdc]}/sdc-distribution-client/sdc-distribution-client/target/sdc-distribution-client-1.1.*-SNAPSHOT.jar
+    #asserts_file_exist ${src_folders[sdc]}/sdc-titan-cassandra/target/jamm-0.3.0.jar
+    #asserts_file_exist ${src_folders[sdc]}/sdc-tosca/target/sdc-tosca-1.1.*-SNAPSHOT.jar
 
     #for dirc in logging sdc-artifact-generator; do
     for dirc in logging; do
         name="openecomp-$dirc"
         for module in api core; do
             fullname="$name-$module"
-            asserts_file_exist $sdc_src_folder/sdc_common/$name-lib/$fullname/target/$fullname-1.1.0-SNAPSHOT.jar
+            asserts_file_exist ${src_folders[sdc]}/sdc_common/$name-lib/$fullname/target/$fullname-1.1.0-SNAPSHOT.jar
         done
     done
 }

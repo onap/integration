@@ -14,10 +14,10 @@ covered_functions=(
 function test_clone_all_portal_repos {
     clone_all_portal_repos
 
-    asserts_file_exist $portal_src_folder/pom.xml
-    asserts_file_exist $portal_src_folder/ecompsdkos/LICENSE.txt
-    asserts_file_exist $portal_src_folder/dmaapbc/pom.xml
-    asserts_file_exist $portal_src_folder/sdk/LICENSE.txt
+    asserts_file_exist ${src_folders[portal]}/pom.xml
+    asserts_file_exist ${src_folders[portal]}/ecompsdkos/LICENSE.txt
+    asserts_file_exist ${src_folders[portal]}/dmaapbc/pom.xml
+    asserts_file_exist ${src_folders[portal]}/sdk/LICENSE.txt
 }
 
 # test_compile_all_portal_repos() - Verify compiling of Portal source code
@@ -25,9 +25,9 @@ function test_compile_all_portal_repos {
     clone_all_portal_repos
     compile_all_portal_repos
 
-    asserts_file_exist $portal_src_folder/ecomp-portal-BE-common/target/ecompportal-be-common.war
-    asserts_file_exist $portal_src_folder/ecomp-portal-BE-common-test/target/ecomp-portal-BE-common-test.jar
-    asserts_file_exist $portal_src_folder/ecomp-portal-BE-os/target/ecompportal-be-os.war
+    asserts_file_exist ${src_folders[portal]}/ecomp-portal-BE-common/target/ecompportal-be-common.war
+    asserts_file_exist ${src_folders[portal]}/ecomp-portal-BE-common-test/target/ecomp-portal-BE-common-test.jar
+    asserts_file_exist ${src_folders[portal]}/ecomp-portal-BE-os/target/ecompportal-be-os.war
 }
 
 # test_get_portal_images() - Verify that Portal Docker images are retrieved or built properly

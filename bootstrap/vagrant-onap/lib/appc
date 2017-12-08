@@ -3,9 +3,6 @@
 source /var/onap/sdnc
 source /var/onap/functions
 
-appc_src_folder=$git_src_folder/appc
-appc_repos=("appc" "appc/deployment")
-
 # _build_appc_images() - Function that creates APPC images from source code.
 function _build_appc_images {
     get_sdnc_images

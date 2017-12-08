@@ -11,12 +11,12 @@ covered_functions=(
 function test_clone_multicloud_repos {
     clone_repos "multicloud"
 
-    #asserts_file_exist $multicloud_src_folder/
-    asserts_file_exist $multicloud_src_folder/framework/pom.xml
-    asserts_file_exist $multicloud_src_folder/openstack/pom.xml
-    asserts_file_exist $multicloud_src_folder/openstack/vmware/pom.xml
-    asserts_file_exist $multicloud_src_folder/openstack/windriver/pom.xml
-    #asserts_file_exist $multicloud_src_folder/azure/
+    #asserts_file_exist ${src_folders[multicloud]}/
+    asserts_file_exist ${src_folders[multicloud]}/framework/pom.xml
+    asserts_file_exist ${src_folders[multicloud]}/openstack/pom.xml
+    asserts_file_exist ${src_folders[multicloud]}/openstack/vmware/pom.xml
+    asserts_file_exist ${src_folders[multicloud]}/openstack/windriver/pom.xml
+    #asserts_file_exist ${src_folders[multicloud]}/azure/
 }
 
 # test_compile_multicloud_repos() -
@@ -24,9 +24,9 @@ function test_compile_multicloud_repos {
     clone_repos "multicloud"
     compile_repos "multicloud"
 
-    asserts_file_exist $multicloud_src_folder/openstack/newton/target/multicloud-openstack-newton-1.0.0-SNAPSHOT.zip
-    asserts_file_exist $multicloud_src_folder/openstack/ocata/target/multicloud-openstack-ocata-1.0.0-SNAPSHOT.zip
-    asserts_file_exist $multicloud_src_folder/openstack/windriver/target/multicloud-openstack-windriver-1.0.0-SNAPSHOT.zip
+    asserts_file_exist ${src_folders[multicloud]}/openstack/newton/target/multicloud-openstack-newton-1.0.0-SNAPSHOT.zip
+    asserts_file_exist ${src_folders[multicloud]}/openstack/ocata/target/multicloud-openstack-ocata-1.0.0-SNAPSHOT.zip
+    asserts_file_exist ${src_folders[multicloud]}/openstack/windriver/target/multicloud-openstack-windriver-1.0.0-SNAPSHOT.zip
 }
 
 # test_get_multicloud_images() -

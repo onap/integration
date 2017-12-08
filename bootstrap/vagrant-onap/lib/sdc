@@ -2,11 +2,6 @@
 
 source /var/onap/functions
 
-sdc_src_folder=$git_src_folder/sdc
-sdc_repos=("sdc" "sdc/jtosca" "sdc/sdc-distribution-client"
-"sdc/sdc-docker-base" "sdc/sdc-titan-cassandra" "sdc/sdc-tosca"
-"sdc/sdc-vnfdesign" "sdc/sdc-workflow-designer" "sdc/sdc_common")
-
 # _mount_external_partition() - Create partition and mount the external volume
 function _mount_external_partition {
     cat <<EOL > /tmp/sdc_ext_volume_partitions.txt

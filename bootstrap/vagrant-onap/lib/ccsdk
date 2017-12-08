@@ -2,13 +2,6 @@
 
 source /var/onap/functions
 
-ccsdk_src_folder=$git_src_folder/ccsdk
-ccsdk_repos=("ccsdk" "ccsdk/dashboard" "ccsdk/distribution" "ccsdk/parent"
-"ccsdk/platform/blueprints" "ccsdk/platform/nbapi" "ccsdk/platform/plugins"
-"ccsdk/sli" "ccsdk/sli/adaptors" "ccsdk/sli/core" "ccsdk/sli/northbound"
-"ccsdk/sli/plugins" "ccsdk/storage" "ccsdk/storage/esaas" "ccsdk/storage/pgaas"
-"ccsdk/utils")
-
 # _build_ccsdk_images() - Build CCSDK Docker images from source code
 function _build_ccsdk_images {
     install_package unzip

@@ -2,11 +2,6 @@
 
 source /var/onap/functions
 
-policy_src_folder=$git_src_folder/policy
-policy_repos=("policy/api" "policy/common" "policy/docker" \
-"policy/drools-applications" "policy/drools-pdp" "policy/engine" \
-"policy/gui" "policy/pap" "policy/pdp")
-
 # _build_policy_images() - Function that build Policy docker images from source code
 function _build_policy_images {
     compile_src $policy_src_folder/docker

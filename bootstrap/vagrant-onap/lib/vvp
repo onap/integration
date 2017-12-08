@@ -2,12 +2,6 @@
 
 source /var/onap/functions
 
-vvp_src_folder=$git_src_folder/vvp
-vvp_repos=("vvp/ansible-ice-bootstrap" "vvp/cms" "vvp/devkit" \
-"vvp/documentation" "vvp/engagementmgr" "vvp/gitlab" "vvp/image-scanner" \
-"vvp/jenkins" "vvp/portal" "vvp/postgresql" "vvp/test-engine" \
-"vvp/validation-scripts")
-
 # _build_vvp_images() - Builds VNFSDK images from source code
 function _build_vvp_images {
     echo "pass"

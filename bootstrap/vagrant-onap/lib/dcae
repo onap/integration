@@ -2,14 +2,6 @@
 
 source /var/onap/functions
 
-dcae_src_folder=$git_src_folder/dcae
-dcae_repos=("dcae" "dcae/apod" "dcae/apod/analytics" "dcae/apod/buildtools"
-"dcae/apod/cdap" "dcae/collectors" "dcae/collectors/ves" "dcae/controller"
-"dcae/controller/analytics" "dcae/dcae-inventory" "dcae/demo"
-"dcae/demo/startup" "dcae/demo/startup/aaf" "dcae/demo/startup/controller"
-"dcae/demo/startup/message-router" "dcae/dmaapbc" "dcae/operation"
-"dcae/operation/utils" "dcae/orch-dispatcher" "dcae/pgaas" "dcae/utils" "dcae/utils/buildtools")
-
 # _create_config_file() - Creates a configuration yaml file for the controller
 function _create_config_file {
     cat > $dcae_src_folder/controller/config.yaml << EOL

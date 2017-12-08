@@ -11,21 +11,21 @@ covered_functions=(
 function test_clone_all_vfc_repos {
     clone_repos "vfc"
 
-    #asserts_file_exist $vfc_src_folder/pom.xml
-    #asserts_file_exist $vfc_src_folder/gvnfm
-    asserts_file_exist $vfc_src_folder/gvnfm/vnflcm/pom.xml
-    asserts_file_exist $vfc_src_folder/gvnfm/vnfmgr/pom.xml
-    asserts_file_exist $vfc_src_folder/gvnfm/vnfres/pom.xml
-    #asserts_file_exist $vfc_src_folder/nfvo
-    asserts_file_exist $vfc_src_folder/nfvo/catalog/run.sh
-    #asserts_file_exist $vfc_src_folder/nfvo/driver
-    asserts_file_exist $vfc_src_folder/nfvo/driver/ems/pom.xml
-    asserts_file_exist $vfc_src_folder/nfvo/driver/sfc/pom.xml
-    #asserts_file_exist $vfc_src_folder/nfvo/driver/vnfm
-    asserts_file_exist $vfc_src_folder/nfvo/driver/vnfm/gvnfm/pom.xml
-    asserts_file_exist $vfc_src_folder/nfvo/driver/vnfm/svnfm/pom.xml
-    asserts_file_exist $vfc_src_folder/nfvo/lcm/pom.xml
-    asserts_file_exist $vfc_src_folder/nfvo/wfengine/wso2/pom.xml
+    #asserts_file_exist ${src_folders[vfc]}/pom.xml
+    #asserts_file_exist ${src_folders[vfc]}/gvnfm
+    asserts_file_exist ${src_folders[vfc]}/gvnfm/vnflcm/pom.xml
+    asserts_file_exist ${src_folders[vfc]}/gvnfm/vnfmgr/pom.xml
+    asserts_file_exist ${src_folders[vfc]}/gvnfm/vnfres/pom.xml
+    #asserts_file_exist ${src_folders[vfc]}/nfvo
+    asserts_file_exist ${src_folders[vfc]}/nfvo/catalog/run.sh
+    #asserts_file_exist ${src_folders[vfc]}/nfvo/driver
+    asserts_file_exist ${src_folders[vfc]}/nfvo/driver/ems/pom.xml
+    asserts_file_exist ${src_folders[vfc]}/nfvo/driver/sfc/pom.xml
+    #asserts_file_exist ${src_folders[vfc]}/nfvo/driver/vnfm
+    asserts_file_exist ${src_folders[vfc]}/nfvo/driver/vnfm/gvnfm/pom.xml
+    asserts_file_exist ${src_folders[vfc]}/nfvo/driver/vnfm/svnfm/pom.xml
+    asserts_file_exist ${src_folders[vfc]}/nfvo/lcm/pom.xml
+    asserts_file_exist ${src_folders[vfc]}/nfvo/wfengine/wso2/pom.xml
 }
 
 # test_compile_all_vfc_repos() - Verify that all the VFC modules are compiled properly

@@ -2,9 +2,6 @@
 
 source /var/onap/functions
 
-msb_src_folder=$git_src_folder/msb
-msb_repos=("msb/apigateway" "msb/discovery" "msb/java-sdk" "msb/swagger-sdk")
-
 # _build_msb_images() - Function that creates Microservices Docker images from source code
 function _build_msb_images {
     if [[ "$compile_repo" != "True" ]]; then

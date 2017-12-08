@@ -2,30 +2,27 @@
 
 source /var/onap/functions
 
-portal_src_folder=$git_src_folder/portal
-portal_repos=("portal" "portal/sdk" "ecompsdkos" "ui/dmaapbc")
-
 # clone_all_portal_repos() - Function that clones Portal source repo.
 function clone_all_portal_repos {
-    for repo in ${portal_repos[@]}; do
+    for repo in ${repos[portal]}; do
         if [[ "$repo" == "ui/dmaapbc" ]];then
             prefix="ui"
         else
             prefix="portal"
         fi
-        clone_repo $repo $portal_src_folder/${repo#*$prefix}
+        clone_repo $repo ${src_folders[portal]}/${repo#*$prefix}
     done
 }
 
 # compile_all_portal_repos() - Function that compiles Portal source repo.
 function compile_all_portal_repos {
-    for repo in ${portal_repos[@]}; do
+    for repo in ${repos[portal]}; do
         if [[ "$repo" == "ui/dmaapbc" ]];then
             prefix="ui"
         else
             prefix="portal"
         fi
-        compile_src $portal_src_folder/${repo#*$prefix}
+        compile_src ${src_folders[portal]}/${repo#*$prefix}
     done
 }
 
@@ -33,7 +30,7 @@ function compile_all_portal_repos {
 function _build_portal_images {
     install_maven
 
-    pushd $portal_src_folder/deliveries
+    pushd ${src_folders[portal]}/deliveries
     chmod +x *.sh
     export MVN=$(which mvn)
     export GLOBAL_SETTINGS_FILE=/usr/share/maven3/conf/settings.xml
@@ -64,7 +61,7 @@ function install_portal {
     docker rm -f ecompdb_portal
     docker rm -f 1610-1
 
-    pushd $portal_src_folder/deliveries
+    pushd ${src_folders[portal]}/deliveries
     mkdir -p /PROJECT/OpenSource/UbuntuEP/logs
     install_package unzip
     unzip -o etc.zip -d /PROJECT/OpenSource/UbuntuEP/

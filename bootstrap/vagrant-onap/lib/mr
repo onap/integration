@@ -2,8 +2,6 @@
 
 source /var/onap/functions
 
-mr_src_folder=$git_src_folder/dcae/message-router
-
 # get_mr_images() - Function that retrieves the Message Router Docker images
 function get_mr_images {
     pull_docker_image attos/dmaap

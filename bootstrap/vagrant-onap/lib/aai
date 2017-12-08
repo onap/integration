@@ -3,12 +3,6 @@
 source /var/onap/functions
 
 hbase_version=1.2.3
-aai_src_folder=$git_src_folder/aai
-aai_repos=("aai/aai-common" "aai/aai-config" "aai/aai-data" "aai/aai-service" \
-"aai/babel" "aai/champ" "aai/data-router" "aai/esr-gui" "aai/esr-server" \
-"aai/gizmo" "aai/logging-service" "aai/model-loader" "aai/resources" \
-"aai/rest-client" "aai/router-core" "aai/search-data-service" \
-"aai/test-config" "aai/traversal" "aai/sparky-fe" "aai/sparky-be")
 
 # install_hadoop() - Function that installs Hadoop
 function install_hadoop {
@@ -54,9 +48,9 @@ function install_haproxy {
 
 # compile_aai_repos() - Function that compiles AAI source repo.
 function compile_aai_repos {
-    local repos=("aai/aai-common" "aai/resources" "aai/logging-service" "aai/traversal")
+    local repos="aai/aai-common aai/resources aai/logging-service aai/traversal"
     if [[ "$compile_repo" == "True" ]]; then
-        repos=("${aai_repos[@]}")
+        repos="${repos[aai]}"
     fi
 
     for repo in ${repos[@]}; do

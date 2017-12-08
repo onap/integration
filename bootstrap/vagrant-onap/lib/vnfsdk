@@ -2,10 +2,6 @@
 
 source /var/onap/functions
 
-vnfsdk_src_folder=$git_src_folder/vnfsdk
-vnfsdk_repos=("vnfsdk/compliance" "vnfsdk/functest" "vnfsdk/lctest" \
-"vnfsdk/model" "vnfsdk/pkgtools" "vnfsdk/refrepo" "vnfsdk/validation")
-
 # _build_vnfsdk_images() - Builds VNFSDK images from source code
 function _build_vnfsdk_images {
     install_package unzip

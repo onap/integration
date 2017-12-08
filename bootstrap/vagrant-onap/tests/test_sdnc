@@ -11,14 +11,14 @@ covered_functions=(
 function test_clone_all_sdnc_repos {
     clone_repos "sdnc"
 
-    asserts_file_exist $sdnc_src_folder/adaptors/pom.xml
-    #asserts_file_exist $sdnc_src_folder/architecture/docs/index.rst
-    asserts_file_exist $sdnc_src_folder/core/pom.xml
-    #asserts_file_exist $sdnc_src_folder/features/docs/index.rst
-    asserts_file_exist $sdnc_src_folder/northbound/pom.xml
-    asserts_file_exist $sdnc_src_folder/oam/pom.xml
-    #asserts_file_exist $sdnc_src_folder/parent/docs/index.rst
-    asserts_file_exist $sdnc_src_folder/plugins/pom.xml
+    asserts_file_exist ${src_folders[sdnc]}/adaptors/pom.xml
+    #asserts_file_exist ${src_folders[sdnc]}/architecture/docs/index.rst
+    asserts_file_exist ${src_folders[sdnc]}/core/pom.xml
+    #asserts_file_exist ${src_folders[sdnc]}/features/docs/index.rst
+    asserts_file_exist ${src_folders[sdnc]}/northbound/pom.xml
+    asserts_file_exist ${src_folders[sdnc]}/oam/pom.xml
+    #asserts_file_exist ${src_folders[sdnc]}/parent/docs/index.rst
+    asserts_file_exist ${src_folders[sdnc]}/plugins/pom.xml
 }
 
 # test_compile_all_sdnc_repos() - Verify the correct compilation of SDNC projects
@@ -28,15 +28,15 @@ function test_compile_all_sdnc_repos {
 
     for component in generic-resource-api vnfapi vnftools; do
         if [[ "$component" == "vnfapi" ]]; then
-            asserts_file_exist $sdnc_src_folder/northbound/vnfapi/model/target/vnfapi-model-1.2.0-SNAPSHOT.jar
+            asserts_file_exist ${src_folders[sdnc]}/northbound/vnfapi/model/target/vnfapi-model-1.2.0-SNAPSHOT.jar
         fi
-        asserts_file_exist $sdnc_src_folder/northbound/$component/installer/target/sdnc-$component-1.2.0-SNAPSHOT-installer.zip
-        asserts_file_exist $sdnc_src_folder/northbound/$component/features/target/$component-features-1.2.0-SNAPSHOT.jar
-        asserts_file_exist $sdnc_src_folder/northbound/$component/provider/target/$component-provider-1.2.0-SNAPSHOT.jar
+        asserts_file_exist ${src_folders[sdnc]}/northbound/$component/installer/target/sdnc-$component-1.2.0-SNAPSHOT-installer.zip
+        asserts_file_exist ${src_folders[sdnc]}/northbound/$component/features/target/$component-features-1.2.0-SNAPSHOT.jar
+        asserts_file_exist ${src_folders[sdnc]}/northbound/$component/provider/target/$component-provider-1.2.0-SNAPSHOT.jar
     done
-    asserts_file_exist $sdnc_src_folder/oam/admportal/target/admportal.*-SNAPSHOT.zip
-    asserts_file_exist $sdnc_src_folder/oam/dgbuilder/target/dgbuilder.*-SNAPSHOT.zip
-    asserts_file_exist $sdnc_src_folder/oam/platform-logic/installer/target/platform-logic-installer-*-SNAPSHOT.zip
+    asserts_file_exist ${src_folders[sdnc]}/oam/admportal/target/admportal.*-SNAPSHOT.zip
+    asserts_file_exist ${src_folders[sdnc]}/oam/dgbuilder/target/dgbuilder.*-SNAPSHOT.zip
+    asserts_file_exist ${src_folders[sdnc]}/oam/platform-logic/installer/target/platform-logic-installer-*-SNAPSHOT.zip
 }
 
 # test_get_sdnc_images() - Verify that the SDNC images are created or retrieved

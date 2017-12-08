@@ -11,10 +11,10 @@ covered_functions=(
 function test_clone_robot_repos {
     clone_repos "robot" "testsuite"
 
-    asserts_file_exist $robot_src_folder/LICENSE.TXT
-    asserts_file_exist $robot_src_folder/heatbridge/pom.xml
-    asserts_file_exist $robot_src_folder/properties/LICENSE.TXT
-    asserts_file_exist $robot_src_folder/python-testing-utils/LICENSE.TXT
+    asserts_file_exist ${src_folders[robot]}/LICENSE.TXT
+    asserts_file_exist ${src_folders[robot]}/heatbridge/pom.xml
+    asserts_file_exist ${src_folders[robot]}/properties/LICENSE.TXT
+    asserts_file_exist ${src_folders[robot]}/python-testing-utils/LICENSE.TXT
 }
 
 # test_compile_robot_repos() - Verify that Robot source code can be compiled properly

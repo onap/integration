@@ -11,27 +11,27 @@ covered_functions=(
 function test_clone_all_dcae_repos {
     clone_repos "dcae"
 
-    asserts_file_exist $dcae_src_folder/apod/README.md
-    asserts_file_exist $dcae_src_folder/apod/analytics/pom.xml
-    asserts_file_exist $dcae_src_folder/apod/buildtools/LICENSE.txt
-    asserts_file_exist $dcae_src_folder/apod/cdap/LICENSE.txt
-    asserts_file_exist $dcae_src_folder/collectors/README.md
-    asserts_file_exist $dcae_src_folder/collectors/ves/pom.xml
-    asserts_file_exist $dcae_src_folder/controller/pom.xml
-    asserts_file_exist $dcae_src_folder/controller/analytics/pom.xml
-    asserts_file_exist $dcae_src_folder/dcae-inventory/pom.xml
-    asserts_file_exist $dcae_src_folder/demo/pom.xml
-    asserts_file_exist $dcae_src_folder/demo/startup/README.md
-    asserts_file_exist $dcae_src_folder/demo/startup/aaf/LICENSE.txt
-    asserts_file_exist $dcae_src_folder/demo/startup/controller/LICENSE.txt
-    asserts_file_exist $dcae_src_folder/demo/startup/message-router/LICENSE.txt
-    asserts_file_exist $dcae_src_folder/dmaapbc/pom.xml
-    asserts_file_exist $dcae_src_folder/operation/README.md
-    asserts_file_exist $dcae_src_folder/operation/utils/pom.xml
-    asserts_file_exist $dcae_src_folder/orch-dispatcher/LICENSE.txt
-    asserts_file_exist $dcae_src_folder/pgaas/LICENSE.txt
-    asserts_file_exist $dcae_src_folder/utils/README.md
-    asserts_file_exist $dcae_src_folder/utils/buildtools/LICENSE.txt
+    asserts_file_exist ${src_folders[dcae]}/apod/README.md
+    asserts_file_exist ${src_folders[dcae]}/apod/analytics/pom.xml
+    asserts_file_exist ${src_folders[dcae]}/apod/buildtools/LICENSE.txt
+    asserts_file_exist ${src_folders[dcae]}/apod/cdap/LICENSE.txt
+    asserts_file_exist ${src_folders[dcae]}/collectors/README.md
+    asserts_file_exist ${src_folders[dcae]}/collectors/ves/pom.xml
+    asserts_file_exist ${src_folders[dcae]}/controller/pom.xml
+    asserts_file_exist ${src_folders[dcae]}/controller/analytics/pom.xml
+    asserts_file_exist ${src_folders[dcae]}/dcae-inventory/pom.xml
+    asserts_file_exist ${src_folders[dcae]}/demo/pom.xml
+    asserts_file_exist ${src_folders[dcae]}/demo/startup/README.md
+    asserts_file_exist ${src_folders[dcae]}/demo/startup/aaf/LICENSE.txt
+    asserts_file_exist ${src_folders[dcae]}/demo/startup/controller/LICENSE.txt
+    asserts_file_exist ${src_folders[dcae]}/demo/startup/message-router/LICENSE.txt
+    asserts_file_exist ${src_folders[dcae]}/dmaapbc/pom.xml
+    asserts_file_exist ${src_folders[dcae]}/operation/README.md
+    asserts_file_exist ${src_folders[dcae]}/operation/utils/pom.xml
+    asserts_file_exist ${src_folders[dcae]}/orch-dispatcher/LICENSE.txt
+    asserts_file_exist ${src_folders[dcae]}/pgaas/LICENSE.txt
+    asserts_file_exist ${src_folders[dcae]}/utils/README.md
+    asserts_file_exist ${src_folders[dcae]}/utils/buildtools/LICENSE.txt
 }
 
 # test_compile_all_dcae_repos() - Verify that the DCAE source code is compiled properly
@@ -39,46 +39,46 @@ function test_compile_all_dcae_repos {
     clone_repos "dcae"
     compile_repos "dcae"
 
-    asserts_file_exist $dcae_src_folder/collectors/ves/target/VESCollector-1.1.0-SNAPSHOT.jar
+    asserts_file_exist ${src_folders[dcae]}/collectors/ves/target/VESCollector-1.1.0-SNAPSHOT.jar
 
-    asserts_file_exist $dcae_src_folder/controller/analytics/dcae-analytics-cdap-common-model/target/dcae-analytics-cdap-common-model-1.1.0-SNAPSHOT.jar
+    asserts_file_exist ${src_folders[dcae]}/controller/analytics/dcae-analytics-cdap-common-model/target/dcae-analytics-cdap-common-model-1.1.0-SNAPSHOT.jar
 
-    asserts_file_exist $dcae_src_folder/controller/dcae-controller-core/dcae-controller-core-model/target/dcae-controller-core-model-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $dcae_src_folder/controller/dcae-controller-core/dcae-controller-core-utils/target/dcae-controller-core-utils-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $dcae_src_folder/controller/dcae-controller-core/dcae-controller-operation-utils/target/dcae-controller-operation-utils-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $dcae_src_folder/controller/dcae-controller-core/dcae-controller-platform-model/target/dcae-controller-platform-model-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $dcae_src_folder/controller/dcae-controller-core/dcae-controller-platform-server/target/dcae-controller-platform-server-1.1.0-SNAPSHOT.jar
+    asserts_file_exist ${src_folders[dcae]}/controller/dcae-controller-core/dcae-controller-core-model/target/dcae-controller-core-model-1.1.0-SNAPSHOT.jar
+    asserts_file_exist ${src_folders[dcae]}/controller/dcae-controller-core/dcae-controller-core-utils/target/dcae-controller-core-utils-1.1.0-SNAPSHOT.jar
+    asserts_file_exist ${src_folders[dcae]}/controller/dcae-controller-core/dcae-controller-operation-utils/target/dcae-controller-operation-utils-1.1.0-SNAPSHOT.jar
+    asserts_file_exist ${src_folders[dcae]}/controller/dcae-controller-core/dcae-controller-platform-model/target/dcae-controller-platform-model-1.1.0-SNAPSHOT.jar
+    asserts_file_exist ${src_folders[dcae]}/controller/dcae-controller-core/dcae-controller-platform-server/target/dcae-controller-platform-server-1.1.0-SNAPSHOT.jar
 
-    asserts_file_exist $dcae_src_folder/controller/dcae-controller-service/dcae-controller-service-dmaap-drsub/dcae-controller-service-dmaap-drsub-manager/target/dcae-controller-service-dmaap-drsub-manager-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $dcae_src_folder/controller/dcae-controller-service/dcae-controller-service-dmaap-drsub/dcae-controller-service-dmaap-drsub-model/target/dcae-controller-service-dmaap-drsub-model-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $dcae_src_folder/controller/dcae-controller-service/dcae-controller-service-standardeventcollector/dcae-controller-service-standardeventcollector-manager/target/dcae-controller-service-standardeventcollector-manager-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $dcae_src_folder/controller/dcae-controller-service/dcae-controller-service-standardeventcollector/dcae-controller-service-standardeventcollector-model/target/dcae-controller-service-standardeventcollector-model-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $dcae_src_folder/controller/dcae-controller-service/dcae-controller-service-storage-postgres-model/target/dcae-controller-service-storage-postgres-model-1.1.0-SNAPSHOT.jar
+    asserts_file_exist ${src_folders[dcae]}/controller/dcae-controller-service/dcae-controller-service-dmaap-drsub/dcae-controller-service-dmaap-drsub-manager/target/dcae-controller-service-dmaap-drsub-manager-1.1.0-SNAPSHOT.jar
+    asserts_file_exist ${src_folders[dcae]}/controller/dcae-controller-service/dcae-controller-service-dmaap-drsub/dcae-controller-service-dmaap-drsub-model/target/dcae-controller-service-dmaap-drsub-model-1.1.0-SNAPSHOT.jar
+    asserts_file_exist ${src_folders[dcae]}/controller/dcae-controller-service/dcae-controller-service-standardeventcollector/dcae-controller-service-standardeventcollector-manager/target/dcae-controller-service-standardeventcollector-manager-1.1.0-SNAPSHOT.jar
+    asserts_file_exist ${src_folders[dcae]}/controller/dcae-controller-service/dcae-controller-service-standardeventcollector/dcae-controller-service-standardeventcollector-model/target/dcae-controller-service-standardeventcollector-model-1.1.0-SNAPSHOT.jar
+    asserts_file_exist ${src_folders[dcae]}/controller/dcae-controller-service/dcae-controller-service-storage-postgres-model/target/dcae-controller-service-storage-postgres-model-1.1.0-SNAPSHOT.jar
 
-    asserts_file_exist $dcae_src_folder/controller/dcae-controller-service-cdap/dcae-controller-service-cdap-adaptor/target/dcae-controller-service-cdap-adaptor-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $dcae_src_folder/controller/dcae-controller-service-cdap/dcae-controller-service-cdap-cluster/dcae-controller-service-cdap-cluster-manager/target/dcae-controller-service-cdap-cluster-manager-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $dcae_src_folder/controller/dcae-controller-service-cdap/dcae-controller-service-cdap-cluster/dcae-controller-service-cdap-cluster-model/target/dcae-controller-service-cdap-cluster-model-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $dcae_src_folder/controller/dcae-controller-service-cdap/dcae-controller-service-cdap-model/target/dcae-controller-service-cdap-model-1.1.0-SNAPSHOT.jar
+    asserts_file_exist ${src_folders[dcae]}/controller/dcae-controller-service-cdap/dcae-controller-service-cdap-adaptor/target/dcae-controller-service-cdap-adaptor-1.1.0-SNAPSHOT.jar
+    asserts_file_exist ${src_folders[dcae]}/controller/dcae-controller-service-cdap/dcae-controller-service-cdap-cluster/dcae-controller-service-cdap-cluster-manager/target/dcae-controller-service-cdap-cluster-manager-1.1.0-SNAPSHOT.jar
+    asserts_file_exist ${src_folders[dcae]}/controller/dcae-controller-service-cdap/dcae-controller-service-cdap-cluster/dcae-controller-service-cdap-cluster-model/target/dcae-controller-service-cdap-cluster-model-1.1.0-SNAPSHOT.jar
+    asserts_file_exist ${src_folders[dcae]}/controller/dcae-controller-service-cdap/dcae-controller-service-cdap-model/target/dcae-controller-service-cdap-model-1.1.0-SNAPSHOT.jar
 
-    asserts_file_exist $dcae_src_folder/controller/dcae-controller-service-docker/dcae-controller-service-common-docker/dcae-controller-service-common-docker-manager/target/dcae-controller-service-common-docker-manager-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $dcae_src_folder/controller/dcae-controller-service-docker/dcae-controller-service-common-docker/dcae-controller-service-common-docker-model/target/dcae-controller-service-common-docker-model-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $dcae_src_folder/controller/dcae-controller-service-docker/dcae-controller-service-docker-adaptor/target/dcae-controller-service-docker-adaptor-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $dcae_src_folder/controller/dcae-controller-service-docker/dcae-controller-service-docker-host/dcae-controller-service-docker-host-manager/target/dcae-controller-service-docker-host-manager-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $dcae_src_folder/controller/dcae-controller-service-docker/dcae-controller-service-docker-host/dcae-controller-service-docker-host-model/target/dcae-controller-service-docker-host-model-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $dcae_src_folder/controller/dcae-controller-service-docker/dcae-controller-service-docker-model/target/dcae-controller-service-docker-model-1.1.0-SNAPSHOT.jar
+    asserts_file_exist ${src_folders[dcae]}/controller/dcae-controller-service-docker/dcae-controller-service-common-docker/dcae-controller-service-common-docker-manager/target/dcae-controller-service-common-docker-manager-1.1.0-SNAPSHOT.jar
+    asserts_file_exist ${src_folders[dcae]}/controller/dcae-controller-service-docker/dcae-controller-service-common-docker/dcae-controller-service-common-docker-model/target/dcae-controller-service-common-docker-model-1.1.0-SNAPSHOT.jar
+    asserts_file_exist ${src_folders[dcae]}/controller/dcae-controller-service-docker/dcae-controller-service-docker-adaptor/target/dcae-controller-service-docker-adaptor-1.1.0-SNAPSHOT.jar
+    asserts_file_exist ${src_folders[dcae]}/controller/dcae-controller-service-docker/dcae-controller-service-docker-host/dcae-controller-service-docker-host-manager/target/dcae-controller-service-docker-host-manager-1.1.0-SNAPSHOT.jar
+    asserts_file_exist ${src_folders[dcae]}/controller/dcae-controller-service-docker/dcae-controller-service-docker-host/dcae-controller-service-docker-host-model/target/dcae-controller-service-docker-host-model-1.1.0-SNAPSHOT.jar
+    asserts_file_exist ${src_folders[dcae]}/controller/dcae-controller-service-docker/dcae-controller-service-docker-model/target/dcae-controller-service-docker-model-1.1.0-SNAPSHOT.jar
 
-    asserts_file_exist $dcae_src_folder/controller/dcae-controller-service-vm/dcae-controller-service-common-vm/dcae-controller-service-common-vm-manager/target/dcae-controller-service-common-vm-manager-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $dcae_src_folder/controller/dcae-controller-service-vm/dcae-controller-service-common-vm/dcae-controller-service-common-vm-model/target/dcae-controller-service-common-vm-model-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $dcae_src_folder/controller/dcae-controller-service-vm/dcae-controller-service-vm-adaptor/target/dcae-controller-service-vm-adaptor-1.1.0-SNAPSHOT.jar
-    asserts_file_exist $dcae_src_folder/controller/dcae-controller-service-vm/dcae-controller-service-vm-model/target/dcae-controller-service-vm-model-1.1.0-SNAPSHOT.jar
+    asserts_file_exist ${src_folders[dcae]}/controller/dcae-controller-service-vm/dcae-controller-service-common-vm/dcae-controller-service-common-vm-manager/target/dcae-controller-service-common-vm-manager-1.1.0-SNAPSHOT.jar
+    asserts_file_exist ${src_folders[dcae]}/controller/dcae-controller-service-vm/dcae-controller-service-common-vm/dcae-controller-service-common-vm-model/target/dcae-controller-service-common-vm-model-1.1.0-SNAPSHOT.jar
+    asserts_file_exist ${src_folders[dcae]}/controller/dcae-controller-service-vm/dcae-controller-service-vm-adaptor/target/dcae-controller-service-vm-adaptor-1.1.0-SNAPSHOT.jar
+    asserts_file_exist ${src_folders[dcae]}/controller/dcae-controller-service-vm/dcae-controller-service-vm-model/target/dcae-controller-service-vm-model-1.1.0-SNAPSHOT.jar
 
-    asserts_file_exist $dcae_src_folder/dcae-inventory/target/dcae-inventory-1.1.0.jar
+    asserts_file_exist ${src_folders[dcae]}/dcae-inventory/target/dcae-inventory-1.1.0.jar
 
-    asserts_file_exist $dcae_src_folder/demo/dcae-demo-controller/target/dcae-demo-controller-1.1.0-SNAPSHOT-runtime.zip
+    asserts_file_exist ${src_folders[dcae]}/demo/dcae-demo-controller/target/dcae-demo-controller-1.1.0-SNAPSHOT-runtime.zip
 
-    asserts_file_exist $dcae_src_folder/dmaapbc/target/dcae_dmaapbc.jar
+    asserts_file_exist ${src_folders[dcae]}/dmaapbc/target/dcae_dmaapbc.jar
 
-    asserts_file_exist $dcae_src_folder/operation/utils/operation-utils/target/operation-utils-1.1.0-SNAPSHOT.jar
+    asserts_file_exist ${src_folders[dcae]}/operation/utils/operation-utils/target/operation-utils-1.1.0-SNAPSHOT.jar
 }
 
 # test_get_dcae_images() - Function that verifies DCAE images are retrieved properly

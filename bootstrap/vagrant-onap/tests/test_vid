@@ -11,8 +11,8 @@ covered_functions=(
 function test_clone_all_vid_repos {
     clone_repos "vid"
 
-    asserts_file_exist $vid_src_folder/pom.xml
-    asserts_file_exist $vid_src_folder/asdcclient/pom.xml
+    asserts_file_exist ${src_folders[vid]}/pom.xml
+    asserts_file_exist ${src_folders[vid]}/asdcclient/pom.xml
 }
 
 # test_compile_all_vid_repos() - Verifies that VID source code is compiled properly
@@ -20,9 +20,9 @@ function test_compile_all_vid_repos {
     clone_repos "vid"
     compile_repos "vid"
 
-    asserts_file_exist $vid_src_folder/asdcclient/target/asdcclient-1.0.2-SNAPSHOT.jar
-    asserts_file_exist $vid_src_folder/epsdk-app-onap/target/vid.war
-    asserts_file_exist $vid_src_folder/vid-app-common/target/vid-common.war
+    asserts_file_exist ${src_folders[vid]}/asdcclient/target/asdcclient-1.0.2-SNAPSHOT.jar
+    asserts_file_exist ${src_folders[vid]}/epsdk-app-onap/target/vid.war
+    asserts_file_exist ${src_folders[vid]}/vid-app-common/target/vid-common.war
 }
 
 # test_get_vid_images() - Verifies that VID Docker images are built properly
