@@ -45,7 +45,7 @@ if [ ! -d ${ONAP_WORKDIR}/demo ]; then
 else
     pushd ${ONAP_WORKDIR}/demo
     git checkout amsterdam
+    git reset --hard
     git pull
     popd
 fi
-
