@@ -37,6 +37,7 @@ if [ -z "$ONAP_WORKDIR" ]; then
     echo "ONAP_WORKDIR=${ONAP_WORKDIR}" >> $WORKSPACE/env.properties
 fi
 echo "ONAP_WORKDIR=${ONAP_WORKDIR}"
+rm -rf ${ONAP_WORKDIR}/demo
 if [ ! -d ${ONAP_WORKDIR}/demo ]; then
     git clone https://gerrit.onap.org/r/demo ${ONAP_WORKDIR}/demo
     pushd ${ONAP_WORKDIR}/demo
@@ -45,7 +46,7 @@ if [ ! -d ${ONAP_WORKDIR}/demo ]; then
 else
     pushd ${ONAP_WORKDIR}/demo
     git checkout amsterdam
+    git reset --hard
     git pull
     popd
 fi
-
