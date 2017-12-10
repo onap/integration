@@ -1,6 +1,6 @@
 *** Settings ***
 Documentation     Logins to VID
-Library 	    ExtendedSelenium2Library
+Library 	    Selenium2Library
 Library    Collections
 Library         String
 Library 	      RequestsLibrary
