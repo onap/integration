@@ -24,7 +24,7 @@ NEXUS_PASSWD=$(cat /opt/config/nexus_password.txt)
 NEXUS_DOCKER_REPO=$(cat /opt/config/nexus_docker_repo.txt)
 DOCKER_IMAGE_VERSION=$(cat /opt/config/docker_version.txt)
 DOCKER_REGISTRY=${NEXUS_DOCKER_REPO}
-DOCKER_IMAGE_VERSION=1.1-STAGING-latest
+DOCKER_IMAGE_VERSION=1.2-STAGING-latest
 
 function wait_for_container() {
 
@@ -54,23 +54,23 @@ DOCKER_COMPOSE_CMD="docker-compose";
 export MTU=$(/sbin/ifconfig | grep MTU | sed 's/.*MTU://' | sed 's/ .*//' | sort -n | head -1);
 export DOCKER_REGISTRY="nexus3.onap.org:10001";
 export AAI_HAPROXY_IMAGE="${AAI_HAPROXY_IMAGE:-aaionap/haproxy}";
-export HAPROXY_VERSION="${HAPROXY_VERSION:-1.1.0}";
+export HAPROXY_VERSION="${HAPROXY_VERSION:-1.2.0}";
 export HBASE_IMAGE="${HBASE_IMAGE:-aaionap/hbase}";
 export HBASE_VERSION="${HBASE_VERSION:-1.2.0}";
 
 docker pull ${HBASE_IMAGE}:${HBASE_VERSION};
 
-docker pull ${DOCKER_REGISTRY}/openecomp/aai-resources:${DOCKER_IMAGE_VERSION};
-docker tag ${DOCKER_REGISTRY}/openecomp/aai-resources:${DOCKER_IMAGE_VERSION} ${DOCKER_REGISTRY}/openecomp/aai-resources:latest;
+docker pull ${DOCKER_REGISTRY}/onap/aai-resources:${DOCKER_IMAGE_VERSION};
+docker tag ${DOCKER_REGISTRY}/onap/aai-resources:${DOCKER_IMAGE_VERSION} ${DOCKER_REGISTRY}/onap/aai-resources:latest;
 
-docker pull ${DOCKER_REGISTRY}/openecomp/aai-traversal:${DOCKER_IMAGE_VERSION};
-docker tag ${DOCKER_REGISTRY}/openecomp/aai-traversal:${DOCKER_IMAGE_VERSION} ${DOCKER_REGISTRY}/openecomp/aai-traversal:latest;
+docker pull ${DOCKER_REGISTRY}/onap/aai-traversal:${DOCKER_IMAGE_VERSION};
+docker tag ${DOCKER_REGISTRY}/onap/aai-traversal:${DOCKER_IMAGE_VERSION} ${DOCKER_REGISTRY}/onap/aai-traversal:latest;
 
 ${DOCKER_COMPOSE_CMD} stop
 ${DOCKER_COMPOSE_CMD} rm -f -v
 
 # Start the hbase where the data will be stored
-HBASE_CONTAINER_NAME=$(${DOCKER_COMPOSE_CMD} up -d aai.hbase.simpledemo.openecomp.org 2>&1 | grep 'Creating' | grep -v 'volume' | grep -v 'network' | awk '{ print $2; }' | head -1);
+HBASE_CONTAINER_NAME=$(${DOCKER_COMPOSE_CMD} up -d aai.hbase.simpledemo.onap.org 2>&1 | grep 'Creating' | grep -v 'volume' | grep -v 'network' | awk '{ print $2; }' | head -1);
 wait_for_container ${HBASE_CONTAINER_NAME} ' Started SelectChannelConnector@0.0.0.0:8085';
 wait_for_container ${HBASE_CONTAINER_NAME} ' Started SelectChannelConnector@0.0.0.0:8080';
 wait_for_container ${HBASE_CONTAINER_NAME} ' Started SelectChannelConnector@0.0.0.0:9095';
@@ -99,13 +99,13 @@ else
         export USER_ID=$(id -u aaiadmin);
 fi;
 
-RESOURCES_CONTAINER_NAME=$(${DOCKER_COMPOSE_CMD} up -d aai-resources.api.simpledemo.openecomp.org 2>&1 | grep 'Creating' | grep -v 'volume' | grep -v 'network' | awk '{ print $2; }' | head -1);
+RESOURCES_CONTAINER_NAME=$(${DOCKER_COMPOSE_CMD} up -d aai-resources.api.simpledemo.onap.org 2>&1 | grep 'Creating' | grep -v 'volume' | grep -v 'network' | awk '{ print $2; }' | head -1);
 wait_for_container ${RESOURCES_CONTAINER_NAME} '0.0.0.0:8447';
 
-TRAVERSAL_CONTAINER_NAME=$(${DOCKER_COMPOSE_CMD} up -d aai-traversal.api.simpledemo.openecomp.org 2>&1 | grep 'Creating' | grep -v 'volume' | grep -v 'network' | awk '{ print $2; }' | head -1);
+TRAVERSAL_CONTAINER_NAME=$(${DOCKER_COMPOSE_CMD} up -d aai-traversal.api.simpledemo.onap.org 2>&1 | grep 'Creating' | grep -v 'volume' | grep -v 'network' | awk '{ print $2; }' | head -1);
 wait_for_container ${TRAVERSAL_CONTAINER_NAME} '0.0.0.0:8446';
 
-${DOCKER_COMPOSE_CMD} up -d aai.api.simpledemo.openecomp.org
+${DOCKER_COMPOSE_CMD} up -d aai.api.simpledemo.onap.org
 echo "A&AI Microservices, resources and traversal, are up and running along with HAProxy";
 # Set the host ip for robot from the haproxy
 ROBOT_VARIABLES="-v HOST_IP:`ip addr show docker0 | head -3 | tail -1 | cut -d' ' -f6 | cut -d'/' -f1`"

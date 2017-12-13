@@ -1,14 +1,13 @@
 version: '2'
 services:
-  aai-resources.api.simpledemo.openecomp.org:
-    image: ${DOCKER_REGISTRY}/openecomp/aai-resources
-    hostname: aai-resources.api.simpledemo.openecomp.org
+  aai-resources.api.simpledemo.onap.org:
+    image: ${DOCKER_REGISTRY}/onap/aai-resources
+    hostname: aai-resources.api.simpledemo.onap.org
     environment:
       - AAI_CHEF_ENV=simpledemo
       - AAI_CHEF_LOC=/var/chef/aai-data/environments
       - CHEF_BRANCH=master
       - CHEF_GIT_URL=http://gerrit.onap.org/r/aai
-      - AAI_CORE_VERSION=1.1.0-SNAPSHOT
       - LOCAL_USER_ID=${USER_ID}
     ports:
       - 8447:8447
@@ -17,15 +16,14 @@ services:
       options:
         max-size: "30m"
         max-file: "5"
-  aai-traversal.api.simpledemo.openecomp.org:
-    image: ${DOCKER_REGISTRY}/openecomp/aai-traversal
-    hostname: aai-traversal.api.simpledemo.openecomp.org
+  aai-traversal.api.simpledemo.onap.org:
+    image: ${DOCKER_REGISTRY}/onap/aai-traversal
+    hostname: aai-traversal.api.simpledemo.onap.org
     environment:
       - AAI_CHEF_ENV=simpledemo
       - AAI_CHEF_LOC=/var/chef/aai-data/environments
       - CHEF_BRANCH=master
       - CHEF_GIT_URL=http://gerrit.onap.org/r/aai
-      - AAI_CORE_VERSION=1.1.0-SNAPSHOT
       - DISABLE_UPDATE_QUERY=true
     ports:
       - 8446:8446
@@ -34,14 +32,14 @@ services:
       options:
         max-size: "30m"
         max-file: "5"
-  aai.api.simpledemo.openecomp.org:
+  aai.api.simpledemo.onap.org:
     image: ${AAI_HAPROXY_IMAGE}:${HAPROXY_VERSION}
-    hostname: aai.api.simpledemo.openecomp.org
+    hostname: aai.api.simpledemo.onap.org
     ports:
       - 8443:8443
     links:
-      - aai-resources.api.simpledemo.openecomp.org
-      - aai-traversal.api.simpledemo.openecomp.org
+      - aai-resources.api.simpledemo.onap.org
+      - aai-traversal.api.simpledemo.onap.org
     volumes:
       - /dev/log:/dev/log
     logging:
@@ -49,9 +47,9 @@ services:
       options:
         max-size: "30m"
         max-file: "5"
-  aai.hbase.simpledemo.openecomp.org:
+  aai.hbase.simpledemo.onap.org:
     image: ${HBASE_IMAGE}:${HBASE_VERSION}
-    hostname: aai.hbase.simpledemo.openecomp.org
+    hostname: aai.hbase.simpledemo.onap.org
     ports:
       - 2181:2181
       - 8080:8080
