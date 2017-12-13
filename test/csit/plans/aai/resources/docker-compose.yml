@@ -6,9 +6,9 @@ services:
     environment:
       - AAI_CHEF_ENV=simpledemo
       - AAI_CHEF_LOC=/var/chef/aai-data/environments
-      - CHEF_BRANCH=master
+      - CHEF_BRANCH=amsterdam
       - CHEF_GIT_URL=http://gerrit.onap.org/r/aai
-      - AAI_CORE_VERSION=1.1.0-SNAPSHOT
+      - AAI_CORE_VERSION=1.1.1-SNAPSHOT
       - LOCAL_USER_ID=${USER_ID}
     ports:
       - 8447:8447
@@ -23,9 +23,9 @@ services:
     environment:
       - AAI_CHEF_ENV=simpledemo
       - AAI_CHEF_LOC=/var/chef/aai-data/environments
-      - CHEF_BRANCH=master
+      - CHEF_BRANCH=amsterdam
       - CHEF_GIT_URL=http://gerrit.onap.org/r/aai
-      - AAI_CORE_VERSION=1.1.0-SNAPSHOT
+      - AAI_CORE_VERSION=1.1.1-SNAPSHOT
       - LOCAL_USER_ID=${USER_ID}
       - DISABLE_UPDATE_QUERY=true
     ports:
