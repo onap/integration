@@ -6,7 +6,7 @@ services:
     environment:
       - AAI_CHEF_ENV=simpledemo
       - AAI_CHEF_LOC=/var/chef/aai-data/environments
-      - CHEF_BRANCH=master
+      - CHEF_BRANCH=amsterdam
       - CHEF_GIT_URL=http://gerrit.onap.org/r/aai
       - AAI_CORE_VERSION=1.1.0-SNAPSHOT
       - LOCAL_USER_ID=${USER_ID}
@@ -23,7 +23,7 @@ services:
     environment:
       - AAI_CHEF_ENV=simpledemo
       - AAI_CHEF_LOC=/var/chef/aai-data/environments
-      - CHEF_BRANCH=master
+      - CHEF_BRANCH=amsterdam
       - CHEF_GIT_URL=http://gerrit.onap.org/r/aai
       - AAI_CORE_VERSION=1.1.0-SNAPSHOT
       - DISABLE_UPDATE_QUERY=true
