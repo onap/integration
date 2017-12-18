@@ -13,6 +13,7 @@ src_folders=(
 ["msb"]="$git_src_folder/msb"
 ["mso"]="$git_src_folder/mso"
 ["multicloud"]="$git_src_folder/multicloud"
+["oom"]="$git_src_folder/oom"
 ["policy"]="$git_src_folder/policy"
 ["portal"]="$git_src_folder/portal"
 ["robot"]="$git_src_folder/testsuite"
@@ -50,6 +51,7 @@ dcae/utils/buildtools"
 ["multicloud"]="multicloud multicloud/framework multicloud/openstack \
 multicloud/openstack/vmware multicloud/openstack/windriver \
 multicloud/azure"
+["oom"]="oom oom/registrator"
 ["policy"]="policy/api policy/common policy/docker \
 policy/drools-applications policy/drools-pdp policy/engine \
 policy/gui policy/pap policy/pdp"

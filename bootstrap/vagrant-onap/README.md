@@ -43,19 +43,20 @@ current options include:
 |:----------:|-------------------------------------|
 | aai        | Active and Available Inventory      |
 | appc       | Application Controller              |
+| ccsdk      | Common Controller SDK               |
 | dcae       | Data Collection Analytics & Events  |
 | mr         | Message Router                      |
 | mso        | Master Service Orchestrator         |
 | msb        | Microservices Bus Project           |
+| multicloud | Multi Cloud                         |
+| oom        | ONAP Operations Manager             |
 | policy     | Policy                              |
 | portal     | Portal                              |
 | robot      | Robot                               |
 | sdc        | Service Design & Creation           |
 | sdnc       | Software Defined Network Controller |
-| vid        | Virtual Infrastructure Development  |
 | vfc        | Virtual Function Controller         |
-| multicloud | Multi Cloud                         |
-| ccsdk      | Common Controller SDK               |
+| vid        | Virtual Infrastructure Development  |
 | vnfsdk     | VNF SDK                             |
 | vvp        | VNF Validation Program              |
 |:----------:|-------------------------------------|
