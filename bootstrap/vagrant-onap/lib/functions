@@ -161,6 +161,19 @@ function _configure_docker_settings {
     rm $docker_conf_backup
 
     echo "DOCKER_OPTS=\"-H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock\"" >> $docker_conf
+    usermod -aG docker $USER
+
+    source /etc/os-release || source /usr/lib/os-release
+    case ${ID,,} in
+        *suse)
+        ;;
+        ubuntu|debian)
+            service docker restart
+            sleep 10
+        ;;
+        rhel|centos|fedora)
+        ;;
+    esac
 }
 
 # install_nodejs() - Download and install NodeJS
@@ -208,7 +221,7 @@ function install_python_requirements {
 
 # install_docker() - Download and install docker-engine
 function install_docker {
-    if is_package_installed docker-ce; then
+    if $(docker version &>/dev/null); then
         return
     fi
     source /etc/os-release || source /usr/lib/os-release
@@ -229,8 +242,6 @@ function install_docker {
 
     install_package docker-ce
     _configure_docker_settings
-    service docker restart
-    sleep 10
 }
 
 # pull_docker_image() - Pull Docker container image from the Public Docker Registry Hub
@@ -265,8 +276,8 @@ function _install_ODL {
     if [ ! -d /opt/opendaylight/current ]; then
         mkdir -p /opt/opendaylight/
         wget "https://nexus.opendaylight.org/content/repositories/public/org/opendaylight/integration/distribution-karaf/"$odl_version"/distribution-karaf-"$odl_version".tar.gz" -P /opt/
-        tar xvf "/opt/distribution-karaf-"$odl_version".tar.gz" -C /opt/
-        mv "/opt/distribution-karaf-"$odl_version /opt/opendaylight/current
+        tar xvf "/opt/distribution-karaf-"$odl_version".tar.gz" -C /tmp/
+        mv "/tmp/distribution-karaf-"$odl_version /opt/opendaylight/current
         rm -rf "/opt/distribution-karaf-"$odl_version".tar.gz"
     fi
 }
