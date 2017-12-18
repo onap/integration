@@ -17,11 +17,14 @@ Ubuntu 14.04 ("Trusty")
 
     $ wget -q https://releases.hashicorp.com/vagrant/2.0.1/vagrant_2.0.1_x86_64.deb
     $ sudo dpkg -i vagrant_2.0.1_x86_64.deb
+
     $ echo "deb http://download.virtualbox.org/virtualbox/debian trusty contrib" >> /etc/apt/sources.list
     $ wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
     $ wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
     $ sudo apt-get update -y
     $ sudo apt-get install -y virtualbox-5.1 dkms
+
+    $ sudo apt install -y nfs-kernel-server
 
 .. end
 
@@ -32,10 +35,13 @@ CentOS
 
     $ wget -q https://releases.hashicorp.com/vagrant/2.0.1/vagrant_2.0.1_x86_64.rpm
     $ sudo yum install vagrant_2.0.1_x86_64.rpm
+
     $ wget -q http://download.virtualbox.org/virtualbox/rpm/rhel/virtualbox.repo -P /etc/yum.repos.d
     $ sudo yum --enablerepo=epel install dkms
     $ wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | rpm --import -
-    $ sudo yum install VirtualBox-5.1
+    $ sudo yum install -y VirtualBox-5.1
+
+    $ sudo yum install -y nfs-utils nfs-utils-lib
 
 .. end
 
