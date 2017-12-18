@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash -x
 # Get floating IP assigned to a server name
 
 PORT_ID=$(openstack server show -f json $1 | python -c 'import sys, json; print json.load(sys.stdin)["wrs-if:nics"][0]["nic1"]["port_id"]')
