@@ -142,6 +142,19 @@ nodes = [
     :args   => ["multicloud"],
   },
   {
+    :name   => "oom",
+    :ips    => ['10.252.0.21', "192.168.50.21"],
+    :macs   => [],
+    :cpus   => 16,
+    :cpu    => "50",
+    :ram    => 60 * 1024,
+    :groups => ["individual"],
+    :args   => ["oom"],
+    :fwds   => [
+      { :guest => 8880, :host => 8880, :guest_ip => '192.168.50.21' },
+    ]
+  },
+  {
     :name   => "policy",
     :ips    => ['10.252.0.13', "192.168.50.13"],
     :macs   => [],
@@ -251,6 +264,10 @@ nodes = [
     :ram    => 8 * 1024,
     :groups => ["individual"],
     :args   => ['openstack'],
+    :fwds   => [
+      { :guest => 80, :host => 8888, :guest_ip => '192.168.53.4' },
+      { :guest => 6080, :host => 6080, :guest_ip => '192.168.53.4' },
+    ]
   }
 ]
 
@@ -322,15 +339,14 @@ end
 
 Vagrant.configure("2") do |config|
 
-  # PROXY definitions
-    if ENV['http_proxy'] != nil and ENV['https_proxy'] != nil and ENV['no_proxy'] != nil
+    # PROXY definitions
+    if ENV['http_proxy'] != nil and ENV['https_proxy'] != nil
       if not Vagrant.has_plugin?('vagrant-proxyconf')
         system 'vagrant plugin install vagrant-proxyconf'
         raise 'vagrant-proxyconf was installed but it requires to execute again'
       end
       config.proxy.http     = ENV['http_proxy']
       config.proxy.https    = ENV['https_proxy']
-      config.proxy.no_proxy = ENV['no_proxy']
       configuration['socks_proxy'] = ENV['socks_proxy']
     end
 
@@ -356,6 +372,15 @@ Vagrant.configure("2") do |config|
 
     nodes.each do |node|
       config.vm.define node[:name] do |nodeconfig|
+
+      # NO_PROXY definitions
+      if ENV['no_proxy'] != nil
+        if not Vagrant.has_plugin?('vagrant-proxyconf')
+          system 'vagrant plugin install vagrant-proxyconf'
+          raise 'vagrant-proxyconf was installed but it requires to execute again'
+        end
+        config.proxy.no_proxy = node[:ips].join(",") + "," + ENV['no_proxy']
+      end
 
         # Common Settings:
 
@@ -384,6 +409,7 @@ Vagrant.configure("2") do |config|
           lbox.memory = node[:ram]
           lbox.nested = true
           lbox.cpu_mode = 'host-passthrough'
+          lbox.cpus = node[:cpus]
 
           # Set Network
           nodeconfig.vm.network :private_network,
@@ -392,6 +418,15 @@ Vagrant.configure("2") do |config|
           nodeconfig.vm.network :private_network,
             :ip  => node[:ips][1],
             :type => :static
+        end
+        if node.has_key? :fwds
+          node[:fwds].each do |fwd|
+            nodeconfig.vm.network :forwarded_port,
+              :guest => fwd[:guest],
+              :guest_ip => fwd[:guest_ip],
+              :host => fwd[:host],
+              :host_ip => "0.0.0.0"
+          end
         end
 
         nodeconfig.vm.provider :openstack do |obox|
@@ -426,8 +461,8 @@ Vagrant.configure("2") do |config|
 
         # Set Sync Folder
         nodeconfig.vm.synced_folder ".", "/vagrant", disabled: true
-        nodeconfig.vm.synced_folder './opt', '/opt/', create: true
-        nodeconfig.vm.synced_folder './lib', '/var/onap/', create: true
+        nodeconfig.vm.synced_folder './opt', '/opt/', create: true, type: "nfs"
+        nodeconfig.vm.synced_folder './lib', '/var/onap/', create: true, type: "nfs"
         if !is_windows
           nodeconfig.vm.synced_folder '~/.m2', '/root/.m2/', create: true
         end
