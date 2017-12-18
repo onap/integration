@@ -2,24 +2,6 @@
 
 source /var/onap/functions
 
-# _mount_external_partition() - Create partition and mount the external volume
-function _mount_external_partition {
-    cat <<EOL > /tmp/sdc_ext_volume_partitions.txt
-# partition table of /dev/sdb
-unit: sectors
-
-/dev/sdb1 : start=     2048, size=209713152, Id=83
-/dev/sdb2 : start=        0, size=        0, Id= 0
-/dev/sdb3 : start=        0, size=        0, Id= 0
-/dev/sdb4 : start=        0, size=        0, Id= 0
-EOL
-    sfdisk --force /dev/sdb < /tmp/sdc_ext_volume_partitions.txt
-    mkfs -t ext4 /dev/sdb1
-    mkdir -p /data
-    mount /dev/sdb1 /data
-    echo "/dev/sdb1  /data           ext4    errors=remount-ro,noatime,barrier=0 0       1" >> /etc/fstab
-}
-
 # _init_data_folders() - Function that initialize the data folders
 function _init_data_folders {
     mkdir -p /data/environments
@@ -82,7 +64,7 @@ function install_sdc {
 
 # init_sdc() - Function that initialize SDC services
 function init_sdc {
-    _mount_external_partition
+    mount_external_partition sdb /data/
     if [[ "$clone_repo" == "True" ]]; then
         clone_repos "sdc"
         if [[ "$compile_repo" == "True" ]]; then
