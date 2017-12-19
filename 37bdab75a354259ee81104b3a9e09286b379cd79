@@ -16,6 +16,24 @@
       "revId": "37bdab75a354259ee81104b3a9e09286b379cd79",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_2718bad2",
+        "filename": "bootstrap/vagrant-onap/lib/oom",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2017-12-19T06:07:55Z",
+      "side": 1,
+      "message": "Apparently there is an issue on the script:\n    * https://github.com/obrienlabs/onap-root/blob/master/cd.sh#L66",
+      "parentUuid": "5a93c517_07057e79",
+      "revId": "37bdab75a354259ee81104b3a9e09286b379cd79",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
