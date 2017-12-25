@@ -17,7 +17,7 @@ res=`curl -s -X GET -H "Accept: application/json" -H "Content-Type: application/
 if [[ ${res} != 0 ]]
 then
     echo "Error [${res}] while user existance check"
-    exit ${res}
+    #exit ${res}
 fi
 echo "check user existance: OK"
 
