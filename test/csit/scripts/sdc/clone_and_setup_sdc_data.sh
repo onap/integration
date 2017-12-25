@@ -1,4 +1,7 @@
 #!/bin/bash
+
+
+set -x
 #
 # ============LICENSE_START=======================================================
 # ONAP CLAMP
@@ -60,5 +63,51 @@ export HOST_IP=$IP_ADDRESS
   sed -i "s/xxx/"$ENV_NAME"/g" ${WORKSPACE}/data/environments/$ENV_NAME.json
   sed -i "s/\"ueb_url_list\":.*/\"ueb_url_list\": \""$MR_IP_ADDR","$MR_IP_ADDR"\",/g" ${WORKSPACE}/data/environments/$ENV_NAME.json
   sed -i "s/\"fqdn\":.*/\"fqdn\": [\""$MR_IP_ADDR"\", \""$MR_IP_ADDR"\"]/g" ${WORKSPACE}/data/environments/$ENV_NAME.json
+
+  
+source ${WORKSPACE}/data/clone/sdc/version.properties
+export RELEASE=$major.$minor-STAGING-latest
+export DEP_ENV=$ENV_NAME  
+  
+cp ${WORKSPACE}/data/clone/sdc/sdc-os-chef/scripts/docker_run.sh ${WORKSPACE}/test/csit/scripts/sdc/
+#sed -i "s~/data~${WORKSPACE}\/data~g" ${WORKSPACE}/test/csit/scripts/sdc/docker_run.sh
+#sed -i "s/HOST_IP=\${IP}/HOST_IP=\${HOST_IP}/g" ${WORKSPACE}/test/csit/scripts/sdc/docker_run.sh
+#sed -i "s/ENVNAME=\"\${DEP_ENV}\"/ENVNAME=\"\${ENV_NAME}\"/g" ${WORKSPACE}/test/csit/scripts/sdc/docker_run.sh
+
+source ${WORKSPACE}/data/clone/sdc/version.properties
+export RELEASE=$major.$minor-STAGING-latest
+
+
+bash -x ${WORKSPACE}/test/csit/scripts/sdc/docker_run.sh -r ${RELEASE} -p 10001 -t -e ${ENV_NAME}
+
+sleep 120
+
+#monitor sanity process 
+
+TIME_OUT=1200
+INTERVAL=20
+TIME=0
+while [ "$TIME" -lt "$TIME_OUT" ]; do
+  
+PID=`docker exec -i sdc-sanity ps -ef | grep java | awk '{print $2}'`
+echo sanity PID is -- $PID
+  
+if [ -z "$PID" ]
+ then
+    echo SDC sanity finished in $TIME seconds
+    break
+  fi
+
+  echo Sleep: $INTERVAL seconds before testing if SDC sanity completed. Total wait time up now is: $TIME seconds. Timeout is: $TIME_OUT seconds
+  sleep $INTERVAL
+  TIME=$(($TIME+$INTERVAL))
+done
+
+if [ "$TIME" -ge "$TIME_OUT" ]
+ then
+   echo TIME OUT: Sany was NOT completed in $TIME_OUT seconds... Could cause problems for tests...
+fi
+
+
 
 
