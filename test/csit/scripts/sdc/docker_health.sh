@@ -13,11 +13,11 @@ curl http://localhost:8181/sdc1/rest/healthCheck
 
 echo ""
 echo ""
-res=`curl -s -X GET -H "Accept: application/json" -H "Content-Type: application/json" -H "USER_ID: jh0003" "http://localhost:8080/sdc2/rest/v1/user/demo" | wc -l`
-if [[ ${res} != 0 ]]
+http_code=$(curl -o out.html -w '%{http_code}' -H "Accept: application/json" -H "Content-Type: application/json" -H "USER_ID: jh0003" http://localhost:8080/sdc2/rest/v1/user/demo;)
+if [[ ${http_code} != 200 ]]
 then
-    echo "Error [${res}] while user existance check"
-    exit ${res}
+    echo "Error [${http_code}] while user existance check"
+    return ${http_code}
 fi
 echo "check user existance: OK"
 
