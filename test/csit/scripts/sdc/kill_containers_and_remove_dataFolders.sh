@@ -19,6 +19,14 @@
 
 echo "This is ${WORKSPACE}/test/csit/scripts/sdc/kill_and_remove_dataFolder.sh"
 
+# copy logs to archive
+
+cp -rf ${WORKSPACE}/data/logs/sdc-sanity/ExtentReport/* ${WORKSPACE}/archives/ 2>/dev/null
+cp -rf ${WORKSPACE}/data/logs/ ${WORKSPACE}/archives/ 
+cp -rf ${WORKSPACE}/data/logs/sdc-sanity/target/*.xml ${WORKSPACE}/archives/ 2>/dev/null
+
+ls -Rt ${WORKSPACE}/archives/
+
 #kill and remove all sdc dockers
 docker stop $(docker ps -a -q --filter="name=sdc")
 docker rm $(docker ps -a -q --filter="name=sdc")
