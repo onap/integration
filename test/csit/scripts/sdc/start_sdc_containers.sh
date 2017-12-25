@@ -24,8 +24,8 @@
 
 echo "This is ${WORKSPACE}/test/csit/scripts/sdc/start_sdc_containers.sh"
 
-
-export RELEASE='1.1-STAGING-latest'
+source ${WORKSPACE}/data/clone/sdc/version.properties
+export RELEASE=$base_version-STAGING-latest
 export DEP_ENV=$ENV_NAME
 #[ -f /opt/config/nexus_username.txt ] && NEXUS_USERNAME=$(cat /opt/config/nexus_username.txt)    || NEXUS_USERNAME=release
 #[ -f /opt/config/nexus_password.txt ] && NEXUS_PASSWD=$(cat /opt/config/nexus_password.txt)      || NEXUS_PASSWD=sfWU3DFVdBr7GVxB85mTYgAW
