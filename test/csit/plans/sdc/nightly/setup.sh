@@ -16,7 +16,7 @@
 #
 # Modifications copyright (c) 2017 AT&T Intellectual Property
 #
-# Place the scripts in run order:
+## Place the scripts in run order:
 
 
 mkdir ${WORKSPACE}/archives
@@ -24,11 +24,16 @@ chmod -R 777 ${WORKSPACE}/archives
 
 source ${WORKSPACE}/test/csit/scripts/sdc/clone_and_setup_sdc_data.sh
 
-source ${WORKSPACE}/test/csit/scripts/sdc/start_sdc_containers.sh
+#source ${WORKSPACE}/test/csit/scripts/sdc/start_sdc_containers.sh
 
 source ${WORKSPACE}/test/csit/scripts/sdc/docker_health.sh
 
-source ${WORKSPACE}/test/csit/scripts/sdc/start_sdc_sanity.sh
+if [[ $? == 200 ]]
+then
+    echo "Health check passed start sanity"
+	source ${WORKSPACE}/test/csit/scripts/sdc/start_sdc_sanity.sh
+fi
+
 
 
 BE_IP=`get-instance-ip.sh sdc-BE`
