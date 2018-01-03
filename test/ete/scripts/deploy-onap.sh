@@ -6,31 +6,7 @@ fi
 
 source $WORKSPACE/test/ete/scripts/install_openstack_cli.sh
 
-# Delete all existing stacks
-STACKS=$(openstack stack list -c "Stack Name" -f value)
-
-if [ ! -z "${STACKS}" ]; then
-    echo "Deleting Stacks ${STACKS}"
-    openstack stack delete -y $STACKS
-    for STACK in ${STACKS}; do
-        until [ "DELETE_IN_PROGRESS" != "$(openstack stack show -c stack_status -f value $STACK)" ]; do
-            sleep 30
-        done
-    done
-else
-    echo "No existing stacks to delete."
-fi
-
-# miscellaneous cleanup
-openstack floating ip delete $(openstack floating ip list -c ID -f value)
-openstack port delete $(openstack port list -f value -c ID)
-openstack router delete $(openstack router list -f value -c ID)
-openstack port delete $(openstack port list -f value -c ID)
-openstack router delete $(openstack router list -f value -c ID)
-openstack port delete $(openstack port list -f value -c ID)
-openstack volume delete $(openstack volume list -f value -c ID)
-
-
+$WORKSPACE/test/ete/scripts/teardown-onap.sh
 
 STACK="ete-$(uuidgen | cut -c-8)"
 echo "New Stack Name: ${STACK}"
