@@ -1,0 +1,9 @@
+export OS_PROJECT_DOMAIN_NAME=Default
+export OS_USER_DOMAIN_NAME=Default
+export OS_PROJECT_ID=3d228d2fcbb7447bbba3cde703431bc1
+export OS_PROJECT_NAME=onap-ci-amsterdam-heat
+export OS_USERNAME=demo
+export OS_PASSWORD=demo
+export OS_AUTH_URL=http://controller.neo.futurewei.com:5000/v3
+export OS_IDENTITY_API_VERSION=3
+export OS_IMAGE_API_VERSION=2
