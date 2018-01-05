@@ -4,19 +4,20 @@ source /var/onap/functions
 
 openstack_release="newton"
 
-# _build_images() - Function that builds docker images from source code
-function _build_images {
+# _build_multicloud_images() - Function that builds docker images from source code
+function _build_multicloud_images {
     install_docker
-    install_python_requirements $multicloud_src_folder/openstack/$openstack_release
-    pushd $multicloud_src_folder/openstack/$openstack_release
-    bash build_image.sh
+    pushd ${src_folders[multicloud]}/openstack/$openstack_release
+    install_python_requirements .
+    python setup.py develop
+    #bash build_image.sh
     popd
 }
 
 # get_multicloud_images() -
 function get_multicloud_images {
     if [[ "$build_image" == "True" ]]; then
-        _build_images
+        _build_multicloud_images
     else
         pull_onap_image multicloud/openstack-$openstack_release
     fi
@@ -24,9 +25,15 @@ function get_multicloud_images {
 
 # install_multicloud() - 
 function install_multicloud {
-    pushd $multicloud_src_folder/openstack/$openstack_release
-    /opt/docker/docker-compose up -d
-    popd
+    #pushd ${src_folders[multicloud]}/openstack/$openstack_release
+    #/opt/docker/docker-compose up -d
+    #popd
+    if [[ "$build_image" == "True" ]]; then
+        multicloud-api --port 9003 --host 0.0.0.0 &
+    else
+        docker_id=`docker images | grep onap/multicloud/openstack-$openstack_release | grep latest |  awk '{print $3; exit}'`
+        docker run -d -p 0.0.0.0:9003:9003 $docker_id
+    fi
 }
 
 # init_multicloud() - Function that initialize Multi Cloud services

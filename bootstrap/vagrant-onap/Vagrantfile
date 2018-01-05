@@ -140,6 +140,9 @@ nodes = [
     :ram    => 4 * 1024,
     :groups => ["individual"],
     :args   => ["multicloud"],
+    :fwds   => [
+      { :guest => 9003, :host => 9003, :guest_ip => '192.168.50.16' },
+    ]
   },
   {
     :name   => "oom",
@@ -358,11 +361,13 @@ Vagrant.configure("2") do |config|
       config.vbguest.auto_update = false
     end
 
+    sync_type = "virtualbox"
     if provider == :libvirt
       if not Vagrant.has_plugin?('vagrant-libvirt')
         system 'vagrant plugin install vagrant-libvirt'
         raise 'vagrant-libvirt was installed but it requires to execute again'
       end
+      sync_type = "nfs"
     end
 
     if provider == :openstack
@@ -478,8 +483,8 @@ Vagrant.configure("2") do |config|
 
         # Set Sync Folder
         nodeconfig.vm.synced_folder ".", "/vagrant", disabled: true
-        nodeconfig.vm.synced_folder './opt', '/opt/', create: true, type: "nfs"
-        nodeconfig.vm.synced_folder './lib', '/var/onap/', create: true, type: "nfs"
+        nodeconfig.vm.synced_folder './opt', '/opt/', create: true, type: sync_type
+        nodeconfig.vm.synced_folder './lib', '/var/onap/', create: true, type: sync_type
         if !is_windows
           nodeconfig.vm.synced_folder '~/.m2', '/root/.m2/', create: true
         end
