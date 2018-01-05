@@ -65,7 +65,7 @@ onap/vnfsdk/refrepo-postgres,1.0.0
 openecomp/aai-resources,v1.1.0
 openecomp/aai-traversal,v1.1.0
 openecomp/appc-image,v1.2.0
-openecomp/mso,v1.1.1
+openecomp/mso,v1.1.2
 openecomp/sdc-backend,v1.1.0
 openecomp/sdc-elasticsearch,v1.1.0
 openecomp/sdc-frontend,v1.1.0
