@@ -23,7 +23,7 @@ onap/multicloud/vio,v1.0.0
 onap/multicloud/vio-vesagent,v1.0.0
 onap/oom/kube2msb,1.0.0
 onap/org.onap.dcaegen2.collectors.ves.vescollector,v1.1.0
-onap/org.onap.dcaegen2.deployments.bootstrap,v1.1.0
+onap/org.onap.dcaegen2.deployments.bootstrap,v1.1.1
 onap/org.onap.dcaegen2.platform.cdapbroker,v4.0.0
 onap/org.onap.dcaegen2.platform.configbinding,v1.2.0
 onap/org.onap.dcaegen2.platform.deployment-handler,v1.1.0
