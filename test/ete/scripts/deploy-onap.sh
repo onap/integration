@@ -26,10 +26,6 @@ cat ${ENV_FILE}
 
 #diff ${WORKSPACE}/test/ete/labs/windriver/onap-openstack-template.env ${WORKSPACE}/test/ete/labs/windriver/onap-openstack.env
 
-# reduce DCAE VM sizes
-sed -i 's|__dcaeos_flavor_id__:.*|__dcaeos_flavor_id__: { get_param: flavor_medium }|' ${YAML_FILE}
-sed -i 's|__dcaeos_flavor_id_cdap__:.*|__dcaeos_flavor_id_cdap__: { get_param: flavor_large }|' ${YAML_FILE}
-
 openstack stack create -t ${YAML_FILE} -e ${WORKSPACE}/test/ete/labs/windriver/onap-openstack.env $STACK
 
 while [ "CREATE_IN_PROGRESS" == "$(openstack stack show -c stack_status -f value $STACK)" ]; do
