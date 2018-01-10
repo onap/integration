@@ -18,26 +18,44 @@ fi
 
 source $WORKSPACE/test/ete/scripts/install_openstack_cli.sh
 
-$WORKSPACE/test/ete/scripts/teardown-onap.sh
-
-STACK="ete-$(uuidgen | cut -c-8)"
-echo "New Stack Name: ${STACK}"
-
 
 SENTINEL='Docker versions and branches'
-YAML_FILE=${ONAP_WORKDIR}/demo/heat/ONAP/onap_openstack.yaml
+
+YAML_FILE=${LAB_DIR}/onap_openstack.yaml
 ENV_FILE=${LAB_DIR}/onap-openstack.env
+
+# copy heat template to WORKSPACE
+cp ${ONAP_WORKDIR}/demo/heat/ONAP/onap_openstack.yaml ${YAML_FILE}
+
+# generate final env file
+pushd ${ONAP_WORKDIR}/demo
 cp ${ONAP_WORKDIR}/demo/heat/ONAP/onap_openstack.env ${LAB_DIR}/onap-openstack-demo.env
 envsubst < ${LAB_DIR}/onap-openstack-template.env | sed -n "1,/${SENTINEL}/p" > ${ENV_FILE}
-pushd ${ONAP_WORKDIR}/demo
-echo "  # Rest of the file was AUTO-GENERATED from"
+echo "  # Rest of the file was AUTO-GENERATED from" | tee -a ${ENV_FILE}
 echo "  #" $(git config --get remote.origin.url) heat/ONAP/onap_openstack.env $(git rev-parse HEAD) | tee -a ${ENV_FILE}
 popd
 sed "1,/${SENTINEL}/d" ${ONAP_WORKDIR}/demo/heat/ONAP/onap_openstack.env >> ${ENV_FILE}
 cat ${ENV_FILE}
 
+# generate final heat template
+# add apt proxy to heat template if applicable
+if [ -x $LAB_DIR/apt-proxy.sh ]; then
+    $LAB_DIR/apt-proxy.sh ${YAML_FILE}
+    diff ${ONAP_WORKDIR}/demo/heat/ONAP/onap_openstack.yaml ${YAML_FILE}
+fi
+
+
+#exit 0
+
 #diff ${LAB_DIR}/onap-openstack-template.env ${LAB_DIR}/onap-openstack.env
 
+
+# tear down old deployment
+$WORKSPACE/test/ete/scripts/teardown-onap.sh
+
+# create new stack
+STACK="ete-$(uuidgen | cut -c-8)"
+echo "New Stack Name: ${STACK}"
 openstack stack create -t ${YAML_FILE} -e ${LAB_DIR}/onap-openstack.env $STACK
 
 while [ "CREATE_IN_PROGRESS" == "$(openstack stack show -c stack_status -f value $STACK)" ]; do
