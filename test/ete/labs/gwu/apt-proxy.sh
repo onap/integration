@@ -3,7 +3,7 @@ sed -i '/#!\/bin\/bash/a\
             mkdir -p /etc/docker\
             cat > /etc/docker/daemon.json <<EOF\
             {\
-              "insecure-registries" : ["stack.local.enacct.com:5000"]\
+              "insecure-registries" : ["docker-proxy.local.enacct.com:5000"]\
             }\
             EOF\
             cat > /etc/apt/apt.conf.d/30proxy<<EOF\
