@@ -13,7 +13,7 @@ MULTICLOUD_IP=$($WORKSPACE/test/ete/scripts/get-floating-ip.sh onap-multi-servic
 
 export MULTICLOUD_PLUGIN_ENDPOINT=http://$MULTICLOUD_IP:9005/api/multicloud-titanium_cloud/v0/pod25_RegionOne
 
-export TOKEN=$(curl -v -s -H "Content-Type: application/json" -X POST -d '{"auth": {"identity": {"methods": ["password"],"password": {"user": {"name": "demo","password": "onapdemo"}}},"scope": {"project":{"domain":{"name":"Default"},"name": "'$1'" } }}}'  $MULTICLOUD_PLUGIN_ENDPOINT/identity/v3/auth/tokens  2>&1 | grep X-Subject-Token | sed "s/^.*: //")
+export TOKEN=$(curl -v -s -H "Content-Type: application/json" -X POST -d '{"auth": {"identity": {"methods": ["password"],"password": {"user": {"name": "'$OS_USERNAME'","password": "'$OS_PASSWORD'"}}},"scope": {"project":{"domain":{"name":"Default"},"name": "'$1'" } }}}'  $MULTICLOUD_PLUGIN_ENDPOINT/identity/v3/auth/tokens  2>&1 | grep X-Subject-Token | sed "s/^.*: //")
 
 
 ZONES=$(curl -v -s  -H "Content-Type: application/json" -H "X-Auth-Token: $TOKEN" -X GET $MULTICLOUD_PLUGIN_ENDPOINT/dns-delegate/v2/zones | jq '.["zones"][] | .name' | tr -d '"' )
