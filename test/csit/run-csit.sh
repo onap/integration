@@ -94,13 +94,15 @@ if ! type pybot > /dev/null; then
 fi
 
 # install required Robot libraries
-pip install --upgrade robotframework-extendedselenium2library
+pip install robotframework-selenium2library==1.8.0 robotframework-extendedselenium2library==0.9.1
 
 # install eteutils
 mkdir -p ${ROBOT_VENV}/src/onap
 rm -rf ${ROBOT_VENV}/src/onap/testsuite
 git clone https://gerrit.onap.org/r/testsuite/python-testing-utils.git ${ROBOT_VENV}/src/onap/testsuite/python-testing-utils
 pip install --upgrade ${ROBOT_VENV}/src/onap/testsuite/python-testing-utils
+
+pip freeze
 
 # install chrome driver
 if [ ! -x ${ROBOT_VENV}/bin/chromedriver ]; then
