@@ -141,7 +141,7 @@ function _configure_docker_settings {
     local chameleonsocks_filename=chameleonsocks.sh
     local max_concurrent_downloads=${1:-3}
 
-    cp $docker_conf $docker_conf_backup
+    cp ${docker_conf} ${docker_conf_backup}
     if [ $http_proxy ]; then
         echo "export http_proxy=$http_proxy" >> $docker_conf
     fi
@@ -156,10 +156,10 @@ function _configure_docker_settings {
             port=$(echo $socks_proxy | sed -e "s/^.*://")
             PROXY=$socks PORT=$port ./$chameleonsocks_filename --install
             rm $chameleonsocks_filename
-            cp $docker_conf_backup $docker_conf
+            cp ${docker_conf_backup} ${docker_conf}
         fi
     fi
-    rm $docker_conf_backup
+    rm ${docker_conf_backup}
 
     echo "DOCKER_OPTS=\"-H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock --max-concurrent-downloads $max_concurrent_downloads \"" >> $docker_conf
     usermod -aG docker $USER
