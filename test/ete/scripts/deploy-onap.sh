@@ -85,7 +85,7 @@ ssh-keygen -R ${ROBOT_IP}
 
 SSH_KEY=~/.ssh/onap_key
 
-until ssh -o StrictHostKeychecking=no -i ${SSH_KEY} root@${ROBOT_IP} "docker ps | grep -q openecompete_container"
+until ssh -o StrictHostKeychecking=no -i ${SSH_KEY} ubuntu@${ROBOT_IP} "sudo docker ps" | grep openecompete_container
 do
       sleep 2m
 done
