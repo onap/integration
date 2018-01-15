@@ -24,11 +24,11 @@ chmod -R 777 ${WORKSPACE}/archives
 
 source ${WORKSPACE}/test/csit/scripts/sdc/clone_and_setup_sdc_data.sh
 
-source ${WORKSPACE}/test/csit/scripts/sdc/start_sdc_containers.sh
+#source ${WORKSPACE}/test/csit/scripts/sdc/start_sdc_containers.sh
 
-source ${WORKSPACE}/test/csit/scripts/sdc/docker_health.sh
+#source ${WORKSPACE}/test/csit/scripts/sdc/docker_health.sh
 
-source ${WORKSPACE}/test/csit/scripts/sdc/start_sdc_sanity.sh
+#source ${WORKSPACE}/test/csit/scripts/sdc/start_sdc_sanity.sh
 
 
 BE_IP=`get-instance-ip.sh sdc-BE`
