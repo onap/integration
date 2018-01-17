@@ -19,13 +19,24 @@
 # Place the scripts in run order:
 SCRIPTS="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source ${WORKSPACE}/test/csit/scripts/appc/script1.sh
+amsterdam="$(echo ${WORKSPACE} | grep amsterdam | wc -l)"
+
+if [ "$amsterdam" != "1" ]; then
+  export APPC_DOCKER_IMAGE_VERSION=1.3.0-SNAPSHOT-latest
+  export CCSDK_DOCKER_IMAGE_VERSION=0.1-STAGING-latest
+  export BRANCH=master
+  export SOLUTION_NAME=onap
+else
+  export APPC_DOCKER_IMAGE_VERSION=v1.2.0
+  export CCSDK_DOCKER_IMAGE_VERSION=v0.1.0
+  export BRANCH=amsterdam
+  export SOLUTION_NAME=openecomp
+fi
 
 export NEXUS_USERNAME=docker
 export NEXUS_PASSWD=docker
 export NEXUS_DOCKER_REPO=nexus3.onap.org:10001
 export DMAAP_TOPIC=AUTO
-export APPC_DOCKER_IMAGE_VERSION=1.3.0-SNAPSHOT-latest
-export CCSDK_DOCKER_IMAGE_VERSION=0.1-STAGING-latest
 
 export MTU=$(/sbin/ifconfig | grep MTU | sed 's/.*MTU://' | sed 's/ .*//' | sort -n | head -1)
 
@@ -37,14 +48,14 @@ fi
 # Clone APPC repo to get docker-compose for APPC
 mkdir -p $WORKSPACE/archives/appc
 cd $WORKSPACE/archives
-git clone -b master --single-branch http://gerrit.onap.org/r/appc/deployment.git appc
+git clone -b $BRANCH --single-branch http://gerrit.onap.org/r/appc/deployment.git appc
 cd $WORKSPACE/archives/appc
 git pull
 cd $WORKSPACE/archives/appc/docker-compose
 sed -i "s/DMAAP_TOPIC_ENV=.*/DMAAP_TOPIC_ENV="$DMAAP_TOPIC"/g" docker-compose.yml
 docker login -u $NEXUS_USERNAME -p $NEXUS_PASSWD $NEXUS_DOCKER_REPO
-docker pull $NEXUS_DOCKER_REPO/onap/appc-image:$APPC_DOCKER_IMAGE_VERSION
-docker tag $NEXUS_DOCKER_REPO/onap/appc-image:$APPC_DOCKER_IMAGE_VERSION onap/appc-image:latest
+docker pull $NEXUS_DOCKER_REPO/${SOLUTION_NAME}/appc-image:$APPC_DOCKER_IMAGE_VERSION
+docker tag $NEXUS_DOCKER_REPO/${SOLUTION_NAME}/appc-image:$APPC_DOCKER_IMAGE_VERSION ${SOLUTION_NAME}/appc-image:latest
 docker pull $NEXUS_DOCKER_REPO/onap/ccsdk-dgbuilder-image:$CCSDK_DOCKER_IMAGE_VERSION
 docker tag $NEXUS_DOCKER_REPO/onap/ccsdk-dgbuilder-image:$CCSDK_DOCKER_IMAGE_VERSION onap/ccsdk-dgbuilder-image:latest
 # start APPC containers with docker compose and configuration from docker-compose.yml
