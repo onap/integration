@@ -1,0 +1,70 @@
+heat_template_version: 2015-10-15
+description: Launch ONAP with OOM Kubernetes
+
+parameters:
+  public_net_id:
+    type: string
+    description: The ID of the Public network for floating IP address allocation
+
+resources:
+  k8s_vm:
+    type: OS::Nova::Server
+    properties:
+      name: k8s
+      image: xenial
+      flavor: m1.xxlarge
+      key_name: mykey
+      networks:
+      - network: { get_param: public_net_id }
+      user_data_format: RAW
+      user_data: |
+        #!/bin/bash -x
+        echo `hostname -I` `hostname` >> /etc/hosts
+        mkdir -p /etc/docker
+        cat > /etc/docker/daemon.json <<EOF
+        {
+          "insecure-registries" : ["192.168.1.51:5000"]
+        }
+        EOF
+        cat > /etc/apt/apt.conf.d/30proxy<<EOF
+        Acquire::http { Proxy "http://192.168.1.51:3142"; };
+        Acquire::https::Proxy "DIRECT";
+        EOF
+        apt-get -y update
+        apt-get -y install docker.io
+        usermod -aG docker ubuntu
+
+  rancher_vm:
+    type: OS::Nova::Server
+    properties:
+      name: rancher
+      image: xenial
+      flavor: m1.medium
+      key_name: mykey
+      networks:
+      - network: { get_param: public_net_id }
+      user_data_format: RAW
+      user_data:
+        str_replace:
+          params:
+            __k8s_ip_addr__: { get_attr: [k8s_vm, first_address] }
+          template: |
+            #!/bin/bash -x
+            mkdir -p /opt/config
+            echo "__k8s_ip_addr__" > /opt/config/k8s_ip_addr.txt
+            echo `hostname -I` `hostname` >> /etc/hosts
+            mkdir -p /etc/docker
+            cat > /etc/docker/daemon.json <<EOF
+            {
+              "insecure-registries" : ["192.168.1.51:5000"]
+            }
+            EOF
+            cat > /etc/apt/apt.conf.d/30proxy<<EOF
+            Acquire::http { Proxy "http://192.168.1.51:3142"; };
+            Acquire::https::Proxy "DIRECT";
+            EOF
+            apt-get -y update
+            apt-get -y install docker.io
+            usermod -aG docker ubuntu
+            docker run --restart unless-stopped -d -p 8080:8080 rancher/server:v1.6.10
+
