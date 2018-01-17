@@ -32,6 +32,10 @@ function configure_deploy {
     ip_address=$(ip route get $network_id | awk '{ print $6; exit }')
     internal_vip_address=$(get_next_ip $ip_address)
 
+    if [[ `env | grep -i "proxy"` ]]; then
+        add_no_proxy_value $internal_vip_address
+    fi
+
     mkdir -p $kolla_config
     cp /var/onap/files/globals.yml $kolla_globals
     cp /var/onap/files/passwords.yml $kolla_passwords
