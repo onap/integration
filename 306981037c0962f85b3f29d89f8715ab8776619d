@@ -22,6 +22,30 @@
       "revId": "306981037c0962f85b3f29d89f8715ab8776619d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_a306d01e",
+        "filename": "bootstrap/vagrant-onap/lib/openstack",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 299
+      },
+      "writtenOn": "2018-01-18T19:59:03Z",
+      "side": 1,
+      "message": "Well, I think that we want to add this if any proxy, including http_proxy and https_proxy has been defined actually. Even if no_proxy hasn\u0027t been added yet we know this will be an internal address and we should add no_proxy to the env. I think this way might be cleaner than\n\nif [[ $http_proxy ]] || [[ $https_proxy ]] || [ $HTTP__PROXY ]] ... etc\n\nWhat do you think?",
+      "parentUuid": "5a93c517_a39330f9",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 35,
+        "endChar": 42
+      },
+      "revId": "306981037c0962f85b3f29d89f8715ab8776619d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
