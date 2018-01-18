@@ -53,7 +53,7 @@ echo export RANCHER_ACCESS_KEY=`jq -r '.publicValue' apikeys.json` >> api-keys-r
 echo export RANCHER_SECRET_KEY=`jq -r '.secretValue' apikeys.json` >> api-keys-rc
 source api-keys-rc
 
-curl -u "${RANCHER_ACCESS_KEY}:${RANCHER_SECRET_KEY}" -X DELETE -H 'Content-Type: application/json' "http://$RANCHER_IP:8080/v2-beta/projects/$OLD_PID"
+curl -s -u "${RANCHER_ACCESS_KEY}:${RANCHER_SECRET_KEY}" -X DELETE -H 'Content-Type: application/json' "http://$RANCHER_IP:8080/v2-beta/projects/$OLD_PID"
 
 until [ ! -z "$TEMPLATE_ID" ] && [ "$TEMPLATE_ID" != "null" ]; do
     sleep 5
@@ -61,7 +61,7 @@ until [ ! -z "$TEMPLATE_ID" ] && [ "$TEMPLATE_ID" != "null" ]; do
     TEMPLATE_ID=$(jq -r '.data[0].id' projectTemplatesKubernetes.json)
 done
 
-curl -u "${RANCHER_ACCESS_KEY}:${RANCHER_SECRET_KEY}" -X POST -H 'Content-Type: application/json' -d '{ "name":"oom", "projectTemplateId":"'$TEMPLATE_ID'" }' "http://$RANCHER_IP:8080/v2-beta/projects" | tee project.json
+curl -s -u "${RANCHER_ACCESS_KEY}:${RANCHER_SECRET_KEY}" -X POST -H 'Content-Type: application/json' -d '{ "name":"oom", "projectTemplateId":"'$TEMPLATE_ID'" }' "http://$RANCHER_IP:8080/v2-beta/projects" | tee project.json
 PID=`jq -r '.id' project.json`
 echo export RANCHER_URL=http://$RANCHER_IP:8080/v1/projects/$PID >> api-keys-rc
 source api-keys-rc
@@ -128,17 +128,33 @@ sed -i "s/kubeMasterAuthToken:.*/kubeMasterAuthToken: $KUBETOKEN/" ~/oom/kuberne
 # Create or edit ~/oom/kubernetes/config/onap-parameters.yaml
 cp ~/oom/kubernetes/config/onap-parameters-sample.yaml ~/oom/kubernetes/config/onap-parameters.yaml
 cat >> ~/oom/kubernetes/config/onap-parameters.yaml <<EOF
+
+####################################
+# Overridden by k8s_vm_entrypoint.sh
+####################################
+
 OPENSTACK_UBUNTU_14_IMAGE: "__ubuntu_1404_image__"
+OPENSTACK_UBUNTU_16_IMAGE: "__ubuntu_1604_image__"
+OPENSTACK_CENTOS_7_IMAGE: "__centos_7_image__"
 OPENSTACK_PUBLIC_NET_ID: "__public_net_id__"
-OPENSTACK_OAM_NETWORK_ID: "__oam_network_id__"
-OPENSTACK_OAM_SUBNET_ID: "__oam_subnet_id__"
+OPENSTACK_PUBLIC_NET_NAME: "__public_net_name__"
 OPENSTACK_OAM_NETWORK_CIDR: "__oam_network_cidr__"
 OPENSTACK_TENANT_NAME: "__openstack_tenant_name__"
 OPENSTACK_TENANT_ID: "__openstack_tenant_id__"
 OPENSTACK_USERNAME: "__openstack_username__"
 OPENSTACK_API_KEY: "__openstack_api_key__"
 OPENSTACK_KEYSTONE_URL: "__keystone_url__"
-DEPLOY_DCAE: "false"
+DCAE_IP_ADDR: "__dcae_ip_addr__"
+DCAE_KEYSTONE_URL: "__keystone_url__/v2.0"
+DNS_LIST: "__dns_list__"
+DNS_FORWARDER: "__dns_forwarder__"
+EXTERNAL_DNS: "8.8.8.8"
+DNSAAS_REGION: "RegionOne"
+DNSAAS_KEYSTONE_URL: "__keystone_url__/v2.0"
+DNSAAS_TENANT_NAME: "__openstack_tenant_name__"
+DNSAAS_USERNAME: "__openstack_username__"
+DNSAAS_PASSWORD: "__openstack_api_key__"
+
 EOF
 cat ~/oom/kubernetes/config/onap-parameters.yaml
 
@@ -163,10 +179,18 @@ until [ $(kubectl get pods --namespace onap -a | tail -n +2 | grep -c Completed)
     sleep 10
 done
 
+# version control the config to see what's happening
+cd /dockerdata-nfs/
+git init
+git config user.email "root@k8s"
+git config user.name "root"
+git add -A
+git commit -m "initial commit"
+
 # Run ONAP:
 cd ~/oom/kubernetes/oneclick/
 ./createAll.bash -n onap
 
 # Check ONAP status:
-sleep 30
+sleep 3
 kubectl get pods --all-namespaces
