@@ -91,7 +91,7 @@ git clone -b amsterdam http://gerrit.onap.org/r/oom
 
 # Update values.yaml to point to docker-proxy instead of nexus3:
 cd ~/oom/kubernetes
-perl -p -i -e 's/nexus3.onap.org:10001/__docker_proxy__/g' `find ./ -name values.yaml`
+perl -p -i -e 's/nexus3.onap.org:10001/__docker_proxy__/g' `find ./ -name values.yaml` oneclick/setenv.bash
 
 KUBETOKEN=$(echo -n 'Basic '$(echo -n "$RANCHER_ACCESS_KEY:$RANCHER_SECRET_KEY" | base64 -w 0) | base64 -w 0)
 
@@ -116,41 +116,38 @@ users:
   user:
     token: "$KUBETOKEN"
 EOF
-cat ~/.kube/config
-
-# Update ~/oom/kubernetes/kube2msb/values.yaml kubeMasterAuthToken to use the token from ~/.kube/config
-sed -i "s/kubeMasterAuthToken:.*/kubeMasterAuthToken: $KUBETOKEN/" ~/oom/kubernetes/kube2msb/values.yaml
 
 export KUBECONFIG=/root/.kube/config
 kubectl config view
 
-# wait for kubernetes to initialze
-sleep 100
-until [ $(kubectl get pods --all-namespaces | tail -n +2 | grep -c Running) -ge 6 ]; do
-    sleep 10
-done
+# Update ~/oom/kubernetes/kube2msb/values.yaml kubeMasterAuthToken to use the token from ~/.kube/config
+sed -i "s/kubeMasterAuthToken:.*/kubeMasterAuthToken: $KUBETOKEN/" ~/oom/kubernetes/kube2msb/values.yaml
 
 # Put your onap_key ssh private key in ~/.ssh/onap_key
 
 # Create or edit ~/oom/kubernetes/config/onap-parameters.yaml
 cp ~/oom/kubernetes/config/onap-parameters-sample.yaml ~/oom/kubernetes/config/onap-parameters.yaml
 cat >> ~/oom/kubernetes/config/onap-parameters.yaml <<EOF
-OPENSTACK_UBUNTU_14_IMAGE: "trusty"
-OPENSTACK_PUBLIC_NET_ID: "024582bd-ef9b-48b9-9e70-e6732559d9df"
-OPENSTACK_OAM_NETWORK_ID: "a899f36c-28e1-4aa9-9451-1b9f41feefa5"
-OPENSTACK_OAM_SUBNET_ID: "b9627602-2908-4aee-94b5-4f1dc92017df"
-OPENSTACK_OAM_NETWORK_CIDR: "172.16.1.0/24"
-OPENSTACK_USERNAME: "demo"
-OPENSTACK_API_KEY: "demo"
-OPENSTACK_TENANT_NAME: "demo"
-OPENSTACK_TENANT_ID: "__public_net_id__"
-OPENSTACK_REGION: "RegionOne"
-OPENSTACK_KEYSTONE_URL: "http://192.168.1.11:5000"
-OPENSTACK_FLAVOUR_MEDIUM: "m1.medium"
-OPENSTACK_SERVICE_TENANT_NAME: "service"
-DMAAP_TOPIC: "AUTO"
-DEMO_ARTIFACTS_VERSION: "1.1.0-SNAPSHOT"
+OPENSTACK_UBUNTU_14_IMAGE: "__ubuntu_1404_image__"
+OPENSTACK_PUBLIC_NET_ID: "__public_net_id__"
+OPENSTACK_OAM_NETWORK_ID: "__oam_network_id__"
+OPENSTACK_OAM_SUBNET_ID: "__oam_subnet_id__"
+OPENSTACK_OAM_NETWORK_CIDR: "__oam_network_cidr__"
+OPENSTACK_TENANT_NAME: "__openstack_tenant_name__"
+OPENSTACK_TENANT_ID: "__openstack_tenant_id__"
+OPENSTACK_USERNAME: "__openstack_username__"
+OPENSTACK_API_KEY: "__openstack_api_key__"
+OPENSTACK_KEYSTONE_URL: "__keystone_url__"
+DEPLOY_DCAE: "false"
 EOF
+cat ~/oom/kubernetes/config/onap-parameters.yaml
+
+
+# wait for kubernetes to initialze
+sleep 100
+until [ $(kubectl get pods --namespace kube-system | tail -n +2 | grep -c Running) -ge 6 ]; do
+    sleep 10
+done
 
 # Source the environment file:
 cd ~/oom/kubernetes/oneclick/
@@ -171,3 +168,5 @@ cd ~/oom/kubernetes/oneclick/
 ./createAll.bash -n onap
 
 # Check ONAP status:
+sleep 30
+kubectl get pods --all-namespaces
