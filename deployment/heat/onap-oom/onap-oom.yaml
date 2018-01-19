@@ -109,7 +109,7 @@ resources:
     type: OS::Nova::Server
     properties:
       name: rancher
-      image: xenial
+      image: { get_param: ubuntu_1604_image }
       flavor: { get_param: rancher_vm_flavor }
       key_name: onap_key
       networks:
@@ -127,7 +127,7 @@ resources:
     type: OS::Nova::Server
     properties:
       name: k8s
-      image: xenial
+      image: { get_param: ubuntu_1604_image }
       flavor: { get_param: k8s_vm_flavor }
       key_name: onap_key
       networks:
