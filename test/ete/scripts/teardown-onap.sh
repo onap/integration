@@ -11,7 +11,7 @@ $WORKSPACE/test/ete/scripts/dns-zones/delete-dns-zones.sh $OS_PROJECT_NAME
 sleep 1
 
 # delete all Desigate DNS zones
-ZONES=$(openstack zone list -c "Stack Name" -f value)
+ZONES=$(openstack zone list -c "id" -f value)
 for ZONE in ${ZONES}; do
     openstack zone delete $ZONE
 done
