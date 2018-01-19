@@ -16,10 +16,6 @@ parameters:
     type: string
     description: The name of the Public network referred by public_net_id
 
-  dns_list:
-    type: comma_delimited_list
-    description: List of External DNS for OAM ONAP network
-
   oam_network_cidr:
     type: string
     description: CIDR of the OAM ONAP network
@@ -71,6 +67,37 @@ parameters:
     type: string
     description: the forwarder address for setting up ONAP's private DNS server
 
+  external_dns:
+    type: string
+    description: Public IP of the external DNS for ONAP network
+
+  dnsaas_proxy_enable:
+    type: string
+    description: whether to enable DNSaaS proxy via multicloud
+
+  dnsaas_region:
+    type: string
+    description: the region of the cloud instance providing the Designate DNS as a Service
+
+  dnsaas_keystone_url:
+    type: string
+    description: the keystone URL of the cloud instance providing the Designate DNS as a Service
+
+  dnsaas_username:
+    type: string
+    description: the username of the cloud instance providing the Designate DNS as a Service
+
+  dnsaas_password:
+    type: string
+    description: the password of the cloud instance providing the Designate DNS as a Service
+
+  dnsaas_tenant_name:
+    type: string
+    description: the name of the tenant in the cloud instance providing the Designate DNS as a Service
+
+  dcae_keystone_url:
+    type: string
+    description: the keystone URL for DCAE to use (via MultiCloud)
 
 resources:
   random-str:
@@ -123,8 +150,16 @@ resources:
             __ubuntu_1604_image__: { get_param: ubuntu_1604_image }
             __centos_7_image__: { get_param: centos_7_image }
             __keystone_url__: { get_param: keystone_url }
+            __dcae_keystone_url__: { get_param: dcae_keystone_url }
             __dcae_ip_addr__: { get_param: dcae_ip_addr }
-            __dns_list__: { get_param: [dns_list, 0] }
             __dns_forwarder__: { get_param: dns_forwarder }
+            __external_dns__: { get_param: external_dns }
+            __dnsaas_proxy_enable__: { get_param: dnsaas_proxy_enable }
+            __dnsaas_keystone_url__: { get_param: dnsaas_keystone_url }
+            __dnsaas_region__: { get_param: dnsaas_region }
+            __dnsaas_tenant_name__: { get_param: dnsaas_tenant_name }
+            __dnsaas_username__: { get_param: dnsaas_username }
+            __dnsaas_password__: { get_param: dnsaas_password }
           template:
             get_file: k8s_vm_entrypoint.sh
+
