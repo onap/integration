@@ -77,6 +77,16 @@ function asserts_file_exist {
     fi
 }
 
+# asserts_env_set() - Function that verities that an environment variable is set
+function asserts_env_set {
+    local variable=$1
+    local error_msg=${2:-"$variable wasn't set"}
+
+    if [ -z ${variable+x} ]; then
+        raise_error $error_msg
+    fi
+}
+
 # raise_error() - Function that prints and exits the execution
 function raise_error {
     echo $@
