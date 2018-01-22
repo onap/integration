@@ -330,7 +330,7 @@ function build_docker_image {
         install_maven
         # Cleanup external repo
         sed -i 's|${docker.push.registry}/||g' pom.xml
-        local docker_build="mvn clean package docker:build"
+        local docker_build="mvn clean package docker:build -DskipTests=true -Dmaven.test.skip=true -Dmaven.javadoc.skip=true"
         if [ $profile ]; then
             docker_build+=" -P $profile"
         fi

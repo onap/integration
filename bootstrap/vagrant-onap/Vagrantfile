@@ -45,9 +45,13 @@ nodes = [
     :macs   => [],
     :cpus   => 2,
     :cpu    => "50",
-    :ram    => 4 * 1024,
+    :ram    => 6 * 1024,
     :groups => ["individual"],
-    :args   => ["aai"]
+    :args   => ["aai"],
+    :fwds   => [
+      { :guest => 8446, :host => 8446, :guest_ip => '192.168.50.6' },
+      { :guest => 9446, :host => 9446, :guest_ip => '192.168.50.6' },
+    ]
   },
   {
     :name   => "all-in-one",

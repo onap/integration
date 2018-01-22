@@ -23,7 +23,7 @@ function pull_openecomp_image {
     local image=$1
     local tag=$2
     docker_openecomp_login
-    pull_docker_image ${nexus_docker_repo:-nexus3.onap.org:10001}/openecomp/${image}:${docker_version-latest} $tag
+    pull_docker_image ${nexus_docker_repo:-nexus3.onap.org:10001}/openecomp/${image}:${docker_version:-latest} $tag
     docker logout
 }
 
@@ -32,7 +32,7 @@ function pull_onap_image {
     local image=$1
     local tag=$2
     docker_openecomp_login
-    pull_docker_image ${nexus_docker_repo:-nexus3.onap.org:10001}/onap/${image}:${docker_version-latest} $tag
+    pull_docker_image ${nexus_docker_repo:-nexus3.onap.org:10001}/onap/${image}:${docker_version:-latest} $tag
     docker logout
 }
 

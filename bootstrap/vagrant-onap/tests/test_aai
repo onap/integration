@@ -5,7 +5,7 @@ source /var/onap/aai
 
 covered_functions=(
 #"install_hadoop" "install_haproxy" "clone_all_aai_repos" "compile_aai_repos" "setup_titan" "start_aai_microservices" "install_hbase" "install_ajsc_aai" "install_model_loader"
-"install_hadoop" "install_haproxy" "clone_all_aai_repos" "compile_aai_repos" "setup_titan" "install_hbase" "install_ajsc_aai" "install_model_loader"
+"install_hadoop" "install_haproxy" "clone_all_aai_repos" "compile_aai_repos" "setup_titan" "install_hbase"
 )
 
 # test_install_hadoop() - Verify that Hadoop is downloaded and started properly
@@ -91,22 +91,6 @@ function test_install_hbase {
     install_hbase
 
     asserts_image_running aai-hbase-${hbase_version}
-}
-
-# test_install_ajsc_aai() - Verify that AJSC AAI service is up and running properly
-function test_install_ajsc_aai {
-    clone_repos "aai"
-    install_ajsc_aai
-
-    asserts_image_running openecomp/ajsc-aai
-}
-
-# test_install_model_loader() - Verify that Model AAI service is up and running properly
-function test_install_model_loader {
-    clone_repos "aai"
-    install_model_loader
-
-    asserts_image openecomp/model-loader
 }
 
 if [ "$1" != '*' ]; then
