@@ -164,6 +164,10 @@ resources:
             get_file: k8s_vm_entrypoint.sh
 
 outputs:
+  rancher_vm_ip:
+    description: The IP address of the rancher instance
+    value: { get_attr: [rancher_vm, first_address] }
+
   k8s_vm_ip:
     description: The IP address of the k8s instance
     value: { get_attr: [k8s_vm, first_address] }
