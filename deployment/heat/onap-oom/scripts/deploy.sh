@@ -1,5 +1,4 @@
 #!/bin/bash -x
-. $WORKSPACE/test/ete/labs/windriver/Integration-Jenkins-openrc
 
 if [ -z "$WORKSPACE" ]; then
     export WORKSPACE=`git rev-parse --show-toplevel`
