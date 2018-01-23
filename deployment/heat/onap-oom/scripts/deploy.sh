@@ -30,7 +30,7 @@ for n in $(seq 1 5); do
     sleep 10
 done
 
-if [ ! timeout 1 ping -c 1 "$K8S_IP" ] && [ ! timeout 1 ping -c 1 "$RANCHER_IP" ]; then
+if ! timeout 1 ping -c 1 "$K8S_IP" || ! timeout 1 ping -c 1 "$RANCHER_IP"; then
     exit 2
 fi
 
