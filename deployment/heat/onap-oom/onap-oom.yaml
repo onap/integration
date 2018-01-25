@@ -60,9 +60,6 @@ parameters:
     type: string
     description: Name of the Ubuntu 14.04 image
 
-  dcae_ip_addr:
-    type: string
-
   dns_forwarder:
     type: string
     description: the forwarder address for setting up ONAP's private DNS server
@@ -79,6 +76,10 @@ parameters:
     type: string
     description: the region of the cloud instance providing the Designate DNS as a Service
 
+  dnsaas_proxied_keystone_url_path:
+    type: string
+    description: the proxy keystone URL path for DCAE to use (via MultiCloud)
+
   dnsaas_keystone_url:
     type: string
     description: the keystone URL of the cloud instance providing the Designate DNS as a Service
@@ -91,19 +92,53 @@ parameters:
     type: string
     description: the password of the cloud instance providing the Designate DNS as a Service
 
+  dnsaas_tenant_id:
+    type: string
+    description: the ID of the tenant in the cloud instance providing the Designate DNS as a Service
+
   dnsaas_tenant_name:
     type: string
     description: the name of the tenant in the cloud instance providing the Designate DNS as a Service
-
-  dcae_keystone_url:
-    type: string
-    description: the keystone URL for DCAE to use (via MultiCloud)
 
 resources:
   random-str:
     type: OS::Heat::RandomString
     properties:
       length: 4
+
+  # ONAP management private network
+  oam_network:
+    type: OS::Neutron::Net
+    properties:
+      name:
+        str_replace:
+          template: oam_network_rand
+          params:
+            rand: { get_resource: random-str }
+
+  oam_subnet:
+    type: OS::Neutron::Subnet
+    properties:
+      name:
+        str_replace:
+          template: oam_network_rand
+          params:
+            rand: { get_resource: random-str }
+      network_id: { get_resource: oam_network }
+      cidr: { get_param: oam_network_cidr }
+      dns_nameservers: [ get_param: dns_forwarder ]
+
+  router:
+    type: OS::Neutron::Router
+    properties:
+      external_gateway_info:
+        network: { get_param: public_net_id }
+
+  router_interface:
+    type: OS::Neutron::RouterInterface
+    properties:
+      router_id: { get_resource: router }
+      subnet_id: { get_resource: oam_subnet }
 
   rancher_vm:
     type: OS::Nova::Server
@@ -123,6 +158,18 @@ resources:
           template:
             get_file: rancher_vm_entrypoint.sh
 
+  k8s_private_port:
+    type: OS::Neutron::Port
+    properties:
+      network: { get_resource: oam_network }
+      fixed_ips: [{"subnet": { get_resource: oam_subnet }}]
+
+  k8s_floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network_id: { get_param: public_net_id }
+      port_id: { get_resource: k8s_private_port }
+
   k8s_vm:
     type: OS::Nova::Server
     properties:
@@ -131,7 +178,7 @@ resources:
       flavor: { get_param: k8s_vm_flavor }
       key_name: onap_key
       networks:
-      - network: { get_param: public_net_id }
+      - port: { get_resource: k8s_private_port }
       user_data_format: RAW
       user_data:
         str_replace:
@@ -139,24 +186,26 @@ resources:
             __docker_proxy__: { get_param: docker_proxy }
             __apt_proxy__: { get_param: apt_proxy }
             __rancher_ip_addr__: { get_attr: [rancher_vm, first_address] }
+            __k8s_ip_addr__: { get_attr: [k8s_floating_ip, floating_ip_address] }
             __openstack_tenant_id__: { get_param: openstack_tenant_id }
             __openstack_tenant_name__: { get_param: openstack_tenant_name }
             __openstack_username__: { get_param: openstack_username }
             __openstack_api_key__: { get_param : openstack_api_key }
             __public_net_id__: { get_param: public_net_id }
             __public_net_name__: { get_param: public_net_name }
+            __oam_network_id__: { get_resource: oam_network }
             __oam_network_cidr__: { get_param: oam_network_cidr }
             __ubuntu_1404_image__: { get_param: ubuntu_1404_image }
             __ubuntu_1604_image__: { get_param: ubuntu_1604_image }
             __centos_7_image__: { get_param: centos_7_image }
             __keystone_url__: { get_param: keystone_url }
-            __dcae_keystone_url__: { get_param: dcae_keystone_url }
-            __dcae_ip_addr__: { get_param: dcae_ip_addr }
             __dns_forwarder__: { get_param: dns_forwarder }
             __external_dns__: { get_param: external_dns }
             __dnsaas_proxy_enable__: { get_param: dnsaas_proxy_enable }
+            __dnsaas_proxied_keystone_url_path__: { get_param: dnsaas_proxied_keystone_url_path }
             __dnsaas_keystone_url__: { get_param: dnsaas_keystone_url }
             __dnsaas_region__: { get_param: dnsaas_region }
+            __dnsaas_tenant_id__: { get_param: dnsaas_tenant_id }
             __dnsaas_tenant_name__: { get_param: dnsaas_tenant_name }
             __dnsaas_username__: { get_param: dnsaas_username }
             __dnsaas_password__: { get_param: dnsaas_password }
@@ -170,4 +219,4 @@ outputs:
 
   k8s_vm_ip:
     description: The IP address of the k8s instance
-    value: { get_attr: [k8s_vm, first_address] }
+    value: { get_attr: [k8s_floating_ip, floating_ip_address] }
