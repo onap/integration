@@ -1,5 +1,5 @@
-export OS_PROJECT_ID=09d8566ea45e43aa974cf447ed591d77
-export OS_PROJECT_NAME=Integration-Jenkins
+export OS_PROJECT_ID=bc43d50ffcb84750bac0c1707a9a765b
+export OS_PROJECT_NAME=Integration-SB-03
 export OS_USER_DOMAIN_NAME=Default
 export OS_USERNAME=demo
 export OS_PASSWORD=onapdemo
