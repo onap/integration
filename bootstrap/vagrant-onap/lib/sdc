@@ -24,12 +24,19 @@ EOL
 
 # get_sdc_images() - Function that retrieves the SDC docker images
 function get_sdc_images {
+    build_docker_image ${src_folders[sdc]}/utils/webseal-simulator docker
     if [[ "$build_image" == "True" ]]; then
-        build_docker_image $sdc_src_folder/sdc-docker-base
-    else
-        for image in backend frontend elasticsearch kibana cassandra sanity; do
-            pull_openecomp_image openecomp/sdc-$image
+        build_docker_image ${src_folders[sdc]}/sdc-docker-base
+        compile_src  ${src_folders[sdc]}
+        for project in catalog-fe test-apis-ci; do
+            compile_src  ${src_folders[sdc]}/$project
         done
+        build_docker_image ${src_folders[sdc]}/sdc-os-chef docker
+    else
+        for image in elasticsearch init-elasticsearch cassandra kibana backend frontend sanity; do
+            pull_onap_image sdc-$image &
+        done
+        wait_docker_pull
     fi
 }
 
@@ -39,15 +46,14 @@ function install_sdc {
     local MR_IP_ADDR='10.0.11.1'
 
     _init_data_folders
-    cp $sdc_src_folder/sdc-os-chef/environments/Template.json /data/environments
-    cp $sdc_src_folder/sdc-os-chef/scripts/docker_run.sh /data/scripts
-    cp $sdc_src_folder/sdc-os-chef/scripts/docker_health.sh /data/scripts
-    cp $sdc_src_folder/sdc-os-chef/scripts/docker_login.sh /data/scripts
-    cp $sdc_src_folder/sdc-os-chef/scripts/docker_clean.sh /data/scripts
-    chmod +x /data/scripts/docker_run.sh
-    chmod +x /data/scripts/docker_health.sh
-    chmod +x /data/scripts/docker_login.sh
-    chmod +x /data/scripts/docker_clean.sh
+    cp ${src_folders[sdc]}/sdc-os-chef/environments/Template.json /data/environments
+    cp ${src_folders[sdc]}/sdc-os-chef/scripts/docker_run.sh /data/scripts
+    cp ${src_folders[sdc]}/sdc-os-chef/scripts/docker_health.sh /data/scripts
+    cp ${src_folders[sdc]}/sdc-os-chef/scripts/docker_login.sh /data/scripts
+    cp ${src_folders[sdc]}/sdc-os-chef/scripts/docker_clean.sh /data/scripts
+    cp ${src_folders[sdc]}/sdc-os-chef/scripts/simulator_docker_run.sh /data/scripts
+
+    chmod +x /data/scripts/*.sh
 
     cat /data/environments/Template.json | sed "s/yyy/"$IP_ADDRESS"/g" > /data/environments/$ENV_NAME.json
     sed -i "s/xxx/"$ENV_NAME"/g" /data/environments/$ENV_NAME.json
@@ -56,7 +62,7 @@ function install_sdc {
 
     install_docker
     if [[ "$skip_get_images" == "False" ]]; then
-        bash /data/scripts/docker_run.sh -e $ENV_NAME  -l
+        bash /data/scripts/docker_run.sh -e $ENV_NAME -l
     else
         bash /data/scripts/docker_run.sh -e $ENV_NAME -r $docker_version -p $(echo $nexus_docker_repo | cut -d':' -f2)
     fi
