@@ -16,6 +16,41 @@
       "revId": "c66e6de729c2dbf2ce1c5389ef8a8a6eb0e66ce0",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_4df277d3",
+        "filename": "bootstrap/vagrant-onap/Vagrantfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 991
+      },
+      "writtenOn": "2018-02-02T18:26:05Z",
+      "side": 1,
+      "message": "Hmm. Ok.",
+      "parentUuid": "5a93c517_cdcbe7a3",
+      "revId": "c66e6de729c2dbf2ce1c5389ef8a8a6eb0e66ce0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_6dedf3ee",
+        "filename": "bootstrap/vagrant-onap/lib/oom",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 991
+      },
+      "writtenOn": "2018-02-02T18:26:05Z",
+      "side": 1,
+      "message": "Seems like they changed to `./createAll.bash -n onapTrail` for all in one.  [1].\n\n[1] -  https://wiki.onap.org/display/DW/OOM+User+Guide#OOMUserGuide-ONAP\u0027OneClick\u0027DeploymentWalk-though",
+      "revId": "c66e6de729c2dbf2ce1c5389ef8a8a6eb0e66ce0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
