@@ -33,7 +33,7 @@ function _pull_k8s_images {
 "k8s-dns-sidecar-amd64:1.14.5" "k8s-dns-kube-dns-amd64:1.14.5" \
 "k8s-dns-dnsmasq-nanny-amd64:1.14.5" "heapster-influxdb-amd64:v1.3.3" \
 "heapster-grafana-amd64:v4.4.3" "heapster-amd64:v1.4.0" "pause-amd64:3.0"; do
-        pull_docker_image gcr.io/google_containers/$image  &
+        pull_docker_image gcr.io/google_containers/$image &
     done
 }
 
@@ -72,7 +72,7 @@ function _install_kubernetes {
     _pull_rancher_images
     _pull_k8s_images
     pull_docker_image $rancher_agent
-    _wait_docker_pull
+    wait_docker_pull
 
     pushd /opt/rancher/current/
     export RANCHER_ENVIRONMENT=`./rancher env create -t kubernetes onap_on_kubernetes`
@@ -146,19 +146,6 @@ for (i in vname) {
     done
 }
 
-# _wait_docker_pull() - Function that waits for all docker pull processes
-function _wait_docker_pull {
-    local counter=150
-
-    while [ $(ps -ef | grep "docker pull" | wc -l) -gt 1 ]; do
-        sleep $oom_delay
-        counter=$((counter - 1))
-        if [ "$counter" -eq 0 ]; then
-            break
-        fi
-    done
-}
-
 # get_oom_images() - Function that retrieves ONAP images from official hub
 function get_oom_images {
     if [[ "$build_image" == "True" ]]; then
@@ -174,7 +161,7 @@ function get_oom_images {
             _pull_images_from_yaml_file $values_file
         done
         docker logout
-        _wait_docker_pull
+        wait_docker_pull
     fi
 }
 
