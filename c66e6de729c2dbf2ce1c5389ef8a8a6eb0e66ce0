@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_cdcbe7a3",
+        "filename": "bootstrap/vagrant-onap/Vagrantfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2018-02-02T16:49:15Z",
+      "side": 1,
+      "message": "@Shashank, this line will prevents the addition of proxy configuration into the /etc/default/docker file",
+      "revId": "c66e6de729c2dbf2ce1c5389ef8a8a6eb0e66ce0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
