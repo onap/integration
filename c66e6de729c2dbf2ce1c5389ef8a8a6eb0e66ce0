@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_10d2485c",
+        "filename": "bootstrap/vagrant-onap/Vagrantfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1341
+      },
+      "writtenOn": "2018-02-04T12:01:13Z",
+      "side": 1,
+      "message": "@Victor Why would we want to prevent adding proxy configuration?",
+      "parentUuid": "5a93c517_4df277d3",
+      "revId": "c66e6de729c2dbf2ce1c5389ef8a8a6eb0e66ce0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_6dedf3ee",
         "filename": "bootstrap/vagrant-onap/lib/oom",
         "patchSetId": 1
