@@ -39,7 +39,7 @@ openstack port delete $(openstack port list -f value -c ID)
 openstack volume delete $(openstack volume list -f value -c ID)
 
 # delete all except "default" security group
-SECURITY_GROUPS=$(openstack security group list -c Name -f value | grep -v default)
+SECURITY_GROUPS=$(openstack security group list -c Name -f ID | grep -v default)
 openstack security group delete $SECURITY_GROUPS
 sleep 1
 

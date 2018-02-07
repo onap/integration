@@ -14,8 +14,8 @@ for n in $(seq 1 5); do
     $WORKSPACE/test/ete/scripts/teardown-onap.sh
 
     cd $WORKSPACE/deployment/heat/onap-oom
-    openstack stack create -t ./onap-oom.yaml -e $ENV_FILE onap-oom
-    openstack stack output show onap-oom k8s_vm_ip
+    envsubst < $ENV_FILE > $ENV_FILE~
+    openstack stack create -t ./onap-oom.yaml -e $ENV_FILE~ onap-oom
 
     for i in $(seq 1 10); do
 	sleep 10
