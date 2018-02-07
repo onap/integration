@@ -106,6 +106,34 @@ resources:
     properties:
       length: 4
 
+  # ONAP security group
+  onap_sg:
+    type: OS::Neutron::SecurityGroup
+    properties:
+      name:
+        str_replace:
+          template: base_rand
+          params:
+            base: onap_sg
+            rand: { get_resource: random-str }
+      description: security group used by ONAP
+      rules:
+        # All egress traffic
+        - direction: egress
+          ethertype: IPv4
+        - direction: egress
+          ethertype: IPv6
+        # ingress traffic
+        # ICMP
+        - protocol: icmp
+        - protocol: udp
+          port_range_min: 1
+          port_range_max: 65535
+        - protocol: tcp
+          port_range_min: 1
+          port_range_max: 65535
+
+
   # ONAP management private network
   oam_network:
     type: OS::Neutron::Net
@@ -145,6 +173,8 @@ resources:
     properties:
       network: { get_resource: oam_network }
       fixed_ips: [{"subnet": { get_resource: oam_subnet }}]
+      security_groups:
+      - { get_resource: onap_sg }
 
   rancher_floating_ip:
     type: OS::Neutron::FloatingIP
@@ -175,6 +205,8 @@ resources:
     properties:
       network: { get_resource: oam_network }
       fixed_ips: [{"subnet": { get_resource: oam_subnet }}]
+      security_groups:
+      - { get_resource: onap_sg }
 
   k8s_floating_ip:
     type: OS::Neutron::FloatingIP
