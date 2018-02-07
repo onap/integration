@@ -197,7 +197,7 @@ resources:
           params:
             __docker_proxy__: { get_param: docker_proxy }
             __apt_proxy__: { get_param: apt_proxy }
-            __rancher_ip_addr__: { get_attr: [rancher_vm, first_address] }
+            __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
             __k8s_ip_addr__: { get_attr: [k8s_floating_ip, floating_ip_address] }
             __openstack_tenant_id__: { get_param: openstack_tenant_id }
             __openstack_tenant_name__: { get_param: openstack_tenant_name }
@@ -227,7 +227,7 @@ resources:
 outputs:
   rancher_vm_ip:
     description: The IP address of the rancher instance
-    value: { get_attr: [rancher_vm, first_address] }
+    value: { get_attr: [rancher_floating_ip, floating_ip_address] }
 
   k8s_vm_ip:
     description: The IP address of the k8s instance
