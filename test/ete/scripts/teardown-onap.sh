@@ -6,9 +6,10 @@ fi
 
 source $WORKSPACE/test/ete/scripts/install_openstack_cli.sh
 
+# skip use of multi-vim APIs for now
 # delete all Proxy Designate DNS records; do this first since we rely on multi-vim for this
-$WORKSPACE/test/ete/scripts/dns-zones/delete-dns-zones.sh $OS_PROJECT_NAME
-sleep 1
+# $WORKSPACE/test/ete/scripts/dns-zones/delete-dns-zones.sh $OS_PROJECT_NAME
+# sleep 1
 
 # delete all Desigate DNS zones
 ZONES=$(openstack zone list -c "id" -f value)
@@ -39,7 +40,7 @@ openstack port delete $(openstack port list -f value -c ID)
 openstack volume delete $(openstack volume list -f value -c ID)
 
 # delete all except "default" security group
-SECURITY_GROUPS=$(openstack security group list -c Name -f ID | grep -v default)
+SECURITY_GROUPS=$(openstack security group list -c ID -f value | grep -v default)
 openstack security group delete $SECURITY_GROUPS
 sleep 1
 
