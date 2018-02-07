@@ -227,7 +227,7 @@ resources:
 outputs:
   rancher_vm_ip:
     description: The IP address of the rancher instance
-    value: { get_attr: [rancher_vm, first_address] }
+    value: { get_attr: [rancher_floating_ip, floating_ip_address] }
 
   k8s_vm_ip:
     description: The IP address of the k8s instance
