@@ -69,7 +69,7 @@ current options include:
 
 The documentation of this project was written in reStructuredText
 format which is located under the [docs folder](../blob/master/doc/source/index.rst).
-It's possible to format this documents to HTML using Sphinix python
+It's possible to format these documents to HTML using Sphinix python
 tool.
 
     $ tox -e docs
