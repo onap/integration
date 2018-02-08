@@ -256,6 +256,21 @@ function pull_docker_image {
     fi
 }
 
+# wait_docker_pull() - Function that waits for all docker pull processes
+function wait_docker_pull {
+    local counter=60
+    local delay=${1:-60}
+
+    sleep $delay
+    while [ $(ps -ef | grep "docker pull" | wc -l) -gt 1 ]; do
+        sleep $delay
+        counter=$((counter - 1))
+        if [ "$counter" -eq 0 ]; then
+            break
+        fi
+    done
+}
+
 # run_docker_image() - Starts a Docker instance
 function run_docker_image {
     install_docker
@@ -333,6 +348,9 @@ function build_docker_image {
         local docker_build="mvn clean package docker:build -DskipTests=true -Dmaven.test.skip=true -Dmaven.javadoc.skip=true"
         if [ $profile ]; then
             docker_build+=" -P $profile"
+        fi
+        if [[ "$debug" == "False" ]]; then
+            docker_build+=" -q"
         fi
         if [ $http_proxy ]; then
             if ! grep -ql "docker.buildArg.http_proxy" pom.xml ; then
