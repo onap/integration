@@ -3,14 +3,13 @@ Modify execution values
 =======================
 
 In order to provide a flexible platform that adjusts to different developer
-needs, it has been implemented two mechanism to configure the execution of this
-project.
+needs, there are two mechanisms to configure the execution of this project.
 
 Settings configuration file
 ---------------------------
 
 The first mechanism refers to the process to replace default configuration
-values through a settings configuration file. This file needs to be placed into
+values in the settings configuration file. This file needs to be placed into
 the *./etc* folder and named *settings.yaml*. It must contain the key/pair
 configuration values that will be overriden.
 
