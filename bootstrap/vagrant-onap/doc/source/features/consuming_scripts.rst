@@ -25,14 +25,15 @@ them into the */var/onap/* folder.
     $ sudo su -
     # apt-get install git -y
     # git clone https://git.onap.org/integration
-    # mv integration/bootstrap/vagrant-onap/lib/ /var/onap/
+    # mkdir -p /var/onap/
+    # cp -r integration/bootstrap/vagrant-onap/lib/ /var/onap/
 
 .. end
 
 Loading a provisioning script will be based on the desired ONAP
 service, for example to setup the development environment for Active
 and Available Inventory (AAI) service will be required to load the
-*/var/onap/aai* script.
+*/var/onap/lib/aai* script.
 
 .. note::
 
@@ -45,7 +46,7 @@ and Available Inventory (AAI) service will be required to load the
 
 .. code-block:: console
 
-    # source /var/onap/aai
+    # source /var/onap/lib/aai
 
 .. end
 
