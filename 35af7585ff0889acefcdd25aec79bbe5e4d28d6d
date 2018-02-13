@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_1e923b4c",
+        "filename": "bootstrap/vagrant-onap/doc/source/features/consuming_scripts.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2018-02-13T22:36:42Z",
+      "side": 1,
+      "message": "What about the creation of soft links?",
+      "range": {
+        "startLine": 29,
+        "startChar": 6,
+        "endLine": 29,
+        "endChar": 62
+      },
+      "revId": "35af7585ff0889acefcdd25aec79bbe5e4d28d6d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_7e71ff42",
+        "filename": "bootstrap/vagrant-onap/doc/source/features/consuming_scripts.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2018-02-13T22:36:42Z",
+      "side": 1,
+      "message": "Most of the scripts refer to /var/onap/ (without lib) folder, like APP-C, so we have to keep that structure until we have a more flexible mechanism to point the source folders.\n\n    * https://git.onap.org/integration/tree/bootstrap/vagrant-onap/lib/appc#n3",
+      "revId": "35af7585ff0889acefcdd25aec79bbe5e4d28d6d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
