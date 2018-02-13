@@ -202,7 +202,10 @@ nodes = [
     :ram    => 8 * 1024,
     :groups => ["individual"],
     :args   => ["sdc"],
-    :hd     => { :virtualbox => "20480", :libvirt => "20G", }
+    :hd     => { :virtualbox => "20480", :libvirt => "20G", },
+    :fwds   => [
+      { :guest => 8285, :host => 8285, :guest_ip => '192.168.50.5' },
+    ]
   },
   {
     :name   => "sdnc",

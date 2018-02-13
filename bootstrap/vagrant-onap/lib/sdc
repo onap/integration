@@ -24,9 +24,9 @@ EOL
 
 # get_sdc_images() - Function that retrieves the SDC docker images
 function get_sdc_images {
+    build_docker_image ${src_folders[sdc]}/sdc-docker-base
     build_docker_image ${src_folders[sdc]}/utils/webseal-simulator docker
     if [[ "$build_image" == "True" ]]; then
-        build_docker_image ${src_folders[sdc]}/sdc-docker-base
         compile_src  ${src_folders[sdc]}
         for project in catalog-fe test-apis-ci; do
             compile_src  ${src_folders[sdc]}/$project
@@ -44,6 +44,10 @@ function get_sdc_images {
 function install_sdc {
     local ENV_NAME=$dmaap_topic
     local MR_IP_ADDR='10.0.11.1'
+
+    pushd ${src_folders[sdc]}/utils/webseal-simulator
+    bash scripts/simulator_docker_run.sh
+    popd
 
     _init_data_folders
     cp ${src_folders[sdc]}/sdc-os-chef/environments/Template.json /data/environments
