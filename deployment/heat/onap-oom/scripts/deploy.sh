@@ -10,6 +10,8 @@ if [ "$#" -ne 1 ]; then
 fi
 ENV_FILE=$1
 
+source $WORKSPACE/test/ete/scripts/install_openstack_cli.sh
+
 for n in $(seq 1 5); do
     $WORKSPACE/test/ete/scripts/teardown-onap.sh
 
