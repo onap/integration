@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_3e52973b",
+        "filename": "bootstrap/vagrant-onap/lib/functions",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2018-02-14T02:03:19Z",
+      "side": 1,
+      "message": "The install_package function already verifies if a given package has been already installed (https://git.onap.org/integration/tree/bootstrap/vagrant-onap/lib/commons#n63), this is not required",
+      "range": {
+        "startLine": 137,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 1
+      },
+      "revId": "44f8305af74f46d8a6d11d0abdb0d152b058b428",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_3e6b77f3",
+        "filename": "bootstrap/vagrant-onap/lib/functions",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2018-02-14T02:03:19Z",
+      "side": 1,
+      "message": "This should only perform the installation in case that it wasn\u0027t installed before (take a look of install_docker_compose). Besides the environment variables need to be added in a persistence place like /etc/environment file.",
+      "range": {
+        "startLine": 190,
+        "startChar": 4,
+        "endLine": 190,
+        "endChar": 39
+      },
+      "revId": "44f8305af74f46d8a6d11d0abdb0d152b058b428",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_fe474f75",
+        "filename": "bootstrap/vagrant-onap/lib/functions",
+        "patchSetId": 1
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2018-02-14T02:03:19Z",
+      "side": 1,
+      "message": "you can replace this call with $ install_package realpath , but shouldn\u0027t you install build-essential ubuntu package?",
+      "range": {
+        "startLine": 331,
+        "startChar": 4,
+        "endLine": 331,
+        "endChar": 21
+      },
+      "revId": "44f8305af74f46d8a6d11d0abdb0d152b058b428",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
