@@ -14,6 +14,10 @@ org.onap.aai.esr-gui,portal,1.0.0
 org.onap.aai.esr-server,aai-esr-server,1.0.0
 org.onap.aai.esr-server,esr-manager,1.0.0
 org.onap.aai.esr-server,standalone,1.0.0
+org.onap.aai.event-client,event-client,1.2.0
+org.onap.aai.event-client,event-client-api,1.2.0
+org.onap.aai.event-client,event-client-dmaap,1.2.0
+org.onap.aai.event-client,event-client-kafka,1.2.0
 org.onap.aai.logging-service,common-logging,1.1.1
 org.onap.aai.logging-service,eelf-logging,1.1.1
 org.onap.aai.logging-service,logging-api,1.1.1
