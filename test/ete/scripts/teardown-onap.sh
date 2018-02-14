@@ -28,7 +28,7 @@ sleep 1
 ROUTERS=$(openstack router list -c ID -f value)
 echo $ROUTERS
 for ROUTER in $ROUTERS; do
-    echo $ZONENAME;
+    echo $ROUTER;
     PORTS=$(openstack router show $ROUTER  -c "interfaces_info" -f "value" | jq -r '.[].port_id')
     for PORT in $PORTS; do
 	openstack router remove port $ROUTER $PORT
