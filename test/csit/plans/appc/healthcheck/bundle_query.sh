@@ -20,7 +20,7 @@ echo $SCRIPTS
 
 num_bundles=$(docker exec appc_controller_container /opt/opendaylight/current/bin/client -u karaf bundle:list | tail -1 | cut -d\| -f1)
 #num_failed_bundles=$(docker exec appc_controller_container /opt/opendaylight/current/bin/client -u karaf bundle:list | grep Failure | wc -l)
-num_failed_bundles=$(docker exec appc_controller_container /opt/opendaylight/current/bin/client -u karaf bundle:list | grep Nothing | wc -l)
+num_failed_bundles=$(docker exec appc_controller_container /opt/opendaylight/current/bin/client -u karaf bundle:list | grep Failure | wc -l)
 failed_bundles=$(docker exec appc_controller_container /opt/opendaylight/current/bin/client -u karaf bundle:list | grep Failure)
 
 echo "There are $num_failed_bundles failed bundles out of $num_bundles installed bundles."
