@@ -1,0 +1,30 @@
+#!/bin/bash
+
+source /var/onap_tests/_test_base
+source /var/onap/music
+
+covered_functions=(
+"compile_all_music_repos"
+)
+
+# test_clone_all_music_repos() - Verify cloning of Music repos
+function test_clone_all_music_repos {
+    clone_repos "music"
+
+    asserts_file_exist ${src_folders[music]}/distributed-kv-store/src/dkv/Makefile
+    asserts_file_exist ${src_folders[music]}/pom.xml
+}
+
+# test_compile_all_music_repos() - Verify compiling of Music source code
+function test_compile_all_music_repos {
+    clone_repos "music"
+    compile_makefiles_src "music/distributed-kv-store"
+
+    asserts_file_exist${src_folders[music]}/distributed-kv-store/target/main
+}
+
+if [ "$1" != '*' ]; then
+    unset covered_functions
+    covered_functions=$1
+fi
+main "${covered_functions[@]}"

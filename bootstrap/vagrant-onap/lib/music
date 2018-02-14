@@ -1,0 +1,26 @@
+#!/bin/bash
+
+source /var/onap/functions
+
+# compile_all_music_repos() - Function that compiles all MUSIC repos.
+function compile_all_music_repos {
+    compile_src "music" # TODO(sshank): Recheck this.
+    for repo in ${repos[music]}; do
+        if [[ "$repo" == "music/distributed-kv-store" ]]; then
+            install_golang
+            compile_makefiles_src $music_src_folder/distributed-kv-store/src/dkv
+        fi
+    done
+}
+
+# init_music() - Function that initialize Music services
+function init_music {
+    if [[ "$clone_repo" == "True" ]]; then
+        clone_repos "music"
+        if [[ "$compile_repo" == "True" ]]; then
+            compile_all_music_repos
+        fi
+    fi
+
+    # TODO(sshank): Add Docker builds when it is ready.
+}
