@@ -177,6 +177,22 @@ function _configure_docker_settings {
     esac
 }
 
+# install_golang() - Function that installs Golang.
+function install_golang() {
+    local golang_version=go1.9.4.linux-amd64
+    if [ ! -d /opt/go ]; then
+        mkdir /opt/go
+        pushd /opt/go
+        curl -O https://dl.google.com/go/$golang_version.tar.gz
+        tar -zxf $golang_version.tar.gz
+        echo GOROOT=$PWD/go>> /etc/environment
+        echo PATH=$PATH:$PWD/go/bin >> /etc/environment
+        rm -rf tar -zxf go1.9.4.linux-amd64.tar.gz
+        popd
+    fi
+    source /etc/environment
+}
+
 # install_nodejs() - Download and install NodeJS
 function install_nodejs {
     if is_package_installed nodejs; then
@@ -307,6 +323,15 @@ function compile_src {
         echo "Compiling $src_folder folder..."
         eval $mvn_build
     fi
+    popd
+}
+
+# Function to compile Makefiles
+function compile_makefiles_src {
+    install_package realpath
+    local src_folder=$1
+    pushd $src_folder
+    make all
     popd
 }
 
