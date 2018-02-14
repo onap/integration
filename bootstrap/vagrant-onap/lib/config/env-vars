@@ -51,6 +51,7 @@ dcae/utils/buildtools"
 ["multicloud"]="multicloud multicloud/framework multicloud/openstack \
 multicloud/openstack/vmware multicloud/openstack/windriver \
 multicloud/azure"
+["music"]="music music/distributed-kv-store"
 ["oom"]="oom oom/registrator"
 ["policy"]="policy/api policy/common policy/docker \
 policy/drools-applications policy/drools-pdp policy/engine \

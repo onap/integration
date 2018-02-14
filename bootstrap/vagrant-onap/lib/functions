@@ -134,6 +134,13 @@ function install_maven {
     _configure_maven
 }
 
+function _install_realpath() {
+    if is_package_installed realpath; then
+        return
+    fi
+    install_package realpath
+}
+
 # _configure_docker_settings() - Configures Docker settings
 function _configure_docker_settings {
     local docker_conf_backup=/tmp/docker.backup
@@ -175,6 +182,15 @@ function _configure_docker_settings {
         rhel|centos|fedora)
         ;;
     esac
+}
+
+# install_golang() - Function that installs Golang.
+function install_golang() {
+    curl -O https://dl.google.com/go/go1.9.4.linux-amd64.tar.gz
+    tar -zxf go1.9.4.linux-amd64.tar.gz
+    export GOROOT=$PWD/go
+    export PATH=$PATH:$GOROOT/bin
+    rm -rf tar -zxf go1.9.4.linux-amd64.tar.gz
 }
 
 # install_nodejs() - Download and install NodeJS
@@ -307,6 +323,15 @@ function compile_src {
         echo "Compiling $src_folder folder..."
         eval $mvn_build
     fi
+    popd
+}
+
+# Function to compile Makefiles
+function compile_makefiles_src {
+    _install_realpath
+    local src_folder=$1
+    pushd $src_folder
+    make all
     popd
 }
 
