@@ -11,10 +11,13 @@ source $WORKSPACE/test/ete/scripts/install_openstack_cli.sh
 # $WORKSPACE/test/ete/scripts/dns-zones/delete-dns-zones.sh $OS_PROJECT_NAME
 # sleep 1
 
-# delete all Desigate DNS zones
+# delete all Desigate DNS zones belonging to this project
 ZONES=$(openstack zone list -c "id" -f value)
 for ZONE in ${ZONES}; do
-    openstack zone delete $ZONE
+    ZONE_PROJECT_ID=$(openstack zone show $ZONE -f json | jq -r '.project_id')
+    if [ "$OS_PROJECT_ID" == "$ZONE_PROJECT_ID" ]; then
+	openstack zone delete $ZONE
+    fi
 done
 
 # delete all instances
