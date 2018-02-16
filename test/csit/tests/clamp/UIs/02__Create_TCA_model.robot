@@ -17,7 +17,7 @@ Open Browser
 # Next line is to be enabled for Headless tests only (jenkins?). To see the tests desable the line.
     Start Virtual Display    1920    1080
     Open Browser    http://localhost:8080/designer/index.html    browser=firefox
-    Set Selenium Speed      .2 seconds
+    Set Selenium Speed      2 seconds
     Set Window Size    1920    1080
     ${title}=    Get Title
     Should Be Equal    CLDS    ${title}
