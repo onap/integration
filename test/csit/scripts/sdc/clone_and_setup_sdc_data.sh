@@ -78,7 +78,7 @@ source ${WORKSPACE}/data/clone/sdc/version.properties
 export RELEASE=$major.$minor-STAGING-latest
 
 
-bash -x ${WORKSPACE}/test/csit/scripts/sdc/docker_run.sh -r ${RELEASE} -p 10001 -t
+bash -x ${WORKSPACE}/test/csit/scripts/sdc/docker_run_csit.sh -r ${RELEASE} -p 10001 -t
 
 sleep 120
 
