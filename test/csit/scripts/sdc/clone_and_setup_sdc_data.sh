@@ -69,7 +69,7 @@ source ${WORKSPACE}/data/clone/sdc/version.properties
 export RELEASE=$major.$minor-STAGING-latest
 export DEP_ENV=$ENV_NAME  
   
-cp ${WORKSPACE}/data/clone/sdc/sdc-os-chef/scripts/docker_run.sh ${WORKSPACE}/test/csit/scripts/sdc/
+cp ${WORKSPACE}/data/clone/sdc/sdc-os-chef/scripts/docker_run_csit.sh ${WORKSPACE}/test/csit/scripts/sdc/
 #sed -i "s~/data~${WORKSPACE}\/data~g" ${WORKSPACE}/test/csit/scripts/sdc/docker_run.sh
 #sed -i "s/HOST_IP=\${IP}/HOST_IP=\${HOST_IP}/g" ${WORKSPACE}/test/csit/scripts/sdc/docker_run.sh
 sed -i "s/ENVNAME=\"\${DEP_ENV}\"/ENVNAME=\"\${ENV_NAME}\"/g" ${WORKSPACE}/test/csit/scripts/sdc/docker_run.sh
@@ -78,7 +78,7 @@ source ${WORKSPACE}/data/clone/sdc/version.properties
 export RELEASE=$major.$minor-STAGING-latest
 
 
-bash -x ${WORKSPACE}/test/csit/scripts/sdc/docker_run.sh -r ${RELEASE} -p 10001 -t
+bash -x ${WORKSPACE}/test/csit/scripts/sdc/docker_run_csit.sh -r ${RELEASE} -p 10001 -t
 
 sleep 120
 
