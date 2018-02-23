@@ -33,3 +33,12 @@ cd clamp/extra/docker/clamp/
 # Pull the Clamp docker image from nexus instead of local image by default in the docker-compose.yml
 sed -i '/image: onap\/clamp/c\    image: nexus3.onap.org:10001\/onap\/clamp' docker-compose.yml
 
+# Change config to take localhost:8085 for SDC and Policy simulator
+sed -i 's/classpath:\/clds\/clds-reference.properties/file:.\/config\/clds-reference-sdc_proxy.properties/g' clamp.env
+sed -i 's/classpath:\/clds\/clds-policy-config.properties/file:.\/config\/clds-policy-config-sdc_proxy.properties/g' clamp.env
+
+# Add the sql to create template so it is played by docker-compose later
+cp ../../../src/test/resources/sql/four_templates_only.sql ../../sql/bulkload/
+echo 'mysql -uroot -p$MYSQL_ROOT_PASSWORD -f < four_templates_only.sql' >> ../../sql/load-sql-files-tests-automation.sh
+
+
