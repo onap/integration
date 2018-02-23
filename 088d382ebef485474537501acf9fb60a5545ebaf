@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_10a3f100",
+        "filename": "bootstrap/vagrant-onap/lib/config/env-vars",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2018-02-23T01:28:23Z",
+      "side": 1,
+      "message": "[\"music\"]\u003d\"$git_src_folder/music\"",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 43
+      },
+      "revId": "088d382ebef485474537501acf9fb60a5545ebaf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_509df9ba",
+        "filename": "bootstrap/vagrant-onap/lib/functions",
+        "patchSetId": 4
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2018-02-23T01:28:23Z",
+      "side": 1,
+      "message": "# compile_makefiles_src() - Function to compile Makefiles",
+      "revId": "088d382ebef485474537501acf9fb60a5545ebaf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_70a275fe",
+        "filename": "bootstrap/vagrant-onap/lib/music",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2018-02-23T01:28:23Z",
+      "side": 1,
+      "message": "s/$music_src_folder/${src_folders[music]}",
+      "range": {
+        "startLine": 11,
+        "startChar": 34,
+        "endLine": 11,
+        "endChar": 51
+      },
+      "revId": "088d382ebef485474537501acf9fb60a5545ebaf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_b05c7d1a",
+        "filename": "bootstrap/vagrant-onap/tests/test_music",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2018-02-23T01:28:23Z",
+      "side": 1,
+      "message": "I think that clone_all_music_repos is missing",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 24
+      },
+      "revId": "088d382ebef485474537501acf9fb60a5545ebaf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_905f010f",
+        "filename": "bootstrap/vagrant-onap/tests/test_music",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2018-02-23T01:28:23Z",
+      "side": 1,
+      "message": "Is this working?",
+      "range": {
+        "startLine": 23,
+        "startChar": 4,
+        "endLine": 23,
+        "endChar": 76
+      },
+      "revId": "088d382ebef485474537501acf9fb60a5545ebaf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
