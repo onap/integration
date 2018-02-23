@@ -6,6 +6,9 @@ Library     json
 Library     Selenium2Library
 Library     XvfbRobot
 
+*** Variables ***
+${SELENIUM_SPEED_FAST}       0.2 seconds
+${SELENIUM_SPEED_SLOW}       2 seconds
 
 *** Test Cases ***
 Get Requests health check ok
@@ -14,10 +17,10 @@ Get Requests health check ok
     Should Be Equal As Strings  ${resp.status_code}     200
 
 Open Browser
-# Next line is to be enabled for Headless tests only (jenkins?). To see the tests desable the line.
+# Next line is to be enabled for Headless tests only (jenkins?). To see the tests disable the line.
     Start Virtual Display    1920    1080
     Open Browser    http://localhost:8080/designer/index.html    browser=firefox
-    Set Selenium Speed      2 seconds
+    Set Selenium Speed      ${SELENIUM_SPEED_SLOW}
     Set Window Size    1920    1080
     ${title}=    Get Title
     Should Be Equal    CLDS    ${title}
@@ -31,20 +34,29 @@ Good Login to Clamp UI and Verify logged in
 
 Create Model from Menu
     Wait Until Element Is Visible       xpath=//*[@id="navbar"]/ul/li[2]/a       timeout=60
-    Click Element    xpath=//*[@id="navbar"]/ul/li[2]/a
+    Click Element    xpath=//*[@id="navbar"]/ul/li[1]/a
     Wait Until Element Is Visible       locator=Create CL       timeout=60
     Click Element    locator=Create CL
-    Input Text      locator=modelName       text=TCAModel
-    Select From List By Label       id=templateName      TCATemplate
+    Input Text      locator=modelName       text=TCAModel1
+    Select From List By Label       id=templateName      templateTCA1
     Click Button    locator=Create
 
 Save Model from Menu
-    Wait Until Element Is Visible       xpath=//*[@id="navbar"]/ul/li[2]/a      timeout=60
-    Click Element    xpath=//*[@id="navbar"]/ul/li[2]/a
+    Wait Until Element Is Visible       xpath=//*[@id="navbar"]/ul/li[1]/a      timeout=60
+    Click Element    xpath=//*[@id="navbar"]/ul/li[1]/a
     Wait Until Element Is Visible       locator=Save CL      timeout=60
+    Set Selenium Speed      ${SELENIUM_SPEED_FAST}
     Click Element    locator=Save CL
     Wait Until Element Is Visible       xpath=//*[@id="alert_message_"]      timeout=60
     Element Text Should Be      xpath=//*[@id="alert_message_"]       expected=Action Successful:SAVE
+    Set Selenium Speed      ${SELENIUM_SPEED_SLOW}
 
 Close Browser
     Close Browser
+
+Verify TCA CL well create
+    ${auth}=    Create List     admin    5f4dcc3b5aa765d61d8327deb882cf99
+    Create Session   clamp  http://localhost:8080   auth=${auth}
+    ${resp}=    Get Request    clamp   /restservices/clds/v1/clds/model-names
+    Should Contain Match    ${resp}   *TCAModel1*
+    Should Not Contain Match    ${resp}   *TCAModel99*
