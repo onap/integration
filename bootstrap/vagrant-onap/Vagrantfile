@@ -199,7 +199,7 @@ nodes = [
     :macs   => [],
     :cpus   => 2,
     :cpu    => "50",
-    :ram    => 8 * 1024,
+    :ram    => 6 * 1024,
     :groups => ["individual"],
     :args   => ["sdc"],
     :hd     => { :virtualbox => "20480", :libvirt => "20G", },
