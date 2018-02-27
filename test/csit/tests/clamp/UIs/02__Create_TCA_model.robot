@@ -7,8 +7,8 @@ Library     Selenium2Library
 Library     XvfbRobot
 
 *** Variables ***
-${SELENIUM_SPEED_FAST}       0.2 seconds
-${SELENIUM_SPEED_SLOW}       2 seconds
+${SELENIUM_SPEED_FAST}       .2 seconds
+${SELENIUM_SPEED_SLOW}       .5 seconds
 
 *** Test Cases ***
 Get Requests health check ok
@@ -40,6 +40,30 @@ Create Model from Menu
     Input Text      locator=modelName       text=TCAModel1
     Select From List By Label       id=templateName      templateTCA1
     Click Button    locator=Create
+
+Set Properties for TCAModel1
+    Wait Until Element Is Visible       xpath=//*[@id="navbar"]/ul/li[1]/a       timeout=60
+    Click Element    xpath=//*[@id="navbar"]/ul/li[1]/a
+    Wait Until Element Is Visible       locator=Properties CL       timeout=60
+    Click Element    locator=Properties CL
+    Select From List By Label       id=service       vLoadBalancer
+    Select From List By Label       id=vf       vLoadBalancer 0
+    Select From List By Label       id=actionSet      eNodeB
+    Select From List By Label       id=location      Data Center 1      Data Center 3
+    Click Button    locator=Save
+
+Set Policy Box properties for TCAModel1
+    Wait Until Element Is Visible       xpath=//*[@data-element-id="Policy_12lup3h"]      timeout=60
+    Click Element    xpath=//*[@data-element-id="Policy_12lup3h"]
+    Click Button    locator=New Policy
+    Input Text      locator=//*[@id="pname"]      text=Policy2
+    Select From List By Label       id=recipe      Reset
+    Input Text      locator=maxRetries      text=6
+    Input Text      locator=retryTimeLimit      text=280
+    Input Text      locator=timeout      text=400
+    Click Button    locator=Close
+
+### Cannot set TCA box attributes due to element not interractable with Selenium
 
 Save Model from Menu
     Wait Until Element Is Visible       xpath=//*[@id="navbar"]/ul/li[1]/a      timeout=60
