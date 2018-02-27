@@ -30,14 +30,6 @@ Get model bpmn by name
     Should Contain Match    ${resp}   *Policy_*
     Should Contain Match    ${resp}   *EndEvent_*
 
-Get model by name
-    ${auth}=    Create List     admin    5f4dcc3b5aa765d61d8327deb882cf99
-    Create Session   clamp  http://localhost:8080   auth=${auth}
-    ${resp}=    Get Request    clamp   /restservices/clds/v1/clds/model/ClHolmes1
-    Dictionary Should Contain Key    ${resp.json()}   templateName
-    Dictionary Should Contain Key    ${resp.json()}   bpmnText
-    Dictionary Should Contain Key    ${resp.json()}   imageText
-
 Get model names
     ${auth}=    Create List     admin    5f4dcc3b5aa765d61d8327deb882cf99
     Create Session   clamp  http://localhost:8080   auth=${auth}
