@@ -34,49 +34,49 @@ query_rule_with_existing_id
     should not be empty    ${RULEID}
     ${response}    queryConditionRule    {"ruleid":"${RULEID}"}
     ${respJson}    to json    ${response.content}
-    ${count}    get from dictionary    ${respJson}    totalcount
+    ${count}    get from dictionary    ${respJson}    totalCount
     run keyword if    ${count}!=1    fail    Can't find the rule with the specified ruleid.
 
 query_rule_with_non_existing_id
     [Documentation]    Query a rule with a non-existing ID.
     ${response}    queryConditionRule    {"ruleid":"invalidid"}
     ${respJson}    to json    ${response.content}
-    ${count}    get from dictionary    ${respJson}    totalcount
+    ${count}    get from dictionary    ${respJson}    totalCount
     run keyword if    ${count}!=0    fail
 
 query_rule_with_partial_existing_name
     [Documentation]    Query rules with (a part of) an existing name.
     ${response}    queryConditionRule    {"rulename":"youbowu"}
     ${respJson}    to json    ${response.content}
-    ${count}    get from dictionary    ${respJson}    totalcount
+    ${count}    get from dictionary    ${respJson}    totalCount
     run keyword if    ${count}<1    fail    Can't find the rule with (a part of) an existing name
 
 query_rule_with_partial_non_existing_name
     [Documentation]    Query rules with (a part of) a non-existing name.
     ${response}    queryConditionRule    {"rulename":"zte2017"}
     ${respJson}    to json    ${response.content}
-    ${count}    get from dictionary    ${respJson}    totalcount
+    ${count}    get from dictionary    ${respJson}    totalCount
     run keyword if    ${count}!=0    fail
 
 query_rule_with_vaild_status
     [Documentation]    Query rules with a valid status.
     ${response}    queryConditionRule    {"enabled":1}
     ${respJson}    to json    ${response.content}
-    ${count}    get from dictionary    ${respJson}    totalcount
+    ${count}    get from dictionary    ${respJson}    totalCount
     run keyword if    ${count}<0    fail    Can't find the rule with the status valued 1.
 
 query_rule_with_invalid_status
     [Documentation]    Query rules with an invalid status.
     ${response}    queryConditionRule    {"enabled":99}
     ${respJson}    to json    ${response.content}
-    ${count}    get from dictionary    ${respJson}    totalcount
+    ${count}    get from dictionary    ${respJson}    totalCount
     run keyword if    ${count}!=0    fail
 
 query_rule_with_empty_status
     [Documentation]    Query rules with the status left empty.
     ${response}    queryConditionRule    {"enabled":""}
     ${respJson}    to json    ${response.content}
-    ${count}    get from dictionary    ${respJson}    totalcount
+    ${count}    get from dictionary    ${respJson}    totalCount
     run keyword if    ${count}!=0    fail
 
 query_rule_with_combinational_fields
@@ -85,7 +85,7 @@ query_rule_with_combinational_fields
     ${paramJson}    encode    ${dic}
     ${response}    queryConditionRule    ${paramJson}
     ${respJson}    to json    ${response.content}
-    ${count}    get from dictionary    ${respJson}    totalcount
+    ${count}    get from dictionary    ${respJson}    totalCount
     run keyword if    ${count}<1    fail    Can't find the rules with the combination of different fields.    ELSE    traversalRuleAttribute    ${respJson}
     ...    ${dic}
 
@@ -96,7 +96,7 @@ modify_rule_with_status
     ${modifyResp}    modifyRule    ${modifyParam}
     ${response}    queryConditionRule    {"ruleid":"${RULEID}"}
     ${respJson}    to json    ${response.content}
-    ${count}    get from dictionary    ${respJson}    totalcount
+    ${count}    get from dictionary    ${respJson}    totalCount
     run keyword if    ${count}!=1    fail    query rule fails! (can't find the rule modified!)    ELSE    traversalRuleAttribute    ${respJson}
     ...    ${dic}
 
@@ -113,7 +113,7 @@ modify_rule_with_description
     ${modifyResp}    modifyRule    ${modifyParam}
     ${response}    queryConditionRule    {"ruleid":"${RULEID}"}    1
     ${respJson}    to json    ${response.content}
-    ${count}    get from dictionary    ${respJson}    totalcount
+    ${count}    get from dictionary    ${respJson}    totalCount
     run keyword if    ${count}!=1    fail    query rule fails!    ELSE    traversalRuleAttribute    ${respJson}
     ...    ${dic}
 
