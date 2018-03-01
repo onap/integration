@@ -1,0 +1,175 @@
+{
+  "name": "onap optf has plan with wrong version",
+  "template": {
+  "conductor_template_version": "yyyy-mm-dd",
+  "parameters": {
+    "UCPEHOST": "chcil129snd",
+    "CUSTOMER":"21014aa2-526b-11e6-beb8-9e71128cae77"
+  },
+  "locations": {
+    "customer_loc": {
+      "host_name": {
+        "get_param": "UCPEHOST"
+      }
+    }
+  },
+  "demands": {
+    "vHNPortalaaS_PRIMARY_1": [
+      {
+        "inventory_provider": "aai",
+        "inventory_type": "service",
+        "service_type": "HNPORTAL",
+        "customer_id": {"get_param": "CUSTOMER"}
+      },
+      {
+        "inventory_provider": "aai",
+        "inventory_type": "cloud"
+      }
+    ],
+    "vHNPortalaaS_SECONDARY_1": [
+      {
+        "inventory_provider": "aai",
+        "inventory_type": "service",
+        "service_type": "HNPORTAL",
+        "customer_id": {"get_param": "CUSTOMER"}
+      },
+      {
+        "inventory_provider": "aai",
+        "inventory_type": "cloud"
+      }
+    ],
+    "vHNGWaaS_PRIMARY_1": [
+      {
+        "inventory_provider": "aai",
+        "inventory_type": "service",
+        "service_type": "HNGATEWAY",
+        "customer_id": {"get_param": "CUSTOMER"}
+      },
+      {
+        "inventory_provider": "aai",
+        "inventory_type": "cloud"
+      }
+    ],
+    "vHNGWaaS_SECONDARY_1": [
+      {
+        "inventory_provider": "aai",
+        "inventory_type": "service",
+        "service_type": "HNGATEWAY",
+        "customer_id": {"get_param": "CUSTOMER"}
+      },
+      {
+        "inventory_provider": "aai",
+        "inventory_type": "cloud"
+      }
+    ],
+    "vVIGaaS_PRIMARY_1": [
+      {
+        "inventory_provider": "aai",
+        "inventory_type": "service",
+        "service_type": "VVIG",
+        "customer_id": {"get_param": "CUSTOMER"}
+      }
+    ],
+    "vVIGaaS_SECONDARY_1": [
+      {
+        "inventory_provider": "aai",
+        "inventory_type": "service",
+        "service_type": "VVIG",
+        "customer_id": {"get_param": "CUSTOMER"}
+      }
+    ],
+    "vVIGaaS_PRIMARY_2": [
+      {
+        "inventory_provider": "aai",
+        "inventory_type": "service",
+        "service_type": "VVIG",
+        "customer_id": {"get_param": "CUSTOMER"}
+      }
+    ],
+    "vVIGaaS_SECONDARY_2": [
+      {
+        "inventory_provider": "aai",
+        "inventory_type": "service",
+        "service_type": "VVIG",
+        "customer_id": {"get_param": "CUSTOMER"}
+      }
+    ]
+  },
+  "constraints": {
+    "distance-vvig": {
+      "type": "distance_to_location",
+      "demands": [
+        "vVIGaaS_SECONDARY_1",
+        "vVIGaaS_PRIMARY_1"
+      ],
+      "properties": {
+        "distance": "< 5000 km",
+        "location": "customer_loc"
+      }
+    },
+    "distance-vgw": {
+      "type": "distance_to_location",
+      "demands": [
+        "vHNGWaaS_SECONDARY_1",
+        "vHNGWaaS_PRIMARY_1"
+      ],
+      "properties": {
+        "distance": "< 5000 km",
+        "location": "customer_loc"
+      }
+    },
+    "zone-vhngw": {
+      "type": "zone",
+      "demands": [
+        "vHNGWaaS_SECONDARY_1",
+        "vHNGWaaS_PRIMARY_1"
+      ],
+      "properties": {
+        "qualifier": "different",
+        "category": "complex"
+      }
+    },
+    "zone-vhnportal": {
+      "type": "zone",
+      "demands": [
+        "vHNPortalaaS_SECONDARY_1",
+        "vHNPortalaaS_PRIMARY_1"
+      ],
+      "properties": {
+        "qualifier": "different",
+        "category": "complex"
+      }
+    }
+  },
+  "optimization": {
+    "minimize": {
+      "sum": [
+        {
+          "product": [
+            1,
+            {
+              "distance_between": [
+                "customer_loc",
+                "vVIGaaS_PRIMARY_1"
+              ]
+            }
+          ]
+        },
+        {
+          "product": [
+            1,
+            {
+              "distance_between": [
+                "customer_loc",
+                "vHNGWaaS_PRIMARY_1"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+},
+  "timeout": 5,
+  "limit": 3
+}
