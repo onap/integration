@@ -1,6 +1,8 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+Vagrant::DEFAULT_SERVER_URL.replace('https://vagrantcloud.com')
+
 configuration = {
   # Generic parameters used across all ONAP components
   'key_name'            => 'ecomp_key',
