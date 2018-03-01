@@ -1,0 +1,5 @@
+{
+	"consistencyInfo":   {"type":"eventual"},   
+	"timestamp":null,   
+	"ttl":null   
+}
