@@ -34,7 +34,7 @@ traversalRuleAttribute
     [Arguments]    ${responseJsonData}    ${expectAttrDic}
     [Documentation]    ${expectAttrDic} : The data type is dictionary;
     ...    key is the name of the attribute, value is the expected value of the attribute.
-    @{responseRules}    Get From Dictionary    ${responseJsonData}    rules
+    @{responseRules}    Get From Dictionary    ${responseJsonData}    correlationRules
     : FOR    ${rule}    IN    @{responseRules}
     \    log    ${rule}
     \    verifyRuleAttribute    ${rule}    ${expectAttrDic}

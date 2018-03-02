@@ -8,7 +8,7 @@ Resource          Rule-Keywords.robot
 *** Test Cases ***
 add_valid_rule
     [Documentation]    Add a valid rule.
-    ${dict2}    create dictionary    rulename=youbowu0314    description=create a new rule!    content=package rule03140002;\n\nimport java.util.Locale;     enabled=1    loopcontrolname=closedControlLoop
+    ${dict2}    create dictionary    rulename=youbowu0314    description=create a new rule!    content=package ruleqwertasd;\n\nimport java.util.Locale;    enabled=1    loopcontrolname=closedControlLoop
     ${jsonParams}    encode    ${dict2}
     ${response}    createRule    ${jsonParams}
     ${respJson}    to json    ${response.content}
@@ -39,7 +39,7 @@ query_rule_with_existing_id
 
 query_rule_with_non_existing_id
     [Documentation]    Query a rule with a non-existing ID.
-    ${response}    queryConditionRule    {"ruleid":"invalidid"}
+    ${response}    queryConditionRule    {"rid":"invalidid"}
     ${respJson}    to json    ${response.content}
     ${count}    get from dictionary    ${respJson}    totalCount
     run keyword if    ${count}!=0    fail
@@ -53,7 +53,7 @@ query_rule_with_partial_existing_name
 
 query_rule_with_partial_non_existing_name
     [Documentation]    Query rules with (a part of) a non-existing name.
-    ${response}    queryConditionRule    {"rulename":"zte2017"}
+    ${response}    queryConditionRule    {"name":"zte2017"}
     ${respJson}    to json    ${response.content}
     ${count}    get from dictionary    ${respJson}    totalCount
     run keyword if    ${count}!=0    fail
@@ -74,7 +74,7 @@ query_rule_with_invalid_status
 
 query_rule_with_empty_status
     [Documentation]    Query rules with the status left empty.
-    ${response}    queryConditionRule    {"enabled":""}
+    ${response}    queryConditionRule    {"enabled":null}
     ${respJson}    to json    ${response.content}
     ${count}    get from dictionary    ${respJson}    totalCount
     run keyword if    ${count}!=0    fail
