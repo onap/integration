@@ -6,8 +6,8 @@ source /var/onap/functions
 function get_mso_images {
     if [[ "$build_image" == "True" ]]; then
         export GIT_NO_PROJECT=/opt/
-        compile_src $mso_src_folder
-        build_docker_image $mso_src_folder/packages/docker docker
+        compile_src ${src_folders[mso]}
+        build_docker_image ${src_folders[mso]}/packages/docker docker
     fi
 }
 
@@ -65,7 +65,7 @@ EOF
     install_docker
     install_docker_compose
     # Deploy the environment
-    pushd $mso_src_folder/docker-config
+    pushd ${src_folders[mso]}/docker-config
     chmod +x deploy.sh
     if [[ "$build_image" == "True" ]]; then
         bash deploy.sh

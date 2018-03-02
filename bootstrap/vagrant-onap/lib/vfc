@@ -9,7 +9,7 @@ function compile_all_vfc_repos {
     tox_repos=("gvnfm/vnflcm/lcm" "gvnfm/vnfmgr/mgr" "gvnfm/vnfres/res" "nfvo/lcm" \
         "nfvo/driver/vnfm/gvnfm/gvnfmadapter" "nfvo/driver/vnfm/svnfm/zte/vmanager")
     for dirc in ${tox_repos[@]}; do
-        pushd $vfc_src_folder/$dirc
+        pushd ${src_folders[vfc]}/$dirc
         tox -e py27
         popd
     done
@@ -28,7 +28,7 @@ function compile_all_vfc_repos {
 
 # _build_vfc_image() - Build VFC  docker image
 function _build_vfc_image {
-    pushd $vfc_src_folder/$1/docker
+    pushd ${src_folders[vfc]}/$1/docker
     sed -i "s/^push_image/#push_image/g" build_image.sh
     sed -i 's|IMAGE_NAME="${DOCKER_REPOSITORY}/${ORG}/${PROJECT}/${IMAGE}"|IMAGE_NAME=${ORG}/${IMAGE}|g' build_image.sh
     ./build_image.sh
@@ -53,11 +53,9 @@ function get_vfc_images {
         build_nfvo_vnfm_gvnfmadapter_image
         # TODO(sshank): Add other VFC component docker image builds.
     else
-        pull_onap_image vfc/gvnfm/vnflcm/lcm
-        pull_onap_image vfc/gvnfm/vnfmgr/mgr
-        pull_onap_image vfc/gvnfm/vnfres/res
-        pull_onap_image vfc/nfvo/lcm
-        pull_onap_image vfc/nfvo/driver/vnfm/gvnfm/gvnfmadapter
+        for image in gvnfm/vnflcm/lcm gvnfm/vnfmgr/mgr gvnfm/vnfres/res nfvo/lcm nfvo/driver/vnfm/gvnfm/gvnfmadapter; do
+            pull_onap_image vfc/$image
+        done
     fi
 }
 

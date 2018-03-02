@@ -12,7 +12,7 @@ function get_mr_images {
 function install_message_router {
     install_docker_compose
 
-    pushd $mr_src_folder
+    pushd ${src_folders[mr]}
     bash deploy.sh
     popd
 }
@@ -20,7 +20,7 @@ function install_message_router {
 # init_mr() - Function that initialize Message Router services
 function init_mr {
     if [[ "$clone_repo" == "True" ]]; then
-        clone_repo dcae/demo/startup/message-router $mr_src_folder
+        clone_repo dcae/demo/startup/message-router ${src_folders[mr]}
     fi
     if [[ "$skip_get_images" == "False" ]]; then
         get_mr_images
