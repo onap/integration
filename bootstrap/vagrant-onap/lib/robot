@@ -6,10 +6,10 @@ source /var/onap/functions
 function _setup_ete_folder {
     mkdir -p /opt/eteshare/config
 
-    cp $robot_src_folder/integration_* /opt/eteshare/config
-    cp $robot_src_folder/vm_config2robot.sh /opt/eteshare/config
-    cp $robot_src_folder/ete.sh /opt
-    cp $robot_src_folder/demo.sh /opt
+    cp ${src_folders[robot]}/integration_* /opt/eteshare/config
+    cp ${src_folders[robot]}/vm_config2robot.sh /opt/eteshare/config
+    cp ${src_folders[robot]}/ete.sh /opt
+    cp ${src_folders[robot]}/demo.sh /opt
 
     chmod +x /opt/ete.sh
     chmod +x /opt/demo.sh

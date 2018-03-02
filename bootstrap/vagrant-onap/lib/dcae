@@ -4,7 +4,7 @@ source /var/onap/functions
 
 # _create_config_file() - Creates a configuration yaml file for the controller
 function _create_config_file {
-    cat > $dcae_src_folder/controller/config.yaml << EOL
+    cat > ${src_folders[dcae]}/controller/config.yaml << EOL
 ZONE: $dcae_zone
 STATE: $dcae_state
 DCAE-VERSION: $artifacts_version
@@ -36,14 +36,14 @@ function _build_dcae_images {
     if [[ "$compile_repo" != "True" ]]; then
         compile_repos "dcae"
     fi
-    build_docker_image $dcae_src_folder/dmaapbc openecomp/dcae-dmaapbc
-    build_docker_image $dcae_src_folder/orch-dispatcher dcae/orch-dispatcher
+    build_docker_image ${src_folders[dcae]}/dmaapbc openecomp/dcae-dmaapbc
+    build_docker_image ${src_folders[dcae]}/orch-dispatcher dcae/orch-dispatcher
 
-    pushd $dcae_src_folder/demo
+    pushd ${src_folders[dcae]}/demo
     bash dcae-demo-controller/src/main/docker-build/build.sh
     popd
 
-    build_docker_image $dcae_src_folder/dcae-inventory
+    build_docker_image ${src_folders[dcae]}/dcae-inventory
 }
 
 # get_dcae_images() - Function that retrieves or builds DCAE docker images.
@@ -59,7 +59,7 @@ function get_dcae_images {
 # install_dcae() - Function that clones and installs the DCAE controller services from source code
 function install_dcae {
     install_docker_compose
-    pushd $dcae_src_folder/demo/startup/controller
+    pushd ${src_folders[dcae]}/demo/startup/controller
     if [[ "$build_image" == "True" ]]; then
         dcae_image=`docker images | grep dcae-controller | awk '{print $1 ":" $2}'`
         sed -i "s|DOCKER-REGISTRY/openecomp/dcae-controller:DCAE-VERSION|$dcae_image|g" docker-compose.yml

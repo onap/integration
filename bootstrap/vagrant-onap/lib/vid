@@ -5,9 +5,9 @@ source /var/onap/functions
 # _build_vid_images() - Function that builds VID docker images
 function _build_vid_images {
     if [[ "$compile_repo" != "True" ]]; then
-        compile_src $vid_src_folder
+        compile_src ${src_folders[vid]}
     fi
-    build_docker_image $vid_src_folder/deliveries
+    build_docker_image ${src_folders[vid]}/deliveries
 }
 
 # get_vid_images() - Function that retrieves VID docker images

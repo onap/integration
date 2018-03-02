@@ -8,9 +8,9 @@ function _build_msb_images {
         compile_repos "msb"
     fi
 
-    build_docker_image $msb_src_folder/apigateway/distributions/msb-apigateway/src/main/basedocker onap/msb/msb_base
-    build_docker_image $msb_src_folder/apigateway/distributions/msb-apigateway/src/main/docker onap/msb/msb_apigateway
-    build_docker_image $msb_src_folder/discovery/distributions/msb-discovery/src/main/docker onap/msb/msb_discovery
+    build_docker_image ${src_folders[msb]}/apigateway/distributions/msb-apigateway/src/main/basedocker onap/msb/msb_base
+    build_docker_image ${src_folders[msb]}/apigateway/distributions/msb-apigateway/src/main/docker onap/msb/msb_apigateway
+    build_docker_image ${src_folders[msb]}/discovery/distributions/msb-discovery/src/main/docker onap/msb/msb_discovery
 }
 
 # get_msb_images() - Function that retrieves the Microservices Bus images
@@ -20,9 +20,9 @@ function get_msb_images {
         _build_msb_images
     else
         unset docker_version
-        pull_onap_image msb/msb_base
-        pull_onap_image msb/msb_apigateway
-        pull_onap_image msb/msb_discovery
+        for image in base apigateway discovery; do
+            pull_onap_image msb/msb_$image
+        done
     fi
 }
 

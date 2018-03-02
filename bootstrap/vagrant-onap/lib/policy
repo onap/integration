@@ -4,8 +4,8 @@ source /var/onap/functions
 
 # _build_policy_images() - Function that build Policy docker images from source code
 function _build_policy_images {
-    compile_src $policy_src_folder/docker
-    pushd $policy_src_folder/docker
+    compile_src ${src_folders[policy]}/docker
+    pushd ${src_folders[policy]}/docker
     install_maven
     mvn prepare-package
     cp -r target/policy-pe/* policy-pe/
@@ -20,16 +20,15 @@ function get_policy_images {
     if [[ "$build_image" == "True" ]]; then
         _build_policy_images
     else
-        pull_onap_image policy/policy-db onap/policy/policy-db:latest
-        pull_onap_image policy/policy-pe onap/policy/policy-pe:latest
-        pull_onap_image policy/policy-drools onap/policy/policy-drools:latest
-        pull_onap_image policy/policy-nexus onap/policy/policy-nexus:latest
+        for image in db pe drools nexus; do
+            pull_onap_image policy/policy-$image onap/policy/policy-$image:latest
+        done
     fi
 }
 
 # install_policy() - Function that clones and installs the Policy services from source code
 function install_policy {
-    pushd $policy_src_folder/docker
+    pushd ${src_folders[policy]}/docker
     chmod +x config/drools/drools-tweaks.sh
     echo $IP_ADDRESS > config/pe/ip_addr.txt
     install_docker_compose
