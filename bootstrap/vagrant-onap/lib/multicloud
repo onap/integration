@@ -25,9 +25,7 @@ function get_multicloud_images {
 
 # install_multicloud() - 
 function install_multicloud {
-    #pushd ${src_folders[multicloud]}/openstack/$openstack_release
-    #/opt/docker/docker-compose up -d
-    #popd
+    #run_docker_compose ${src_folders[multicloud]}/openstack/$openstack_release
     if [[ "$build_image" == "True" ]]; then
         multicloud-api --port 9003 --host 0.0.0.0 &
     else

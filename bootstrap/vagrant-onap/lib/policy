@@ -31,8 +31,7 @@ function install_policy {
     pushd ${src_folders[policy]}/docker
     chmod +x config/drools/drools-tweaks.sh
     echo $IP_ADDRESS > config/pe/ip_addr.txt
-    install_docker_compose
-    /opt/docker/docker-compose up -d
+    run_docker_compose .
     popd
 }
 

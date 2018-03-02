@@ -32,13 +32,16 @@ function is_package_installed {
     source /etc/os-release || source /usr/lib/os-release
     case ${ID,,} in
         *suse)
+            CHECK_CMD="zypper search --match-exact --installed"
         ;;
         ubuntu|debian)
-            dpkg -s "$@" > /dev/null
+            CHECK_CMD="dpkg -l"
         ;;
         rhel|centos|fedora)
+            CHECK_CMD="rpm -q"
         ;;
     esac
+    ${CHECK_CMD} "$@" &> /dev/null
 }
 
 # install_packages() - Install a list of packages

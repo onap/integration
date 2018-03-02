@@ -58,13 +58,12 @@ function get_dcae_images {
 
 # install_dcae() - Function that clones and installs the DCAE controller services from source code
 function install_dcae {
-    install_docker_compose
     pushd ${src_folders[dcae]}/demo/startup/controller
     if [[ "$build_image" == "True" ]]; then
         dcae_image=`docker images | grep dcae-controller | awk '{print $1 ":" $2}'`
         sed -i "s|DOCKER-REGISTRY/openecomp/dcae-controller:DCAE-VERSION|$dcae_image|g" docker-compose.yml
         sed -i "s|MTU|$MTU|g" docker-compose.yml
-        /opt/docker/docker-compose up -d
+        run_docker_compose .
     else
         bash init.sh
         install_package make

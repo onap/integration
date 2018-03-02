@@ -2,14 +2,18 @@
 
 # create_configuration_files() -  Store credentials in files
 function create_configuration_files {
-    mkdir -p /opt/config
-    echo $nexus_docker_repo > /opt/config/nexus_docker_repo.txt
-    echo $nexus_username > /opt/config/nexus_username.txt
-    echo $nexus_password > /opt/config/nexus_password.txt
-    echo $openstack_username > /opt/config/openstack_username.txt
-    echo $openstack_tenant_id > /opt/config/tenant_id.txt
-    echo $dmaap_topic > /opt/config/dmaap_topic.txt
-    echo $docker_version > /opt/config/docker_version.txt
+    local onap_config_folder="/opt/config"
+
+    mkdir -p $onap_config_folder
+    pushd $onap_config_folder
+    echo $nexus_docker_repo > nexus_docker_repo.txt
+    echo $nexus_username > nexus_username.txt
+    echo $nexus_password > nexus_password.txt
+    echo $openstack_username > openstack_username.txt
+    echo $openstack_tenant_id > tenant_id.txt
+    echo $dmaap_topic > dmaap_topic.txt
+    echo $docker_version > docker_version.txt
+    popd
 }
 
 # docker_openecomp_login() - Login to OpenECOMP Docker Hub

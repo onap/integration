@@ -60,10 +60,6 @@ function clone_repo {
         else
             _git_timed clone ${repo_url}${repo} $dest_folder
         fi
-    else
-        pushd $dest_folder
-        _git_timed pull
-        popd
     fi
 }
 
@@ -277,6 +273,16 @@ function run_docker_image {
     docker run $@
 }
 
+# run_docker_compose() - Ensures that docker compose is installed and run it in background
+function run_docker_compose {
+    local folder=$1
+
+    install_docker_compose
+    pushd $folder
+    /opt/docker/docker-compose up -d
+    popd
+}
+
 # install_docker_compose() - Download and install docker-engine 
 function install_docker_compose {
     local docker_compose_version=${1:-1.12.0}
@@ -401,7 +407,7 @@ EOF
     echo "${dev_name}1  $mount_dir           ext4    errors=remount-ro,noatime,barrier=0 0       1" >> /etc/fstab
 }
 
-# add no_proxy values to environment, used for internal IPs generated at deploy time
+# add_no_proxy_value() - Add no_proxy values into environment file, used for internal IPs generated at deploy time
 function add_no_proxy_value {
     if [[ `grep "no_proxy" /etc/environment` ]]; then
         sed -i.bak "s/^no_proxy.*$/&,$1/" /etc/environment
@@ -414,3 +420,4 @@ function add_no_proxy_value {
         echo "NO_PROXY=$1" >> /etc/environment
     fi
 }
+
