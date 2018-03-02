@@ -6,7 +6,7 @@ source /var/onap/functions
 # _build_appc_images() - Function that creates APPC images from source code.
 function _build_appc_images {
     get_sdnc_images
-    build_docker_image $appc_src_folder/deployment/installation/appc docker
+    build_docker_image ${src_folders[appc]}/deployment/installation/appc docker
 }
 
 # get_appc_images() - Function that gets or build APPC docker images
@@ -14,17 +14,15 @@ function get_appc_images {
     if [[ "$build_image" == "True" ]]; then
         _build_appc_images
     else
-        pull_openecomp_image appc-image openecomp/appc-image:latest
-        pull_openecomp_image dgbuilder-sdnc-image openecomp/dgbuilder-sdnc-image:latest
+        for image in appc-image dgbuilder-sdnc-image; do
+            pull_openecomp_image $image openecomp/$image:latest
+        done
     fi
 }
 
 # install_appc() - Function that clones and installs the APPC services from source code
 function install_appc {
-    pushd $appc_src_folder/deployment/docker-compose
-    install_docker_compose
-    /opt/docker/docker-compose up -d
-    popd
+    run_docker_compose ${src_folders[appc]}/deployment/docker-compose
 }
 
 # init_appc() - Function that initialize APPC services

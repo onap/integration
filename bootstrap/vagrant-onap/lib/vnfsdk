@@ -5,7 +5,7 @@ source /var/onap/functions
 # _build_vnfsdk_images() - Builds VNFSDK images from source code
 function _build_vnfsdk_images {
     install_package unzip
-    pushd $vnfsdk_src_folder/refrepo/vnfmarket-be/deployment/docker/docker-refrepo
+    pushd ${src_folders[vnfsdk]}/refrepo/vnfmarket-be/deployment/docker/docker-refrepo
     build_docker_image .
     popd
 }
@@ -24,7 +24,7 @@ function get_vnfsdk_images {
 # install_vnfsdk - Function that installs vnfsdk Docker images
 function install_vnfsdk {
     install_docker_compose
-    pushd $vnfsdk_src_folder/refrepo/vnfmarket-be/deployment/install
+    pushd ${src_folders[vnfsdk]}/refrepo/vnfmarket-be/deployment/install
     /opt/docker/docker-compose up -d
     popd
 }

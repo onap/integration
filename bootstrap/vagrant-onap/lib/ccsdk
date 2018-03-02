@@ -5,9 +5,9 @@ source /var/onap/functions
 # _build_ccsdk_images() - Build CCSDK Docker images from source code
 function _build_ccsdk_images {
     install_package unzip
-    compile_src $ccsdk_src_folder/distribution
+    compile_src ${src_folders[ccsdk]}/distribution
     for image in ubuntu opendaylight odlsli dgbuilder-docker; do
-        build_docker_image $ccsdk_src_folder/distribution/$image docker
+        build_docker_image ${src_folders[ccsdk]}/distribution/$image docker
     done
 }
 

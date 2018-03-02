@@ -115,19 +115,13 @@ function get_aai_images {
 
     if [[ "$build_image" == "True" ]]; then
         unset MAVEN_OPTS
-        build_docker_image ${src_folders[aai]}/resources/aai-resources
-        build_docker_image ${src_folders[aai]}/traversal/aai-traversal
-        build_docker_image ${src_folders[aai]}/search-data-service
-        build_docker_image ${src_folders[aai]}/data-router
-        build_docker_image ${src_folders[aai]}/model-loader
-        build_docker_image ${src_folders[aai]}/sparky-be
+        for project in resources/aai-resources traversal/aai-traversal search-data-service data-router model-loader sparky-be; do
+            build_docker_image ${src_folders[aai]}/$project
+        done
     else
-        pull_onap_image aai-resources
-        pull_onap_image aai-traversal
-        pull_onap_image search-data-service
-        pull_onap_image data-router
-        pull_onap_image model-loader
-        pull_onap_image sparky-be
+        for image in aai-resources aai-traversal search-data-service data-router model-loader sparky-be; do
+            pull_onap_image $image
+        done
     fi
 }
 
