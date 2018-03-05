@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Source code destination folder
-git_src_folder=/opt
+git_src_folder=/opt/onap
 
 declare -A src_folders
 src_folders=(

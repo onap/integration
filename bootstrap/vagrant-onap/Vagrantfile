@@ -493,7 +493,7 @@ Vagrant.configure("2") do |config|
 
         # Set Sync Folder
         nodeconfig.vm.synced_folder ".", "/vagrant", disabled: true
-        nodeconfig.vm.synced_folder './opt', '/opt/', create: true, type: sync_type
+        nodeconfig.vm.synced_folder './opt', '/opt/onap/', create: true, type: sync_type
         nodeconfig.vm.synced_folder './lib', '/var/onap/', create: true, type: sync_type
         if !is_windows
           nodeconfig.vm.synced_folder '~/.m2', '/root/.m2/', create: true

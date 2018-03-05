@@ -59,11 +59,15 @@ current options include:
 | vid        | Virtual Infrastructure Development  |
 | vnfsdk     | VNF SDK                             |
 | vvp        | VNF Validation Program              |
-|:----------:|-------------------------------------|
-| all_in_one | All ONAP services in a VM           |
-| testing    | Unit Test VM                        |
-|:----------:|-------------------------------------|
-| openstack  | OpenStack Deployment                |
+
+| app_name   | description                              |
+|:----------:|------------------------------------------|
+| all_in_one | All ONAP services in a VM (experimental) |
+| testing    | Unit Test VM                             |
+
+| app_name   | description          |
+|:----------:|----------------------|
+| openstack  | OpenStack Deployment |
 
 #### Generating documentation
 

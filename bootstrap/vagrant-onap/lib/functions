@@ -293,6 +293,33 @@ function install_docker_compose {
     fi
 }
 
+# install_chefdk() - Install ChefDK package
+function install_chefdk {
+    local chefdk_version="2.4.17"
+
+    if is_package_installed chefdk; then
+        return
+    fi
+    pushd $(mktemp -d)
+    source /etc/os-release || source /usr/lib/os-release
+    case ${ID,,} in
+        *suse)
+        ;;
+        ubuntu|debian)
+        chefdk_pkg="chefdk_$chefdk_version-1_amd64.deb"
+        chefdk_url="https://packages.chef.io/files/stable/chefdk/$chefdk_version/ubuntu/$VERSION_ID/$chefdk_pkg"
+
+        wget $chefdk_url
+        dpkg -i $chefdk_pkg
+        apt-get install -f -y
+        ;;
+        rhel|centos|fedora)
+        rpm -Uvh "https://packages.chef.io/files/stable/chefdk/$chefdk_version/el/7/chefdk-$chefdk_version-1.el7.x86_64.rpm"
+        ;;
+    esac
+    popd
+}
+
 # _install_ODL() - Download and Install OpenDayLight SDN controller
 function _install_ODL {
     if [ ! -d /opt/opendaylight/current ]; then
