@@ -22,13 +22,13 @@ verify_valid_rule
 
 deploy_invalid_rule
     [Documentation]    Add a rule with invalid contents to the engine.
-    ${dic3}    create dictionary    content=789789789    engineid=""
+    ${dic3}    create dictionary    content=789789789    engineId=""
     ${Jsonparam}    encode    ${dic3}
     ${response}    deployEngineRule    ${Jsonparam}    -1
 
 deploy_valid_rule
     [Documentation]    Add a rule with valid contents to the engine.
-    ${dic4}    create dictionary    content=package rule03080002;\n\nimport java.util.Locale;     engineid=""    loopcontrolname=test
+    ${dic4}    create dictionary    content=package rule03080002;\n\nimport java.util.Locale;    engineId=""    loopControlName=test
     ${Jsonparam}    encode    ${dic4}
     ${response}    deployEngineRule    ${Jsonparam}
 
