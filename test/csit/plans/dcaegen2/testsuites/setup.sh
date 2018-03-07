@@ -21,7 +21,7 @@
 #get current host IP addres
 HOST_IP=$(ip route get 8.8.8.8 | awk '/8.8.8.8/ {print $NF}')
 
-VESC_IMAGE=nexus3.onap.org:10001/onap/org.onap.dcaegen2.collectors.ves.vescollector:1.1
+VESC_IMAGE=nexus3.onap.org:10001/onap/org.onap.dcaegen2.collectors.ves.vescollector:1.2-latest
 echo VESC_IMAGE=${VESC_IMAGE}
 
 # Start DCAE VES Collector
