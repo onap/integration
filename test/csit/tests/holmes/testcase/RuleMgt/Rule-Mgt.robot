@@ -8,17 +8,17 @@ Resource          Rule-Keywords.robot
 *** Test Cases ***
 add_valid_rule
     [Documentation]    Add a valid rule.
-    ${dict2}    create dictionary    rulename=youbowu0314    description=create a new rule!    content=package ruleqwertasd;\n\nimport java.util.Locale;    enabled=1    loopcontrolname=closedControlLoop
+    ${dict2}    create dictionary    ruleName=you1212121121    description=create a new rule!    content=package ruleqwertasd;\n\nimport java.util.Locale;    enabled=1    loopControlName=closedControlLoop
     ${jsonParams}    encode    ${dict2}
     ${response}    createRule    ${jsonParams}
     ${respJson}    to json    ${response.content}
-    ${RULEID}    get from dictionary    ${respJson}    ruleid
+    ${RULEID}    get from dictionary    ${respJson}    ruleId
     set global variable    ${RULEID}
     log    ${RULEID}
 
 add_invalid_content_rule
     [Documentation]    Add an invalid rule of which the content is incorrect!!
-    ${dict1}    create dictionary    rulename=gy0307001    description=create a new rule!    content=123123123    enabled=1
+    ${dict1}    create dictionary    ruleName=gy0307001    description=create a new rule!    content=123123123    enabled=1
     ${jsonParams}    encode    ${dict1}
     ${response}    createRule    ${jsonParams}    -1
     log    ${response.content}
@@ -39,21 +39,21 @@ query_rule_with_existing_id
 
 query_rule_with_non_existing_id
     [Documentation]    Query a rule with a non-existing ID.
-    ${response}    queryConditionRule    {"rid":"invalidid"}
+    ${response}    queryConditionRule    {"ruleid":"invalidid"}
     ${respJson}    to json    ${response.content}
     ${count}    get from dictionary    ${respJson}    totalCount
     run keyword if    ${count}!=0    fail
 
 query_rule_with_partial_existing_name
     [Documentation]    Query rules with (a part of) an existing name.
-    ${response}    queryConditionRule    {"rulename":"youbowu"}
+    ${response}    queryConditionRule    {"ruleName":"youbowu"}
     ${respJson}    to json    ${response.content}
     ${count}    get from dictionary    ${respJson}    totalCount
     run keyword if    ${count}<1    fail    Can't find the rule with (a part of) an existing name
 
 query_rule_with_partial_non_existing_name
     [Documentation]    Query rules with (a part of) a non-existing name.
-    ${response}    queryConditionRule    {"name":"zte2017"}
+    ${response}    queryConditionRule    {"rulename":"zte2017"}
     ${respJson}    to json    ${response.content}
     ${count}    get from dictionary    ${respJson}    totalCount
     run keyword if    ${count}!=0    fail
@@ -81,7 +81,7 @@ query_rule_with_empty_status
 
 query_rule_with_combinational_fields
     [Documentation]    Query rules using the combination of different fields.
-    ${dic}    create dictionary    rulename=youbowu0314    enabled=1
+    ${dic}    create dictionary    ruleName=youbowu0314    enabled=1
     ${paramJson}    encode    ${dic}
     ${response}    queryConditionRule    ${paramJson}
     ${respJson}    to json    ${response.content}
@@ -91,27 +91,28 @@ query_rule_with_combinational_fields
 
 modify_rule_with_status
     [Documentation]    modify the rule with a valid status.
-    ${dic}    create dictionary    ruleid=${RULEID}    enabled=0    content=package rule03140002    loopcontrolname=closedControlLoop
+    ${dic}    create dictionary    ruleId=${RULEID}    enabled=0    content=package rule03140002    loopControlName=closedControlLoop
     ${modifyParam}    encode    ${dic}
     ${modifyResp}    modifyRule    ${modifyParam}
-    ${response}    queryConditionRule    {"ruleid":"${RULEID}"}
+    ${response}    queryConditionRule    {"ruleId":"${RULEID}"}
     ${respJson}    to json    ${response.content}
     ${count}    get from dictionary    ${respJson}    totalCount
     run keyword if    ${count}!=1    fail    query rule fails! (can't find the rule modified!)    ELSE    traversalRuleAttribute    ${respJson}
     ...    ${dic}
+    log    "response:"    ${response}
 
 modify_rule_with_invalid_status
     [Documentation]    modify the rule with an invalid status.
-    ${dic}    create dictionary    ruleid=${RULEID}    enabled=88    content=package rule03140002
+    ${dic}    create dictionary    ruleId=${RULEID}    enabled=88    content=package rule03140002
     ${modifyParam}    encode    ${dic}
     ${modifyResponse}    modifyRule    ${modifyParam}    -1
 
 modify_rule_with_description
     [Documentation]    modify the description of the rule with the new string.
-    ${dic}    create dictionary    ruleid=${RULEID}    description=now, i modifying the description of the rule.    content=package rule03140002    loopcontrolname=closedControlLoop
+    ${dic}    create dictionary    ruleId=${RULEID}    description=now, i modifying the description of the rule.    content=package rule03140002    loopControlName=closedControlLoop
     ${modifyParam}    encode    ${dic}
     ${modifyResp}    modifyRule    ${modifyParam}
-    ${response}    queryConditionRule    {"ruleid":"${RULEID}"}    1
+    ${response}    queryConditionRule    {"ruleId":'${RULEID}'}    1
     ${respJson}    to json    ${response.content}
     ${count}    get from dictionary    ${respJson}    totalCount
     run keyword if    ${count}!=1    fail    query rule fails!    ELSE    traversalRuleAttribute    ${respJson}
