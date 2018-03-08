@@ -15,7 +15,7 @@ ${csarId}  0
 
 Upload VNF Package to VNF Repository
     [Documentation]    Upload the VNF Package
-    ${resp}=   Run    curl -s -X POST -H "Content-Type: multipart/form-data" -F "file=@${csarpath}" http://${REPO_IP}:8702/openoapi/vnfsdk-marketplace/v1/PackageResource/csars
+    ${resp}=   Run    curl -s -X POST -H "Content-Type: multipart/form-data" -F "file=@${csarpath}" http://${REPO_IP}:8702/onapapi/vnfsdk-marketplace/v1/PackageResource/csars
     Should Contain    ${resp}    csarId
     ${csarjson}=    Evaluate    ${resp}
     ${csarId}=    Set Variable    ${csarjson["csarId"]}
@@ -24,7 +24,7 @@ Upload VNF Package to VNF Repository
 Get VNF Package Information from Repository
     Create Session   refrepo  http://${REPO_IP}:8702
     &{headers}=  Create Dictionary      Content-Type=application/json
-    ${resp}=    Get Request    refrepo   /openoapi/vnfsdk-marketplace/v1/PackageResource/csars/${csarId}   headers=${headers}
+    ${resp}=    Get Request    refrepo   /onapapi/vnfsdk-marketplace/v1/PackageResource/csars/${csarId}   headers=${headers}
     ${response_json}    json.loads    ${resp.content}
     ${downloadUri}=    Convert To String      ${response_json['downloadUri']}
     Should Contain    ${downloadUri}     ${csarId}
@@ -33,16 +33,16 @@ Get VNF Package Information from Repository
 Get List Of Requests 
     Create Session   refrepo  http://${REPO_IP}:8702
     &{headers}=  Create Dictionary      Content-Type=application/json
-    ${resp}=    Get Request    refrepo   /openoapi/vnfsdk-marketplace/v1/PackageResource/csars?name=enterprise2DC&version=1.0&type=SSAR&provider=huawei   headers=${headers}	
+    ${resp}=    Get Request    refrepo   /onapapi/vnfsdk-marketplace/v1/PackageResource/csars?name=enterprise2DC&version=1.0&type=SSAR&provider=huawei   headers=${headers}	
     Should Be Equal As Strings  ${resp.status_code}     200
 
 Download VNF Package from Repository
     Create Session   refrepo  http://${REPO_IP}:8702
     &{headers}=  Create Dictionary      Content-Type=application/json
-    ${resp}=    Get Request    refrepo   /openoapi/vnfsdk-marketplace/v1/PackageResource/csars/${csarId}/files   headers=${headers}
+    ${resp}=    Get Request    refrepo   /onapapi/vnfsdk-marketplace/v1/PackageResource/csars/${csarId}/files   headers=${headers}
     Should Be Equal As Strings  ${resp.status_code}     200
     ${downloadUri}=    Convert To String    ${resp.content}
-    ${downloadUri1}=    Run    curl http://${REPO_IP}:8702/openoapi/vnfsdk-marketplace/v1/PackageResource/csars/${csarId}/files
+    ${downloadUri1}=    Run    curl http://${REPO_IP}:8702/onapapi/vnfsdk-marketplace/v1/PackageResource/csars/${csarId}/files
     ${string}=    Convert To String    ${downloadUri1}
     Should Contain    ${downloadUri1}    '  % Total    % Received % Xferd  Average
     Should Contain    ${string}    '  % Total    % Received % Xferd  Average
@@ -50,6 +50,6 @@ Download VNF Package from Repository
 Delete VNF Package from Repository
     Create Session   refrepo  http://${REPO_IP}:8702
     &{headers}=  Create Dictionary      Content-Type=application/json
-    ${resp}=    Delete Request    refrepo    /openoapi/vnfsdk-marketplace/v1/PackageResource/csars/${csarId}   headers=${headers}
+    ${resp}=    Delete Request    refrepo    /onapapi/vnfsdk-marketplace/v1/PackageResource/csars/${csarId}   headers=${headers}
     Should Be Equal As Strings  ${resp.status_code}     200
 
