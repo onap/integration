@@ -24,5 +24,20 @@ echo "#";
 echo "# optf/has scripts docker containers killing";
 echo "#";
 echo "##########################################################";
-# kill-instance.sh <dockercontainername>
+#kill-instance.sh cond-api
+#kill-instance.sh cond-solv
+#kill-instance.sh cond-cont
+#kill-instance.sh cond-data
+#kill-instance.sh cond-resv
+docker stop cond-api
+docker stop cond-solv
+docker stop cond-cont
+#docker stop cond-data
+docker stop cond-resv
+
+docker rm cond-api
+docker rm cond-solv
+docker rm cond-cont
+#docker rm cond-data
+docker rm cond-resv
 
