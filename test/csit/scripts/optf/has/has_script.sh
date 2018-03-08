@@ -46,11 +46,11 @@ git clone https://gerrit.onap.org/r/optf/has
 cd has
 cd conductor/docker
 
-sed  -i -e "s%FROM python:2\.7%FROM python:2\.7\\nENV http_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV https_proxy http:\/\/one\.proxy\.att\.com:8080%g" api/Dockerfile
-sed  -i -e "s%FROM python:2\.7%FROM python:2\.7\\nENV http_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV https_proxy http:\/\/one\.proxy\.att\.com:8080%g" controller/Dockerfile
-sed  -i -e "s%FROM python:2\.7%FROM python:2\.7\\nENV http_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV https_proxy http:\/\/one\.proxy\.att\.com:8080%g" data/Dockerfile
-sed  -i -e "s%FROM python:2\.7%FROM python:2\.7\\nENV http_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV https_proxy http:\/\/one\.proxy\.att\.com:8080%g" reservation/Dockerfile
-sed  -i -e "s%FROM python:2\.7%FROM python:2\.7\\nENV http_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV https_proxy http:\/\/one\.proxy\.att\.com:8080%g" solver/Dockerfile
+#sed  -i -e "s%FROM python:2\.7%FROM python:2\.7\\nENV http_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV https_proxy http:\/\/one\.proxy\.att\.com:8080%g" api/Dockerfile
+#sed  -i -e "s%FROM python:2\.7%FROM python:2\.7\\nENV http_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV https_proxy http:\/\/one\.proxy\.att\.com:8080%g" controller/Dockerfile
+#sed  -i -e "s%FROM python:2\.7%FROM python:2\.7\\nENV http_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV https_proxy http:\/\/one\.proxy\.att\.com:8080%g" data/Dockerfile
+#sed  -i -e "s%FROM python:2\.7%FROM python:2\.7\\nENV http_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV https_proxy http:\/\/one\.proxy\.att\.com:8080%g" reservation/Dockerfile
+#sed  -i -e "s%FROM python:2\.7%FROM python:2\.7\\nENV http_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV https_proxy http:\/\/one\.proxy\.att\.com:8080%g" solver/Dockerfile
 
 
 # ./build-dockers.sh
