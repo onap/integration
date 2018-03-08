@@ -8,7 +8,7 @@ Resource          Rule-Keywords.robot
 *** Test Cases ***
 add_valid_rule
     [Documentation]    Add a valid rule.
-    ${dict2}    create dictionary    ruleName=you1212121121    description=create a new rule!    content=package ruleqwertasd;\n\nimport java.util.Locale;    enabled=1    loopControlName=closedControlLoop
+    ${dict2}    create dictionary    ruleName=youbowu0314    description=create a new rule!    content=package ruleqwertasd;\n\nimport java.util.Locale;    enabled=1    loopControlName=closedControlLoop
     ${jsonParams}    encode    ${dict2}
     ${response}    createRule    ${jsonParams}
     ${respJson}    to json    ${response.content}
