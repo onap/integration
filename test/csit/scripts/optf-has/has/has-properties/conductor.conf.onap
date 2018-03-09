@@ -154,7 +154,7 @@ certificate_key_file = /usr/local/bin/cert.key
 
 # Certificate Authority Bundle file in pem format. Must contain the appropriate
 # trust chain for theCertificate file. (string value)
-# certificate_authority_bundle_file = ~/certs/ca-bundle.pem
+certificate_authority_bundle_file = /usr/local/bin/cert.pem
 
 [api]
 

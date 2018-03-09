@@ -14,7 +14,7 @@ ${generatedPlanId}
 
 *** Test Cases ***
 Check ConductorApi Docker Container
-    [Documentation]    It checks cassandra docker container is running
+    [Documentation]    It checks conductor-api docker container is running
     ${rc}    ${output}=    Run and Return RC and Output    docker ps
     Log To Console              *********************
     Log To Console              retrurn_code = ${rc}
@@ -23,7 +23,7 @@ Check ConductorApi Docker Container
     Should Contain    ${output}    cond-api
 
 Check ConductorController Docker Container
-    [Documentation]    It checks zookeeper docker container is running
+    [Documentation]    It checks conductor-controller docker container is running
     ${rc}    ${output}=    Run and Return RC and Output    docker ps
     Log To Console              *********************
     Log To Console              retrurn_code = ${rc}
@@ -32,7 +32,7 @@ Check ConductorController Docker Container
     Should Contain    ${output}    cond-cont
 
 Check ConductorSolver Docker Container
-    [Documentation]    It checks tomcat docker container is running
+    [Documentation]    It checks conductor-solver docker container is running
     ${rc}    ${output}=    Run and Return RC and Output    docker ps
     Log To Console              *********************
     Log To Console              retrurn_code = ${rc}
@@ -40,14 +40,23 @@ Check ConductorSolver Docker Container
     Should Be Equal As Integers    ${rc}    0
     Should Contain    ${output}    cond-solv
 
-Check ConductorReservation War Docker Container
-    [Documentation]    It checks music.war docker container is running
+Check ConductorReservation Docker Container
+    [Documentation]    It checks conductor-reservation docker container is running
     ${rc}    ${output}=    Run and Return RC and Output    docker ps
     Log To Console              *********************
     Log To Console              retrurn_code = ${rc}
     Log To Console              output = ${output}
     Should Be Equal As Integers    ${rc}    0
     Should Contain    ${output}    cond-resv
+
+Check ConductorData Docker Container
+    [Documentation]    It checks conductor-data docker container is running
+    ${rc}    ${output}=    Run and Return RC and Output    docker ps
+    Log To Console              *********************
+    Log To Console              retrurn_code = ${rc}
+    Log To Console              output = ${output}
+    Should Be Equal As Integers    ${rc}    0
+    Should Contain    ${output}    cond-data
 
 Get Root Url
     [Documentation]    It sends a REST GET request to root url
