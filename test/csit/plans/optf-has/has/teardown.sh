@@ -32,12 +32,12 @@ echo "##########################################################";
 docker stop cond-api
 docker stop cond-solv
 docker stop cond-cont
-#docker stop cond-data
+docker stop cond-data
 docker stop cond-resv
 
 docker rm cond-api
 docker rm cond-solv
 docker rm cond-cont
-#docker rm cond-data
+docker rm cond-data
 docker rm cond-resv
 
