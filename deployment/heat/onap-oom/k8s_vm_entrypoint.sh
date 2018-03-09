@@ -91,7 +91,7 @@ tar xvf rancher-linux-amd64-v0.6.7.tar
 
 # Clone OOM:
 cd ~
-git clone -b amsterdam http://gerrit.onap.org/r/oom
+git clone -b master http://gerrit.onap.org/r/oom
 
 # Update values.yaml to point to docker-proxy instead of nexus3:
 cd ~/oom/kubernetes
