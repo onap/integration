@@ -46,7 +46,7 @@ cp ${MUSIC_SOURCE_PROPERTIES}/* ${MUSIC_PROPERTIES}
 echo "# music docker containers spinoff";
 
 
-docker volume create music-vol
+docker volume create --name music-vol
 docker run -d --name music-war -v music-vol:/app nexus3.onap.org:10001/onap/music/music:latest
 docker run -d --name music-db -p 7000:7000 -p 7001:7001 -p 7199:7199 -p 9042:9042 -p 9160:9160 nexus3.onap.org:10001/onap/music/cassandra_music:latest
 docker run -d --name music-zk -p 2181:2181 -p 2888:2888 -p 3888:3888 nexus3.onap.org:10001/library/zookeeper:3.4
@@ -80,7 +80,7 @@ echo "TOMCAT_IP=${TOMCAT_IP}"
 # add here all ROBOT_VARIABLES settings
 #
 echo "# music robot variables settings";
-ROBOT_VARIABLES="-v MUSIC_HOSTNAME:http://localhost -v MUSIC_PORT:8080 -v COND_HOSTNAME:http://localhost -v COND_PORT:8091"
+ROBOT_VARIABLES="-v MUSIC_HOSTNAME:http://${TOMCAT_IP} -v MUSIC_PORT:8080 -v COND_HOSTNAME:http://localhost -v COND_PORT:8091"
 
 echo ${ROBOT_VARIABLES}
 

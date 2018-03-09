@@ -24,11 +24,22 @@ echo "#";
 echo "# music scripts docker containers killing";
 echo "#";
 echo "##########################################################";
-kill-instance.sh music-tomcat
-kill-instance.sh music-war
-kill-instance.sh music-zk
-kill-instance.sh music-db
+docker stop music-tomcat 
+docker stop music-war 
+docker stop music-zk 
+docker stop music-db
+
+docker rm music-zk 
+docker rm music-tomcat 
+docker rm music-war 
+docker rm music-db
+
 docker volume rm music-vol
+
+echo "dump music.log files"
+ls -alF /tmp/music
+ls -alF /tmp/music/properties
+cat /tmp/music/logs/MUSIC/music.log
 
 rm -Rf /tmp/music
 
