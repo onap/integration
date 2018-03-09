@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-echo "### This is ${WORKSPACE}/test/csit/scripts/optf/has/has_script.sh"
+echo "### This is ${WORKSPACE}/test/csit/scripts/optf-has/has/has_script.sh"
 #
 # add here whatever commands is needed to prepare the optf/has CSIT testing
 #
@@ -46,11 +46,11 @@ git clone https://gerrit.onap.org/r/optf/has
 cd has
 cd conductor/docker
 
-#sed  -i -e "s%FROM python:2\.7%FROM python:2\.7\\nENV http_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV https_proxy http:\/\/one\.proxy\.att\.com:8080%g" api/Dockerfile
-#sed  -i -e "s%FROM python:2\.7%FROM python:2\.7\\nENV http_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV https_proxy http:\/\/one\.proxy\.att\.com:8080%g" controller/Dockerfile
-#sed  -i -e "s%FROM python:2\.7%FROM python:2\.7\\nENV http_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV https_proxy http:\/\/one\.proxy\.att\.com:8080%g" data/Dockerfile
-#sed  -i -e "s%FROM python:2\.7%FROM python:2\.7\\nENV http_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV https_proxy http:\/\/one\.proxy\.att\.com:8080%g" reservation/Dockerfile
-#sed  -i -e "s%FROM python:2\.7%FROM python:2\.7\\nENV http_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV https_proxy http:\/\/one\.proxy\.att\.com:8080%g" solver/Dockerfile
+sed  -i -e "s%FROM python:2\.7%FROM python:2\.7\\nENV http_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV https_proxy http:\/\/one\.proxy\.att\.com:8080%g" api/Dockerfile
+sed  -i -e "s%FROM python:2\.7%FROM python:2\.7\\nENV http_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV https_proxy http:\/\/one\.proxy\.att\.com:8080%g" controller/Dockerfile
+sed  -i -e "s%FROM python:2\.7%FROM python:2\.7\\nENV http_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV https_proxy http:\/\/one\.proxy\.att\.com:8080%g" data/Dockerfile
+sed  -i -e "s%FROM python:2\.7%FROM python:2\.7\\nENV http_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV https_proxy http:\/\/one\.proxy\.att\.com:8080%g" reservation/Dockerfile
+sed  -i -e "s%FROM python:2\.7%FROM python:2\.7\\nENV http_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV https_proxy http:\/\/one\.proxy\.att\.com:8080%g" solver/Dockerfile
 
 
 # ./build-dockers.sh
@@ -63,14 +63,14 @@ docker build -t reservation reservation/
 
 # create directory for volume and copy configuration file
 mkdir -p /tmp/conductor/properties
-cp ${WORKSPACE}/test/csit/scripts/optf/has/has-properties/conductor.conf.onap /tmp/conductor/properties/conductor.conf
-cp ${WORKSPACE}/test/csit/scripts/optf/has/has-properties/cert.cer /tmp/conductor/properties/cert.cer
-cp ${WORKSPACE}/test/csit/scripts/optf/has/has-properties/cert.key /tmp/conductor/properties/cert.key
-
-
+cp ${WORKSPACE}/test/csit/scripts/optf-has/has/has-properties/conductor.conf.onap /tmp/conductor/properties/conductor.conf
+cp ${WORKSPACE}/test/csit/scripts/optf-has/has/has-properties/cert.cer /tmp/conductor/properties/cert.cer
+cp ${WORKSPACE}/test/csit/scripts/optf-has/has/has-properties/cert.key /tmp/conductor/properties/cert.key
+cp ${WORKSPACE}/test/csit/scripts/optf-has/has/has-properties/cert.pem /tmp/conductor/properties/cert.pem
+chmod -R 777 /tmp/conductor/properties
 
 # run docker containers
-#docker run -d --name cond-data -v /tmp/conductor/properties/conductor.conf:/usr/local/bin/conductor.conf -v /tmp/conductor/properties/cert.key:/usr/local/bin/cert.key -v /tmp/conductor/properties/cert.cer:/usr/local/bin/cert.cer data
+docker run -d --name cond-data -v /tmp/conductor/properties/conductor.conf:/usr/local/bin/conductor.conf -v /tmp/conductor/properties/cert.key:/usr/local/bin/cert.key -v /tmp/conductor/properties/cert.cer:/usr/local/bin/cert.cer -v /tmp/conductor/properties/cert.pem:/usr/local/bin/cert.pem  data
 #docker run -d --name cond-data -v /tmp/conductor/properties/conductor.conf:/usr/local/bin/conductor.conf data
 docker run -d --name cond-cont -v /tmp/conductor/properties/conductor.conf:/usr/local/bin/conductor.conf controller
 docker run -d --name cond-api -p 8091:8091  -v /tmp/conductor/properties/conductor.conf:/usr/local/bin/conductor.conf api
