@@ -75,12 +75,13 @@ Publish Single VES VNF Measurement Event
 
 Publish VES VoLTE Fault Batch Events
     [Tags]    DCAE-VESC-R1
-    [Documentation]   Post batched events and expect 202 Response 
+    [Documentation]   Post batched events and expect 200 Response 
     ${evtdata}=   Get Event Data From File   ${EVENT_BATCH_DATA_FILE}
     ${headers}=   Create Header From String    ${HEADER_STRING}
     ${resp}=  Publish Event To VES Collector No Auth    ${VESC_URL}  ${VES_BATCH_EVENT_PATH}  ${headers}  ${evtdata}
     Should Be Equal As Strings 	${resp.status_code} 	200
-    ${ret}=  DMaaP Message Receive    ab305d54-85b4-a31b-7db2-fb6b9e546016
+    #${ret}=  DMaaP Message Receive    ab305d54-85b4-a31b-7db2-fb6b9e546016
+    ${ret}=  DMaaP Message Receive    ab305d54-85b4-a31b-7db2-fb6b9e546025
     Should Be Equal As Strings    ${ret}    true    
     
     
@@ -118,16 +119,16 @@ Publish VES Event With Invalid URL Path
     Should Be Equal As Strings 	${resp.status_code} 	404
     
     
-Enable VESC HTTPS And Basic Auth
-    [Tags]    DCAE-VESC-R1
-    [Documentation]    Enable VESC Https and Authentication, Disable Http and Run Health Check
-    Enable VESC Https Auth
-    
-    ${auth}=  Create List  ${VESC_HTTPS_USER}   ${VESC_HTTPS_PD}
-    ${session}=    Create Session 	dcaegen2-r1 	${VESC_URL_HTTPS}    auth=${auth}   disable_warnings=1
-    ${headers}=  Create Dictionary     Accept=*/*    X-FromAppId=${GLOBAL_APPLICATION_ID}
-    ${resp}= 	Get Request 	dcaegen2-r1 	/healthcheck        headers=${headers}
-    Should Be Equal As Strings 	${resp.status_code} 	200
+#Enable VESC HTTPS And Basic Auth
+    #[Tags]    DCAE-VESC-R1
+    #[Documentation]    Enable VESC Https and Authentication, Disable Http and Run Health Check
+    #Enable VESC Https Auth
+    #
+    #${auth}=  Create List  ${VESC_HTTPS_USER}   ${VESC_HTTPS_PD}
+    #${session}=    Create Session 	dcaegen2-r1 	${VESC_URL_HTTPS}    auth=${auth}   disable_warnings=1
+    #${headers}=  Create Dictionary     Accept=*/*    X-FromAppId=${GLOBAL_APPLICATION_ID}
+    #${resp}= 	Get Request 	dcaegen2-r1 	/healthcheck        headers=${headers}
+    #Should Be Equal As Strings 	${resp.status_code} 	200
 
 Publish Single VES Fault Event Over HTTPS
     [Tags]    DCAE-VESC-R1
@@ -164,7 +165,8 @@ Publish VES Fault Batch Events Over HTTPS
     ${headers}=   Create Header From String    ${HEADER_STRING}
     ${resp}=  Publish Event To VES Collector  ${VESC_URL_HTTPS}  ${VES_BATCH_EVENT_PATH}  ${headers}  ${evtdata}  ${VESC_HTTPS_USER}  ${VESC_HTTPS_PD}
     Should Be Equal As Strings 	${resp.status_code} 	200
-    ${ret}=  DMaaP Message Receive    ab305d54-85b4-a31b-7db2-fb6b9e546016
+    #${ret}=  DMaaP Message Receive    ab305d54-85b4-a31b-7db2-fb6b9e546016
+    ${ret}=  DMaaP Message Receive    ab305d54-85b4-a31b-7db2-fb6b9e546025
     Should Be Equal As Strings    ${ret}    true
 
 
