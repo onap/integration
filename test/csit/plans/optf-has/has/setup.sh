@@ -23,7 +23,7 @@ echo "#";
 echo "# optf/has scripts calling";
 echo "#";
 echo "##########################################################";
-source ${WORKSPACE}/test/csit/scripts/optf/has/has_script.sh
+source ${WORKSPACE}/test/csit/scripts/optf-has/has/has_script.sh
 
 #
 # add here below the start of all docker containers needed for optf/has CSIT testing
