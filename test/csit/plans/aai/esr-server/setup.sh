@@ -56,6 +56,8 @@ for i in {1..20}; do
     fi
 done
 
+curl -X POST -H "Content-Type: application/json" -d '{"serviceName": "aai-esr-server", "version": "v1", "url": "/api/aai-esr-server/v1","protocol": "REST", "enable_ssl":"true",  "visualRange":"1", "nodes": [ {"ip": "'${ESRSERVER_IP}'","port": "9518"}]}' "http://${MSB_IP}:10081/api/microservices/v1/services"
+
 # Pass any variables required by Robot test suites in ROBOT_VARIABLES
 ROBOT_VARIABLES="-v MSB_IP:${MSB_IP} -v ESRSERVER_IP:${ESRSERVER_IP}"
 
