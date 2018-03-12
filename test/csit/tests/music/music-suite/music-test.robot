@@ -46,16 +46,6 @@ Check Music War Docker Container
     Should Be Equal As Integers    ${rc}    0
     Should Contain    ${output}    music-war
 
-Get Music Version
-    [Documentation]    It sends a REST GET request to retrieve the Music.war version
-    Create Session   musicaas            ${MUSIC_HOSTNAME}:${MUSIC_PORT}
-    &{headers}=      Create Dictionary    Content-Type=application/json  Accept=application/json 
-    ${resp}=         Get Request        musicaas   /MUSIC/rest/v2/version     headers=${headers}
-    Log To Console              *********************
-    Log To Console              response = ${resp}
-    Log To Console              body = ${resp.text}
-    Should Be Equal As Integers    ${resp.status_code}    200
-
 
 *** Keywords ***
 
