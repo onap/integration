@@ -19,4 +19,4 @@ fi
 apt-get -y update
 apt-get -y install docker.io
 usermod -aG docker ubuntu
-docker run --restart unless-stopped -d -p 8080:8080 rancher/server:v1.6.10
+docker run --restart unless-stopped -d -p 8080:8080 rancher/server:v1.6.14
