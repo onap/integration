@@ -45,13 +45,17 @@ git clone https://gerrit.onap.org/r/optf/has
 cd has
 cd conductor/docker
 
-# Comment sed for true integration lab
-#sed  -i -e "s%FROM python:2\.7%FROM python:2\.7\\nENV http_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV https_proxy http:\/\/one\.proxy\.att\.com:8080%g" api/Dockerfile
-#sed  -i -e "s%FROM python:2\.7%FROM python:2\.7\\nENV http_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV https_proxy http:\/\/one\.proxy\.att\.com:8080%g" controller/Dockerfile
-#sed  -i -e "s%FROM python:2\.7%FROM python:2\.7\\nENV http_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV https_proxy http:\/\/one\.proxy\.att\.com:8080%g" data/Dockerfile
-#sed  -i -e "s%FROM python:2\.7%FROM python:2\.7\\nENV http_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV https_proxy http:\/\/one\.proxy\.att\.com:8080%g" reservation/Dockerfile
-#sed  -i -e "s%FROM python:2\.7%FROM python:2\.7\\nENV http_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV https_proxy http:\/\/one\.proxy\.att\.com:8080%g" solver/Dockerfile
+echo "i am ${USER} : only non jenkins users need proxy settings"
+if [ ${USER} != 'jenkins' ]; then
 
+    # Comment sed for true integration lab
+    sed  -i -e "s%FROM python:2\.7%FROM python:2\.7\\nENV http_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV https_proxy http:\/\/one\.proxy\.att\.com:8080%g" api/Dockerfile
+    sed  -i -e "s%FROM python:2\.7%FROM python:2\.7\\nENV http_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV https_proxy http:\/\/one\.proxy\.att\.com:8080%g" controller/Dockerfile
+    sed  -i -e "s%FROM python:2\.7%FROM python:2\.7\\nENV http_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV https_proxy http:\/\/one\.proxy\.att\.com:8080%g" data/Dockerfile
+    sed  -i -e "s%FROM python:2\.7%FROM python:2\.7\\nENV http_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV https_proxy http:\/\/one\.proxy\.att\.com:8080%g" reservation/Dockerfile
+    sed  -i -e "s%FROM python:2\.7%FROM python:2\.7\\nENV http_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV https_proxy http:\/\/one\.proxy\.att\.com:8080%g" solver/Dockerfile
+
+fi
 
 # ./build-dockers.sh
 docker build -t api api/
@@ -67,7 +71,7 @@ cp ${WORKSPACE}/test/csit/scripts/optf-has/has/has-properties/conductor.conf.ona
 cp ${WORKSPACE}/test/csit/scripts/optf-has/has/has-properties/cert.cer /tmp/conductor/properties/cert.cer
 cp ${WORKSPACE}/test/csit/scripts/optf-has/has/has-properties/cert.key /tmp/conductor/properties/cert.key
 cp ${WORKSPACE}/test/csit/scripts/optf-has/has/has-properties/cert.pem /tmp/conductor/properties/cert.pem
-chmod -R 777 /tmp/conductor/properties
+#chmod -R 777 /tmp/conductor/properties
 
 # run docker containers
 docker run -d --name cond-data -v /tmp/conductor/properties/conductor.conf:/usr/local/bin/conductor.conf -v /tmp/conductor/properties/cert.key:/usr/local/bin/cert.key -v /tmp/conductor/properties/cert.cer:/usr/local/bin/cert.cer -v /tmp/conductor/properties/cert.pem:/usr/local/bin/cert.pem  data
