@@ -34,6 +34,9 @@ docker rm music-tomcat
 docker rm music-war 
 docker rm music-db
 
+docker network rm music-net;
+sleep 5;
+
 docker volume rm music-vol
 
 echo "dump music.log files"
