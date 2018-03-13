@@ -1,6 +1,0 @@
-build_image: "True"
-clone_repo: "True"
-compile_repo: "False"
-enable_oparent: "True"
-skip_get_images: "False"
-skip_install: "True"
