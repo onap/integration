@@ -26,6 +26,8 @@ DOCKER_IMAGE_VERSION=$(cat /opt/config/docker_version.txt)
 DOCKER_REGISTRY=${NEXUS_DOCKER_REPO}
 DOCKER_IMAGE_VERSION=1.2-STAGING-latest
 
+export CURRENT_PWD=$(pwd);
+
 function wait_for_container() {
 
     CONTAINER_NAME="$1";
@@ -101,7 +103,7 @@ else
 fi;
 
 RESOURCES_CONTAINER_NAME=$(${DOCKER_COMPOSE_CMD} up -d aai-resources.api.simpledemo.onap.org 2>&1 | grep 'Creating' | grep -v 'volume' | grep -v 'network' | awk '{ print $2; }' | head -1);
-wait_for_container ${RESOURCES_CONTAINER_NAME} '0.0.0.0:8447';
+wait_for_container $RESOURCES_CONTAINER_NAME 'Resources Microservice Started';
 
 docker logs ${RESOURCES_CONTAINER_NAME};
 
