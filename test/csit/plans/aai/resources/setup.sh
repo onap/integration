@@ -26,6 +26,8 @@ DOCKER_IMAGE_VERSION=$(cat /opt/config/docker_version.txt)
 DOCKER_REGISTRY=${NEXUS_DOCKER_REPO}
 DOCKER_IMAGE_VERSION=1.2-STAGING-latest
 
+export CURRENT_PWD=$(pwd);
+
 function wait_for_container() {
 
     CONTAINER_NAME="$1";
