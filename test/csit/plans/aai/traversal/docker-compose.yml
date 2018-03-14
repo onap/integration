@@ -4,13 +4,19 @@ services:
     image: ${DOCKER_REGISTRY}/onap/aai-resources
     hostname: aai-resources.api.simpledemo.onap.org
     environment:
-      - AAI_CHEF_ENV=simpledemo
-      - AAI_CHEF_LOC=/var/chef/aai-data/environments
-      - CHEF_BRANCH=master
-      - CHEF_GIT_URL=http://gerrit.onap.org/r/aai
       - LOCAL_USER_ID=${USER_ID}
+      - LOCAL_GROUP_ID=${GROUP_ID}
     ports:
       - 8447:8447
+    volumes:
+      - ${CURRENT_PWD}/aai-resources/appconfig/titan-realtime.properties:/opt/app/aai-resources/resources/etc/appprops/titan-realtime.properties
+      - ${CURRENT_PWD}/aai-resources/appconfig/titan-cached.properties:/opt/app/aai-resources/resources/etc/appprops/titan-cached.properties
+      - ${CURRENT_PWD}/aai-resources/appconfig/aaiconfig.properties:/opt/app/aai-resources/resources/etc/appprops/aaiconfig.properties
+      - ${CURRENT_PWD}/aai-resources/appconfig/application.properties:/opt/app/aai-resources/resources/application.properties
+      - ${CURRENT_PWD}/aai-resources/appconfig/logback.xml:/opt/app/aai-resources/resources/logback.xml
+      - ${CURRENT_PWD}/aai-resources/appconfig/localhost-access-logback.xml:/opt/app/aai-resources/resources/localhost-access-logback.xml
+      - ${CURRENT_PWD}/aai-resources/appconfig/aai_keystore:/opt/app/aai-resources/resources/etc/auth/aai_keystore
+      - ${CURRENT_PWD}/aai-resources/appconfig/realm.properties:/opt/app/aai-resources/resources/etc/auth/realm.properties
     logging:
       driver: "json-file"
       options:
@@ -20,11 +26,18 @@ services:
     image: ${DOCKER_REGISTRY}/onap/aai-traversal
     hostname: aai-traversal.api.simpledemo.onap.org
     environment:
-      - AAI_CHEF_ENV=simpledemo
-      - AAI_CHEF_LOC=/var/chef/aai-data/environments
-      - CHEF_BRANCH=master
-      - CHEF_GIT_URL=http://gerrit.onap.org/r/aai
+      - LOCAL_USER_ID=${USER_ID}
+      - LOCAL_GROUP_ID=${GROUP_ID}
       - DISABLE_UPDATE_QUERY=true
+    volumes:
+      - ${CURRENT_PWD}/aai-traversal/appconfig/titan-realtime.properties:/opt/app/aai-traversal/resources/etc/appprops/titan-realtime.properties
+      - ${CURRENT_PWD}/aai-traversal/appconfig/titan-cached.properties:/opt/app/aai-traversal/resources/etc/appprops/titan-cached.properties
+      - ${CURRENT_PWD}/aai-traversal/appconfig/aaiconfig.properties:/opt/app/aai-traversal/resources/etc/appprops/aaiconfig.properties
+      - ${CURRENT_PWD}/aai-traversal/appconfig/application.properties:/opt/app/aai-traversal/resources/application.properties
+      - ${CURRENT_PWD}/aai-traversal/appconfig/logback.xml:/opt/app/aai-traversal/resources/logback.xml
+      - ${CURRENT_PWD}/aai-traversal/appconfig/localhost-access-logback.xml:/opt/app/aai-traversal/resources/localhost-access-logback.xml
+      - ${CURRENT_PWD}/aai-traversal/appconfig/aai_keystore:/opt/app/aai-traversal/resources/etc/auth/aai_keystore
+      - ${CURRENT_PWD}/aai-traversal/appconfig/realm.properties:/opt/app/aai-traversal/resources/etc/auth/realm.properties
     ports:
       - 8446:8446
     logging:
