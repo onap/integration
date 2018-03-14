@@ -64,9 +64,7 @@ docker tag $NEXUS_DOCKER_REPO/onap/sdnc-dmaap-listener-image:$DOCKER_IMAGE_VERSI
 
 
 # start SDNC containers with docker compose and configuration from docker-compose.yml
-curl -L https://github.com/docker/compose/releases/download/1.9.0/docker-compose-`uname -s`-`uname -m` > docker-compose
-chmod +x docker-compose
-./docker-compose up -d
+docker-compose up -d
 
 # WAIT 10 minutes maximum and test every 5 seconds if SDNC is up using HealthCheck API
 TIME_OUT=1000
