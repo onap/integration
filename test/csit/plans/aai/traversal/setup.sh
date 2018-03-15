@@ -26,6 +26,8 @@ DOCKER_IMAGE_VERSION=$(cat /opt/config/docker_version.txt)
 DOCKER_REGISTRY=${NEXUS_DOCKER_REPO}
 DOCKER_IMAGE_VERSION=1.2-STAGING-latest
 
+export CURRENT_PWD=$(pwd);
+
 function wait_for_container() {
 
     CONTAINER_NAME="$1";
@@ -95,17 +97,21 @@ function check_if_user_exists(){
 
 if [ "${USER_EXISTS}" -eq 0 ]; then
         export USER_ID=9000;
+        export GROUP_ID=9000;
 else
         export USER_ID=$(id -u aaiadmin);
+        export GROUP_ID=$(id -g aaiadmin);
 fi;
 
 RESOURCES_CONTAINER_NAME=$(${DOCKER_COMPOSE_CMD} up -d aai-resources.api.simpledemo.onap.org 2>&1 | grep 'Creating' | grep -v 'volume' | grep -v 'network' | awk '{ print $2; }' | head -1);
-wait_for_container ${RESOURCES_CONTAINER_NAME} '0.0.0.0:8447';
+wait_for_container $RESOURCES_CONTAINER_NAME 'Resources Microservice Started';
 
-TRAVERSAL_CONTAINER_NAME=$(${DOCKER_COMPOSE_CMD} up -d aai-traversal.api.simpledemo.onap.org 2>&1 | grep 'Creating' | grep -v 'volume' | grep -v 'network' | awk '{ print $2; }' | head -1);
-wait_for_container ${TRAVERSAL_CONTAINER_NAME} '0.0.0.0:8446';
+${DOCKER_COMPOSE_CMD} up -d aai-traversal.api.simpledemo.onap.org aai.api.simpledemo.onap.org
+TRAVERSAL_CONTAINER_NAME=$(echo $RESOURCES_CONTAINER_NAME | sed 's/aai-resources/aai-traversal/g');
 
-${DOCKER_COMPOSE_CMD} up -d aai.api.simpledemo.onap.org
 echo "A&AI Microservices, resources and traversal, are up and running along with HAProxy";
+
+wait_for_container $TRAVERSAL_CONTAINER_NAME 'Traversal Microservice Started';
+
 # Set the host ip for robot from the haproxy
 ROBOT_VARIABLES="-v HOST_IP:`ip addr show docker0 | head -3 | tail -1 | cut -d' ' -f6 | cut -d'/' -f1`"
