@@ -14,22 +14,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+echo "music scripts docker containers killing";
+docker stop music-tomcat
+docker stop music-war
+docker stop music-zk
+docker stop music-db
 
+docker rm music-zk
+docker rm music-tomcat
+docker rm music-war
+docker rm music-db
 
-#
-# add here below the killing of all docker containers used for optf/has CSIT testing
-#
+docker network rm music-net;
+sleep 5;
 
-#
-echo "# optf/has scripts docker containers killing";
-#
-echo "# optf/has scripts calling";
-source ${WORKSPACE}/test/csit/scripts/optf-has/has/has_teardown_script.sh
+docker volume rm music-vol
 
-
-#
-echo "# optf/has scripts docker containers killing";
-#
-echo "# optf/has scripts calling";
-source ${WORKSPACE}/test/csit/scripts/optf-has/has/music_teardown_script.sh
+echo "dump music.log files"
+ls -alF /tmp/music
+ls -alF /tmp/music/properties
+cat /tmp/music/properties/music.properties
+cat /tmp/music/logs/MUSIC/music.log
+cat /tmp/music/logs/MUSIC/error.log
 

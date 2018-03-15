@@ -9,7 +9,7 @@
 #api_paste_config = api_paste.ini
 
 # Music keyspace for content (string value)
-keyspace = conductor_saisree
+keyspace = conductor
 
 #
 # From oslo.log
@@ -169,6 +169,18 @@ certificate_authority_bundle_file = /usr/local/bin/cert.pem
 # Minimum value: 1
 #default_api_return_limit = 100
 
+[conductor_api]
+
+# Basic Authentication Username (string value)
+username = admin1
+
+# Basic Authentication Password (string value)
+password = plan.15
+
+# To disable basic_auth_secure = false and to enable basic_auth_secure = true
+basic_auth_secure = false
+
+
 
 [controller]
 
@@ -206,7 +218,7 @@ certificate_authority_bundle_file = /usr/local/bin/cert.pem
 #
 
 # Music keyspace for messages (string value)
-keyspace = conductor_rpc_saisree
+keyspace = conductor_rpc
 
 # Wait interval while checking for a message response. Default value is 1
 # second. (integer value)
@@ -237,7 +249,7 @@ timeout = 3600
 #
 
 # Base URL for Music REST API without a trailing slash. (string value)
-server_url = http://localhost:8080/MUSIC/rest
+server_url = http://localhost:8080/MUSIC/rest/v2
 
 # DEPRECATED: List of hostnames (round-robin access) (list value)
 # This option is deprecated for removal.
@@ -298,7 +310,7 @@ server_url = http://localhost:8080/MUSIC/rest
 #table_prefix = sdnc
 
 # Base URL for SDN-C. (string value)
-server_url = https://localhost:8082/restconf/
+server_url = http://localhost:8082/restconf/
 
 # Basic Authentication Username (string value)
 username = admin

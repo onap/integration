@@ -14,22 +14,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+echo "optf/has scripts docker containers killing";
+docker stop cond-api
+docker stop cond-solv
+docker stop cond-cont
+docker stop cond-data
+docker stop cond-resv
 
-
-#
-# add here below the killing of all docker containers used for optf/has CSIT testing
-#
-
-#
-echo "# optf/has scripts docker containers killing";
-#
-echo "# optf/has scripts calling";
-source ${WORKSPACE}/test/csit/scripts/optf-has/has/has_teardown_script.sh
-
-
-#
-echo "# optf/has scripts docker containers killing";
-#
-echo "# optf/has scripts calling";
-source ${WORKSPACE}/test/csit/scripts/optf-has/has/music_teardown_script.sh
+docker rm cond-api
+docker rm cond-solv
+docker rm cond-cont
+docker rm cond-data
+docker rm cond-resv
 
