@@ -15,44 +15,39 @@
 # limitations under the License.
 #
 
+
+#
+# add here eventual scripts needed for music
+#
+echo "# music scripts calling";
+source ${WORKSPACE}/test/csit/scripts/optf-has/has/music_script.sh
+
+
 #
 # add here eventual scripts needed for optf/has
 #
-echo "##########################################################";
-echo "#";
 echo "# optf/has scripts calling";
-echo "#";
-echo "##########################################################";
 source ${WORKSPACE}/test/csit/scripts/optf-has/has/has_script.sh
 
 #
 # add here below the start of all docker containers needed for optf/has CSIT testing
 #
-echo "##########################################################";
-echo "#";
 echo "# optf/has scripts docker containers spinoff";
-echo "#";
-echo "##########################################################";
 
 #
 # add here all the configuration steps eventually needed to be carried out for optf/has CSIT testing
 #
-echo "##########################################################";
-echo "#";
 echo "# optf/has configuration step";
-echo "#";
-echo "##########################################################";
 
 
 #
 # add here all ROBOT_VARIABLES settings
 #
-echo "##########################################################";
-echo "#";
 echo "# optf/has robot variables settings";
-echo "#";
-echo "##########################################################";
-ROBOT_VARIABLES="-v MUSIC_HOSTNAME:http://localhost -v MUSIC_PORT:8080 -v COND_HOSTNAME:http://localhost -v COND_PORT:8091"
+echo "conductor ip = ${COND_IP}"
+echo "music ip = ${TOMCAT_IP}"
+
+ROBOT_VARIABLES="-v MUSIC_HOSTNAME:http://${TOMCAT_IP} -v MUSIC_PORT:8080 -v COND_HOSTNAME:http://${COND_IP} -v COND_PORT:8091"
 
 echo ${ROBOT_VARIABLES}
 
