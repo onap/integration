@@ -73,19 +73,19 @@ git clone http://gerrit.onap.org/r/oparent
 git clone http://gerrit.onap.org/r/policy/engine
 cd engine/packages/docker 
 ${WORK_DIR}/maven/apache-maven-3.3.9/bin/mvn prepare-package --settings ${WORK_DIR}/oparent/settings.xml
-docker build -t onap/policy/policy-pe target/policy-pe
+docker build -t onap/policy-pe target/policy-pe
 
 cd ${WORK_DIR}
 git clone http://gerrit.onap.org/r/policy/drools-pdp
 cd drools-pdp/packages/docker 
 ${WORK_DIR}/maven/apache-maven-3.3.9/bin/mvn prepare-package --settings ${WORK_DIR}/oparent/settings.xml
-docker build -t onap/policy/policy-drools target/policy-drools
+docker build -t onap/policy-drools target/policy-drools
 
 cd ${WORK_DIR}
 git clone http://gerrit.onap.org/r/policy/docker
 cd docker
 
-docker build -t onap/policy/policy-nexus  policy-nexus
+docker build -t onap/policy-nexus  policy-nexus
 
 chmod +x config/drools/drools-tweaks.sh
 
