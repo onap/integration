@@ -34,7 +34,7 @@ debug = true
 # example, logging_context_format_string). (string value)
 # Note: This option can be changed without restarting.
 # Deprecated group/name - [DEFAULT]/log_config
-#log_config_append = /home/saisree/conductor/etc/conductor/log.conf
+log_config_append = /usr/local/bin/log.conf
 
 # Defines the format string for %%(asctime)s in log records. Default:
 # %(default)s . This option is ignored if log_config_append is set. (string
@@ -51,7 +51,7 @@ log_date_format = %d-%m-%Y %H:%M:%S
 # (Optional) The base directory used for relative log_file  paths. This option
 # is ignored if log_config_append is set. (string value)
 # Deprecated group/name - [DEFAULT]/logdir
-#log_dir = /home/saisree/Log/
+log_dir = /var/log
 
 
 
@@ -143,7 +143,7 @@ server_url = http://localhost:8081/aai/
 
 
 # The version of A&AI (string value)
-server_url_version = v11
+server_url_version = v13
 
 # SSL/TLS certificate file in pem format. This certificate must be registered
 # with the A&AI endpoint. (string value)
@@ -255,8 +255,6 @@ server_url = http://localhost:8080/MUSIC/rest/v2
 # This option is deprecated for removal.
 # Its value may be silently ignored in the future.
 # Reason: Use server_url instead
-# hostnames = 135.197.226.85
-# 135.197.226.83, 135.197.226.85
 
 # DEPRECATED: Port (integer value)
 # This option is deprecated for removal.

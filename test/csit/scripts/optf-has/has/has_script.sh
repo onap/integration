@@ -23,7 +23,6 @@ echo "### This is ${WORKSPACE}/test/csit/scripts/optf-has/has/has_script.sh"
 DIR=/tmp
 
 # the directory of the script
-#DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 echo ${DIR}
 cd ${DIR}
 
@@ -42,31 +41,35 @@ fi
 
 git clone https://gerrit.onap.org/r/optf/has
 cd has
-cd conductor/docker
+#git fetch https://gerrit.onap.org/r/optf/has refs/changes/91/35991/1 && git checkout FETCH_HEAD
 
-echo "i am ${USER} : only non jenkins users need proxy settings"
+echo "i am ${USER} : only non jenkins users may need proxy settings"
 if [ ${USER} != 'jenkins' ]; then
 
-    # Comment sed for true integration lab
-    sed  -i -e "s%FROM python:2\.7%FROM python:2\.7\\nENV http_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV https_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV no_proxy localhost,0,1,2,3,4,5,6,7,8,9%g" api/Dockerfile
-    sed  -i -e "s%FROM python:2\.7%FROM python:2\.7\\nENV http_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV https_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV no_proxy localhost,0,1,2,3,4,5,6,7,8,9%g" controller/Dockerfile
-    sed  -i -e "s%FROM python:2\.7%FROM python:2\.7\\nENV http_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV https_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV no_proxy localhost,0,1,2,3,4,5,6,7,8,9%g" data/Dockerfile
-    sed  -i -e "s%FROM python:2\.7%FROM python:2\.7\\nENV http_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV https_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV no_proxy localhost,0,1,2,3,4,5,6,7,8,9%g" reservation/Dockerfile
-    sed  -i -e "s%FROM python:2\.7%FROM python:2\.7\\nENV http_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV https_proxy http:\/\/one\.proxy\.att\.com:8080\\nENV no_proxy localhost,0,1,2,3,4,5,6,7,8,9%g" solver/Dockerfile
+    # add proxy settings into this script when you work behind a proxy
+    ${WORKSPACE}/test/csit/scripts/optf-has/has/has_proxy_settings.sh ${WORK_DIR}
 
 fi
 
+# check Dockerfile content
+cat conductor/docker/Dockerfile
+
 # ./build-dockers.sh
-docker build -t api api/
-docker build -t controller controller/
-docker build -t data data/
-docker build -t solver solver/
-docker build -t reservation reservation/
+./build-dockers.sh
 
 # create directory for volume and copy configuration file
+# run docker containers
+COND_CONF=/tmp/conductor/properties/conductor.conf
+LOG_CONF=/tmp/conductor/properties/log.conf
+IMAGE_NAME=nexus3.onap.org:10003/onap/optf-has
+CERT=/tmp/conductor/properties/cert.cer
+KEY=/tmp/conductor/properties/cert.key
+BUNDLE=/tmp/conductor/properties/cert.pem
+
 mkdir -p /tmp/conductor/properties
 mkdir -p /tmp/conductor/logs
 cp ${WORKSPACE}/test/csit/scripts/optf-has/has/has-properties/conductor.conf.onap /tmp/conductor/properties/conductor.conf
+cp ${WORKSPACE}/test/csit/scripts/optf-has/has/has-properties/log.conf.onap /tmp/conductor/properties/log.conf
 cp ${WORKSPACE}/test/csit/scripts/optf-has/has/has-properties/cert.cer /tmp/conductor/properties/cert.cer
 cp ${WORKSPACE}/test/csit/scripts/optf-has/has/has-properties/cert.key /tmp/conductor/properties/cert.key
 cp ${WORKSPACE}/test/csit/scripts/optf-has/has/has-properties/cert.pem /tmp/conductor/properties/cert.pem
@@ -75,16 +78,14 @@ cp ${WORKSPACE}/test/csit/scripts/optf-has/has/has-properties/cert.pem /tmp/cond
 MUSIC_IP=`docker inspect --format '{{ .NetworkSettings.Networks.bridge.IPAddress}}' music-tomcat`
 echo "MUSIC_IP=${MUSIC_IP}"
 
-# change MUSIC reference
+# change MUSIC reference to the local instance
 sed  -i -e "s%localhost:8080/MUSIC%${MUSIC_IP}:8080/MUSIC%g" /tmp/conductor/properties/conductor.conf
 
-
-# run docker containers
-docker run -d --name cond-data -v /tmp/conductor/properties/conductor.conf:/usr/local/bin/conductor.conf -v /tmp/conductor/properties/cert.key:/usr/local/bin/cert.key -v /tmp/conductor/properties/cert.cer:/usr/local/bin/cert.cer -v /tmp/conductor/properties/cert.pem:/usr/local/bin/cert.pem  data
-docker run -d --name cond-cont -v /tmp/conductor/properties/conductor.conf:/usr/local/bin/conductor.conf controller
-docker run -d --name cond-api -p 8091:8091  -v /tmp/conductor/properties/conductor.conf:/usr/local/bin/conductor.conf api
-docker run -d --name cond-solv -v /tmp/conductor/properties/conductor.conf:/usr/local/bin/conductor.conf solver
-docker run -d --name cond-resv -v /tmp/conductor/properties/conductor.conf:/usr/local/bin/conductor.conf reservation
+docker run -d --name cond-cont -v ${COND_CONF}:/usr/local/bin/conductor.conf -v ${LOG_CONF}:/usr/local/bin/log.conf ${IMAGE_NAME}:latest python /usr/local/bin/conductor-controller --config-file=/usr/local/bin/conductor.conf
+docker run -d --name cond-api -p "8091:8091" -v ${COND_CONF}:/usr/local/bin/conductor.conf -v ${LOG_CONF}:/usr/local/bin/log.conf ${IMAGE_NAME}:latest python /usr/local/bin/conductor-api --port=8091 -- --config-file=/usr/local/bin/conductor.conf
+docker run -d --name cond-solv -v ${COND_CONF}:/usr/local/bin/conductor.conf -v ${LOG_CONF}:/usr/local/bin/log.conf ${IMAGE_NAME}:latest python /usr/local/bin/conductor-solver --config-file=/usr/local/bin/conductor.conf
+docker run -d --name cond-resv -v ${COND_CONF}:/usr/local/bin/conductor.conf -v ${LOG_CONF}:/usr/local/bin/log.conf ${IMAGE_NAME}:latest python /usr/local/bin/conductor-reservation --config-file=/usr/local/bin/conductor.conf
+docker run -d --name cond-data -v ${COND_CONF}:/usr/local/bin/conductor.conf -v ${LOG_CONF}:/usr/local/bin/log.conf -v ${CERT}:/usr/local/bin/cert.cer -v ${KEY}:/usr/local/bin/cert.key -v ${BUNDLE}:/usr/local/bin/cert.pem ${IMAGE_NAME}:latest python /usr/local/bin/conductor-data --config-file=/usr/local/bin/conductor.conf
 
 COND_IP=`docker inspect --format '{{ .NetworkSettings.Networks.bridge.IPAddress}}' cond-api`
 ${WORKSPACE}/test/csit/scripts/optf-has/has/wait_for_port.sh ${COND_IP} 8091
