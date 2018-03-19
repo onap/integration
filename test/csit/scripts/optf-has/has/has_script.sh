@@ -39,9 +39,8 @@ if [[ ! "$WORK_DIR" || ! -d "$WORK_DIR" ]]; then
   exit 1
 fi
 
-git clone https://gerrit.onap.org/r/optf/has
+#git clone https://gerrit.onap.org/r/optf/has
 cd has
-#git fetch https://gerrit.onap.org/r/optf/has refs/changes/91/35991/1 && git checkout FETCH_HEAD
 
 echo "i am ${USER} : only non jenkins users may need proxy settings"
 if [ ${USER} != 'jenkins' ]; then
@@ -52,16 +51,15 @@ if [ ${USER} != 'jenkins' ]; then
 fi
 
 # check Dockerfile content
-cat conductor/docker/Dockerfile
+# cat conductor/docker/Dockerfile
 
-# ./build-dockers.sh
-./build-dockers.sh
+#./build-dockers.sh
 
 # create directory for volume and copy configuration file
 # run docker containers
 COND_CONF=/tmp/conductor/properties/conductor.conf
 LOG_CONF=/tmp/conductor/properties/log.conf
-IMAGE_NAME=nexus3.onap.org:10003/onap/optf-has
+IMAGE_NAME=nexus3.onap.org:10001/onap/optf-has
 CERT=/tmp/conductor/properties/cert.cer
 KEY=/tmp/conductor/properties/cert.key
 BUNDLE=/tmp/conductor/properties/cert.pem
