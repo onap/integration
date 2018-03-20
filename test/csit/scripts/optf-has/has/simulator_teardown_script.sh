@@ -14,21 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+echo "optf/has scripts docker containers killing";
+docker stop aaisim
 
-
-#
-# add here below the killing of all docker containers used for optf/has CSIT testing
-#
-
-#
-# optf/has scripts docker containers killing";
-#
-echo "# optf/has has scripts calling";
-source ${WORKSPACE}/test/csit/scripts/optf-has/has/has_teardown_script.sh
-
-echo "# optf/has simulator scripts calling";
-source ${WORKSPACE}/test/csit/scripts/optf-has/has/simulator_teardown_script.sh
-
-echo "# optf/has music scripts calling";
-source ${WORKSPACE}/test/csit/scripts/optf-has/has/music_teardown_script.sh
+docker rm aaisim
 
