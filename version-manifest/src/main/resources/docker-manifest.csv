@@ -71,4 +71,4 @@ openecomp/sdc-elasticsearch,v1.1.0
 openecomp/sdc-frontend,v1.1.0
 openecomp/sdc-kibana,v1.1.0
 openecomp/sdc-sanity,v1.1.0
-openecomp/vid,v1.1.1
+onap/vid,1.2.1
