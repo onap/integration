@@ -26,35 +26,6 @@ DIR=/tmp
 echo ${DIR}
 cd ${DIR}
 
-# the temp directory used, within $DIR
-# omit the -p parameter to create a temporal directory in the default location
-WORK_DIR=`mktemp -d -p "$DIR"`
-echo ${WORK_DIR}
-
-cd ${WORK_DIR}
-
-# check if tmp dir was created
-if [[ ! "$WORK_DIR" || ! -d "$WORK_DIR" ]]; then
-  echo "Could not create temp dir"
-  exit 1
-fi
-
-#git clone https://gerrit.onap.org/r/optf/has
-cd has
-
-echo "i am ${USER} : only non jenkins users may need proxy settings"
-if [ ${USER} != 'jenkins' ]; then
-
-    # add proxy settings into this script when you work behind a proxy
-    ${WORKSPACE}/test/csit/scripts/optf-has/has/has_proxy_settings.sh ${WORK_DIR}
-
-fi
-
-# check Dockerfile content
-# cat conductor/docker/Dockerfile
-
-#./build-dockers.sh
-
 # create directory for volume and copy configuration file
 # run docker containers
 COND_CONF=/tmp/conductor/properties/conductor.conf
@@ -79,6 +50,12 @@ echo "MUSIC_IP=${MUSIC_IP}"
 # change MUSIC reference to the local instance
 sed  -i -e "s%localhost:8080/MUSIC%${MUSIC_IP}:8080/MUSIC%g" /tmp/conductor/properties/conductor.conf
 
+AAISIM_IP=`docker inspect --format '{{ .NetworkSettings.Networks.bridge.IPAddress}}' aaisim`
+echo "AAISIM_IP=${AAISIM_IP}"
+
+# change MUSIC reference to the local instance
+sed  -i -e "s%localhost:8081/%${AAISIM_IP}:8081/%g" /tmp/conductor/properties/conductor.conf
+
 docker run -d --name cond-cont -v ${COND_CONF}:/usr/local/bin/conductor.conf -v ${LOG_CONF}:/usr/local/bin/log.conf ${IMAGE_NAME}:latest python /usr/local/bin/conductor-controller --config-file=/usr/local/bin/conductor.conf
 docker run -d --name cond-api -p "8091:8091" -v ${COND_CONF}:/usr/local/bin/conductor.conf -v ${LOG_CONF}:/usr/local/bin/log.conf ${IMAGE_NAME}:latest python /usr/local/bin/conductor-api --port=8091 -- --config-file=/usr/local/bin/conductor.conf
 docker run -d --name cond-solv -v ${COND_CONF}:/usr/local/bin/conductor.conf -v ${LOG_CONF}:/usr/local/bin/log.conf ${IMAGE_NAME}:latest python /usr/local/bin/conductor-solver --config-file=/usr/local/bin/conductor.conf
@@ -89,7 +66,7 @@ COND_IP=`docker inspect --format '{{ .NetworkSettings.Networks.bridge.IPAddress}
 ${WORKSPACE}/test/csit/scripts/optf-has/has/wait_for_port.sh ${COND_IP} 8091
 
 # wait a while before continuing
-sleep 30
+sleep 5
 
 echo "inspect docker things for tracing purpose"
 docker inspect cond-data

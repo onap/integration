@@ -24,6 +24,9 @@ source ${WORKSPACE}/test/csit/scripts/optf-has/has/music_script.sh
 
 
 #
+echo "# simulator scripts calling";
+source ${WORKSPACE}/test/csit/scripts/optf-has/has/simulator_script.sh
+
 # add here eventual scripts needed for optf/has
 #
 echo "# optf/has scripts calling";
