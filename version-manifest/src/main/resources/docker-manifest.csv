@@ -7,7 +7,7 @@ onap/admportal-sdnc-image,v1.2.1
 onap/ccsdk-dgbuilder-image,v0.1.0
 onap/ccsdk-odl-image,v0.1.0
 onap/ccsdk-odlsli-image,v0.1.0
-onap/clamp,v1.1.0
+onap/clamp,2.0-STAGING-latest
 onap/cli,v1.1.0
 onap/data-router,1.2-STAGING-latest
 onap/dmaap/dmaap-mr,1.0.1
