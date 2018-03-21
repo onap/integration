@@ -26,8 +26,8 @@ Verify HolmesModel2
     Should Contain Match    ${resp}   *DC2*
     Should Contain Match    ${resp}   *DC3*
     Should Contain Match    ${resp}   *Policy2*
-    Should Contain Match    ${resp}   *enbRecipe*
-    Should Contain Match    ${resp}   *reset*
+    Should Contain Match    ${resp}   *vnfRecipe*
+    Should Contain Match    ${resp}   *migrate*
     Should Contain Match    ${resp}   *360*
     Should Contain Match    ${resp}   *345*
     Should Contain Match    ${resp}   *Config Policy Name2*
@@ -37,7 +37,7 @@ Verify TCAModel1
     Create Session   clamp  http://localhost:8080   auth=${auth}
     ${resp}=    Get Request    clamp   /restservices/clds/v1/clds/model/ClTCA1
     Should Contain Match    ${resp}   *templateTCA1*
-    Should Contain Match    ${resp}   *vnfRecipe*
+    Should Contain Match    ${resp}   *enbRecipe*
     Should Contain Match    ${resp}   *DC1*
     Should Contain Match    ${resp}   *DC2*
     Should Contain Match    ${resp}   *Policy3*
@@ -50,7 +50,7 @@ Verify TCAModel2
     Create Session   clamp  http://localhost:8080   auth=${auth}
     ${resp}=    Get Request    clamp   /restservices/clds/v1/clds/model/ClTCA2
     Should Contain Match    ${resp}   *templateTCA2*
-    Should Contain Match    ${resp}   *vnfRecipe*
+    Should Contain Match    ${resp}   *enbRecipe*
     Should Contain Match    ${resp}   *DC1*
     Should Contain Match    ${resp}   *DC2*
     Should Contain Match    ${resp}   *DC3*

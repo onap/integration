@@ -2,7 +2,7 @@
 Library     Collections
 Library     RequestsLibrary
 Library     OperatingSystem
-Library     jsons
+Library     json
 
 *** Test Cases ***
 Verify HolmesModel1
