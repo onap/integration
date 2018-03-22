@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ${WORKSPACE}/test/csit/scripts/sdc/setup_sdc_for_apis_sanity.sh
+source ${WORKSPACE}/test/csit/scripts/sdc/clone_and_setup_sdc_data.sh
 
 BE_IP=`get-instance-ip.sh sdc-BE`
 echo BE_IP=${BE_IP}

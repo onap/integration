@@ -22,8 +22,8 @@ echo "This is ${WORKSPACE}/test/csit/scripts/sdc/kill_and_remove_dataFolder.sh"
 # copy logs to archive
 
 cp -rf ${WORKSPACE}/data/logs/ ${WORKSPACE}/archives/
-cp -rf ${WORKSPACE}/data/logs/sdc-sanity/ExtentReport/* ${WORKSPACE}/archives/
-cp -rf ${WORKSPACE}/data/logs/sdc-sanity/target/*.xml ${WORKSPACE}/archives/
+cp -rf ${WORKSPACE}/data/logs/*tests*/ExtentReport/* ${WORKSPACE}/archives/
+cp -rf ${WORKSPACE}/data/logs/*tests*/target/*.xml ${WORKSPACE}/archives/
 
 ls -Rt ${WORKSPACE}/archives/
 
