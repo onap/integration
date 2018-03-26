@@ -59,7 +59,7 @@ echo "AAISIM_IP=${AAISIM_IP}"
 ${WORKSPACE}/test/csit/scripts/optf-has/has/wait_for_port.sh ${AAISIM_IP} 8081
 
 # wait a while before continuing
-sleep 5
+sleep 2
 
 echo "inspect docker things for tracing purpose"
 docker inspect aaisim

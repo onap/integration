@@ -53,20 +53,25 @@ sed  -i -e "s%localhost:8080/MUSIC%${MUSIC_IP}:8080/MUSIC%g" /tmp/conductor/prop
 AAISIM_IP=`docker inspect --format '{{ .NetworkSettings.Networks.bridge.IPAddress}}' aaisim`
 echo "AAISIM_IP=${AAISIM_IP}"
 
+#onboard conductor into music
+curl -vvvvv --noproxy "*" --request POST http://${MUSIC_IP}:8080/MUSIC/rest/v2/admin/onboardAppWithMusic -H "Content-Type: application/json" --data @${WORKSPACE}/test/csit/tests/optf-has/has/data/onboard.json
+
 # change MUSIC reference to the local instance
 sed  -i -e "s%localhost:8081/%${AAISIM_IP}:8081/%g" /tmp/conductor/properties/conductor.conf
 
 docker run -d --name cond-cont -v ${COND_CONF}:/usr/local/bin/conductor.conf -v ${LOG_CONF}:/usr/local/bin/log.conf ${IMAGE_NAME}:latest python /usr/local/bin/conductor-controller --config-file=/usr/local/bin/conductor.conf
+sleep 2
 docker run -d --name cond-api -p "8091:8091" -v ${COND_CONF}:/usr/local/bin/conductor.conf -v ${LOG_CONF}:/usr/local/bin/log.conf ${IMAGE_NAME}:latest python /usr/local/bin/conductor-api --port=8091 -- --config-file=/usr/local/bin/conductor.conf
+sleep 2
 docker run -d --name cond-solv -v ${COND_CONF}:/usr/local/bin/conductor.conf -v ${LOG_CONF}:/usr/local/bin/log.conf ${IMAGE_NAME}:latest python /usr/local/bin/conductor-solver --config-file=/usr/local/bin/conductor.conf
+sleep 2
 docker run -d --name cond-resv -v ${COND_CONF}:/usr/local/bin/conductor.conf -v ${LOG_CONF}:/usr/local/bin/log.conf ${IMAGE_NAME}:latest python /usr/local/bin/conductor-reservation --config-file=/usr/local/bin/conductor.conf
+sleep 2
 docker run -d --name cond-data -v ${COND_CONF}:/usr/local/bin/conductor.conf -v ${LOG_CONF}:/usr/local/bin/log.conf -v ${CERT}:/usr/local/bin/cert.cer -v ${KEY}:/usr/local/bin/cert.key -v ${BUNDLE}:/usr/local/bin/cert.pem ${IMAGE_NAME}:latest python /usr/local/bin/conductor-data --config-file=/usr/local/bin/conductor.conf
+sleep 2
 
 COND_IP=`docker inspect --format '{{ .NetworkSettings.Networks.bridge.IPAddress}}' cond-api`
 ${WORKSPACE}/test/csit/scripts/optf-has/has/wait_for_port.sh ${COND_IP} 8091
-
-# wait a while before continuing
-sleep 5
 
 echo "inspect docker things for tracing purpose"
 docker inspect cond-data

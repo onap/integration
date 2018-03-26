@@ -14,6 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+#echo "print meaningful data before scratching everything"
+#docker exec -it music-db /usr/bin/cqlsh -unelson24 -pwinman123 -e 'SELECT * FROM system_schema.keyspaces'
+#docker exec -it music-db /usr/bin/cqlsh -unelson24 -pwinman123 -e 'SELECT * FROM admin.keyspace_master'
+#docker exec -it music-db /usr/bin/cqlsh -unelson24 -pwinman123 -e 'SELECT * FROM conductor.plans'
+
 echo "optf/has scripts docker containers killing";
 docker stop cond-api
 docker stop cond-solv
