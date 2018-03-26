@@ -19,7 +19,9 @@
 source ${SCRIPTS}/common_functions.sh
 
 # Initial Configuration.
-CONSUL_IP="localhost"
+DATASTORE="consul"
+DATASTORE_IP="localhost"
+
 MOUNTPATH="/dkv_mount_path/configs/"
 DEFAULT_CONFIGS=$(pwd)/mountpath/default
 
@@ -38,10 +40,16 @@ key2=value2
 EOF
 popd
 
-docker run -e CONSUL_IP=$CONSUL_IP -e MOUNTPATH=$MOUNTPATH -it \
+docker login -u docker -p docker nexus3.onap.org:10001
+docker pull nexus3.onap.org:10001/onap/music/distributed-kv-store
+docker run -e DATASTORE=$DATASTORE -e DATASTORE_IP=$DATASTORE_IP -e MOUNTPATH=$MOUNTPATH -d \
            --name dkv \
            -v $DEFAULT_CONFIGS:/dkv_mount_path/configs/default \
-           -p 8200:8200 -p 8080:8080 nexus3.onap.org:10003/onap/music/distributed-kv-store
+           -p 8200:8200 -p 8080:8080 nexus3.onap.org:10001/onap/music/distributed-kv-store
+
+
+echo "###### WAITING FOR DISTRIBUTED KV STORE CONTAINER TO COME UP"
+sleep 10
 
 #
 # add here all ROBOT_VARIABLES settings

@@ -15,6 +15,7 @@
 # limitations under the License.
 #
 
-docker stop nexus3.onap.org:10003/onap/music/distributed-kv-store
-docker rm nexus3.onap.org:10003/onap/music/distributed-kv-store
-docker rmi nexus3.onap.org:10003/onap/music/distributed-kv-store
+rm -rf mountpath
+docker stop dkv
+docker rm dkv
+docker rmi nexus3.onap.org:10001/onap/music/distributed-kv-store
