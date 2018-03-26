@@ -18,7 +18,7 @@
 
 
 #Start ice server
-docker run --rm --name vnfsdk-ice -d -p 5000:5000 onap/vnfsdk/ice
+docker run --name vnfsdk-ice -d -i -t -p 5000:5000 nexus3.onap.org:10001/onap/vnfsdk/ice:latest
 
 # Wait for server initialization
 echo Wait for vnfsdk-ice initialization
