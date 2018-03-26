@@ -12,7 +12,7 @@ Get Requests health check ok
     Should Be Equal As Strings  ${resp.status_code}     200
 
 Get Requests verify test template found
-    ${auth}=    Create List     admin    5f4dcc3b5aa765d61d8327deb882cf99
+    ${auth}=    Create List     admin    password
     Create Session   clamp  http://localhost:8080   auth=${auth}
     ${resp}=    Get Request    clamp   /restservices/clds/v1/cldsTempate/template-names
     Should Be Equal As Strings  ${resp.status_code}     200
@@ -21,7 +21,7 @@ Get Requests verify test template found
     Should Not Contain Match     ${resp}      *templateTCA99*
 
 Put Requests to add Close Loop ClHolmes1
-    ${auth}=    Create List     admin    5f4dcc3b5aa765d61d8327deb882cf99
+    ${auth}=    Create List     admin    password
     Create Session   clamp  http://localhost:8080   auth=${auth}
     ${data}=    Get Binary File     ${CURDIR}${/}data${/}createClTCA1.json
     &{headers}=  Create Dictionary      Content-Type=application/json
@@ -29,7 +29,7 @@ Put Requests to add Close Loop ClHolmes1
     Should Be Equal As Strings      ${resp.status_code}     200
 
 Put Requests to add Close Loop ClHolmes2
-    ${auth}=    Create List     admin    5f4dcc3b5aa765d61d8327deb882cf99
+    ${auth}=    Create List     admin    password
     Create Session   clamp  http://localhost:8080   auth=${auth}
     ${data}=    Get Binary File     ${CURDIR}${/}data${/}createClTCA2.json
     &{headers}=  Create Dictionary      Content-Type=application/json
@@ -37,7 +37,7 @@ Put Requests to add Close Loop ClHolmes2
     Should Be Equal As Strings      ${resp.status_code}     200
 
 Get Requests verify CL1 found
-    ${auth}=    Create List     admin    5f4dcc3b5aa765d61d8327deb882cf99
+    ${auth}=    Create List     admin    password
     Create Session   clamp  http://localhost:8080   auth=${auth}
     ${resp}=    Get Request    clamp   /restservices/clds/v1/clds/model-names
     Should Be Equal As Strings  ${resp.status_code}     200
