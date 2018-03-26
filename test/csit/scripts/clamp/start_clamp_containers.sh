@@ -51,7 +51,7 @@ fi
 # To avoid some problem because templates not yet read
 TIME=0
 while [ "$TIME" -lt "$TIME_OUT" ]; do
-  response=$(curl --write-out '%{http_code}' --silent --output /dev/null -u admin:5f4dcc3b5aa765d61d8327deb882cf99 http://localhost:8080/restservices/clds/v1/cldsTempate/template-names); echo $response
+  response=$(curl --write-out '%{http_code}' --silent --output /dev/null -u admin:password http://localhost:8080/restservices/clds/v1/cldsTempate/template-names); echo $response
 
   if [ "$response" == "200" ]; then
     echo Templates well available

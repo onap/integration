@@ -84,7 +84,7 @@ Close Browser
     Close Browser
 
 Verify Holmes CL well created
-    ${auth}=    Create List     admin    5f4dcc3b5aa765d61d8327deb882cf99
+    ${auth}=    Create List     admin    password
     Create Session   clamp  http://localhost:8080   auth=${auth}
     ${resp}=    Get Request    clamp   /restservices/clds/v1/clds/model-names
     Should Contain Match    ${resp}   *HolmesModel1*
