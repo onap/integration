@@ -247,9 +247,15 @@ timeout = 3600
 #
 # From conductor
 #
+music_new_version = True
 
 # Base URL for Music REST API without a trailing slash. (string value)
 server_url = http://localhost:8080/MUSIC/rest/v2
+version = v2
+music_version = "2.4.22"
+aafuser = conductor
+aafpass = c0nduct0r
+aafns = conductor
 
 # DEPRECATED: List of hostnames (round-robin access) (list value)
 # This option is deprecated for removal.
