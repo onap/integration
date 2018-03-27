@@ -34,6 +34,6 @@ echo "dump music.log files"
 ls -alF /tmp/music
 ls -alF /tmp/music/properties
 cat /tmp/music/properties/music.properties
-cat /tmp/music/logs/MUSIC/music.log
+#cat /tmp/music/logs/MUSIC/music.log
 cat /tmp/music/logs/MUSIC/error.log
 

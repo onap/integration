@@ -1,7 +1,7 @@
 {
-   "name":"onap template with wrong version",
+   "name":"onap template with short distance constraint",
    "template":{
-      "homing_template_version":"xxxx-yy-zz",
+      "homing_template_version":"2017-10-10",
       "parameters":{
          "service_name":"Residential vCPE",
          "service_id":"vcpe_service_id",
@@ -31,11 +31,19 @@
          ]
       },
       "constraints":{
-
+         "distance-vg":{
+            "type":"distance_to_location",
+            "demands":[
+               "vG"
+            ],
+            "properties":{
+               "distance":"< 1 km",
+               "location":"customer_loc"
+            }
+         }
       },
       "optimization":{
 
       }
    }
 }
-
