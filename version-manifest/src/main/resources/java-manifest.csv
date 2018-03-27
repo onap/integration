@@ -1,10 +1,10 @@
 groupId,artifactId,version
-org.onap.aai.aai-common,aai-annotations,1.2.0
-org.onap.aai.aai-common,aai-auth,1.2.0
-org.onap.aai.aai-common,aai-common,1.2.0
-org.onap.aai.aai-common,aai-core,1.2.0
-org.onap.aai.aai-common,aai-schema,1.2.0
-org.onap.aai.aai-common,aai-utils,1.2.0
+org.onap.aai.aai-common,aai-annotations,1.2.1
+org.onap.aai.aai-common,aai-auth,1.2.1
+org.onap.aai.aai-common,aai-common,1.2.1
+org.onap.aai.aai-common,aai-core,1.2.1
+org.onap.aai.aai-common,aai-schema,1.2.1
+org.onap.aai.aai-common,aai-utils,1.2.1
 org.onap.aai.data-router,data-router,1.2.0
 org.onap.aai.esr-gui,aai-esr-gui,1.0.0
 org.onap.aai.esr-gui,common,1.0.0
