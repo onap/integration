@@ -35,6 +35,7 @@ cp $WORKSPACE/archives/dmaapmr/messageservice/bundleconfig-local/etc/appprops/Ms
 
 
 # start DMaaP MR containers with docker compose and configuration from docker-compose.yml
+docker login -u docker -p docker nexus3.onap.org:10001
 docker-compose up -d
 
 # Wait for initialization of Docker contaienr for DMaaP MR, Kafka and Zookeeper
@@ -68,6 +69,7 @@ sed -i -e 's/<zookeeper_host>/'$ZOOKEEPER_IP'/' /var/tmp/MsgRtrApi.properties
 sed -i -e 's/<kafka_host>:<kafka_port>/'$KAFKA_IP':9092/' /var/tmp/MsgRtrApi.properties
 
 docker-compose build
+docker login -u docker -p docker nexus3.onap.org:10001
 docker-compose up -d 
 
 # Wait for initialization of Docker containers
