@@ -30,9 +30,9 @@ cd $WORKSPACE/archives/aafcsit
 #unset http_proxy https_proxy
 git clone --depth 1 http://gerrit.onap.org/r/aaf/authz -b master
 git pull
-cd $WORKSPACE/archives/aafcsit/authz/authz-service/src/main/resources/docker-compose
+cd $WORKSPACE/archives/aafcsit/authz/auth/auth-service/src/main/resources/docker-compose
 pwd
-chmod -R 777 $WORKSPACE/archives/aafcsit/authz/authz-service/src/main/resources/docker-compose
+chmod -R 777 $WORKSPACE/archives/aafcsit/authz/auth/auth-service/src/main/resources/docker-compose
 
 
 # start aaf containers with docker compose and configuration from docker-compose.yml
