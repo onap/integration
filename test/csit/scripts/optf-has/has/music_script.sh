@@ -55,7 +55,7 @@ docker run -d --name music-war -v music-vol:/app ${MUSIC_IMG};
 docker run -d --name music-zk --network music-net -p "2181:2181" -p "2888:2888" -p "3888:3888" ${ZK_IMG};
 
 # Delay for Cassandra
-sleep 20;
+sleep 30;
 
 # Start Up tomcat - Needs to have properties,logs dir and war file volume mapped.
 docker run -d --name music-tomcat --network music-net -p "8080:8080" -v music-vol:/usr/local/tomcat/webapps -v ${WORK_DIR}/properties:/opt/app/music/etc:ro -v ${WORK_DIR}/logs:/opt/app/music/logs ${TOMCAT_IMG};
