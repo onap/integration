@@ -53,6 +53,7 @@ onap/vfc/gvnfmdriver,v1.0.1
 onap/vfc/jujudriver,v1.0.0
 onap/vfc/nfvo/svnfm/huawei,v1.0.2
 onap/vfc/nfvo/svnfm/nokia,v1.0.2
+onap/vfc/nfvo/svnfm/nokiav2,1.1.0-STAGING-latest
 onap/vfc/nslcm,v1.0.2
 onap/vfc/resmanagement,v1.0.0
 onap/vfc/vnflcm,v1.0.1
