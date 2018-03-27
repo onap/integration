@@ -139,9 +139,73 @@ Healthcheck
     Log To Console              body = ${resp.text}
     Should Be Equal As Integers    ${resp.status_code}    200
 
+SendPlanWithWrongVersion
+    [Documentation]    It sends a POST request to conductor
+    Create Session   optf-cond            ${COND_HOSTNAME}:${COND_PORT}
+    ${data}=         Get Binary File     ${CURDIR}${/}data${/}plan_with_wrong_version.json
+    &{headers}=      Create Dictionary    Content-Type=application/json  Accept=application/json
+    ${resp}=         Post Request        optf-cond   /v1/plans     data=${data}     headers=${headers}
+    Log To Console              *********************
+    Log To Console              response = ${resp}
+    Log To Console              body = ${resp.text}
+    ${response_json}    json.loads    ${resp.content}
+    ${generatedPlanId}=    Convert To String      ${response_json['id']}
+    Set Global Variable     ${generatedPlanId}
+    Log To Console              generatedPlanId = ${generatedPlanId}
+    Should Be Equal As Integers    ${resp.status_code}    201
+    Sleep    10s    Wait Plan Resolution
+
+GetPlanWithWrongVersion
+    [Documentation]    It sends a REST GET request to capture error
+    Create Session   optf-cond            ${COND_HOSTNAME}:${COND_PORT}
+    &{headers}=      Create Dictionary    Content-Type=application/json  Accept=application/json
+    ${resp}=         Get Request        optf-cond   /v1/plans/${generatedPlanId}    headers=${headers}
+    Log To Console              *********************
+    Log To Console              response = ${resp}
+    ${response_json}    json.loads    ${resp.content}
+    ${resultStatus}=    Convert To String      ${response_json['plans'][0]['status']}
+    Set Global Variable     ${resultStatus}
+    Log To Console              resultStatus = ${resultStatus}
+    Log To Console              body = ${resp.text}
+    Should Be Equal As Integers    ${resp.status_code}    200
+    Should Be Equal    error    ${resultStatus}
+
+
+
+SendPlanWithoutDemandSection
+    [Documentation]    It sends a POST request to conductor
+    Create Session   optf-cond            ${COND_HOSTNAME}:${COND_PORT}
+    ${data}=         Get Binary File     ${CURDIR}${/}data${/}plan_without_demand_section.json
+    &{headers}=      Create Dictionary    Content-Type=application/json  Accept=application/json
+    ${resp}=         Post Request        optf-cond   /v1/plans     data=${data}     headers=${headers}
+    Log To Console              *********************
+    Log To Console              response = ${resp}
+    Log To Console              body = ${resp.text}
+    ${response_json}    json.loads    ${resp.content}
+    ${generatedPlanId}=    Convert To String      ${response_json['id']}
+    Set Global Variable     ${generatedPlanId}
+    Log To Console              generatedPlanId = ${generatedPlanId}
+    Should Be Equal As Integers    ${resp.status_code}    201
+    Sleep    10s    Wait Plan Resolution
+
+GetPlanWithoutDemandSection
+    [Documentation]    It sends a REST GET request to capture error
+    Create Session   optf-cond            ${COND_HOSTNAME}:${COND_PORT}
+    &{headers}=      Create Dictionary    Content-Type=application/json  Accept=application/json
+    ${resp}=         Get Request        optf-cond   /v1/plans/${generatedPlanId}    headers=${headers}
+    Log To Console              *********************
+    Log To Console              response = ${resp}
+    ${response_json}    json.loads    ${resp.content}
+    ${resultStatus}=    Convert To String      ${response_json['plans'][0]['status']}
+    Set Global Variable     ${resultStatus}
+    Log To Console              resultStatus = ${resultStatus}
+    Log To Console              body = ${resp.text}
+    Should Be Equal As Integers    ${resp.status_code}    200
+    Should Be Equal    error    ${resultStatus}
+
 
 SendPlanWithLatiAndLongi
-    [Documentation]    It sends a POST GET request to conductor
+    [Documentation]    It sends a POST request to conductor
     Create Session   optf-cond            ${COND_HOSTNAME}:${COND_PORT}
     ${data}=         Get Binary File     ${CURDIR}${/}data${/}plan_with_lati_and_longi.json
     &{headers}=      Create Dictionary    Content-Type=application/json  Accept=application/json
@@ -170,7 +234,6 @@ GetPlanWithLatiAndLongi
     Log To Console              body = ${resp.text}
     Should Be Equal As Integers    ${resp.status_code}    200
     Should Be Equal    done    ${resultStatus}
-
 
 
 *** Keywords ***

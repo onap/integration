@@ -80,6 +80,8 @@ echo "TOMCAT_IP=${TOMCAT_IP}"
 
 ${WORKSPACE}/test/csit/scripts/optf-has/has/wait_for_port.sh ${TOMCAT_IP} 8080
 
+# wait a while to make sure music is totally up and configured
+sleep 10
 
 echo "inspect docker things for tracing purpose"
 docker inspect music-db
@@ -88,7 +90,6 @@ docker inspect music-tomcat
 docker inspect music-war
 docker volume inspect music-vol
 docker network inspect music-net
-
 
 
 

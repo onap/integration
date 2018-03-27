@@ -1,7 +1,7 @@
 {
-   "name":"onap template with wrong version",
+   "name":"onap template with long distance constraint",
    "template":{
-      "homing_template_version":"xxxx-yy-zz",
+      "homing_template_version":"2017-10-10",
       "parameters":{
          "service_name":"Residential vCPE",
          "service_id":"vcpe_service_id",
@@ -26,16 +26,26 @@
          "vG":[
             {
                "inventory_provider":"aai",
-               "inventory_type":"cloud"
+               "inventory_type":"service",
+               "service_type": "VVIG", 
+               "customer_id": "21014aa2-526b-11e6-beb8-9e71128cae77"
             }
          ]
       },
       "constraints":{
-
+         "distance-vg":{
+            "type":"distance_to_location",
+            "demands":[
+               "vG"
+            ],
+            "properties":{
+               "distance":"> 100 km",
+               "location":"customer_loc"
+            }
+         }
       },
       "optimization":{
 
       }
    }
 }
-
