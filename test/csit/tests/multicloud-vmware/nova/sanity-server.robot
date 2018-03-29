@@ -95,11 +95,3 @@ ServerActionFuncTest
     List Should Contain Value    ${return_ok_list}   ${response_code}
     ${response_json}    json.loads    ${resp.content}
     #Log To Console        ${response_json}
-
-DeleteServerFuncTest
-    [Documentation]    Sanity Test - Delete Server
-    ${headers}    Create Dictionary    Content-Type=application/json    Accept=application/json  X-Auth-Token=${TOKEN}
-    Create Session    web_session    http://${VIO_IP}:9004    headers=${headers}
-    ${resp}=  Delete Request    web_session    api/multicloud-vio/v0/vmware_fake/nova/${TENANTID}/servers/${server1Id}
-    ${response_code}=     Convert To String      ${resp.status_code}
-    List Should Contain Value    ${delete_ok_list}   ${response_code}

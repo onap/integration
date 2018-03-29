@@ -13,10 +13,13 @@ Library     HttpLibrary.HTTP
 ${get_token_url}         /api/multicloud-vio/v0/vmware_fake/identity/v3/auth/tokens
 ${get_image_url}         /api/multicloud-vio/v0/vmware_fake/glance/v2/images
 ${get_image_schema_url}  /api/multicloud-vio/v0/vmware_fake/glance/v2/schemas/image
+${image_service}         /api/multicloud-vio/v0/vmware_fake/glance/v2/image/file
+
 
 
 #json files
 ${auth_info_json}        ${SCRIPTS}/../tests/multicloud-vmware/provision/jsoninput/auth_info.json
+${image_file}            ${SCRIPTS}/../tests/multicloud-vmware/provision/jsoninput/image_file.json
 
 #global vars
 ${TOKEN}
@@ -42,7 +45,7 @@ GetAuthToken
 
 
 
-TestCaseShoeImageSchema
+TestCaseShowImageSchema
     [Documentation]    Sanity test - Show Image Schema
     ${headers}    Create Dictionary    Content-Type=application/json    Accept=application/json  X-Auth-Token=${TOKEN}
     Create Session    web_session    http://${VIO_IP}:9004    headers=${headers}
@@ -72,6 +75,35 @@ TestCaseShowImage
     ${headers}    Create Dictionary    Content-Type=application/json    Accept=application/json  X-Auth-Token=${TOKEN}
     Create Session    web_session    http://${VIO_IP}:9004    headers=${headers}
     ${resp}=  Get Request    web_session    ${get_image_url}/${IMAGEID}
+    ${responese_code}=     Convert To String      ${resp.status_code}
+    List Should Contain Value    ${return_ok_list}   ${responese_code}
+    ${response_json}    json.loads    ${resp.content}
+    Should Be Equal     ${response_json['status']}    active
+
+
+
+
+TestCaseUploadImage
+    [Documentation]    Sanity test - Upload Image
+    ${json_value}=      json_from_file      ${image_file}
+    ${json_string}=     string_from_json   ${json_value}
+    ${headers}    Create Dictionary    Content-Type=application/json    Accept=application/json  X-Auth-Token=${TOKEN}
+    Create Session    web_session    http://${VIO_IP}:9004    headers=${headers}
+    ${resp}=  POST Request    web_session    ${image_service}   ${json_string}
+    ${responese_code}=     Convert To String      ${resp.status_code}
+    List Should Contain Value    ${return_ok_list}   ${responese_code}
+    ${response_json}    json.loads    ${resp.content}
+    ${IMAGEID}=    Convert To String  ${response_json['id']}
+    Set Global Variable   ${IMAGEID}
+
+
+
+
+TestCaseDownloadImage
+    [Documentation]    Sanity test - Download Image
+    ${headers}    Create Dictionary    Content-Type=application/json    Accept=application/json  X-Auth-Token=${TOKEN}
+    Create Session    web_session    http://${VIO_IP}:9004    headers=${headers}
+    ${resp}=  Get Request    web_session    ${image_service}/${IMAGEID}
     ${responese_code}=     Convert To String      ${resp.status_code}
     List Should Contain Value    ${return_ok_list}   ${responese_code}
     ${response_json}    json.loads    ${resp.content}
