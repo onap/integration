@@ -8,3 +8,6 @@ multicloud-vmware/nova/sanity-flavor.robot
 multicloud-vmware/nova/sanity-host.robot
 multicloud-vmware/nova/sanity-server.robot
 multicloud-vmware/samples/sanity-sample.robot
+multicloud-vmware/hosts/sanity-host.robot
+multicloud-vmware/networks/sanity-network.robot
+multicloud-vmware/images/sanity-image.robot
