@@ -72,10 +72,8 @@ ${DOCKER_COMPOSE_CMD} stop
 ${DOCKER_COMPOSE_CMD} rm -f -v
 
 # Start the hbase where the data will be stored
-HBASE_CONTAINER_NAME=$(${DOCKER_COMPOSE_CMD} up -d aai.hbase.simpledemo.onap.org 2>&1 | grep 'Creating' | grep -v 'volume' | grep -v 'network' | awk '{ print $2; }' | head -1);
-wait_for_container ${HBASE_CONTAINER_NAME} ' Started SelectChannelConnector@0.0.0.0:8085';
-wait_for_container ${HBASE_CONTAINER_NAME} ' Started SelectChannelConnector@0.0.0.0:8080';
-wait_for_container ${HBASE_CONTAINER_NAME} ' Started SelectChannelConnector@0.0.0.0:9095';
+CASSANDRA_CONTAINER_NAME=$(${DOCKER_COMPOSE_CMD} up -d aai.hbase.simpledemo.onap.org 2>&1 | grep 'Creating' | grep -v 'volume' | grep -v 'network' | awk '{ print $2; }' | head -1);
+wait_for_container $CASSANDRA_CONTAINER_NAME 'Listening for thrift clients';
 
 USER_EXISTS=$(check_if_user_exists aaiadmin);
 
@@ -103,11 +101,15 @@ else
         export GROUP_ID=$(id -g aaiadmin);
 fi;
 
+$DOCKER_COMPOSE_CMD run --rm aai-resources.api.simpledemo.onap.org createDBSchema.sh
+
 RESOURCES_CONTAINER_NAME=$(${DOCKER_COMPOSE_CMD} up -d aai-resources.api.simpledemo.onap.org 2>&1 | grep 'Creating' | grep -v 'volume' | grep -v 'network' | awk '{ print $2; }' | head -1);
 wait_for_container $RESOURCES_CONTAINER_NAME 'Resources Microservice Started';
 
 ${DOCKER_COMPOSE_CMD} up -d aai-traversal.api.simpledemo.onap.org aai.api.simpledemo.onap.org
 TRAVERSAL_CONTAINER_NAME=$(echo $RESOURCES_CONTAINER_NAME | sed 's/aai-resources/aai-traversal/g');
+
+$DOCKER_COMPOSE_CMD run --rm aai-traversal.api.simpledemo.onap.org install/updateQueryData.sh
 
 echo "A&AI Microservices, resources and traversal, are up and running along with HAProxy";
 
