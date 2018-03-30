@@ -21,7 +21,7 @@ source ${SCRIPTS}/common_functions.sh
 
 # start multivim-broker
 docker run -d --name multivim-vio nexus3.onap.org:10001/onap/multicloud/vio
-docker run -d --name multivim-broker --link multivim-vio -e MSB_ADDR:multivim-vio -e MSB_ADDR:9004 nexus3.onap.org:10001/onap/multicloud/framework
+docker run -d --name multivim-broker --link multivim-vio -e MSB_ADDR=multivim-vio -e MSB_PORT=9004 nexus3.onap.org:10001/onap/multicloud/framework
 
 BROKER_IP=`get-instance-ip.sh multivim-broker`
 for i in {1..50}; do
