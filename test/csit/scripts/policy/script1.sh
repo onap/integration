@@ -105,8 +105,6 @@ fi
 
 docker ps
 
-#sleep 4m
-
 POLICY_IP=`docker inspect --format '{{ .NetworkSettings.Networks.docker_default.IPAddress}}' drools`
 echo ${POLICY_IP}
 
@@ -125,11 +123,26 @@ echo ${NEXUS_IP}
 MARIADB_IP=`docker inspect --format '{{ .NetworkSettings.Networks.docker_default.IPAddress}}' mariadb`
 echo ${MARIADB_IP}
 
+sleep 1m
+
+netstat -tnl
+
+docker logs mariadb
 ${DIR}/wait_for_port.sh ${MARIADB_IP} 3306
+
+docker logs pap
 ${DIR}/wait_for_port.sh ${PAP_IP} 9091
+
+docker logs pdp
 ${DIR}/wait_for_port.sh ${PDP_IP} 8081
+
+docker logs brmsgw
 ${DIR}/wait_for_port.sh ${BRMS_IP} 9989
+
+docker logs nexus
 ${DIR}/wait_for_port.sh ${NEXUS_IP} 8081
+
+docker logs drools
 ${DIR}/wait_for_port.sh ${POLICY_IP} 6969
 
 TIME_OUT=600
