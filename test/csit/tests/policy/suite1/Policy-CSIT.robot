@@ -16,10 +16,12 @@ ${CREATE_CONFIG_VFW_TEMPLATE}    ${CURDIR}/configpolicy_vFW_R1.template
 ${CREATE_CONFIG_VDNS_TEMPLATE}    ${CURDIR}/configpolicy_vDNS_R1.template
 ${CREATE_CONFIG_VCPE_TEMPLATE}    ${CURDIR}/configpolicy_vCPE_R1.template
 ${CREATE_OPS_VFW_TEMPLATE}    ${CURDIR}/opspolicy_VFW_R1.template
+${CREATE_OOF_HPA_TEMPLATE}    ${CURDIR}/oofpolicy_HPA_R1.template
 ${PUSH_POLICY_TEMPLATE}   ${CURDIR}/pushpolicy.template
 ${CREATE_OPS_VDNS_TEMPLATE}    ${CURDIR}/opspolicy_VDNS_R1.template
 ${DEL_POLICY_TEMPLATE}   ${CURDIR}/deletepolicy.template
 ${GETCONFIG_TEMPLATE}    ${CURDIR}/getconfigpolicy.template
+${GETOOF_TEMPLATE}       ${CURDIR}/getoofpolicy.template
 ${CONFIG_POLICY_VFW_NAME}    vFirewall
 ${CONFIG_POLICY_VFW_TYPE}    MicroService
 ${CONFIG_POLICY_VDNS_NAME}    vLoadBalancer
@@ -34,6 +36,8 @@ ${OPS_POLICY_VCPE_NAME}    vCPE
 ${OPS_POLICY_VCPE_TYPE}    BRMS_PARAM
 ${OPS_POLICY_VOLTE_NAME}    VoLTE
 ${OPS_POLICY_VOLTE_TYPE}    BRMS_PARAM
+${OOF_POLICY_HPA_NAME}    HPA
+${OOF_POLICY_HPA_TYPE}    Optimization 
 ${file_path}        ../testsuite/robot/assets/templates/ControlLoopDemo__closedLoopControlName.drl
 ${RESOURCE_PATH_UPLOAD}  /pdp/api/policyEngineImport?importParametersJson=%7B%22serviceName%22%3A%22Manyu456%22%2C%20%22serviceType%22%3A%22BRMSPARAM%22%7D
 ${CREATE_OPS_VCPE_TEMPLATE}      ${CURDIR}/opspolicy_vCPE_R1.template  
@@ -75,6 +79,12 @@ VOLTE Ops Policy
      ${OPS_POLICY_VOLTE_NAME}=    Create Ops VOLTE Policy
      Push Ops Policy    ${OPS_POLICY_VOLTE_NAME}    ${OPS_POLICY_VOLTE_TYPE}    
     #VOLTE Policy Tests
+
+HPA OOF Policy
+     ${OOF_POLICY_HPA_NAME}=     Create OOF HPA Policy
+     Push Config Policy    ${OOF_POLICY_HPA_NAME}      ${OOF_POLICY_HPA_TYPE}
+    #HPA Policy Tests
+ 
 VFW Get Configs Policy
     Sleep    5s
     Get Configs VFW Policy 
@@ -87,6 +97,10 @@ VCPE Get Configs Policy
     Sleep    5s
     Get Configs VCPE Policy 
     
+HPA Get OOF Policy
+    Sleep    5s
+    Get OOF HPA Policy
+
 *** Keywords ***
 
 VFW Policy Tests
@@ -114,6 +128,11 @@ VOLTE Policy Tests
      ${OPS_POLICY_VOLTE_NAME}=    Create Ops VOLTE Policy
      Push Ops Policy    ${OPS_POLICY_VOLTE_NAME}    ${OPS_POLICY_VOLTE_TYPE}
      
+HPA Policy Tests
+     ${OOF_POLICY_HPA_NAME}=    Create OOF HPA Policy
+     Push Config Policy    ${OOF_POLICY_HPA_NAME}    ${OOF_POLICY_HPA_TYPE}
+     Get OOF HPA Policy
+
 Get Configs VFW Policy
     [Documentation]    Get Config Policy for VFW
     ${getconfigpolicy}=    Catenate    .*${CONFIG_POLICY_VFW_NAME}*
@@ -122,6 +141,26 @@ Get Configs VFW Policy
     ${get_resp} =    Run Policy Get Configs Request    ${RESOURCE_PATH_GET_CONFIG}   ${output}
 	Should Be Equal As Strings 	${get_resp.status_code} 	200
 	
+Create OOF HPA Policy
+    [Documentation]    Create OOF Policy
+    ${randompolicyname} =     Create Policy Name
+    ${policyname1}=    Catenate   com.${randompolicyname}_HPA
+    ${OOF_POLICY_HPA_NAME}=    Set Test Variable    ${policyname1}
+    ${hpapolicy}=   Create Dictionary   policy_name=${policyname1}
+    ${output} =   Fill JSON Template File    ${CREATE_OOF_HPA_TEMPLATE}   ${hpapolicy}
+    ${put_resp} =   Run Policy Put Request    ${RESOURCE_PATH_CREATE}   ${output}
+    Log    ${put_resp}    
+        Should Be Equal As Strings     ${put_resp.status_code}          200
+        [Return]    ${policyname1}
+
+Get OOF HPA Policy
+    [Documentation]    Get OOF Policy for HPA 
+    ${gethpapolicy}=   Catenate    .*${OOF_POLICY_HPA_NAME}*
+    ${hpapolicy_name}=   Create Dictionary    hpa_policy_name=${gethpapolicy}
+    ${output} =    Fill JSON Template File    ${GETOOF_TEMPLATE}    ${hpapolicy_name}
+    ${get_resp} =   Run Policy Get Configs Request   ${RESOURCE_PATH_GET_CONFIG}   ${output}
+        Should Be Equal As Strings     ${get_resp.status_code}        200
+ 
 Create Config VFW Policy
     [Documentation]    Create Config Policy
     ${randompolicyname} =     Create Policy Name
@@ -185,6 +224,15 @@ Delete Config Policy
 	${output} =     Fill JSON Template     ${DEL_POLICY_TEMPLATE}     ${dict}
     ${put_resp} =    Run Policy Delete Request    ${RESOURCE_PATH_CREATE_DELETE}  ${output}
     Should Be Equal As Strings 	${put_resp.status_code} 	200
+
+Delete OOF Policy
+    [Documentation]    Delete OOF Policy
+    [Arguments]    ${policy_name}
+    ${policyname3}=    Catenate   com.Config_OOF_${policy_name}.1.xml
+    ${dict}=    Create Dictionary     policy_name=${policyname3}
+        ${output} =    Fill JSON Template     ${DEL_POLICY_TEMPLATE}     ${dict}
+    ${put_resp} =   Run Policy Delete Request    ${RESOURCE_PATH_CREATE_DELETE}   ${output}
+    Should Be Equal As Strings  ${put_resp.status_code}        200 
 
 Get Configs VDNS Policy
     [Documentation]    Get Config Policy for VDNS
