@@ -123,7 +123,7 @@ echo ${NEXUS_IP}
 MARIADB_IP=`docker inspect --format '{{ .NetworkSettings.Networks.docker_default.IPAddress}}' mariadb`
 echo ${MARIADB_IP}
 
-sleep 1m
+sleep 5m
 
 netstat -tnl
 
