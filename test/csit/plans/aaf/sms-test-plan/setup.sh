@@ -28,7 +28,7 @@ cat << EOF > $CONFIG_FILE
     "servercert": "auth/server.cert",
     "serverkey":  "auth/server.key",
 
-    "vaultaddress":     "http://$HOSTNAME:8200",
+    "smsdbaddress":     "http://$HOSTNAME:8200",
     "vaulttoken":       "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
     "disable_tls": true
 }
@@ -48,7 +48,11 @@ docker run --workdir /sms -v "$(pwd)"/config/smsconfig.json:/sms/smsconfig.json 
            --name sms -d -p 10443:10443 nexus3.onap.org:10001/onap/aaf/sms
 
 echo "###### WAITING FOR ALL CONTAINERS TO COME UP"
-sleep 10
+for i in {1..20}; do
+    curl -sS -m 1 http://$HOSTNAME:8200/v1/sys/seal-status && break
+    echo sleep $i
+    sleep $i
+done
 
 #
 # add here all ROBOT_VARIABLES settings
