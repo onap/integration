@@ -50,14 +50,14 @@ echo "MUSIC_IP=${MUSIC_IP}"
 # change MUSIC reference to the local instance
 sed  -i -e "s%localhost:8080/MUSIC%${MUSIC_IP}:8080/MUSIC%g" /tmp/conductor/properties/conductor.conf
 
-#onboard conductor into music
-curl -vvvvv --noproxy "*" --request POST http://${MUSIC_IP}:8080/MUSIC/rest/v2/admin/onboardAppWithMusic -H "Content-Type: application/json" --data @${WORKSPACE}/test/csit/tests/optf-has/has/data/onboard.json
-
 AAISIM_IP=`docker inspect --format '{{ .NetworkSettings.Networks.bridge.IPAddress}}' aaisim`
 echo "AAISIM_IP=${AAISIM_IP}"
 
-# change MUSIC reference to the local instance
+# change AAI reference to the local instance
 sed  -i -e "s%localhost:8081/%${AAISIM_IP}:8081/%g" /tmp/conductor/properties/conductor.conf
+
+#onboard conductor into music
+curl -vvvvv --noproxy "*" --request POST http://${MUSIC_IP}:8080/MUSIC/rest/v2/admin/onboardAppWithMusic -H "Content-Type: application/json" --data @${WORKSPACE}/test/csit/tests/optf-has/has/data/onboard.json
 
 docker run -d --name cond-cont -v ${COND_CONF}:/usr/local/bin/conductor.conf -v ${LOG_CONF}:/usr/local/bin/log.conf ${IMAGE_NAME}:latest python /usr/local/bin/conductor-controller --config-file=/usr/local/bin/conductor.conf
 sleep 2
@@ -80,6 +80,7 @@ docker inspect cond-api
 docker inspect cond-solv
 docker inspect cond-resv
 
+echo "dump music content just after conductor is started"
 docker exec music-db /usr/bin/nodetool status
 docker exec music-db /usr/bin/cqlsh -unelson24 -pwinman123 -e 'SELECT * FROM system_schema.keyspaces'
 docker exec music-db /usr/bin/cqlsh -unelson24 -pwinman123 -e 'SELECT * FROM admin.keyspace_master'
