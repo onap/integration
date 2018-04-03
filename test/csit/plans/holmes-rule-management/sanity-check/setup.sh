@@ -60,6 +60,12 @@ for i in {1..10}; do
     echo sleep $i
     sleep $i
 done
+
+echo sleep 30s for service registration
+sleep 30
+
+docker logs i-rulemgt
+docker logs i-engine-d
  
 #Pass any variables required by Robot test suites in ROBOT_VARIABLES
 ROBOT_VARIABLES="-v MSB_IP:${MSB_IP} -v RULEMGT_IP:${RULEMGT_IP} -v ENGINE_D_IP:${ENGINE_D_IP}"
