@@ -39,13 +39,13 @@ popd
 sed "1,/${SENTINEL}/d" ${ENV_SRC} >> ${ENV_FILE}
 cat ${ENV_FILE}
 
-sdiff -w 180 ${ENV_SRC} ${ENV_FILE}
+diff ${ENV_SRC} ${ENV_FILE}
 
 # generate final heat template
 # add apt proxy to heat template if applicable
 if [ -x $LAB_DIR/apt-proxy.sh ]; then
     $LAB_DIR/apt-proxy.sh ${YAML_FILE}
-    sdiff -w 180 ${YAML_SRC} ${YAML_FILE}
+    diff ${YAML_SRC} ${YAML_FILE}
 fi
 
 
@@ -60,7 +60,9 @@ $WORKSPACE/test/ete/scripts/teardown-onap.sh
 # create new stack
 STACK="ete-$(uuidgen | cut -c-8)"
 echo "New Stack Name: ${STACK}"
-openstack stack create -t ${YAML_FILE} -e ${ENV_FILE} $STACK
+if ! openstack stack create -t ${YAML_FILE} -e ${ENV_FILE} $STACK; then
+    exit 1
+fi
 
 while [ "CREATE_IN_PROGRESS" == "$(openstack stack show -c stack_status -f value $STACK)" ]; do
     sleep 20
