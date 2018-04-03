@@ -50,34 +50,27 @@ docker network create music-net;
 # Start Cassandra
 docker run -d --name music-db --network music-net -p "7000:7000" -p "7001:7001" -p "7199:7199" -p "9042:9042" -p "9160:9160" -e CASSUSER=${CASS_USERNAME} -e CASSPASS=${CASS_PASSWORD} ${CASS_IMG};
 
+CASSA_IP=`docker inspect -f '{{ $network := index .NetworkSettings.Networks "music-net" }}{{ $network.IPAddress}}' music-db`
+echo "CASSANDRA_IP=${CASSA_IP}"
+${WORKSPACE}/test/csit/scripts/optf-has/has/wait_for_port.sh ${CASSA_IP} 9042
+
 # Start Music war
 docker run -d --name music-war -v music-vol:/app ${MUSIC_IMG};
 
 # Start Zookeeper
 docker run -d --name music-zk --network music-net -p "2181:2181" -p "2888:2888" -p "3888:3888" ${ZK_IMG};
 
-# Delay for Cassandra
-sleep 20;
+ZOO_IP=`docker inspect -f '{{ $network := index .NetworkSettings.Networks "music-net" }}{{ $network.IPAddress}}' music-zk`
+echo "ZOOKEEPER_IP=${ZOO_IP}"
+
+# Delay  between Cassandra/Zookeeper and Tomcat
+sleep 60;
 
 # Start Up tomcat - Needs to have properties,logs dir and war file volume mapped.
 docker run -d --name music-tomcat --network music-net -p "8080:8080" -v music-vol:/usr/local/tomcat/webapps -v ${WORK_DIR}/properties:/opt/app/music/etc:ro -v ${WORK_DIR}/logs:/opt/app/music/logs ${TOMCAT_IMG};
 
 # Connect tomcat to host bridge network so that its port can be seen. 
 docker network connect bridge music-tomcat;
-
-##################################
-
-#
-# add here below the start of all docker containers needed for music CSIT testing
-#
-
-CASSA_IP=`docker inspect --format '{{ .NetworkSettings.Networks.bridge.IPAddress}}' music-db`
-echo "CASSANDRA_IP=${CASSA_IP}"
-
-ZOO_IP=`docker inspect --format '{{ .NetworkSettings.Networks.bridge.IPAddress}}' music-zk`
-echo "ZOOKEEPER_IP=${ZOO_IP}"
-
-${WORKSPACE}/test/csit/scripts/music/music-scripts/wait_for_port.sh ${CASSA_IP} 9042
 
 TOMCAT_IP=`docker inspect --format '{{ .NetworkSettings.Networks.bridge.IPAddress}}' music-tomcat`
 echo "TOMCAT_IP=${TOMCAT_IP}"
@@ -93,7 +86,10 @@ docker inspect music-war
 docker volume inspect music-vol
 docker network inspect music-net
 
-
+echo "dump music content just after music is started"
+docker exec music-db /usr/bin/nodetool status
+docker exec music-db /usr/bin/cqlsh -unelson24 -pwinman123 -e 'SELECT * FROM system_schema.keyspaces'
+docker exec music-db /usr/bin/cqlsh -unelson24 -pwinman123 -e 'SELECT * FROM admin.keyspace_master'
 
 
 #
