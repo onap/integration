@@ -60,7 +60,9 @@ $WORKSPACE/test/ete/scripts/teardown-onap.sh
 # create new stack
 STACK="ete-$(uuidgen | cut -c-8)"
 echo "New Stack Name: ${STACK}"
-openstack stack create -t ${YAML_FILE} -e ${ENV_FILE} $STACK
+if ! openstack stack create -t ${YAML_FILE} -e ${ENV_FILE} $STACK; then
+    exit 1
+fi
 
 while [ "CREATE_IN_PROGRESS" == "$(openstack stack show -c stack_status -f value $STACK)" ]; do
     sleep 20
