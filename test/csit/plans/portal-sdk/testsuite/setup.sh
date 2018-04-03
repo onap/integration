@@ -48,7 +48,7 @@ NEXUS_DOCKER_REPO=nexus3.onap.org:10003
 
 
 CURR="$(pwd)"
-git clone http://gerrit.onap.org/r/portal -b "release-1.3.0"
+git clone http://gerrit.onap.org/r/portal -b "master"
 
 # Refresh configuration and scripts
 cd portal
@@ -80,15 +80,21 @@ mkdir -p $LOGS_DIR
 
 # Refresh images
 docker login -u $NEXUS_USERNAME -p $NEXUS_PASSWD $NEXUS_DOCKER_REPO
-docker pull $NEXUS_DOCKER_REPO/${DB_IMG_NAME}:$DOCKER_IMAGE_VERSION
-docker pull $NEXUS_DOCKER_REPO/${EP_IMG_NAME}:$DOCKER_IMAGE_VERSION
-docker pull $NEXUS_DOCKER_REPO/${WMS_IMG_NAME}:$DOCKER_IMAGE_VERSION
+docker pull $NEXUS_DOCKER_REPO/$DB_IMG_NAME:$DOCKER_IMAGE_VERSION
+docker pull $NEXUS_DOCKER_REPO/$EP_IMG_NAME:$DOCKER_IMAGE_VERSION
+docker pull $NEXUS_DOCKER_REPO/$SDK_IMG_NAME:$DOCKER_IMAGE_VERSION
+docker pull $NEXUS_DOCKER_REPO/$CDR_IMG_NAME:$CDR_IMAGE_VERSION
+docker pull $ZK_IMG_NAME:$ZK_IMAGE_VERSION
+docker pull $NEXUS_DOCKER_REPO/$WMS_IMG_NAME:$DOCKER_IMAGE_VERSION
 docker pull $NEXUS_DOCKER_REPO/$CLI_IMG_NAME:$CLI_DOCKER_VERSION
 
 # Tag them as expected by docker-compose file
-docker tag $NEXUS_DOCKER_REPO/${DB_IMG_NAME}:$DOCKER_IMAGE_VERSION $DB_IMG_NAME:$PORTAL_TAG
-docker tag $NEXUS_DOCKER_REPO/${EP_IMG_NAME}:$DOCKER_IMAGE_VERSION $EP_IMG_NAME:$PORTAL_TAG
-docker tag $NEXUS_DOCKER_REPO/${WMS_IMG_NAME}:$DOCKER_IMAGE_VERSION $WMS_IMG_NAME:$PORTAL_TAG
+docker tag $NEXUS_DOCKER_REPO/$DB_IMG_NAME:$DOCKER_IMAGE_VERSION $DB_IMG_NAME:$PORTAL_TAG
+docker tag $NEXUS_DOCKER_REPO/$EP_IMG_NAME:$DOCKER_IMAGE_VERSION $EP_IMG_NAME:$PORTAL_TAG
+docker tag $NEXUS_DOCKER_REPO/$SDK_IMG_NAME:$DOCKER_IMAGE_VERSION $SDK_IMG_NAME:$PORTAL_TAG
+docker tag $NEXUS_DOCKER_REPO/$CDR_IMG_NAME:$CDR_IMAGE_VERSION $CDR_IMG_NAME:$PORTAL_TAG
+docker tag $ZK_IMG_NAME:$ZK_IMAGE_VERSION $ZK_IMG_NAME:$PORTAL_TAG
+docker tag $NEXUS_DOCKER_REPO/$WMS_IMG_NAME:$DOCKER_IMAGE_VERSION $WMS_IMG_NAME:$PORTAL_TAG
 docker tag $NEXUS_DOCKER_REPO/$CLI_IMG_NAME:$CLI_DOCKER_VERSION $CLI_IMG_NAME:$PORTAL_TAG
 
 
@@ -170,7 +176,7 @@ HOST_IP=$(ip route get 8.8.8.8 | awk '/8.8.8.8/ {print $NF}')
 export HOST_IP=${HOST_IP}
 
 #docker logs deliveries_portal-db_1
-docker logs deliveries_portal-apps_1
+docker logs deliveries_portal-app_1
 docker logs deliveries_portal-wms_1
 
 
