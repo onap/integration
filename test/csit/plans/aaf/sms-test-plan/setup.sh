@@ -28,11 +28,13 @@ cat << EOF > $CONFIG_FILE
     "servercert": "auth/server.cert",
     "serverkey":  "auth/server.key",
 
-    "vaultaddress":     "http://$HOSTNAME:8200",
+    "smsdbaddress":     "http://$HOSTNAME:8200",
     "vaulttoken":       "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
     "disable_tls": true
 }
 EOF
+
+cat $CONFIG_FILE
 
 docker login -u docker -p docker nexus3.onap.org:10001
 docker pull nexus3.onap.org:10001/onap/aaf/sms
@@ -44,11 +46,16 @@ docker pull docker.io/vault:0.9.5
 docker run -e "VAULT_DEV_ROOT_TOKEN_ID=aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee" \
            -e SKIP_SETCAP=true \
            --name vault -d -p 8200:8200 vault:0.9.5
-docker run --workdir /sms -v "$(pwd)"/config/smsconfig.json:/sms/smsconfig.json \
+docker run --workdir /sms -v $CONFIG_FILE:/sms/smsconfig.json \
            --name sms -d -p 10443:10443 nexus3.onap.org:10001/onap/aaf/sms
 
 echo "###### WAITING FOR ALL CONTAINERS TO COME UP"
-sleep 10
+sleep 20
+for i in {1..20}; do
+    curl -sS -m 1 http://$HOSTNAME:8200/v1/sys/seal-status && break
+    echo sleep $i
+    sleep $i
+done
 
 #
 # add here all ROBOT_VARIABLES settings
