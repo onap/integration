@@ -22,21 +22,10 @@ CONFIG_FILE=$(pwd)/config/smsconfig.json
 
 mkdir -p $(pwd)/config
 
-cat << EOF > $CONFIG_FILE
-{
-    "cafile": "auth/selfsignedca.pem",
-    "servercert": "auth/server.cert",
-    "serverkey":  "auth/server.key",
-
-    "vaultaddress":     "http://$HOSTNAME:8200",
-    "vaulttoken":       "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
-    "disable_tls": true
-}
-EOF
-
 docker login -u docker -p docker nexus3.onap.org:10001
 docker pull nexus3.onap.org:10001/onap/aaf/sms
 docker pull docker.io/vault:0.9.5
+
 #
 # Running vault in dev server mode here for CSIT
 # In HELM it runs in production mode
@@ -44,16 +33,39 @@ docker pull docker.io/vault:0.9.5
 docker run -e "VAULT_DEV_ROOT_TOKEN_ID=aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee" \
            -e SKIP_SETCAP=true \
            --name vault -d -p 8200:8200 vault:0.9.5
-docker run --workdir /sms -v "$(pwd)"/config/smsconfig.json:/sms/smsconfig.json \
+
+SMSDB_IP=$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' vault)
+cat << EOF > $CONFIG_FILE
+{
+    "cafile": "auth/selfsignedca.pem",
+    "servercert": "auth/server.cert",
+    "serverkey":  "auth/server.key",
+
+    "smsdbaddress":     "http://$SMSDB_IP:8200",
+    "vaulttoken":       "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+    "disable_tls": true
+}
+EOF
+
+cat $CONFIG_FILE
+
+docker run --workdir /sms -v $CONFIG_FILE:/sms/smsconfig.json \
            --name sms -d -p 10443:10443 nexus3.onap.org:10001/onap/aaf/sms
 
+SMS_IP=$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' sms)
+
 echo "###### WAITING FOR ALL CONTAINERS TO COME UP"
-sleep 10
+sleep 20
+for i in {1..20}; do
+    curl -sS -m 1 http://${SMSDB_IP}:8200/v1/sys/seal-status && break
+    echo sleep $i
+    sleep $i
+done
 
 #
 # add here all ROBOT_VARIABLES settings
 #
 echo "# sms robot variables settings";
-ROBOT_VARIABLES="-v SMS_HOSTNAME:http://localhost -v SMS_PORT:10443"
+ROBOT_VARIABLES="-v SMS_HOSTNAME:http://${SMS_IP} -v SMS_PORT:10443"
 
 echo ${ROBOT_VARIABLES}

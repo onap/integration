@@ -15,6 +15,9 @@
 # limitations under the License.
 #
 
+docker cp sms:/sms/sms.log .
+cat sms.log
+rm sms.log
 rm -rf config
 docker stop sms vault
 docker rm sms vault
