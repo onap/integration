@@ -19,7 +19,7 @@ Acquire::https::Proxy "DIRECT";
 EOF
 fi
 apt-get -y update
-apt-get -y install linux-image-extra-$(uname -r) jq
+apt-get -y install linux-image-extra-$(uname -r) jq make
 
 cd ~
 
@@ -99,7 +99,7 @@ git clone -b master http://gerrit.onap.org/r/oom
 
 # Update values.yaml to point to docker-proxy instead of nexus3:
 cd ~/oom/kubernetes
-perl -p -i -e 's/nexus3.onap.org:10001/__docker_proxy__/g' `find ./ -name values.yaml` oneclick/setenv.bash
+perl -p -i -e 's/nexus3.onap.org:10001/__docker_proxy__/g' `find ./ -name values.yaml`
 
 KUBETOKEN=$(echo -n 'Basic '$(echo -n "$RANCHER_ACCESS_KEY:$RANCHER_SECRET_KEY" | base64 -w 0) | base64 -w 0)
 
@@ -160,10 +160,6 @@ until [ $(kubectl get pods --namespace kube-system | tail -n +2 | grep -c Runnin
     sleep 10
 done
 
-# Source the environment file:
-cd ~/oom/kubernetes/oneclick/
-source setenv.bash
-
 # run the config pod creation
 cd ~/oom/kubernetes/config
 ./createConfig.sh -n onap
@@ -183,8 +179,13 @@ git add -A
 git commit -m "initial commit"
 
 # Run ONAP:
-cd ~/oom/kubernetes/oneclick/
-./createAll.bash -n onap
+cd ~/oom/kubernetes/
+helm init --client-only
+helm serve &
+sleep 3
+helm repo add local http://127.0.0.1:8879
+make all
+helm install local/onap --name dev --namespace onap
 
 # Check ONAP status:
 sleep 3
