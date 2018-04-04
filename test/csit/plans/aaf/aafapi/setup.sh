@@ -39,7 +39,7 @@ chmod -R 777 $WORKSPACE/archives/aafcsit/authz/auth/auth-service/src/main/resour
 docker-compose up -d
 
 # Wait for initialization of Docker contaienr for AAF & Cassandra
-for i in {1..50}; do
+for i in {1..25}; do
 	if [ $(docker inspect --format '{{ .State.Running }}' dockercompose_aaf_container_1) ] && \
 		[ $(docker inspect --format '{{ .State.Running }}' dockercompose_cassandra_container_1) ] && \
 		[ $(docker inspect --format '{{ .State.Running }}' dockercompose_aaf_container_1) ] 
@@ -62,7 +62,7 @@ echo CASSANDRA_IP=${CASSANDRA_IP}
 
 
 # Wait for initialization of docker services
-for i in {1..50}; do
+for i in {1..5}; do
     curl -sS -m 1 ${AAF_IP}:8101 && break 
     echo sleep $i
     sleep $i
