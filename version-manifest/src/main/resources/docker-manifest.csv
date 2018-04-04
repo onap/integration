@@ -55,6 +55,7 @@ onap/sdnc-image,1.3-STAGING-latest
 onap/sdnc-ueb-listener-image,1.3-STAGING-latest
 onap/search-data-service,1.2-STAGING-latest
 onap/sparky-be,1.2-STAGING-latest
+onap/testsuite,1.2-STAGING-latest
 onap/usecase-ui,1.1.0-SNAPSHOT-STAGING-latest
 onap/usecase-ui/usecase-ui-server,1.1.0-SNAPSHOT-STAGING-latest
 onap/vfc/catalog,1.1.0-STAGING-latest
@@ -79,4 +80,3 @@ onap/vid,1.2.1
 onap/vnfsdk/refrepo,1.0.0
 onap/vnfsdk/refrepo-postgres,1.0.0
 openecomp/mso,1.2.1
-openecomp/testsuite,1.2-STAGING-latest
