@@ -37,10 +37,6 @@ mkdir ~/.kube
 wget -q http://storage.googleapis.com/kubernetes-helm/helm-v2.6.1-linux-amd64.tar.gz
 tar -zxvf helm-v2.6.1-linux-amd64.tar.gz
 sudo mv linux-amd64/helm /usr/local/bin/helm
-# verify version
-helm version
-# Rancher 1.6.14 installs 2.6.1 - if you upgrade to 2.8.0 - you will need to upgrade helm on the server to the version to level of client
-helm init --upgrade
 
 # Fix virtual memory allocation for onap-log:elasticsearch:
 echo "vm.max_map_count=262144" >> /etc/sysctl.conf
@@ -88,18 +84,6 @@ done
 RANCHER_AGENT_CMD=$(jq -r .command token.json)
 eval $RANCHER_AGENT_CMD
 
-# download rancher CLI
-wget -q https://github.com/rancher/cli/releases/download/v0.6.7/rancher-linux-amd64-v0.6.7.tar.xz
-unxz rancher-linux-amd64-v0.6.7.tar.xz
-tar xvf rancher-linux-amd64-v0.6.7.tar
-
-# Clone OOM:
-cd ~
-git clone -b master http://gerrit.onap.org/r/oom
-
-# Update values.yaml to point to docker-proxy instead of nexus3:
-cd ~/oom/kubernetes
-perl -p -i -e 's/nexus3.onap.org:10001/__docker_proxy__/g' `find ./ -name values.yaml`
 
 KUBETOKEN=$(echo -n 'Basic '$(echo -n "$RANCHER_ACCESS_KEY:$RANCHER_SECRET_KEY" | base64 -w 0) | base64 -w 0)
 
@@ -128,49 +112,32 @@ EOF
 export KUBECONFIG=/root/.kube/config
 kubectl config view
 
-# Update ~/oom/kubernetes/kube2msb/values.yaml kubeMasterAuthToken to use the token from ~/.kube/config
-sed -i "s/kubeMasterAuthToken:.*/kubeMasterAuthToken: $KUBETOKEN/" ~/oom/kubernetes/kube2msb/values.yaml
-
-# Put your onap_key ssh private key in ~/.ssh/onap_key
-
-# Create or edit ~/oom/kubernetes/config/onap-parameters.yaml
-cat > ~/oom/kubernetes/config/onap-parameters.yaml <<EOF
-OPENSTACK_UBUNTU_14_IMAGE: "__ubuntu_1404_image__"
-OPENSTACK_PUBLIC_NET_ID: "__public_net_id__"
-OPENSTACK_OAM_NETWORK_ID: "__oam_network_id__"
-OPENSTACK_OAM_SUBNET_ID: "__oam_subnet_id__"
-OPENSTACK_OAM_NETWORK_CIDR: "__oam_network_cidr__"
-OPENSTACK_USERNAME: "__openstack_username__"
-OPENSTACK_API_KEY: "__openstack_api_key__"
-OPENSTACK_TENANT_NAME: "__openstack_tenant_name__"
-OPENSTACK_TENANT_ID: "__openstack_tenant_id__"
-OPENSTACK_REGION: "RegionOne"
-OPENSTACK_KEYSTONE_URL: "__keystone_url__"
-OPENSTACK_FLAVOUR_MEDIUM: "m1.medium"
-OPENSTACK_SERVICE_TENANT_NAME: "service"
-DMAAP_TOPIC: "AUTO"
-DEMO_ARTIFACTS_VERSION: "1.1.1"
-EOF
-cat ~/oom/kubernetes/config/onap-parameters.yaml
-
-
 # wait for kubernetes to initialze
 sleep 100
 until [ $(kubectl get pods --namespace kube-system | tail -n +2 | grep -c Running) -ge 6 ]; do
     sleep 10
 done
 
-# run the config pod creation
-cd ~/oom/kubernetes/config
-./createConfig.sh -n onap
 
-# Wait until the config container completes.
-sleep 20
-until [ $(kubectl get pods --namespace onap -a | tail -n +2 | grep -c Completed) -eq 1 ]; do
-    sleep 10
-done
+# Install using OOM
+export HOME=/root
 
-# version control the config to see what's happening
+# Clone OOM:
+cd ~
+git clone -b master http://gerrit.onap.org/r/oom
+git log -1
+
+# Update values.yaml to point to docker-proxy instead of nexus3:
+cd ~/oom/kubernetes
+#perl -p -i -e 's/nexus3.onap.org:10001/__docker_proxy__/g' `find ./ -name values.yaml`
+sed -i 's/nexus3.onap.org:10001/__docker_proxy__/g' onap/values.yaml
+sed -i 's/#repository:/repository:/g' onap/values.yaml
+sed -i 's/#repositorySecret:/repositorySecret:/g' onap/values.yaml
+git diff
+
+
+# version control the persistence volume to see what's happening
+mkdir -p /dockerdata-nfs/
 cd /dockerdata-nfs/
 git init
 git config user.email "root@k8s"
@@ -180,12 +147,16 @@ git commit -m "initial commit"
 
 # Run ONAP:
 cd ~/oom/kubernetes/
+# verify version
+helm version
 helm init --client-only
 helm serve &
 sleep 3
 helm repo add local http://127.0.0.1:8879
+helm repo list
 make all
-helm install local/onap --name dev --namespace onap
+helm search -l | grep local
+helm install local/onap -n dev --namespace onap
 
 # Check ONAP status:
 sleep 3
