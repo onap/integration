@@ -17,6 +17,11 @@
 # Place the scripts in run order:
 # Start all process required for executing test case
 
+#start generic simulator
+${WORKSPACE}/test/csit/scripts/so/vcpe/generic_sim/generic_sim_build.sh ${WORKSPACE}/test/csit/scripts/so/vcpe/generic_sim/
+${WORKSPACE}/test/csit/scripts/so/vcpe/generic_sim/generic_sim_run.sh
+${WORKSPACE}/test/csit/scripts/so/vcpe/vcpe.sh
+
 #start mariadb
 docker run -d --name mariadb -h db.mso.testlab.openecomp.org -e MYSQL_ROOT_PASSWORD=password -p 3306:3306 -v ${WORKSPACE}/test/csit/scripts/mariadb/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d  -v ${WORKSPACE}/test/csit/scripts/mariadb/conf.d:/etc/mysql/conf.d nexus3.onap.org:10001/mariadb
 
