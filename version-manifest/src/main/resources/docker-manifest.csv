@@ -1,5 +1,12 @@
 image,tag
-onap/aaf,latest
+onap/aaf/aaf_cm,2.1.0-SNAPSHOT
+onap/aaf/aaf_gui,2.1.0-SNAPSHOT
+onap/aaf/aaf_fs,2.1.0-SNAPSHOT
+onap/aaf/aaf_hello,2.1.0-SNAPSHOT
+onap/aaf/aaf_locate,2.1.0-SNAPSHOT
+onap/aaf/aaf_oauth,2.1.0-SNAPSHOT
+onap/aaf/aaf_service,2.1.0-SNAPSHOT
+onap/aaf/sms,1.1.0-SNAPSHOT-latest
 onap/aai/esr-gui,1.1.0-SNAPSHOT
 onap/aai/esr-server,1.1.0-SNAPSHOT
 onap/aai-resources,1.2-STAGING-latest
