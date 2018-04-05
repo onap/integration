@@ -3,29 +3,20 @@
   "description": "MSO Docker Images",
   "chef_type": "environment",
   "json_class": "Chef::Environment",
-
-  "default_attributes":
-  {
+  "default_attributes": {
     "mso_config_path": "/etc/mso/config.d/",
-
-    "mso-topology-config":
-    {
+    "mso-topology-config": {
       "msb-server-ip": "172.30.3.34",
       "msb-server-port": "80"
     },
-
-    "mso-api-handler-infra-config":
-    {
+    "mso-api-handler-infra-config": {
       "bpelURL": "http://mso:8080",
       "bpelAuth": "786864AA53D0DCD881AED1154230C0C3058D58B9339D2EFB6193A0F0D82530E1",
       "camundaURL": "http://mso:8080",
       "camundaAuth": "5119D1AF37F671FC01FFAD2151D93EFB2BBB503E879FD07104D024EDDF118FD1"
     },
-
-    "asdc-connections":
-    {
-      "asdc-controller1":
-      {
+    "asdc-connections": {
+      "asdc-controller1": {
         "user": "mso",
         "consumerGroup": "sdc-OpenSource-Env1",
         "consumerId": "sdc-COpenSource-Env11",
@@ -39,9 +30,7 @@
         "keyStorePassword": "",
         "keyStorePath": ""
       },
-
-      "asdc-controller2":
-      {
+      "asdc-controller2": {
         "user": "user",
         "consumerGroup": "mso",
         "consumerId": "mso",
@@ -56,11 +45,8 @@
         "keyStorePath": ""
       }
     },
-
-    "mso-sdnc-adapter-config":
-    {
-      "sdncurls":
-      [
+    "mso-sdnc-adapter-config": {
+      "sdncurls": [
         "http://c1.vm1.sdnc.simpledemo.openecomp.org:8282/restconf/operations/L3SDN-API:",
         "http://c1.vm1.sdnc.simpledemo.openecomp.org:8282/restconf/config/L3SDN-API:",
         "http://c1.vm1.sdnc.simpledemo.openecomp.org:8282/restconf/operations/Firewall-API:",
@@ -72,7 +58,6 @@
         "http://c1.vm1.sdnc.simpledemo.openecomp.org:8282/restconf/operations/VNFTOPOLOGYAIC-API:",
         "http://c1.vm1.sdnc.simpledemo.openecomp.org:8282/"
       ],
-
       "bpelurl": "http://c1.vm1.mso.simpledemo.openecomp.org:8080/mso/SDNCAdapterCallbackService",
       "restbpelurl": "http://c1.vm1.mso.simpledemo.openecomp.org:8080/mso/WorkflowMessage",
       "myurl": "http://c1.vm1.mso.simpledemo.openecomp.org:8080/adapters/rest/SDNCNotify",
@@ -80,11 +65,8 @@
       "bpelauth": "5119D1AF37F671FC01FFAD2151D93EFB2BBB503E879FD07104D024EDDF118FD1",
       "sdncconnecttime": "5000"
     },
-
-    "mso-po-adapter-config":
-    {
-      "identity_services":
-      [
+    "mso-po-adapter-config": {
+      "identity_services": [
         {
           "dcp_clli": "RAX_KEYSTONE",
           "identity_url": "https://identity.api.rackspacecloud.com/v2.0",
@@ -97,9 +79,7 @@
           "identity_authentication_type": "RACKSPACE_APIKEY"
         }
       ],
-
-      "cloud_sites":
-      [
+      "cloud_sites": [
         {
           "id": "Dallas",
           "aic_version": "2.5",
@@ -107,7 +87,6 @@
           "region_id": "DFW",
           "identity_service_id": "RAX_KEYSTONE"
         },
-
         {
           "id": "Northern Virginia",
           "aic_version": "2.5",
@@ -115,7 +94,6 @@
           "region_id": "IAD",
           "identity_service_id": "RAX_KEYSTONE"
         },
-
         {
           "id": "Chicago",
           "aic_version": "2.5",
@@ -124,20 +102,15 @@
           "identity_service_id": "RAX_KEYSTONE"
         }
       ],
-
       "vnfbpelauth": "5119D1AF37F671FC01FFAD2151D93EFB2BBB503E879FD07104D024EDDF118FD1",
       "checkrequiredparameters": "true",
       "nwbpelauth": "5119D1AF37F671FC01FFAD2151D93EFB2BBB503E879FD07104D024EDDF118FD1"
     },
-
-    "mso-workflow-message-adapter-config":
-    {
+    "mso-workflow-message-adapter-config": {
       "wmbpelurl": "http://mso:8080/mso/WorkflowMessage",
       "wmbpelauth": "5119D1AF37F671FC01FFAD2151D93EFB2BBB503E879FD07104D024EDDF118FD1"
     },
-
-    "mso-appc-adapter-config":
-    {
+    "mso-appc-adapter-config": {
       "appc_url": "http://localhost:18080",
       "appc_stub": "/AppC-Simulator/action/execute",
       "appc_auth": "786864AA53D0DCD881AED1154230C0C3058D58B9339D2EFB6193A0F0D82530E1",
@@ -154,15 +127,11 @@
       "bpel_auth": "786864AA53D0DCD881AED1154230C0C3058D58B9339D2EFB6193A0F0D82530E1",
       "bpel_timeout": "30"
     },
-
-    "mso-bpmn-config":
-    {
+    "mso-bpmn-config": {
       "urnFileSystemLoadingEnabled": "true"
     },
-
-    "mso-bpmn-urn-config":
-    {
-      "debug":"false",
+    "mso-bpmn-urn-config": {
+      "debug": "false",
       "invariantIdL3ToHigherLayerDeleteBonding": "50359538-066f-4a8d-807f-f2bc8eaa79dc",
       "versionIdL3ToHigherLayerDeleteBonding": "52dbec20-47aa-42e4-936c-331d8e350d44",
       "infraCustomerId": "21014aa2-526b-11e6-beb8-9e71128cae77",
@@ -171,6 +140,11 @@
       "sniroTimeout": "PT30M",
       "serviceAgnosticSniroHost": "http://sniro.api.simpledemo.openecomp.org:8080",
       "serviceAgnosticSniroEndpoint": "/sniro/api/v2/placement",
+      "oofAuth": "test:testpwd",
+      "oofEndpoint": "http://:8081/sniro/api/v2/placement",
+      "oofTimeout": "PT30M",
+      "serviceAgnosticOofHost": "http://:8081",
+      "serviceAgnosticOofEndpoint": "/sniro/api/v2/placement",
       "aaiEndpoint": "https://aai.api.simpledemo.openecomp.org:8443",
       "aaiAuth": "2630606608347B7124C244AB0FE34F6F",
       "adaptersNamespace": "http://org.openecomp.mso",
@@ -218,13 +192,8 @@
       "workflowL3ToHigherLayerAddBondingModelVersion": "2.0"
     }
   },
-
-  "override_attributes":
-  {
-  },
-
-  "cookbook_versions":
-  {
+  "override_attributes": {},
+  "cookbook_versions": {
     "mso-config": "~> 1.0.0"
   }
 }
