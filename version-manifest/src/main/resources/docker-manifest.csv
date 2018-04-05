@@ -37,10 +37,10 @@ onap/org.onap.dcaegen2.platform.deployment-handler,v1.1.0
 onap/org.onap.dcaegen2.platform.inventory-api,v1.2.0
 onap/org.onap.dcaegen2.platform.policy-handler,v1.1.0
 onap/org.onap.dcaegen2.platform.servicechange-handler,v1.0.0
-onap/policy-db,v1.1.3
-onap/policy-drools,v1.1.3
-onap/policy-nexus,v1.1.3
-onap/policy-pe,v1.1.3
+onap/policy-db,v1.1.1
+onap/policy-drools,v1.1.1
+onap/policy-nexus,v1.1.1
+onap/policy-pe,v1.1.1
 onap/portal-app,2.1-STAGING-latest
 onap/portal-db,2.1-STAGING-latest
 onap/portal-wms,2.1-STAGING-latest
