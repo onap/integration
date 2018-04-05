@@ -45,6 +45,7 @@ for n in $(seq 1 10); do
     fi
     sleep 15m
 done
-LOG_DIR=$(ssh -o StrictHostKeychecking=no -i ~/.ssh/onap_key ubuntu@$K8S_IP "ls -1t /dockerdata-nfs/onap/robot/eteshare/logs | head -1")
-rsync -e "ssh -i ~/.ssh/onap_key" -avPz ubuntu@$K8S_IP:/dockerdata-nfs/onap/robot/eteshare/logs/${LOG_DIR}/ $WORKSPACE/archives/
+ROBOT_POD=$(ssh -o StrictHostKeychecking=no -i ~/.ssh/onap_key ubuntu@$K8S_IP 'sudo su -c "kubectl --namespace onap get pods"' | grep robot | sed 's/ .*//')
+LOG_DIR=$(ssh -o StrictHostKeychecking=no -i ~/.ssh/onap_key ubuntu@$K8S_IP "sudo su -c \"kubectl exec $ROBOT_POD --namespace onap -- ls -1t /share/logs | head -1\"")
+wget --user=robot --password=robot -r -np -nH --cut-dirs=2 -R "index.html*" -P $WORKSPACE/archives/ http://$K8S_IP:30209/logs/$LOG_DIR/
 exit 0
