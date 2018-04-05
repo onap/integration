@@ -1,0 +1,77 @@
+{
+  "requestInfo": {
+    "transactionId": "testRequestId",
+    "requestId": "testRequestId",
+    "callbackUrl": "http://localhost:28090/workflows/messages/message/oofResponse/testRequestId",
+    "sourceId": "so",
+    "requestType": "create",    "numSolutions": 1,
+    "optimizers": ["placement"],
+    "timeout": 600
+    },
+  "placementInfo": {
+    "requestParameters": {
+      "customerLatitude": "32.89748",
+      "customerLongitude": "-97.040443",
+      "customerName": "xyz"
+    },    "subscriberInfo": { 
+      "globalSubscriberId": "SUB12_0322_DS_1201",
+      "subscriberName": "SUB_12_0322_DS_1201",
+      "subscriberCommonSiteId": ""
+    },
+    "placementDemands": [
+      {
+"resourceModuleName": "ALLOTTED_RESOURCE",
+"serviceResourceId": "testResourceIdAR",
+"tenantId": "null",
+"resourceModelInfo": {
+  "modelInvariantId": "testModelInvariantIdAR",
+  "modelVersionId": "testARModelUuid",
+  "modelName": "testModelNameAR",
+  "modelType": "testModelTypeAR",
+  "modelVersion": "testModelVersionAR",
+  "modelCustomizationName": ""
+  }
+},{
+"resourceModuleName": "ALLOTTED_RESOURCE",
+"serviceResourceId": "testResourceIdAR2",
+"tenantId": "null",
+"resourceModelInfo": {
+  "modelInvariantId": "testModelInvariantIdAR2",
+  "modelVersionId": "testAr2ModelUuid",
+  "modelName": "testModelNameAR2",
+  "modelType": "testModelTypeAR2",
+  "modelVersion": "testModelVersionAR2",
+  "modelCustomizationName": ""
+  }
+}
+      ]
+    },
+  "serviceInfo": {
+    "serviceInstanceId": "testServiceInstanceId123",
+    "serviceName": "null",
+    "modelInfo": {
+      "modelType": "",
+      "modelInvariantId": "testModelInvariantId",
+      "modelVersionId": "testModelUuid",
+      "modelName": "testModelName",
+      "modelVersion": "testModelVersion",
+      "modelCustomizationName": ""
+    }
+  },
+  "licenseInfo": {
+    "licenseDemands": [
+      {
+"resourceModuleName": "VNF",
+"serviceResourceId": "testResourceIdVNF",
+"resourceInstanceType": "VNF",
+"resourceModelInfo": {
+  "modelInvariantId": "testModelInvariantIdVNF",
+  "modelVersionId": "testVnfModelUuid",
+  "modelName": "testModelNameVNF",
+  "modelType": "testModelTypeVNF",
+  "modelVersion": "testModelVersionVNF",
+  "modelCustomizationName": ""
+  }
+      }]
+    }
+}
