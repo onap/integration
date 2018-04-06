@@ -1,9 +1,9 @@
 image,tag
 onap/aaf,latest
-onap/aai/esr-gui,1.1.0-SNAPSHOT
-onap/aai/esr-server,1.1.0-SNAPSHOT
 onap/aai-resources,1.2-STAGING-latest
 onap/aai-traversal,1.2-STAGING-latest
+onap/aai/esr-gui,1.1.0-SNAPSHOT
+onap/aai/esr-server,1.1.0-SNAPSHOT
 onap/admportal-sdnc-image,1.3-STAGING-latest
 onap/appc-image,1.3.0-SNAPSHOT-latest
 onap/ccsdk-dgbuilder-image,0.2.1-SNAPSHOT
@@ -15,8 +15,8 @@ onap/data-router,1.2-STAGING-latest
 onap/dmaap/dmaap-mr,1.0.1
 onap/holmes/engine-management,v1.0.0
 onap/holmes/rule-management,v1.0.0
-onap/modeling/javatoscachecker,latest
 onap/model-loader,1.2-STAGING-latest
+onap/modeling/javatoscachecker,latest
 onap/msb/msb_apigateway,1.1.0-STAGING-latest
 onap/msb/msb_discovery,1.1.0-STAGING-latest
 onap/multicloud/framework,v1.0.0

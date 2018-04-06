@@ -92,7 +92,7 @@
         <artifactId>exec-maven-plugin</artifactId>
         <version>1.6.0</version>
         <configuration>
-          <executable>sort</executable>
+          <executable>bash</executable>
         </configuration>
         <executions>
           <execution>
@@ -103,7 +103,7 @@
             </goals>
             <configuration>
               <arguments>
-                <argument>-c</argument>
+                <argument>${project.basedir}/src/main/scripts/check-sorted.sh</argument>
                 <argument>${project.basedir}/src/main/resources/docker-manifest.csv</argument>
               </arguments>
             </configuration>
@@ -116,7 +116,7 @@
             </goals>
             <configuration>
               <arguments>
-                <argument>-c</argument>
+                <argument>${project.basedir}/src/main/scripts/check-sorted.sh</argument>
                 <argument>${project.basedir}/src/main/resources/java-manifest.csv</argument>
               </arguments>
             </configuration>
