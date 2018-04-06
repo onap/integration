@@ -7,6 +7,8 @@ Library     Selenium2Library
 Library     XvfbRobot
 
 *** Variables ***
+${login}                     admin
+${passw}                     password
 ${SELENIUM_SPEED_FAST}       .2 seconds
 ${SELENIUM_SPEED_SLOW}       .5 seconds
 
@@ -26,8 +28,8 @@ Open Browser
     Should Be Equal    CLDS    ${title}
 
 Good Login to Clamp UI and Verify logged in
-    Input Text      locator=username    text=admin
-    Input Text      locator=password    text=password
+    Input Text      locator=username    text=${login}
+    Input Text      locator=password    text=${passw}
     Press Key    locator=password       key=\\13
     Wait Until Element Is Visible       xpath=//*[@class="navbar-brand logo_name ng-binding"]       timeout=60
     Element Text Should Be      xpath=//*[@class="navbar-brand logo_name ng-binding"]       expected=Hello:admin
@@ -63,7 +65,19 @@ Set Policy Box properties for TCAModel1
     Input Text      locator=timeout      text=400
     Click Button    locator=Close
 
-### Cannot set TCA box attributes due to element not interractable with Selenium
+Set TCA Box properties for TCAModel1
+    Wait Until Element Is Visible       xpath=//*[@data-element-id="Policy_12lup3h"]      timeout=60
+    Click Element    xpath=//*[@data-element-id="TCA_1d13unw"]
+    Input Text      xpath=(//input[@id='tname'])[2]      text=TCA1
+    Select From List By Label       xpath=//*[@id="tcaPol"]      Policy2
+    Select From List By Label       xpath=//*[@id="eventName"]      vCPEvGMUXPacketLoss
+### Cannot set all TCA box attributes due to element not interractable with Selenium
+#    Select From List By Label       xpath=//*[@id="controlLoopSchemaType"]       VNF
+#    Select From List By Index       xpath=//*[@id="controlLoopSchemaType"]       1
+    Click Element    xpath=(//button[@id='createNewThresh'])[2]
+    Input Text      xpath=(//input[@id='threshold'])[2]          6
+#    Select From List By Label       xpath=//*[@id="closedLoopEventStatus"]        ONSET
+    Click Button    id=savePropsBtn
 
 Save Model from Menu
     Wait Until Element Is Visible       xpath=//*[@id="navbar"]/ul/li[1]/a      timeout=60
@@ -79,7 +93,7 @@ Close Browser
     Close Browser
 
 Verify TCA CL well create
-    ${auth}=    Create List     admin    password
+    ${auth}=    Create List     ${login}    ${passw}
     Create Session   clamp  http://localhost:8080   auth=${auth}
     ${resp}=    Get Request    clamp   /restservices/clds/v1/clds/model-names
     Should Contain Match    ${resp}   *TCAModel1*

@@ -4,24 +4,27 @@ Library     RequestsLibrary
 Library     OperatingSystem
 Library     json
 
+*** Variables ***
+${login}                     admin
+${passw}                     password
 
 *** Test Cases ***
 Get Clamp properties
-    ${auth}=    Create List     admin    password
+    ${auth}=    Create List     ${login}    ${passw}
     Create Session   clamp  http://localhost:8080   auth=${auth}
     ${resp}=    Get Request    clamp   /restservices/clds/v1/clds/properties
     Dictionary Should Contain Key    ${resp.json()}   global
     Dictionary Should Contain Key    ${resp.json()['global']}   location
 
 Get Clamp Info
-    ${auth}=    Create List     admin    password
+    ${auth}=    Create List     ${login}    ${passw}
     Create Session   clamp  http://localhost:8080   auth=${auth}
     ${resp}=    Get Request    clamp   /restservices/clds/v1/clds/cldsInfo
     Dictionary Should Contain Key    ${resp.json()}   userName
     Dictionary Should Contain Key    ${resp.json()}   cldsVersion
 
 Get model bpmn by name
-    ${auth}=    Create List     admin    password
+    ${auth}=    Create List     ${login}    ${passw}
     Create Session   clamp  http://localhost:8080   auth=${auth}
     ${resp}=    Get Request    clamp   /restservices/clds/v1/clds/model/bpmn/ClHolmes1
     Should Contain Match    ${resp}   *StartEvent_*
@@ -31,7 +34,7 @@ Get model bpmn by name
     Should Contain Match    ${resp}   *EndEvent_*
 
 Get model names
-    ${auth}=    Create List     admin    password
+    ${auth}=    Create List     ${login}    ${passw}
     Create Session   clamp  http://localhost:8080   auth=${auth}
     ${resp}=    Get Request    clamp   /restservices/clds/v1/clds/model-names
     Should Contain Match    ${resp}   *ClHolmes1*
