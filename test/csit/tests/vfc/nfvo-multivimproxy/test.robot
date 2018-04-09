@@ -15,7 +15,7 @@ ${queryswagger_url}    /api/multivimproxy/v1/swagger.json
 SwaggerFuncTest
     [Documentation]    query swagger info rest test
     ${headers}    Create Dictionary    Content-Type=application/json    Accept=application/json
-    Create Session    web_session    http://${RESMGR_IP}:8486    headers=${headers}
+    Create Session    web_session    http://${RESMGR_IP}:8481    headers=${headers}
     ${resp}=  Get Request    web_session    ${queryswagger_url}
     ${responese_code}=     Convert To String      ${resp.status_code}
     List Should Contain Value    ${return_ok_list}   ${responese_code}
