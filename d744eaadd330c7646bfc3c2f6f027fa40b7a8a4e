@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_66898dc9",
+        "filename": "test/csit/tests/so/hpa/hpa.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2018-04-09T20:26:50Z",
+      "side": 1,
+      "message": "It\u0027s also possible that we could import your simulator python script as a library here and start it from the robot test, then we could check values using variables rather than logs on the disk.",
+      "revId": "d744eaadd330c7646bfc3c2f6f027fa40b7a8a4e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
