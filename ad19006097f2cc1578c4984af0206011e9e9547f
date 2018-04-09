@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_49710243",
+        "filename": "test/csit/tests/so/hpa/hpa.robot",
+        "patchSetId": 11
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2018-04-09T23:14:10Z",
+      "side": 1,
+      "message": "Error in Jenkins \"[ ERROR ] Error in file \u0027/w/workspace/so-master-verify-csit-hpa/test/csit/tests/so/hpa/hpa.robot\u0027: Setting variable \u0027\u0026{HEADERS}\u0027 failed: Dictionary item \u0027Create Dictionary\u0027 does not contain \u0027\u003d\u0027 separator.\"\n\nWe probably want to move this back to the test cases below and make it lower-case",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 1
+      },
+      "revId": "ad19006097f2cc1578c4984af0206011e9e9547f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
