@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_26fce53d",
+        "filename": "test/csit/scripts/so/hpa/oof_simulator/oof_sim.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2018-04-09T20:25:08Z",
+      "side": 0,
+      "message": "Should rename this to generic simulator or mockServer. Also it should log any requests it receives so that we can check those requests in robot",
+      "revId": "55c3850c140ec0ce416ce6b8be5414a4c5c6a743",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
