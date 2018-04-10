@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_90064a1b",
+        "filename": "test/csit/plans/so/hpa/setup.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2018-04-10T21:59:31Z",
+      "side": 1,
+      "message": "I think this \u0027./\u0027 is causing the path to be incorrect. Without it will likely work.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 2
+      },
+      "revId": "8c9a16f5cf86b4ace84b11d1982830ca692daa52",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_b00b4623",
+        "filename": "test/csit/plans/so/hpa/setup.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2018-04-10T21:59:31Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 2
+      },
+      "revId": "8c9a16f5cf86b4ace84b11d1982830ca692daa52",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_50144243",
+        "filename": "test/csit/plans/so/hpa/setup.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2018-04-10T21:59:31Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 2
+      },
+      "revId": "8c9a16f5cf86b4ace84b11d1982830ca692daa52",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
