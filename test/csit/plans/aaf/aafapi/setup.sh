@@ -39,15 +39,15 @@ chmod -R 777 $WORKSPACE/archives/aafcsit/authz/auth/auth-service/src/main/resour
 docker-compose up -d
 
 # Wait for initialization of Docker contaienr for AAF & Cassandra
-for i in {1..50}; do
+for i in {1..12}; do
 	if [ $(docker inspect --format '{{ .State.Running }}' dockercompose_aaf_container_1) ] && \
 		[ $(docker inspect --format '{{ .State.Running }}' dockercompose_cassandra_container_1) ] && \
-		[ $(docker inspect --format '{{ .State.Running }}' dockercompose_aaf_container_1) ] 
+		[ $(docker inspect --format '{{ .State.Running }}' dockercompose_aaf_container_1) ]
 	then
-		echo "AAF Service Running"	
-		break    		
-	else 
-		echo sleep $i		
+		echo "AAF Service Running"
+		break
+	else
+		echo sleep $i
 		sleep $i
 	fi
 done
@@ -62,11 +62,11 @@ echo CASSANDRA_IP=${CASSANDRA_IP}
 
 
 # Wait for initialization of docker services
-for i in {1..50}; do
-    curl -sS -m 1 ${AAF_IP}:8101 && break 
+for i in {1..12}; do
+    curl -sS -m 1 ${AAF_IP}:8101 && break
     echo sleep $i
     sleep $i
 done
 
 #Pass any variables required by Robot test suites in ROBOT_VARIABLES
-ROBOT_VARIABLES="-v AAF_IP:${AAF_IP}" 
+ROBOT_VARIABLES="-v AAF_IP:${AAF_IP}"
