@@ -4,9 +4,13 @@ Library     RequestsLibrary
 Library     OperatingSystem
 Library     json
 
+*** Variables ***
+${login}                     admin
+${passw}                     password
+
 *** Test Cases ***
 Verify HolmesModel1
-    ${auth}=    Create List     admin    password
+    ${auth}=    Create List     ${login}    ${passw}
     Create Session   clamp  http://localhost:8080   auth=${auth}
     ${resp}=    Get Request    clamp   /restservices/clds/v1/clds/model/HolmesModel1
     Should Contain Match    ${resp}   *templateHolmes1*
@@ -21,7 +25,7 @@ Verify HolmesModel1
     Should Contain Match    ${resp}   *config Policy Name1*
 
 Verify TCAModel1
-    ${auth}=    Create List     admin    password
+    ${auth}=    Create List     ${login}    ${passw}
     Create Session   clamp  http://localhost:8080   auth=${auth}
     ${resp}=    Get Request    clamp   /restservices/clds/v1/clds/model/TCAModel1
     Should Contain Match    ${resp}   *templateTCA1*
@@ -35,7 +39,7 @@ Verify TCAModel1
     Should Contain Match    ${resp}   *400*
 
 Get model names
-    ${auth}=    Create List     admin    password
+    ${auth}=    Create List     ${login}    ${passw}
     Create Session   clamp  http://localhost:8080   auth=${auth}
     ${resp}=    Get Request    clamp   /restservices/clds/v1/clds/model-names
     Should Contain Match    ${resp}   *HolmesModel1*
