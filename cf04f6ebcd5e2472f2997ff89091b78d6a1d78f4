@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_ace526a5",
+        "filename": "test/csit/tests/policy/suite1/Policy-CSIT.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-04-12T11:43:42Z",
+      "side": 1,
+      "message": "The template expects oof_policy_name, should this be changed to that? Is that what keyerror is looking for?",
+      "range": {
+        "startLine": 159,
+        "startChar": 3,
+        "endLine": 159,
+        "endChar": 21
+      },
+      "revId": "cf04f6ebcd5e2472f2997ff89091b78d6a1d78f4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
