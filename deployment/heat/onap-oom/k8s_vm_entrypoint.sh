@@ -34,8 +34,8 @@ sudo mv ./kubectl /usr/local/bin/kubectl
 mkdir ~/.kube
 
 # install helm
-wget -q http://storage.googleapis.com/kubernetes-helm/helm-v2.6.1-linux-amd64.tar.gz
-tar -zxvf helm-v2.6.1-linux-amd64.tar.gz
+wget -q http://storage.googleapis.com/kubernetes-helm/helm-v2.7.2-linux-amd64.tar.gz
+tar -zxvf helm-v2.7.2-linux-amd64.tar.gz
 sudo mv linux-amd64/helm /usr/local/bin/helm
 
 # Fix virtual memory allocation for onap-log:elasticsearch:
