@@ -155,7 +155,14 @@ org.onap.vfc.nfvo.lcm,vfc-nfvo-lcm,1.0.2
 org.onap.vfc.nfvo.resmanagement,vfc-nfvo-resmanagement-deployment,1.0.0
 org.onap.vfc.nfvo.wfengine,activiti-extension,1.0.0
 org.onap.vfc.nfvo.wfengine,workflow-engine-mgr-service,1.0.0
-org.onap.vnfsdk.refrepo,vnfmarket,1.0.0
+org.onap.vnfsdk.validation,validation,1.1.1
+org.onap.vnfsdk.validation-csar,validation,1.1.1
+org.onap.vnfsdk.validation,csarvalidation-deployment,1.1.0
+org.onap.vnfsdk.refrepo,vnfmarket,1.1.0
+org.onap.vnfsdk.refrepo,vnfmarket-deployment,1.1.0
+org.onap.vnfsdk.refrepo,vnf-sdk-marketplace-core-parent,1.1.0
+org.onap.vnfsdk.refrepo,vnf-sdk-marketplace-deployment,1.1.0
+org.onap.vnfsdk.refrepo,vnf-sdk-marketplace,1.1.0
 org.onap.vnfsdk.ves-agent,evel_javalib2,1.1.0
 org.openecomp.appc,appc-aai-client-provider,1.2.0
 org.openecomp.appc,appc-ansible-adapter-bundle,1.2.0
