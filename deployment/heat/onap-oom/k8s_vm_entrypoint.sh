@@ -150,6 +150,7 @@ cd ~/oom/kubernetes/
 # verify version
 helm version
 helm init --client-only
+helm init --upgrade
 helm serve &
 sleep 3
 helm repo add local http://127.0.0.1:8879
