@@ -30,11 +30,10 @@ cd ${DIR}
 # omit the -p parameter to create a temporal directory in the default location
 WORK_DIR=`mktemp -d -p "$DIR"`
 echo ${WORK_DIR}
-
 cd ${WORK_DIR}
 
+# clone optf-has project
 git clone https://gerrit.onap.org/r/optf/has
-cd has/conductor/conductor/tests/functional/simulators/aaisim/
 
 #echo "i am ${USER} : only non jenkins users may need proxy settings"
 if [ ${USER} != 'jenkins' ]; then
@@ -43,6 +42,9 @@ if [ ${USER} != 'jenkins' ]; then
     ${WORKSPACE}/test/csit/scripts/optf-has/has/has_proxy_settings.sh ${WORK_DIR}
 
 fi
+
+# prepare aaisim
+cd ${WORK_DIR}/has/conductor/conductor/tests/functional/simulators/aaisim/
 
 # check Dockerfile content
 cat ./Dockerfile
@@ -58,8 +60,26 @@ echo "AAISIM_IP=${AAISIM_IP}"
 
 ${WORKSPACE}/test/csit/scripts/optf-has/has/wait_for_port.sh ${AAISIM_IP} 8081
 
+# prepare multicloudsim
+cd ${WORK_DIR}/has/conductor/conductor/tests/functional/simulators/multicloudsim/
+
+# check Dockerfile content
+cat ./Dockerfile
+
+# build multicloudsim
+docker build -t multicloudsim .
+
+# run multicloudsim
+docker run -d --name multicloudsim -p 8082:8082  multicloudsim
+
+MULTICLOUDSIM_IP=`docker inspect --format '{{ .NetworkSettings.Networks.bridge.IPAddress}}' multicloudsim`
+echo "MULTICLOUDSIM_IP=${MULTICLOUDSIM_IP}"
+
+${WORKSPACE}/test/csit/scripts/optf-has/has/wait_for_port.sh ${MULTICLOUDSIM_IP} 8082
+
 # wait a while before continuing
 sleep 2
 
 echo "inspect docker things for tracing purpose"
 docker inspect aaisim
+docker inspect multicloudsim

@@ -16,6 +16,7 @@
 #
 echo "optf/has scripts docker containers killing";
 docker stop aaisim
+docker stop multicloudsim
 
 docker rm aaisim
-
+docker rm multicloudsim
