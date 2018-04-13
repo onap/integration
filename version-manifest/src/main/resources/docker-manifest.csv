@@ -13,6 +13,7 @@ onap/clamp,2.0-STAGING-latest
 onap/cli,v1.1.0
 onap/data-router,1.2-STAGING-latest
 onap/dmaap/dmaap-mr,1.0.1
+onap/externalapi/nbi,latest
 onap/holmes/engine-management,v1.0.0
 onap/holmes/rule-management,v1.0.0
 onap/model-loader,1.2-STAGING-latest
@@ -26,7 +27,6 @@ onap/multicloud/openstack-windriver,1.0.0-SNAPSHOT
 onap/multicloud/vio,1.0.0-SNAPSHOT
 onap/multicloud/vio-vesagent,1.0.0
 onap/music,latest
-onap/nbi,latest
 onap/oof,latest
 onap/oom/kube2msb,1.0.0
 onap/org.onap.dcaegen2.collectors.ves.vescollector,v1.1.0
