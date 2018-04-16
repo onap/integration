@@ -19,19 +19,11 @@
 # Place the scripts in run order:
 SCRIPTS="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source ${WORKSPACE}/test/csit/scripts/appc/script1.sh
-amsterdam="$(echo ${WORKSPACE} | grep amsterdam | wc -l)"
 
-if [ "$amsterdam" != "1" ]; then
-  export APPC_DOCKER_IMAGE_VERSION=1.3.0-SNAPSHOT-latest
-  export CCSDK_DOCKER_IMAGE_VERSION=0.1-STAGING-latest
-  export BRANCH=master
-  export SOLUTION_NAME=onap
-else
-  export APPC_DOCKER_IMAGE_VERSION=v1.2.0
-  export CCSDK_DOCKER_IMAGE_VERSION=v0.1.0
-  export BRANCH=amsterdam
-  export SOLUTION_NAME=openecomp
-fi
+export APPC_DOCKER_IMAGE_VERSION=1.3.0-SNAPSHOT-latest
+export CCSDK_DOCKER_IMAGE_VERSION=0.2.1-SNAPSHOT
+export BRANCH=master
+export SOLUTION_NAME=onap
 
 export NEXUS_USERNAME=docker
 export NEXUS_PASSWD=docker
@@ -67,8 +59,8 @@ TIME=0
 while [ "$TIME" -lt "$TIME_OUT" ]; do
 
 startODL_status=$(docker exec appc_controller_container ps -e | grep startODL | wc -l)
-waiting_bundles=$(docker exec appc_controller_container /opt/opendaylight/current/bin/client -u karaf bundle:list | grep Waiting | wc -l)
-run_level=$(docker exec appc_controller_container /opt/opendaylight/current/bin/client -u karaf system:start-level)
+waiting_bundles=$(docker exec appc_controller_container /opt/opendaylight/current/bin/client bundle:list | grep Waiting | wc -l)
+run_level=$(docker exec appc_controller_container /opt/opendaylight/current/bin/client system:start-level)
 
   if [ "$run_level" == "Level 100" ] && [ "$startODL_status" -lt "1" ] && [ "$waiting_bundles" -lt "1" ] ; then
     echo APPC started in $TIME seconds
