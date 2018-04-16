@@ -4,7 +4,7 @@
 # sets global var IP with assigned IP address
 
 function dmaapbc_launch() {
-	TAG=onap/dmaap/buscontroller
+	TAG=onap/dmaap/buscontroller:latest
 	CONTAINER_NAME=dmaapbc
 	IP=""
 
