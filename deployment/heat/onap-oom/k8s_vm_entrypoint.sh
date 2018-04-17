@@ -125,6 +125,7 @@ export HOME=/root
 # Clone OOM:
 cd ~
 git clone -b master http://gerrit.onap.org/r/oom
+cd oom
 git log -1
 
 # Update values.yaml to point to docker-proxy instead of nexus3:
@@ -134,6 +135,16 @@ sed -i 's/nexus3.onap.org:10001/__docker_proxy__/g' onap/values.yaml
 sed -i 's/#repository:/repository:/g' onap/values.yaml
 sed -i 's/#repositorySecret:/repositorySecret:/g' onap/values.yaml
 git diff
+
+
+# Clone OOM:
+cd ~
+git clone -b master http://gerrit.onap.org/r/integration
+cd integration
+git log -1
+
+cd ~
+ln -s ~/integration/deployment/heat/onap-oom/env/__lab_name__/integration-override.yaml
 
 
 # version control the persistence volume to see what's happening
@@ -157,7 +168,7 @@ helm repo add local http://127.0.0.1:8879
 helm repo list
 make all
 helm search -l | grep local
-helm install local/onap -n dev --namespace onap
+helm install local/onap -n dev --namespace onap -f ~/integration/deployment/heat/onap-oom/env/__lab_name__/integration-override.yaml
 
 # Check ONAP status:
 sleep 3
