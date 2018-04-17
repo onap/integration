@@ -32,8 +32,8 @@ global:
   # with other instances running within the same k8s cluster
   nodePortPrefix: 302
 
-  # windriver local nexus proxy - nexus3 default
-  repository: 10.12.5.2:5000
+  # lab local nexus proxy - nexus3 default
+  repository: 192.168.31.204:5000
   # image pull policy
   #pullPolicy: Always
   pullPolicy: IfNotPresent
@@ -122,7 +122,7 @@ so:
     # openstack configuration
     openStackUserName: "demo"
     openStackRegion: "RegionOne"
-    openStackKeyStoneUrl: "http://10.12.25.2:5000"
+    openStackKeyStoneUrl: "https://bdc1tlab01.research.att.com:5000"
     openStackServiceTenantName: "service"
     openStackEncryptedPasswordHere: "bbaef6cd76625ab9eb60deedeae7dbb9"
 
