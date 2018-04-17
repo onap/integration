@@ -27,7 +27,7 @@ dmaap_mr_launch
 MRC_IP=${IP}
 
 source ${WORKSPACE}/test/csit/scripts/dmaap-buscontroller/start-mock.sh
-start_mock "aaf" 
+#start_mock "aaf" 
 AAF_IP=${IP}
 start_mock "drps" 
 DRPS_IP=${IP}
