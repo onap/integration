@@ -23,7 +23,7 @@ SMS GetStatus
     [Documentation]    Gets Backend Status
     Create Session   SMS            ${SMS_HOSTNAME}:${SMS_PORT}
     &{headers}=      Create Dictionary  Content-Type=application/json  Accept=application/json
-    ${resp}=         Get Request        SMS   /v1/sms/status   headers=${headers}
+    ${resp}=         Get Request        SMS   /v1/sms/quorum/status   headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
     Log To Console              body = ${resp.text}

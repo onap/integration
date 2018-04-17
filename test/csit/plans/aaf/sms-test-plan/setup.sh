@@ -24,7 +24,7 @@ mkdir -p $(pwd)/config
 
 docker login -u docker -p docker nexus3.onap.org:10001
 docker pull nexus3.onap.org:10001/onap/aaf/sms
-docker pull docker.io/vault:0.9.5
+docker pull docker.io/vault:0.10.0
 
 #
 # Running vault in dev server mode here for CSIT
@@ -32,7 +32,7 @@ docker pull docker.io/vault:0.9.5
 #
 docker run -e "VAULT_DEV_ROOT_TOKEN_ID=aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee" \
            -e SKIP_SETCAP=true \
-           --name vault -d -p 8200:8200 vault:0.9.5
+           --name vault -d -p 8200:8200 vault:0.10.0
 
 SMSDB_IP=$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' vault)
 cat << EOF > $CONFIG_FILE

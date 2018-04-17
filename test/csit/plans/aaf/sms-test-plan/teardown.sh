@@ -22,4 +22,4 @@ rm -rf config
 docker stop sms vault
 docker rm sms vault
 docker rmi nexus3.onap.org:10001/onap/aaf/sms
-docker rmi docker.io/vault:0.9.5
+docker rmi docker.io/vault:0.10.0
