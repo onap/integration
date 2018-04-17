@@ -18,12 +18,12 @@
 
 
 #Start postgres database
-docker run -d -i -t --name=postgres   -p 5432:5432 nexus3.onap.org:10001/onap/refrepo/postgres:latest
+docker run -d -i -t --name=postgres   -p 5432:5432 nexus3.onap.org:10001/onap/vnfsdk/refrepo/postgres:latest
 
 POSTGRES=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' postgres`
 
 #Start market place
-docker run -d -i -t --name=refrepo -e POSTGRES_IP=$POSTGRES  -p 8702:8702 nexus3.onap.org:10001/onap/refrepo:1.1-STAGING-latest
+docker run -d -i -t --name=refrepo -e POSTGRES_IP=$POSTGRES  -p 8702:8702 nexus3.onap.org:10001/onap/vnfsdk/refrepo:1.1-STAGING-latest
 
 # Wait for Market place initialization
 echo Wait for VNF Repository initialization
