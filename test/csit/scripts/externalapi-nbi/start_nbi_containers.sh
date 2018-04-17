@@ -14,10 +14,10 @@
 # limitations under the License.
 # ========================================================================
 
-$NEXUS_USERNAME=docker
-$NEXUS_PASSWD=docker
-$NEXUS_DOCKER_REPO=nexus3.onap.org:10001
-$DOCKER_IMAGE_VERSION=latest
+NEXUS_USERNAME=docker
+NEXUS_PASSWD=docker
+NEXUS_DOCKER_REPO=nexus3.onap.org:10001
+DOCKER_IMAGE_VERSION=latest
 
 echo "This is ${WORKSPACE}/test/csit/scripts/externalapi-nbi/start_nbi_containers.sh"
 
@@ -26,7 +26,7 @@ mkdir -p $WORKSPACE/externalapi-nbi
 cd $WORKSPACE/externalapi-nbi
 
 # Fetch the latest docker-compose.yml
-wget -o docker-compose.yml https://git.onap.org/externalapi/nbi/plain/docker-compose.yml?h=master
+wget -O docker-compose.yml 'https://git.onap.org/externalapi/nbi/plain/docker-compose.yml?h=master'
 
 # Pull the nbi docker image from nexus
 # MariaDB and mongoDB will be pulled automatically from docker.io during docker-compose
@@ -34,4 +34,5 @@ docker login -u $NEXUS_USERNAME -p $NEXUS_PASSWD $NEXUS_DOCKER_REPO
 docker pull $NEXUS_DOCKER_REPO/onap/externalapi/nbi:$DOCKER_IMAGE_VERSION
 
 # Start nbi, MariaDB and MongoDB containers with docker compose and nbi/docker-compose.yml
-docker-compose up -d
+docker-compose up -d mariadb mongo && sleep 5 # to ensure that these services are ready for connections
+docker-compose up -d nbi

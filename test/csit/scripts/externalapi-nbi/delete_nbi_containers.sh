@@ -14,16 +14,20 @@
 # limitations under the License.
 # ========================================================================
 
-$NEXUS_USERNAME=docker
-$NEXUS_PASSWD=docker
-$NEXUS_DOCKER_REPO=nexus3.onap.org:10001
-$DOCKER_IMAGE_VERSION=latest
-
 echo "This is ${WORKSPACE}/test/csit/scripts/externalapi-nbi/delete_nbi_containers.sh"
 
-# Create directory
-mkdir -p $WORKSPACE/externalapi-nbi
+# Check if docker-compose file exists
+if [ ! -f "$WORKSPACE/externalapi-nbi/docker-compose.yml" ]; then
+    echo 'There is nothing to clean. Exiting...' >&2
+    exit 0
+fi
+
 cd $WORKSPACE/externalapi-nbi
 
-# Remove containers
-docker-compose down
+# Remove containers and attached/anonymous volume(s)
+docker-compose down -v
+# Force stop & remove all containers and volumes
+docker-compose rm -f -s -v
+
+# clean up
+rm -rf $WORKSPACE/externalapi-nbi
