@@ -36,6 +36,7 @@ function dmaap_mr_launch() {
 		cd $WORKSPACE/archives/dmaapmr
 		#unset http_proxy https_proxy
 		git clone --depth 1 http://gerrit.onap.org/r/dmaap/messagerouter/messageservice -b master
+		cd messageservice
 		git pull
 		cd $WORKSPACE/archives/dmaapmr/messageservice/src/main/resources/docker-compose
 		cp $WORKSPACE/archives/dmaapmr/messageservice/bundleconfig-local/etc/appprops/MsgRtrApi.properties /var/tmp/
