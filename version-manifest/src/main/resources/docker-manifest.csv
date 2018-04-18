@@ -1,5 +1,5 @@
 image,tag
-onap/aaf,latest
+onap/aaf,2.1.0-SNAPSHOT
 onap/aai-resources,1.2-STAGING-latest
 onap/aai-traversal,1.2-STAGING-latest
 onap/aai/esr-gui,1.1.0-SNAPSHOT
