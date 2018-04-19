@@ -36,3 +36,15 @@ docker pull $NEXUS_DOCKER_REPO/onap/externalapi/nbi:$DOCKER_IMAGE_VERSION
 # Start nbi, MariaDB and MongoDB containers with docker compose and nbi/docker-compose.yml
 docker-compose up -d mariadb mongo && sleep 5 # to ensure that these services are ready for connections
 docker-compose up -d nbi
+
+NBI_CONTAINER_NAME=$(docker-compose ps 2> /dev/null | tail -n+3 | tr -s ' ' | cut -d' ' -f1 | grep _nbi_)
+NBI_IP=$(docker inspect $NBI_CONTAINER_NAME --format='{{ range .NetworkSettings.Networks }}{{ .IPAddress }}{{ end }}')
+
+echo "IP address for NBI main container ($NBI_CONTAINER_NAME) is set to ${NBI_IP}."
+
+# Wait for initialization
+for i in {1..30}; do
+    curl -sS ${NBI_IP}:8080 > /dev/null &1>2 && break
+    echo sleep $i
+    sleep $i
+done
