@@ -38,7 +38,7 @@ fi
 
 ssh-keygen -R $K8S_IP
 for n in $(seq 1 10); do
-    timeout 2m ssh -o StrictHostKeychecking=no -i ~/.ssh/onap_key ubuntu@$K8S_IP  'sudo su -l root -c "/root/oom/kubernetes/robot/ete-k8s.sh onap health"'
+    timeout 15m ssh -o StrictHostKeychecking=no -i ~/.ssh/onap_key ubuntu@$K8S_IP  'sudo su -l root -c "/root/oom/kubernetes/robot/ete-k8s.sh onap health"'
     RESULT=$?
     if [ $RESULT -eq 0 ]; then
   	break
