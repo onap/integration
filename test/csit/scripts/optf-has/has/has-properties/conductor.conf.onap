@@ -314,7 +314,7 @@ aafns = conductor
 #table_prefix = sdnc
 
 # Base URL for SDN-C. (string value)
-server_url = http://localhost:8082/restconf/
+server_url = http://localhost:8083/restconf/
 
 # Basic Authentication Username (string value)
 username = admin
@@ -345,4 +345,34 @@ extensions = sdnc
 # Set to True when solver will run in active-active mode. When set to False,
 # solver will restart any orphaned solving requests at startup. (boolean value)
 #concurrent = false
+
+
+[multicloud]
+
+#
+# From conductor
+#
+
+# Base URL for Multicloud without a trailing slash. (string value)
+server_url = http://msb.onap.org:8082/api/multicloud
+
+# Timeout for Multicloud Rest Call (string value)
+multicloud_rest_timeout = 30
+
+# Number of retry for Multicloud Rest Call (string value)
+multicloud_retries = 3
+
+# The version of Multicloud API. (string value)
+server_url_version = v0
+
+
+
+[vim_controller]
+
+#
+# From conductor
+#
+
+# Extensions list to use (list value)
+extensions = multicloud
 

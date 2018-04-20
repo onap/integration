@@ -60,7 +60,7 @@ MULTICLOUDSIM_IP=`docker inspect --format '{{ .NetworkSettings.Networks.bridge.I
 echo "MULTICLOUDSIM_IP=${MULTICLOUDSIM_IP}"
 
 # change MULTICLOUD reference to the local instance
-sed  -i -e "s%localhost:8082/%${MULTICLOUDSIM_IP}:8082/%g" /tmp/conductor/properties/conductor.conf
+sed  -i -e "s%msb.onap.org:8082/%${MULTICLOUDSIM_IP}:8082/%g" /tmp/conductor/properties/conductor.conf
 
 #onboard conductor into music
 curl -vvvvv --noproxy "*" --request POST http://${MUSIC_IP}:8080/MUSIC/rest/v2/admin/onboardAppWithMusic -H "Content-Type: application/json" --data @${WORKSPACE}/test/csit/tests/optf-has/has/data/onboard.json
