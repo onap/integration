@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_fd097e31",
+        "filename": "test/csit/plans/multicloud-ocata/functionality-hpa-discovery/setup.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 991
+      },
+      "writtenOn": "2018-04-20T21:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a93c517_5da2f2ae",
+      "revId": "699101e920b67df955a3d56e8fc4095e7690df3c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_bdc1b64f",
         "filename": "test/csit/plans/multicloud-ocata/functionality-hpa-discovery/setup.sh",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2018-04-20T19:10:46Z",
       "side": 1,
       "message": "I don\u0027t think that we are using any function of this script",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 37
+      },
+      "revId": "699101e920b67df955a3d56e8fc4095e7690df3c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_9d02ba0a",
+        "filename": "test/csit/plans/multicloud-ocata/functionality-hpa-discovery/setup.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 991
+      },
+      "writtenOn": "2018-04-20T21:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a93c517_bdc1b64f",
       "range": {
         "startLine": 3,
         "startChar": 0,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_bdff7601",
+        "filename": "test/csit/plans/multicloud-ocata/functionality-hpa-discovery/setup.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 991
+      },
+      "writtenOn": "2018-04-20T21:59:07Z",
+      "side": 1,
+      "message": "Will keep it outside as of now until the tests are implemented.",
+      "parentUuid": "5a93c517_9deddaf2",
+      "range": {
+        "startLine": 13,
+        "startChar": 1,
+        "endLine": 14,
+        "endChar": 94
+      },
+      "revId": "699101e920b67df955a3d56e8fc4095e7690df3c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_fdcbbe6f",
         "filename": "test/csit/plans/multicloud-ocata/functionality-hpa-discovery/setup.sh",
         "patchSetId": 2
@@ -76,6 +142,30 @@
       "writtenOn": "2018-04-20T19:10:46Z",
       "side": 1,
       "message": "This link[1] suggest to use $() instead of backticks/gravemarks, something that we can change in Devtool as well\n\n[1] https://stackoverflow.com/a/4708569",
+      "range": {
+        "startLine": 15,
+        "startChar": 11,
+        "endLine": 15,
+        "endChar": 48
+      },
+      "revId": "699101e920b67df955a3d56e8fc4095e7690df3c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_50009900",
+        "filename": "test/csit/plans/multicloud-ocata/functionality-hpa-discovery/setup.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 991
+      },
+      "writtenOn": "2018-04-20T21:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a93c517_fdcbbe6f",
       "range": {
         "startLine": 15,
         "startChar": 11,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_7005950f",
+        "filename": "test/csit/plans/multicloud-ocata/functionality-hpa-discovery/setup.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 991
+      },
+      "writtenOn": "2018-04-20T21:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a93c517_9dc4fa60",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 12
+      },
+      "revId": "699101e920b67df955a3d56e8fc4095e7690df3c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_3dada69b",
         "filename": "test/csit/scripts/multicloud-ocata/generic_sim/Dockerfile",
         "patchSetId": 2
@@ -122,6 +236,30 @@
       "writtenOn": "2018-04-20T19:10:46Z",
       "side": 1,
       "message": "Remove the comments, some of them are wrong(line 13) and don\u0027t provide any business logic information.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 50
+      },
+      "revId": "699101e920b67df955a3d56e8fc4095e7690df3c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_1006911c",
+        "filename": "test/csit/scripts/multicloud-ocata/generic_sim/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 991
+      },
+      "writtenOn": "2018-04-20T21:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a93c517_3dada69b",
       "range": {
         "startLine": 1,
         "startChar": 0,
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_300b8d25",
+        "filename": "test/csit/scripts/multicloud-ocata/generic_sim/generic_sim.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 991
+      },
+      "writtenOn": "2018-04-20T21:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a93c517_fd92de55",
+      "range": {
+        "startLine": 36,
+        "startChar": 8,
+        "endLine": 36,
+        "endChar": 52
+      },
+      "revId": "699101e920b67df955a3d56e8fc4095e7690df3c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_bd98d675",
         "filename": "test/csit/scripts/multicloud-ocata/generic_sim/generic_sim.py",
         "patchSetId": 2
@@ -168,6 +330,30 @@
       "writtenOn": "2018-04-20T19:10:46Z",
       "side": 1,
       "message": "these instructions can be replaced with a log calls",
+      "range": {
+        "startLine": 39,
+        "startChar": 8,
+        "endLine": 39,
+        "endChar": 13
+      },
+      "revId": "699101e920b67df955a3d56e8fc4095e7690df3c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_d013495a",
+        "filename": "test/csit/scripts/multicloud-ocata/generic_sim/generic_sim.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 991
+      },
+      "writtenOn": "2018-04-20T21:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a93c517_bd98d675",
       "range": {
         "startLine": 39,
         "startChar": 8,
