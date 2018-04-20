@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_901dea64",
+        "filename": "test/csit/plans/so/hpa/setup.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 991
+      },
+      "writtenOn": "2018-04-20T21:27:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a93c517_90064a1b",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 2
+      },
+      "revId": "8c9a16f5cf86b4ace84b11d1982830ca692daa52",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_b00b4623",
         "filename": "test/csit/plans/so/hpa/setup.sh",
         "patchSetId": 13
