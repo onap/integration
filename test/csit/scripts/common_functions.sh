@@ -250,3 +250,15 @@ function bypass_ip_adress ()
         export no_proxy=$no_proxy,$ip_address
     fi
 }
+
+function wait_for_service_init ()
+{
+    local service_url=$1
+    local number_iterations=${2:-50}
+
+    for delay in {1..$number_iterations}; do
+        curl -sS ${service_url} && break
+        echo "$delay - Waiting for $service_url..."
+        sleep $delay
+    done
+}
