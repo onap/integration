@@ -1,0 +1,5 @@
+/snapshots/detail:
+  get:
+    body: '{"snapshots": []}'
+    content_type: application/json
+    status_code: 200

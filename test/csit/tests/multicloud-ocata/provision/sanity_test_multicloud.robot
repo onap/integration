@@ -15,8 +15,8 @@ OcataSwaggerTest
     ${headers}    Create Dictionary    Content-Type=application/json    Accept=application/json
     Create Session    web_session    http://${SERVICE_IP}:${SERVICE_PORT}    headers=${headers}
     ${resp}=  Get Request    web_session    ${queryswagger_ocata_url}
-    ${responese_code}=     Convert To String      ${resp.status_code}
-    List Should Contain Value    ${return_ok_list}   ${responese_code}
+    ${response_code}=     Convert To String      ${resp.status_code}
+    List Should Contain Value    ${return_ok_list}   ${response_code}
     ${response_json}    json.loads    ${resp.content}
     ${swagger_version}=    Convert To String      ${response_json['swagger']}
     Should Be Equal    ${swagger_version}    2.0
