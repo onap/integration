@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_5da2f2ae",
+        "filename": "test/csit/plans/multicloud-ocata/functionality-hpa-discovery/setup.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2018-04-20T19:10:46Z",
+      "side": 1,
+      "message": "The license header is missing ;-)",
+      "revId": "699101e920b67df955a3d56e8fc4095e7690df3c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_bdc1b64f",
+        "filename": "test/csit/plans/multicloud-ocata/functionality-hpa-discovery/setup.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2018-04-20T19:10:46Z",
+      "side": 1,
+      "message": "I don\u0027t think that we are using any function of this script",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 37
+      },
+      "revId": "699101e920b67df955a3d56e8fc4095e7690df3c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_9deddaf2",
+        "filename": "test/csit/plans/multicloud-ocata/functionality-hpa-discovery/setup.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2018-04-20T19:10:46Z",
+      "side": 1,
+      "message": "shouldn\u0027t be better to use run-instance.sh script for running docker containers?",
+      "range": {
+        "startLine": 13,
+        "startChar": 1,
+        "endLine": 14,
+        "endChar": 94
+      },
+      "revId": "699101e920b67df955a3d56e8fc4095e7690df3c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_fdcbbe6f",
+        "filename": "test/csit/plans/multicloud-ocata/functionality-hpa-discovery/setup.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2018-04-20T19:10:46Z",
+      "side": 1,
+      "message": "This link[1] suggest to use $() instead of backticks/gravemarks, something that we can change in Devtool as well\n\n[1] https://stackoverflow.com/a/4708569",
+      "range": {
+        "startLine": 15,
+        "startChar": 11,
+        "endLine": 15,
+        "endChar": 48
+      },
+      "revId": "699101e920b67df955a3d56e8fc4095e7690df3c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_9dc4fa60",
+        "filename": "test/csit/plans/multicloud-ocata/functionality-hpa-discovery/setup.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2018-04-20T19:10:46Z",
+      "side": 1,
+      "message": "I saw this before, but didn\u0027t make sense to me",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 12
+      },
+      "revId": "699101e920b67df955a3d56e8fc4095e7690df3c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_3dada69b",
+        "filename": "test/csit/scripts/multicloud-ocata/generic_sim/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2018-04-20T19:10:46Z",
+      "side": 1,
+      "message": "Remove the comments, some of them are wrong(line 13) and don\u0027t provide any business logic information.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 50
+      },
+      "revId": "699101e920b67df955a3d56e8fc4095e7690df3c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_fd92de55",
+        "filename": "test/csit/scripts/multicloud-ocata/generic_sim/generic_sim.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2018-04-20T19:10:46Z",
+      "side": 1,
+      "message": "leftover?",
+      "range": {
+        "startLine": 36,
+        "startChar": 8,
+        "endLine": 36,
+        "endChar": 52
+      },
+      "revId": "699101e920b67df955a3d56e8fc4095e7690df3c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_bd98d675",
+        "filename": "test/csit/scripts/multicloud-ocata/generic_sim/generic_sim.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2018-04-20T19:10:46Z",
+      "side": 1,
+      "message": "these instructions can be replaced with a log calls",
+      "range": {
+        "startLine": 39,
+        "startChar": 8,
+        "endLine": 39,
+        "endChar": 13
+      },
+      "revId": "699101e920b67df955a3d56e8fc4095e7690df3c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
