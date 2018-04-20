@@ -4,14 +4,25 @@ Library           Collections
 Library           json
 Library           OperatingSystem
 Library           RequestsLibrary
-
+Library           HttpLibrary.HTTP
+Library           String
 
 
 *** Variables ***
 ${MESSAGE}    Hello, world!
 ${DBC_URI}    webapi
-${TOPIC1}     singleMRtopic1
-${TOPIC1_DATA} 	{ "topicName":"singleMRtopic1", "topicDescription":"generated for CSIT", "owner":"dgl"}
+${DBC_URL}    http://${DMAAPBC_IP}:8080/${DBC_URI}
+${TOPIC_NS}     org.onap.dmaap.onapCSIT
+${LOC}          csit-sanfrancisco
+${PUB_CORE}     "dcaeLocationName": "${LOC}", "clientRole": "org.onap.dmaap.client.pub", "action": [ "pub", "view" ] 
+${SUB_CORE}     "dcaeLocationName": "${LOC}", "clientRole": "org.onap.dmaap.client.sub", "action": [ "sub", "view" ] 
+${PUB}          { ${PUB_CORE} }
+${SUB}          { ${SUB_CORE} }
+${TOPIC1_DATA}  { "topicName":"singleMRtopic1", "topicDescription":"generated for CSIT", "owner":"dgl"}
+${TOPIC2_DATA}  { "topicName":"singleMRtopic2", "topicDescription":"generated for CSIT", "owner":"dgl", "clients": [ ${PUB}, ${SUB}] }
+${TOPIC3_DATA}  { "topicName":"singleMRtopic3", "topicDescription":"generated for CSIT", "owner":"dgl"}
+${PUB3_DATA}    { "fqtn": "${TOPIC_NS}.singleMRtopic3", ${PUB_CORE} }
+${SUB3_DATA}    { "fqtn": "${TOPIC_NS}.singleMRtopic3", ${SUB_CORE} }
 
 
 
@@ -22,10 +33,53 @@ Url Test
     ${resp}=           Get Request   sanity    /  
     Should Be Equal As Integers  ${resp.status_code}  200
 
-Create Topic Test
-    [Documentation]        Check POST ${DBC_URI}/topics endpoint
-    ${resp}=         PostCall    http://${DMAAPBC_IP}:8080/${DBC_URI}/topics    ${TOPIC1_DATA}
+(DMAAP-293)
+    [Documentation]        Create Topic w no clients POST ${DBC_URI}/topics endpoint
+    ${resp}=         PostCall    ${DBC_URL}/topics    ${TOPIC1_DATA}
+    Should Be Equal As Integers  ${resp.status_code}  201   
+
+(DMAAP-294)
+    [Documentation]        Create Topic w pub and sub clients POST ${DBC_URI}/topics endpoint
+    ${resp}=         PostCall    ${DBC_URL}/topics    ${TOPIC2_DATA}
     Should Be Equal As Integers  ${resp.status_code}  201
+
+(DMAAP-295)
+    [Documentation]        Create Topic w no clients and then add a client POST ${DBC_URI}/mr_clients endpoint
+    ${resp}=         PostCall    ${DBC_URL}/topics    ${TOPIC3_DATA}
+    Should Be Equal As Integers  ${resp.status_code}  201   
+    ${resp}=         PostCall    ${DBC_URL}/mr_clients    ${PUB3_DATA}
+    Should Be Equal As Integers  ${resp.status_code}  200   
+    ${resp}=         PostCall    ${DBC_URL}/mr_clients    ${SUB3_DATA}
+    Should Be Equal As Integers  ${resp.status_code}  200   
+
+(DMAAP-297)
+    [Documentation]    Query for all topics and specific topic
+    Create Session     get          ${DBC_URL}
+    ${resp}=           Get Request   get    /topics  
+    Should Be Equal As Integers  ${resp.status_code}  200
+    ${resp}=           Get Request   get    /topics/${TOPIC_NS}.singleMRtopic3
+    Should Be Equal As Integers  ${resp.status_code}  200
+
+(DMAAP-301)
+    [Documentation]    Delete a subscriber
+    Create Session     get          ${DBC_URL}
+    ${resp}=           Get Request   get    /topics/${TOPIC_NS}.singleMRtopic3
+    Should Be Equal As Integers  ${resp.status_code}  200
+	${tmp}=            Get Json Value      ${resp.text}           /clients/1/mrClientId
+	${clientId}=       Remove String       ${tmp}         \"
+    ${resp}=           DelCall   ${DBC_URL}/mr_clients/${clientId}
+    Should Be Equal As Integers  ${resp.status_code}  204
+
+(DMAAP-302)
+    [Documentation]    Delete a publisher
+    Create Session     get          ${DBC_URL}
+    ${resp}=           Get Request   get    /topics/${TOPIC_NS}.singleMRtopic3
+    Should Be Equal As Integers  ${resp.status_code}  200
+	${tmp}=            Get Json Value      ${resp.text}           /clients/0/mrClientId
+	${clientId}=       Remove String       ${tmp}         \"
+    ${resp}=           DelCall   ${DBC_URL}/mr_clients/${clientId}
+    Should Be Equal As Integers  ${resp.status_code}  204
+
 
 *** Keywords ***
 CheckDir
@@ -43,3 +97,8 @@ PostCall
     ${resp}=       Evaluate    requests.post('${url}',data='${data}', headers=${headers},verify=False)    requests
     [Return]       ${resp}
 
+DelCall
+    [Arguments]    ${url}           
+    ${headers}=    Create Dictionary    Accept=application/json    Content-Type=application/json
+    ${resp}=       Evaluate    requests.delete('${url}', headers=${headers},verify=False)    requests
+    [Return]       ${resp}

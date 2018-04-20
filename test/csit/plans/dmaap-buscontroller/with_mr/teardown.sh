@@ -21,8 +21,9 @@
 #
 source ${WORKSPACE}/test/csit/scripts/dmaap-message-router/dmaap-mr-teardown.sh
 
+if [ "$KEEP_DMAAP" != "Y" ]
+then
 dmaap_mr_teardown
-kill-instance.sh aaf-mock
-kill-instance.sh drps-mock
 kill-instance.sh dmaapbc
+fi
 
