@@ -19,8 +19,8 @@ for n in $(seq 1 5); do
     envsubst < $ENV_FILE > $ENV_FILE~
     openstack stack create -t ./onap-oom.yaml -e $ENV_FILE~ onap-oom
 
-    for i in $(seq 1 10); do
-	sleep 10
+    for i in $(seq 1 30); do
+	sleep 30
 	K8S_IP=$(openstack stack output show onap-oom k8s_vm_ip -c output_value -f value)
 	RANCHER_IP=$(openstack stack output show onap-oom rancher_vm_ip -c output_value -f value)
 	timeout 1 ping -c 1 "$K8S_IP" && timeout 1 ping -c 1 "$RANCHER_IP" && break
