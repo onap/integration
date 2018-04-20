@@ -1,0 +1,24 @@
+v3/projects:
+  get:
+    body: '{"projects": [{"is_domain": False, "description": "admin tenant",
+      "links": {"self": "http://keystone:5000/v3/projects/b8f5d85bbcd84af28d7caa62d39f05c7"},
+      "enabled": True, "domain_id": "default", "parent_id": "default", "id":
+      "b8f5d85bbcd84af28d7caa62d39f05c7", "name": "admin"}, {"is_domain":
+      False, "description": "Tenant for the openstack services", "links": {"self":
+      "http://keystone:5000/v3/projects/3543226ffed44daf90a2f71f36c00b8d"},
+      "enabled": True, "domain_id": "default", "parent_id": "default", "id":
+      "3543226ffed44daf90a2f71f36c00b8d", "name": "services"}], "links": {"self":
+      "http://keystone:5000/v3/projects", "next": None, "previous": None}}'
+    content_type: application/json
+    status_code: 200
+v3/auth/tokens:
+  post:
+    body: '{"token": {"methods": ["password"], "expires_at": "2019-11-06T15:32:17.893769Z",
+      "user": { "domain": {"id": "default", "name": "Default"},
+      "id": "423f19a4ac1e4f48bbb4180756e6eb6c", "name": "admin", "password_expires_at": null },
+      "audit_ids": [ "ZzZwkUflQfygX7pdYDBCQQ"],
+      "issued_at": "2015-11-06T14:32:17.893797Z"}}'
+    content_type: application/json
+    status_code: 200
+    headers:
+      X-Subject-Token: 423f19a4ac1e4f48bbb4180756e6eb6c
