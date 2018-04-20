@@ -1,0 +1,17 @@
+---
+flavor:
+  detail:
+    - get:
+        status_code: 200
+        content_type: "application/json"
+        body: |
+         {
+            "id": "testing",
+         }
+    - post:
+        status_code: 202
+        content_type: "application/json"
+        body: |
+         {
+            "id": "testing",
+         }
