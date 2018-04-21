@@ -21,7 +21,7 @@ SCRIPTS="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source ${WORKSPACE}/test/csit/scripts/appc/script1.sh
 
 export APPC_DOCKER_IMAGE_VERSION=1.3.0-SNAPSHOT-latest
-export CCSDK_DOCKER_IMAGE_VERSION=0.2.1-SNAPSHOT
+export CCSDK_DOCKER_IMAGE_VERSION=0.2.1
 export BRANCH=master
 export SOLUTION_NAME=onap
 
