@@ -40,3 +40,6 @@ echo "AAF_IP=$AAF_IP MRC_IP=$MRC_IP DRPS_IP=$DRPS_IP DMAAPBC_IP=$DMAAPBC_IP"
 # Pass any variables required by Robot test suites in ROBOT_VARIABLES
 ROBOT_VARIABLES="-v AAF_IP:${AAF_IP} -v MRC_IP:${MRC_IP} -v DRPS_IP:${DRPS_IP} -v DMAAPBC_IP:${DMAAPBC_IP}"
 
+set -x
+${WORKSPACE}/test/csit/scripts/dmaap-buscontroller/dmaapbc-init.sh ${DMAAPBC_IP} ${DRPS_IP} ${MRC_IP}
+set +x

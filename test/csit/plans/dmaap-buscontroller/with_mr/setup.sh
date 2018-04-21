@@ -20,25 +20,35 @@
 # 
 #
 
+if [ "$USE_EXISTING_DMAAP" = "Y" ]
+then
+	ROBOT_VARIABLES="-v AAF_IP:0.0.0 -v MRC_IP:172.18.0.3 -v DRPS_IP:0.0.0.0 -v DMAAPBC_IP:172.17.0.4"
+else
 
-# Place the scripts in run order:
-source ${WORKSPACE}/test/csit/scripts/dmaap-message-router/dmaap-mr-launch.sh
-dmaap_mr_launch
-MRC_IP=${IP}
+	# Place the scripts in run order:
+	source ${WORKSPACE}/test/csit/scripts/dmaap-message-router/dmaap-mr-launch.sh
+	dmaap_mr_launch
+	MRC_IP=${IP}
 
-source ${WORKSPACE}/test/csit/scripts/dmaap-buscontroller/start-mock.sh
-#start_mock "aaf" 
-AAF_IP=${IP}
-start_mock "drps" 
-DRPS_IP=${IP}
+	source ${WORKSPACE}/test/csit/scripts/dmaap-buscontroller/start-mock.sh
+	#start_mock "aaf" 
+	#AAF_IP=${IP}
+	AAF_IP=0.0.0.0
+	#start_mock "drps" 
+	#DRPS_IP=${IP}
+	DRPS_IP=0.0.0.0
 
-source ${WORKSPACE}/test/csit/scripts/dmaap-buscontroller/dmaapbc-launch.sh 
-dmaapbc_launch $AAF_IP $MRC_IP $DRPS_IP
-DMAAPBC_IP=${IP}
+	source ${WORKSPACE}/test/csit/scripts/dmaap-buscontroller/dmaapbc-launch.sh 
+	dmaapbc_launch $AAF_IP $MRC_IP $DRPS_IP
+	DMAAPBC_IP=${IP}
 
 
-echo "AAF_IP=$AAF_IP MRC_IP=$MRC_IP DRPS_IP=$DRPS_IP DMAAPBC_IP=$DMAAPBC_IP"
+	echo "AAF_IP=$AAF_IP MRC_IP=$MRC_IP DRPS_IP=$DRPS_IP DMAAPBC_IP=$DMAAPBC_IP"
 
-# Pass any variables required by Robot test suites in ROBOT_VARIABLES
-ROBOT_VARIABLES="-v AAF_IP:${AAF_IP} -v MRC_IP:${MRC_IP} -v DRPS_IP:${DRPS_IP} -v DMAAPBC_IP:${DMAAPBC_IP}"
+	# Pass any variables required by Robot test suites in ROBOT_VARIABLES
+	ROBOT_VARIABLES="-v AAF_IP:${AAF_IP} -v MRC_IP:${MRC_IP} -v DRPS_IP:${DRPS_IP} -v DMAAPBC_IP:${DMAAPBC_IP}"
+	set -x
+	${WORKSPACE}/test/csit/scripts/dmaap-buscontroller/dmaapbc-init.sh ${DMAAPBC_IP} ${DRPS_IP} ${MRC_IP}
+	set +x
+fi
 
