@@ -17,6 +17,6 @@
 # Modifications copyright (c) 2017 AT&T Intellectual Property
 #
 
-kill-instance.sh dockercompose_aaf_container_1 
-kill-instance.sh dockercompose_cassandra_container_1 
+kill-instance.sh docker-compose_aaf_container_1
+kill-instance.sh docker-compose_cassandra_container_1
 
