@@ -37,12 +37,15 @@ chmod -R 777 $WORKSPACE/archives/aafcsit/authz/auth/auth-service/src/main/resour
 
 # start aaf containers with docker compose and configuration from docker-compose.yml
 docker-compose up -d
+export aaf_service=$(get_docker_compose_service aaf_container)
+export cassandra_service=$(get_docker_compose_service cassandra_container)
 
-# Wait for initialization of Docker contaienr for AAF & Cassandra
+# Wait for initialization of Docker container for AAF & Cassandra
 for i in {1..12}; do
-	if [ $(docker inspect --format '{{ .State.Running }}' dockercompose_aaf_container_1) ] && \
-		[ $(docker inspect --format '{{ .State.Running }}' dockercompose_cassandra_container_1) ] && \
-		[ $(docker inspect --format '{{ .State.Running }}' dockercompose_aaf_container_1) ]
+
+	if [ $(docker inspect --format '{{ .State.Running }}' $aaf_service) ] && \
+		[ $(docker inspect --format '{{ .State.Running }}' $cassandra_service) ] && \
+		[ $(docker inspect --format '{{ .State.Running }}' $aaf_service) ]
 	then
 		echo "AAF Service Running"
 		break
@@ -53,9 +56,11 @@ for i in {1..12}; do
 done
 
 
-AAF_IP=$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' dockercompose_aaf_container_1)
-CASSANDRA_IP=$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' dockercompose_cassandra_container_1)
+AAF_IP=$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $aaf_service)
+CASSANDRA_IP=$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $cassandra_service)
 
+bypass_ip_adress $AAF_IP
+bypass_ip_adress $CASSANDRA_IP
 
 echo AAF_IP=${AAF_IP}
 echo CASSANDRA_IP=${CASSANDRA_IP}
