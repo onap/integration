@@ -129,10 +129,10 @@ org.onap.multicloud.openstack,windriver,1.0.0
 org.onap.multicloud.openstack.vmware,vesagent,1.0.0
 org.onap.multicloud.openstack.vmware,vio,1.0.0
 org.onap.oparent,oparent,1.1.0
-org.onap.policy.common,common-modules,2.1.0
-org.onap.policy.drools-applications,drools-pdp-apps,2.1.0
-org.onap.policy.drools-pdp,drools-pdp,2.1.0
-org.onap.policy.engine,PolicyEngineSuite,2.1.0
+org.onap.policy.common,common-modules,1.2.0
+org.onap.policy.drools-applications,drools-pdp-apps,1.2.0
+org.onap.policy.drools-pdp,drools-pdp,1.2.0
+org.onap.policy.engine,PolicyEngineSuite,1.2.0
 org.onap.portal.sdk,epsdk-analytics,1.3.2
 org.onap.portal.sdk,epsdk-app-common,1.3.2
 org.onap.portal.sdk,epsdk-app-overlay,1.3.2
