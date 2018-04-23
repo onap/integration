@@ -72,13 +72,13 @@ appc:
 clamp:
   enabled: true
 cli:
-  enabled: true
+  enabled: false 
 consul:
   enabled: true
 dcaegen2:
   enabled: false
 esr:
-  enabled: true
+  enabled: false
   # esr parent chart (server) image override
   image: onap/aai/esr-server:1.1.0-SNAPSHOT
   # esr subchart omage override
@@ -127,10 +127,10 @@ so:
     openStackEncryptedPasswordHere: "bbaef6cd76625ab9eb60deedeae7dbb9"
 
 uui:
-  enabled: true
+  enabled: false
 vfc:
-  enabled: true
+  enabled: false
 vid:
   enabled: true
 vnfsdk:
-  enabled: true
+  enabled: false
