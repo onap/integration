@@ -204,6 +204,16 @@
       "sdncTimeoutFirewall": "20",
       "callbackRetryAttempts": "30",
       "callbackRetrySleepTime": "1000",
+      "appcClientTopicRead": "APPC-LCM-READ",
+      "appcClientTopicWrite": "APPC-LCM-WRITE",
+      "appcClientTopicSdncRead": "SDNC-LCM-READ",
+      "appcClientTopicSdncWrite": "SDNC-LCM-WRITE",
+      "appcClientTopicReadTimeout": "360000",
+      "appcClientResponseTime": "360000",
+      "appcClientPoolMembers": "10.0.11.1:3904",
+      "appcClientKey": "VIlbtVl6YLhNUrtU",
+      "appcClientSecret": "64AG2hF4pYeG2pq7CT6XwUOT",
+      "appcClientService": "ueb",
       "workflowL3ToHigherLayerAddBondingModelName": "WAN Bonding",
       "workflowL3ToHigherLayerAddBondingModelVersion": "2.0"
     }
