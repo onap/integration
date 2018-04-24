@@ -171,7 +171,7 @@
       "sniroTimeout": "PT30M",
       "serviceAgnosticSniroHost": "http://sniro.api.simpledemo.openecomp.org:8080",
       "serviceAgnosticSniroEndpoint": "/sniro/api/v2/placement",
-      "aaiEndpoint": "https://aai.api.simpledemo.openecomp.org:8443",
+      "aaiEndpoint": "https://aai.api.simpledemo.onap.org:8443",
       "aaiAuth": "2630606608347B7124C244AB0FE34F6F",
       "adaptersNamespace": "http://org.openecomp.mso",
       "adaptersCompletemsoprocessEndpoint": "http://mso:8080/CompleteMsoProcess",
