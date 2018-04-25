@@ -233,3 +233,20 @@ function run_simulator_docker ()
     ROBOT_VARIABLES=${ROBOT_VARIABLES}" -v SIMULATOR_IP:${SIMULATOR_IP}  -v SCRIPTS:${SCRIPTS}"
     echo ${ROBOT_VARIABLES}
 }
+
+function get_docker_compose_service ()
+{
+    local service=$1
+    local compose_file=${2:-docker-compose.yml}
+
+    echo $(docker-compose --file ./${compose_file} ps | grep $service |  cut -d " " -f1 )
+}
+
+function bypass_ip_adress ()
+{
+    local ip_address=$1
+
+    if [[ $no_proxy && $no_proxy != *$ip_address* ]]; then
+        export no_proxy=$no_proxy,$ip_address
+    fi
+}
