@@ -145,6 +145,7 @@ git log -1
 
 cd ~
 ln -s ~/integration/deployment/heat/onap-oom/env/__lab_name__/integration-override.yaml
+sed -i 's/nexus3.onap.org:10001/__docker_proxy__/g' integration-override.yaml
 
 
 # version control the persistence volume to see what's happening
@@ -168,7 +169,12 @@ helm repo add local http://127.0.0.1:8879
 helm repo list
 make all
 helm search -l | grep local
-helm install local/onap -n dev --namespace onap -f ~/integration/deployment/heat/onap-oom/env/__lab_name__/integration-override.yaml
+if [ -e ~/integration-override.yaml ]; then
+    helm install local/onap -n dev --namespace onap -f ~/integration-override.yaml
+else
+    helm install local/onap -n dev --namespace onap
+fi
+
 
 # Check ONAP status:
 sleep 3
