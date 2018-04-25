@@ -68,7 +68,7 @@ aai:
   aai-traveral:
     image: onap/aai-traversal:1.2-STAGING-latest
 appc:
-  enabled: false
+  enabled: false 
 clamp:
   enabled: true
 cli:
@@ -76,7 +76,7 @@ cli:
 consul:
   enabled: true
 dcaegen2:
-  enabled: false
+  enabled: true 
 esr:
   enabled: false
   # esr parent chart (server) image override
