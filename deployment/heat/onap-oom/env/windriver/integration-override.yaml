@@ -106,11 +106,14 @@ robot:
   #pullPolicy: Always
 #  config:
     # openstack configuration
-#    openStackUserName: "demo"
-#    openStackRegion: "RegionOne"
-#    openStackKeyStoneUrl: "http://10.12.25.2:5000"
-#    openStackServiceTenantName: "service"
-#    openStackEncryptedPasswordHere: "c124921a3a0efbe579782cde8227681e"
+  openStackUserName: "demo"
+  openStackRegion: "RegionOne"
+  openStackKeyStoneUrl: "http://10.12.25.2:5000"
+  openStackServiceTenantName: "service"
+  #openStackEncryptedPasswordHere: "c124921a3a0efbe579782cde8227681e"
+  openStackPassword: "onapdemo"
+  openStackPublicNetId: "971040b2-7059-49dc-b220-4fab50cb2ad4"
+  openStackTenantId: "d570c718cbc545029f40e50b75eb13df"
 sdc:
   enabled: true
 sdnc:
