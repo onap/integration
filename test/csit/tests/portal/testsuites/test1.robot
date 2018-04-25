@@ -145,14 +145,14 @@ Add Application Admin for Exisitng User
 Delete Application Admin for Exisitng User   
 	Portal admin Delete Application Admin Existing User
     
-#Add Standard User Role for Existing user 
-	#Portal admin Add Standard User Existing user     
+Add Standard User Role for Existing user 
+	Portal admin Add Standard User Existing user     
     
-#Edit Standard User Role for Existing user
-	#Portal admin Edit Standard User Existing user 
+Edit Standard User Role for Existing user
+	Portal admin Edit Standard User Existing user 
     
-#Delete Standard User Role for Existing user    
-	#Portal admin Delete Standard User Existing user 
+Delete Standard User Role for Existing user    
+	Portal admin Delete Standard User Existing user 
 
 #Add Account new account from App Account Management
 	#Portal admin Add New Account
