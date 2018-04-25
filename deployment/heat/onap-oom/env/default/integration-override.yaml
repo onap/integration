@@ -68,7 +68,7 @@ aai:
   aai-traveral:
     image: onap/aai-traversal:1.2-STAGING-latest
 appc:
-  enabled: false
+  enabled: true 
 clamp:
   enabled: true
 cli:
