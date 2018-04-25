@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_74381cee",
+        "filename": "deployment/heat/onap-oom/env/windriver/integration-override-minimal.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 35
+      },
+      "writtenOn": "2018-04-25T16:25:57Z",
+      "side": 1,
+      "message": "Commit message says put APPC back, but APPC is not enabled here.",
+      "revId": "66795a14562e4dd8bc8f5e262704c4ababc65234",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
