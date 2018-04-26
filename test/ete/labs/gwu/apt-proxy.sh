@@ -13,6 +13,3 @@ sed -i '/#!\/bin\/bash/a\
             Acquire::https::Proxy "DIRECT";\
             EOF\
             apt-get -y update' $1
-
-# don't use insecure docker proxy in dcae
-perl -i -0pe 's/(?<=dcae_c_vm:)(.*?)\{ get_param: nexus_docker_repo \}/$1"nexus3.onap.org:10001"/s' $1
