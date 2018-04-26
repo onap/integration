@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_01b8730f",
+        "filename": "test/csit/tests/dcaegen2/testcases/dcae_ves.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 2999
+      },
+      "writtenOn": "2018-04-26T12:45:29Z",
+      "side": 1,
+      "message": "Maybe it would be good to call it ${EVENT_PNF_REGISTRATION}",
+      "revId": "65facb1020dc62f860929594032588e24c3defe6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
