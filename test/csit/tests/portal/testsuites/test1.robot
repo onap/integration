@@ -40,6 +40,7 @@ ${Test_Loginpwd}    demo123456!
 ${Test_LoginPwdCheck}    demo123456!
 ${Existing_User}    portal
 ${PORTAL_HEALTH_CHECK_PATH}        /ONAPPORTAL/portalApi/healthCheck
+${PORTAL_XDEMPAPP_REST_URL}        http://portal-sdk:8080/ONAPPORTALSDK/api/v2
 ${PORTAL_ASSETS_DIRECTORY}    ${CURDIR}
 ${GLOBAL_APPLICATION_ID}           robot-functional
 ${GLOBAL_PORTAL_ADMIN_USER}		demo
@@ -51,8 +52,8 @@ ${GLOBAL_MSO_STATUS_PATH}    /ecomp/mso/infra/orchestrationRequests/v2/
 ${GLOBAL_SELENIUM_BROWSER}        chrome
 ${GLOBAL_SELENIUM_BROWSER_CAPABILITIES}        Create Dictionary
 ${GLOBAL_SELENIUM_DELAY}          0
-${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}        5
-${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}        15
+${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}        45
+${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}        45
 ${GLOBAL_OPENSTACK_HEAT_SERVICE_TYPE}    orchestration
 ${GLOBAL_OPENSTACK_CINDER_SERVICE_TYPE}    volume
 ${GLOBAL_OPENSTACK_NOVA_SERVICE_TYPE}    compute
@@ -81,6 +82,10 @@ Login into Portal URL
    # [Documentation]    ONAP Portal R1 functionality  test
     # Notification on ONAP Portal
     # Portal Application Account Management validation
+
+Portal Change REST URL Of X-DemoApp
+   [Documentation]    Portal Change REST URL Of X-DemoApp    
+      Portal Change REST URL
     
 Portal R1 Release for AAF
    [Documentation]    ONAP Portal R1 functionality for AAF test    
@@ -145,14 +150,14 @@ Add Application Admin for Exisitng User
 Delete Application Admin for Exisitng User   
 	Portal admin Delete Application Admin Existing User
     
-#Add Standard User Role for Existing user 
-	#Portal admin Add Standard User Existing user     
+Add Standard User Role for Existing user 
+	Portal admin Add Standard User Existing user     
     
-#Edit Standard User Role for Existing user
-	#Portal admin Edit Standard User Existing user 
+Edit Standard User Role for Existing user
+	Portal admin Edit Standard User Existing user 
     
-#Delete Standard User Role for Existing user    
-	#Portal admin Delete Standard User Existing user 
+Delete Standard User Role for Existing user    
+	Portal admin Delete Standard User Existing user 
 
 #Add Account new account from App Account Management
 	#Portal admin Add New Account
@@ -513,8 +518,8 @@ Portal admin Add Standard User Existing user
      Click Button    xpath=//button[@id='next-button']
 #     Click Element    xpath=//*[@id='div-app-name-dropdown-Default']
 #     Click Element    xpath=//*[@id='div-app-name-Default']/following::input[@id='Standard-User-checkbox']
-     Click Element    xpath=//div[@id='div-app-name-dropdown-xDemo-App']
-     Click Element    xpath=//div[@id='div-app-name-xDemo-App']/following::input[@id='Standard-User-checkbox']
+     Click Element    xpath=//div[@id='app-select-Select roles1']
+     Click Element    xpath=//div[@id='app-select-Select roles1']/following::input[@id='Standard-User-checkbox']
      Set Selenium Implicit Wait    3000
      Click Button    xpath=//button[@id='new-user-save-button']
      Set Selenium Implicit Wait    3000
@@ -1118,6 +1123,13 @@ Portal AAF new fields
     Page Should Contain    Name Space
     Page Should Contain    Centralized
 	Click Element    xpath=//button[@id='button-notification-cancel']
+
+Portal Change REST URL
+    [Documentation]    Naviage to user Application details tab 
+    Click Link    xpath=//a[@title='Application Onboarding']
+    Click Element    xpath=//td[contains(.,'xDemo App')]
+    Input Text    xpath=//input[@name='restUrl']    ${PORTAL_XDEMPAPP_REST_URL}
+	Click Element    xpath=//button[@id='button-save-app']
 	
 Admin widget download   
     Go To    ${PORTAL_HOME_URL}
