@@ -30,11 +30,11 @@ Verify TCAModel1
     ${resp}=    Get Request    clamp   /restservices/clds/v1/clds/model/TCAModel1
     Should Contain Match    ${resp}   *templateTCA1*
     Should Contain Match    ${resp}   *c95b0e7c-c1f0-4287-9928-7964c5377a46*
-    Should Contain Match    ${resp}   *enbRecipe*
+    Should Contain Match    ${resp}   *vnfRecipe*
     Should Contain Match    ${resp}   *DC1*
     Should Contain Match    ${resp}   *DC3*
     Should Contain Match    ${resp}   *Policy2*
-    Should Contain Match    ${resp}   *reset*
+    Should Contain Match    ${resp}   *restart*
     Should Contain Match    ${resp}   *280*
     Should Contain Match    ${resp}   *400*
 

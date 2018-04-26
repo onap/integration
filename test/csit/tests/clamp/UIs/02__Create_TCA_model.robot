@@ -50,7 +50,7 @@ Set Properties for TCAModel1
     Click Element    locator=Properties CL
     Select From List By Label       id=service       vLoadBalancer
     Select From List By Label       id=vf       vLoadBalancer 0
-    Select From List By Label       id=actionSet      eNodeB
+    Select From List By Label       id=actionSet      VNF
     Select From List By Label       id=location      Data Center 1      Data Center 3
     Click Button    locator=Save
 
@@ -59,7 +59,7 @@ Set Policy Box properties for TCAModel1
     Click Element    xpath=//*[@data-element-id="Policy_12lup3h"]
     Click Button    locator=New Policy
     Input Text      locator=//*[@id="pname"]      text=Policy2
-    Select From List By Label       id=recipe      Reset
+    Select From List By Label       id=recipe      Restart
     Input Text      locator=maxRetries      text=6
     Input Text      locator=retryTimeLimit      text=280
     Input Text      locator=timeout      text=400
