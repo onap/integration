@@ -21,7 +21,7 @@ SCRIPTS="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source ${WORKSPACE}/test/csit/scripts/appc/script1.sh
 
 export APPC_DOCKER_IMAGE_VERSION=1.3.0-SNAPSHOT-latest
-export CCSDK_DOCKER_IMAGE_VERSION=0.2.1
+export CCSDK_DOCKER_IMAGE_VERSION=0.2.1-SNAPSHOT
 export BRANCH=master
 export SOLUTION_NAME=onap
 
@@ -48,8 +48,11 @@ sed -i "s/DMAAP_TOPIC_ENV=.*/DMAAP_TOPIC_ENV="$DMAAP_TOPIC"/g" docker-compose.ym
 docker login -u $NEXUS_USERNAME -p $NEXUS_PASSWD $NEXUS_DOCKER_REPO
 docker pull $NEXUS_DOCKER_REPO/${SOLUTION_NAME}/appc-image:$APPC_DOCKER_IMAGE_VERSION
 docker tag $NEXUS_DOCKER_REPO/${SOLUTION_NAME}/appc-image:$APPC_DOCKER_IMAGE_VERSION ${SOLUTION_NAME}/appc-image:latest
-docker pull $NEXUS_DOCKER_REPO/onap/ccsdk-dgbuilder-image:$CCSDK_DOCKER_IMAGE_VERSION
-docker tag $NEXUS_DOCKER_REPO/onap/ccsdk-dgbuilder-image:$CCSDK_DOCKER_IMAGE_VERSION onap/ccsdk-dgbuilder-image:latest
+docker pull $NEXUS_DOCKER_REPO/${SOLUTION_NAME}/ccsdk-dgbuilder-image:$CCSDK_DOCKER_IMAGE_VERSION
+docker tag $NEXUS_DOCKER_REPO/${SOLUTION_NAME}/ccsdk-dgbuilder-image:$CCSDK_DOCKER_IMAGE_VERSION ${SOLUTION_NAME}/ccsdk-dgbuilder-image:latest
+docker pull $NEXUS_DOCKER_REPO/${SOLUTION_NAME}/appc-cdt-image:$APPC_DOCKER_IMAGE_VERSION
+docker tag $NEXUS_DOCKER_REPO/${SOLUTION_NAME}/appc-cdt-image:$APPC_DOCKER_IMAGE_VERSION ${SOLUTION_NAME}/appc-cdt-image:latest
+
 # start APPC containers with docker compose and configuration from docker-compose.yml
 docker-compose up -d
 # WAIT 5 minutes maximum and test every 5 seconds if APPC is up using HealthCheck API

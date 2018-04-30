@@ -18,7 +18,8 @@
 #
 
 kill-instance.sh appc_controller_container
-kill-instance.sh sdnc_dgbuilder_container
+kill-instance.sh ccsdk_dgbuilder_container
+kill-instance.sh appc_cdt_container
 kill-instance.sh sdnc_db_container
 
 # $WORKSPACE/archives/appc deleted with archives folder when tests starts so we keep it at the end for debugging
