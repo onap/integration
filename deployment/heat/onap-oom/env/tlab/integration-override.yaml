@@ -52,23 +52,8 @@ aaf:
   enabled: true
 aai:
   enabled: true
-  # aai subchart image overrides
-  aai-champ:
-    image: onap/champ:1.2-STAGING-latest
-  aai-data-router:
-    image: onap/data-router:1.2-STAGING-latest
-  aai-modelloader:
-    image: onap/model-loader:1.2-STAGING-latest
-  aai-resources:
-    image: onap/aai-resources:1.2-STAGING-latest
-  aai-search-data:
-    image: onap/search-data-service:1.2-STAGING-latest
-  aai-sparky-be:
-    image: onap/sparky-be:1.2-STAGING-latest
-  aai-traveral:
-    image: onap/aai-traversal:1.2-STAGING-latest
 appc:
-  enabled: false
+  enabled: true
 clamp:
   enabled: true
 cli:
@@ -104,13 +89,13 @@ portal:
 robot:
   enabled: true
   #pullPolicy: Always
-#  config:
-    # openstack configuration
-#    openStackUserName: "demo"
-#    openStackRegion: "RegionOne"
-#    openStackKeyStoneUrl: "http://10.12.25.2:5000"
-#    openStackServiceTenantName: "service"
-#    openStackEncryptedPasswordHere: "c124921a3a0efbe579782cde8227681e"
+  config:
+  # openstack configuration
+  openStackUserName: "gw3113"
+  openStackRegion: "RegionOne"
+  openStackKeyStoneUrl: "https://bdc1tlab01.research.att.com:5000"
+  openStackServiceTenantName: "service"
+  openStackEncryptedPasswordHere: "05daa77613ae3690172d9f822883dda9"
 sdc:
   enabled: true
 sdnc:
@@ -120,11 +105,11 @@ so:
   # so server configuration
   config:
     # openstack configuration
-    openStackUserName: "demo"
+    openStackUserName: "gw3113"
     openStackRegion: "RegionOne"
     openStackKeyStoneUrl: "https://bdc1tlab01.research.att.com:5000"
     openStackServiceTenantName: "service"
-    openStackEncryptedPasswordHere: "bbaef6cd76625ab9eb60deedeae7dbb9"
+    openStackEncryptedPasswordHere: "05daa77613ae3690172d9f822883dda9"
 
 uui:
   enabled: true

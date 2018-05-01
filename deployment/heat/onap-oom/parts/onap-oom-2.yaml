@@ -1,0 +1,34 @@
+  ${K8S_VM_NAME}_private_port:
+    type: OS::Neutron::Port
+    properties:
+      network: { get_resource: oam_network }
+      fixed_ips: [{"subnet": { get_resource: oam_subnet }}]
+      security_groups:
+      - { get_resource: onap_sg }
+
+  ${K8S_VM_NAME}_floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network_id: { get_param: public_net_id }
+      port_id: { get_resource: ${K8S_VM_NAME}_private_port }
+
+  ${K8S_VM_NAME}_vm:
+    type: OS::Nova::Server
+    properties:
+      name: ${K8S_VM_NAME}
+      image: { get_param: ubuntu_1604_image }
+      flavor: { get_param: k8s_vm_flavor }
+      key_name: onap_key
+      networks:
+      - port: { get_resource: ${K8S_VM_NAME}_private_port }
+      user_data_format: RAW
+      user_data:
+        str_replace:
+          params:
+            __lab_name__: { get_param: lab_name }
+            __docker_proxy__: { get_param: docker_proxy }
+            __apt_proxy__: { get_param: apt_proxy }
+            __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+          template:
+            get_file: k8s_vm_entrypoint.sh
+

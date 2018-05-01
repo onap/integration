@@ -23,26 +23,6 @@ parameters:
     type: string
     description: CIDR of the OAM ONAP network
 
-  keystone_url:
-    type: string
-    description: URL of OpenStack Keystone
-
-  openstack_tenant_id:
-    type: string
-    description: OpenStack tenant ID
-
-  openstack_tenant_name:
-    type: string
-    description: OpenStack tenant name (matching with the openstack_tenant_id)
-
-  openstack_username:
-    type: string
-    description: OpenStack username
-
-  openstack_api_key:
-    type: string
-    description: OpenStack password or API Key
-
   ubuntu_1404_image:
     type: string
     description: Name of the Ubuntu 14.04 image
@@ -51,10 +31,6 @@ parameters:
     type: string
     description: Name of the Ubuntu 16.04 image
 
-  centos_7_image:
-    type: string
-    description: the id/name of the CentOS 7 VM imange
-
   rancher_vm_flavor:
     type: string
     description: Name of the Ubuntu 14.04 image
@@ -62,46 +38,6 @@ parameters:
   k8s_vm_flavor:
     type: string
     description: Name of the Ubuntu 14.04 image
-
-  dns_forwarder:
-    type: string
-    description: the forwarder address for setting up ONAP's private DNS server
-
-  external_dns:
-    type: string
-    description: Public IP of the external DNS for ONAP network
-
-  dnsaas_proxy_enable:
-    type: string
-    description: whether to enable DNSaaS proxy via multicloud
-
-  dnsaas_region:
-    type: string
-    description: the region of the cloud instance providing the Designate DNS as a Service
-
-  dnsaas_proxied_keystone_url_path:
-    type: string
-    description: the proxy keystone URL path for DCAE to use (via MultiCloud)
-
-  dnsaas_keystone_url:
-    type: string
-    description: the keystone URL of the cloud instance providing the Designate DNS as a Service
-
-  dnsaas_username:
-    type: string
-    description: the username of the cloud instance providing the Designate DNS as a Service
-
-  dnsaas_password:
-    type: string
-    description: the password of the cloud instance providing the Designate DNS as a Service
-
-  dnsaas_tenant_id:
-    type: string
-    description: the ID of the tenant in the cloud instance providing the Designate DNS as a Service
-
-  dnsaas_tenant_name:
-    type: string
-    description: the name of the tenant in the cloud instance providing the Designate DNS as a Service
 
 resources:
   random-str:
@@ -157,7 +93,7 @@ resources:
             rand: { get_resource: random-str }
       network_id: { get_resource: oam_network }
       cidr: { get_param: oam_network_cidr }
-      dns_nameservers: [ get_param: dns_forwarder ]
+      dns_nameservers: [ "8.8.8.8" ]
 
   router:
     type: OS::Neutron::Router
@@ -197,13 +133,23 @@ resources:
       user_data_format: RAW
       user_data:
         str_replace:
-          params:
-            __docker_proxy__: { get_param: docker_proxy }
-            __apt_proxy__: { get_param: apt_proxy }
           template:
             get_file: rancher_vm_entrypoint.sh
-
-  k8s_private_port:
+          params:
+            __lab_name__: { get_param: lab_name }
+            __docker_proxy__: { get_param: docker_proxy }
+            __apt_proxy__: { get_param: apt_proxy }
+            __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+            __k8s_vm_ips__: [
+              get_attr: [k8s_1_floating_ip, floating_ip_address],
+              get_attr: [k8s_2_floating_ip, floating_ip_address],
+              get_attr: [k8s_3_floating_ip, floating_ip_address],
+              get_attr: [k8s_4_floating_ip, floating_ip_address],
+              get_attr: [k8s_5_floating_ip, floating_ip_address],
+              get_attr: [k8s_6_floating_ip, floating_ip_address],
+              get_attr: [k8s_7_floating_ip, floating_ip_address],
+            ]
+  k8s_1_private_port:
     type: OS::Neutron::Port
     properties:
       network: { get_resource: oam_network }
@@ -211,21 +157,21 @@ resources:
       security_groups:
       - { get_resource: onap_sg }
 
-  k8s_floating_ip:
+  k8s_1_floating_ip:
     type: OS::Neutron::FloatingIP
     properties:
       floating_network_id: { get_param: public_net_id }
-      port_id: { get_resource: k8s_private_port }
+      port_id: { get_resource: k8s_1_private_port }
 
-  k8s_vm:
+  k8s_1_vm:
     type: OS::Nova::Server
     properties:
-      name: k8s
+      name: k8s_1
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: k8s_vm_flavor }
       key_name: onap_key
       networks:
-      - port: { get_resource: k8s_private_port }
+      - port: { get_resource: k8s_1_private_port }
       user_data_format: RAW
       user_data:
         str_replace:
@@ -234,30 +180,210 @@ resources:
             __docker_proxy__: { get_param: docker_proxy }
             __apt_proxy__: { get_param: apt_proxy }
             __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
-            __k8s_ip_addr__: { get_attr: [k8s_floating_ip, floating_ip_address] }
-            __openstack_tenant_id__: { get_param: openstack_tenant_id }
-            __openstack_tenant_name__: { get_param: openstack_tenant_name }
-            __openstack_username__: { get_param: openstack_username }
-            __openstack_api_key__: { get_param : openstack_api_key }
-            __public_net_id__: { get_param: public_net_id }
-            __public_net_name__: { get_param: public_net_name }
-            __oam_network_id__: { get_resource: oam_network }
-            __oam_subnet_id__: { get_resource: oam_subnet }
-            __oam_network_cidr__: { get_param: oam_network_cidr }
-            __ubuntu_1404_image__: { get_param: ubuntu_1404_image }
-            __ubuntu_1604_image__: { get_param: ubuntu_1604_image }
-            __centos_7_image__: { get_param: centos_7_image }
-            __keystone_url__: { get_param: keystone_url }
-            __dns_forwarder__: { get_param: dns_forwarder }
-            __external_dns__: { get_param: external_dns }
-            __dnsaas_proxy_enable__: { get_param: dnsaas_proxy_enable }
-            __dnsaas_proxied_keystone_url_path__: { get_param: dnsaas_proxied_keystone_url_path }
-            __dnsaas_keystone_url__: { get_param: dnsaas_keystone_url }
-            __dnsaas_region__: { get_param: dnsaas_region }
-            __dnsaas_tenant_id__: { get_param: dnsaas_tenant_id }
-            __dnsaas_tenant_name__: { get_param: dnsaas_tenant_name }
-            __dnsaas_username__: { get_param: dnsaas_username }
-            __dnsaas_password__: { get_param: dnsaas_password }
+          template:
+            get_file: k8s_vm_entrypoint.sh
+
+  k8s_2_private_port:
+    type: OS::Neutron::Port
+    properties:
+      network: { get_resource: oam_network }
+      fixed_ips: [{"subnet": { get_resource: oam_subnet }}]
+      security_groups:
+      - { get_resource: onap_sg }
+
+  k8s_2_floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network_id: { get_param: public_net_id }
+      port_id: { get_resource: k8s_2_private_port }
+
+  k8s_2_vm:
+    type: OS::Nova::Server
+    properties:
+      name: k8s_2
+      image: { get_param: ubuntu_1604_image }
+      flavor: { get_param: k8s_vm_flavor }
+      key_name: onap_key
+      networks:
+      - port: { get_resource: k8s_2_private_port }
+      user_data_format: RAW
+      user_data:
+        str_replace:
+          params:
+            __lab_name__: { get_param: lab_name }
+            __docker_proxy__: { get_param: docker_proxy }
+            __apt_proxy__: { get_param: apt_proxy }
+            __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+          template:
+            get_file: k8s_vm_entrypoint.sh
+
+  k8s_3_private_port:
+    type: OS::Neutron::Port
+    properties:
+      network: { get_resource: oam_network }
+      fixed_ips: [{"subnet": { get_resource: oam_subnet }}]
+      security_groups:
+      - { get_resource: onap_sg }
+
+  k8s_3_floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network_id: { get_param: public_net_id }
+      port_id: { get_resource: k8s_3_private_port }
+
+  k8s_3_vm:
+    type: OS::Nova::Server
+    properties:
+      name: k8s_3
+      image: { get_param: ubuntu_1604_image }
+      flavor: { get_param: k8s_vm_flavor }
+      key_name: onap_key
+      networks:
+      - port: { get_resource: k8s_3_private_port }
+      user_data_format: RAW
+      user_data:
+        str_replace:
+          params:
+            __lab_name__: { get_param: lab_name }
+            __docker_proxy__: { get_param: docker_proxy }
+            __apt_proxy__: { get_param: apt_proxy }
+            __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+          template:
+            get_file: k8s_vm_entrypoint.sh
+
+  k8s_4_private_port:
+    type: OS::Neutron::Port
+    properties:
+      network: { get_resource: oam_network }
+      fixed_ips: [{"subnet": { get_resource: oam_subnet }}]
+      security_groups:
+      - { get_resource: onap_sg }
+
+  k8s_4_floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network_id: { get_param: public_net_id }
+      port_id: { get_resource: k8s_4_private_port }
+
+  k8s_4_vm:
+    type: OS::Nova::Server
+    properties:
+      name: k8s_4
+      image: { get_param: ubuntu_1604_image }
+      flavor: { get_param: k8s_vm_flavor }
+      key_name: onap_key
+      networks:
+      - port: { get_resource: k8s_4_private_port }
+      user_data_format: RAW
+      user_data:
+        str_replace:
+          params:
+            __lab_name__: { get_param: lab_name }
+            __docker_proxy__: { get_param: docker_proxy }
+            __apt_proxy__: { get_param: apt_proxy }
+            __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+          template:
+            get_file: k8s_vm_entrypoint.sh
+
+  k8s_5_private_port:
+    type: OS::Neutron::Port
+    properties:
+      network: { get_resource: oam_network }
+      fixed_ips: [{"subnet": { get_resource: oam_subnet }}]
+      security_groups:
+      - { get_resource: onap_sg }
+
+  k8s_5_floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network_id: { get_param: public_net_id }
+      port_id: { get_resource: k8s_5_private_port }
+
+  k8s_5_vm:
+    type: OS::Nova::Server
+    properties:
+      name: k8s_5
+      image: { get_param: ubuntu_1604_image }
+      flavor: { get_param: k8s_vm_flavor }
+      key_name: onap_key
+      networks:
+      - port: { get_resource: k8s_5_private_port }
+      user_data_format: RAW
+      user_data:
+        str_replace:
+          params:
+            __lab_name__: { get_param: lab_name }
+            __docker_proxy__: { get_param: docker_proxy }
+            __apt_proxy__: { get_param: apt_proxy }
+            __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+          template:
+            get_file: k8s_vm_entrypoint.sh
+
+  k8s_6_private_port:
+    type: OS::Neutron::Port
+    properties:
+      network: { get_resource: oam_network }
+      fixed_ips: [{"subnet": { get_resource: oam_subnet }}]
+      security_groups:
+      - { get_resource: onap_sg }
+
+  k8s_6_floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network_id: { get_param: public_net_id }
+      port_id: { get_resource: k8s_6_private_port }
+
+  k8s_6_vm:
+    type: OS::Nova::Server
+    properties:
+      name: k8s_6
+      image: { get_param: ubuntu_1604_image }
+      flavor: { get_param: k8s_vm_flavor }
+      key_name: onap_key
+      networks:
+      - port: { get_resource: k8s_6_private_port }
+      user_data_format: RAW
+      user_data:
+        str_replace:
+          params:
+            __lab_name__: { get_param: lab_name }
+            __docker_proxy__: { get_param: docker_proxy }
+            __apt_proxy__: { get_param: apt_proxy }
+            __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+          template:
+            get_file: k8s_vm_entrypoint.sh
+
+  k8s_7_private_port:
+    type: OS::Neutron::Port
+    properties:
+      network: { get_resource: oam_network }
+      fixed_ips: [{"subnet": { get_resource: oam_subnet }}]
+      security_groups:
+      - { get_resource: onap_sg }
+
+  k8s_7_floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network_id: { get_param: public_net_id }
+      port_id: { get_resource: k8s_7_private_port }
+
+  k8s_7_vm:
+    type: OS::Nova::Server
+    properties:
+      name: k8s_7
+      image: { get_param: ubuntu_1604_image }
+      flavor: { get_param: k8s_vm_flavor }
+      key_name: onap_key
+      networks:
+      - port: { get_resource: k8s_7_private_port }
+      user_data_format: RAW
+      user_data:
+        str_replace:
+          params:
+            __lab_name__: { get_param: lab_name }
+            __docker_proxy__: { get_param: docker_proxy }
+            __apt_proxy__: { get_param: apt_proxy }
+            __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
           template:
             get_file: k8s_vm_entrypoint.sh
 
@@ -266,6 +392,3 @@ outputs:
     description: The IP address of the rancher instance
     value: { get_attr: [rancher_floating_ip, floating_ip_address] }
 
-  k8s_vm_ip:
-    description: The IP address of the k8s instance
-    value: { get_attr: [k8s_floating_ip, floating_ip_address] }
