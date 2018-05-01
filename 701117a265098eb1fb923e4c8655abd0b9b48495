@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_e758e98b",
+        "filename": "test/csit/scripts/multicloud-ocata/generic_sim/Dockerfile",
+        "patchSetId": 12
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 947
+      },
+      "writtenOn": "2018-05-01T22:14:12Z",
+      "side": 1,
+      "message": "mkdir -p /{tmp,etc}/generic_sim",
+      "range": {
+        "startLine": 5,
+        "startChar": 4,
+        "endLine": 6,
+        "endChar": 26
+      },
+      "revId": "701117a265098eb1fb923e4c8655abd0b9b48495",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
