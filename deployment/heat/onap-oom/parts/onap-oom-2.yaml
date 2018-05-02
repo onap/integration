@@ -25,7 +25,6 @@
       user_data:
         str_replace:
           params:
-            __lab_name__: { get_param: lab_name }
             __docker_proxy__: { get_param: docker_proxy }
             __apt_proxy__: { get_param: apt_proxy }
             __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
