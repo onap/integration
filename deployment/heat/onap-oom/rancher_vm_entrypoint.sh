@@ -4,6 +4,15 @@ printenv
 mkdir -p /opt/config
 echo "__rancher_ip_addr__" > /opt/config/rancher_ip_addr.txt
 echo "__k8s_vm_ips__" > /opt/config/k8s_vm_ips.txt
+echo "__oam_network_id__" > /opt/config/oam_network_id.txt
+echo "__oam_subnet_id__" > /opt/config/oam_subnet_id.txt
+
+cat <<EOF > /opt/config/integration-override.yaml
+__integration_override_yaml__
+EOF
+sed -i 's/\_\_oam_network_id__/__oam_network_id__/g' /opt/config/integration-override.yaml
+sed -i 's/\_\_oam_subnet_id__/__oam_subnet_id__/g' /opt/config/integration-override.yaml
+cp /opt/config/integration-override.yaml /root
 
 echo `hostname -I` `hostname` >> /etc/hosts
 mkdir -p /etc/docker
@@ -30,7 +39,7 @@ chmod 777 /dockerdata-nfs/
 chown nobody:nogroup /dockerdata-nfs/
 cd /dockerdata-nfs/
 git init
-git config user.email "root@k8s"
+git config user.email "root@onap"
 git config user.name "root"
 git add -A
 git commit -m "initial commit"
@@ -118,6 +127,10 @@ done
 jq -r .command token.json > rancher_agent_cmd.sh
 chmod +x rancher_agent_cmd.sh
 cp rancher_agent_cmd.sh /dockerdata-nfs
+cd /dockerdata-nfs
+git add -A
+git commit -a -m "Add rancher agent command file"
+cd ~
 
 
 KUBETOKEN=$(echo -n 'Basic '$(echo -n "$RANCHER_ACCESS_KEY:$RANCHER_SECRET_KEY" | base64 -w 0) | base64 -w 0)
@@ -163,30 +176,8 @@ git clone -b master http://gerrit.onap.org/r/oom
 cd oom
 git log -1
 
-# Update values.yaml to point to docker-proxy instead of nexus3:
-cd ~/oom/kubernetes
-#perl -p -i -e 's/nexus3.onap.org:10001/__docker_proxy__/g' `find ./ -name values.yaml`
-sed -i 's/nexus3.onap.org:10001/__docker_proxy__/g' onap/values.yaml
-sed -i 's/#repository:/repository:/g' onap/values.yaml
-sed -i 's/#repositorySecret:/repositorySecret:/g' onap/values.yaml
-git diff
-
-
-# Clone integration:
-cd ~
-git clone -b master http://gerrit.onap.org/r/integration
-cd integration
-git log -1
-
-cd ~
-ln -s ~/integration/deployment/heat/onap-oom/env/__lab_name__/integration-override.yaml
-sed -i 's/nexus3.onap.org:10001/__docker_proxy__/g' integration-override.yaml
-
-
 # Run ONAP:
 cd ~/oom/kubernetes/
-# verify version
-helm version
 helm init --client-only
 helm init --upgrade
 helm serve &
@@ -195,11 +186,7 @@ helm repo add local http://127.0.0.1:8879
 helm repo list
 make all
 helm search -l | grep local
-if [ -e ~/integration-override.yaml ]; then
-    helm install local/onap -n dev --namespace onap -f ~/integration-override.yaml
-else
-    helm install local/onap -n dev --namespace onap
-fi
+helm install local/onap -n dev --namespace onap -f ~/integration-override.yaml
 
 
 # Check ONAP status:

@@ -12,6 +12,9 @@ ENV_FILE=$1
 
 source $WORKSPACE/test/ete/scripts/install_openstack_cli.sh
 
+SO_ENCRYPTION_KEY=aa3871669d893c7fb8abbcda31b88b4f
+export OS_PASSWORD_ENCRYPTED=$(echo -n "$OS_PASSWORD" | openssl aes-128-ecb -e -K "$SO_ENCRYPTION_KEY" -nosalt | xxd -c 256 -p)
+
 for n in $(seq 1 5); do
     $WORKSPACE/test/ete/scripts/teardown-onap.sh
 

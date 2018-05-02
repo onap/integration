@@ -3,7 +3,9 @@ printenv
 
 mkdir -p /opt/config
 echo "__rancher_ip_addr__" > /opt/config/rancher_ip_addr.txt
-echo `hostname -I` `hostname` >> /etc/hosts
+HOST_IP=$(hostname -I)
+echo $HOST_IP `hostname` >> /etc/hosts
+
 mkdir -p /etc/docker
 if [ ! -z "__docker_proxy__" ]; then
     cat > /etc/docker/daemon.json <<EOF
@@ -41,5 +43,6 @@ while [ ! -e /dockerdata-nfs/rancher_agent_cmd.sh ]; do
     mount /dockerdata-nfs
     sleep 5
 done
-source /dockerdata-nfs/rancher_agent_cmd.sh
-
+cp /dockerdata-nfs/rancher_agent_cmd.sh .
+sed -i "s/docker run/docker run -e CATTLE_AGENT_IP=${HOST_IP}/g" rancher_agent_cmd.sh
+source rancher_agent_cmd.sh

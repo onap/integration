@@ -2,9 +2,6 @@ heat_template_version: 2015-10-15
 description: ONAP on Kubernetes using OOM
 
 parameters:
-  lab_name:
-    type: string
-
   docker_proxy:
     type: string
 
@@ -15,17 +12,9 @@ parameters:
     type: string
     description: The ID of the Public network for floating IP address allocation
 
-  public_net_name:
-    type: string
-    description: The name of the Public network referred by public_net_id
-
   oam_network_cidr:
     type: string
     description: CIDR of the OAM ONAP network
-
-  ubuntu_1404_image:
-    type: string
-    description: Name of the Ubuntu 14.04 image
 
   ubuntu_1604_image:
     type: string
@@ -33,11 +22,15 @@ parameters:
 
   rancher_vm_flavor:
     type: string
-    description: Name of the Ubuntu 14.04 image
+    description: VM flavor for Rancher
 
   k8s_vm_flavor:
     type: string
-    description: Name of the Ubuntu 14.04 image
+    description: VM flavor for k8s hosts
+
+  integration_override_yaml:
+    type: string
+    description: Content for integration_override.yaml
 
 resources:
   random-str:
