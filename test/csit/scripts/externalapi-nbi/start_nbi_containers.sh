@@ -34,7 +34,23 @@ docker login -u $NEXUS_USERNAME -p $NEXUS_PASSWD $NEXUS_DOCKER_REPO
 docker pull $NEXUS_DOCKER_REPO/onap/externalapi/nbi:$DOCKER_IMAGE_VERSION
 
 # Start nbi, MariaDB and MongoDB containers with docker compose and nbi/docker-compose.yml
-docker-compose up -d mariadb mongo && sleep 5 # to ensure that these services are ready for connections
+docker-compose up -d mariadb mongo
+
+# inject a script to ensure that these services are ready for connections
+docker-compose run --rm --entrypoint='/bin/sh' nbi -c '\
+    attempt=1; \
+    while ! nc -z mariadb 3306 || ! nc -z mongo 27017; do \
+        if [ $attempt = 30 ]; then \
+            echo "Timed out!"; \
+            exit 1; \
+        fi; \
+        echo "waiting for db services (attempt #$attempt)..."; \
+        sleep 1; \
+        attempt=$(( attempt + 1)); \
+    done; \
+    echo "all db services are ready for connections!" \
+'
+
 docker-compose up -d nbi
 
 NBI_CONTAINER_NAME=$(docker-compose ps 2> /dev/null | tail -n+3 | tr -s ' ' | cut -d' ' -f1 | grep _nbi_)
@@ -44,8 +60,9 @@ echo "IP address for NBI main container ($NBI_CONTAINER_NAME) is set to ${NBI_IP
 
 # Wait for initialization
 for i in {1..30}; do
-    curl -sS ${NBI_IP}:8080 > /dev/null 2>&1 && break
+    curl -sS ${NBI_IP}:8080 > /dev/null 2>&1 && exit 0
     echo sleep $i
     sleep $i
 done
 
+exit 1 # raise error if the nbi service has not been initialized
