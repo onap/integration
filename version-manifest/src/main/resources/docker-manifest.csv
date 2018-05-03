@@ -86,4 +86,4 @@ onap/vfc/ztevnfmdriver,1.1.0-STAGING-latest
 onap/vid,1.2.1
 onap/vnfsdk/refrepo,1.0.0
 onap/vnfsdk/refrepo-postgres,1.0.0
-openecomp/mso,1.2.1
+onap/mso,latest
