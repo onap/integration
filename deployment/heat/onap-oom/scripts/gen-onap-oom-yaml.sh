@@ -56,3 +56,13 @@ for VM_NUM in $(seq $NUM_K8S_VMS); do
 done
 
 cat $PARTS_DIR/onap-oom-3.yaml
+
+for VM_NUM in $(seq $NUM_K8S_VMS); do
+    K8S_VM_NAME=k8s_$VM_NUM
+    cat <<EOF
+  ${K8S_VM_NAME}_vm_ip:
+    description: The IP address of the ${K8S_VM_NAME} instance
+    value: { get_attr: [${K8S_VM_NAME}_floating_ip, floating_ip_address] }
+
+EOF
+done

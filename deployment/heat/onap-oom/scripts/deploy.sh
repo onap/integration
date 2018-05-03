@@ -49,5 +49,7 @@ for n in $(seq 1 10); do
 done
 ROBOT_POD=$(ssh -o StrictHostKeychecking=no -i ~/.ssh/onap_key ubuntu@$RANCHER_IP 'sudo su -c "kubectl --namespace onap get pods"' | grep robot | sed 's/ .*//')
 LOG_DIR=$(ssh -o StrictHostKeychecking=no -i ~/.ssh/onap_key ubuntu@$RANCHER_IP "sudo su -c \"kubectl exec $ROBOT_POD --namespace onap -- ls -1t /share/logs | head -1\"")
-wget --user=robot --password=robot -r -np -nH --cut-dirs=2 -R "index.html*" -P $WORKSPACE/archives/ http://$RANCHER_IP:30209/logs/$LOG_DIR/
+
+K8S_IP=$(openstack stack output show onap-oom k8s_1_vm_ip -c output_value -f value)
+wget --user=robot --password=robot -r -np -nH --cut-dirs=2 -R "index.html*" -P $WORKSPACE/archives/ http://$K8S_IP:30209/logs/$LOG_DIR/
 exit 0

@@ -383,3 +383,31 @@ outputs:
     description: The IP address of the rancher instance
     value: { get_attr: [rancher_floating_ip, floating_ip_address] }
 
+  k8s_1_vm_ip:
+    description: The IP address of the k8s_1 instance
+    value: { get_attr: [k8s_1_floating_ip, floating_ip_address] }
+
+  k8s_2_vm_ip:
+    description: The IP address of the k8s_2 instance
+    value: { get_attr: [k8s_2_floating_ip, floating_ip_address] }
+
+  k8s_3_vm_ip:
+    description: The IP address of the k8s_3 instance
+    value: { get_attr: [k8s_3_floating_ip, floating_ip_address] }
+
+  k8s_4_vm_ip:
+    description: The IP address of the k8s_4 instance
+    value: { get_attr: [k8s_4_floating_ip, floating_ip_address] }
+
+  k8s_5_vm_ip:
+    description: The IP address of the k8s_5 instance
+    value: { get_attr: [k8s_5_floating_ip, floating_ip_address] }
+
+  k8s_6_vm_ip:
+    description: The IP address of the k8s_6 instance
+    value: { get_attr: [k8s_6_floating_ip, floating_ip_address] }
+
+  k8s_7_vm_ip:
+    description: The IP address of the k8s_7 instance
+    value: { get_attr: [k8s_7_floating_ip, floating_ip_address] }
+
