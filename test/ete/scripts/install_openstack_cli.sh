@@ -26,7 +26,7 @@ else
     source ${ONAP_VENV}/bin/activate
     
     pip install --upgrade pip
-    pip install openstacksdk==0.9.19 python-openstackclient python-heatclient python-designateclient
+    pip install python-openstackclient python-heatclient python-designateclient
     
     echo "ONAP_VENV=${ONAP_VENV}" >> $WORKSPACE/env.properties
 fi
