@@ -1,13 +1,14 @@
 #!/bin/bash
 
 if [ "$#" -ne 2 ]; then
+    echo This script adds docker images that exist in OOM helm charts into docker-manifest.csv
     echo "$0 <docker-manifest.csv> <oom directory>"
     exit 1
 fi
 
 # expected parameters
-MANIFEST=$1
-OOM_DIR=$2
+MANIFEST=$(realpath $1)
+OOM_DIR=$(realpath $2)
 
 if [ -z "$WORKSPACE" ]; then
     export WORKSPACE=`git rev-parse --show-toplevel`
@@ -20,7 +21,7 @@ mkdir -p $TARGET_DIR
 cd $TARGET_DIR
 
 cd $OOM_DIR
-rgrep "image: .*" --include=values.yaml -h | cut -d ' ' -f 2 | tr -d '"'| grep -v '<' | grep -e "^onap" -e "^openecomp" | LC_ALL=C sort > $TARGET_DIR/oom-manifest.txt
+rgrep "image: .*" --include=values.yaml -h | cut -d ' ' -f 2 | tr -d '"'| grep -v '<' | grep -e "^onap" -e "^openecomp" | LC_ALL=C sort -u > $TARGET_DIR/oom-manifest.txt
 touch $TARGET_DIR/docker-manifest-new-entries.txt
 
 for line in $(cat $TARGET_DIR/oom-manifest.txt); do
@@ -34,5 +35,5 @@ for line in $(cat $TARGET_DIR/oom-manifest.txt); do
     fi
 done
 
-cat $MANIFEST $TARGET_DIR/docker-manifest-new-entries.txt | LC_ALL=C sort > $MANIFEST.tmp
-cp $MANIFEST.tmp $MANIFEST
+cat $MANIFEST $TARGET_DIR/docker-manifest-new-entries.txt | LC_ALL=C sort -u > $MANIFEST.tmp
+mv $MANIFEST.tmp $MANIFEST
