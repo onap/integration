@@ -1,5 +1,11 @@
 #!/bin/bash
 
+if [ "$#" -ne 1 ]; then
+    echo This script checks docker-manifest.csv to verify that the specified versions exist in nexus3
+    echo "$0 <docker-manifest.csv>"
+    exit 1
+fi
+
 if [ -z "$WORKSPACE" ]; then
     export WORKSPACE=`git rev-parse --show-toplevel`
 fi
