@@ -24,7 +24,7 @@ onap/champ,1.2-STAGING-latest
 onap/clamp,2.0-STAGING-latest
 onap/cli,2.0-STAGING-latest
 onap/data-router,1.2-STAGING-latest
-onap/dmaap/buscontroller,latest
+onap/dmaap/buscontroller,1.0.8
 onap/dmaap/dmaap-mr,1.1.4
 onap/externalapi/nbi,latest
 onap/gizmo,1.1-STAGING-latest
@@ -40,7 +40,7 @@ onap/multicloud/openstack-ocata,1.1.2-SNAPSHOT
 onap/multicloud/openstack-windriver,1.1.2-SNAPSHOT
 onap/multicloud/vio,1.1.2-STAGING
 onap/multicloud/vio-vesagent,1.0.0
-onap/music/cassandra_music,latest
+onap/music/cassandra_music,3.0.0
 onap/music/music,latest
 onap/oom/kube2msb,latest
 onap/optf-has,latest
