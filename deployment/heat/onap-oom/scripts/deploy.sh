@@ -39,7 +39,7 @@ if ! timeout 1 ping -c 1 "$RANCHER_IP"; then
 fi
 
 ssh-keygen -R $RANCHER_IP
-for n in $(seq 1 10); do
+for n in $(seq 1 6); do
     timeout 15m ssh -o StrictHostKeychecking=no -i ~/.ssh/onap_key ubuntu@$RANCHER_IP  'sudo su -l root -c "/root/oom/kubernetes/robot/ete-k8s.sh onap health"'
     RESULT=$?
     if [ $RESULT -eq 0 ]; then
