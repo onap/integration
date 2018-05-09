@@ -2,7 +2,7 @@
 
 if [ "$#" -ne 2 ]; then
     echo This script updates OOM helm charts to use versions in docker-manifest.csv
-    echo "$0 <docker-manifest.csv> <oom directory>"
+    echo "$0 <docker-manifest.csv> <oom repo directory>"
     exit 1
 fi
 
@@ -13,12 +13,6 @@ OOM_DIR=$(realpath $2)
 if [ -z "$WORKSPACE" ]; then
     export WORKSPACE=`git rev-parse --show-toplevel`
 fi
-
-DIR=$(dirname $(readlink -f "$0"))
-TARGET_DIR=$DIR/target
-rm -rf $TARGET_DIR
-mkdir -p $TARGET_DIR
-cd $TARGET_DIR
 
 cd $OOM_DIR/kubernetes
 

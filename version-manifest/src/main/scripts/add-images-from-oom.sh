@@ -1,8 +1,8 @@
 #!/bin/bash
 
 if [ "$#" -ne 2 ]; then
-    echo This script adds docker images that exist in OOM helm charts into docker-manifest.csv
-    echo "$0 <docker-manifest.csv> <oom directory>"
+    echo This script adds new docker images from OOM helm charts into docker-manifest.csv
+    echo "$0 <docker-manifest.csv> <oom repo directory>"
     exit 1
 fi
 

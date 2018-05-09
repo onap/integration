@@ -1,4 +1,11 @@
 #!/bin/bash
+
+if [ "$#" -ne 1 ]; then
+    echo This script checks the input file to verify that it is sorted
+    echo "$0 <manifest.csv>"
+    exit 1
+fi
+
 LC_ALL=C sort -c $1
 retval=$?
 if [ $retval -ne 0 ]; then
