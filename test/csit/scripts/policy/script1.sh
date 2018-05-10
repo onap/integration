@@ -85,8 +85,6 @@ cd ${WORK_DIR}
 git clone http://gerrit.onap.org/r/policy/docker
 cd docker
 
-docker build -t onap/policy-nexus  policy-nexus
-
 chmod +x config/drools/drools-tweaks.sh
 
 echo $IP > config/pe/ip_addr.txt
