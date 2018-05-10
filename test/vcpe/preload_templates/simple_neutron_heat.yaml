@@ -1,0 +1,21 @@
+heat_template_version: 2013-05-23
+description: A simple Neutron network
+parameters:
+  network_name:
+    type: string
+    description: Name of the Neutron Network
+    default: ONAP-NW1
+  shared:
+     type: boolean
+     description: Shared amongst tenants
+     default: True
+outputs:
+  network_id:
+    description: Openstack network identifier
+    value: { get_resource: network }
+resources:
+  network:
+    type: OS::Neutron::Net
+    properties:
+      name: { get_param: network_name }
+      shared: { get_param: shared }

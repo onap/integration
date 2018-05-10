@@ -1,0 +1,42 @@
+{
+  "VNF-API:input": {
+    "VNF-API:request-information": {
+      "VNF-API:request-id": "robot0012",
+      "VNF-API:notification-url": "http://so.onap.org",
+      "VNF-API:order-number": "robot0012",
+      "VNF-API:request-sub-action": "SUPP",
+      "VNF-API:request-action": "PreloadNetworkRequest",
+      "VNF-API:source": "robot",
+      "VNF-API:order-version": "1.0"
+    },
+    "VNF-API:network-topology-information": {
+      "VNF-API:network-topology-identifier": {
+        "VNF-API:network-role": "${network_role}",
+        "VNF-API:network-technology": "neutron",
+        "VNF-API:service-type": "${service_type}",
+        "VNF-API:network-name": "${network_name}",
+        "VNF-API:network-type": "${network_type}"
+      },
+      "VNF-API:provider-network-information": {
+        "VNF-API:is-external-network": "true",
+        "VNF-API:physical-network-name": "${network_name}",
+        "VNF-API:is-provider-network": "true",
+        "VNF-API:is-shared-network": "true"
+      },
+      "VNF-API:subnets": [
+        {
+          "VNF-API:start-address": "${subnet_start_ip}",
+          "VNF-API:cidr-mask": "24",
+          "VNF-API:ip-version": "4",
+          "VNF-API:dhcp-enabled": "N",
+          "VNF-API:gateway-address": "${subnet_gateway}"
+        }
+	]
+    },
+    "VNF-API:sdnc-request-header": {
+      "VNF-API:svc-action": "reserve",
+      "VNF-API:svc-notification-url": "http://so.onap.org",
+      "VNF-API:svc-request-id": "robot0012"
+    }
+  }
+}
