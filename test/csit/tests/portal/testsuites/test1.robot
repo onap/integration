@@ -90,7 +90,7 @@ Portal Change REST URL Of X-DemoApp
 Portal R1 Release for AAF
    [Documentation]    ONAP Portal R1 functionality for AAF test    
       Portal AAF new fields    
-    
+	  
 Create Microse service onboarding
 	Portal admin Microservice Onboarding
 	
@@ -106,11 +106,11 @@ Delete Widget for all users
 Create Widget for Application Roles
 	Portal Admin Create Widget for Application Roles
     
-#Delete Widget for Application Roles
-	#Portal Admin Delete Widget for Application Roles	
+Delete Widget for Application Roles
+	Portal Admin Delete Widget for Application Roles	
 
-##EP Admin widget download
-	##Admin widget download
+EP Admin widget download
+	Admin widget download
     
 EP Admin widget layout reset
 	Reset widget layout option   
@@ -150,14 +150,14 @@ Add Application Admin for Exisitng User
 Delete Application Admin for Exisitng User   
 	Portal admin Delete Application Admin Existing User
     
-#Add Standard User Role for Existing user 
-	#Portal admin Add Standard User Existing user     
+Add Standard User Role for Existing user 
+	Portal admin Add Standard User Existing user     
     
-#Edit Standard User Role for Existing user
-	#Portal admin Edit Standard User Existing user 
+Edit Standard User Role for Existing user
+	Portal admin Edit Standard User Existing user 
     
-#Delete Standard User Role for Existing user    
-	#Portal admin Delete Standard User Existing user 
+Delete Standard User Role for Existing user    
+	Portal admin Delete Standard User Existing user 
 
 #Add Account new account from App Account Management
 	#Portal admin Add New Account
@@ -165,6 +165,12 @@ Delete Application Admin for Exisitng User
 #Delete Account new account from App Account Management
 	#Portal admin Delete Account
 
+#EP Create Portal Admin
+	#Add Portal Admin	
+
+#EP Portal Admin delete
+    #Delete Portal Admin	
+	
 Logout from Portal GUI as Portal Admin
     Portal admin Logout from Portal GUI
 
@@ -176,14 +182,14 @@ Login To Portal GUI as APP Admin
 ##Navigate Functional Link as APP Admin  
 	##Application Admin Navigation Functional Menu   
     
-#Add Standard User Role for Existing user as APP Admin
-	#Application admin Add Standard User Existing user    
+Add Standard User Role for Existing user as APP Admin
+	Application admin Add Standard User Existing user    
     
-#Edit Standard User Role for Existing user as APP Admin
-	#Application admin Edit Standard User Existing user 
+Edit Standard User Role for Existing user as APP Admin
+	Application admin Edit Standard User Existing user 
     
-#Delete Standard User Role for Existing user as APP Admin   
-	#Application admin Delete Standard User Existing user 
+Delete Standard User Role for Existing user as APP Admin   
+	Application admin Delete Standard User Existing user 
 	 
 #Navigate Application Link as APP Admin  
 	#Application Admin Navigation Application Link Tab 	 
@@ -529,13 +535,13 @@ Portal admin Add Standard User Existing user
      #Page Should Contain      Users
      #Focus    xpath=//input[@name='dropdown1']
      Go To    ${PORTAL_HOME_PAGE}
-     Click Link    xpath=//a[@title='Users']
-     Click Element    xpath=//input[@id='dropdown1']
+     #Click Link    xpath=//a[@title='Users']
+     #Click Element    xpath=//input[@id='dropdown1']
 #     Click Element    xpath=//li[contains(.,'Default')]
-     Click Element    xpath=//li[contains(.,'XDemo App')]
-     Input Text    xpath=//input[@id='input-table-search']    ${Existing_User}
-     Element Text Should Be      xpath=(.//*[@id='rowheader_t1_0'])[2]   Standard User     
-     Set Selenium Implicit Wait    3000
+     #Click Element    xpath=//li[contains(.,'XDemo App')]
+     #Input Text    xpath=//input[@id='input-table-search']    ${Existing_User}
+     #Element Text Should Be      xpath=(.//*[@id='rowheader_t1_0'])[2]   Standard User     
+     #Set Selenium Implicit Wait    3000
          
 Portal admin Edit Standard User Existing user
      [Documentation]    Naviage to Users tab
@@ -588,6 +594,7 @@ Portal admin Edit Standard User Existing user
      Click Element    xpath=(.//*[@id='rowheader_t1_0'])[2]
 #     Scroll Element Into View    xpath=//*[@id='div-app-name-Default']/following::*[@id='app-item-delete'][1]
 #     Click Element    xpath=//*[@id='div-app-name-Default']/following::*[@id='app-item-delete'][1]
+     Set Selenium Implicit Wait    9000     
      Scroll Element Into View    xpath=//*[@id='div-app-name-xDemo-App']/following::*[@id='app-item-delete'][1]
      Click Element    xpath=//*[@id='div-app-name-xDemo-App']/following::*[@id='app-item-delete'][1]
 #     Scroll Element Into View    xpath=//*[@id='div-app-name-SDC']/following::*[@id='app-item-delete'][1]
@@ -599,6 +606,7 @@ Portal admin Edit Standard User Existing user
      Element Should Not Contain     xpath=//*[@table-data='users.accountUsers']    Portal   
       #Element Should Not Contain     xpath=//*[@table-data='users.accountUsers']    demo	
      Set Selenium Implicit Wait    3000     
+	 
      
 Functional Top Menu Get Access     
     [Documentation]    Naviage to Support tab
@@ -1123,6 +1131,7 @@ Portal AAF new fields
     Page Should Contain    Name Space
     Page Should Contain    Centralized
 	Click Element    xpath=//button[@id='button-notification-cancel']
+	Set Selenium Implicit Wait    3000
 
 Portal Change REST URL
     [Documentation]    Naviage to user Application details tab 
@@ -1130,6 +1139,9 @@ Portal Change REST URL
     Click Element    xpath=//td[contains(.,'xDemo App')]
     Input Text    xpath=//input[@name='restUrl']    ${PORTAL_XDEMPAPP_REST_URL}
 	Click Element    xpath=//button[@id='button-save-app']
+	Set Selenium Implicit Wait    6000
+	Go To    ${PORTAL_HOME_PAGE}
+    Wait Until Element Is Visible    xpath=//a[@title='Application Onboarding']    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
 	
 Admin widget download   
     Go To    ${PORTAL_HOME_URL}
@@ -1153,3 +1165,21 @@ Reset widget layout option
     Execute Javascript      document.getElementById('widgets').scrollTo(0,document.getElementById('widgets').scrollHeight);
     Execute Javascript      document.getElementById('dashboardDefaultPreference').click()
     Execute Javascript      document.getElementById('div-confirm-ok-button').click()
+
+Add Portal Admin
+    Click Link    xpath=//a[@id='parent-item-Portal-Admins']
+    Scroll Element Into View    xpath=//button[@id='portal-admin-button-add']
+    Click Button    xpath=//button[@id='portal-admin-button-add']
+    Input Text    xpath=//input[@id='input-user-search']    ${Existing_User}
+    Click Button    xpath=//button[@id='button-search-users']
+    Wait Until Page Contains Element     xpath=//span[@id='result-uuid-0']    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
+    Click Element    xpath=//span[@id='result-uuid-0']
+    Click Button     xpath=//button[@id='pa-search-users-button-save']
+    Click Button     xpath=//button[@id='admin-div-ok-button']
+      
+
+Delete Portal Admin
+	Wait Until Page Does Not Contain Element     xpath=//*[@class='b2b-modal-header']
+    Click Link    xpath=//a[@id='parent-item-Portal-Admins']
+    Click Element    xpath=//td[contains(.,'portal')]/following::span[@id='1-button-portal-admin-remove']
+    Click Button     xpath=//*[@id='div-confirm-ok-button']	
