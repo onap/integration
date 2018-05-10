@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_75b1c7de",
+        "filename": "test/vcpe/preload_templates/template.vcpe_bng_vfmodule.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2018-05-10T19:12:39Z",
+      "side": 1,
+      "message": "is this used for vcpe_bng_vfmodule ?",
+      "range": {
+        "startLine": 132,
+        "startChar": 24,
+        "endLine": 132,
+        "endChar": 32
+      },
+      "revId": "ee9f6a171e16ec1e1f60596a15db021dec4831ea",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_15cc0369",
+        "filename": "test/vcpe/preload_templates/template.vcpe_bng_vfmodule.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2018-05-10T19:12:39Z",
+      "side": 1,
+      "message": "is this used in vcpe-bng module ?",
+      "range": {
+        "startLine": 135,
+        "startChar": 25,
+        "endLine": 135,
+        "endChar": 47
+      },
+      "revId": "ee9f6a171e16ec1e1f60596a15db021dec4831ea",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_d5c1bb2f",
+        "filename": "test/vcpe/preload_templates/template.vcpe_brgemu_vfmodule.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2018-05-10T19:12:39Z",
+      "side": 1,
+      "message": "same as bng",
+      "range": {
+        "startLine": 99,
+        "startChar": 25,
+        "endLine": 99,
+        "endChar": 48
+      },
+      "revId": "ee9f6a171e16ec1e1f60596a15db021dec4831ea",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_f5bcf7b6",
+        "filename": "test/vcpe/preload_templates/template.vcpe_brgemu_vfmodule.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2018-05-10T19:12:39Z",
+      "side": 1,
+      "message": "same as bng",
+      "range": {
+        "startLine": 103,
+        "startChar": 25,
+        "endLine": 103,
+        "endChar": 47
+      },
+      "revId": "ee9f6a171e16ec1e1f60596a15db021dec4831ea",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_b5e2efd2",
+        "filename": "test/vcpe/preload_templates/template.vcpe_gmux_vfmodule.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2018-05-10T19:12:39Z",
+      "side": 1,
+      "message": "review",
+      "range": {
+        "startLine": 115,
+        "startChar": 24,
+        "endLine": 115,
+        "endChar": 46
+      },
+      "revId": "ee9f6a171e16ec1e1f60596a15db021dec4831ea",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
