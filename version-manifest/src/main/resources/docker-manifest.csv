@@ -80,6 +80,7 @@ onap/sdnc-dmaap-listener-image,1.3-STAGING-latest
 onap/sdnc-image,1.3-STAGING-latest
 onap/sdnc-ueb-listener-image,1.3-STAGING-latest
 onap/search-data-service,1.2-STAGING-latest
+onap/sniroemulator,latest
 onap/sparky-be,1.2-STAGING-latest
 onap/testsuite,1.2-STAGING-latest
 onap/usecase-ui,latest
