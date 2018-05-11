@@ -19,6 +19,6 @@ cd $OOM_DIR/kubernetes
 for line in $(tail -n +2 $MANIFEST); do
     image=$(echo $line | cut -d , -f 1)
     tag=$(echo $line | cut -s -d , -f 2)
-    perl -p -i -e "s|image: $image(:.*$\|$)|image: $image:$tag|g" $(find ./ -name values.yaml)
+    perl -p -i -e "s|$image(:.*$\|$)|$image:$tag|g" $(find ./ -name values.yaml)
 done
 
