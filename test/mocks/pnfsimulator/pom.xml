@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
+   <parent>
         <groupId>org.onap.oparent</groupId>
         <artifactId>oparent</artifactId>
         <version>0.1.1</version>
@@ -22,7 +22,8 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <simulator.main.class>org.onap.pnfsimulator.Main</simulator.main.class>
         <dependency.directory.name>libs</dependency.directory.name>
-        <dependency.directory.location>${project.build.directory}/${dependency.directory.name}</dependency.directory.location>
+        <dependency.directory.location>${project.build.directory}/${dependency.directory.name}
+        </dependency.directory.location>
         <onap.nexus.dockerregistry.daily>nexus3.onap.org:10003</onap.nexus.dockerregistry.daily>
     </properties>
 
@@ -125,29 +126,30 @@
                 <groupId>com.spotify</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
                 <configuration>
-                <skipDockerBuild>false</skipDockerBuild>
-                <imageName>
-                    ${onap.nexus.dockerregistry.daily}/onap/${project.groupId}.${project.artifactId}
-                </imageName>
-                <cmd>java -cp ${dependency.directory.name}/*:${project.build.finalName}.jar ${simulator.main.class}
-                </cmd>
-                <resources>
-                    <resource>
-                        <targetPath>${dependency.directory.name}</targetPath>
-                        <directory>${dependency.directory.location}</directory>
-                    </resource>
-                    <resource>
-                        <targetPath>/</targetPath>
-                        <directory>${project.build.directory}</directory>
-                        <include>${project.build.finalName}.jar</include>
-                    </resource>
-                </resources>
-                <imageTags>
-                    <imageTag>${project.version}-SNAPSHOT-${maven.build.timestamp}Z</imageTag>
-                    <imageTag>${project.version}</imageTag>
-                    <imageTag>latest</imageTag>
-                </imageTags>
-                <serverId>${onap.nexus.dockerregistry.daily}</serverId>
+                    <skipDockerBuild>false</skipDockerBuild>
+                    <imageName>
+                        ${onap.nexus.dockerregistry.daily}/onap/${project.groupId}.${project.artifactId}
+                    </imageName>
+                    <cmd>java -cp ${dependency.directory.name}/*:${project.build.finalName}.jar ${simulator.main.class}
+                    </cmd>
+                    <resources>
+                        <resource>
+                            <targetPath>${dependency.directory.name}</targetPath>
+                            <directory>${dependency.directory.location}</directory>
+                        </resource>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                    <imageTags>
+                        <imageTag>${project.version}-SNAPSHOT-${maven.build.timestamp}Z</imageTag>
+                        <imageTag>${project.version}</imageTag>
+                        <imageTag>latest</imageTag>
+                    </imageTags>
+                    <serverId>${onap.nexus.dockerregistry.daily}</serverId>
+                </configuration>
             </plugin>
         </plugins>
     </build>
