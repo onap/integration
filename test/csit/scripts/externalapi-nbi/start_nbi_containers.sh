@@ -19,6 +19,9 @@ NEXUS_PASSWD=docker
 NEXUS_DOCKER_REPO=nexus3.onap.org:10001
 DOCKER_IMAGE_VERSION=latest
 
+# Create .env file to access env variables for docker-compose
+echo "NEXUS_DOCKER_REPO=${NEXUS_DOCKER_REPO}" > .env
+
 echo "This is ${WORKSPACE}/test/csit/scripts/externalapi-nbi/start_nbi_containers.sh"
 
 # Create directory
