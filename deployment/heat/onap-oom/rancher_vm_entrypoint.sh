@@ -170,11 +170,19 @@ done
 # Install using OOM
 export HOME=/root
 
+# update and initialize git
+apt-get -y install git
+git config --global user.email root@rancher
+git config --global user.name root@rancher
+git config --global log.decorate auto
+
 # Clone OOM:
 cd ~
 git clone -b master http://gerrit.onap.org/r/oom
 cd oom
 git log -1
+git tag -a "deploy0" -m "initial deployment"
+git checkout -b workarounds
 
 # Run ONAP:
 cd ~/oom/kubernetes/
