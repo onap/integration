@@ -1,6 +1,12 @@
 #!/bin/bash
 
-NUM_K8S_VMS=7
+if [ "$#" -ne 1 ]; then
+    echo This script generates the HEAT template for X number of k8s VMs
+    echo "$0 <num k8s vms>"
+    exit 1
+fi
+NUM_K8S_VMS=$1
+
 
 if [ -z "$WORKSPACE" ]; then
     export WORKSPACE=`git rev-parse --show-toplevel`
