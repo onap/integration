@@ -25,6 +25,9 @@ echo "This is ${WORKSPACE}/test/csit/scripts/externalapi-nbi/start_nbi_container
 mkdir -p $WORKSPACE/externalapi-nbi
 cd $WORKSPACE/externalapi-nbi
 
+# Create .env file to access env variables for docker-compose
+echo "NEXUS_DOCKER_REPO=${NEXUS_DOCKER_REPO}" > .env
+
 # Fetch the latest docker-compose.yml
 wget -O docker-compose.yml 'https://git.onap.org/externalapi/nbi/plain/docker-compose.yml?h=master'
 
