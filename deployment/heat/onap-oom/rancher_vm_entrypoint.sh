@@ -12,6 +12,7 @@ __integration_override_yaml__
 EOF
 sed -i 's/\_\_oam_network_id__/__oam_network_id__/g' /opt/config/integration-override.yaml
 sed -i 's/\_\_oam_subnet_id__/__oam_subnet_id__/g' /opt/config/integration-override.yaml
+sed -i 's/\_\_k8s_1_vm_ip__/__k8s_1_vm_ip__/g' /opt/config/integration-override.yaml
 cp /opt/config/integration-override.yaml /root
 
 echo `hostname -I` `hostname` >> /etc/hosts
