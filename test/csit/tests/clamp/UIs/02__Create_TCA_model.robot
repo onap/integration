@@ -70,7 +70,7 @@ Set TCA Box properties for TCAModel1
     Click Element    xpath=//*[@data-element-id="TCA_1d13unw"]
     Input Text      xpath=(//input[@id='tname'])[2]      text=TCA1
     Select From List By Label       xpath=//*[@id="tcaPol"]      Policy2
-    Select From List By Label       xpath=//*[@id="eventName"]      vCPEvGMUXPacketLoss
+    Select From List By Label       xpath=//*[@id="eventName"]      vLoadBalancer
 ### Cannot set all TCA box attributes due to element not interractable with Selenium
 #    Select From List By Label       xpath=//*[@id="controlLoopSchemaType"]       VNF
 #    Select From List By Index       xpath=//*[@id="controlLoopSchemaType"]       1
