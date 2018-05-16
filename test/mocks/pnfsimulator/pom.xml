@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-   <parent>
+    <parent>
         <groupId>org.onap.oparent</groupId>
         <artifactId>oparent</artifactId>
         <version>0.1.1</version>
@@ -82,7 +82,8 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
+                
+		<configuration>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
                     <showWarnings>true</showWarnings>
@@ -130,6 +131,7 @@
                     <imageName>
                         ${onap.nexus.dockerregistry.daily}/onap/${project.groupId}.${project.artifactId}
                     </imageName>
+                    <baseImage>openjdk:8-jdk-alpine</baseImage>
                     <cmd>java -cp ${dependency.directory.name}/*:${project.build.finalName}.jar ${simulator.main.class}
                     </cmd>
                     <resources>
