@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-   <parent>
+    <parent>
         <groupId>org.onap.oparent</groupId>
         <artifactId>oparent</artifactId>
         <version>0.1.1</version>
@@ -12,7 +12,7 @@
 
     <groupId>org.onap.pnfsimulator</groupId>
     <artifactId>pnf-simulator</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
     <name>pnf-simulator</name>
 
@@ -24,8 +24,7 @@
         <dependency.directory.name>libs</dependency.directory.name>
         <dependency.directory.location>${project.build.directory}/${dependency.directory.name}
         </dependency.directory.location>
-        <onap.nexus.dockerregistry.daily>nexus3.onap.org:10003</onap.nexus.dockerregistry.daily>
-    </properties>
+      </properties>
 
     <dependencies>
         <dependency>
@@ -128,8 +127,9 @@
                 <configuration>
                     <skipDockerBuild>false</skipDockerBuild>
                     <imageName>
-                        ${onap.nexus.dockerregistry.daily}/onap/${project.groupId}.${project.artifactId}
+                        ${onap.nexus.dockerregistry.daily}/onap/${project.artifactId}
                     </imageName>
+                    <baseImage>openjdk:8-jdk-alpine</baseImage>
                     <cmd>java -cp ${dependency.directory.name}/*:${project.build.finalName}.jar ${simulator.main.class}
                     </cmd>
                     <resources>
@@ -144,7 +144,6 @@
                         </resource>
                     </resources>
                     <imageTags>
-                        <imageTag>${project.version}-SNAPSHOT-${maven.build.timestamp}Z</imageTag>
                         <imageTag>${project.version}</imageTag>
                         <imageTag>latest</imageTag>
                     </imageTags>
