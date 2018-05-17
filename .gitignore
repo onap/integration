@@ -20,3 +20,5 @@ env.properties
 *~
 .checkstyle
 .DS_Store
+devtool/
+seccom/
