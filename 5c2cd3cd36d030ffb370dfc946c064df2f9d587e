@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_454c039e",
+        "filename": "deployment/heat/onap-oom/env/tlab/ETE-HEAT-Test.env",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 35
+      },
+      "writtenOn": "2018-05-17T23:06:02Z",
+      "side": 1,
+      "message": "This has always been the ID in my OOM deployments.  Seems to work so far.",
+      "parentUuid": "5a93c517_a5a2a73c",
+      "range": {
+        "startLine": 27,
+        "startChar": 33,
+        "endLine": 27,
+        "endChar": 45
+      },
+      "revId": "5c2cd3cd36d030ffb370dfc946c064df2f9d587e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_25b77786",
         "filename": "deployment/heat/onap-oom/env/tlab/ETE-OOM-Test.env",
         "patchSetId": 1
@@ -59,6 +83,30 @@
       "writtenOn": "2018-05-17T22:58:51Z",
       "side": 1,
       "message": "I think this is always the same as whatever we pick for the openSt\nackPrivateNetId",
+      "range": {
+        "startLine": 28,
+        "startChar": 34,
+        "endLine": 28,
+        "endChar": 49
+      },
+      "revId": "5c2cd3cd36d030ffb370dfc946c064df2f9d587e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_654fbf92",
+        "filename": "deployment/heat/onap-oom/env/tlab/ETE-OOM-Test.env",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 35
+      },
+      "writtenOn": "2018-05-17T23:06:02Z",
+      "side": 1,
+      "message": "The OAM network is created by my OOM HEAT template and the subnet ID is retrieved from HEAT.",
+      "parentUuid": "5a93c517_85a76b4f",
       "range": {
         "startLine": 28,
         "startChar": 34,
