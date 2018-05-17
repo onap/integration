@@ -1,9 +1,10 @@
 #!/bin/bash -x
 
-if [ "$#" -ne 1 ]; then
-    echo "Usage: $0 <lab-name>"
+if [ "$#" -lt 1 ]; then
+    echo "Usage: $0 <lab-name> [<demo repo directory>]"
     exit 1
 fi
+
 
 if [ -z "$WORKSPACE" ]; then
     export WORKSPACE=`git rev-parse --show-toplevel`
@@ -19,19 +20,24 @@ fi
 source $WORKSPACE/test/ete/scripts/install_openstack_cli.sh
 
 
+DEMO_DIR=${ONAP_WORKDIR}/demo
+if [ "$#" -ge 2 ]; then
+    DEMO_DIR=$2
+fi
+
 SENTINEL='Docker versions and branches'
 
 mkdir -p ${LAB_DIR}/target
 YAML_FILE=${LAB_DIR}/target/onap_openstack.yaml
 ENV_FILE=${LAB_DIR}/target/onap_openstack.env
-YAML_SRC=${ONAP_WORKDIR}/demo/heat/ONAP/onap_openstack.yaml
-ENV_SRC=${ONAP_WORKDIR}/demo/heat/ONAP/onap_openstack.env
+YAML_SRC=${DEMO_DIR}/heat/ONAP/onap_openstack.yaml
+ENV_SRC=${DEMO_DIR}/heat/ONAP/onap_openstack.env
 
 # copy heat template to WORKSPACE
 cp ${YAML_SRC} ${YAML_FILE}
 
 # generate final env file
-pushd ${ONAP_WORKDIR}/demo
+pushd ${DEMO_DIR}
 envsubst < ${LAB_DIR}/onap-openstack-template.env | sed -n "1,/${SENTINEL}/p" > ${ENV_FILE}
 echo "  # Rest of the file was AUTO-GENERATED from" | tee -a ${ENV_FILE}
 echo "  #" $(git config --get remote.origin.url) heat/ONAP/onap_openstack.env $(git rev-parse HEAD) | tee -a ${ENV_FILE}
