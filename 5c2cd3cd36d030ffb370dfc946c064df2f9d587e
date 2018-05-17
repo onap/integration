@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_a5a2a73c",
+        "filename": "deployment/heat/onap-oom/env/tlab/ETE-HEAT-Test.env",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2018-05-17T22:58:51Z",
+      "side": 1,
+      "message": "should this be network_name not id ?",
+      "range": {
+        "startLine": 27,
+        "startChar": 33,
+        "endLine": 27,
+        "endChar": 45
+      },
+      "revId": "5c2cd3cd36d030ffb370dfc946c064df2f9d587e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_25b77786",
+        "filename": "deployment/heat/onap-oom/env/tlab/ETE-OOM-Test.env",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2018-05-17T22:58:51Z",
+      "side": 1,
+      "message": "should this be the oam_network_name ?",
+      "range": {
+        "startLine": 27,
+        "startChar": 30,
+        "endLine": 27,
+        "endChar": 48
+      },
+      "revId": "5c2cd3cd36d030ffb370dfc946c064df2f9d587e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_85a76b4f",
+        "filename": "deployment/heat/onap-oom/env/tlab/ETE-OOM-Test.env",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2018-05-17T22:58:51Z",
+      "side": 1,
+      "message": "I think this is always the same as whatever we pick for the openSt\nackPrivateNetId",
+      "range": {
+        "startLine": 28,
+        "startChar": 34,
+        "endLine": 28,
+        "endChar": 49
+      },
+      "revId": "5c2cd3cd36d030ffb370dfc946c064df2f9d587e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
