@@ -161,9 +161,14 @@ aai/v13/cloud-infrastructure/cloud-regions/cloud-region/CloudOwner/RegionOne/ten
     body: ''
     content_type: application/json
     status_code: 200
-aai/v13/cloud-infrastructure/cloud-regions/cloud-region/CloudOwner/RegionOne?depth=1:
+aai/v13/cloud-infrastructure/cloud-regions/cloud-region/CloudOwner/RegionOne:
   GET:
-    body: '{"cloud-owner":"CloudOwner","cloud-region-id":"RegionOne","cloud-type":"openstack","owner-defined-type":"t1","cloud-region-version":"RegionOne","identity-url":"http://multicloud-ocata:80/api/multicloud-titanium_cloud/v0/CloudOwner_RegionOne/identity/v2.0","cloud-zone":"z1","complex-name":"clli1","sriov-automation":false,"cloud-extra-info":"","resource-version":"1524845276291","esr-system-info-list":{"esr-system-info":[{"esr-system-info-id":"4ce895ad-82f7-4476-b5eb-d19d19585da2","service-url":"http://keystone:8080/v3","user-name":"admin","password":"secret","system-type":"VIM","ssl-insecure":true,"cloud-domain":"Default","default-tenant":"admin","resource-version":"1524845155617"}]}}'
+    body: '{"cloud-owner":"CloudOwner","cloud-region-id":"RegionOne","cloud-type":"openstack","owner-defined-type":"t1","cloud-region-version":"RegionOne","identity-url":"http://multicloud-ocata:80/api/multicloud-titanium_cloud/v0/CloudOwner_RegionOne/identity/v2.0","cloud-zone":"z1","complex-name":"clli1","sriov-automation":false,"cloud-extra-info":"","resource-version":"1524845276291"}'
+    content_type: application/json
+    status_code: 200
+aai/v13/cloud-infrastructure/cloud-regions/cloud-region/CloudOwner/RegionOne/esr-system-info-list:
+  GET:
+    body: '{"esr-system-info":[{"esr-system-info-id":"4ce895ad-82f7-4476-b5eb-d19d19585da2","service-url":"http://keystone:8080/v3","user-name":"admin","password":"secret","system-type":"VIM","ssl-insecure":true,"cloud-domain":"Default","default-tenant":"admin","resource-version":"1524845155617"}]}'
     content_type: application/json
     status_code: 200
 aai/v13/cloud-infrastructure/pservers/pserver/compute-0:
