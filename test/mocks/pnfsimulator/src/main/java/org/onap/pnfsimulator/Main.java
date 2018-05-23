@@ -35,7 +35,7 @@ public class Main {
 
     private static Logger logger = LogManager.getLogger(Main.class);
     private static SimulatorFactory simulatorFactory =
-        new SimulatorFactory(MessageProvider.getInstance(), ParamsValidator.getInstance());
+        new SimulatorFactory(MessageProvider.getInstance());
 
     public static void main(String[] args) {
 
@@ -51,7 +51,7 @@ public class Main {
         } catch (ParseException e) {
             logger.error("Invalid cli params", e);
         } catch (ValidationException e){
-            logger.error("Missing some mandatory params:", e);
+            logger.error(e);
         }
     }
 }
