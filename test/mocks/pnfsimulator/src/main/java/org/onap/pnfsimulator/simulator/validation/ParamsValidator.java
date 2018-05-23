@@ -1,23 +1,3 @@
-/*-
- * ============LICENSE_START=======================================================
- * org.onap.integration
- * ================================================================================
- * Copyright (C) 2018 NOKIA Intellectual Property. All rights reserved.
- * ================================================================================
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * ============LICENSE_END=========================================================
- */
-
 package org.onap.pnfsimulator.simulator.validation;
 
 import static org.onap.pnfsimulator.message.MessageConstants.MESSAGE_INTERVAL;
@@ -28,71 +8,70 @@ import static org.onap.pnfsimulator.message.MessageConstants.PNF_VENDOR_NAME;
 import static org.onap.pnfsimulator.message.MessageConstants.TEST_DURATION;
 
 import com.google.common.collect.ImmutableMap;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BiPredicate;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 
 
 public class ParamsValidator {
 
-    private final static String MISSING_PARAMS_ERROR = "Some mandatory params are missing";
-    private static ParamsValidator instance;
+    private final static String MISSING_PARAMS_MESSAGE = "Following mandatory params are missing:\n";
+    private final Map<String, Predicate<String>> validators = ImmutableMap
+        .<String, Predicate<String>>builder()
+        .put(TEST_DURATION, this::isNumeric)
+        .put(MESSAGE_INTERVAL, this::isNumeric)
+        .put(PNF_SERIAL_NUMBER, this::isDefined)
+        .put(PNF_VENDOR_NAME, this::isDefined)
+        .put(PNF_OAM_IPV4_ADDRESS, this::isDefined)
+        .put(PNF_OAM_IPV6_ADDRESS, this::isDefined)
+        .build();
 
+    private JSONObject subject;
 
-    public static ParamsValidator getInstance() {
-        if (instance == null) {
-            instance = new ParamsValidator();
-        }
-        return instance;
+    private ParamsValidator(JSONObject paramsObject) {
+        subject = paramsObject;
     }
 
-    public void validate(JSONObject params) throws ValidationException {
-        ImmutableMap<String, BiPredicate<JSONObject, String>> paramValidators = ImmutableMap
-            .<String, BiPredicate<JSONObject, String>>builder()
-            .put(TEST_DURATION, this::isNotNumeric)
-            .put(MESSAGE_INTERVAL, this::isNotNumeric)
-            .put(PNF_SERIAL_NUMBER, this::nullOrEmpty)
-            .put(PNF_VENDOR_NAME, this::nullOrEmpty)
-            .put(PNF_OAM_IPV4_ADDRESS, this::nullOrEmpty)
-            .put(PNF_OAM_IPV6_ADDRESS, this::nullOrEmpty)
-            .build();
+    public static ParamsValidator forObject(JSONObject configObject) {
+        return new ParamsValidator(configObject);
+    }
 
-        List<String> missingParams = new ArrayList<>();
+    public void validate() throws ValidationException {
 
-        paramValidators.forEach((param, validator) -> {
-            if (validator.test(params, param)) {
-                missingParams.add(param);
-            }
-        });
+        List<String> missingParams = validators
+            .entrySet()
+            .stream()
+            .filter(entry -> !entry.getValue().test(entry.getKey()))
+            .map(Entry::getKey)
+            .collect(Collectors.toList());
 
-        clearIPError(missingParams);
+        resolveMissingIP(missingParams);
+
         if (!missingParams.isEmpty()) {
             throw new ValidationException(constructMessage(missingParams));
         }
     }
 
     private String constructMessage(List<String> missingParams) {
-        StringBuilder msg = new StringBuilder(MISSING_PARAMS_ERROR);
 
-        missingParams.forEach(param -> {
-            msg.append('\n');
-            msg.append(param);
-        });
-
-        return msg.toString();
+        return MISSING_PARAMS_MESSAGE + missingParams
+            .stream()
+            .collect(Collectors.joining("\n"));
     }
 
-    private boolean isNotNumeric(JSONObject params, String param) {
-        return nullOrEmpty(params, param) || !StringUtils.isNumeric(params.getString(param));
+    private boolean isNumeric(String param) {
+        return isDefined(param) && StringUtils.isNumeric(subject.getString(param));
     }
 
-    private boolean nullOrEmpty(JSONObject params, String param) {
-        return !params.has(param) || params.getString(param).isEmpty();
+    private boolean isDefined(String param) {
+        return subject.has(param) && !subject.getString(param).isEmpty();
     }
 
-    private void clearIPError(List<String> missingParams) {
+    private void resolveMissingIP(List<String> missingParams) {
         // if only one IP is missing clear the error
         if (!(missingParams.contains(PNF_OAM_IPV4_ADDRESS) && missingParams.contains(PNF_OAM_IPV6_ADDRESS))) {
             missingParams.remove(PNF_OAM_IPV4_ADDRESS);
