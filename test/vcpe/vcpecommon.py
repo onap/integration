@@ -21,19 +21,19 @@ class VcpeCommon:
     # set the openstack cloud access credentials here
     cloud = {
         '--os-auth-url': 'http://10.12.25.2:5000',
-        '--os-username': 'YOUR ID',
+        '--os-username': 'kxi',
         '--os-user-domain-id': 'default',
         '--os-project-domain-id': 'default',
-        '--os-tenant-id': '087050388b204c73a3e418dd2c1fe30b',
+        '--os-tenant-id': '1e097c6713e74fd7ac8e4295e605ee1e',
         '--os-region-name': 'RegionOne',
-        '--os-password': 'YOUR PASSWD',
-        '--os-project-domain-name': 'Integration-SB-01',
+        '--os-password': 'n3JhGMGuDzD8',
+        '--os-project-domain-name': 'Integration-SB-07',
         '--os-identity-api-version': '3'
     }
 
     common_preload_config = {
-        'oam_onap_net': 'oam_onap_c4Uw',
-        'oam_onap_subnet': 'oam_onap_c4Uw',
+        'oam_onap_net': 'oam_onap_lAky',
+        'oam_onap_subnet': 'oam_onap_lAky',
         'public_net': 'external',
         'public_net_id': '971040b2-7059-49dc-b220-4fab50cb2ad4'
     }
@@ -53,13 +53,17 @@ class VcpeCommon:
         'mux_gw': ['10.5.0.10', '10.5.0.1']
     }
 
+    dcae_ves_collector_name = 'dcae-bootstrap'
     global_subscriber_id = 'SDN-ETHERNET-INTERNET'
+    project_name = 'Project-Demonstration'
+    owning_entity_id = '520cc603-a3c4-4ec2-9ef4-ca70facd79c0'
+    owning_entity_name = 'OE-Demonstration'
 
     def __init__(self, extra_host_names=None):
         self.logger = logging.getLogger(__name__)
         self.logger.info('Initializing configuration')
 
-        self.host_names = ['so', 'sdnc', 'robot', 'aai-inst1', 'dcaedoks00']
+        self.host_names = ['so', 'sdnc', 'robot', 'aai-inst1', self.dcae_ves_collector_name]
         if extra_host_names:
             self.host_names.extend(extra_host_names)
         # get IP addresses
@@ -84,6 +88,13 @@ class VcpeCommon:
         self.common_preload_config['pub_key'] = self.pub_key
         self.sniro_url = 'http://' + self.hosts['robot'] + ':8080/__admin/mappings'
         self.sniro_headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
+        self.homing_solution = 'sniro'  # value is either 'sniro' or 'oof'
+#        self.homing_solution = 'oof'
+        self.customer_location_used_by_oof = {
+            "customerLatitude": "32.897480",
+            "customerLongitude": "-97.040443",
+            "customerName": "some_company"
+        }
 
         #############################################################################################
         # SDNC urls
@@ -91,7 +102,7 @@ class VcpeCommon:
         self.sdnc_db_name = 'sdnctl'
         self.sdnc_db_user = 'sdnctl'
         self.sdnc_db_pass = 'gamma'
-        self.sdnc_db_port = '32768'
+        self.sdnc_db_port = '32774'
         self.sdnc_headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
         self.sdnc_preload_network_url = 'http://' + self.hosts['sdnc'] + \
                                         ':8282/restconf/operations/VNF-API:preload-network-topology-operation'
@@ -103,7 +114,7 @@ class VcpeCommon:
         # SO urls, note: do NOT add a '/' at the end of the url
         self.so_req_api_url = {'v4': 'http://' + self.hosts['so'] + ':8080/ecomp/mso/infra/serviceInstances/v4',
                            'v5': 'http://' + self.hosts['so'] + ':8080/ecomp/mso/infra/serviceInstances/v5'}
-        self.so_check_progress_api_url = 'http://' + self.hosts['so'] + ':8080/ecomp/mso/infra/orchestrationRequests/v2'
+        self.so_check_progress_api_url = 'http://' + self.hosts['so'] + ':8080/ecomp/mso/infra/orchestrationRequests/v5'
         self.so_userpass = 'InfraPortalClient', 'password1$'
         self.so_headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
         self.so_db_name = 'mso_catalog'
@@ -257,7 +268,7 @@ class VcpeCommon:
         url = 'https://{0}:8443/aai/v11/search/nodes-query?search-node-type={1}&filter={2}:EQUALS:{3}'.format(
             self.hosts['aai-inst1'], search_node_type, key, node_uuid)
 
-        headers = {'Content-Type': 'application/json', 'Accept': 'application/json', 'X-FromAppID': 'vCPE-Robot'}
+        headers = {'Content-Type': 'application/json', 'Accept': 'application/json', 'X-FromAppID': 'vCPE-Robot', 'X-TransactionId': 'get_aai_subscr'}
         requests.packages.urllib3.disable_warnings()
         r = requests.get(url, headers=headers, auth=self.aai_userpass, verify=False)
         response = r.json()
@@ -313,7 +324,8 @@ class VcpeCommon:
         if len(ip_dict) != len(keywords):
             self.logger.error('Cannot find all desired IP addresses for %s.', keywords)
             self.logger.error(json.dumps(ip_dict, indent=4, sort_keys=True))
-            sys.exit()
+            self.logger.error('Temporarily continue.. remember to check back vcpecommon.py line: 316')
+#            sys.exit()
         return ip_dict
 
     def del_vgmux_ves_mode(self):
@@ -329,8 +341,8 @@ class VcpeCommon:
     def set_vgmux_ves_collector(self ):
         url = self.vpp_ves_url.format(self.hosts['mux'])
         data = {'config':
-                    {'server-addr': self.hosts['dcaedoks00'],
-                     'server-port': '8080',
+                    {'server-addr': self.hosts[self.dcae_ves_collector_name],
+                     'server-port': '8081',
                      'read-interval': '10',
                      'is-add':'1'
                      }
