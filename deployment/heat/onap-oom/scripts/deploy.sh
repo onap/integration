@@ -20,11 +20,25 @@ for n in $(seq 1 5); do
 
     cd $WORKSPACE/deployment/heat/onap-oom
     envsubst < $ENV_FILE > $ENV_FILE~
-    openstack stack create -t ./onap-oom.yaml -e $ENV_FILE~ onap-oom
+
+    if ! openstack stack create -t ./onap-oom.yaml -e $ENV_FILE~ onap-oom; then
+        break
+    fi
+
+    while [ "CREATE_IN_PROGRESS" == "$(openstack stack show -c stack_status -f value onap-oom)" ]; do
+        sleep 20
+    done
+
+    STATUS=$(openstack stack show -c stack_status -f value onap-oom)
+    echo $STATUS
+    if [ "CREATE_COMPLETE" != "$STATUS" ]; then
+        break
+    fi
 
     for i in $(seq 1 30); do
 	sleep 30
 	RANCHER_IP=$(openstack stack output show onap-oom rancher_vm_ip -c output_value -f value)
+        K8S_IP=$(openstack stack output show onap-oom k8s_1_vm_ip -c output_value -f value)
 	timeout 1 ping -c 1 "$RANCHER_IP" && break
     done
 
@@ -38,18 +52,30 @@ if ! timeout 1 ping -c 1 "$RANCHER_IP"; then
     exit 2
 fi
 
+ssh -o StrictHostKeychecking=no -i ~/.ssh/onap_key ubuntu@$RANCHER_IP "sed -u '/Cloud-init.*finished/q' <(tail -n+0 -f /var/log/cloud-init-output.log)"
+
 ssh-keygen -R $RANCHER_IP
 for n in $(seq 1 6); do
-    timeout 15m ssh -o StrictHostKeychecking=no -i ~/.ssh/onap_key ubuntu@$RANCHER_IP  'sudo su -l root -c "/root/oom/kubernetes/robot/ete-k8s.sh onap health"'
+    timeout 15m ssh -i ~/.ssh/onap_key ubuntu@$RANCHER_IP  'sudo su -l root -c "/root/oom/kubernetes/robot/ete-k8s.sh onap health"'
     RESULT=$?
     if [ $RESULT -eq 0 ]; then
   	break
     fi
     sleep 15m
 done
-ROBOT_POD=$(ssh -o StrictHostKeychecking=no -i ~/.ssh/onap_key ubuntu@$RANCHER_IP 'sudo su -c "kubectl --namespace onap get pods"' | grep robot | sed 's/ .*//')
-LOG_DIR=$(ssh -o StrictHostKeychecking=no -i ~/.ssh/onap_key ubuntu@$RANCHER_IP "sudo su -c \"kubectl exec $ROBOT_POD --namespace onap -- ls -1t /share/logs | head -1\"")
+ROBOT_POD=$(ssh -i ~/.ssh/onap_key ubuntu@$RANCHER_IP 'sudo su -c "kubectl --namespace onap get pods"' | grep robot | sed 's/ .*//')
+if [ "$ROBOT_POD" == "" ]; then
+    exit 1
+fi
 
-K8S_IP=$(openstack stack output show onap-oom k8s_1_vm_ip -c output_value -f value)
-wget --user=robot --password=robot -r -np -nH --cut-dirs=2 -R "index.html*" -P $WORKSPACE/archives/ http://$K8S_IP:30209/logs/$LOG_DIR/
+LOG_DIR=$(echo "kubectl exec -n onap $ROBOT_POD -- ls -1t /share/logs | grep {robot-tag} | head -1" | ssh -i $SSH_KEY ubuntu@$RANCHER_IP sudo su)
+if [ "$LOG_DIR" == "" ]; then
+    exit 1
+fi
+
+echo "kubectl cp -n onap $ROBOT_POD:share/logs/$LOG_DIR /tmp/robot/logs/$LOG_DIR" | ssh -i $SSH_KEY ubuntu@$RANCHER_IP sudo su
+rsync -e "ssh -i $SSH_KEY" -avtz ubuntu@$RANCHER_IP:/tmp/robot/logs/$LOG_DIR/ $WORKSPACE/archives/
+
+echo "Browse Robot results at http://$K8S_IP:30209/logs/$LOG_DIR/"
+
 exit 0
