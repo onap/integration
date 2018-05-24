@@ -52,9 +52,10 @@ if ! timeout 1 ping -c 1 "$RANCHER_IP"; then
     exit 2
 fi
 
+ssh-keygen -R $RANCHER_IP
+
 ssh -o StrictHostKeychecking=no -i ~/.ssh/onap_key ubuntu@$RANCHER_IP "sed -u '/Cloud-init.*finished/q' <(tail -n+0 -f /var/log/cloud-init-output.log)"
 
-ssh-keygen -R $RANCHER_IP
 for n in $(seq 1 6); do
     timeout 15m ssh -i ~/.ssh/onap_key ubuntu@$RANCHER_IP  'sudo su -l root -c "/root/oom/kubernetes/robot/ete-k8s.sh onap health"'
     RESULT=$?
