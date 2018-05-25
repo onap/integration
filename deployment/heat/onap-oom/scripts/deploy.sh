@@ -10,6 +10,8 @@ if [ "$#" -ne 1 ]; then
 fi
 ENV_FILE=$1
 
+SSH_KEY=~/.ssh/onap_key
+
 source $WORKSPACE/test/ete/scripts/install_openstack_cli.sh
 
 SO_ENCRYPTION_KEY=aa3871669d893c7fb8abbcda31b88b4f
@@ -54,17 +56,17 @@ fi
 
 ssh-keygen -R $RANCHER_IP
 
-ssh -o StrictHostKeychecking=no -i ~/.ssh/onap_key ubuntu@$RANCHER_IP "sed -u '/Cloud-init.*finished/q' <(tail -n+0 -f /var/log/cloud-init-output.log)"
+ssh -o StrictHostKeychecking=no -i $SSH_KEY ubuntu@$RANCHER_IP "sed -u '/Cloud-init.*finished/q' <(tail -n+0 -f /var/log/cloud-init-output.log)"
 
 for n in $(seq 1 6); do
-    timeout 15m ssh -i ~/.ssh/onap_key ubuntu@$RANCHER_IP  'sudo su -l root -c "/root/oom/kubernetes/robot/ete-k8s.sh onap health"'
+    timeout 15m ssh -i $SSH_KEY ubuntu@$RANCHER_IP  'sudo su -l root -c "/root/oom/kubernetes/robot/ete-k8s.sh onap health"'
     RESULT=$?
     if [ $RESULT -eq 0 ]; then
   	break
     fi
     sleep 15m
 done
-ROBOT_POD=$(ssh -i ~/.ssh/onap_key ubuntu@$RANCHER_IP 'sudo su -c "kubectl --namespace onap get pods"' | grep robot | sed 's/ .*//')
+ROBOT_POD=$(ssh -i $SSH_KEY ubuntu@$RANCHER_IP 'sudo su -c "kubectl --namespace onap get pods"' | grep robot | sed 's/ .*//')
 if [ "$ROBOT_POD" == "" ]; then
     exit 1
 fi
