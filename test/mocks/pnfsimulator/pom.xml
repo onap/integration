@@ -18,6 +18,7 @@
         <docker.image.tag>latest</docker.image.tag>
         <dependency.directory.name>libs</dependency.directory.name>
         <dependency.directory.location>${project.build.directory}/${dependency.directory.name}</dependency.directory.location>
+        <onap.nexus.dockerregistry.daily>nexus3.onap.org:10003</onap.nexus.dockerregistry.daily>
     </properties>
 
   <dependencies>
@@ -120,8 +121,9 @@
               <artifactId>docker-maven-plugin</artifactId>
               <version>1.0.0</version>
               <configuration>
-                  <imageName>${project.name}</imageName>
+                  <imageName>${onap.nexus.dockerregistry.daily}/onap/${project.artifactId}</imageName>
                   <imageTags>${docker.image.tag}</imageTags>
+                  <serverId>${onap.nexus.dockerregistry.daily}</serverId>
                   <baseImage>openjdk:8-jdk-alpine</baseImage>
                   <cmd>java -cp  ${dependency.directory.name}/*:${project.build.finalName}.jar ${simulator.main.class}</cmd>
                   <resources>
