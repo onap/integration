@@ -1,0 +1,29 @@
+version: '2'
+services:
+  prh:
+    image: nexus3.onap.org:10003/onap/org.onap.dcaegen2.services.prh.prh-app-server
+    command: >
+          --dmaap.dmaapConsumerConfiguration.dmaapPortNumber=2222
+          --dmaap.dmaapProducerConfiguration.dmaapPortNumber=2222
+          --aai.aaiClientConfiguration.aaiHostPortNumber=2222
+          --aai.aaiClientConfiguration.aaiProtocol=http
+    entrypoint:
+      - java
+      - -Dspring.profiles.active=dev
+      - -Dlogging.level.org.onap.dcaegen2.services.prh=TRACE
+      - -jar
+      - /opt/prh-app-server.jar
+    ports:
+      - "8100:8100"
+      - "8433:8433"
+    container_name: prh
+  dmaap_simulator:
+    build:
+      context: .
+      args:
+        - https_proxy=${HTTPS_PROXY}
+    ports:
+      - "2222:2222"
+    container_name: dmaap_simulator
+    depends_on:
+      - prh
