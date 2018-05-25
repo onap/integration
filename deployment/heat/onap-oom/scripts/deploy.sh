@@ -71,7 +71,7 @@ if [ "$ROBOT_POD" == "" ]; then
     exit 1
 fi
 
-LOG_DIR=$(echo "kubectl exec -n onap $ROBOT_POD -- ls -1t /share/logs | grep {robot-tag} | head -1" | ssh -i $SSH_KEY ubuntu@$RANCHER_IP sudo su)
+LOG_DIR=$(echo "kubectl exec -n onap $ROBOT_POD -- ls -1t /share/logs | grep health | head -1" | ssh -i $SSH_KEY ubuntu@$RANCHER_IP sudo su)
 if [ "$LOG_DIR" == "" ]; then
     exit 1
 fi
