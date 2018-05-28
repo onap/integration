@@ -9,7 +9,7 @@ Library           String
 ${PNF_REGISTER_URL}         http://${DMAAP_SIMULATOR}/events/unauthenticated.SEC_OTHER_OUTPUT
 ${PNF_READY_URL}            http://${DMAAP_SIMULATOR}/events/pnfReady
 ${PRH_START_URL}            http://${PRH}/start
-${PNF_REGISTER_EVENT}       %{WORKSPACE}/test/csit/tests/prh/testcases/resources/events/pnf_register_event.json
+${PNF_REGISTER_EVENT}       %{WORKSPACE}/test/csit/tests/dcaegen2/prh_testcases/resources/events/pnf_register_event.json
 
 
 *** Test Cases ***
