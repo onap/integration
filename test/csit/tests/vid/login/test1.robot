@@ -15,7 +15,7 @@ ${GLOBAL_SELENIUM_DELAY}          0
 ${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}        5
 ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}        15
 ${VID_ENV}            /vid
-${VID_ENDPOINT}    http://localhost:8080
+${VID_ENDPOINT}    http://localhost:30200
 ${VID_LOGIN_URL}                ${VID_ENDPOINT}${VID_ENV}/login.htm
 ${VID_HEALTHCHECK_PATH}    ${VID_ENV}/api/v2/users
 ${VID_HOME_URL}                ${VID_ENDPOINT}${VID_ENV}/welcome.htm
