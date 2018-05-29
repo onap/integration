@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_8881a4c5",
+        "filename": "test/csit/plans/portal/testsuite/.env",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 45
+      },
+      "writtenOn": "2018-05-29T15:09:11Z",
+      "side": 1,
+      "message": "please change this to \"v2.2.0\"",
+      "range": {
+        "startLine": 16,
+        "startChar": 21,
+        "endLine": 16,
+        "endChar": 42
+      },
+      "revId": "dcdc2fdbc634640fd24f7ffa306b8d48b9e9d628",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
