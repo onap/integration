@@ -61,8 +61,8 @@ onap/org.onap.dcaegen2.platform.policy-handler,latest
 onap/org.onap.dcaegen2.platform.servicechange-handler,latest
 onap/org.onap.dcaegen2.services.heartbeat,latest
 onap/org.onap.dcaegen2.services.prh.prh-app-server,latest
-onap/policy-drools,1.2.2
-onap/policy-pe,1.2.2
+onap/policy-drools,1.2.3
+onap/policy-pe,1.2.3
 onap/portal-app,v2.2.0
 onap/portal-db,v2.2.0
 onap/portal-sdk,v2.2.0
