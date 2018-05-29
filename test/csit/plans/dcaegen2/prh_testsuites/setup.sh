@@ -5,7 +5,7 @@ source ${SCRIPTS}/common_functions.sh
 export PRH_SERVICE="prh"
 export DMAAP_SIMULATOR="dmaap_simulator"
 
-cd ${WORKSPACE}/test/csit/tests/prh/testcases/resources/
+cd ${WORKSPACE}/test/csit/tests/dcaegen2/prh_testcases/resources/
 
 docker login -u docker -p docker nexus3.onap.org:10003
 docker-compose up -d
