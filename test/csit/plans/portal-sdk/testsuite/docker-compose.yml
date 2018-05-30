@@ -27,6 +27,8 @@ services:
       MYSQL_ROOT_PASSWORD: 'Aa123456'
     expose:
       - 3306
+    ports:
+      - 3306:3306    
     volumes:
       # Just specify a path and let the Engine create a volume
       - /var/lib/mysql
