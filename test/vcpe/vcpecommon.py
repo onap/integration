@@ -41,6 +41,7 @@ class VcpeCommon:
     #############################################################################################
 
     template_variable_symbol = '${'
+    cpe_vm_prefix = 'zdcpe'
     #############################################################################################
     # preloading network config
     #  key=network role
@@ -120,7 +121,7 @@ class VcpeCommon:
         self.so_db_name = 'mso_catalog'
         self.so_db_user = 'root'
         self.so_db_pass = 'password'
-        self.so_db_port = '32768'
+        self.so_db_port = '32769'
 
         self.vpp_inf_url = 'http://{0}:8183/restconf/config/ietf-interfaces:interfaces'
         self.vpp_api_headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
@@ -138,7 +139,8 @@ class VcpeCommon:
 
     def get_brg_mac_from_sdnc(self):
         """
-        :return:  BRG MAC address. Currently we only support one BRG instance.
+        Check table DHCP_MAP in the SDNC DB. Find the newly instantiated BRG MAC address.
+        Note that there might be multiple BRGs, the most recently instantiated BRG always has the largest IP address.
         """
         cnx = mysql.connector.connect(user=self.sdnc_db_user, password=self.sdnc_db_pass, database=self.sdnc_db_name,
                                       host=self.hosts['sdnc'], port=self.sdnc_db_port)
@@ -147,36 +149,30 @@ class VcpeCommon:
         cursor.execute(query)
 
         self.logger.debug('DHCP_MAP table in SDNC')
-        counter = 0
-        mac = None
+        mac_recent = None
+        host = -1
         for mac, ip in cursor:
-            counter += 1
             self.logger.debug(mac + ':' + ip)
+            this_host = int(ip.split('.')[-1])
+            if host < this_host:
+                host = this_host
+                mac_recent = mac
 
         cnx.close()
 
-        if counter != 1:
-            self.logger.error('Found %s MAC addresses in DHCP_MAP', counter)
-            sys.exit()
-        else:
-            self.logger.debug('Found MAC addresses in DHCP_MAP: %s', mac)
-            return mac
+        assert mac_recent
+        return mac_recent
 
-    def insert_into_sdnc_db(self, cmds):
-        cnx = mysql.connector.connect(user=self.sdnc_db_user, password=self.sdnc_db_pass, database=self.sdnc_db_name,
-                                      host=self.hosts['sdnc'], port=self.sdnc_db_port)
-        cursor = cnx.cursor()
-        for cmd in cmds:
-            self.logger.debug(cmd)
-            cursor.execute(cmd)
-            self.logger.debug('%s', cursor)
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+    def execute_cmds_sdnc_db(self, cmds):
+        self.execute_cmds_db(cmds, self.sdnc_db_user, self.sdnc_db_pass, self.sdnc_db_name,
+                             self.hosts['sdnc'], self.sdnc_db_port)
 
-    def insert_into_so_db(self, cmds):
-        cnx = mysql.connector.connect(user=self.so_db_user, password=self.so_db_pass, database=self.so_db_name,
-                                      host=self.hosts['so'], port=self.so_db_port)
+    def execute_cmds_so_db(self, cmds):
+        self.execute_cmds_db(cmds, self.so_db_user, self.so_db_pass, self.so_db_name,
+                             self.hosts['so'], self.so_db_port)
+
+    def execute_cmds_db(self, cmds, dbuser, dbpass, dbname, host, port):
+        cnx = mysql.connector.connect(user=dbuser, password=dbpass, database=dbname, host=host, port=port)
         cursor = cnx.cursor()
         for cmd in cmds:
             self.logger.debug(cmd)
@@ -309,24 +305,60 @@ class VcpeCommon:
         openstackcmd = 'nova ' + param + ' list'
         self.logger.debug(openstackcmd)
 
-        ip_dict = {}
         results = os.popen(openstackcmd).read()
-        for line in results.split('\n'):
-            fields = line.split('|')
-            if len(fields) == 8:
-                vm_name = fields[2]
-                ip_info = fields[-2]
-                for keyword in keywords:
-                    if keyword in vm_name:
-                        ip = self.extract_ip_from_str(net_addr, net_addr_len, ip_info)
-                        if ip:
-                            ip_dict[keyword] = ip
+        all_vm_ip_dict = self.extract_vm_ip_as_dict(results, net_addr, net_addr_len)
+        latest_vm_list = self.remove_old_vms(all_vm_ip_dict.keys(), self.cpe_vm_prefix)
+        latest_vm_ip_dict = {vm: all_vm_ip_dict[vm] for vm in latest_vm_list}
+        ip_dict = self.select_subset_vm_ip(latest_vm_ip_dict, keywords)
+
         if len(ip_dict) != len(keywords):
             self.logger.error('Cannot find all desired IP addresses for %s.', keywords)
             self.logger.error(json.dumps(ip_dict, indent=4, sort_keys=True))
             self.logger.error('Temporarily continue.. remember to check back vcpecommon.py line: 316')
 #            sys.exit()
         return ip_dict
+
+    def extract_vm_ip_as_dict(self, novalist_results, net_addr, net_addr_len):
+        vm_ip_dict = {}
+        for line in novalist_results.split('\n'):
+            fields = line.split('|')
+            if len(fields) == 8:
+                vm_name = fields[2]
+                ip_info = fields[-2]
+                ip = self.extract_ip_from_str(net_addr, net_addr_len, ip_info)
+                vm_ip_dict[vm_name] = ip
+
+        return vm_ip_dict
+
+    def remove_old_vms(self, vm_list, prefix):
+        """
+        For vms with format name_timestamp, only keep the one with the latest timestamp.
+        E.g.,
+            zdcpe1cpe01brgemu01_201805222148        (drop this)
+            zdcpe1cpe01brgemu01_201805222229        (keep this)
+            zdcpe1cpe01gw01_201805162201
+        """
+        new_vm_list = []
+        same_type_vm_dict = {}
+        for vm in vm_list:
+            fields = vm.split('_')
+            if vm.startswith(prefix) and len(fields) == 2 and len(fields[-1]) == len('201805222148') and fields[-1].isdigit():
+                if vm > same_type_vm_dict.get(fields[0], '0'):
+                    same_type_vm_dict[fields[0]] = vm
+            else:
+                new_vm_list.append(vm)
+
+        new_vm_list.extend(same_type_vm_dict.values())
+        return new_vm_list
+
+    def select_subset_vm_ip(self, all_vm_ip_dict, vm_name_keyword_list):
+        vm_ip_dict = {}
+        for keyword in vm_name_keyword_list:
+            for vm, ip in all_vm_ip_dict.items():
+                if keyword in vm:
+                    vm_ip_dict[keyword] = ip
+                    break
+        return vm_ip_dict
 
     def del_vgmux_ves_mode(self):
         url = self.vpp_ves_url.format(self.hosts['mux']) + '/mode'
@@ -411,6 +443,26 @@ class VcpeCommon:
     def load_object(filepathname):
         with open(filepathname, 'rb') as fin:
             return pickle.load(fin)
+
+    @staticmethod
+    def increase_ip_address_or_vni_in_template(vnf_template_file, vnf_parameter_name_list):
+        with open(vnf_template_file) as json_input:
+            json_data = json.load(json_input)
+            param_list = json_data['VNF-API:input']['VNF-API:vnf-topology-information']['VNF-API:vnf-parameters']
+            for param in param_list:
+                if param['vnf-parameter-name'] in vnf_parameter_name_list:
+                    ipaddr_or_vni = param['vnf-parameter-value'].split('.')
+                    number = int(ipaddr_or_vni[-1])
+                    if 254 == number:
+                        number = 10
+                    else:
+                        number = number + 1
+                    ipaddr_or_vni[-1] = str(number)
+                    param['vnf-parameter-value'] = '.'.join(ipaddr_or_vni)
+
+        assert json_data is not None
+        with open(vnf_template_file, 'w') as json_output:
+            json.dump(json_data, json_output, indent=4, sort_keys=True)
 
     def save_preload_data(self, preload_data):
         self.save_object(preload_data, self.preload_dict_file)
