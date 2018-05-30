@@ -55,9 +55,9 @@ cd portal
 git pull
 cd deliveries
 rm .env
-#rm docker-compose.yml
+rm docker-compose.yml
 cp $CURR/.env .
-#cp $CURR/docker-compose.yml .
+cp $CURR/docker-compose.yml .
 #cd  properties_simpledemo/ECOMPPORTALAPP
 #rm  system.properties
 #cp  $CURR/system.properties .
@@ -98,9 +98,6 @@ docker tag $NEXUS_DOCKER_REPO/$WMS_IMG_NAME:$DOCKER_IMAGE_VERSION $WMS_IMG_NAME:
 docker tag $NEXUS_DOCKER_REPO/$CLI_IMG_NAME:$CLI_DOCKER_VERSION $CLI_IMG_NAME:$PORTAL_TAG
 
 
-# compose is not in /usr/bin
-docker-compose down
-docker-compose up -d
 
 #${HOSTNAME}="portal.api.simpledemo.openecomp.org"
 #echo "$HOST_IP ${HOSTNAME}" >> /etc/hosts
@@ -135,6 +132,11 @@ echo "$host_entry" | sudo tee -a /etc/hosts > /dev/null
 fi
 
 
+
+
+# compose is not in /usr/bin
+docker-compose down
+docker-compose up -d
 
 sleep 6m
 
