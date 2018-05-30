@@ -48,16 +48,16 @@ NEXUS_DOCKER_REPO=nexus3.onap.org:10003
 
 
 CURR="$(pwd)"
-git clone http://gerrit.onap.org/r/portal -b "master"
+git clone http://gerrit.onap.org/r/portal -b "beijing"
 
 # Refresh configuration and scripts
 cd portal
 git pull
 cd deliveries
 rm .env
-#rm docker-compose.yml
+rm docker-compose.yml
 cp $CURR/.env .
-#cp $CURR/docker-compose.yml .
+cp $CURR/docker-compose.yml .
 #cd  properties_simpledemo/ECOMPPORTALAPP
 #rm  system.properties
 #cp  $CURR/system.properties .
@@ -74,6 +74,8 @@ export EXTRA_HOST_NAME="-n portal.api.simpledemo.onap.org"
 # Copy property files to new directory
 mkdir -p $PROPS_DIR
 cp -r properties_simpledemo/* $PROPS_DIR
+cp $CURR/web.xml $PROPS_DIR
+cp $CURR/logback.xml $PROPS_DIR/ONAPPORTAL
 # Also create logs directory
 mkdir -p $LOGS_DIR
 
@@ -177,8 +179,11 @@ export HOST_IP=${HOST_IP}
 
 docker logs deliveries_portal-db_1
 docker logs deliveries_portal-app_1
+docker logs deliveries_portal-sdk_1
 docker logs deliveries_portal-wms_1
 
 
-
+tail -500 $LOGS_DIR/onapportal/error.log
+tail -500 $LOGS_DIR/onapportal/application.log
+tail -500 $LOGS_DIR/onapportal/debug.log
 
