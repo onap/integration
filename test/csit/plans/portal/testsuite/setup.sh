@@ -48,16 +48,16 @@ NEXUS_DOCKER_REPO=nexus3.onap.org:10003
 
 
 CURR="$(pwd)"
-git clone http://gerrit.onap.org/r/portal -b "master"
+git clone http://gerrit.onap.org/r/portal -b "beijing"
 
 # Refresh configuration and scripts
 cd portal
 git pull
 cd deliveries
 rm .env
-#rm docker-compose.yml
+rm docker-compose.yml
 cp $CURR/.env .
-#cp $CURR/docker-compose.yml .
+cp $CURR/docker-compose.yml .
 #cd  properties_simpledemo/ECOMPPORTALAPP
 #rm  system.properties
 #cp  $CURR/system.properties .
@@ -74,6 +74,10 @@ export EXTRA_HOST_NAME="-n portal.api.simpledemo.onap.org"
 # Copy property files to new directory
 mkdir -p $PROPS_DIR
 cp -r properties_simpledemo/* $PROPS_DIR
+cp $CURR/web.xml $PROPS_DIR/ONAPPORTAL
+cp $CURR/logback.xml $PROPS_DIR/ONAPPORTAL
+cp $CURR/cache.ccf $PROPS_DIR/ONAPPORTAL
+cp $CURR/portal.properties $PROPS_DIR/ONAPPORTAL
 # Also create logs directory
 mkdir -p $LOGS_DIR
 
@@ -98,9 +102,7 @@ docker tag $NEXUS_DOCKER_REPO/$WMS_IMG_NAME:$DOCKER_IMAGE_VERSION $WMS_IMG_NAME:
 docker tag $NEXUS_DOCKER_REPO/$CLI_IMG_NAME:$CLI_DOCKER_VERSION $CLI_IMG_NAME:$PORTAL_TAG
 
 
-# compose is not in /usr/bin
-docker-compose down
-docker-compose up -d
+
 
 #${HOSTNAME}="portal.api.simpledemo.openecomp.org"
 #echo "$HOST_IP ${HOSTNAME}" >> /etc/hosts
@@ -134,9 +136,12 @@ echo "Adding new hosts entry."
 echo "$host_entry" | sudo tee -a /etc/hosts > /dev/null
 fi
 
+# compose is not in /usr/bin
+docker-compose down
+docker-compose up -d
 
 
-sleep 6m
+sleep 2m
 
 # WAIT 5 minutes maximum and test every 5 seconds if Portal up using HealthCheck API
 TIME_OUT=500
@@ -177,8 +182,11 @@ export HOST_IP=${HOST_IP}
 
 docker logs deliveries_portal-db_1
 docker logs deliveries_portal-app_1
+docker logs deliveries_portal-sdk_1
 docker logs deliveries_portal-wms_1
 
 
-
-
+cat $LOGS_DIR/onapportal/error.log
+cat $LOGS_DIR/onapportal/application.log
+cat $LOGS_DIR/onapportal/debug.log
+cat $LOGS_DIR/onapportal/audit.log
