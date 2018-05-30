@@ -16,7 +16,7 @@ Resource	json_templater.robot
 *** Variables ***
 ${PORTAL_URL}		http://portal.api.simpledemo.onap.org:8989
 ${PORTAL_ENV}            /ONAPPORTAL
-${PORTAL_LOGIN_URL}                ${PORTAL_URL}${PORTAL_ENV}/login.htm
+${PORTAL_LOGIN_URL}                ${PORTAL_URL}${PORTAL_ENV}/portalApi/healthCheck
 ${PORTAL_HOME_PAGE}        ${PORTAL_URL}${PORTAL_ENV}/applicationsHome
 ${PORTAL_MICRO_ENDPOINT}    ${PORTAL_URL}${PORTAL_ENV}/commonWidgets
 ${PORTAL_HOME_URL}                ${PORTAL_URL}${PORTAL_ENV}/applicationsHome
