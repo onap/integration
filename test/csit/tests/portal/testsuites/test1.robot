@@ -14,7 +14,8 @@ Library		XvfbRobot
 Resource	json_templater.robot
 
 *** Variables ***
-${PORTAL_URL}		http://portal.api.simpledemo.onap.org:8989
+#${PORTAL_URL}		http://portal.api.simpledemo.onap.org:8989
+${PORTAL_URL}		http://localhost:8989
 ${PORTAL_ENV}            /ONAPPORTAL
 ${PORTAL_LOGIN_URL}                ${PORTAL_URL}${PORTAL_ENV}/login.htm
 ${PORTAL_HOME_PAGE}        ${PORTAL_URL}${PORTAL_ENV}/applicationsHome
