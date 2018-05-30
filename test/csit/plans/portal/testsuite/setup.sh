@@ -143,6 +143,7 @@ TIME_OUT=500
 INTERVAL=20
 TIME=0
 while [ "$TIME" -lt "$TIME_OUT" ]; do
+  response=$(curl --write-out '%{http_code}' --silent http://portal.api.simpledemo.onap.org:8989/ONAPPORTAL/portalApi/healthCheck); echo $response	
   response=$(curl --write-out '%{http_code}' --silent --output /dev/null http://portal.api.simpledemo.onap.org:8989/ONAPPORTAL/portalApi/healthCheck); echo $response
 
   if [ "$response" == "200" ]; then
@@ -177,8 +178,11 @@ export HOST_IP=${HOST_IP}
 
 docker logs deliveries_portal-db_1
 docker logs deliveries_portal-app_1
+docker logs deliveries_portal-sdk_1
 docker logs deliveries_portal-wms_1
 
 
-
+tail -500 $LOGS_DIR/onapportal/error.log
+tail -500 $LOGS_DIR/onapportal/application.log
+tail -500 $LOGS_DIR/onapportal/debug.log
 

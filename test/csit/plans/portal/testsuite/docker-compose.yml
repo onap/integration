@@ -13,7 +13,7 @@ services:
   cli:
     image: ${CLI_IMG_NAME}:${PORTAL_TAG}
     environment:
-      CLI_MODE: 'daemon'
+      OPEN_CLI_MODE: 'daemon'
     ports:
       - 8080:80
       - 9090:8080
@@ -27,6 +27,8 @@ services:
       MYSQL_ROOT_PASSWORD: 'Aa123456'
     expose:
       - 3306
+	ports:
+      - 3306:3306      
     volumes:
       # Just specify a path and let the Engine create a volume
       - /var/lib/mysql
@@ -45,6 +47,7 @@ services:
     environment:
       - CASSUSER=root
       - CASSPASS=Aa123456
+      - JVM_OPTS=-Xmx2536m -Xms2536m
     expose:
       - 7000
       - 7001
@@ -125,7 +128,8 @@ services:
       - $EXTRA_HOST_NAME
     logging:
       driver: json-file
-
+    environment:
+      - CATALINA_OPTS=-Xmx1536m -Xms1536m
   portal-sdk:
     image: ${SDK_IMG_NAME}:${PORTAL_TAG}
     ports:
@@ -149,3 +153,5 @@ services:
       - /start-apache-tomcat.sh
     logging:
       driver: json-file
+    environment:
+      - CATALINA_OPTS=-Xmx1536m -Xms1536m
