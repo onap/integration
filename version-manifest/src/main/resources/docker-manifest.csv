@@ -47,7 +47,7 @@ onap/optf-has,latest
 onap/optf-osdf,latest
 onap/org.onap.dcaegen2.collectors.snmptrap,latest
 onap/org.onap.dcaegen2.collectors.ves.vescollector,latest
-onap/org.onap.dcaegen2.deployments.bootstrap,1.1.2
+onap/org.onap.dcaegen2.deployments.bootstrap,1.1.3
 onap/org.onap.dcaegen2.deployments.cm-container,latest
 onap/org.onap.dcaegen2.deployments.healthcheck-container,latest
 onap/org.onap.dcaegen2.deployments.k8s-bootstrap-container,latest
