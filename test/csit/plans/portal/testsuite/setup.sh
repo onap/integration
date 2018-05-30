@@ -55,9 +55,9 @@ cd portal
 git pull
 cd deliveries
 rm .env
-#rm docker-compose.yml
+rm docker-compose.yml
 cp $CURR/.env .
-#cp $CURR/docker-compose.yml .
+cp $CURR/docker-compose.yml .
 #cd  properties_simpledemo/ECOMPPORTALAPP
 #rm  system.properties
 #cp  $CURR/system.properties .
@@ -177,8 +177,11 @@ export HOST_IP=${HOST_IP}
 
 docker logs deliveries_portal-db_1
 docker logs deliveries_portal-app_1
+docker logs deliveries_portal-sdk_1
 docker logs deliveries_portal-wms_1
 
 
-
+tail -500 $LOGS_DIR/onapportal/error.log
+tail -500 $LOGS_DIR/onapportal/application.log
+tail -500 $LOGS_DIR/onapportal/debug.log
 
