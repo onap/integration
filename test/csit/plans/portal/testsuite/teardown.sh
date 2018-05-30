@@ -15,6 +15,19 @@
 # limitations under the License.
 #
 
+response=$(curl --write-out '%{http_code}' --silent --output /dev/null http://portal.api.simpledemo.onap.org:8989/ONAPPORTAL/portalApi/healthCheck); echo $response
+
+response=$(curl --write-out '%{http_code}' --silent --output /dev/null http://portal.api.simpledemo.onap.org:8989/ONAPPORTAL/login.htm); echo $response
+
+response=$(curl --write-out '%{http_code}' --silent --output /dev/null http://portal.api.simpledemo.onap.org:8989/ONAPPORTAL/applicationsHome); echo $response
+
+
+cat portal/deliveries/$LOGS_DIR/onapportal/error.log
+cat portal/deliveries/$LOGS_DIR/catalina.out
+cat portal/deliveries/$LOGS_DIR/localhost.2018-06-15.log
+cat portal/deliveries/$LOGS_DIR/localhost_access_log.2018-06-15.log
+
+
 docker kill $(docker ps -q)
 
 
