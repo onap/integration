@@ -254,7 +254,8 @@ Handle Proxy Warning
 
 Run Portal Health Check
      [Documentation]    Runs Portal Health check
-     ${resp}=    Run Portal Get Request    ${PORTAL_HEALTH_CHECK_PATH}    
+     #${resp}=    Run Portal Get Request    ${PORTAL_HEALTH_CHECK_PATH}    
+     ${resp}=    Run Portal Get Request    ${PORTAL_LOGIN_URL}
      Should Be Equal As Strings 	${resp.status_code} 	200
      Should Be Equal As Strings 	${resp.json()['statusCode']} 	200
 
