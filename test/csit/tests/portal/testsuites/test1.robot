@@ -16,7 +16,10 @@ Resource	json_templater.robot
 *** Variables ***
 ${PORTAL_URL}		http://portal.api.simpledemo.onap.org:8989
 ${PORTAL_ENV}            /ONAPPORTAL
-${PORTAL_LOGIN_URL}                ${PORTAL_URL}${PORTAL_ENV}/login.htm
+${PORTALSDK_URL}		http://portal.api.simpledemo.onap.org:8990
+${PORTALSDK_ENV}            /ONAPPORTALSDK
+${PORTAL_LOGIN_URL}                http://localhost:8989/${PORTAL_ENV}/login.htm
+${PORTALSDK_LOGIN_URL}             http://${PORTAL_ENV}/login.htm
 ${PORTAL_HOME_PAGE}        ${PORTAL_URL}${PORTAL_ENV}/applicationsHome
 ${PORTAL_MICRO_ENDPOINT}    ${PORTAL_URL}${PORTAL_ENV}/commonWidgets
 ${PORTAL_HOME_URL}                ${PORTAL_URL}${PORTAL_ENV}/applicationsHome
@@ -76,144 +79,11 @@ Portal Health Check
      Run Portal Health Check
      
 Login into Portal URL   
-    Portal admin Login To Portal GUI  
-    
-# Portal R1 Release
-   # [Documentation]    ONAP Portal R1 functionality  test
-    # Notification on ONAP Portal
-    # Portal Application Account Management validation
+    Portal admin Login To Portal GUI
 
-Portal Change REST URL Of X-DemoApp
-   [Documentation]    Portal Change REST URL Of X-DemoApp    
-      Portal Change REST URL
-    
-Portal R1 Release for AAF
-   [Documentation]    ONAP Portal R1 functionality for AAF test    
-      Portal AAF new fields    
-	  
-Create Microse service onboarding
-	Portal admin Microservice Onboarding
-	
-##Delete Microse service
-	##Portal admin Microservice Delete
-   
-Create Widget for all users
-	Portal Admin Create Widget for All users 
+Login into PortalSDK URL    
+    Portal admin Login To PortalSDK GUI  
 
-Delete Widget for all users
-	Portal Admin Delete Widget for All users    
-     		
-Create Widget for Application Roles
-	Portal Admin Create Widget for Application Roles
-    
-#Delete Widget for Application Roles
-	#Portal Admin Delete Widget for Application Roles	
-
-#EP Admin widget download
-	#Admin widget download
-    
-EP Admin widget layout reset
-	Reset widget layout option   
-
-Validate Functional Top Menu Get Access    
-	Functional Top Menu Get Access  
-    
-Validate Functional Top Menu Contact Us      
-	Functional Top Menu Contact Us
-    
-Edit Functional Menu    
-	Portal admin Edit Functional menu
-    
-Broadbond Notification functionality 
-	${AdminBroadCastMsg}=    Portal Admin Broadcast Notifications 
-	set global variable    ${AdminBroadCastMsg}   
-   
-Category Notification functionality 
-	${AdminCategoryMsg}=   Portal Admin Category Notifications
-	set global variable    ${AdminCategoryMsg} 	
-         
-Create a Test user for Application Admin -Test
-	Portal admin Add Application admin User New user -Test
-	 
-Create a Test User for Apllication Admin
-	Portal admin Add Application admin User New user	 
-	 
-Add Application Admin for Existing User Test user 
-	Portal admin Add Application Admin Exiting User -APPDEMO	 
- 
-Create a Test user for Standared User    
-	Portal admin Add Standard User New user
-    
-Add Application Admin for Exisitng User   
-	Portal admin Add Application Admin Exiting User 
-            
-Delete Application Admin for Exisitng User   
-	Portal admin Delete Application Admin Existing User
-    
-Add Standard User Role for Existing user 
-	Portal admin Add Standard User Existing user     
-    
-Edit Standard User Role for Existing user
-	Portal admin Edit Standard User Existing user 
-    
-Delete Standard User Role for Existing user    
-	Portal admin Delete Standard User Existing user 
-
-#Add Account new account from App Account Management
-	#Portal admin Add New Account
-            
-#Delete Account new account from App Account Management
-	#Portal admin Delete Account
-
-#EP Create Portal Admin
-	#Add Portal Admin	
-
-#EP Portal Admin delete
-    #Delete Portal Admin	
-	
-Logout from Portal GUI as Portal Admin
-    Portal admin Logout from Portal GUI
-
-## Application Admin user Test cases 
-	 
-Login To Portal GUI as APP Admin    
-	Application admin Login To Portal GUI
-        
-##Navigate Functional Link as APP Admin  
-	##Application Admin Navigation Functional Menu   
-    
-Add Standard User Role for Existing user as APP Admin
-	Application admin Add Standard User Existing user    
-    
-Edit Standard User Role for Existing user as APP Admin
-	Application admin Edit Standard User Existing user 
-    
-Delete Standard User Role for Existing user as APP Admin   
-	Application admin Delete Standard User Existing user 
-	 
-#Navigate Application Link as APP Admin  
-	#Application Admin Navigation Application Link Tab 	 
-
-Logout from Portal GUI as APP Admin   
-	Application admin Logout from Portal GUI
-   
-##Standard User Test cases
-   
-Login To Portal GUI as Standared User    
-	Standared user Login To Portal GUI   
-
-#Navigate Application Link as Standared User  
-	#Standared user Navigation Application Link Tab 
-    
-#Navigate Functional Link as Standared User  
-	#Standared user Navigation Functional Menu     
-     
-#Broadcast Notifications Standared user
-	#Standared user Broadcast Notifications    ${AdminBroadCastMsg} 
-      
-#Category Notifications Standared user
-	#Standared user Category Notifications    ${AdminCategoryMsg}      
-      
 Logout from Portal GUI as Standared User
 	Standared User Logout from Portal GUI
 
@@ -254,7 +124,8 @@ Handle Proxy Warning
 
 Run Portal Health Check
      [Documentation]    Runs Portal Health check
-     ${resp}=    Run Portal Get Request    ${PORTAL_HEALTH_CHECK_PATH}    
+     #${resp}=    Run Portal Get Request    ${PORTAL_HEALTH_CHECK_PATH}    
+     ${resp}=    Run Portal Get Request    ${PORTAL_LOGIN_URL}
      Should Be Equal As Strings 	${resp.status_code} 	200
      Should Be Equal As Strings 	${resp.json()['statusCode']} 	200
 
@@ -288,6 +159,26 @@ Portal admin Login To Portal GUI
     Wait Until Page Contains Element    xpath=//img[@alt='Onap Logo']    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}    
 	#Execute Javascript    document.getElementById('w-ecomp-footer').style.display = 'none'
 	Log    Logged in to ${PORTAL_URL}${PORTAL_ENV}
+	
+Portal admin Login To PortalSDK GUI
+    [Documentation]   Logs into Portal GUI
+    ## Setup Browser Now being managed by test case
+#    Setup Browser
+	Start Virtual Display    1920    1080
+	Open Browser    ${PORTALSDK_LOGIN_URL}    chrome
+#    Go To    ${PORTAL_LOGIN_URL}
+    Maximize Browser Window
+    Set Selenium Speed    ${GLOBAL_SELENIUM_DELAY}
+    Set Browser Implicit Wait    ${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}
+    Log    Logging in to ${PORTAL_URL}${PORTAL_ENV}
+   # Handle Proxy Warning
+    Title Should Be    Login
+    Input Text    xpath=//input[@ng-model='loginId']    ${GLOBAL_PORTAL_ADMIN_USER}
+    Input Password    xpath=//input[@ng-model='password']    ${GLOBAL_PORTAL_ADMIN_PWD}
+    Click Link    xpath=//a[@id='loginBtn']
+    Wait Until Page Contains Element    xpath=//img[@alt='Onap Logo']    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}    
+	#Execute Javascript    document.getElementById('w-ecomp-footer').style.display = 'none'
+	Log    Logged in to ${PORTAL_URL}${PORTAL_ENV}	
 
 Portal admin Go To Portal HOME
     [Documentation]    Naviage to Portal Home
