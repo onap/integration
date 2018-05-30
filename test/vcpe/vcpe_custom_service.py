@@ -72,6 +72,8 @@ class CustomService:
         # preload vGW
         if preload_dict:
             preloader = preload.Preload(self.vcpecommon)
+            parameters_to_change = ['vgw_private_ip_0', 'vgw_private_ip_1', 'vg_vgmux_tunnel_vni']
+            self.vcpecommon.increase_ip_address_or_vni_in_template(vgw_template_file, parameters_to_change)
             preloader.preload_vgw(vgw_template_file, brg_mac, preload_dict, name_suffix)
 
         # create service
