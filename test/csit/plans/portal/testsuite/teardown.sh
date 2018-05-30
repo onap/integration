@@ -15,6 +15,8 @@
 # limitations under the License.
 #
 
+cat portal/deliveries/$LOGS_DIR/onapportal/error.log
+
 docker kill $(docker ps -q)
 
 
