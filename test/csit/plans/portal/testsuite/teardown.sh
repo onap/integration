@@ -15,6 +15,14 @@
 # limitations under the License.
 #
 
+tail -500 portal/deliveries/$LOGS_DIR/onapportal/error.log
+tail -500 portal/deliveries/$LOGS_DIR/onapportal/application.log
+tail -500 portal/deliveries/$LOGS_DIR/onapportal/debug.log
+
+tail -500 portal/deliveries/logs/onapportal/error.log
+tail -500 portal/deliveries/logs/onapportal/application.log
+tail -500 portal/deliveries/logs/onapportal/debug.log
+
 docker kill $(docker ps -q)
 
 
