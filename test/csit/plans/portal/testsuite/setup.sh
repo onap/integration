@@ -180,5 +180,7 @@ docker logs deliveries_portal-app_1
 docker logs deliveries_portal-wms_1
 
 
-
+tail -500 $LOGS_DIR/onapportal/error.log
+tail -500 $LOGS_DIR/onapportal/application.log
+tail -500 $LOGS_DIR/onapportal/debug.log
 
