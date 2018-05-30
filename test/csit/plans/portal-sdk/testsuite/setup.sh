@@ -55,9 +55,9 @@ cd portal
 git pull
 cd deliveries
 rm .env
-#rm docker-compose.yml
+rm docker-compose.yml
 cp $CURR/.env .
-#cp $CURR/docker-compose.yml .
+cp $CURR/docker-compose.yml .
 #cd  properties_simpledemo/ECOMPPORTALAPP
 #rm  system.properties
 #cp  $CURR/system.properties .
