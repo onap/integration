@@ -22,3 +22,6 @@ env.properties
 .DS_Store
 devtool/
 seccom/
+.idea
+*.iml
+
