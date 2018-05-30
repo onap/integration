@@ -13,7 +13,7 @@ services:
   cli:
     image: ${CLI_IMG_NAME}:${PORTAL_TAG}
     environment:
-      CLI_MODE: 'daemon'
+      OPEN_CLI_MODE: 'daemon'
     ports:
       - 8080:80
       - 9090:8080
@@ -27,6 +27,8 @@ services:
       MYSQL_ROOT_PASSWORD: 'Aa123456'
     expose:
       - 3306
+    ports:
+      - 3306:3306      
     volumes:
       # Just specify a path and let the Engine create a volume
       - /var/lib/mysql
@@ -45,6 +47,7 @@ services:
     environment:
       - CASSUSER=root
       - CASSPASS=Aa123456
+      - JVM_OPTS=-Xmx3536m -Xms2536m
     expose:
       - 7000
       - 7001
@@ -74,24 +77,6 @@ services:
     ports:
       - 2181:2181           
 
-  # The app config file uses the docker name above
-  portal-wms:
-    image: ${WMS_IMG_NAME}:${PORTAL_TAG}
-    expose:
-      - 8082
-    links:
-      - portal-db
-    depends_on:
-      portal-db:
-        condition: service_healthy
-    volumes:
-      - ${PROPS_DIR}/ONAPWIDGETMS/application.properties:/application.properties
-      - ${PROPS_DIR}/ONAPWIDGETMS/application.yml:/application.yml
-    command:
-      - /start-wms.sh
-    logging:
-      driver: json-file
-
   portal-app:
     image: ${EP_IMG_NAME}:${PORTAL_TAG}
     ports:
@@ -100,14 +85,11 @@ services:
       - 8006:8005
     links:
       - portal-db
-      - portal-wms
       - portal-zk
       - portal-cassandra
     depends_on:
       portal-db:
         condition: service_healthy
-      portal-wms:
-        condition: service_started
     volumes:
       - ${PROPS_DIR}/ONAPPORTAL/system.properties:${WEBAPPS_DIR}/ONAPPORTAL/WEB-INF/conf/system.properties
       - ${PROPS_DIR}/ONAPPORTAL/fusion.properties:${WEBAPPS_DIR}/ONAPPORTAL/WEB-INF/fusion/conf/fusion.properties
@@ -115,6 +97,7 @@ services:
       - ${PROPS_DIR}/ONAPPORTAL/music.properties:${WEBAPPS_DIR}/ONAPPORTAL/WEB-INF/classes/music.properties
       - ${PROPS_DIR}/ONAPPORTAL/openid-connect.properties:${WEBAPPS_DIR}/ONAPPORTAL/WEB-INF/classes/openid-connect.properties
       - ${PROPS_DIR}/ONAPPORTAL/logback.xml:${WEBAPPS_DIR}/ONAPPORTAL/WEB-INF/classes/logback.xml
+      - ${PROPS_DIR}/web.xml:${WEBAPPS_DIR}/ONAPPORTAL/WEB-INF/web.xml
       - ${LOGS_DIR}:/opt/apache-tomcat-8.0.37/logs
     command:
       - /start-apache-tomcat.sh
@@ -125,27 +108,5 @@ services:
       - $EXTRA_HOST_NAME
     logging:
       driver: json-file
-
-  portal-sdk:
-    image: ${SDK_IMG_NAME}:${PORTAL_TAG}
-    ports:
-      - 8990:8080
-    links:
-      - portal-db
-      - portal-wms
-      - portal-zk
-      - portal-cassandra
-    depends_on:
-      portal-db:
-        condition: service_healthy
-    volumes:
-      - ${PROPS_DIR}/ONAPPORTALSDK/fusion.properties:${WEBAPPS_DIR}/ONAPPORTALSDK/WEB-INF/fusion/conf/fusion.properties
-      - ${PROPS_DIR}/ONAPPORTALSDK/system.properties:${WEBAPPS_DIR}/ONAPPORTALSDK/WEB-INF/conf/system.properties
-      - ${PROPS_DIR}/ONAPPORTALSDK/portal.properties:${WEBAPPS_DIR}/ONAPPORTALSDK/WEB-INF/classes/portal.properties
-      - ${PROPS_DIR}/ONAPPORTALSDK/music.properties:${WEBAPPS_DIR}/ONAPPORTALSDK/WEB-INF/classes/music.properties
-      - ${PROPS_DIR}/ONAPPORTALSDK/logback.xml:${WEBAPPS_DIR}/ONAPPORTALSDK/WEB-INF/classes/logback.xml
-      - ${LOGS_DIR}:/opt/apache-tomcat-8.0.37/logs
-    command:
-      - /start-apache-tomcat.sh
-    logging:
-      driver: json-file
+    environment:
+      - CATALINA_OPTS=-Xmx1536m -Xms1536m
