@@ -15,6 +15,10 @@
 # limitations under the License.
 #
 
+tail -500 $LOGS_DIR/onapportal/error.log
+tail -500 $LOGS_DIR/onapportal/application.log
+tail -500 $LOGS_DIR/onapportal/debug.log
+
 docker kill $(docker ps -q)
 
 
