@@ -179,6 +179,9 @@ docker logs deliveries_portal-db_1
 docker logs deliveries_portal-app_1
 docker logs deliveries_portal-wms_1
 
+ls -altr /opt/apache-tomcat-8.0.37
 
-
+tail -100 /opt/apache-tomcat-8.0.37/logs/ONAPPORTAL/error.log
+tail -100 /opt/apache-tomcat-8.0.37/logs/ONAPPORTAL/application.log
+tail -100 /opt/apache-tomcat-8.0.37/logs/ONAPPORTAL/debug.log
 
