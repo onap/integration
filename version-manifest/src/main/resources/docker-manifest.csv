@@ -27,7 +27,7 @@ onap/data-router,1.2.2
 onap/dmaap/buscontroller,latest
 onap/dmaap/dmaap-mr,1.1.4
 onap/externalapi/nbi,latest
-onap/gizmo,1.2.0
+onap/gizmo,1.2.1
 onap/holmes/engine-management,latest
 onap/holmes/rule-management,latest
 onap/model-loader,1.2.1
