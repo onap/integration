@@ -81,6 +81,7 @@ onap/sdnc-image,1.3-STAGING-latest
 onap/sdnc-ueb-listener-image,1.3-STAGING-latest
 onap/search-data-service,1.2.1
 onap/sniroemulator,latest
+onap/so,1.2.1
 onap/sparky-be,1.2.1
 onap/testsuite,1.2.0
 onap/usecase-ui,latest
@@ -106,4 +107,3 @@ onap/vfc/ztevnfmdriver,1.1.0-STAGING-latest
 onap/vid,2.0-STAGING-latest
 onap/vnfsdk/refrepo,1.1.1
 onap/vnfsdk/refrepo/postgres,1.1.1
-openecomp/mso,1.2.1
