@@ -45,6 +45,7 @@ org.onap.aai.event-client,event-client,1.2.2
 org.onap.aai.event-client,event-client-api,1.2.2
 org.onap.aai.event-client,event-client-dmaap,1.2.2
 org.onap.aai.event-client,event-client-kafka,1.2.2
+org.onap.aai.gizmo,gizmo,1.2.1
 org.onap.aai.logging-service,common-logging,1.2.2
 org.onap.aai.logging-service,eelf-logging,1.2.2
 org.onap.aai.logging-service,logging-api,1.2.2
