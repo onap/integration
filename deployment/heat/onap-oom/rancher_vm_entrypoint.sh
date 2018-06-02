@@ -197,6 +197,8 @@ make all
 helm search -l | grep local
 helm install local/onap -n dev --namespace onap -f ~/integration-override.yaml
 
+# Enable auto-completion for kubectl
+echo "source <(kubectl completion bash)" >> ~/.bashrc
 
 # Check ONAP status:
 sleep 3
