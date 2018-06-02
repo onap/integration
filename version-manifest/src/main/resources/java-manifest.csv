@@ -123,8 +123,8 @@ org.onap.dmaap.messagerouter.mirroragent,dmaapMMAgent,1.0.0
 org.onap.dmaap.messagerouter.msgrtr,msgrtr,1.0.0
 org.onap.holmes.common,holmes-actions,1.0.0
 org.onap.holmes.dsa,dmaap-dsa,1.0.0
-org.onap.holmes.engine-management,holmes-engine-d,1.0.0
-org.onap.holmes.rule-management,holmes-rulemgt,1.0.0
+org.onap.holmes.engine-management,holmes-engine-d,1.1.0
+org.onap.holmes.rule-management,holmes-rulemgt,1.1.0
 org.onap.modeling.toscaparsers,Checker,1.0.0
 org.onap.modeling.toscaparsers,Service,1.0.0
 org.onap.modeling.toscaparsers,kwalify,1.0.0
