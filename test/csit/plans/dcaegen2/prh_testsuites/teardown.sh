@@ -17,3 +17,4 @@
 
 kill-instance.sh prh
 kill-instance.sh dmaap_simulator
+kill-instance.sh aai_simulator
