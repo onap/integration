@@ -21,7 +21,7 @@ onap/ccsdk-dgbuilder-image,0.2.4
 onap/ccsdk-odl-image,0.2.4
 onap/ccsdk-odlsli-image,0.2.4
 onap/champ,1.2.3
-onap/clamp,2.0-STAGING-latest
+onap/clamp,2.0.2
 onap/cli,2.0.2
 onap/data-router,1.2.2
 onap/dmaap/buscontroller,latest
