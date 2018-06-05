@@ -14,7 +14,7 @@
 pushd ${SCRIPTS}
 
 # start multicloud-ocata
-./run-instance.sh nexus3.onap.org:10001/onap/multicloud/openstack-ocata:latest multicloud-ocata
+./run-instance.sh nexus3.onap.org:10001/onap/multicloud/openstack/openstack-ocata:latest multicloud-ocata
 SERVICE_IP=$(./get-instance-ip.sh multicloud-ocata)
 SERVICE_PORT=9006
 popd

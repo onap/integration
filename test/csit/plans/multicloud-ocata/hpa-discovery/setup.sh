@@ -43,7 +43,7 @@ start_simulator keystone 5000
 start_simulator aai 8443
 
 # start multicloud-ocata
-./run-instance.sh nexus3.onap.org:10001/onap/multicloud/openstack-ocata multicloud-ocata "-t -e AAI_SERVICE_URL=http://aai:8080/aai -e no_proxy=$no_proxy -p 9006:9006"
+./run-instance.sh nexus3.onap.org:10001/onap/multicloud/openstack/openstack-ocata multicloud-ocata "-t -e AAI_SERVICE_URL=http://aai:8080/aai -e no_proxy=$no_proxy -p 9006:9006"
 SERVICE_IP=$(./get-instance-ip.sh multicloud-ocata)
 SERVICE_PORT=9006
 
