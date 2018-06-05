@@ -52,6 +52,7 @@ cat <<EOF
             __integration_override_yaml__: { get_param: integration_override_yaml }
             __oam_network_id__: { get_resource: oam_network }
             __oam_subnet_id__: { get_resource: oam_subnet }
+            __k8s_1_vm_ip__: { get_attr: [k8s_1_floating_ip, floating_ip_address] }
             __k8s_vm_ips__: [
 EOF
 
