@@ -6,7 +6,6 @@ onap/aaf/aaf_hello,2.1.1
 onap/aaf/aaf_locate,2.1.1
 onap/aaf/aaf_oauth,2.1.1
 onap/aaf/aaf_service,2.1.1
-onap/aaf/authz-service,latest
 onap/aaf/sms,latest
 onap/aaf/smsquorumclient,latest
 onap/aai-resources,1.2.2
