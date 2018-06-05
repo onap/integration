@@ -32,8 +32,8 @@ onap/holmes/engine-management,1.1.0
 onap/holmes/rule-management,1.1.0
 onap/model-loader,1.2.1
 onap/modeling/javatoscachecker,latest
-onap/msb/msb_apigateway,1.1.0-STAGING-latest
-onap/msb/msb_discovery,1.1.0-STAGING-latest
+onap/msb/msb_apigateway,1.1.0
+onap/msb/msb_discovery,1.1.0
 onap/multicloud/framework,1.1.2-STAGING
 onap/multicloud/openstack-newton,1.1.2-SNAPSHOT
 onap/multicloud/openstack-ocata,1.1.2-SNAPSHOT

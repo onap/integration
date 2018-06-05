@@ -192,8 +192,8 @@ org.onap.modeling.toscaparsers,Checker,1.0.0
 org.onap.modeling.toscaparsers,Service,1.0.0
 org.onap.modeling.toscaparsers,kwalify,1.0.0
 org.onap.modeling.toscaparsers.nfvparser,modeling-toscaparsers-nfvparser,1.0.0
-org.onap.msb.java-sdk,msb-java-sdk,1.0.0
-org.onap.msb.swagger-sdk,swagger-sdk,1.0.0
+org.onap.msb.java-sdk,msb-java-sdk,1.1.1
+org.onap.msb.swagger-sdk,swagger-sdk,1.1.0
 org.onap.multicloud.framework,multivimbroker,1.0.0
 org.onap.multicloud.openstack,newton,1.0.0
 org.onap.multicloud.openstack,ocata,1.0.0
