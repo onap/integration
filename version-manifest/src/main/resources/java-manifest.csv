@@ -213,6 +213,10 @@ org.onap.portal.sdk,epsdk-app-overlay,2.2.0
 org.onap.portal.sdk,epsdk-core,2.2.0
 org.onap.portal.sdk,epsdk-fw,2.2.0
 org.onap.portal.sdk,epsdk-workflow,2.2.0
+org.onap.sdc.jtosca,jtosca,1.3.5
+org.onap.sdc.sdc-distribution-client,sdc-distribution-client,1.3.0
+org.onap.sdc.sdc-titan-cassandra,sdc-titan-cassandra,1.2.0
+org.onap.sdc.sdc-tosca,sdc-tosca,1.3.5
 org.onap.sdc.sdc-workflow-designer,sdc-workflow-designer,1.0.0
 org.onap.sdnc.northbound,generic-resource-api.provider,1.3.4
 org.onap.sdnc.northbound,vnfapi-provider,1.3.4
@@ -242,10 +246,6 @@ org.onap.vnfsdk.validation,csarvalidation-deployment,1.1.1
 org.onap.vnfsdk.validation,validation,1.1.2
 org.onap.vnfsdk.validation,validation-csar,1.1.2
 org.onap.vnfsdk.ves-agent,evel_javalib2,1.1.0
-org.openecomp.sdc.jtosca,jtosca,1.1.1
-org.openecomp.sdc.sdc-distribution-client,sdc-main-distribution-client,1.1.32
-org.openecomp.sdc.sdc-titan-cassandra,sdc-titan-cassandra,1.0.0
-org.openecomp.sdc.sdc-tosca,sdc-tosca,1.1.32
 org.openecomp.so,MSOCommonBPMN,1.1.1
 org.openecomp.so,MSOCoreBPMN,1.1.1
 org.openecomp.so,MSOInfrastructureBPMN,1.1.1
