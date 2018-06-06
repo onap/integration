@@ -57,8 +57,6 @@ onap/org.onap.dcaegen2.platform.deployment-handler,2.1.5
 onap/org.onap.dcaegen2.platform.inventory-api,3.0.1
 onap/org.onap.dcaegen2.platform.policy-handler,2.4.5
 onap/org.onap.dcaegen2.platform.servicechange-handler,1.1.4
-onap/org.onap.dcaegen2.services.heartbeat,latest
-onap/org.onap.dcaegen2.services.prh.prh-app-server,latest
 onap/policy-drools,1.2.3
 onap/policy-pe,1.2.3
 onap/portal-app,2.2.0
