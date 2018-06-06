@@ -219,8 +219,8 @@ org.onap.sdc.sdc-workflow-designer,sdc-workflow-designer,1.0.0
 org.onap.sdnc.northbound,generic-resource-api.provider,1.3.4
 org.onap.sdnc.northbound,vnfapi-provider,1.3.4
 org.onap.sdnc.northbound,vnftools-provider,1.3.4
-org.onap.usecase-ui,usecaseui-common,1.0.1
-org.onap.usecase-ui.server,usecase-ui-server,1.0.1
+org.onap.usecase-ui,usecaseui-common,1.1.0
+org.onap.usecase-ui.server,usecase-ui-server,1.1.0
 org.onap.vfc.gvnfm.vnflcm.lcm,vfc-gvnfm-vnflcm-lcm,1.1.0
 org.onap.vfc.gvnfm.vnfmgr.mgr,vfc-gvnfm-vnfmgr-mgr,1.1.0
 org.onap.vfc.gvnfm.vnfres.res,vfc-gvnfm-vnfres-res,1.1.0
