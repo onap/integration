@@ -39,7 +39,7 @@ onap/multicloud/openstack/openstack-ocata,1.1.2
 onap/multicloud/vio,1.1.2
 onap/multicloud/vio-vesagent,1.0.0
 onap/music/cassandra_music,3.0.0
-onap/music/music,latest
+onap/music/music,2.5.3
 onap/oom/kube2msb,1.1.0
 onap/optf-has,1.1.1
 onap/optf-osdf,1.1.1
