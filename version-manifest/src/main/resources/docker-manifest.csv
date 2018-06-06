@@ -10,8 +10,8 @@ onap/aaf/sms,latest
 onap/aaf/smsquorumclient,latest
 onap/aai-resources,1.2.2
 onap/aai-traversal,1.2.2
-onap/aai/esr-gui,latest
-onap/aai/esr-server,latest
+onap/aai/esr-gui,1.1.0
+onap/aai/esr-server,1.1.0
 onap/admportal-sdnc-image,1.3.4
 onap/appc-cdt-image,1.3.0
 onap/appc-image,1.3.0
