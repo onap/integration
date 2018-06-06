@@ -278,4 +278,3 @@ org.openecomp.so.libs.openstack-java-sdk.client-connectors,http-connector,1.2.2
 org.openecomp.so.libs.openstack-java-sdk.client-connectors,jersey-connector,1.2.2
 org.openecomp.so.libs.openstack-java-sdk.client-connectors,jersey2-connector,1.2.2
 org.openecomp.so.libs.openstack-java-sdk.client-connectors,resteasy-connector,1.2.2
-org.openecomp.vid,asdcclient,1.0.2
