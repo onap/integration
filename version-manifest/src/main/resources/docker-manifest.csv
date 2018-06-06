@@ -62,10 +62,10 @@ onap/org.onap.dcaegen2.services.heartbeat,latest
 onap/org.onap.dcaegen2.services.prh.prh-app-server,latest
 onap/policy-drools,1.2.3
 onap/policy-pe,1.2.3
-onap/portal-app,v2.2.0
-onap/portal-db,v2.2.0
-onap/portal-sdk,v2.2.0
-onap/portal-wms,v2.2.0
+onap/portal-app,2.2.0
+onap/portal-db,2.2.0
+onap/portal-sdk,2.2.0
+onap/portal-wms,2.2.0
 onap/sdc-api-tests,1.2.0
 onap/sdc-backend,1.2.0
 onap/sdc-backend-init,1.2.0
