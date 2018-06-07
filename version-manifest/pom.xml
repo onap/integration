@@ -122,7 +122,7 @@
             </configuration>
           </execution>
           <execution>
-            <id>check-docker-images-released</id>
+            <id>check-docker-images-exist</id>
             <phase>validate</phase>
             <goals>
               <goal>exec</goal>
