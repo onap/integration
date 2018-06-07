@@ -1,4 +1,4 @@
-/*
+/*-
  * ============LICENSE_START=======================================================
  * org.onap.integration
  * ================================================================================
@@ -37,19 +37,17 @@ import org.onap.pnfsimulator.simulator.validation.ValidationException;
 public class SimulatorFactory {
 
     private MessageProvider messageProvider;
-    private ParamsValidator paramsValidator;
 
-    public SimulatorFactory(MessageProvider messageProvider, ParamsValidator paramsValidator) {
+    public SimulatorFactory(MessageProvider messageProvider) {
         this.messageProvider = messageProvider;
-        this.paramsValidator = paramsValidator;
     }
 
     public Simulator create(String vesServerUrl, String configFilePath) throws IOException, ValidationException {
 
         String configJson = FileUtils.readFileToString(new File(configFilePath), StandardCharsets.UTF_8);
         JSONObject configObject = new JSONObject(configJson);
+        ParamsValidator.forObject(configObject).validate();
 
-        paramsValidator.validate(configObject);
         Duration duration = Duration.ofSeconds(parseJsonField(configObject, TEST_DURATION));
         Duration interval = Duration.ofSeconds(parseJsonField(configObject, MESSAGE_INTERVAL));
         JSONObject messageBody = messageProvider.createMessage(configObject);

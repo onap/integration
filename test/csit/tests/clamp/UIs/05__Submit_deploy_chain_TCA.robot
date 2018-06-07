@@ -78,8 +78,8 @@ Deploy TCA CL
     Click Element    xpath=//*[@id="navbar"]/ul/li[2]/a
     Wait Until Element Is Visible       locator=Deploy       timeout=60
     Click Element    locator=Deploy
-    Wait Until Element Is Visible       xpath=//*[@id="deployProperties"]       timeout=60
-    Input Text      xpath=//*[@id="deployProperties"]      text={}
+#    Wait Until Element Is Visible       xpath=//*[@id="deployProperties"]       timeout=60
+#    Input Text      xpath=//*[@id="deployProperties"]      text={}
     Click Button    locator=Deploy
     Click Button    locator=Yes
     Wait Until Element Is Visible       xpath=//*[@id="alert_message_"]      timeout=60

@@ -1,4 +1,4 @@
-/*
+/*-
  * ============LICENSE_START=======================================================
  * org.onap.integration
  * ================================================================================
@@ -17,11 +17,12 @@
  * limitations under the License.
  * ============LICENSE_END=========================================================
  */
-
+ 
 package org.onap.pnfsimulator.message;
 
 public final class MessageConstants {
 
+    public static final String EVENT = "event";
     public static final String DOMAIN = "domain";
     public static final String EVENT_ID = "eventId";
     public static final String EVENT_TYPE = "eventType";

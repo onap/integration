@@ -21,19 +21,19 @@ class VcpeCommon:
     # set the openstack cloud access credentials here
     cloud = {
         '--os-auth-url': 'http://10.12.25.2:5000',
-        '--os-username': 'YOUR ID',
+        '--os-username': 'kxi',
         '--os-user-domain-id': 'default',
         '--os-project-domain-id': 'default',
-        '--os-tenant-id': '087050388b204c73a3e418dd2c1fe30b',
+        '--os-tenant-id': '1e097c6713e74fd7ac8e4295e605ee1e',
         '--os-region-name': 'RegionOne',
-        '--os-password': 'YOUR PASSWD',
-        '--os-project-domain-name': 'Integration-SB-01',
+        '--os-password': 'n3JhGMGuDzD8',
+        '--os-project-domain-name': 'Integration-SB-07',
         '--os-identity-api-version': '3'
     }
 
     common_preload_config = {
-        'oam_onap_net': 'oam_onap_c4Uw',
-        'oam_onap_subnet': 'oam_onap_c4Uw',
+        'oam_onap_net': 'oam_onap_lAky',
+        'oam_onap_subnet': 'oam_onap_lAky',
         'public_net': 'external',
         'public_net_id': '971040b2-7059-49dc-b220-4fab50cb2ad4'
     }
@@ -41,6 +41,7 @@ class VcpeCommon:
     #############################################################################################
 
     template_variable_symbol = '${'
+    cpe_vm_prefix = 'zdcpe'
     #############################################################################################
     # preloading network config
     #  key=network role
@@ -53,13 +54,17 @@ class VcpeCommon:
         'mux_gw': ['10.5.0.10', '10.5.0.1']
     }
 
+    dcae_ves_collector_name = 'dcae-bootstrap'
     global_subscriber_id = 'SDN-ETHERNET-INTERNET'
+    project_name = 'Project-Demonstration'
+    owning_entity_id = '520cc603-a3c4-4ec2-9ef4-ca70facd79c0'
+    owning_entity_name = 'OE-Demonstration'
 
     def __init__(self, extra_host_names=None):
         self.logger = logging.getLogger(__name__)
         self.logger.info('Initializing configuration')
 
-        self.host_names = ['so', 'sdnc', 'robot', 'aai-inst1', 'dcaedoks00']
+        self.host_names = ['so', 'sdnc', 'robot', 'aai-inst1', self.dcae_ves_collector_name]
         if extra_host_names:
             self.host_names.extend(extra_host_names)
         # get IP addresses
@@ -84,6 +89,13 @@ class VcpeCommon:
         self.common_preload_config['pub_key'] = self.pub_key
         self.sniro_url = 'http://' + self.hosts['robot'] + ':8080/__admin/mappings'
         self.sniro_headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
+        self.homing_solution = 'sniro'  # value is either 'sniro' or 'oof'
+#        self.homing_solution = 'oof'
+        self.customer_location_used_by_oof = {
+            "customerLatitude": "32.897480",
+            "customerLongitude": "-97.040443",
+            "customerName": "some_company"
+        }
 
         #############################################################################################
         # SDNC urls
@@ -91,7 +103,7 @@ class VcpeCommon:
         self.sdnc_db_name = 'sdnctl'
         self.sdnc_db_user = 'sdnctl'
         self.sdnc_db_pass = 'gamma'
-        self.sdnc_db_port = '32768'
+        self.sdnc_db_port = '32774'
         self.sdnc_headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
         self.sdnc_preload_network_url = 'http://' + self.hosts['sdnc'] + \
                                         ':8282/restconf/operations/VNF-API:preload-network-topology-operation'
@@ -103,13 +115,13 @@ class VcpeCommon:
         # SO urls, note: do NOT add a '/' at the end of the url
         self.so_req_api_url = {'v4': 'http://' + self.hosts['so'] + ':8080/ecomp/mso/infra/serviceInstances/v4',
                            'v5': 'http://' + self.hosts['so'] + ':8080/ecomp/mso/infra/serviceInstances/v5'}
-        self.so_check_progress_api_url = 'http://' + self.hosts['so'] + ':8080/ecomp/mso/infra/orchestrationRequests/v2'
+        self.so_check_progress_api_url = 'http://' + self.hosts['so'] + ':8080/ecomp/mso/infra/orchestrationRequests/v5'
         self.so_userpass = 'InfraPortalClient', 'password1$'
         self.so_headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
         self.so_db_name = 'mso_catalog'
         self.so_db_user = 'root'
         self.so_db_pass = 'password'
-        self.so_db_port = '32768'
+        self.so_db_port = '32769'
 
         self.vpp_inf_url = 'http://{0}:8183/restconf/config/ietf-interfaces:interfaces'
         self.vpp_api_headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
@@ -127,7 +139,8 @@ class VcpeCommon:
 
     def get_brg_mac_from_sdnc(self):
         """
-        :return:  BRG MAC address. Currently we only support one BRG instance.
+        Check table DHCP_MAP in the SDNC DB. Find the newly instantiated BRG MAC address.
+        Note that there might be multiple BRGs, the most recently instantiated BRG always has the largest IP address.
         """
         cnx = mysql.connector.connect(user=self.sdnc_db_user, password=self.sdnc_db_pass, database=self.sdnc_db_name,
                                       host=self.hosts['sdnc'], port=self.sdnc_db_port)
@@ -136,36 +149,30 @@ class VcpeCommon:
         cursor.execute(query)
 
         self.logger.debug('DHCP_MAP table in SDNC')
-        counter = 0
-        mac = None
+        mac_recent = None
+        host = -1
         for mac, ip in cursor:
-            counter += 1
             self.logger.debug(mac + ':' + ip)
+            this_host = int(ip.split('.')[-1])
+            if host < this_host:
+                host = this_host
+                mac_recent = mac
 
         cnx.close()
 
-        if counter != 1:
-            self.logger.error('Found %s MAC addresses in DHCP_MAP', counter)
-            sys.exit()
-        else:
-            self.logger.debug('Found MAC addresses in DHCP_MAP: %s', mac)
-            return mac
+        assert mac_recent
+        return mac_recent
 
-    def insert_into_sdnc_db(self, cmds):
-        cnx = mysql.connector.connect(user=self.sdnc_db_user, password=self.sdnc_db_pass, database=self.sdnc_db_name,
-                                      host=self.hosts['sdnc'], port=self.sdnc_db_port)
-        cursor = cnx.cursor()
-        for cmd in cmds:
-            self.logger.debug(cmd)
-            cursor.execute(cmd)
-            self.logger.debug('%s', cursor)
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+    def execute_cmds_sdnc_db(self, cmds):
+        self.execute_cmds_db(cmds, self.sdnc_db_user, self.sdnc_db_pass, self.sdnc_db_name,
+                             self.hosts['sdnc'], self.sdnc_db_port)
 
-    def insert_into_so_db(self, cmds):
-        cnx = mysql.connector.connect(user=self.so_db_user, password=self.so_db_pass, database=self.so_db_name,
-                                      host=self.hosts['so'], port=self.so_db_port)
+    def execute_cmds_so_db(self, cmds):
+        self.execute_cmds_db(cmds, self.so_db_user, self.so_db_pass, self.so_db_name,
+                             self.hosts['so'], self.so_db_port)
+
+    def execute_cmds_db(self, cmds, dbuser, dbpass, dbname, host, port):
+        cnx = mysql.connector.connect(user=dbuser, password=dbpass, database=dbname, host=host, port=port)
         cursor = cnx.cursor()
         for cmd in cmds:
             self.logger.debug(cmd)
@@ -257,7 +264,7 @@ class VcpeCommon:
         url = 'https://{0}:8443/aai/v11/search/nodes-query?search-node-type={1}&filter={2}:EQUALS:{3}'.format(
             self.hosts['aai-inst1'], search_node_type, key, node_uuid)
 
-        headers = {'Content-Type': 'application/json', 'Accept': 'application/json', 'X-FromAppID': 'vCPE-Robot'}
+        headers = {'Content-Type': 'application/json', 'Accept': 'application/json', 'X-FromAppID': 'vCPE-Robot', 'X-TransactionId': 'get_aai_subscr'}
         requests.packages.urllib3.disable_warnings()
         r = requests.get(url, headers=headers, auth=self.aai_userpass, verify=False)
         response = r.json()
@@ -298,23 +305,60 @@ class VcpeCommon:
         openstackcmd = 'nova ' + param + ' list'
         self.logger.debug(openstackcmd)
 
-        ip_dict = {}
         results = os.popen(openstackcmd).read()
-        for line in results.split('\n'):
+        all_vm_ip_dict = self.extract_vm_ip_as_dict(results, net_addr, net_addr_len)
+        latest_vm_list = self.remove_old_vms(all_vm_ip_dict.keys(), self.cpe_vm_prefix)
+        latest_vm_ip_dict = {vm: all_vm_ip_dict[vm] for vm in latest_vm_list}
+        ip_dict = self.select_subset_vm_ip(latest_vm_ip_dict, keywords)
+
+        if len(ip_dict) != len(keywords):
+            self.logger.error('Cannot find all desired IP addresses for %s.', keywords)
+            self.logger.error(json.dumps(ip_dict, indent=4, sort_keys=True))
+            self.logger.error('Temporarily continue.. remember to check back vcpecommon.py line: 316')
+#            sys.exit()
+        return ip_dict
+
+    def extract_vm_ip_as_dict(self, novalist_results, net_addr, net_addr_len):
+        vm_ip_dict = {}
+        for line in novalist_results.split('\n'):
             fields = line.split('|')
             if len(fields) == 8:
                 vm_name = fields[2]
                 ip_info = fields[-2]
-                for keyword in keywords:
-                    if keyword in vm_name:
-                        ip = self.extract_ip_from_str(net_addr, net_addr_len, ip_info)
-                        if ip:
-                            ip_dict[keyword] = ip
-        if len(ip_dict) != len(keywords):
-            self.logger.error('Cannot find all desired IP addresses for %s.', keywords)
-            self.logger.error(json.dumps(ip_dict, indent=4, sort_keys=True))
-            sys.exit()
-        return ip_dict
+                ip = self.extract_ip_from_str(net_addr, net_addr_len, ip_info)
+                vm_ip_dict[vm_name] = ip
+
+        return vm_ip_dict
+
+    def remove_old_vms(self, vm_list, prefix):
+        """
+        For vms with format name_timestamp, only keep the one with the latest timestamp.
+        E.g.,
+            zdcpe1cpe01brgemu01_201805222148        (drop this)
+            zdcpe1cpe01brgemu01_201805222229        (keep this)
+            zdcpe1cpe01gw01_201805162201
+        """
+        new_vm_list = []
+        same_type_vm_dict = {}
+        for vm in vm_list:
+            fields = vm.split('_')
+            if vm.startswith(prefix) and len(fields) == 2 and len(fields[-1]) == len('201805222148') and fields[-1].isdigit():
+                if vm > same_type_vm_dict.get(fields[0], '0'):
+                    same_type_vm_dict[fields[0]] = vm
+            else:
+                new_vm_list.append(vm)
+
+        new_vm_list.extend(same_type_vm_dict.values())
+        return new_vm_list
+
+    def select_subset_vm_ip(self, all_vm_ip_dict, vm_name_keyword_list):
+        vm_ip_dict = {}
+        for keyword in vm_name_keyword_list:
+            for vm, ip in all_vm_ip_dict.items():
+                if keyword in vm:
+                    vm_ip_dict[keyword] = ip
+                    break
+        return vm_ip_dict
 
     def del_vgmux_ves_mode(self):
         url = self.vpp_ves_url.format(self.hosts['mux']) + '/mode'
@@ -329,8 +373,8 @@ class VcpeCommon:
     def set_vgmux_ves_collector(self ):
         url = self.vpp_ves_url.format(self.hosts['mux'])
         data = {'config':
-                    {'server-addr': self.hosts['dcaedoks00'],
-                     'server-port': '8080',
+                    {'server-addr': self.hosts[self.dcae_ves_collector_name],
+                     'server-port': '8081',
                      'read-interval': '10',
                      'is-add':'1'
                      }
@@ -399,6 +443,26 @@ class VcpeCommon:
     def load_object(filepathname):
         with open(filepathname, 'rb') as fin:
             return pickle.load(fin)
+
+    @staticmethod
+    def increase_ip_address_or_vni_in_template(vnf_template_file, vnf_parameter_name_list):
+        with open(vnf_template_file) as json_input:
+            json_data = json.load(json_input)
+            param_list = json_data['VNF-API:input']['VNF-API:vnf-topology-information']['VNF-API:vnf-parameters']
+            for param in param_list:
+                if param['vnf-parameter-name'] in vnf_parameter_name_list:
+                    ipaddr_or_vni = param['vnf-parameter-value'].split('.')
+                    number = int(ipaddr_or_vni[-1])
+                    if 254 == number:
+                        number = 10
+                    else:
+                        number = number + 1
+                    ipaddr_or_vni[-1] = str(number)
+                    param['vnf-parameter-value'] = '.'.join(ipaddr_or_vni)
+
+        assert json_data is not None
+        with open(vnf_template_file, 'w') as json_output:
+            json.dump(json_data, json_output, indent=4, sort_keys=True)
 
     def save_preload_data(self, preload_data):
         self.save_object(preload_data, self.preload_dict_file)

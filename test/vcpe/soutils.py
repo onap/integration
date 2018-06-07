@@ -18,6 +18,7 @@ class SoUtils:
         :param vcpecommon:
         :param api_version: must be 'v4' or 'v5'
         """
+        self.tmp_solution_for_so_bug = False
         self.logger = logging.getLogger(__name__)
         self.vcpecommon = vcpecommon
         if api_version not in self.vcpecommon.so_req_api_url:
@@ -49,7 +50,9 @@ class SoUtils:
             self.logger.error('Invalid request type: {0}. Can only be service/vnf/network/vfmodule'.format(req_type))
             return None, None
 
+        self.logger.info(url)
         r = requests.post(url, headers=self.vcpecommon.so_headers, auth=self.vcpecommon.so_userpass, json=req_json)
+        self.logger.debug(r)
         response = r.json()
 
         self.logger.debug('---------------------------------------------------------------')
@@ -58,6 +61,7 @@ class SoUtils:
         self.logger.debug('---------------------------------------------------------------')
         req_id = response.get('requestReferences', {}).get('requestId', '')
         instance_id = response.get('requestReferences', {}).get('instanceId', '')
+
         return req_id, instance_id
 
     def check_progress(self, req_id, eta=0, interval=5):
@@ -119,7 +123,8 @@ class SoUtils:
             'modelInfo':  vnf_or_network_model,
             'cloudConfiguration': {"lcpCloudRegionId": self.vcpecommon.os_region_name,
                                    "tenantId": self.vcpecommon.os_tenant_id},
-            'requestParameters':  {"userParams": []}
+            'requestParameters':  {"userParams": []},
+            'platform': {"platformName": "Platform-Demonstration"}
         }
         self.add_req_info(req_details, instance_name, self.vcpecommon.product_family_id)
         self.add_related_instance(req_details, service_instance_id, service_model)
@@ -149,14 +154,23 @@ class SoUtils:
             }
         }
         self.add_req_info(req_details, instance_name)
+        self.add_project_info(req_details)
+        self.add_owning_entity(req_details)
         return {'requestDetails': req_details}
+
+    def add_project_info(self, req_details):
+        req_details['project'] = {'projectName': self.vcpecommon.project_name}
+
+    def add_owning_entity(self, req_details):
+        req_details['owningEntity'] = {'owningEntityId': self.vcpecommon.owning_entity_id,
+                                       'owningEntityName': self.vcpecommon.owning_entity_name}
 
     def generate_custom_service_request(self, instance_name, model, brg_mac):
         req_details = {
             'modelInfo':  model,
             'subscriberInfo':  {'subscriberName': 'Kaneohe',
                                 'globalSubscriberId': self.vcpecommon.global_subscriber_id},
-            'cloudConfiguration': {"lcpCloudRegionId": self.vcpecommon.os_region_name,
+            'cloudConfiguration': {"lcpCloudRegionId": 'CloudOwner_RegionOne', #self.vcpecommon.os_region_name,
                                    "tenantId": self.vcpecommon.os_tenant_id},
             'requestParameters': {
                 "userParams": [
@@ -164,12 +178,23 @@ class SoUtils:
                         'name': 'BRG_WAN_MAC_Address',
                         'value': brg_mac
                     }
+                     ,
+                    {
+                         "name": "Customer_Location",
+                         "value": self.vcpecommon.customer_location_used_by_oof
+                    },
+                    {
+                         "name": "Homing_Solution",
+                         "value": self.vcpecommon.homing_solution
+                    }
                 ],
                 "subscriptionServiceType": "vCPE",
                 'aLaCarte': 'false'
             }
         }
         self.add_req_info(req_details, instance_name, self.vcpecommon.custom_product_family_id)
+        self.add_project_info(req_details)
+        self.add_owning_entity(req_details)
         return {'requestDetails': req_details}
 
     def create_custom_service(self, csar_file, brg_mac, name_suffix=None):
@@ -186,7 +211,7 @@ class SoUtils:
                                   parser.svc_model['modelName'], name_suffix])
         instance_name = instance_name.lower()
         req = self.generate_custom_service_request(instance_name, parser.svc_model, brg_mac)
-        self.logger.debug(json.dumps(req, indent=2, sort_keys=True))
+        self.logger.info(json.dumps(req, indent=2, sort_keys=True))
         self.logger.info('Creating custom service {0}.'.format(instance_name))
         req_id, svc_instance_id = self.submit_create_req(req, 'service')
         if not self.check_progress(req_id, 140):

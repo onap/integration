@@ -21,7 +21,7 @@ Verify HolmesModel1
     Should Contain Match    ${resp}   *migrate*
     Should Contain Match    ${resp}   *240*
     Should Contain Match    ${resp}   *390*
-    Should Contain Match    ${resp}   *correlational Logic1*
+    Should Contain Match    ${resp}   *Logic1*
     Should Contain Match    ${resp}   *config Policy Name1*
 
 Verify TCAModel1

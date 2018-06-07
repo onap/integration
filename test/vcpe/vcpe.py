@@ -8,6 +8,7 @@ import preload
 import vcpe_custom_service
 import csar_parser
 import config_sdnc_so
+import json
 
 
 def config_sniro(vcpecommon, vgmux_svc_instance_uuid, vbrg_svc_instance_uuid):
@@ -49,13 +50,15 @@ def create_one_service(vcpecommon, csar_file, vnf_template_file, preload_dict, s
     so = soutils.SoUtils(vcpecommon, 'v4')
     return so.create_entire_service(csar_file, vnf_template_file, preload_dict, suffix, heatbridge)
 
+
 def deploy_brg_only():
     logging.basicConfig(level=logging.INFO, format='%(message)s')
     logger = logging.getLogger(__name__)
 
     vcpecommon = VcpeCommon()
     preload_dict = vcpecommon.load_preload_data()
-    name_suffix = preload_dict['${brg_bng_net}'].split('_')[-1]
+#    name_suffix = preload_dict['${brg_bng_net}'].split('_')[-1]
+    name_suffix = datetime.now().strftime('%Y%m%d%H%M')
 
     # create multiple services based on the pre-determined order
     svc_instance_uuid = vcpecommon.load_object(vcpecommon.svc_instance_uuid_file)
@@ -63,6 +66,7 @@ def deploy_brg_only():
         heatbridge = 'gmux' == keyword
         csar_file = vcpecommon.find_file(keyword, 'csar', 'csar')
         vnf_template_file = vcpecommon.find_file(keyword, 'json', 'preload_templates')
+        vcpecommon.increase_ip_address_or_vni_in_template(vnf_template_file, ['vbrgemu_private_ip_0'])
         svc_instance_uuid[keyword] = create_one_service(vcpecommon, csar_file, vnf_template_file, preload_dict,
                                                         name_suffix, heatbridge)
         if not svc_instance_uuid[keyword]:
@@ -71,8 +75,8 @@ def deploy_brg_only():
     # Setting up SNIRO
     config_sniro(vcpecommon, svc_instance_uuid['gmux'], svc_instance_uuid['brg'])
 
+
 def deploy_infra():
-    logging.basicConfig(level=logging.INFO, format='%(message)s')
     logger = logging.getLogger(__name__)
 
     vcpecommon = VcpeCommon()
@@ -127,12 +131,12 @@ def deploy_custom_service():
     custom_service = vcpe_custom_service.CustomService(vcpecommon)
 
     # clean up
-    host_dic = {k: vcpecommon.hosts[k] for k in nodes}
-    if not vcpecommon.delete_vxlan_interfaces(host_dic):
-        sys.exit()
+    #host_dic = {k: vcpecommon.hosts[k] for k in nodes}
+    #if not vcpecommon.delete_vxlan_interfaces(host_dic):
+    #    sys.exit()
 
-    custom_service.clean_up_sdnc()
-    custom_service.del_all_vgw_stacks(vcpecommon.vgw_name_keyword)
+    #custom_service.clean_up_sdnc()
+    #custom_service.del_all_vgw_stacks(vcpecommon.vgw_name_keyword)
 
     # create new service
     csar_file = vcpecommon.find_file('rescust', 'csar', 'csar')
@@ -170,6 +174,15 @@ def init_so_sdnc():
     config_sdnc_so.insert_customer_service_to_so(vcpecommon)
     config_sdnc_so.insert_customer_service_to_sdnc(vcpecommon)
 
+
+def tmp_sniro():
+    logger = logging.getLogger(__name__)
+
+    vcpecommon = VcpeCommon()
+
+    svc_instance_uuid = vcpecommon.load_object(vcpecommon.svc_instance_uuid_file)
+    # Setting up SNIRO
+    config_sniro(vcpecommon, svc_instance_uuid['gmux'], svc_instance_uuid['brg'])
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO, format='%(message)s')

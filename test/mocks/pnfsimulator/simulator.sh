@@ -4,8 +4,8 @@ set -euo pipefail
 
 CONTAINER_NAME=pnf-simulator
 CONFIG_FILE_PATH=/config/body.json
-SIMULATOR_DOCKER_HUB=hub-name
-SIMULATOR_TAG=latest
+SIMULATOR_DOCKER_HUB=nexus3.onap.org:10003/onap
+SIMULATOR_TAG=1.0.0-SNAPSHOT-latest
 
 function main(){
 
