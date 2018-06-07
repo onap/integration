@@ -18,12 +18,20 @@ for line in $(tail -n +2 $1); do
     image=$(echo $line | cut -d , -f 1)
     tag=$(echo $line | cut -d , -f 2)
 
-    tags=$(curl -s $NEXUS_RELEASE_PREFIX/$image/tags/list | jq -r '.tags[]' 2> /dev/null)
+    tags=$(curl -s $NEXUS_PUBLIC_PREFIX/$image/tags/list | jq -r '.tags[]' 2> /dev/null)
     echo "$tags" | grep -q "^$tag\$"
     if [ $? -ne 0 ]; then
-        echo "[ERROR] $image:$tag not released"
+        echo "[ERROR] $image:$tag not found"
         #echo "$tags" | sed 's/^/  /'
         (( err++ ))
+
+    else
+        tags=$(curl -s $NEXUS_RELEASE_PREFIX/$image/tags/list | jq -r '.tags[]' 2> /dev/null)
+        echo "$tags" | grep -q "^$tag\$"
+        if [ $? -ne 0 ]; then
+            echo "[WARN] $image:$tag not released"
+            #echo "$tags" | sed 's/^/  /'
+        fi
     fi
 done
 exit $err
