@@ -1,4 +1,4 @@
-/*
+/*-
  * ============LICENSE_START=======================================================
  * org.onap.integration
  * ================================================================================
@@ -35,13 +35,12 @@ import static org.onap.pnfsimulator.message.MessageConstants.PRIORITY;
 import static org.onap.pnfsimulator.message.MessageConstants.SEQUENCE;
 import static org.onap.pnfsimulator.message.MessageConstants.START_EPOCH_MICROSEC;
 import static org.onap.pnfsimulator.message.MessageConstants.VERSION;
+import static org.onap.pnfsimulator.message.MessageConstants.EVENT;
 
 import java.util.Map;
 import java.util.UUID;
 
 import com.google.common.base.Preconditions;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 public class MessageProvider {
@@ -72,8 +71,11 @@ public class MessageProvider {
             }
         });
 
-        root.put(COMMON_EVENT_HEADER, commonEventHeader);
-        root.put(OTHER_FIELDS, otherFields);
+        JSONObject event = new JSONObject();
+        event.put(COMMON_EVENT_HEADER, commonEventHeader);
+        event.put(OTHER_FIELDS, otherFields);
+
+        root.put(EVENT, event);
         return root;
     }
 
@@ -91,6 +93,7 @@ public class MessageProvider {
         commonEventHeader.put(START_EPOCH_MICROSEC, timestamp);
         commonEventHeader.put(INTERNAL_HEADER_FIELDS, new JSONObject());
         commonEventHeader.put(VERSION, 3);
+        commonEventHeader.put("functionalRole", "test_rola");
 
         return commonEventHeader;
     }

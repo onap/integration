@@ -1,4 +1,4 @@
-/*
+/*-
  * ============LICENSE_START=======================================================
  * org.onap.integration
  * ================================================================================
@@ -48,7 +48,7 @@ public class Simulator {
         Instant endTime = Instant.now().plus(duration);
         while (runningTimeNotExceeded(endTime)) {
             try {
-                logger.info("MESSAGE TO BE SENT:\n{}", messageBody.toString(4));
+                logger.info(()-> "MESSAGE TO BE SENT:\n" + messageBody.toString(4));
                 clientProvider.sendMsg(messageBody.toString());
                 Thread.sleep(interval.toMillis());
             } catch (InterruptedException e) {
