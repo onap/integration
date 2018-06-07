@@ -6,7 +6,7 @@
 
   <groupId>org.onap.pnfsimulator</groupId>
   <artifactId>pnf-simulator</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0.0-SNAPSHOT</version>
 
   <name>pnf-simulator</name>
 
@@ -15,7 +15,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <simulator.main.class>org.onap.pnfsimulator.Main</simulator.main.class>
-        <docker.image.tag>latest</docker.image.tag>
+        <docker.image.tag>${project.version}-latest</docker.image.tag>
         <dependency.directory.name>libs</dependency.directory.name>
         <dependency.directory.location>${project.build.directory}/${dependency.directory.name}</dependency.directory.location>
         <onap.nexus.dockerregistry.daily>nexus3.onap.org:10003</onap.nexus.dockerregistry.daily>
