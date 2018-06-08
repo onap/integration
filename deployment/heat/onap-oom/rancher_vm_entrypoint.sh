@@ -74,7 +74,7 @@ usermod -aG docker ubuntu
 
 docker run --restart unless-stopped -d -p 8080:8080  -e CATTLE_BOOTSTRAP_REQUIRED_IMAGE=__docker_proxy__/rancher/agent:v1.2.9 __docker_proxy__/rancher/server:v1.6.14
 
-# install kubernetes 1.8.6
+# install kubernetes 1.8.10
 curl -s -LO https://storage.googleapis.com/kubernetes-release/release/v1.8.10/bin/linux/amd64/kubectl
 chmod +x ./kubectl
 sudo mv ./kubectl /usr/local/bin/kubectl
