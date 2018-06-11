@@ -38,10 +38,10 @@ if [ -z "$ONAP_WORKDIR" ]; then
 fi
 echo "ONAP_WORKDIR=${ONAP_WORKDIR}"
 if [ ! -d ${ONAP_WORKDIR}/demo ]; then
-    git clone -b beijing https://gerrit.onap.org/r/demo ${ONAP_WORKDIR}/demo
+    git clone -b 2.0.0-ONAP https://gerrit.onap.org/r/demo ${ONAP_WORKDIR}/demo
 else
     pushd ${ONAP_WORKDIR}/demo
-    git checkout beijing
+    git checkout 2.0.0-ONAP
     git pull
     popd
 fi

@@ -189,7 +189,7 @@ git config --global log.decorate auto
 
 # Clone OOM:
 cd ~
-git clone -b beijing http://gerrit.onap.org/r/oom
+git clone -b 2.0.0-ONAP http://gerrit.onap.org/r/oom
 cd oom
 git log -1
 git tag -a "deploy0" -m "initial deployment"
