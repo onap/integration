@@ -53,3 +53,5 @@ docker cp ${WORKDIR}/prh_endpoints.json prh:/config/
 
 #Pass any variables required by Robot test suites in ROBOT_VARIABLES
 ROBOT_VARIABLES="-v DMAAP_SIMULATOR:localhost:2222 -v AAI_SIMULATOR:localhost:3333 -v PRH:localhost:8100"
+
+pip install docker
