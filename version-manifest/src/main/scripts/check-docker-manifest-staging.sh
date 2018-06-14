@@ -1,8 +1,8 @@
 #!/bin/bash
 
 if [ "$#" -ne 1 ]; then
-    echo This script checks docker-manifest.csv to verify that the specified versions have been released in nexus3
-    echo "$0 <docker-manifest.csv>"
+    echo This script checks docker-manifest-staging.csv to verify that the specified versions exist in nexus3
+    echo "$0 <docker-manifest-staging.csv>"
     exit 1
 fi
 
@@ -18,10 +18,10 @@ for line in $(tail -n +2 $1); do
     image=$(echo $line | cut -d , -f 1)
     tag=$(echo $line | cut -d , -f 2)
 
-    tags=$(curl -s $NEXUS_RELEASE_PREFIX/$image/tags/list | jq -r '.tags[]' 2> /dev/null)
+    tags=$(curl -s $NEXUS_PUBLIC_PREFIX/$image/tags/list | jq -r '.tags[]' 2> /dev/null)
     echo "$tags" | grep -q "^$tag\$"
     if [ $? -ne 0 ]; then
-        echo "[ERROR] $image:$tag not released"
+        echo "[ERROR] $image:$tag not found"
         #echo "$tags" | sed 's/^/  /'
         (( err++ ))
     fi
