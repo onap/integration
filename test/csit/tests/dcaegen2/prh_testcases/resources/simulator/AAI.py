@@ -20,10 +20,13 @@ class AAIHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         
     def do_PATCH(self):
         pnfs_name = '/aai/v12/network/pnfs/pnf/' + pnfs 
-        if re.search(pnfs_name, self.path):
+        if re.search('wrong_aai_record', self.path):
+            self.send_response(400)
+            self.end_headers()
+        elif re.search(pnfs_name, self.path):
             self.send_response(200)
             self.end_headers()
-            
+                
         return
   
     def do_GET(self):

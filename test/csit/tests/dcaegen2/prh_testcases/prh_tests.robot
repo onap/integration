@@ -24,16 +24,32 @@ Missing IPv4 and IPv6
     [Documentation]    Test get event from DMaaP without IPv4 and IPv6
     [Tags]    PRH    no_IPv4    no_IPv6
     [Setup]    Start prh
-    No IP    {"event": {"commonEventHeader": {"sourceId":"QTFCOC540002E", "startEpochMicrosec":1519837825682, "eventId":"QTFCOC540002E-reg", "nfcNamingCode":"5DU", "internalHeaderFields":{"collectorTimeStamp":"Fri, 04 27 2018 09:01:10 GMT"}, "eventType":"pnfRegistration", "priority":"Normal", "version":3, "reportingEntityName":"5GRAN_DU", "sequence":0, "domain":"other", "lastEpochMicrosec":1519837825682, "eventName":"pnfRegistration_5GDU", "sourceName":"5GRAN_DU", "nfNamingCode":"5GRAN"}, "otherFields": {"pnfLastServiceDate":1517206400, "pnfOamIpv6Address":"", "pnfVendorName":"Nokia", "pnfModelNumber":"AJ02", "pnfFamily":"BBU", "pnfType":"AirScale", "otherFieldsVersion":1, "pnfOamIpv4Address":"", "pnfSoftwareVersion":"v4.5.0.1", "pnfSerialNumber":"QTFCOC540002E", "pnfManufactureDate":1516406400}}}
+    Missing IP    {"event": {"commonEventHeader": {"sourceId":"QTFCOC540002E", "startEpochMicrosec":1519837825682, "eventId":"QTFCOC540002E-reg", "nfcNamingCode":"5DU", "internalHeaderFields":{"collectorTimeStamp":"Fri, 04 27 2018 09:01:10 GMT"}, "eventType":"pnfRegistration", "priority":"Normal", "version":3, "reportingEntityName":"5GRAN_DU", "sequence":0, "domain":"other", "lastEpochMicrosec":1519837825682, "eventName":"pnfRegistration_5GDU", "sourceName":"5GRAN_DU", "nfNamingCode":"5GRAN"}, "otherFields": {"pnfLastServiceDate":1517206400, "pnfOamIpv6Address":"", "pnfVendorName":"Nokia", "pnfModelNumber":"AJ02", "pnfFamily":"BBU", "pnfType":"AirScale", "otherFieldsVersion":1, "pnfOamIpv4Address":"", "pnfSoftwareVersion":"v4.5.0.1", "pnfSerialNumber":"QTFCOC540002E", "pnfManufactureDate":1516406400}}}
+    [Teardown]    Stop prh
+
+Wrong AAI record
+    [Documentation]    Wrong or missing record in AAI
+    [Tags]    PRH    AAI
+    [Setup]    Start prh
+    Wrong AAI record    {"event": {"commonEventHeader": {"sourceId":"QTFCOC540002E", "startEpochMicrosec":1519837825682, "eventId":"QTFCOC540002E-reg", "nfcNamingCode":"5DU", "internalHeaderFields":{"collectorTimeStamp":"Fri, 04 27 2018 09:01:10 GMT"}, "eventType":"pnfRegistration", "priority":"Normal", "version":3, "reportingEntityName":"5GRAN_DU", "sequence":0, "domain":"other", "lastEpochMicrosec":1519837825682, "eventName":"pnfRegistration_5GDU", "sourceName":"5GRAN_DU", "nfNamingCode":"5GRAN"}, "otherFields": {"pnfLastServiceDate":1517206400, "pnfOamIpv6Address":"2001:0db8:85a3:0000:0000:8a2e:0370:7334", "pnfVendorName":"Nokia", "pnfModelNumber":"AJ02", "pnfFamily":"BBU", "pnfType":"AirScale", "otherFieldsVersion":1, "pnfOamIpv4Address":"10.16.123.234", "pnfSoftwareVersion":"v4.5.0.1", "pnfSerialNumber":"QTFCOC540002E", "pnfManufactureDate":1516406400}}}
     [Teardown]    Stop prh
 
 *** Keywords ***
-No IP
+Wrong AAI record
     [Arguments]    ${event_in_dmaap}
     [Timeout]    1m
     ${headers}=    Create Dictionary    Accept=application/json    Content-Type=application/json
     Set get event in DMAAP    ${event_in_dmaap}    ${headers}
-    ${check}=    check log for missing IP
+    Set pnfs name in AAI    wrong_aai_record
+    ${check}=    check for log    org.onap.dcaegen2.services.prh.exceptions.AAINotFoundException: Incorrect response code for continuation of tasks workflow
+    Should Be Equal As Strings    ${check}    True
+
+Missing IP
+    [Arguments]    ${event_in_dmaap}
+    [Timeout]    1m
+    ${headers}=    Create Dictionary    Accept=application/json    Content-Type=application/json
+    Set get event in DMAAP    ${event_in_dmaap}    ${headers}
+    ${check}=    check for log    org.onap.dcaegen2.services.prh.exceptions.DmaapNotFoundException: IPV4 and IPV6 are empty
     Should Be Equal As Strings    ${check}    True
 
 Run Getting and Consuming
