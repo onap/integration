@@ -39,24 +39,16 @@ import static org.onap.pnfsimulator.message.MessageConstants.EVENT;
 
 import java.util.Map;
 import java.util.UUID;
-
-import com.google.common.base.Preconditions;
 import org.json.JSONObject;
 
 public class MessageProvider {
 
-    private static MessageProvider instance;
-
-    public static MessageProvider getInstance() {
-        if (instance == null) {
-            instance = new MessageProvider();
-        }
-        return instance;
-    }
-
     public JSONObject createMessage(JSONObject params) {
 
-        Preconditions.checkArgument(params != null, "Params object cannot be null");
+        if(params == null){
+            throw new IllegalArgumentException("Params object cannot be null");
+        }
+
          Map<String, Object> paramsMap = params.toMap();
         JSONObject root = new JSONObject();
         JSONObject commonEventHeader = generateConstantCommonEventHeader();
@@ -74,7 +66,6 @@ public class MessageProvider {
         JSONObject event = new JSONObject();
         event.put(COMMON_EVENT_HEADER, commonEventHeader);
         event.put(OTHER_FIELDS, otherFields);
-
         root.put(EVENT, event);
         return root;
     }
@@ -93,7 +84,6 @@ public class MessageProvider {
         commonEventHeader.put(START_EPOCH_MICROSEC, timestamp);
         commonEventHeader.put(INTERNAL_HEADER_FIELDS, new JSONObject());
         commonEventHeader.put(VERSION, 3);
-        commonEventHeader.put("functionalRole", "test_rola");
 
         return commonEventHeader;
     }

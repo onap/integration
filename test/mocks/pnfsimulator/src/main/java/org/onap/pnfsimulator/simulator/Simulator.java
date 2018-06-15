@@ -25,41 +25,60 @@ import java.time.Instant;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
-import org.onap.pnfsimulator.simulator.client.HttpClientProvider;
+import org.onap.pnfsimulator.simulator.client.HttpClientAdapter;
 
-public class Simulator {
+public class Simulator extends Thread {
 
-    private static final Logger logger = LogManager.getLogger(HttpClientProvider.class);
-    private HttpClientProvider clientProvider;
+    private static final Logger LOGGER = LogManager.getLogger(Simulator.class);
+    private HttpClientAdapter clientProvider;
     private JSONObject messageBody;
+    private Instant endTime;
     private Duration duration;
     private Duration interval;
+    private final boolean isEndless;
 
     public Simulator(String vesServerUrl, JSONObject messageBody, Duration duration, Duration interval) {
         this.messageBody = messageBody;
         this.duration = duration;
         this.interval = interval;
-        this.clientProvider = new HttpClientProvider(vesServerUrl);
+        this.clientProvider = new HttpClientAdapter(vesServerUrl);
+        this.isEndless = duration.getSeconds() == 0;
     }
 
-    public void start() {
-        logger.info("SIMULATOR STARTED - DURATION: {}s, INTERVAL: {}s", duration.getSeconds(), interval.getSeconds());
+    public void run() {
+        LOGGER.info("Simulation started - duration: " + getDuration() + ", interval: {}s", interval.getSeconds());
 
-        Instant endTime = Instant.now().plus(duration);
-        while (runningTimeNotExceeded(endTime)) {
+        endTime = Instant.now().plus(duration);
+        boolean isEndless = isEndless();
+        while (isEndless || runningTimeNotExceeded()) {
             try {
-                logger.info(()-> "MESSAGE TO BE SENT:\n" + messageBody.toString(4));
+                LOGGER.debug("Message to be sent:\n" + messageBody.toString(4));
                 clientProvider.sendMsg(messageBody.toString());
                 Thread.sleep(interval.toMillis());
             } catch (InterruptedException e) {
-                logger.error("SIMULATOR INTERRUPTED");
-                break;
+                LOGGER.info("Simulation interrupted");
+                return;
             }
         }
-        logger.info("SIMULATOR FINISHED");
+        LOGGER.info("Simulation finished");
     }
 
-    private boolean runningTimeNotExceeded(Instant endTime) {
+    public boolean isEndless() {
+        return isEndless;
+    }
+
+    private String getDuration() {
+        return isEndless() ? "infinity" : duration.getSeconds() + "s";
+    }
+
+    private boolean runningTimeNotExceeded() {
         return Instant.now().isBefore(endTime);
+    }
+
+    public long getRemainingTime(){
+        return Duration.between(Instant.now(), endTime).getSeconds();
+    }
+    public String getMessage(){
+        return messageBody.toString(4);
     }
 }

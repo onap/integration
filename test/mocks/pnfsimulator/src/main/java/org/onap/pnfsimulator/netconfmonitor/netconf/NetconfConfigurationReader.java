@@ -18,11 +18,23 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.pnfsimulator.simulator.validation;
+package org.onap.pnfsimulator.netconfmonitor.netconf;
 
-public class ValidationException extends Exception {
+import com.tailf.jnc.JNCException;
+import com.tailf.jnc.NetconfSession;
 
-    public ValidationException(String message) {
-        super(message);
+import java.io.IOException;
+
+public class NetconfConfigurationReader {
+    private final NetconfSession session;
+    private final String netconfModelPath;
+
+    public NetconfConfigurationReader(NetconfSession session, String netconfModelPath) {
+        this.session = session;
+        this.netconfModelPath = netconfModelPath;
+    }
+
+    public String read() throws IOException, JNCException {
+        return session.getConfig(netconfModelPath).first().toXMLString();
     }
 }

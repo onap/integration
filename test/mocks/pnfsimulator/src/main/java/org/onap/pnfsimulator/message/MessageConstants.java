@@ -17,7 +17,7 @@
  * limitations under the License.
  * ============LICENSE_END=========================================================
  */
- 
+
 package org.onap.pnfsimulator.message;
 
 public final class MessageConstants {
@@ -36,12 +36,15 @@ public final class MessageConstants {
     public static final String PNF_LAST_SERVICE_DATE = "pnfLastServiceDate";
     public static final String PNF_MANUFACTURE_DATE = "pnfManufactureDate";
 
+    public static final String SIMULATOR_PARAMS_CONTAINER = "simulatorParams";
+    public static final String MESSAGE_PARAMS_CONTAINER = "messageParams";
+
     // mandatory
     public static final String PNF_OAM_IPV4_ADDRESS = "pnfOamIpv4Address";
     public static final String PNF_OAM_IPV6_ADDRESS = "pnfOamIpv6Address";
     public static final String PNF_SERIAL_NUMBER = "pnfSerialNumber";
     public static final String PNF_VENDOR_NAME = "pnfVendorName";
-
+    public static final String VES_SERVER_URL = "vesServerUrl";
     public static final String PNF_PREFIX = "pnf";
     public static final String COMMON_EVENT_HEADER = "commonEventHeader";
     public static final String OTHER_FIELDS = "otherFields";

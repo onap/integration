@@ -23,7 +23,21 @@ package org.onap.pnfsimulator.message;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.onap.pnfsimulator.message.MessageConstants.*;
+import static org.onap.pnfsimulator.message.MessageConstants.COMMON_EVENT_HEADER;
+import static org.onap.pnfsimulator.message.MessageConstants.DOMAIN;
+import static org.onap.pnfsimulator.message.MessageConstants.EVENT_ID;
+import static org.onap.pnfsimulator.message.MessageConstants.EVENT_TYPE;
+import static org.onap.pnfsimulator.message.MessageConstants.INTERNAL_HEADER_FIELDS;
+import static org.onap.pnfsimulator.message.MessageConstants.LAST_EPOCH_MICROSEC;
+import static org.onap.pnfsimulator.message.MessageConstants.OTHER_FIELDS;
+import static org.onap.pnfsimulator.message.MessageConstants.OTHER_FIELDS_VERSION;
+import static org.onap.pnfsimulator.message.MessageConstants.PNF_LAST_SERVICE_DATE;
+import static org.onap.pnfsimulator.message.MessageConstants.PNF_MANUFACTURE_DATE;
+import static org.onap.pnfsimulator.message.MessageConstants.PRIORITY;
+import static org.onap.pnfsimulator.message.MessageConstants.SEQUENCE;
+import static org.onap.pnfsimulator.message.MessageConstants.START_EPOCH_MICROSEC;
+import static org.onap.pnfsimulator.message.MessageConstants.VERSION;
+import static org.onap.pnfsimulator.message.MessageConstants.EVENT;
 
 import java.util.UUID;
 import org.json.JSONObject;
@@ -39,7 +53,7 @@ public class MessageProviderTest {
 
     @BeforeAll
     public static void setup() {
-        messageProvider = MessageProvider.getInstance();
+        messageProvider = new MessageProvider();
     }
 
     @Test
@@ -76,8 +90,8 @@ public class MessageProviderTest {
     public void createMessage_should_add_specified_params_to_valid_subobjects() {
         JSONObject params = new JSONObject(testParamsJson);
         JSONObject message = messageProvider.createMessage(params);
-
         JSONObject event = message.getJSONObject(EVENT);
+
         JSONObject commonEventHeader = event.getJSONObject(COMMON_EVENT_HEADER);
         JSONObject otherFields = event.getJSONObject(OTHER_FIELDS);
 

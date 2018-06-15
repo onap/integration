@@ -1,0 +1,4 @@
+<config xmlns="http://nokia.com/pnf-simulator">
+	<testDuration>10</testDuration>
+	<messageInterval>1</messageInterval>
+</config>

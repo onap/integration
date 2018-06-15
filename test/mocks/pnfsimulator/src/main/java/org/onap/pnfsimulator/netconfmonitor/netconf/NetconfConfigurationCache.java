@@ -18,11 +18,16 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.pnfsimulator.simulator.validation;
+package org.onap.pnfsimulator.netconfmonitor.netconf;
 
-public class ValidationException extends Exception {
+public class NetconfConfigurationCache {
+    private String configuration = "";
 
-    public ValidationException(String message) {
-        super(message);
+    public String getConfiguration() {
+        return configuration;
+    }
+
+    public void update(String configuration) {
+        this.configuration = configuration;
     }
 }
