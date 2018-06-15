@@ -31,16 +31,16 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class HttpClientProvider {
+public class HttpClientAdapter {
 
-    private static final Logger logger = LogManager.getLogger(HttpClientProvider.class);
+    private static final Logger LOGGER = LogManager.getLogger(HttpClientAdapter.class);
     private static final String CONTENT_TYPE = "Content-Type";
     private static final String APPLICATION_JSON = "application/json";
 
     private HttpClient client;
     private String url;
 
-    public HttpClientProvider(String url) {
+    public HttpClientAdapter(String url) {
 
         RequestConfig config = RequestConfig.custom()
             .setConnectTimeout(1000)
@@ -60,9 +60,9 @@ public class HttpClientProvider {
         try {
             HttpPost request = createRequest(content);
             HttpResponse response = client.execute(request);
-            logger.info("MESSAGE SENT, VES RESPONSE CODE: {}", response.getStatusLine());
+            LOGGER.info("MESSAGE SENT, VES RESPONSE CODE: {}", response.getStatusLine());
         } catch (IOException e) {
-            logger.info("ERROR SENDING MESSAGE TO VES: {}", e.getMessage());
+            LOGGER.info("ERROR SENDING MESSAGE TO VES: {}", e.getMessage());
         }
     }
 

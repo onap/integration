@@ -20,15 +20,12 @@
 
 package org.onap.pnfsimulator.simulator;
 
+import static java.lang.Integer.*;
 import static org.onap.pnfsimulator.message.MessageConstants.MESSAGE_INTERVAL;
 import static org.onap.pnfsimulator.message.MessageConstants.TEST_DURATION;
+import static org.onap.pnfsimulator.message.MessageConstants.VES_SERVER_URL;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import java.util.List;
-import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
 import org.onap.pnfsimulator.message.MessageProvider;
 import org.onap.pnfsimulator.simulator.validation.ParamsValidator;
@@ -38,23 +35,23 @@ public class SimulatorFactory {
 
     private MessageProvider messageProvider;
 
-    public SimulatorFactory(MessageProvider messageProvider) {
+    public static SimulatorFactory usingMessageProvider(MessageProvider messageProvider) {
+        return new SimulatorFactory(messageProvider);
+    }
+
+    private SimulatorFactory(MessageProvider messageProvider) {
         this.messageProvider = messageProvider;
     }
 
-    public Simulator create(String vesServerUrl, String configFilePath) throws IOException, ValidationException {
+    public Simulator create(JSONObject simulatorParams, JSONObject messageParams) throws ValidationException {
 
-        String configJson = FileUtils.readFileToString(new File(configFilePath), StandardCharsets.UTF_8);
-        JSONObject configObject = new JSONObject(configJson);
-        ParamsValidator.forObject(configObject).validate();
+        ParamsValidator.forParams(simulatorParams, messageParams).validate();
 
-        Duration duration = Duration.ofSeconds(parseJsonField(configObject, TEST_DURATION));
-        Duration interval = Duration.ofSeconds(parseJsonField(configObject, MESSAGE_INTERVAL));
-        JSONObject messageBody = messageProvider.createMessage(configObject);
+        Duration duration = Duration.ofSeconds(parseInt(simulatorParams.getString(TEST_DURATION)));
+        Duration interval = Duration.ofSeconds(parseInt(simulatorParams.getString(MESSAGE_INTERVAL)));
+        String vesServerUrl = simulatorParams.getString(VES_SERVER_URL);
+
+        JSONObject messageBody = messageProvider.createMessage(messageParams);
         return new Simulator(vesServerUrl, messageBody, duration, interval);
-    }
-
-    private int parseJsonField(JSONObject json, String fieldName) {
-        return Integer.parseInt((String) json.remove(fieldName));
     }
 }

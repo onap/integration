@@ -1,0 +1,9 @@
+module pnf-simulator {
+  namespace "http://nokia.com/pnf-simulator";
+  prefix config;
+  container config {
+    config true;
+    leaf testDuration {type uint32;}
+    leaf messageInterval {type uint32;}
+  }
+}

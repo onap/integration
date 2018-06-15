@@ -18,11 +18,22 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.pnfsimulator.simulator.validation;
+package org.onap.pnfsimulator.netconfmonitor.netconf;
 
-public class ValidationException extends Exception {
+import com.tailf.jnc.JNCException;
+import com.tailf.jnc.NetconfSession;
+import com.tailf.jnc.SSHConnection;
+import com.tailf.jnc.SSHSession;
 
-    public ValidationException(String message) {
-        super(message);
+import java.io.IOException;
+
+public final class NetconfSessionFactory {
+    private NetconfSessionFactory() {}
+
+    public static NetconfSession create(NetconfConnectionParams params) throws IOException, JNCException {
+        SSHConnection sshConnection = new SSHConnection(params.address, params.port);
+        sshConnection.authenticateWithPassword(params.user, params.password);
+        SSHSession sshSession = new SSHSession(sshConnection);
+        return new NetconfSession(sshSession);
     }
 }

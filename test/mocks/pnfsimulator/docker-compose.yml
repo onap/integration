@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  pnf-simulator:
+    container_name: pnf-simulator
+    image: nexus3.onap.org:10003/onap/pnf-simulator:latest
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./logs:/var/log
+    env_file:
+      - ./config/netconf.env
+    depends_on:
+      - netopeer
+
+  netopeer:
+    container_name: netopeer
+    image: sysrepo/sysrepo-netopeer2:latest
+    ports:
+      - "830:830"
+    env_file:
+      - ./config/netconf.env
+    volumes:
+      - ./netconf:/netconf
