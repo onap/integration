@@ -1,3 +1,3 @@
 # Test suites are relative paths under [integration.git]/test/csit/tests/.
 # Place the suites in run order.
-dcaegen2/prh_testcases
+dcaegen2/prh-testcases

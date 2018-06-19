@@ -6,7 +6,7 @@ export PRH_SERVICE="prh"
 export DMAAP_SIMULATOR="dmaap_simulator"
 export AAI_SIMULATOR="aai_simulator"
 
-cd ${WORKSPACE}/test/csit/tests/dcaegen2/prh_testcases/resources/
+cd ${WORKSPACE}/test/csit/tests/dcaegen2/prh-testcases/resources/
 
 docker login -u docker -p docker nexus3.onap.org:10003
 docker-compose up -d --build
