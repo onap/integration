@@ -1,0 +1,3147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="2.9" jmeter="3.0 r1743807">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="Test General Variables" enabled="true">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="##################   Test-Params   ##################" elementType="Argument">
+            <stringProp name="Argument.name">##################   Test-Params   ##################</stringProp>
+            <stringProp name="Argument.value">##############################################</stringProp>
+            <stringProp name="Argument.desc">##############################################</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="TestName" elementType="Argument">
+            <stringProp name="Argument.name">TestName</stringProp>
+            <stringProp name="Argument.value">010-test.log</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="step" elementType="Argument">
+            <stringProp name="Argument.name">step</stringProp>
+            <stringProp name="Argument.value">0</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="product" elementType="Argument">
+            <stringProp name="Argument.name">product</stringProp>
+            <stringProp name="Argument.value">ASDC</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="fileRepo" elementType="Argument">
+            <stringProp name="Argument.name">fileRepo</stringProp>
+            <stringProp name="Argument.value">/qa-test-repo/TestsProperties/HEATFiles/</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="file" elementType="Argument">
+            <stringProp name="Argument.name">file</stringProp>
+            <stringProp name="Argument.value">SimpleHEAT-1610.zip</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="zip" elementType="Argument">
+            <stringProp name="Argument.name">zip</stringProp>
+            <stringProp name="Argument.value">application/zip</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="#####################   URL   ####################" elementType="Argument">
+            <stringProp name="Argument.name">#####################   URL   ####################</stringProp>
+            <stringProp name="Argument.value">##############################################</stringProp>
+            <stringProp name="Argument.desc">##############################################</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="port" elementType="Argument">
+            <stringProp name="Argument.name">port</stringProp>
+            <stringProp name="Argument.value">8080</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="protocol" elementType="Argument">
+            <stringProp name="Argument.name">protocol</stringProp>
+            <stringProp name="Argument.value">http</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="##############################################" elementType="Argument">
+            <stringProp name="Argument.name">##############################################</stringProp>
+            <stringProp name="Argument.value">##############################################</stringProp>
+            <stringProp name="Argument.desc">##############################################</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+        </collectionProp>
+      </Arguments>
+      <hashTree/>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Test Init" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1422885662000</longProp>
+        <longProp name="ThreadGroup.end_time">1422885662000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <SystemSampler guiclass="SystemSamplerGui" testclass="SystemSampler" testname="Remove previous log file" enabled="true">
+          <boolProp name="SystemSampler.checkReturnCode">false</boolProp>
+          <stringProp name="SystemSampler.expectedReturnCode">0</stringProp>
+          <stringProp name="SystemSampler.command">rm</stringProp>
+          <elementProp name="SystemSampler.arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="Argument">
+                <stringProp name="Argument.name"></stringProp>
+                <stringProp name="Argument.value">-rf</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Argument">
+                <stringProp name="Argument.name"></stringProp>
+                <stringProp name="Argument.value">/tmp/TestResult/${TestName}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <elementProp name="SystemSampler.environment" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="SystemSampler.directory"></stringProp>
+        </SystemSampler>
+        <hashTree>
+          <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+            <boolProp name="ResultCollector.error_logging">false</boolProp>
+            <objProp>
+              <name>saveConfig</name>
+              <value class="SampleSaveConfiguration">
+                <time>true</time>
+                <latency>true</latency>
+                <timestamp>true</timestamp>
+                <success>true</success>
+                <label>true</label>
+                <code>true</code>
+                <message>true</message>
+                <threadName>true</threadName>
+                <dataType>true</dataType>
+                <encoding>true</encoding>
+                <assertions>true</assertions>
+                <subresults>true</subresults>
+                <responseData>true</responseData>
+                <samplerData>true</samplerData>
+                <xml>false</xml>
+                <fieldNames>true</fieldNames>
+                <responseHeaders>true</responseHeaders>
+                <requestHeaders>true</requestHeaders>
+                <responseDataOnError>false</responseDataOnError>
+                <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                <assertionsResultsToSave>0</assertionsResultsToSave>
+                <bytes>true</bytes>
+                <url>true</url>
+                <fileName>true</fileName>
+                <hostname>true</hostname>
+                <threadCounts>true</threadCounts>
+                <sampleCount>true</sampleCount>
+                <idleTime>true</idleTime>
+              </value>
+            </objProp>
+            <stringProp name="filename"></stringProp>
+          </ResultCollector>
+          <hashTree/>
+        </hashTree>
+        <SystemSampler guiclass="SystemSamplerGui" testclass="SystemSampler" testname="Get API&amp;Names" enabled="true">
+          <boolProp name="SystemSampler.checkReturnCode">false</boolProp>
+          <stringProp name="SystemSampler.expectedReturnCode">0</stringProp>
+          <stringProp name="SystemSampler.command">cat</stringProp>
+          <elementProp name="SystemSampler.arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="Argument">
+                <stringProp name="Argument.name"></stringProp>
+                <stringProp name="Argument.value">ASDC.txt</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <elementProp name="SystemSampler.environment" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="SystemSampler.directory">/qa-test-repo/TestsProperties/API/</stringProp>
+        </SystemSampler>
+        <hashTree>
+          <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="Extract API data" enabled="true">
+            <boolProp name="resetInterpreter">false</boolProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="script">String ResponseString = prev.getResponseDataAsString();
+
+String[] ActionItem= ResponseString.split(&quot;\n&quot;);
+
+for( String s : ActionItem)
+{
+     log.info(&quot;line is : &quot; + s);
+     log.info(&quot;key is : &quot; + s.split(&quot;!~!~!&quot;)[0]);
+     log.info(&quot;value is : &quot; + s.split(&quot;!~!~!&quot;)[1]);
+     props.put(s.split(&quot;!~!~!&quot;)[0], s.split(&quot;!~!~!&quot;)[1]);
+}
+
+	
+</stringProp>
+          </BeanShellPostProcessor>
+          <hashTree/>
+          <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+            <boolProp name="ResultCollector.error_logging">false</boolProp>
+            <objProp>
+              <name>saveConfig</name>
+              <value class="SampleSaveConfiguration">
+                <time>true</time>
+                <latency>true</latency>
+                <timestamp>true</timestamp>
+                <success>true</success>
+                <label>true</label>
+                <code>true</code>
+                <message>true</message>
+                <threadName>true</threadName>
+                <dataType>true</dataType>
+                <encoding>true</encoding>
+                <assertions>true</assertions>
+                <subresults>true</subresults>
+                <responseData>true</responseData>
+                <samplerData>true</samplerData>
+                <xml>false</xml>
+                <fieldNames>true</fieldNames>
+                <responseHeaders>true</responseHeaders>
+                <requestHeaders>true</requestHeaders>
+                <responseDataOnError>false</responseDataOnError>
+                <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                <assertionsResultsToSave>0</assertionsResultsToSave>
+                <bytes>true</bytes>
+                <url>true</url>
+                <fileName>true</fileName>
+                <hostname>true</hostname>
+                <threadCounts>true</threadCounts>
+                <sampleCount>true</sampleCount>
+                <idleTime>true</idleTime>
+              </value>
+            </objProp>
+            <stringProp name="filename">/tmp/TestResult/ResultsTree.csv</stringProp>
+          </ResultCollector>
+          <hashTree/>
+        </hashTree>
+        <SystemSampler guiclass="SystemSamplerGui" testclass="SystemSampler" testname="Get SUT Parameters" enabled="true">
+          <boolProp name="SystemSampler.checkReturnCode">false</boolProp>
+          <stringProp name="SystemSampler.expectedReturnCode">0</stringProp>
+          <stringProp name="SystemSampler.command">bash</stringProp>
+          <elementProp name="SystemSampler.arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="Argument">
+                <stringProp name="Argument.name"></stringProp>
+                <stringProp name="Argument.value">Get_SUT_Params.sh</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Argument">
+                <stringProp name="Argument.name"></stringProp>
+                <stringProp name="Argument.value">${product}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Argument">
+                <stringProp name="Argument.name"></stringProp>
+                <stringProp name="Argument.value">${ASDC_SETUP}.xml</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <elementProp name="SystemSampler.environment" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="SystemSampler.directory">/qa-test-repo/scripts/ASDC/</stringProp>
+        </SystemSampler>
+        <hashTree>
+          <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="Extract Environment data" enabled="true">
+            <boolProp name="resetInterpreter">false</boolProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="script">String ResponseString = prev.getResponseDataAsString();
+
+log.info(&quot;########################&quot; + ResponseString);
+
+String[] ActionItem= ResponseString.split(&quot;\n&quot;);
+
+for( String s : ActionItem)
+{
+     log.info(&quot;line is : &quot; + s);
+     log.info(&quot;data field name is : &quot; + s.split(&quot; &quot;)[0]);
+     log.info(&quot;value is : &quot; + s.split(&quot; &quot;)[1]);
+     props.put(s.split(&quot; &quot;)[0], s.split(&quot; &quot;)[1]);
+}
+</stringProp>
+          </BeanShellPostProcessor>
+          <hashTree/>
+          <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+            <boolProp name="ResultCollector.error_logging">false</boolProp>
+            <objProp>
+              <name>saveConfig</name>
+              <value class="SampleSaveConfiguration">
+                <time>true</time>
+                <latency>true</latency>
+                <timestamp>true</timestamp>
+                <success>true</success>
+                <label>true</label>
+                <code>true</code>
+                <message>true</message>
+                <threadName>true</threadName>
+                <dataType>true</dataType>
+                <encoding>true</encoding>
+                <assertions>true</assertions>
+                <subresults>true</subresults>
+                <responseData>true</responseData>
+                <samplerData>true</samplerData>
+                <xml>false</xml>
+                <fieldNames>true</fieldNames>
+                <responseHeaders>true</responseHeaders>
+                <requestHeaders>true</requestHeaders>
+                <responseDataOnError>false</responseDataOnError>
+                <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                <assertionsResultsToSave>0</assertionsResultsToSave>
+                <bytes>true</bytes>
+                <url>true</url>
+                <fileName>true</fileName>
+                <hostname>true</hostname>
+                <threadCounts>true</threadCounts>
+                <sampleCount>true</sampleCount>
+                <idleTime>true</idleTime>
+              </value>
+            </objProp>
+            <stringProp name="filename">/tmp/TestResult/ResultsTree.csv</stringProp>
+          </ResultCollector>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Test Flow" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">${MAIN_THREAD_GROUP_CNT}</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">${NUM_OF_THREAD}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">${TEST_DURATION}</stringProp>
+        <longProp name="ThreadGroup.start_time">1422885662000</longProp>
+        <longProp name="ThreadGroup.end_time">1422885662000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager Main" enabled="true">
+          <collectionProp name="HeaderManager.headers">
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">Accept</stringProp>
+              <stringProp name="Header.value">application/json</stringProp>
+            </elementProp>
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">Content-Type</stringProp>
+              <stringProp name="Header.value">application/json</stringProp>
+            </elementProp>
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">${__P(HTTP_REST_USER_ID_HEADER_NAME)}</stringProp>
+              <stringProp name="Header.value">${__P(HTTP_REST_USER_ID_HEADER_VALUE)}</stringProp>
+            </elementProp>
+          </collectionProp>
+          <stringProp name="TestPlan.comments">Accept - application/octet-stream</stringProp>
+        </HeaderManager>
+        <hashTree/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Vendor License Model" enabled="true"/>
+        <hashTree>
+          <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Define Test VLM Properties" enabled="true">
+            <stringProp name="BeanShellSampler.query">${__eval(${__FileToString(/qa-test-repo/TestsProperties/ASDC/VLM_props.txt)})};</stringProp>
+            <stringProp name="BeanShellSampler.filename"></stringProp>
+            <stringProp name="BeanShellSampler.parameters"></stringProp>
+            <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+          </BeanShellSampler>
+          <hashTree>
+            <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+              <stringProp name="ConstantTimer.delay">300</stringProp>
+            </ConstantTimer>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Create Vendor License Model" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">${__eval(${__FileToString(/qa-test-repo/TestsProperties/ASDC/VLM_body.txt,,requestBody)})}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${__P(VM_controller)}</stringProp>
+            <stringProp name="HTTPSampler.port">${port}</stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">${__P(ASDC_prefix)}</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.implementation">HttpClient3.1</stringProp>
+            <boolProp name="HTTPSampler.monitor">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+              <boolProp name="ResultCollector.error_logging">false</boolProp>
+              <objProp>
+                <name>saveConfig</name>
+                <value class="SampleSaveConfiguration">
+                  <time>true</time>
+                  <latency>true</latency>
+                  <timestamp>true</timestamp>
+                  <success>true</success>
+                  <label>true</label>
+                  <code>true</code>
+                  <message>true</message>
+                  <threadName>true</threadName>
+                  <dataType>true</dataType>
+                  <encoding>false</encoding>
+                  <assertions>true</assertions>
+                  <subresults>true</subresults>
+                  <responseData>false</responseData>
+                  <samplerData>false</samplerData>
+                  <xml>false</xml>
+                  <fieldNames>false</fieldNames>
+                  <responseHeaders>false</responseHeaders>
+                  <requestHeaders>false</requestHeaders>
+                  <responseDataOnError>false</responseDataOnError>
+                  <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+                  <assertionsResultsToSave>0</assertionsResultsToSave>
+                  <bytes>true</bytes>
+                  <threadCounts>true</threadCounts>
+                </value>
+              </objProp>
+              <stringProp name="filename"></stringProp>
+            </ResultCollector>
+            <hashTree/>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Get VLM from Response" enabled="true">
+              <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+              <stringProp name="RegexExtractor.refname">VLM</stringProp>
+              <stringProp name="RegexExtractor.regex">&quot;value&quot;:&quot;(.+?)&quot;</stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.default">0</stringProp>
+              <stringProp name="RegexExtractor.match_number">1</stringProp>
+              <stringProp name="Scope.variable"></stringProp>
+            </RegexExtractor>
+            <hashTree/>
+            <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="Log" enabled="true">
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="script">String ResponseString = prev.getResponseDataAsString();
+String ResponseCode = prev.getResponseCode(); 
+String ResponseMessage = prev.getResponseMessage();
+
+props.put(&quot;VLM_P&quot;,&quot;${VLM}&quot;);
+
+String test_tmp_folder = &quot;/tmp/TestResult/${TestName}&quot;;
+	f = new FileOutputStream(test_tmp_folder, true); 
+	p = new PrintStream(f); 
+
+mydate = &quot;${__time(dd-MM-yyyy hh:mm:ss)}&quot;;
+
+String body = vars.get(&quot;requestBody&quot;);
+String url = &quot;${protocol}://${__P(VM_controller)}:${port}/${__P(ASDC_prefix)}&quot;;
+
+p.println(&quot;\n#######################&quot;+&quot; Create Vendor License Model &quot;+&quot;#######################&quot;);
+
+if (ResponseCode.contains(&quot;200&quot;))
+{
+	p.println(mydate + &quot; : Thread number ${__threadNum()} in step ${__samplerName}: PASS&quot;);
+	p.println(&quot;POST - &quot;+url);
+	p.println(body);
+	p.println(&quot;Response Code : &quot; + ResponseCode); 
+	p.println(&quot;Response Message : &quot; + ResponseMessage);
+	p.println(&quot;Response String : &quot; + ResponseString);
+}
+else
+{
+	p.println(mydate + &quot; : Thread number ${__threadNum()} in step ${__samplerName}: FAIL&quot;);
+	p.println(&quot;POST - &quot;+url);
+	p.println(body);
+	p.println(&quot;Response Code : &quot; + ResponseCode);
+	p.println(&quot;Response Message : &quot; + ResponseMessage);
+	p.println(&quot;Response String : &quot; + ResponseString);
+}
+
+p.println(&quot;############################################################################\n&quot;);
+
+p.close();f.close();</stringProp>
+            </BeanShellPostProcessor>
+            <hashTree/>
+            <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+              <stringProp name="ConstantTimer.delay">300</stringProp>
+            </ConstantTimer>
+            <hashTree/>
+            <ResultAction guiclass="ResultActionGui" testclass="ResultAction" testname="Stop in case of error" enabled="true">
+              <intProp name="OnError.action">1</intProp>
+            </ResultAction>
+            <hashTree/>
+          </hashTree>
+          <IncludeController guiclass="IncludeControllerGui" testclass="IncludeController" testname="Get VLM Version ID and Label" enabled="true">
+            <stringProp name="IncludeController.includepath">../_JMeter_Test_Fragments/BE/VLM/Get_VLM_Version_ID_and_Label.jmx</stringProp>
+          </IncludeController>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get Vendor License Model" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value"></stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${__P(VM_controller)}</stringProp>
+            <stringProp name="HTTPSampler.port">${port}</stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">${__P(ASDC_prefix)}/${VLM}/versions/${__P(vlmNewVersionID_p)}</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.implementation">HttpClient3.1</stringProp>
+            <boolProp name="HTTPSampler.monitor">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+              <boolProp name="ResultCollector.error_logging">false</boolProp>
+              <objProp>
+                <name>saveConfig</name>
+                <value class="SampleSaveConfiguration">
+                  <time>true</time>
+                  <latency>true</latency>
+                  <timestamp>true</timestamp>
+                  <success>true</success>
+                  <label>true</label>
+                  <code>true</code>
+                  <message>true</message>
+                  <threadName>true</threadName>
+                  <dataType>true</dataType>
+                  <encoding>false</encoding>
+                  <assertions>true</assertions>
+                  <subresults>true</subresults>
+                  <responseData>false</responseData>
+                  <samplerData>false</samplerData>
+                  <xml>false</xml>
+                  <fieldNames>false</fieldNames>
+                  <responseHeaders>false</responseHeaders>
+                  <requestHeaders>false</requestHeaders>
+                  <responseDataOnError>false</responseDataOnError>
+                  <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+                  <assertionsResultsToSave>0</assertionsResultsToSave>
+                  <bytes>true</bytes>
+                  <threadCounts>true</threadCounts>
+                </value>
+              </objProp>
+              <stringProp name="filename"></stringProp>
+            </ResultCollector>
+            <hashTree/>
+            <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+              <stringProp name="ConstantTimer.delay">300</stringProp>
+            </ConstantTimer>
+            <hashTree/>
+            <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="Log" enabled="true">
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="script">String ResponseString = prev.getResponseDataAsString();
+String ResponseCode = prev.getResponseCode(); 
+String ResponseMessage = prev.getResponseMessage();
+
+import org.apache.jmeter.services.FileServer;
+import test.TestParse.*;
+
+String test_tmp_folder = &quot;/tmp/TestResult/${TestName}&quot;;
+	f = new FileOutputStream(test_tmp_folder, true); 
+	p = new PrintStream(f); 
+
+mydate = &quot;${__time(dd-MM-yyyy hh:mm:ss)}&quot;;
+
+Map map = new HashMap();
+
+map.put(&quot;vendorName&quot;,&quot;${__P(VLM_vendorName)}&quot;);
+map.put(&quot;description&quot;,&quot;${__P(VLM_description)}&quot;);
+map.put(&quot;iconRef&quot;,&quot;${__P(VLM_iconRef)}&quot;);
+map.put(&quot;id&quot;,&quot;${__P(VLM_P)}&quot;);
+
+
+DataValidation dv = new DataValidation();
+String res = dv.verifyResponse(map,ResponseString);
+
+p.println(&quot;\n#######################&quot;+&quot; Get Vendor License Model &quot;+&quot;#######################&quot;);
+
+if (ResponseCode.contains(&quot;200&quot;) &amp;&amp; !res.contains(&quot;FAIL&quot;))
+{
+	p.println(mydate + &quot; : Thread number ${__threadNum()}  in step ${__samplerName}: PASS&quot;);
+	p.println(&quot;Response Code : &quot; + ResponseCode); 
+	p.println(&quot;Response Message : &quot; + ResponseMessage);
+	p.println(&quot;Response String : &quot; + ResponseString);
+
+	p.println(res);
+}
+else
+{
+	p.println(mydate + &quot; : Thread number ${__threadNum()} in step ${__samplerName}: FAIL&quot;);
+	p.println(&quot;Response Code : &quot; + ResponseCode); 
+	p.println(&quot;Response Message : &quot; + ResponseMessage);
+	p.println(&quot;Response String : &quot; + ResponseString);
+
+	p.println(res);
+}
+p.println(&quot;#####################################################################\n&quot;);
+
+p.close();f.close();</stringProp>
+            </BeanShellPostProcessor>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Entitlement Pool" enabled="true"/>
+        <hashTree>
+          <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Define Test EP Properties" enabled="true">
+            <stringProp name="BeanShellSampler.query">${__eval(${__FileToString(/qa-test-repo/TestsProperties/ASDC/EP_props.txt)})}</stringProp>
+            <stringProp name="BeanShellSampler.filename"></stringProp>
+            <stringProp name="BeanShellSampler.parameters"></stringProp>
+            <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+          </BeanShellSampler>
+          <hashTree>
+            <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+              <stringProp name="ConstantTimer.delay">300</stringProp>
+            </ConstantTimer>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Create Entitlement Pool" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">${__eval(${__FileToString(/qa-test-repo/TestsProperties/ASDC/EP_body.txt)})}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${__P(VM_controller)}</stringProp>
+            <stringProp name="HTTPSampler.port">${port}</stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">${__P(ASDC_prefix)}/${__P(VLM_P)}/versions/${__P(vlmNewVersionID_p)}/${__P(EP)}</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.implementation">HttpClient3.1</stringProp>
+            <boolProp name="HTTPSampler.monitor">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+              <boolProp name="ResultCollector.error_logging">false</boolProp>
+              <objProp>
+                <name>saveConfig</name>
+                <value class="SampleSaveConfiguration">
+                  <time>true</time>
+                  <latency>true</latency>
+                  <timestamp>true</timestamp>
+                  <success>true</success>
+                  <label>true</label>
+                  <code>true</code>
+                  <message>true</message>
+                  <threadName>true</threadName>
+                  <dataType>true</dataType>
+                  <encoding>false</encoding>
+                  <assertions>true</assertions>
+                  <subresults>true</subresults>
+                  <responseData>false</responseData>
+                  <samplerData>false</samplerData>
+                  <xml>false</xml>
+                  <fieldNames>false</fieldNames>
+                  <responseHeaders>false</responseHeaders>
+                  <requestHeaders>false</requestHeaders>
+                  <responseDataOnError>false</responseDataOnError>
+                  <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+                  <assertionsResultsToSave>0</assertionsResultsToSave>
+                  <bytes>true</bytes>
+                  <threadCounts>true</threadCounts>
+                </value>
+              </objProp>
+              <stringProp name="filename"></stringProp>
+            </ResultCollector>
+            <hashTree/>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Get entityId from Response" enabled="true">
+              <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+              <stringProp name="RegexExtractor.refname">entityId</stringProp>
+              <stringProp name="RegexExtractor.regex">&quot;value&quot;:&quot;(.+?)&quot;</stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.default">0</stringProp>
+              <stringProp name="RegexExtractor.match_number">1</stringProp>
+            </RegexExtractor>
+            <hashTree/>
+            <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="Log" enabled="true">
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="script">String ResponseString = prev.getResponseDataAsString();
+String ResponseCode = prev.getResponseCode(); 
+String ResponseMessage = prev.getResponseMessage();
+
+props.put(&quot;EPid_P&quot;,&quot;${entityId}&quot;);
+
+String test_tmp_folder = &quot;/tmp/TestResult/${TestName}&quot;;
+	f = new FileOutputStream(test_tmp_folder, true); 
+	p = new PrintStream(f); 
+
+mydate = &quot;${__time(dd-MM-yyyy hh:mm:ss)}&quot;;
+p.println(&quot;\n#######################&quot;+&quot; Create Entitlement Pool Step &quot;+&quot;#######################&quot;);
+if (ResponseCode.contains(&quot;200&quot;))
+{
+	p.println(mydate + &quot; : Thread number ${__threadNum()} in step ${__samplerName}: PASS&quot;);
+	p.println(&quot;Response Code : &quot; + ResponseCode); 
+	p.println(&quot;Response Message : &quot; + ResponseMessage);
+	p.println(&quot;Response String : &quot; + ResponseString);
+}
+else
+{
+	p.println(mydate + &quot; : Thread number ${__threadNum()} in step ${__samplerName}: FAIL&quot;);
+	p.println(&quot;Response Code : &quot; + ResponseCode);
+	p.println(&quot;Response Message : &quot; + ResponseMessage + &quot;\nERROR: Create REST failed.&quot;);
+	p.println(&quot;Response String : &quot; + ResponseString);
+}
+p.println(&quot;#####################################################################\n&quot;);
+p.close();f.close();</stringProp>
+            </BeanShellPostProcessor>
+            <hashTree/>
+            <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+              <stringProp name="ConstantTimer.delay">300</stringProp>
+            </ConstantTimer>
+            <hashTree/>
+            <ResultAction guiclass="ResultActionGui" testclass="ResultAction" testname="Stop in case of error" enabled="true">
+              <intProp name="OnError.action">1</intProp>
+            </ResultAction>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get Entitlement Pool" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value"></stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${__P(VM_controller)}</stringProp>
+            <stringProp name="HTTPSampler.port">${port}</stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">${__P(ASDC_prefix)}/${__P(VLM_P)}/versions/${__P(vlmNewVersionID_p)}/${__P(EP)}/${__P(EPid_P)}</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.implementation">HttpClient3.1</stringProp>
+            <boolProp name="HTTPSampler.monitor">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+              <boolProp name="ResultCollector.error_logging">false</boolProp>
+              <objProp>
+                <name>saveConfig</name>
+                <value class="SampleSaveConfiguration">
+                  <time>true</time>
+                  <latency>true</latency>
+                  <timestamp>true</timestamp>
+                  <success>true</success>
+                  <label>true</label>
+                  <code>true</code>
+                  <message>true</message>
+                  <threadName>true</threadName>
+                  <dataType>true</dataType>
+                  <encoding>false</encoding>
+                  <assertions>true</assertions>
+                  <subresults>true</subresults>
+                  <responseData>false</responseData>
+                  <samplerData>false</samplerData>
+                  <xml>false</xml>
+                  <fieldNames>false</fieldNames>
+                  <responseHeaders>false</responseHeaders>
+                  <requestHeaders>false</requestHeaders>
+                  <responseDataOnError>false</responseDataOnError>
+                  <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+                  <assertionsResultsToSave>0</assertionsResultsToSave>
+                  <bytes>true</bytes>
+                  <threadCounts>true</threadCounts>
+                </value>
+              </objProp>
+              <stringProp name="filename"></stringProp>
+            </ResultCollector>
+            <hashTree/>
+            <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+              <stringProp name="ConstantTimer.delay">300</stringProp>
+            </ConstantTimer>
+            <hashTree/>
+            <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="Log" enabled="true">
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="script">String ResponseString = prev.getResponseDataAsString();
+String ResponseCode = prev.getResponseCode(); 
+String ResponseMessage = prev.getResponseMessage();
+
+import org.apache.jmeter.services.FileServer;
+import test.TestParse.*;
+
+String test_tmp_folder = &quot;/tmp/TestResult/${TestName}&quot;;
+	f = new FileOutputStream(test_tmp_folder, true); 
+	p = new PrintStream(f); 
+
+mydate = &quot;${__time(dd-MM-yyyy hh:mm:ss)}&quot;;
+
+Map map = new HashMap();
+
+map.put(&quot;name&quot;,&quot;${__P(EP_name)}&quot;);
+map.put(&quot;description&quot;,&quot;${__P(EP_description)}&quot;);
+//map.put(&quot;thresholdValue&quot;,props.get(&quot;EP_thresholdValue&quot;));
+map.put(&quot;thresholdUnits&quot;,&quot;${__P(EP_thresholdUnits)}&quot;);
+//map.put(&quot;entitlementMetric&quot;,props.get(&quot;EP_entitlementMetric&quot;));
+map.put(&quot;increments&quot;,&quot;${__P(EP_increments)}&quot;);
+//map.put(&quot;aggregationFunction&quot;,props.get(&quot;EP_aggregationFunction&quot;));
+//map.put(&quot;operationalScope&quot;,props.get(&quot;EP_operationalScope&quot;));
+//map.put(&quot;time&quot;,props.get(&quot;EP_time&quot;));
+map.put(&quot;manufacturerReferenceNumber&quot;,&quot;${__P(EP_manufacturerReferenceNumber)}&quot;);
+
+map.put(&quot;id&quot;,&quot;${__P(EPid_P)}&quot;);
+
+
+DataValidation dv = new DataValidation();
+String res = dv.verifyResponse(map,ResponseString);
+
+p.println(&quot;\n#######################&quot;+&quot; Get Entitlement Pool &quot;+&quot;#######################&quot;);
+
+if (ResponseCode.contains(&quot;200&quot;) &amp;&amp; !res.contains(&quot;FAIL&quot;))
+{
+	p.println(mydate + &quot; : Thread number ${__threadNum()}  in step ${__samplerName}: PASS&quot;);
+	p.println(&quot;Response Code : &quot; + ResponseCode); 
+	p.println(&quot;Response Message : &quot; + ResponseMessage);
+	p.println(&quot;Response String : &quot; + ResponseString);
+
+	p.println(res);
+}
+else
+{
+	p.println(mydate + &quot; : Thread number ${__threadNum()} in step ${__samplerName}: FAIL&quot;);
+	p.println(&quot;Response Code : &quot; + ResponseCode); 
+	p.println(&quot;Response Message : &quot; + ResponseMessage);
+	p.println(&quot;Response String : &quot; + ResponseString);
+
+	p.println(res);
+}
+p.println(&quot;#####################################################################\n&quot;);
+
+p.close();f.close();</stringProp>
+            </BeanShellPostProcessor>
+            <hashTree/>
+            <ResultAction guiclass="ResultActionGui" testclass="ResultAction" testname="Stop in case of error" enabled="true">
+              <intProp name="OnError.action">1</intProp>
+            </ResultAction>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="License Key Group" enabled="true"/>
+        <hashTree>
+          <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Define Test LKG Properties" enabled="true">
+            <stringProp name="BeanShellSampler.query">${__eval(${__FileToString(/qa-test-repo/TestsProperties/ASDC/LKG_props.txt)})}</stringProp>
+            <stringProp name="BeanShellSampler.filename"></stringProp>
+            <stringProp name="BeanShellSampler.parameters"></stringProp>
+            <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+          </BeanShellSampler>
+          <hashTree>
+            <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+              <stringProp name="ConstantTimer.delay">300</stringProp>
+            </ConstantTimer>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Create License Key Group" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">${__eval(${__FileToString(/qa-test-repo/TestsProperties/ASDC/LKG_body.txt)})}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${__P(VM_controller)}</stringProp>
+            <stringProp name="HTTPSampler.port">${port}</stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">${__P(ASDC_prefix)}/${__P(VLM_P)}/versions/${__P(vlmNewVersionID_p)}/${__P(LKG)}</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.implementation">HttpClient3.1</stringProp>
+            <boolProp name="HTTPSampler.monitor">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+              <boolProp name="ResultCollector.error_logging">false</boolProp>
+              <objProp>
+                <name>saveConfig</name>
+                <value class="SampleSaveConfiguration">
+                  <time>true</time>
+                  <latency>true</latency>
+                  <timestamp>true</timestamp>
+                  <success>true</success>
+                  <label>true</label>
+                  <code>true</code>
+                  <message>true</message>
+                  <threadName>true</threadName>
+                  <dataType>true</dataType>
+                  <encoding>false</encoding>
+                  <assertions>true</assertions>
+                  <subresults>true</subresults>
+                  <responseData>false</responseData>
+                  <samplerData>false</samplerData>
+                  <xml>false</xml>
+                  <fieldNames>false</fieldNames>
+                  <responseHeaders>false</responseHeaders>
+                  <requestHeaders>false</requestHeaders>
+                  <responseDataOnError>false</responseDataOnError>
+                  <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+                  <assertionsResultsToSave>0</assertionsResultsToSave>
+                  <bytes>true</bytes>
+                  <threadCounts>true</threadCounts>
+                </value>
+              </objProp>
+              <stringProp name="filename"></stringProp>
+            </ResultCollector>
+            <hashTree/>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Get entityId from Response" enabled="true">
+              <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+              <stringProp name="RegexExtractor.refname">entityId</stringProp>
+              <stringProp name="RegexExtractor.regex">&quot;value&quot;:&quot;(.+?)&quot;</stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.default">0</stringProp>
+              <stringProp name="RegexExtractor.match_number">1</stringProp>
+            </RegexExtractor>
+            <hashTree/>
+            <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="Log" enabled="true">
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="script">String ResponseString = prev.getResponseDataAsString();
+String ResponseCode = prev.getResponseCode(); 
+String ResponseMessage = prev.getResponseMessage();
+
+props.put(&quot;LKGid_P&quot;,&quot;${entityId}&quot;);
+
+String test_tmp_folder = &quot;/tmp/TestResult/${TestName}&quot;;
+	f = new FileOutputStream(test_tmp_folder, true); 
+	p = new PrintStream(f); 
+
+mydate = &quot;${__time(dd-MM-yyyy hh:mm:ss)}&quot;;
+p.println(&quot;\n#######################&quot;+&quot; Create License Key Group Step &quot;+&quot;#######################&quot;);
+if (ResponseCode.contains(&quot;200&quot;))
+{
+	p.println(mydate + &quot; : Thread number ${__threadNum()} in step ${__samplerName}: PASS&quot;);
+	p.println(&quot;Response Code : &quot; + ResponseCode); 
+	p.println(&quot;Response Message : &quot; + ResponseMessage);
+	p.println(&quot;Response String : &quot; + ResponseString);
+}
+else
+{
+	p.println(mydate + &quot; : Thread number ${__threadNum()} in step ${__samplerName}: FAIL&quot;);
+	p.println(&quot;Response Code : &quot; + ResponseCode);
+	p.println(&quot;Response Message : &quot; + ResponseMessage + &quot;\nERROR: Create REST failed.&quot;);
+	p.println(&quot;Response String : &quot; + ResponseString);
+}
+p.println(&quot;#####################################################################\n&quot;);
+p.close();f.close();</stringProp>
+            </BeanShellPostProcessor>
+            <hashTree/>
+            <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+              <stringProp name="ConstantTimer.delay">300</stringProp>
+            </ConstantTimer>
+            <hashTree/>
+            <ResultAction guiclass="ResultActionGui" testclass="ResultAction" testname="Stop in case of error" enabled="true">
+              <intProp name="OnError.action">1</intProp>
+            </ResultAction>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get License Key Group" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value"></stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${__P(VM_controller)}</stringProp>
+            <stringProp name="HTTPSampler.port">${port}</stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">${__P(ASDC_prefix)}/${__P(VLM_P)}/versions/${__P(vlmNewVersionID_p)}/${__P(LKG)}/${__P(LKGid_P)}</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.implementation">HttpClient3.1</stringProp>
+            <boolProp name="HTTPSampler.monitor">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+              <boolProp name="ResultCollector.error_logging">false</boolProp>
+              <objProp>
+                <name>saveConfig</name>
+                <value class="SampleSaveConfiguration">
+                  <time>true</time>
+                  <latency>true</latency>
+                  <timestamp>true</timestamp>
+                  <success>true</success>
+                  <label>true</label>
+                  <code>true</code>
+                  <message>true</message>
+                  <threadName>true</threadName>
+                  <dataType>true</dataType>
+                  <encoding>false</encoding>
+                  <assertions>true</assertions>
+                  <subresults>true</subresults>
+                  <responseData>false</responseData>
+                  <samplerData>false</samplerData>
+                  <xml>false</xml>
+                  <fieldNames>false</fieldNames>
+                  <responseHeaders>false</responseHeaders>
+                  <requestHeaders>false</requestHeaders>
+                  <responseDataOnError>false</responseDataOnError>
+                  <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+                  <assertionsResultsToSave>0</assertionsResultsToSave>
+                  <bytes>true</bytes>
+                  <threadCounts>true</threadCounts>
+                </value>
+              </objProp>
+              <stringProp name="filename"></stringProp>
+            </ResultCollector>
+            <hashTree/>
+            <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+              <stringProp name="ConstantTimer.delay">300</stringProp>
+            </ConstantTimer>
+            <hashTree/>
+            <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="Log" enabled="true">
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="script">String ResponseString = prev.getResponseDataAsString();
+String ResponseCode = prev.getResponseCode(); 
+String ResponseMessage = prev.getResponseMessage();
+
+import org.apache.jmeter.services.FileServer;
+import test.TestParse.*;
+
+String test_tmp_folder = &quot;/tmp/TestResult/${TestName}&quot;;
+	f = new FileOutputStream(test_tmp_folder, true); 
+	p = new PrintStream(f); 
+
+mydate = &quot;${__time(dd-MM-yyyy hh:mm:ss)}&quot;;
+
+Map map = new HashMap();
+
+map.put(&quot;name&quot;,&quot;${__P(LKG_name)}&quot;);
+map.put(&quot;description&quot;,&quot;${__P(LKG_description)}&quot;);
+//map.put(&quot;aggregationFunction&quot;,props.get(&quot;LKG_type&quot;));
+//map.put(&quot;operationalScope&quot;,props.get(&quot;LKG_operationalScope&quot;));
+map.put(&quot;id&quot;,&quot;${__P(LKGid_P)}&quot;);
+
+DataValidation dv = new DataValidation();
+String res = dv.verifyResponse(map,ResponseString);
+
+p.println(&quot;\n#######################&quot;+&quot; Get License Key Group &quot;+&quot;#######################&quot;);
+
+if (ResponseCode.contains(&quot;200&quot;) &amp;&amp; !res.contains(&quot;FAIL&quot;))
+{
+	p.println(mydate + &quot; : Thread number ${__threadNum()}  in step ${__samplerName}: PASS&quot;);
+	p.println(&quot;Response Code : &quot; + ResponseCode); 
+	p.println(&quot;Response Message : &quot; + ResponseMessage);
+	p.println(&quot;Response String : &quot; + ResponseString);
+
+	p.println(res);
+}
+else
+{
+	p.println(mydate + &quot; : Thread number ${__threadNum()} in step ${__samplerName}: FAIL&quot;);
+	p.println(&quot;Response Code : &quot; + ResponseCode); 
+	p.println(&quot;Response Message : &quot; + ResponseMessage);
+	p.println(&quot;Response String : &quot; + ResponseString);
+
+	p.println(res);
+}
+p.println(&quot;#####################################################################\n&quot;);
+
+p.close();f.close();</stringProp>
+            </BeanShellPostProcessor>
+            <hashTree/>
+            <ResultAction guiclass="ResultActionGui" testclass="ResultAction" testname="Stop in case of error" enabled="true">
+              <intProp name="OnError.action">1</intProp>
+            </ResultAction>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Feature Group" enabled="true"/>
+        <hashTree>
+          <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Define Test FG Properties" enabled="true">
+            <stringProp name="BeanShellSampler.query">${__eval(${__FileToString(/qa-test-repo/TestsProperties/ASDC/FG_props.txt)})}</stringProp>
+            <stringProp name="BeanShellSampler.filename"></stringProp>
+            <stringProp name="BeanShellSampler.parameters"></stringProp>
+            <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+          </BeanShellSampler>
+          <hashTree>
+            <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+              <stringProp name="ConstantTimer.delay">300</stringProp>
+            </ConstantTimer>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Create Feature Group" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">${__eval(${__FileToString(/qa-test-repo/TestsProperties/ASDC/FG_body.txt)})}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${__P(VM_controller)}</stringProp>
+            <stringProp name="HTTPSampler.port">${port}</stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">${__P(ASDC_prefix)}/${__P(VLM_P)}/versions/${__P(vlmNewVersionID_p)}/${__P(FG)}</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.implementation">HttpClient3.1</stringProp>
+            <boolProp name="HTTPSampler.monitor">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+              <boolProp name="ResultCollector.error_logging">false</boolProp>
+              <objProp>
+                <name>saveConfig</name>
+                <value class="SampleSaveConfiguration">
+                  <time>true</time>
+                  <latency>true</latency>
+                  <timestamp>true</timestamp>
+                  <success>true</success>
+                  <label>true</label>
+                  <code>true</code>
+                  <message>true</message>
+                  <threadName>true</threadName>
+                  <dataType>true</dataType>
+                  <encoding>false</encoding>
+                  <assertions>true</assertions>
+                  <subresults>true</subresults>
+                  <responseData>false</responseData>
+                  <samplerData>false</samplerData>
+                  <xml>false</xml>
+                  <fieldNames>false</fieldNames>
+                  <responseHeaders>false</responseHeaders>
+                  <requestHeaders>false</requestHeaders>
+                  <responseDataOnError>false</responseDataOnError>
+                  <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+                  <assertionsResultsToSave>0</assertionsResultsToSave>
+                  <bytes>true</bytes>
+                  <threadCounts>true</threadCounts>
+                </value>
+              </objProp>
+              <stringProp name="filename"></stringProp>
+            </ResultCollector>
+            <hashTree/>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Get entityId from Response" enabled="true">
+              <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+              <stringProp name="RegexExtractor.refname">entityId</stringProp>
+              <stringProp name="RegexExtractor.regex">&quot;value&quot;:&quot;(.+?)&quot;</stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.default">0</stringProp>
+              <stringProp name="RegexExtractor.match_number">1</stringProp>
+            </RegexExtractor>
+            <hashTree/>
+            <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="Log" enabled="true">
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="script">String ResponseString = prev.getResponseDataAsString();
+String ResponseCode = prev.getResponseCode(); 
+String ResponseMessage = prev.getResponseMessage();
+
+props.put(&quot;FGid_P&quot;,&quot;${entityId}&quot;);
+
+String test_tmp_folder = &quot;/tmp/TestResult/${TestName}&quot;;
+	f = new FileOutputStream(test_tmp_folder, true); 
+	p = new PrintStream(f); 
+
+mydate = &quot;${__time(dd-MM-yyyy hh:mm:ss)}&quot;;
+p.println(&quot;\n#######################&quot;+&quot; Create Feature Group Step &quot;+&quot;#######################&quot;);
+if (ResponseCode.contains(&quot;200&quot;))
+{
+	p.println(mydate + &quot; : Thread number ${__threadNum()} in step ${__samplerName}: PASS&quot;);
+	p.println(&quot;Response Code : &quot; + ResponseCode); 
+	p.println(&quot;Response Message : &quot; + ResponseMessage);
+	p.println(&quot;Response String : &quot; + ResponseString);
+}
+else
+{
+	p.println(mydate + &quot; : Thread number ${__threadNum()} in step ${__samplerName}: FAIL&quot;);
+	p.println(&quot;Response Code : &quot; + ResponseCode);
+	p.println(&quot;Response Message : &quot; + ResponseMessage + &quot;\nERROR: Create REST failed.&quot;);
+	p.println(&quot;Response String : &quot; + ResponseString);
+}
+p.println(&quot;#####################################################################\n&quot;);
+p.close();f.close();</stringProp>
+            </BeanShellPostProcessor>
+            <hashTree/>
+            <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+              <stringProp name="ConstantTimer.delay">300</stringProp>
+            </ConstantTimer>
+            <hashTree/>
+            <ResultAction guiclass="ResultActionGui" testclass="ResultAction" testname="Stop in case of error" enabled="true">
+              <intProp name="OnError.action">1</intProp>
+            </ResultAction>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get Feature Group" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value"></stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${__P(VM_controller)}</stringProp>
+            <stringProp name="HTTPSampler.port">${port}</stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">${__P(ASDC_prefix)}/${__P(VLM_P)}/versions/${__P(vlmNewVersionID_p)}/${__P(FG)}/${__P(FGid_P)}</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.implementation">HttpClient3.1</stringProp>
+            <boolProp name="HTTPSampler.monitor">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+              <boolProp name="ResultCollector.error_logging">false</boolProp>
+              <objProp>
+                <name>saveConfig</name>
+                <value class="SampleSaveConfiguration">
+                  <time>true</time>
+                  <latency>true</latency>
+                  <timestamp>true</timestamp>
+                  <success>true</success>
+                  <label>true</label>
+                  <code>true</code>
+                  <message>true</message>
+                  <threadName>true</threadName>
+                  <dataType>true</dataType>
+                  <encoding>false</encoding>
+                  <assertions>true</assertions>
+                  <subresults>true</subresults>
+                  <responseData>false</responseData>
+                  <samplerData>false</samplerData>
+                  <xml>false</xml>
+                  <fieldNames>false</fieldNames>
+                  <responseHeaders>false</responseHeaders>
+                  <requestHeaders>false</requestHeaders>
+                  <responseDataOnError>false</responseDataOnError>
+                  <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+                  <assertionsResultsToSave>0</assertionsResultsToSave>
+                  <bytes>true</bytes>
+                  <threadCounts>true</threadCounts>
+                </value>
+              </objProp>
+              <stringProp name="filename"></stringProp>
+            </ResultCollector>
+            <hashTree/>
+            <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+              <stringProp name="ConstantTimer.delay">300</stringProp>
+            </ConstantTimer>
+            <hashTree/>
+            <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="Log" enabled="true">
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="script">String ResponseString = prev.getResponseDataAsString();
+String ResponseCode = prev.getResponseCode(); 
+String ResponseMessage = prev.getResponseMessage();
+
+import org.apache.jmeter.services.FileServer;
+import test.TestParse.*;
+
+String test_tmp_folder = &quot;/tmp/TestResult/${TestName}&quot;;
+	f = new FileOutputStream(test_tmp_folder, true); 
+	p = new PrintStream(f); 
+
+mydate = &quot;${__time(dd-MM-yyyy hh:mm:ss)}&quot;;
+
+Map map = new HashMap();
+
+map.put(&quot;name&quot;,&quot;${__P(FG_name)}&quot;);
+map.put(&quot;description&quot;,&quot;${__P(FG_description)}&quot;);
+map.put(&quot;partNumber&quot;,&quot;${__P(FG_partNumber)}&quot;);
+
+map.put(&quot;id&quot;,&quot;${__P(FGid_P)}&quot;);
+
+DataValidation dv = new DataValidation();
+String res = dv.verifyResponse(map,ResponseString);
+
+p.println(&quot;\n#######################&quot;+&quot; Get Feature Group &quot;+&quot;#######################&quot;);
+
+if (ResponseCode.contains(&quot;200&quot;) &amp;&amp; !res.contains(&quot;FAIL&quot;))
+{
+	p.println(mydate + &quot; : Thread number ${__threadNum()}  in step ${__samplerName}: PASS&quot;);
+	p.println(&quot;Response Code : &quot; + ResponseCode); 
+	p.println(&quot;Response Message : &quot; + ResponseMessage);
+	p.println(&quot;Response String : &quot; + ResponseString);
+
+	p.println(res);
+}
+else
+{
+	p.println(mydate + &quot; : Thread number ${__threadNum()} in step ${__samplerName}: FAIL&quot;);
+	p.println(&quot;Response Code : &quot; + ResponseCode); 
+	p.println(&quot;Response Message : &quot; + ResponseMessage);
+	p.println(&quot;Response String : &quot; + ResponseString);
+
+	p.println(res);
+}
+p.println(&quot;#####################################################################\n&quot;);
+
+p.close();f.close();</stringProp>
+            </BeanShellPostProcessor>
+            <hashTree/>
+            <ResultAction guiclass="ResultActionGui" testclass="ResultAction" testname="Stop in case of error" enabled="true">
+              <intProp name="OnError.action">1</intProp>
+            </ResultAction>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="License Agreement" enabled="true"/>
+        <hashTree>
+          <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Define Test LA Properties" enabled="true">
+            <stringProp name="BeanShellSampler.query">${__eval(${__FileToString(/qa-test-repo/TestsProperties/ASDC/LA_props.txt)})}</stringProp>
+            <stringProp name="BeanShellSampler.filename"></stringProp>
+            <stringProp name="BeanShellSampler.parameters"></stringProp>
+            <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+          </BeanShellSampler>
+          <hashTree>
+            <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+              <stringProp name="ConstantTimer.delay">300</stringProp>
+            </ConstantTimer>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Create License Agreement" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">${__eval(${__FileToString(/qa-test-repo/TestsProperties/ASDC/LA_body.txt)})}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${__P(VM_controller)}</stringProp>
+            <stringProp name="HTTPSampler.port">${port}</stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">${__P(ASDC_prefix)}/${__P(VLM_P)}/versions/${__P(vlmNewVersionID_p)}/${__P(LA)}</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.implementation">HttpClient3.1</stringProp>
+            <boolProp name="HTTPSampler.monitor">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+              <boolProp name="ResultCollector.error_logging">false</boolProp>
+              <objProp>
+                <name>saveConfig</name>
+                <value class="SampleSaveConfiguration">
+                  <time>true</time>
+                  <latency>true</latency>
+                  <timestamp>true</timestamp>
+                  <success>true</success>
+                  <label>true</label>
+                  <code>true</code>
+                  <message>true</message>
+                  <threadName>true</threadName>
+                  <dataType>true</dataType>
+                  <encoding>false</encoding>
+                  <assertions>true</assertions>
+                  <subresults>true</subresults>
+                  <responseData>false</responseData>
+                  <samplerData>false</samplerData>
+                  <xml>false</xml>
+                  <fieldNames>false</fieldNames>
+                  <responseHeaders>false</responseHeaders>
+                  <requestHeaders>false</requestHeaders>
+                  <responseDataOnError>false</responseDataOnError>
+                  <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+                  <assertionsResultsToSave>0</assertionsResultsToSave>
+                  <bytes>true</bytes>
+                  <threadCounts>true</threadCounts>
+                </value>
+              </objProp>
+              <stringProp name="filename"></stringProp>
+            </ResultCollector>
+            <hashTree/>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Get entityId from Response" enabled="true">
+              <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+              <stringProp name="RegexExtractor.refname">entityId</stringProp>
+              <stringProp name="RegexExtractor.regex">&quot;value&quot;:&quot;(.+?)&quot;</stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.default">0</stringProp>
+              <stringProp name="RegexExtractor.match_number">1</stringProp>
+            </RegexExtractor>
+            <hashTree/>
+            <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="Log" enabled="true">
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="script">String ResponseString = prev.getResponseDataAsString();
+String ResponseCode = prev.getResponseCode(); 
+String ResponseMessage = prev.getResponseMessage();
+
+props.put(&quot;LAid_P&quot;,&quot;${entityId}&quot;);
+
+String test_tmp_folder = &quot;/tmp/TestResult/${TestName}&quot;;
+	f = new FileOutputStream(test_tmp_folder, true); 
+	p = new PrintStream(f); 
+
+mydate = &quot;${__time(dd-MM-yyyy hh:mm:ss)}&quot;;
+p.println(&quot;\n#######################&quot;+&quot; Create License Agreement Step &quot;+&quot;#######################&quot;);
+if (ResponseCode.contains(&quot;200&quot;))
+{
+	p.println(mydate + &quot; : Thread number ${__threadNum()} in step ${__samplerName}: PASS&quot;);
+	p.println(&quot;Response Code : &quot; + ResponseCode); 
+	p.println(&quot;Response Message : &quot; + ResponseMessage);
+	p.println(&quot;Response String : &quot; + ResponseString);
+}
+else
+{
+	p.println(mydate + &quot; : Thread number ${__threadNum()} in step ${__samplerName}: FAIL&quot;);
+	p.println(&quot;Response Code : &quot; + ResponseCode);
+	p.println(&quot;Response Message : &quot; + ResponseMessage + &quot;\nERROR: Create REST failed.&quot;);
+	p.println(&quot;Response String : &quot; + ResponseString);
+}
+p.println(&quot;#####################################################################\n&quot;);
+p.close();f.close();</stringProp>
+            </BeanShellPostProcessor>
+            <hashTree/>
+            <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+              <stringProp name="ConstantTimer.delay">300</stringProp>
+            </ConstantTimer>
+            <hashTree/>
+            <ResultAction guiclass="ResultActionGui" testclass="ResultAction" testname="Stop in case of error" enabled="true">
+              <intProp name="OnError.action">1</intProp>
+            </ResultAction>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get License Agreement" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value"></stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${__P(VM_controller)}</stringProp>
+            <stringProp name="HTTPSampler.port">${port}</stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">${__P(ASDC_prefix)}/${__P(VLM_P)}/versions/${__P(vlmNewVersionID_p)}/${__P(LA)}/${__P(LAid_P)}</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.implementation">HttpClient3.1</stringProp>
+            <boolProp name="HTTPSampler.monitor">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+              <boolProp name="ResultCollector.error_logging">false</boolProp>
+              <objProp>
+                <name>saveConfig</name>
+                <value class="SampleSaveConfiguration">
+                  <time>true</time>
+                  <latency>true</latency>
+                  <timestamp>true</timestamp>
+                  <success>true</success>
+                  <label>true</label>
+                  <code>true</code>
+                  <message>true</message>
+                  <threadName>true</threadName>
+                  <dataType>true</dataType>
+                  <encoding>false</encoding>
+                  <assertions>true</assertions>
+                  <subresults>true</subresults>
+                  <responseData>false</responseData>
+                  <samplerData>false</samplerData>
+                  <xml>false</xml>
+                  <fieldNames>false</fieldNames>
+                  <responseHeaders>false</responseHeaders>
+                  <requestHeaders>false</requestHeaders>
+                  <responseDataOnError>false</responseDataOnError>
+                  <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+                  <assertionsResultsToSave>0</assertionsResultsToSave>
+                  <bytes>true</bytes>
+                  <threadCounts>true</threadCounts>
+                </value>
+              </objProp>
+              <stringProp name="filename"></stringProp>
+            </ResultCollector>
+            <hashTree/>
+            <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+              <stringProp name="ConstantTimer.delay">300</stringProp>
+            </ConstantTimer>
+            <hashTree/>
+            <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="Log" enabled="true">
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="script">String ResponseString = prev.getResponseDataAsString();
+String ResponseCode = prev.getResponseCode(); 
+String ResponseMessage = prev.getResponseMessage();
+
+import org.apache.jmeter.services.FileServer;
+import test.TestParse.*;
+
+String test_tmp_folder = &quot;/tmp/TestResult/${TestName}&quot;;
+	f = new FileOutputStream(test_tmp_folder, true); 
+	p = new PrintStream(f); 
+
+mydate = &quot;${__time(dd-MM-yyyy hh:mm:ss)}&quot;;
+
+Map map = new HashMap();
+
+map.put(&quot;name&quot;,&quot;${__P(LA_name)}&quot;);
+map.put(&quot;description&quot;,&quot;${__P(LA_description)}&quot;);
+//map.put(&quot;licenseModelType&quot;,&quot;${LA_licenseModelType}&quot;);
+map.put(&quot;requirementsAndConstrains&quot;,&quot;${__P(LA_requirementsAndConstrains)}&quot;);
+map.put(&quot;id&quot;,&quot;${__P(LAid_P)}&quot;);
+
+DataValidation dv = new DataValidation();
+String res = dv.verifyResponse(map,ResponseString);
+
+p.println(&quot;\n#######################&quot;+&quot; Get License Agreement &quot;+&quot;#######################&quot;);
+
+if (ResponseCode.contains(&quot;200&quot;) &amp;&amp; !res.contains(&quot;FAIL&quot;))
+{
+	p.println(mydate + &quot; : Thread number ${__threadNum()}  in step ${__samplerName}: PASS&quot;);
+	p.println(&quot;Response Code : &quot; + ResponseCode); 
+	p.println(&quot;Response Message : &quot; + ResponseMessage);
+	p.println(&quot;Response String : &quot; + ResponseString);
+
+	p.println(res);
+}
+else
+{
+	p.println(mydate + &quot; : Thread number ${__threadNum()} in step ${__samplerName}: FAIL&quot;);
+	p.println(&quot;Response Code : &quot; + ResponseCode); 
+	p.println(&quot;Response Message : &quot; + ResponseMessage);
+	p.println(&quot;Response String : &quot; + ResponseString);
+
+	p.println(res);
+}
+p.println(&quot;#####################################################################\n&quot;);
+
+p.close();f.close();</stringProp>
+            </BeanShellPostProcessor>
+            <hashTree/>
+            <ResultAction guiclass="ResultActionGui" testclass="ResultAction" testname="Stop in case of error" enabled="true">
+              <intProp name="OnError.action">1</intProp>
+            </ResultAction>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Checkin VLM" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">${__eval(${__FileToString(/qa-test-repo/TestsProperties/ASDC/Action_Checkin.txt)})}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${__P(VM_controller)}</stringProp>
+          <stringProp name="HTTPSampler.port">${port}</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">${__P(ASDC_prefix)}/${__P(VLM_P)}/versions/${__P(vlmNewVersionID_p)}/actions</stringProp>
+          <stringProp name="HTTPSampler.method">PUT</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.implementation">HttpClient3.1</stringProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+            <boolProp name="ResultCollector.error_logging">false</boolProp>
+            <objProp>
+              <name>saveConfig</name>
+              <value class="SampleSaveConfiguration">
+                <time>true</time>
+                <latency>true</latency>
+                <timestamp>true</timestamp>
+                <success>true</success>
+                <label>true</label>
+                <code>true</code>
+                <message>true</message>
+                <threadName>true</threadName>
+                <dataType>true</dataType>
+                <encoding>false</encoding>
+                <assertions>true</assertions>
+                <subresults>true</subresults>
+                <responseData>false</responseData>
+                <samplerData>false</samplerData>
+                <xml>false</xml>
+                <fieldNames>false</fieldNames>
+                <responseHeaders>false</responseHeaders>
+                <requestHeaders>false</requestHeaders>
+                <responseDataOnError>false</responseDataOnError>
+                <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+                <assertionsResultsToSave>0</assertionsResultsToSave>
+                <bytes>true</bytes>
+                <threadCounts>true</threadCounts>
+              </value>
+            </objProp>
+            <stringProp name="filename"></stringProp>
+          </ResultCollector>
+          <hashTree/>
+          <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="Log" enabled="true">
+            <boolProp name="resetInterpreter">false</boolProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="script">String ResponseString = prev.getResponseDataAsString();
+String ResponseCode = prev.getResponseCode(); 
+String ResponseMessage = prev.getResponseMessage();
+
+String test_tmp_folder = &quot;/tmp/TestResult/${TestName}&quot;;
+	f = new FileOutputStream(test_tmp_folder, true); 
+	p = new PrintStream(f); 
+
+mydate = &quot;${__time(dd-MM-yyyy hh:mm:ss)}&quot;;
+
+p.println(&quot;\n#######################&quot;+&quot; Checkin VLM &quot;+&quot;#######################&quot;);
+
+if (ResponseCode.contains(&quot;200&quot;))
+{
+	p.println(mydate + &quot; : Thread number ${__threadNum()} in step ${__samplerName}: PASS&quot;);
+	p.println(&quot;Response Code : &quot; + ResponseCode); 
+	p.println(&quot;Response Message : &quot; + ResponseMessage);
+	p.println(&quot;Response String : &quot; + ResponseString);
+}
+else
+{
+	p.println(mydate + &quot; : Thread number ${__threadNum()} in step ${__samplerName}: FAIL&quot;);
+	p.println(&quot;Response Code : &quot; + ResponseCode);
+	p.println(&quot;Response Message : &quot; + ResponseMessage + &quot;\nERROR: Create VLM REST failed.&quot;);
+	p.println(&quot;Response String : &quot; + ResponseString);
+}
+
+p.println(&quot;############################################################################\n&quot;);
+
+p.close();f.close();</stringProp>
+          </BeanShellPostProcessor>
+          <hashTree/>
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+            <stringProp name="ConstantTimer.delay">300</stringProp>
+          </ConstantTimer>
+          <hashTree/>
+          <ResultAction guiclass="ResultActionGui" testclass="ResultAction" testname="Stop in case of error" enabled="true">
+            <intProp name="OnError.action">1</intProp>
+          </ResultAction>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Submit VLM" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">${__eval(${__FileToString(/qa-test-repo/TestsProperties/ASDC/Action_Submit.txt)})}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${__P(VM_controller)}</stringProp>
+          <stringProp name="HTTPSampler.port">${port}</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">${__P(ASDC_prefix)}/${__P(VLM_P)}/versions/${__P(vlmNewVersionID_p)}/actions</stringProp>
+          <stringProp name="HTTPSampler.method">PUT</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.implementation">HttpClient3.1</stringProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+            <boolProp name="ResultCollector.error_logging">false</boolProp>
+            <objProp>
+              <name>saveConfig</name>
+              <value class="SampleSaveConfiguration">
+                <time>true</time>
+                <latency>true</latency>
+                <timestamp>true</timestamp>
+                <success>true</success>
+                <label>true</label>
+                <code>true</code>
+                <message>true</message>
+                <threadName>true</threadName>
+                <dataType>true</dataType>
+                <encoding>false</encoding>
+                <assertions>true</assertions>
+                <subresults>true</subresults>
+                <responseData>false</responseData>
+                <samplerData>false</samplerData>
+                <xml>false</xml>
+                <fieldNames>false</fieldNames>
+                <responseHeaders>false</responseHeaders>
+                <requestHeaders>false</requestHeaders>
+                <responseDataOnError>false</responseDataOnError>
+                <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+                <assertionsResultsToSave>0</assertionsResultsToSave>
+                <bytes>true</bytes>
+                <threadCounts>true</threadCounts>
+              </value>
+            </objProp>
+            <stringProp name="filename"></stringProp>
+          </ResultCollector>
+          <hashTree/>
+          <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="Log" enabled="true">
+            <boolProp name="resetInterpreter">false</boolProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="script">String ResponseString = prev.getResponseDataAsString();
+String ResponseCode = prev.getResponseCode(); 
+String ResponseMessage = prev.getResponseMessage();
+
+String test_tmp_folder = &quot;/tmp/TestResult/${TestName}&quot;;
+	f = new FileOutputStream(test_tmp_folder, true); 
+	p = new PrintStream(f); 
+
+mydate = &quot;${__time(dd-MM-yyyy hh:mm:ss)}&quot;;
+
+p.println(&quot;\n#######################&quot;+&quot; Submit VLM &quot;+&quot;#######################&quot;);
+
+if (ResponseCode.contains(&quot;200&quot;))
+{
+	p.println(mydate + &quot; : Thread number ${__threadNum()} in step ${__samplerName}: PASS&quot;);
+	p.println(&quot;Response Code : &quot; + ResponseCode); 
+	p.println(&quot;Response Message : &quot; + ResponseMessage);
+	p.println(&quot;Response String : &quot; + ResponseString);
+}
+else
+{
+	p.println(mydate + &quot; : Thread number ${__threadNum()} in step ${__samplerName}: FAIL&quot;);
+	p.println(&quot;Response Code : &quot; + ResponseCode);
+	p.println(&quot;Response Message : &quot; + ResponseMessage + &quot;\nERROR: Create VLM REST failed.&quot;);
+	p.println(&quot;Response String : &quot; + ResponseString);
+}
+
+p.println(&quot;############################################################################\n&quot;);
+
+p.close();f.close();</stringProp>
+          </BeanShellPostProcessor>
+          <hashTree/>
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+            <stringProp name="ConstantTimer.delay">300</stringProp>
+          </ConstantTimer>
+          <hashTree/>
+          <ResultAction guiclass="ResultActionGui" testclass="ResultAction" testname="Stop in case of error" enabled="true">
+            <intProp name="OnError.action">1</intProp>
+          </ResultAction>
+          <hashTree/>
+        </hashTree>
+        <IncludeController guiclass="IncludeControllerGui" testclass="IncludeController" testname="Get VLM Version ID and Label" enabled="true">
+          <stringProp name="IncludeController.includepath">../_JMeter_Test_Fragments/BE/VLM/Get_VLM_Version_ID_and_Label.jmx</stringProp>
+        </IncludeController>
+        <hashTree/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Vendor Software Products" enabled="true"/>
+        <hashTree>
+          <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Define Test VSP Properties" enabled="true">
+            <stringProp name="BeanShellSampler.query">${__eval(${__FileToString(/qa-test-repo/TestsProperties/ASDC/VSP_props.txt)})}</stringProp>
+            <stringProp name="BeanShellSampler.filename"></stringProp>
+            <stringProp name="BeanShellSampler.parameters"></stringProp>
+            <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+          </BeanShellSampler>
+          <hashTree>
+            <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+              <stringProp name="ConstantTimer.delay">300</stringProp>
+            </ConstantTimer>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Create Vendor Software Products" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">${__eval(${__FileToString(/qa-test-repo/TestsProperties/ASDC/VSP_body.txt)})}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${__P(VM_controller)}</stringProp>
+            <stringProp name="HTTPSampler.port">${port}</stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">${__P(ASDC_VSP)}</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.implementation">HttpClient3.1</stringProp>
+            <boolProp name="HTTPSampler.monitor">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+              <boolProp name="ResultCollector.error_logging">false</boolProp>
+              <objProp>
+                <name>saveConfig</name>
+                <value class="SampleSaveConfiguration">
+                  <time>true</time>
+                  <latency>true</latency>
+                  <timestamp>true</timestamp>
+                  <success>true</success>
+                  <label>true</label>
+                  <code>true</code>
+                  <message>true</message>
+                  <threadName>true</threadName>
+                  <dataType>true</dataType>
+                  <encoding>false</encoding>
+                  <assertions>true</assertions>
+                  <subresults>true</subresults>
+                  <responseData>false</responseData>
+                  <samplerData>false</samplerData>
+                  <xml>false</xml>
+                  <fieldNames>false</fieldNames>
+                  <responseHeaders>false</responseHeaders>
+                  <requestHeaders>false</requestHeaders>
+                  <responseDataOnError>false</responseDataOnError>
+                  <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+                  <assertionsResultsToSave>0</assertionsResultsToSave>
+                  <bytes>true</bytes>
+                  <threadCounts>true</threadCounts>
+                </value>
+              </objProp>
+              <stringProp name="filename"></stringProp>
+            </ResultCollector>
+            <hashTree/>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Get entityId from Response" enabled="true">
+              <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+              <stringProp name="RegexExtractor.refname">entityId</stringProp>
+              <stringProp name="RegexExtractor.regex">&quot;vspId&quot;:&quot;(.+?)&quot;</stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.default">0</stringProp>
+              <stringProp name="RegexExtractor.match_number">1</stringProp>
+            </RegexExtractor>
+            <hashTree/>
+            <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="Log" enabled="true">
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="script">String ResponseString = prev.getResponseDataAsString();
+String ResponseCode = prev.getResponseCode(); 
+String ResponseMessage = prev.getResponseMessage();
+
+props.put(&quot;VSP_P&quot;,&quot;${entityId}&quot;);
+
+String test_tmp_folder = &quot;/tmp/TestResult/${TestName}&quot;;
+	f = new FileOutputStream(test_tmp_folder, true); 
+	p = new PrintStream(f); 
+
+mydate = &quot;${__time(dd-MM-yyyy hh:mm:ss)}&quot;;
+p.println(&quot;\n#######################&quot;+&quot; Create Vendor Software Products Step &quot;+&quot;#######################&quot;);
+if (ResponseCode.contains(&quot;200&quot;))
+{
+	p.println(mydate + &quot; : Thread number ${__threadNum()} in step ${__samplerName}: PASS&quot;);
+	p.println(&quot;Response Code : &quot; + ResponseCode); 
+	p.println(&quot;Response Message : &quot; + ResponseMessage);
+	p.println(&quot;Response String : &quot; + ResponseString);
+}
+else
+{
+	p.println(mydate + &quot; : Thread number ${__threadNum()} in step ${__samplerName}: FAIL&quot;);
+	p.println(&quot;Response Code : &quot; + ResponseCode);
+	p.println(&quot;Response Message : &quot; + ResponseMessage + &quot;\nERROR: Create REST failed.&quot;);
+	p.println(&quot;Response String : &quot; + ResponseString);
+}
+p.println(&quot;#####################################################################\n&quot;);
+p.close();f.close();</stringProp>
+            </BeanShellPostProcessor>
+            <hashTree/>
+            <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+              <stringProp name="ConstantTimer.delay">300</stringProp>
+            </ConstantTimer>
+            <hashTree/>
+            <ResultAction guiclass="ResultActionGui" testclass="ResultAction" testname="Stop in case of error" enabled="true">
+              <intProp name="OnError.action">1</intProp>
+            </ResultAction>
+            <hashTree/>
+          </hashTree>
+          <IncludeController guiclass="IncludeControllerGui" testclass="IncludeController" testname="Get VSP Version ID and Label" enabled="true">
+            <stringProp name="IncludeController.includepath">../_JMeter_Test_Fragments/BE/VSP/Get_VSP_Version_ID_and_Label.jmx</stringProp>
+          </IncludeController>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Upload ZIP file to VSP" enabled="true">
+          <elementProp name="HTTPsampler.Files" elementType="HTTPFileArgs">
+            <collectionProp name="HTTPFileArgs.files">
+              <elementProp name="${fileRepo}${file}" elementType="HTTPFileArg">
+                <stringProp name="File.path">${fileRepo}${file}</stringProp>
+                <stringProp name="File.paramname"></stringProp>
+                <stringProp name="File.mimetype">${zip}</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${__P(VM_controller)}</stringProp>
+          <stringProp name="HTTPSampler.port">${port}</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">${__P(ASDC_VSP)}/${__P(VSP_P)}/versions/${__P(vspNewVersionID_p)}/upload</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">true</boolProp>
+          <stringProp name="HTTPSampler.implementation">HttpClient3.1</stringProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+            <boolProp name="ResultCollector.error_logging">false</boolProp>
+            <objProp>
+              <name>saveConfig</name>
+              <value class="SampleSaveConfiguration">
+                <time>true</time>
+                <latency>true</latency>
+                <timestamp>true</timestamp>
+                <success>true</success>
+                <label>true</label>
+                <code>true</code>
+                <message>true</message>
+                <threadName>true</threadName>
+                <dataType>true</dataType>
+                <encoding>false</encoding>
+                <assertions>true</assertions>
+                <subresults>true</subresults>
+                <responseData>false</responseData>
+                <samplerData>false</samplerData>
+                <xml>false</xml>
+                <fieldNames>false</fieldNames>
+                <responseHeaders>false</responseHeaders>
+                <requestHeaders>false</requestHeaders>
+                <responseDataOnError>false</responseDataOnError>
+                <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+                <assertionsResultsToSave>0</assertionsResultsToSave>
+                <bytes>true</bytes>
+                <threadCounts>true</threadCounts>
+              </value>
+            </objProp>
+            <stringProp name="filename"></stringProp>
+          </ResultCollector>
+          <hashTree/>
+          <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Get Response status" enabled="true">
+            <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+            <stringProp name="RegexExtractor.refname">status</stringProp>
+            <stringProp name="RegexExtractor.regex">&quot;status&quot;:&quot;(.+?)&quot;</stringProp>
+            <stringProp name="RegexExtractor.template">$1$</stringProp>
+            <stringProp name="RegexExtractor.default">0</stringProp>
+            <stringProp name="RegexExtractor.match_number">1</stringProp>
+            <stringProp name="Scope.variable"></stringProp>
+          </RegexExtractor>
+          <hashTree/>
+          <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="Log" enabled="true">
+            <boolProp name="resetInterpreter">false</boolProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="script">String ResponseString = prev.getResponseDataAsString();
+String ResponseCode = prev.getResponseCode(); 
+String ResponseMessage = prev.getResponseMessage();
+
+
+String test_tmp_folder = &quot;/tmp/TestResult/${TestName}&quot;;
+	f = new FileOutputStream(test_tmp_folder, true); 
+	p = new PrintStream(f); 
+
+mydate = &quot;${__time(dd-MM-yyyy hh:mm:ss)}&quot;;
+
+p.println(&quot;\n#######################&quot;+&quot; ${__samplerName} &quot;+&quot;#######################&quot;);
+
+if (ResponseCode.contains(&quot;200&quot;) &amp;&amp; &quot;${status}&quot;.equals(&quot;Success&quot;))
+{
+
+	p.println(mydate + &quot; : Thread number ${__threadNum()} in step ${__samplerName}: PASS&quot;);
+	p.println(&quot;Response Code : &quot; + ResponseCode); 
+	p.println(&quot;Response Message : &quot; + ResponseMessage);
+	p.println(&quot;Response String : &quot; + ResponseString);
+
+}
+else
+{
+	p.println(mydate + &quot; : Thread number ${__threadNum()} in step ${__samplerName}: FAIL&quot;);
+	p.println(&quot;Response Code : &quot; + ResponseCode);
+	p.println(&quot;Response Message : &quot; + ResponseMessage);
+	p.println(&quot;Response String : &quot; + ResponseString);
+}
+
+p.println(&quot;############################################################################\n&quot;);
+
+p.close();f.close();</stringProp>
+          </BeanShellPostProcessor>
+          <hashTree/>
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+            <stringProp name="ConstantTimer.delay">300</stringProp>
+          </ConstantTimer>
+          <hashTree/>
+          <ResultAction guiclass="ResultActionGui" testclass="ResultAction" testname="Stop in case of error" enabled="true">
+            <intProp name="OnError.action">1</intProp>
+          </ResultAction>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Checkin VSP" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">${__eval(${__FileToString(/qa-test-repo/TestsProperties/ASDC/Action_Checkin.txt)})}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${__P(VM_controller)}</stringProp>
+          <stringProp name="HTTPSampler.port">${port}</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">${__P(ASDC_VSP)}/${__P(VSP_P)}/versions/${__P(vspNewVersionID_p)}/actions</stringProp>
+          <stringProp name="HTTPSampler.method">PUT</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.implementation">HttpClient3.1</stringProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+            <boolProp name="ResultCollector.error_logging">false</boolProp>
+            <objProp>
+              <name>saveConfig</name>
+              <value class="SampleSaveConfiguration">
+                <time>true</time>
+                <latency>true</latency>
+                <timestamp>true</timestamp>
+                <success>true</success>
+                <label>true</label>
+                <code>true</code>
+                <message>true</message>
+                <threadName>true</threadName>
+                <dataType>true</dataType>
+                <encoding>false</encoding>
+                <assertions>true</assertions>
+                <subresults>true</subresults>
+                <responseData>false</responseData>
+                <samplerData>false</samplerData>
+                <xml>false</xml>
+                <fieldNames>false</fieldNames>
+                <responseHeaders>false</responseHeaders>
+                <requestHeaders>false</requestHeaders>
+                <responseDataOnError>false</responseDataOnError>
+                <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+                <assertionsResultsToSave>0</assertionsResultsToSave>
+                <bytes>true</bytes>
+                <threadCounts>true</threadCounts>
+              </value>
+            </objProp>
+            <stringProp name="filename"></stringProp>
+          </ResultCollector>
+          <hashTree/>
+          <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="Log" enabled="true">
+            <boolProp name="resetInterpreter">false</boolProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="script">String ResponseString = prev.getResponseDataAsString();
+String ResponseCode = prev.getResponseCode(); 
+String ResponseMessage = prev.getResponseMessage();
+
+String test_tmp_folder = &quot;/tmp/TestResult/${TestName}&quot;;
+	f = new FileOutputStream(test_tmp_folder, true); 
+	p = new PrintStream(f); 
+
+mydate = &quot;${__time(dd-MM-yyyy hh:mm:ss)}&quot;;
+
+p.println(&quot;\n#######################&quot;+&quot; Checkin VSP &quot;+&quot;#######################&quot;);
+
+if (ResponseCode.contains(&quot;200&quot;))
+{
+	p.println(mydate + &quot; : Thread number ${__threadNum()} in step ${__samplerName}: PASS&quot;);
+	p.println(&quot;Response Code : &quot; + ResponseCode); 
+	p.println(&quot;Response Message : &quot; + ResponseMessage);
+	p.println(&quot;Response String : &quot; + ResponseString);
+}
+else
+{
+	p.println(mydate + &quot; : Thread number ${__threadNum()} in step ${__samplerName}: FAIL&quot;);
+	p.println(&quot;Response Code : &quot; + ResponseCode);
+	p.println(&quot;Response Message : &quot; + ResponseMessage);
+	p.println(&quot;Response String : &quot; + ResponseString);
+}
+
+p.println(&quot;############################################################################\n&quot;);
+
+p.close();f.close();</stringProp>
+          </BeanShellPostProcessor>
+          <hashTree/>
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+            <stringProp name="ConstantTimer.delay">300</stringProp>
+          </ConstantTimer>
+          <hashTree/>
+          <ResultAction guiclass="ResultActionGui" testclass="ResultAction" testname="Stop in case of error" enabled="true">
+            <intProp name="OnError.action">1</intProp>
+          </ResultAction>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Submit VSP" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">${__eval(${__FileToString(/qa-test-repo/TestsProperties/ASDC/Action_Submit.txt)})}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${__P(VM_controller)}</stringProp>
+          <stringProp name="HTTPSampler.port">${port}</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">${__P(ASDC_VSP)}/${__P(VSP_P)}/versions/${__P(vspNewVersionID_p)}/actions</stringProp>
+          <stringProp name="HTTPSampler.method">PUT</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.implementation">HttpClient3.1</stringProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+            <boolProp name="ResultCollector.error_logging">false</boolProp>
+            <objProp>
+              <name>saveConfig</name>
+              <value class="SampleSaveConfiguration">
+                <time>true</time>
+                <latency>true</latency>
+                <timestamp>true</timestamp>
+                <success>true</success>
+                <label>true</label>
+                <code>true</code>
+                <message>true</message>
+                <threadName>true</threadName>
+                <dataType>true</dataType>
+                <encoding>false</encoding>
+                <assertions>true</assertions>
+                <subresults>true</subresults>
+                <responseData>false</responseData>
+                <samplerData>false</samplerData>
+                <xml>false</xml>
+                <fieldNames>false</fieldNames>
+                <responseHeaders>false</responseHeaders>
+                <requestHeaders>false</requestHeaders>
+                <responseDataOnError>false</responseDataOnError>
+                <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+                <assertionsResultsToSave>0</assertionsResultsToSave>
+                <bytes>true</bytes>
+                <threadCounts>true</threadCounts>
+              </value>
+            </objProp>
+            <stringProp name="filename"></stringProp>
+          </ResultCollector>
+          <hashTree/>
+          <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="Log" enabled="true">
+            <boolProp name="resetInterpreter">false</boolProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="script">String ResponseString = prev.getResponseDataAsString();
+String ResponseCode = prev.getResponseCode(); 
+String ResponseMessage = prev.getResponseMessage();
+
+String test_tmp_folder = &quot;/tmp/TestResult/${TestName}&quot;;
+	f = new FileOutputStream(test_tmp_folder, true); 
+	p = new PrintStream(f); 
+
+mydate = &quot;${__time(dd-MM-yyyy hh:mm:ss)}&quot;;
+
+p.println(&quot;\n#######################&quot;+&quot; Submit VSP &quot;+&quot;#######################&quot;);
+
+if (ResponseCode.contains(&quot;200&quot;))
+{
+	p.println(mydate + &quot; : Thread number ${__threadNum()} in step ${__samplerName}: PASS&quot;);
+	p.println(&quot;Response Code : &quot; + ResponseCode); 
+	p.println(&quot;Response Message : &quot; + ResponseMessage);
+	p.println(&quot;Response String : &quot; + ResponseString);
+}
+else
+{
+	p.println(mydate + &quot; : Thread number ${__threadNum()} in step ${__samplerName}: FAIL&quot;);
+	p.println(&quot;Response Code : &quot; + ResponseCode);
+	p.println(&quot;Response Message : &quot; + ResponseMessage);
+	p.println(&quot;Response String : &quot; + ResponseString);
+}
+
+p.println(&quot;############################################################################\n&quot;);
+
+p.close();f.close();</stringProp>
+          </BeanShellPostProcessor>
+          <hashTree/>
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+            <stringProp name="ConstantTimer.delay">300</stringProp>
+          </ConstantTimer>
+          <hashTree/>
+          <ResultAction guiclass="ResultActionGui" testclass="ResultAction" testname="Stop in case of error" enabled="true">
+            <intProp name="OnError.action">1</intProp>
+          </ResultAction>
+          <hashTree/>
+        </hashTree>
+        <IncludeController guiclass="IncludeControllerGui" testclass="IncludeController" testname="Get VSP Version ID and Label" enabled="true">
+          <stringProp name="IncludeController.includepath">../_JMeter_Test_Fragments/BE/VSP/Get_VSP_Version_ID_and_Label.jmx</stringProp>
+        </IncludeController>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Translate ZIP file" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">${__eval(${__FileToString(/qa-test-repo/TestsProperties/ASDC/Action_CreatePackage.txt)})}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${__P(VM_controller)}</stringProp>
+          <stringProp name="HTTPSampler.port">${port}</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">${__P(ASDC_VSP)}/${__P(VSP_P)}/versions/${__P(vspNewVersionID_p)}/actions</stringProp>
+          <stringProp name="HTTPSampler.method">PUT</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.implementation">HttpClient3.1</stringProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+            <boolProp name="ResultCollector.error_logging">false</boolProp>
+            <objProp>
+              <name>saveConfig</name>
+              <value class="SampleSaveConfiguration">
+                <time>true</time>
+                <latency>true</latency>
+                <timestamp>true</timestamp>
+                <success>true</success>
+                <label>true</label>
+                <code>true</code>
+                <message>true</message>
+                <threadName>true</threadName>
+                <dataType>true</dataType>
+                <encoding>false</encoding>
+                <assertions>true</assertions>
+                <subresults>true</subresults>
+                <responseData>false</responseData>
+                <samplerData>false</samplerData>
+                <xml>false</xml>
+                <fieldNames>false</fieldNames>
+                <responseHeaders>false</responseHeaders>
+                <requestHeaders>false</requestHeaders>
+                <responseDataOnError>false</responseDataOnError>
+                <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+                <assertionsResultsToSave>0</assertionsResultsToSave>
+                <bytes>true</bytes>
+                <threadCounts>true</threadCounts>
+              </value>
+            </objProp>
+            <stringProp name="filename"></stringProp>
+          </ResultCollector>
+          <hashTree/>
+          <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Get packageId from Response" enabled="false">
+            <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+            <stringProp name="RegexExtractor.refname">packageId</stringProp>
+            <stringProp name="RegexExtractor.regex">&quot;packageId&quot;:&quot;(.+?)&quot;</stringProp>
+            <stringProp name="RegexExtractor.template">$1$</stringProp>
+            <stringProp name="RegexExtractor.default">0</stringProp>
+            <stringProp name="RegexExtractor.match_number">1</stringProp>
+            <stringProp name="Scope.variable"></stringProp>
+          </RegexExtractor>
+          <hashTree/>
+          <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="Log" enabled="true">
+            <boolProp name="resetInterpreter">false</boolProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="script">String ResponseString = prev.getResponseDataAsString();
+String ResponseCode = prev.getResponseCode(); 
+String ResponseMessage = prev.getResponseMessage();
+
+String test_tmp_folder = &quot;/tmp/TestResult/${TestName}&quot;;
+	f = new FileOutputStream(test_tmp_folder, true); 
+	p = new PrintStream(f); 
+
+mydate = &quot;${__time(dd-MM-yyyy hh:mm:ss)}&quot;;
+
+p.println(&quot;\n#######################&quot;+&quot; ${__samplerName} &quot;+&quot;#######################&quot;);
+
+if (ResponseCode.contains(&quot;200&quot;))
+{
+	p.println(mydate + &quot; : Thread number ${__threadNum()} in step ${__samplerName}: PASS&quot;);
+	p.println(&quot;Response Code : &quot; + ResponseCode); 
+	p.println(&quot;Response Message : &quot; + ResponseMessage);
+	p.println(&quot;Response String : &quot; + ResponseString);
+}
+else
+{
+	p.println(mydate + &quot; : Thread number ${__threadNum()} in step ${__samplerName}: FAIL&quot;);
+	p.println(&quot;Response Code : &quot; + ResponseCode);
+	p.println(&quot;Response Message : &quot; + ResponseMessage);
+	p.println(&quot;Response String : &quot; + ResponseString);
+}
+
+p.println(&quot;############################################################################\n&quot;);
+
+p.close();f.close();</stringProp>
+          </BeanShellPostProcessor>
+          <hashTree/>
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+            <stringProp name="ConstantTimer.delay">300</stringProp>
+          </ConstantTimer>
+          <hashTree/>
+          <ResultAction guiclass="ResultActionGui" testclass="ResultAction" testname="Stop in case of error" enabled="true">
+            <intProp name="OnError.action">1</intProp>
+          </ResultAction>
+          <hashTree/>
+        </hashTree>
+        <SystemSampler guiclass="SystemSamplerGui" testclass="SystemSampler" testname="Create rmp DIR to download" enabled="false">
+          <boolProp name="SystemSampler.checkReturnCode">false</boolProp>
+          <stringProp name="SystemSampler.expectedReturnCode">0</stringProp>
+          <stringProp name="SystemSampler.command">mkdir</stringProp>
+          <elementProp name="SystemSampler.arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="Argument">
+                <stringProp name="Argument.name"></stringProp>
+                <stringProp name="Argument.value">-p</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Argument">
+                <stringProp name="Argument.name"></stringProp>
+                <stringProp name="Argument.value">/tmp/${__TestPlanName}_${__P(VSP_P)}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <elementProp name="SystemSampler.environment" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="SystemSampler.directory"></stringProp>
+        </SystemSampler>
+        <hashTree>
+          <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+            <boolProp name="ResultCollector.error_logging">false</boolProp>
+            <objProp>
+              <name>saveConfig</name>
+              <value class="SampleSaveConfiguration">
+                <time>true</time>
+                <latency>true</latency>
+                <timestamp>true</timestamp>
+                <success>true</success>
+                <label>true</label>
+                <code>true</code>
+                <message>true</message>
+                <threadName>true</threadName>
+                <dataType>true</dataType>
+                <encoding>true</encoding>
+                <assertions>true</assertions>
+                <subresults>true</subresults>
+                <responseData>true</responseData>
+                <samplerData>true</samplerData>
+                <xml>false</xml>
+                <fieldNames>true</fieldNames>
+                <responseHeaders>true</responseHeaders>
+                <requestHeaders>true</requestHeaders>
+                <responseDataOnError>false</responseDataOnError>
+                <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                <assertionsResultsToSave>0</assertionsResultsToSave>
+                <bytes>true</bytes>
+                <url>true</url>
+                <fileName>true</fileName>
+                <hostname>true</hostname>
+                <threadCounts>true</threadCounts>
+                <sampleCount>true</sampleCount>
+                <idleTime>true</idleTime>
+              </value>
+            </objProp>
+            <stringProp name="filename"></stringProp>
+          </ResultCollector>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Download Package" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value"></stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${__P(VM_controller)}</stringProp>
+          <stringProp name="HTTPSampler.port">${port}</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">${__P(ASDC_VSP)}/${__P(PKG)}/${__P(VSP_P)}</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.implementation">HttpClient3.1</stringProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager Main" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">${__P(HTTP_REST_USER_ID_HEADER_NAME)}</stringProp>
+                <stringProp name="Header.value">${__P(HTTP_REST_USER_ID_HEADER_VALUE)}</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Accept</stringProp>
+                <stringProp name="Header.value">application/octet-stream</stringProp>
+              </elementProp>
+            </collectionProp>
+            <stringProp name="TestPlan.comments">Accept - application/octet-stream</stringProp>
+          </HeaderManager>
+          <hashTree/>
+          <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+            <boolProp name="ResultCollector.error_logging">false</boolProp>
+            <objProp>
+              <name>saveConfig</name>
+              <value class="SampleSaveConfiguration">
+                <time>true</time>
+                <latency>true</latency>
+                <timestamp>true</timestamp>
+                <success>true</success>
+                <label>true</label>
+                <code>true</code>
+                <message>true</message>
+                <threadName>true</threadName>
+                <dataType>true</dataType>
+                <encoding>false</encoding>
+                <assertions>true</assertions>
+                <subresults>true</subresults>
+                <responseData>false</responseData>
+                <samplerData>false</samplerData>
+                <xml>false</xml>
+                <fieldNames>false</fieldNames>
+                <responseHeaders>false</responseHeaders>
+                <requestHeaders>false</requestHeaders>
+                <responseDataOnError>false</responseDataOnError>
+                <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+                <assertionsResultsToSave>0</assertionsResultsToSave>
+                <bytes>true</bytes>
+                <threadCounts>true</threadCounts>
+              </value>
+            </objProp>
+            <stringProp name="filename"></stringProp>
+          </ResultCollector>
+          <hashTree/>
+          <ResultSaver guiclass="ResultSaverGui" testclass="ResultSaver" testname="Save Responses to a file" enabled="true">
+            <stringProp name="FileSaver.filename">/tmp/${__TestPlanName}_${__P(VSP_P)}/${__P(VSP_P)}.zip</stringProp>
+            <boolProp name="FileSaver.errorsonly">false</boolProp>
+            <boolProp name="FileSaver.skipautonumber">true</boolProp>
+            <boolProp name="FileSaver.skipsuffix">true</boolProp>
+            <boolProp name="FileSaver.successonly">true</boolProp>
+          </ResultSaver>
+          <hashTree/>
+          <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="Log" enabled="true">
+            <boolProp name="resetInterpreter">false</boolProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="script">//String ResponseString = prev.getResponseDataAsString();
+String ResponseCode = prev.getResponseCode(); 
+String ResponseMessage = prev.getResponseMessage();
+
+String test_tmp_folder = &quot;/tmp/TestResult/${TestName}&quot;;
+	f = new FileOutputStream(test_tmp_folder, true); 
+	p = new PrintStream(f); 
+
+mydate = &quot;${__time(dd-MM-yyyy hh:mm:ss)}&quot;;
+
+p.println(&quot;\n#######################&quot;+&quot; Download Package &quot;+&quot;#######################&quot;);
+
+if (ResponseCode.contains(&quot;200&quot;))
+{
+	p.println(mydate + &quot; : Thread number ${__threadNum()} in step ${__samplerName}: PASS&quot;);
+	p.println(&quot;Response Code : &quot; + ResponseCode); 
+	p.println(&quot;Response Message : &quot; + ResponseMessage);
+	//p.println(&quot;Response String : &quot; + ResponseString);
+}
+else
+{
+	p.println(mydate + &quot; : Thread number ${__threadNum()} in step ${__samplerName}: FAIL&quot;);
+	p.println(&quot;Response Code : &quot; + ResponseCode);
+	p.println(&quot;Response Message : &quot; + ResponseMessage);
+	//p.println(&quot;Response String : &quot; + ResponseString);
+}
+
+p.println(&quot;############################################################################\n&quot;);
+
+p.close();f.close();</stringProp>
+          </BeanShellPostProcessor>
+          <hashTree/>
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+            <stringProp name="ConstantTimer.delay">300</stringProp>
+          </ConstantTimer>
+          <hashTree/>
+          <ResultAction guiclass="ResultActionGui" testclass="ResultAction" testname="Stop in case of error" enabled="true">
+            <intProp name="OnError.action">1</intProp>
+          </ResultAction>
+          <hashTree/>
+        </hashTree>
+        <SystemSampler guiclass="SystemSamplerGui" testclass="SystemSampler" testname="Unzip the package" enabled="false">
+          <boolProp name="SystemSampler.checkReturnCode">false</boolProp>
+          <stringProp name="SystemSampler.expectedReturnCode">0</stringProp>
+          <stringProp name="SystemSampler.command">unzip</stringProp>
+          <elementProp name="SystemSampler.arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="Argument">
+                <stringProp name="Argument.name"></stringProp>
+                <stringProp name="Argument.value">*</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <elementProp name="SystemSampler.environment" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="SystemSampler.directory">/tmp/${__TestPlanName}_${__P(VSP_P)}/</stringProp>
+        </SystemSampler>
+        <hashTree>
+          <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+            <boolProp name="ResultCollector.error_logging">false</boolProp>
+            <objProp>
+              <name>saveConfig</name>
+              <value class="SampleSaveConfiguration">
+                <time>true</time>
+                <latency>true</latency>
+                <timestamp>true</timestamp>
+                <success>true</success>
+                <label>true</label>
+                <code>true</code>
+                <message>true</message>
+                <threadName>true</threadName>
+                <dataType>true</dataType>
+                <encoding>true</encoding>
+                <assertions>true</assertions>
+                <subresults>true</subresults>
+                <responseData>true</responseData>
+                <samplerData>true</samplerData>
+                <xml>false</xml>
+                <fieldNames>true</fieldNames>
+                <responseHeaders>true</responseHeaders>
+                <requestHeaders>true</requestHeaders>
+                <responseDataOnError>false</responseDataOnError>
+                <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                <assertionsResultsToSave>0</assertionsResultsToSave>
+                <bytes>true</bytes>
+                <url>true</url>
+                <fileName>true</fileName>
+                <hostname>true</hostname>
+                <threadCounts>true</threadCounts>
+                <sampleCount>true</sampleCount>
+                <idleTime>true</idleTime>
+              </value>
+            </objProp>
+            <stringProp name="filename"></stringProp>
+          </ResultCollector>
+          <hashTree/>
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+            <stringProp name="ConstantTimer.delay">300</stringProp>
+          </ConstantTimer>
+          <hashTree/>
+        </hashTree>
+        <SystemSampler guiclass="SystemSamplerGui" testclass="SystemSampler" testname="Remove ZIP file from directory" enabled="false">
+          <boolProp name="SystemSampler.checkReturnCode">false</boolProp>
+          <stringProp name="SystemSampler.expectedReturnCode">0</stringProp>
+          <stringProp name="SystemSampler.command">rm</stringProp>
+          <elementProp name="SystemSampler.arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="Argument">
+                <stringProp name="Argument.name"></stringProp>
+                <stringProp name="Argument.value">-rf</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Argument">
+                <stringProp name="Argument.name"></stringProp>
+                <stringProp name="Argument.value">${__P(VSP_P)}.zip</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <elementProp name="SystemSampler.environment" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="SystemSampler.directory">/tmp/${__TestPlanName}_${__P(VSP_P)}/</stringProp>
+        </SystemSampler>
+        <hashTree>
+          <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+            <boolProp name="ResultCollector.error_logging">false</boolProp>
+            <objProp>
+              <name>saveConfig</name>
+              <value class="SampleSaveConfiguration">
+                <time>true</time>
+                <latency>true</latency>
+                <timestamp>true</timestamp>
+                <success>true</success>
+                <label>true</label>
+                <code>true</code>
+                <message>true</message>
+                <threadName>true</threadName>
+                <dataType>true</dataType>
+                <encoding>true</encoding>
+                <assertions>true</assertions>
+                <subresults>true</subresults>
+                <responseData>true</responseData>
+                <samplerData>true</samplerData>
+                <xml>false</xml>
+                <fieldNames>true</fieldNames>
+                <responseHeaders>true</responseHeaders>
+                <requestHeaders>true</requestHeaders>
+                <responseDataOnError>false</responseDataOnError>
+                <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                <assertionsResultsToSave>0</assertionsResultsToSave>
+                <bytes>true</bytes>
+                <url>true</url>
+                <fileName>true</fileName>
+                <hostname>true</hostname>
+                <threadCounts>true</threadCounts>
+                <sampleCount>true</sampleCount>
+                <idleTime>true</idleTime>
+              </value>
+            </objProp>
+            <stringProp name="filename"></stringProp>
+          </ResultCollector>
+          <hashTree/>
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+            <stringProp name="ConstantTimer.delay">300</stringProp>
+          </ConstantTimer>
+          <hashTree/>
+        </hashTree>
+        <SystemSampler guiclass="SystemSamplerGui" testclass="SystemSampler" testname="dos2unix template" enabled="false">
+          <boolProp name="SystemSampler.checkReturnCode">false</boolProp>
+          <stringProp name="SystemSampler.expectedReturnCode">0</stringProp>
+          <stringProp name="SystemSampler.command">bash</stringProp>
+          <elementProp name="SystemSampler.arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="Argument">
+                <stringProp name="Argument.name"></stringProp>
+                <stringProp name="Argument.value">dos2unixCall.sh</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Argument">
+                <stringProp name="Argument.name"></stringProp>
+                <stringProp name="Argument.value">/qa-test-repo/TestsProperties/HEATFiles/SimpleHEATtoTOSCA</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <elementProp name="SystemSampler.environment" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="SystemSampler.directory">/qa-test-repo/scripts/ASDC/</stringProp>
+        </SystemSampler>
+        <hashTree>
+          <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+            <boolProp name="ResultCollector.error_logging">false</boolProp>
+            <objProp>
+              <name>saveConfig</name>
+              <value class="SampleSaveConfiguration">
+                <time>true</time>
+                <latency>true</latency>
+                <timestamp>true</timestamp>
+                <success>true</success>
+                <label>true</label>
+                <code>true</code>
+                <message>true</message>
+                <threadName>true</threadName>
+                <dataType>true</dataType>
+                <encoding>true</encoding>
+                <assertions>true</assertions>
+                <subresults>true</subresults>
+                <responseData>true</responseData>
+                <samplerData>true</samplerData>
+                <xml>false</xml>
+                <fieldNames>true</fieldNames>
+                <responseHeaders>true</responseHeaders>
+                <requestHeaders>true</requestHeaders>
+                <responseDataOnError>false</responseDataOnError>
+                <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                <assertionsResultsToSave>0</assertionsResultsToSave>
+                <bytes>true</bytes>
+                <url>true</url>
+                <fileName>true</fileName>
+                <hostname>true</hostname>
+                <threadCounts>true</threadCounts>
+                <sampleCount>true</sampleCount>
+                <idleTime>true</idleTime>
+              </value>
+            </objProp>
+            <stringProp name="filename"></stringProp>
+          </ResultCollector>
+          <hashTree/>
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+            <stringProp name="ConstantTimer.delay">300</stringProp>
+          </ConstantTimer>
+          <hashTree/>
+        </hashTree>
+        <SystemSampler guiclass="SystemSamplerGui" testclass="SystemSampler" testname="dos2unix new" enabled="false">
+          <boolProp name="SystemSampler.checkReturnCode">false</boolProp>
+          <stringProp name="SystemSampler.expectedReturnCode">0</stringProp>
+          <stringProp name="SystemSampler.command">bash</stringProp>
+          <elementProp name="SystemSampler.arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="Argument">
+                <stringProp name="Argument.name"></stringProp>
+                <stringProp name="Argument.value">dos2unixCall.sh</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Argument">
+                <stringProp name="Argument.name"></stringProp>
+                <stringProp name="Argument.value">${__eval(/tmp/${__TestPlanName}_${__P(VSP_P)})}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <elementProp name="SystemSampler.environment" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="SystemSampler.directory">/qa-test-repo/scripts/ASDC/</stringProp>
+        </SystemSampler>
+        <hashTree>
+          <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+            <boolProp name="ResultCollector.error_logging">false</boolProp>
+            <objProp>
+              <name>saveConfig</name>
+              <value class="SampleSaveConfiguration">
+                <time>true</time>
+                <latency>true</latency>
+                <timestamp>true</timestamp>
+                <success>true</success>
+                <label>true</label>
+                <code>true</code>
+                <message>true</message>
+                <threadName>true</threadName>
+                <dataType>true</dataType>
+                <encoding>true</encoding>
+                <assertions>true</assertions>
+                <subresults>true</subresults>
+                <responseData>true</responseData>
+                <samplerData>true</samplerData>
+                <xml>false</xml>
+                <fieldNames>true</fieldNames>
+                <responseHeaders>true</responseHeaders>
+                <requestHeaders>true</requestHeaders>
+                <responseDataOnError>false</responseDataOnError>
+                <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                <assertionsResultsToSave>0</assertionsResultsToSave>
+                <bytes>true</bytes>
+                <url>true</url>
+                <fileName>true</fileName>
+                <hostname>true</hostname>
+                <threadCounts>true</threadCounts>
+                <sampleCount>true</sampleCount>
+                <idleTime>true</idleTime>
+              </value>
+            </objProp>
+            <stringProp name="filename"></stringProp>
+          </ResultCollector>
+          <hashTree/>
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+            <stringProp name="ConstantTimer.delay">300</stringProp>
+          </ConstantTimer>
+          <hashTree/>
+        </hashTree>
+        <SystemSampler guiclass="SystemSamplerGui" testclass="SystemSampler" testname="Diff template to test" enabled="false">
+          <boolProp name="SystemSampler.checkReturnCode">false</boolProp>
+          <stringProp name="SystemSampler.expectedReturnCode">0</stringProp>
+          <stringProp name="SystemSampler.command">diff</stringProp>
+          <elementProp name="SystemSampler.arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="Argument">
+                <stringProp name="Argument.name"></stringProp>
+                <stringProp name="Argument.value">-x</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Argument">
+                <stringProp name="Argument.name"></stringProp>
+                <stringProp name="Argument.value">*example.xml</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Argument">
+                <stringProp name="Argument.name"></stringProp>
+                <stringProp name="Argument.value">-r</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Argument">
+                <stringProp name="Argument.name"></stringProp>
+                <stringProp name="Argument.value">/qa-test-repo/TestsProperties/HEATFiles/SimpleHEATtoTOSCA</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Argument">
+                <stringProp name="Argument.name"></stringProp>
+                <stringProp name="Argument.value">/tmp/${__TestPlanName}_${__P(VSP_P)}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <elementProp name="SystemSampler.environment" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="SystemSampler.directory"></stringProp>
+          <stringProp name="TestPlan.comments">-x *example.xml</stringProp>
+        </SystemSampler>
+        <hashTree>
+          <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+            <boolProp name="ResultCollector.error_logging">false</boolProp>
+            <objProp>
+              <name>saveConfig</name>
+              <value class="SampleSaveConfiguration">
+                <time>true</time>
+                <latency>true</latency>
+                <timestamp>true</timestamp>
+                <success>true</success>
+                <label>true</label>
+                <code>true</code>
+                <message>true</message>
+                <threadName>true</threadName>
+                <dataType>true</dataType>
+                <encoding>true</encoding>
+                <assertions>true</assertions>
+                <subresults>true</subresults>
+                <responseData>true</responseData>
+                <samplerData>true</samplerData>
+                <xml>false</xml>
+                <fieldNames>true</fieldNames>
+                <responseHeaders>true</responseHeaders>
+                <requestHeaders>true</requestHeaders>
+                <responseDataOnError>false</responseDataOnError>
+                <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                <assertionsResultsToSave>0</assertionsResultsToSave>
+                <bytes>true</bytes>
+                <url>true</url>
+                <fileName>true</fileName>
+                <hostname>true</hostname>
+                <threadCounts>true</threadCounts>
+                <sampleCount>true</sampleCount>
+                <idleTime>true</idleTime>
+              </value>
+            </objProp>
+            <stringProp name="filename"></stringProp>
+          </ResultCollector>
+          <hashTree/>
+          <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor" enabled="true">
+            <boolProp name="resetInterpreter">false</boolProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="script">String ResponseString = prev.getResponseDataAsString();
+
+props.put(&quot;diffOutput&quot;,ResponseString);
+
+</stringProp>
+          </BeanShellPostProcessor>
+          <hashTree/>
+        </hashTree>
+        <SystemSampler guiclass="SystemSamplerGui" testclass="SystemSampler" testname="Read Template TOSCA" enabled="false">
+          <boolProp name="SystemSampler.checkReturnCode">false</boolProp>
+          <stringProp name="SystemSampler.expectedReturnCode">0</stringProp>
+          <stringProp name="SystemSampler.command">cat</stringProp>
+          <elementProp name="SystemSampler.arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="Argument">
+                <stringProp name="Argument.name"></stringProp>
+                <stringProp name="Argument.value">MainServiceTemplate.yaml</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <elementProp name="SystemSampler.environment" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="SystemSampler.directory">/qa-test-repo/TestsProperties/HEATFiles/SimpleHEATtoTOSCA/Definitions</stringProp>
+        </SystemSampler>
+        <hashTree>
+          <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+            <boolProp name="ResultCollector.error_logging">false</boolProp>
+            <objProp>
+              <name>saveConfig</name>
+              <value class="SampleSaveConfiguration">
+                <time>true</time>
+                <latency>true</latency>
+                <timestamp>true</timestamp>
+                <success>true</success>
+                <label>true</label>
+                <code>true</code>
+                <message>true</message>
+                <threadName>true</threadName>
+                <dataType>true</dataType>
+                <encoding>true</encoding>
+                <assertions>true</assertions>
+                <subresults>true</subresults>
+                <responseData>true</responseData>
+                <samplerData>true</samplerData>
+                <xml>false</xml>
+                <fieldNames>true</fieldNames>
+                <responseHeaders>true</responseHeaders>
+                <requestHeaders>true</requestHeaders>
+                <responseDataOnError>false</responseDataOnError>
+                <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                <assertionsResultsToSave>0</assertionsResultsToSave>
+                <bytes>true</bytes>
+                <url>true</url>
+                <fileName>true</fileName>
+                <hostname>true</hostname>
+                <threadCounts>true</threadCounts>
+                <sampleCount>true</sampleCount>
+                <idleTime>true</idleTime>
+              </value>
+            </objProp>
+            <stringProp name="filename"></stringProp>
+          </ResultCollector>
+          <hashTree/>
+          <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor" enabled="true">
+            <boolProp name="resetInterpreter">false</boolProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="script">String ResponseString = prev.getResponseDataAsString();
+
+props.put(&quot;tosca1&quot;,ResponseString);
+
+</stringProp>
+          </BeanShellPostProcessor>
+          <hashTree/>
+        </hashTree>
+        <SystemSampler guiclass="SystemSamplerGui" testclass="SystemSampler" testname="Read Translated TOSCA" enabled="false">
+          <boolProp name="SystemSampler.checkReturnCode">false</boolProp>
+          <stringProp name="SystemSampler.expectedReturnCode">0</stringProp>
+          <stringProp name="SystemSampler.command">cat</stringProp>
+          <elementProp name="SystemSampler.arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="Argument">
+                <stringProp name="Argument.name"></stringProp>
+                <stringProp name="Argument.value">MainServiceTemplate.yaml</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <elementProp name="SystemSampler.environment" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="SystemSampler.directory">/tmp/${__TestPlanName}_${__P(VSP_P)}/Definitions/</stringProp>
+        </SystemSampler>
+        <hashTree>
+          <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+            <boolProp name="ResultCollector.error_logging">false</boolProp>
+            <objProp>
+              <name>saveConfig</name>
+              <value class="SampleSaveConfiguration">
+                <time>true</time>
+                <latency>true</latency>
+                <timestamp>true</timestamp>
+                <success>true</success>
+                <label>true</label>
+                <code>true</code>
+                <message>true</message>
+                <threadName>true</threadName>
+                <dataType>true</dataType>
+                <encoding>true</encoding>
+                <assertions>true</assertions>
+                <subresults>true</subresults>
+                <responseData>true</responseData>
+                <samplerData>true</samplerData>
+                <xml>false</xml>
+                <fieldNames>true</fieldNames>
+                <responseHeaders>true</responseHeaders>
+                <requestHeaders>true</requestHeaders>
+                <responseDataOnError>false</responseDataOnError>
+                <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                <assertionsResultsToSave>0</assertionsResultsToSave>
+                <bytes>true</bytes>
+                <url>true</url>
+                <fileName>true</fileName>
+                <hostname>true</hostname>
+                <threadCounts>true</threadCounts>
+                <sampleCount>true</sampleCount>
+                <idleTime>true</idleTime>
+              </value>
+            </objProp>
+            <stringProp name="filename"></stringProp>
+          </ResultCollector>
+          <hashTree/>
+          <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor" enabled="true">
+            <boolProp name="resetInterpreter">false</boolProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="script">String ResponseString = prev.getResponseDataAsString();
+
+props.put(&quot;tosca2&quot;,ResponseString);</stringProp>
+          </BeanShellPostProcessor>
+          <hashTree/>
+        </hashTree>
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Compare TOSCA files" enabled="false">
+          <stringProp name="BeanShellSampler.query">
+String test_tmp_folder = &quot;/tmp/TestResult/${TestName}&quot;;
+	f = new FileOutputStream(test_tmp_folder, true); 
+	p = new PrintStream(f); 
+
+mydate = &quot;${__time(dd-MM-yyyy hh:mm:ss)}&quot;;
+
+String file1 = props.get(&quot;tosca1&quot;);
+String file2 = props.get(&quot;tosca2&quot;);
+
+p.println(&quot;\n#######################&quot;+&quot; ${__samplerName} &quot;+&quot;#######################&quot;);
+
+p.println(&quot;\n&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&quot;+&quot; diff Output: &quot;+&quot;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;\n&quot;);
+if(props.get(&quot;diffOutput&quot;).equals(&quot;&quot;)){
+	p.println(mydate + &quot; : No change in files&quot;);
+	p.println(mydate + &quot; : Thread number ${__threadNum()} in step ${__samplerName}: PASS&quot;);
+	p.println(mydate + &quot; : Files are equals!&quot;);
+}else{
+	p.println(mydate + &quot; : \n&quot;+props.get(&quot;diffOutput&quot;));
+	p.println(mydate + &quot; : Thread number ${__threadNum()} in step ${__samplerName}: FAIL&quot;);
+	p.println(mydate + &quot; : Files are NOT equals!!!&quot;);
+}
+p.println(&quot;\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n&quot;);
+
+p.println(&quot;############################################################################\n&quot;);
+
+p.close();f.close();</stringProp>
+          <stringProp name="BeanShellSampler.filename"></stringProp>
+          <stringProp name="BeanShellSampler.parameters"></stringProp>
+          <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+        </BeanShellSampler>
+        <hashTree/>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>
