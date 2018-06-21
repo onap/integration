@@ -32,7 +32,7 @@ class DMaaPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         return
 
     def do_GET(self):
-        if re.search('/events/unauthenticated.SEC_OTHER_OUTPUT/OpenDcae-c12/c12', self.path):
+        if re.search('/events/unauthenticated.SEC_OTHER_OUTPUT', self.path):
             self.send_response(200)
             self.send_header('Content-Type', 'application/json')
             self.end_headers()
