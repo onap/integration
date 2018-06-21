@@ -1,7 +1,7 @@
 version: '3'
 services:
   prh:
-    image: nexus3.onap.org:10003/onap/org.onap.dcaegen2.services.prh.prh-app-server
+    image: nexus3.onap.org:10001/onap/org.onap.dcaegen2.services.prh.prh-app-server
     command: >
           --dmaap.dmaapConsumerConfiguration.dmaapPortNumber=2222
           --dmaap.dmaapProducerConfiguration.dmaapPortNumber=2222

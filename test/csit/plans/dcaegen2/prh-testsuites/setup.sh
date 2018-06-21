@@ -41,7 +41,7 @@ echo DMAAP_SIMULATOR_IP=${DMAAP_SIMULATOR_IP}
 echo AAI_SIMULATOR_IP=${AAI_SIMULATOR_IP}
 
 # Wait for initialization of docker services
-for i in {1..50}; do
+for i in {1..10}; do
     curl -sS -m 1 localhost:2222 && \
     curl -sS -m 1 localhost:3333 && \
     curl -sS -m 1 localhost:8100/heartbeat && break
