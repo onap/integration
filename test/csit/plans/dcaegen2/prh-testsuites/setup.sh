@@ -1,6 +1,8 @@
 #!/bin/bash
 
-HOST_IP=$(ip route get 8.8.8.8 | awk '/8.8.8.8/ {print $(NF-2)}')
+source ${SCRIPTS}/common_functions.sh
+
+HOST_IP=$(ip route get 8.8.8.8 | awk '/8.8.8.8/ {print $NF}')
 export HOST_IP=${HOST_IP}
 
 export PRH_SERVICE="prh"
@@ -28,6 +30,11 @@ done
 PRH_IP=$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${PRH_SERVICE})
 DMAAP_SIMULATOR_IP=$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${DMAAP_SIMULATOR})
 AAI_SIMULATOR_IP=$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${AAI_SIMULATOR})
+
+bypass_ip_adress ${PRH_IP}
+bypass_ip_adress ${DMAAP_SIMULATOR_IP}
+bypass_ip_adress ${AAI_SIMULATOR_IP}
+
 
 echo PRH_IP=${PRH_IP}
 echo DMAAP_SIMULATOR_IP=${DMAAP_SIMULATOR_IP}
