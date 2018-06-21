@@ -14,7 +14,7 @@ cd ${WORKSPACE}/test/csit/tests/dcaegen2/prh-testcases/resources/
 docker-compose up -d --build
 
 # Wait for initialization of Docker containers
-for i in {1..50}; do
+for i in {1..10}; do
 	if [ $(docker inspect --format '{{ .State.Running }}' ${PRH_SERVICE}) ] && \
 	  [ $(docker inspect --format '{{ .State.Running }}' ${DMAAP_SIMULATOR}) ] && \
 	  [ $(docker inspect --format '{{ .State.Running }}' ${AAI_SIMULATOR}) ]
