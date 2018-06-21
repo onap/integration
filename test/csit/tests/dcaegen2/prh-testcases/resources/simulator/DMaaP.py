@@ -11,6 +11,7 @@ class DMaaPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     def do_PUT(self):
         if re.search('/set_get_event', self.path):
             global received_event_to_get_method
+            posted_event_from_prh = 'Empty'
             content_length = int(self.headers['Content-Length'])
             received_event_to_get_method = self.rfile.read(content_length)
             self.send_response(200)
@@ -41,9 +42,7 @@ class DMaaPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header('Content-Type', 'application/json')
             self.end_headers()
-            self.wfile.write(posted_event_from_prh)
-            global posted_event_from_prh
-            posted_event_from_prh = 'Empty'
+            self.wfile.write(posted_event_from_prh)  
             self.wfile.close()
         else:
             self.send_response(200)

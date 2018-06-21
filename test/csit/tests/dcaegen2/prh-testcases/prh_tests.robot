@@ -1,6 +1,5 @@
 *** Settings ***
 Library           RequestsLibrary
-Library           Process
 Library           resources/PrhLibrary.py
 
 *** Variables ***
@@ -70,7 +69,9 @@ Start prh
     ${headers}=    Create Dictionary    Accept=application/json    Content-Type=application/json
     Create Session    prh_start    ${PRH_URL}
     ${resp}=    Get Request    prh_start    /start    headers=${headers}
-    Should Be Equal    ${resp.text}    "PRH Service has been started!"
+    ${status}=    Set Variable If    ${resp.text} == 'PRH Service has been started!'    PRH is working
+    Run Keyword If    '${status}' == 'started'    Set Variable If    ${resp.text} == 'PRH Service is still running!'    PRH is working
+    Should Be Equal    ${status}    PRH is working
 
 Stop prh
     [Timeout]    1m

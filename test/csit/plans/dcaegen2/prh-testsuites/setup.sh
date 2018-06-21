@@ -1,6 +1,7 @@
 #!/bin/bash
 
-source ${SCRIPTS}/common_functions.sh
+HOST_IP=$(ip route get 8.8.8.8 | awk '/8.8.8.8/ {print $(NF-2)}')
+export HOST_IP=${HOST_IP}
 
 export PRH_SERVICE="prh"
 export DMAAP_SIMULATOR="dmaap_simulator"
@@ -8,7 +9,6 @@ export AAI_SIMULATOR="aai_simulator"
 
 cd ${WORKSPACE}/test/csit/tests/dcaegen2/prh-testcases/resources/
 
-docker login -u docker -p docker nexus3.onap.org:10003
 docker-compose up -d --build
 
 # Wait for initialization of Docker containers
@@ -28,10 +28,6 @@ done
 PRH_IP=$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${PRH_SERVICE})
 DMAAP_SIMULATOR_IP=$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${DMAAP_SIMULATOR})
 AAI_SIMULATOR_IP=$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${AAI_SIMULATOR})
-
-bypass_ip_adress ${PRH_IP}
-bypass_ip_adress ${DMAAP_SIMULATOR_IP}
-bypass_ip_adress ${AAI_SIMULATOR_IP}
 
 echo PRH_IP=${PRH_IP}
 echo DMAAP_SIMULATOR_IP=${DMAAP_SIMULATOR_IP}
@@ -54,4 +50,4 @@ docker cp ${WORKDIR}/prh_endpoints.json prh:/config/
 #Pass any variables required by Robot test suites in ROBOT_VARIABLES
 ROBOT_VARIABLES="-v DMAAP_SIMULATOR:localhost:2222 -v AAI_SIMULATOR:localhost:3333 -v PRH:localhost:8100"
 
-pip install docker
+pip install docker==2.7.0
