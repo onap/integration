@@ -1,7 +1,7 @@
 version: '3'
 services:
   prh:
-    image: nexus3.onap.org:10003/onap/org.onap.dcaegen2.services.prh.prh-app-server
+    image: nexus3.onap.org:10001/onap/org.onap.dcaegen2.services.prh.prh-app-server
     command: >
           --dmaap.dmaapConsumerConfiguration.dmaapPortNumber=2222
           --dmaap.dmaapProducerConfiguration.dmaapPortNumber=2222
@@ -17,7 +17,7 @@ services:
       - "8100:8100"
       - "8433:8433"
     container_name: prh
-   
+
   dmaap_simulator:
     build:
       context: simulator
@@ -29,7 +29,7 @@ services:
     container_name: dmaap_simulator
     depends_on:
       - prh
-      
+
   aai_simulator:
      build:
        context: simulator
@@ -41,4 +41,3 @@ services:
      container_name: aai_simulator
      depends_on:
        - prh
-   

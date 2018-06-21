@@ -82,7 +82,7 @@ Stop prh
 
 Set pnfs name in AAI
     [Arguments]    ${pnfs_name}
-    [Timeout]    1 minute
+    [Timeout]    1m
     ${headers}=    Create Dictionary    Accept=application/json    Content-Type=text/html
     Create Session    set_pnfs_in_aai    ${AAI_SIM_URL}
     ${resp}=    Put Request    set_pnfs_in_aai    /set_pnfs    headers=${headers}    data=${pnfs_name}
