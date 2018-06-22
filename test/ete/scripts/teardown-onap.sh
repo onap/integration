@@ -6,20 +6,6 @@ fi
 
 source $WORKSPACE/test/ete/scripts/install_openstack_cli.sh
 
-# skip use of multi-vim APIs for now
-# delete all Proxy Designate DNS records; do this first since we rely on multi-vim for this
-# $WORKSPACE/test/ete/scripts/dns-zones/delete-dns-zones.sh $OS_PROJECT_NAME
-# sleep 1
-
-# delete all Desigate DNS zones belonging to this project
-ZONES=$(openstack zone list -c "id" -f value)
-for ZONE in ${ZONES}; do
-    ZONE_PROJECT_ID=$(openstack zone show $ZONE -f json | jq -r '.project_id')
-    if [ "$OS_PROJECT_ID" == "$ZONE_PROJECT_ID" ]; then
-        openstack zone delete $ZONE
-    fi
-done
-
 # delete all instances
 openstack server delete $(openstack server list -c ID -f value)
 sleep 1
