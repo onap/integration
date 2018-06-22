@@ -16,6 +16,8 @@ echo "__rancher_ip_addr__" > /opt/config/rancher_ip_addr.txt
 echo "__k8s_vm_ips__" > /opt/config/k8s_vm_ips.txt
 echo "__oam_network_id__" > /opt/config/oam_network_id.txt
 echo "__oam_subnet_id__" > /opt/config/oam_subnet_id.txt
+echo "__gerrit_branch__" > /opt/config/gerrit_branch.txt
+echo "__gerrit_refspec__" > /opt/config/gerrit_refspec.txt
 
 cat <<EOF > /opt/config/integration-override.yaml
 __integration_override_yaml__
@@ -189,11 +191,25 @@ git config --global log.decorate auto
 
 # Clone OOM:
 cd ~
-git clone -b master http://gerrit.onap.org/r/oom
+git clone -b master https://gerrit.onap.org/r/oom
 cd oom
 git log -1
 git tag -a "deploy0" -m "initial deployment"
 git checkout -b workarounds
+
+# Clone integration
+cd ~
+git clone -b __gerrit_branch__ https://gerrit.onap.org/r/integration
+cd integration
+git fetch https://gerrit.onap.org/r/integration __gerrit_refspec__
+git checkout FETCH_HEAD
+
+cd version-manifest/src/main/scripts
+./update-oom-image-versions.sh ../resources/docker-manifest-staging.csv ~/oom/
+
+cd ~/oom
+git diff
+
 
 # Run ONAP:
 cd ~/oom/kubernetes/
