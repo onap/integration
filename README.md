@@ -11,4 +11,3 @@ See https://wiki.onap.org/display/DW/Integration+Project for additional details.
 ## Sub-projects
 
 See respective directories for additional details about each sub-project.
-
