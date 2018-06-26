@@ -32,6 +32,18 @@ parameters:
     type: string
     description: Content for integration_override.yaml
 
+  gerrit_branch:
+    type: string
+    default: "master"
+
+  gerrit_refspec:
+    type: string
+    default: "refs/heads/master"
+
+  docker_manifest:
+    type: string
+    default: "docker-manifest.csv"
+
 resources:
   random-str:
     type: OS::Heat::RandomString
