@@ -147,19 +147,6 @@
               </arguments>
             </configuration>
           </execution>
-          <execution>
-            <id>check-staging-docker-images-exist</id>
-            <phase>validate</phase>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-            <configuration>
-              <arguments>
-                <argument>${project.basedir}/src/main/scripts/check-docker-manifest-staging.sh</argument>
-                <argument>${project.basedir}/src/main/resources/docker-manifest-staging.csv</argument>
-              </arguments>
-            </configuration>
-          </execution>
         </executions>
       </plugin>
     </plugins>
