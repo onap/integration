@@ -1,9 +1,0 @@
-image: archive.docker-registry.eecloud.nsn-net.net/imp/matryoshka:latest
-
-stages:
-  - build
-
-build:
-  stage: build
-  script:
-    - mvn clean package

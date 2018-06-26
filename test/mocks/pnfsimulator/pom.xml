@@ -164,13 +164,12 @@
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>1.0.0</version>
                 <configuration>
-                    <imageName>${project.artifactId}</imageName>
-                    <imageTags>${docker.image.tag}</imageTags>
+                    <imageName>${onap.nexus.dockerregistry.daily}/onap/${project.artifactId}</imageName>
+                    <imageTags>latest</imageTags>
+                    <imageTags>${project.version}-latest</imageTags>
                     <serverId>${onap.nexus.dockerregistry.daily}</serverId>
-                    <baseImage>openjdk:8-jre-alpine</baseImage>
-                    <cmd>
-                        java -cp ${dependency.directory.name}/*:${project.build.finalName}.jar ${simulator.main.class}
-                    </cmd>
+                    <baseImage>openjdk:8-jdk-alpine</baseImage>
+                    <cmd>java -cp  ${dependency.directory.name}/*:${project.build.finalName}.jar ${simulator.main.class}</cmd>
                     <resources>
                         <resource>
                             <targetPath>${dependency.directory.name}</targetPath>
