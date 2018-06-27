@@ -47,8 +47,12 @@ apt-get -y update
 apt-get -y install linux-image-extra-$(uname -r) jq make nfs-kernel-server
 
 
+# use RAM disk for /dockerdata-nfs for testing
+echo "tmpfs /dockerdata-nfs tmpfs noatime,fsid=1 1 2" >> /etc/fstab
+mkdir -pv /dockerdata-nfs
+mount /dockerdata-nfs
+
 # version control the persistence volume to see what's happening
-mkdir -p /dockerdata-nfs/
 chmod 777 /dockerdata-nfs/
 chown nobody:nogroup /dockerdata-nfs/
 cd /dockerdata-nfs/
