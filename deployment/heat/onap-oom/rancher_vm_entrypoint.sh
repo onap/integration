@@ -44,11 +44,11 @@ Acquire::https::Proxy "DIRECT";
 EOF
 fi
 apt-get -y update
-apt-get -y install linux-image-extra-$(uname -r) jq make nfs-kernel-server
+apt-get -y install linux-image-extra-$(uname -r) jq make nfs-kernel-server moreutils
 
 
 # use RAM disk for /dockerdata-nfs for testing
-echo "tmpfs /dockerdata-nfs tmpfs noatime,fsid=1 1 2" >> /etc/fstab
+echo "tmpfs /dockerdata-nfs tmpfs noatime 1 2" >> /etc/fstab
 mkdir -pv /dockerdata-nfs
 mount /dockerdata-nfs
 
@@ -65,7 +65,7 @@ git commit -m "initial commit"
 # export NFS mount
 NFS_EXP=""
 for K8S_VM_IP in $(tr -d ',[]' < /opt/config/k8s_vm_ips.txt); do
-    NFS_EXP+="$K8S_VM_IP(rw,sync,no_root_squash,no_subtree_check) "
+    NFS_EXP+="$K8S_VM_IP(rw,fsid=1,sync,no_root_squash,no_subtree_check) "
 done
 echo "/dockerdata-nfs $NFS_EXP" | tee /etc/exports
 
