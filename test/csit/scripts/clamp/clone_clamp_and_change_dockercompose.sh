@@ -30,11 +30,15 @@ cd $WORKSPACE/archives/clamp-clone
 git clone --depth 1 http://gerrit.onap.org/r/clamp -b master
 cd clamp/extra/docker/clamp/
 
+# copy the default certificates in config folder to be able tu use https
+mkdir -p config/
+cp ../../../src/main/resources/clds/aaf/* config/
+
 # Pull the Clamp docker image from nexus instead of local image by default in the docker-compose.yml
 sed -i '/image: onap\/clamp/c\    image: nexus3.onap.org:10001\/onap\/clamp' docker-compose.yml
 
 # Change config to take third_party_proxy:8085 for SDC, Policy and DCAE simulator
-sed -i 's/}/,\"clamp.config.policy.pdpUrl1\":\"http:\/\/third_party_proxy:8085\/pdp\/ , testpdp, alpha123\",\"clamp.config.policy.pdpUrl2\":\"http:\/\/third_party_proxy:8085\/pdp\/ , testpdp, alpha123\",\"clamp.config.policy.papUrl\":\"http:\/\/third_party_proxy:8085\/pap\/ , testpap, alpha123\",\"clamp.config.policy.clientId\":\"python\",\"clamp.config.policy.clientKey\":\"dGVzdA==\",\"clamp.config.sdc.catalog.url\":\"http:\/\/third_party_proxy:8085\/sdc\/v1\/catalog\/\",\"clamp.config.sdc.hostUrl\":\"http:\/\/third_party_proxy:8085\",\"clamp.config.sdc.serviceUrl\":\"http:\/\/third_party_proxy:8085\/sdc\/v1\/catalog\/services\",\"clamp.config.dcae.inventory.url\":\"http:\/\/third_party_proxy:8085\",\"clamp.config.dcae.dispatcher.url\":\"http:\/\/third_party_proxy:8085\"}/g' clamp.env
+sed -i 's/}/,\"clamp.config.policy.pdpUrl1\":\"http:\/\/third_party_proxy:8085\/pdp\/ , testpdp, alpha123\",\"clamp.config.policy.pdpUrl2\":\"http:\/\/third_party_proxy:8085\/pdp\/ , testpdp, alpha123\",\"clamp.config.policy.papUrl\":\"http:\/\/third_party_proxy:8085\/pap\/ , testpap, alpha123\",\"clamp.config.policy.clientId\":\"python\",\"clamp.config.policy.clientKey\":\"dGVzdA==\",\"clamp.config.sdc.catalog.url\":\"http:\/\/third_party_proxy:8085\/sdc\/v1\/catalog\/\",\"clamp.config.sdc.hostUrl\":\"http:\/\/third_party_proxy:8085\",\"clamp.config.sdc.serviceUrl\":\"http:\/\/third_party_proxy:8085\/sdc\/v1\/catalog\/services\",\"clamp.config.dcae.inventory.url\":\"http:\/\/third_party_proxy:8085\",\"clamp.config.dcae.dispatcher.url\":\"http:\/\/third_party_proxy:8085\",\"spring.profiles.active\":\"clamp-default,clamp-default-user,clamp-sdc-controller\"}/g' clamp.env
 
 # Add the sql to create template so it is played by docker-compose later
 cp ../../../src/test/resources/sql/four_templates_only.sql ../../sql/bulkload/
