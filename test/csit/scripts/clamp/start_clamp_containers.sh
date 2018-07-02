@@ -32,7 +32,7 @@ TIME_OUT=1200
 INTERVAL=5
 TIME=0
 while [ "$TIME" -lt "$TIME_OUT" ]; do
-  response=$(curl --write-out '%{http_code}' --silent --output /dev/null http://localhost:8080/restservices/clds/v1/clds/healthcheck); echo $response
+  response=$(curl --write-out '%{http_code}' --silent --output /dev/null -vk --key config/org.onap.clamp.keyfile https://clamp.api.simpledemo.onap.org:8443/restservices/clds/v1/clds/healthcheck); echo $response
 
   if [ "$response" == "200" ]; then
     echo Clamp and its database well started in $TIME seconds
@@ -51,7 +51,7 @@ fi
 # To avoid some problem because templates not yet read
 TIME=0
 while [ "$TIME" -lt "$TIME_OUT" ]; do
-  response=$(curl --write-out '%{http_code}' --silent --output /dev/null -u admin:password http://localhost:8080/restservices/clds/v1/cldsTempate/template-names); echo $response
+  response=$(curl --write-out '%{http_code}' --silent --output /dev/null  -vk --key config/org.onap.clamp.keyfile  -u admin:password https://clamp.api.simpledemo.onap.org:8443/restservices/clds/v1/cldsTempate/template-names); echo $response
 
   if [ "$response" == "200" ]; then
     echo Templates well available
@@ -66,3 +66,8 @@ done
 if [ "$TIME" -ge "$TIME_OUT" ]; then
    echo TIME OUT: Templates not available in $TIME_OUT seconds... Could cause problems for tests...
 fi
+
+hostname
+cat /etc/hosts
+
+docker inspect clamp_clamp_1
