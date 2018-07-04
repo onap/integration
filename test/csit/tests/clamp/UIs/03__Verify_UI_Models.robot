@@ -10,9 +10,7 @@ ${passw}                     password
 
 *** Test Cases ***
 Verify HolmesModel1
-    ${auth}=    Create List     ${login}    ${passw}
-    Create Session   clamp  http://localhost:8080   auth=${auth}
-    ${resp}=    Get Request    clamp   /restservices/clds/v1/clds/model/HolmesModel1
+    ${resp}=    Get Request    ${clamp_session}   /restservices/clds/v1/clds/model/HolmesModel1
     Should Contain Match    ${resp}   *templateHolmes1*
     Should Contain Match    ${resp}   *DC2*
     Should Contain Match    ${resp}   *DC3*
@@ -25,9 +23,7 @@ Verify HolmesModel1
     Should Contain Match    ${resp}   *config Policy Name1*
 
 Verify TCAModel1
-    ${auth}=    Create List     ${login}    ${passw}
-    Create Session   clamp  http://localhost:8080   auth=${auth}
-    ${resp}=    Get Request    clamp   /restservices/clds/v1/clds/model/TCAModel1
+    ${resp}=    Get Request    ${clamp_session}   /restservices/clds/v1/clds/model/TCAModel1
     Should Contain Match    ${resp}   *templateTCA1*
     Should Contain Match    ${resp}   *c95b0e7c-c1f0-4287-9928-7964c5377a46*
     Should Contain Match    ${resp}   *vnfRecipe*
@@ -39,9 +35,7 @@ Verify TCAModel1
     Should Contain Match    ${resp}   *400*
 
 Get model names
-    ${auth}=    Create List     ${login}    ${passw}
-    Create Session   clamp  http://localhost:8080   auth=${auth}
-    ${resp}=    Get Request    clamp   /restservices/clds/v1/clds/model-names
+    ${resp}=    Get Request    ${clamp_session}   /restservices/clds/v1/clds/model-names
     Should Contain Match    ${resp}   *HolmesModel1*
     Should Contain Match    ${resp}   *TCAModel1*
     Should Not Contain Match    ${resp}   *TCAModel99*
