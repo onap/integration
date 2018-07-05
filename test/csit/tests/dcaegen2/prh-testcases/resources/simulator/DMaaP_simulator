@@ -4,7 +4,7 @@ ENV https_proxy "$https_proxy"
 
 ADD DMaaP.py /
 
-RUN pip install robotframework 
+RUN pip install robotframework
 
 EXPOSE 2222
 

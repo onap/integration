@@ -1,7 +1,7 @@
 import docker
 
 class PrhLibrary(object):
-    
+
     def __init__(self):
         pass
 
@@ -13,4 +13,3 @@ class PrhLibrary(object):
                 return True
         else:
             return False
-        
