@@ -2,9 +2,8 @@ import BaseHTTPServer
 import re
 import sys
 
-from robot.api import logger
-
 pnfs = 'Empty'
+
 
 class AAIHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     def do_PUT(self):
@@ -38,7 +37,8 @@ class AAIHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         
         return
 
-def _main_ (HandlerClass = AAIHandler, ServerClass = BaseHTTPServer.HTTPServer, protocol="HTTP/1.0"):
+
+def _main_(handler_class=AAIHandler, server_class=BaseHTTPServer.HTTPServer, protocol="HTTP/1.0"):
 
     if sys.argv[1:]:
         port = int(sys.argv[1])
@@ -47,12 +47,13 @@ def _main_ (HandlerClass = AAIHandler, ServerClass = BaseHTTPServer.HTTPServer, 
 
     server_address = ('', port)
 
-    HandlerClass.protocol_version = protocol
-    httpd = ServerClass(server_address, HandlerClass)
+    handler_class.protocol_version = protocol
+    httpd = server_class(server_address, handler_class)
 
     sa = httpd.socket.getsockname()
     print "Serving HTTP on", sa[0], "port", sa[1], "..."
     httpd.serve_forever()
+
 
 if __name__ == '__main__':
     _main_()

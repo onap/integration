@@ -8,7 +8,8 @@ class PrhLibrary(object):
     def __init__(self):
         pass
 
-    def check_for_log(self, search_for):
+    @staticmethod
+    def check_for_log(search_for):
         client = docker.from_env()
         container = client.containers.get('prh')
         for line in container.logs(stream=True):
@@ -17,20 +18,23 @@ class PrhLibrary(object):
         else:
             return False
 
-    def create_pnf_ready_notification(self, json_file):
-        jsonToPython = json.loads(json_file)
-        ipv4 = jsonToPython["event"]["otherFields"]["pnfOamIpv4Address"]
-        ipv6 = jsonToPython["event"]["otherFields"]["pnfOamIpv6Address"]
-        pnfName = _create_pnf_name(json_file)
-        strJson = '{"pnf-name":"' + pnfName + '","ipaddress-v4-oam":"' + ipv4 + '","ipaddress-v6-oam":"' + ipv6 +'"}'
-        pythonToJson = json.dumps(strJson)
-        return pythonToJson.replace("\\", "")[1:-1]
+    @staticmethod
+    def create_pnf_ready_notification(json_file):
+        json_to_python = json.loads(json_file)
+        ipv4 = json_to_python["event"]["otherFields"]["pnfOamIpv4Address"]
+        ipv6 = json_to_python["event"]["otherFields"]["pnfOamIpv6Address"]
+        pnf_name = _create_pnf_name(json_file)
+        str_json = '{"pnf-name":"' + pnf_name + '","ipaddress-v4-oam":"' + ipv4 + '","ipaddress-v6-oam":"' + ipv6 + '"}'
+        python_to_json = json.dumps(str_json)
+        return python_to_json.replace("\\", "")[1:-1]
 
-    def create_pnf_name(self, json_file):
+    @staticmethod
+    def create_pnf_name(json_file):
         return _create_pnf_name(json_file)
 
+
 def _create_pnf_name(json_file):
-    jsonToPython = json.loads(json_file)
-    vendor = jsonToPython["event"]["otherFields"]["pnfVendorName"]
-    serialNumber = jsonToPython["event"]["otherFields"]["pnfSerialNumber"]
-    return vendor[:3].upper() + serialNumber
+    json_to_python = json.loads(json_file)
+    vendor = json_to_python["event"]["otherFields"]["pnfVendorName"]
+    serial_number = json_to_python["event"]["otherFields"]["pnfSerialNumber"]
+    return vendor[:3].upper() + serial_number

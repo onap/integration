@@ -2,16 +2,14 @@ import BaseHTTPServer
 import re
 import sys
 
-from robot.api import logger
-
 posted_event_from_prh = 'Empty'
 received_event_to_get_method = 'Empty'
+
 
 class DMaaPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     def do_PUT(self):
         if re.search('/set_get_event', self.path):
             global received_event_to_get_method
-            posted_event_from_prh = 'Empty'
             content_length = int(self.headers['Content-Length'])
             received_event_to_get_method = self.rfile.read(content_length)
             self.send_response(200)
@@ -53,7 +51,8 @@ class DMaaPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             
         return
 
-def _main_ (HandlerClass = DMaaPHandler, ServerClass = BaseHTTPServer.HTTPServer, protocol="HTTP/1.0"):
+
+def _main_(handler_class=DMaaPHandler, server_class=BaseHTTPServer.HTTPServer, protocol="HTTP/1.0"):
 
     if sys.argv[1:]:
         port = int(sys.argv[1])
@@ -62,12 +61,13 @@ def _main_ (HandlerClass = DMaaPHandler, ServerClass = BaseHTTPServer.HTTPServer
 
     server_address = ('', port)
 
-    HandlerClass.protocol_version = protocol
-    httpd = ServerClass(server_address, HandlerClass)
+    handler_class.protocol_version = protocol
+    httpd = server_class(server_address, handler_class)
 
     sa = httpd.socket.getsockname()
     print "Serving HTTP on", sa[0], "port", sa[1], "..."
     httpd.serve_forever()
+
 
 if __name__ == '__main__':
     _main_()
