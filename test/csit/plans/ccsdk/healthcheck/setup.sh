@@ -25,7 +25,7 @@ export NEXUS_DOCKER_REPO="nexus3.onap.org:10001"
 export NEXUS_USERNAME=docker
 export NEXUS_PASSWD=docker
 export DMAAP_TOPIC=AUTO
-export CCSDK_DOCKER_IMAGE_VERSION=0.2-STAGING-latest
+export CCSDK_DOCKER_IMAGE_VERSION=0.3-STAGING-latest
 
 if [ "$MTU" == "" ]; then
 	  export MTU="1450"
@@ -45,13 +45,13 @@ sed -i "s/DMAAP_TOPIC_ENV=.*/DMAAP_TOPIC_ENV="AUTO"/g" docker-compose.yml
 docker login -u $NEXUS_USERNAME -p $NEXUS_PASSWD $NEXUS_DOCKER_REPO
 
 docker pull $NEXUS_DOCKER_REPO/onap/ccsdk-odl-image:$CCSDK_DOCKER_IMAGE_VERSION
-docker tag $NEXUS_DOCKER_REPO/onap/ccsdk-odl-image:$CCSDK_DOCKER_IMAGE_VERSION onap/ccsdk-odl-image:0.2-STAGING-latest
+docker tag $NEXUS_DOCKER_REPO/onap/ccsdk-odl-image:$CCSDK_DOCKER_IMAGE_VERSION onap/ccsdk-odl-image:0.3-STAGING-latest
 
 docker pull $NEXUS_DOCKER_REPO/onap/ccsdk-dgbuilder-image:$CCSDK_DOCKER_IMAGE_VERSION
-docker tag $NEXUS_DOCKER_REPO/onap/ccsdk-dgbuilder-image:$CCSDK_DOCKER_IMAGE_VERSION onap/ccsdk-dgbuilder-image:0.2-STAGING-latest
+docker tag $NEXUS_DOCKER_REPO/onap/ccsdk-dgbuilder-image:$CCSDK_DOCKER_IMAGE_VERSION onap/ccsdk-dgbuilder-image:0.3-STAGING-latest
 
 docker pull $NEXUS_DOCKER_REPO/onap/ccsdk-odlsli-image:$CCSDK_DOCKER_IMAGE_VERSION
-docker tag $NEXUS_DOCKER_REPO/onap/ccsdk-odlsli-image:$CCSDK_DOCKER_IMAGE_VERSION onap/ccsdk-odlsli-image:0.2-STAGING-latest
+docker tag $NEXUS_DOCKER_REPO/onap/ccsdk-odlsli-image:$CCSDK_DOCKER_IMAGE_VERSION onap/ccsdk-odlsli-image:0.3-STAGING-latest
 
 # start CCSDK containers with docker compose and configuration from docker-compose.yml
 curl -L https://github.com/docker/compose/releases/download/1.9.0/docker-compose-`uname -s`-`uname -m` > docker-compose
