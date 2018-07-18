@@ -109,6 +109,19 @@
             </configuration>
           </execution>
           <execution>
+            <id>check-docker-manifest-staging-sorted</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <arguments>
+                <argument>${project.basedir}/src/main/scripts/check-sorted.sh</argument>
+                <argument>${project.basedir}/src/main/resources/docker-manifest-staging.csv</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
             <id>check-java-manifest-sorted</id>
             <phase>validate</phase>
             <goals>
@@ -131,6 +144,19 @@
               <arguments>
                 <argument>${project.basedir}/src/main/scripts/check-docker-manifest.sh</argument>
                 <argument>${project.basedir}/src/main/resources/docker-manifest.csv</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>check-docker-staging-images-exist</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <arguments>
+                <argument>${project.basedir}/src/main/scripts/check-docker-manifest-staging.sh</argument>
+                <argument>${project.basedir}/src/main/resources/docker-manifest-staging.csv</argument>
               </arguments>
             </configuration>
           </execution>
