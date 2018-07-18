@@ -1,9 +1,9 @@
-export OS_PROJECT_ID=4c93f99551604bf7af25a8f80c7f34cb
 export OS_PROJECT_DOMAIN_NAME=Default
 export OS_USER_DOMAIN_NAME=Default
-export OS_PROJECT_NAME=onap
+export OS_PROJECT_ID=7504c113f3b241fab1ee9d3d9323f6c1
+export OS_PROJECT_NAME=onap-heat
 export OS_USERNAME=demo
-export OS_PASSWORD=demo
+#export OS_PASSWORD=demo
 export OS_AUTH_URL=http://controller:5000/v3
 export OS_IDENTITY_API_VERSION=3
 export OS_IMAGE_API_VERSION=2
