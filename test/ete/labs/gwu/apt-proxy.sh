@@ -5,7 +5,7 @@ sed -i '/#!\/bin\/bash/a\
             mkdir -p /etc/docker\
             cat > /etc/docker/daemon.json <<EOF\
             {\
-              "insecure-registries" : ["192.168.1.51:5000"]\
+              "insecure-registries" : ["192.168.2.20:5000"]\
             }\
             EOF\
             cat > /etc/apt/apt.conf.d/30proxy<<EOF\

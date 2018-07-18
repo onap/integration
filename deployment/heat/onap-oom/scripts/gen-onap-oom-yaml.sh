@@ -37,7 +37,7 @@ cat <<EOF
       name: rancher
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: rancher_vm_flavor }
-      key_name: onap_key
+      key_name: { get_param: key_name }
       networks:
       - port: { get_resource: rancher_private_port }
       user_data_format: RAW

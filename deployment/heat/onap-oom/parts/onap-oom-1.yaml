@@ -44,6 +44,10 @@ parameters:
     type: string
     default: "docker-manifest.csv"
 
+  key_name:
+    type: string
+    default: "onap_key"
+
 resources:
   random-str:
     type: OS::Heat::RandomString

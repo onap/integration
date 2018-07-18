@@ -47,6 +47,10 @@ parameters:
     type: string
     default: "docker-manifest.csv"
 
+  key_name:
+    type: string
+    default: "onap_key"
+
 resources:
   random-str:
     type: OS::Heat::RandomString
@@ -135,7 +139,7 @@ resources:
       name: rancher
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: rancher_vm_flavor }
-      key_name: onap_key
+      key_name: { get_param: key_name }
       networks:
       - port: { get_resource: rancher_private_port }
       user_data_format: RAW
@@ -187,7 +191,7 @@ resources:
       name: k8s_1
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: k8s_vm_flavor }
-      key_name: onap_key
+      key_name: { get_param: key_name }
       networks:
       - port: { get_resource: k8s_1_private_port }
       user_data_format: RAW
@@ -220,7 +224,7 @@ resources:
       name: k8s_2
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: k8s_vm_flavor }
-      key_name: onap_key
+      key_name: { get_param: key_name }
       networks:
       - port: { get_resource: k8s_2_private_port }
       user_data_format: RAW
@@ -253,7 +257,7 @@ resources:
       name: k8s_3
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: k8s_vm_flavor }
-      key_name: onap_key
+      key_name: { get_param: key_name }
       networks:
       - port: { get_resource: k8s_3_private_port }
       user_data_format: RAW
@@ -286,7 +290,7 @@ resources:
       name: k8s_4
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: k8s_vm_flavor }
-      key_name: onap_key
+      key_name: { get_param: key_name }
       networks:
       - port: { get_resource: k8s_4_private_port }
       user_data_format: RAW
@@ -319,7 +323,7 @@ resources:
       name: k8s_5
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: k8s_vm_flavor }
-      key_name: onap_key
+      key_name: { get_param: key_name }
       networks:
       - port: { get_resource: k8s_5_private_port }
       user_data_format: RAW
@@ -352,7 +356,7 @@ resources:
       name: k8s_6
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: k8s_vm_flavor }
-      key_name: onap_key
+      key_name: { get_param: key_name }
       networks:
       - port: { get_resource: k8s_6_private_port }
       user_data_format: RAW
@@ -385,7 +389,7 @@ resources:
       name: k8s_7
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: k8s_vm_flavor }
-      key_name: onap_key
+      key_name: { get_param: key_name }
       networks:
       - port: { get_resource: k8s_7_private_port }
       user_data_format: RAW
@@ -418,7 +422,7 @@ resources:
       name: k8s_8
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: k8s_vm_flavor }
-      key_name: onap_key
+      key_name: { get_param: key_name }
       networks:
       - port: { get_resource: k8s_8_private_port }
       user_data_format: RAW
@@ -451,7 +455,7 @@ resources:
       name: k8s_9
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: k8s_vm_flavor }
-      key_name: onap_key
+      key_name: { get_param: key_name }
       networks:
       - port: { get_resource: k8s_9_private_port }
       user_data_format: RAW
@@ -484,7 +488,7 @@ resources:
       name: k8s_10
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: k8s_vm_flavor }
-      key_name: onap_key
+      key_name: { get_param: key_name }
       networks:
       - port: { get_resource: k8s_10_private_port }
       user_data_format: RAW
@@ -517,7 +521,7 @@ resources:
       name: k8s_11
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: k8s_vm_flavor }
-      key_name: onap_key
+      key_name: { get_param: key_name }
       networks:
       - port: { get_resource: k8s_11_private_port }
       user_data_format: RAW

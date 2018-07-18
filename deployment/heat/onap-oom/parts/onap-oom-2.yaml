@@ -18,7 +18,7 @@
       name: ${K8S_VM_NAME}
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: k8s_vm_flavor }
-      key_name: onap_key
+      key_name: { get_param: key_name }
       networks:
       - port: { get_resource: ${K8S_VM_NAME}_private_port }
       user_data_format: RAW
