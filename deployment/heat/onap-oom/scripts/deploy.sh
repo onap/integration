@@ -63,8 +63,9 @@ if ! timeout 1 ping -c 1 "$RANCHER_IP"; then
     exit 2
 fi
 
-ssh-keygen -R $RANCHER_IP
+sleep 5m
 
+ssh-keygen -R $RANCHER_IP
 ssh -o StrictHostKeychecking=no -i $SSH_KEY ubuntu@$RANCHER_IP "sed -u '/Cloud-init.*finished/q' <(tail -n+0 -f /var/log/cloud-init-output.log)"
 
 for n in $(seq 1 6); do
