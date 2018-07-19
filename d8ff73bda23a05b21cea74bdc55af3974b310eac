@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7095c5_b98c1f81",
+        "filename": "deployment/heat/onap-oom/scripts/deploy.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 219
+      },
+      "writtenOn": "2018-07-19T00:22:11Z",
+      "side": 1,
+      "message": "Instead of waiting 5 minutes, is there a way to periodically test if the VM is up?",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 8
+      },
+      "revId": "d8ff73bda23a05b21cea74bdc55af3974b310eac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
