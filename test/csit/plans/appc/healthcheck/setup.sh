@@ -20,8 +20,8 @@
 SCRIPTS="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source ${WORKSPACE}/test/csit/scripts/appc/script1.sh
 
-export APPC_DOCKER_IMAGE_VERSION=1.4.0-SNAPSHOT-latest
-export CCSDK_DOCKER_IMAGE_VERSION=0.2-STAGING-latest
+export APPC_DOCKER_IMAGE_VERSION=1.3.0
+export CCSDK_DOCKER_IMAGE_VERSION=0.2.4
 export BRANCH=beijing
 export SOLUTION_NAME=onap
 
