@@ -21,7 +21,9 @@ def insert_customer_service_to_sdnc(vcpecommon):
     parser = csar_parser.CsarParser()
     parser.parse_csar(csar_file)
     cmds = []
-    cmds.append("INSERT INTO SERVICE_MODEL (`service_uuid`, `model_yaml`,`invariant_uuid`,`version`,`name`," \
+
+    if False:
+        cmds.append("INSERT INTO SERVICE_MODEL (`service_uuid`, `model_yaml`,`invariant_uuid`,`version`,`name`," \
                 "`description`,`type`,`category`,`ecomp_naming`,`service_instance_name_prefix`,`filename`," \
                 "`naming_policy`) values ('{0}', null, '{1}',null,'{2}', 'vCPEService', 'Service','Network L1-3'," \
                 "'N', 'vCPEService', '{3}/{4}',null);".format(parser.svc_model['modelVersionId'],
@@ -32,41 +34,50 @@ def insert_customer_service_to_sdnc(vcpecommon):
 
     for model in parser.vnf_models:
         if 'tunnel' in model['modelCustomizationName'].lower() or 'brg' in model['modelCustomizationName'].lower():
-            cmds.append("INSERT INTO ALLOTTED_RESOURCE_MODEL (`customization_uuid`,`model_yaml`,`invariant_uuid`," \
+            if False:
+                cmds.append("INSERT INTO ALLOTTED_RESOURCE_MODEL (`customization_uuid`,`model_yaml`,`invariant_uuid`," \
                         "`uuid`,`version`,`naming_policy`,`ecomp_generated_naming`,`depending_service`,`role`,`type`," \
                         "`service_dependency`,`allotted_resource_type`) VALUES ('{0}',NULL,'{1}','{2}','1.0'," \
                         "NULL,'Y', NULL,NULL,'TunnelXConnect'," \
                         "NULL, 'TunnelXConnect');".format(model['modelCustomizationId'], model['modelInvariantId'],
                                                           model['modelVersionId']))
+            cmds.append("UPDATE ALLOTTED_RESOURCE_MODEL SET `ecomp_generated_naming`='Y' " \
+                    "WHERE `customization_uuid`='{0}'".format(model['modelCustomizationId']))
         else:
-            cmds.append("INSERT INTO VF_MODEL (`customization_uuid`,`model_yaml`,`invariant_uuid`,`uuid`,`version`," \
+            if False:
+                cmds.append("INSERT INTO VF_MODEL (`customization_uuid`,`model_yaml`,`invariant_uuid`,`uuid`,`version`," \
                         "`name`,`naming_policy`,`ecomp_generated_naming`,`avail_zone_max_count`,`nf_function`," \
                         "`nf_code`,`nf_type`,`nf_role`,`vendor`,`vendor_version`) VALUES ('{0}',NULL,'{1}','{2}'," \
                         "'1.0', '{3}',NULL,'Y',1,NULL,NULL,NULL,NULL,'vCPE'," \
                         "'1.0');".format(model['modelCustomizationId'], model['modelInvariantId'],
                                          model['modelVersionId'], model['modelCustomizationName'].split()[0]))
+            cmds.append("UPDATE VF_MODEL SET `ecomp_generated_naming`='Y' " \
+                        "WHERE `customization_uuid`='{0}'".format(model['modelCustomizationId']))
 
-    model = parser.vfmodule_models[0]
-    cmds.append("INSERT INTO VF_MODULE_MODEL (`customization_uuid`,`model_yaml`,`invariant_uuid`,`uuid`,`version`," \
-                "`vf_module_type`,`availability_zone_count`,`ecomp_generated_vm_assignments`) VALUES ('{0}', NULL," \
-                "'{1}', '{2}', '1.0', 'Base',NULL,NULL)" \
-                ";".format(model['modelCustomizationId'], model['modelInvariantId'], model['modelVersionId']))
+    if False:
+        model = parser.vfmodule_models[0]
+        cmds.append("INSERT INTO VF_MODULE_MODEL (`customization_uuid`,`model_yaml`,`invariant_uuid`,`uuid`,`version`," \
+                    "`vf_module_type`,`availability_zone_count`,`ecomp_generated_vm_assignments`) VALUES ('{0}', NULL," \
+                    "'{1}', '{2}', '1.0', 'Base',NULL,NULL)" \
+                    ";".format(model['modelCustomizationId'], model['modelInvariantId'], model['modelVersionId']))
+
     print('\n'.join(cmds))
-    vcpecommon.insert_into_sdnc_db(cmds)
+    vcpecommon.execute_cmds_sdnc_db(cmds)
 
 
 def insert_customer_service_to_so(vcpecommon):
     logger = logging.getLogger('__name__')
     logger.info('Inserting neutron HEAT template to SO DB and creating a recipe for customer service')
-    csar_file = vcpecommon.find_file('rescust', 'csar', 'csar')
-    parser = csar_parser.CsarParser()
-    parser.parse_csar(csar_file)
     cmds = []
-    cmds.append("INSERT INTO `service_recipe` (`ACTION`, `VERSION_STR`, `DESCRIPTION`, `ORCHESTRATION_URI`, " \
-                "`SERVICE_PARAM_XSD`, `RECIPE_TIMEOUT`, `SERVICE_TIMEOUT_INTERIM`, `CREATION_TIMESTAMP`, " \
-                "`SERVICE_MODEL_UUID`) VALUES ('createInstance','1','{0}'," \
-                "'/mso/async/services/CreateVcpeResCustService',NULL,181,NULL, NOW()," \
-                "'{1}');".format(parser.svc_model['modelName'], parser.svc_model['modelVersionId']))
+    if False:
+        csar_file = vcpecommon.find_file('rescust', 'csar', 'csar')
+        parser = csar_parser.CsarParser()
+        parser.parse_csar(csar_file)
+        cmds.append("INSERT INTO `service_recipe` (`ACTION`, `VERSION_STR`, `DESCRIPTION`, `ORCHESTRATION_URI`, " \
+                    "`SERVICE_PARAM_XSD`, `RECIPE_TIMEOUT`, `SERVICE_TIMEOUT_INTERIM`, `CREATION_TIMESTAMP`, " \
+                    "`SERVICE_MODEL_UUID`) VALUES ('createInstance','1','{0}'," \
+                    "'/mso/async/services/CreateVcpeResCustService',NULL,181,NULL, NOW()," \
+                    "'{1}');".format(parser.svc_model['modelName'], parser.svc_model['modelVersionId']))
 
     cmds.append("delete from `heat_template_params` where"
                 "`HEAT_TEMPLATE_ARTIFACT_UUID`='efee1d84-b8ec-11e7-abc4-cec278b6b50a';")
@@ -85,5 +96,5 @@ def insert_customer_service_to_so(vcpecommon):
                 "'string', NULL);")
 
     print('\n'.join(cmds))
-    vcpecommon.insert_into_so_db(cmds)
+#    vcpecommon.execute_cmds_so_db(cmds)
 

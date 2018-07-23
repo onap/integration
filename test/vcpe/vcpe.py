@@ -131,12 +131,13 @@ def deploy_custom_service():
     custom_service = vcpe_custom_service.CustomService(vcpecommon)
 
     # clean up
-    #host_dic = {k: vcpecommon.hosts[k] for k in nodes}
-    #if not vcpecommon.delete_vxlan_interfaces(host_dic):
-    #    sys.exit()
+    host_dic = {k: vcpecommon.hosts[k] for k in nodes}
+    if False:
+        if not vcpecommon.delete_vxlan_interfaces(host_dic):
+            sys.exit()
+        custom_service.del_all_vgw_stacks(vcpecommon.vgw_name_keyword)
 
     #custom_service.clean_up_sdnc()
-    #custom_service.del_all_vgw_stacks(vcpecommon.vgw_name_keyword)
 
     # create new service
     csar_file = vcpecommon.find_file('rescust', 'csar', 'csar')

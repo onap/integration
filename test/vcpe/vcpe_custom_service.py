@@ -68,11 +68,14 @@ class CustomService:
 
     def create_custom_service(self, csar_file, vgw_template_file, preload_dict=None):
         name_suffix = datetime.now().strftime('%Y%m%d%H%M')
-        brg_mac = self.vcpecommon.get_brg_mac_from_sdnc()
+        if self.vcpecommon.oom_mode:
+            brg_mac = str(raw_input("Enter the BRG MAC address: "))
+        else:
+            brg_mac = self.vcpecommon.get_brg_mac_from_sdnc()
         # preload vGW
         if preload_dict:
             preloader = preload.Preload(self.vcpecommon)
-            parameters_to_change = ['vgw_private_ip_0', 'vgw_private_ip_1', 'vg_vgmux_tunnel_vni']
+            parameters_to_change = ['vgw_private_ip_0', 'vgw_private_ip_1', 'vgw_private_ip_2','vg_vgmux_tunnel_vni']
             self.vcpecommon.increase_ip_address_or_vni_in_template(vgw_template_file, parameters_to_change)
             preloader.preload_vgw(vgw_template_file, brg_mac, preload_dict, name_suffix)
 

@@ -19,24 +19,31 @@ class VcpeCommon:
     external_net_prefix_len = 16
     #############################################################################################
     # set the openstack cloud access credentials here
+    oom_mode = False
+
     cloud = {
         '--os-auth-url': 'http://10.12.25.2:5000',
         '--os-username': 'kxi',
         '--os-user-domain-id': 'default',
         '--os-project-domain-id': 'default',
-        '--os-tenant-id': '1e097c6713e74fd7ac8e4295e605ee1e',
+        '--os-tenant-id': '41d6d38489bd40b09ea8a6b6b852dcbd' if oom_mode else '1e097c6713e74fd7ac8e4295e605ee1e',
         '--os-region-name': 'RegionOne',
         '--os-password': 'n3JhGMGuDzD8',
-        '--os-project-domain-name': 'Integration-SB-07',
+        '--os-project-domain-name': 'Integration-SB-00' if oom_mode else 'Integration-SB-07',
         '--os-identity-api-version': '3'
     }
 
     common_preload_config = {
-        'oam_onap_net': 'oam_onap_lAky',
-        'oam_onap_subnet': 'oam_onap_lAky',
+        'oam_onap_net': 'oam_network_0qV7' if oom_mode else 'oam_onap_lAky',
+        'oam_onap_subnet': 'oam_network_0qV7' if oom_mode else 'oam_onap_lAky',
         'public_net': 'external',
         'public_net_id': '971040b2-7059-49dc-b220-4fab50cb2ad4'
     }
+# for sb07
+#    'oam_onap_lAky',
+# for sb00
+    #'oam_onap_net': 'oam_network_0qV7',
+    #'oam_onap_subnet': 'oam_network_0qV7',
     #     End: configurations that you must change for a new ONAP installation
     #############################################################################################
 
@@ -64,6 +71,13 @@ class VcpeCommon:
         self.logger = logging.getLogger(__name__)
         self.logger.info('Initializing configuration')
 
+        self.oom_so_sdnc_aai_ip = '10.12.5.18'
+        self.oom_dcae_ves_collector = '10.12.5.18'
+        self.so_nbi_port = '30223' if self.oom_mode else '8080'
+        self.sdnc_preloading_port = '30202' if self.oom_mode else '8282'
+        self.aai_query_port = '30233' if self.oom_mode else '8443'
+        self.sniro_port = '30288' if self.oom_mode else '8080'
+
         self.host_names = ['so', 'sdnc', 'robot', 'aai-inst1', self.dcae_ves_collector_name]
         if extra_host_names:
             self.host_names.extend(extra_host_names)
@@ -87,7 +101,7 @@ class VcpeCommon:
         self.os_tenant_id = self.cloud['--os-tenant-id']
         self.os_region_name = self.cloud['--os-region-name']
         self.common_preload_config['pub_key'] = self.pub_key
-        self.sniro_url = 'http://' + self.hosts['robot'] + ':8080/__admin/mappings'
+        self.sniro_url = 'http://' + self.hosts['robot'] + ':' + self.sniro_port + '/__admin/mappings'
         self.sniro_headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
         self.homing_solution = 'sniro'  # value is either 'sniro' or 'oof'
 #        self.homing_solution = 'oof'
@@ -106,22 +120,23 @@ class VcpeCommon:
         self.sdnc_db_port = '32774'
         self.sdnc_headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
         self.sdnc_preload_network_url = 'http://' + self.hosts['sdnc'] + \
-                                        ':8282/restconf/operations/VNF-API:preload-network-topology-operation'
+                                        ':' + self.sdnc_preloading_port + '/restconf/operations/VNF-API:preload-network-topology-operation'
         self.sdnc_preload_vnf_url = 'http://' + self.hosts['sdnc'] + \
-                                    ':8282/restconf/operations/VNF-API:preload-vnf-topology-operation'
-        self.sdnc_ar_cleanup_url = 'http://' + self.hosts['sdnc'] + ':8282/restconf/config/GENERIC-RESOURCE-API:'
+                                    ':' + self.sdnc_preloading_port + '/restconf/operations/VNF-API:preload-vnf-topology-operation'
+        self.sdnc_ar_cleanup_url = 'http://' + self.hosts['sdnc'] + ':' + self.sdnc_preloading_port + \
+                                   '/restconf/config/GENERIC-RESOURCE-API:'
 
         #############################################################################################
         # SO urls, note: do NOT add a '/' at the end of the url
-        self.so_req_api_url = {'v4': 'http://' + self.hosts['so'] + ':8080/ecomp/mso/infra/serviceInstances/v4',
-                           'v5': 'http://' + self.hosts['so'] + ':8080/ecomp/mso/infra/serviceInstances/v5'}
-        self.so_check_progress_api_url = 'http://' + self.hosts['so'] + ':8080/ecomp/mso/infra/orchestrationRequests/v5'
+        self.so_req_api_url = {'v4': 'http://' + self.hosts['so'] + ':' + self.so_nbi_port + '/ecomp/mso/infra/serviceInstances/v4',
+                           'v5': 'http://' + self.hosts['so'] + ':' + self.so_nbi_port + '/ecomp/mso/infra/serviceInstances/v5'}
+        self.so_check_progress_api_url = 'http://' + self.hosts['so'] + ':' + self.so_nbi_port + '/ecomp/mso/infra/orchestrationRequests/v5'
         self.so_userpass = 'InfraPortalClient', 'password1$'
         self.so_headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
         self.so_db_name = 'mso_catalog'
         self.so_db_user = 'root'
         self.so_db_pass = 'password'
-        self.so_db_port = '32769'
+        self.so_db_port = '30252' if self.oom_mode else '32769'
 
         self.vpp_inf_url = 'http://{0}:8183/restconf/config/ietf-interfaces:interfaces'
         self.vpp_api_headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
@@ -133,9 +148,16 @@ class VcpeCommon:
         Add vserver information to AAI
         """
         self.logger.info('Adding vServer information to AAI for {0}'.format(openstack_stack_name))
-        cmd = '/opt/demo.sh heatbridge {0} {1} vCPE'.format(openstack_stack_name, svc_instance_uuid)
-        ret = commands.getstatusoutput("ssh -i onap_dev root@{0} '{1}'".format(self.hosts['robot'], cmd))
-        self.logger.debug('%s', ret)
+        if not self.oom_mode:
+            cmd = '/opt/demo.sh heatbridge {0} {1} vCPE'.format(openstack_stack_name, svc_instance_uuid)
+            ret = commands.getstatusoutput("ssh -i onap_dev root@{0} '{1}'".format(self.hosts['robot'], cmd))
+            self.logger.debug('%s', ret)
+        else:
+            print('To add vGMUX vserver info to AAI, do the following:')
+            print('- ssh to rancher')
+            print('- sudo su -')
+            print('- cd /root/oom/kubernetes/robot')
+            print('- ./demo-k8s.sh onap heatbridge {0} {1} vCPE'.format(openstack_stack_name, svc_instance_uuid))
 
     def get_brg_mac_from_sdnc(self):
         """
@@ -261,8 +283,8 @@ class VcpeCommon:
             logging.error('Invalid node_type: ' + node_type)
             sys.exit()
 
-        url = 'https://{0}:8443/aai/v11/search/nodes-query?search-node-type={1}&filter={2}:EQUALS:{3}'.format(
-            self.hosts['aai-inst1'], search_node_type, key, node_uuid)
+        url = 'https://{0}:{1}/aai/v11/search/nodes-query?search-node-type={2}&filter={3}:EQUALS:{4}'.format(
+            self.hosts['aai-inst1'], self.aai_query_port, search_node_type, key, node_uuid)
 
         headers = {'Content-Type': 'application/json', 'Accept': 'application/json', 'X-FromAppID': 'vCPE-Robot', 'X-TransactionId': 'get_aai_subscr'}
         requests.packages.urllib3.disable_warnings()
@@ -310,6 +332,8 @@ class VcpeCommon:
         latest_vm_list = self.remove_old_vms(all_vm_ip_dict.keys(), self.cpe_vm_prefix)
         latest_vm_ip_dict = {vm: all_vm_ip_dict[vm] for vm in latest_vm_list}
         ip_dict = self.select_subset_vm_ip(latest_vm_ip_dict, keywords)
+        if self.oom_mode:
+            ip_dict.update(self.get_oom_onap_vm_ip(keywords))
 
         if len(ip_dict) != len(keywords):
             self.logger.error('Cannot find all desired IP addresses for %s.', keywords)
@@ -317,6 +341,14 @@ class VcpeCommon:
             self.logger.error('Temporarily continue.. remember to check back vcpecommon.py line: 316')
 #            sys.exit()
         return ip_dict
+
+    def get_oom_onap_vm_ip(self, keywords):
+        vm_ip = {}
+        onap_vm_list = set(['so', 'sdnc', 'aai-inst1', 'robot', self.dcae_ves_collector_name])
+        for vm in keywords:
+            if vm in onap_vm_list:
+                vm_ip[vm] = self.oom_so_sdnc_aai_ip
+        return vm_ip
 
     def extract_vm_ip_as_dict(self, novalist_results, net_addr, net_addr_len):
         vm_ip_dict = {}
@@ -374,7 +406,7 @@ class VcpeCommon:
         url = self.vpp_ves_url.format(self.hosts['mux'])
         data = {'config':
                     {'server-addr': self.hosts[self.dcae_ves_collector_name],
-                     'server-port': '8081',
+                     'server-port': '30235' if self.oom_mode else '8081',
                      'read-interval': '10',
                      'is-add':'1'
                      }
