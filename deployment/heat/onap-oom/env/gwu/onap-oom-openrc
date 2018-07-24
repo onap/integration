@@ -1,6 +1,6 @@
 export OS_PROJECT_DOMAIN_NAME=Default
 export OS_USER_DOMAIN_NAME=Default
-export OS_PROJECT_ID=6d39557690ff4bc18372d0ca6c0e3d82
+export OS_PROJECT_ID=e6507947d42646ea8045bcf2956b753a
 export OS_PROJECT_NAME=onap-oom
 export OS_USERNAME=demo
 #export OS_PASSWORD=demo
