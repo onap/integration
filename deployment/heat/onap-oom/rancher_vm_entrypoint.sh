@@ -14,19 +14,26 @@ printenv
 mkdir -p /opt/config
 echo "__rancher_ip_addr__" > /opt/config/rancher_ip_addr.txt
 echo "__k8s_vm_ips__" > /opt/config/k8s_vm_ips.txt
+echo "__public_net_id__" > /opt/config/public_net_id.txt
+echo "__oam_network_cidr__" > /opt/config/oam_network_cidr.txt
 echo "__oam_network_id__" > /opt/config/oam_network_id.txt
 echo "__oam_subnet_id__" > /opt/config/oam_subnet_id.txt
 echo "__gerrit_branch__" > /opt/config/gerrit_branch.txt
 echo "__gerrit_refspec__" > /opt/config/gerrit_refspec.txt
 echo "__docker_manifest__" > /opt/config/docker_manifest.txt
+echo "__docker_proxy__" > /opt/config/docker_proxy.txt
 
 cat <<EOF > /opt/config/integration-override.yaml
 __integration_override_yaml__
 EOF
+sed -i 's/\_\_public_net_id__/__public_net_id__/g' /opt/config/integration-override.yaml
+sed -i 's|\_\_oam_network_cidr__|__oam_network_cidr__|g' /opt/config/integration-override.yaml
 sed -i 's/\_\_oam_network_id__/__oam_network_id__/g' /opt/config/integration-override.yaml
 sed -i 's/\_\_oam_subnet_id__/__oam_subnet_id__/g' /opt/config/integration-override.yaml
 sed -i 's/\_\_k8s_1_vm_ip__/__k8s_1_vm_ip__/g' /opt/config/integration-override.yaml
+sed -i 's/\_\_docker_proxy__/__docker_proxy__/g' /opt/config/integration-override.yaml
 cp /opt/config/integration-override.yaml /root
+cat /root/integration-override.yaml
 
 echo `hostname -I` `hostname` >> /etc/hosts
 mkdir -p /etc/docker
@@ -187,6 +194,9 @@ done
 
 # Install using OOM
 export HOME=/root
+mkdir -p ~/.ssh
+cp ~ubuntu/.ssh/authorized_keys ~/.ssh
+
 
 # update and initialize git
 apt-get -y install git

@@ -53,6 +53,8 @@ cat <<EOF
             __gerrit_branch__: { get_param: gerrit_branch }
             __gerrit_refspec__: { get_param: gerrit_refspec }
             __docker_manifest__: { get_param: docker_manifest }
+            __public_net_id__: { get_param: public_net_id }
+            __oam_network_cidr__: { get_param: oam_network_cidr }
             __oam_network_id__: { get_resource: oam_network }
             __oam_subnet_id__: { get_resource: oam_subnet }
             __k8s_1_vm_ip__: { get_attr: [k8s_1_floating_ip, floating_ip_address] }
