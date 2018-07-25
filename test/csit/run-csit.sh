@@ -107,7 +107,7 @@ pip freeze
 # install chrome driver
 if [ ! -x ${ROBOT_VENV}/bin/chromedriver ]; then
     pushd ${ROBOT_VENV}/bin
-    wget -N http://chromedriver.storage.googleapis.com/2.27/chromedriver_linux64.zip
+    wget -N http://chromedriver.storage.googleapis.com/2.40/chromedriver_linux64.zip
     unzip chromedriver_linux64.zip
     chmod +x chromedriver
     popd
