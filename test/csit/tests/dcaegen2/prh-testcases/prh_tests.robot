@@ -48,4 +48,12 @@ Get valid event from DMaaP and record in AAI does not exist
     [Timeout]    30s
     Set pnf name in AAI    wrong_aai_record
     Set event in DMAAP    ${EVENT_WITH_ALL_VALID_REQUIRED_FIELDS}
-    Wait Until Keyword Succeeds    100x    100ms    Check PRH log    WARN 1 --- [pool-2-thread-1] o.o.d.s.prh.service.AAIProducerClient \ \ \ : Exception while executing http client:
+    Wait Until Keyword Succeeds    100x    300ms    Check PRH log    org.onap.dcaegen2.services.prh.exceptions.AAINotFoundException: Incorrect response code for continuation of tasks workflow
+
+Get valid event from DMaaP and AAI is not responding
+    [Documentation]    PRH get valid event from DMaaP with all required fields and AAI is not responding - PRH does not produce PNF_READY notification
+    [Tags]    PRH    AAI
+    [Timeout]    180s
+    Stop AAI
+    Set event in DMAAP    ${EVENT_WITH_ALL_VALID_REQUIRED_FIELDS}
+    Wait Until Keyword Succeeds    100x    300ms    Check PRH log    java.net.NoRouteToHostException: Host is unreachable (Host unreachable)

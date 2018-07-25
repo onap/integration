@@ -32,6 +32,11 @@ class PrhLibrary(object):
     def create_pnf_name(json_file):
         return _create_pnf_name(json_file)
 
+    @staticmethod
+    def stop_aai():
+        client = docker.from_env()
+        container = client.containers.get('aai_simulator')
+        container.stop()
 
 def _create_pnf_name(json_file):
     json_to_python = json.loads(json_file)
