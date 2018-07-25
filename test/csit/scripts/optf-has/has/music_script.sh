@@ -51,7 +51,7 @@ docker run -d --name music-db --network music-net -p "7000:7000" -p "7001:7001" 
 CASSA_IP=`docker inspect -f '{{ $network := index .NetworkSettings.Networks "music-net" }}{{ $network.IPAddress}}' music-db`
 echo "CASSANDRA_IP=${CASSA_IP}"
 ${WORKSPACE}/test/csit/scripts/optf-has/has/wait_for_port.sh ${CASSA_IP} 9042
-
+sleep 30
 # Start Music war
 docker run -d --name music-war -v music-vol:/app ${MUSIC_IMG};
 
@@ -80,7 +80,7 @@ echo "TOMCAT_IP=${TOMCAT_IP}"
 ${WORKSPACE}/test/csit/scripts/optf-has/has/wait_for_port.sh ${TOMCAT_IP} 8080
 
 # wait a while to make sure music is totally up and configured
-sleep 10
+sleep 60
 
 echo "inspect docker things for tracing purpose"
 docker inspect music-db
