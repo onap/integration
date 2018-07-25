@@ -115,6 +115,7 @@ Get Root Url
     Log To Console              response = ${resp}
     Log To Console              body = ${resp.text}
     Should Be Equal As Integers    ${resp.status_code}    200
+    Sleep    10s    Wait For 10 seconds
 
 Conductor AddHealthcheck Row Into Music
     [Documentation]    It sends a REST PUT request to Music to inject healthcheck plan
