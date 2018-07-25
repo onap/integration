@@ -5,6 +5,7 @@
 # replicated from the ONAP demo/boot area due to release concerns.
 
 # Start Xvfb
+RES=1024x768x24
 echo -e "Starting Xvfb on display ${DISPLAY} with res ${RES}"
 Xvfb ${DISPLAY} -ac -screen 0 ${RES} +extension RANDR &
 XVFBPID=$!
