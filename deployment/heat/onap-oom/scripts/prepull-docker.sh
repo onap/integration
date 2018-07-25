@@ -19,6 +19,8 @@ if [ "$#" -ne 1 ]; then
 fi
 DOCKER_PROXY=$1
 
-for DOCKER_IMAGE in $(tail -n +2 $WORKSPACE/version-manifest/src/main/resources/docker-manifest.csv | tr ',' ':'); do
-    docker pull $DOCKER_PROXY/$DOCKER_IMAGE
+for MANIFEST in docker-manifest.csv docker-manifest-staging.csv; do
+    for DOCKER_IMAGE in $(tail -n +2 $WORKSPACE/version-manifest/src/main/resources/$MANIFEST | tr ',' ':'); do
+        docker pull $DOCKER_PROXY/$DOCKER_IMAGE
+    done
 done
