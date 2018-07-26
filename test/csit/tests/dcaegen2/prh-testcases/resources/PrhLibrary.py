@@ -38,6 +38,7 @@ class PrhLibrary(object):
         container = client.containers.get('aai_simulator')
         container.stop()
 
+
 def _create_pnf_name(json_file):
     json_to_python = json.loads(json_file)
     vendor = json_to_python["event"]["otherFields"]["pnfVendorName"]
