@@ -49,6 +49,7 @@ cat <<EOF
             __docker_proxy__: { get_param: docker_proxy }
             __apt_proxy__: { get_param: apt_proxy }
             __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
             __integration_override_yaml__: { get_param: integration_override_yaml }
             __gerrit_branch__: { get_param: gerrit_branch }
             __gerrit_refspec__: { get_param: gerrit_refspec }
@@ -65,6 +66,18 @@ for VM_NUM in $(seq $NUM_K8S_VMS); do
     K8S_VM_NAME=k8s_$VM_NUM
     cat <<EOF
               get_attr: [${K8S_VM_NAME}_floating_ip, floating_ip_address],
+EOF
+done
+
+cat <<EOF
+            ]
+            __k8s_private_ips__: [
+EOF
+
+for VM_NUM in $(seq $NUM_K8S_VMS); do
+    K8S_VM_NAME=k8s_$VM_NUM
+    cat <<EOF
+              get_attr: [${K8S_VM_NAME}_floating_ip, fixed_ip_address],
 EOF
 done
 

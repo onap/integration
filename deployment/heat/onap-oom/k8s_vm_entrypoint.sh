@@ -13,6 +13,7 @@ printenv
 
 mkdir -p /opt/config
 echo "__rancher_ip_addr__" > /opt/config/rancher_ip_addr.txt
+echo "__rancher_private_ip_addr__" > /opt/config/rancher_private_ip_addr.txt
 HOST_IP=$(hostname -I)
 echo $HOST_IP `hostname` >> /etc/hosts
 
@@ -33,7 +34,7 @@ fi
 apt-get -y update
 
 mkdir -p /dockerdata-nfs
-echo "__rancher_ip_addr__:/dockerdata-nfs /dockerdata-nfs nfs auto,nofail,noatime,nolock,intr,tcp,actimeo=1800 0 0" | tee -a /etc/fstab
+echo "__rancher_private_ip_addr__:/dockerdata-nfs /dockerdata-nfs nfs auto,nofail,noatime,nolock,intr,tcp,actimeo=1800 0 0" | tee -a /etc/fstab
 
 apt-get -y install linux-image-extra-$(uname -r) jq nfs-common
 

@@ -14,6 +14,7 @@ printenv
 mkdir -p /opt/config
 echo "__rancher_ip_addr__" > /opt/config/rancher_ip_addr.txt
 echo "__k8s_vm_ips__" > /opt/config/k8s_vm_ips.txt
+echo "__k8s_private_ips__" > /opt/config/k8s_private_ips.txt
 echo "__public_net_id__" > /opt/config/public_net_id.txt
 echo "__oam_network_cidr__" > /opt/config/oam_network_cidr.txt
 echo "__oam_network_id__" > /opt/config/oam_network_id.txt
@@ -72,7 +73,7 @@ git commit -m "initial commit"
 
 # export NFS mount
 NFS_EXP=""
-for K8S_VM_IP in $(tr -d ',[]' < /opt/config/k8s_vm_ips.txt); do
+for K8S_VM_IP in $(tr -d ',[]' < /opt/config/k8s_private_ips.txt); do
     NFS_EXP+="$K8S_VM_IP(rw,fsid=1,sync,no_root_squash,no_subtree_check) "
 done
 echo "/dockerdata-nfs $NFS_EXP" | tee /etc/exports
@@ -100,7 +101,7 @@ wget -q http://storage.googleapis.com/kubernetes-helm/helm-v2.8.2-linux-amd64.ta
 tar -zxvf helm-v2.8.2-linux-amd64.tar.gz
 sudo mv linux-amd64/helm /usr/local/bin/helm
 
-echo export RANCHER_IP=__rancher_ip_addr__ > api-keys-rc
+echo export RANCHER_IP=__rancher_private_ip_addr__ > api-keys-rc
 source api-keys-rc
 
 sleep 50
@@ -169,7 +170,7 @@ clusters:
 - cluster:
     api-version: v1
     insecure-skip-tls-verify: true
-    server: "https://$RANCHER_IP:8080/r/projects/$PID/kubernetes:6443"
+    server: "https://__rancher_ip_addr__:8080/r/projects/$PID/kubernetes:6443"
   name: "oom"
 contexts:
 - context:

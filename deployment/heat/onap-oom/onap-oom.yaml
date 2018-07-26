@@ -151,6 +151,7 @@ resources:
             __docker_proxy__: { get_param: docker_proxy }
             __apt_proxy__: { get_param: apt_proxy }
             __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
             __integration_override_yaml__: { get_param: integration_override_yaml }
             __gerrit_branch__: { get_param: gerrit_branch }
             __gerrit_refspec__: { get_param: gerrit_refspec }
@@ -172,6 +173,19 @@ resources:
               get_attr: [k8s_9_floating_ip, floating_ip_address],
               get_attr: [k8s_10_floating_ip, floating_ip_address],
               get_attr: [k8s_11_floating_ip, floating_ip_address],
+            ]
+            __k8s_private_ips__: [
+              get_attr: [k8s_1_floating_ip, fixed_ip_address],
+              get_attr: [k8s_2_floating_ip, fixed_ip_address],
+              get_attr: [k8s_3_floating_ip, fixed_ip_address],
+              get_attr: [k8s_4_floating_ip, fixed_ip_address],
+              get_attr: [k8s_5_floating_ip, fixed_ip_address],
+              get_attr: [k8s_6_floating_ip, fixed_ip_address],
+              get_attr: [k8s_7_floating_ip, fixed_ip_address],
+              get_attr: [k8s_8_floating_ip, fixed_ip_address],
+              get_attr: [k8s_9_floating_ip, fixed_ip_address],
+              get_attr: [k8s_10_floating_ip, fixed_ip_address],
+              get_attr: [k8s_11_floating_ip, fixed_ip_address],
             ]
   k8s_1_private_port:
     type: OS::Neutron::Port
@@ -203,6 +217,7 @@ resources:
             __docker_proxy__: { get_param: docker_proxy }
             __apt_proxy__: { get_param: apt_proxy }
             __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
           template:
             get_file: k8s_vm_entrypoint.sh
 
@@ -236,6 +251,7 @@ resources:
             __docker_proxy__: { get_param: docker_proxy }
             __apt_proxy__: { get_param: apt_proxy }
             __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
           template:
             get_file: k8s_vm_entrypoint.sh
 
@@ -269,6 +285,7 @@ resources:
             __docker_proxy__: { get_param: docker_proxy }
             __apt_proxy__: { get_param: apt_proxy }
             __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
           template:
             get_file: k8s_vm_entrypoint.sh
 
@@ -302,6 +319,7 @@ resources:
             __docker_proxy__: { get_param: docker_proxy }
             __apt_proxy__: { get_param: apt_proxy }
             __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
           template:
             get_file: k8s_vm_entrypoint.sh
 
@@ -335,6 +353,7 @@ resources:
             __docker_proxy__: { get_param: docker_proxy }
             __apt_proxy__: { get_param: apt_proxy }
             __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
           template:
             get_file: k8s_vm_entrypoint.sh
 
@@ -368,6 +387,7 @@ resources:
             __docker_proxy__: { get_param: docker_proxy }
             __apt_proxy__: { get_param: apt_proxy }
             __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
           template:
             get_file: k8s_vm_entrypoint.sh
 
@@ -401,6 +421,7 @@ resources:
             __docker_proxy__: { get_param: docker_proxy }
             __apt_proxy__: { get_param: apt_proxy }
             __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
           template:
             get_file: k8s_vm_entrypoint.sh
 
@@ -434,6 +455,7 @@ resources:
             __docker_proxy__: { get_param: docker_proxy }
             __apt_proxy__: { get_param: apt_proxy }
             __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
           template:
             get_file: k8s_vm_entrypoint.sh
 
@@ -467,6 +489,7 @@ resources:
             __docker_proxy__: { get_param: docker_proxy }
             __apt_proxy__: { get_param: apt_proxy }
             __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
           template:
             get_file: k8s_vm_entrypoint.sh
 
@@ -500,6 +523,7 @@ resources:
             __docker_proxy__: { get_param: docker_proxy }
             __apt_proxy__: { get_param: apt_proxy }
             __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
           template:
             get_file: k8s_vm_entrypoint.sh
 
@@ -533,6 +557,7 @@ resources:
             __docker_proxy__: { get_param: docker_proxy }
             __apt_proxy__: { get_param: apt_proxy }
             __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
           template:
             get_file: k8s_vm_entrypoint.sh
 
