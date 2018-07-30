@@ -9,6 +9,16 @@ ${login}                     admin
 ${passw}                     password
 
 *** Test Cases ***
+Verify Holmes CL well created
+    ${resp}=    Get Request    ${clamp_session}   /restservices/clds/v1/clds/model-names
+    Should Contain Match    ${resp}   *HolmesModel1*
+    Should Not Contain Match    ${resp}   *HolmesModel99*
+
+Verify TCA CL well create
+    ${resp}=    Get Request    ${clamp_session}   /restservices/clds/v1/clds/model-names
+    Should Contain Match    ${resp}   *TCAModel1*
+    Should Not Contain Match    ${resp}   *TCAModel99*
+
 Verify HolmesModel1
     ${resp}=    Get Request    ${clamp_session}   /restservices/clds/v1/clds/model/HolmesModel1
     Should Contain Match    ${resp}   *templateHolmes1*

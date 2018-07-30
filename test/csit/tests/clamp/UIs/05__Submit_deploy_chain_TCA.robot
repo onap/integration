@@ -3,7 +3,7 @@ Library     Collections
 Library     RequestsLibrary
 Library     OperatingSystem
 Library     json
-Library     Selenium2Library
+Library     ../../../scripts/clamp/python-lib/CustomSeleniumLibrary.py
 Library     XvfbRobot
 
 *** Variables ***
@@ -15,19 +15,23 @@ ${BASE_URL}                  https://localhost:8443
 
 *** Test Cases ***
 Get Requests health check ok
-    ${resp}=    Get Request    ${clamp_session}   /restservices/clds/v1/clds/healthcheck
+    ${resp}=    Get Request    ${clamp_session}   /restservices/clds/v1/healthcheck
     Should Be Equal As Strings  ${resp.status_code}     200
 
 Open Browser
 # Next line is to be enabled for Headless tests only (jenkins?). To see the tests disable the line.
     Start Virtual Display    1920    1080
-    Open Browser    ${BASE_URL}/designer/index.html    browser=firefox
     Set Selenium Speed      ${SELENIUM_SPEED_SLOW}
+    Open Browser    ${BASE_URL}/designer/index.html    browser=firefox
+
+Reply to authentication popup
+    Run Keyword And Ignore Error    Insert into prompt    ${login} ${passw}
+    Confirm action
+
+Good Login to Clamp UI and Verify logged in
     Set Window Size    1920    1080
     ${title}=    Get Title
     Should Be Equal    CLDS    ${title}
-
-Good Login to Clamp UI and Verify logged in
     Wait Until Element Is Visible       xpath=//*[@class="navbar-brand logo_name ng-binding"]       timeout=60
     Element Text Should Be      xpath=//*[@class="navbar-brand logo_name ng-binding"]       expected=Hello:admin
 
