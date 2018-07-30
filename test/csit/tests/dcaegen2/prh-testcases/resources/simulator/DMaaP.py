@@ -12,9 +12,7 @@ class DMaaPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             global received_event_to_get_method
             content_length = int(self.headers['Content-Length'])
             received_event_to_get_method = self.rfile.read(content_length)
-            self.send_response(200)
-            self.send_header('Content-Type', 'application/json')
-            self.end_headers()
+            _header_200_and_json(self)
             
         return
 
@@ -23,33 +21,27 @@ class DMaaPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             global posted_event_from_prh
             content_length = int(self.headers['Content-Length'])
             posted_event_from_prh = self.rfile.read(content_length)
-            self.send_response(200)
-            self.send_header('Content-Type', 'application/json')
-            self.end_headers()
+            _header_200_and_json(self)
             
         return
 
     def do_GET(self):
         if re.search('/events/unauthenticated.SEC_OTHER_OUTPUT/OpenDcae-c12/c12', self.path):
-            self.send_response(200)
-            self.send_header('Content-Type', 'application/json')
-            self.end_headers()
+            _header_200_and_json(self)
             self.wfile.write(received_event_to_get_method)
             self.wfile.close()
         elif re.search('/events/pnfReady', self.path):
-            self.send_response(200)
-            self.send_header('Content-Type', 'application/json')
-            self.end_headers()
+            _header_200_and_json(self)
             self.wfile.write(posted_event_from_prh)
             self.wfile.close()
-        else:
-            self.send_response(200)
-            self.send_header('Content-Type', 'application/json')
-            self.end_headers()
-            self.wfile.write('GET else')
-            self.wfile.close()
-            
+
         return
+
+
+def _header_200_and_json(self):
+    self.send_response(200)
+    self.send_header('Content-Type', 'application/json')
+    self.end_headers()
 
 
 def _main_(handler_class=DMaaPHandler, server_class=BaseHTTPServer.HTTPServer, protocol="HTTP/1.0"):

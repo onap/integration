@@ -1,7 +1,5 @@
 FROM python:2
 
-ENV https_proxy "$https_proxy"
-
 ADD AAI.py /
 
 RUN pip install robotframework
