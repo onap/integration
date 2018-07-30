@@ -8,7 +8,7 @@ export AAI_SIMULATOR="aai_simulator"
 
 cd ${WORKSPACE}/test/csit/tests/dcaegen2/prh-testcases/resources/
 
-docker login -u docker -p docker nexus3.onap.org:10003
+docker login -u docker -p docker nexus3.onap.org:10001
 docker-compose up -d --build
 
 # Wait for initialization of Docker containers
@@ -39,8 +39,6 @@ echo AAI_SIMULATOR_IP=${AAI_SIMULATOR_IP}
 
 # Wait for initialization of docker services
 for i in {1..10}; do
-    curl -sS -m 1 localhost:2222 && \
-    curl -sS -m 1 localhost:3333 && \
     curl -sS -m 1 localhost:8100/heartbeat && break
     echo sleep ${i}
     sleep ${i}

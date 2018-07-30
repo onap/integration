@@ -1,7 +1,7 @@
 *** Settings ***
 Documentation     Integration tests for PRH.
 ...               PRH receive events from DMaaP and produce or not PNF_READY notification depends on required fields in received event.
-Suite Setup       Run keywords    Create headers 
+Suite Setup       Run keywords    Create header 
 ...                               Create sessions
 Library           resources/PrhLibrary.py
 Resource          resources/prh_library.robot
@@ -46,8 +46,8 @@ Get valid event from DMaaP and record in AAI does not exist
     [Documentation]    PRH get valid event from DMaaP with all required fields and in AAI record doesn't exist - PRH does not produce PNF_READY notification
     [Tags]    PRH    Missing AAI record
     [Timeout]    30s
-    Set pnf name in AAI    wrong_aai_record
-    Set event in DMAAP    ${EVENT_WITH_ALL_VALID_REQUIRED_FIELDS}
+    Set PNF name in AAI    wrong_aai_record
+    Set event in DMaaP    ${EVENT_WITH_ALL_VALID_REQUIRED_FIELDS}
     Wait Until Keyword Succeeds    100x    300ms    Check PRH log    org.onap.dcaegen2.services.prh.exceptions.AAINotFoundException: Incorrect response code for continuation of tasks workflow
 
 Get valid event from DMaaP and AAI is not responding
@@ -55,5 +55,5 @@ Get valid event from DMaaP and AAI is not responding
     [Tags]    PRH    AAI
     [Timeout]    180s
     Stop AAI
-    Set event in DMAAP    ${EVENT_WITH_ALL_VALID_REQUIRED_FIELDS}
+    Set event in DMaaP    ${EVENT_WITH_ALL_VALID_REQUIRED_FIELDS}
     Wait Until Keyword Succeeds    100x    300ms    Check PRH log    java.net.NoRouteToHostException: Host is unreachable (Host unreachable)

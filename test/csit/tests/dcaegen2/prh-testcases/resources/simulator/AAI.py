@@ -11,9 +11,7 @@ class AAIHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             global pnfs
             content_length = int(self.headers['Content-Length'])
             pnfs = self.rfile.read(content_length)
-            self.send_response(200)
-            self.send_header('Content-Type', 'application/json')
-            self.end_headers()
+            _header_200_and_json(self)
             
         return
 
@@ -28,14 +26,11 @@ class AAIHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             
         return
 
-    def do_GET(self):
-        self.send_response(200)
-        self.send_header('Content-Type', 'application/json')
-        self.end_headers()
-        self.wfile.write('GET')
-        self.wfile.close()
-        
-        return
+
+def _header_200_and_json(self):
+    self.send_response(200)
+    self.send_header('Content-Type', 'application/json')
+    self.end_headers()
 
 
 def _main_(handler_class=AAIHandler, server_class=BaseHTTPServer.HTTPServer, protocol="HTTP/1.0"):
