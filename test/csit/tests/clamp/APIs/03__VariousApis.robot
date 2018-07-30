@@ -10,9 +10,9 @@ ${passw}                     password
 
 *** Test Cases ***
 Get Clamp properties
-    ${resp}=    Get Request    ${clamp_session}   /restservices/clds/v1/clds/properties
-    Dictionary Should Contain Key    ${resp.json()}   global
-    Dictionary Should Contain Key    ${resp.json()['global']}   location
+    ${resp}=    Get Request    ${clamp_session}   /restservices/clds/v1/clds/cldsInfo
+    Dictionary Should Contain Key    ${resp.json()}   userName
+    Dictionary Should Contain Key    ${resp.json()}   permissionReadCl
 
 Get Clamp Info
     ${resp}=    Get Request    ${clamp_session}   /restservices/clds/v1/clds/cldsInfo

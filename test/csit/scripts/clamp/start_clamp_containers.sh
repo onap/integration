@@ -32,7 +32,7 @@ TIME_OUT=600
 INTERVAL=5
 TIME=0
 while [ "$TIME" -lt "$TIME_OUT" ]; do
-  response=$(curl --write-out '%{http_code}' --silent --output /dev/null -vk --key config/org.onap.clamp.keyfile https://localhost:8443/restservices/clds/v1/clds/healthcheck); echo $response
+  response=$(curl --write-out '%{http_code}' --silent --output /dev/null -vk --key config/org.onap.clamp.keyfile https://localhost:8443/restservices/clds/v1/healthcheck); echo $response
 
   if [ "$response" == "200" ]; then
     echo Clamp and its database well started in $TIME seconds
