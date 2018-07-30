@@ -3,7 +3,7 @@ Library     Collections
 Library     RequestsLibrary
 Library     OperatingSystem
 Library     json
-Library     Selenium2Library
+Library     ../../../scripts/clamp/python-lib/CustomSeleniumLibrary.py
 Library     XvfbRobot
 
 *** Variables ***
@@ -22,7 +22,7 @@ Create the sessions
 *** Test Cases ***
 Get Requests health check ok
     Create the sessions
-    ${resp}=    Get Request    ${clamp_session}   /restservices/clds/v1/clds/healthcheck
+    ${resp}=    Get Request    ${clamp_session}   /restservices/clds/v1/healthcheck
     Should Be Equal As Strings  ${resp.status_code}     200
 
 Open Browser
@@ -31,10 +31,14 @@ Open Browser
     Open Browser    ${BASE_URL}/designer/index.html    browser=firefox
     Set Selenium Speed      ${SELENIUM_SPEED_SLOW}
     Set Window Size    1920    1080
-    ${title}=    Get Title
-    Should Be Equal    CLDS    ${title}
+
+Reply to authentication popup
+    Insert into prompt    ${login} ${passw}
+    Confirm action
 
 Good Login to Clamp UI and Verify logged in
+    ${title}=    Get Title
+    Should Be Equal    CLDS    ${title}
     Wait Until Element Is Visible       xpath=//*[@class="navbar-brand logo_name ng-binding"]       timeout=60
     Element Text Should Be      xpath=//*[@class="navbar-brand logo_name ng-binding"]       expected=Hello:admin
 
@@ -88,8 +92,3 @@ Save Model from Menu
 
 Close Browser
     Close Browser
-
-Verify Holmes CL well created
-    ${resp}=    Get Request    ${clamp_session}   /restservices/clds/v1/clds/model-names
-    Should Contain Match    ${resp}   *HolmesModel1*
-    Should Not Contain Match    ${resp}   *HolmesModel99*
