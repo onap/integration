@@ -2,8 +2,6 @@ FROM python:2
 
 ADD AAI.py /
 
-RUN pip install robotframework
-
 EXPOSE 3333
 
 CMD [ "python", "./AAI.py" ]

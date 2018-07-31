@@ -25,8 +25,6 @@ services:
     build:
       context: simulator
       dockerfile: DMaaP_simulator
-      args:
-        - https_proxy=${HTTPS_PROXY}
     ports:
       - "2222:2222"
     container_name: dmaap_simulator
@@ -35,8 +33,6 @@ services:
      build:
        context: simulator
        dockerfile: AAI_simulator
-       args:
-         - https_proxy=${HTTPS_PROXY}
      ports:
       - "3333:3333"
      container_name: aai_simulator
