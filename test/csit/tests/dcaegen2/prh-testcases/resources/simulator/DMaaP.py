@@ -1,12 +1,13 @@
-import BaseHTTPServer
+from http.server import BaseHTTPRequestHandler
+from http.server import HTTPServer
 import re
 import sys
 
-posted_event_from_prh = 'Empty'
+posted_event_from_prh = b'Empty'
 received_event_to_get_method = 'Empty'
 
 
-class DMaaPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
+class DMaaPHandler(BaseHTTPRequestHandler):
     def do_PUT(self):
         if re.search('/set_get_event', self.path):
             global received_event_to_get_method
@@ -29,11 +30,9 @@ class DMaaPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         if re.search('/events/unauthenticated.SEC_OTHER_OUTPUT/OpenDcae-c12/c12', self.path):
             _header_200_and_json(self)
             self.wfile.write(received_event_to_get_method)
-            self.wfile.close()
         elif re.search('/events/pnfReady', self.path):
             _header_200_and_json(self)
             self.wfile.write(posted_event_from_prh)
-            self.wfile.close()
 
         return
 
@@ -44,7 +43,7 @@ def _header_200_and_json(self):
     self.end_headers()
 
 
-def _main_(handler_class=DMaaPHandler, server_class=BaseHTTPServer.HTTPServer, protocol="HTTP/1.0"):
+def _main_(handler_class=DMaaPHandler, server_class=HTTPServer, protocol="HTTP/1.0"):
 
     if sys.argv[1:]:
         port = int(sys.argv[1])
@@ -57,7 +56,7 @@ def _main_(handler_class=DMaaPHandler, server_class=BaseHTTPServer.HTTPServer, p
     httpd = server_class(server_address, handler_class)
 
     sa = httpd.socket.getsockname()
-    print "Serving HTTP on", sa[0], "port", sa[1], "..."
+    print("Serving HTTP on", sa[0], "port", sa[1], "...")
     httpd.serve_forever()
 
 
