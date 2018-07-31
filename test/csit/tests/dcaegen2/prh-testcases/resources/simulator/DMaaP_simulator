@@ -1,8 +1,6 @@
-FROM python:2
+FROM python:3
 
 ADD DMaaP.py /
-
-RUN pip install robotframework
 
 EXPOSE 2222
 

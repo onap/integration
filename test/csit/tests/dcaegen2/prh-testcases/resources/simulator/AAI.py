@@ -1,11 +1,12 @@
-import BaseHTTPServer
+from http.server import BaseHTTPRequestHandler
+from http.server import HTTPServer
 import re
 import sys
 
 pnfs = 'Empty'
 
 
-class AAIHandler(BaseHTTPServer.BaseHTTPRequestHandler):
+class AAIHandler(BaseHTTPRequestHandler):
     def do_PUT(self):
         if re.search('/set_pnfs', self.path):
             global pnfs
@@ -16,7 +17,7 @@ class AAIHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         return
 
     def do_PATCH(self):
-        pnfs_name = '/aai/v12/network/pnfs/pnf/' + pnfs
+        pnfs_name = '/aai/v12/network/pnfs/pnf/' + pnfs.decode()
         if re.search('wrong_aai_record', self.path):
             self.send_response(400)
             self.end_headers()
@@ -33,7 +34,7 @@ def _header_200_and_json(self):
     self.end_headers()
 
 
-def _main_(handler_class=AAIHandler, server_class=BaseHTTPServer.HTTPServer, protocol="HTTP/1.0"):
+def _main_(handler_class=AAIHandler, server_class=HTTPServer, protocol="HTTP/1.0"):
 
     if sys.argv[1:]:
         port = int(sys.argv[1])
@@ -46,7 +47,7 @@ def _main_(handler_class=AAIHandler, server_class=BaseHTTPServer.HTTPServer, pro
     httpd = server_class(server_address, handler_class)
 
     sa = httpd.socket.getsockname()
-    print "Serving HTTP on", sa[0], "port", sa[1], "..."
+    print("Serving HTTP on", sa[0], "port", sa[1], "...")
     httpd.serve_forever()
 
 
