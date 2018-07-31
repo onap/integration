@@ -1,11 +1,14 @@
 *** Settings ***
 Library           RequestsLibrary
 Library           Collections
+Library           OperatingSystem
 
 *** Keywords ***
 Create header
     ${headers}=    Create Dictionary    Accept=application/json    Content-Type=application/json
     Set Suite Variable    ${suite_headers}    ${headers}
+    ${python_version}=    Run    python -V
+    Log To Console    ${python_version}
 
 Create sessions
     Create Session    dmaap_session    ${DMAAP_SIMULATOR_URL}

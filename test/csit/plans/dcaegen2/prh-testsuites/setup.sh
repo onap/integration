@@ -54,4 +54,4 @@ docker start prh
 # #Pass any variables required by Robot test suites in ROBOT_VARIABLES
 ROBOT_VARIABLES="-v DMAAP_SIMULATOR:${DMAAP_SIMULATOR_IP}:2222 -v AAI_SIMULATOR:${AAI_SIMULATOR_IP}:3333 -v PRH:${PRH_IP}:8100"
 
-pip install docker==2.7.0
+pip install docker
