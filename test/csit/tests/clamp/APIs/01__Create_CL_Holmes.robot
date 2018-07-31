@@ -17,7 +17,7 @@ Create the sessions
 *** Test Cases ***
 Get Requests health check ok
     Create the sessions
-    ${resp}=    Get Request    ${clamp_session}   /restservices/clds/v1/clds/healthcheck
+    ${resp}=    Get Request    ${clamp_session}   /restservices/clds/v1/healthcheck
     Should Be Equal As Strings  ${resp.status_code}     200
 
 Get Requests verify test template found
