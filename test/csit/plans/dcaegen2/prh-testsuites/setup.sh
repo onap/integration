@@ -9,6 +9,9 @@ export AAI_SIMULATOR="aai_simulator"
 cd ${WORKSPACE}/test/csit/tests/dcaegen2/prh-testcases/resources/
 
 docker login -u docker -p docker nexus3.onap.org:10001
+pip uninstall docker-py
+pip uninstall docker
+pip install docker
 docker-compose up -d --build
 
 # Wait for initialization of Docker containers
@@ -54,4 +57,4 @@ docker start prh
 # #Pass any variables required by Robot test suites in ROBOT_VARIABLES
 ROBOT_VARIABLES="-v DMAAP_SIMULATOR:${DMAAP_SIMULATOR_IP}:2222 -v AAI_SIMULATOR:${AAI_SIMULATOR_IP}:3333 -v PRH:${PRH_IP}:8100"
 
-pip install docker==2.7.0
+# pip install docker
