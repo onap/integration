@@ -64,7 +64,7 @@ fi
 $WORKSPACE/test/ete/scripts/teardown-onap.sh
 
 # create new stack
-STACK="ete-$(uuidgen | cut -c-8)"
+STACK="onap-heat-$(uuidgen | cut -c-4)"
 echo "New Stack Name: ${STACK}"
 if ! openstack stack create -t ${YAML_FILE} -e ${ENV_FILE} $STACK; then
     exit 1
