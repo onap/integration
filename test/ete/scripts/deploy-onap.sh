@@ -28,6 +28,7 @@ fi
 SENTINEL='Docker versions and branches'
 
 mkdir -p ${LAB_DIR}/target
+rsync -avt $DEMO_DIR/heat/ONAP/ ${LAB_DIR}/target/
 YAML_FILE=${LAB_DIR}/target/onap_openstack.yaml
 ENV_FILE=${LAB_DIR}/target/onap_openstack.env
 YAML_SRC=${DEMO_DIR}/heat/ONAP/onap_openstack.yaml
