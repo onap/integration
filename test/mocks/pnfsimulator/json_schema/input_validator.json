@@ -1,0 +1,193 @@
+{
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "simulatorParams": {
+      "$id": "/properties/simulatorParams",
+      "type": "object",
+      "properties": {
+        "vesServerUrl": {
+          "$id": "/properties/simulatorParams/properties/vesServerUrl",
+          "type": "string",
+          "title": "The Vesserverurl Schema ",
+          "default": "",
+          "examples": [
+            "http://10.154.187.70:8080/eventListener/v5"
+          ]
+        },
+        "testDuration": {
+          "$id": "/properties/simulatorParams/properties/testDuration",
+          "type": "string",
+          "title": "The Testduration Schema ",
+          "default": "",
+          "examples": [
+            "10"
+          ]
+        },
+        "messageInterval": {
+          "$id": "/properties/simulatorParams/properties/messageInterval",
+          "type": "string",
+          "title": "The Messageinterval Schema ",
+          "default": "",
+          "examples": [
+            "1"
+          ]
+        }
+      }
+    },
+    "messageParams": {
+      "$id": "/properties/messageParams",
+      "type": "object",
+      "properties": {
+        "pnfSerialNumber": {
+          "$id": "/properties/messageParams/properties/pnfSerialNumber",
+          "type": "string",
+          "title": "The Pnfserialnumber Schema ",
+          "default": "",
+          "examples": [
+            "val1"
+          ]
+        },
+        "pnfVendorName": {
+          "$id": "/properties/messageParams/properties/pnfVendorName",
+          "type": "string",
+          "title": "The Pnfvendorname Schema ",
+          "default": "",
+          "examples": [
+            "val2"
+          ]
+        },
+        "pnfOamIpv4Address": {
+          "$id": "/properties/messageParams/properties/pnfOamIpv4Address",
+          "type": "string",
+          "title": "The Pnfoamipv4address Schema ",
+          "default": "",
+          "examples": [
+            "val3"
+          ]
+        },
+        "pnfOamIpv6Address": {
+          "$id": "/properties/messageParams/properties/pnfOamIpv6Address",
+          "type": "string",
+          "title": "The Pnfoamipv6address Schema ",
+          "default": "",
+          "examples": [
+            "val4"
+          ]
+        },
+        "pnfFamily": {
+          "$id": "/properties/messageParams/properties/pnfFamily",
+          "type": "string",
+          "title": "The Pnffamily Schema ",
+          "default": "",
+          "examples": [
+            "val5"
+          ]
+        },
+        "pnfModelNumber": {
+          "$id": "/properties/messageParams/properties/pnfModelNumber",
+          "type": "string",
+          "title": "The Pnfmodelnumber Schema ",
+          "default": "",
+          "examples": [
+            "val6"
+          ]
+        },
+        "pnfSoftwareVersion": {
+          "$id": "/properties/messageParams/properties/pnfSoftwareVersion",
+          "type": "string",
+          "title": "The Pnfsoftwareversion Schema ",
+          "default": "",
+          "examples": [
+            "val7"
+          ]
+        },
+        "pnfType": {
+          "$id": "/properties/messageParams/properties/pnfType",
+          "type": "string",
+          "title": "The Pnftype Schema ",
+          "default": "",
+          "examples": [
+            "val8"
+          ]
+        },
+        "eventName": {
+          "$id": "/properties/messageParams/properties/eventName",
+          "type": "string",
+          "title": "The Eventname Schema ",
+          "default": "",
+          "examples": [
+            "val9"
+          ]
+        },
+        "nfNamingCode": {
+          "$id": "/properties/messageParams/properties/nfNamingCode",
+          "type": "string",
+          "title": "The Nfnamingcode Schema ",
+          "default": "",
+          "examples": [
+            "val10"
+          ]
+        },
+        "nfcNamingCode": {
+          "$id": "/properties/messageParams/properties/nfcNamingCode",
+          "type": "string",
+          "title": "The Nfcnamingcode Schema ",
+          "default": "",
+          "examples": [
+            "val11"
+          ]
+        },
+        "sourceName": {
+          "$id": "/properties/messageParams/properties/sourceName",
+          "type": "string",
+          "title": "The Sourcename Schema ",
+          "default": "",
+          "examples": [
+            "val12"
+          ]
+        },
+        "sourceId": {
+          "$id": "/properties/messageParams/properties/sourceId",
+          "type": "string",
+          "title": "The Sourceid Schema ",
+          "default": "",
+          "examples": [
+            "val13"
+          ]
+        },
+        "reportingEntityName": {
+          "$id": "/properties/messageParams/properties/reportingEntityName",
+          "type": "string",
+          "title": "The Reportingentityname Schema ",
+          "default": "",
+          "examples": [
+            "val14"
+          ]
+        }
+      },
+      "required": [
+        "pnfSerialNumber",
+        "pnfVendorName"
+      ],
+      "anyOf": [
+        {
+          "required": [
+            "pnfOamIpv4Address"
+          ]
+        },
+        {
+          "required": [
+            "pnfOamIpv6Address"
+          ]
+        }
+      ]
+    }
+  },
+  "required": [
+    "simulatorParams",
+    "messageParams"
+  ]
+}
