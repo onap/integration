@@ -3,7 +3,7 @@ module pnf-simulator {
   prefix config;
   container config {
     config true;
-    leaf testDuration {type uint32;}
-    leaf messageInterval {type uint32;}
+    leaf itemValue1 {type uint32;}
+    leaf itemValue2 {type uint32;}
   }
 }

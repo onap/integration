@@ -8,6 +8,7 @@ services:
       - "5000:5000"
     volumes:
       - ./logs:/var/log
+      - ./json_schema:/json_schema
     env_file:
       - ./config/netconf.env
     depends_on:

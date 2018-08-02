@@ -3,11 +3,12 @@ version: '3'
 services:
   pnf-simulator:
     container_name: pnf-simulator
-    image: pnf-simulator:latest
+    image: onap/pnf-simulator:latest
     ports:
       - "5000:5000"
     volumes:
       - ./logs:/var/log
+      - ./json_schema:/json_schema
     env_file:
       - ./config/netconf.env
     depends_on:

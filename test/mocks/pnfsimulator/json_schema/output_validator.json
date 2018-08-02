@@ -1,0 +1,286 @@
+{
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "event": {
+      "$id": "/properties/event",
+      "type": "object",
+      "properties": {
+        "commonEventHeader": {
+          "$id": "/properties/event/properties/commonEventHeader",
+          "type": "object",
+          "properties": {
+            "sourceId": {
+              "$id": "/properties/event/properties/commonEventHeader/properties/sourceId",
+              "type": "string",
+              "title": "The Sourceid Schema ",
+              "default": "",
+              "examples": [
+                "<<SerialNumber>>"
+              ]
+            },
+            "startEpochMicrosec": {
+              "$id": "/properties/event/properties/commonEventHeader/properties/startEpochMicrosec",
+              "type": "integer",
+              "title": "The Startepochmicrosec Schema ",
+              "default": 0,
+              "examples": [
+                1519837825682
+              ]
+            },
+            "eventId": {
+              "$id": "/properties/event/properties/commonEventHeader/properties/eventId",
+              "type": "string",
+              "title": "The Eventid Schema ",
+              "default": "",
+              "examples": [
+                "<<SerialNumber>>-reg"
+              ]
+            },
+            "nfcNamingCode": {
+              "$id": "/properties/event/properties/commonEventHeader/properties/nfcNamingCode",
+              "type": "string",
+              "title": "The Nfcnamingcode Schema ",
+              "default": "",
+              "examples": [
+                "5DU"
+              ]
+            },
+            "internalHeaderFields": {
+              "$id": "/properties/event/properties/commonEventHeader/properties/internalHeaderFields",
+              "type": "object",
+              "properties": {
+                "collectorTimeStamp": {
+                  "$id": "/properties/event/properties/commonEventHeader/properties/internalHeaderFields/properties/collectorTimeStamp",
+                  "type": "string",
+                  "title": "The Collectortimestamp Schema ",
+                  "default": "",
+                  "examples": [
+                    "Fri, 04 27 2018 09:01:10 GMT"
+                  ]
+                }
+              }
+            },
+            "eventType": {
+              "$id": "/properties/event/properties/commonEventHeader/properties/eventType",
+              "type": "string",
+              "title": "The Eventtype Schema ",
+              "default": "",
+              "examples": [
+                "pnfRegistration"
+              ]
+            },
+            "priority": {
+              "$id": "/properties/event/properties/commonEventHeader/properties/priority",
+              "type": "string",
+              "title": "The Priority Schema ",
+              "default": "",
+              "examples": [
+                "Normal"
+              ]
+            },
+            "version": {
+              "$id": "/properties/event/properties/commonEventHeader/properties/version",
+              "type": "integer",
+              "title": "The Version Schema ",
+              "default": 0,
+              "examples": [
+                3
+              ]
+            },
+            "reportingEntityName": {
+              "$id": "/properties/event/properties/commonEventHeader/properties/reportingEntityName",
+              "type": "string",
+              "title": "The Reportingentityname Schema ",
+              "default": "",
+              "examples": [
+                "5GRAN_DU"
+              ]
+            },
+            "sequence": {
+              "$id": "/properties/event/properties/commonEventHeader/properties/sequence",
+              "type": "integer",
+              "title": "The Sequence Schema ",
+              "default": 0,
+              "examples": [
+                0
+              ]
+            },
+            "domain": {
+              "$id": "/properties/event/properties/commonEventHeader/properties/domain",
+              "type": "string",
+              "title": "The Domain Schema ",
+              "default": "",
+              "examples": [
+                "other"
+              ]
+            },
+            "lastEpochMicrosec": {
+              "$id": "/properties/event/properties/commonEventHeader/properties/lastEpochMicrosec",
+              "type": "integer",
+              "title": "The Lastepochmicrosec Schema ",
+              "default": 0,
+              "examples": [
+                1519837825682
+              ]
+            },
+            "eventName": {
+              "$id": "/properties/event/properties/commonEventHeader/properties/eventName",
+              "type": "string",
+              "title": "The Eventname Schema ",
+              "default": "",
+              "examples": [
+                "pnfRegistration_5GDU"
+              ]
+            },
+            "sourceName": {
+              "$id": "/properties/event/properties/commonEventHeader/properties/sourceName",
+              "type": "string",
+              "title": "The Sourcename Schema ",
+              "default": "",
+              "examples": [
+                "5GRAN_DU"
+              ]
+            },
+            "nfNamingCode": {
+              "$id": "/properties/event/properties/commonEventHeader/properties/nfNamingCode",
+              "type": "string",
+              "title": "The Nfnamingcode Schema ",
+              "default": "",
+              "examples": [
+                "5GRAN"
+              ]
+            }
+          }
+        },
+        "otherFields": {
+          "$id": "/properties/event/properties/otherFields",
+          "type": "object",
+          "properties": {
+            "pnfLastServiceDate": {
+              "$id": "/properties/event/properties/otherFields/properties/pnfLastServiceDate",
+              "type": "integer",
+              "title": "The Pnflastservicedate Schema ",
+              "default": 0,
+              "examples": [
+                1517206400
+              ]
+            },
+            "pnfOamIpv6Address": {
+              "$id": "/properties/event/properties/otherFields/properties/pnfOamIpv6Address",
+              "type": "string",
+              "title": "The Pnfoamipv6address Schema ",
+              "default": "",
+              "examples": [
+                "<<NONE>>"
+              ]
+            },
+            "pnfVendorName": {
+              "$id": "/properties/event/properties/otherFields/properties/pnfVendorName",
+              "type": "string",
+              "title": "The Pnfvendorname Schema ",
+              "default": "",
+              "examples": [
+                "Nokia"
+              ]
+            },
+            "pnfModelNumber": {
+              "$id": "/properties/event/properties/otherFields/properties/pnfModelNumber",
+              "type": "string",
+              "title": "The Pnfmodelnumber Schema ",
+              "default": "",
+              "examples": [
+                "AJ02"
+              ]
+            },
+            "pnfFamily": {
+              "$id": "/properties/event/properties/otherFields/properties/pnfFamily",
+              "type": "string",
+              "title": "The Pnffamily Schema ",
+              "default": "",
+              "examples": [
+                "BBU"
+              ]
+            },
+            "pnfType": {
+              "$id": "/properties/event/properties/otherFields/properties/pnfType",
+              "type": "string",
+              "title": "The Pnftype Schema ",
+              "default": "",
+              "examples": [
+                "AirScale"
+              ]
+            },
+            "otherFieldsVersion": {
+              "$id": "/properties/event/properties/otherFields/properties/otherFieldsVersion",
+              "type": "integer",
+              "title": "The Otherfieldsversion Schema ",
+              "default": 0,
+              "examples": [
+                1
+              ]
+            },
+            "pnfOamIpv4Address": {
+              "$id": "/properties/event/properties/otherFields/properties/pnfOamIpv4Address",
+              "type": "string",
+              "title": "The Pnfoamipv4address Schema ",
+              "default": "",
+              "examples": [
+                "10.16.123.234"
+              ]
+            },
+            "pnfSoftwareVersion": {
+              "$id": "/properties/event/properties/otherFields/properties/pnfSoftwareVersion",
+              "type": "string",
+              "title": "The Pnfsoftwareversion Schema ",
+              "default": "",
+              "examples": [
+                "v4.5.0.1"
+              ]
+            },
+            "pnfSerialNumber": {
+              "$id": "/properties/event/properties/otherFields/properties/pnfSerialNumber",
+              "type": "string",
+              "title": "The Pnfserialnumber Schema ",
+              "default": "",
+              "examples": [
+                "QTFCOC540002E"
+              ]
+            },
+            "pnfManufactureDate": {
+              "$id": "/properties/event/properties/otherFields/properties/pnfManufactureDate",
+              "type": "integer",
+              "title": "The Pnfmanufacturedate Schema ",
+              "default": 0,
+              "examples": [
+                1516406400
+              ]
+            }
+          },
+          "required": [
+            "pnfSerialNumber",
+            "pnfVendorName"
+          ],
+          "anyOf": [
+            {
+              "required": [
+                "pnfOamIpv4Address"
+              ]
+            },
+            {
+              "required": [
+                "pnfOamIpv6Address"
+              ]
+            }
+          ]
+        }
+      },
+      "required": [
+        "commonEventHeader",
+        "otherFields"
+      ]
+    }
+  }
+}

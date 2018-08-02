@@ -1,6 +1,6 @@
 {
   "simulatorParams": {
-    "vesServerUrl": "http://10.154.187.70:8080/eventListener/v5",
+    "vesServerUrl": "http://VES-HOST:VES-PORT/eventListener/v5",
     "testDuration": "10",
     "messageInterval": "1"
   },

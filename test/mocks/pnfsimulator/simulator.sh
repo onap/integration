@@ -89,14 +89,14 @@ function stop(){
 function run_simulator(){
 cat << EndOfMessage
 Simulator response:
-$(curl -s -X POST -H "Content-Type: application/json" -d @config/config.json $SIMULATOR_START_URL | json_pp)
+$(curl -s -X POST -H "Content-Type: application/json" -H "X-ONAP-RequestID: 123" -H "X-InvocationID: 456" -d @config/config.json $SIMULATOR_START_URL)
 EndOfMessage
 }
 
 function stop_simulator(){
 cat << EndOfMessage
 Simulator response:
-$(curl -s -X POST $SIMULATOR_STOP_URL | json_pp)
+$(curl -s -X POST $SIMULATOR_STOP_URL)
 EndOfMessage
 }
 
@@ -114,7 +114,7 @@ cat << EndOfMessage
 $(docker-compose -f $RUNNING_COMPOSE_CONFIG ps)
 
 Simulator response:
-$(curl -s -X GET $SIMULATOR_STATUS_URL | json_pp)
+$(curl -s -X GET $SIMULATOR_STATUS_URL)
 EndOfMessage
 }
 
