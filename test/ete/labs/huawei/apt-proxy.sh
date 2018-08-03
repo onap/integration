@@ -1,5 +1,5 @@
 #!/bin/bash
-sed -i '/#!\/bin\/bash/a\
+sed -i '/^            #!\/bin\/bash/a\
             mkdir -p /etc/docker\
             cat > /etc/docker/daemon.json <<EOF\
             {\

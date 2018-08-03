@@ -1,5 +1,5 @@
 #!/bin/bash
-sed -i '/#!\/bin\/bash/a\
+sed -i '/^            #!\/bin\/bash/a\
             # sleep up to 3 minutes to avoid disk contention\
             sleep $((RANDOM / 200))\
             mkdir -p /etc/docker\
