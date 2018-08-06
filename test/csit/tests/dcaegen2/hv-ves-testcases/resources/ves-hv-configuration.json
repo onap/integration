@@ -1,0 +1,9 @@
+{
+  "kafkaBootstrapServers": "kafka:9092",
+  "routing": [
+    {
+      "fromDomain": 11,
+      "toTopic": "test-hv-ran-meas"
+    }
+  ]
+}
