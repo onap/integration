@@ -11,7 +11,7 @@ Test Teardown     VES-HV Collector Test Shutdown
 Message Routing Suite Setup
     Log   Started Suite: VES-HV Message Routing
     ${XNF_PORTS_LIST}=    Create List    7000
-    Configure xNF Simulators On Ports    ${XNF_PORTS_LIST}
+    Configure Valid xNF Simulators On Ports    ${XNF_PORTS_LIST}
     Log   Suite setup finished
 
 *** Test Cases ***
@@ -19,7 +19,7 @@ Correct Messages Routing
     [Documentation]   VES-HV Collector should route all valid messages to topics specified in configuration
     ...               and do not change message payload generated in XNF simulator
 
-    ${SIMULATORS_LIST}=   Get xNF Simulators   1
+    ${SIMULATORS_LIST}=   Get Valid xNF Simulators   1
     Send Messages From xNF Simulators   ${SIMULATORS_LIST}   ${XNF_FIXED_PAYLOAD_REQUEST}
 
     Wait until keyword succeeds   60 sec   5 sec
@@ -30,7 +30,7 @@ Correct Messages Routing
 Too big payload message handling
     [Documentation]   VES-HV Collector should interrupt the stream when encountered message with too big payload
 
-    ${SIMULATORS_LIST}=   Get xNF Simulators   1
+    ${SIMULATORS_LIST}=   Get Valid xNF Simulators   1
     Send Messages From xNF Simulators   ${SIMULATORS_LIST}   ${XNF_TOO_BIG_PAYLOAD_REQUEST}
 
     Wait until keyword succeeds   60 sec   5 sec
@@ -40,7 +40,7 @@ Too big payload message handling
 Invalid wire frame message handling
     [Documentation]  VES-HV Collector should skip messages with invalid wire frame
 
-    ${SIMULATORS_LIST}=   Get xNF Simulators   1
+    ${SIMULATORS_LIST}=   Get Valid xNF Simulators   1
     Send Messages From xNF Simulators   ${SIMULATORS_LIST}   ${XNF_INVALID_WIRE_FRAME_REQUEST}
 
     Wait until keyword succeeds   60 sec   5 sec
@@ -51,7 +51,7 @@ Invalid wire frame message handling
 Invalid GPB data message handling
     [Documentation]   VES-HV Collector should skip messages with invalid GPB data
 
-    ${SIMULATORS_LIST}=   Get xNF Simulators   1
+    ${SIMULATORS_LIST}=   Get Valid xNF Simulators   1
     Send Messages From xNF Simulators   ${SIMULATORS_LIST}   ${XNF_INVALID_GPB_DATA_REQUEST}
 
     Wait until keyword succeeds   60 sec   5 sec
@@ -62,7 +62,7 @@ Invalid GPB data message handling
 Unsupported domain message handling
     [Documentation]   VES-HV Collector should skip messages with unsupported domain
 
-    ${SIMULATORS_LIST}=   Get xNF Simulators   1
+    ${SIMULATORS_LIST}=   Get Valid xNF Simulators   1
     Send Messages From xNF Simulators   ${SIMULATORS_LIST}   ${XNF_UNSUPPORTED_DOMAIN_REQUEST}
 
     Wait until keyword succeeds   60 sec   5 sec

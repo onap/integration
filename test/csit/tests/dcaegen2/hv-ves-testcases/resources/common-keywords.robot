@@ -4,15 +4,27 @@ Library       VesHvContainersUtilsLibrary
 Library       Collections
 
 *** Keywords ***
-Configure xNF Simulators On Ports
+Configure Valid xNF Simulators On Ports
     [Arguments]    ${XNF_PORTS_LIST}
-    ${XNF_SIMULATORS_ADDRESSES}=   Start Xnf Simulators    ${XNF_PORTS_LIST}    True
-    Set Suite Variable    ${XNF_SIMULATORS_ADDRESSES}
+    ${VALID_XNF_SIMULATORS_ADDRESSES}=   Start Xnf Simulators    ${XNF_PORTS_LIST}    True
+    Set Suite Variable    ${VALID_XNF_SIMULATORS_ADDRESSES}
 
 
-Get xNF Simulators
+Configure Invalid xNF Simulators On Ports
+    [Arguments]    ${XNF_PORTS_LIST}
+    ${INVALID_XNF_SIMULATORS_ADDRESSES}=   Start Xnf Simulators    ${XNF_PORTS_LIST}    False
+    Set Suite Variable    ${INVALID_XNF_SIMULATORS_ADDRESSES}
+
+
+Get Valid xNF Simulators
     [Arguments]  ${AMOUNT}
-    ${SIMULATORS}=   Get Slice From List   ${XNF_SIMULATORS_ADDRESSES}   0   ${AMOUNT}
+    ${SIMULATORS}=   Get Slice From List   ${VALID_XNF_SIMULATORS_ADDRESSES}   0   ${AMOUNT}
+    [Return]   ${SIMULATORS}
+
+
+Get Invalid xNF Simulators
+    [Arguments]  ${AMOUNT}
+    ${SIMULATORS}=   Get Slice From List   ${INVALID_XNF_SIMULATORS_ADDRESSES}   0   ${AMOUNT}
     [Return]   ${SIMULATORS}
 
 
