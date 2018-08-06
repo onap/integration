@@ -17,7 +17,6 @@ Configure collector
     ${CONSUL_API_ACCESS}=   Get Consul Api Access Url   ${HTTP_METHOD_URL}   ${CONSUL_CONTAINER_HOST}   ${CONSUL_CONTAINER_PORT}
     ${CONSUL_API_URL}=  Catenate   SEPARATOR=   ${CONSUL_API_ACCESS}   ${CONSUL_VES_HV_CONFIGURATION_KEY_PATH}
     Publish HV VES Configuration In Consul    ${CONSUL_API_URL}   ${VES_HV_CONFIGURATION_JSON_FILEPATH}
-    Sleep   5
 
 Configure Dcae App
     ${DCAE_APP_API_ACCESS}=   Get Dcae App Api Access Url   ${HTTP_METHOD_URL}   ${DCAE_APP_CONTAINER_HOST}   ${DCAE_APP_CONTAINER_PORT}
