@@ -24,3 +24,13 @@ class DcaeAppSimulatorLibrary:
         resp = HttpRequests.session_without_env().delete(app_url, timeout=5)
         HttpRequests.checkStatusCode(resp.status_code, DCAE_APP_NAME)
 
+    def assert_DCAE_app_consumed_proper_messages(self, app_url, message_filepath):
+        logger.info("POST at: " + app_url)
+        file = open(message_filepath, "rb")
+        data = file.read()
+        file.close()
+
+        resp = HttpRequests.session_without_env().post(app_url, data=data, timeout=5)
+        HttpRequests.checkStatusCode(resp.status_code, DCAE_APP_NAME)
+
+
