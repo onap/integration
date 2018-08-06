@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration complete="true" compact="true">
+
+  <Property name="outputFilename" value="pnfsimulator_output"/>
+  <Property name="log-path" value="${java.io.tmpdir}"/>
+  <property name="maxFileSize" value="50MB"/>
+  <property name="maxHistory" value="30"/>
+  <property name="totalSizeCap" value="10GB"/>
+
+  <appender name="Console" target="SYSTEM_OUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <Pattern>%nopexception%logger
+        |%date{yyyy-MM-dd'T'HH:mm:ss.SSSXXX,UTC}
+        |%level
+        |%replace(%replace(%message){'\t','\\\\t'}){'\n','\\\\n'}
+        |%replace(%replace(%mdc){'\t','\\\\t'}){'\n','\\\\n'}
+        |%replace(%replace(%rootException){'\t','\\\\t'}){'\n','\\\\n'}
+        |%replace(%replace(%marker){'\t','\\\\t'}){'\n','\\\\n'}
+        |%thread
+        |%n</Pattern>
+    </encoder>
+  </appender>
+
+  <appender name="ROLLING-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <encoder>
+      <pattern>%nopexception%logger
+        |%date{yyyy-MM-dd'T'HH:mm:ss.SSSXXX,UTC}
+        |%level
+        |%replace(%replace(%message){'\t','\\\\t'}){'\n','\\\\n'}
+        |%replace(%replace(%mdc){'\t','\\\\t'}){'\n','\\\\n'}
+        |%replace(%replace(%rootException){'\t','\\\\t'}){'\n','\\\\n'}
+        |%replace(%replace(%marker){'\t','\\\\t'}){'\n','\\\\n'}
+        |%thread
+        |%n</pattern>
+    </encoder>
+    <File>${log-path}/${outputFilename}.log</File>
+    <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+      <FileNamePattern>${log-path}/${outputFilename}.%d{yyyy-MM-dd}.%i.log.zip</FileNamePattern>
+      <MaxFileSize>${maxFileSize}</MaxFileSize>
+      <MaxHistory>${maxHistory}</MaxHistory>
+      <TotalSizeCap>${totalSizeCap}</TotalSizeCap>
+    </rollingPolicy>
+  </appender>
+
+  <root level="info">
+    <appender-ref ref="Console" />
+    <appender-ref ref="ROLLING-FILE" />
+  </root>
+</Configuration>
