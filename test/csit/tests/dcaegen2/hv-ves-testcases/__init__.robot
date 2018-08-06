@@ -27,6 +27,9 @@ Configure Dcae App
     ${DCAE_APP_API_MESSAGES_COUNT_URL}=  Catenate   SEPARATOR=   ${DCAE_APP_API_ACCESS}   ${DCAE_APP_API_MESSAGES_COUNT_PATH}
     Set Suite Variable    ${DCAE_APP_API_MESSAGES_COUNT_URL}    children=True
 
+    ${DCAE_APP_API_MESSAGES_VALIDATION_URL}=  Catenate   SEPARATOR=   ${DCAE_APP_API_ACCESS}   ${DCAE_APP_API_MESSAGES_VALIDATION_PATH}
+    Set Suite Variable    ${DCAE_APP_API_MESSAGES_VALIDATION_URL}    children=True
+
     ${DCAE_APP_API_TOPIC_CONFIGURATION_URL}=  Catenate   SEPARATOR=   ${DCAE_APP_API_ACCESS}   ${DCAE_APP_API_TOPIC_CONFIGURATION_PATH}
     Wait until keyword succeeds   10 sec   5 sec
     ...    Configure Dcae App Simulator To Consume Messages From Topics   ${DCAE_APP_API_TOPIC_CONFIGURATION_URL}  ${ROUTED_MESSAGES_TOPIC}
@@ -45,6 +48,7 @@ ${DCAE_APP_API_TOPIC_CONFIGURATION_PATH}       /configuration/topics
 ${DCAE_APP_API_MESSAGES_RESET_PATH}            /messages
 ${DCAE_APP_API_MESSAGES_PATH}                  /messages/all
 ${DCAE_APP_API_MESSAGES_COUNT_PATH}            ${DCAE_APP_API_MESSAGES_PATH}/count
+${DCAE_APP_API_MESSAGES_VALIDATION_PATH}       ${DCAE_APP_API_MESSAGES_PATH}/validate
 
 ${ROUTED_MESSAGES_TOPIC}                       test-hv-ran-meas
 
