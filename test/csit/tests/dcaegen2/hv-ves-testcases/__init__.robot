@@ -21,6 +21,9 @@ Configure collector
 Configure Dcae App
     ${DCAE_APP_API_ACCESS}=   Get Dcae App Api Access Url   ${HTTP_METHOD_URL}   ${DCAE_APP_CONTAINER_HOST}   ${DCAE_APP_CONTAINER_PORT}
 
+    ${DCAE_APP_API_MESSAGE_RESET_URL}=   Catenate   SEPARATOR=   ${DCAE_APP_API_ACCESS}   ${DCAE_APP_API_MESSAGES_RESET_PATH}
+    Set Suite Variable    ${DCAE_APP_API_MESSAGE_RESET_URL}    children=True
+
     ${DCAE_APP_API_MESSAGES_COUNT_URL}=  Catenate   SEPARATOR=   ${DCAE_APP_API_ACCESS}   ${DCAE_APP_API_MESSAGES_COUNT_PATH}
     Set Suite Variable    ${DCAE_APP_API_MESSAGES_COUNT_URL}    children=True
 
@@ -39,6 +42,7 @@ ${CONSUL_VES_HV_CONFIGURATION_KEY_PATH}        /v1/kv/veshv-config
 ${DCAE_APP_CONTAINER_HOST}                     dcae-app-simulator
 ${DCAE_APP_CONTAINER_PORT}                     6063
 ${DCAE_APP_API_TOPIC_CONFIGURATION_PATH}       /configuration/topics
+${DCAE_APP_API_MESSAGES_RESET_PATH}            /messages
 ${DCAE_APP_API_MESSAGES_PATH}                  /messages/all
 ${DCAE_APP_API_MESSAGES_COUNT_PATH}            ${DCAE_APP_API_MESSAGES_PATH}/count
 
