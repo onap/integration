@@ -33,10 +33,6 @@ public class HttpClientAdapterImpl implements HttpClientAdapter {
 
     private HttpClient client;
 
-    public HttpClientAdapterImpl(HttpClient client) {
-        this.client = client;
-    }
-
     public HttpClientAdapterImpl() {
         this.client = HttpClientBuilder
             .create()
@@ -53,6 +49,10 @@ public class HttpClientAdapterImpl implements HttpClientAdapter {
         } catch (IOException e) {
             LOGGER.warn("Error sending message to ves: {}", e.getMessage());
         }
+    }
+
+    HttpClientAdapterImpl(HttpClient client) {
+        this.client = client;
     }
 
     private HttpPost createRequest(String content, String url) throws UnsupportedEncodingException {
