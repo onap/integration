@@ -37,4 +37,4 @@ docker cp ssl/. ${COMPOSE_VES_HV_CONTAINER_NAME}:/etc/ves-hv
 # race condition end
 
 
-export ROBOT_VARIABLES="--pythonpath ${WORKSPACE}/test/csit/tests/dcaegen2/hv-ves-testcases/libraries"
+export ROBOT_VARIABLES="--pythonpath ${WORKSPACE}/test/csit/tests/dcaegen2-collectors-hv-ves/testcases/libraries"
