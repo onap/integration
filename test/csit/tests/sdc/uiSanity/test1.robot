@@ -7,9 +7,9 @@ Library           json
 *** Test Cases ***
 Get Requests health check ok
     [Tags]    get
-    CreateSession    sdc-be    http://localhost:8080
+    CreateSession    sdc-be    http://localhost:8181
     ${headers}=    Create Dictionary    Accept=application/json    Content-Type=application/json
-    ${resp}=    Get Request    sdc-be    /sdc2/rest/healthCheck    headers=&{headers}
+    ${resp}=    Get Request    sdc-be    /sdc1/rest/healthCheck    headers=&{headers}
     Should Be Equal As Strings    ${resp.status_code}    200
     @{ITEMS}=    Copy List    ${resp.json()['componentsInfo']}
     : FOR    ${ELEMENT}    IN    @{ITEMS}
