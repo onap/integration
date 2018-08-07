@@ -9,15 +9,62 @@
 #     http://www.apache.org/licenses/LICENSE-2.0
 #
 
+install_name="onap-oom"
+vm_num=9
+full_deletion=false
+
 if [ -z "$WORKSPACE" ]; then
     export WORKSPACE=`git rev-parse --show-toplevel`
 fi
 
+usage() { echo "Usage: $0 [-n <number of VMs {2-15}>] [-s <stack name>] <env-name>" 1>&2; exit 1; }
+
 if [ "$#" -ne 1 ]; then
-    echo "Usage: $0 <env-name>"
-    exit 1
+   usage
 fi
 ENV_FILE=$1
+
+while getopts ":n:s:" o; do
+    case "${o}" in
+        n)
+            if [[ ${OPTARG} =~ ^[0-9]+$ ]];then
+                vm_num=${OPTARG}
+            else
+                usage
+            fi
+            ;;
+        s)
+            if [[! ${OPTARG} =~ ^[0-9]+$ ]];then
+                install_name=${OPTARG}
+            else
+                usage
+            fi
+            ;;
+        r)
+            echo "The following command will delete all information relating to onap within your enviroment"
+            read -p "Are you certain this is what you want? (type y to confirm):" answer
+
+            if [ $answer = "y" ] || [ $answer = "Y" ] || [ $answer = "yes" ] || [ $answer = "Yes"]; then
+                echo "This may delete the work of other colleages within the same enviroment"
+                read -p "Are you certain this is what you want? (type y to confirm):" answer2
+                
+                if [ $answer2 = "y" ] || [ $answer2 = "Y" ] || [ $answer2 = "yes" ] || [ $answer2 = "Yes"]; then
+                    full_deletion=true
+                else 
+                    echo "Ending program"
+                    exit 1
+                fi
+            else 
+                echo "Ending program"
+                exit 1
+            fi
+            ;;
+        *)
+            usage
+            ;;
+    esac
+done
+shift $((OPTIND-1))
 
 SSH_KEY=~/.ssh/onap_key
 
@@ -27,20 +74,24 @@ SO_ENCRYPTION_KEY=aa3871669d893c7fb8abbcda31b88b4f
 export OS_PASSWORD_ENCRYPTED=$(echo -n "$OS_PASSWORD" | openssl aes-128-ecb -e -K "$SO_ENCRYPTION_KEY" -nosalt | xxd -c 256 -p)
 
 for n in $(seq 1 5); do
-    $WORKSPACE/test/ete/scripts/teardown-onap.sh
+    if [ $full_deletion = true ] ; then 
+        $WORKSPACE/test/ete/scripts/teardown-onap.sh -n $install_name -q
+    else 
+        $WORKSPACE/test/ete/scripts/teardown-onap.sh -n $install_name
+    fi
 
     cd $WORKSPACE/deployment/heat/onap-oom
     envsubst < $ENV_FILE > $ENV_FILE~
 
-    if ! openstack stack create -t ./onap-oom.yaml -e $ENV_FILE~ onap-oom; then
+    if ! openstack stack create -t ./$install_name.yaml -e $ENV_FILE~ $install_name; then
         break
     fi
 
-    while [ "CREATE_IN_PROGRESS" == "$(openstack stack show -c stack_status -f value onap-oom)" ]; do
+    while [ "CREATE_IN_PROGRESS" == "$(openstack stack show -c stack_status -f value $install_name)" ]; do
         sleep 20
     done
 
-    STATUS=$(openstack stack show -c stack_status -f value onap-oom)
+    STATUS=$(openstack stack show -c stack_status -f value $install_name)
     echo $STATUS
     if [ "CREATE_COMPLETE" != "$STATUS" ]; then
         break
@@ -48,8 +99,8 @@ for n in $(seq 1 5); do
 
     for i in $(seq 1 30); do
 	sleep 30
-	RANCHER_IP=$(openstack stack output show onap-oom rancher_vm_ip -c output_value -f value)
-        K8S_IP=$(openstack stack output show onap-oom k8s_1_vm_ip -c output_value -f value)
+	RANCHER_IP=$(openstack stack output show $install_name rancher_vm_ip -c output_value -f value)
+        K8S_IP=$(openstack stack output show $install_name k8s_1_vm_ip -c output_value -f value)
 	timeout 1 ping -c 1 "$RANCHER_IP" && break
     done
 
