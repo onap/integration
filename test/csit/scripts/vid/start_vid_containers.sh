@@ -25,18 +25,18 @@
 echo "This is ${WORKSPACE}/test/csit/scripts/vid/start_vid_containers.sh"
 
 
-RELEASE=vid:1.1-STAGING-latest
+RELEASE=vid:latest
 CONFIG_PATH=${WORKSPACE}/data/clone/vid/lf_config
 
 export IP=`ifconfig eth0 | awk -F: '/inet addr/ {gsub(/ .*/,"",$2); print $2}'`
-export PREFIX='nexus3.onap.org:10001/openecomp'
+export PREFIX='nexus3.onap.org:10001/onap'
 
 #start Maria-DB
 docker run --name vid-mariadb -e MYSQL_DATABASE=vid_openecomp_epsdk -e MYSQL_USER=vidadmin -e MYSQL_PASSWORD=Kp8bJ4SXszM0WXlhak3eHlcse2gAw84vaoGGmJvUy2U -e MYSQL_ROOT_PASSWORD=LF+tp_1WqgSY -v ${CONFIG_PATH}/vid-my.cnf:/etc/mysql/my.cnf -v ${CONFIG_PATH}/vid-pre-init.sql:/docker-entrypoint-initdb.d/vid-pre-init.sql -v /var/lib/mysql -d mariadb:10
 
 #start VID server
 
-docker run -e VID_MYSQL_DBNAME=vid_openecomp_epsdk -e VID_MYSQL_PASS=Kp8bJ4SXszM0WXlhak3eHlcse2gAw84vaoGGmJvUy2U --name vid-server -p 8080:8080 --link vid-mariadb:vid-mariadb-docker-instance -d nexus3.onap.org:10001/openecomp/${RELEASE}
+docker run -e VID_MYSQL_DBNAME=vid_openecomp_epsdk -e VID_MYSQL_PASS=Kp8bJ4SXszM0WXlhak3eHlcse2gAw84vaoGGmJvUy2U --name vid-server -p 8080:8080 --link vid-mariadb:vid-mariadb-docker-instance -d nexus3.onap.org:10001/onap/${RELEASE}
 
 # WAIT 5 minutes maximum and test every 5 seconds if VID up using HealthCheck API
 
