@@ -125,12 +125,6 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.junit.vintage</groupId>
-      <artifactId>junit-vintage-engine</artifactId>
-      <version>${junit.vintage.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
       <version>3.9.1</version>
@@ -246,9 +240,12 @@
         <version>1.0.0</version>
         <configuration>
           <serverId>${onap.nexus.dockerregistry.daily}</serverId>
+          <registryUrl>${onap.nexus.dockerregistry.daily}</registryUrl>
           <imageName>${docker.image.name}</imageName>
           <imageTags>
             <tag>latest</tag>
+            <tag>${project.version}</tag>
+            <tag>${project.version}-${maven.build.timestamp}</tag>
           </imageTags>
           <baseImage>openjdk:8-jre-alpine</baseImage>
           <cmd>java -cp ${dependency.directory.name}/*:${project.build.finalName}.jar ${simulator.main.class}</cmd>
@@ -274,40 +271,32 @@
           </execution>
           <execution>
             <id>tag-and-push-image-latest</id>
-            <phase>deploy</phase>
+            <phase>package</phase>
             <goals>
-              <goal>tag</goal>
+              <goal>push</goal>
             </goals>
             <configuration>
-              <image>${docker.image.name}:latest</image>
-              <newName>${onap.nexus.dockerregistry.daily}/${docker.image.name}:latest</newName>
-              <pushImage>true</pushImage>
+              <imageName>${docker.image.name}:latest</imageName>
             </configuration>
           </execution>
           <execution>
             <id>tag-and-push-image-with-version</id>
-            <phase>deploy</phase>
+            <phase>package</phase>
             <goals>
-              <goal>tag</goal>
+              <goal>push</goal>
             </goals>
             <configuration>
-              <image>${docker.image.name}:latest</image>
-              <newName>${onap.nexus.dockerregistry.daily}/${docker.image.name}:${project.version}</newName>
-              <pushImage>true</pushImage>
+              <imageName>${onap.nexus.dockerregistry.daily}/${docker.image.name}:${project.version}</imageName>
             </configuration>
           </execution>
           <execution>
             <id>tag-and-push-image-with-version-and-date</id>
-            <phase>deploy</phase>
+            <phase>package</phase>
             <goals>
-              <goal>tag</goal>
+              <goal>push</goal>
             </goals>
             <configuration>
-              <image>${docker.image.name}:latest</image>
-              <newName>
-                ${onap.nexus.dockerregistry.daily}/${docker.image.name}:${project.version}-${maven.build.timestamp}
-              </newName>
-              <pushImage>true</pushImage>
+              <imageName>${onap.nexus.dockerregistry.daily}/${docker.image.name}:${project.version}-${maven.build.timestamp}</imageName>
             </configuration>
           </execution>
         </executions>
