@@ -8,8 +8,10 @@ Library           String
 *** Variables ***
 ${TARGET_URL_FEED}              https://${DR_PROV_IP}:8443
 ${TARGET_URL_SUBSCRIBE}         https://${DR_PROV_IP}:8443/subscribe/1
+${TARGET_URL_SUBSCRIPTION}      https://${DR_PROV_IP}:8443/subs/1
 ${CREATE_FEED_DATA}             {"name": "CSIT_Test", "version": "m1.0", "description": "CSIT_Test", "business_description": "CSIT_Test", "suspend": false, "deleted": false, "changeowner": true, "authorization": {"classification": "unclassified", "endpoint_addrs": ["${DR_PROV_IP}"],  "endpoint_ids": [{"password": "rs873m", "id": "rs873m"}]}}
 ${SUBSCRIBE_DATA}               {"delivery":{ "url":"https://${DR_PROV_IP}:8080/",  "user":"rs873m", "password":"rs873m", "use100":true}, "metadataOnly":false, "suspend":false, "groupid":29, "subscriber":"sg481n"}
+${UPDATE_SUBSCRIPTION_DATA}     {"delivery":{ "url":"https://${DR_PROV_IP}:8080/",  "user":"sg481n", "password":"sg481n", "use100":true}, "metadataOnly":false, "suspend":true, "groupid":29, "subscriber":"sg481n"}
 ${FEED_CONTENT_TYPE}            application/vnd.att-dr.feed
 ${SUBSCRIBE_CONTENT_TYPE}       application/vnd.att-dr.subscription
 
@@ -32,9 +34,34 @@ Run Subscribe to Feed
     Should Be Equal As Strings      ${resp.status_code}              201
     log                             'JSON Response Code:'${resp}
 
+Run Update Subscription
+    [Documentation]                 Update Subscription to suspend and change delivery credentials
+    [Timeout]                       1 minute
+    ${resp}=                        PutCall                          ${TARGET_URL_SUBSCRIPTION}    ${UPDATE_SUBSCRIPTION_DATA}      ${SUBSCRIBE_CONTENT_TYPE}    sg481n
+    log                             ${TARGET_URL_SUBSCRIPTION}
+    log                             ${resp.text}
+    Should Be Equal As Strings      ${resp.status_code}              200
+    log                             'JSON Response Code:'${resp}
+    ${resp}=                        GetCall                          ${TARGET_URL_SUBSCRIPTION}    ${SUBSCRIBE_CONTENT_TYPE}    sg481n
+    log                             ${resp.text}
+    Should Contain                  ${resp.text}                     "password":"sg481n","user":"sg481n"
+    log                             'JSON Response Code:'${resp}
+
 *** Keywords ***
 PostCall
     [Arguments]      ${url}              ${data}            ${content_type}        ${user}
     ${headers}=      Create Dictionary   X-ATT-DR-ON-BEHALF-OF=${user}    Content-Type=${content_type}
     ${resp}=         Evaluate            requests.post('${url}',data='${data}', headers=${headers},verify=False)    requests
+    [Return]         ${resp}
+
+PutCall
+    [Arguments]      ${url}              ${data}            ${content_type}        ${user}
+    ${headers}=      Create Dictionary   X-ATT-DR-ON-BEHALF-OF=${user}    Content-Type=${content_type}
+    ${resp}=         Evaluate            requests.put('${url}',data='${data}', headers=${headers},verify=False)    requests
+    [Return]         ${resp}
+
+GetCall
+    [Arguments]      ${url}              ${content_type}        ${user}
+    ${headers}=      Create Dictionary   X-ATT-DR-ON-BEHALF-OF=${user}    Content-Type=${content_type}
+    ${resp}=         Evaluate            requests.get('${url}', headers=${headers},verify=False)    requests
     [Return]         ${resp}
