@@ -6,10 +6,12 @@ Library           Collections
 Library           String
 
 *** Variables ***
-${TARGET_URL_FEED}              https://${DR_PROV_IP}:8443
+${TARGET_URL}                   https://${DR_PROV_IP}:8443
+${TARGET_URL_FEED}              https://${DR_PROV_IP}:8443/feed/1
 ${TARGET_URL_SUBSCRIBE}         https://${DR_PROV_IP}:8443/subscribe/1
 ${TARGET_URL_SUBSCRIPTION}      https://${DR_PROV_IP}:8443/subs/1
 ${CREATE_FEED_DATA}             {"name": "CSIT_Test", "version": "m1.0", "description": "CSIT_Test", "business_description": "CSIT_Test", "suspend": false, "deleted": false, "changeowner": true, "authorization": {"classification": "unclassified", "endpoint_addrs": ["${DR_PROV_IP}"],  "endpoint_ids": [{"password": "rs873m", "id": "rs873m"}]}}
+${UPDATE_FEED_DATA}             {"name": "CSIT_Test", "version": "m1.0", "description": "UPDATED-CSIT_Test", "business_description": "CSIT_Test", "suspend": true, "deleted": false, "changeowner": true, "authorization": {"classification": "unclassified", "endpoint_addrs": ["${DR_PROV_IP}"],  "endpoint_ids": [{"password": "rs873m", "id": "rs873m"}]}}
 ${SUBSCRIBE_DATA}               {"delivery":{ "url":"https://${DR_PROV_IP}:8080/",  "user":"rs873m", "password":"rs873m", "use100":true}, "metadataOnly":false, "suspend":false, "groupid":29, "subscriber":"sg481n"}
 ${UPDATE_SUBSCRIPTION_DATA}     {"delivery":{ "url":"https://${DR_PROV_IP}:8080/",  "user":"sg481n", "password":"sg481n", "use100":true}, "metadataOnly":false, "suspend":true, "groupid":29, "subscriber":"sg481n"}
 ${FEED_CONTENT_TYPE}            application/vnd.att-dr.feed
@@ -19,8 +21,8 @@ ${SUBSCRIBE_CONTENT_TYPE}       application/vnd.att-dr.subscription
 Run Feed Creation
     [Documentation]                 Feed Creation
     [Timeout]                       1 minute
-    ${resp}=                        PostCall                         ${TARGET_URL_FEED}         ${CREATE_FEED_DATA}    ${FEED_CONTENT_TYPE}    rs873m
-    log                             ${TARGET_URL_FEED}
+    ${resp}=                        PostCall                         ${TARGET_URL}         ${CREATE_FEED_DATA}    ${FEED_CONTENT_TYPE}    rs873m
+    log                             ${TARGET_URL}
     log                             ${resp.text}
     Should Be Equal As Strings      ${resp.status_code}              201
     log                             'JSON Response Code:'${resp}
@@ -45,6 +47,19 @@ Run Update Subscription
     ${resp}=                        GetCall                          ${TARGET_URL_SUBSCRIPTION}    ${SUBSCRIBE_CONTENT_TYPE}    sg481n
     log                             ${resp.text}
     Should Contain                  ${resp.text}                     "password":"sg481n","user":"sg481n"
+    log                             'JSON Response Code:'${resp}
+
+Run Update Feed
+    [Documentation]                 Update Feed description and suspend
+    [Timeout]                       1 minute
+    ${resp}=                        PutCall                          ${TARGET_URL_FEED}    ${UPDATE_FEED_DATA}      ${FEED_CONTENT_TYPE}    rs873m
+    log                             ${TARGET_URL_FEED}
+    log                             ${resp.text}
+    Should Be Equal As Strings      ${resp.status_code}              200
+    log                             'JSON Response Code:'${resp}
+    ${resp}=                        GetCall                          ${TARGET_URL_FEED}    ${FEED_CONTENT_TYPE}    rs873m
+    log                             ${resp.text}
+    Should Contain                  ${resp.text}                     "UPDATED-CSIT_Test"
     log                             'JSON Response Code:'${resp}
 
 *** Keywords ***
