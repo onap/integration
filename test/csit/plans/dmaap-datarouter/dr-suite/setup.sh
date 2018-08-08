@@ -7,6 +7,7 @@ mkdir -p $WORKSPACE/archives/dmaapdr
 cd $WORKSPACE/archives/dmaapdr
 
 git clone --depth 1 https://gerrit.onap.org/r/dmaap/datarouter -b master
+cd datarouter
 git pull
 cd $WORKSPACE/archives/dmaapdr/datarouter/datarouter-prov/src/main/resources/docker-compose/
 
