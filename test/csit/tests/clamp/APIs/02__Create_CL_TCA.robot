@@ -17,7 +17,7 @@ Get Requests verify test template found
     ${resp}=    Get Request    ${clamp_session}   /restservices/clds/v1/cldsTempate/template-names
     Should Be Equal As Strings  ${resp.status_code}     200
     Should Contain Match     ${resp}      *templateTCA1*
-    Should Contain Match     ${resp}      *templateTCA2*
+    Should Contain Match     ${resp}      *CA2*
     Should Not Contain Match     ${resp}      *templateTCA99*
 
 Put Requests to add Close Loop ClHolmes1
