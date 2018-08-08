@@ -33,9 +33,20 @@ docker run -d -p 80:80 -e CONSUL_IP=$CONSUL_IP -e SDCLIENT_IP=$DISCOVERY_IP -e "
 MSB_IP==`get-instance-ip.sh msb_internal_apigateway`
 echo MSB_IP=${MSB_IP}
 
+docker run -d -p 3306:3306 --name vfc-db -v /var/lib/mysql nexus3.onap.org:10001/onap/vfc/db
+VFC_DB_IP=`get-instance-ip.sh vfc-db`
+echo VFC_DB_IP=${VFC_DB_IP}
+
 # Wait for initialization(8500 Consul, 10081 Service Registration & Discovery, 80 api gateway)
 for i in {1..10}; do
     curl -sS -m 1 ${CONSUL_IP}:8500 && curl -sS -m 1 ${DISCOVERY_IP}:10081 && curl -sS -m 1 ${MSB_IP}:80 && break
+    echo sleep $i
+    sleep $i
+done
+
+# Wait for initialization(3306 DB)
+for i in {1..3}; do
+    curl -sS -m 1 ${VFC_DB_IP}:3306 && break
     echo sleep $i
     sleep $i
 done
@@ -45,7 +56,7 @@ echo sleep 60
 sleep 60
 
 # start vfc-catalog
-docker run -d --name vfc-catalog -v /var/lib/mysql -e MSB_ADDR=${DISCOVERY_IP}:10081 nexus3.onap.org:10001/onap/vfc/catalog
+docker run -d --name vfc-catalog -v /var/lib/mysql -e MSB_ADDR=${DISCOVERY_IP}:10081 -e MYSQL_ADDR=${VFC_DB_IP}:3306 nexus3.onap.org:10001/onap/vfc/catalog
 CATALOG_IP=`get-instance-ip.sh vfc-catalog`
 for i in {1..10}; do
     curl -sS -m 1 ${CATALOG_IP}:8806 && break
