@@ -35,7 +35,7 @@ Verify HolmesModel1
 Verify TCAModel1
     ${resp}=    Get Request    ${clamp_session}   /restservices/clds/v1/clds/model/TCAModel1
     Should Contain Match    ${resp}   *templateTCA1*
-    Should Contain Match    ${resp}   *c95b0e7c-c1f0-4287-9928-7964c5377a46*
+    Should Contain Match    ${resp}   *DESIGN*
     Should Contain Match    ${resp}   *vnfRecipe*
     Should Contain Match    ${resp}   *DC1*
     Should Contain Match    ${resp}   *DC3*

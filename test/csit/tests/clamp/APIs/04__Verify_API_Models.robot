@@ -51,7 +51,7 @@ Verify TCAModel2
     Should Contain Match    ${resp}   *DC2*
     Should Contain Match    ${resp}   *DC3*
     Should Contain Match    ${resp}   *Policy4*
-    Should Contain Match    ${resp}   *vLoadBalancer*
+    Should Contain Match    ${resp}   *tcaPol*
     Should Contain Match    ${resp}   *345*
     Should Contain Match    ${resp}   *300*
     Should Contain Match    ${resp}   *VM*
