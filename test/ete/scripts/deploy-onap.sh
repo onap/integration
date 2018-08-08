@@ -62,7 +62,7 @@ fi
 
 
 # tear down old deployment
-$WORKSPACE/test/ete/scripts/teardown-onap.sh
+$WORKSPACE/test/ete/scripts/teardown-onap.sh -q
 
 # create new stack
 STACK="onap-heat-$(uuidgen | cut -c-4)"
