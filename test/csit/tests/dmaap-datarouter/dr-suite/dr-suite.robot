@@ -62,6 +62,14 @@ Run Update Feed
     Should Contain                  ${resp.text}                     "UPDATED-CSIT_Test"
     log                             'JSON Response Code:'${resp}
 
+Run Delete Subscription
+    [Documentation]                 Delete Subscription
+    [Timeout]                       1 minute
+    ${resp}=                        DeleteCall                       ${TARGET_URL_SUBSCRIPTION}    sg481n
+    log                             ${resp.text}
+    Should Be Equal As Strings      ${resp.status_code}              204
+    log                             'JSON Response Code:'${resp}
+
 *** Keywords ***
 PostCall
     [Arguments]      ${url}              ${data}            ${content_type}        ${user}
@@ -79,4 +87,10 @@ GetCall
     [Arguments]      ${url}              ${content_type}        ${user}
     ${headers}=      Create Dictionary   X-ATT-DR-ON-BEHALF-OF=${user}    Content-Type=${content_type}
     ${resp}=         Evaluate            requests.get('${url}', headers=${headers},verify=False)    requests
+    [Return]         ${resp}
+
+DeleteCall
+    [Arguments]      ${url}              ${user}
+    ${headers}=      Create Dictionary   X-ATT-DR-ON-BEHALF-OF=${user}
+    ${resp}=         Evaluate            requests.delete('${url}', headers=${headers},verify=False)    requests
     [Return]         ${resp}
