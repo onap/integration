@@ -125,12 +125,6 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.junit.vintage</groupId>
-      <artifactId>junit-vintage-engine</artifactId>
-      <version>${junit.vintage.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
       <version>3.9.1</version>
@@ -274,7 +268,7 @@
           </execution>
           <execution>
             <id>tag-and-push-image-latest</id>
-            <phase>deploy</phase>
+            <phase>push</phase>
             <goals>
               <goal>tag</goal>
             </goals>
@@ -286,7 +280,7 @@
           </execution>
           <execution>
             <id>tag-and-push-image-with-version</id>
-            <phase>deploy</phase>
+            <phase>push</phase>
             <goals>
               <goal>tag</goal>
             </goals>
@@ -298,7 +292,7 @@
           </execution>
           <execution>
             <id>tag-and-push-image-with-version-and-date</id>
-            <phase>deploy</phase>
+            <phase>push</phase>
             <goals>
               <goal>tag</goal>
             </goals>
