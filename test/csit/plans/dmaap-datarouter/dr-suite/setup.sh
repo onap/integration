@@ -12,14 +12,14 @@ git pull
 cd $WORKSPACE/archives/dmaapdr/datarouter/datarouter-prov/src/main/resources/docker-compose/
 
 # start DMaaP DR containers with docker compose and configuration from docker-compose.yml
-docker login -u docker -p docker nexus3.onap.org:10001
+docker login -u docker -p docker nexus3.onap.org:10003
 docker-compose up -d
 
-# Wait for initialization of Docker container for datarouter-node, datarouter-prov and mysql
+# Wait for initialization of Docker container for datarouter-node, datarouter-prov and mariadb
 for i in {1..50}; do
     if [ $(docker inspect --format '{{ .State.Running }}' datarouter-node) ] && \
         [ $(docker inspect --format '{{ .State.Running }}' datarouter-prov) ] && \
-        [ $(docker inspect --format '{{ .State.Running }}' mysql) ]
+        [ $(docker inspect --format '{{ .State.Running }}' mariadb) ]
     then
         echo "DR Service Running"
         break

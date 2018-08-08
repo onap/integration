@@ -70,6 +70,14 @@ Run Delete Subscription
     Should Be Equal As Strings      ${resp.status_code}              204
     log                             'JSON Response Code:'${resp}
 
+Run Delete Feed
+    [Documentation]                 Delete Feed
+    [Timeout]                       1 minute
+    ${resp}=                        DeleteCall                       ${TARGET_URL_FEED}    rs873m
+    log                             ${resp.text}
+    Should Be Equal As Strings      ${resp.status_code}              204
+    log                             'JSON Response Code:'${resp}
+
 *** Keywords ***
 PostCall
     [Arguments]      ${url}              ${data}            ${content_type}        ${user}
