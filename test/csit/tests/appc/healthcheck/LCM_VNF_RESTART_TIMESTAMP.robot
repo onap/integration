@@ -17,7 +17,7 @@ APPC LCM API VNF RESTART
 	[Documentation]	APPC LCM API VNF RESTART 
 	Start Virtual Display     1920     1080
 	Open Browser    http://admin:admin@localhost:8282/apidoc/explorer/index.html    chrome
-	Maximize Browser Window
+#	Maximize Browser Window
 #	Click Element    xpath=.//p[contains(text(),'If you have reason to expect the website is safe, select the I Accept the Risk button to continue.')]//following::img
 	
 	Reload Page
