@@ -282,16 +282,6 @@
             </configuration>
           </execution>
           <execution>
-            <id>push-image-latest</id>
-            <phase>none</phase>
-            <goals>
-              <goal>push</goal>
-            </goals>
-            <configuration>
-              <imageName>${onap.nexus.dockerregistry.daily}/${docker.image.name}:latest</imageName>
-            </configuration>
-          </execution>
-          <execution>
             <id>tag-image-with-version</id>
             <phase>package</phase>
             <goals>
@@ -303,16 +293,6 @@
             </configuration>
           </execution>
           <execution>
-            <id>push-image-with-version</id>
-            <phase>none</phase>
-            <goals>
-              <goal>push</goal>
-            </goals>
-            <configuration>
-              <imageName>${onap.nexus.dockerregistry.daily}/${docker.image.name}:${project.version}</imageName>
-            </configuration>
-          </execution>
-          <execution>
             <id>tag-image-with-version-and-date</id>
             <phase>package</phase>
             <goals>
@@ -321,6 +301,27 @@
             <configuration>
               <image>${docker.image.name}:latest</image>
               <newName>${onap.nexus.dockerregistry.daily}/${docker.image.name}:${project.version}-${maven.build.timestamp}</newName>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>push-image-latest</id>
+            <phase>none</phase>
+            <goals>
+              <goal>push</goal>
+            </goals>
+            <configuration>
+              <imageName>${onap.nexus.dockerregistry.daily}/${docker.image.name}:latest</imageName>
+            </configuration>
+          </execution>
+          <execution>
+            <id>push-image-with-version</id>
+            <phase>none</phase>
+            <goals>
+              <goal>push</goal>
+            </goals>
+            <configuration>
+              <imageName>${onap.nexus.dockerregistry.daily}/${docker.image.name}:${project.version}</imageName>
             </configuration>
           </execution>
           <execution>
