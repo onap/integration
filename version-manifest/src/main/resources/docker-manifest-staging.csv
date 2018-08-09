@@ -12,8 +12,9 @@ onap/aai-resources,1.2.2
 onap/aai-traversal,1.2.2
 onap/aai/esr-gui,1.1.0
 onap/aai/esr-server,1.1.0
+onap/activity-spec,1.3.0-SNAPSHOT
 onap/admportal-sdnc-image,1.4-STAGING-latest
-onap/appc-cdt-image,1.3.0
+onap/appc-cdt-image,1.4.0-SNAPSHOT-latest
 onap/appc-image,1.4.0-SNAPSHOT-latest
 onap/babel,1.2.0
 onap/ccsdk-dgbuilder-image,0.3-STAGING-latest
@@ -40,6 +41,7 @@ onap/multicloud/vio,1.1.2
 onap/multicloud/vio-vesagent,1.0.0
 onap/music/cassandra_music,3.0.0
 onap/music/music,2.5.3
+onap/music/prom,1.0.5-latest
 onap/oom/kube2msb,1.1.0
 onap/optf-has,1.1.1
 onap/optf-osdf,1.1.1
@@ -57,6 +59,7 @@ onap/org.onap.dcaegen2.platform.deployment-handler,2.1.5
 onap/org.onap.dcaegen2.platform.inventory-api,3.0.1
 onap/org.onap.dcaegen2.platform.policy-handler,2.4.5
 onap/org.onap.dcaegen2.platform.servicechange-handler,1.1.4
+onap/policy-apex-pdp,2.0-SNAPSHOT-latest
 onap/policy-drools,1.3-SNAPSHOT-latest
 onap/policy-pe,1.3-SNAPSHOT-latest
 onap/portal-app,2.2.0
@@ -81,7 +84,7 @@ onap/sdnc-ansible-server-image,1.4-STAGING-latest
 onap/sdnc-dmaap-listener-image,1.4-STAGING-latest
 onap/sdnc-image,1.4-STAGING-latest
 onap/sdnc-ueb-listener-image,1.4-STAGING-latest
-onap/search-data-service,1.2.1
+onap/search-data-service,1.2.2
 onap/sniroemulator,1.0.0
 onap/sparky-be,1.2.1
 onap/testsuite,1.3.0-STAGING-latest
