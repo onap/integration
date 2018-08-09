@@ -239,6 +239,7 @@
         <artifactId>docker-maven-plugin</artifactId>
         <version>1.0.0</version>
         <configuration>
+          <registryUrl>${onap.nexus.dockerregistry.daily}</registryUrl>
           <serverId>${onap.nexus.dockerregistry.daily}</serverId>
           <imageName>${docker.image.name}</imageName>
           <imageTags>
@@ -259,6 +260,7 @@
           </resources>
         </configuration>
         <executions>
+
           <execution>
             <id>build-image</id>
             <phase>package</phase>
