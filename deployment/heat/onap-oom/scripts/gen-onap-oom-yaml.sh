@@ -51,8 +51,10 @@ cat <<EOF
             __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
             __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
             __integration_override_yaml__: { get_param: integration_override_yaml }
-            __gerrit_branch__: { get_param: gerrit_branch }
-            __gerrit_refspec__: { get_param: gerrit_refspec }
+            __integration_gerrit_branch__: { get_param: integration_gerrit_branch }
+            __integration_gerrit_refspec__: { get_param: integration_gerrit_refspec }
+            __oom_gerrit_branch__: { get_param: oom_gerrit_branch }
+            __oom_gerrit_refspec__: { get_param: oom_gerrit_refspec }
             __docker_manifest__: { get_param: docker_manifest }
             __public_net_id__: { get_param: public_net_id }
             __oam_network_cidr__: { get_param: oam_network_cidr }
