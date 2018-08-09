@@ -239,6 +239,7 @@
         <artifactId>docker-maven-plugin</artifactId>
         <version>1.0.0</version>
         <configuration>
+          <registryUrl>${onap.nexus.dockerregistry.daily}</registryUrl>
           <serverId>${onap.nexus.dockerregistry.daily}</serverId>
           <imageName>${docker.image.name}</imageName>
           <imageTags>
@@ -275,7 +276,7 @@
             <configuration>
               <image>${docker.image.name}:latest</image>
               <newName>${onap.nexus.dockerregistry.daily}/${docker.image.name}:latest</newName>
-              <!-- WA in case push does not wort at seconf job - to remove
+              <!-- WA in case push does not work at second job - to remove
               <pushImage>true</pushImage>
               -->
             </configuration>
