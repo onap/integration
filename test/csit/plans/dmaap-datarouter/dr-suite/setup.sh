@@ -30,16 +30,15 @@ for i in {1..50}; do
 done
 
 DR_PROV_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' datarouter-prov)
+DR_NODE_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' datarouter-node)
 DR_GATEWAY_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.Gateway}}{{end}}' datarouter-prov)
 
 echo DR_PROV_IP=${DR_PROV_IP}
+echo DR_NODE_IP=${DR_NODE_IP}
 echo DR_GATEWAY_IP=${DR_GATEWAY_IP}
-
-echo "Sleep 15 seconds to allow startup script to execute on datarouter-prov container"
-sleep 15
 
 docker exec -i datarouter-prov sh -c "curl -k  -X PUT https://$DR_PROV_IP:8443/internal/api/NODES?val=node.datarouternew.com\|$DR_GATEWAY_IP"
 docker exec -i datarouter-prov sh -c "curl -k  -X PUT https://$DR_PROV_IP:8443/internal/api/PROV_AUTH_ADDRESSES?val=prov.datarouternew.com\|$DR_GATEWAY_IP"
 
 #Pass any variables required by Robot test suites in ROBOT_VARIABLES
-ROBOT_VARIABLES="-v DR_PROV_IP:${DR_PROV_IP}"
+ROBOT_VARIABLES="-v DR_PROV_IP:${DR_PROV_IP} -v DR_NODE_IP:${DR_NODE_IP}"

@@ -1,5 +1,4 @@
 #!/bin/bash
 
-kill-instance.sh datarouter-node
-kill-instance.sh datarouter-prov
-kill-instance.sh mariadb
+cd $WORKSPACE/archives/dmaapdr/datarouter/datarouter-prov/src/main/resources/docker-compose/
+docker-compose down -v
