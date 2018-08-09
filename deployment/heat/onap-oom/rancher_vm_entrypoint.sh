@@ -19,8 +19,10 @@ echo "__public_net_id__" > /opt/config/public_net_id.txt
 echo "__oam_network_cidr__" > /opt/config/oam_network_cidr.txt
 echo "__oam_network_id__" > /opt/config/oam_network_id.txt
 echo "__oam_subnet_id__" > /opt/config/oam_subnet_id.txt
-echo "__gerrit_branch__" > /opt/config/gerrit_branch.txt
-echo "__gerrit_refspec__" > /opt/config/gerrit_refspec.txt
+echo "__integration_gerrit_branch__" > /opt/config/integration_gerrit_branch.txt
+echo "__integration_gerrit_refspec__" > /opt/config/integration_gerrit_refspec.txt
+echo "__oom_gerrit_branch__" > /opt/config/oom_gerrit_branch.txt
+echo "__oom_gerrit_refspec__" > /opt/config/oom_gerrit_refspec.txt
 echo "__docker_manifest__" > /opt/config/docker_manifest.txt
 echo "__docker_proxy__" > /opt/config/docker_proxy.txt
 
@@ -208,24 +210,29 @@ git config --global log.decorate auto
 
 # Clone OOM:
 cd ~
-git clone -b master https://gerrit.onap.org/r/oom
+git clone -b __oom_gerrit_branch__ https://gerrit.onap.org/r/oom
 cd oom
-git log -1
-git tag -a "deploy0" -m "initial deployment"
+git fetch https://gerrit.onap.org/r/oom __oom_gerrit_refspec__
+git checkout FETCH_HEAD
 git checkout -b workarounds
+git log -1
 
 # Clone integration
 cd ~
-git clone -b __gerrit_branch__ https://gerrit.onap.org/r/integration
+git clone -b __integration_gerrit_branch__ https://gerrit.onap.org/r/integration
 cd integration
-git fetch https://gerrit.onap.org/r/integration __gerrit_refspec__
+git fetch https://gerrit.onap.org/r/integration __integration_gerrit_refspec__
 git checkout FETCH_HEAD
 
-cd version-manifest/src/main/scripts
-./update-oom-image-versions.sh ../resources/__docker_manifest__ ~/oom/
+if [ ! -z "__docker_manifest__" ]; then
+    cd version-manifest/src/main/scripts
+    ./update-oom-image-versions.sh ../resources/__docker_manifest__ ~/oom/
+fi
 
 cd ~/oom
 git diff
+git commit -a -m "apply manifest versions"
+git tag -a "deploy0" -m "initial deployment"
 
 
 # Run ONAP:

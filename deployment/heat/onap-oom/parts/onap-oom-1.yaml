@@ -32,17 +32,25 @@ parameters:
     type: string
     description: Content for integration_override.yaml
 
-  gerrit_branch:
+  integration_gerrit_branch:
     type: string
     default: "master"
 
-  gerrit_refspec:
+  integration_gerrit_refspec:
+    type: string
+    default: "refs/heads/master"
+
+  oom_gerrit_branch:
+    type: string
+    default: "master"
+
+  oom_gerrit_refspec:
     type: string
     default: "refs/heads/master"
 
   docker_manifest:
     type: string
-    default: "docker-manifest.csv"
+    default: ""
 
   key_name:
     type: string

@@ -16,25 +16,11 @@ if [ -z "$WORKSPACE" ]; then
     export WORKSPACE=`git rev-parse --show-toplevel`
 fi
 
-usage() { echo "Usage: $0 [-n <number of VMs {2-15}>] [ -r ] <env-name>" 1>&2; exit 1; }
+usage() { echo "Usage: $0 [ -r ] <env-name>" 1>&2; exit 1; }
 
-if [ "$#" -ne 1 ]; then
-   usage
-fi
-ENV_FILE=$1
 
-while getopts ":n:s:" o; do
+while getopts ":rq" o; do
     case "${o}" in
-        n)
-            if [[ ${OPTARG} =~ ^[0-9]+$ ]];then
-                vm_num=${OPTARG}
-                if [ ${OPTARG} > 15 ] || [ ${OPTARG} < 2 ]; then 
-                    usage
-                fi
-            else
-                usage
-            fi
-            ;;
         r)
             echo "The following command will delete all information relating to onap within your enviroment"
             read -p "Are you certain this is what you want? (type y to confirm):" answer
@@ -42,14 +28,14 @@ while getopts ":n:s:" o; do
             if [ $answer = "y" ] || [ $answer = "Y" ] || [ $answer = "yes" ] || [ $answer = "Yes"]; then
                 echo "This may delete the work of other colleages within the same enviroment"
                 read -p "Are you certain this is what you want? (type y to confirm):" answer2
-                
+
                 if [ $answer2 = "y" ] || [ $answer2 = "Y" ] || [ $answer2 = "yes" ] || [ $answer2 = "Yes"]; then
                     full_deletion=true
-                else 
+                else
                     echo "Ending program"
                     exit 1
                 fi
-            else 
+            else
                 echo "Ending program"
                 exit 1
             fi
@@ -64,6 +50,12 @@ while getopts ":n:s:" o; do
 done
 shift $((OPTIND-1))
 
+if [ "$#" -ne 1 ]; then
+   usage
+fi
+
+ENV_FILE=$1
+
 SSH_KEY=~/.ssh/onap_key
 
 source $WORKSPACE/test/ete/scripts/install_openstack_cli.sh
@@ -72,9 +64,9 @@ SO_ENCRYPTION_KEY=aa3871669d893c7fb8abbcda31b88b4f
 export OS_PASSWORD_ENCRYPTED=$(echo -n "$OS_PASSWORD" | openssl aes-128-ecb -e -K "$SO_ENCRYPTION_KEY" -nosalt | xxd -c 256 -p)
 
 for n in $(seq 1 5); do
-    if [ $full_deletion = true ] ; then 
+    if [ $full_deletion = true ] ; then
         $WORKSPACE/test/ete/scripts/teardown-onap.sh -n $install_name -q
-    else 
+    else
         $WORKSPACE/test/ete/scripts/teardown-onap.sh -n $install_name
     fi
 
