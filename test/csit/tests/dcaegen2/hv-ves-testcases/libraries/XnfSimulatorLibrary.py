@@ -11,6 +11,7 @@ SIMULATOR_IMAGE_FULL_NAME = os.getenv("DOCKER_REGISTRY") + "/" + SIMULATOR_IMAGE
 certificates_dir_path = os.getenv("WORKSPACE") + "/test/csit/plans/dcaegen2/hv-ves-testsuites/ssl/"
 ONE_SECOND_IN_NANOS = 10 ** 9
 
+
 class XnfSimulatorLibrary:
 
     def start_xnf_simulators(self, list_of_ports, valid_certs=True):
@@ -50,9 +51,8 @@ class XnfSimulatorLibrary:
                                                "interval": 5 * ONE_SECOND_IN_NANOS,
                                                "timeout": 3 * ONE_SECOND_IN_NANOS,
                                                "retries": 1,
-                                               "test": ["CMD", "curl", "--request", "GET",
-                                                        "--fail", "--silent", "--show-error",
-                                                        "localhost:" + port + "/healthcheck"]
+                                               "test": "curl --request GET --fail --silent --show-error "
+                                                       "localhost:" + port + "/healthcheck"
                                            },
                                            detach=True,
                                            network="ves-hv-default",
