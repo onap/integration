@@ -240,10 +240,14 @@
         <version>1.0.0</version>
         <configuration>
           <registryUrl>${onap.nexus.dockerregistry.daily}</registryUrl>
+          <!--
           <serverId>${onap.nexus.dockerregistry.daily}</serverId>
-          <imageName>${docker.image.name}</imageName>
+          -->
+          <imageName>${onap.nexus.dockerregistry.daily}/${docker.image.name}</imageName>
           <imageTags>
             <tag>latest</tag>
+            <tag>${project.version}</tag>
+            <tag>${project.version}-${maven.build.timestamp}</tag>
           </imageTags>
           <baseImage>openjdk:8-jre-alpine</baseImage>
           <cmd>java -cp ${dependency.directory.name}/*:${project.build.finalName}.jar ${simulator.main.class}</cmd>
@@ -258,7 +262,9 @@
               <include>${project.build.finalName}.jar</include>
             </resource>
           </resources>
+          <forceTags>true</forceTags>
         </configuration>
+        <!--
         <executions>
           <execution>
             <id>build-image</id>
@@ -276,9 +282,11 @@
             <configuration>
               <image>${docker.image.name}:latest</image>
               <newName>${onap.nexus.dockerregistry.daily}/${docker.image.name}:latest</newName>
+              -->
               <!-- WA in case push does not work at second job - to remove
               <pushImage>true</pushImage>
               -->
+          <!--
             </configuration>
           </execution>
           <execution>
@@ -303,8 +311,9 @@
               <newName>${onap.nexus.dockerregistry.daily}/${docker.image.name}:${project.version}-${maven.build.timestamp}</newName>
             </configuration>
           </execution>
-
+          -->
           <!-- testing pushing default imgae-->
+        <!--
           <execution>
             <id>default</id>
             <goals>
@@ -347,6 +356,7 @@
             </configuration>
           </execution>
         </executions>
+        -->
       </plugin>
       <plugin>
         <groupId>org.jacoco</groupId>
