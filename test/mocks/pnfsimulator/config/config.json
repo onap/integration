@@ -13,11 +13,11 @@
     "pnfModelNumber": "val6",
     "pnfSoftwareVersion": "val7",
     "pnfType": "val8",
-    "eventName": "val9",
-    "nfNamingCode": "val10",
-    "nfcNamingCode": "val11",
-    "sourceName": "val12",
+    "eventName": "pnfRegistration_Nokia_5gDu",
+    "nfNamingCode": "gNB",
+    "nfcNamingCode": "oam",
+    "sourceName": "NOK6061ZW3",
     "sourceId": "val13",
-    "reportingEntityName": "val14"
+    "reportingEntityName": "NOK6061ZW3"
   }
 }
