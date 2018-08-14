@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_3d89a126",
+        "filename": "test/mocks/pnfsimulator/config/config.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3987
+      },
+      "writtenOn": "2018-08-14T11:23:23Z",
+      "side": 1,
+      "message": "Default values look good.",
+      "revId": "2d21f5a620989e13d743bc5fedb4e8bfd4f44304",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
