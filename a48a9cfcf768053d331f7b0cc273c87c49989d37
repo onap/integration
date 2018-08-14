@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_2f12cbb1",
+        "filename": "test/mocks/pnfsimulator/src/main/java/org/onap/pnfsimulator/message/MessageConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 3773
+      },
+      "writtenOn": "2018-08-14T08:33:57Z",
+      "side": 1,
+      "message": "it\u0027s used outside the package",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 27,
+        "endChar": 56
+      },
+      "revId": "a48a9cfcf768053d331f7b0cc273c87c49989d37",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
