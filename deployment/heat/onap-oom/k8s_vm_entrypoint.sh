@@ -12,6 +12,7 @@
 printenv
 
 mkdir -p /opt/config
+echo "__docker_version__" > /opt/config/docker_version.txt
 echo "__rancher_ip_addr__" > /opt/config/rancher_ip_addr.txt
 echo "__rancher_private_ip_addr__" > /opt/config/rancher_private_ip_addr.txt
 HOST_IP=$(hostname -I)
@@ -41,7 +42,7 @@ apt-get -y install linux-image-extra-$(uname -r) jq nfs-common
 cd ~
 
 # install docker 17.03
-curl -s https://releases.rancher.com/install-docker/17.03.sh | sh
+curl -s https://releases.rancher.com/install-docker/__docker_version__.sh | sh
 usermod -aG docker ubuntu
 
 # Fix virtual memory allocation for onap-log:elasticsearch:

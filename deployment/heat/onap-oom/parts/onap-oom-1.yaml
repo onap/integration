@@ -56,6 +56,26 @@ parameters:
     type: string
     default: "onap_key"
 
+  docker_version:
+    type: string
+    default: "17.03"
+
+  rancher_version:
+    type: string
+    default: "1.6.18"
+
+  rancher_agent_version:
+    type: string
+    default: "1.2.10"
+
+  kubectl_version:
+    type: string
+    default: "1.8.10"
+
+  helm_version:
+    type: string
+    default: "2.9.1"
+
 resources:
   random-str:
     type: OS::Heat::RandomString

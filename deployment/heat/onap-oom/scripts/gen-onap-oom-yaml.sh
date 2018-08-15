@@ -56,6 +56,11 @@ cat <<EOF
             __oom_gerrit_branch__: { get_param: oom_gerrit_branch }
             __oom_gerrit_refspec__: { get_param: oom_gerrit_refspec }
             __docker_manifest__: { get_param: docker_manifest }
+            __docker_version__: { get_param: docker_version }
+            __rancher_version__: { get_param: rancher_version }
+            __rancher_agent_version__: { get_param: rancher_agent_version }
+            __kubectl_version__: { get_param: kubectl_version }
+            __helm_version__: { get_param: helm_version }
             __public_net_id__: { get_param: public_net_id }
             __oam_network_cidr__: { get_param: oam_network_cidr }
             __oam_network_id__: { get_resource: oam_network }
