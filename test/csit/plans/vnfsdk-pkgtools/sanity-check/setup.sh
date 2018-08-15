@@ -24,7 +24,9 @@ cd $WORKSPACE/archives
 git clone -b master --single-branch http://gerrit.onap.org/r/vnfsdk/pkgtools.git pkgtools
 cd $WORKSPACE/archives/pkgtools
 git pull
-python setup.py install
+echo "To install vnfsdk pkgtools git head revision: $(git rev-parse HEAD)"
+python setup.py egg_info
+pip install .
 
 pip freeze | tee $WORKSPACE/archives/_pip-freeze-after-setup.txt
 
