@@ -39,7 +39,7 @@ query_rule_with_existing_id
 
 query_rule_with_non_existing_id
     [Documentation]    Query a rule with a non-existing ID.
-    ${response}    queryConditionRule    {"ruleid":"invalidid"}
+    ${response}    queryConditionRule    {"ruleId":"invalidid"}
     ${respJson}    to json    ${response.content}
     ${count}    get from dictionary    ${respJson}    totalCount
     run keyword if    ${count}!=0    fail
@@ -53,7 +53,7 @@ query_rule_with_partial_existing_name
 
 query_rule_with_partial_non_existing_name
     [Documentation]    Query rules with (a part of) a non-existing name.
-    ${response}    queryConditionRule    {"rulename":"zte2017"}
+    ${response}    queryConditionRule    {"ruleName":"zte2017"}
     ${respJson}    to json    ${response.content}
     ${count}    get from dictionary    ${respJson}    totalCount
     run keyword if    ${count}!=0    fail
