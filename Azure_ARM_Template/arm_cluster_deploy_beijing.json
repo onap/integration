@@ -1,0 +1,422 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "centosOSVersion": {
+      "type": "string",
+      "defaultValue": "16.04.0-LTS",
+      "allowedValues": [
+        "12.04.5-LTS","14.04.5-LTS","15.10","16.04.0-LTS"
+      ],
+      "metadata": {
+        "description": "The OS"
+      }
+    },
+    "numberOfVms": {
+      "type": "int",
+      "defaultValue": 5,
+      "minValue": 1,
+      "maxValue": 15,
+      "metadata": {
+        "description": "Number of VMs to provision"
+      }
+    },
+    "privateIPAddress": {
+      "type": "string",
+	  "defaultValue": "10.0.0.2",
+      "metadata": {
+        "description": "Static Private IP will be assigned to the machine"
+      }
+    },
+    "masterScriptName": {
+      "type": "string",
+      "metadata": {
+        "description": "entrypoint script name for k8s master"
+      }
+    },
+    "nodeScriptName": {
+      "type": "string",
+      "metadata": {
+        "description": "entrypoint script name for k8s node"
+      }
+    },
+    "vmSize": {
+      "type": "string",
+      "defaultValue": "Standard_D14_v2",
+      "allowedValues": [
+        "Standard_E8_v3",
+        "Standard_E2_v3",
+        "Standard_D1",
+	    "Standard_D16s_v3",
+        "Standard_D4_v2",
+        "Standard_D32s_v3",
+        "Standard_E16_v3",
+        "Standard_D14_v2",
+        "Standard_D13_v2",
+        "Standard_E64_v3"
+      ],
+      "metadata": {
+        "description": "VM size"
+      }
+    },
+    "dnslabel": {
+      "type": "string",
+      "metadata": {
+        "description": "Unique DNS label to assign DNS name"
+      }
+    }
+
+  },
+  "variables": {
+    "dnsLabelPrefix": "[concat('dns-',uniquestring(resourceGroup().id))]",
+    "customData": [ "userdata.txt" ], 
+    "vmName": "[concat('k8s-host-', substring(uniquestring(resourceGroup().id),0,4))]",
+    "adminUsername": "[concat('ubuntu')]",
+    "adminPassword": "Qwertyuiop@@1",
+    "sshKeyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD5zrmH1dHgXbNwP2qbNVySScnFVcEP25HBd2VJu2PiJLDhwgHj44Lj9ZvLyRFCetqd8CAKnLV5qy37rwaCtlH/t8Qb36cUGPhegxpF2++uTY0b6K7Zb6hEMBNw3J1z+GU7OoVwZJhsNAw4t8/7WWmJA4Owo99TJkEKvhCYjBCLoC5sIvG/lJsaFIG8A5MjnBlwgSZ3FsUU+aY1KYZUztodkyv7laDMOinwSvJggKrCugsqZdVo5bhmcSFbqrZa/a/wgqeok+79W0/DLh5Tlf7By46ASDKGnFlwDshPu++I3KMU3eRz0rJLOKeIUCz7k80X0WJ6BrSS7l+IrpDXV1M5 ubuntu@aria",
+    "storageAccountName": "[concat('salinuxvm', substring(uniquestring(resourceGroup().id),0,4))]",
+    "imagePublisher": "Canonical",
+    "imageOffer": "UbuntuServer",
+    "nicName": "[concat('VMNic-',variables('vmName'))]",
+    "dnsPrefix": "[concat(variables('dnsLabelPrefix'),'-',substring(uniquestring(resourceGroup().id),0,4))]",
+    "addressPrefix": "10.0.0.0/16",
+    "subnetName": "Subnet",
+    "subnetPrefix": "10.0.0.0/24",
+    "storageAccountType": "Standard_LRS",
+    "publicIPAddressType": "Dynamic",
+	  "publicIPAddressName": "nicLoop100",
+    "virtualNetworkName": "[concat('VNET-',variables('vmName'))]",
+    "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets/', variables('virtualNetworkName'), variables('subnetName'))]",
+    "networkSecurityGroupName": "[concat(variables('vmName'), '_obrien_local_nsg')]",
+    "sshKeyPathRoot": "[concat('/root/','/.ssh/authorized_keys')]",
+    "sshKeyPath": "[concat('/home/',variables('adminUsername'),'/.ssh/authorized_keys')]",
+    "availabilitySetName": "[concat('availabilitySet-',substring(uniquestring(resourceGroup().id),0,4))]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Compute/availabilitySets",
+      "name": "[variables('availabilitySetName')]",
+      "apiVersion": "2016-04-30-preview",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "managed": true,
+        "platformFaultDomainCount": 3,
+        "platformUpdateDomainCount": 3
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[variables('storageAccountName')]",
+      "apiVersion": "2017-06-01",
+      "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "[variables('storageAccountType')]"
+      },
+      "kind": "Storage",
+      "properties": {}
+    },
+    {
+      "apiVersion": "2017-03-01",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "name": "[variables('networkSecurityGroupName')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "NSG"
+      },
+      "properties": {
+        "securityRules": [
+         {
+            "name": "SSHAllowAny",
+            "properties": {
+              "description": "SSHAllowAny",
+              "protocol": "TCP",
+              "sourcePortRange": "*",
+              "destinationPortRange": "22",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 100,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "DockerAllowAny",
+            "properties": {
+              "description": "DockerAllowAny",
+              "protocol": "TCP",
+              "sourcePortRange": "*",
+              "destinationPortRange": "2376",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 110,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "port500-UdpAllowAny",
+            "properties": {
+              "description": "port500-udpAllowAny",
+              "protocol": "UDP",
+              "sourcePortRange": "*",
+              "destinationPortRange": "500",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 120,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "port4500-UdpAllowAny",
+            "properties": {
+              "description": "port4500-udpAllowAny",
+              "protocol": "UDP",
+              "sourcePortRange": "*",
+              "destinationPortRange": "4500",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 130,
+              "direction": "Inbound"
+            }
+          },
+
+          {
+            "name": "port_10249-10255_172",
+            "properties": {
+              "description": "port_10249-10255_172",
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "destinationPortRange": "10249-10255",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 140,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "in-rule",
+            "properties": {
+              "description": "All in",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "*",
+              "sourceAddressPrefix": "Internet",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 170,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "block-8080",
+            "properties": {
+              "description": "block-8080",
+              "protocol": "Tcp",
+              "sourcePortRange": "8080",
+              "destinationPortRange": "*",
+              "sourceAddressPrefix": "Internet",
+              "destinationAddressPrefix": "*",
+              "access": "Deny",
+              "priority": 104,
+              "direction": "Outbound"
+            }
+          },
+          {
+            "name": "out-rule",
+            "properties": {
+              "description": "All out",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "*",
+              "sourceAddressPrefix": "Internet",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 110,
+              "direction": "Outbound"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "2017-04-01",
+      "type": "Microsoft.Network/virtualNetworks",
+      "name": "[variables('virtualNetworkName')]",
+      "location": "[resourceGroup().location]",
+      "dependson": [
+        "[concat('Microsoft.Network/networkSecurityGroups/', variables('networkSecurityGroupName'))]"
+      ],
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[variables('addressPrefix')]"
+          ]
+        },
+        "subnets": [
+          {
+            "name": "[variables('subnetName')]",
+            "properties": {
+              "addressPrefix": "[variables('subnetPrefix')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "2017-08-01",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[concat(variables('nicName'), copyindex())]",
+      "location": "[resourceGroup().location]",
+      "copy": {
+        "name": "nicLoop",
+        "count": "[parameters('numberOfVms')]"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/publicIPAddresses/', concat('nicLoop',copyIndex(100)))]",
+        "[resourceId('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
+      ],
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Static",
+              "privateIPAddress": "[concat(parameters('privateIPAddress'),copyindex())]",
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', concat('nicLoop',copyIndex(100)))]"
+              },
+              "subnet": {
+                "id": "[variables('subnetRef')]"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "2017-04-01",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[concat('nicLoop',copyIndex(100))]",
+      "location": "[resourceGroup().location]",
+      "copy": {
+        "name": "nicLoop",
+        "count": "[parameters('numberOfVms')]" 
+      },
+      "properties": {
+        "publicIPAllocationMethod": "Dynamic",
+        "dnsSettings": {
+          "domainNameLabel": "[concat(variables('vmName'),parameters('dnslabel'), copyIndex(1000))]"
+        }
+      }
+    },
+    {
+      "apiVersion": "2017-03-30",
+      "type": "Microsoft.Compute/virtualMachines",
+      "name": "[concat(variables('vmName'), copyindex())]",
+      "copy": {
+        "name": "virtualMachineLoop",
+        "count": "[parameters('numberOfVms')]"
+      },
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "nicLoop",
+        "[concat('Microsoft.Compute/availabilitySets/',variables('availabilitySetName'))]"
+      ],
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[parameters('vmSize')]"
+        },
+        "availabilitySet": {
+          "id": "[resourceId('Microsoft.Compute/availabilitySets',variables('availabilitySetName'))]"
+        },
+        "osProfile": {
+          "computerName": "[concat(variables('vmName'), copyindex())]",
+          "adminUsername": "[variables('adminUsername')]",
+          "adminPassword": "[variables('adminPassword')]",
+          "linuxConfiguration": {
+            "disablePasswordAuthentication": false,
+            "ssh": {
+              "publicKeys": [
+                {
+                  "path": "[variables('sshKeyPath')]",
+                  "keyData": "[variables('sshKeyData')]"
+                }
+              ]
+            }
+          }
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[variables('imagePublisher')]",
+            "offer": "[variables('imageOffer')]",
+            "sku": "[parameters('centosOSVersion')]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "diskSizeGB": 127,
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(variables('nicName'),copyindex()))]"
+            }
+          ]
+        },
+        "diagnosticsProfile": {
+          "bootDiagnostics": {
+            "enabled": true,
+            "storageUri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName')), '2016-01-01').primaryEndpoints.blob)]"
+          }
+        }
+      }
+    },
+	{
+    "apiVersion": "2015-06-15",
+    "type": "Microsoft.Compute/virtualMachines/extensions",
+    "name": "[concat(variables('vmName'), '0','/onap')]",
+    "location": "[resourceGroup().location]",
+    "dependsOn": ["virtualMachineLoop"],
+    "properties": {
+        "publisher": "Microsoft.Azure.Extensions",
+        "type": "CustomScript",
+        "typeHandlerVersion": "2.0",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+            "fileUris": [ "https://gerrit.onap.org/r/gitweb?p=integration.git;a=blob_plain;f=Azure_ARM_Template/scripts/azure-rancher-server.sh;hb=refs/heads/master" ],
+            "commandToExecute": "[concat('./' , parameters('masterScriptName'),' ',reference(variables('publicIPAddressName')).dnsSettings.fqdn,' ',parameters('privateIPAddress'),' ',parameters('numberOfVms'))]"
+           }
+        }
+     },
+	{
+    "apiVersion": "2015-06-15",
+    "type": "Microsoft.Compute/virtualMachines/extensions",
+    "name": "[concat(variables('vmName'), copyindex(1),'/onap')]",
+	"copy": {
+        "name": "virtualMachineExtnLoop",
+        "count": "[sub(parameters('numberOfVms'),1)]" 
+      },
+    "location": "[resourceGroup().location]",
+    "dependsOn": [
+      "virtualMachineLoop"
+    ],
+    "properties": {
+        "publisher": "Microsoft.Azure.Extensions",
+        "type": "CustomScript",
+        "typeHandlerVersion": "2.0",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+            "fileUris": [ "https://gerrit.onap.org/r/gitweb?p=integration.git;a=blob_plain;f=Azure_ARM_Template/scripts/azure-k8s-node.sh;hb=refs/heads/master" ],
+            "commandToExecute": "[concat('./' , parameters('nodeScriptName'),' ',concat(parameters('privateIPAddress'),'0'))]"
+           }
+        }
+     }
+  ]
+}
