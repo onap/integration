@@ -18,15 +18,16 @@ final class JSONObjectFactory {
         commonEventHeader.put(START_EPOCH_MICROSEC, timestamp);
         commonEventHeader.put(INTERNAL_HEADER_FIELDS, new JSONObject());
         commonEventHeader.put(VERSION, VERSION_NUMBER);
+        commonEventHeader.put(VES_EVENT_LISTENER_VERSION, VES_EVENT_LISTENER_VERSION_NUMBER);
         return commonEventHeader;
     }
 
-    static JSONObject generateConstantOtherFields() {
-        JSONObject otherFields = new JSONObject();
-        otherFields.put(OTHER_FIELDS_VERSION, OTHER_FIELDS_VERSION_VALUE);
-        otherFields.put(PNF_LAST_SERVICE_DATE, System.currentTimeMillis());
-        otherFields.put(PNF_MANUFACTURE_DATE, System.currentTimeMillis());
-        return otherFields;
+    static JSONObject generatePnfRegistrationFields() {
+        JSONObject pnfRegistrationFields = new JSONObject();
+        pnfRegistrationFields.put(PNF_REGISTRATION_FIELDS_VERSION, PNF_REGISTRATION_FIELDS_VERSION_VALUE);
+        pnfRegistrationFields.put(PNF_LAST_SERVICE_DATE, String.valueOf(System.currentTimeMillis()));
+        pnfRegistrationFields.put(PNF_MANUFACTURE_DATE, String.valueOf(System.currentTimeMillis()));
+        return pnfRegistrationFields;
     }
 
     static String generateEventId() {

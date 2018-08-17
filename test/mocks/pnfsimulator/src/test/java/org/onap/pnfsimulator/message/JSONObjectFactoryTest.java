@@ -12,7 +12,7 @@ public class JSONObjectFactoryTest {
     @Test
     public void generateConstantCommonEventHeader_shouldCreateProperly(){
         JSONObject commonEventHeader = JSONObjectFactory.generateConstantCommonEventHeader();
-        assertEquals(9,commonEventHeader.toMap().size());
+        assertEquals(10,commonEventHeader.toMap().size());
         assertTrue(commonEventHeader.has(DOMAIN));
         assertTrue(commonEventHeader.has(EVENT_ID));
         assertTrue(commonEventHeader.has(EVENT_TYPE));
@@ -27,16 +27,17 @@ public class JSONObjectFactoryTest {
         assertEquals(commonEventHeader.get(PRIORITY),PRIORITY_NORMAL);
         assertEquals(commonEventHeader.get(SEQUENCE),SEQUENCE_NUMBER);
         assertEquals(commonEventHeader.get(VERSION),VERSION_NUMBER);
+        assertEquals(commonEventHeader.get(VES_EVENT_LISTENER_VERSION),VES_EVENT_LISTENER_VERSION_NUMBER);
     }
 
     @Test
-    public void generateConstantOtherFields_shouldCreateProperly(){
-        JSONObject otherFields = JSONObjectFactory.generateConstantOtherFields();
-        assertEquals(3,otherFields.toMap().size());
-        assertTrue(otherFields.has(OTHER_FIELDS_VERSION));
-        assertEquals(otherFields.get(OTHER_FIELDS_VERSION),OTHER_FIELDS_VERSION_VALUE);
-        assertTrue(otherFields.has(PNF_LAST_SERVICE_DATE));
-        assertTrue(otherFields.has(PNF_MANUFACTURE_DATE));
+    public void generateConstantPnfRegistrationFields_shouldCreateProperly(){
+        JSONObject pnfRegistrationFields = JSONObjectFactory.generatePnfRegistrationFields();
+        assertEquals(3,pnfRegistrationFields.toMap().size());
+        assertTrue(pnfRegistrationFields.has(PNF_REGISTRATION_FIELDS_VERSION));
+        assertEquals(pnfRegistrationFields.get(PNF_REGISTRATION_FIELDS_VERSION), PNF_REGISTRATION_FIELDS_VERSION_VALUE);
+        assertTrue(pnfRegistrationFields.has(PNF_LAST_SERVICE_DATE));
+        assertTrue(pnfRegistrationFields.has(PNF_MANUFACTURE_DATE));
     }
 
     @Test

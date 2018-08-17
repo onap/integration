@@ -2,8 +2,9 @@ package org.onap.pnfsimulator.message;
 
 import static org.onap.pnfsimulator.message.MessageConstants.COMMON_EVENT_HEADER;
 import static org.onap.pnfsimulator.message.MessageConstants.EVENT;
-import static org.onap.pnfsimulator.message.MessageConstants.OTHER_FIELDS;
 import static org.onap.pnfsimulator.message.MessageConstants.PNF_PREFIX;
+import static org.onap.pnfsimulator.message.MessageConstants.PNF_REGISTRATION_FIELDS;
+
 import java.util.Map;
 import org.json.JSONObject;
 
@@ -18,12 +19,12 @@ public class MessageProvider {
         Map<String, Object> paramsMap = params.toMap();
         JSONObject root = new JSONObject();
         JSONObject commonEventHeader = JSONObjectFactory.generateConstantCommonEventHeader();
-        JSONObject otherFields = JSONObjectFactory.generateConstantOtherFields();
+        JSONObject pnfRegistrationFields = JSONObjectFactory.generatePnfRegistrationFields();
 
         paramsMap.forEach((key, value) -> {
 
             if (key.startsWith(PNF_PREFIX)) {
-                otherFields.put(key, value);
+                pnfRegistrationFields.put(key.substring(PNF_PREFIX.length()), value);
             } else {
                 commonEventHeader.put(key, value);
             }
@@ -31,7 +32,7 @@ public class MessageProvider {
 
         JSONObject event = new JSONObject();
         event.put(COMMON_EVENT_HEADER, commonEventHeader);
-        event.put(OTHER_FIELDS, otherFields);
+        event.put(PNF_REGISTRATION_FIELDS, pnfRegistrationFields);
         root.put(EVENT, event);
         return root;
     }
