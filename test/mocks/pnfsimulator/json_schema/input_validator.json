@@ -14,7 +14,7 @@
           "title": "The Vesserverurl Schema ",
           "default": "",
           "examples": [
-            "http://10.154.187.70:8080/eventListener/v5"
+            "http://10.42.111.53:VES-PORT/eventListener/v7"
           ]
         },
         "testDuration": {
@@ -41,73 +41,73 @@
       "$id": "/properties/messageParams",
       "type": "object",
       "properties": {
-        "pnfSerialNumber": {
-          "$id": "/properties/messageParams/properties/pnfSerialNumber",
+        "pnf_serialNumber": {
+          "$id": "/properties/messageParams/properties/pnf_serialNumber",
           "type": "string",
-          "title": "The Pnfserialnumber Schema ",
+          "title": "The Pnf_serialnumber Schema ",
           "default": "",
           "examples": [
-            "val1"
+            "6061ZW3"
           ]
         },
-        "pnfVendorName": {
-          "$id": "/properties/messageParams/properties/pnfVendorName",
+        "pnf_vendorName": {
+          "$id": "/properties/messageParams/properties/pnf_vendorName",
           "type": "string",
-          "title": "The Pnfvendorname Schema ",
+          "title": "The Pnf_vendorname Schema ",
           "default": "",
           "examples": [
-            "val2"
+            "Nokia"
           ]
         },
-        "pnfOamIpv4Address": {
-          "$id": "/properties/messageParams/properties/pnfOamIpv4Address",
+        "pnf_oamV4IpAddress": {
+          "$id": "/properties/messageParams/properties/pnf_oamV4IpAddress",
           "type": "string",
-          "title": "The Pnfoamipv4address Schema ",
+          "title": "The Pnf_oamv4ipaddress Schema ",
           "default": "",
           "examples": [
             "val3"
           ]
         },
-        "pnfOamIpv6Address": {
-          "$id": "/properties/messageParams/properties/pnfOamIpv6Address",
+        "pnf_oamV6IpAddress": {
+          "$id": "/properties/messageParams/properties/pnf_oamV6IpAddress",
           "type": "string",
-          "title": "The Pnfoamipv6address Schema ",
+          "title": "The Pnf_oamv6ipaddress Schema ",
           "default": "",
           "examples": [
             "val4"
           ]
         },
-        "pnfFamily": {
-          "$id": "/properties/messageParams/properties/pnfFamily",
+        "pnf_unitFamily": {
+          "$id": "/properties/messageParams/properties/pnf_unitFamily",
           "type": "string",
-          "title": "The Pnffamily Schema ",
+          "title": "The Pnf_unitfamily Schema ",
           "default": "",
           "examples": [
-            "val5"
+            "BBU"
           ]
         },
-        "pnfModelNumber": {
-          "$id": "/properties/messageParams/properties/pnfModelNumber",
+        "pnf_modelNumber": {
+          "$id": "/properties/messageParams/properties/pnf_modelNumber",
           "type": "string",
-          "title": "The Pnfmodelnumber Schema ",
+          "title": "The Pnf_modelnumber Schema ",
           "default": "",
           "examples": [
             "val6"
           ]
         },
-        "pnfSoftwareVersion": {
-          "$id": "/properties/messageParams/properties/pnfSoftwareVersion",
+        "pnf_softwareVersion": {
+          "$id": "/properties/messageParams/properties/pnf_softwareVersion",
           "type": "string",
-          "title": "The Pnfsoftwareversion Schema ",
+          "title": "The Pnf_softwareversion Schema ",
           "default": "",
           "examples": [
             "val7"
           ]
         },
-        "pnfType": {
-          "$id": "/properties/messageParams/properties/pnfType",
+        "pnf_unitType": {
+          "$id": "/properties/messageParams/properties/pnf_unitType",
           "type": "string",
-          "title": "The Pnftype Schema ",
+          "title": "The Pnf_unittype Schema ",
           "default": "",
           "examples": [
             "val8"
@@ -169,18 +169,18 @@
         }
       },
       "required": [
-        "pnfSerialNumber",
-        "pnfVendorName"
+        "pnf_serialNumber",
+        "pnf_vendorName"
       ],
       "anyOf": [
         {
           "required": [
-            "pnfOamIpv4Address"
+            "pnf_oamV4IpAddress"
           ]
         },
         {
           "required": [
-            "pnfOamIpv6Address"
+            "pnf_oamV6IpAddress"
           ]
         }
       ]
