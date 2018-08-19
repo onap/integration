@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_7ad2a8d3",
+        "filename": "deployment/Azure_ARM_Template/scripts/azure-k8s-node.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2018-08-19T18:57:34Z",
+      "side": 1,
+      "message": "looks good",
+      "revId": "d10ae125d70e91e88c1c8bbf67d8da10fb0da5f5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
