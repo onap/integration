@@ -35,6 +35,7 @@ onap/msb/msb_discovery,1.1.0
 onap/multicloud/framework,1.1.2
 onap/multicloud/openstack-newton,1.1.2
 onap/multicloud/openstack-ocata,1.1.2
+onap/multicloud/openstack-pike,1.1.2
 onap/multicloud/openstack-windriver,1.1.2
 onap/multicloud/vio,1.1.2
 onap/multicloud/vio-vesagent,1.0.0

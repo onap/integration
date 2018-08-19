@@ -198,6 +198,7 @@ org.onap.msb.swagger-sdk,swagger-sdk,1.1.0
 org.onap.multicloud.framework,multivimbroker,1.1.2
 org.onap.multicloud.openstack,newton,1.1.2
 org.onap.multicloud.openstack,ocata,1.1.2
+org.onap.multicloud.openstack,pike,1.1.2
 org.onap.multicloud.openstack,windriver,1.1.2
 org.onap.multicloud.openstack.vmware,vesagent,1.0.0
 org.onap.multicloud.openstack.vmware,vio,1.1.2

@@ -36,6 +36,7 @@ onap/msb/msb_discovery,1.2.0-STAGING-latest
 onap/multicloud/framework,1.1.2
 onap/multicloud/openstack-newton,1.2.0-STAGING
 onap/multicloud/openstack-ocata,1.2.0-STAGING
+onap/multicloud/openstack-pike,1.2.0-STAGING
 onap/multicloud/openstack-windriver,1.2.0-STAGING
 onap/multicloud/vio,1.1.2
 onap/multicloud/vio-vesagent,1.0.0
