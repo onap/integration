@@ -1,18 +1,19 @@
+
 {
   "simulatorParams": {
-    "vesServerUrl": "http://VES-HOST:VES-PORT/eventListener/v5",
+    "vesServerUrl": "http://VES-HOST:VES-PORT/eventListener/v7",
     "testDuration": "10",
     "messageInterval": "1"
   },
   "messageParams": {
-    "pnfSerialNumber": "val1",
-    "pnfVendorName": "val2",
-    "pnfOamIpv4Address": "val3",
-    "pnfOamIpv6Address": "val4",
-    "pnfFamily": "val5",
-    "pnfModelNumber": "val6",
-    "pnfSoftwareVersion": "val7",
-    "pnfType": "val8",
+    "pnf_serialNumber": "6061ZW3",
+    "pnf_vendorName": "Nokia",
+    "pnf_oamV4IpAddress": "val3",
+    "pnf_oamV6IpAddress": "val4",
+    "pnf_unitFamily": "BBU",
+    "pnf_modelNumber": "val6",
+    "pnf_softwareVersion": "val7",
+    "pnf_unitType": "val8",
     "eventName": "pnfRegistration_Nokia_5gDu",
     "nfNamingCode": "gNB",
     "nfcNamingCode": "oam",

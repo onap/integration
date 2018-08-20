@@ -25,7 +25,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.onap.pnfsimulator.message.MessageConstants.COMMON_EVENT_HEADER;
 import static org.onap.pnfsimulator.message.MessageConstants.EVENT;
-import static org.onap.pnfsimulator.message.MessageConstants.OTHER_FIELDS;
+import static org.onap.pnfsimulator.message.MessageConstants.PNF_REGISTRATION_FIELDS;
+
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -33,7 +34,7 @@ import org.junit.jupiter.api.Test;
 public class MessageProviderTest {
 
     private static final String testParamsJson =
-        "{\"key1\": \"val1\",\"key2\": \"val2\",\"pnfKey3\": \"pnfVal3\",\"key4\": \"val4\"}";
+        "{\"key1\": \"val1\",\"key2\": \"val2\",\"pnf_key3\": \"pnfVal3\",\"key4\": \"val4\"}";
 
     private static MessageProvider messageProvider;
 
@@ -55,19 +56,19 @@ public class MessageProviderTest {
         JSONObject event = message.getJSONObject(EVENT);
 
         JSONObject commonEventHeader = event.getJSONObject(COMMON_EVENT_HEADER);
-        JSONObject otherFields = event.getJSONObject(OTHER_FIELDS);
+        JSONObject pnfRegistrationFields = event.getJSONObject(PNF_REGISTRATION_FIELDS);
 
         JSONObject expectedCommonEventHeader = JSONObjectFactory.generateConstantCommonEventHeader();
-        JSONObject expectedOtherFields = JSONObjectFactory.generateConstantOtherFields();
+        JSONObject expectedPnfRegistrationFields = JSONObjectFactory.generatePnfRegistrationFields();
 
         expectedCommonEventHeader
             .toMap()
             .forEach((key, val) -> assertTrue(commonEventHeader.has(key),
                 () -> String.format("Key %s is not present", key)));
 
-        expectedOtherFields
+        expectedPnfRegistrationFields
             .toMap()
-            .forEach((key, val) -> assertTrue(otherFields.has(key),
+            .forEach((key, val) -> assertTrue(pnfRegistrationFields.has(key),
                 () -> String.format("Key %s is not present", key)));
     }
 
@@ -79,9 +80,9 @@ public class MessageProviderTest {
         JSONObject event = message.getJSONObject(EVENT);
 
         JSONObject commonEventHeader = event.getJSONObject(COMMON_EVENT_HEADER);
-        JSONObject otherFields = event.getJSONObject(OTHER_FIELDS);
+        JSONObject pnfRegistrationFields = event.getJSONObject(PNF_REGISTRATION_FIELDS);
 
-        assertEquals("pnfVal3", otherFields.getString("pnfKey3"));
+        assertEquals("pnfVal3", pnfRegistrationFields.getString("key3"));
         assertEquals("val1", commonEventHeader.getString("key1"));
         assertEquals("val2", commonEventHeader.getString("key2"));
         assertEquals("val4", commonEventHeader.getString("key4"));
