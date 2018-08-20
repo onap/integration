@@ -27,6 +27,9 @@ The content of the logs is related to the last simulator run.
 Every start of simulator will generate new logs. 
 
 
+###Developer mode
+For development of PNF Simulator, run *simulator.sh* start-dev in order to run Netopeer.
+After that it is possible to run PNF Simulator from IDE.
 
 
 
