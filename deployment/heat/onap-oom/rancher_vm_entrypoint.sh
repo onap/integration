@@ -25,6 +25,11 @@ echo "__oom_gerrit_branch__" > /opt/config/oom_gerrit_branch.txt
 echo "__oom_gerrit_refspec__" > /opt/config/oom_gerrit_refspec.txt
 echo "__docker_manifest__" > /opt/config/docker_manifest.txt
 echo "__docker_proxy__" > /opt/config/docker_proxy.txt
+echo "__docker_version__" > /opt/config/docker_version.txt
+echo "__rancher_version__" > /opt/config/rancher_version.txt
+echo "__rancher_agent_version__" > /opt/config/rancher_agent_version.txt
+echo "__kubectl_version__" > /opt/config/kubectl_version.txt
+echo "__helm_version__" > /opt/config/helm_version.txt
 
 cat <<EOF > /opt/config/integration-override.yaml
 __integration_override_yaml__
@@ -86,21 +91,22 @@ systemctl restart nfs-kernel-server
 
 cd ~
 
-# install docker 17.03
-curl -s https://releases.rancher.com/install-docker/17.03.sh | sh
+# install docker __docker_version__
+curl -s https://releases.rancher.com/install-docker/__docker_version__.sh | sh
 usermod -aG docker ubuntu
 
-docker run --restart unless-stopped -d -p 8080:8080  -e CATTLE_BOOTSTRAP_REQUIRED_IMAGE=__docker_proxy__/rancher/agent:v1.2.9 __docker_proxy__/rancher/server:v1.6.14
+# install rancher __rancher_version__
+docker run --restart unless-stopped -d -p 8080:8080  -e CATTLE_BOOTSTRAP_REQUIRED_IMAGE=__docker_proxy__/rancher/agent:v__rancher_agent_version__ __docker_proxy__/rancher/server:v__rancher_version__
 
-# install kubernetes 1.8.10
-curl -s -LO https://storage.googleapis.com/kubernetes-release/release/v1.8.10/bin/linux/amd64/kubectl
+# install kubectl __kubectl_version__
+curl -s -LO https://storage.googleapis.com/kubernetes-release/release/v__kubectl_version__/bin/linux/amd64/kubectl
 chmod +x ./kubectl
 sudo mv ./kubectl /usr/local/bin/kubectl
 mkdir ~/.kube
 
-# install helm
-wget -q http://storage.googleapis.com/kubernetes-helm/helm-v2.8.2-linux-amd64.tar.gz
-tar -zxvf helm-v2.8.2-linux-amd64.tar.gz
+# install helm __helm_version__
+wget -q http://storage.googleapis.com/kubernetes-helm/helm-v__helm_version__-linux-amd64.tar.gz
+tar -zxvf helm-v__helm_version__-linux-amd64.tar.gz
 sudo mv linux-amd64/helm /usr/local/bin/helm
 
 echo export RANCHER_IP=__rancher_private_ip_addr__ > api-keys-rc
