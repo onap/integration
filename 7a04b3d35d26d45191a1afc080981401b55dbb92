@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_699f4451",
+        "filename": "deployment/heat/onap-oom/onap-oom.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2018-08-20T18:11:09Z",
+      "side": 1,
+      "message": "good",
+      "revId": "7a04b3d35d26d45191a1afc080981401b55dbb92",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_c9b778d7",
+        "filename": "deployment/heat/onap-oom/onap-oom.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2018-08-20T18:11:09Z",
+      "side": 1,
+      "message": "good",
+      "revId": "7a04b3d35d26d45191a1afc080981401b55dbb92",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_29a94c7b",
+        "filename": "deployment/heat/onap-oom/onap-oom.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2018-08-20T18:11:09Z",
+      "side": 1,
+      "message": "good",
+      "revId": "7a04b3d35d26d45191a1afc080981401b55dbb92",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
