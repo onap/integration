@@ -3,7 +3,6 @@
 set -euo pipefail
 
 COMPOSE_FILE_NAME=docker-compose.yml
-DEV_COMPOSE_FILE_NAME=docker-compose.dev.yml
 NETOPEER_CONTAINER_NAME=netopeer
 SIMULATOR_CONTAINER_NAME=pnf-simulator
 SIMULATOR_PORT=5000
@@ -22,9 +21,7 @@ function main(){
         "start")
             start $COMPOSE_FILE_NAME;;
         "start-dev")
-            start $DEV_COMPOSE_FILE_NAME;;
-        "start-debug")
-            start_netconf_server $DEV_COMPOSE_FILE_NAME;;
+            start_netconf_server $COMPOSE_FILE_NAME;;
         "stop")
             stop;;
         "run-simulator")
@@ -42,7 +39,7 @@ function main(){
 
 function build_image(){
     if [ -f pom.xml ]; then
-        mvn clean package 
+        mvn clean package docker:build
     else
         echo "pom.xml file not found"
         exit 1
@@ -74,7 +71,7 @@ function start(){
 }
 
 function running_containers(){
-   docker-compose -f $COMPOSE_FILE_NAME ps -q && docker-compose -f $DEV_COMPOSE_FILE_NAME ps -q
+   docker-compose -f $COMPOSE_FILE_NAME ps -q
 }
 
 function stop(){
@@ -123,8 +120,7 @@ cat << EndOfMessage
 Available options:
 build - locally builds simulator image from existing code
 start - starts simulator and netopeer2 containers using remote simulator image and specified model name
-start-dev - starts simulator and netopeer2 containers using remote simulator image
-start-debug - starts only  netopeer2 container
+start-dev - starts only  netopeer2 container
 run-simulator - starts sending PNF registration messages with parameters specified in config.json
 stop-simulator - stop sending PNF registration messages
 stop - stops both containers
@@ -142,7 +138,7 @@ Logs are written to logs/pnf-simulator.log. After each "start/start-dev" old log
 
 FOR DEVELOPERS
 1. Build local simulator image using "./simulator.sh build"
-2. Run containers with "./simulator.sh start-dev"
+2. Run containers with "./simulator.sh start-debug"
 
 If you change the source code you have to rebuild image with "./simulator.sh build" and run "./simulator.sh start/start-dev" again
 EndOfMessage
