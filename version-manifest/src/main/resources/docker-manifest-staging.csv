@@ -86,6 +86,14 @@ onap/sdnc-image,1.4-STAGING-latest
 onap/sdnc-ueb-listener-image,1.4-STAGING-latest
 onap/search-data-service,1.2.2
 onap/sniroemulator,1.0.0
+onap/so/api-handler-infra,1.3.0-STAGING-latest
+onap/so/asdc-controller,1.3.0-STAGING-latest
+onap/so/bpmn-infra,1.3.0-STAGING-latest
+onap/so/catalog-db-adapter,1.3.0-STAGING-latest
+onap/so/openstack-adapter,1.3.0-STAGING-latest
+onap/so/request-db-adapter,1.3.0-STAGING-latest
+onap/so/sdnc-adapter,1.3.0-STAGING-latest
+onap/so/vfc-adapter,1.3.0-STAGING-latest
 onap/sparky-be,1.2.1
 onap/testsuite,1.3.1-STAGING-latest
 onap/usecase-ui,1.1.1
@@ -113,4 +121,3 @@ onap/vnfsdk/ice,1.1.0
 onap/vnfsdk/refrepo,1.1.1
 onap/vnfsdk/refrepo/postgres,1.1.1
 onap/vnfsdk/vnftest,1.1.0
-openecomp/mso,1.2.2
