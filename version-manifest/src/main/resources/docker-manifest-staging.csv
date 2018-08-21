@@ -12,7 +12,7 @@ onap/aai-resources,1.2.2
 onap/aai-traversal,1.2.2
 onap/aai/esr-gui,1.1.0
 onap/aai/esr-server,1.1.0
-onap/activity-spec,1.3.0-SNAPSHOT
+onap/activity-spec,1.3.0
 onap/admportal-sdnc-image,1.4-STAGING-latest
 onap/appc-cdt-image,1.4.0-SNAPSHOT-latest
 onap/appc-image,1.4.0-SNAPSHOT-latest
