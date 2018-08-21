@@ -11,8 +11,8 @@ ${TARGET_URL_FEED}              https://${DR_PROV_IP}:8443/feed/1
 ${TARGET_URL_SUBSCRIBE}         https://${DR_PROV_IP}:8443/subscribe/1
 ${TARGET_URL_SUBSCRIPTION}      https://${DR_PROV_IP}:8443/subs/1
 ${TARGET_URL_PUBLISH}           https://${DR_NODE_IP}:8443/publish/1/csit_test
-${CREATE_FEED_DATA}             {"name": "CSIT_Test", "version": "m1.0", "description": "CSIT_Test", "business_description": "CSIT_Test", "suspend": false, "deleted": false, "changeowner": true, "authorization": {"classification": "unclassified", "endpoint_addrs": ["${DR_PROV_IP}"],  "endpoint_ids": [{"password": "rs873m", "id": "rs873m"}]}}
-${UPDATE_FEED_DATA}             {"name": "CSIT_Test", "version": "m1.0", "description": "UPDATED-CSIT_Test", "business_description": "CSIT_Test", "suspend": true, "deleted": false, "changeowner": true, "authorization": {"classification": "unclassified", "endpoint_addrs": ["${DR_PROV_IP}"],  "endpoint_ids": [{"password": "rs873m", "id": "rs873m"}]}}
+${CREATE_FEED_DATA}             {"name": "CSIT_Test", "version": "m1.0", "description": "CSIT_Test", "business_description": "CSIT_Test", "suspend": false, "deleted": false, "changeowner": true, "authorization": {"classification": "unclassified", "endpoint_addrs": [],  "endpoint_ids": [{"password": "rs873m", "id": "rs873m"}]}}
+${UPDATE_FEED_DATA}             {"name": "CSIT_Test", "version": "m1.0", "description": "UPDATED-CSIT_Test", "business_description": "CSIT_Test", "suspend": true, "deleted": false, "changeowner": true, "authorization": {"classification": "unclassified", "endpoint_addrs": [],  "endpoint_ids": [{"password": "rs873m", "id": "rs873m"}]}}
 ${SUBSCRIBE_DATA}               {"delivery":{ "url":"https://${DR_PROV_IP}:8080/",  "user":"rs873m", "password":"rs873m", "use100":true}, "metadataOnly":false, "suspend":false, "groupid":29, "subscriber":"sg481n"}
 ${UPDATE_SUBSCRIPTION_DATA}     {"delivery":{ "url":"https://${DR_PROV_IP}:8080/",  "user":"sg481n", "password":"sg481n", "use100":true}, "metadataOnly":false, "suspend":true, "groupid":29, "subscriber":"sg481n"}
 ${FEED_CONTENT_TYPE}            application/vnd.att-dr.feed
