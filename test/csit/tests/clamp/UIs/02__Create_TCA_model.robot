@@ -53,6 +53,7 @@ Set Properties for TCAModel1
     Select From List By Label       id=vf       vLoadBalancer 0
     Select From List By Label       id=actionSet      VNF
     Select From List By Label       id=location      Data Center 1      Data Center 3
+    Input Text      locator=deployParameters       text={}
     Click Button    locator=Save
 
 Set Policy Box properties for TCAModel1

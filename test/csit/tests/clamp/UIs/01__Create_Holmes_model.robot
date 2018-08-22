@@ -60,6 +60,7 @@ Set Properties for HolmesModel1
     Select From List By Label       id=vf      vFirewall 0
     Select From List By Label       id=actionSet      VNF
     Select From List By Label       id=location      Data Center 2      Data Center 3
+    Input Text      locator=deployParameters       text={}
     Click Button    locator=Save
 
 Set Policy Box properties for HolmesModel1
