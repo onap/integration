@@ -43,7 +43,7 @@ start_simulator keystone 5000
 start_simulator aai 8443
 
 # start multicloud-pike
-./run-instance.sh nexus3.onap.org:10001/onap/multicloud/openstack/openstack-pike multicloud-pike "-t -e AAI_SERVICE_URL=http://aai:8080/aai -e no_proxy=$no_proxy -p 9007:9007"
+./run-instance.sh nexus3.onap.org:10001/onap/multicloud/openstack-pike multicloud-pike "-t -e AAI_SERVICE_URL=http://aai:8080/aai -e no_proxy=$no_proxy -p 9007:9007"
 SERVICE_IP=$(./get-instance-ip.sh multicloud-pike)
 SERVICE_PORT=9007
 

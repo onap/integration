@@ -14,7 +14,7 @@
 pushd ${SCRIPTS}
 
 # start multicloud-pike
-./run-instance.sh nexus3.onap.org:10001/onap/multicloud/openstack/openstack-pike:latest multicloud-pike
+./run-instance.sh nexus3.onap.org:10001/onap/multicloud/openstack-pike:latest multicloud-pike
 SERVICE_IP=$(./get-instance-ip.sh multicloud-pike)
 SERVICE_PORT=9007
 popd
