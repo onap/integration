@@ -27,8 +27,8 @@ onap/dmaap/buscontroller,1.0.12
 onap/dmaap/dmaap-mr,1.1.5
 onap/externalapi/nbi,2.0.0
 onap/gizmo,1.2.1
-onap/holmes/engine-management,1.1.0
-onap/holmes/rule-management,1.1.0
+onap/holmes/engine-management,1.2.0-STAGING-latest
+onap/holmes/rule-management,1.2.0-STAGING-latest
 onap/model-loader,1.2.1
 onap/msb/msb_apigateway,1.2.0-STAGING-latest
 onap/msb/msb_discovery,1.2.0-STAGING-latest
