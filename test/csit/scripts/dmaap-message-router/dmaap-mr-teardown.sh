@@ -18,7 +18,7 @@
 #
 
 function dmaap_mr_teardown() {
-kill-instance.sh dockercompose_dmaap_1 
-kill-instance.sh dockercompose_kafka_1 
-kill-instance.sh dockercompose_zookeeper_1
+kill-instance.sh docker-compose_dmaap_1 
+kill-instance.sh docker-compose_kafka_1 
+kill-instance.sh docker-compose_zookeeper_1
 }

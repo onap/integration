@@ -19,12 +19,8 @@
 # ============LICENSE_END=========================================================
 # 
 #
-source ${WORKSPACE}/test/csit/scripts/dmaap-message-router/dmaap-mr-teardown.sh
-
-if [ "$KEEP_DMAAP" != "Y" ]
-then
-dmaap_mr_teardown
-kill-instance.sh dmaapbc
 kill-instance.sh aaf-mock
-fi
+kill-instance.sh drps-mock
+kill-instance.sh mrc-mock
+kill-instance.sh dmaapbc
 

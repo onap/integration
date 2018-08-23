@@ -3,6 +3,21 @@
 # $1 is the IP address of the buscontroller
 # $2 is the IP address of the DRPS
 # $3 is the IP address of the MRC
+# $4 is the protocol (defaults to http)
+
+PROTO=${4:-http}
+if [ "$PROTO" = "http" ]
+then
+	PORT=8080
+	CURLOPT="-v"
+	MRPORT=3904
+	DRPORT=8080
+else
+	PORT=8443
+	CURLOPT="-v -k"
+	MRPORT=3905
+	DRPORT=8443
+fi
 
 # INITIALIZE: dmaap object
 JSON=/tmp/$$.dmaap
@@ -10,7 +25,7 @@ cat << EOF > $JSON
 {
 	"version": "1",
 	"topicNsRoot": "org.onap.dmaap",
-	"drProvUrl": "http://${2}:8080",
+	"drProvUrl": "http://${2}:${DRPORT}",
 	"dmaapName": "onapCSIT",
 	"bridgeAdminTopic": "MM_AGENT_PROV"
 
@@ -18,7 +33,7 @@ cat << EOF > $JSON
 EOF
 
 echo "Initializing /dmaap endpoint"
-curl -v -X POST -d @${JSON} -H "Content-Type: application/json" http://$1:8080/webapi/dmaap 
+curl ${CURLOPT} -X POST -d @${JSON} -H "Content-Type: application/json" ${PROTO}://$1:${PORT}/webapi/dmaap 
 
 
 
@@ -35,7 +50,7 @@ cat << EOF > $JSON
 EOF
 
 echo "Initializing /dcaeLocations endpoint"
-curl -v -X POST -d @${JSON} -H "Content-Type: application/json" http://$1:8080/webapi/dcaeLocations 
+curl ${CURLOPT} -X POST -d @${JSON} -H "Content-Type: application/json" ${PROTO}://$1:${PORT}/webapi/dcaeLocations 
 
 
 # INITIALIZE: MR object in 1 site
@@ -52,10 +67,10 @@ cat << EOF > $JSON
 	"dcaeLocationName": "csit-sanfrancisco",
 	"fqdn": "$DOCKER_HOST",
 	"topicProtocol" : "http",
-	"topicPort": "3904"
+	"topicPort": "${MRPORT}"
 
 }
 EOF
 
 echo "Initializing /mr_clusters endpoint"
-curl -v -X POST -d @${JSON} -H "Content-Type: application/json" http://$1:8080/webapi/mr_clusters
+curl ${CURLOPT} -X POST -d @${JSON} -H "Content-Type: application/json" ${PROTO}://$1:${PORT}/webapi/mr_clusters

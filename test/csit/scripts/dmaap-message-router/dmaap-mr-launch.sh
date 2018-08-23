@@ -31,6 +31,7 @@ source ${SCRIPTS}/common_functions.sh
 # (kafka and zk containers are not called externally)
 
 function dmaap_mr_launch() {
+		COMPOSE_PREFIX=docker-compose
 		# Clone DMaaP Message Router repo
 		mkdir -p $WORKSPACE/archives/dmaapmr
 		cd $WORKSPACE/archives/dmaapmr
@@ -45,12 +46,13 @@ function dmaap_mr_launch() {
 		# start DMaaP MR containers with docker compose and configuration from docker-compose.yml
 		docker login -u docker -p docker nexus3.onap.org:10001
 		docker-compose up -d
+		docker ps
 
 		# Wait for initialization of Docker contaienr for DMaaP MR, Kafka and Zookeeper
 		for i in {1..50}; do
-			if [ $(docker inspect --format '{{ .State.Running }}' dockercompose_dmaap_1) ] && \
-				[ $(docker inspect --format '{{ .State.Running }}' dockercompose_zookeeper_1) ] && \
-				[ $(docker inspect --format '{{ .State.Running }}' dockercompose_dmaap_1) ] 
+			if [ $(docker inspect --format '{{ .State.Running }}' ${COMPOSE_PREFIX}_dmaap_1) ] && \
+				[ $(docker inspect --format '{{ .State.Running }}' ${COMPOSE_PREFIX}_zookeeper_1) ] && \
+				[ $(docker inspect --format '{{ .State.Running }}' ${COMPOSE_PREFIX}_dmaap_1) ] 
 			then
 				echo "DMaaP Service Running"	
 				break    		
@@ -61,10 +63,10 @@ function dmaap_mr_launch() {
 		done
 
 
-		DMAAP_MR_IP=$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' dockercompose_dmaap_1)
+		DMAAP_MR_IP=$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${COMPOSE_PREFIX}_dmaap_1)
 		IP=${DMAAP_MR_IP}
-		KAFKA_IP=$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' dockercompose_kafka_1)
-		ZOOKEEPER_IP=$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' dockercompose_zookeeper_1)
+		KAFKA_IP=$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${COMPOSE_PREFIX}_kafka_1)
+		ZOOKEEPER_IP=$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${COMPOSE_PREFIX}_zookeeper_1)
 
 		echo DMAAP_MR_IP=${DMAAP_MR_IP}
 		echo IP=${IP}
@@ -84,9 +86,9 @@ function dmaap_mr_launch() {
 
 		# Wait for initialization of Docker containers
 		for i in {1..50}; do
-				if [ $(docker inspect --format '{{ .State.Running }}' dockercompose_dmaap_1) ] && \
-						[ $(docker inspect --format '{{ .State.Running }}' dockercompose_zookeeper_1) ] && \
-						[ $(docker inspect --format '{{ .State.Running }}' dockercompose_dmaap_1) ]
+				if [ $(docker inspect --format '{{ .State.Running }}' ${COMPOSE_PREFIX}_dmaap_1) ] && \
+						[ $(docker inspect --format '{{ .State.Running }}' ${COMPOSE_PREFIX}_zookeeper_1) ] && \
+						[ $(docker inspect --format '{{ .State.Running }}' ${COMPOSE_PREFIX}_dmaap_1) ]
 				then
 						echo "DMaaP Service Running"
 						break

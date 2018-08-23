@@ -31,9 +31,9 @@ else
 	MRC_IP=${IP}
 
 	source ${WORKSPACE}/test/csit/scripts/dmaap-buscontroller/start-mock.sh
-	#start_mock "aaf" 
-	#AAF_IP=${IP}
-	AAF_IP=0.0.0.0
+	start_mock "aaf" 
+	AAF_IP=${IP}
+	#AAF_IP=0.0.0.0
 	#start_mock "drps" 
 	#DRPS_IP=${IP}
 	DRPS_IP=0.0.0.0
