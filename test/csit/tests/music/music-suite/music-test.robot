@@ -5,10 +5,14 @@ Library       json
 
 *** Variables ***
 ${MESSAGE}    {"ping": "ok"}
+${BASIC}    Basic
+${AUTHVALUE}    bXVzaWM6bXVzaWM=
+${Authorization}    ${BASIC} ${AUTHVALUE}
 
 #global variables
 ${generatedAID}
-${Authorization} Basic bXVzaWM6bXVzaWM=
+
+
 
 *** Test Cases ***
 Check Cassandra Docker Container
