@@ -27,7 +27,7 @@ source ${WORKSPACE}/test/csit/scripts/music/music-scripts/music_script.sh
 echo "# music configuration step";
 
 CASS_IMG=nexus3.onap.org:10001/onap/music/cassandra_music:latest
-TOMCAT_IMG=nexus3.onap.org:10001/library/tomcat:8.0
+TOMCAT_IMG=nexus3.onap.org:10001/library/tomcat:8.5
 ZK_IMG=nexus3.onap.org:10001/library/zookeeper:3.4
 MUSIC_IMG=nexus3.onap.org:10001/onap/music/music:latest
 WORK_DIR=/tmp/music
@@ -77,6 +77,16 @@ echo "TOMCAT_IP=${TOMCAT_IP}"
 
 ${WORKSPACE}/test/csit/scripts/music/music-scripts/wait_for_port.sh ${TOMCAT_IP} 8080
 
+sleep 10;
+echo "get the tomcat logs to make sure its running music properly"
+docker logs music-tomcat
+echo "===== MUSIC localhost Log ===================="
+docker exec music-tomcat /bin/bash -c "tail -n500 /usr/local/tomcat/logs/localhost*"
+
+echo "===== MUSIC Log ===================="
+tail -100 $MUSIC_LOGS/MUSIC/music.log
+echo "===== MUSIC error log =================="
+tail -100 $MUSIC_LOGS/MUSIC/error.log
 
 echo "inspect docker things for tracing purpose"
 docker inspect music-db

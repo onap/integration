@@ -41,6 +41,7 @@ docker volume rm music-vol
 
 echo "dump music.log files"
 ls -alF /tmp/music
+ls -alFR /tmp/music
 ls -alF /tmp/music/properties
 cat /tmp/music/properties/music.properties
 cat /tmp/music/logs/MUSIC/music.log
