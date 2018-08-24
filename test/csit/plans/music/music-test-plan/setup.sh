@@ -77,6 +77,9 @@ echo "TOMCAT_IP=${TOMCAT_IP}"
 
 ${WORKSPACE}/test/csit/scripts/music/music-scripts/wait_for_port.sh ${TOMCAT_IP} 8080
 
+sleep 10;
+echo "get the tomcat logs to make sure its running music properly"
+docker logs music-tomcat
 
 echo "inspect docker things for tracing purpose"
 docker inspect music-db
