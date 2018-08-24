@@ -27,7 +27,7 @@ source ${WORKSPACE}/test/csit/scripts/music/music-scripts/music_script.sh
 echo "# music configuration step";
 
 CASS_IMG=nexus3.onap.org:10001/onap/music/cassandra_music:latest
-TOMCAT_IMG=nexus3.onap.org:10001/library/tomcat:8.0
+TOMCAT_IMG=nexus3.onap.org:10001/library/tomcat:8.5
 ZK_IMG=nexus3.onap.org:10001/library/zookeeper:3.4
 MUSIC_IMG=nexus3.onap.org:10001/onap/music/music:latest
 WORK_DIR=/tmp/music
@@ -38,6 +38,7 @@ MUSIC_PROPERTIES=/tmp/music/properties
 MUSIC_LOGS=/tmp/music/logs
 mkdir -p ${MUSIC_PROPERTIES}
 mkdir -p ${MUSIC_LOGS}
+mkdir -p ${MUSIC_LOGS}/MUSIC
 
 cp ${MUSIC_SOURCE_PROPERTIES}/* ${WORK_DIR}/properties
 
@@ -67,7 +68,10 @@ echo "ZOOKEEPER_IP=${ZOO_IP}"
 sleep 60;
 
 # Start Up tomcat - Needs to have properties,logs dir and war file volume mapped.
-docker run -d --name music-tomcat --network music-net -p "8080:8080" -v music-vol:/usr/local/tomcat/webapps -v ${WORK_DIR}/properties:/opt/app/music/etc:ro -v ${WORK_DIR}/logs:/opt/app/music/logs ${TOMCAT_IMG};
+docker run -d --name music-tomcat --network music-net -p "8080:8080" 
+-v music-vol:/usr/local/tomcat/webapps 
+-v ${WORK_DIR}/properties:/opt/app/music/etc:ro 
+-v ${WORK_DIR}/logs:/opt/app/music/logs ${TOMCAT_IMG};
 
 # Connect tomcat to host bridge network so that its port can be seen. 
 docker network connect bridge music-tomcat;
@@ -77,6 +81,20 @@ echo "TOMCAT_IP=${TOMCAT_IP}"
 
 ${WORKSPACE}/test/csit/scripts/music/music-scripts/wait_for_port.sh ${TOMCAT_IP} 8080
 
+sleep 10;
+echo "get the tomcat logs to make sure its running music properly"
+echo "======== TOMCAT Logs =============="
+docker logs music-tomcat
+#echo "===== MUSIC localhost Log ===================="
+#docker exec music-tomcat /bin/bash -c "cat /usr/local/tomcat/logs/localhost*"
+
+echo "===== MUSIC Log ===================="
+ls -al $MUSIC_LOGS/MUSIC
+docker exec music-tomcat /bin/bash -c "cat /opt/app/music/logs/MUSIC/music.log"
+#tail -100 $MUSIC_LOGS/MUSIC/music.log
+echo "===== MUSIC error log =================="
+docker exec music-tomcat /bin/bash -c "cat /opt/app/music/logs/MUSIC/error.log"
+#tail -100 $MUSIC_LOGS/MUSIC/error.log
 
 echo "inspect docker things for tracing purpose"
 docker inspect music-db
