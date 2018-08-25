@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_72fdcd39",
+        "filename": "version-manifest/src/main/scripts/upgrade-oparent.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2018-08-25T00:23:38Z",
+      "side": 1,
+      "message": "Can we adjust the script to only modify pom.xml\u0027s that contain oparent references\n\nfor example https://gerrit.onap.org/r/#/c/62647/1/pom.xml - the other poms in the project will get a merge conflict on non-functional changes for example",
+      "revId": "ec934e3d0e6d95681a14a2d4975483ce302f98b3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
