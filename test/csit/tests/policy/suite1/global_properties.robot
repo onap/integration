@@ -22,7 +22,7 @@ ${GLOBAL_AAI_CLOUD_OWNER}    Rackspace
 ${GLOBAL_BUILD_NUMBER}    31
 ${GLOBAL_VM_PRIVATE_KEY}   ${EXECDIR}/robot/assets/keys/robot_ssh_private_key.pvt
 # policy info - everything is from the private oam network (also called ecomp private network)
-${GLOBAL_POLICY_SERVER_URL}	http://%{PDP_IP}:8081
+${GLOBAL_POLICY_SERVER_URL}	https://%{PDP_IP}:8081
 ${GLOBAL_POLICY_AUTH}	dGVzdHBkcDphbHBoYTEyMw==
 ${GLOBAL_POLICY_CLIENTAUTH}	 cHl0aG9uOnRlc3Q=
 ${GLOBAL_POLICY_HEALTHCHECK_URL}	http://%{POLICY_IP}:6969

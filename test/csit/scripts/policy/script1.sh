@@ -160,7 +160,7 @@ INTERVAL=20
 TIME=0 
 while [ "$TIME" -lt "$TIME_OUT" ]; do 
 	
-	curl -i -v -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'ClientAuth: cHl0aG9uOnRlc3Q=' -H 'Authorization: Basic dGVzdHBkcDphbHBoYTEyMw==' -H 'Environment: TEST' -X POST -d '{"policyName": ".*"}' http://${PDP_IP}:8081/pdp/api/getConfig && break
+	curl -k -i -v -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'ClientAuth: cHl0aG9uOnRlc3Q=' -H 'Authorization: Basic dGVzdHBkcDphbHBoYTEyMw==' -H 'Environment: TEST' -X POST -d '{"policyName": ".*"}' https://${PDP_IP}:8081/pdp/api/getConfig && break
 	
 echo Sleep: $INTERVAL seconds before testing if Policy is up. Total wait time up now is: $TIME seconds. Timeout is: $TIME_OUT seconds 
   sleep $INTERVAL 
