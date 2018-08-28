@@ -11,6 +11,7 @@ services:
       - ./json_schema:/json_schema
     env_file:
       - ./config/netconf.env
+    restart: on-failure
     depends_on:
       - netopeer
 
@@ -19,7 +20,20 @@ services:
     image: sysrepo/sysrepo-netopeer2:latest
     ports:
       - "830:830"
-    env_file:
-      - ./config/netconf.env
     volumes:
       - ./netconf:/netconf
+    env_file:
+      - ./config/netconf.env
+    restart: on-failure
+    depends_on:
+      - sftp-server
+
+  sftp-server:
+    container_name: sftp-server
+    image: atmoz/sftp:alpine
+    ports:
+      - "22:22"
+    volumes:
+      - ./sftp:/home/sftp-user/sftp
+    restart: on-failure
+    command: sftp-user:sftp-password
