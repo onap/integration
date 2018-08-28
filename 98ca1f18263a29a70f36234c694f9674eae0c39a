@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_30ae6386",
+        "filename": "test/mocks/pnfsimulator/docker-compose.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 2831
+      },
+      "writtenOn": "2018-08-28T12:58:27Z",
+      "side": 1,
+      "message": "wrong indentation (should be 2 spaces)",
+      "revId": "98ca1f18263a29a70f36234c694f9674eae0c39a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_10948735",
+        "filename": "test/mocks/pnfsimulator/docker-compose.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 2831
+      },
+      "writtenOn": "2018-08-28T12:58:27Z",
+      "side": 1,
+      "message": "which tag are we using? \u0027latest\u0027?",
+      "revId": "98ca1f18263a29a70f36234c694f9674eae0c39a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_f0b78bd6",
+        "filename": "test/mocks/pnfsimulator/docker-compose.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 2831
+      },
+      "writtenOn": "2018-08-28T12:58:27Z",
+      "side": 1,
+      "message": "wrong indentation (should be 2 spaces)",
+      "revId": "98ca1f18263a29a70f36234c694f9674eae0c39a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_10bb27c5",
+        "filename": "test/mocks/pnfsimulator/docker-compose.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 2831
+      },
+      "writtenOn": "2018-08-28T12:58:27Z",
+      "side": 1,
+      "message": "wrong indentation (should be 2 spaces)",
+      "revId": "98ca1f18263a29a70f36234c694f9674eae0c39a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_909f3750",
+        "filename": "test/mocks/pnfsimulator/sftp/sftp-file.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 2831
+      },
+      "writtenOn": "2018-08-28T12:58:27Z",
+      "side": 1,
+      "message": "misspelling - should be \u0027or\u0027 :D",
+      "range": {
+        "startLine": 2,
+        "startChar": 24,
+        "endLine": 2,
+        "endChar": 26
+      },
+      "revId": "98ca1f18263a29a70f36234c694f9674eae0c39a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
