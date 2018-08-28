@@ -11,6 +11,7 @@ services:
       - ./json_schema:/json_schema
     env_file:
       - ./config/netconf.env
+    restart: on-failure
     depends_on:
       - netopeer
 
@@ -23,3 +24,17 @@ services:
       - ./config/netconf.env
     volumes:
       - ./netconf:/netconf
+    restart: on-failure
+    depends_on:
+      - sftp-server
+
+  sftp-server:
+    container_name: sftp-server
+    image: atmoz/sftp:alpine
+    ports:
+      - "22:22"
+    command: sftp-user:sftp-password
+    volumes:
+      - ./sftp:/home/sftp-user/sftp
+    restart: on-failure
+
