@@ -12,7 +12,6 @@ onap/aai-resources,1.2.2
 onap/aai-traversal,1.2.2
 onap/aai/esr-gui,1.1.0
 onap/aai/esr-server,1.1.0
-onap/activity-spec,1.3.0
 onap/admportal-sdnc-image,1.4-STAGING-latest
 onap/appc-cdt-image,1.4.0-SNAPSHOT-latest
 onap/appc-image,1.4.0-SNAPSHOT-latest
@@ -37,7 +36,7 @@ onap/multicloud/framework,1.2.0-STAGING
 onap/multicloud/openstack-newton,1.2.0-STAGING
 onap/multicloud/openstack-ocata,1.2.0-STAGING
 onap/multicloud/openstack-windriver,1.2.0-STAGING
-onap/multicloud/vio,1.2.0-STAGING
+onap/multicloud/vio,1.1.2
 onap/multicloud/vio-vesagent,1.0.0
 onap/music/cassandra_music,3.0.0
 onap/music/music,2.5.3
