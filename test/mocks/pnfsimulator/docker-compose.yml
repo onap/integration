@@ -23,3 +23,16 @@ services:
       - ./config/netconf.env
     volumes:
       - ./netconf:/netconf
+    depends_on:
+     - sftp-server
+
+  sftp-server:
+    container_name: sftp-server
+    image: atmoz/sftp
+    ports:
+     - "22:22"
+    command: sftp-user:sftp-password
+    volumes:
+        - ./sftp:/home/sftp-user/sftp
+
+
