@@ -32,7 +32,7 @@ services:
     container_name: sftp-server
     image: atmoz/sftp:alpine
     ports:
-      - "22:22"
+      - "2222:22"
     volumes:
       - ./sftp:/home/sftp-user/sftp
     restart: on-failure
