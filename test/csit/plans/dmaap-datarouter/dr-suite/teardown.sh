@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cd $WORKSPACE/archives/dmaapdr/datarouter/datarouter-prov/src/main/resources/docker-compose/
+cd $WORKSPACE/archives/dmaapdr/datarouter/docker-compose/
 docker-compose down -v
