@@ -32,7 +32,7 @@ export IP=`ifconfig eth0 | awk -F: '/inet addr/ {gsub(/ .*/,"",$2); print $2}'`
 export PREFIX='nexus3.onap.org:10001/onap'
 
 #start Maria-DB
-docker run --name vid-mariadb -e MYSQL_DATABASE=vid_openecomp_epsdk -e MYSQL_USER=vidadmin -e MYSQL_PASSWORD=Kp8bJ4SXszM0WXlhak3eHlcse2gAw84vaoGGmJvUy2U -e MYSQL_ROOT_PASSWORD=LF+tp_1WqgSY -v ${CONFIG_PATH}/vid-my.cnf:/etc/mysql/my.cnf -v ${CONFIG_PATH}/vid-pre-init.sql:/docker-entrypoint-initdb.d/vid-pre-init.sql -v /var/lib/mysql -d mariadb:10
+docker run --name vid-mariadb -e MYSQL_DATABASE=vid_openecomp_epsdk -e MYSQL_USER=vidadmin -e MYSQL_PASSWORD=Kp8bJ4SXszM0WXlhak3eHlcse2gAw84vaoGGmJvUy2U -e MYSQL_ROOT_PASSWORD=LF+tp_1WqgSY -v ${CONFIG_PATH}/vid-my.cnf:/etc/mysql/my.cnf -v ${CONFIG_PATH}/vid-schema.sql:/docker-entrypoint-initdb.d/vid-schema.sql -v /var/lib/mysql -d mariadb:10
 
 #start VID server
 
