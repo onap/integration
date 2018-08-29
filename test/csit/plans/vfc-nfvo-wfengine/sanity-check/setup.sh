@@ -24,10 +24,10 @@ source ${SCRIPTS}/common_functions.sh
 docker run -d -p 8500:8500  --name msb_consul consul:0.9.3
 MSB_CONSUL_IP=`get-instance-ip.sh msb_consul`
 echo MSB_CONSUL_IP=${MSB_CONSUL_IP}
-docker run -d  -p 10081:10081  -e CONSUL_IP=$MSB_CONSUL_IP --name msb_discovery nexus3.onap.org:10001/onap/msb/msb_discovery
+docker run -d  -p 10081:10081  -e CONSUL_IP=$MSB_CONSUL_IP --name msb_discovery nexus3.onap.org:10001/onap/msb/msb_discovery:1.1.0
 MSB_DISCOVERY_IP=`get-instance-ip.sh msb_discovery`
 echo MSB_DISCOVERY_IP=${MSB_DISCOVERY_IP}
-docker run -d -p 80:80 -e CONSUL_IP=$MSB_CONSUL_IP -e SDCLIENT_IP=$MSB_DISCOVERY_IP -e "ROUTE_LABELS=visualRange:1" --name msb_internal_apigateway nexus3.onap.org:10001/onap/msb/msb_apigateway
+docker run -d -p 80:80 -e CONSUL_IP=$MSB_CONSUL_IP -e SDCLIENT_IP=$MSB_DISCOVERY_IP --name msb_internal_apigateway nexus3.onap.org:10001/onap/msb/msb_apigateway:1.1.0
 MSB_IAG_IP=`get-instance-ip.sh msb_internal_apigateway`
 echo MSB_IAG_IP=${MSB_IAG_IP}
 
@@ -39,8 +39,8 @@ for i in {1..10}; do
 done
 
 # wait for container initalization
-echo sleep 60
-sleep 60
+echo sleep 30
+sleep 30
 
 ORG="onap"
 PROJECT="vfc"
@@ -52,7 +52,8 @@ IMAGE_ACTIVITI_NAME="${DOCKER_REPOSITORY}/${ORG}/${PROJECT}/${IMAGE}"
 SERVICE_IP=$(ip route get 8.8.8.8 | awk '/8.8.8.8/ {print $NF}')
 
 # start wfengine-activiti
-docker run -d --name vfc_wfengine_activiti -p 8804:8080 -e SERVICE_IP=$SERVICE_IP -e SERVICE_PORT=8804 -e OPENPALETTE_MSB_IP=${MSB_IAG_IP} -e OPENPALETTE_MSB_PORT=80 ${IMAGE_ACTIVITI_NAME}
+# docker run -d --name vfc_wfengine_activiti -p 8804:8080 -e SERVICE_IP=$SERVICE_IP -e SERVICE_PORT=8804 -e OPENPALETTE_MSB_IP=${MSB_IAG_IP} -e OPENPALETTE_MSB_PORT=80 ${IMAGE_ACTIVITI_NAME}
+docker run -d --name vfc_wfengine_activiti -p 8804:8080 -e SERVICE_PORT=8080 -e OPENPALETTE_MSB_IP=${MSB_IAG_IP} -e OPENPALETTE_MSB_PORT=80 ${IMAGE_ACTIVITI_NAME}
 WFENGINE_ACTIVITI_IP=`get-instance-ip.sh vfc_wfengine_activiti`
 
 # Wait for initialization
@@ -72,7 +73,10 @@ IMAGE="wfengine-mgrservice"
 IMAGE_MGRSERVICE_NAME="${DOCKER_REPOSITORY}/${ORG}/${PROJECT}/${IMAGE}"
 
 # Start wfengine-mgrservice
-docker run -d --name vfc_wfengine_mgrservice -p 8805:10550 -e SERVICE_IP=$SERVICE_IP -e SERVICE_PORT=8805 -e OPENPALETTE_MSB_IP=${MSB_IAG_IP} -e OPENPALETTE_MSB_PORT=80 ${IMAGE_MGRSERVICE_NAME}
+#docker run -d --name vfc_wfengine_mgrservice -p 8805:10550 -e SERVICE_IP=$SERVICE_IP -e SERVICE_PORT=8805 -e OPENPALETTE_MSB_IP=${MSB_IAG_IP} -e OPENPALETTE_MSB_PORT=80 ${IMAGE_MGRSERVICE_NAME}
+# docker run -d --name vfc_wfengine_mgrservice -p 8805:10550 -e SERVICE_PORT=10550 -e OPENPALETTE_MSB_IP=${MSB_IAG_IP} -e OPENPALETTE_MSB_PORT=80 ${IMAGE_MGRSERVICE_NAME}
+docker run -d --name vfc_wfengine_mgrservice -p 8805:10550 -e SERVICE_PORT=10550 -e OPENPALETTE_MSB_IP=${OPENPALETTE_MSB_IP} -e OPENPALETTE_MSB_PORT=8080 ${IMAGE_MGRSERVICE_NAME}
+
 ##docker run -d --name ${IMAGE} -e OPENPALETTE_MSB_IP=${WFENGINEACTIVITIR_IP} -e OPENPALETTE_MSB_PORT=8080 ${IMAGE_MGRSERVICE_NAME}
 WFENGINE_MGRSERVICE_IP=`get-instance-ip.sh vfc_wfengine_mgrservice`
 for i in {1..10}; do

@@ -16,6 +16,12 @@
 #
 
 # This script is sourced by run-csit.sh after Robot test completion.
+echo === logs vfc_wfengine_activiti ===
+docker logs vfc_wfengine_activiti
+
+echo === logs vfc_wfengine_mgrservice ===
+docker logs vfc_wfengine_mgrservice
+
 kill-instance.sh msb_internal_apigateway
 kill-instance.sh msb_discovery
 kill-instance.sh msb_consul
