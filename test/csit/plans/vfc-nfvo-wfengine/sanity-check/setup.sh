@@ -27,7 +27,7 @@ echo MSB_CONSUL_IP=${MSB_CONSUL_IP}
 docker run -d  -p 10081:10081  -e CONSUL_IP=$MSB_CONSUL_IP --name msb_discovery nexus3.onap.org:10001/onap/msb/msb_discovery
 MSB_DISCOVERY_IP=`get-instance-ip.sh msb_discovery`
 echo MSB_DISCOVERY_IP=${MSB_DISCOVERY_IP}
-docker run -d -p 80:80 -e CONSUL_IP=$MSB_CONSUL_IP -e SDCLIENT_IP=$MSB_DISCOVERY_IP -e "ROUTE_LABELS=visualRange:1" --name msb_internal_apigateway nexus3.onap.org:10001/onap/msb/msb_apigateway
+docker run -d -p 80:80 -e CONSUL_IP=$MSB_CONSUL_IP -e SDCLIENT_IP=$MSB_DISCOVERY_IP --name msb_internal_apigateway nexus3.onap.org:10001/onap/msb/msb_apigateway
 MSB_IAG_IP=`get-instance-ip.sh msb_internal_apigateway`
 echo MSB_IAG_IP=${MSB_IAG_IP}
 
@@ -39,8 +39,8 @@ for i in {1..10}; do
 done
 
 # wait for container initalization
-echo sleep 60
-sleep 60
+echo sleep 30
+sleep 30
 
 ORG="onap"
 PROJECT="vfc"
