@@ -71,5 +71,15 @@ for i in {1..10}; do
     sleep $i
 done
 
+curl http://${NSLCM_IP}:8403/api/nslcm/v1/swagger.json &
+
+docker logs -f vfc-nslcm > 3.txt &
+cat 3.txt
+
+docker cp vfc-nslcm:/service/vfc/nfvo/lcm/logs/runtime_lcm.log ./
+cat runtime_lcm.log
+
+
+
 # Pass any variables required by Robot test suites in ROBOT_VARIABLES
 ROBOT_VARIABLES="-v MSB_IAG_IP:${MSB_IAG_IP} -v NSLCM_IP:${NSLCM_IP} -v SCRIPTS:${SCRIPTS}"
