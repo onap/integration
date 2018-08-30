@@ -14,13 +14,14 @@ ${var}
 APPC LCM API HEALTHCHECK
 	[Documentation]	APPC LCM API HEALTHCHECK 
 	Start Virtual Display     1920     1080
-	Open Browser    http://admin:admin@localhost:8282/apidoc/explorer/index.html	chrome
-	Maximize Browser Window 
+	Open Browser    http://admin:Kp8bJ4SXszM0WXlhak3eHlcse2gAw84vaoGGmJvUy2U@localhost:8282/apidoc/explorer/index.html	chrome
+#	Maximize Browser Window
 #	Click Element    xpath=.//p[contains(text(),'If you have reason to expect the website is safe, select the I Accept the Risk button to continue.')]//following::img
 
 	Reload Page
 
-#	Wait Until Page Contains Element    xpath=.//*[contains(text(),'appc-provider-lcm(2016-01-08)')]   
+#	Wait Until Page Conta	Open Browser    http://admin:Kp8bJ4SXszM0WXlhak3eHlcse2gAw84vaoGGmJvUy2U@localhost:8282/apidoc/explorer/index.html    chrome
+#	Maximize Browser Windowins Element    xpath=.//*[contains(text(),'appc-provider-lcm(2016-01-08)')]   
 
 #	Set Selenium Speed	60
 #	Click Element     xpath=.//*[contains(text(),'appc-provider-lcm(2016-01-08)')]
