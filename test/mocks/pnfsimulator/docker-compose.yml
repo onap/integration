@@ -35,5 +35,6 @@ services:
       - "2222:22"
     volumes:
       - ./sftp:/home/sftp-user/sftp
+      - ./ssh/ssh_host_rsa_key.pub:/home/sftp-user/.ssh/keys/ssh_host_rsa_key.pub:ro
     restart: on-failure
-    command: sftp-user:sftp-password
+    command: sftp-user::1001
