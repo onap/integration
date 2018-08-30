@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_4c181e75",
+        "filename": "test/mocks/pnfsimulator/ssh/ssh_host_rsa_key.pub",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 2831
+      },
+      "writtenOn": "2018-08-30T12:50:37Z",
+      "side": 1,
+      "message": "remove the last part :P",
+      "range": {
+        "startLine": 1,
+        "startChar": 725,
+        "endLine": 1,
+        "endChar": 740
+      },
+      "revId": "fef5969e16712991df6a6b28269fad84ceeabe57",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
