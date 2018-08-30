@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ###############################################################################
-# Copyright 2017 Huawei Technologies Co., Ltd.
+# Copyright 2018 AT&T
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 SCRIPTS="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 echo $SCRIPTS
 
-response=$(curl --write-out '%{http_code}' --silent --output /dev/null -H "Authorization: Basic YWRtaW46YWRtaW4=" -X POST -H "X-FromAppId: csit-appc" -H "X-TransactionId: csit-appc" -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8282/restconf/operations/SLI-API:healthcheck )
+response=$(curl --write-out '%{http_code}' --silent --output /dev/null -H "Authorization: Basic YWRtaW46S3A4Yko0U1hzek0wV1hsaGFrM2VIbGNzZTJnQXc4NHZhb0dHbUp2VXkyVQ==" -X POST -H "X-FromAppId: csit-appc" -H "X-TransactionId: csit-appc" -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:8282/restconf/operations/SLI-API:healthcheck )
 
 if [ "$response" == "200" ]; then
     echo "APPC health check passed."

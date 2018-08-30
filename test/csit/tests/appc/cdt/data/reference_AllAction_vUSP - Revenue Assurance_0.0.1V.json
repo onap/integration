@@ -5,6 +5,7 @@
 			"action-level": "vnf",
 			"scope": {
 				"vnf-type": "vUSP - Revenue Assurance",
+				"vnf-type-list": "testvnftype",
 				"vnfc-type": ""
 			},
 			"template": "Y",
@@ -61,7 +62,7 @@
 			"scope": {
 				"vnf-type": "vUSP - Revenue Assurance",
 				"vnfc-type": "",
-				"vnfc-type-list": []
+				"vnfc-type-list": ["testvnftype"]
 			},
 			"template": "Y",
 			"vm": [],
@@ -86,7 +87,7 @@
 			"scope": {
 				"vnf-type": "vUSP - Revenue Assurance",
 				"vnfc-type": "",
-				"vnfc-type-list": []
+				"vnfc-type-list": ["testvnftype"]
 			},
 			"template": "Y",
 			"vm": [],
@@ -111,7 +112,7 @@
 			"scope": {
 				"vnf-type": "vUSP - Revenue Assurance",
 				"vnfc-type": "",
-				"vnfc-type-list": []
+				"vnfc-type-list": ["testvnftype"]
 			},
 			"artifact-list": [
 				{

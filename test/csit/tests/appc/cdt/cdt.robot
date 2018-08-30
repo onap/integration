@@ -43,11 +43,14 @@
 | | Click Link | MY VNFs
 # Verify button element is ready before clicking it.
 | | Wait Until Page Contains Element | xpath=(//*[@class='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary']) | ${LONGTIME}
-| | Click Button | Create New VNF Type or VNFC Type
-| | Page Should Contain | Enter VNF type and VNFC to proceed
+#| | Click Button | Create New VNF Type or VNFC Type
+| | Click Button | Create New VNF Type
+#| | Page Should Contain | Enter VNF type and VNFC to proceed
+| | Page Should Contain | Enter VNF Type
 | | Page Should Contain Element | id=vnfType
 # Proceed without entering any new information
-| | Click Button | Proceed anyway
+#| | Click Button | Proceed anyway
+| | Click Button | Proceed To Upload
 | | Page Should Contain Element | id=cmbAction
 | | Click Button | Upload Reference File
 | | Choose File | id=inputFile |  ${CURDIR}/data/reference_AllAction_HealthCheckAnsible_0.0.1V.json
@@ -66,8 +69,10 @@
 | | Click Link | MY VNFs
 # Verify button element is ready before clicking it.
 | | Wait Until Page Contains Element | xpath=(//*[@class='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary']) | ${LONGTIME}
-| | Click Button | Create New VNF Type or VNFC Type
-| | Page Should Contain | Enter VNF type and VNFC to proceed
+#| | Click Button | Create New VNF Type or VNFC Type
+| | Click Button | Create New VNF Type
+#| | Page Should Contain | Enter VNF type and VNFC to proceed
+| | Page Should Contain | Enter VNF Type
 | | Page Should Contain Element | id=vnfType
 # Create a date to use in VNF Type to make it unique
 | | ${THEDATE}  | Get Current Date | result_format=%m%d%H%M%S | exclude_millis=True
@@ -93,7 +98,8 @@
 | | Click Link | MY VNFs
 # Verify button element is ready before clicking it.
 | | Wait Until Page Contains Element | xpath=(//*[@class='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary']) | ${LONGTIME}
-| | Click Button | Create New VNF Type or VNFC Type
+#| | Click Button | Create New VNF Type or VNFC Type
+| | Click Button | Create New VNF Type
 | | Wait Until Page Contains Element | id=vnfType | ${LONGTIME}
 # Create a date to use in VNF Type to make it unique
 | | ${THEDATE}  | Get Current Date | result_format=%m%d%H%M%S | exclude_millis=True
@@ -142,14 +148,15 @@
 | | Click Link | MY VNFs
 # Verify button element is ready before clicking it.
 | | Wait Until Page Contains Element | xpath=(//*[@class='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary']) | ${LONGTIME}
-| | Click Button | Create New VNF Type or VNFC Type
+#| | Click Button | Create New VNF Type or VNFC Type
+| | Click Button | Create New VNF Type
 | | Wait Until Page Contains Element | id=vnfType | ${LONGTIME}
 # Create a date to use in VNF Type to make it unique
 | | ${THEDATE}  | Get Current Date | result_format=%m%d%H%M%S | exclude_millis=True
 | | Input Text | id=vnfType | csit${THEDATE}
 # Check the box indicating VNFC templates
 | | Select Checkbox | id=vnfcRequired
-| | Input Text | id=vnfcType | csitVNFC
+#| | Input Text | id=vnfcType | csitVNFC
 | | Click Button | Next
 | | Wait Until Page Contains Element | id=cmbAction | ${LONGTIME}
 # Populate the action and protocol

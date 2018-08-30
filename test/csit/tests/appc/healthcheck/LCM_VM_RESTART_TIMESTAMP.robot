@@ -13,8 +13,8 @@ ${var}
 APPC LCM API VM RESTART
 	[Documentation]	APPC LCM API VM RESTART 
 	Start Virtual Display     1920     1080
-	Open Browser    http://admin:admin@localhost:8282/apidoc/explorer/index.html    chrome
-	Maximize Browser Window
+	Open Browser    http://admin:Kp8bJ4SXszM0WXlhak3eHlcse2gAw84vaoGGmJvUy2U@localhost:8282/apidoc/explorer/index.html    chrome
+#	Maximize Browser Window
 #	Click Element    xpath=.//p[contains(text(),'If you have reason to expect the website is safe, select the I Accept the Risk button to continue.')]//following::img
 	
 	Reload Page

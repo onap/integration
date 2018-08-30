@@ -4,7 +4,7 @@ version: V1
 vnf-parameter-list:
 - name: vnf_name
   type: null
-  description: dawnDescript
+  description: CSIT
   required: null
   default: null
   source: Manual
