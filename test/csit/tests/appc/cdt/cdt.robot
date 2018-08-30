@@ -43,8 +43,10 @@
 | | Click Link | MY VNFs
 # Verify button element is ready before clicking it.
 | | Wait Until Page Contains Element | xpath=(//*[@class='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary']) | ${LONGTIME}
-| | Click Button | Create New VNF Type or VNFC Type
-| | Page Should Contain | Enter VNF type and VNFC to proceed
+#| | Click Button | Create New VNF Type or VNFC Type
+| | Click Button | Create New VNF Type
+#| | Page Should Contain | Enter VNF type and VNFC to proceed
+| | Page Should Contain | Enter VNF Type
 | | Page Should Contain Element | id=vnfType
 # Proceed without entering any new information
 | | Click Button | Proceed anyway
@@ -66,8 +68,10 @@
 | | Click Link | MY VNFs
 # Verify button element is ready before clicking it.
 | | Wait Until Page Contains Element | xpath=(//*[@class='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary']) | ${LONGTIME}
-| | Click Button | Create New VNF Type or VNFC Type
-| | Page Should Contain | Enter VNF type and VNFC to proceed
+#| | Click Button | Create New VNF Type or VNFC Type
+| | Click Button | Create New VNF Type
+#| | Page Should Contain | Enter VNF type and VNFC to proceed
+| | Page Should Contain | Enter VNF Type
 | | Page Should Contain Element | id=vnfType
 # Create a date to use in VNF Type to make it unique
 | | ${THEDATE}  | Get Current Date | result_format=%m%d%H%M%S | exclude_millis=True
@@ -93,7 +97,8 @@
 | | Click Link | MY VNFs
 # Verify button element is ready before clicking it.
 | | Wait Until Page Contains Element | xpath=(//*[@class='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary']) | ${LONGTIME}
-| | Click Button | Create New VNF Type or VNFC Type
+#| | Click Button | Create New VNF Type or VNFC Type
+| | Click Button | Create New VNF Type
 | | Wait Until Page Contains Element | id=vnfType | ${LONGTIME}
 # Create a date to use in VNF Type to make it unique
 | | ${THEDATE}  | Get Current Date | result_format=%m%d%H%M%S | exclude_millis=True
@@ -142,7 +147,8 @@
 | | Click Link | MY VNFs
 # Verify button element is ready before clicking it.
 | | Wait Until Page Contains Element | xpath=(//*[@class='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary']) | ${LONGTIME}
-| | Click Button | Create New VNF Type or VNFC Type
+#| | Click Button | Create New VNF Type or VNFC Type
+| | Click Button | Create New VNF Type
 | | Wait Until Page Contains Element | id=vnfType | ${LONGTIME}
 # Create a date to use in VNF Type to make it unique
 | | ${THEDATE}  | Get Current Date | result_format=%m%d%H%M%S | exclude_millis=True
