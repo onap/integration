@@ -26,6 +26,12 @@ It is possible to get access to logs by invocation of *./simulator.sh* logs.
 The content of the logs is related to the last simulator run. 
 Every start of simulator will generate new logs. 
 
+###SFTP support
+PNF Simulator allows to serve files via SFTP server. SFTP server has predefined user sftp-user. 
+Connection to SFTP server is being done with usage of SSH keys. Private key is stored in *ssh* directory.
+In order to download *sftp-file.txt* file simply run *sftp -P 2222 -i ssh/ssh_host_rsa_key sftp-user@localhost:sftp/sftp-file.txt*
+In order to add a new file (e.g. test.zip), put the file into *sftp* directory and run simulator.
+After that again execute sftp command: *sftp -P 2222 -i ssh/ssh_host_rsa_key sftp-user@localhost:sftp/test.zip*
 
 ###Developer mode
 For development of PNF Simulator, run *simulator.sh* start-dev in order to run Netopeer.
