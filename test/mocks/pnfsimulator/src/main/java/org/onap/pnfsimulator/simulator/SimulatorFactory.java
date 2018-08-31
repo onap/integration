@@ -38,7 +38,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class SimulatorFactory {
 
-    private static final String DEFAULT_OUTPUT_SCHEMA_PATH = "json_schema/output_validator.json";
+    private static final String DEFAULT_OUTPUT_SCHEMA_PATH = "json_schema/output_validator_ves_schema_30.0.1.json";
 
     private MessageProvider messageProvider;
     private JSONValidator validator;
