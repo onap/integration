@@ -1,0 +1,10 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Mariusz Wagner <mariusz.wagner@nokia.com>
+Code-Review+1: Wojciech Sliwka <wojciech.sliwka@nokia.com>
+Code-Review+1: Piotr Krysiak <piotr.krysiak@nokia.com>
+Code-Review+2: Gary Wu <gary.i.wu@huawei.com>
+Submitted-by: Gary Wu <gary.i.wu@huawei.com>
+Submitted-at: Fri, 31 Aug 2018 15:45:38 +0000
+Reviewed-on: https://gerrit.onap.org/r/63937
+Project: integration
+Branch: refs/heads/master
