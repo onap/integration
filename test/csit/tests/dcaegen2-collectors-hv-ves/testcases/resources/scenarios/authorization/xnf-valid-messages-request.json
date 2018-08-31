@@ -1,0 +1,23 @@
+[
+  {
+    "commonEventHeader": {
+      "version": "sample-version",
+      "domain": "HVRANMEAS",
+      "sequence": 1,
+      "priority": 1,
+      "eventId": "sample-event-id",
+      "eventName": "sample-event-name",
+      "eventType": "sample-event-type",
+      "startEpochMicrosec": 120034455,
+      "lastEpochMicrosec": 120034455,
+      "nfNamingCode": "sample-nf-naming-code",
+      "nfcNamingCode": "sample-nfc-naming-code",
+      "reportingEntityId": "sample-reporting-entity-id",
+      "reportingEntityName": "sample-reporting-entity-name",
+      "sourceId": "sample-source-id",
+      "sourceName": "sample-source-name"
+    },
+    "messageType": "VALID",
+    "messagesAmount": 500000
+  }
+]
