@@ -1,0 +1,301 @@
+{
+  "service": {
+    "uuid": "2763bc78-8523-482f-895b-0c0db7364224",
+    "invariantUuid": "abb2dc66-b211-49d2-ab2f-8774694136fa",
+    "name": "Bare2",
+    "version": "1.0",
+    "toscaModelURL": null,
+    "category": "Network L1-3",
+    "serviceType": "",
+    "serviceRole": "",
+    "description": "Bare2",
+    "serviceEcompNaming": "true",
+    "instantiationType": "ClientConfig",
+    "inputs": {}
+  },
+  "vnfs": {
+    "95e654c0-676b-4386-8a69 0": {
+      "uuid": "d6395498-7ecb-4eba-bf84-4380f6e9cdcf",
+      "invariantUuid": "16262b97-bcb1-4033-8f9f-a3016eaf1ec3",
+      "description": "vendor software product",
+      "name": "95e654c0-676b-4386-8a69",
+      "version": "1.0",
+      "customizationUuid": "34a3b91d-8d73-4412-bf4e-c6456741007f",
+      "inputs": {},
+      "commands": {},
+      "properties": {
+        "vf_module_id": "vTrafficPNG",
+        "repo_url_blob": "https://nexus.onap.org/content/sites/raw",
+        "unprotected_private_subnet_id": "zdfw1fwl01_unprotected_sub",
+        "public_net_id": "PUT THE PUBLIC NETWORK ID HERE",
+        "vfw_private_ip_0": "192.168.10.100",
+        "onap_private_subnet_id": "PUT THE ONAP PRIVATE NETWORK NAME HERE",
+        "onap_private_net_cidr": "10.0.0.0/16",
+        "image_name": "PUT THE VM IMAGE NAME HERE (UBUNTU 1404)",
+        "flavor_name": "PUT THE VM FLAVOR NAME HERE (m1.medium suggested)",
+        "vnf_id": "vPNG_Firewall_demo_app",
+        "vpg_name_0": "zdfw1fwl01pgn01",
+        "vpg_private_ip_1": "10.0.100.2",
+        "vsn_private_ip_0": "192.168.20.250",
+        "vpg_private_ip_0": "192.168.10.200",
+        "protected_private_net_cidr": "192.168.20.0/24",
+        "unprotected_private_net_cidr": "192.168.10.0/24",
+        "nf_naming": "{ecomp_generated_naming=true}",
+        "multi_stage_design": "false",
+        "onap_private_net_id": "PUT THE ONAP PRIVATE NETWORK NAME HERE",
+        "unprotected_private_net_id": "zdfw1fwl01_unprotected",
+        "availability_zone_max_count": "1",
+        "demo_artifacts_version": "1.2.1",
+        "pub_key": "PUT YOUR PUBLIC KEY HERE",
+        "key_name": "vfw_key",
+        "repo_url_artifacts": "https://nexus.onap.org/content/repositories/releases",
+        "install_script_version": "1.2.1",
+        "cloud_env": "PUT openstack OR rackspace HERE"
+      },
+      "type": "VF",
+      "modelCustomizationName": "95e654c0-676b-4386-8a69 0",
+      "vfModules": {
+        "95e654c0676b43868a690..95e654c0676b43868a69..base_vpkg..module-0": {
+          "uuid": "12082e9d-a854-48cc-8243-e24b26199856",
+          "invariantUuid": "239419df-3375-49fe-9dd4-73b3393858ba",
+          "customizationUuid": "32c824f7-5910-4d7a-88ad-188d4905675d",
+          "description": null,
+          "name": "95e654c0676b43868a69..base_vpkg..module-0",
+          "version": "1",
+          "volumeGroupAllowed": false,
+          "commands": {},
+          "modelCustomizationName": "95e654c0676b43868a69..base_vpkg..module-0",
+          "properties": {
+            "min_vf_module_instances": {
+              "name": "min_vf_module_instances",
+              "value": 1,
+              "entrySchema": null,
+              "required": true,
+              "constraints": [],
+              "description": "The minimum instances of this VF-Module",
+              "default": null,
+              "type": "integer"
+            },
+            "vf_module_label": {
+              "name": "vf_module_label",
+              "value": "base_vpkg",
+              "entrySchema": null,
+              "required": true,
+              "constraints": [],
+              "description": "Alternate textual key used to reference this VF-Module model.  Must be unique within the VNF model\n",
+              "default": null,
+              "type": "string"
+            },
+            "max_vf_module_instances": {
+              "name": "max_vf_module_instances",
+              "value": 1,
+              "entrySchema": null,
+              "required": false,
+              "constraints": [],
+              "description": "The maximum instances of this VF-Module",
+              "default": null,
+              "type": "integer"
+            },
+            "vfc_list": {
+              "name": "vfc_list",
+              "value": null,
+              "entrySchema": {
+                "description": "<vfc_id>:<count>",
+                "type": "string"
+              },
+              "required": false,
+              "constraints": [],
+              "description": "Identifies the set of VM types and their count included in the VF-Module\n",
+              "default": null,
+              "type": "map"
+            },
+            "vf_module_type": {
+              "name": "vf_module_type",
+              "value": "Base",
+              "entrySchema": null,
+              "required": true,
+              "constraints": [],
+              "description": "",
+              "default": null,
+              "type": "string"
+            },
+            "vf_module_description": {
+              "name": "vf_module_description",
+              "value": null,
+              "entrySchema": null,
+              "required": true,
+              "constraints": [],
+              "description": "Description of the VF-modules contents and purpose   (e.g. \"Front-End\" or \"Database Cluster\")\n",
+              "default": null,
+              "type": "string"
+            },
+            "initial_count": {
+              "name": "initial_count",
+              "value": 1,
+              "entrySchema": null,
+              "required": false,
+              "constraints": [],
+              "description": "The initial count of instances of the VF-Module. The value must be in the  range between min_vfmodule_instances and max_vfmodule_instances. If no value provided the initial count is the min_vfmodule_instances.\n",
+              "default": null,
+              "type": "integer"
+            },
+            "volume_group": {
+              "name": "volume_group",
+              "value": false,
+              "entrySchema": null,
+              "required": true,
+              "constraints": [],
+              "description": "\"true\" indicates that this VF Module model requires attachment to a Volume   Group.  VID operator must select the Volume Group instance to attach to a VF-Module  at deployment time.\n",
+              "default": false,
+              "type": "boolean"
+            },
+            "availability_zone_count": {
+              "name": "availability_zone_count",
+              "value": null,
+              "entrySchema": null,
+              "required": false,
+              "constraints": [],
+              "description": "Quantity of Availability Zones needed for this VF-Module     (source: Extracted from VF-Module HEAT template)\n",
+              "default": null,
+              "type": "integer"
+            },
+            "isBase": {
+              "name": "isBase",
+              "value": false,
+              "entrySchema": null,
+              "required": true,
+              "constraints": [],
+              "description": "Whether this module should be deployed before other modules",
+              "default": false,
+              "type": "boolean"
+            }
+          }
+        }
+      },
+      "volumeGroups": {}
+    }
+  },
+  "networks": {},
+  "configurations": {},
+  "serviceProxies": {},
+  "vfModules": {
+    "95e654c0676b43868a690..95e654c0676b43868a69..base_vpkg..module-0": {
+      "uuid": "12082e9d-a854-48cc-8243-e24b26199856",
+      "invariantUuid": "239419df-3375-49fe-9dd4-73b3393858ba",
+      "customizationUuid": "32c824f7-5910-4d7a-88ad-188d4905675d",
+      "description": null,
+      "name": "95e654c0676b43868a69..base_vpkg..module-0",
+      "version": "1",
+      "volumeGroupAllowed": false,
+      "commands": {},
+      "modelCustomizationName": "95e654c0676b43868a69..base_vpkg..module-0",
+      "properties": {
+        "min_vf_module_instances": {
+          "name": "min_vf_module_instances",
+          "value": 1,
+          "entrySchema": null,
+          "required": true,
+          "constraints": [],
+          "description": "The minimum instances of this VF-Module",
+          "default": null,
+          "type": "integer"
+        },
+        "vf_module_label": {
+          "name": "vf_module_label",
+          "value": "base_vpkg",
+          "entrySchema": null,
+          "required": true,
+          "constraints": [],
+          "description": "Alternate textual key used to reference this VF-Module model.  Must be unique within the VNF model\n",
+          "default": null,
+          "type": "string"
+        },
+        "max_vf_module_instances": {
+          "name": "max_vf_module_instances",
+          "value": 1,
+          "entrySchema": null,
+          "required": false,
+          "constraints": [],
+          "description": "The maximum instances of this VF-Module",
+          "default": null,
+          "type": "integer"
+        },
+        "vfc_list": {
+          "name": "vfc_list",
+          "value": null,
+          "entrySchema": {
+            "description": "<vfc_id>:<count>",
+            "type": "string"
+          },
+          "required": false,
+          "constraints": [],
+          "description": "Identifies the set of VM types and their count included in the VF-Module\n",
+          "default": null,
+          "type": "map"
+        },
+        "vf_module_type": {
+          "name": "vf_module_type",
+          "value": "Base",
+          "entrySchema": null,
+          "required": true,
+          "constraints": [],
+          "description": "",
+          "default": null,
+          "type": "string"
+        },
+        "vf_module_description": {
+          "name": "vf_module_description",
+          "value": null,
+          "entrySchema": null,
+          "required": true,
+          "constraints": [],
+          "description": "Description of the VF-modules contents and purpose   (e.g. \"Front-End\" or \"Database Cluster\")\n",
+          "default": null,
+          "type": "string"
+        },
+        "initial_count": {
+          "name": "initial_count",
+          "value": 1,
+          "entrySchema": null,
+          "required": false,
+          "constraints": [],
+          "description": "The initial count of instances of the VF-Module. The value must be in the  range between min_vfmodule_instances and max_vfmodule_instances. If no value provided the initial count is the min_vfmodule_instances.\n",
+          "default": null,
+          "type": "integer"
+        },
+        "volume_group": {
+          "name": "volume_group",
+          "value": false,
+          "entrySchema": null,
+          "required": true,
+          "constraints": [],
+          "description": "\"true\" indicates that this VF Module model requires attachment to a Volume   Group.  VID operator must select the Volume Group instance to attach to a VF-Module  at deployment time.\n",
+          "default": false,
+          "type": "boolean"
+        },
+        "availability_zone_count": {
+          "name": "availability_zone_count",
+          "value": null,
+          "entrySchema": null,
+          "required": false,
+          "constraints": [],
+          "description": "Quantity of Availability Zones needed for this VF-Module     (source: Extracted from VF-Module HEAT template)\n",
+          "default": null,
+          "type": "integer"
+        },
+        "isBase": {
+          "name": "isBase",
+          "value": false,
+          "entrySchema": null,
+          "required": true,
+          "constraints": [],
+          "description": "Whether this module should be deployed before other modules",
+          "default": false,
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "volumeGroups": {},
+  "pnfs": {}
+}
