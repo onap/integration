@@ -6,13 +6,13 @@ Library       Collections
 *** Keywords ***
 Configure Valid xNF Simulators On Ports
     [Arguments]    ${XNF_PORTS_LIST}
-    ${VALID_XNF_SIMULATORS_ADDRESSES}=   Start Xnf Simulators    ${XNF_PORTS_LIST}    True
+    ${VALID_XNF_SIMULATORS_ADDRESSES}=   Start Xnf Simulators    ${XNF_PORTS_LIST}    ${true}
     Set Suite Variable    ${VALID_XNF_SIMULATORS_ADDRESSES}
 
 
 Configure Invalid xNF Simulators On Ports
     [Arguments]    ${XNF_PORTS_LIST}
-    ${INVALID_XNF_SIMULATORS_ADDRESSES}=   Start Xnf Simulators    ${XNF_PORTS_LIST}    False
+    ${INVALID_XNF_SIMULATORS_ADDRESSES}=   Start Xnf Simulators    ${XNF_PORTS_LIST}    ${false}
     Set Suite Variable    ${INVALID_XNF_SIMULATORS_ADDRESSES}
 
 
@@ -41,7 +41,7 @@ VES-HV Collector Test Shutdown
 
 
 VES-HV Collector Suite Teardown
-    Stop And Remove All Xnf Simulators
+    Stop And Remove All Xnf Simulators   ${SUITE NAME}
 
 *** Variables ***
 ${HTTP_METHOD_URL}                             http://

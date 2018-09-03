@@ -25,16 +25,8 @@ make FILE=invalid_client CA=invalid_trust
 cd ..
 
 export DOCKER_REGISTRY="nexus3.onap.org:10001"
-CURRENT_DIR=${PWD##*/}
-VES_HV_CONTAINER_NAME=ves-hv-collector
-
-# little race condition between container start-up and required files copying below
 docker-compose up -d
 
-COMPOSE_VES_HV_CONTAINER_NAME=${CURRENT_DIR}_${VES_HV_CONTAINER_NAME}_1
-echo "COPY tls authorization files to container: ${COMPOSE_VES_HV_CONTAINER_NAME}"
-docker cp ssl/. ${COMPOSE_VES_HV_CONTAINER_NAME}:/etc/ves-hv
-# race condition end
-
+mkdir ${WORKSPACE}/archives/containers_logs
 
 export ROBOT_VARIABLES="--pythonpath ${WORKSPACE}/test/csit/tests/dcaegen2-collectors-hv-ves/testcases/libraries"

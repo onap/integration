@@ -8,8 +8,11 @@ from time import sleep
 XNF_SIMULATOR_NAME = "xNF Simulator"
 SIMULATOR_IMAGE_NAME = "onap/org.onap.dcaegen2.collectors.hv-ves.hv-collector-xnf-simulator"
 SIMULATOR_IMAGE_FULL_NAME = os.getenv("DOCKER_REGISTRY") + "/" + SIMULATOR_IMAGE_NAME + ":latest"
-certificates_dir_path = os.getenv("WORKSPACE") + "/test/csit/plans/dcaegen2-collectors-hv-ves/testsuites/ssl/"
+WORKSPACE_ENV = os.getenv("WORKSPACE")
+certificates_dir_path = WORKSPACE_ENV + "/test/csit/plans/dcaegen2-collectors-hv-ves/testsuites/ssl/"
+collector_certs_lookup_dir = "/etc/ves-hv/"
 ONE_SECOND_IN_NANOS = 10 ** 9
+
 
 class XnfSimulatorLibrary:
 
@@ -36,48 +39,43 @@ class XnfSimulatorLibrary:
         simulators_addresses = []
         for port in list_of_ports:
             container = self.run_simulator(dockerClient, port,
-                                           "/etc/ves-hv/" + cert_name_prefix + "client.crt",
-                                           "/etc/ves-hv/" + cert_name_prefix + "client.key",
-                                           "/etc/ves-hv/" + cert_name_prefix + "trust.crt"
+                                           collector_certs_lookup_dir + cert_name_prefix + "client.crt",
+                                           collector_certs_lookup_dir + cert_name_prefix + "client.key",
+                                           collector_certs_lookup_dir + cert_name_prefix + "trust.crt"
                                            )
 
-            self.copy_required_certificates_into_simulator(container)
             logger.info("Started container: " + container.name + "  " + container.id)
             simulators_addresses.append(container.name + ":" + port)
         return simulators_addresses
 
     def run_simulator(self, dockerClient, port, client_crt_path, client_key_path, client_trust_store):
+        xNF_startup_command = ["--listen-port", port,
+                               "--ves-host", "ves-hv-collector",
+                               "--ves-port", "6061",
+                               "--cert-file", client_crt_path,
+                               "--private-key-file", client_key_path,
+                               "--trust-cert-file", client_trust_store]
+        xNF_healthcheck_command = {
+            "interval": 5 * ONE_SECOND_IN_NANOS,
+            "timeout": 3 * ONE_SECOND_IN_NANOS,
+            "retries": 1,
+            "test": ["CMD", "curl", "--request", "GET",
+                     "--fail", "--silent", "--show-error",
+                     "localhost:" + port + "/healthcheck"]
+        }
+        logger.info("Startup command: " + str(xNF_startup_command))
+        logger.info("Healthcheck command: " + str(xNF_healthcheck_command))
         return dockerClient.containers.run(SIMULATOR_IMAGE_FULL_NAME,
-                                           command=["--listen-port", port,
-                                                    "--ves-host", "ves-hv-collector",
-                                                    "--ves-port", "6061",
-                                                    "--cert-file", client_crt_path,
-                                                    "--private-key-file", client_key_path,
-                                                    "--trust-cert-file", client_trust_store
-                                                    ],
-                                           healthcheck={
-                                               "interval": 5 * ONE_SECOND_IN_NANOS,
-                                               "timeout": 3 * ONE_SECOND_IN_NANOS,
-                                               "retries": 1,
-                                               "test": ["CMD", "curl", "--request", "GET",
-                                                        "--fail", "--silent", "--show-error",
-                                                        "localhost:" + port + "/healthcheck"]
-                                           },
+                                           command=xNF_startup_command,
+                                           healthcheck=xNF_healthcheck_command,
                                            detach=True,
                                            network="ves-hv-default",
                                            ports={port + "/tcp": port},
+                                           volumes=self.container_volumes(),
                                            name="ves-hv-collector-xnf-simulator" + port)
 
-    def copy_required_certificates_into_simulator(self, container):
-        container.exec_run("mkdir -p /etc/ves-hv")
-        copy_to_container(container.id, [
-            certificates_dir_path + "client.crt",
-            certificates_dir_path + "client.key",
-            certificates_dir_path + "trust.crt",
-            certificates_dir_path + "invalid_client.crt",
-            certificates_dir_path + "invalid_client.key",
-            certificates_dir_path + "invalid_trust.crt",
-        ])
+    def container_volumes(self):
+        return {certificates_dir_path: {"bind": collector_certs_lookup_dir, "mode": 'rw'}}
 
     def assert_containers_startup_was_successful(self, dockerClient):
         checks_amount = 6
@@ -95,11 +93,15 @@ class XnfSimulatorLibrary:
         container_health = container.attrs['State']['Health']['Status']
         return container_health == 'healthy' and container.status == 'running'
 
-    def stop_and_remove_all_xnf_simulators(self):
+    def stop_and_remove_all_xnf_simulators(self, suite_name):
         dockerClient = docker.from_env()
         for container in self.get_simulators_list(dockerClient):
             logger.info("Stopping and removing container: " + container.id)
-            logger.debug(container.logs())
+            log_filename = WORKSPACE_ENV + "/archives/containers_logs/" + \
+                           suite_name.split(".")[-1] + "_" + container.name + ".log"
+            file = open(log_filename, "w+")
+            file.write(container.logs())
+            file.close()
             container.stop()
             container.remove()
         dockerClient.close()
