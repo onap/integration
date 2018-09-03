@@ -42,11 +42,17 @@ services:
     command: ["-server", "-bootstrap"]
 
   ves-hv-collector:
-    image: $DOCKER_REGISTRY/onap/org.onap.dcaegen2.collectors.hv-ves.hv-collector-main
+    image: $DOCKER_REGISTRY/onap/org.onap.dcaegen2.collectors.hv-ves.hv-collector-main:latest
     ports:
+      - "6060:6060"
       - "6061:6061/tcp"
     entrypoint: ["java", "-Dio.netty.leakDetection.level=paranoid", "-cp", "*:", "org.onap.dcae.collectors.veshv.main.MainKt"]
     command: ["--listen-port", "6061","--config-url", "http://consul:8500/v1/kv/veshv-config"]
+    healthcheck:
+      interval: 10s
+      timeout: 5s
+      retries: 2
+      test: "curl --request GET --fail --silent --show-error localhost:6060/health/ready && nc -vz localhost 6061"
     depends_on:
       - kafka
     volumes:
@@ -55,7 +61,7 @@ services:
       - ves-hv-default
 
   dcae-app-simulator:
-    image: $DOCKER_REGISTRY/onap/org.onap.dcaegen2.collectors.hv-ves.hv-collector-dcae-app-simulator
+    image: $DOCKER_REGISTRY/onap/org.onap.dcaegen2.collectors.hv-ves.hv-collector-dcae-app-simulator:latest
     ports:
       - "6063:6063/tcp"
     command: ["--listen-port", "6063", "--kafka-bootstrap-servers", "kafka:9092", "--kafka-topics", "ves_hvRanMeas"]
@@ -63,7 +69,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 2
-      test: ["CMD", "curl", "--request", "GET", "--fail", "--silent", "--show-error", "localhost:6063/healthcheck"]
+      test: "curl --request GET --fail --silent --show-error localhost:6063/healthcheck"
     depends_on:
       - kafka
     networks:
