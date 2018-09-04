@@ -1,0 +1,7 @@
+{ 	
+  "consistencyInfo":{"type":"eventual"},
+  "durabilityOfWrites":"true",
+  "keyspaceName":"txt",
+  "replicationInfo":{"class" :"SimpleStrategy","replication_factor": 1}
+}
+
