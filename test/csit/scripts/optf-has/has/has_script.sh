@@ -26,6 +26,9 @@ DIR=/tmp
 echo ${DIR}
 cd ${DIR}
 
+BASIC="Basic"
+AUTHVALUE="bXVzaWM6bXVzaWM="
+AUTHORIZATION="${BASIC} ${AUTHVALUE}"
 # create directory for volume and copy configuration file
 # run docker containers
 COND_CONF=/tmp/conductor/properties/conductor.conf
@@ -34,6 +37,9 @@ IMAGE_NAME=nexus3.onap.org:10001/onap/optf-has
 CERT=/tmp/conductor/properties/cert.cer
 KEY=/tmp/conductor/properties/cert.key
 BUNDLE=/tmp/conductor/properties/cert.pem
+COND_LOGS=/tmp/conductor/logs
+mkdir -p ${COND_LOGS}
+mkdir -p ${COND_LOGS}/controller
 
 mkdir -p /tmp/conductor/properties
 mkdir -p /tmp/conductor/logs
@@ -67,7 +73,7 @@ echo "Query MUSIC to check for reachability. Query Version"
 curl -vvvvv --noproxy "*" --request GET http://${MUSIC_IP}:8080/MUSIC/rest/v2/version -H "Content-Type: application/json"
  
 echo "Onboard conductor into music"
-curl -vvvvv --noproxy "*" --request POST http://${MUSIC_IP}:8080/MUSIC/rest/v2/admin/onboardAppWithMusic -H "Content-Type: application/json" --data @${WORKSPACE}/test/csit/tests/optf-has/has/data/onboard.json
+curl -vvvvv --noproxy "*" --request POST http://${MUSIC_IP}:8080/MUSIC/rest/v2/admin/onboardAppWithMusic -H "Content-Type: application/json" -H "Authorization=${AUTHORIZATION}" -H "ns=conductor" --data @${WORKSPACE}/test/csit/tests/optf-has/has/data/onboard.json
 
 docker run -d --name cond-cont -v ${COND_CONF}:/usr/local/bin/conductor.conf -v ${LOG_CONF}:/usr/local/bin/log.conf ${IMAGE_NAME}:latest python /usr/local/bin/conductor-controller --config-file=/usr/local/bin/conductor.conf
 sleep 2
@@ -94,3 +100,9 @@ echo "dump music content just after conductor is started"
 docker exec music-db /usr/bin/nodetool status
 docker exec music-db /usr/bin/cqlsh -unelson24 -pwinman123 -e 'SELECT * FROM system_schema.keyspaces'
 docker exec music-db /usr/bin/cqlsh -unelson24 -pwinman123 -e 'SELECT * FROM admin.keyspace_master'
+
+echo "===== Conductor Controller Log ===================="
+ls -al $COND_LOGS/controller
+docker exec cond-cont /bin/bash -c "cat /opt/app/conductor/logs/controller/application.log"
+echo "===== Conductor Controller error log =================="
+docker exec cond-cont /bin/bash -c "cat /opt/app/conductor/logs/controller/error.log"
