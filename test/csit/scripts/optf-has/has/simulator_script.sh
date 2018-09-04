@@ -80,6 +80,6 @@ ${WORKSPACE}/test/csit/scripts/optf-has/has/wait_for_port.sh ${MULTICLOUDSIM_IP}
 # wait a while before continuing
 sleep 2
 
-echo "inspect docker things for tracing purpose"
-docker inspect aaisim
-docker inspect multicloudsim
+#echo "inspect docker things for tracing purpose"
+#docker inspect aaisim
+#docker inspect multicloudsim

@@ -5,6 +5,9 @@ Library       json
 
 *** Variables ***
 ${MESSAGE}    {"ping": "ok"}
+${BASIC}    Basic
+${AUTHVALUE}    Y29uZHVjdG9yOmMwbmR1Y3Qwcg==
+${Authorization}    ${BASIC} ${AUTHVALUE}
 ${RESP_STATUS}     "error"
 ${RESP_MESSAGE_WRONG_VERSION}    "conductor_template_version must be one of: 2016-11-01"
 ${RESP_MESSAGE_WITHOUT_DEMANDS}    Undefined Demand
@@ -121,7 +124,7 @@ Conductor AddHealthcheck Row Into Music
     [Documentation]    It sends a REST PUT request to Music to inject healthcheck plan
     Create Session   musicaas            ${MUSIC_HOSTNAME}:${MUSIC_PORT}
     ${data}=         Get Binary File     ${CURDIR}${/}data${/}healthcheck.json
-    &{headers}=      Create Dictionary    ns=conductor    userId=conductor    password=c0nduct0r   Content-Type=application/json  Accept=application/json
+    &{headers}=      Create Dictionary    ns=conductor    Authorization=${Authorization}    userId=conductor    password=c0nduct0r   Content-Type=application/json  Accept=application/json
     ${resp}=         Put Request        musicaas   /MUSIC/rest/v2/keyspaces/conductor/tables/plans/rows?id=healthcheck    data=${data}    headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
