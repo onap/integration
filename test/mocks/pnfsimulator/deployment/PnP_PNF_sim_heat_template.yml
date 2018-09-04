@@ -1,0 +1,129 @@
+description: Heat template that deploys PnP PNF simulator
+heat_template_version: '2013-05-23'
+parameters:
+  flavor_name: {description: Type of instance (flavor) to be used, label: Flavor,
+    type: string}
+  image_name: {description: Image to be used for compute instance, label: Image name
+      or ID, type: string}
+  key_name: {description: Public/Private key pair name, label: Key pair name, type: string}
+  public_net_id: {description: Public network that enables remote connection to VNF,
+    label: Public network name or ID, type: string}
+  private_net_id: {type: string, description: Private network id, label: Private network name or ID}
+  private_subnet_id: {type: string, description: Private subnet id, label: Private subnetwork name or ID}
+  proxy: {type: string, description: Proxy, label: Proxy, default: ""}
+resources:
+  PNF_PnP_simualtor:
+    type: OS::Nova::Server
+    properties:
+      key_name: { get_param: key_name }
+      image: { get_param: image_name }
+      flavor: { get_param: flavor_name }
+      networks:
+      - port: { get_resource: PNF_PnP_simualtor_port0 }
+      user_data_format: RAW
+      user_data:
+        str_replace:
+          template: |
+            #!/bin/bash
+
+            set_versions () {
+                    DOCKER_COMPOSE_VERSION=1.22.0
+            }
+
+
+            enable_root_ssh () {
+                sed -i 's/PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
+                sed -i 's/PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
+                service sshd restart
+                echo -e "arthur\narthur" | passwd root
+            }
+
+            update_os () {
+                dnf -y install fedora-upgrade
+            }
+
+            docker_install_configure () {
+                dnf -y remove docker \
+                              docker-client \
+                              docker-client-latest \
+                              docker-common \
+                              docker-latest \
+                              docker-latest-logrotate \
+                              docker-logrotate \
+                              docker-selinux \
+                              docker-engine-selinux \
+                              docker-engine
+                dnf -y install dnf-plugins-core
+                dnf config-manager \
+                 --add-repo \
+                https://download.docker.com/linux/fedora/docker-ce.repo
+                dnf -y install docker-ce
+                systemctl start docker
+                mkdir -p /etc/systemd/system/docker.service.d/
+                cat > /etc/systemd/system/docker.service.d/override.conf<< EOF
+            [Service]
+            Environment="HTTP_PROXY=$proxy"
+            Environment="HTTPS_PROXY=$proxy"
+            EOF
+                systemctl daemon-reload
+                systemctl restart docker
+                docker login -u docker -p docker nexus3.onap.org:10003
+            }
+            docker_compose_install () {
+                curl -L https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+                chmod +x /usr/local/bin/docker-compose
+            }
+            pnf_sim_file_checkout () {
+                mkdir ~/sim/
+                mkdir ~/sim/ssh
+                cd ~/sim/ssh/;wget "https://gerrit.onap.org/r/gitweb?p=integration.git;a=blob_plain;f=test/mocks/pnfsimulator/ssh/ssh_host_rsa_key;hb=HEAD" -O ssh_host_rsa_key
+                cd ~/sim/ssh/;wget "https://gerrit.onap.org/r/gitweb?p=integration.git;a=blob_plain;f=test/mocks/pnfsimulator/ssh/ssh_host_rsa_key.pub;hb=HEAD" -O ssh_host_rsa_key.pub
+                mkdir ~/sim/sftp
+                cd ~/sim/sftp/;wget "https://gerrit.onap.org/r/gitweb?p=integration.git;a=blob_plain;f=test/mocks/pnfsimulator/sftp/sftp-file.txt;hb=HEAD" -O sftp-file.txt
+                mkdir ~/sim/config
+                cd ~/sim/config/;wget "https://gerrit.onap.org/r/gitweb?p=integration.git;a=blob_plain;f=test/mocks/pnfsimulator/config/config.json;hb=HEAD" -O config.json
+                cd ~/sim/config/;wget "https://gerrit.onap.org/r/gitweb?p=integration.git;a=blob_plain;f=test/mocks/pnfsimulator/config/netconf.env;hb=HEAD" -O netconf.env
+                mkdir ~/sim/json_schema
+                cd ~/sim/config/;wget "https://gerrit.onap.org/r/gitweb?p=integration.git;a=blob_plain;f=test/mocks/pnfsimulator/json_schema/input_validator.json;hb=HEAD" -O input_validator.json
+                cd ~/sim/config/;wget "https://gerrit.onap.org/r/gitweb?p=integration.git;a=blob_plain;f=test/mocks/pnfsimulator/json_schema/output_validator_ves_schema_30.0.1.json;hb=HEAD" -O output_validator_ves_schema_30.0.1.json
+                mkdir ~/sim/netconf
+                cd ~/sim/netconf/;wget "https://gerrit.onap.org/r/gitweb?p=integration.git;a=blob_plain;f=test/mocks/pnfsimulator/netconf/pnf-simulator.data.xml;hb=HEAD" -O pnf-simulator.data.xml
+                cd ~/sim/netconf/;wget "https://gerrit.onap.org/r/gitweb?p=integration.git;a=blob_plain;f=test/mocks/pnfsimulator/netconf/pnf-simulator.yang;hb=HEAD" -O pnf-simulator.yang
+                cd ~/sim/;wget "https://gerrit.onap.org/r/gitweb?p=integration.git;a=blob_plain;f=test/mocks/pnfsimulator/docker-compose.yml;hb=HEAD" -O docker-compose.yml
+                cd ~/sim/;wget "https://gerrit.onap.org/r/gitweb?p=integration.git;a=blob_plain;f=test/mocks/pnfsimulator/simulator.sh;hb=HEAD" -O simulator.sh
+                chmod 654 ~/sim/simulator.sh
+            }
+
+            start_simulator (){
+               ~/sim/simulator.sh start
+            }
+
+            set_versions
+            enable_root_ssh
+            update_os
+            docker_install_configure
+            docker_compose_install
+            pnf_sim_file_checkout
+            start_simulator
+          params:
+            $proxy: { get_param: proxy }
+  PNF_PnP_simualtor_port0:
+    type: OS::Neutron::Port
+    properties:
+      network_id: { get_param: private_net_id }
+      security_groups:
+        - default
+      fixed_ips:
+        - subnet_id: { get_param: private_subnet_id }
+  PNF_PnP_simualtor_public:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network_id: { get_param: public_net_id }
+      port_id: { get_resource: PNF_PnP_simualtor_port0 }
+outputs:
+  PNF_PnP_simualtor_private_ip:
+    description: IP address of PNF_PnP_simualtor in private network
+    value: { get_attr: [ PNF_PnP_simualtor, first_address ] }
+  PNF_PnP_simualtor_public_ip:
+    description: Floating IP address of PNF_PnP_simualtor in public network
+    value: { get_attr: [ PNF_PnP_simualtor_public, floating_ip_address ] }
