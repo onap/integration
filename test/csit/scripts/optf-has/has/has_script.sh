@@ -26,6 +26,9 @@ DIR=/tmp
 echo ${DIR}
 cd ${DIR}
 
+BASIC="Basic"
+AUTHVALUE="bXVzaWM6bXVzaWM="
+AUTHORIZATION="${BASIC} ${AUTHVALUE}"
 # create directory for volume and copy configuration file
 # run docker containers
 COND_CONF=/tmp/conductor/properties/conductor.conf
@@ -67,7 +70,7 @@ echo "Query MUSIC to check for reachability. Query Version"
 curl -vvvvv --noproxy "*" --request GET http://${MUSIC_IP}:8080/MUSIC/rest/v2/version -H "Content-Type: application/json"
  
 echo "Onboard conductor into music"
-curl -vvvvv --noproxy "*" --request POST http://${MUSIC_IP}:8080/MUSIC/rest/v2/admin/onboardAppWithMusic -H "Content-Type: application/json" --data @${WORKSPACE}/test/csit/tests/optf-has/has/data/onboard.json
+curl -vvvvv --noproxy "*" --request POST http://${MUSIC_IP}:8080/MUSIC/rest/v2/admin/onboardAppWithMusic -H "Content-Type: application/json" -H "Authorization=${AUTHORIZATION}" --data @${WORKSPACE}/test/csit/tests/optf-has/has/data/onboard.json
 
 docker run -d --name cond-cont -v ${COND_CONF}:/usr/local/bin/conductor.conf -v ${LOG_CONF}:/usr/local/bin/log.conf ${IMAGE_NAME}:latest python /usr/local/bin/conductor-controller --config-file=/usr/local/bin/conductor.conf
 sleep 2
