@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_ca58818c",
+        "filename": "test/mocks/pnfsimulator/deployment/PnP_PNF_sim_heat_template.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 3395
+      },
+      "writtenOn": "2018-09-04T10:21:47Z",
+      "side": 1,
+      "message": "Why remove docker as function name is docker_install_configure...\nMaybe this should be splitted into functions remove_default()\ninstall_xx_yy_version()\nconfigure()?",
+      "revId": "cfbcce5bda6407ea090cc681ea036e4468cea165",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
