@@ -14,7 +14,28 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-echo "music scripts docker containers killing";
+
+
+#
+# add here below the killing of all docker containers used for music CSIT testing
+#
+echo "dump music.log files"
+ls -alF /tmp/music
+ls -alFR /tmp/music
+ls -alF /tmp/music/properties
+cat /tmp/music/properties/music.properties
+echo "===== MUSIC log =================="
+docker exec music-tomcat /bin/bash -c "cat /opt/app/music/logs/MUSIC/music.log"
+#cat /tmp/music/logs/MUSIC/music.log
+echo "===== MUSIC error log =================="
+docker exec music-tomcat /bin/bash -c "cat /opt/app/music/logs/MUSIC/error.log"
+#cat /tmp/music/logs/MUSIC/error.log
+
+echo "##########################################################";
+echo "#";
+echo "# music scripts docker containers killing";
+echo "#";
+echo "##########################################################";
 docker stop music-tomcat
 docker stop music-war
 docker stop music-zk
@@ -30,10 +51,9 @@ sleep 5;
 
 docker volume rm music-vol
 
-echo "dump music.log files"
-ls -alF /tmp/music
-ls -alF /tmp/music/properties
-cat /tmp/music/properties/music.properties
-#cat /tmp/music/logs/MUSIC/music.log
-cat /tmp/music/logs/MUSIC/error.log
+#rm -Rf /tmp/music
+
+
+
+
 
