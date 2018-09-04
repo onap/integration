@@ -25,7 +25,7 @@ echo "### This is ${WORKSPACE}/test/csit/scripts/optf-has/has/music_script.sh"
 echo "# music configuration step";
 
 CASS_IMG=nexus3.onap.org:10001/onap/music/cassandra_music:latest
-TOMCAT_IMG=nexus3.onap.org:10001/library/tomcat:8.0
+TOMCAT_IMG=nexus3.onap.org:10001/library/tomcat:8.5
 ZK_IMG=nexus3.onap.org:10001/library/zookeeper:3.4
 MUSIC_IMG=nexus3.onap.org:10001/onap/music/music:latest
 WORK_DIR=/tmp/music
@@ -36,6 +36,7 @@ MUSIC_PROPERTIES=/tmp/music/properties
 MUSIC_LOGS=/tmp/music/logs
 mkdir -p ${MUSIC_PROPERTIES}
 mkdir -p ${MUSIC_LOGS}
+mkdir -p ${MUSIC_LOGS}/MUSIC
 
 cp ${MUSIC_SOURCE_PROPERTIES}/* ${WORK_DIR}/properties
 
@@ -47,17 +48,17 @@ docker network create music-net;
 
 # Start Cassandra
 docker run -d --name music-db --network music-net -p "7000:7000" -p "7001:7001" -p "7199:7199" -p "9042:9042" -p "9160:9160" -e CASSUSER=${CASS_USERNAME} -e CASSPASS=${CASS_PASSWORD} ${CASS_IMG};
-#CASSA_IP=`docker inspect --format '{{ .NetworkSettings.Networks.bridge.IPAddress}}' music-db`
+
 CASSA_IP=`docker inspect -f '{{ $network := index .NetworkSettings.Networks "music-net" }}{{ $network.IPAddress}}' music-db`
 echo "CASSANDRA_IP=${CASSA_IP}"
 ${WORKSPACE}/test/csit/scripts/optf-has/has/wait_for_port.sh ${CASSA_IP} 9042
-sleep 60
+
 # Start Music war
 docker run -d --name music-war -v music-vol:/app ${MUSIC_IMG};
-sleep 15
+
 # Start Zookeeper
 docker run -d --name music-zk --network music-net -p "2181:2181" -p "2888:2888" -p "3888:3888" ${ZK_IMG};
-#ZOO_IP=`docker inspect --format '{{ .NetworkSettings.Networks.bridge.IPAddress}}' music-zk`
+
 ZOO_IP=`docker inspect -f '{{ $network := index .NetworkSettings.Networks "music-net" }}{{ $network.IPAddress}}' music-zk`
 echo "ZOOKEEPER_IP=${ZOO_IP}"
 
@@ -79,22 +80,42 @@ echo "TOMCAT_IP=${TOMCAT_IP}"
 
 ${WORKSPACE}/test/csit/scripts/optf-has/has/wait_for_port.sh ${TOMCAT_IP} 8080
 
-# wait a while to make sure music is totally up and configured
-sleep 60
+sleep 60;
+echo "get the tomcat logs to make sure its running music properly"
+echo "======== TOMCAT Logs =============="
+docker logs music-tomcat
+#echo "===== MUSIC localhost Log ===================="
+#docker exec music-tomcat /bin/bash -c "cat /usr/local/tomcat/logs/localhost*"
 
-echo "inspect docker things for tracing purpose"
-docker inspect music-db
-docker inspect music-zk
-docker inspect music-tomcat
-docker inspect music-war
-docker volume inspect music-vol
-docker network inspect music-net
+echo "===== MUSIC Log ===================="
+ls -al $MUSIC_LOGS/MUSIC
+docker exec music-tomcat /bin/bash -c "cat /opt/app/music/logs/MUSIC/music.log"
+#tail -100 $MUSIC_LOGS/MUSIC/music.log
+echo "===== MUSIC error log =================="
+docker exec music-tomcat /bin/bash -c "cat /opt/app/music/logs/MUSIC/error.log"
+#tail -100 $MUSIC_LOGS/MUSIC/error.log
+
+#echo "inspect docker things for tracing purpose"
+#docker inspect music-db
+#docker inspect music-zk
+#docker inspect music-tomcat
+#docker inspect music-war
+#docker volume inspect music-vol
+#docker network inspect music-net
 
 echo "dump music content just after music is started"
 docker exec music-db /usr/bin/nodetool status
 docker exec music-db /usr/bin/cqlsh -unelson24 -pwinman123 -e 'SELECT * FROM system_schema.keyspaces'
 docker exec music-db /usr/bin/cqlsh -unelson24 -pwinman123 -e 'SELECT * FROM admin.keyspace_master'
 
+
+#
+# add here all ROBOT_VARIABLES settings
+#
+echo "# music robot variables settings";
+ROBOT_VARIABLES="-v MUSIC_HOSTNAME:http://${TOMCAT_IP} -v MUSIC_PORT:8080 -v COND_HOSTNAME:http://localhost -v COND_PORT:8091"
+
+echo ${ROBOT_VARIABLES}
 
 
 
