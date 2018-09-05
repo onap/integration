@@ -27,7 +27,7 @@ source ${WORKSPACE}/test/csit/scripts/music/music-scripts/music_script.sh
 echo "# music configuration step";
 
 CASS_IMG=nexus3.onap.org:10001/onap/music/cassandra_music:latest
-TOMCAT_IMG=nexus3.onap.org:10001/library/tomcat:8.0
+TOMCAT_IMG=nexus3.onap.org:10001/library/tomcat:8.5
 ZK_IMG=nexus3.onap.org:10001/library/zookeeper:3.4
 MUSIC_IMG=nexus3.onap.org:10001/onap/music/music:latest
 WORK_DIR=/tmp/music
@@ -38,6 +38,8 @@ MUSIC_PROPERTIES=/tmp/music/properties
 MUSIC_LOGS=/tmp/music/logs
 mkdir -p ${MUSIC_PROPERTIES}
 mkdir -p ${MUSIC_LOGS}
+mkdir -p ${MUSIC_LOGS}/MUSIC
+
 
 cp ${MUSIC_SOURCE_PROPERTIES}/* ${WORK_DIR}/properties
 
@@ -77,6 +79,19 @@ echo "TOMCAT_IP=${TOMCAT_IP}"
 
 ${WORKSPACE}/test/csit/scripts/music/music-scripts/wait_for_port.sh ${TOMCAT_IP} 8080
 
+sleep 20;
+echo "get the tomcat logs to make sure its running music properly"
+echo "======== TOMCAT Logs =============="
+docker logs music-tomcat
+# Needed only if we need to look at localhost logs.
+#echo "===== MUSIC localhost Log ===================="
+#docker exec music-tomcat /bin/bash -c "cat /usr/local/tomcat/logs/localhost*"
+
+echo "===== MUSIC Log ===================="
+ls -al $MUSIC_LOGS/MUSIC
+docker exec music-tomcat /bin/bash -c "cat /opt/app/music/logs/MUSIC/music.log"
+echo "===== MUSIC error log =================="
+docker exec music-tomcat /bin/bash -c "cat /opt/app/music/logs/MUSIC/error.log"
 
 echo "inspect docker things for tracing purpose"
 docker inspect music-db
@@ -89,6 +104,7 @@ docker network inspect music-net
 echo "dump music content just after music is started"
 docker exec music-db /usr/bin/nodetool status
 docker exec music-db /usr/bin/cqlsh -unelson24 -pwinman123 -e 'SELECT * FROM system_schema.keyspaces'
+docker exec music-db /usr/bin/cqlsh -unelson24 -pwinman123 -e 'DESCRIBE keyspace admin'
 docker exec music-db /usr/bin/cqlsh -unelson24 -pwinman123 -e 'SELECT * FROM admin.keyspace_master'
 
 
