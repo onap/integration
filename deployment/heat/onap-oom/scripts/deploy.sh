@@ -10,17 +10,50 @@
 #
 
 install_name="onap-oom"
+vm_num=9
 full_deletion=false
+gerrit_branch="master"
 
 if [ -z "$WORKSPACE" ]; then
     export WORKSPACE=`git rev-parse --show-toplevel`
 fi
 
-usage() { echo "Usage: $0 [ -r ] <env-name>" 1>&2; exit 1; }
+usage() { 
+    echo "Usage: $0 [ -n <number of VMs {2-15}> ] [ -s <stack name> ][ -b <branch name> ][ -r ] <env>" 1>&2;
+    
+    echo "n:    Set the number of VM's that will be installed. This number must be between 2 and 15" 1>&2;
+    echo "s:    Set the name to be used for stack. This name will be used for naming of resources" 1>&2;
+    echo "b:    Set the name of the gerrit branch which the installation will make use of." 1>&2;
+    echo "r:    Delete all resources relating to ONAP within enviroment." 1>&2;
+    echo "q:    Quiet Delete of all ONAP resources." 1>&2;
+    
+    exit 1;
+}
 
 
-while getopts ":rq" o; do
+while getopts ":n:s:b:rq" o; do
     case "${o}" in
+        n)
+            if [[ ${OPTARG} =~ ^[0-9]+$ ]];then
+                if [ ${OPTARG} -ge 2 -a ${OPTARG} -le 15 ]; then 
+                    vm_num=${OPTARG}
+                else     
+                    usage
+                fi
+            else
+                usage
+            fi
+            ;;
+        s)
+            if [[ ! ${OPTARG} =~ ^[0-9]+$ ]];then
+                install_name=${OPTARG}
+            else
+                usage
+            fi
+            ;;
+        b)
+            gerrit_branch=${OPTARG}
+            ;; 	    
         r)
             echo "The following command will delete all information relating to onap within your enviroment"
             read -p "Are you certain this is what you want? (type y to confirm):" answer
@@ -50,13 +83,18 @@ while getopts ":rq" o; do
 done
 shift $((OPTIND-1))
 
-if [ "$#" -ne 1 ]; then
-   usage
+ENV_FILE=${1##*/}
+ENV_LOC="`dirname \"$1\"`"              
+ENV_LOC="`( cd \"$ENV_LOC\" && pwd )`"  
+ENV_VAR=$ENV_LOC/$ENV_FILE
+
+if [ ! -f $ENV_VAR ];then
+    echo ENV file does not exist or was not given
+    exit 1
 fi
 
-ENV_FILE=$1
-
-SSH_KEY=~/.ssh/onap_key
+#SSH_KEY=~/.ssh/onap_key
+SSH_KEY=~/.ssh/onap_rsa
 
 source $WORKSPACE/test/ete/scripts/install_openstack_cli.sh
 
@@ -71,9 +109,16 @@ for n in $(seq 1 5); do
     fi
 
     cd $WORKSPACE/deployment/heat/onap-oom
-    envsubst < $ENV_FILE > $ENV_FILE~
+    envsubst < /$ENV_LOC/$ENV_FILE
+    
+    #mkdir -p target
+    yaml_name=target/$install_name-onap-oom.yaml
+    #cp rancher_vm_entrypoint.sh target/rancher_vm_entrypoint.sh
+    #cp k8s_vm_entrypoint.sh target/k8s_vm_entrypoint.sh
+    
+    ./scripts/gen-onap-oom-yaml.sh $vm_num $install_name $gerrit_branch > $yaml_name
 
-    if ! openstack stack create -t ./$install_name.yaml -e $ENV_FILE~ $install_name; then
+    if ! openstack stack create -t ./$yaml_name -e $ENV_VAR $install_name; then
         break
     fi
 
@@ -110,8 +155,8 @@ ssh -o StrictHostKeychecking=no -i $SSH_KEY ubuntu@$RANCHER_IP "sed -u '/Cloud-i
 
 for n in $(seq 1 6); do
     echo "Wait count $n of 6"
-    sleep 15m
-    timeout 15m ssh -i $SSH_KEY ubuntu@$RANCHER_IP  'sudo su -l root -c "/root/oom/kubernetes/robot/ete-k8s.sh onap health"'
+    sleep 5m
+    timeout 5m ssh -i $SSH_KEY ubuntu@$RANCHER_IP  'sudo su -l root -c "/root/oom/kubernetes/robot/ete-k8s.sh onap health"'
     RESULT=$?
     if [ $RESULT -eq 0 ]; then
   	break

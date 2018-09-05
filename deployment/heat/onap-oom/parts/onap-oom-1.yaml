@@ -34,19 +34,19 @@ parameters:
 
   integration_gerrit_branch:
     type: string
-    default: "master"
+    default: "${GERRIT_BRANCH}"
 
   integration_gerrit_refspec:
     type: string
-    default: "refs/heads/master"
+    default: "refs/heads/${GERRIT_BRANCH}"
 
   oom_gerrit_branch:
     type: string
-    default: "master"
+    default: "${GERRIT_BRANCH}"
 
   oom_gerrit_refspec:
     type: string
-    default: "refs/heads/master"
+    default: "refs/heads/${GERRIT_BRANCH}"
 
   docker_manifest:
     type: string
@@ -135,6 +135,7 @@ resources:
   router:
     type: OS::Neutron::Router
     properties:
+      name: ${ROUTER_NAME}
       external_gateway_info:
         network: { get_param: public_net_id }
 
