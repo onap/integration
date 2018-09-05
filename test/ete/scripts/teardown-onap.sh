@@ -50,11 +50,11 @@ if [ "$full_deletion" = true ];then
     echo "Commencing delete, press CRTL-C to stop"
     sleep 10
 
-    # delete all instances
+    #delete all instances
     openstack server delete $(openstack server list -c ID -f value)
     sleep 1
 
-    # miscellaneous cleanup
+    #miscellaneous cleanup
     openstack floating ip delete $(openstack floating ip list -c ID -f value)
     sleep 1
 
@@ -72,13 +72,13 @@ if [ "$full_deletion" = true ];then
     openstack port delete $(openstack port list -f value -c ID)
     openstack volume delete $(openstack volume list -f value -c ID)
 
-    # delete all except "default" security group
+    #delete all except "default" security group
     SECURITY_GROUPS=$(openstack security group list -c ID -f value | grep -v default)
     openstack security group delete $SECURITY_GROUPS
     sleep 1
 
 
-    # Delete all existing stacks
+    #Delete all existing stacks
     STACKS=$(openstack stack list -c "Stack Name" -f value)
 
     if [ ! -z "${STACKS}" ]; then
@@ -95,10 +95,12 @@ if [ "$full_deletion" = true ];then
 else 
     #Restrained teardown 
     echo "Restrained teardown"
-    
-    STACK=$install_name
 
-    if [ ! -z "${STACK}" ]; then
+    STACK=$install_name
+    
+    STATUS=$(openstack stack check $STACK)
+    
+    if [ "Stack not found: $install_name" != "$STATUS" ]; then
         openstack stack delete $STACK
         
         until [ "DELETE_IN_PROGRESS" != "$(openstack stack show -c stack_status -f value $STACK)" ]; do

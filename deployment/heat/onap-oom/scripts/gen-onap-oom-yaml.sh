@@ -9,13 +9,18 @@
 #     http://www.apache.org/licenses/LICENSE-2.0
 #
 
-if [ "$#" -ne 1 ]; then
-    echo This script generates the HEAT template for X number of k8s VMs
-    echo "$0 <num k8s vms>"
+if [ $# -eq 2 ];then
+    gerrit_branch="master"
+elif [ "$#" -eq 3 ];then
+   gerrit_branch=$3 
+else
+    echo This script generates the HEAT template for X number of k8s VMs with the name y. Use of branch name z is optional 
+    echo "$0 <num k8s vms> <str install name> <git branch>"
     exit 1
 fi
-NUM_K8S_VMS=$1
 
+NUM_K8S_VMS=$1
+install_name=$2
 
 if [ -z "$WORKSPACE" ]; then
     export WORKSPACE=`git rev-parse --show-toplevel`
@@ -28,13 +33,13 @@ cat <<EOF
 #
 EOF
 
-cat $PARTS_DIR/onap-oom-1.yaml
+GERRIT_BRANCH=$gerrit_branch ROUTER_NAME=$install_name-router envsubst < $PARTS_DIR/onap-oom-1.yaml
 
 cat <<EOF
   rancher_vm:
     type: OS::Nova::Server
     properties:
-      name: rancher
+      name: ${install_name}-rancher
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: rancher_vm_flavor }
       key_name: { get_param: key_name }
@@ -65,12 +70,12 @@ cat <<EOF
             __oam_network_cidr__: { get_param: oam_network_cidr }
             __oam_network_id__: { get_resource: oam_network }
             __oam_subnet_id__: { get_resource: oam_subnet }
-            __k8s_1_vm_ip__: { get_attr: [k8s_1_floating_ip, floating_ip_address] }
+            __k8s_1_vm_ip__: { get_attr: [${install_name}-k8s_1_floating_ip, floating_ip_address] }
             __k8s_vm_ips__: [
 EOF
 
 for VM_NUM in $(seq $NUM_K8S_VMS); do
-    K8S_VM_NAME=k8s_$VM_NUM
+    K8S_VM_NAME=${install_name}-k8s_$VM_NUM
     cat <<EOF
               get_attr: [${K8S_VM_NAME}_floating_ip, floating_ip_address],
 EOF
@@ -82,7 +87,7 @@ cat <<EOF
 EOF
 
 for VM_NUM in $(seq $NUM_K8S_VMS); do
-    K8S_VM_NAME=k8s_$VM_NUM
+    K8S_VM_NAME=${install_name}-k8s_$VM_NUM
     cat <<EOF
               get_attr: [${K8S_VM_NAME}_floating_ip, fixed_ip_address],
 EOF
@@ -93,13 +98,13 @@ cat <<EOF
 EOF
 
 for VM_NUM in $(seq $NUM_K8S_VMS); do
-    K8S_VM_NAME=k8s_$VM_NUM envsubst < $PARTS_DIR/onap-oom-2.yaml
+    K8S_VM_NAME=${install_name}-k8s_$VM_NUM envsubst < $PARTS_DIR/onap-oom-2.yaml
 done
 
 cat $PARTS_DIR/onap-oom-3.yaml
 
 for VM_NUM in $(seq $NUM_K8S_VMS); do
-    K8S_VM_NAME=k8s_$VM_NUM
+    K8S_VM_NAME=${install_name}-k8s_$VM_NUM
     cat <<EOF
   ${K8S_VM_NAME}_vm_ip:
     description: The IP address of the ${K8S_VM_NAME} instance
