@@ -14,14 +14,14 @@ while getopts ":rqn:" o; do
             if [ $answer = "y" ] || [ $answer = "Y" ] || [ $answer = "yes" ] || [ $answer = "Yes"]; then
                 echo "This may delete the work of other colleages within the same enviroment"
                 read -p "Are you certain this is what you want? (type y to confirm):" answer2
-                
+
                 if [ $answer2 = "y" ] || [ $answer2 = "Y" ] || [ $answer2 = "yes" ] || [ $answer2 = "Yes"]; then
                     full_deletion=true
-                else 
+                else
                     echo "Ending program"
                     exit 1
                 fi
-            else 
+            else
                 echo "Ending program"
                 exit 1
             fi
@@ -46,7 +46,7 @@ fi
 
 source $WORKSPACE/test/ete/scripts/install_openstack_cli.sh
 
-if [ "$full_deletion" = true ];then 
+if [ "$full_deletion" = true ];then
     echo "Commencing delete, press CRTL-C to stop"
     sleep 10
 
@@ -92,15 +92,17 @@ if [ "$full_deletion" = true ];then
         echo "No existing stacks to delete."
     fi
 
-else 
-    #Restrained teardown 
+else
+    #Restrained teardown
     echo "Restrained teardown"
-    
+
     STACK=$install_name
 
-    if [ ! -z "${STACK}" ]; then
+    STATUS=$(openstack stack check $STACK)
+
+    if [ "Stack not found: $install_name" != "$STATUS" ]; then
         openstack stack delete $STACK
-        
+
         until [ "DELETE_IN_PROGRESS" != "$(openstack stack show -c stack_status -f value $STACK)" ]; do
         sleep 2
         done

@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 #
 # Copyright 2018 Huawei Technologies Co., Ltd.
 #
@@ -9,18 +9,45 @@
 #     http://www.apache.org/licenses/LICENSE-2.0
 #
 
-install_name="onap-oom"
+stack_name="oom"
 full_deletion=false
 
 if [ -z "$WORKSPACE" ]; then
     export WORKSPACE=`git rev-parse --show-toplevel`
 fi
 
-usage() { echo "Usage: $0 [ -r ] <env-name>" 1>&2; exit 1; }
+usage() {
+    echo "Usage: $0 [ -n <number of VMs {2-15}> ] [ -s <stack name> ][ -b <branch name> ][ -r ] <env>" 1>&2;
+
+    echo "n:    Set the number of VM's that will be installed. This number must be between 2 and 15" 1>&2;
+    echo "s:    Set the name to be used for stack. This name will be used for naming of resources" 1>&2;
+    echo "r:    Delete all resources relating to ONAP within enviroment." 1>&2;
+    echo "q:    Quiet Delete of all ONAP resources." 1>&2;
+
+    exit 1;
+}
 
 
-while getopts ":rq" o; do
+while getopts ":n:s:rq" o; do
     case "${o}" in
+        n)
+            if [[ ${OPTARG} =~ ^[0-9]+$ ]];then
+                if [ ${OPTARG} -ge 2 -a ${OPTARG} -le 15 ]; then
+                    vm_num=${OPTARG}
+                else
+                    usage
+                fi
+            else
+                usage
+            fi
+            ;;
+        s)
+            if [[ ! ${OPTARG} =~ ^[0-9]+$ ]];then
+                stack_name=${OPTARG}
+            else
+                usage
+            fi
+            ;;
         r)
             echo "The following command will delete all information relating to onap within your enviroment"
             read -p "Are you certain this is what you want? (type y to confirm):" answer
@@ -56,6 +83,13 @@ fi
 
 ENV_FILE=$1
 
+if [ ! -f $ENV_FILE ];then
+    echo ENV file does not exist or was not given
+    exit 1
+fi
+
+set -x
+
 SSH_KEY=~/.ssh/onap_key
 
 source $WORKSPACE/test/ete/scripts/install_openstack_cli.sh
@@ -65,23 +99,28 @@ export OS_PASSWORD_ENCRYPTED=$(echo -n "$OS_PASSWORD" | openssl aes-128-ecb -e -
 
 for n in $(seq 1 5); do
     if [ $full_deletion = true ] ; then
-        $WORKSPACE/test/ete/scripts/teardown-onap.sh -n $install_name -q
+        $WORKSPACE/test/ete/scripts/teardown-onap.sh -n $stack_name -q
     else
-        $WORKSPACE/test/ete/scripts/teardown-onap.sh -n $install_name
+        $WORKSPACE/test/ete/scripts/teardown-onap.sh -n $stack_name
     fi
 
     cd $WORKSPACE/deployment/heat/onap-oom
     envsubst < $ENV_FILE > $ENV_FILE~
+    if [ -z "$vm_num" ]; then
+        cp onap-oom.yaml onap-oom.yaml~
+    else
+        ./scripts/gen-onap-oom-yaml.sh $vm_num > onap-oom.yaml~
+    fi
 
-    if ! openstack stack create -t ./$install_name.yaml -e $ENV_FILE~ $install_name; then
+    if ! openstack stack create -t ./onap-oom.yaml~ -e $ENV_FILE~ $stack_name; then
         break
     fi
 
-    while [ "CREATE_IN_PROGRESS" == "$(openstack stack show -c stack_status -f value $install_name)" ]; do
+    while [ "CREATE_IN_PROGRESS" == "$(openstack stack show -c stack_status -f value $stack_name)" ]; do
         sleep 20
     done
 
-    STATUS=$(openstack stack show -c stack_status -f value $install_name)
+    STATUS=$(openstack stack show -c stack_status -f value $stack_name)
     echo $STATUS
     if [ "CREATE_COMPLETE" != "$STATUS" ]; then
         break
@@ -89,8 +128,8 @@ for n in $(seq 1 5); do
 
     for i in $(seq 1 30); do
 	sleep 30
-	RANCHER_IP=$(openstack stack output show $install_name rancher_vm_ip -c output_value -f value)
-        K8S_IP=$(openstack stack output show $install_name k8s_1_vm_ip -c output_value -f value)
+	RANCHER_IP=$(openstack stack output show $stack_name rancher_vm_ip -c output_value -f value)
+        K8S_IP=$(openstack stack output show $stack_name k8s_1_vm_ip -c output_value -f value)
 	timeout 1 ping -c 1 "$RANCHER_IP" && break
     done
 

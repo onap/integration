@@ -16,7 +16,6 @@ if [ "$#" -ne 1 ]; then
 fi
 NUM_K8S_VMS=$1
 
-
 if [ -z "$WORKSPACE" ]; then
     export WORKSPACE=`git rev-parse --show-toplevel`
 fi
@@ -34,7 +33,8 @@ cat <<EOF
   rancher_vm:
     type: OS::Nova::Server
     properties:
-      name: rancher
+      name:
+        list_join: ['-', [{ get_param: 'OS::stack_name' }, 'rancher']]
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: rancher_vm_flavor }
       key_name: { get_param: key_name }

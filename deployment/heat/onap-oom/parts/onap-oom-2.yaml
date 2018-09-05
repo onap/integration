@@ -15,7 +15,8 @@
   ${K8S_VM_NAME}_vm:
     type: OS::Nova::Server
     properties:
-      name: ${K8S_VM_NAME}
+      name:
+        list_join: ['-', [ { get_param: 'OS::stack_name' }, '${K8S_VM_NAME}']]
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: k8s_vm_flavor }
       key_name: { get_param: key_name }

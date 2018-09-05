@@ -135,6 +135,8 @@ resources:
   router:
     type: OS::Neutron::Router
     properties:
+      name:
+        list_join: ['-', [{ get_param: 'OS::stack_name' }, 'router']]
       external_gateway_info:
         network: { get_param: public_net_id }
 
