@@ -5,6 +5,9 @@ Library       json
 
 *** Variables ***
 ${MESSAGE}    {"ping": "ok"}
+${BASIC}    Basic
+${AUTHVALUE}    bXVzaWM6bXVzaWM=
+${Authorization}    ${BASIC} ${AUTHVALUE}
 
 #global variables
 ${generatedAID}
@@ -60,7 +63,7 @@ Music AddOnBoarding
     [Documentation]    It sends a REST POST request to Music to Onboard a new application
     Create Session   musicaas            ${MUSIC_HOSTNAME}:${MUSIC_PORT}
     ${data}=         Get Binary File     ${CURDIR}${/}data${/}onboard.json
-    &{headers}=      Create Dictionary    ns=lb7254    userId=music    password=music   Content-Type=application/json  Accept=application/json
+    &{headers}=      Create Dictionary    ns=lb7254    Authorization=${Authorization}   Content-Type=application/json  Accept=application/json
     ${resp}=         Post Request        musicaas   /MUSIC/rest/v2/admin/onboardAppWithMusic    data=${data}    headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
@@ -75,7 +78,7 @@ Music CreateKeyspace
     [Documentation]    It sends a REST POST request to Music to create a new keyspace in Cassandra
     Create Session   musicaas            ${MUSIC_HOSTNAME}:${MUSIC_PORT}
     ${data}=         Get Binary File     ${CURDIR}${/}data${/}createkeyspace.json
-    &{headers}=      Create Dictionary    ns=lb7254    userId=music    password=music   aid=${generatedAID}   Content-Type=application/json  Accept=application/json
+    &{headers}=      Create Dictionary    ns=lb7254    Authorization=${Authorization}   aid=${generatedAID}   Content-Type=application/json  Accept=application/json
     ${resp}=         Post Request        musicaas   /MUSIC/rest/v2/keyspaces/MusicOnapKeyspace    data=${data}    headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
@@ -86,7 +89,7 @@ Music CreateTable
     [Documentation]    It sends a REST POST request to Music to create a new Table in Cassandra
     Create Session   musicaas            ${MUSIC_HOSTNAME}:${MUSIC_PORT}
     ${data}=         Get Binary File     ${CURDIR}${/}data${/}createtable.json
-    &{headers}=      Create Dictionary    ns=lb7254    userId=music    password=music   aid=${generatedAID}   Content-Type=application/json  Accept=application/json
+    &{headers}=      Create Dictionary    ns=lb7254    Authorization=${Authorization}   aid=${generatedAID}   Content-Type=application/json  Accept=application/json
     ${resp}=         Post Request        musicaas   /MUSIC/rest/v2/keyspaces/MusicOnapKeyspace/tables/MusicOnapTable    data=${data}    headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
@@ -97,7 +100,7 @@ Music InsertRow
     [Documentation]    It sends a REST POST request to Music to create a new row in Cassandra
     Create Session   musicaas            ${MUSIC_HOSTNAME}:${MUSIC_PORT}
     ${data}=         Get Binary File     ${CURDIR}${/}data${/}insertrow_eventual.json
-    &{headers}=      Create Dictionary    ns=lb7254    userId=music    password=music   aid=${generatedAID}   Content-Type=application/json  Accept=application/json
+    &{headers}=      Create Dictionary    ns=lb7254    Authorization=${Authorization}   aid=${generatedAID}   Content-Type=application/json  Accept=application/json
     ${resp}=         Post Request        musicaas   /MUSIC/rest/v2/keyspaces/MusicOnapKeyspace/tables/MusicOnapTable/rows/?row=emp1   data=${data}    headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
@@ -107,7 +110,7 @@ Music InsertRow
 Music ReadRowJustInserted
     [Documentation]    It sends a REST GET request to Music to Read the row just inserted in Cassandra
     Create Session   musicaas            ${MUSIC_HOSTNAME}:${MUSIC_PORT}
-    &{headers}=      Create Dictionary    ns=lb7254    userId=music    password=music   aid=${generatedAID}   Content-Type=application/json  Accept=application/json
+    &{headers}=      Create Dictionary    ns=lb7254    Authorization=${Authorization}   aid=${generatedAID}   Content-Type=application/json  Accept=application/json
     ${resp}=         Get Request        musicaas   /MUSIC/rest/v2/keyspaces/MusicOnapKeyspace/tables/MusicOnapTable/rows?name=emp1   headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
@@ -118,7 +121,7 @@ Music UpdateRowInAtomicWay
     [Documentation]    It sends a REST PUT request to Music to create a new row in Cassandra
     Create Session   musicaas            ${MUSIC_HOSTNAME}:${MUSIC_PORT}
     ${data}=         Get Binary File     ${CURDIR}${/}data${/}updaterow_atomic.json
-    &{headers}=      Create Dictionary    ns=lb7254    userId=music    password=music   aid=${generatedAID}   Content-Type=application/json  Accept=application/json
+    &{headers}=      Create Dictionary    ns=lb7254    Authorization=${Authorization}   aid=${generatedAID}   Content-Type=application/json  Accept=application/json
     ${resp}=         Put Request        musicaas   /MUSIC/rest/v2/keyspaces/MusicOnapKeyspace/tables/MusicOnapTable/rows?name=emp1   data=${data}    headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
@@ -128,7 +131,7 @@ Music UpdateRowInAtomicWay
 Music ReadRowAfterUpdate
     [Documentation]    It sends a REST GET request to Music to Read the row just inserted in Cassandra
     Create Session   musicaas            ${MUSIC_HOSTNAME}:${MUSIC_PORT}
-    &{headers}=      Create Dictionary    ns=lb7254    userId=music    password=music   aid=${generatedAID}   Content-Type=application/json  Accept=application/json
+    &{headers}=      Create Dictionary    ns=lb7254    Authorization=${Authorization}   aid=${generatedAID}   Content-Type=application/json  Accept=application/json
     ${resp}=         Get Request        musicaas   /MUSIC/rest/v2/keyspaces/MusicOnapKeyspace/tables/MusicOnapTable/rows?name=emp1   headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
@@ -139,7 +142,7 @@ Music DeleteRow
     [Documentation]    It sends a REST DELETE request to Music to delete a row in Cassandra
     Create Session   musicaas            ${MUSIC_HOSTNAME}:${MUSIC_PORT}
     ${data}=         Get Binary File     ${CURDIR}${/}data${/}deleterow_eventual.json
-    &{headers}=      Create Dictionary    ns=lb7254    userId=music    password=music   aid=${generatedAID}   Content-Type=application/json  Accept=application/json
+    &{headers}=      Create Dictionary    ns=lb7254    Authorization=${Authorization}   aid=${generatedAID}   Content-Type=application/json  Accept=application/json
     ${resp}=         Delete Request        musicaas   /MUSIC/rest/v2/keyspaces/MusicOnapKeyspace/tables/MusicOnapTable/rows?name=emp1   data=${data}    headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
@@ -150,7 +153,7 @@ Music DropTable
     [Documentation]    It sends a REST Delete request to Music to drop one existing Table in Cassandra
     Create Session   musicaas            ${MUSIC_HOSTNAME}:${MUSIC_PORT}
     ${data}=         Get Binary File     ${CURDIR}${/}data${/}droptable.json
-    &{headers}=      Create Dictionary    ns=lb7254    userId=music    password=music   aid=${generatedAID}   Content-Type=application/json   Accept=application/json
+    &{headers}=      Create Dictionary    ns=lb7254    Authorization=${Authorization}   aid=${generatedAID}   Content-Type=application/json   Accept=application/json
     ${resp}=         Delete Request        musicaas   /MUSIC/rest/v2/keyspaces/MusicOnapKeyspace/tables/MusicOnapTable    data=${data}    headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
@@ -161,7 +164,7 @@ Music DropKeyspace
     [Documentation]    It sends a REST DELETE request to Music to drop one existing keyspace in Cassandra
     Create Session   musicaas            ${MUSIC_HOSTNAME}:${MUSIC_PORT}
     ${data}=         Get Binary File     ${CURDIR}${/}data${/}dropkeyspace.json
-    &{headers}=      Create Dictionary    ns=lb7254    userId=music    password=music   aid=${generatedAID}   Content-Type=application/json   Accept=application/json
+    &{headers}=      Create Dictionary    ns=lb7254    Authorization=${Authorization}   aid=${generatedAID}   Content-Type=application/json   Accept=application/json
     ${resp}=         Delete Request        musicaas   /MUSIC/rest/v2/keyspaces/MusicOnapKeyspace    data=${data}    headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
@@ -173,7 +176,7 @@ Music DeleteOnBoarding
     [Documentation]    It sends a REST DELETE request to Music to remove a previosly onboarded application
     Create Session   musicaas             ${MUSIC_HOSTNAME}:${MUSIC_PORT}
     ${data}=         Get Binary File     ${CURDIR}${/}data${/}onboard.json
-    &{headers}=      Create Dictionary    ns=lb7254    userId=music    password=music   aid=${generatedAID}   Content-Type=application/json   Accept=application/json
+    &{headers}=      Create Dictionary    ns=lb7254    Authorization=${Authorization}   aid=${generatedAID}   Content-Type=application/json   Accept=application/json
     ${resp}=         Delete Request        musicaas   /MUSIC/rest/v2/admin/onboardAppWithMusic    data=${data}    headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
