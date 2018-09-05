@@ -19,6 +19,14 @@ parameters:
   ubuntu_1604_image:
     type: string
     description: Name of the Ubuntu 16.04 image
+    
+  rancher_name:
+    type: string
+    default: "${INSTALL_NAME}-rancher"
+    
+  router_name:
+    type: string
+    default: "${INSTALL_NAME}-router"
 
   rancher_vm_flavor:
     type: string
@@ -135,6 +143,7 @@ resources:
   router:
     type: OS::Neutron::Router
     properties:
+      name: { get_param: router_name }
       external_gateway_info:
         network: { get_param: public_net_id }
 
