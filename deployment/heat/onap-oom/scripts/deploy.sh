@@ -93,8 +93,7 @@ if [ ! -f $ENV_VAR ];then
     exit 1
 fi
 
-#SSH_KEY=~/.ssh/onap_key
-SSH_KEY=~/.ssh/onap_rsa
+SSH_KEY=~/.ssh/onap_key
 
 source $WORKSPACE/test/ete/scripts/install_openstack_cli.sh
 
@@ -111,10 +110,10 @@ for n in $(seq 1 5); do
     cd $WORKSPACE/deployment/heat/onap-oom
     envsubst < /$ENV_LOC/$ENV_FILE
     
-    #mkdir -p target
+    mkdir -p target
     yaml_name=target/$install_name-onap-oom.yaml
-    #cp rancher_vm_entrypoint.sh target/rancher_vm_entrypoint.sh
-    #cp k8s_vm_entrypoint.sh target/k8s_vm_entrypoint.sh
+    cp rancher_vm_entrypoint.sh target/rancher_vm_entrypoint.sh
+    cp k8s_vm_entrypoint.sh target/k8s_vm_entrypoint.sh
     
     ./scripts/gen-onap-oom-yaml.sh $vm_num $install_name $gerrit_branch > $yaml_name
 
@@ -155,8 +154,8 @@ ssh -o StrictHostKeychecking=no -i $SSH_KEY ubuntu@$RANCHER_IP "sed -u '/Cloud-i
 
 for n in $(seq 1 6); do
     echo "Wait count $n of 6"
-    sleep 5m
-    timeout 5m ssh -i $SSH_KEY ubuntu@$RANCHER_IP  'sudo su -l root -c "/root/oom/kubernetes/robot/ete-k8s.sh onap health"'
+    sleep 15m
+    timeout 15m ssh -i $SSH_KEY ubuntu@$RANCHER_IP  'sudo su -l root -c "/root/oom/kubernetes/robot/ete-k8s.sh onap health"'
     RESULT=$?
     if [ $RESULT -eq 0 ]; then
   	break
