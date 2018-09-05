@@ -12,7 +12,16 @@ function dmaapbc_launch() {
 
 	TMP_CFG=/tmp/docker-databus-controller.conf
 	. ./onapCSIT.env > $TMP_CFG
-	docker run -d --name $CONTAINER_NAME -v $TMP_CFG:/opt/app/config/conf $TAG
+	ADDHOSTS=""
+	if [ ! -z "$2" ]
+	then
+		ADDHOSTS="$ADDHOSTS --add-host=message-router:$2"
+	fi
+	if [ ! -z "$3" ]
+	then
+		ADDHOSTS="$ADDHOSTS --add-host=dmaap-dr-prov:$3"
+	fi
+	docker run -d $ADDHOSTS --name $CONTAINER_NAME -v $TMP_CFG:/opt/app/config/conf $TAG
 	IP=`get-instance-ip.sh ${CONTAINER_NAME}`
 
 	# Wait for initialization

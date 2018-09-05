@@ -25,7 +25,7 @@ cat << EOF > $JSON
 {
 	"version": "1",
 	"topicNsRoot": "org.onap.dmaap",
-	"drProvUrl": "http://${2}:${DRPORT}",
+	"drProvUrl": "${PROTO}://dmaap-dr-prov:${DRPORT}",
 	"dmaapName": "onapCSIT",
 	"bridgeAdminTopic": "MM_AGENT_PROV"
 

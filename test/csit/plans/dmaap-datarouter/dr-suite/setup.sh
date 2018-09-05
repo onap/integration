@@ -11,8 +11,9 @@ cd datarouter
 git pull
 cd $WORKSPACE/archives/dmaapdr/datarouter/docker-compose/
 
+sed -i 's/10003/10001/g' docker-compose.yml
 # start DMaaP DR containers with docker compose and configuration from docker-compose.yml
-docker login -u docker -p docker nexus3.onap.org:10003
+docker login -u docker -p docker nexus3.onap.org:10001
 docker-compose up -d
 
 # Wait for initialization of Docker container for datarouter-node, datarouter-prov and mariadb
