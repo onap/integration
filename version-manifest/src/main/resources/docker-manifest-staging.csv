@@ -26,7 +26,7 @@ onap/data-router,1.2.2
 onap/dmaap/buscontroller,1.0.12
 onap/dmaap/dmaap-mr,1.1.6
 onap/dmaap/kafka01101,0.0.1
-onap/externalapi/nbi,2.0.0
+onap/externalapi/nbi,3.0.0-latest
 onap/gizmo,1.2.1
 onap/holmes/engine-management,1.2.0-STAGING-latest
 onap/holmes/rule-management,1.2.0-STAGING-latest
