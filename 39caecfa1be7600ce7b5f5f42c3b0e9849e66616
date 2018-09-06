@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_61294636",
+        "filename": "test/csit/plans/dcaegen2/prh-testsuites/setup.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 2831
+      },
+      "writtenOn": "2018-09-06T11:39:36Z",
+      "side": 1,
+      "message": "why are you reinstalling docker stuff?",
+      "revId": "39caecfa1be7600ce7b5f5f42c3b0e9849e66616",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_41244a5f",
+        "filename": "test/csit/plans/dcaegen2/prh-testsuites/setup.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 2831
+      },
+      "writtenOn": "2018-09-06T11:39:36Z",
+      "side": 1,
+      "message": "this is not needed - docker compose is handling this by itself when dependencies are declared (as it is now)",
+      "revId": "39caecfa1be7600ce7b5f5f42c3b0e9849e66616",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_0122d251",
+        "filename": "test/csit/plans/dcaegen2/prh-testsuites/setup.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 2831
+      },
+      "writtenOn": "2018-09-06T11:39:36Z",
+      "side": 1,
+      "message": "is this still needed? handling docker IPs this way is a huge and dirty hack",
+      "revId": "39caecfa1be7600ce7b5f5f42c3b0e9849e66616",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_812ee241",
+        "filename": "test/csit/tests/dcaegen2/prh-testcases/resources/docker-compose.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 2831
+      },
+      "writtenOn": "2018-09-06T11:39:36Z",
+      "side": 1,
+      "message": "replace \u0027entrypoint\u0027 with \u0027cmd\u0027 - this is now corrected in PRH image",
+      "revId": "39caecfa1be7600ce7b5f5f42c3b0e9849e66616",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_c1005aad",
+        "filename": "test/csit/tests/dcaegen2/prh-testcases/resources/simulator/AAI_simulator",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 2831
+      },
+      "writtenOn": "2018-09-06T11:39:36Z",
+      "side": 1,
+      "message": "why not using image \u0027python:3-alpine\u0027? it has \u0027pip\u0027 already installed",
+      "revId": "39caecfa1be7600ce7b5f5f42c3b0e9849e66616",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_e1fd56b2",
+        "filename": "test/csit/tests/dcaegen2/prh-testcases/resources/simulator/DMaaP_simulator",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 2831
+      },
+      "writtenOn": "2018-09-06T11:39:36Z",
+      "side": 1,
+      "message": "why not using image \u0027python:3-alpine\u0027? it has \u0027pip\u0027 already installed",
+      "revId": "39caecfa1be7600ce7b5f5f42c3b0e9849e66616",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
