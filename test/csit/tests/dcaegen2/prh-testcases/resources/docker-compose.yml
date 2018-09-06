@@ -1,12 +1,15 @@
 version: '3'
 services:
   prh:
-    image: nexus3.onap.org:10001/onap/org.onap.dcaegen2.services.prh.prh-app-server
+    image: nexus3.onap.org:10001/onap/org.onap.dcaegen2.services.prh.prh-app-server:latest
     command: >
-          --dmaap.dmaapConsumerConfiguration.dmaapPortNumber=2222
-          --dmaap.dmaapProducerConfiguration.dmaapPortNumber=2222
-          --aai.aaiClientConfiguration.aaiHostPortNumber=3333
-          --aai.aaiClientConfiguration.aaiProtocol=http
+        --dmaap.dmaapConsumerConfiguration.dmaapHostName=dmaap
+        --dmaap.dmaapConsumerConfiguration.dmaapPortNumber=2222
+        --dmaap.dmaapProducerConfiguration.dmaapHostName=dmaap
+        --dmaap.dmaapProducerConfiguration.dmaapPortNumber=2222
+        --aai.aaiClientConfiguration.aaiHostPortNumber=3333
+        --aai.aaiClientConfiguration.aaiHost=aai
+        --aai.aaiClientConfiguration.aaiProtocol=http
     entrypoint:
       - java
       - -Dspring.profiles.active=dev
@@ -18,10 +21,10 @@ services:
       - "8433:8433"
     container_name: prh
     depends_on:
-     - dmaap_simulator
-     - aai_simulator
+     - dmaap
+     - aai
 
-  dmaap_simulator:
+  dmaap:
     build:
       context: simulator
       dockerfile: DMaaP_simulator
@@ -29,7 +32,7 @@ services:
       - "2222:2222"
     container_name: dmaap_simulator
 
-  aai_simulator:
+  aai:
      build:
        context: simulator
        dockerfile: AAI_simulator
