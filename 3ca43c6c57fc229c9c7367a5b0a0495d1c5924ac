@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_86bb530e",
+        "filename": "deployment/heat/onap-oom/parts/onap-oom-1.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 35
+      },
+      "writtenOn": "2018-09-06T22:43:52Z",
+      "side": 1,
+      "message": "Let\u0027s avoid hard-coding the GERRIT_BRANCH value in these default values; instead, set the parameter values as appropriate in the .env file or via command line during deployment.",
+      "range": {
+        "startLine": 37,
+        "startChar": 14,
+        "endLine": 37,
+        "endChar": 30
+      },
+      "revId": "3ca43c6c57fc229c9c7367a5b0a0495d1c5924ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_a68a0f62",
+        "filename": "deployment/heat/onap-oom/parts/onap-oom-1.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 35
+      },
+      "writtenOn": "2018-09-06T22:43:52Z",
+      "side": 1,
+      "message": "Please set the router name using the new install_name template parameter instead of hard-coding it into the template.",
+      "range": {
+        "startLine": 138,
+        "startChar": 12,
+        "endLine": 138,
+        "endChar": 26
+      },
+      "revId": "3ca43c6c57fc229c9c7367a5b0a0495d1c5924ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_e694878c",
+        "filename": "deployment/heat/onap-oom/scripts/gen-onap-oom-yaml.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 35
+      },
+      "writtenOn": "2018-09-06T22:43:52Z",
+      "side": 1,
+      "message": "Can we make install_name a template parameter instead of hard-coding into the template itself?",
+      "range": {
+        "startLine": 42,
+        "startChar": 12,
+        "endLine": 42,
+        "endChar": 28
+      },
+      "revId": "3ca43c6c57fc229c9c7367a5b0a0495d1c5924ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
