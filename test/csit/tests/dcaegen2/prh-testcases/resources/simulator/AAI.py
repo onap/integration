@@ -7,6 +7,7 @@ pnfs = 'Empty'
 
 
 class AAIHandler(BaseHTTPRequestHandler):
+
     def do_PUT(self):
         if re.search('/set_pnfs', self.path):
             global pnfs
