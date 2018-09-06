@@ -8,6 +8,7 @@ received_event_to_get_method = 'Empty'
 
 
 class DMaaPHandler(BaseHTTPRequestHandler):
+
     def do_PUT(self):
         if re.search('/set_get_event', self.path):
             global received_event_to_get_method
@@ -27,7 +28,7 @@ class DMaaPHandler(BaseHTTPRequestHandler):
         return
 
     def do_GET(self):
-        if re.search('/events/unauthenticated.SEC_OTHER_OUTPUT/OpenDcae-c12/c12', self.path):
+        if re.search('/events/unauthenticated.VES_PNFREG_OUTPUT/OpenDcae-c12/c12', self.path):
             _header_200_and_json(self)
             self.wfile.write(received_event_to_get_method)
         elif re.search('/events/pnfReady', self.path):

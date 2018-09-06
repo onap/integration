@@ -21,16 +21,18 @@ class PrhLibrary(object):
     @staticmethod
     def create_pnf_ready_notification(json_file):
         json_to_python = json.loads(json_file)
-        ipv4 = json_to_python["event"]["otherFields"]["pnfOamIpv4Address"]
-        ipv6 = json_to_python["event"]["otherFields"]["pnfOamIpv6Address"]
-        pnf_name = _create_pnf_name(json_file)
-        str_json = '{"pnf-name":"' + pnf_name + '","ipaddress-v4-oam":"' + ipv4 + '","ipaddress-v6-oam":"' + ipv6 + '"}'
+        ipv4 = json_to_python["event"]["pnfRegistrationFields"]["oamV4IpAddress"]
+        ipv6 = json_to_python["event"]["pnfRegistrationFields"]["oamV6IpAddress"]
+        header = json_to_python["event"]["commonEventHeader"]["sourceName"]
+        str_json = '{"sourceName":"' + header + '","ipaddress-v4-oam":"' + ipv4 + '","ipaddress-v6-oam":"' + ipv6 + '"}'
         python_to_json = json.dumps(str_json)
         return python_to_json.replace("\\", "")[1:-1]
 
     @staticmethod
     def create_pnf_name(json_file):
-        return _create_pnf_name(json_file)
+        json_to_python = json.loads(json_file)
+        header = json_to_python["event"]["commonEventHeader"]["sourceName"]
+        return header
 
     @staticmethod
     def stop_aai():
@@ -38,9 +40,7 @@ class PrhLibrary(object):
         container = client.containers.get('aai_simulator')
         container.stop()
 
-
-def _create_pnf_name(json_file):
-    json_to_python = json.loads(json_file)
-    vendor = json_to_python["event"]["otherFields"]["pnfVendorName"]
-    serial_number = json_to_python["event"]["otherFields"]["pnfSerialNumber"]
-    return vendor[:3].upper() + serial_number
+    def create_invalid_notification(self, json_file):
+        return self.create_pnf_ready_notification(json_file).replace("\":", "\": ")\
+            .replace("ipaddress-v4-oam", "oamV4IpAddress").replace("ipaddress-v6-oam", "oamV6IpAddress")\
+            .replace("}", "\\\\n}")

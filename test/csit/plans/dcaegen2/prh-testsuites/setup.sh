@@ -47,12 +47,5 @@ for i in {1..10}; do
     sleep ${i}
 done
 
-docker stop prh
-docker cp prh:/config/prh_endpoints.json ${WORKDIR}
-sed -i -e 's/"dmaapHostName":.*/"dmaapHostName": "'${DMAAP_SIMULATOR_IP}'",/g' ${WORKDIR}/prh_endpoints.json
-sed -i -e 's/"aaiHost":.*/"aaiHost": "'${AAI_SIMULATOR_IP}'",/g' ${WORKDIR}/prh_endpoints.json
-docker cp ${WORKDIR}/prh_endpoints.json prh:/config/
-docker start prh
-
 # #Pass any variables required by Robot test suites in ROBOT_VARIABLES
 ROBOT_VARIABLES="-v DMAAP_SIMULATOR:${DMAAP_SIMULATOR_IP}:2222 -v AAI_SIMULATOR:${AAI_SIMULATOR_IP}:3333 -v PRH:${PRH_IP}:8100"
