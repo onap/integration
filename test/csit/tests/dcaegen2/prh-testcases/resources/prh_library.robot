@@ -1,6 +1,7 @@
 *** Settings ***
 Library           RequestsLibrary
 Library           Collections
+Library           PrhLibrary.py
 
 *** Keywords ***
 Create header
@@ -17,8 +18,10 @@ Invalid event processing
     [Arguments]    ${input_invalid_event_in_dmaap}
     [Timeout]    30s
     Set event in DMaaP    ${input_invalid_event_in_dmaap}
-    Wait Until Keyword Succeeds    100x    100ms    Check PRH log    INFO 1 --- [pool-2-thread-1] o.o.d.s.prh.tasks.DmaapConsumerTaskImpl \ : Consumed model from DmaaP: ${input_invalid_event_in_dmaap}
-
+    ${invalid_notification}=    Create invalid notification    ${input_invalid_event_in_dmaap}
+    ${notification}=     Catenate        SEPARATOR= \\\\n        |org.onap.dcaegen2.services.prh.exceptions.DmaapNotFoundException: Incorrect json, consumerDmaapModel can not be created:        ${invalid_notification}
+    Wait Until Keyword Succeeds    100x    100ms    Check PRH log       ${notification}
+    
 Valid event processing
     [Arguments]    ${input_valid_event_in_dmaap}
     [Timeout]    30s
