@@ -62,10 +62,10 @@ onap/org.onap.dcaegen2.platform.servicechange-handler,1.1.4
 onap/policy-apex-pdp,2.0-SNAPSHOT-latest
 onap/policy-drools,1.3-SNAPSHOT-latest
 onap/policy-pe,1.3-SNAPSHOT-latest
-onap/portal-app,2.2.0
-onap/portal-db,2.2.0
-onap/portal-sdk,2.2.0
-onap/portal-wms,2.2.0
+onap/portal-app,v2.3.0-STAGING-latest
+onap/portal-db,v2.3.0-STAGING-latest
+onap/portal-sdk,v2.3.0-STAGING-latest 
+onap/portal-wms,v2.3.0-STAGING-latest 
 onap/sdc-api-tests,1.3-STAGING-latest
 onap/sdc-backend,1.3-STAGING-latest
 onap/sdc-backend-init,1.3-STAGING-latest
