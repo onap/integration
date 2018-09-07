@@ -27,7 +27,7 @@ echo "# music configuration step";
 CASS_IMG=nexus3.onap.org:10001/onap/music/cassandra_music:latest
 TOMCAT_IMG=nexus3.onap.org:10001/library/tomcat:8.0
 ZK_IMG=nexus3.onap.org:10001/library/zookeeper:3.4
-MUSIC_IMG=nexus3.onap.org:10001/onap/music/music:latest
+MUSIC_IMG=nexus3.onap.org:10001/onap/music/music:2.5.3
 WORK_DIR=/tmp/music
 CASS_USERNAME=nelson24
 CASS_PASSWORD=winman123
@@ -54,7 +54,7 @@ ${WORKSPACE}/test/csit/scripts/optf-has/has/wait_for_port.sh ${CASSA_IP} 9042
 sleep 60
 # Start Music war
 docker run -d --name music-war -v music-vol:/app ${MUSIC_IMG};
-sleep 15
+sleep 30
 # Start Zookeeper
 docker run -d --name music-zk --network music-net -p "2181:2181" -p "2888:2888" -p "3888:3888" ${ZK_IMG};
 #ZOO_IP=`docker inspect --format '{{ .NetworkSettings.Networks.bridge.IPAddress}}' music-zk`
