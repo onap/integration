@@ -20,7 +20,24 @@
 
 package org.onap.pnfsimulator.message;
 
-import static org.onap.pnfsimulator.message.MessageConstants.*;
+import static org.onap.pnfsimulator.message.MessageConstants.EVENT_ID;
+import static org.onap.pnfsimulator.message.MessageConstants.INTERNAL_HEADER_FIELDS;
+import static org.onap.pnfsimulator.message.MessageConstants.LAST_EPOCH_MICROSEC;
+import static org.onap.pnfsimulator.message.MessageConstants.NOTIFICATION_FIELDS_VERSION;
+import static org.onap.pnfsimulator.message.MessageConstants.NOTIFICATION_FIELDS_VERSION_VALUE;
+import static org.onap.pnfsimulator.message.MessageConstants.PNF_LAST_SERVICE_DATE;
+import static org.onap.pnfsimulator.message.MessageConstants.PNF_MANUFACTURE_DATE;
+import static org.onap.pnfsimulator.message.MessageConstants.PNF_REGISTRATION_FIELDS_VERSION;
+import static org.onap.pnfsimulator.message.MessageConstants.PNF_REGISTRATION_FIELDS_VERSION_VALUE;
+import static org.onap.pnfsimulator.message.MessageConstants.PRIORITY;
+import static org.onap.pnfsimulator.message.MessageConstants.PRIORITY_NORMAL;
+import static org.onap.pnfsimulator.message.MessageConstants.SEQUENCE;
+import static org.onap.pnfsimulator.message.MessageConstants.SEQUENCE_NUMBER;
+import static org.onap.pnfsimulator.message.MessageConstants.START_EPOCH_MICROSEC;
+import static org.onap.pnfsimulator.message.MessageConstants.VERSION;
+import static org.onap.pnfsimulator.message.MessageConstants.VERSION_NUMBER;
+import static org.onap.pnfsimulator.message.MessageConstants.VES_EVENT_LISTENER_VERSION;
+import static org.onap.pnfsimulator.message.MessageConstants.VES_EVENT_LISTENER_VERSION_NUMBER;
 
 import org.json.JSONObject;
 
@@ -29,9 +46,7 @@ final class JSONObjectFactory {
     static JSONObject generateConstantCommonEventHeader() {
         JSONObject commonEventHeader = new JSONObject();
         long timestamp = System.currentTimeMillis();
-        commonEventHeader.put(DOMAIN, PNF_REGISTRATION);
         commonEventHeader.put(EVENT_ID, generateEventId());
-        commonEventHeader.put(EVENT_TYPE, PNF_REGISTRATION);
         commonEventHeader.put(LAST_EPOCH_MICROSEC, timestamp);
         commonEventHeader.put(PRIORITY, PRIORITY_NORMAL);
         commonEventHeader.put(SEQUENCE, SEQUENCE_NUMBER);
@@ -50,13 +65,20 @@ final class JSONObjectFactory {
         return pnfRegistrationFields;
     }
 
+    static JSONObject generateNotificationFields() {
+        JSONObject notificationFields = new JSONObject();
+        notificationFields.put(NOTIFICATION_FIELDS_VERSION, NOTIFICATION_FIELDS_VERSION_VALUE);
+        return notificationFields;
+    }
+
+
     static String generateEventId() {
         String timeAsString = String.valueOf(System.currentTimeMillis());
         return String.format("registration_%s",
             timeAsString.substring(timeAsString.length() - 11, timeAsString.length() - 3));
     }
 
-    private JSONObjectFactory(){
+    private JSONObjectFactory() {
 
     }
 

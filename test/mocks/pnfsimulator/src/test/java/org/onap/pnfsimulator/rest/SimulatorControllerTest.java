@@ -55,25 +55,27 @@ class SimulatorControllerTest {
     private static final String JSON_STATUS_EXPRESSION = "$.simulatorStatus";
     private static final String PROPER_JSON = "{\n" +
         "  \"simulatorParams\": {\n" +
-        "    \"vesServerUrl\": \"http://10.154.187.70:8080/eventListener/v5\",\n" +
+        "    \"vesServerUrl\": \"http://10.154.187.70:8080/eventListener/v7\",\n" +
         "    \"testDuration\": \"10\",\n" +
         "    \"messageInterval\": \"1\"\n" +
         "  },\n" +
-        "  \"messageParams\": {\n" +
-        "    \"pnfSerialNumber\": \"val1\",\n" +
-        "    \"pnfVendorName\": \"val2\",\n" +
-        "    \"pnfOamIpv4Address\": \"val3\",\n" +
-        "    \"pnfOamIpv6Address\": \"val4\",\n" +
-        "    \"pnfFamily\": \"val5\",\n" +
-        "    \"pnfModelNumber\": \"val6\",\n" +
-        "    \"pnfSoftwareVersion\": \"val7\",\n" +
-        "    \"pnfType\": \"val8\",\n" +
-        "    \"eventName\": \"val9\",\n" +
-        "    \"nfNamingCode\": \"val10\",\n" +
-        "    \"nfcNamingCode\": \"val11\",\n" +
-        "    \"sourceName\": \"val12\",\n" +
-        "    \"sourceId\": \"val13\",\n" +
-        "    \"reportingEntityName\": \"val14\"\n" +
+        "  \"commonEventHeaderParams\": {\n" +
+        "    \"eventName\": \"val11\",\n" +
+        "    \"nfNamingCode\": \"val12\",\n" +
+        "    \"nfcNamingCode\": \"val13\",\n" +
+        "    \"sourceName\": \"val14\",\n" +
+        "    \"sourceId\": \"val15\",\n" +
+        "    \"reportingEntityName\": \"val16\",\n" +
+        "  },\n" +
+
+        "  \"pnfRegistrationParams\": {\n" +
+        "    \"SerialNumber\": \"val1\",\n" +
+        "    \"VendorName\": \"val2\",\n" +
+        "    \"OamIpv4Address\": \"val3\",\n" +
+        "    \"OamIpv6Address\": \"val4\",\n" +
+        "    \"Family\": \"val5\",\n" +
+        "    \"ModelNumber\": \"val6\",\n" +
+        "    \"SoftwareVersion\": \"val7\",\n" +
         "  }\n" +
         "}";
     private static final String WRONG_JSON = "{\n" +
@@ -119,7 +121,7 @@ class SimulatorControllerTest {
 
     @Test
     void wrongJSONFormatOnStart() throws Exception {
-        when(factory.create(any(), any())).thenReturn(simulator);
+        when(factory.create(any(),any(), any(),any())).thenReturn(simulator);
         doThrow(new ValidationException("")).when(validator).validate(anyString(), anyString());
 
         mockMvc.perform(post("/simulator/start").content(WRONG_JSON))
@@ -134,7 +136,7 @@ class SimulatorControllerTest {
         startSimulator();
 
         verify(validator).validate(anyString(), anyString());
-        verify(factory).create(any(), any());
+        verify(factory).create(any(),any(), any(),any());
         verify(simulator).start();
     }
 
@@ -185,7 +187,7 @@ class SimulatorControllerTest {
     }
 
     private void startSimulator() throws Exception {
-        when(factory.create(any(), any())).thenReturn(simulator);
+        when(factory.create(any(), any(), any(),any())).thenReturn(simulator);
 
         mockMvc
             .perform(post(START_URL).content(PROPER_JSON))
