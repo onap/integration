@@ -8,8 +8,11 @@ RUN apk add --no-cache python3 && \
     if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
 	rm -r /root/.cache
 
-ADD SDC.py /
+ADD SO.py /
+ADD key.pem /
+ADD cert.pem /
+ADD so_post_response.json /
 
 EXPOSE 8443
 
-CMD [ "python", "./SDC.py" ]
+CMD [ "python", "./SO.py" ]
