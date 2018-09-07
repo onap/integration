@@ -252,7 +252,7 @@ music_new_version = True
 # Base URL for Music REST API without a trailing slash. (string value)
 server_url = http://localhost:8080/MUSIC/rest/v2
 version = v2
-music_version = "3.0.3"
+music_version = "2.5.3"
 aafuser = conductor
 aafpass = c0nduct0r
 aafns = conductor
