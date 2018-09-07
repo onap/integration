@@ -27,7 +27,8 @@ import static org.onap.pnfsimulator.logging.MDCVariables.RESPONSE_CODE;
 import static org.onap.pnfsimulator.logging.MDCVariables.SERVICE_NAME;
 import static org.onap.pnfsimulator.logging.MDCVariables.X_INVOCATION_ID;
 import static org.onap.pnfsimulator.logging.MDCVariables.X_ONAP_REQUEST_ID;
-import static org.onap.pnfsimulator.message.MessageConstants.SIMULATOR_PARAMS_CONTAINER;
+import static org.onap.pnfsimulator.message.MessageConstants.SIMULATOR_PARAMS;
+import static org.onap.pnfsimulator.message.MessageConstants.COMMON_EVENT_HEADER_PARAMS;
 import static org.onap.pnfsimulator.rest.util.ResponseBuilder.MESSAGE;
 import static org.onap.pnfsimulator.rest.util.ResponseBuilder.REMAINING_TIME;
 import static org.onap.pnfsimulator.rest.util.ResponseBuilder.SIMULATOR_STATUS;
@@ -40,6 +41,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
+import java.util.Optional;
 import java.util.UUID;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -65,7 +67,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
 @RequestMapping("/simulator")
 public class SimulatorController {
@@ -74,7 +75,6 @@ public class SimulatorController {
     private static final DateFormat RESPONSE_DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss,SSS");
     private final Marker ENTRY = MarkerFactory.getMarker("ENTRY");
     private Simulator simulator;
-
     private JSONValidator validator;
     private SimulatorFactory factory;
 
@@ -90,7 +90,7 @@ public class SimulatorController {
         MDC.put(INVOCATION_ID, headers.getFirst(X_INVOCATION_ID));
         MDC.put(INSTANCE_UUID, UUID.randomUUID().toString());
         MDC.put(SERVICE_NAME, "/simulator/start");
-        LOGGER.info(ENTRY,"Simulator starting");
+        LOGGER.info(ENTRY, "Simulator starting");
 
         if (isSimulatorRunning()) {
             MDC.put(RESPONSE_CODE, BAD_REQUEST.toString());
@@ -103,12 +103,15 @@ public class SimulatorController {
 
         try {
             validator.validate(message, "json_schema/input_validator.json");
-
             JSONObject root = new JSONObject(message);
-            JSONObject simulatorParams = root.getJSONObject(SIMULATOR_PARAMS_CONTAINER);
-            JSONObject messageParams = root.getJSONObject(MessageConstants.MESSAGE_PARAMS_CONTAINER);
-
-            simulator = factory.create(simulatorParams, messageParams);
+            JSONObject simulatorParams = root.getJSONObject(SIMULATOR_PARAMS);
+            JSONObject commonEventHeaderParams = root.getJSONObject(COMMON_EVENT_HEADER_PARAMS);
+            Optional<JSONObject> pnfRegistrationFields = root.has(MessageConstants.PNF_REGISTRATION_PARAMS) ? Optional
+                .of(root.getJSONObject(MessageConstants.PNF_REGISTRATION_PARAMS)) : Optional.empty();
+            Optional<JSONObject> notificationFields = root.has(MessageConstants.NOTIFICATION_PARAMS) ? Optional
+                .of(root.getJSONObject(MessageConstants.NOTIFICATION_PARAMS)) : Optional.empty();
+            simulator = factory
+                .create(simulatorParams, commonEventHeaderParams, pnfRegistrationFields, notificationFields);
             simulator.start();
 
             MDC.put(RESPONSE_CODE, OK.toString());
@@ -145,8 +148,7 @@ public class SimulatorController {
                 .put(TIMESTAMP, DateUtil.getTimestamp(RESPONSE_DATE_FORMAT))
                 .put(MESSAGE, "Unexpected exception: " + e.getMessage())
                 .build();
-        }
-        finally {
+        } finally {
             MDC.clear();
         }
     }

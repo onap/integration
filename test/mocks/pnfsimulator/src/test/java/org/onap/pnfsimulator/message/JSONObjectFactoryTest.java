@@ -32,18 +32,14 @@ public class JSONObjectFactoryTest {
     @Test
     public void generateConstantCommonEventHeader_shouldCreateProperly(){
         JSONObject commonEventHeader = JSONObjectFactory.generateConstantCommonEventHeader();
-        assertEquals(10,commonEventHeader.toMap().size());
-        assertTrue(commonEventHeader.has(DOMAIN));
+        assertEquals(8,commonEventHeader.toMap().size());
         assertTrue(commonEventHeader.has(EVENT_ID));
-        assertTrue(commonEventHeader.has(EVENT_TYPE));
         assertTrue(commonEventHeader.has(LAST_EPOCH_MICROSEC));
         assertTrue(commonEventHeader.has(PRIORITY));
         assertTrue(commonEventHeader.has(SEQUENCE));
         assertTrue(commonEventHeader.has(START_EPOCH_MICROSEC));
         assertTrue(commonEventHeader.has(INTERNAL_HEADER_FIELDS));
         assertTrue(commonEventHeader.has(VERSION));
-        assertEquals(commonEventHeader.get(DOMAIN),PNF_REGISTRATION);
-        assertEquals(commonEventHeader.get(EVENT_TYPE),PNF_REGISTRATION);
         assertEquals(commonEventHeader.get(PRIORITY),PRIORITY_NORMAL);
         assertEquals(commonEventHeader.get(SEQUENCE),SEQUENCE_NUMBER);
         assertEquals(commonEventHeader.get(VERSION),VERSION_NUMBER);
@@ -64,6 +60,14 @@ public class JSONObjectFactoryTest {
     public void generateEventId_shouldCreateProperly(){
         String eventId = JSONObjectFactory.generateEventId();
         assertTrue(eventId.startsWith("registration_"));
+    }
+
+    @Test
+    public void generateNotificationFields_shouldCreateProperly(){
+        JSONObject notificationFields = JSONObjectFactory.generateNotificationFields();
+        assertEquals(1,notificationFields.keySet().size());
+        assertEquals(NOTIFICATION_FIELDS_VERSION_VALUE,notificationFields.get(NOTIFICATION_FIELDS_VERSION));
+
     }
 
 }
