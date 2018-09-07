@@ -1,193 +1,205 @@
 {
-  "$id": "http://example.com/example.json",
+  "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
-  "definitions": {},
-  "$schema": "http://json-schema.org/draft-07/schema#",
   "properties": {
     "simulatorParams": {
-      "$id": "/properties/simulatorParams",
       "type": "object",
       "properties": {
         "vesServerUrl": {
-          "$id": "/properties/simulatorParams/properties/vesServerUrl",
-          "type": "string",
-          "title": "The Vesserverurl Schema ",
-          "default": "",
-          "examples": [
-            "http://10.42.111.53:VES-PORT/eventListener/v7"
-          ]
+          "type": "string"
         },
         "testDuration": {
-          "$id": "/properties/simulatorParams/properties/testDuration",
-          "type": "string",
-          "title": "The Testduration Schema ",
-          "default": "",
-          "examples": [
-            "10"
-          ]
+          "type": "string"
         },
         "messageInterval": {
-          "$id": "/properties/simulatorParams/properties/messageInterval",
-          "type": "string",
-          "title": "The Messageinterval Schema ",
-          "default": "",
-          "examples": [
-            "1"
-          ]
+          "type": "string"
         }
-      }
+      },
+      "required": [
+        "vesServerUrl",
+        "testDuration",
+        "messageInterval"
+      ]
     },
-    "messageParams": {
-      "$id": "/properties/messageParams",
+    "commonEventHeaderParams": {
       "type": "object",
       "properties": {
-        "pnf_serialNumber": {
-          "$id": "/properties/messageParams/properties/pnf_serialNumber",
-          "type": "string",
-          "title": "The Pnf_serialnumber Schema ",
-          "default": "",
-          "examples": [
-            "6061ZW3"
-          ]
-        },
-        "pnf_vendorName": {
-          "$id": "/properties/messageParams/properties/pnf_vendorName",
-          "type": "string",
-          "title": "The Pnf_vendorname Schema ",
-          "default": "",
-          "examples": [
-            "Nokia"
-          ]
-        },
-        "pnf_oamV4IpAddress": {
-          "$id": "/properties/messageParams/properties/pnf_oamV4IpAddress",
-          "type": "string",
-          "title": "The Pnf_oamv4ipaddress Schema ",
-          "default": "",
-          "examples": [
-            "val3"
-          ]
-        },
-        "pnf_oamV6IpAddress": {
-          "$id": "/properties/messageParams/properties/pnf_oamV6IpAddress",
-          "type": "string",
-          "title": "The Pnf_oamv6ipaddress Schema ",
-          "default": "",
-          "examples": [
-            "val4"
-          ]
-        },
-        "pnf_unitFamily": {
-          "$id": "/properties/messageParams/properties/pnf_unitFamily",
-          "type": "string",
-          "title": "The Pnf_unitfamily Schema ",
-          "default": "",
-          "examples": [
-            "BBU"
-          ]
-        },
-        "pnf_modelNumber": {
-          "$id": "/properties/messageParams/properties/pnf_modelNumber",
-          "type": "string",
-          "title": "The Pnf_modelnumber Schema ",
-          "default": "",
-          "examples": [
-            "val6"
-          ]
-        },
-        "pnf_softwareVersion": {
-          "$id": "/properties/messageParams/properties/pnf_softwareVersion",
-          "type": "string",
-          "title": "The Pnf_softwareversion Schema ",
-          "default": "",
-          "examples": [
-            "val7"
-          ]
-        },
-        "pnf_unitType": {
-          "$id": "/properties/messageParams/properties/pnf_unitType",
-          "type": "string",
-          "title": "The Pnf_unittype Schema ",
-          "default": "",
-          "examples": [
-            "val8"
-          ]
-        },
         "eventName": {
-          "$id": "/properties/messageParams/properties/eventName",
-          "type": "string",
-          "title": "The Eventname Schema ",
-          "default": "",
-          "examples": [
-            "pnfRegistration_Nokia_5gDu"
-          ]
+          "type": "string"
         },
         "nfNamingCode": {
-          "$id": "/properties/messageParams/properties/nfNamingCode",
-          "type": "string",
-          "title": "The Nfnamingcode Schema ",
-          "default": "",
-          "examples": [
-            "gNB"
-          ]
+          "type": "string"
         },
         "nfcNamingCode": {
-          "$id": "/properties/messageParams/properties/nfcNamingCode",
-          "type": "string",
-          "title": "The Nfcnamingcode Schema ",
-          "default": "",
-          "examples": [
-            "oam"
-          ]
+          "type": "string"
         },
         "sourceName": {
-          "$id": "/properties/messageParams/properties/sourceName",
-          "type": "string",
-          "title": "The Sourcename Schema ",
-          "default": "",
-          "examples": [
-            "NOK6061ZW3"
-          ]
+          "type": "string"
         },
         "sourceId": {
-          "$id": "/properties/messageParams/properties/sourceId",
-          "type": "string",
-          "title": "The Sourceid Schema ",
-          "default": "",
-          "examples": [
-            "val13"
-          ]
+          "type": "string"
         },
         "reportingEntityName": {
-          "$id": "/properties/messageParams/properties/reportingEntityName",
-          "type": "string",
-          "title": "The Reportingentityname Schema ",
-          "default": "",
-          "examples": [
-            "NOK6061ZW3"
+          "type": "string"
+        }
+      },
+      "required": [
+        "eventName",
+        "nfNamingCode",
+        "nfcNamingCode",
+        "sourceName",
+        "sourceId",
+        "reportingEntityName"
+      ]
+    },
+
+
+    "pnfRegistrationParams": {
+      "type": "object",
+      "properties": {
+        "serialNumber": {
+          "type": "string"
+        },
+        "vendorName": {
+          "type": "string"
+        },
+        "oamV4IpAddress": {
+          "type": "string"
+        },
+        "oamV6IpAddress": {
+          "type": "string"
+        },
+        "unitFamily": {
+          "type": "string"
+        },
+        "modelNumber": {
+          "type": "string"
+        },
+        "softwareVersion": {
+          "type": "string"
+        },
+        "unitType": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "serialNumber",
+        "vendorName",
+        "oamV4IpAddress",
+        "oamV6IpAddress",
+        "unitFamily",
+        "modelNumber",
+        "softwareVersion",
+        "unitType"
+      ]
+    },
+    "notificationParams": {
+      "type": "object",
+      "properties": {
+        "changeIdentifier": {
+          "type": "string"
+        },
+        "changeType": {
+          "type": "string"
+        },
+        "arrayOfNamedHashMap": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "hashMap": {
+                  "type": "object",
+                  "properties": {
+                    "location": {
+                      "type": "string"
+                    },
+                    "compression": {
+                      "type": "string"
+                    },
+                    "fileformatType": {
+                      "type": "string"
+                    },
+                    "fileFormatVersion": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "location",
+                    "compression",
+                    "fileformatType",
+                    "fileFormatVersion"
+                  ]
+                }
+              },
+              "required": [
+                "name",
+                "hashMap"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "hashMap": {
+                  "type": "object",
+                  "properties": {
+                    "location": {
+                      "type": "string"
+                    },
+                    "compression": {
+                      "type": "string"
+                    },
+                    "fileFormatType": {
+                      "type": "string"
+                    },
+                    "fileFormatVersion": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "location",
+                    "compression",
+                    "fileFormatType",
+                    "fileFormatVersion"
+                  ]
+                }
+              },
+              "required": [
+                "name",
+                "hashMap"
+              ]
+            }
           ]
         }
       },
       "required": [
-        "pnf_serialNumber",
-        "pnf_vendorName"
-      ],
-      "anyOf": [
-        {
-          "required": [
-            "pnf_oamV4IpAddress"
-          ]
-        },
-        {
-          "required": [
-            "pnf_oamV6IpAddress"
-          ]
-        }
+        "changeIdentifier",
+        "changeType",
+        "arrayOfNamedHashMap"
       ]
     }
   },
-  "required": [
-    "simulatorParams",
-    "messageParams"
+
+  "oneOf": [
+    {
+      "required": [
+        "simulatorParams",
+        "pnfRegistrationParams"
+      ]
+    },
+    {
+      "required": [
+        "simulatorParams",
+        "notificationParams"
+      ]
+    }
   ]
+
+
 }

@@ -28,6 +28,7 @@ import static org.onap.pnfsimulator.message.MessageConstants.VES_SERVER_URL;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import java.io.IOException;
 import java.time.Duration;
+import java.util.Optional;
 import org.json.JSONObject;
 import org.onap.pnfsimulator.message.MessageProvider;
 import org.onap.pnfsimulator.simulator.validation.JSONValidator;
@@ -49,13 +50,15 @@ public class SimulatorFactory {
         this.validator = validator;
     }
 
-    public Simulator create(JSONObject simulatorParams, JSONObject messageParams)
+    public Simulator create(JSONObject simulatorParams, JSONObject commonEventHeaderParams,
+        Optional<JSONObject> pnfRegistrationParams, Optional<JSONObject> notificationParams)
         throws ProcessingException, IOException, ValidationException {
         Duration duration = Duration.ofSeconds(parseInt(simulatorParams.getString(TEST_DURATION)));
         Duration interval = Duration.ofSeconds(parseInt(simulatorParams.getString(MESSAGE_INTERVAL)));
         String vesUrl = simulatorParams.getString(VES_SERVER_URL);
 
-        JSONObject messageBody = messageProvider.createMessage(messageParams);
+        JSONObject messageBody = messageProvider
+            .createMessage(commonEventHeaderParams, pnfRegistrationParams, notificationParams);
         validator.validate(messageBody.toString(), DEFAULT_OUTPUT_SCHEMA_PATH);
 
         return Simulator.builder()

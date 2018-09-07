@@ -1,24 +1,45 @@
-
 {
   "simulatorParams": {
     "vesServerUrl": "http://VES-HOST:VES-PORT/eventListener/v7",
     "testDuration": "10",
     "messageInterval": "1"
   },
-  "messageParams": {
-    "pnf_serialNumber": "6061ZW3",
-    "pnf_vendorName": "Nokia",
-    "pnf_oamV4IpAddress": "val3",
-    "pnf_oamV6IpAddress": "val4",
-    "pnf_unitFamily": "BBU",
-    "pnf_modelNumber": "val6",
-    "pnf_softwareVersion": "val7",
-    "pnf_unitType": "val8",
+  "commonEventHeaderParams": {
     "eventName": "pnfRegistration_Nokia_5gDu",
     "nfNamingCode": "gNB",
     "nfcNamingCode": "oam",
     "sourceName": "NOK6061ZW3",
     "sourceId": "val13",
     "reportingEntityName": "NOK6061ZW3"
+  },
+  "pnfRegistrationParams": {
+    "serialNumber": "6061ZW3",
+    "vendorName": "Nokia",
+    "oamV4IpAddress": "val3",
+    "oamV6IpAddress": "val4",
+    "unitFamily": "BBU",
+    "modelNumber": "val6",
+    "softwareVersion": "val7",
+    "unitType": "val8"
+  },
+  "notificationParams": {
+    "changeIdentifier": "PM_MEAS_FILES",
+    "changeType": "FileReady",
+    "arrayOfNamedHashMap": [
+      {"name": "A20161221.1031-1041.bin.gz", "hashMap": {
+        "location": "ftpes://192.169.0.1:22/ftp/rop/A20161224.1030-1045.bin.gz",
+        "compression": "gzip",
+        "fileformatType": "org.3GPP.32.435#measCollec",
+        "fileFormatVersion": "V10"
+      }
+      },
+      {"name": "A20161222.1042-1102.bin.gz", "hashMap": {
+        "location": "ftpes://192.168.0.102:22/ftp/rop/A20161224.1045-1100.bin.gz",
+        "compression": "gzip",
+        "fileFormatType": "org.3GPP.32.435#measCollec",
+        "fileFormatVersion": "V10"
+      }
+      }
+    ]
   }
 }
