@@ -28,6 +28,7 @@ import static org.onap.pnfsimulator.simulator.TestMessages.INVALID_MESSAGE_PARAM
 import static org.onap.pnfsimulator.simulator.TestMessages.INVALID_SIMULATOR_PARAMS;
 import static org.onap.pnfsimulator.simulator.TestMessages.VALID_MESSAGE_PARAMS;
 import static org.onap.pnfsimulator.simulator.TestMessages.VALID_SIMULATOR_PARAMS;
+import static org.onap.pnfsimulator.simulator.TestMessages.INVALID_NOTIFICATION_PARAMS;
 
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import java.io.IOException;
@@ -52,14 +53,14 @@ class SimulatorFactoryTest {
     @Test
     void should_successfully_create_simulator_given_valid_params_and_valid_output_message()
         throws ValidationException, IOException, ProcessingException {
-        assertNotNull(simulatorFactory.create(VALID_SIMULATOR_PARAMS, VALID_MESSAGE_PARAMS));
+        assertNotNull(simulatorFactory.create(VALID_SIMULATOR_PARAMS, VALID_MESSAGE_PARAMS,INVALID_NOTIFICATION_PARAMS));
     }
 
     @Test
     void should_throw_given_invalid_params() {
         assertThrows(
             JSONException.class,
-            () -> simulatorFactory.create(INVALID_SIMULATOR_PARAMS, VALID_MESSAGE_PARAMS));
+            () -> simulatorFactory.create(INVALID_SIMULATOR_PARAMS, VALID_MESSAGE_PARAMS,INVALID_NOTIFICATION_PARAMS));
     }
 
     @Test
@@ -67,14 +68,14 @@ class SimulatorFactoryTest {
 
         assertThrows(
             ValidationException.class,
-            () -> simulatorFactory.create(VALID_SIMULATOR_PARAMS, INVALID_MESSAGE_PARAMS_1));
+            () -> simulatorFactory.create(VALID_SIMULATOR_PARAMS, INVALID_MESSAGE_PARAMS_1,INVALID_NOTIFICATION_PARAMS));
 
         assertThrows(
             ValidationException.class,
-            () -> simulatorFactory.create(VALID_SIMULATOR_PARAMS, INVALID_MESSAGE_PARAMS_2));
+            () -> simulatorFactory.create(VALID_SIMULATOR_PARAMS, INVALID_MESSAGE_PARAMS_2,INVALID_NOTIFICATION_PARAMS));
 
         assertThrows(
             ValidationException.class,
-            () -> simulatorFactory.create(VALID_SIMULATOR_PARAMS, INVALID_MESSAGE_PARAMS_3));
+            () -> simulatorFactory.create(VALID_SIMULATOR_PARAMS, INVALID_MESSAGE_PARAMS_3,INVALID_NOTIFICATION_PARAMS));
     }
 }

@@ -23,6 +23,9 @@ package org.onap.pnfsimulator.message;
 import static org.onap.pnfsimulator.message.MessageConstants.COMMON_EVENT_HEADER;
 import static org.onap.pnfsimulator.message.MessageConstants.EVENT;
 import static org.onap.pnfsimulator.message.MessageConstants.PNF_PREFIX;
+import static org.onap.pnfsimulator.message.MessageConstants.NOTIFICATION_FIELDS;
+import static org.onap.pnfsimulator.message.MessageConstants.NOTIFICATION_FIELDS_VERSION;
+import static org.onap.pnfsimulator.message.MessageConstants.NOTIFICATION_FIELDS_VERSION_VALUE;
 import static org.onap.pnfsimulator.message.MessageConstants.PNF_REGISTRATION_FIELDS;
 
 import java.util.Map;
@@ -30,13 +33,14 @@ import org.json.JSONObject;
 
 public class MessageProvider {
 
-    public JSONObject createMessage(JSONObject params) {
+    public JSONObject createMessage(JSONObject pnfRegistrationParams, JSONObject notificationParams) {
 
-        if (params == null) {
-            throw new IllegalArgumentException("Params object cannot be null");
+        if (pnfRegistrationParams == null && notificationParams == null) {
+            throw new IllegalArgumentException("Both PNF registration and notification parameters objects not present");
         }
 
-        Map<String, Object> paramsMap = params.toMap();
+        //TODO
+        Map<String, Object> paramsMap = pnfRegistrationParams.toMap();
         JSONObject root = new JSONObject();
         JSONObject commonEventHeader = JSONObjectFactory.generateConstantCommonEventHeader();
         JSONObject pnfRegistrationFields = JSONObjectFactory.generatePnfRegistrationFields();
@@ -50,9 +54,14 @@ public class MessageProvider {
             }
         });
 
+        if (notificationParams != null) {
+            notificationParams.put(NOTIFICATION_FIELDS_VERSION, NOTIFICATION_FIELDS_VERSION_VALUE);
+        }
+
         JSONObject event = new JSONObject();
         event.put(COMMON_EVENT_HEADER, commonEventHeader);
         event.put(PNF_REGISTRATION_FIELDS, pnfRegistrationFields);
+        event.put(NOTIFICATION_FIELDS,notificationParams);
         root.put(EVENT, event);
         return root;
     }

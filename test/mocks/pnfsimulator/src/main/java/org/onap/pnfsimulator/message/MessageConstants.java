@@ -22,8 +22,14 @@ package org.onap.pnfsimulator.message;
 
 public final class MessageConstants {
 
-    public static final String SIMULATOR_PARAMS_CONTAINER = "simulatorParams";
-    public static final String MESSAGE_PARAMS_CONTAINER = "messageParams";
+    public static final String SIMULATOR_PARAMS = "simulatorParams";
+    public static final String PNF_REGISTRATION_PARAMS = "pnfRegistrationParams";
+    public static final String NOTIFICATION_PARAMS = "notificationParams";
+
+    static final String COMMON_EVENT_HEADER = "commonEventHeader";
+    static final String PNF_REGISTRATION_FIELDS = "pnfRegistrationFields";
+    static final String NOTIFICATION_FIELDS = "notificationFields";
+
     static final String EVENT = "event";
     static final String DOMAIN = "domain";
     static final String EVENT_ID = "eventId";
@@ -48,11 +54,15 @@ public final class MessageConstants {
     public static final String TEST_DURATION = "testDuration";
     public static final String MESSAGE_INTERVAL = "messageInterval";
     static final String PNF_PREFIX = "pnf_";
-    static final String COMMON_EVENT_HEADER = "commonEventHeader";
-    static final String PNF_REGISTRATION_FIELDS = "pnfRegistrationFields";
 
 
-    //===============================================================
+
+    //=============================================================================================
+    // Notifications
+    static final String NOTIFICATION_FIELDS_VERSION = "notificationFieldsVersion";
+    static final String NOTIFICATION_FIELDS_VERSION_VALUE = "2.0";
+
+    //=============================================================================================
     //constant values
     static final String PNF_REGISTRATION ="pnfRegistration";
     static final String PRIORITY_NORMAL = "Normal";

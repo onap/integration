@@ -49,13 +49,13 @@ public class SimulatorFactory {
         this.validator = validator;
     }
 
-    public Simulator create(JSONObject simulatorParams, JSONObject messageParams)
+    public Simulator create(JSONObject simulatorParams, JSONObject pnfRegistrationParams, JSONObject notificationParams)
         throws ProcessingException, IOException, ValidationException {
         Duration duration = Duration.ofSeconds(parseInt(simulatorParams.getString(TEST_DURATION)));
         Duration interval = Duration.ofSeconds(parseInt(simulatorParams.getString(MESSAGE_INTERVAL)));
         String vesUrl = simulatorParams.getString(VES_SERVER_URL);
 
-        JSONObject messageBody = messageProvider.createMessage(messageParams);
+        JSONObject messageBody = messageProvider.createMessage(pnfRegistrationParams,notificationParams);
         validator.validate(messageBody.toString(), DEFAULT_OUTPUT_SCHEMA_PATH);
 
         return Simulator.builder()
