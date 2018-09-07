@@ -1,0 +1,16 @@
+{
+  "pnf_serialNumber": "6061ZW3",
+  "pnf_vendorName": "Nokia",
+  "pnf_oamV4IpAddress": "val3",
+  "pnf_oamV6IpAddress": "val4",
+  "pnf_unitFamily": "BBU",
+  "pnf_modelNumber": "val6",
+  "pnf_softwareVersion": "val7",
+  "pnf_unitType": "val8",
+  "eventName": "pnfRegistration_Nokia_5gDu",
+  "nfNamingCode": "gNB",
+  "nfcNamingCode": "oam",
+  "sourceName": "NOK6061ZW3",
+  "sourceId": "val13",
+  "reportingEntityName": "NOK6061ZW3"
+}

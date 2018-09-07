@@ -23,36 +23,49 @@ package org.onap.pnfsimulator.message;
 import static org.onap.pnfsimulator.message.MessageConstants.COMMON_EVENT_HEADER;
 import static org.onap.pnfsimulator.message.MessageConstants.EVENT;
 import static org.onap.pnfsimulator.message.MessageConstants.PNF_PREFIX;
+import static org.onap.pnfsimulator.message.MessageConstants.NOTIFICATION_FIELDS;
+import static org.onap.pnfsimulator.message.MessageConstants.NOTIFICATION_FIELDS_VERSION;
+import static org.onap.pnfsimulator.message.MessageConstants.NOTIFICATION_FIELDS_VERSION_VALUE;
 import static org.onap.pnfsimulator.message.MessageConstants.PNF_REGISTRATION_FIELDS;
 
 import java.util.Map;
+import java.util.Optional;
 import org.json.JSONObject;
 
 public class MessageProvider {
 
-    public JSONObject createMessage(JSONObject params) {
+    public JSONObject createMessage(Optional<JSONObject> pnfRegistrationParams, Optional<JSONObject> notificationParams) {
 
-        if (params == null) {
-            throw new IllegalArgumentException("Params object cannot be null");
+        if (!pnfRegistrationParams.isPresent() && !notificationParams.isPresent()) {
+            throw new IllegalArgumentException("Both PNF registration and notification parameters objects not present");
         }
 
-        Map<String, Object> paramsMap = params.toMap();
         JSONObject root = new JSONObject();
+        JSONObject event = new JSONObject();
+
         JSONObject commonEventHeader = JSONObjectFactory.generateConstantCommonEventHeader();
         JSONObject pnfRegistrationFields = JSONObjectFactory.generatePnfRegistrationFields();
 
-        paramsMap.forEach((key, value) -> {
+        pnfRegistrationParams.ifPresent(jsonObject -> {
+            Map<String, Object> paramsMap = jsonObject.toMap();
+            paramsMap.forEach((key, value) -> {
 
-            if (key.startsWith(PNF_PREFIX)) {
-                pnfRegistrationFields.put(key.substring(PNF_PREFIX.length()), value);
-            } else {
-                commonEventHeader.put(key, value);
-            }
+                if (key.startsWith(PNF_PREFIX)) {
+                    pnfRegistrationFields.put(key.substring(PNF_PREFIX.length()), value);
+                } else {
+                    commonEventHeader.put(key, value);
+                }
+            });
+            event.put(COMMON_EVENT_HEADER, commonEventHeader);
+            event.put(PNF_REGISTRATION_FIELDS, pnfRegistrationFields);
         });
 
-        JSONObject event = new JSONObject();
-        event.put(COMMON_EVENT_HEADER, commonEventHeader);
-        event.put(PNF_REGISTRATION_FIELDS, pnfRegistrationFields);
+
+        notificationParams.ifPresent(jsonObject -> {
+            jsonObject.put(NOTIFICATION_FIELDS_VERSION, NOTIFICATION_FIELDS_VERSION_VALUE);
+            event.put(NOTIFICATION_FIELDS,notificationParams);
+        });
+
         root.put(EVENT, event);
         return root;
     }

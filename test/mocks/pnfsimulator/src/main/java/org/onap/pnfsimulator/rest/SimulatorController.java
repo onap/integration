@@ -27,7 +27,7 @@ import static org.onap.pnfsimulator.logging.MDCVariables.RESPONSE_CODE;
 import static org.onap.pnfsimulator.logging.MDCVariables.SERVICE_NAME;
 import static org.onap.pnfsimulator.logging.MDCVariables.X_INVOCATION_ID;
 import static org.onap.pnfsimulator.logging.MDCVariables.X_ONAP_REQUEST_ID;
-import static org.onap.pnfsimulator.message.MessageConstants.SIMULATOR_PARAMS_CONTAINER;
+import static org.onap.pnfsimulator.message.MessageConstants.SIMULATOR_PARAMS;
 import static org.onap.pnfsimulator.rest.util.ResponseBuilder.MESSAGE;
 import static org.onap.pnfsimulator.rest.util.ResponseBuilder.REMAINING_TIME;
 import static org.onap.pnfsimulator.rest.util.ResponseBuilder.SIMULATOR_STATUS;
@@ -40,6 +40,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
+import java.util.Optional;
 import java.util.UUID;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -105,10 +106,11 @@ public class SimulatorController {
             validator.validate(message, "json_schema/input_validator.json");
 
             JSONObject root = new JSONObject(message);
-            JSONObject simulatorParams = root.getJSONObject(SIMULATOR_PARAMS_CONTAINER);
-            JSONObject messageParams = root.getJSONObject(MessageConstants.MESSAGE_PARAMS_CONTAINER);
+            JSONObject simulatorParams = root.getJSONObject(SIMULATOR_PARAMS);
+            Optional<JSONObject> pnfRegistrationFields = root.has(MessageConstants.PNF_REGISTRATION_PARAMS)?Optional.of(root.getJSONObject(MessageConstants.PNF_REGISTRATION_PARAMS)):Optional.empty();
+            Optional<JSONObject> notificationFields = root.has(MessageConstants.NOTIFICATION_PARAMS)?Optional.of(root.getJSONObject(MessageConstants.NOTIFICATION_PARAMS)):Optional.empty();
 
-            simulator = factory.create(simulatorParams, messageParams);
+            simulator = factory.create(simulatorParams, pnfRegistrationFields,notificationFields);
             simulator.start();
 
             MDC.put(RESPONSE_CODE, OK.toString());

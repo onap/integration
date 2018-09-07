@@ -27,6 +27,7 @@ import static org.onap.pnfsimulator.message.MessageConstants.COMMON_EVENT_HEADER
 import static org.onap.pnfsimulator.message.MessageConstants.EVENT;
 import static org.onap.pnfsimulator.message.MessageConstants.PNF_REGISTRATION_FIELDS;
 
+import java.util.Optional;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -44,15 +45,15 @@ public class MessageProviderTest {
     }
 
     @Test
-    public void createMessage_should_throw_when_given_null_argument() {
+    public void createMessage_should_throw_when_given_empty_arguments() {
         assertThrows(IllegalArgumentException.class,
-            () -> messageProvider.createMessage(null),
+            () -> messageProvider.createMessage(Optional.empty(),Optional.empty()),
             "Params object cannot be null");
     }
 
     @Test
     public void createMessage_should_create_constant_message_when_no_params_specified() {
-        JSONObject message = messageProvider.createMessage(new JSONObject());
+        JSONObject message = messageProvider.createMessage(Optional.ofNullable(new JSONObject()),Optional.empty());
         JSONObject event = message.getJSONObject(EVENT);
 
         JSONObject commonEventHeader = event.getJSONObject(COMMON_EVENT_HEADER);
@@ -76,7 +77,7 @@ public class MessageProviderTest {
     @Test
     public void createMessage_should_add_specified_params_to_valid_subobjects() {
         JSONObject params = new JSONObject(testParamsJson);
-        JSONObject message = messageProvider.createMessage(params);
+        JSONObject message = messageProvider.createMessage(Optional.of(params),Optional.empty());
         JSONObject event = message.getJSONObject(EVENT);
 
         JSONObject commonEventHeader = event.getJSONObject(COMMON_EVENT_HEADER);

@@ -55,19 +55,19 @@ class SimulatorControllerTest {
     private static final String JSON_STATUS_EXPRESSION = "$.simulatorStatus";
     private static final String PROPER_JSON = "{\n" +
         "  \"simulatorParams\": {\n" +
-        "    \"vesServerUrl\": \"http://10.154.187.70:8080/eventListener/v5\",\n" +
+        "    \"vesServerUrl\": \"http://10.154.187.70:8080/eventListener/v7\",\n" +
         "    \"testDuration\": \"10\",\n" +
         "    \"messageInterval\": \"1\"\n" +
         "  },\n" +
-        "  \"messageParams\": {\n" +
-        "    \"pnfSerialNumber\": \"val1\",\n" +
-        "    \"pnfVendorName\": \"val2\",\n" +
-        "    \"pnfOamIpv4Address\": \"val3\",\n" +
-        "    \"pnfOamIpv6Address\": \"val4\",\n" +
-        "    \"pnfFamily\": \"val5\",\n" +
-        "    \"pnfModelNumber\": \"val6\",\n" +
-        "    \"pnfSoftwareVersion\": \"val7\",\n" +
-        "    \"pnfType\": \"val8\",\n" +
+        "  \"pnfRegistrationParams\": {\n" +
+        "    \"pnf_SerialNumber\": \"val1\",\n" +
+        "    \"pnf_VendorName\": \"val2\",\n" +
+        "    \"pnf_OamIpv4Address\": \"val3\",\n" +
+        "    \"pnf_OamIpv6Address\": \"val4\",\n" +
+        "    \"pnf_Family\": \"val5\",\n" +
+        "    \"pnf_ModelNumber\": \"val6\",\n" +
+        "    \"pnf_SoftwareVersion\": \"val7\",\n" +
+        "    \"pnf_unitType\": \"val8\",\n" +
         "    \"eventName\": \"val9\",\n" +
         "    \"nfNamingCode\": \"val10\",\n" +
         "    \"nfcNamingCode\": \"val11\",\n" +
@@ -119,7 +119,7 @@ class SimulatorControllerTest {
 
     @Test
     void wrongJSONFormatOnStart() throws Exception {
-        when(factory.create(any(), any())).thenReturn(simulator);
+        when(factory.create(any(), any(),any())).thenReturn(simulator);
         doThrow(new ValidationException("")).when(validator).validate(anyString(), anyString());
 
         mockMvc.perform(post("/simulator/start").content(WRONG_JSON))
@@ -134,7 +134,7 @@ class SimulatorControllerTest {
         startSimulator();
 
         verify(validator).validate(anyString(), anyString());
-        verify(factory).create(any(), any());
+        verify(factory).create(any(), any(),any());
         verify(simulator).start();
     }
 
@@ -185,7 +185,7 @@ class SimulatorControllerTest {
     }
 
     private void startSimulator() throws Exception {
-        when(factory.create(any(), any())).thenReturn(simulator);
+        when(factory.create(any(), any(),any())).thenReturn(simulator);
 
         mockMvc
             .perform(post(START_URL).content(PROPER_JSON))

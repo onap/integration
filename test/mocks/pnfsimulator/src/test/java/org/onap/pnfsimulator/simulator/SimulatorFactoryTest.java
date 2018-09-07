@@ -31,6 +31,7 @@ import static org.onap.pnfsimulator.simulator.TestMessages.VALID_SIMULATOR_PARAM
 
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import java.io.IOException;
+import java.util.Optional;
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -52,14 +53,14 @@ class SimulatorFactoryTest {
     @Test
     void should_successfully_create_simulator_given_valid_params_and_valid_output_message()
         throws ValidationException, IOException, ProcessingException {
-        assertNotNull(simulatorFactory.create(VALID_SIMULATOR_PARAMS, VALID_MESSAGE_PARAMS));
+        assertNotNull(simulatorFactory.create(VALID_SIMULATOR_PARAMS, VALID_MESSAGE_PARAMS,Optional.empty()));
     }
 
     @Test
     void should_throw_given_invalid_params() {
         assertThrows(
             JSONException.class,
-            () -> simulatorFactory.create(INVALID_SIMULATOR_PARAMS, VALID_MESSAGE_PARAMS));
+            () -> simulatorFactory.create(INVALID_SIMULATOR_PARAMS, VALID_MESSAGE_PARAMS,Optional.empty()));
     }
 
     @Test
@@ -67,14 +68,14 @@ class SimulatorFactoryTest {
 
         assertThrows(
             ValidationException.class,
-            () -> simulatorFactory.create(VALID_SIMULATOR_PARAMS, INVALID_MESSAGE_PARAMS_1));
+            () -> simulatorFactory.create(VALID_SIMULATOR_PARAMS, INVALID_MESSAGE_PARAMS_1,Optional.empty()));
 
         assertThrows(
             ValidationException.class,
-            () -> simulatorFactory.create(VALID_SIMULATOR_PARAMS, INVALID_MESSAGE_PARAMS_2));
+            () -> simulatorFactory.create(VALID_SIMULATOR_PARAMS, INVALID_MESSAGE_PARAMS_2,Optional.empty()));
 
         assertThrows(
             ValidationException.class,
-            () -> simulatorFactory.create(VALID_SIMULATOR_PARAMS, INVALID_MESSAGE_PARAMS_3));
+            () -> simulatorFactory.create(VALID_SIMULATOR_PARAMS, INVALID_MESSAGE_PARAMS_3,Optional.empty()));
     }
 }
