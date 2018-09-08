@@ -17,10 +17,11 @@ if [ -z "$WORKSPACE" ]; then
 fi
 
 usage() {
-    echo "Usage: $0 [ -n <number of VMs {2-15}> ] [ -s <stack name> ][ -b <branch name> ][ -r ] <env>" 1>&2;
+    echo "Usage: $0 [ -n <number of VMs {2-15}> ][ -s <stack name> ][ -m <manifest> ][ -r ][ -q ] <env>" 1>&2;
 
     echo "n:    Set the number of VM's that will be installed. This number must be between 2 and 15" 1>&2;
     echo "s:    Set the name to be used for stack. This name will be used for naming of resources" 1>&2;
+    echo "m:    The docker manifest to apply; must be either \"docker-manifest-staging.csv\" or \"docker-manifest.csv\"." 1>&2;
     echo "r:    Delete all resources relating to ONAP within enviroment." 1>&2;
     echo "q:    Quiet Delete of all ONAP resources." 1>&2;
 
@@ -28,7 +29,7 @@ usage() {
 }
 
 
-while getopts ":n:s:rq" o; do
+while getopts ":n:s:m:rq" o; do
     case "${o}" in
         n)
             if [[ ${OPTARG} =~ ^[0-9]+$ ]];then
@@ -44,6 +45,13 @@ while getopts ":n:s:rq" o; do
         s)
             if [[ ! ${OPTARG} =~ ^[0-9]+$ ]];then
                 stack_name=${OPTARG}
+            else
+                usage
+            fi
+            ;;
+        m)
+            if [ -f $WORKSPACE/version-manifest/src/main/resources/${OPTARG} ]; then
+                docker_manifest=${OPTARG}
             else
                 usage
             fi
@@ -112,7 +120,7 @@ for n in $(seq 1 5); do
         ./scripts/gen-onap-oom-yaml.sh $vm_num > onap-oom.yaml~
     fi
 
-    if ! openstack stack create -t ./onap-oom.yaml~ -e $ENV_FILE~ $stack_name; then
+    if ! openstack stack create -t ./onap-oom.yaml~ -e $ENV_FILE~ $stack_name --parameter docker_manifest=$docker_manifest; then
         break
     fi
 
