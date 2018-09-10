@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright 2017 AT&T Intellectual Property. All rights reserved.
+# Copyright 2016-2017 Huawei Technologies Co., Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,31 +15,22 @@
 # limitations under the License.
 #
 # Place the scripts in run order:
-source ${SCRIPTS}/common_functions.sh
+# Start all process required for executing test case
 
-docker run --name i-mock -d jamesdbloom/mockserver
-MOCK_IP=`get-instance-ip.sh i-mock`
-echo ${MOCK_IP}
+#start policy-apex-pdp
+docker run -d --name apex -p 12561:12561 -p 23324:23324 -it nexus3.onap.org:10001/onap/policy-apex-pdp:2.0.0-SNAPSHOT-20180910T193721Z /bin/bash -c "export APEX_HOME=/opt/app/policy/apex-pdp;/opt/app/policy/apex-pdp/bin/apexEngine.sh -c /opt/app/policy/apex-pdp/examples/config/SampleDomain/RESTServerJsonEvent.json"
 
-docker inspect i-mock
-
+APEX_IP=`get-instance-ip.sh apex`
+echo APEX IP IS ${APEX_IP}
 # Wait for initialization
-for i in {1..10}; do
-    curl -sS ${MOCK_IP}:1080 && break
-    echo sleep $i
-    sleep $i
-done
+#for i in {1..10}; do
+#    curl -sS ${APEX_IP}:12561 && break
+#   echo sleep $i
+#    sleep $i
+#done
+sleep 5
 
-${WORKSPACE}/test/csit/scripts/policy/mock-hello.sh ${MOCK_IP}
-
-source ${WORKSPACE}/test/csit/scripts/policy/script1.sh
-
+#REPO_IP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' apex`
+REPO_IP='127.0.0.1'
 # Pass any variables required by Robot test suites in ROBOT_VARIABLES
-ROBOT_VARIABLES="-v MOCK_IP:${MOCK_IP} -v IP:${IP} -v POLICY_IP:${POLICY_IP} -v PDP_IP:${PDP_IP} -v DOCKER_IP:${DOCKER_IP}" 
-export PDP_IP=${PDP_IP}
-export POLICY_IP=${POLICY_IP}
-export DOCKER_IP=${DOCKER_IP}
-
-#Get current IP of VM
-HOST_IP=$(ip route get 8.8.8.8 | awk '/8.8.8.8/ {print $NF}')
-export HOST_IP=${HOST_IP}
+ROBOT_VARIABLES="-v REPO_IP:${REPO_IP}"
