@@ -60,6 +60,25 @@ services:
     networks:
       - ves-hv-default
 
+  unencrypted-ves-hv-collector:
+    image: $DOCKER_REGISTRY/onap/org.onap.dcaegen2.collectors.hv-ves.hv-collector-main:latest
+    ports:
+      - "7060:6060"
+      - "7061:6061/tcp"
+    entrypoint: ["java", "-Dio.netty.leakDetection.level=paranoid", "-cp", "*:", "org.onap.dcae.collectors.veshv.main.MainKt"]
+    command: ["--listen-port", "6061","--config-url", "http://consul:8500/v1/kv/veshv-config", "--ssl-disable"]
+    healthcheck:
+      interval: 10s
+      timeout: 5s
+      retries: 2
+      test: "curl --request GET --fail --silent --show-error localhost:6060/health/ready && nc -vz localhost 6061"
+    depends_on:
+      - kafka
+    volumes:
+      - ./ssl/:/etc/ves-hv/
+    networks:
+      - ves-hv-default
+
   dcae-app-simulator:
     image: $DOCKER_REGISTRY/onap/org.onap.dcaegen2.collectors.hv-ves.hv-collector-dcae-app-simulator:latest
     ports:
