@@ -2,7 +2,7 @@
   {
     "commonEventHeader": {
       "version": "sample-version",
-      "domain": "HVRANMEAS",
+      "domain": "HVMEAS",
       "sequence": 1,
       "priority": 1,
       "eventId": "sample-event-id",
@@ -15,7 +15,8 @@
       "reportingEntityId": "sample-reporting-entity-id",
       "reportingEntityName": "sample-reporting-entity-name",
       "sourceId": "sample-source-id",
-      "sourceName": "sample-source-name"
+      "sourceName": "sample-source-name",
+      "vesEventListenerVersion": "another-version"
     },
     "messageType": "FIXED_PAYLOAD",
     "messagesAmount": 5000
