@@ -27,7 +27,7 @@ echo "# music configuration step";
 CASS_IMG=nexus3.onap.org:10001/onap/music/cassandra_music:latest
 TOMCAT_IMG=nexus3.onap.org:10001/library/tomcat:8.0
 ZK_IMG=nexus3.onap.org:10001/library/zookeeper:3.4
-MUSIC_IMG=nexus3.onap.org:10001/onap/music/music:latest
+MUSIC_IMG=nexus3.onap.org:10001/onap/music/music:2.5.3
 WORK_DIR=/tmp/music
 CASS_USERNAME=nelson24
 CASS_PASSWORD=winman123
@@ -51,10 +51,10 @@ docker run -d --name music-db --network music-net -p "7000:7000" -p "7001:7001" 
 CASSA_IP=`docker inspect -f '{{ $network := index .NetworkSettings.Networks "music-net" }}{{ $network.IPAddress}}' music-db`
 echo "CASSANDRA_IP=${CASSA_IP}"
 ${WORKSPACE}/test/csit/scripts/optf-has/has/wait_for_port.sh ${CASSA_IP} 9042
-sleep 60
+sleep 150
 # Start Music war
 docker run -d --name music-war -v music-vol:/app ${MUSIC_IMG};
-sleep 15
+sleep 30
 # Start Zookeeper
 docker run -d --name music-zk --network music-net -p "2181:2181" -p "2888:2888" -p "3888:3888" ${ZK_IMG};
 #ZOO_IP=`docker inspect --format '{{ .NetworkSettings.Networks.bridge.IPAddress}}' music-zk`
@@ -62,7 +62,7 @@ ZOO_IP=`docker inspect -f '{{ $network := index .NetworkSettings.Networks "music
 echo "ZOOKEEPER_IP=${ZOO_IP}"
 
 # Delay  between Cassandra/Zookeeper and Tomcat
-sleep 60;
+sleep 120
 
 # Start Up tomcat - Needs to have properties,logs dir and war file volume mapped.
 docker run -d --name music-tomcat --network music-net -p "8080:8080" -v music-vol:/usr/local/tomcat/webapps -v ${WORK_DIR}/properties:/opt/app/music/etc:ro -v ${WORK_DIR}/logs:/opt/app/music/logs ${TOMCAT_IMG};
@@ -80,7 +80,7 @@ echo "TOMCAT_IP=${TOMCAT_IP}"
 ${WORKSPACE}/test/csit/scripts/optf-has/has/wait_for_port.sh ${TOMCAT_IP} 8080
 
 # wait a while to make sure music is totally up and configured
-sleep 60
+sleep 90
 
 echo "inspect docker things for tracing purpose"
 docker inspect music-db
