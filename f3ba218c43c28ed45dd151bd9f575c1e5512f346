@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_31dce572",
+        "filename": "test/csit/plans/dcaegen2-collectors-hv-ves/testsuites/docker-compose.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 3081
+      },
+      "writtenOn": "2018-09-11T14:30:54Z",
+      "side": 1,
+      "message": "Not sure about that, but doesn\u0027t healthcheck act from outside the docker network and therefore shouldn\u0027t it use external ports (7060, 7061), rather than internal?",
+      "revId": "f3ba218c43c28ed45dd151bd9f575c1e5512f346",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
