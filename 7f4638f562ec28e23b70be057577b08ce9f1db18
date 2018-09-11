@@ -16,6 +16,24 @@
       "revId": "7f4638f562ec28e23b70be057577b08ce9f1db18",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_2574a766",
+        "filename": "test/csit/tests/dcaegen2-collectors-hv-ves/testcases/libraries/XnfSimulatorLibrary.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 3701
+      },
+      "writtenOn": "2018-09-11T06:14:27Z",
+      "side": 1,
+      "message": "I changed it in future commit, so I\u0027ll leave it here as is",
+      "parentUuid": "1a76adc5_cde4ffe2",
+      "revId": "7f4638f562ec28e23b70be057577b08ce9f1db18",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
