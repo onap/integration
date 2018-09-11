@@ -18,6 +18,6 @@
       "sourceName": "sample-source-name"
     },
     "messageType": "VALID",
-    "messagesAmount": 500000
+    "messagesAmount": 5000
   }
 ]

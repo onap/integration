@@ -11,14 +11,14 @@ Test Teardown     VES-HV Collector Test Shutdown
 Multiple Clients Handling Suite Setup
     Log   Started Suite: VES-HV Multiple Clients Handling
     ${XNF_PORTS_LIST}=    Create List    7000   7001   7002
-    Configure Valid xNF Simulators On Ports    ${XNF_PORTS_LIST}
+    Configure xNF Simulators Using Valid Certificates On Ports    ${XNF_PORTS_LIST}
     Log   Suite setup finished
 
 *** Test Cases ***
 Handle Multiple Connections
     [Documentation]   VES-HV Collector should handle multiple incoming transmissions
 
-    ${SIMULATORS_LIST}=   Get Valid xNF Simulators   3
+    ${SIMULATORS_LIST}=   Get xNF Simulators Using Valid Certificates   3
     Send Messages From xNF Simulators   ${SIMULATORS_LIST}   ${XNF_SMALLER_PAYLOAD_REQUEST}
 
     Wait until keyword succeeds   60 sec   5 sec
