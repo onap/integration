@@ -43,4 +43,4 @@ class PrhLibrary(object):
     def create_invalid_notification(self, json_file):
         return self.create_pnf_ready_notification(json_file).replace("\":", "\": ")\
             .replace("ipaddress-v4-oam", "oamV4IpAddress").replace("ipaddress-v6-oam", "oamV6IpAddress")\
-            .replace("}", "\\\\n}")
+            .replace("}", "\\n}")
