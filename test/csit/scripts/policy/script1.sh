@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright 2017 AT&T Intellectual Property. All rights reserved.
+# Copyright 2017-2018 AT&T Intellectual Property. All rights reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -147,7 +147,7 @@ TIME_OUT=600
 INTERVAL=20 
 TIME=0 
 while [ "$TIME" -lt "$TIME_OUT" ]; do 
-    curl -i --user healthcheck:zb!XztG34 -H "ContentType: application/json" -H "Accept: application/json" ${POLICY_IP}:6969/healthcheck && break
+    curl -k -i --user healthcheck:zb!XztG34 -H "ContentType: application/json" -H "Accept: application/json" https://${POLICY_IP}:6969/healthcheck && break
 	
   echo Sleep: $INTERVAL seconds before testing if Policy is up. Total wait time up now is: $TIME seconds. Timeout is: $TIME_OUT seconds 
   sleep $INTERVAL 
