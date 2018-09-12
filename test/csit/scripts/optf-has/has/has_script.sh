@@ -63,6 +63,10 @@ echo "MULTICLOUDSIM_IP=${MULTICLOUDSIM_IP}"
 sed  -i -e "s%msb.onap.org:8082/%${MULTICLOUDSIM_IP}:8082/%g" /tmp/conductor/properties/conductor.conf
 
 #onboard conductor into music
+echo "Query MUSIC to check for reachability. Query Version"
+curl -vvvvv --noproxy "*" --request GET http://${MUSIC_IP}:8080/MUSIC/rest/v2/version -H "Content-Type: application/json"
+
+echo "Onboard conductor into music"
 curl -vvvvv --noproxy "*" --request POST http://${MUSIC_IP}:8080/MUSIC/rest/v2/admin/onboardAppWithMusic -H "Content-Type: application/json" --data @${WORKSPACE}/test/csit/tests/optf-has/has/data/onboard.json
 
 docker run -d --name cond-cont -v ${COND_CONF}:/usr/local/bin/conductor.conf -v ${LOG_CONF}:/usr/local/bin/log.conf ${IMAGE_NAME}:latest python /usr/local/bin/conductor-controller --config-file=/usr/local/bin/conductor.conf

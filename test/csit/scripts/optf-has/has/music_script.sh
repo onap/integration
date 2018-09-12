@@ -27,7 +27,7 @@ echo "# music configuration step";
 CASS_IMG=nexus3.onap.org:10001/onap/music/cassandra_music:latest
 TOMCAT_IMG=nexus3.onap.org:10001/library/tomcat:8.0
 ZK_IMG=nexus3.onap.org:10001/library/zookeeper:3.4
-MUSIC_IMG=nexus3.onap.org:10001/onap/music/music:latest
+MUSIC_IMG=nexus3.onap.org:10001/onap/music/music:2.5.3
 WORK_DIR=/tmp/music
 CASS_USERNAME=nelson24
 CASS_PASSWORD=winman123
