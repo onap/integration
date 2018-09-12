@@ -14,7 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# Place the scripts in run order:
 source ${SCRIPTS}/common_functions.sh
 
 docker run --name i-mock -d jamesdbloom/mockserver

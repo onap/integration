@@ -1,0 +1,19 @@
+{
+    "name": "Event0004",
+    "version": "0.0.1",
+    "nameSpace": "org.onap.policy.apex.sample.events",
+    "source": "Act",
+    "target": "Outside",
+    "TestActCaseSelected": 3,
+    "TestActStateTime": 1536364205286,
+    "TestDecideCaseSelected": 1,
+    "TestDecideStateTime": 1536364205246,
+    "TestEstablishCaseSelected": 0,
+    "TestEstablishStateTime": 1536364205216,
+    "TestMatchCase": 3,
+    "TestMatchCaseSelected": 2,
+    "TestMatchStateTime": 1536364205189,
+    "TestSlogan": "Test slogan for External Event0",
+    "TestTemperature": 9080.866,
+    "TestTimestamp": 1536363522018
+}
