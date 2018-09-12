@@ -16,13 +16,15 @@ ONE_SECOND_IN_NANOS = 10 ** 9
 
 class XnfSimulatorLibrary:
 
-    def start_xnf_simulators(self, list_of_ports, valid_certs=True):
+    def start_xnf_simulators(self, list_of_ports, should_use_valid_certs=True):
         logger.info("Creating " + str(len(list_of_ports)) + " xNF Simulator containers")
         dockerClient = docker.from_env()
-        cert_name_prefix = "" if valid_certs else "invalid_"
+
         self.pullImageIfAbsent(dockerClient)
         logger.info("Using image: " + SIMULATOR_IMAGE_FULL_NAME)
-        simulators_addresses = self.create_simulators(dockerClient, list_of_ports, cert_name_prefix)
+
+        simulators_addresses = self.create_containers(dockerClient, list_of_ports, should_use_valid_certs)
+
         self.assert_containers_startup_was_successful(dockerClient)
         dockerClient.close()
         return simulators_addresses
@@ -35,34 +37,19 @@ class XnfSimulatorLibrary:
                                                                   "This can take a while.")
             dockerClient.images.pull(SIMULATOR_IMAGE_FULL_NAME)
 
-    def create_simulators(self, dockerClient, list_of_ports, cert_name_prefix):
+    def create_containers(self, dockerClient, list_of_ports, should_use_valid_certs):
         simulators_addresses = []
         for port in list_of_ports:
-            container = self.run_simulator(dockerClient, port,
-                                           collector_certs_lookup_dir + cert_name_prefix + "client.crt",
-                                           collector_certs_lookup_dir + cert_name_prefix + "client.key",
-                                           collector_certs_lookup_dir + cert_name_prefix + "trust.crt"
-                                           )
-
+            xnf = XnfSimulator(port, should_use_valid_certs)
+            container = self.run_simulator(dockerClient, xnf)
             logger.info("Started container: " + container.name + "  " + container.id)
-            simulators_addresses.append(container.name + ":" + port)
+            simulators_addresses.append(container.name + ":" + xnf.port)
         return simulators_addresses
 
-    def run_simulator(self, dockerClient, port, client_crt_path, client_key_path, client_trust_store):
-        xNF_startup_command = ["--listen-port", port,
-                               "--ves-host", "ves-hv-collector",
-                               "--ves-port", "6061",
-                               "--cert-file", client_crt_path,
-                               "--private-key-file", client_key_path,
-                               "--trust-cert-file", client_trust_store]
-        xNF_healthcheck_command = {
-            "interval": 5 * ONE_SECOND_IN_NANOS,
-            "timeout": 3 * ONE_SECOND_IN_NANOS,
-            "retries": 1,
-            "test": ["CMD", "curl", "--request", "GET",
-                     "--fail", "--silent", "--show-error",
-                     "localhost:" + port + "/healthcheck"]
-        }
+    def run_simulator(self, dockerClient, xnf):
+        xNF_startup_command = xnf.get_startup_command()
+        xNF_healthcheck_command = xnf.get_healthcheck_command()
+        port = xnf.port
         logger.info("Startup command: " + str(xNF_startup_command))
         logger.info("Healthcheck command: " + str(xNF_healthcheck_command))
         return dockerClient.containers.run(SIMULATOR_IMAGE_FULL_NAME,
@@ -72,7 +59,7 @@ class XnfSimulatorLibrary:
                                            network="ves-hv-default",
                                            ports={port + "/tcp": port},
                                            volumes=self.container_volumes(),
-                                           name="ves-hv-collector-xnf-simulator" + port)
+                                           name=xnf.container_name_prefix + port)
 
     def container_volumes(self):
         return {certificates_dir_path: {"bind": collector_certs_lookup_dir, "mode": 'rw'}}
@@ -119,6 +106,37 @@ class XnfSimulatorLibrary:
         logger.info("POST at: " + simulator_url)
         resp = HttpRequests.session_without_env().post(simulator_url, data=data, timeout=5)
         HttpRequests.checkStatusCode(resp.status_code, XNF_SIMULATOR_NAME)
+
+
+class XnfSimulator:
+    container_name_prefix = "ves-hv-collector-xnf-simulator"
+
+    def __init__(self, port, should_use_valid_certs):
+        self.port = port
+        cert_name_prefix = "" if should_use_valid_certs else "invalid_"
+        certificates_path_with_file_prefix = collector_certs_lookup_dir + cert_name_prefix
+        self.cert_path = certificates_path_with_file_prefix + "client.crt"
+        self.key_path = certificates_path_with_file_prefix + "client.key"
+        self.trust_cert_path = certificates_path_with_file_prefix + "trust.crt"
+
+    def get_startup_command(self):
+        startup_command = ["--listen-port", self.port,
+                           "--ves-host", "ves-hv-collector",
+                           "--ves-port", "6061",
+                           "--cert-file", self.cert_path,
+                           "--private-key-file", self.key_path,
+                           "--trust-cert-file", self.trust_cert_path]
+        return startup_command
+
+    def get_healthcheck_command(self):
+        return {
+            "interval": 5 * ONE_SECOND_IN_NANOS,
+            "timeout": 3 * ONE_SECOND_IN_NANOS,
+            "retries": 1,
+            "test": ["CMD", "curl", "--request", "GET",
+                     "--fail", "--silent", "--show-error",
+                     "localhost:" + self.port + "/healthcheck"]
+        }
 
 
 class ContainerException(Exception):
