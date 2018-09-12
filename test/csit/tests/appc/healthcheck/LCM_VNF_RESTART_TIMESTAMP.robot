@@ -1,22 +1,20 @@
 *** Settings ***
 Library    Selenium2Library
 Library    OperatingSystem
-Library     XvfbRobot
+Library    XvfbRobot
 Resource   ${CURDIR}/APPC_GLOBAL_VARIABLES.robot
-Resource   ${CURDIR}/gettime.robot
-
-
+Resource   ${CURDIR}/APPC_GLOBAL_KEYWORDS.robot
 
 *** Variable ***
 ${ResponseCode}
 ${var}
 
 *** Test Cases ***
-    
 APPC LCM API VNF RESTART
-	[Documentation]	APPC LCM API VNF RESTART 
+	[Documentation]	APPC LCM API VNF RESTART
+	[Teardown]    Close All Browsers
 	Start Virtual Display     1920     1080
-	Open Browser    http://admin:admin@localhost:8282/apidoc/explorer/index.html    chrome
+	Open Browser    http://${GLOBAL_APPC_ADMIN_USER}:${GLOBAL_APPC_ADMIN_PASS}@localhost:8282/apidoc/explorer/index.html    chrome
 	Maximize Browser Window
 #	Click Element    xpath=.//p[contains(text(),'If you have reason to expect the website is safe, select the I Accept the Risk button to continue.')]//following::img
 	
@@ -43,8 +41,3 @@ APPC LCM API VNF RESTART
 	
 #	${var}=    Get Value    xpath=//*[@id="resource_appc-provider-lcm(2016-01-08)"]/div/h2/a//following::a[contains(text(),'/operations/appc-provider-lcm:restart')]//following::h4[contains(text(),'Response Code')][1]//following-sibling::div//pre	
 #	Element Text Should Be     xpath=//*[contains(text(),'/operations/appc-provider-lcm:restart')]//following::h4[text()='Response Code'][1]//following-sibling::div//pre[1][text()='200']     200     expected
-	
-	 
-Tear Down
-    [Documentation]   Close all browsers
-    Close All Browsers

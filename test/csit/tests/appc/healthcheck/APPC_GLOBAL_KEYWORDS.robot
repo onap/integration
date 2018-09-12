@@ -8,7 +8,6 @@ Library    Collections
 
 
 *** Keywords ***
-
 Get Server time
     [Documentation]    Getting server time to update the json request
     [Arguments]     ${RequestFile}    
@@ -33,8 +32,3 @@ Get Server time
 	:FOR    ${line}    IN    @{list1}
 	\      Append to File    ${RequestFile}    ${line}    encoding=UTF-8
 	\      Append to File    ${RequestFile}    ${\n}    encoding=UTF-8
-	      
-   
-
- 
-  

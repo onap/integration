@@ -2,20 +2,20 @@
 Library    Selenium2Library
 Library    OperatingSystem
 Library    XvfbRobot
-Resource    APPC_GLOBAL_VARIABLES.robot
-Resource    gettime.robot
+Resource   ${CURDIR}/APPC_GLOBAL_VARIABLES.robot
+Resource   ${CURDIR}/APPC_GLOBAL_KEYWORDS.robot
 
 *** Variable ***
 ${ResponseCode}
 ${var}
 
 *** Test Cases ***
-    
 APPC LCM API HEALTHCHECK
-	[Documentation]	APPC LCM API HEALTHCHECK 
+	[Documentation]	APPC LCM API HEALTHCHECK
+	[Teardown]    Close All Browsers
 	Start Virtual Display     1920     1080
-	Open Browser    http://admin:admin@localhost:8282/apidoc/explorer/index.html	chrome
-	Maximize Browser Window 
+	Open Browser    http://${GLOBAL_APPC_ADMIN_USER}:${GLOBAL_APPC_ADMIN_PASS}@localhost:8282/apidoc/explorer/index.html	chrome
+	Maximize Browser Window
 #	Click Element    xpath=.//p[contains(text(),'If you have reason to expect the website is safe, select the I Accept the Risk button to continue.')]//following::img
 
 	Reload Page
@@ -45,8 +45,3 @@ APPC LCM API HEALTHCHECK
 	
 ##	${var}=    Get Value    xpath= //*[@id="appc-provider-lcm(2016-01-08)_health_check_post_0_content"]/div[2]/div[3]/pre
 ##	Element Text Should Be     xpath=//*[@id="appc-provider-lcm(2016-01-08)_health_check_post_0_content"]/div[2]/div[3]/pre[1][text()='200']     200     expected
-	
-Tear Down
-
-    [Documentation]   Close all browsers
-    Close All Browsers
