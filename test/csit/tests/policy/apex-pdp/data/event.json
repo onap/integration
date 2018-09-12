@@ -1,0 +1,11 @@
+{
+    "nameSpace": "org.onap.policy.apex.sample.events",
+    "name": "Event0000",
+    "version": "0.0.1",
+    "source": "REST_0",
+    "target": "apex",
+    "TestSlogan": "Test slogan for External Event0",
+    "TestMatchCase": 3,
+    "TestTimestamp": 1536363522018,
+    "TestTemperature": 9080.866
+}
