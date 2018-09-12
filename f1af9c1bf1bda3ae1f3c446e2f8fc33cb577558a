@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_1a1699a8",
+        "filename": "test/csit/scripts/policy/script1.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-12T14:29:19Z",
+      "side": 1,
+      "message": "license date",
+      "revId": "f1af9c1bf1bda3ae1f3c446e2f8fc33cb577558a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
