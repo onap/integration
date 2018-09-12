@@ -1,4 +1,3 @@
-from VesHvContainersUtilsLibrary import copy_to_container
 import HttpRequests
 import os
 import docker
@@ -16,14 +15,21 @@ ONE_SECOND_IN_NANOS = 10 ** 9
 
 class XnfSimulatorLibrary:
 
-    def start_xnf_simulators(self, list_of_ports, should_use_valid_certs=True):
+    def start_xnf_simulators(self, list_of_ports,
+                             should_use_valid_certs=True,
+                             should_disable_ssl=False,
+                             should_connect_to_unencrypted_hv_ves=False):
         logger.info("Creating " + str(len(list_of_ports)) + " xNF Simulator containers")
         dockerClient = docker.from_env()
 
         self.pullImageIfAbsent(dockerClient)
         logger.info("Using image: " + SIMULATOR_IMAGE_FULL_NAME)
 
-        simulators_addresses = self.create_containers(dockerClient, list_of_ports, should_use_valid_certs)
+        simulators_addresses = self.create_containers(dockerClient,
+                                                      list_of_ports,
+                                                      should_use_valid_certs,
+                                                      should_disable_ssl,
+                                                      should_connect_to_unencrypted_hv_ves)
 
         self.assert_containers_startup_was_successful(dockerClient)
         dockerClient.close()
@@ -37,10 +43,15 @@ class XnfSimulatorLibrary:
                                                                   "This can take a while.")
             dockerClient.images.pull(SIMULATOR_IMAGE_FULL_NAME)
 
-    def create_containers(self, dockerClient, list_of_ports, should_use_valid_certs):
+    def create_containers(self,
+                          dockerClient,
+                          list_of_ports,
+                          should_use_valid_certs,
+                          should_disable_ssl,
+                          should_connect_to_unencrypted_hv_ves):
         simulators_addresses = []
         for port in list_of_ports:
-            xnf = XnfSimulator(port, should_use_valid_certs)
+            xnf = XnfSimulator(port, should_use_valid_certs, should_disable_ssl, should_connect_to_unencrypted_hv_ves)
             container = self.run_simulator(dockerClient, xnf)
             logger.info("Started container: " + container.name + "  " + container.id)
             simulators_addresses.append(container.name + ":" + xnf.port)
@@ -111,21 +122,30 @@ class XnfSimulatorLibrary:
 class XnfSimulator:
     container_name_prefix = "ves-hv-collector-xnf-simulator"
 
-    def __init__(self, port, should_use_valid_certs):
+    def __init__(self,
+                 port,
+                 should_use_valid_certs,
+                 should_disable_ssl,
+                 should_connect_to_unencrypted_hv_ves):
         self.port = port
         cert_name_prefix = "" if should_use_valid_certs else "invalid_"
         certificates_path_with_file_prefix = collector_certs_lookup_dir + cert_name_prefix
         self.cert_path = certificates_path_with_file_prefix + "client.crt"
         self.key_path = certificates_path_with_file_prefix + "client.key"
         self.trust_cert_path = certificates_path_with_file_prefix + "trust.crt"
+        self.disable_ssl = should_disable_ssl
+        self.hv_collector_host = "unencrypted-ves-hv-collector" \
+            if should_connect_to_unencrypted_hv_ves else "ves-hv-collector"
 
     def get_startup_command(self):
         startup_command = ["--listen-port", self.port,
-                           "--ves-host", "ves-hv-collector",
+                           "--ves-host", self.hv_collector_host,
                            "--ves-port", "6061",
                            "--cert-file", self.cert_path,
                            "--private-key-file", self.key_path,
                            "--trust-cert-file", self.trust_cert_path]
+        if (self.disable_ssl):
+            startup_command.append("--ssl-disable")
         return startup_command
 
     def get_healthcheck_command(self):
