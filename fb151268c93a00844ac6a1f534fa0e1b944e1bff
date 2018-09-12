@@ -16,6 +16,24 @@
       "revId": "fb151268c93a00844ac6a1f534fa0e1b944e1bff",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_60760008",
+        "filename": "test/csit/tests/policy/suite1/global_properties.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2018-09-12T18:29:50Z",
+      "side": 1,
+      "message": "seems that both are equivalent in this file for the robot to work ok (no change in that regard done).",
+      "parentUuid": "1a76adc5_207d68e8",
+      "revId": "fb151268c93a00844ac6a1f534fa0e1b944e1bff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
