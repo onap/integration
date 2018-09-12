@@ -152,7 +152,7 @@ SUITES=$( xargs -a testplan.txt )
 echo ROBOT_VARIABLES=${ROBOT_VARIABLES}
 echo "Starting Robot test suites ${SUITES} ..."
 set +e
-pybot -N ${TESTPLAN} -v WORKSPACE:/tmp ${ROBOT_VARIABLES} ${TESTOPTIONS} ${SUITES}
+python -m robot.run -N ${TESTPLAN} -v WORKSPACE:/tmp ${ROBOT_VARIABLES} ${TESTOPTIONS} ${SUITES}
 RESULT=$?
 set -e
 echo "RESULT: " $RESULT
