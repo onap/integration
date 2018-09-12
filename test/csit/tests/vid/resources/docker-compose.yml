@@ -23,7 +23,6 @@ services:
         container_name: vid-mariadb
         volumes:
             - ${WORKSPACE}/data/clone/vid/lf_config/vid-my.cnf:/etc/mysql/my.cnf
-            - ${WORKSPACE}/data/clone/vid/lf_config/vid-schema.sql:/docker-entrypoint-initdb.d/vid-schema.sql
             - /var/lib/mysql
 
     sdc_simulator:
