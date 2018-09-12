@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_207d68e8",
+        "filename": "test/csit/tests/policy/suite1/global_properties.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-12T18:26:28Z",
+      "side": 1,
+      "message": "tabs \u003d\u003e spaces?",
+      "revId": "fb151268c93a00844ac6a1f534fa0e1b944e1bff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
