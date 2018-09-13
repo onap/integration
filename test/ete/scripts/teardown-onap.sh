@@ -51,14 +51,14 @@ if [ "$full_deletion" = true ];then
     sleep 10
 
     # delete all instances
-    openstack server delete $(openstack server list -c ID -f value)
+    openstack server delete $(openstack server list -c ID -f value --project $OS_PROJECT_ID)
     sleep 1
 
     # miscellaneous cleanup
-    openstack floating ip delete $(openstack floating ip list -c ID -f value)
+    openstack floating ip delete $(openstack floating ip list -c ID -f value --project $OS_PROJECT_ID)
     sleep 1
 
-    ROUTERS=$(openstack router list -c ID -f value)
+    ROUTERS=$(openstack router list -c ID -f value --project $OS_PROJECT_ID)
     echo $ROUTERS
     for ROUTER in $ROUTERS; do
         echo $ROUTER;
@@ -69,11 +69,11 @@ if [ "$full_deletion" = true ];then
         openstack router delete $ROUTER
     done
 
-    openstack port delete $(openstack port list -f value -c ID)
-    openstack volume delete $(openstack volume list -f value -c ID)
+    openstack port delete $(openstack port list -f value -c ID --project $OS_PROJECT_ID)
+    openstack volume delete $(openstack volume list -f value -c ID --project $OS_PROJECT_ID)
 
     # delete all except "default" security group
-    SECURITY_GROUPS=$(openstack security group list -c ID -f value | grep -v default)
+    SECURITY_GROUPS=$(openstack security group list -c ID -f value --project $OS_PROJECT_ID | grep -v default)
     openstack security group delete $SECURITY_GROUPS
     sleep 1
 
