@@ -1,6 +1,6 @@
 {
-  "kafkaBootstrapServers": "kafka:9092",
-  "routing": [
+  "dmaap.kafkaBootstrapServers": "kafka:9092",
+  "collector.routing": [
     {
       "fromDomain": 11,
       "toTopic": "test-hv-ran-meas"
