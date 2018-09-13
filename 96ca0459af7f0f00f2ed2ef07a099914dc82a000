@@ -16,6 +16,24 @@
       "revId": "96ca0459af7f0f00f2ed2ef07a099914dc82a000",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_0a0f2689",
+        "filename": "test/csit/plans/policy/apex-pdp/teardown.sh",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1581
+      },
+      "writtenOn": "2018-09-13T09:31:42Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "1a76adc5_772ec3a6",
+      "revId": "96ca0459af7f0f00f2ed2ef07a099914dc82a000",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
