@@ -33,6 +33,12 @@ In order to download *sftp-file.txt* file simply run *sftp -P 2222 -i ssh/ssh_ho
 In order to add a new file (e.g. test.zip), put the file into *sftp* directory and run simulator.
 After that again execute sftp command: *sftp -P 2222 -i ssh/ssh_host_rsa_key sftp-user@localhost:sftp/test.zip*
 
+###FTPES support
+PNF Simulator allows to serve files via FTPES server. FTPES server has predefined user: onap with password: pano. 
+In order to connect we execute command *ftp-ssl host* and then enter user name and password.
+In order to download execute command while logged in*get file_name*.
+In order to add a new file execute command while logged in*put file_name*.
+
 ###Developer mode
 For development of PNF Simulator, run *simulator.sh* start-dev in order to run Netopeer.
 After that it is possible to run PNF Simulator from IDE.
