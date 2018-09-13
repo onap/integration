@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_aa16324a",
+        "filename": "test/csit/tests/appc/healthcheck/APPC_GLOBAL_KEYWORDS.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 3905
+      },
+      "writtenOn": "2018-09-13T06:25:36Z",
+      "side": 1,
+      "message": "In settings you have Library - OperatingSystem, so you can use only \u0027Get File\u0027",
+      "range": {
+        "startLine": 18,
+        "startChar": 24,
+        "endLine": 18,
+        "endChar": 48
+      },
+      "revId": "8799996ce6d9fcec5434fc899918a0ecf83019f9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
