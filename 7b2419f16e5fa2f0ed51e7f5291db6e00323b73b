@@ -22,6 +22,30 @@
       "revId": "7b2419f16e5fa2f0ed51e7f5291db6e00323b73b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_c35a74f1",
+        "filename": "test/mocks/pnfsimulator/src/main/java/org/onap/pnfsimulator/simulator/SimulatorFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 3395
+      },
+      "writtenOn": "2018-09-14T12:58:35Z",
+      "side": 1,
+      "message": "In IDE you should see warning when you pass null instead of Optional. Useful during writing Junits",
+      "parentUuid": "1a76adc5_8349dc32",
+      "range": {
+        "startLine": 55,
+        "startChar": 8,
+        "endLine": 55,
+        "endChar": 16
+      },
+      "revId": "7b2419f16e5fa2f0ed51e7f5291db6e00323b73b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
