@@ -7,7 +7,7 @@ Library       json
 ${MESSAGE}    {"ping": "ok"}
 
 #global variables
-${generatedAID}
+${generatedDomId}
 
 *** Test Cases ***
 SMS Check SMS API Docker Container
@@ -38,6 +38,9 @@ SMS CreateDomain
     Log To Console              *********************
     Log To Console              response = ${resp}
     Log To Console              body = ${resp.text}
+    ${response_json}    json.loads    ${resp.content}
+    ${generatedDomId}=    Convert To String      ${response_json['uuid']}
+    Set Global Variable     ${generatedDomId}
     Should Be Equal As Integers    ${resp.status_code}    201
 
 SMS CreateSecret
@@ -45,7 +48,7 @@ SMS CreateSecret
     Create Session   SMS            ${SMS_HOSTNAME}:${SMS_PORT}
     ${data}          Get Binary File    ${CURDIR}${/}data${/}create_secret.json
     &{headers}=      Create Dictionary  Content-Type=application/json  Accept=application/json
-    ${resp}=         Post Request       SMS   /v1/sms/domain/curltestdomain/secret   data=${data}  headers=${headers}
+    ${resp}=         Post Request       SMS   /v1/sms/domain/${generatedDomId}/secret   data=${data}  headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
     Log To Console              body = ${resp.text}
@@ -55,7 +58,7 @@ SMS ListSecret
     [Documentation]    Lists all Secret Names within Domain
     Create Session   SMS            ${SMS_HOSTNAME}:${SMS_PORT}
     &{headers}=      Create Dictionary  Content-Type=application/json  Accept=application/json
-    ${resp}=         Get Request        SMS   /v1/sms/domain/curltestdomain/secret   headers=${headers}
+    ${resp}=         Get Request        SMS   /v1/sms/domain/${generatedDomId}/secret   headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
     Log To Console              body = ${resp.text}
@@ -65,7 +68,7 @@ SMS GetSecret
     [Documentation]    Gets a single Secret with Values from Domain
     Create Session   SMS            ${SMS_HOSTNAME}:${SMS_PORT}
     &{headers}=      Create Dictionary  Content-Type=application/json  Accept=application/json
-    ${resp}=         Get Request        SMS   /v1/sms/domain/curltestdomain/secret/curltestsecret1   headers=${headers}
+    ${resp}=         Get Request        SMS   /v1/sms/domain/${generatedDomId}/secret/curltestsecret1   headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
     Log To Console              body = ${resp.text}
@@ -75,7 +78,7 @@ SMS DeleteSecret
     [Documentation]    Deletes a Secret referenced by Name from Domain
     Create Session   SMS            ${SMS_HOSTNAME}:${SMS_PORT}
     &{headers}=      Create Dictionary  Content-Type=application/json  Accept=application/json
-    ${resp}=         Delete Request        SMS   /v1/sms/domain/curltestdomain/secret/curltestsecret1   headers=${headers}
+    ${resp}=         Delete Request        SMS   /v1/sms/domain/${generatedDomId}/secret/curltestsecret1   headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
     Log To Console              body = ${resp.text}
@@ -85,7 +88,7 @@ SMS DeleteDomain
     [Documentation]    Deletes a Domain referenced by Name
     Create Session   SMS            ${SMS_HOSTNAME}:${SMS_PORT}
     &{headers}=      Create Dictionary  Content-Type=application/json  Accept=application/json
-    ${resp}=         Delete Request        SMS   /v1/sms/domain/curltestdomain   headers=${headers}
+    ${resp}=         Delete Request        SMS   /v1/sms/domain/${generatedDomId}   headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
     Log To Console              body = ${resp.text}
