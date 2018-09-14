@@ -29,6 +29,7 @@ import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Optional;
+import javax.annotation.Nonnull;
 import org.json.JSONObject;
 import org.onap.pnfsimulator.message.MessageProvider;
 import org.onap.pnfsimulator.simulator.validation.JSONValidator;
@@ -51,7 +52,7 @@ public class SimulatorFactory {
     }
 
     public Simulator create(JSONObject simulatorParams, JSONObject commonEventHeaderParams,
-        Optional<JSONObject> pnfRegistrationParams, Optional<JSONObject> notificationParams)
+        @Nonnull Optional<JSONObject> pnfRegistrationParams, @Nonnull Optional<JSONObject> notificationParams)
         throws ProcessingException, IOException, ValidationException {
         Duration duration = Duration.ofSeconds(parseInt(simulatorParams.getString(TEST_DURATION)));
         Duration interval = Duration.ofSeconds(parseInt(simulatorParams.getString(MESSAGE_INTERVAL)));

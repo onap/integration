@@ -22,7 +22,6 @@ package org.onap.pnfsimulator.simulator;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
 import org.json.JSONObject;
@@ -32,22 +31,8 @@ final class TestMessages {
     static final JSONObject VALID_SIMULATOR_PARAMS = new JSONObject(getContent("validSimulatorParams.json"));
     static final JSONObject VALID_COMMON_EVENT_HEADER_PARAMS = new JSONObject(getContent("validCommonEventHeaderParams.json"));
     static final Optional<JSONObject> VALID_PNF_REGISTRATION_PARAMS = Optional.ofNullable(new JSONObject(getContent("validPnfRegistrationParams.json")));
-
-    private static String getContent(String fileName){
-
-        try {
-            String pathAsString = TestMessages.class.getResource(fileName).getPath();
-            Path path  = Paths.get(pathAsString);
-            StringBuilder stringBuilder = new StringBuilder();
-            Files.readAllLines(path).forEach(line -> {
-                stringBuilder.append(line);
-            });
-            return stringBuilder.toString();
-        } catch (IOException e) {
-            throw new RuntimeException(String.format("Cannot read JSON file %s",fileName));
-        }
-
-    }
+    static final Optional<JSONObject> VALID_NOTIFICATION_PARAMS = Optional
+        .ofNullable(new JSONObject(getContent("validNotificationParams.json")));
 
     static final JSONObject INVALID_SIMULATOR_PARAMS = new JSONObject(
         "{\n" +
@@ -107,5 +92,18 @@ final class TestMessages {
 
 
     private TestMessages() {
+    }
+
+    private static String getContent(String fileName) {
+        try {
+            String pathAsString = TestMessages.class.getResource(fileName).getPath();
+            StringBuilder stringBuilder = new StringBuilder();
+            Files.readAllLines(Paths.get(pathAsString)).forEach(line -> {
+                stringBuilder.append(line);
+            });
+            return stringBuilder.toString();
+        } catch (IOException e) {
+            throw new RuntimeException(String.format("Cannot read JSON file %s", fileName));
+        }
     }
 }
