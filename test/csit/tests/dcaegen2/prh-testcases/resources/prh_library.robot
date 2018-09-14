@@ -2,6 +2,7 @@
 Library           RequestsLibrary
 Library           Collections
 Library           PrhLibrary.py
+Resource          ../../../common.robot
 
 *** Keywords ***
 Create header
@@ -17,18 +18,20 @@ Create sessions
 Invalid event processing
     [Arguments]    ${input_invalid_event_in_dmaap}
     [Timeout]    30s
-    Set event in DMaaP    ${input_invalid_event_in_dmaap}
-    ${invalid_notification}=    Create invalid notification    ${input_invalid_event_in_dmaap}
-    ${notification}=     Catenate        SEPARATOR= \\n        |org.onap.dcaegen2.services.prh.exceptions.DmaapNotFoundException: Incorrect json, consumerDmaapModel can not be created:        ${invalid_notification}
-    Wait Until Keyword Succeeds    100x    100ms    Check PRH log       ${notification}
-    
+    ${data}=    Get Data From File    ${input_invalid_event_in_dmaap}
+    Set event in DMaaP    ${data}
+    ${invalid_notification}=    Create invalid notification    ${data}
+    ${notification}=    Catenate    SEPARATOR= \\n    |org.onap.dcaegen2.services.prh.exceptions.DmaapNotFoundException: Incorrect json, consumerDmaapModel can not be created:    ${invalid_notification}
+    Wait Until Keyword Succeeds    100x    100ms    Check PRH log    ${notification}
+
 Valid event processing
     [Arguments]    ${input_valid_event_in_dmaap}
     [Timeout]    30s
-    ${posted_event_to_dmaap}=    Create PNF_Ready notification    ${input_valid_event_in_dmaap}
-    ${pnf_name}=    Create PNF name    ${input_valid_event_in_dmaap}
+    ${data}=    Get Data From File    ${input_valid_event_in_dmaap}
+    ${posted_event_to_dmaap}=    Create PNF_Ready notification    ${data}
+    ${pnf_name}=    Create PNF name    ${data}
     Set PNF name in AAI    ${pnf_name}
-    Set event in DMaaP    ${input_valid_event_in_dmaap}
+    Set event in DMaaP    ${data}
     Wait Until Keyword Succeeds    100x    300ms    Check PNF_READY notification    ${posted_event_to_dmaap}
 
 Check PRH log

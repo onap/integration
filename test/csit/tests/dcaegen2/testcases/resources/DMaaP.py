@@ -8,9 +8,13 @@ import posixpath
 import BaseHTTPServer
 import urllib
 import urlparse
-import cgi, sys, shutil, mimetypes
+import cgi
+import sys
+import shutil
+import mimetypes
 from jsonschema import validate
-import jsonschema, json
+import jsonschema
+import json
 import DcaeVariables
 import SimpleHTTPServer
 from robot.api import logger
@@ -25,7 +29,7 @@ EvtSchema = None
 DMaaPHttpd = None
 
 
-def cleanUpEvent():
+def clean_up_event():
     sz = DcaeVariables.VESEventQ.qsize()
     for i in range(sz):
         try:
@@ -33,8 +37,9 @@ def cleanUpEvent():
         except:
             pass
 
-def enqueEvent(evt):
-    if DcaeVariables.VESEventQ != None:
+
+def enque_event(evt):
+    if DcaeVariables.VESEventQ is not None:
         try:
             DcaeVariables.VESEventQ.put(evt)
             if DcaeVariables.IsRobotRun:
@@ -46,12 +51,13 @@ def enqueEvent(evt):
             print (str(e))
             return False
     return False
-            
-def dequeEvent(waitSec=25):
+
+
+def deque_event(wait_sec=25):
     if DcaeVariables.IsRobotRun:
         logger.console("Enter DequeEvent")
     try:
-        evt = DcaeVariables.VESEventQ.get(True, waitSec)
+        evt = DcaeVariables.VESEventQ.get(True, wait_sec)
         if DcaeVariables.IsRobotRun:
             logger.console("DMaaP Event dequeued - size=" + str(len(evt)))
         else:
@@ -64,7 +70,8 @@ def dequeEvent(waitSec=25):
         else:
             print("DMaaP Event dequeue timeout")
         return None
- 
+
+
 class DMaaPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
       
     def do_PUT(self):
@@ -73,7 +80,7 @@ class DMaaPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         
     def do_POST(self):
         
-        respCode = 0
+        resp_code = 0
         # Parse the form data posted
         '''
         form = cgi.FieldStorage(
@@ -95,21 +102,21 @@ class DMaaPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         '''
         
         if 'POST' not in self.requestline:
-            respCode = 405
+            resp_code = 405
             
         '''
-        if respCode == 0:
+        if resp_code == 0:
             if '/eventlistener/v5' not in self.requestline and '/eventlistener/v5/eventBatch' not in self.requestline and \
                         '/eventlistener/v5/clientThrottlingState' not in self.requestline:
-                respCode = 404
+                resp_code = 404
          
         
-        if respCode == 0:
+        if resp_code == 0:
             if 'Y29uc29sZTpaakprWWpsbE1qbGpNVEkyTTJJeg==' not in str(self.headers):
-                respCode = 401
+                resp_code = 401
         '''  
         
-        if respCode == 0:
+        if resp_code == 0:
             content_len = int(self.headers.getheader('content-length', 0))
             post_body = self.rfile.read(content_len)
             
@@ -123,21 +130,21 @@ class DMaaPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             if indx != 0:
                 post_body = post_body[indx:]
             
-            if enqueEvent(post_body) == False:
+            if not enque_event(post_body):
                 print "enque event fails"
                    
             global EvtSchema
             try:
-                if EvtSchema == None:
-                    with open(DcaeVariables.CommonEventSchemaV5) as file:
-                        EvtSchema = json.load(file)
+                if EvtSchema is None:
+                    with open(DcaeVariables.CommonEventSchemaV5) as opened_file:
+                        EvtSchema = json.load(opened_file)
                 decoded_body = json.loads(post_body)
                 jsonschema.validate(decoded_body, EvtSchema)
             except:
-                respCode = 400
+                resp_code = 400
         
         # Begin the response
-        if DcaeVariables.IsRobotRun == False:
+        if not DcaeVariables.IsRobotRun:
             print ("Response Message:")
         
         '''
@@ -154,18 +161,18 @@ class DMaaPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
         '''
         
-        if respCode == 0:
+        if resp_code == 0:
             if 'clientThrottlingState' in self.requestline:
                 self.send_response(204)
             else:
                 self.send_response(200)
                 self.send_header('Content-Type', 'application/json')
                 self.end_headers()
-                #self.wfile.write("{'responses' : {'200' : {'description' : 'Success'}}}")
+                # self.wfile.write("{'responses' : {'200' : {'description' : 'Success'}}}")
                 self.wfile.write("{'count': 1, 'serverTimeMs': 3}")
                 self.wfile.close()
         else:
-            self.send_response(respCode)
+            self.send_response(resp_code)
         
         '''
         self.end_headers()
@@ -190,8 +197,7 @@ class DMaaPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
                 self.wfile.write('\t%s=%s\n' % (field, form[field].value))
         '''
         return
-    
-    
+
     def do_GET(self):
         """Serve a GET request."""
         f = self.send_head()
@@ -219,7 +225,6 @@ class DMaaPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
         """
         path = self.translate_path(self.path)
-        f = None
         if os.path.isdir(path):
             parts = urlparse.urlsplit(self.path)
             if not parts.path.endswith('/'):
@@ -268,18 +273,18 @@ class DMaaPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
         """
         try:
-            list = os.listdir(path)
+            list_dir = os.listdir(path)
         except os.error:
             self.send_error(404, "No permission to list directory")
             return None
-        list.sort(key=lambda a: a.lower())
+        list_dir.sort(key=lambda a: a.lower())
         f = StringIO()
         displaypath = cgi.escape(urllib.unquote(self.path))
         f.write('<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">')
         f.write("<html>\n<title>Directory listing for %s</title>\n" % displaypath)
         f.write("<body>\n<h2>Directory listing for %s</h2>\n" % displaypath)
         f.write("<hr>\n<ul>\n")
-        for name in list:
+        for name in list_dir:
             fullname = os.path.join(path, name)
             displayname = linkname = name
             # Append / for directories or @ for symbolic links
@@ -301,7 +306,8 @@ class DMaaPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         self.end_headers()
         return f
 
-    def translate_path(self, path):
+    @staticmethod
+    def translate_path(path):
         """Translate a /-separated PATH to the local filename syntax.
 
         Components that mean special things to the local file system
@@ -310,8 +316,8 @@ class DMaaPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
         """
         # abandon query parameters
-        path = path.split('?',1)[0]
-        path = path.split('#',1)[0]
+        path = path.split('?', 1)[0]
+        path = path.split('#', 1)[0]
         # Don't forget explicit trailing slash when normalizing. Issue17324
         trailing_slash = path.rstrip().endswith('/')
         path = posixpath.normpath(urllib.unquote(path))
@@ -327,7 +333,8 @@ class DMaaPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             path += '/'
         return path
 
-    def copyfile(self, source, outputfile):
+    @staticmethod
+    def copyfile(source, outputfile):
         """Copy all data between two file objects.
 
         The SOURCE argument is a file object open for reading
@@ -368,26 +375,26 @@ class DMaaPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             return self.extensions_map['']
 
     if not mimetypes.inited:
-        mimetypes.init() # try to read system mime.types
+        mimetypes.init()  # try to read system mime.types
     extensions_map = mimetypes.types_map.copy()
     extensions_map.update({
-        '': 'application/octet-stream', # Default
+        '': 'application/octet-stream',  # Default
         '.py': 'text/plain',
         '.c': 'text/plain',
         '.h': 'text/plain',
         })
 
-def test(HandlerClass = DMaaPHandler,
-         ServerClass = BaseHTTPServer.HTTPServer, protocol="HTTP/1.0", port=3904):
+
+def test(handler_class=DMaaPHandler, server_class=BaseHTTPServer.HTTPServer, protocol="HTTP/1.0", port=3904):
     print "Load event schema file: " + DcaeVariables.CommonEventSchemaV5
-    with open(DcaeVariables.CommonEventSchemaV5) as file:
+    with open(DcaeVariables.CommonEventSchemaV5) as opened_file:
         global EvtSchema
-        EvtSchema = json.load(file)
+        EvtSchema = json.load(opened_file)
         
     server_address = ('', port)
 
-    HandlerClass.protocol_version = protocol
-    httpd = ServerClass(server_address, HandlerClass)
+    handler_class.protocol_version = protocol
+    httpd = server_class(server_address, handler_class)
     
     global DMaaPHttpd
     DMaaPHttpd = httpd
@@ -395,10 +402,10 @@ def test(HandlerClass = DMaaPHandler,
 
     sa = httpd.socket.getsockname()
     print "Serving HTTP on", sa[0], "port", sa[1], "..."
-    #httpd.serve_forever()
+    # httpd.serve_forever()
 
-def _main_ (HandlerClass = DMaaPHandler,
-         ServerClass = BaseHTTPServer.HTTPServer, protocol="HTTP/1.0"):
+
+def _main_(handler_class=DMaaPHandler, server_class=BaseHTTPServer.HTTPServer, protocol="HTTP/1.0"):
     
     if sys.argv[1:]:
         port = int(sys.argv[1])
@@ -406,18 +413,19 @@ def _main_ (HandlerClass = DMaaPHandler,
         port = 3904
     
     print "Load event schema file: " + DcaeVariables.CommonEventSchemaV5
-    with open(DcaeVariables.CommonEventSchemaV5) as file:
+    with open(DcaeVariables.CommonEventSchemaV5) as opened_file:
         global EvtSchema
-        EvtSchema = json.load(file)
+        EvtSchema = json.load(opened_file)
         
     server_address = ('', port)
 
-    HandlerClass.protocol_version = protocol
-    httpd = ServerClass(server_address, HandlerClass)
+    handler_class.protocol_version = protocol
+    httpd = server_class(server_address, handler_class)
 
     sa = httpd.socket.getsockname()
     print "Serving HTTP on", sa[0], "port", sa[1], "..."
     httpd.serve_forever()
-    
+
+
 if __name__ == '__main__':
     _main_()
