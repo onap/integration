@@ -31,13 +31,12 @@ import static org.onap.pnfsimulator.message.MessageConstants.PNF_REGISTRATION_FI
 
 import java.util.Map;
 import java.util.Optional;
-import javax.annotation.Nonnull;
 import org.json.JSONObject;
 
 public class MessageProvider {
 
-    public JSONObject createMessage(@Nonnull  JSONObject commonEventHeaderParams,@Nonnull Optional<JSONObject> pnfRegistrationParams,
-        @Nonnull Optional<JSONObject> notificationParams) {
+    public JSONObject createMessage(JSONObject commonEventHeaderParams, Optional<JSONObject> pnfRegistrationParams,
+        Optional<JSONObject> notificationParams) {
 
         if (!pnfRegistrationParams.isPresent() && !notificationParams.isPresent()) {
             throw new IllegalArgumentException(
