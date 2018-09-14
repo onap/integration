@@ -17,6 +17,8 @@ ${CREATE_CONFIG_VDNS_TEMPLATE}    ${CURDIR}/configpolicy_vDNS_R1.template
 ${CREATE_CONFIG_VCPE_TEMPLATE}    ${CURDIR}/configpolicy_vCPE_R1.template
 ${CREATE_OPS_VFW_TEMPLATE}    ${CURDIR}/opspolicy_VFW_R1.template
 ${CREATE_OOF_HPA_TEMPLATE}    ${CURDIR}/oofpolicy_HPA_R1.template
+${CREATE_SDNC_VFW_TEMPLATE}     ${CURDIR}/sdncnamingpolicy_vFW.template
+${CREATE_SDNC_VPG_TEMPLATE}     ${CURDIR}/sdncnamingpolicy_vPG.template
 ${PUSH_POLICY_TEMPLATE}   ${CURDIR}/pushpolicy.template
 ${CREATE_OPS_VDNS_TEMPLATE}    ${CURDIR}/opspolicy_VDNS_R1.template
 ${DEL_POLICY_TEMPLATE}   ${CURDIR}/deletepolicy.template
@@ -38,6 +40,8 @@ ${OPS_POLICY_VOLTE_NAME}    VoLTE
 ${OPS_POLICY_VOLTE_TYPE}    BRMS_PARAM
 ${OOF_POLICY_HPA_NAME}    HPA
 ${OOF_POLICY_HPA_TYPE}    Optimization 
+${SDNC_POLICY_VFW_NAME}   ONAP_vFW_Naming
+${SDNC_POLICY_VPG_NAME}   ONAP_vPG_Naming
 ${file_path}        ../testsuite/robot/assets/templates/ControlLoopDemo__closedLoopControlName.drl
 ${RESOURCE_PATH_UPLOAD}  /pdp/api/policyEngineImport?importParametersJson=%7B%22serviceName%22%3A%22Manyu456%22%2C%20%22serviceType%22%3A%22BRMSPARAM%22%7D
 ${CREATE_OPS_VCPE_TEMPLATE}      ${CURDIR}/opspolicy_vCPE_R1.template  
@@ -80,6 +84,16 @@ VOLTE Ops Policy
      Push Ops Policy    ${OPS_POLICY_VOLTE_NAME}    ${OPS_POLICY_VOLTE_TYPE}    
     #VOLTE Policy Tests
 
+VFW SDNC Naming Policy
+     ${SDNC_POLICY_VFW_NAME}=    Create VFW SDNC Naming Policy
+     Push Config Policy    ${SDNC_POLICY_VFW_NAME}    ${CONFIG_POLICY_VFW_TYPE}
+    #VFW Policy Tests
+    
+VPG SDNC Naming Policy
+     ${SDNC_POLICY_VPG_NAME}=    Create VPG SDNC Naming Policy
+     Push Config Policy    ${SDNC_POLICY_VPG_NAME}    ${CONFIG_POLICY_VFW_TYPE}
+    #VPG Policy Tests
+
 HPA OOF Policy
      ${OOF_POLICY_HPA_NAME}=     Create OOF HPA Policy
      Push Config Policy    ${OOF_POLICY_HPA_NAME}      ${OOF_POLICY_HPA_TYPE}
@@ -109,6 +123,8 @@ VFW Policy Tests
      Get Configs VFW Policy    
      ${OPS_POLICY_VFW_NAME}=    Create Ops VFW Policy
      Push Ops Policy    ${OPS_POLICY_VFW_NAME}    ${OPS_POLICY_VFW_TYPE}
+     ${SDNC_POLICY_VFW_NAME}=   Create VFW SDNC Naming Policy
+     Push Config Policy     ${CONFIG_POLICY_VFW_NAME}    ${CONFIG_POLICY_VFW_TYPE}
     
 VDNS Policy Tests
      ${CONFIG_POLICY_VDNS_NAME}=    Create Config VDNS Policy
@@ -123,6 +139,10 @@ VCPE Policy Tests
      Get Configs VCPE Policy    
      ${OPS_POLICY_VCPE_NAME}=    Create Ops VCPE Policy
      Push Ops Policy    ${OPS_POLICY_VCPE_NAME}    ${OPS_POLICY_VCPE_TYPE}
+
+VPG Policy Tests
+     ${SDNC_POLICY_VPG_NAME}=    Create VPG SDNC Naming Policy
+     Push Config Policy    ${SDNC_POLICY_VPG_NAME}    ${CONFIG_POLICY_VFW_TYPE}
      
 VOLTE Policy Tests  
      ${OPS_POLICY_VOLTE_NAME}=    Create Ops VOLTE Policy
@@ -172,7 +192,29 @@ Create Config VFW Policy
 	Should Be Equal As Strings 	${put_resp.status_code} 	200
 	[Return]    ${policyname1}
 
- Create Policy Name
+Create VPG SDNC Naming Policy
+    [Documentation]    Create VPG SDNC Naming Policy
+    ${randompolicyname} =    Create Policy Name
+    ${policyname1}=    Catenate    com.${randompolicyname}_ONAP_vPG_Naming
+    ${SDNC_POLICY_VPG_NAME}=    Set Test Variable     ${policyname1}
+    ${sdncpolicy}=    Create Dictionary    policy_name=${policyname1}
+    ${output} =   Fill JSON Template File    ${CREATE_SDNC_VPG_TEMPLATE}    ${sdncpolicy}
+    ${put_resp} = Run Policy Put Request    ${RESOURCE_PATH_CREATE}    ${output}
+    Should Be Equal As Strings  ${put_resp.status_code}    200
+    [Return]    ${policyname1}
+    
+Create VFW SDNC Naming Policy
+    [Documentation]    Create VFW SDNC Naming Policy
+    ${randompolicyname} =    Create Policy Name
+    ${policyname1}=    Catenate    com.${randompolicyname}_ONAP_vFW_Naming
+    ${SDNC_POLICY_VFW_NAME}=    Set Test Variable     ${policyname1}
+    ${sdncpolicy}=    Create Dictionary    policy_name=${policyname1}
+    ${output} =   Fill JSON Template File    ${CREATE_SDNC_VFW_TEMPLATE}    ${sdncpolicy}
+    ${put_resp} = Run Policy Put Request    ${RESOURCE_PATH_CREATE}    ${output}
+    Should Be Equal As Strings  ${put_resp.status_code}    200
+    [Return]    ${policyname1}
+    
+Create Policy Name
      [Documentation]    Generate Policy Name
      [Arguments]    ${prefix}=CSIT_
      ${random}=    Generate Random String    15    [LOWER][NUMBERS]
@@ -180,7 +222,7 @@ Create Config VFW Policy
      [Return]    ${policyname}
 
 Create Ops VFW Policy
-	[Documentation]    Create Opertional Policy
+	[Documentation]    Create Operational Policy
    	${randompolicyname} =     Create Policy Name
 	${policyname1}=    Catenate   com.${randompolicyname}_vFirewall
 	${OPS_POLICY_VFW_NAME}=    Set Test Variable    ${policyname1}
@@ -254,7 +296,7 @@ Create Config VDNS Policy
 	[Return]    ${policyname1}
 
 Create Ops VDNS Policy
-	[Documentation]    Create Opertional Policy
+	[Documentation]    Create Operational Policy
    	${randompolicyname} =     Create Policy Name
 	${policyname1}=    Catenate   com.${randompolicyname}_vLoadBalancer
 	${OPS_POLICY_VDNS_NAME}=    Set Test Variable    ${policyname1}
@@ -285,7 +327,7 @@ Get Configs VCPE Policy
 	Should Be Equal As Strings 	${get_resp.status_code} 	200
 
 Create Ops vCPE Policy
-	[Documentation]    Create Opertional Policy
+	[Documentation]    Create Operational Policy
    	${randompolicyname} =     Create Policy Name
 	${policyname1}=    Catenate   com.${randompolicyname}_vCPE
 	${OPS_POLICY_VCPE_NAME}=    Set Test Variable    ${policyname1}
@@ -297,7 +339,7 @@ Create Ops vCPE Policy
     [Return]    ${policyname1}
     
 Create Ops VolTE Policy
-	[Documentation]    Create Opertional Policy
+	[Documentation]    Create Operational Policy
    	${randompolicyname} =     Create Policy Name
 	${policyname1}=    Catenate   com.${randompolicyname}_VoLTE
  	${dict}=     Create Dictionary    policy_name=${policyname1}
