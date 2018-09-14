@@ -29,6 +29,7 @@ import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Optional;
+import javax.annotation.Nonnull;
 import org.json.JSONObject;
 import org.onap.pnfsimulator.message.MessageProvider;
 import org.onap.pnfsimulator.simulator.validation.JSONValidator;

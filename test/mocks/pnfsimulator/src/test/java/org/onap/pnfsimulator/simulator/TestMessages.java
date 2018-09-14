@@ -22,7 +22,6 @@ package org.onap.pnfsimulator.simulator;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
 import org.json.JSONObject;
@@ -31,23 +30,10 @@ final class TestMessages {
 
     static final JSONObject VALID_SIMULATOR_PARAMS = new JSONObject(getContent("validSimulatorParams.json"));
     static final JSONObject VALID_COMMON_EVENT_HEADER_PARAMS = new JSONObject(getContent("validCommonEventHeaderParams.json"));
-    static final Optional<JSONObject> VALID_PNF_REGISTRATION_PARAMS = Optional.ofNullable(new JSONObject(getContent("validPnfRegistrationParams.json")));
-
-    private static String getContent(String fileName){
-
-        try {
-            String pathAsString = TestMessages.class.getResource(fileName).getPath();
-            Path path  = Paths.get(pathAsString);
-            StringBuilder stringBuilder = new StringBuilder();
-            Files.readAllLines(path).forEach(line -> {
-                stringBuilder.append(line);
-            });
-            return stringBuilder.toString();
-        } catch (IOException e) {
-            throw new RuntimeException(String.format("Cannot read JSON file %s",fileName));
-        }
-
-    }
+    static final Optional<JSONObject> VALID_PNF_REGISTRATION_PARAMS = Optional
+        .of(new JSONObject(getContent("validPnfRegistrationParams.json")));
+    static final Optional<JSONObject> VALID_NOTIFICATION_PARAMS = Optional
+        .of(new JSONObject(getContent("validNotificationParams.json")));
 
     static final JSONObject INVALID_SIMULATOR_PARAMS = new JSONObject(
         "{\n" +
@@ -56,7 +42,7 @@ final class TestMessages {
             "}");
 
 
-    static final Optional<JSONObject> INVALID_MESSAGE_PARAMS_1 = Optional.ofNullable(new JSONObject(
+    static final Optional<JSONObject> INVALID_PNF_REGISTRATION_PARAMS_1 = Optional.of(new JSONObject(
         "{\n" +
             "    \"pnfSerialNumber\": \"val1\",\n" +
             "    \"pnfVendorName\": \"val2\",\n" +
@@ -72,7 +58,7 @@ final class TestMessages {
             "    \"reportingEntityName\": \"val14\"\n" +
             "}"));
 
-    static final Optional<JSONObject> INVALID_MESSAGE_PARAMS_2 = Optional.ofNullable(new JSONObject(
+    static final Optional<JSONObject> INVALID_PNF_REGISTRATION_PARAMS_2 = Optional.of(new JSONObject(
         "{\n" +
             "    \"pnfVendorName\": \"val2\",\n" +
             "    \"pnfOamIpv4Address\": \"val3\",\n" +
@@ -89,7 +75,7 @@ final class TestMessages {
             "    \"reportingEntityName\": \"val14\"\n" +
             "}"));
 
-    static final Optional<JSONObject> INVALID_MESSAGE_PARAMS_3 = Optional.ofNullable(new JSONObject(
+    static final Optional<JSONObject> INVALID_PNF_REGISTRATION_PARAMS_3 = Optional.of(new JSONObject(
         "{\n" +
             "    \"pnfSerialNumber\": \"val1\",\n" +
             "    \"pnfOamIpv4Address\": \"val3\",\n" +
@@ -105,7 +91,26 @@ final class TestMessages {
             "    \"reportingEntityName\": \"val14\"\n" +
             "}"));
 
+    static final Optional<JSONObject> INVALID_NOTIFICATION_PARAMS = Optional.of(new JSONObject(
+        "{\n" +
+            "    \"mother\": \"val1\",\n" +
+            "    \"father\": \"val3\",\n" +
+            "}"));
+
 
     private TestMessages() {
+    }
+
+    private static String getContent(String fileName) {
+        try {
+            String pathAsString = TestMessages.class.getResource(fileName).getPath();
+            StringBuilder stringBuilder = new StringBuilder();
+            Files.readAllLines(Paths.get(pathAsString)).forEach(line -> {
+                stringBuilder.append(line);
+            });
+            return stringBuilder.toString();
+        } catch (IOException e) {
+            throw new RuntimeException(String.format("Cannot read JSON file %s", fileName));
+        }
     }
 }

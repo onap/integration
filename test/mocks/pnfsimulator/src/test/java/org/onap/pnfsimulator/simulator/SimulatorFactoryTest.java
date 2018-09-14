@@ -22,13 +22,15 @@ package org.onap.pnfsimulator.simulator;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.onap.pnfsimulator.simulator.TestMessages.INVALID_MESSAGE_PARAMS_1;
-import static org.onap.pnfsimulator.simulator.TestMessages.INVALID_MESSAGE_PARAMS_2;
-import static org.onap.pnfsimulator.simulator.TestMessages.INVALID_MESSAGE_PARAMS_3;
+import static org.onap.pnfsimulator.simulator.TestMessages.INVALID_NOTIFICATION_PARAMS;
+import static org.onap.pnfsimulator.simulator.TestMessages.INVALID_PNF_REGISTRATION_PARAMS_1;
+import static org.onap.pnfsimulator.simulator.TestMessages.INVALID_PNF_REGISTRATION_PARAMS_2;
+import static org.onap.pnfsimulator.simulator.TestMessages.INVALID_PNF_REGISTRATION_PARAMS_3;
 import static org.onap.pnfsimulator.simulator.TestMessages.INVALID_SIMULATOR_PARAMS;
+import static org.onap.pnfsimulator.simulator.TestMessages.VALID_COMMON_EVENT_HEADER_PARAMS;
+import static org.onap.pnfsimulator.simulator.TestMessages.VALID_NOTIFICATION_PARAMS;
 import static org.onap.pnfsimulator.simulator.TestMessages.VALID_PNF_REGISTRATION_PARAMS;
 import static org.onap.pnfsimulator.simulator.TestMessages.VALID_SIMULATOR_PARAMS;
-import static org.onap.pnfsimulator.simulator.TestMessages.VALID_COMMON_EVENT_HEADER_PARAMS;
 
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import java.io.IOException;
@@ -51,10 +53,17 @@ class SimulatorFactoryTest {
     }
 
     @Test
-    void should_successfully_create_simulator_given_valid_params_and_valid_output_message()
+    void should_successfully_create_simulator_given_valid_pnf_registration_params_and_valid_output_message()
         throws ValidationException, IOException, ProcessingException {
         assertNotNull(simulatorFactory.create(VALID_SIMULATOR_PARAMS,VALID_COMMON_EVENT_HEADER_PARAMS,
             VALID_PNF_REGISTRATION_PARAMS,Optional.empty()));
+    }
+
+    @Test
+    void should_successfully_create_simulator_given_valid_notification_params_and_valid_output_message()
+        throws ValidationException, IOException, ProcessingException {
+        assertNotNull(simulatorFactory.create(VALID_SIMULATOR_PARAMS, VALID_COMMON_EVENT_HEADER_PARAMS,
+            Optional.empty(), VALID_NOTIFICATION_PARAMS));
     }
 
     @Test
@@ -70,14 +79,22 @@ class SimulatorFactoryTest {
 
         assertThrows(
             ValidationException.class,
-            () -> simulatorFactory.create(VALID_SIMULATOR_PARAMS, VALID_COMMON_EVENT_HEADER_PARAMS ,INVALID_MESSAGE_PARAMS_1,Optional.empty()));
+            () -> simulatorFactory.create(VALID_SIMULATOR_PARAMS, VALID_COMMON_EVENT_HEADER_PARAMS,
+                INVALID_PNF_REGISTRATION_PARAMS_1, Optional.empty()));
 
         assertThrows(
             ValidationException.class,
-            () -> simulatorFactory.create(VALID_SIMULATOR_PARAMS, VALID_COMMON_EVENT_HEADER_PARAMS, INVALID_MESSAGE_PARAMS_2,Optional.empty()));
+            () -> simulatorFactory.create(VALID_SIMULATOR_PARAMS, VALID_COMMON_EVENT_HEADER_PARAMS,
+                INVALID_PNF_REGISTRATION_PARAMS_2, Optional.empty()));
 
         assertThrows(
             ValidationException.class,
-            () -> simulatorFactory.create(VALID_SIMULATOR_PARAMS, VALID_COMMON_EVENT_HEADER_PARAMS, INVALID_MESSAGE_PARAMS_3,Optional.empty()));
+            () -> simulatorFactory.create(VALID_SIMULATOR_PARAMS, VALID_COMMON_EVENT_HEADER_PARAMS,
+                INVALID_PNF_REGISTRATION_PARAMS_3, Optional.empty()));
+
+        assertThrows(
+            ValidationException.class,
+            () -> simulatorFactory.create(VALID_SIMULATOR_PARAMS, VALID_COMMON_EVENT_HEADER_PARAMS,
+                VALID_PNF_REGISTRATION_PARAMS, INVALID_NOTIFICATION_PARAMS));
     }
 }
