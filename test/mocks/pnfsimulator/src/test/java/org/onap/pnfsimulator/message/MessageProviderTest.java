@@ -35,8 +35,11 @@ import org.junit.jupiter.api.Test;
 
 public class MessageProviderTest {
 
-    private static final String testParamsJson =
-        "{\"key1\": \"val1\",\"key2\": \"val2\",\"pnf_key3\": \"pnfVal3\",\"key4\": \"val4\"}";
+    private static final String testParamsPnfRegistration =
+        "{\"pnfKey1\": \"pnfVal1\",\"pnfKey2\": \"pnfVal2\",\"pnfKey3\": \"pnfVal3\",\"pnfKey4\": \"pnfVal4\"}";
+
+    private static final String testParamsNotification =
+        "{\"notKey1\": \"notVal1\",\"notKey2\": \"notVal2\",\"notKey3\": \"notVal3\",\"notKey4\": \"notVal4\"}";
 
     private static MessageProvider messageProvider;
 
@@ -89,15 +92,22 @@ public class MessageProviderTest {
 
     @Test
     public void createMessage_should_add_specified_params_to_valid_subobjects() {
-        JSONObject params = new JSONObject(testParamsJson);
-        JSONObject message = messageProvider.createMessage(new JSONObject(),Optional.of(params),Optional.empty());
+        JSONObject message = messageProvider
+            .createMessage(new JSONObject(), Optional.of(new JSONObject(testParamsPnfRegistration)),
+                Optional.of(new JSONObject(testParamsNotification)));
         JSONObject event = message.getJSONObject(EVENT);
 
         JSONObject commonEventHeader = event.getJSONObject(COMMON_EVENT_HEADER);
-        JSONObject pnfRegistrationFields = event.getJSONObject(PNF_REGISTRATION_FIELDS);
+        assertEquals(10, commonEventHeader.keySet().size());
 
-        assertEquals("val1", pnfRegistrationFields.getString("key1"));
-        assertEquals("val2", pnfRegistrationFields.getString("key2"));
+        JSONObject pnfRegistrationFields = event.getJSONObject(PNF_REGISTRATION_FIELDS);
+        assertEquals("pnfVal1", pnfRegistrationFields.getString("pnfKey1"));
+        assertEquals("pnfVal2", pnfRegistrationFields.getString("pnfKey2"));
+
+        JSONObject notificationFields = event.getJSONObject(NOTIFICATION_FIELDS);
+        assertEquals("notVal1", notificationFields.getString("notKey1"));
+        assertEquals("notVal2", notificationFields.getString("notKey2"));
+
     }
 
 }
