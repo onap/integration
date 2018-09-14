@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_402e5a8d",
+        "filename": "test/mocks/pnfsimulator/docker-compose.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 3395
+      },
+      "writtenOn": "2018-09-14T07:55:15Z",
+      "side": 1,
+      "message": "Change port to  2221:21",
+      "revId": "85ffbc25116be89927f948dd1bdaea0c018103d0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_0054e2fc",
+        "filename": "test/mocks/pnfsimulator/docker-compose.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 3395
+      },
+      "writtenOn": "2018-09-14T07:55:15Z",
+      "side": 1,
+      "message": "Wny 30xxx postrs have been added? Please ping me via e-mail jabber",
+      "revId": "85ffbc25116be89927f948dd1bdaea0c018103d0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
