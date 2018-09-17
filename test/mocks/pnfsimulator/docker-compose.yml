@@ -27,6 +27,7 @@ services:
     restart: on-failure
     depends_on:
       - sftp-server
+      - ftpes-server
 
   sftp-server:
     container_name: sftp-server
@@ -40,8 +41,8 @@ services:
     command: sftp-user::1001
 
   ftpes-server:
-    image: stilliard/pure-ftpd:latest
     container_name: ftpes-server
+    image: stilliard/pure-ftpd:latest
     ports:
       - "2221:21"
 #      - "30000-30009:30000-30009"
