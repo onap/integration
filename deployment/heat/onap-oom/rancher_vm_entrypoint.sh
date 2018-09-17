@@ -250,8 +250,10 @@ sleep 3
 helm repo add local http://127.0.0.1:8879
 helm repo list
 make all
+rsync -avt ~/oom/kubernetes/helm/plugins ~/.helm/
 helm search -l | grep local
-helm install local/onap -n dev --namespace onap -f ~/integration-override.yaml
+helm deploy dev local/onap -f ~/integration-override.yaml --namespace onap | tee ~/helm-deploy.log
+helm list
 
 # Enable auto-completion for kubectl
 echo "source <(kubectl completion bash)" >> ~/.bashrc
