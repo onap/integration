@@ -18,5 +18,5 @@
 #
 
 source ${WORKSPACE}/test/csit/scripts/vid/kill_containers_and_remove_dataFolders.sh
-
+docker stop so-simulator
 # $WORKSPACE/archives/clamp-clone deleted with archives folder when tests starts so we keep it at the end for debugging
