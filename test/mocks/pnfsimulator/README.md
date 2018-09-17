@@ -14,6 +14,7 @@ The configuration for simulator is stored in */config/config.json* file.
 It contains all parameters for simulation such as duration time,interval between messages and values of the configurable fields of VES message. 
 If you want to change duration or value of message sending to VES collector you just need to edit this file. 
 The message that is being sent to VES is built inside the simulator and it's content can be found in log of the simulator. 
+Proper config must contain *simulatorParams*, *commonEventHeaderParams* and *pnfRegistrationParams* or notificationParams. 
 
 ###Running simulator   
 The recommended way is to checkout PNF Simulator project from ONAP Git repository and use *simulator*.sh script
@@ -32,6 +33,7 @@ Connection to SFTP server is being done with usage of SSH keys. Private key is s
 In order to download *sftp-file.txt* file simply run *sftp -P 2222 -i ssh/ssh_host_rsa_key sftp-user@localhost:sftp/sftp-file.txt*
 In order to add a new file (e.g. test.zip), put the file into *sftp* directory and run simulator.
 After that again execute sftp command: *sftp -P 2222 -i ssh/ssh_host_rsa_key sftp-user@localhost:sftp/test.zip*
+In order to disable usage of SSH keys and start using password, change in *docker-compose.yml* service *sftp-service* entry *command* from *sftp-user::1001* to *sftp-user:password:1001*
 
 ###FTPES support
 PNF Simulator allows to serve files via FTPES server. FTPES server has predefined user: onap with password: pano. 

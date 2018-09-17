@@ -190,12 +190,14 @@
     {
       "required": [
         "simulatorParams",
+        "commonEventHeaderParams",
         "pnfRegistrationParams"
       ]
     },
     {
       "required": [
         "simulatorParams",
+        "commonEventHeaderParams",
         "notificationParams"
       ]
     }
