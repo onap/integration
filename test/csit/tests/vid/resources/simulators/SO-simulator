@@ -1,0 +1,11 @@
+FROM python:3
+
+
+ADD SDC.py /
+ADD key.pem /
+ADD cert.pem /
+ADD sdc_get_response.json /
+
+EXPOSE 8443
+
+CMD [ "python", "./SDC.py" ]

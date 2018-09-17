@@ -1,4 +1,5 @@
 # Test suites are relative paths under [integration.git]/test/csit/tests/.
 # Place the suites in run order.
-vid/healthCheck
-vid/login
+#vid/healthCheck
+vid/https-connection
+#vid/login

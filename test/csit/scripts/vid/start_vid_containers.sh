@@ -30,22 +30,22 @@ docker-compose up -d --build
 
 # WAIT 5 minutes maximum and test every 5 seconds if VID up using HealthCheck API
 
-TIME_OUT=1200
-INTERVAL=5
-TIME=0
-while [ "$TIME" -lt "$TIME_OUT" ]; do
-  response=$(curl --write-out '%{http_code}' --silent --output /dev/null http://localhost:8080/vid/healthCheck); echo $response
-
-  if [ "$response" == "200" ]; then
-    echo VID and its database well started in $TIME seconds
-    break;
-  fi
-
-  echo Sleep: $INTERVAL seconds before testing if VID is up. Total wait time up now is: $TIME seconds. Timeout is: $TIME_OUT seconds
-  sleep $INTERVAL
-  TIME=$(($TIME+$INTERVAL))
-done
-
-if [ "$TIME" -ge "$TIME_OUT" ]; then
-   echo TIME OUT: Docker containers not started in $TIME_OUT seconds... Could cause problems for tests...
-fi
+#TIME_OUT=1200
+#INTERVAL=5
+#TIME=0
+#while [ "$TIME" -lt "$TIME_OUT" ]; do
+#  response=$(curl --write-out '%{http_code}' --silent --output /dev/null http://localhost:8080/vid/healthCheck); echo $response
+#
+#  if [ "$response" == "200" ]; then
+#    echo VID and its database well started in $TIME seconds
+#    break;
+#  fi
+#
+#  echo Sleep: $INTERVAL seconds before testing if VID is up. Total wait time up now is: $TIME seconds. Timeout is: $TIME_OUT seconds
+#  sleep $INTERVAL
+#  TIME=$(($TIME+$INTERVAL))
+#done
+#
+#if [ "$TIME" -ge "$TIME_OUT" ]; then
+#   echo TIME OUT: Docker containers not started in $TIME_OUT seconds... Could cause problems for tests...
+#fi

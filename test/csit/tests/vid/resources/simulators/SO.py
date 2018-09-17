@@ -1,7 +1,6 @@
+import logging
 import ssl
 from http.server import BaseHTTPRequestHandler, HTTPServer
-
-from sys import argv
 
 DEFAULT_PORT = 8443
 
@@ -13,6 +12,15 @@ class SDCHandler(BaseHTTPRequestHandler):
         super().__init__(request, client_address, server)
 
     def do_GET(self):
+        logging.info('GET called')
+        self.send_response(200)
+        self._set_headers()
+
+        self.wfile.write(self.response_on_get.encode("utf-8"))
+        return
+
+    def do_POST(self):
+        logging.info('POST called')
         self.send_response(200)
         self._set_headers()
 
@@ -30,8 +38,10 @@ class SDCHandler(BaseHTTPRequestHandler):
 
 
 if __name__ == '__main__':
-    SDCHandler.protocol_version = "HTTP/1.1"
+    logging.basicConfig(filename='output.log', level=logging.INFO)
+    SDCHandler.protocol_version = "HTTP/1.0"
 
     httpd = HTTPServer(('', DEFAULT_PORT), SDCHandler)
+    logging.info("serving on: " + str(httpd.socket.getsockname()))
     httpd.socket = ssl.wrap_socket(httpd.socket, server_side=True, certfile='cert.pem', keyfile='key.pem')
     httpd.serve_forever()
