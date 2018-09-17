@@ -1,0 +1,9 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Rajendra Jaiswal <rajendra.jaiswal@ericsson.com>
+Code-Review+1: T M <tobias.mole@ericsson.com>
+Code-Review+2: Gary Wu <gary.i.wu@huawei.com>
+Submitted-by: Gary Wu <gary.i.wu@huawei.com>
+Submitted-at: Mon, 17 Sep 2018 16:59:01 +0000
+Reviewed-on: https://gerrit.onap.org/r/66999
+Project: integration
+Branch: refs/heads/master
