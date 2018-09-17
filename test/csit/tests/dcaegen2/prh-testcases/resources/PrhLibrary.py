@@ -23,16 +23,16 @@ class PrhLibrary(object):
         json_to_python = json.loads(json_file)
         ipv4 = json_to_python["event"]["pnfRegistrationFields"]["oamV4IpAddress"]
         ipv6 = json_to_python["event"]["pnfRegistrationFields"]["oamV6IpAddress"]
-        header = json_to_python["event"]["commonEventHeader"]["sourceName"]
-        str_json = '{"sourceName":"' + header + '","ipaddress-v4-oam":"' + ipv4 + '","ipaddress-v6-oam":"' + ipv6 + '"}'
+        correlationId = json_to_python["event"]["commonEventHeader"]["sourceName"]
+        str_json = '{"correlationId":"' + correlationId + '","ipaddress-v4-oam":"' + ipv4 + '","ipaddress-v6-oam":"' + ipv6 + '"}'
         python_to_json = json.dumps(str_json)
         return python_to_json.replace("\\", "")[1:-1]
 
     @staticmethod
     def create_pnf_name(json_file):
         json_to_python = json.loads(json_file)
-        header = json_to_python["event"]["commonEventHeader"]["sourceName"]
-        return header
+        correlationId = json_to_python["event"]["commonEventHeader"]["sourceName"]
+        return correlationId
 
     @staticmethod
     def stop_aai():
