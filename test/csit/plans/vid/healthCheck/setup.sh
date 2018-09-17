@@ -25,10 +25,12 @@ source ${WORKSPACE}/test/csit/scripts/vid/clone_and_setup_vid_data.sh
 
 source ${WORKSPACE}/test/csit/scripts/vid/start_vid_containers.sh
 
-
 BE_IP=`get-instance-ip.sh vid-server`
 echo BE_IP=${BE_IP}
 
 
 # Pass any variables required by Robot test suites in ROBOT_VARIABLES
 ROBOT_VARIABLES="-v BE_IP:${BE_IP}"
+
+pip install assertpy
+pip install requests

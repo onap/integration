@@ -5,10 +5,10 @@ services:
         environment:
             - VID_MYSQL_DBNAME=vid_openecomp_epsdk
             - VID_MYSQL_PASS=Kp8bJ4SXszM0WXlhak3eHlcse2gAw84vaoGGmJvUy2U
-            - ASDC_CLIENT_REST_HOST=localhost
-            - ASDC_CLIENT_REST_PORT=8443
+            - VID_MSO_SERVER_URL=https://so-simulator:8443
         ports:
             - "8080:8080"
+            - "8443:8443"
         container_name: vid-server
         links:
             - vid-mariadb:vid-mariadb-docker-instance
@@ -25,10 +25,10 @@ services:
             - ${WORKSPACE}/data/clone/vid/lf_config/vid-my.cnf:/etc/mysql/my.cnf
             - /var/lib/mysql
 
-    sdc_simulator:
+    so-simulator:
         build:
             context: simulators
-            dockerfile: SDC_simulator
+            dockerfile: SO-simulator
         ports:
         - "8443:8443"
-        container_name: sdc_simulator
+        container_name: so-simulator
