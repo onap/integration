@@ -48,13 +48,26 @@
             "properties":{  
                "evaluate":[  
                   {  
-                     "flavorLabel":"flavor_label_1",
+                     "id":"vg_1",
+                     "type":"vnfc",
+                     "directives":[
+                        {
+                           "type":"flavor_directives",
+                           "attributes":[
+                              {
+                                 "attribute_name":"flavor_label_1",
+                                 "attribute_value":""
+                              }
+                           ]
+                        }
+                     ],
                      "flavorProperties":[  
                         {  
                            "hpa-feature":"basicCapabilities",
                            "hpa-version":"v1",
                            "architecture":"generic",
                            "mandatory": "True",
+                           "directives":[],
                            "hpa-feature-attributes":[  
                               {  
                                  "hpa-attribute-key":"numVirtualCpu",
@@ -74,6 +87,7 @@
                            "hpa-version":"v1",
                            "architecture":"generic",
                            "mandatory":"True",
+                           "directives":[],
                            "hpa-feature-attributes":[  
                               {  
                                  "hpa-attribute-key":"numaNodes",
@@ -107,13 +121,26 @@
                      ]
                   },
                   {  
-                     "flavorLabel":"flavor_label_2",
+                     "id":"vg_2",
+                     "type":"vnfc",
+                     "directives":[
+                        {
+                           "type":"flavor_directives",
+                           "attributes":[
+                              {
+                                 "attribute_name":"flavor_label_2",
+                                 "attribute_value":""
+                              }
+                           ]
+                        }
+                     ],
                      "flavorProperties":[  
                         {  
                            "hpa-feature":"basicCapabilities",
                            "hpa-version":"v1",
                            "architecture":"generic",
                            "mandatory": "True",
+                           "directives":[],
                            "hpa-feature-attributes":[  
                               {  
                                  "hpa-attribute-key":"numVirtualCpu",
@@ -133,6 +160,7 @@
                            "hpa-version":"v1",
                            "architecture":"generic",
                            "mandatory": "True",
+                           "directives":[],
                            "hpa-feature-attributes":[  
                               {  
                                  "hpa-attribute-key":"dataProcessingAccelerationLibrary",

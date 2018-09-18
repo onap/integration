@@ -1,8 +1,8 @@
-{  
+{
    "name":"vCPE-with-HPA",
-   "template":{  
+   "template":{
       "homing_template_version":"2017-10-10",
-      "parameters":{  
+      "parameters":{
          "service_name":"Residential vCPE",
          "service_id":"vcpe_service_id",
          "customer_lat":45.395968,
@@ -11,58 +11,71 @@
          "REQUIRED_DISK":100,
          "pnf_id":"some_pnf_id"
       },
-      "locations":{  
-         "customer_loc":{  
-            "latitude":{  
+      "locations":{
+         "customer_loc":{
+            "latitude":{
                "get_param":"customer_lat"
             },
-            "longitude":{  
+            "longitude":{
                "get_param":"customer_long"
             }
          }
       },
       "demands":{
-         "vG":[  
-            {  
+         "vG":[
+            {
                "inventory_provider":"aai",
                "inventory_type":"cloud"
             }
          ]
       },
       "constraints":{
-        "constraint_vg_customer":{  
+        "constraint_vg_customer":{
             "type":"distance_to_location",
-            "demands":[  
+            "demands":[
                "vG"
             ],
-            "properties":{  
+            "properties":{
                "distance":"< 100 km",
                "location":"customer_loc"
             }
          },
-        "hpa_constraint":{  
+        "hpa_constraint":{
             "type":"hpa",
-            "demands":[  
+            "demands":[
                "vG"
             ],
-            "properties":{  
-               "evaluate":[  
-                  {  
-                     "flavorLabel":"flavor_label_1",
-                     "flavorProperties":[  
-                        {  
+            "properties":{
+               "evaluate":[
+                  {
+                     "id":"vg_1",
+                     "type":"vnfc",
+                     "directives":[
+                         {
+                            "type": "flavor_directives",
+                            "attributes":[
+                                 {
+                                    "attribute_name":"flavor_label_1",
+                                    "attribute_value":""
+                                 }
+                            ]
+                         }
+                     ],
+                     "flavorProperties":[
+                        {
                            "hpa-feature":"basicCapabilities",
                            "hpa-version":"v1",
                            "architecture":"generic",
                            "mandatory": "False",
                            "score": "5",
-                           "hpa-feature-attributes":[  
-                              {  
+                           "directives": [],
+                           "hpa-feature-attributes":[
+                              {
                                  "hpa-attribute-key":"numVirtualCpu",
                                  "hpa-attribute-value":"4",
                                  "operator":">="
                               },
-                              {  
+                              {
                                  "hpa-attribute-key":"virtualMemSize",
                                  "hpa-attribute-value":"4",
                                  "operator":">=",
@@ -70,35 +83,36 @@
                               }
                            ]
                         },
-                        {  
+                        {
                            "hpa-feature":"numa",
                            "hpa-version":"v1",
                            "architecture":"generic",
                            "mandatory": "False",
                            "score": "5",
-                           "hpa-feature-attributes":[  
-                              {  
+                           "directives": [],
+                           "hpa-feature-attributes":[
+                              {
                                  "hpa-attribute-key":"numaNodes",
                                  "hpa-attribute-value":"2",
                                  "operator":"="
                               },
-                              {  
+                              {
                                  "hpa-attribute-key":"numaCpu-0",
                                  "hpa-attribute-value":"2",
                                  "operator":"="
                               },
-                              {  
+                              {
                                  "hpa-attribute-key":"numaCpu-1",
                                  "hpa-attribute-value":"4",
                                  "operator":"="
                               },
-                              {  
+                              {
                                  "hpa-attribute-key":"numaMem-0",
                                  "hpa-attribute-value":"2",
                                  "operator":"=",
                                  "unit":"GB"
                               },
-                              {  
+                              {
                                  "hpa-attribute-key":"numaMem-1",
                                  "hpa-attribute-value":"4",
                                  "operator":"=",
@@ -106,19 +120,20 @@
                               }
                            ]
                         },
-                        {  
+                        {
                            "hpa-feature":"cpuPinning",
                            "hpa-version":"v1",
                            "architecture":"generic",
                            "mandatory": "False",
                            "score": "5",
-                           "hpa-feature-attributes":[  
-                              {  
+                           "directives": [],
+                           "hpa-feature-attributes":[
+                              {
                                  "hpa-attribute-key":"logicalCpuThreadPinningPolicy",
                                  "hpa-attribute-value":"prefer",
                                  "operator":"="
                               },
-                              {  
+                              {
                                  "hpa-attribute-key":"logicalCpuPinningPolicy",
                                  "hpa-attribute-value":"dedicated",
                                  "operator":"="
@@ -127,22 +142,35 @@
                         }
                      ]
                   },
-                  {  
-                     "flavorLabel":"flavor_label_2",
-                     "flavorProperties":[  
-                        {  
+                  {
+                     "id":"vg_2",
+                     "type":"vnfc",
+                     "directives":[
+                       {
+                         "type":"flavor_directives",
+                         "attributes":[
+                           {
+                             "attribute_name":"flavor_label_2",
+                             "attribute_value":""
+                           }
+                         ]
+                       }
+                     ],
+                     "flavorProperties":[
+                        {
                            "hpa-feature":"basicCapabilities",
                            "hpa-version":"v1",
                            "architecture":"generic",
                            "mandatory": "False",
                            "score": "5",
-                           "hpa-feature-attributes":[  
-                              {  
+                           "directives":[],
+                           "hpa-feature-attributes":[
+                              {
                                  "hpa-attribute-key":"numVirtualCpu",
                                  "hpa-attribute-value":"8",
                                  "operator":">="
                               },
-                              {  
+                              {
                                  "hpa-attribute-key":"virtualMemSize",
                                  "hpa-attribute-value":"16",
                                  "operator":">=",
@@ -150,35 +178,36 @@
                               }
                            ]
                         },
-                        {  
+                        {
                            "hpa-feature":"numa",
                            "hpa-version":"v1",
                            "architecture":"generic",
                            "mandatory": "False",
                            "score": "5",
-                           "hpa-feature-attributes":[  
-                              {  
+                           "directives":[],
+                           "hpa-feature-attributes":[
+                              {
                                  "hpa-attribute-key":"numaNodes",
                                  "hpa-attribute-value":"2",
                                  "operator":"="
                               },
-                              {  
+                              {
                                  "hpa-attribute-key":"numaCpu-0",
                                  "hpa-attribute-value":"2",
                                  "operator":"="
                               },
-                              {  
+                              {
                                  "hpa-attribute-key":"numaCpu-1",
                                  "hpa-attribute-value":"4",
                                  "operator":"="
                               },
-                              {  
+                              {
                                  "hpa-attribute-key":"numaMem-0",
                                  "hpa-attribute-value":"2",
                                  "operator":"=",
                                  "unit":"GB"
                               },
-                              {  
+                              {
                                  "hpa-attribute-key":"numaMem-1",
                                  "hpa-attribute-value":"4",
                                  "operator":"=",
@@ -186,14 +215,15 @@
                               }
                            ]
                         },
-                        {  
+                        {
                            "hpa-feature":"ovsDpdk",
                            "hpa-version":"v1",
                            "architecture":"generic",
                            "mandatory": "False",
                            "score": "5",
-                           "hpa-feature-attributes":[  
-                              {  
+                           "directives":[],
+                           "hpa-feature-attributes":[
+                              {
                                  "hpa-attribute-key":"dataProcessingAccelerationLibrary",
                                  "hpa-attribute-value":"v18.02",
                                  "operator":"="
@@ -206,17 +236,17 @@
             }
          }
       },
-      "optimization":{  
-         "minimize":{  
-            "sum":[  
-               {  
-                  "distance_between":[  
+      "optimization":{
+         "minimize":{
+            "sum":[
+               {
+                  "distance_between":[
                      "customer_loc",
                      "vG"
                   ]
                },
-               {  
-                  "distance_between":[  
+               {
+                  "distance_between":[
                      "customer_loc",
                      "vG"
                   ]
