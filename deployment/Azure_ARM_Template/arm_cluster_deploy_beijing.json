@@ -390,7 +390,7 @@
         "typeHandlerVersion": "2.0",
         "autoUpgradeMinorVersion": true,
         "settings": {
-            "fileUris": [ "https://gerrit.onap.org/r/gitweb?p=integration.git;a=blob_plain;f=Azure_ARM_Template/scripts/azure-rancher-server.sh;hb=refs/heads/master" ],
+            "fileUris": [ "https://git.onap.org/integration/plain/deployment/Azure_ARM_Template/scripts/azure-rancher-server.sh" ],
             "commandToExecute": "[concat('./' , parameters('masterScriptName'),' ',reference(variables('publicIPAddressName')).dnsSettings.fqdn,' ',parameters('privateIPAddress'),' ',parameters('numberOfVms'))]"
            }
         }
@@ -413,7 +413,7 @@
         "typeHandlerVersion": "2.0",
         "autoUpgradeMinorVersion": true,
         "settings": {
-            "fileUris": [ "https://gerrit.onap.org/r/gitweb?p=integration.git;a=blob_plain;f=Azure_ARM_Template/scripts/azure-k8s-node.sh;hb=refs/heads/master" ],
+            "fileUris": [ "https://git.onap.org/integration/plain/deployment/Azure_ARM_Template/scripts/azure-k8s-node.sh" ],
             "commandToExecute": "[concat('./' , parameters('nodeScriptName'),' ',concat(parameters('privateIPAddress'),'0'))]"
            }
         }
