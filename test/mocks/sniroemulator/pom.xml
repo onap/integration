@@ -12,15 +12,9 @@
 <parent>
         <groupId>org.onap.oparent</groupId>
         <artifactId>oparent</artifactId>
-        <version>0.1.1</version>
+        <version>1.2.1</version>
 </parent>
 
-<!-- <parent>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <version>1.5.7.RELEASE</version>
-</parent>
--->
 <properties>
     <dockerLocation>${basedir}/target</dockerLocation>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
