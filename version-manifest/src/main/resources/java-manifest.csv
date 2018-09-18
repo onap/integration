@@ -201,7 +201,7 @@ org.onap.multicloud.openstack,ocata,1.1.2
 org.onap.multicloud.openstack,windriver,1.1.2
 org.onap.multicloud.openstack.vmware,vesagent,1.0.0
 org.onap.multicloud.openstack.vmware,vio,1.1.2
-org.onap.oparent,oparent,1.1.1
+org.onap.oparent,oparent,1.2.1
 org.onap.policy.common,common-modules,1.2.3
 org.onap.policy.drools-applications,drools-pdp-apps,1.2.3
 org.onap.policy.drools-pdp,drools-pdp,1.2.3
