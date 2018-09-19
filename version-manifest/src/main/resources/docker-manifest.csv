@@ -25,7 +25,7 @@ onap/cli,2.0.2
 onap/data-router,1.2.2
 onap/dmaap/buscontroller,1.0.12
 onap/dmaap/dmaap-mr,1.1.4
-onap/externalapi/nbi,2.1.1
+onap/externalapi/nbi,3.0.0
 onap/gizmo,1.2.1
 onap/holmes/engine-management,1.1.0
 onap/holmes/rule-management,1.1.0
