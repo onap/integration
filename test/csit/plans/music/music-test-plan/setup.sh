@@ -26,16 +26,20 @@ source ${WORKSPACE}/test/csit/scripts/music/music-scripts/music_script.sh
 #
 echo "# music configuration step";
 
-CASS_IMG=nexus3.onap.org:10001/onap/music/cassandra_music:latest
+CASS_IMG=nexus3.onap.org:10001/onap/music/cassandra_3_11:latest
+CASS_IMG_JOB=nexus3.onap.org:10001/onap/music/cassandra_job:latest
 TOMCAT_IMG=nexus3.onap.org:10001/library/tomcat:8.5
 ZK_IMG=nexus3.onap.org:10001/library/zookeeper:3.4
+BUSYBOX_IMG=nexus3.onap.org:10001/library/busybox:latest
 MUSIC_IMG=nexus3.onap.org:10001/onap/music/music:latest
+TT=10
 WORK_DIR=/tmp/music
 CASS_USERNAME=nelson24
 CASS_PASSWORD=winman123
 MUSIC_SOURCE_PROPERTIES=${WORKSPACE}/test/csit/scripts/music/music-properties
 MUSIC_PROPERTIES=/tmp/music/properties
 MUSIC_LOGS=/tmp/music/logs
+CQL_FILES=${WORKSPACE}/test/csit/scripts/cql
 mkdir -p ${MUSIC_PROPERTIES}
 mkdir -p ${MUSIC_LOGS}
 mkdir -p ${MUSIC_LOGS}/MUSIC
@@ -56,6 +60,29 @@ CASSA_IP=`docker inspect -f '{{ $network := index .NetworkSettings.Networks "mus
 echo "CASSANDRA_IP=${CASSA_IP}"
 ${WORKSPACE}/test/csit/scripts/optf-has/has/wait_for_port.sh ${CASSA_IP} 9042
 
+# See if cassandra is up.
+echo "Running Test to see if Cassandra is up...."
+docker run --name music-casstest --network music-net -it $BUSYBOX_IMG sh -c "until nc -z music-db 9042 && echo "success"; do echo 'No connection .. Sleeping for $TT seconds';sleep $TT; done;"
+# Check to see if Keyspaces are there. 
+docker exec music-db cqlsh -u cassandra -p cassandra -e "DESCRIBE keyspaces;"
+
+sleep 10;
+
+# Load data into Cassandra via Cassandra Job 
+echo "Running Cassandra Job to load cql files."
+docker run -d --name music-job --network music-net \
+-v $CQL_FILES/admin.cql:/cql/admin.cql \
+-v $CQL_FILES/admin_pw.cql:/cql/admin_pw.cql \
+-v $CQL_FILES/test.cql:/cql/extra/test.cql \
+-e PORT=9042 \
+-e CASS_HOSTNAME=music-db \
+-e USERNAME=$CASS_USERNAME \
+-e PASSWORD=$CASS_PASSWORD \
+$CASS_IMG_JOB
+# Logs
+echo "Cassandra Job logs"
+docker logs music-job
+
 # Start Music war
 docker run -d --name music-war -v music-vol:/app ${MUSIC_IMG};
 
@@ -66,7 +93,7 @@ ZOO_IP=`docker inspect -f '{{ $network := index .NetworkSettings.Networks "music
 echo "ZOOKEEPER_IP=${ZOO_IP}"
 
 # Delay  between Cassandra/Zookeeper and Tomcat
-sleep 60;
+sleep 10;
 
 # Start Up tomcat - Needs to have properties,logs dir and war file volume mapped.
 docker run -d --name music-tomcat --network music-net -p "8080:8080" -v music-vol:/usr/local/tomcat/webapps -v ${WORK_DIR}/properties:/opt/app/music/etc:ro -v ${WORK_DIR}/logs:/opt/app/music/logs ${TOMCAT_IMG};
@@ -84,8 +111,8 @@ echo "get the tomcat logs to make sure its running music properly"
 echo "======== TOMCAT Logs =============="
 docker logs music-tomcat
 # Needed only if we need to look at localhost logs.
-#echo "===== MUSIC localhost Log ===================="
-#docker exec music-tomcat /bin/bash -c "cat /usr/local/tomcat/logs/localhost*"
+echo "===== MUSIC localhost Log ===================="
+docker exec music-tomcat /bin/bash -c "cat /usr/local/tomcat/logs/localhost*"
 
 echo "===== MUSIC Log ===================="
 ls -al $MUSIC_LOGS/MUSIC
