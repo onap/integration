@@ -17,7 +17,7 @@ The message that is being sent to VES is built inside the simulator and it's con
 Proper config must contain *simulatorParams*, *commonEventHeaderParams* and *pnfRegistrationParams* or notificationParams. 
 
 ###Running simulator   
-The recommended way is to checkout PNF Simulator project from ONAP Git repository and use *simulator*.sh script
+The recommended way is to checkout PNF Simulator project from ONAP Git repository and use *simulator*.sh script.
 If you copy *simulator.sh* script to another location, keep in mind to copy also *docker-compose.yml* and directories: *config,json_schema and netconf*.
 In order to run simulator, invoke ./simulator.sh start
 Script downloads if necessary needed Docker images and runs instances of these images.

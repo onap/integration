@@ -45,12 +45,11 @@ services:
     image: stilliard/pure-ftpd:latest
     ports:
       - "2221:21"
-#      - "30000-30009:30000-30009"
     volumes:
       - ./ftpes/userpass/:/etc/pure-ftpd/passwd/
       - ./ftpes/tls/:/etc/ssl/private/
+      - ./ftpes/files:/home/onap
     environment:
       PUBLICHOST: localhost
       ADDED_FLAGS: --tls=2
-#    entrypoint: /run.sh -c 5 -C 5 -l puredb:/etc/pure-ftpd/pureftpd.pdb -E -j -R -p 30000:30009
     restart: on-failure
