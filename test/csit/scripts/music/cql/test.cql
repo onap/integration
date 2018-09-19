@@ -1,0 +1,1 @@
+DESCRIBE keyspace admin;
