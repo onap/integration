@@ -10,8 +10,8 @@ Library     HttpLibrary.HTTP
 *** Variables ***
 @{return_ok_list}=   200  201  202
 @{delete_ok_list}=  200 204
-${get_token_url}    	/api/multicloud-vio/v0/vmware_fake/identity/v3/auth/tokens
-${get_networks_url} 	/api/multicloud-vio/v0/vmware_fake/neutron/networks
+${get_token_url}    	/api/multicloud-vio/v1/vmware_fake/identity/v3/auth/tokens
+${get_networks_url} 	/api/multicloud-vio/v1/vmware_fake/neutron/networks
 
 #json files
 ${auth_info_json}       ${SCRIPTS}/../tests/multicloud-vmware/provision/jsoninput/auth_info.json
