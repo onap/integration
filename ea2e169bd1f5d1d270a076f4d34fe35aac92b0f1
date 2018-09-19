@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_8cb252e3",
+        "filename": "test/csit/tests/multicloud-vmware/provision/sanity_test_neutron.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1889
+      },
+      "writtenOn": "2018-09-19T06:05:13Z",
+      "side": 1,
+      "message": "Is the VIMID correct?",
+      "range": {
+        "startLine": 13,
+        "startChar": 41,
+        "endLine": 13,
+        "endChar": 55
+      },
+      "revId": "ea2e169bd1f5d1d270a076f4d34fe35aac92b0f1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
