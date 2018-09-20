@@ -17,7 +17,7 @@
 NEXUS_USERNAME=docker
 NEXUS_PASSWD=docker
 NEXUS_DOCKER_REPO=nexus3.onap.org:10001
-DOCKER_IMAGE_VERSION=latest
+DOCKER_IMAGE_VERSION=2.1.1-latest
 
 echo "This is ${WORKSPACE}/test/csit/scripts/externalapi-nbi/start_nbi_containers.sh"
 
