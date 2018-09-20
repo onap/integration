@@ -143,7 +143,7 @@ server_url = http://localhost:8081/aai/
 
 
 # The version of A&AI (string value)
-server_url_version = v13
+server_url_version = v14
 
 # SSL/TLS certificate file in pem format. This certificate must be registered
 # with the A&AI endpoint. (string value)
