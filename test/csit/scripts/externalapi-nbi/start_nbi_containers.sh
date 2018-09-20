@@ -27,6 +27,7 @@ cd $WORKSPACE/externalapi-nbi
 
 # Create .env file to access env variables for docker-compose
 echo "NEXUS_DOCKER_REPO=${NEXUS_DOCKER_REPO}" > .env
+echo "MSB_ENABLED=false" >> .env
 
 # Fetch the latest docker-compose.yml
 wget -O docker-compose.yml 'https://git.onap.org/externalapi/nbi/plain/docker-compose.yml?h=master'

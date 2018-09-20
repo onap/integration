@@ -7,7 +7,7 @@ Library           Collections
 ${GLOBAL_NBI_SERVER_PROTOCOL}   http
 ${GLOBAL_INJECTED_NBI_IP_ADDR}  localhost
 ${GLOBAL_NBI_SERVER_PORT}       8080
-${NBI_HEALTH_CHECK_PATH}        /nbi/api/v1/status
+${NBI_HEALTH_CHECK_PATH}        /nbi/api/v3/status
 ${NBI_ENDPOINT}                 ${GLOBAL_NBI_SERVER_PROTOCOL}://${GLOBAL_INJECTED_NBI_IP_ADDR}:${GLOBAL_NBI_SERVER_PORT}
 
 *** Test Cases ***
