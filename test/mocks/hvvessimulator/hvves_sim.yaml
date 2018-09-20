@@ -1,0 +1,219 @@
+description: Heat template for HV-VES simulator deployment
+
+heat_template_version: 2013-05-23
+
+parameters:
+  name: { description: Instance name, label: Name, type: string, default: hv-ves_sim  }
+  flavor_name: { description: Instance flavor to be used, label: Flavor Name, type: string }
+  image_name: { description: Ubuntu 16.04 image to be used, label: Image Name, type: string }
+  private_net_id: { description: Private network id, label: Private Network ID, type: string }
+  private_subnet_id: { description: Private subnetwork id, label: Private Subnetwork ID, type: string }
+  public_net_id: { description: Public network id, label: Public Network ID, type: string }
+  security_group: { description: Security group to be used, label: Security Groups, type: string, default: default }
+  key_pair: { description: Key pair, label: Key Pair, type: string }
+  proxy: { description: Proxy, label: Proxy, type: string, default: "" }
+  mode: { description: Mode - standalone or integrated to ONAP (values - 'standalone' or 'onap'), label: Mode, type: string, default: "standalone" }
+  hvves_ip: { description: HV-VES IP, label: HV-VES IP, type: string, default: "" }
+  hvves_port: { description: HV-VES Port, label: HV-VES Port, type: string, default: "" }
+  nexus_port: { description: ONAP Nexus Port, label: ONAP Nexus Port, type: string }
+
+resources:
+  hvves-sim:
+    type: OS::Nova::Server
+    properties:
+      name: { get_param: name }
+      image: { get_param: image_name }
+      flavor: { get_param: flavor_name }
+      key_name: { get_param: key_pair }
+      networks:
+        - port: { get_resource: hvves-sim_port }
+      user_data_format: RAW
+      user_data:
+        str_replace:
+          template: |
+                        #!/bin/bash
+
+                        set_versions () {
+                            DOCKER_VERSION=17.03
+                            DOCKER_COMPOSE_VERSION=1.22.0
+                            PROTOBUF_VERSION=3.6.1
+                        }
+
+                        enable_root_ssh () {
+                            sed -i 's/PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
+                            sed -i 's/PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
+                            service sshd restart
+                            echo -e "onap\nonap" | passwd root
+                        }
+
+                        update_os () {
+                            rm -rf /var/lib/apt/lists/*
+                            apt-get clean
+                            apt-get update
+                        }
+
+                        docker_install_configure () {
+                            curl "https://releases.rancher.com/install-docker/$DOCKER_VERSION.sh" | sh
+                            mkdir -p /etc/systemd/system/docker.service.d/
+                            cat > /etc/systemd/system/docker.service.d/docker.conf << EOF
+                        [Service]
+                        ExecStart=
+                        ExecStart=/usr/bin/dockerd -H fd:// --insecure-registry=nexus3.onap.org:$nexus_port
+                        Environment="HTTP_PROXY=$proxy"
+                        EOF
+                            systemctl daemon-reload
+                            systemctl restart docker
+                            apt-mark hold docker-ce
+                            docker login -u docker -p docker nexus3.onap.org:$nexus_port
+                        }
+
+                        docker_compose_install () {
+                            curl -L "https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+                            chmod +x /usr/local/bin/docker-compose
+                        }
+
+                        protobuf_install () {
+                            apt-get install -y unzip
+                            cd ~;curl -OL "https://github.com/google/protobuf/releases/download/v$PROTOBUF_VERSION/protoc-$PROTOBUF_VERSION-linux-x86_64.zip"
+                            unzip ~/protoc-$PROTOBUF_VERSION-linux-x86_64.zip -d ~/protoc3
+                            mv ~/protoc3/bin/* /usr/local/bin/
+                            mv ~/protoc3/include/* /usr/local/include/
+                            chown "$USER":"$USER" /usr/local/bin/protoc
+                            chown -R "$USER":"$USER" /usr/local/include/google
+                            rm -rf ~/protoc3
+                            rm -f ~/protoc-$PROTOBUF_VERSION-linux-x86_64.zip
+                        }
+
+                        proto_files_checkout () {
+                            mkdir -p ~/hv-ves_sim/proto;cd ~/hv-ves_sim/proto;wget "https://gerrit.onap.org/r/gitweb?p=dcaegen2/collectors/hv-ves.git;a=blob_plain;f=hv-collector-domain/src/main/proto/event/VesEvent.proto;hb=HEAD" -O VesEvent.proto;wget "https://gerrit.onap.org/r/gitweb?p=dcaegen2/collectors/hv-ves.git;a=blob_plain;f=hv-collector-domain/src/main/proto/measurements/HVMeasFields.proto;hb=HEAD" -O HVMeasFields.proto;wget "https://gerrit.onap.org/r/gitweb?p=dcaegen2/collectors/hv-ves.git;a=blob_plain;f=hv-collector-domain/src/main/proto/measurements/MeasDataCollection.proto;hb=HEAD" -O MeasDataCollection.proto
+                        }
+
+                        kafkacat_install () {
+                            apt-get -y install kafkacat
+                        }
+
+                        hvves_sim_yml_checkout () {
+                            cd ~/hv-ves_sim/;wget "https://gerrit.onap.org/r/gitweb?p=dcaegen2/collectors/hv-ves.git;a=blob_plain;f=docker-compose.yml;hb=HEAD" -O docker-compose.yml;sed -i "s/image: o/image: nexus3.onap.org:$nexus_port\/o/g" docker-compose.yml
+                        }
+
+                        dcae_simulator_disable () {
+                            cd ~/hv-ves_sim/;sed -i '/  dcae-app-simulator/,$d' docker-compose.yml
+                        }
+
+                        generate_certs () {
+                            apt-get -y install make
+                            mkdir ~/hv-ves_sim/ssl
+                            cd ~/hv-ves_sim/ssl;wget "https://gerrit.onap.org/r/gitweb?p=dcaegen2/collectors/hv-ves.git;a=blob_plain;f=ssl/Makefile;hb=HEAD" -O Makefile
+                            cd ~/hv-ves_sim/ssl;make FILE=client
+                            cd ~/hv-ves_sim/ssl;make FILE=server
+                        }
+
+                        start_simulator_env () {
+                            if [ "$mode" == "standalone" ]
+                            then
+                                echo -e "127.0.0.1\tconsul" >> /etc/hosts
+                                cd ~/hv-ves_sim;nohup docker-compose up &> ~/hv-ves_sim/docker-compose.log &
+                                for i in {0..300}
+                                do
+                                    sim=`grep -q "Started xNF Simulator API server" ~/hv-ves_sim/docker-compose.log ; echo $?`
+                                        if [ $sim -eq 0 ]
+                                        then
+                                                   echo '{"kafkaBootstrapServers": "kafka:9092","routing":[{"fromDomain":11,"toTopic":"ves_hvRanMeas"}]}' | curl -X PUT -d @- http://consul:8500/v1/kv/veshv-config -H "Content-Type:application/json"
+                                        else
+                                                   sleep 3s
+                                        fi
+                                done
+                            elif [ "$mode" == "onap" ]
+                            then
+                                docker pull "nexus3.onap.org:$nexus_port/onap/org.onap.dcaegen2.collectors.hv-ves.hv-collector-xnf-simulator:latest"
+                                cd ~/hv-ves_sim;nohup docker run -p "6062:6062/tcp" -v "$(pwd)/ssl/:/etc/ves-hv/" -i "nexus3.onap.org:$nexus_port/onap/org.onap.dcaegen2.collectors.hv-ves.hv-collector-xnf-simulator:latest" "./run-java.sh run --listen-port 6062 --ves-host $hvves_ip --ves-port $hvves_port" &> ~/hv-ves_sim/docker.log &
+                            else
+                                exit 1
+                            fi
+                        }
+
+                        simulator_script_create () {
+                                cat > ~/hv-ves_sim/simulator.sh << EOF
+                        #!/bin/bash
+
+                                input_parameters () {
+                                        option=\$1
+                                        file=\$2
+                                }
+
+                                help () {
+                                echo -e "Usage: simulator.sh [send] [message]"
+                                }
+
+                                send_message () {
+                                        if [[ -z \$1 ]] || [[ -z \$2 ]]
+                                        then
+                                                echo "Input parameter(s) empty."
+                                                help
+                                                exit 1
+                                        elif [[ \$1 == "send" ]] && [[ -n \$2 ]]
+                                        then
+                                                curl -X POST -d @\$2 http://localhost:6062/simulator/async -H "Content-Type:application/json"
+                                        else
+                                                help
+                                        fi
+                                }
+
+                                main () {
+                                        input_parameters "\$1" "\$2"
+                                        send_message "\$option" "\$file"
+                                }
+
+                                main "\$1" "\$2"
+                        EOF
+                                        chmod +x ~/hv-ves_sim/simulator.sh
+
+                                }
+
+                        message_samples_checkout () {
+                                mkdir ~/hv-ves_sim/samples
+                                cd ~/hv-ves_sim/samples ; wget "https://gerrit.onap.org/r/gitweb?p=integration.git;a=blob_plain;f=test/csit/tests/dcaegen2-collectors-hv-ves/testcases/resources/scenarios/authorization/xnf-valid-messages-request.json;hb=HEAD" -O xnf-valid-messages-request.json ; wget "https://gerrit.onap.org/r/gitweb?p=integration.git;a=blob_plain;f=test/csit/tests/dcaegen2-collectors-hv-ves/testcases/resources/scenarios/invalid-gpb-data/xnf-invalid-gpb-data-request.json;hb=HEAD" -O xnf-invalid-gpb-data-request.json ; wget "https://gerrit.onap.org/r/gitweb?p=integration.git;a=blob_plain;f=test/csit/tests/dcaegen2-collectors-hv-ves/testcases/resources/scenarios/multiple-simulators-payload/xnf-simulator-smaller-valid-request.json;hb=HEAD" -O xnf-simulator-smaller-valid-request.json
+                        }
+
+                        set_versions
+                        enable_root_ssh
+                        update_os
+                        docker_install_configure
+                        docker_compose_install
+                        protobuf_install
+                        proto_files_checkout
+                        kafkacat_install
+                        hvves_sim_yml_checkout
+                        dcae_simulator_disable
+                        generate_certs
+                        start_simulator_env
+                        simulator_script_create
+                        message_samples_checkout
+
+          params:
+            $proxy: { get_param: proxy }
+            $mode: { get_param: mode }
+            $hvves_ip: { get_param: hvves_ip }
+            $hvves_port: { get_param: hvves_port }
+            $nexus_port: { get_param: nexus_port }
+  hvves-sim_port:
+    type: OS::Neutron::Port
+    properties:
+      network_id: { get_param: private_net_id }
+      security_groups:
+        - { get_param: security_group }
+      fixed_ips:
+        - subnet_id: { get_param: private_subnet_id }
+  hvves-sim_public:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network_id: { get_param: public_net_id }
+      port_id: { get_resource: hvves-sim_port }
+
+outputs:
+  hvves-sim_private_ip:
+    description: HV-VES simulator private IP
+    value: { get_attr: [ hvves-sim, first_address ] }
+  hvves-sim_public_ip:
+    description: HV-VES simualtor floating IP
+    value: { get_attr: [ hvves-sim_public, floating_ip_address ] }
