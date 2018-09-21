@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 cd ssl
-make clean
+./gen-certs.sh clean
 cd ..
 
 docker-compose logs > ${WORKSPACE}/archives/containers_logs/docker-compose.log

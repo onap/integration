@@ -19,9 +19,7 @@ echo "Creating network for containers: ${CONTAINERS_NETWORK}"
 docker network create ${CONTAINERS_NETWORK}
 
 cd ssl
-make FILE=client
-make FILE=server
-make FILE=invalid_client CA=invalid_trust
+./gen-certs.sh
 cd ..
 
 export DOCKER_REGISTRY="nexus3.onap.org:10001"
