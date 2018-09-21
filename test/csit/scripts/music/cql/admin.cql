@@ -16,4 +16,17 @@ CREATE TABLE IF NOT EXISTS admin.keyspace_master (
     PRIMARY KEY (uuid)
 );
 
+CREATE TABLE IF NOT EXISTS admin.notification_master (
+    id uuid,
+    current_notifier text,
+    endpoint_password blob,
+    endpoint_userid text,
+    notify_delete_on text,
+    notify_insert_on text,
+    notify_to_endpoint text,
+    notify_update_on text,
+    notifyon text PRIMARY KEY,
+    request text
+);
+
 describe keyspace admin;
