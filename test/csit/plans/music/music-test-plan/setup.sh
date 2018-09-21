@@ -39,10 +39,18 @@ MUSIC_SOURCE_PROPERTIES=${WORKSPACE}/test/csit/scripts/music/music-properties
 MUSIC_PROPERTIES=/tmp/music/properties
 MUSIC_LOGS=/tmp/music/logs
 CQL_FILES=${WORKSPACE}/test/csit/scripts/music/cql
+MUSIC_TRIGGER_DIR=/tmp/triggers
+TRIGGER_JAR=musictrigger-0.1.0.jar
+TRIGGER_JAR_URL=https://nexus.onap.org/service/local/repositories/autorelease-72298/content/org/onap/music/musictrigger/0.1.0/musictrigger-0.1.0.jar
+
 mkdir -p ${MUSIC_PROPERTIES}
 mkdir -p ${MUSIC_LOGS}
 mkdir -p ${MUSIC_LOGS}/MUSIC
+mkdir -p /tmp/triggers
 
+# Get Trigger
+echo "########## Get Trigger Jar ##########"
+curl -o $MUSIC_TRIGGER_DIR $TRIGGER_JAR_URL
 
 cp ${MUSIC_SOURCE_PROPERTIES}/* ${WORK_DIR}/properties
 
@@ -56,7 +64,11 @@ docker network create music-net;
 
 # Start Cassandra
 echo "########## Start Cassandra (music-db) ##########"
-docker run -d --name music-db --network music-net -p "7000:7000" -p "7001:7001" -p "7199:7199" -p "9042:9042" -p "9160:9160" -e CASSUSER=${CASS_USERNAME} -e CASSPASS=${CASS_PASSWORD} ${CASS_IMG};
+docker run -d --name music-db --network music-net -p "7000:7000" -p "7001:7001" -p "7199:7199" -p "9042:9042" -p "9160:9160" \
+-v $MUSIC_TRIGGER_DIR/$TRIGGER_JAR:/etc/cassandra/triggers/$TRIGGER_JAR \
+-e CASSUSER=${CASS_USERNAME} \
+-e CASSPASS=${CASS_PASSWORD} \
+${CASS_IMG};
 
 CASSA_IP=`docker inspect -f '{{ $network := index .NetworkSettings.Networks "music-net" }}{{ $network.IPAddress}}' music-db`
 echo "CASSANDRA_IP=${CASSA_IP}"
@@ -75,7 +87,7 @@ echo "########## Running Cassandra Job (music-job) to load cql files ##########"
 docker run -d --name music-job --network music-net \
 -v $CQL_FILES/admin.cql:/cql/admin.cql \
 -v $CQL_FILES/admin_pw.cql:/cql/admin_pw.cql \
--v $CQL_FILES/test.cql:/cql/extra/test.cql \
+-v $CQL_FILES/extra:/cql/extra \
 -e PORT=9042 \
 -e CASS_HOSTNAME=music-db \
 -e USERNAME=$CASS_USERNAME \
