@@ -2,14 +2,28 @@
 
 set -euo pipefail
 
-pip uninstall -y docker-py
-pip install docker
+if [[ $# -eq 0 ]]; then
+  echo "Default run - install all dependencies"
 
-COMPOSE_VERSION=1.22.0
-COMPOSE_LOCATION='/usr/local/bin/docker-compose'
-sudo curl -L https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m) -o ${COMPOSE_LOCATION}
-sudo chmod +x ${COMPOSE_LOCATION}
+  pip uninstall -y docker-py
+  pip install docker
 
+  COMPOSE_VERSION=1.22.0
+  COMPOSE_LOCATION='/usr/local/bin/docker-compose'
+  sudo curl -L https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m) -o ${COMPOSE_LOCATION}
+  sudo chmod +x ${COMPOSE_LOCATION}
+
+  export DOCKER_REGISTRY="nexus3.onap.org:10001"
+  export DOCKER_REGISTRY_PREFIX="${DOCKER_REGISTRY}/"
+elif [[ $1 == "local" ]]; then
+  echo "Building locally - assuming all dependencies are installed"
+  export DOCKER_REGISTRY=""
+  export DOCKER_REGISTRY_PREFIX=""
+  export WORKSPACE=$(git rev-parse --show-toplevel)
+else
+  echo "usage: $0 [local]"
+  exit 1
+fi
 
 echo "Removing not used docker networks"
 docker network prune -f
@@ -19,14 +33,11 @@ echo "Creating network for containers: ${CONTAINERS_NETWORK}"
 docker network create ${CONTAINERS_NETWORK}
 
 cd ssl
-make FILE=client
-make FILE=server
-make FILE=invalid_client CA=invalid_trust
+./gen-certs.sh
 cd ..
 
-export DOCKER_REGISTRY="nexus3.onap.org:10001"
 docker-compose up -d
 
-mkdir ${WORKSPACE}/archives/containers_logs
+mkdir -p ${WORKSPACE}/archives/containers_logs
 
 export ROBOT_VARIABLES="--pythonpath ${WORKSPACE}/test/csit/tests/dcaegen2-collectors-hv-ves/testcases/libraries"
