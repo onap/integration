@@ -1,0 +1,81 @@
+version: '2.1'
+services:
+  datarouter-prov:
+    image: nexus3.onap.org:10001/onap/dmaap/datarouter-prov
+    container_name: datarouter-prov
+    hostname: dmaap-dr-prov
+    ports:
+     - "443:8443"
+     - "8443:8443"
+     - "8080:8080"
+    volumes:
+     - ./prov_data/provserver.properties:/opt/app/datartr/etc/provserver.properties
+     - ./prov_data/addSubscriber.txt:/opt/app/datartr/addSubscriber.txt
+     - ./prov_data/addFeed3.txt:/opt/app/datartr/addFeed3.txt
+    depends_on:
+      mariadb_container:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://dmaap-dr-prov:8080/internal/prov"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+  datarouter-node:
+    image: nexus3.onap.org:10001/onap/dmaap/datarouter-node
+    container_name: datarouter-node
+    hostname: dmaap-dr-node
+    ports:
+     - "9443:8443"
+     - "9090:8080"
+    volumes:
+     - ./node_data/node.properties:/opt/app/datartr/etc/node.properties
+    depends_on:
+      datarouter-prov:
+        condition: service_healthy
+
+  datarouter-subscriber:
+      image: nexus3.onap.org:10001/onap/dmaap/datarouter-subscriber
+      container_name: subscriber-node
+      hostname: subscriber.com
+      ports:
+       - "7070:7070"
+      volumes:
+       - ./subscriber_data/subscriber.properties:/opt/app/subscriber/etc/subscriber.properties
+
+  mariadb_container:
+    image: mariadb:10.2.14
+    container_name: mariadb
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: datarouter
+      MYSQL_DATABASE: datarouter
+      MYSQL_USER: datarouter
+      MYSQL_PASSWORD: datarouter
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "--silent"]
+      interval: 10s
+      timeout: 30s
+      retries: 5
+
+  sftp:
+    container_name: sftp
+    image: atmoz/sftp
+    ports:
+      - "2222:22"
+    volumes:
+      - /host/upload:/home/admin
+    command: admin:admin:1001
+
+  dfc:
+    container_name: dfc
+    image: quay.io/martin_yan_seu/datafile
+    ports:
+      - "8433:8433"
+
+  ves:
+    container_name: vescollector
+    image: nexus3.onap.org:10001/onap/org.onap.dcaegen2.collectors.ves.vescollector:1.3.1
+    environment:
+       DMAAPHOST:
