@@ -12,3 +12,4 @@ cd $WORKSPACE/test/csit/scripts
 ./kill-instance.sh dfc
 ./kill-instance.sh sftp
 sudo sed -i '/dmaap/d' /etc/hosts
+sudo set -i '/fileconsumer/d' /etc/hosts
