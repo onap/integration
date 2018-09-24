@@ -63,7 +63,8 @@ docker-compose up -d
 docker kill datarouter-prov
 docker kill datarouter-node
 docker kill vescollector
-sed -i -e '/DMAAPHOST:/ s/:.*/: '$DMAAP_MR_IP'/' docker-compose.yml
+HOST_IP=$(ip route get 8.8.8.8 | awk '/8.8.8.8/ {print $NF}')
+sed -i -e '/DMAAPHOST:/ s/:.*/: '$HOST_IP'/' docker-compose.yml
 MARIADB=$(docker inspect '--format={{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mariadb )
 sed -i 's/172.100.0.2/'$MARIADB'/g' $WORKSPACE/archives/dmaapdr/datarouter/docker-compose/prov_data/provserver.properties
 docker-compose up -d
@@ -90,10 +91,6 @@ DR_NODE_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}
 DR_SUBSCIBER_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' subscriber-node)
 DR_GATEWAY_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.Gateway}}{{end}}' datarouter-prov)
 
-#Add the DR_NODE_IP to /etc/hosts
-echo "${DR_NODE_IP} dmaap-dr-node" >> /etc/hosts
-echo "${DR_PROV_IP} dmaap-dr-prov" >> /etc/hosts
-
 echo DR_PROV_IP=${DR_PROV_IP}
 echo DR_NODE_IP=${DR_NODE_IP}
 echo DR_GATEWAY_IP=${DR_GATEWAY_IP}
@@ -110,12 +107,11 @@ DMAAP_MR_IP=$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPA
 KAFKA_IP=$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $KAFKA)
 ZOOKEEPER_IP=$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $ZOOKEEPER)
 VESC_IP=$(docker inspect '--format={{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' vescollector)
+SFTP_IP=$(docker inspect '--format={{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' sftp)
 
 export VESC_IP=${VESC_IP}
 export HOST_IP=${HOST_IP}
 export DMAAP_MR_IP=${DMAAP_MR_IP}
-
-echo "${DMAAP_MR_IP} dmaap-mr" >> /etc/hosts
 
 #Pass any variables required by Robot test suites in ROBOT_VARIABLES
 ROBOT_VARIABLES="-v DR_PROV_IP:${DR_PROV_IP} -v DR_NODE_IP:${DR_NODE_IP} -v DMAAP_MR_IP:${DMAAP_MR_IP} -v VESC_IP:${VESC_IP}"
@@ -123,3 +119,11 @@ ROBOT_VARIABLES="-v DR_PROV_IP:${DR_PROV_IP} -v DR_NODE_IP:${DR_NODE_IP} -v DMAA
 pip install jsonschema uuid
 # Wait container ready
 sleep 2
+# Update the File Ready Notification with actual sftp ip address
+sed -i 's/sftpserver/'${SFTP_IP}'/g' $WORKSPACE/test/csit/tests/dcae-bulkpm/testcases/assets/json_events/FileExistNotification.json
+#Create default feed in data router.
+curl -v -X POST -H "Content-Type:application/vnd.att-dr.feed" -H "X-ATT-DR-ON-BEHALF-OF:dradmin" --data-ascii @$WORKSPACE/test/csit/plans/dcae-bulkpm/bulkpm-suite/assets/createFeed.json --post301 --location-trusted -k https://${DR_PROV_IP}:8443
+#create file consumer subscriber on data router.
+cp $WORKSPACE/test/csit/plans/dcae-bulkpm/bulkpm-suite/assets/addSubscriber.json /tmp/addSubscriber.json
+sed -i 's/fileconsumer/'${DR_SUBSCIBER_IP}'/g' /tmp/addSubscriber.json
+curl -v -X POST -H "Content-Type:application/vnd.att-dr.subscription" -H "X-ATT-DR-ON-BEHALF-OF:dradmin" --data-ascii @/tmp/addSubscriber.json --post301 --location-trusted -k https://${DR_PROV_IP}:8443/subscribe/1
