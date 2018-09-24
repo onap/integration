@@ -5,6 +5,11 @@ Library       json
 
 *** Variables ***
 ${MESSAGE}    {"ping": "ok"}
+${BASIC}    Basic
+${Music_AUTHVALUE}    Y29uZHVjdG9yOmMwbmR1Y3Qwcg==
+${HAS_AUTHVALUE}    YWRtaW4xOnBsYW4uMTU=
+${Music_Auth}    ${BASIC} ${Music_AUTHVALUE}
+${HAS_Auth}    ${BASIC} ${HAS_AUTHVALUE}
 ${RESP_STATUS}     "error"
 ${RESP_MESSAGE_WRONG_VERSION}    "conductor_template_version must be one of: 2016-11-01"
 ${RESP_MESSAGE_WITHOUT_DEMANDS}    Undefined Demand
@@ -54,7 +59,7 @@ Check Music War Docker Container
 Get Music Version
     [Documentation]    It sends a REST GET request to retrieve the Music.war version
     Create Session   musicaas            ${MUSIC_HOSTNAME}:${MUSIC_PORT}
-    &{headers}=      Create Dictionary    Content-Type=application/json  Accept=application/json
+    &{headers}=      Create Dictionary    Authorization=${HAS_Auth}    Content-Type=application/json  Accept=application/json
     ${resp}=         Get Request        musicaas   /MUSIC/rest/v2/version     headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
@@ -109,7 +114,7 @@ Check ConductorData Docker Container
 Get Root Url
     [Documentation]    It sends a REST GET request to root url
     Create Session   optf-cond            ${COND_HOSTNAME}:${COND_PORT}
-    &{headers}=      Create Dictionary    Content-Type=application/json  Accept=application/json
+    &{headers}=      Create Dictionary    Authorization=${HAS_Auth}    Content-Type=application/json  Accept=application/json
     ${resp}=         Get Request        optf-cond   /     headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
@@ -121,7 +126,7 @@ Conductor AddHealthcheck Row Into Music
     [Documentation]    It sends a REST PUT request to Music to inject healthcheck plan
     Create Session   musicaas            ${MUSIC_HOSTNAME}:${MUSIC_PORT}
     ${data}=         Get Binary File     ${CURDIR}${/}data${/}healthcheck.json
-    &{headers}=      Create Dictionary    ns=conductor    userId=conductor    password=c0nduct0r   Content-Type=application/json  Accept=application/json
+    &{headers}=      Create Dictionary    ns=conductor    Authorization=${Music_Auth}    userId=conductor    password=c0nduct0r   Content-Type=application/json  Accept=application/json
     ${resp}=         Put Request        musicaas   /MUSIC/rest/v2/keyspaces/conductor/tables/plans/rows?id=healthcheck    data=${data}    headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
@@ -133,7 +138,7 @@ Conductor AddHealthcheck Row Into Music
 Healthcheck
     [Documentation]    It sends a REST GET request to healthcheck url
     Create Session   optf-cond            ${COND_HOSTNAME}:${COND_PORT}
-    &{headers}=      Create Dictionary    Content-Type=application/json  Accept=application/json
+    &{headers}=      Create Dictionary    Authorization=${HAS_Auth}    Content-Type=application/json  Accept=application/json
     ${resp}=         Get Request        optf-cond   /v1/plans/healthcheck     headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
@@ -144,7 +149,7 @@ SendPlanWithWrongVersion
     [Documentation]    It sends a POST request to conductor
     Create Session   optf-cond            ${COND_HOSTNAME}:${COND_PORT}
     ${data}=         Get Binary File     ${CURDIR}${/}data${/}plan_with_wrong_version.json
-    &{headers}=      Create Dictionary    Content-Type=application/json  Accept=application/json
+    &{headers}=      Create Dictionary    Authorization=${HAS_Auth}    Content-Type=application/json  Accept=application/json
     ${resp}=         Post Request        optf-cond   /v1/plans     data=${data}     headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
@@ -159,7 +164,7 @@ SendPlanWithWrongVersion
 GetPlanWithWrongVersion
     [Documentation]    It sends a REST GET request to capture error
     Create Session   optf-cond            ${COND_HOSTNAME}:${COND_PORT}
-    &{headers}=      Create Dictionary    Content-Type=application/json  Accept=application/json
+    &{headers}=      Create Dictionary    Authorization=${HAS_Auth}    Content-Type=application/json  Accept=application/json
     ${resp}=         Get Request        optf-cond   /v1/plans/${generatedPlanId}    headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
@@ -175,7 +180,7 @@ SendPlanWithoutDemandSection
     [Documentation]    It sends a POST request to conductor
     Create Session   optf-cond            ${COND_HOSTNAME}:${COND_PORT}
     ${data}=         Get Binary File     ${CURDIR}${/}data${/}plan_without_demand_section.json
-    &{headers}=      Create Dictionary    Content-Type=application/json  Accept=application/json
+    &{headers}=      Create Dictionary    Authorization=${HAS_Auth}    Content-Type=application/json  Accept=application/json
     ${resp}=         Post Request        optf-cond   /v1/plans     data=${data}     headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
@@ -190,7 +195,7 @@ SendPlanWithoutDemandSection
 GetPlanWithoutDemandSection
     [Documentation]    It sends a REST GET request to capture error
     Create Session   optf-cond            ${COND_HOSTNAME}:${COND_PORT}
-    &{headers}=      Create Dictionary    Content-Type=application/json  Accept=application/json
+    &{headers}=      Create Dictionary    Authorization=${HAS_Auth}    Content-Type=application/json  Accept=application/json
     ${resp}=         Get Request        optf-cond   /v1/plans/${generatedPlanId}    headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
@@ -206,7 +211,7 @@ SendPlanWithWrongConstraint
     [Documentation]    It sends a POST request to conductor
     Create Session   optf-cond            ${COND_HOSTNAME}:${COND_PORT}
     ${data}=         Get Binary File     ${CURDIR}${/}data${/}plan_with_wrong_distance_constraint.json
-    &{headers}=      Create Dictionary    Content-Type=application/json  Accept=application/json
+    &{headers}=      Create Dictionary    Authorization=${HAS_Auth}    Content-Type=application/json  Accept=application/json
     ${resp}=         Post Request        optf-cond   /v1/plans     data=${data}     headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
@@ -221,7 +226,7 @@ SendPlanWithWrongConstraint
 GetPlanWithWrongConstraint
     [Documentation]    It sends a REST GET request to capture error
     Create Session   optf-cond            ${COND_HOSTNAME}:${COND_PORT}
-    &{headers}=      Create Dictionary    Content-Type=application/json  Accept=application/json
+    &{headers}=      Create Dictionary    Authorization=${HAS_Auth}    Content-Type=application/json  Accept=application/json
     ${resp}=         Get Request        optf-cond   /v1/plans/${generatedPlanId}    headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
@@ -238,7 +243,7 @@ SendPlanWithLatiAndLongi
     [Documentation]    It sends a POST request to conductor
     Create Session   optf-cond            ${COND_HOSTNAME}:${COND_PORT}
     ${data}=         Get Binary File     ${CURDIR}${/}data${/}plan_with_lati_and_longi.json
-    &{headers}=      Create Dictionary    Content-Type=application/json  Accept=application/json
+    &{headers}=      Create Dictionary    Authorization=${HAS_Auth}    Content-Type=application/json  Accept=application/json
     ${resp}=         Post Request        optf-cond   /v1/plans     data=${data}     headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
@@ -253,7 +258,7 @@ SendPlanWithLatiAndLongi
 GetPlanWithLatiAndLongi
     [Documentation]    It sends a REST GET request to capture recommendations
     Create Session   optf-cond            ${COND_HOSTNAME}:${COND_PORT}
-    &{headers}=      Create Dictionary    Content-Type=application/json  Accept=application/json
+    &{headers}=      Create Dictionary    Authorization=${HAS_Auth}    Content-Type=application/json  Accept=application/json
     ${resp}=         Get Request        optf-cond   /v1/plans/${generatedPlanId}    headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
@@ -269,7 +274,7 @@ SendPlanWithShortDistanceConstraint
     [Documentation]    It sends a POST request to conductor
     Create Session   optf-cond            ${COND_HOSTNAME}:${COND_PORT}
     ${data}=         Get Binary File     ${CURDIR}${/}data${/}plan_with_short_distance_constraint.json
-    &{headers}=      Create Dictionary    Content-Type=application/json  Accept=application/json
+    &{headers}=      Create Dictionary    Authorization=${HAS_Auth}    Content-Type=application/json  Accept=application/json
     ${resp}=         Post Request        optf-cond   /v1/plans     data=${data}     headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
@@ -284,7 +289,7 @@ SendPlanWithShortDistanceConstraint
 GetPlanWithShortDistanceConstraint
     [Documentation]    It sends a REST GET request to capture recommendations
     Create Session   optf-cond            ${COND_HOSTNAME}:${COND_PORT}
-    &{headers}=      Create Dictionary    Content-Type=application/json  Accept=application/json
+    &{headers}=      Create Dictionary    Authorization=${HAS_Auth}    Content-Type=application/json  Accept=application/json
     ${resp}=         Get Request        optf-cond   /v1/plans/${generatedPlanId}    headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
@@ -300,7 +305,7 @@ SendPlanWithVimFit
     [Documentation]    It sends a POST request to conductor
     Create Session   optf-cond            ${COND_HOSTNAME}:${COND_PORT}
     ${data}=         Get Binary File     ${CURDIR}${/}data${/}plan_with_vim_fit.json
-    &{headers}=      Create Dictionary    Content-Type=application/json  Accept=application/json
+    &{headers}=      Create Dictionary    Authorization=${HAS_Auth}    Content-Type=application/json  Accept=application/json
     ${resp}=         Post Request        optf-cond   /v1/plans     data=${data}     headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
@@ -315,7 +320,7 @@ SendPlanWithVimFit
 GetPlanWithVimFit
     [Documentation]    It sends a REST GET request to capture recommendations
     Create Session   optf-cond            ${COND_HOSTNAME}:${COND_PORT}
-    &{headers}=      Create Dictionary    Content-Type=application/json  Accept=application/json
+    &{headers}=      Create Dictionary    Authorization=${HAS_Auth}    Content-Type=application/json  Accept=application/json
     ${resp}=         Get Request        optf-cond   /v1/plans/${generatedPlanId}    headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
@@ -331,7 +336,7 @@ SendPlanWithHpa
     [Documentation]    It sends a POST request to conductor
     Create Session   optf-cond            ${COND_HOSTNAME}:${COND_PORT}
     ${data}=         Get Binary File     ${CURDIR}${/}data${/}plan_with_hpa.json
-    &{headers}=      Create Dictionary    Content-Type=application/json  Accept=application/json
+    &{headers}=      Create Dictionary    Authorization=${HAS_Auth}    Content-Type=application/json  Accept=application/json
     ${resp}=         Post Request        optf-cond   /v1/plans     data=${data}     headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
@@ -346,7 +351,7 @@ SendPlanWithHpa
 GetPlanWithHpa
     [Documentation]    It sends a REST GET request to capture recommendations
     Create Session   optf-cond            ${COND_HOSTNAME}:${COND_PORT}
-    &{headers}=      Create Dictionary    Content-Type=application/json  Accept=application/json
+    &{headers}=      Create Dictionary    Authorization=${HAS_Auth}    Content-Type=application/json  Accept=application/json
     ${resp}=         Get Request        optf-cond   /v1/plans/${generatedPlanId}    headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
@@ -362,7 +367,7 @@ SendPlanWithHpaSimple
     [Documentation]    It sends a POST request to conductor
     Create Session   optf-cond            ${COND_HOSTNAME}:${COND_PORT}
     ${data}=         Get Binary File     ${CURDIR}${/}data${/}plan_with_hpa_simple.json
-    &{headers}=      Create Dictionary    Content-Type=application/json  Accept=application/json
+    &{headers}=      Create Dictionary    Authorization=${HAS_Auth}    Content-Type=application/json  Accept=application/json
     ${resp}=         Post Request        optf-cond   /v1/plans     data=${data}     headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
@@ -377,7 +382,7 @@ SendPlanWithHpaSimple
 GetPlanWithHpaSimple
     [Documentation]    It sends a REST GET request to capture recommendations
     Create Session   optf-cond            ${COND_HOSTNAME}:${COND_PORT}
-    &{headers}=      Create Dictionary    Content-Type=application/json  Accept=application/json
+    &{headers}=      Create Dictionary    Authorization=${HAS_Auth}    Content-Type=application/json  Accept=application/json
     ${resp}=         Get Request        optf-cond   /v1/plans/${generatedPlanId}    headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
@@ -393,7 +398,7 @@ SendPlanWithHpaMandatory
     [Documentation]    It sends a POST request to conductor
     Create Session   optf-cond            ${COND_HOSTNAME}:${COND_PORT}
     ${data}=         Get Binary File     ${CURDIR}${/}data${/}plan_with_hpa_requirements_mandatory.json
-    &{headers}=      Create Dictionary    Content-Type=application/json  Accept=application/json
+    &{headers}=      Create Dictionary    Authorization=${HAS_Auth}    Content-Type=application/json  Accept=application/json
     ${resp}=         Post Request        optf-cond   /v1/plans     data=${data}     headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
@@ -408,7 +413,7 @@ SendPlanWithHpaMandatory
 GetPlanWithHpaMandatory
     [Documentation]    It sends a REST GET request to capture recommendations
     Create Session   optf-cond            ${COND_HOSTNAME}:${COND_PORT}
-    &{headers}=      Create Dictionary    Content-Type=application/json  Accept=application/json
+    &{headers}=      Create Dictionary    Authorization=${HAS_Auth}    Content-Type=application/json  Accept=application/json
     ${resp}=         Get Request        optf-cond   /v1/plans/${generatedPlanId}    headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
@@ -424,7 +429,7 @@ SendPlanWithHpaOptionals
     [Documentation]    It sends a POST request to conductor
     Create Session   optf-cond            ${COND_HOSTNAME}:${COND_PORT}
     ${data}=         Get Binary File     ${CURDIR}${/}data${/}plan_with_hpa_requirements_optionals.json
-    &{headers}=      Create Dictionary    Content-Type=application/json  Accept=application/json
+    &{headers}=      Create Dictionary    Authorization=${HAS_Auth}    Content-Type=application/json  Accept=application/json
     ${resp}=         Post Request        optf-cond   /v1/plans     data=${data}     headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
@@ -439,7 +444,7 @@ SendPlanWithHpaOptionals
 GetPlanWithHpaOptionals
     [Documentation]    It sends a REST GET request to capture recommendations
     Create Session   optf-cond            ${COND_HOSTNAME}:${COND_PORT}
-    &{headers}=      Create Dictionary    Content-Type=application/json  Accept=application/json
+    &{headers}=      Create Dictionary    Authorization=${HAS_Auth}    Content-Type=application/json  Accept=application/json
     ${resp}=         Get Request        optf-cond   /v1/plans/${generatedPlanId}    headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
@@ -455,7 +460,7 @@ SendPlanWithHpaUnmatched
     [Documentation]    It sends a POST request to conductor
     Create Session   optf-cond            ${COND_HOSTNAME}:${COND_PORT}
     ${data}=         Get Binary File     ${CURDIR}${/}data${/}plan_with_hpa_unmatched.json
-    &{headers}=      Create Dictionary    Content-Type=application/json  Accept=application/json
+    &{headers}=      Create Dictionary    Authorization=${HAS_Auth}    Content-Type=application/json  Accept=application/json
     ${resp}=         Post Request        optf-cond   /v1/plans     data=${data}     headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
@@ -470,7 +475,7 @@ SendPlanWithHpaUnmatched
 GetPlanWithHpaUnmatched
     [Documentation]    It sends a REST GET request to capture recommendations
     Create Session   optf-cond            ${COND_HOSTNAME}:${COND_PORT}
-    &{headers}=      Create Dictionary    Content-Type=application/json  Accept=application/json
+    &{headers}=      Create Dictionary    Authorization=${HAS_Auth}    Content-Type=application/json  Accept=application/json
     ${resp}=         Get Request        optf-cond   /v1/plans/${generatedPlanId}    headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
@@ -487,7 +492,7 @@ SendPlanWithHpaScoreMultiObj
     [Documentation]    It sends a POST request to conductor
     Create Session   optf-cond            ${COND_HOSTNAME}:${COND_PORT}
     ${data}=         Get Binary File     ${CURDIR}${/}data${/}plan_with_hpa_score_multi_objective.json
-    &{headers}=      Create Dictionary    Content-Type=application/json  Accept=application/json
+    &{headers}=      Create Dictionary    Authorization=${HAS_Auth}    Content-Type=application/json  Accept=application/json
     ${resp}=         Post Request        optf-cond   /v1/plans     data=${data}     headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
@@ -502,7 +507,7 @@ SendPlanWithHpaScoreMultiObj
 GetPlanWithHpaScoreMultiObj
     [Documentation]    It sends a REST GET request to capture recommendations
     Create Session   optf-cond            ${COND_HOSTNAME}:${COND_PORT}
-    &{headers}=      Create Dictionary    Content-Type=application/json  Accept=application/json
+    &{headers}=      Create Dictionary    Authorization=${HAS_Auth}    Content-Type=application/json  Accept=application/json
     ${resp}=         Get Request        optf-cond   /v1/plans/${generatedPlanId}    headers=${headers}
     Log To Console              *********************
     Log To Console              response = ${resp}
