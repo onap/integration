@@ -1,6 +1,7 @@
 #Robot functions that will be shared also with other tests
 *** Settings ***
 Library     OperatingSystem
+Library     HttpLibrary.HTTP
 
 *** Keywords ***
 json_from_file
