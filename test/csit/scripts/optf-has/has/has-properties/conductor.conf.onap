@@ -124,6 +124,14 @@ log_dir = /var/log
 # Enables or disables fatal status of deprecations. (boolean value)
 #fatal_deprecations = false
 
+[aaf_authentication]
+
+#
+# From conductor
+#
+
+# is_aaf_enabled. (boolean value)
+is_aaf_enabled = false
 
 [aai]
 
@@ -143,7 +151,7 @@ server_url = http://localhost:8081/aai/
 
 
 # The version of A&AI (string value)
-server_url_version = v13
+server_url_version = v14
 
 # SSL/TLS certificate file in pem format. This certificate must be registered
 # with the A&AI endpoint. (string value)
@@ -178,7 +186,7 @@ username = admin1
 password = plan.15
 
 # To disable basic_auth_secure = false and to enable basic_auth_secure = true
-basic_auth_secure = false
+basic_auth_secure = true
 
 
 
@@ -252,7 +260,7 @@ music_new_version = True
 # Base URL for Music REST API without a trailing slash. (string value)
 server_url = http://localhost:8080/MUSIC/rest/v2
 version = v2
-music_version = "2.5.3"
+music_version = "3.0.19"
 aafuser = conductor
 aafpass = c0nduct0r
 aafns = conductor
