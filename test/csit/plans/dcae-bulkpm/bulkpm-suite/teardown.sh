@@ -1,8 +1,14 @@
 #!/bin/bash
 echo "Starting teardown script"
-kill-instance.sh vesc
-cd $WORKSPACE/archives/dmaapmr/messageservice/src/main/resources/docker-compose
-docker-compose down -v
-cd $WORKSPACE/archives/dmaapdr/datarouter/docker-compose/
-docker-compose down -v
+cd $WORKSPACE/test/csit/scripts
+./kill-instance.sh $DMAAP
+./kill-instance.sh $KAFKA
+./kill-instance.sh $ZOOKEEPER
+./kill-instance.sh vescollector
+./kill-instance.sh datarouter-node
+./kill-instance.sh datarouter-prov
+./kill-instance.sh subscriber-node
+./kill-instance.sh mariadb
+./kill-instance.sh dfc
+./kill-instance.sh sftp
 sudo sed -i '/dmaap/d' /etc/hosts
