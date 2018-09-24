@@ -36,14 +36,18 @@ echo "#";
 echo "# music scripts docker containers killing";
 echo "#";
 echo "##########################################################";
-docker stop music-tomcat 
-docker stop music-war 
-docker stop music-zk 
+docker stop music-tomcat
+docker stop music-war
+docker stop music-zk
+docker stop music-job
+docker stop music-casstest
 docker stop music-db
 
-docker rm music-zk 
-docker rm music-tomcat 
-docker rm music-war 
+docker rm music-zk
+docker rm music-tomcat
+docker rm music-war
+docker rm music-job
+docker rm music-casstest
 docker rm music-db
 
 docker network rm music-net;
