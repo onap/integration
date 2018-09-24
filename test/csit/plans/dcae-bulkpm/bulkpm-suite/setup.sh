@@ -123,3 +123,7 @@ ROBOT_VARIABLES="-v DR_PROV_IP:${DR_PROV_IP} -v DR_NODE_IP:${DR_NODE_IP} -v DMAA
 pip install jsonschema uuid
 # Wait container ready
 sleep 2
+#Create default feed in data router.
+curl -v -X POST -H "Content-Type:application/vnd.att-dr.feed" -H "X-ATT-DR-ON-BEHALF-OF:dradmin" --data-ascii @$WORKSPACE/test/csit/plans/dcae-bulkpm/bulkpm-suite/assets/createFeed.json --post301 --location-trusted -k https://dmaap-dr-prov:8443
+#create file consumer subscriber on data router.
+curl -v -X POST -H "Content-Type:application/vnd.att-dr.subscription" -H "X-ATT-DR-ON-BEHALF-OF:dradmin" --data-ascii @$WORKSPACE/test/csit/plans/dcae-bulkpm/bulkpm-suite/assets/addSubscriber.json --post301 --location-trusted -k https://dmaap-dr-prov:8443/subscribe/1
