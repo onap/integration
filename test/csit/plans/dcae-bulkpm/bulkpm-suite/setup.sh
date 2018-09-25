@@ -85,10 +85,10 @@ done
 
 sleep 5
 
-# Get IP address of datarrouger-prov, datarouter-node, subscriber-node, subscriber-node.
+# Get IP address of datarrouger-prov, datarouter-node, fileconsumer-node.
 DR_PROV_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' datarouter-prov)
 DR_NODE_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' datarouter-node)
-DR_SUBSCIBER_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' subscriber-node)
+DR_SUBSCIBER_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' fileconsumer-node)
 DR_GATEWAY_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.Gateway}}{{end}}' datarouter-prov)
 
 echo DR_PROV_IP=${DR_PROV_IP}
@@ -119,11 +119,23 @@ ROBOT_VARIABLES="-v DR_PROV_IP:${DR_PROV_IP} -v DR_NODE_IP:${DR_NODE_IP} -v DMAA
 pip install jsonschema uuid
 # Wait container ready
 sleep 2
-# Update the File Ready Notification with actual sftp ip address
-sed -i 's/sftpserver/'${SFTP_IP}'/g' $WORKSPACE/test/csit/tests/dcae-bulkpm/testcases/assets/json_events/FileExistNotification.json
-#Create default feed in data router.
+
+# Data File Collector configuration :
+cp $WORKSPACE/test/csit/plans/dcae-bulkpm/bulkpm-suite/assets/datafile_endpoints.json /tmp/
+sed -i 's/dmaapmrhost/'${DMAAP_MR_IP}'/g' /tmp/datafile_endpoints.json
+sed -i 's/dmaapdrhost/'${DR_PROV_IP}'/g' /tmp/datafile_endpoints.json
+docker cp /tmp/datafile_endpoints.json dfc:/config/
+docker restart dfc
+
+# SFTP Configuration:
+# Update the File Ready Notification with actual sftp ip address and copy pm files to sftp server.
+cp $WORKSPACE/test/csit/tests/dcae-bulkpm/testcases/assets/json_events/FileExistNotification.json /tmp/
+sed -i 's/sftpserver/'${SFTP_IP}'/g' /tmp/FileExistNotification.json
+docker cp $WORKSPACE/test/csit/plans/dcae-bulkpm/bulkpm-suite/assets/xNF.pm.xml.gz sftp:/home/admin/
+
+# Data Router Configuration:
+# Create default feed and create file consumer subscriber on data router
 curl -v -X POST -H "Content-Type:application/vnd.att-dr.feed" -H "X-ATT-DR-ON-BEHALF-OF:dradmin" --data-ascii @$WORKSPACE/test/csit/plans/dcae-bulkpm/bulkpm-suite/assets/createFeed.json --post301 --location-trusted -k https://${DR_PROV_IP}:8443
-#create file consumer subscriber on data router.
 cp $WORKSPACE/test/csit/plans/dcae-bulkpm/bulkpm-suite/assets/addSubscriber.json /tmp/addSubscriber.json
 sed -i 's/fileconsumer/'${DR_SUBSCIBER_IP}'/g' /tmp/addSubscriber.json
 curl -v -X POST -H "Content-Type:application/vnd.att-dr.subscription" -H "X-ATT-DR-ON-BEHALF-OF:dradmin" --data-ascii @/tmp/addSubscriber.json --post301 --location-trusted -k https://${DR_PROV_IP}:8443/subscribe/1

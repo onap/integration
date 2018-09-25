@@ -19,9 +19,9 @@
             "changeType": "FileReady",
             "notificationFieldsVersion": "2.0",
             "arrayOfNamedHashMap": [
-                { "name": "pm.xml.gz",
+                { "name": "xNF.pm.xml.gz",
                   "hashMap":{
-                            "location": "sftp://admin:admin@sftpserver:22/pm.xml.gz",
+                            "location": "sftp://admin:admin@sftpserver:22/xNF.pm.xml.gz",
                             "compression": "gzip",
                             "fileFormatType": "org.3GPP.32.435#measCollec",
                             "fileFormatVersion": "V10"
