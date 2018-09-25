@@ -6,7 +6,7 @@ kill-instance.sh $ZOOKEEPER
 kill-instance.sh vescollector
 kill-instance.sh datarouter-node
 kill-instance.sh datarouter-prov
-kill-instance.sh subscriber-node
+kill-instance.sh fileconsumer-node
 kill-instance.sh mariadb
 kill-instance.sh dfc
 kill-instance.sh sftp
