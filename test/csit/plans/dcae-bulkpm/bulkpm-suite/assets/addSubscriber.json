@@ -1,0 +1,18 @@
+{
+    "delivery":{
+       "url":"http://fileconsumer:7070",
+       "user":"LOGIN",
+       "password":"PASSWORD",
+       "use100":true
+    },
+    "follow_redirect":false,
+    "metadataOnly":false,
+    "suspend":false,
+    "groupid":0,
+    "links":{
+       "self": "https://dmaap-dr-prov/subscribe/1",
+       "log": "https://dmaap-dr-prov/feedlog/1",
+       "feed": "https://dmaap-dr-prov/feed/1"
+    },
+    "subscriber":"admin"
+ }
