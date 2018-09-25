@@ -25,3 +25,4 @@ seccom/
 .idea
 *.iml
 
+/bin/
