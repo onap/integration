@@ -80,17 +80,17 @@ UnDeploy BPMN File Testt On MgrService
     ${resp}=    Delete Request    web_session    /api/workflow/v1/package/${deployedId}
     Should Be Equal    ${resp.status_code}    ${200}
 
-# Deploy BPMN File Test On MSB
-#     [Documentation]    Check if the test bpmn file can be deployed in activiti engine
-#     ${auth}=    Create List    kermit    kermit
-#     ${headers}=    Create Dictionary    Accept=application/json
-#     Create Session    web_session    http://${MSB_IP}:${MSB_PORT}    headers=${headers}    auth=${auth}
-#     ${files}=    evaluate    {"file":open('${bmpfilepath}','rb')}
-#     ${resp}=    Post Request    web_session    api/workflow/v1/package    files=${files}
-#     Should Be Equal    ${resp.status_code}    ${200}
-#     Log    ${resp.json()}
-#     ${deployedId}=    Set Variable    ${resp.json()["deployedId"]}
-#     Set Global Variable    ${deployedId}
+Deploy BPMN File Test On MSB
+    [Documentation]    Check if the test bpmn file can be deployed in activiti engine
+    ${auth}=    Create List    kermit    kermit
+    ${headers}=    Create Dictionary    Accept=application/json
+    Create Session    web_session    http://${MSB_IP}:${MSB_PORT}    headers=${headers}    auth=${auth}
+    ${files}=    evaluate    {"file":open('${bmpfilepath}','rb')}
+    ${resp}=    Post Request    web_session    api/workflow/v1/package    files=${files}
+    Should Be Equal    ${resp.status_code}    ${200}
+    Log    ${resp.json()}
+    ${deployedId}=    Set Variable    ${resp.json()["deployedId"]}
+    Set Global Variable    ${deployedId}
 
 # Exectue BPMN File Testt On MSB
 #     [Documentation]    Check if the test bpmn file can be exectued in MSB
