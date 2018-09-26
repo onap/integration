@@ -1,0 +1,22 @@
+{
+  "requestInfo": {
+    "transactionId": "xxx-xxx-xxxx",
+    "requestId": "yyy-yyy-yyyy",
+    "callbackUrl": "https://wiki.onap.org:5000/callbackUrl/",
+    "sourceId": "SO",
+    "requestType": "create",
+    "numSolutions": 1,
+    "optimizers": [
+      "placement"
+    ],
+    "timeout": 600
+  },
+  "cellInfo": {
+    "networkId": "1000",
+    "cellIdList": [
+      {
+        "cellId": "cell0"
+      }
+    ]
+  }
+}
