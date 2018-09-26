@@ -1,0 +1,452 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_a84cb577",
+        "filename": "test/csit/plans/optf-has/osdf/teardown.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 3905
+      },
+      "writtenOn": "2018-09-26T10:15:15Z",
+      "side": 1,
+      "message": "Use kill-instance.sh",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 80
+      },
+      "revId": "bdedaaf1843cce0a32016125bd6f6e69b32dce78",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_483de1ba",
+        "filename": "test/csit/scripts/optf-has/osdf/osdf_teardown_script.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3905
+      },
+      "writtenOn": "2018-09-26T10:15:15Z",
+      "side": 1,
+      "message": "Redundant file",
+      "revId": "bdedaaf1843cce0a32016125bd6f6e69b32dce78",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_2840a534",
+        "filename": "test/csit/scripts/optf-has/osdf/simulator_teardown_script.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3905
+      },
+      "writtenOn": "2018-09-26T10:15:15Z",
+      "side": 1,
+      "message": "Redundant file",
+      "revId": "bdedaaf1843cce0a32016125bd6f6e69b32dce78",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_8848d988",
+        "filename": "test/csit/tests/optf-has/osdf/opt_osdf_test.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 3905
+      },
+      "writtenOn": "2018-09-26T10:15:15Z",
+      "side": 1,
+      "message": "Currently you don\u0027t need it.",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 18
+      },
+      "revId": "bdedaaf1843cce0a32016125bd6f6e69b32dce78",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_6843fd6c",
+        "filename": "test/csit/tests/optf-has/osdf/opt_osdf_test.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 3905
+      },
+      "writtenOn": "2018-09-26T10:15:15Z",
+      "side": 1,
+      "message": "You don\u0027t use it.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 15
+      },
+      "revId": "bdedaaf1843cce0a32016125bd6f6e69b32dce78",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_4822c102",
+        "filename": "test/csit/tests/optf-has/osdf/opt_osdf_test.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 3905
+      },
+      "writtenOn": "2018-09-26T10:15:15Z",
+      "side": 1,
+      "message": "Thic TC tests container, env... not component. It shouldn\u0027t be here",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 44
+      },
+      "revId": "bdedaaf1843cce0a32016125bd6f6e69b32dce78",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_c899f120",
+        "filename": "test/csit/tests/optf-has/osdf/opt_osdf_test.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 3905
+      },
+      "writtenOn": "2018-09-26T10:15:15Z",
+      "side": 1,
+      "message": "You can create both session (with and without auth) and set it as Suite Variable in new keyword. Use this keyword in \u0027Suite Setup\u0027",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 71
+      },
+      "revId": "bdedaaf1843cce0a32016125bd6f6e69b32dce78",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_08736916",
+        "filename": "test/csit/tests/optf-has/osdf/opt_osdf_test.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 3905
+      },
+      "writtenOn": "2018-09-26T10:15:15Z",
+      "side": 1,
+      "message": "Create Suite Variable in keyword and setup it in \u0027Suite Setup\u0027",
+      "range": {
+        "startLine": 37,
+        "startChar": 1,
+        "endLine": 37,
+        "endChar": 96
+      },
+      "revId": "bdedaaf1843cce0a32016125bd6f6e69b32dce78",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_689e9d09",
+        "filename": "test/csit/tests/optf-has/osdf/opt_osdf_test.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 3905
+      },
+      "writtenOn": "2018-09-26T10:15:15Z",
+      "side": 1,
+      "message": "When we have suite var we can remove it.",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 71
+      },
+      "revId": "bdedaaf1843cce0a32016125bd6f6e69b32dce78",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_6859bd8d",
+        "filename": "test/csit/tests/optf-has/osdf/opt_osdf_test.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 3905
+      },
+      "writtenOn": "2018-09-26T10:15:15Z",
+      "side": 1,
+      "message": "When we have suite var we can remove it.",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 96
+      },
+      "revId": "bdedaaf1843cce0a32016125bd6f6e69b32dce78",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_28dae5e9",
+        "filename": "test/csit/tests/optf-has/osdf/opt_osdf_test.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 3905
+      },
+      "writtenOn": "2018-09-26T10:15:15Z",
+      "side": 1,
+      "message": "You create var, but don\u0027t use it. Use it or remove.",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 53
+      },
+      "revId": "bdedaaf1843cce0a32016125bd6f6e69b32dce78",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_a8bb5574",
+        "filename": "test/csit/tests/optf-has/osdf/opt_osdf_test.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 3905
+      },
+      "writtenOn": "2018-09-26T10:15:15Z",
+      "side": 1,
+      "message": "Auth you will have in suite setup - you can remove it.",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 71
+      },
+      "revId": "bdedaaf1843cce0a32016125bd6f6e69b32dce78",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_885e9975",
+        "filename": "test/csit/tests/optf-has/osdf/opt_osdf_test.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 3905
+      },
+      "writtenOn": "2018-09-26T10:15:15Z",
+      "side": 1,
+      "message": "When we have suite var we can remove it.",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 96
+      },
+      "revId": "bdedaaf1843cce0a32016125bd6f6e69b32dce78",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_4885e1ab",
+        "filename": "test/csit/tests/optf-has/osdf/opt_osdf_test.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 3905
+      },
+      "writtenOn": "2018-09-26T10:15:15Z",
+      "side": 1,
+      "message": "When we have suite var we can remove it.",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 108
+      },
+      "revId": "bdedaaf1843cce0a32016125bd6f6e69b32dce78",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_88d539bb",
+        "filename": "test/csit/tests/optf-has/osdf/opt_osdf_test.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 3905
+      },
+      "writtenOn": "2018-09-26T10:15:15Z",
+      "side": 1,
+      "message": "You create var, but don\u0027t use it. Use it or remove.",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 53
+      },
+      "revId": "bdedaaf1843cce0a32016125bd6f6e69b32dce78",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_68b53d7d",
+        "filename": "test/csit/tests/optf-has/osdf/opt_osdf_test.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 3905
+      },
+      "writtenOn": "2018-09-26T10:15:15Z",
+      "side": 1,
+      "message": "Auth you will have in suite setup - you can remove it.",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 64
+      },
+      "revId": "bdedaaf1843cce0a32016125bd6f6e69b32dce78",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_2853c56d",
+        "filename": "test/csit/tests/optf-has/osdf/opt_osdf_test.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 3905
+      },
+      "writtenOn": "2018-09-26T10:15:15Z",
+      "side": 1,
+      "message": "When we have suite var we can remove it.",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 96
+      },
+      "revId": "bdedaaf1843cce0a32016125bd6f6e69b32dce78",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_e8914df2",
+        "filename": "test/csit/tests/optf-has/osdf/opt_osdf_test.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 3905
+      },
+      "writtenOn": "2018-09-26T10:15:15Z",
+      "side": 1,
+      "message": "When we have suite var we can remove it.",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 108
+      },
+      "revId": "bdedaaf1843cce0a32016125bd6f6e69b32dce78",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_a8c6f514",
+        "filename": "test/csit/tests/optf-has/osdf/opt_osdf_test.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 3905
+      },
+      "writtenOn": "2018-09-26T10:15:15Z",
+      "side": 1,
+      "message": "You create var, but don\u0027t use it. Use it or remove.",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 53
+      },
+      "revId": "bdedaaf1843cce0a32016125bd6f6e69b32dce78",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_287665d9",
+        "filename": "test/csit/tests/optf-has/osdf/opt_osdf_test.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 3905
+      },
+      "writtenOn": "2018-09-26T10:15:15Z",
+      "side": 1,
+      "message": "401 Unauthorized - is it correct?",
+      "range": {
+        "startLine": 82,
+        "startChar": 58,
+        "endLine": 82,
+        "endChar": 61
+      },
+      "revId": "bdedaaf1843cce0a32016125bd6f6e69b32dce78",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
