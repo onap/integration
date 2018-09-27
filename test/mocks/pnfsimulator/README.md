@@ -36,10 +36,9 @@ After that again execute sftp command: *sftp -P 2222 -i ssh/ssh_host_rsa_key sft
 In order to disable usage of SSH keys and start using password, change in *docker-compose.yml* service *sftp-service* entry *command* from *sftp-user::1001* to *sftp-user:password:1001*
 
 ###FTPES support
-PNF Simulator allows to serve files via FTPES server. FTPES server has predefined user: onap with password: pano. 
-In order to connect we execute command *ftp-ssl host* and then enter user name and password.
-In order to download execute command while logged in*get file_name*.
-In order to add a new file execute command while logged in*put file_name*.
+PNF Simulator allows to serve files via FTPES server. FTPES server has predefined user *onap* with password *pano*. 
+In order to connect execute command *ftp -p localhost 2221* and then when requested provide user and password.
+In order to download a file execute while being logged in *get file-name-to-be-downloaded*.
 
 ###Developer mode
 For development of PNF Simulator, run *simulator.sh* start-dev in order to run Netopeer.

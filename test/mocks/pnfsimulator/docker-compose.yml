@@ -45,11 +45,15 @@ services:
     image: stilliard/pure-ftpd:latest
     ports:
       - "2221:21"
+      - "30000-30009:30000-30009"
     volumes:
+      - ./ftpes/files:/home/ftpusers/onap
       - ./ftpes/userpass/:/etc/pure-ftpd/passwd/
-      - ./ftpes/tls/:/etc/ssl/private/
-      - ./ftpes/files:/home/onap
+      #- ./ftpes/tls/:/etc/ssl/private/
+
     environment:
       PUBLICHOST: localhost
-      ADDED_FLAGS: --tls=2
+      #ADDED_FLAGS: --tls=2
+      FTP_USER_HOME: onap
+
     restart: on-failure
