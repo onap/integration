@@ -57,7 +57,7 @@ git clone --depth 1 https://gerrit.onap.org/r/dmaap/datarouter -b master
 cd datarouter
 cd $WORKSPACE/archives/dmaapdr/datarouter/docker-compose/
 rm -rf docker-compose.yml
-cp $WORKSPACE/test/csit/plans/dcae-bulkpm/bulkpm-suite/composefile/docker-compose-e2e.yml $WORKSPACE/archives/dmaapdr/datarouter/docker-compose/docker-compose.yml
+cp $WORKSPACE/test/csit/plans/usecases/5G-bulkpm/composefile/docker-compose-e2e.yml $WORKSPACE/archives/dmaapdr/datarouter/docker-compose/docker-compose.yml
 docker login -u docker -p docker nexus3.onap.org:10001
 docker-compose up -d
 docker kill datarouter-prov
@@ -121,7 +121,7 @@ pip install jsonschema uuid
 sleep 2
 
 # Data File Collector configuration :
-cp $WORKSPACE/test/csit/plans/dcae-bulkpm/bulkpm-suite/assets/datafile_endpoints.json /tmp/
+cp $WORKSPACE/test/csit/plans/usecases/5G-bulkpm/assets/datafile_endpoints.json /tmp/
 sed -i 's/dmaapmrhost/'${DMAAP_MR_IP}'/g' /tmp/datafile_endpoints.json
 sed -i 's/dmaapdrhost/'${DR_PROV_IP}'/g' /tmp/datafile_endpoints.json
 docker cp /tmp/datafile_endpoints.json dfc:/config/
@@ -129,13 +129,13 @@ docker restart dfc
 
 # SFTP Configuration:
 # Update the File Ready Notification with actual sftp ip address and copy pm files to sftp server.
-cp $WORKSPACE/test/csit/tests/dcae-bulkpm/testcases/assets/json_events/FileExistNotification.json $WORKSPACE/test/csit/tests/dcae-bulkpm/testcases/assets/json_events/FileExistNotificationUpdated.json
-sed -i 's/sftpserver/'${SFTP_IP}'/g' $WORKSPACE/test/csit/tests/dcae-bulkpm/testcases/assets/json_events/FileExistNotificationUpdated.json
-docker cp $WORKSPACE/test/csit/plans/dcae-bulkpm/bulkpm-suite/assets/xNF.pm.xml.gz sftp:/home/admin/
+cp $WORKSPACE/test/csit/tests/usecases/5G-bulkpm/assets/json_events/FileExistNotification.json $WORKSPACE/test/csit/tests/usecases/5G-bulkpm-bulkpm/testcases/assets/json_events/FileExistNotificationUpdated.json
+sed -i 's/sftpserver/'${SFTP_IP}'/g' $WORKSPACE/test/csit/tests/usecases/5G-bulkpm/assets/json_events/FileExistNotificationUpdated.json
+docker cp $WORKSPACE/test/csit/plans/usecases/5G-bulkpm/assets/xNF.pm.xml.gz sftp:/home/admin/
 
 # Data Router Configuration:
 # Create default feed and create file consumer subscriber on data router
-curl -v -X POST -H "Content-Type:application/vnd.att-dr.feed" -H "X-ATT-DR-ON-BEHALF-OF:dradmin" --data-ascii @$WORKSPACE/test/csit/plans/dcae-bulkpm/bulkpm-suite/assets/createFeed.json --post301 --location-trusted -k https://${DR_PROV_IP}:8443
-cp $WORKSPACE/test/csit/plans/dcae-bulkpm/bulkpm-suite/assets/addSubscriber.json /tmp/addSubscriber.json
+curl -v -X POST -H "Content-Type:application/vnd.att-dr.feed" -H "X-ATT-DR-ON-BEHALF-OF:dradmin" --data-ascii @$WORKSPACE/test/csit/plans/usecases/5G-bulkpm/assets/createFeed.json --post301 --location-trusted -k https://${DR_PROV_IP}:8443
+cp $WORKSPACE/test/csit/plans/usecases/5G-bulkpm/assets/addSubscriber.json /tmp/addSubscriber.json
 sed -i 's/fileconsumer/'${DR_SUBSCIBER_IP}'/g' /tmp/addSubscriber.json
-curl -v -X POST -H "Content-Type:application/vnd.att-dr.subscription" -H "X-ATT-DR-ON-BEHALF-OF:dradmin" --data-ascii @/tmp/addSubscriber.json --post301 --location-trusted -k https://${DR_PROV_IP}:8443/subscribe/1
+curl -v -X POST -H "Content-Type:application/vnd.att-dr.subscription" -H "X-ATT-DR-ON-BEHALF-OF:dradmin" --data-ascii @/tmp/addSubscriber.json --post301 --location-trusted -k https://${DR_PROV_IP}:8443/subscribe/1ii @/tmp/addSubscriber.json --post301 --location-trusted -k https://${DR_PROV_IP}:8443/subscribe/1

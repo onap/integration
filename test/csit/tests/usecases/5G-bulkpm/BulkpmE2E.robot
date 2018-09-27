@@ -4,7 +4,7 @@ Library           RequestsLibrary
 Library           OperatingSystem
 Library           Collections
 Library           Process
-Resource          resources/ves_keywords.robot
+Resource          resources/bulkpm_keywords.robot
 
 
 *** Variables ***
@@ -12,7 +12,7 @@ ${VESC_URL}                              http://%{VESC_IP}:8080
 ${GLOBAL_APPLICATION_ID}                 robot-ves
 ${VES_ANY_EVENT_PATH}                    /eventListener/v7
 ${HEADER_STRING}                         content-type=application/json
-${EVENT_DATA_FILE}                       %{WORKSPACE}/test/csit/tests/dcae-bulkpm/testcases/assets/json_events/FileExistNotificationUpdated.json
+${EVENT_DATA_FILE}                       %{WORKSPACE}/test/csit/tests/usecases/5G-bulkpm/assets/json_events/FileExistNotificationUpdated.json
 
 ${TARGETURL_TOPICS}                      http://${DMAAP_MR_IP}:3904/topics
 ${TARGETURL_SUBSCR}                      http://${DMAAP_MR_IP}:3904/events/unauthenticated.VES_NOTIFICATION_OUTPUT/OpenDcae-c12/C12?timeout=1000
