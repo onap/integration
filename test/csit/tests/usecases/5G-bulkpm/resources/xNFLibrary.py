@@ -7,7 +7,7 @@ from robot.api import logger
 from Queue import Queue
 import uuid, time, json, threading,os, platform, subprocess,paramiko
 
-class VesLibrary(object):
+class xNFLibrary(object):
 
     def __init__(self):
         pass
@@ -21,5 +21,5 @@ class VesLibrary(object):
         return uuid.uuid4()
 
 if __name__ == '__main__':
-    lib = VesLibrary()
+    lib = xNFLibrary()
     time.sleep(100000)

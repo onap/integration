@@ -1,7 +1,7 @@
  *** Settings ***
 Documentation     The main interface for interacting with VES. It handles low level stuff like managing the http request library and VES required fields
 Library 	      RequestsLibrary
-Library	          ../resources/VesLibrary.py 
+Library	          ../resources/xNFLibrary.py
 Library           OperatingSystem
 Library           Collections
 Library           requests
@@ -36,4 +36,3 @@ GetCall
     [Arguments]     ${url}
     ${resp}=    	Evaluate    requests.get('${url}')    requests
     [Return]    	${resp}
-    
