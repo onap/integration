@@ -1,5 +1,0 @@
-{
-                  "PlaybookName": "rarf/latest/ansible/restore/site.yml", 
-                  "EnvParameters": {"vnf_instance":"${vnf_name}"},
-                   "Timeout": 600
-}

@@ -1,6 +1,0 @@
-{
-    "vCPU": 1,
-    "Memory": 1,
-    "Storage": 1,
-    "VIMs": ["vmware_fake"]
-}

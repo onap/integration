@@ -1,3 +1,0 @@
-# Test suites are relative paths under [integration.git]/test/csit/tests/.
-# Place the suites in run order.
-vfc/nfvo-lcm/test.robot

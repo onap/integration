@@ -1,6 +1,0 @@
-{ 	
-  "consistencyInfo":{"type":"eventual"},
-  "durabilityOfWrites":"true",
-  "keyspaceName":"txt",
-  "replicationInfo":{"class" :"NetworkTopologyStrategy","DC1":"1", "DC2":"1", "DC3":"1"}
-}

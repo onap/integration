@@ -1,6 +1,0 @@
-{    
-	"configBody": "{\"service\":\"hpaPolicy\",\"policyName\":\"testWorkingTOSCA\",\"description\":\"testing\",\"templateVersion\":\"OpenSource.version.1\",\"version\":\"CSIT\",\"priority\":\"5\",\"riskType\":\"SampleRiskType\",\"riskLevel\":\"3\",\"guard\":\"False\",\"content\":{\"identity\":\"testIdentity\",\"policyScope\":[\"test1\",\"test2\",\"test3\"],\"policyType\":\"hpaPolicy\",\"resources\":\"testResources1\",\"flavorFeatures\":[{\"flavorLabel\":\"testFlavor\",\"flavorProperties\":[{\"score\":\"testScore\",\"featureAttributes\":[{\"unit\":\"testUnit\",\"attribute\":\"teatFeatureAttribute\",\"value\":\"testValue\",\"operator\":\"any\"}],\"mandatory\":\"testMandatory\",\"hpaFeature\":\"testHAPFeature\",\"architecture\":\"testArch\"}]}]}}",
-	"policyConfigType": "Optimization",
-	"policyName": "${policy_name}",
-	"onapName": "OOF"
-}

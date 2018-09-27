@@ -1,4 +1,0 @@
-# Test suites are relative paths under [integration.git]/test/csit/tests/.
-# Place the suites in run order.
-vnfsdk-pkgtools/tosca-metadata/create_open.robot
-vnfsdk-pkgtools/tosca-metadata/create_validate_digest_signing.robot
