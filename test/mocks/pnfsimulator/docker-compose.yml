@@ -49,11 +49,10 @@ services:
     volumes:
       - ./ftpes/files:/home/ftpusers/onap
       - ./ftpes/userpass/:/etc/pure-ftpd/passwd/
-      #- ./ftpes/tls/:/etc/ssl/private/
+      - ./ftpes/tls/:/etc/ssl/private/
 
     environment:
       PUBLICHOST: localhost
-      #ADDED_FLAGS: --tls=2
+      ADDED_FLAGS: --tls=2
       FTP_USER_HOME: onap
-
     restart: on-failure

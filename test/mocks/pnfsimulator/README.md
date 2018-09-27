@@ -37,11 +37,24 @@ In order to disable usage of SSH keys and start using password, change in *docke
 
 ###FTPES support
 PNF Simulator allows to serve files via FTPES server. FTPES server has predefined user *onap* with password *pano*. 
-In order to connect execute command *ftp -p localhost 2221* and then when requested provide user and password.
-In order to download a file execute while being logged in *get file-name-to-be-downloaded*.
+
+####FTPES support with TLS enabled
+By default TLS support is enabled. In order to verify connection, please use *FileZilla* for testing.
+
+####FTPES support for TLS disabled
+For local testing TLS may be disabled, but it's not recommended. 
+In order to set up such configuration, comment or remove in *ftpes-server* service section in *docker-compose.yml* following entries:
+- *./ftpes/tls/:/etc/ssl/private/*
+- *ADDED_FLAGS: --tls=2*
+
+After that execute *./simulator.sh stop* and when it's finished *./simulator.sh start* .
+
+In order to connect execute command *ftp -p localhost 2221* and, when requested, provide user and password.
+In order to download a file execute, while still being logged in, *get file-name-to-be-downloaded*.
+
 
 ###Developer mode
-For development of PNF Simulator, run *simulator.sh* start-dev in order to run Netopeer.
+For development of PNF Simulator, run *simulator.sh* start-dev in order to run minimal necessary set of supporting services such as Netopeer of FTP servers.
 After that it is possible to run PNF Simulator from IDE.
 
 
