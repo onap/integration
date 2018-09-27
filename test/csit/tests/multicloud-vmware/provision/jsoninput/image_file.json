@@ -1,7 +1,0 @@
-{
-        "name": "cirros-0.3.2-x86_64-disk",
-        "container_format": "bare",
-        "disk_format": "qcow2",
-        "visibility": "public",
-        "schema": "/v2/schemas/image"
-}

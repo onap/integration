@@ -1,5 +1,0 @@
-metadata:
-vnf_product_name: test
-vnf_provider_id: test
-vnf_package_version: 1.0
-vnf_release_data_time: 2017-09-15T15:00:03+08:00

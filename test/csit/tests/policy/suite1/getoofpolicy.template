@@ -1,6 +1,0 @@
-{
-    "configAttributes" : {
-    },
-    "policyName" : "${oof_policy_name}",
-    "unique" : false
-}

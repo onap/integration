@@ -1,7 +1,0 @@
-{
-	"consistencyInfo": {"type":"eventual"},
-     "row_specification":null,
-     "timestamp":null,
-     "ttl":null,
-     "values":{"job":"star-wars-actor"}
-}

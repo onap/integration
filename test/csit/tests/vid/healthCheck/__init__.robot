@@ -1,2 +1,0 @@
-*** Settings ***
-Documentation    VID - HealthCheck

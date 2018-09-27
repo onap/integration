@@ -1,8 +1,0 @@
-{
-   "consistencyInfo":   {"type":"eventual"},
-   "row_specification": null,
-   "timestamp": null,
-   "ttl": null,
-   "values":{"name":"emp1","job":"researcher1518791824160","threadIndex":"0"}
-}
-

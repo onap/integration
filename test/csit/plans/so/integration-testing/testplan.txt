@@ -1,3 +1,0 @@
-# Test suites are relative paths under [integration.git]/test/csit/tests/.
-# Place the suites in run order.
-so/sanity-check/sanity_test_so.robot

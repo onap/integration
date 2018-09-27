@@ -1,7 +1,0 @@
-{
-	"configBody": "{ \"service\": \"tca_policy\", \"location\": \"SampleServiceLocation\", \"uuid\": \"test\", \"policyName\": \"MicroServicevDNS\", \"description\": \"MicroService vDNS Policy\", \"configName\": \"SampleConfigName\", \"templateVersion\": \"OpenSource.version.1\", \"version\": \"1.1.0\", \"priority\": \"1\", \"policyScope\": \"resource=SampleResource,service=SampleService,type=SampleType,closedLoopControlName=ControlLoop-vDNS-6f37f56d-a87d-4b85-b6a9-cc953cf779b3\", \"riskType\": \"SampleRiskType\", \"riskLevel\": \"1\", \"guard\": \"False\", \"content\": { \"policyVersion\": \"v0.0.1\", \"threshholds\": [{ \"severity\": \"CRITICAL\", \"fieldPath\": \"$$.event.measurementsForVfScalingFields.vNicUsageArray[*].receivedTotalPacketsDelta\", \"thresholdValue\": \"300\", \"closedLoopEventStatus\": \"ONSET\", \"closedLoopControlName\": \"ControlLoop-vDNS-6f37f56d-a87d-4b85-b6a9-cc953cf779b3\", \"version\": \"1.0.2\", \"direction\": \"GREATER_OR_EQUAL\" }], \"policyName\": \"DCAE.Config_tca-hi-lo\", \"controlLoopSchemaType\": \"VM\", \"policyScope\": \"DCAE\", \"eventName\": \"vLoadBalancer\" } }",
-	"policyConfigType": "MicroService",
-	"policyName": "${policy_name}",
-	"onapName": "DCAE",
-        "priority": "5"
-}
