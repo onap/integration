@@ -103,6 +103,16 @@ function dmaap_mr_launch() {
 						sleep $i
 				fi
 		done
+		
+		DMAAP_MR_IP=$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${COMPOSE_PREFIX}_dmaap_1)
+		IP=${DMAAP_MR_IP}
+		KAFKA_IP=$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${COMPOSE_PREFIX}_kafka_1)
+		ZOOKEEPER_IP=$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${COMPOSE_PREFIX}_zookeeper_1)
+        echo "after the Kafka and Zookeeper ip addresses updated"
+		echo DMAAP_MR_IP=${DMAAP_MR_IP}
+		echo IP=${IP}
+		echo KAFKA_IP=${KAFKA_IP}
+		echo ZOOKEEPER_IP=${ZOOKEEPER_IP}
 
 		# Wait for initialization of docker services
 		for i in {1..50}; do
