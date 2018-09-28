@@ -42,7 +42,7 @@ resources:
                 dnf -y install fedora-upgrade
             }
 
-            docker_install_configure () {
+            docker_remove () {
                 dnf -y remove docker \
                               docker-client \
                               docker-client-latest \
@@ -53,6 +53,9 @@ resources:
                               docker-selinux \
                               docker-engine-selinux \
                               docker-engine
+            }
+
+            docker_install_and_configure () {
                 dnf -y install dnf-plugins-core
                 dnf config-manager \
                  --add-repo \
@@ -67,41 +70,27 @@ resources:
             EOF
                 systemctl daemon-reload
                 systemctl restart docker
-                docker login -u docker -p docker nexus3.onap.org:10003
             }
             docker_compose_install () {
                 curl -L https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
                 chmod +x /usr/local/bin/docker-compose
             }
             pnf_sim_file_checkout () {
-                mkdir ~/sim/
-                mkdir ~/sim/ssh
-                cd ~/sim/ssh/;wget "https://gerrit.onap.org/r/gitweb?p=integration.git;a=blob_plain;f=test/mocks/pnfsimulator/ssh/ssh_host_rsa_key;hb=HEAD" -O ssh_host_rsa_key
-                cd ~/sim/ssh/;wget "https://gerrit.onap.org/r/gitweb?p=integration.git;a=blob_plain;f=test/mocks/pnfsimulator/ssh/ssh_host_rsa_key.pub;hb=HEAD" -O ssh_host_rsa_key.pub
-                mkdir ~/sim/sftp
-                cd ~/sim/sftp/;wget "https://gerrit.onap.org/r/gitweb?p=integration.git;a=blob_plain;f=test/mocks/pnfsimulator/sftp/sftp-file.txt;hb=HEAD" -O sftp-file.txt
-                mkdir ~/sim/config
-                cd ~/sim/config/;wget "https://gerrit.onap.org/r/gitweb?p=integration.git;a=blob_plain;f=test/mocks/pnfsimulator/config/config.json;hb=HEAD" -O config.json
-                cd ~/sim/config/;wget "https://gerrit.onap.org/r/gitweb?p=integration.git;a=blob_plain;f=test/mocks/pnfsimulator/config/netconf.env;hb=HEAD" -O netconf.env
-                mkdir ~/sim/json_schema
-                cd ~/sim/config/;wget "https://gerrit.onap.org/r/gitweb?p=integration.git;a=blob_plain;f=test/mocks/pnfsimulator/json_schema/input_validator.json;hb=HEAD" -O input_validator.json
-                cd ~/sim/config/;wget "https://gerrit.onap.org/r/gitweb?p=integration.git;a=blob_plain;f=test/mocks/pnfsimulator/json_schema/output_validator_ves_schema_30.0.1.json;hb=HEAD" -O output_validator_ves_schema_30.0.1.json
-                mkdir ~/sim/netconf
-                cd ~/sim/netconf/;wget "https://gerrit.onap.org/r/gitweb?p=integration.git;a=blob_plain;f=test/mocks/pnfsimulator/netconf/pnf-simulator.data.xml;hb=HEAD" -O pnf-simulator.data.xml
-                cd ~/sim/netconf/;wget "https://gerrit.onap.org/r/gitweb?p=integration.git;a=blob_plain;f=test/mocks/pnfsimulator/netconf/pnf-simulator.yang;hb=HEAD" -O pnf-simulator.yang
-                cd ~/sim/;wget "https://gerrit.onap.org/r/gitweb?p=integration.git;a=blob_plain;f=test/mocks/pnfsimulator/docker-compose.yml;hb=HEAD" -O docker-compose.yml
-                cd ~/sim/;wget "https://gerrit.onap.org/r/gitweb?p=integration.git;a=blob_plain;f=test/mocks/pnfsimulator/simulator.sh;hb=HEAD" -O simulator.sh
-                chmod 654 ~/sim/simulator.sh
+                cd /root; git clone https://gerrit.onap.org/r/integration
+                printf "{\n  "simulatorParams": {\n    "vesServerUrl": "http://VES-HOST:VES-PORT/eventListener/v7",\n    "testDuration": "10",\n    "messageInterval": "1"\n  },\n  "commonEventHeaderParams": {\n    "eventName": "pnfRegistration_Nokia_5gDu",\n    "nfNamingCode": "gNB",\n    "nfcNamingCode": "oam",\n    "sourceName": "NOK6061ZW3",\n    "sourceId": "val13",\n    "reportingEntityName": "NOK6061ZW3"\n  },\n  "pnfRegistrationParams": {\n    "serialNumber": "6061ZW3",\n    "vendorName": "Nokia",\n    "oamV4IpAddress": "val3",\n    "oamV6IpAddress": "val4",\n    "unitFamily": "BBU",\n    "modelNumber": "val6",\n    "softwareVersion": "val7",\n    "unitType": "val8"\n  }\n}" > integration/test/mocks/pnfsimulator/config/config.json
             }
 
-            start_simulator (){
-               ~/sim/simulator.sh start
+            start_simulator () {
+               docker login -u docker -p docker nexus3.onap.org:10003
+               cd ~/integration/test/mocks/pnfsimulator
+               ./simulator.sh start
             }
 
             set_versions
             enable_root_ssh
             update_os
-            docker_install_configure
+            docker_remove
+            docker_install_and_configure
             docker_compose_install
             pnf_sim_file_checkout
             start_simulator
