@@ -51,12 +51,22 @@ if [ "$full_deletion" = true ];then
     sleep 10
 
     # delete all instances
-    openstack server delete $(openstack server list -c ID -f value --project $OS_PROJECT_ID)
-    sleep 1
+    SERVERS=$(openstack server list -c ID -f value --project $OS_PROJECT_ID)
+    if [ $? -ne 0 ]; then
+        # only admin roles support --project parameter, so retry without it if the above returns an error
+        SERVERS=$(openstack server list -c ID -f value)
+    fi
+    if [ ! -z "$SERVERS" ]; then
+        openstack server delete $SERVERS
+        sleep 1
+    fi
 
     # miscellaneous cleanup
-    openstack floating ip delete $(openstack floating ip list -c ID -f value --project $OS_PROJECT_ID)
-    sleep 1
+    FLOATING_IPS=$(openstack floating ip list -c ID -f value --project $OS_PROJECT_ID)
+    if [ ! -z "$FLOATING_IPS" ]; then
+        openstack floating ip delete $FLOATING_IPS
+        sleep 1
+    fi
 
     ROUTERS=$(openstack router list -c ID -f value --project $OS_PROJECT_ID)
     echo $ROUTERS
@@ -68,14 +78,18 @@ if [ "$full_deletion" = true ];then
         done
         openstack router delete $ROUTER
     done
-
-    openstack port delete $(openstack port list -f value -c ID --project $OS_PROJECT_ID)
-    openstack volume delete $(openstack volume list -f value -c ID --project $OS_PROJECT_ID)
-
-    # delete all except "default" security group
-    SECURITY_GROUPS=$(openstack security group list -c ID -f value --project $OS_PROJECT_ID | grep -v default)
-    openstack security group delete $SECURITY_GROUPS
     sleep 1
+
+    PORTS=$(openstack port list -f value -c ID --project $OS_PROJECT_ID)
+    if [ ! -z "$PORTS" ]; then
+        openstack port delete $PORTS
+        sleep 1
+    fi
+    VOLUMES=$(openstack volume list -f value -c ID --project $OS_PROJECT_ID)
+    if [ ! -z "$VOLUMES" ]; then
+        openstack volume delete $VOLUMES
+        sleep 1
+    fi
 
 
     # Delete all existing stacks
