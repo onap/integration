@@ -12,10 +12,11 @@ parameters:
   security_group: { description: Security group to be used, label: Security Groups, type: string, default: default }
   key_pair: { description: Key pair, label: Key Pair, type: string }
   proxy: { description: Proxy, label: Proxy, type: string, default: "" }
-  mode: { description: Mode - standalone or integrated to ONAP (values - 'standalone' or 'onap'), label: Mode, type: string, default: "standalone" }
+  mode: { description: Mode - standalone or integrated to ONAP (values - 'standalone' or 'onap'), label: Mode, type: string, default: "onap" }
   hvves_ip: { description: HV-VES IP, label: HV-VES IP, type: string, default: "" }
-  hvves_port: { description: HV-VES Port, label: HV-VES Port, type: string, default: "" }
-  nexus_port: { description: ONAP Nexus Port, label: ONAP Nexus Port, type: string }
+  hvves_port: { description: HV-VES Port, label: HV-VES Port, type: string, default: "30222" }
+  nexus_port: { description: ONAP Nexus Port, label: ONAP Nexus Port, type: string, default: "10001" }
+  tls: { description: HV-VES TLS functionality, label: HV-VES TLS, type: string, default: "false" }
 
 resources:
   hvves-sim:
@@ -101,11 +102,10 @@ resources:
                         }
 
                         generate_certs () {
-                            apt-get -y install make
+                            apt-get -y install default-jre
                             mkdir ~/hv-ves_sim/ssl
-                            cd ~/hv-ves_sim/ssl;wget "https://gerrit.onap.org/r/gitweb?p=dcaegen2/collectors/hv-ves.git;a=blob_plain;f=ssl/Makefile;hb=HEAD" -O Makefile
-                            cd ~/hv-ves_sim/ssl;make FILE=client
-                            cd ~/hv-ves_sim/ssl;make FILE=server
+                            cd ~/hv-ves_sim/ssl;wget "https://gerrit.onap.org/r/gitweb?p=dcaegen2/collectors/hv-ves.git;a=blob_plain;f=ssl/gen-certs.sh;hb=HEAD" -O gen-certs.sh;chmod +x gen-certs.sh
+                            cd ~/hv-ves_sim/ssl;/bin/bash gen-certs.sh
                         }
 
                         start_simulator_env () {
@@ -123,10 +123,14 @@ resources:
                                                    sleep 3s
                                         fi
                                 done
-                            elif [ "$mode" == "onap" ]
+                            elif [ "$mode" == "onap" ] && [ "$tls" == "true" ]
                             then
-                                docker pull "nexus3.onap.org:$nexus_port/onap/org.onap.dcaegen2.collectors.hv-ves.hv-collector-xnf-simulator:latest"
-                                cd ~/hv-ves_sim;nohup docker run -p "6062:6062/tcp" -v "$(pwd)/ssl/:/etc/ves-hv/" -i "nexus3.onap.org:$nexus_port/onap/org.onap.dcaegen2.collectors.hv-ves.hv-collector-xnf-simulator:latest" "./run-java.sh run --listen-port 6062 --ves-host $hvves_ip --ves-port $hvves_port" &> ~/hv-ves_sim/docker.log &
+                                cd ~/hv-ves_sim;nohup docker run -p "6062:6062" -v "$(pwd)/ssl/:/etc/ves-hv/" -i "nexus3.onap.org:$nexus_port/onap/org.onap.dcaegen2.collectors.hv-ves.hv-collector-xnf-simulator:latest" "--listen-port 6062 --ves-host $hvves_ip --ves-port $hvves_port --trust-store /etc/ves-hv/trust.p12 --trust-store-password onaponap --key-store /etc/ves-hv/client.p12 --key-store-password onaponap" &> ~/hv-ves_sim/docker.log &
+                                echo -e "127.0.0.1\tmessage-router-kafka" >> /etc/hosts
+                            elif [ "$mode" == "onap" ] && [ "$tls" == "false" ]
+                            then
+                                cd ~/hv-ves_sim;nohup docker run -p "6062:6062" -i "nexus3.onap.org:$nexus_port/onap/org.onap.dcaegen2.collectors.hv-ves.hv-collector-xnf-simulator:latest" "--listen-port 6062 --ves-host $hvves_ip --ves-port $hvves_port --ssl-disable" &> ~/hv-ves_sim/docker.log &
+                                echo -e "127.0.0.1\tmessage-router-kafka" >> /etc/hosts
                             else
                                 exit 1
                             fi
@@ -196,6 +200,7 @@ resources:
             $hvves_ip: { get_param: hvves_ip }
             $hvves_port: { get_param: hvves_port }
             $nexus_port: { get_param: nexus_port }
+            $tls: { get_param: tls }
   hvves-sim_port:
     type: OS::Neutron::Port
     properties:
@@ -217,3 +222,4 @@ outputs:
   hvves-sim_public_ip:
     description: HV-VES simualtor floating IP
     value: { get_attr: [ hvves-sim_public, floating_ip_address ] }
+
