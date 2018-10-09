@@ -8,8 +8,10 @@ onap/aaf/aaf_oauth,2.1.1
 onap/aaf/aaf_service,2.1.1
 onap/aaf/sms,2.0.0
 onap/aaf/smsquorumclient,2.0.0
-onap/aai-resources,1.2.2
-onap/aai-traversal,1.2.2
+onap/aai-resources,1.3.0
+onap/aai-traversal,1.3.0
+onap/aai-graphadmin,1.0.0
+onap/aai-cacher,1.0.0
 onap/aai/esr-gui,1.1.0
 onap/aai/esr-server,1.1.0
 onap/admportal-sdnc-image,1.3.4
