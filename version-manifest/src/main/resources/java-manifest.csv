@@ -189,6 +189,9 @@ org.onap.holmes.common,holmes-actions,1.2.0-SNAPSHOT
 org.onap.holmes.dsa,dmaap-dsa,1.2.0-SNAPSHOT
 org.onap.holmes.engine-management,holmes-engine-d,1.2.0-SNAPSHOT
 org.onap.holmes.rule-management,holmes-rulemgt,1.2.0-SNAPSHOT
+org.onap.logging-analytics.logging-mock-service,logging-mock-service,1.2.2
+org.onap.logging-analytics.logging-library,logging-library,1.2.2
+org.onap.logging-analytics.logging-slf4j,logging-slf4j,1.2.2
 org.onap.modeling.toscaparsers,Checker,1.0.0
 org.onap.modeling.toscaparsers,Service,1.0.0
 org.onap.modeling.toscaparsers,kwalify,1.0.0
