@@ -24,6 +24,8 @@ for line in $(tail -n +2 $1); do
         echo "[ERROR] $image:$tag not released"
         #echo "$tags" | sed 's/^/  /'
         (( err++ ))
+    else
+        echo "[INFO] $image:$tag OK"
     fi
 done
 exit $err
