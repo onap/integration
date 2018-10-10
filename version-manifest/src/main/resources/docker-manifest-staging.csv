@@ -48,8 +48,8 @@ onap/music/cassandra_music,3.0.0
 onap/music/music,2.5.3
 onap/music/prom,1.0.5-latest
 onap/oom/kube2msb,1.1.0
-onap/optf-has,1.2.1
-onap/optf-osdf,1.2.1
+onap/optf-has,1.2.2
+onap/optf-osdf,1.2.2
 onap/org.onap.dcaegen2.collectors.datafile.datafile-app-server,1.0.2
 onap/org.onap.dcaegen2.collectors.hv-ves.hv-collector-main,1.0.0-SNAPSHOT
 onap/org.onap.dcaegen2.collectors.snmptrap,1.4.0
