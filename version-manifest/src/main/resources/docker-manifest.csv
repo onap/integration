@@ -26,6 +26,8 @@ onap/clamp,2.0.2
 onap/cli,2.0.2
 onap/data-router,1.2.2
 onap/dmaap/buscontroller,1.0.12
+onap/dmaap/datarouter-node,1.0.2
+onap/dmaap/datarouter-prov,1.0.2
 onap/dmaap/dmaap-mr,1.1.4
 onap/externalapi/nbi,3.0.0
 onap/gizmo,1.2.1
