@@ -1,0 +1,9 @@
+Code-Review+1: Venkata Harish Kajur <vk250x@att.com>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Jessica Wagantall <jwagantall@linuxfoundation.org>
+Code-Review+2: Gary Wu <gary.i.wu@huawei.com>
+Submitted-by: Gary Wu <gary.i.wu@huawei.com>
+Submitted-at: Wed, 10 Oct 2018 20:23:37 +0000
+Reviewed-on: https://gerrit.onap.org/r/70194
+Project: integration
+Branch: refs/heads/master
