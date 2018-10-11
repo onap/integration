@@ -197,6 +197,7 @@ org.onap.holmes.rule-management,holmes-rulemgt,1.2.0-SNAPSHOT
 org.onap.logging-analytics.logging-library,logging-library,1.2.2
 org.onap.logging-analytics.logging-mock-service,logging-mock-service,1.2.2
 org.onap.logging-analytics.logging-slf4j,logging-slf4j,1.2.2
+org.onap.logging-analytics.pomba.pomba-audit-common,pomba-audit-common,1.3.1
 org.onap.modeling.toscaparsers,Checker,1.0.0
 org.onap.modeling.toscaparsers,Service,1.0.0
 org.onap.modeling.toscaparsers,kwalify,1.0.0
