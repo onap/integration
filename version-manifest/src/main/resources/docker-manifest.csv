@@ -111,7 +111,7 @@ onap/vfc/wfengine-activiti,1.1.0
 onap/vfc/wfengine-mgrservice,1.1.0
 onap/vfc/ztesdncdriver,1.1.0
 onap/vfc/ztevnfmdriver,1.1.0
-onap/vid,2.0.0
+onap/vid,3.0.0
 onap/vnfsdk/ice,1.1.0
 onap/vnfsdk/refrepo,1.1.1
 onap/vnfsdk/refrepo/postgres,1.1.1
