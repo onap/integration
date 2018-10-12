@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bada0100_9e00d7ab",
+        "filename": "test/mocks/pnfsimulator/json_schema/input_validator.json",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 3395
+      },
+      "writtenOn": "2018-10-12T14:31:05Z",
+      "side": 1,
+      "message": "These values are not needed in PNF Registration v2",
+      "revId": "d0dff98c7677dedc2a2004294dac2123aacccd16",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
