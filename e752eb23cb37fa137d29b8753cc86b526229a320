@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bada0100_e1ce265a",
+        "filename": "version-manifest/src/main/resources/docker-manifest.csv",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2018-10-12T19:41:52Z",
+      "side": 1,
+      "message": "I ran into this as well - alphabetical order, then I needed a rebase from gary for commits that were interleaved in the timing gap",
+      "revId": "e752eb23cb37fa137d29b8753cc86b526229a320",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
