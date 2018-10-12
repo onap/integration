@@ -22,6 +22,30 @@
       "revId": "d6256f515419176c27e4bce750c7d9b13b217439",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_1e5e27e7",
+        "filename": "test/mocks/pnfsimulator/json_schema/input_validator.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 3395
+      },
+      "writtenOn": "2018-10-12T14:29:39Z",
+      "side": 1,
+      "message": "These fields are required by PNF Registration and optional for NotificationFileReady.  For simplification we set them as mandatory for simualtion ion v1.\nIn v2 optional, so will be removed.",
+      "parentUuid": "bada0100_9ee4573c",
+      "range": {
+        "startLine": 48,
+        "startChar": 9,
+        "endLine": 49,
+        "endChar": 24
+      },
+      "revId": "d6256f515419176c27e4bce750c7d9b13b217439",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
