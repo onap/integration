@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bada0100_78ce6a5c",
+        "filename": "deployment/heat/onap-oom/scripts/cleanup.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2018-10-12T11:50:12Z",
+      "side": 1,
+      "message": "I usually just put in the --all flag for pv, pvc, secrets, clusterrolebings etc.... for the helm 2.9.1 issue",
+      "revId": "2ed50a7f62b2bfb2511577dc06d31e57ae3ff432",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
