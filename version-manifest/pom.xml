@@ -149,6 +149,19 @@
               </arguments>
             </configuration>
           </execution>
+          <execution>
+            <id>check-java-artifacts-released</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <arguments>
+                <argument>${project.basedir}/src/main/scripts/check-java-manifest.sh</argument>
+                <argument>${project.basedir}/src/main/resources/java-manifest.csv</argument>
+              </arguments>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
     </plugins>
