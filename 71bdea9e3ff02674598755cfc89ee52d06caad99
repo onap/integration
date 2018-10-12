@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bada0100_9e5f770e",
+        "filename": "test/mocks/pnfsimulator/json_schema/input_validator.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 4719
+      },
+      "writtenOn": "2018-10-12T14:02:34Z",
+      "side": 1,
+      "message": "fileFormateType plz change here too.",
+      "range": {
+        "startLine": 133,
+        "startChar": 21,
+        "endLine": 133,
+        "endChar": 35
+      },
+      "revId": "71bdea9e3ff02674598755cfc89ee52d06caad99",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
