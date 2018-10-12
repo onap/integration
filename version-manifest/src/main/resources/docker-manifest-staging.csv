@@ -1,4 +1,5 @@
 image,tag
+onap/aaf/aaf_cass,2.1.2-SNAPSHOT
 onap/aaf/aaf_cm,2.1.3-SNAPSHOT
 onap/aaf/aaf_fs,2.1.3-SNAPSHOT
 onap/aaf/aaf_gui,2.1.3-SNAPSHOT
@@ -24,6 +25,8 @@ onap/ccsdk-odl-image,0.3-STAGING-latest
 onap/ccsdk-odlsli-image,0.3-STAGING-latest
 onap/champ,1.3-STAGING-latest
 onap/clamp,3.0-STAGING-latest
+onap/clamp-dashboard-kibana,3.0-STAGING-latest
+onap/clamp-dashboard-logstash,3.0-STAGING-latest
 onap/cli,2.0.2
 onap/data-router,1.3-STAGING-latest
 onap/dmaap/buscontroller,1.0.19
@@ -38,9 +41,11 @@ onap/holmes/rule-management,1.2.0-STAGING-latest
 onap/model-loader,1.3-STAGING-latest
 onap/msb/msb_apigateway,1.2.0-STAGING-latest
 onap/msb/msb_discovery,1.2.0-STAGING-latest
+onap/multicloud/azure,1.2.0-SNAPSHOT
 onap/multicloud/framework,1.2.0-STAGING
 onap/multicloud/openstack-newton,1.2.0-STAGING
 onap/multicloud/openstack-ocata,1.2.0-STAGING
+onap/multicloud/openstack-pike,1.2.0-STAGING
 onap/multicloud/openstack-windriver,1.2.0-STAGING
 onap/multicloud/vio,1.1.2
 onap/multicloud/vio-vesagent,1.0.0
@@ -109,6 +114,7 @@ onap/so/openstack-adapter,1.3.0-STAGING-latest
 onap/so/request-db-adapter,1.3.0-STAGING-latest
 onap/so/sdc-controller,1.3.0-STAGING-latest
 onap/so/sdnc-adapter,1.3.0-STAGING-latest
+onap/so/so-monitoring,latest
 onap/so/vfc-adapter,1.3.0-STAGING-latest
 onap/sparky-be,1.3-STAGING-latest
 onap/spike,1.0-STAGING-latest
