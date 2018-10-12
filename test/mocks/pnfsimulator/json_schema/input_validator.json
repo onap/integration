@@ -45,8 +45,6 @@
       },
       "required": [
         "eventName",
-        "nfNamingCode",
-        "nfcNamingCode",
         "sourceName",
         "sourceId",
         "reportingEntityName"
@@ -120,7 +118,7 @@
                     "compression": {
                       "type": "string"
                     },
-                    "fileformatType": {
+                    "fileFormatType": {
                       "type": "string"
                     },
                     "fileFormatVersion": {
@@ -130,7 +128,7 @@
                   "required": [
                     "location",
                     "compression",
-                    "fileformatType",
+                    "fileFormatType",
                     "fileFormatVersion"
                   ]
                 }
