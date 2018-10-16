@@ -1,0 +1,11 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Lorraine Welch <lb2391@att.com>
+Code-Review+1: Farhan Mir <fm7890@att.com>
+Code-Review+1: Sireesh Chintamani <sireesh.ch@in.ibm.com>
+Code-Review+1: Jessica Wagantall <jwagantall@linuxfoundation.org>
+Code-Review+2: Gary Wu <gary.i.wu@huawei.com>
+Submitted-by: Gary Wu <gary.i.wu@huawei.com>
+Submitted-at: Tue, 16 Oct 2018 00:36:52 +0000
+Reviewed-on: https://gerrit.onap.org/r/70491
+Project: integration
+Branch: refs/heads/master
