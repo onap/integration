@@ -153,12 +153,13 @@ fi
 
 ssh-keygen -R $RANCHER_IP
 
+sleep 2m
 ssh -o StrictHostKeychecking=no -i $SSH_KEY ubuntu@$RANCHER_IP "sed -u '/Cloud-init.*finished/q' <(tail -n+0 -f /var/log/cloud-init-output.log)"
 
-for n in $(seq 1 6); do
-    echo "Wait count $n of 6"
+for n in $(seq 1 8); do
+    echo "Wait count $n of 8"
     sleep 15m
-    timeout 15m ssh -i $SSH_KEY ubuntu@$RANCHER_IP  'sudo su -l root -c "/root/oom/kubernetes/robot/ete-k8s.sh onap health"'
+    ssh -i $SSH_KEY ubuntu@$RANCHER_IP  'sudo su -l root -c "/root/oom/kubernetes/robot/ete-k8s.sh onap health"'
     RESULT=$?
     if [ $RESULT -eq 0 ]; then
   	break

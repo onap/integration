@@ -59,9 +59,12 @@ Acquire::http { Proxy "http://__apt_proxy__"; };
 Acquire::https::Proxy "DIRECT";
 EOF
 fi
-apt-get -y update
-apt-get -y install linux-image-extra-$(uname -r) jq make nfs-kernel-server moreutils
 
+while ! hash jq &> /dev/null; do
+    apt-get -y update
+    apt-get -y install linux-image-extra-$(uname -r) jq make nfs-kernel-server moreutils
+    sleep 10
+done
 
 # use RAM disk for /dockerdata-nfs for testing
 #echo "tmpfs /dockerdata-nfs tmpfs noatime 1 2" >> /etc/fstab
@@ -92,8 +95,11 @@ systemctl restart nfs-kernel-server
 cd ~
 
 # install docker __docker_version__
-curl -s https://releases.rancher.com/install-docker/__docker_version__.sh | sh
-usermod -aG docker ubuntu
+while ! hash docker &> /dev/null; do
+    curl -s https://releases.rancher.com/install-docker/__docker_version__.sh | sh
+    usermod -aG docker ubuntu
+    sleep 10
+done
 
 # install rancher __rancher_version__
 docker run --restart unless-stopped -d -p 8080:8080  -e CATTLE_BOOTSTRAP_REQUIRED_IMAGE=__docker_proxy__/rancher/agent:v__rancher_agent_version__ __docker_proxy__/rancher/server:v__rancher_version__
@@ -112,9 +118,8 @@ sudo mv linux-amd64/helm /usr/local/bin/helm
 echo export RANCHER_IP=__rancher_private_ip_addr__ > api-keys-rc
 source api-keys-rc
 
-sleep 50
 until curl -s -o projects.json -H "Accept: application/json" http://$RANCHER_IP:8080/v2-beta/projects; do
-    sleep 10
+    sleep 30
 done
 OLD_PID=$(jq -r '.data[0].id' projects.json)
 
@@ -195,10 +200,14 @@ EOF
 export KUBECONFIG=/root/.kube/config
 kubectl config view
 
+# Enable auto-completion for kubectl
+echo "source <(kubectl completion bash)" >> ~/.bashrc
+
+
 # wait for kubernetes to initialze
-sleep 100
+sleep 3m
 until [ $(kubectl get pods --namespace kube-system | tail -n +2 | grep -c Running) -ge 6 ]; do
-    sleep 10
+    sleep 1m
 done
 
 
@@ -246,7 +255,7 @@ cd ~/oom/kubernetes/
 helm init --client-only
 helm init --upgrade
 helm serve &
-sleep 3
+sleep 10
 helm repo add local http://127.0.0.1:8879
 helm repo list
 make all
@@ -255,9 +264,9 @@ helm search -l | grep local
 helm deploy dev local/onap -f ~/integration-override.yaml --namespace onap | tee ~/helm-deploy.log
 helm list
 
-# Enable auto-completion for kubectl
-echo "source <(kubectl completion bash)" >> ~/.bashrc
 
 # Check ONAP status:
-sleep 3
+sleep 10
 kubectl get pods --all-namespaces
+kubectl get nodes
+kubectl top nodes
