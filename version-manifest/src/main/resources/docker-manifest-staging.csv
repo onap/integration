@@ -7,8 +7,11 @@ onap/aaf/aaf_hello,2.1.3-SNAPSHOT
 onap/aaf/aaf_locate,2.1.3-SNAPSHOT
 onap/aaf/aaf_oauth,2.1.3-SNAPSHOT
 onap/aaf/aaf_service,2.1.3-SNAPSHOT
+onap/aaf/abrmd,latest
+onap/aaf/distcenter,latest
 onap/aaf/sms,2.0.0
 onap/aaf/smsquorumclient,2.0.0
+onap/aaf/testcaservice,latest
 onap/aai-graphadmin,1.0-STAGING-latest
 onap/aai-resources,1.3-STAGING-latest
 onap/aai-traversal,1.3-STAGING-latest
