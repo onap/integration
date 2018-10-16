@@ -32,29 +32,34 @@ Acquire::http { Proxy "http://__apt_proxy__"; };
 Acquire::https::Proxy "DIRECT";
 EOF
 fi
-apt-get -y update
 
 mkdir -p /dockerdata-nfs
 echo "__rancher_private_ip_addr__:/dockerdata-nfs /dockerdata-nfs nfs auto,nofail,noatime,nolock,intr,tcp,actimeo=1800 0 0" | tee -a /etc/fstab
-
-apt-get -y install linux-image-extra-$(uname -r) jq nfs-common
-
-cd ~
-
-# install docker 17.03
-curl -s https://releases.rancher.com/install-docker/__docker_version__.sh | sh
-usermod -aG docker ubuntu
 
 # Fix virtual memory allocation for onap-log:elasticsearch:
 echo "vm.max_map_count=262144" >> /etc/sysctl.conf
 sysctl -p
 
-sleep 100
+
+while ! hash jq &> /dev/null; do
+    apt-get -y update
+    apt-get -y install linux-image-extra-$(uname -r) jq nfs-common
+    sleep 10
+done
+
+# install docker 17.03
+while ! hash docker &> /dev/null; do
+    curl -s https://releases.rancher.com/install-docker/__docker_version__.sh | sh
+    usermod -aG docker ubuntu
+    sleep 10
+done
 
 while [ ! -e /dockerdata-nfs/rancher_agent_cmd.sh ]; do
     mount /dockerdata-nfs
-    sleep 5
+    sleep 10
 done
+
+cd ~
 cp /dockerdata-nfs/rancher_agent_cmd.sh .
 sed -i "s/docker run/docker run -e CATTLE_AGENT_IP=${HOST_IP}/g" rancher_agent_cmd.sh
 source rancher_agent_cmd.sh
