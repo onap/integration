@@ -34,7 +34,7 @@ EOF
 fi
 
 mkdir -p /dockerdata-nfs
-echo "__rancher_private_ip_addr__:/dockerdata-nfs /dockerdata-nfs nfs auto,nofail,noatime,nolock,intr,tcp,actimeo=1800 0 0" | tee -a /etc/fstab
+echo "__rancher_private_ip_addr__:/dockerdata-nfs /dockerdata-nfs nfs noauto,noatime,fg,retry=1,x-systemd.automount,_netdev,soft,nolock,intr,tcp,actimeo=1800 0 0" | tee -a /etc/fstab
 
 # Fix virtual memory allocation for onap-log:elasticsearch:
 echo "vm.max_map_count=262144" >> /etc/sysctl.conf
