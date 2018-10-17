@@ -21,7 +21,7 @@ mkdir -p $TARGET_DIR
 cd $TARGET_DIR
 
 cd $OOM_DIR
-rgrep "image: .*" --include=values.yaml -h | cut -d ' ' -f 2 | tr -d '"'| grep -v '<' | grep -e "^onap" -e "^openecomp" | LC_ALL=C sort -u > $TARGET_DIR/oom-manifest.txt
+rgrep -i "image: .*" --include=values.yaml -h | awk '{ $1=$1; print }' | cut -d ' ' -f 2 | tr -d '"'| grep -v '<' | grep -e "^onap" -e "^openecomp" | LC_ALL=C sort -u > $TARGET_DIR/oom-manifest.txt
 touch $TARGET_DIR/docker-manifest-new-entries.txt
 
 for line in $(cat $TARGET_DIR/oom-manifest.txt); do
