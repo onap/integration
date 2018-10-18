@@ -22,7 +22,7 @@ onap/ccsdk-odl-image,0.2-STAGING-latest
 onap/ccsdk-odlsli-image,0.2-STAGING-latest
 onap/champ,1.2-STAGING-latest
 onap/clamp,2.0-STAGING-latest
-onap/cli,2.0.1
+onap/cli,2.0.4
 onap/data-router,1.2-STAGING-latest
 onap/dmaap/buscontroller,latest
 onap/dmaap/dmaap-mr,1.1.4
