@@ -152,8 +152,8 @@ onap/vfc/ztesdncdriver,1.1.0
 onap/vfc/ztevnfmdriver,1.1.0
 onap/vid,3.0-STAGING-latest
 onap/vnfsdk/ice,1.1.0
-onap/vnfsdk/refrepo,1.1.1
-onap/vnfsdk/refrepo/postgres,1.1.1
+onap/vnfsdk/refrepo,1.2.0
+onap/vnfsdk/refrepo/postgres,1.2.0
 onap/vnfsdk/vnftest,1.1.0
 onap/vvp/cms,1.0.0
 onap/vvp/engagementmgr,1.0.0
