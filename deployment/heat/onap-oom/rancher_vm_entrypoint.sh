@@ -67,14 +67,17 @@ while ! hash jq &> /dev/null; do
 done
 
 # use RAM disk for /dockerdata-nfs for testing
-#echo "tmpfs /dockerdata-nfs tmpfs noatime 1 2" >> /etc/fstab
+echo "tmpfs /dockerdata-nfs tmpfs noatime,size=75% 1 2" >> /etc/fstab
 mkdir -pv /dockerdata-nfs
-#mount /dockerdata-nfs
+mount /dockerdata-nfs
+mkdir -pv /dockerdata-nfs-2/dev-log
+mkdir -pv /dockerdata-nfs-2/dev-robot
 
 # version control the persistence volume to see what's happening
 chmod 777 /dockerdata-nfs/
-chown nobody:nogroup /dockerdata-nfs/
 cd /dockerdata-nfs/
+ln -s /dockerdata-nfs-2/dev-log
+ln -s /dockerdata-nfs-2/dev-robot
 git init
 git config user.email "root@onap"
 git config user.name "root"
