@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bada0100_48362754",
+        "filename": "version-manifest/src/main/resources/docker-manifest-staging.csv",
+        "patchSetId": 9
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 35
+      },
+      "writtenOn": "2018-10-18T02:51:37Z",
+      "side": 1,
+      "message": "There\u0027s no reason to use 1.2.0-STAGING-latest when 1.2.0 is already released. I\u0027m bumping this one directly to the release version in order to bypass the missing tag.  All these staging versions should be bumped to something newer than 1.2.0, like 1.2.1-STAGING or 1.3.0-STAGING depending on how you\u0027re naming the next version.",
+      "range": {
+        "startLine": 152,
+        "startChar": 23,
+        "endLine": 152,
+        "endChar": 28
+      },
+      "revId": "2c5ac07b9f3dc6674c16732625379f396dc8dc10",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
