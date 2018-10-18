@@ -67,12 +67,12 @@ while ! hash jq &> /dev/null; do
 done
 
 # use RAM disk for /dockerdata-nfs for testing
-#echo "tmpfs /dockerdata-nfs tmpfs noatime 1 2" >> /etc/fstab
+echo "tmpfs /dockerdata-nfs tmpfs noatime,size=75% 1 2" >> /etc/fstab
 mkdir -pv /dockerdata-nfs
-#mount /dockerdata-nfs
+mount /dockerdata-nfs
 
 # version control the persistence volume to see what's happening
-chmod 777 /dockerdata-nfs/
+chmod -R 777 /dockerdata-nfs/
 chown nobody:nogroup /dockerdata-nfs/
 cd /dockerdata-nfs/
 git init
@@ -84,7 +84,7 @@ git commit -m "initial commit"
 # export NFS mount
 NFS_EXP=""
 for K8S_VM_IP in $(tr -d ',[]' < /opt/config/k8s_private_ips.txt); do
-    NFS_EXP+="$K8S_VM_IP(rw,fsid=1,sync,no_root_squash,no_subtree_check) "
+    NFS_EXP+="$K8S_VM_IP(rw,fsid=1,async,no_root_squash,no_subtree_check) "
 done
 echo "/dockerdata-nfs $NFS_EXP" | tee /etc/exports
 
