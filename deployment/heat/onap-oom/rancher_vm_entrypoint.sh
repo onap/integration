@@ -261,7 +261,7 @@ helm repo list
 make all
 rsync -avt ~/oom/kubernetes/helm/plugins ~/.helm/
 helm search -l | grep local
-helm deploy dev local/onap -f ~/oom/kubernetes/onap/resources/environments/public-cloud.yaml -f ~/integration-override.yaml --namespace onap | tee ~/helm-deploy.log
+helm deploy dev local/onap -f ~/integration-override.yaml --namespace onap | tee ~/helm-deploy.log
 helm list
 
 
