@@ -52,6 +52,8 @@ After that execute *./simulator.sh stop* and when it's finished *./simulator.sh 
 In order to connect execute command *ftp -p localhost 2221* and, when requested, provide user and password.
 In order to download a file execute, while still being logged in, *get file-name-to-be-downloaded*.
 
+###FTPES support for vsftpd server
+TBD
 
 ###Developer mode
 For development of PNF Simulator, run *simulator.sh* start-dev in order to run minimal necessary set of supporting services such as Netopeer of FTP servers.

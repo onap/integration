@@ -48,11 +48,31 @@ services:
       - "30000-30009:30000-30009"
     volumes:
       - ./ftpes/files:/home/ftpusers/onap
-      - ./ftpes/userpass/:/etc/pure-ftpd/passwd/
-      - ./ftpes/tls/:/etc/ssl/private/
+      - ./ftpes/pure-ftpd/userpass/:/etc/pure-ftpd/passwd/
+      - ./ftpes/pure-ftpd/tls/:/etc/ssl/private/
 
     environment:
       PUBLICHOST: localhost
       ADDED_FLAGS: --tls=2
       FTP_USER_HOME: onap
     restart: on-failure
+
+  vsftpd_ftpes_server:
+    container_name: vsftpd_ftpes_server
+    image: docker.io/panubo/vsftpd
+    ports:
+      - "8221:21"
+      - "8001-8010:8001-8010"
+    environment:
+      FTP_USER: onap
+      FTP_PASSWORD: pano
+      PASV_ADDRESS: 127.0.0.1
+      PASV_MIN_PORT: 8001
+      PASV_MAX_PORT: 8010
+    volumes:
+      - ./ftpes/vsftpd/tls/ftp.crt:/etc/ssl/private/vsftpd.crt:ro
+      - ./ftpes/vsftpd/tls/ftp.key:/etc/ssl/private/vsftpd.key:ro
+      - ./ftpes/vsftpd/tls/dfc.crt:/home/vsftpd/onap/client.crt:ro
+      - ./ftpes/vsftpd/configuration/vsftpd_ssl.conf:/etc/vsftpd_ssl.conf:ro
+    restart: on-failure
+    command: vsftpd /etc/vsftpd_ssl.conf
