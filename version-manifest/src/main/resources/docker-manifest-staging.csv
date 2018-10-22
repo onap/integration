@@ -31,8 +31,8 @@ onap/gizmo,1.2.1
 onap/holmes/engine-management,1.2.0-STAGING-latest
 onap/holmes/rule-management,1.2.0-STAGING-latest
 onap/model-loader,1.2.1
-onap/msb/msb_apigateway,1.2.0-STAGING-latest
-onap/msb/msb_discovery,1.2.0-STAGING-latest
+onap/msb/msb_apigateway,1.2.2-STAGING-latest
+onap/msb/msb_discovery,1.2.2-STAGING-latest
 onap/multicloud/framework,1.2.0-STAGING
 onap/multicloud/openstack-newton,1.2.0-STAGING
 onap/multicloud/openstack-ocata,1.2.0-STAGING
