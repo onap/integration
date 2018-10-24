@@ -254,7 +254,7 @@ org.onap.vfc.nfvo.driver.sfc.zte.sfc-driver-standalone,vfc-nfvo-driver-sfc-zte-s
 org.onap.vfc.nfvo.driver.vnfm.gvnfm.gvnfmadapter,vfc-nfvo-driver-vnfm-gvnfm-gvnfmadapter,1.2.0
 org.onap.vfc.nfvo.driver.vnfm.svnfm,vfcadaptor-deployment,1.1.0
 org.onap.vfc.nfvo.driver.vnfm.svnfm.huawei.vnfmadapter,hw-vnfmadapter-deployment,1.2.0
-org.onap.vfc.nfvo.driver.vnfm.svnfm.nokiav2,driverwar,1.2.0
+org.onap.vfc.nfvo.driver.vnfm.svnfm.nokiav2,driverwar,1.3.0
 org.onap.vfc.nfvo.driver.vnfm.svnfm.zte.vmanager,vfc-nfvo-driver-vnfm-svnfm-zte-vmanager,1.2.0
 org.onap.vfc.nfvo.lcm,vfc-nfvo-lcm,1.2.0
 org.onap.vfc.nfvo.multivimproxy,vfc-nfvo-multivimproxy-deployment,1.2.0
