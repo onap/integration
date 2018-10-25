@@ -50,10 +50,9 @@ services:
       - ./ftpes/files:/home/ftpusers/onap
       - ./ftpes/pure-ftpd/userpass/:/etc/pure-ftpd/passwd/
       - ./ftpes/pure-ftpd/tls/:/etc/ssl/private/
-
     environment:
       PUBLICHOST: localhost
-      ADDED_FLAGS: --tls=2
+      ADDED_FLAGS: --tls=2 -d -d -O w3c:/var/log/pure-ftpd/transfer.log
       FTP_USER_HOME: onap
     restart: on-failure
 
