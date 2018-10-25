@@ -16,8 +16,8 @@ onap/aaf/testcaservice,3.0.0-SNAPSHOT-latest
 onap/aai-graphadmin,1.0-STAGING-latest
 onap/aai-resources,1.3-STAGING-latest
 onap/aai-traversal,1.3-STAGING-latest
-onap/aai/esr-gui,1.1.0
-onap/aai/esr-server,1.1.0
+onap/aai/esr-gui,1.2.1-STAGING-latest
+onap/aai/esr-server,1.2.1-STAGING-latest
 onap/admportal-sdnc-image,1.4-STAGING-latest
 onap/appc-cdt-image,1.4.0-SNAPSHOT-latest
 onap/appc-image,1.4.0-SNAPSHOT-latest
