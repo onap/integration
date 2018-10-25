@@ -50,6 +50,7 @@ onap/multicloud/openstack-ocata,1.2.0
 onap/multicloud/openstack-pike,1.2.0
 onap/multicloud/openstack-windriver,1.2.0
 onap/multicloud/vio,1.2.0
+onap/multicloud/azure,1.2.0
 onap/multicloud/vio-vesagent,1.0.0
 onap/music/cassandra_3_11,3.0.23
 onap/music/cassandra_job,3.0.23
