@@ -150,6 +150,20 @@
             </configuration>
           </execution>
           <execution>
+            <id>compare-docker-manifests</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <arguments>
+                <argument>${project.basedir}/src/main/scripts/compare-docker-manifests.sh</argument>
+                <argument>${project.basedir}/src/main/resources/docker-manifest.csv</argument>
+                <argument>${project.basedir}/src/main/resources/docker-manifest-staging.csv</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
             <id>check-java-artifacts-released</id>
             <phase>verify</phase>
             <goals>
