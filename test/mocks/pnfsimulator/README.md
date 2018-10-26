@@ -52,8 +52,14 @@ After that execute *./simulator.sh stop* and when it's finished *./simulator.sh 
 In order to connect execute command *ftp -p localhost 2221* and, when requested, provide user and password.
 In order to download a file execute, while still being logged in, *get file-name-to-be-downloaded*.
 
-###FTPES support for vsftpd server
-TBD
+###FTPES support for VSFTPD server
+PNF Simulator allows to serve files via FTPES VSFTPD server. VSFTPD server has predefined user *onap* with password *pano*.
+By default TLS support is enabled. Required certificates and keys are generated via vsftpd_certs_keys_generator.sh and located in ./ftpes/vsftpd/tls/ .
+We can generate our own certificates and keys using that script and passing 'secret' password when you are asked for entering keystore password. In other cases just press ENTER to go on.
+Configuration of VSFTPD server is located in ./ftpes/vsftpd/configuration/vsftpd_ssl.conf .
+Docker-compose contains VSFTPD server image with it's configurations.
+
+In order to verify connection, please use *FileZilla* for testing.
 
 ###Developer mode
 For development of PNF Simulator, run *simulator.sh* start-dev in order to run minimal necessary set of supporting services such as Netopeer of FTP servers.
