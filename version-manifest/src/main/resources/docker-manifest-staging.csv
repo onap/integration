@@ -80,7 +80,7 @@ onap/org.onap.dcaegen2.platform.policy-handler,4.4.0
 onap/org.onap.dcaegen2.platform.servicechange-handler,1.1.5
 onap/org.onap.dcaegen2.services.prh.prh-app-server,1.1.1
 onap/policy-apex-pdp,2.0-SNAPSHOT-latest
-onap/policy-distribution,2.0.0-SNAPSHOT-latest
+onap/policy-distribution,2.0-SNAPSHOT-latest
 onap/policy-drools,1.3-SNAPSHOT-latest
 onap/policy-pe,1.3-SNAPSHOT-latest
 onap/pomba-aai-context-builder,1.3.2-SNAPSHOT-latest
