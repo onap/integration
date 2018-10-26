@@ -159,8 +159,5 @@ onap/vvp/portal,1.0.0
 onap/vvp/postgresql,1.0.0
 onap/vvp/test-engine,1.0.0
 onap/workflow-backend,1.3.1-SNAPSHOT
-onap/workflow-backend,latest
 onap/workflow-frontend,1.3.1-SNAPSHOT
-onap/workflow-frontend,latest
-onap/workflow-init,1.3.0-SNAPSHOT
 onap/workflow-init,1.3.1-SNAPSHOT
