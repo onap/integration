@@ -62,9 +62,12 @@ Acquire::https::Proxy "DIRECT";
 EOF
 fi
 
+# workaround for OpenStack intermittent failure to change default apt mirrors
+sed -i 's|http://archive.ubuntu.com|http://nova.clouds.archive.ubuntu.com|g' /etc/apt/sources.list
+
 while ! hash jq &> /dev/null; do
     apt-get -y update
-    apt-get -y install linux-image-extra-$(uname -r) jq make nfs-kernel-server moreutils
+    apt-get -y install linux-image-extra-$(uname -r) apt-transport-https ca-certificates curl software-properties-common jq make nfs-kernel-server moreutils
     sleep 10
 done
 

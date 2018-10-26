@@ -40,10 +40,12 @@ echo "__rancher_private_ip_addr__:/dockerdata-nfs /dockerdata-nfs nfs noauto,noa
 echo "vm.max_map_count=262144" >> /etc/sysctl.conf
 sysctl -p
 
+# workaround for OpenStack intermittent failure to change default apt mirrors
+sed -i 's|http://archive.ubuntu.com|http://nova.clouds.archive.ubuntu.com|g' /etc/apt/sources.list
 
 while ! hash jq &> /dev/null; do
     apt-get -y update
-    apt-get -y install linux-image-extra-$(uname -r) jq nfs-common
+    apt-get -y install apt-transport-https ca-certificates curl software-properties-common linux-image-extra-$(uname -r) jq nfs-common
     sleep 10
 done
 
