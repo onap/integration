@@ -7,6 +7,7 @@ if [ "$#" -ne 1 ]; then
 fi
 
 LC_ALL=C sort -c $1
+
 retval=$?
 if [ $retval -ne 0 ]; then
     echo
@@ -16,4 +17,12 @@ if [ $retval -ne 0 ]; then
     echo "  mv $1.tmp $1"
     echo
 fi
+
+# check that there are no duplicate records
+DUPLICATES=$(rev < $1 | cut -f2- -d, | uniq -d | rev | tr ',' ':')
+for DUP in $DUPLICATES; do
+    echo "[ERROR] $DUP has duplicate entries"
+    ((retval++))
+done
+
 exit $retval
