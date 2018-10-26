@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bada0100_4b7284ae",
+        "filename": "version-manifest/src/main/resources/java-manifest.csv",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2018-10-26T19:01:26Z",
+      "side": 1,
+      "message": "This stays at 2.0.0",
+      "range": {
+        "startLine": 234,
+        "startChar": 30,
+        "endLine": 234,
+        "endChar": 35
+      },
+      "revId": "6741a826101747e0b52c0baa69f4a99e4587a980",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
