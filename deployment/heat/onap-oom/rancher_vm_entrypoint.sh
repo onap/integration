@@ -9,6 +9,7 @@
 #     http://www.apache.org/licenses/LICENSE-2.0
 #
 
+export DEBIAN_FRONTEND=noninteractive
 printenv
 
 mkdir -p /opt/config
@@ -87,11 +88,7 @@ git add -A
 git commit -m "initial commit"
 
 # export NFS mount
-NFS_EXP=""
-for K8S_VM_IP in $(tr -d ',[]' < /opt/config/k8s_private_ips.txt); do
-    NFS_EXP+="$K8S_VM_IP(rw,fsid=1,async,no_root_squash,no_subtree_check) "
-done
-echo "/dockerdata-nfs $NFS_EXP" | tee /etc/exports
+echo "/dockerdata-nfs *(rw,fsid=1,async,no_root_squash,no_subtree_check)" | tee /etc/exports
 
 
 exportfs -a
@@ -105,9 +102,10 @@ while ! hash docker &> /dev/null; do
     usermod -aG docker ubuntu
     sleep 10
 done
+apt-mark hold docker-ce
 
 # install rancher __rancher_version__
-docker run --restart unless-stopped -d -p 8080:8080  -e CATTLE_BOOTSTRAP_REQUIRED_IMAGE=__docker_proxy__/rancher/agent:v__rancher_agent_version__ __docker_proxy__/rancher/server:v__rancher_version__
+docker run --name rancher-server --restart unless-stopped -d -p 8080:8080 -e CATTLE_BOOTSTRAP_REQUIRED_IMAGE=__docker_proxy__/rancher/agent:v__rancher_agent_version__ __docker_proxy__/rancher/server:v__rancher_version__
 
 # install kubectl __kubectl_version__
 curl -s -LO https://storage.googleapis.com/kubernetes-release/release/v__kubectl_version__/bin/linux/amd64/kubectl
@@ -129,14 +127,14 @@ done
 OLD_PID=$(jq -r '.data[0].id' projects.json)
 
 curl -s -H "Accept: application/json" -H "Content-Type: application/json" -d '{"accountId":"1a1"}' http://$RANCHER_IP:8080/v2-beta/apikeys > apikeys.json
-echo export RANCHER_ACCESS_KEY=`jq -r '.publicValue' apikeys.json` >> api-keys-rc
-echo export RANCHER_SECRET_KEY=`jq -r '.secretValue' apikeys.json` >> api-keys-rc
+echo export CATTLE_ACCESS_KEY=`jq -r '.publicValue' apikeys.json` >> api-keys-rc
+echo export CATTLE_SECRET_KEY=`jq -r '.secretValue' apikeys.json` >> api-keys-rc
 source api-keys-rc
 
 
-curl -u "${RANCHER_ACCESS_KEY}:${RANCHER_SECRET_KEY}" -X PUT -H 'Accept: application/json' -H 'Content-Type: application/json' -d '{"id":"registry.default","type":"activeSetting","baseType":"setting","name":"registry.default","activeValue":"__docker_proxy__","inDb":true,"source":"Database","value":"__docker_proxy__"}'  http://$RANCHER_IP:8080/v2-beta/settings/registry.default
+curl -u "${CATTLE_ACCESS_KEY}:${CATTLE_SECRET_KEY}" -X PUT -H 'Accept: application/json' -H 'Content-Type: application/json' -d '{"id":"registry.default","type":"activeSetting","baseType":"setting","name":"registry.default","activeValue":"__docker_proxy__","inDb":true,"source":"Database","value":"__docker_proxy__"}'  http://$RANCHER_IP:8080/v2-beta/settings/registry.default
 
-curl -s -u "${RANCHER_ACCESS_KEY}:${RANCHER_SECRET_KEY}" -X DELETE -H 'Content-Type: application/json' "http://$RANCHER_IP:8080/v2-beta/projects/$OLD_PID"
+curl -s -u "${CATTLE_ACCESS_KEY}:${CATTLE_SECRET_KEY}" -X DELETE -H 'Content-Type: application/json' "http://$RANCHER_IP:8080/v2-beta/projects/$OLD_PID"
 
 until [ ! -z "$TEMPLATE_ID" ] && [ "$TEMPLATE_ID" != "null" ]; do
     sleep 5
@@ -144,7 +142,15 @@ until [ ! -z "$TEMPLATE_ID" ] && [ "$TEMPLATE_ID" != "null" ]; do
     TEMPLATE_ID=$(jq -r '.data[0].id' projectTemplatesKubernetes.json)
 done
 
-curl -s -u "${RANCHER_ACCESS_KEY}:${RANCHER_SECRET_KEY}" -X POST -H 'Content-Type: application/json' -d '{ "name":"oom", "projectTemplateId":"'$TEMPLATE_ID'" }' "http://$RANCHER_IP:8080/v2-beta/projects" > project.json
+
+curl -s -u "${CATTLE_ACCESS_KEY}:${CATTLE_SECRET_KEY}" \
+-X PUT \
+-H 'Accept: application/json' \
+-H 'Content-Type: application/json' \
+-d '{"stacks":[{"type":"catalogTemplate", "answers":{"CONSTRAINT_TYPE":"required"}, "name":"kubernetes", "templateVersionId":"library:infra*k8s:52"}, {"type":"catalogTemplate", "name":"network-services", "templateId":"library:infra*network-services"}, {"type":"catalogTemplate", "name":"ipsec", "templateId":"library:infra*ipsec"}, {"type":"catalogTemplate", "name":"healthcheck", "templateId":"library:infra*healthcheck"}]}' \
+"http://$RANCHER_IP:8080/v2-beta/projecttemplates/$TEMPLATE_ID"
+
+curl -s -u "${CATTLE_ACCESS_KEY}:${CATTLE_SECRET_KEY}" -X POST -H 'Content-Type: application/json' -d '{ "name":"oom", "projectTemplateId":"'$TEMPLATE_ID'" }' "http://$RANCHER_IP:8080/v2-beta/projects" > project.json
 PID=`jq -r '.id' project.json`
 echo export RANCHER_URL=http://$RANCHER_IP:8080/v1/projects/$PID >> api-keys-rc
 source api-keys-rc
@@ -155,11 +161,11 @@ until [ $(jq -r '.state' project.json) == "active" ]; do
 done
 
 
-curl -s -u $RANCHER_ACCESS_KEY:$RANCHER_SECRET_KEY -X POST -H 'Accept: application/json' -H 'Content-Type: application/json' -d '{"name":"docker-proxy", "serverAddress":"__docker_proxy__"}' $RANCHER_URL/registries > registry.json
+curl -s -u $CATTLE_ACCESS_KEY:$CATTLE_SECRET_KEY -X POST -H 'Accept: application/json' -H 'Content-Type: application/json' -d '{"name":"docker-proxy", "serverAddress":"__docker_proxy__"}' $RANCHER_URL/registries > registry.json
 RID=$(jq -r '.id' registry.json)
 
 
-curl -u "${RANCHER_ACCESS_KEY}:${RANCHER_SECRET_KEY}" -X POST -H 'Accept: application/json' -H 'Content-Type: application/json' -d '{"publicValue":"docker", "registryId":"'$RID'", "secretValue":"docker", "type":"registryCredential"}' "http://$RANCHER_IP:8080/v2-beta/projects/$PID/registrycredential"
+curl -u "${CATTLE_ACCESS_KEY}:${CATTLE_SECRET_KEY}" -X POST -H 'Accept: application/json' -H 'Content-Type: application/json' -d '{"publicValue":"docker", "registryId":"'$RID'", "secretValue":"docker", "type":"registryCredential"}' "http://$RANCHER_IP:8080/v2-beta/projects/$PID/registrycredential"
 
 
 
@@ -178,7 +184,7 @@ git commit -a -m "Add rancher agent command file"
 cd ~
 
 
-KUBETOKEN=$(echo -n 'Basic '$(echo -n "$RANCHER_ACCESS_KEY:$RANCHER_SECRET_KEY" | base64 -w 0) | base64 -w 0)
+KUBETOKEN=$(echo -n 'Basic '$(echo -n "$CATTLE_ACCESS_KEY:$CATTLE_SECRET_KEY" | base64 -w 0) | base64 -w 0)
 
 # create .kube/config
 cat > ~/.kube/config <<EOF

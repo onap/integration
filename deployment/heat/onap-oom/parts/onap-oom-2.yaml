@@ -1,4 +1,4 @@
-  ${K8S_VM_NAME}_private_port:
+  ${VM_TYPE}_${VM_NUM}_private_port:
     type: OS::Neutron::Port
     properties:
       network: { get_resource: oam_network }
@@ -6,22 +6,22 @@
       security_groups:
       - { get_resource: onap_sg }
 
-  ${K8S_VM_NAME}_floating_ip:
+  ${VM_TYPE}_${VM_NUM}_floating_ip:
     type: OS::Neutron::FloatingIP
     properties:
       floating_network_id: { get_param: public_net_id }
-      port_id: { get_resource: ${K8S_VM_NAME}_private_port }
+      port_id: { get_resource: ${VM_TYPE}_${VM_NUM}_private_port }
 
-  ${K8S_VM_NAME}_vm:
+  ${VM_TYPE}_${VM_NUM}_vm:
     type: OS::Nova::Server
     properties:
       name:
-        list_join: ['-', [ { get_param: 'OS::stack_name' }, '${K8S_VM_NAME}']]
+        list_join: ['-', [ { get_param: 'OS::stack_name' }, '${VM_TYPE}', '${VM_NUM}' ] ]
       image: { get_param: ubuntu_1604_image }
-      flavor: { get_param: k8s_vm_flavor }
+      flavor: { get_param: ${VM_TYPE}_vm_flavor }
       key_name: { get_param: key_name }
       networks:
-      - port: { get_resource: ${K8S_VM_NAME}_private_port }
+      - port: { get_resource: ${VM_TYPE}_${VM_NUM}_private_port }
       user_data_format: RAW
       user_data:
         str_replace:
@@ -31,6 +31,7 @@
             __docker_version__: { get_param: docker_version }
             __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
             __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+            __host_label__: '$HOST_LABEL'
           template:
             get_file: k8s_vm_entrypoint.sh
 

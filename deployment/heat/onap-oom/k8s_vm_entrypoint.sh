@@ -9,6 +9,7 @@
 #     http://www.apache.org/licenses/LICENSE-2.0
 #
 
+export DEBIAN_FRONTEND=noninteractive
 printenv
 
 mkdir -p /opt/config
@@ -36,16 +37,13 @@ fi
 mkdir -p /dockerdata-nfs
 echo "__rancher_private_ip_addr__:/dockerdata-nfs /dockerdata-nfs nfs noauto,noatime,fg,retry=1,x-systemd.automount,_netdev,soft,nolock,intr,tcp,actimeo=1800 0 0" | tee -a /etc/fstab
 
-# Fix virtual memory allocation for onap-log:elasticsearch:
-echo "vm.max_map_count=262144" >> /etc/sysctl.conf
-sysctl -p
-
 # workaround for OpenStack intermittent failure to change default apt mirrors
 sed -i 's|http://archive.ubuntu.com|http://nova.clouds.archive.ubuntu.com|g' /etc/apt/sources.list
 
 while ! hash jq &> /dev/null; do
     apt-get -y update
-    apt-get -y install apt-transport-https ca-certificates curl software-properties-common linux-image-extra-$(uname -r) jq nfs-common
+    apt-get -y dist-upgrade
+    apt-get -y install linux-image-extra-$(uname -r) apt-transport-https ca-certificates curl software-properties-common jq nfs-common
     sleep 10
 done
 
@@ -55,6 +53,7 @@ while ! hash docker &> /dev/null; do
     usermod -aG docker ubuntu
     sleep 10
 done
+apt-mark hold docker-ce
 
 while [ ! -e /dockerdata-nfs/rancher_agent_cmd.sh ]; do
     mount /dockerdata-nfs
@@ -63,5 +62,8 @@ done
 
 cd ~
 cp /dockerdata-nfs/rancher_agent_cmd.sh .
-sed -i "s/docker run/docker run -e CATTLE_AGENT_IP=${HOST_IP}/g" rancher_agent_cmd.sh
+sed -i "s/docker run/docker run -e CATTLE_HOST_LABELS='__host_label__=true' -e CATTLE_AGENT_IP=${HOST_IP}/g" rancher_agent_cmd.sh
 source rancher_agent_cmd.sh
+sleep 1m
+
+reboot

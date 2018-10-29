@@ -28,6 +28,14 @@ parameters:
     type: string
     description: VM flavor for k8s hosts
 
+  etcd_vm_flavor:
+    type: string
+    description: VM flavor for etcd hosts
+
+  orch_vm_flavor:
+    type: string
+    description: VM flavor for orch hosts
+
   integration_override_yaml:
     type: string
     description: Content for integration_override.yaml
@@ -58,19 +66,19 @@ parameters:
 
   docker_version:
     type: string
-    default: "17.03"
+    default: "17.03.2"
 
   rancher_version:
     type: string
-    default: "1.6.18"
+    default: "1.6.22"
 
   rancher_agent_version:
     type: string
-    default: "1.2.10"
+    default: "1.2.11"
 
   kubectl_version:
     type: string
-    default: "1.8.10"
+    default: "1.11.2"
 
   helm_version:
     type: string

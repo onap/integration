@@ -31,6 +31,14 @@ parameters:
     type: string
     description: VM flavor for k8s hosts
 
+  etcd_vm_flavor:
+    type: string
+    description: VM flavor for etcd hosts
+
+  orch_vm_flavor:
+    type: string
+    description: VM flavor for orch hosts
+
   integration_override_yaml:
     type: string
     description: Content for integration_override.yaml
@@ -61,19 +69,19 @@ parameters:
 
   docker_version:
     type: string
-    default: "17.03"
+    default: "17.03.2"
 
   rancher_version:
     type: string
-    default: "1.6.18"
+    default: "1.6.22"
 
   rancher_agent_version:
     type: string
-    default: "1.2.10"
+    default: "1.2.11"
 
   kubectl_version:
     type: string
-    default: "1.8.10"
+    default: "1.11.2"
 
   helm_version:
     type: string
@@ -213,7 +221,6 @@ resources:
               get_attr: [k8s_10_floating_ip, floating_ip_address],
               get_attr: [k8s_11_floating_ip, floating_ip_address],
               get_attr: [k8s_12_floating_ip, floating_ip_address],
-              get_attr: [k8s_13_floating_ip, floating_ip_address],
             ]
             __k8s_private_ips__: [
               get_attr: [k8s_1_floating_ip, fixed_ip_address],
@@ -228,7 +235,6 @@ resources:
               get_attr: [k8s_10_floating_ip, fixed_ip_address],
               get_attr: [k8s_11_floating_ip, fixed_ip_address],
               get_attr: [k8s_12_floating_ip, fixed_ip_address],
-              get_attr: [k8s_13_floating_ip, fixed_ip_address],
             ]
   k8s_1_private_port:
     type: OS::Neutron::Port
@@ -248,7 +254,7 @@ resources:
     type: OS::Nova::Server
     properties:
       name:
-        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s_1']]
+        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s', '1' ] ]
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: k8s_vm_flavor }
       key_name: { get_param: key_name }
@@ -263,6 +269,7 @@ resources:
             __docker_version__: { get_param: docker_version }
             __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
             __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+            __host_label__: 'compute'
           template:
             get_file: k8s_vm_entrypoint.sh
 
@@ -284,7 +291,7 @@ resources:
     type: OS::Nova::Server
     properties:
       name:
-        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s_2']]
+        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s', '2' ] ]
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: k8s_vm_flavor }
       key_name: { get_param: key_name }
@@ -299,6 +306,7 @@ resources:
             __docker_version__: { get_param: docker_version }
             __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
             __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+            __host_label__: 'compute'
           template:
             get_file: k8s_vm_entrypoint.sh
 
@@ -320,7 +328,7 @@ resources:
     type: OS::Nova::Server
     properties:
       name:
-        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s_3']]
+        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s', '3' ] ]
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: k8s_vm_flavor }
       key_name: { get_param: key_name }
@@ -335,6 +343,7 @@ resources:
             __docker_version__: { get_param: docker_version }
             __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
             __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+            __host_label__: 'compute'
           template:
             get_file: k8s_vm_entrypoint.sh
 
@@ -356,7 +365,7 @@ resources:
     type: OS::Nova::Server
     properties:
       name:
-        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s_4']]
+        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s', '4' ] ]
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: k8s_vm_flavor }
       key_name: { get_param: key_name }
@@ -371,6 +380,7 @@ resources:
             __docker_version__: { get_param: docker_version }
             __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
             __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+            __host_label__: 'compute'
           template:
             get_file: k8s_vm_entrypoint.sh
 
@@ -392,7 +402,7 @@ resources:
     type: OS::Nova::Server
     properties:
       name:
-        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s_5']]
+        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s', '5' ] ]
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: k8s_vm_flavor }
       key_name: { get_param: key_name }
@@ -407,6 +417,7 @@ resources:
             __docker_version__: { get_param: docker_version }
             __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
             __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+            __host_label__: 'compute'
           template:
             get_file: k8s_vm_entrypoint.sh
 
@@ -428,7 +439,7 @@ resources:
     type: OS::Nova::Server
     properties:
       name:
-        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s_6']]
+        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s', '6' ] ]
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: k8s_vm_flavor }
       key_name: { get_param: key_name }
@@ -443,6 +454,7 @@ resources:
             __docker_version__: { get_param: docker_version }
             __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
             __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+            __host_label__: 'compute'
           template:
             get_file: k8s_vm_entrypoint.sh
 
@@ -464,7 +476,7 @@ resources:
     type: OS::Nova::Server
     properties:
       name:
-        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s_7']]
+        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s', '7' ] ]
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: k8s_vm_flavor }
       key_name: { get_param: key_name }
@@ -479,6 +491,7 @@ resources:
             __docker_version__: { get_param: docker_version }
             __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
             __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+            __host_label__: 'compute'
           template:
             get_file: k8s_vm_entrypoint.sh
 
@@ -500,7 +513,7 @@ resources:
     type: OS::Nova::Server
     properties:
       name:
-        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s_8']]
+        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s', '8' ] ]
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: k8s_vm_flavor }
       key_name: { get_param: key_name }
@@ -515,6 +528,7 @@ resources:
             __docker_version__: { get_param: docker_version }
             __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
             __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+            __host_label__: 'compute'
           template:
             get_file: k8s_vm_entrypoint.sh
 
@@ -536,7 +550,7 @@ resources:
     type: OS::Nova::Server
     properties:
       name:
-        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s_9']]
+        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s', '9' ] ]
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: k8s_vm_flavor }
       key_name: { get_param: key_name }
@@ -551,6 +565,7 @@ resources:
             __docker_version__: { get_param: docker_version }
             __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
             __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+            __host_label__: 'compute'
           template:
             get_file: k8s_vm_entrypoint.sh
 
@@ -572,7 +587,7 @@ resources:
     type: OS::Nova::Server
     properties:
       name:
-        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s_10']]
+        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s', '10' ] ]
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: k8s_vm_flavor }
       key_name: { get_param: key_name }
@@ -587,6 +602,7 @@ resources:
             __docker_version__: { get_param: docker_version }
             __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
             __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+            __host_label__: 'compute'
           template:
             get_file: k8s_vm_entrypoint.sh
 
@@ -608,7 +624,7 @@ resources:
     type: OS::Nova::Server
     properties:
       name:
-        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s_11']]
+        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s', '11' ] ]
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: k8s_vm_flavor }
       key_name: { get_param: key_name }
@@ -623,6 +639,7 @@ resources:
             __docker_version__: { get_param: docker_version }
             __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
             __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+            __host_label__: 'compute'
           template:
             get_file: k8s_vm_entrypoint.sh
 
@@ -644,7 +661,7 @@ resources:
     type: OS::Nova::Server
     properties:
       name:
-        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s_12']]
+        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s', '12' ] ]
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: k8s_vm_flavor }
       key_name: { get_param: key_name }
@@ -659,10 +676,11 @@ resources:
             __docker_version__: { get_param: docker_version }
             __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
             __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+            __host_label__: 'compute'
           template:
             get_file: k8s_vm_entrypoint.sh
 
-  k8s_13_private_port:
+  etcd_1_private_port:
     type: OS::Neutron::Port
     properties:
       network: { get_resource: oam_network }
@@ -670,22 +688,22 @@ resources:
       security_groups:
       - { get_resource: onap_sg }
 
-  k8s_13_floating_ip:
+  etcd_1_floating_ip:
     type: OS::Neutron::FloatingIP
     properties:
       floating_network_id: { get_param: public_net_id }
-      port_id: { get_resource: k8s_13_private_port }
+      port_id: { get_resource: etcd_1_private_port }
 
-  k8s_13_vm:
+  etcd_1_vm:
     type: OS::Nova::Server
     properties:
       name:
-        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s_13']]
+        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'etcd', '1' ] ]
       image: { get_param: ubuntu_1604_image }
-      flavor: { get_param: k8s_vm_flavor }
+      flavor: { get_param: etcd_vm_flavor }
       key_name: { get_param: key_name }
       networks:
-      - port: { get_resource: k8s_13_private_port }
+      - port: { get_resource: etcd_1_private_port }
       user_data_format: RAW
       user_data:
         str_replace:
@@ -695,6 +713,155 @@ resources:
             __docker_version__: { get_param: docker_version }
             __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
             __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+            __host_label__: 'etcd'
+          template:
+            get_file: k8s_vm_entrypoint.sh
+
+  etcd_2_private_port:
+    type: OS::Neutron::Port
+    properties:
+      network: { get_resource: oam_network }
+      fixed_ips: [{"subnet": { get_resource: oam_subnet }}]
+      security_groups:
+      - { get_resource: onap_sg }
+
+  etcd_2_floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network_id: { get_param: public_net_id }
+      port_id: { get_resource: etcd_2_private_port }
+
+  etcd_2_vm:
+    type: OS::Nova::Server
+    properties:
+      name:
+        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'etcd', '2' ] ]
+      image: { get_param: ubuntu_1604_image }
+      flavor: { get_param: etcd_vm_flavor }
+      key_name: { get_param: key_name }
+      networks:
+      - port: { get_resource: etcd_2_private_port }
+      user_data_format: RAW
+      user_data:
+        str_replace:
+          params:
+            __docker_proxy__: { get_param: docker_proxy }
+            __apt_proxy__: { get_param: apt_proxy }
+            __docker_version__: { get_param: docker_version }
+            __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+            __host_label__: 'etcd'
+          template:
+            get_file: k8s_vm_entrypoint.sh
+
+  etcd_3_private_port:
+    type: OS::Neutron::Port
+    properties:
+      network: { get_resource: oam_network }
+      fixed_ips: [{"subnet": { get_resource: oam_subnet }}]
+      security_groups:
+      - { get_resource: onap_sg }
+
+  etcd_3_floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network_id: { get_param: public_net_id }
+      port_id: { get_resource: etcd_3_private_port }
+
+  etcd_3_vm:
+    type: OS::Nova::Server
+    properties:
+      name:
+        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'etcd', '3' ] ]
+      image: { get_param: ubuntu_1604_image }
+      flavor: { get_param: etcd_vm_flavor }
+      key_name: { get_param: key_name }
+      networks:
+      - port: { get_resource: etcd_3_private_port }
+      user_data_format: RAW
+      user_data:
+        str_replace:
+          params:
+            __docker_proxy__: { get_param: docker_proxy }
+            __apt_proxy__: { get_param: apt_proxy }
+            __docker_version__: { get_param: docker_version }
+            __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+            __host_label__: 'etcd'
+          template:
+            get_file: k8s_vm_entrypoint.sh
+
+  orch_1_private_port:
+    type: OS::Neutron::Port
+    properties:
+      network: { get_resource: oam_network }
+      fixed_ips: [{"subnet": { get_resource: oam_subnet }}]
+      security_groups:
+      - { get_resource: onap_sg }
+
+  orch_1_floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network_id: { get_param: public_net_id }
+      port_id: { get_resource: orch_1_private_port }
+
+  orch_1_vm:
+    type: OS::Nova::Server
+    properties:
+      name:
+        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'orch', '1' ] ]
+      image: { get_param: ubuntu_1604_image }
+      flavor: { get_param: orch_vm_flavor }
+      key_name: { get_param: key_name }
+      networks:
+      - port: { get_resource: orch_1_private_port }
+      user_data_format: RAW
+      user_data:
+        str_replace:
+          params:
+            __docker_proxy__: { get_param: docker_proxy }
+            __apt_proxy__: { get_param: apt_proxy }
+            __docker_version__: { get_param: docker_version }
+            __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+            __host_label__: 'orchestration'
+          template:
+            get_file: k8s_vm_entrypoint.sh
+
+  orch_2_private_port:
+    type: OS::Neutron::Port
+    properties:
+      network: { get_resource: oam_network }
+      fixed_ips: [{"subnet": { get_resource: oam_subnet }}]
+      security_groups:
+      - { get_resource: onap_sg }
+
+  orch_2_floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network_id: { get_param: public_net_id }
+      port_id: { get_resource: orch_2_private_port }
+
+  orch_2_vm:
+    type: OS::Nova::Server
+    properties:
+      name:
+        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'orch', '2' ] ]
+      image: { get_param: ubuntu_1604_image }
+      flavor: { get_param: orch_vm_flavor }
+      key_name: { get_param: key_name }
+      networks:
+      - port: { get_resource: orch_2_private_port }
+      user_data_format: RAW
+      user_data:
+        str_replace:
+          params:
+            __docker_proxy__: { get_param: docker_proxy }
+            __apt_proxy__: { get_param: apt_proxy }
+            __docker_version__: { get_param: docker_version }
+            __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+            __host_label__: 'orchestration'
           template:
             get_file: k8s_vm_entrypoint.sh
 
@@ -750,8 +917,4 @@ outputs:
   k8s_12_vm_ip:
     description: The IP address of the k8s_12 instance
     value: { get_attr: [k8s_12_floating_ip, floating_ip_address] }
-
-  k8s_13_vm_ip:
-    description: The IP address of the k8s_13 instance
-    value: { get_attr: [k8s_13_floating_ip, floating_ip_address] }
 
