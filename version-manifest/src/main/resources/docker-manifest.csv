@@ -10,8 +10,8 @@ onap/aaf/aaf_oauth,2.1.6
 onap/aaf/aaf_service,2.1.6
 onap/aaf/abrmd,3.0.0
 onap/aaf/distcenter,3.0.0
-onap/aaf/sms,3.0.0
-onap/aaf/smsquorumclient,3.0.0
+onap/aaf/sms,3.0.1
+onap/aaf/smsquorumclient,3.0.1
 onap/aaf/testcaservice,3.0.0
 onap/aai-cacher,1.0.0
 onap/aai-graphadmin,1.0.0
