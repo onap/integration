@@ -46,7 +46,12 @@ function build_image(){
     fi
 }
 
+function set_vsftpd_file_owner() {
+    sudo chown root ./ftpes/vsftpd/configuration/vsftpd_ssl.conf
+}
+
 function start_netconf_server() {
+    set_vsftpd_file_owner
     docker-compose -f $1 up -d $NETOPEER_CONTAINER_NAME
     echo
     echo "NETCONF server container's logs:"
@@ -62,7 +67,7 @@ function start(){
         echo "Simulator containers are already up"
     else
         echo "Starting simulator containers using netconf model specified in config/netconf.env"
-
+        set_vsftpd_file_owner
         archive_logs
         start_netconf_server $1
         docker-compose -f $1 up -d $SIMULATOR_CONTAINER_NAME
@@ -138,7 +143,7 @@ Logs are written to logs/pnf-simulator.log. After each "start/start-dev" old log
 
 FOR DEVELOPERS
 1. Build local simulator image using "./simulator.sh build"
-2. Run containers with "./simulator.sh start-debug"
+2. Run containers with "./simulator.sh start-dev"
 
 If you change the source code you have to rebuild image with "./simulator.sh build" and run "./simulator.sh start/start-dev" again
 EndOfMessage
