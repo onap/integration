@@ -3,7 +3,7 @@ description: Heat template for HV-VES simulator deployment
 heat_template_version: 2013-05-23
 
 parameters:
-  name: { description: Instance name, label: Name, type: string, default: hv-ves_sim  }
+  name: { description: Instance name, label: Name, type: string, default: hvves-sim  }
   flavor_name: { description: Instance flavor to be used, label: Flavor Name, type: string }
   image_name: { description: Ubuntu 16.04 image to be used, label: Image Name, type: string }
   private_net_id: { description: Private network id, label: Private Network ID, type: string }
@@ -86,7 +86,7 @@ resources:
                         }
 
                         proto_files_checkout () {
-                            mkdir -p ~/hv-ves_sim/proto;cd ~/hv-ves_sim/proto;wget "https://gerrit.onap.org/r/gitweb?p=dcaegen2/collectors/hv-ves.git;a=blob_plain;f=hv-collector-domain/src/main/proto/event/VesEvent.proto;hb=HEAD" -O VesEvent.proto;wget "https://gerrit.onap.org/r/gitweb?p=dcaegen2/collectors/hv-ves.git;a=blob_plain;f=hv-collector-domain/src/main/proto/measurements/HVMeasFields.proto;hb=HEAD" -O HVMeasFields.proto;wget "https://gerrit.onap.org/r/gitweb?p=dcaegen2/collectors/hv-ves.git;a=blob_plain;f=hv-collector-domain/src/main/proto/measurements/MeasDataCollection.proto;hb=HEAD" -O MeasDataCollection.proto
+                            mkdir -p ~/hv-ves_sim/proto;cd ~/hv-ves_sim/proto;wget "https://gerrit.onap.org/r/gitweb?p=dcaegen2/collectors/hv-ves.git;a=blob_plain;f=hv-collector-domain/src/main/proto/event/VesEvent.proto;hb=HEAD" -O VesEvent.proto
                         }
 
                         kafkacat_install () {
@@ -176,7 +176,7 @@ resources:
 
                         message_samples_checkout () {
                                 mkdir ~/hv-ves_sim/samples
-                                cd ~/hv-ves_sim/samples ; wget "https://gerrit.onap.org/r/gitweb?p=integration.git;a=blob_plain;f=test/csit/tests/dcaegen2-collectors-hv-ves/testcases/resources/scenarios/authorization/xnf-valid-messages-request.json;hb=HEAD" -O xnf-valid-messages-request.json ; wget "https://gerrit.onap.org/r/gitweb?p=integration.git;a=blob_plain;f=test/csit/tests/dcaegen2-collectors-hv-ves/testcases/resources/scenarios/invalid-gpb-data/xnf-invalid-gpb-data-request.json;hb=HEAD" -O xnf-invalid-gpb-data-request.json ; wget "https://gerrit.onap.org/r/gitweb?p=integration.git;a=blob_plain;f=test/csit/tests/dcaegen2-collectors-hv-ves/testcases/resources/scenarios/multiple-simulators-payload/xnf-simulator-smaller-valid-request.json;hb=HEAD" -O xnf-simulator-smaller-valid-request.json
+                                cd ~/hv-ves_sim/samples ; wget "https://gerrit.onap.org/r/gitweb?p=integration/csit.git;a=blob_plain;f=tests/dcaegen2-collectors-hv-ves/testcases/resources/scenarios/authorization/xnf-valid-messages-request.json;hb=HEAD" -O xnf-valid-messages-request.json ; wget "https://gerrit.onap.org/r/gitweb?p=integration/csit.git;a=blob_plain;f=tests/dcaegen2-collectors-hv-ves/testcases/resources/scenarios/invalid-gpb-data/xnf-invalid-gpb-data-request.json;hb=HEAD" -O xnf-invalid-gpb-data-request.json ; wget "https://gerrit.onap.org/r/gitweb?p=integration/csit.git;a=blob_plain;f=tests/dcaegen2-collectors-hv-ves/testcases/resources/scenarios/multiple-simulators-payload/xnf-simulator-smaller-valid-request.json;hb=HEAD" -O xnf-simulator-smaller-valid-request.json
                         }
 
                         set_versions
