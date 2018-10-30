@@ -20,7 +20,9 @@ Proper config must contain *simulatorParams*, *commonEventHeaderParams* and *pnf
 The recommended way is to checkout PNF Simulator project from ONAP Git repository and use *simulator*.sh script.
 If you copy *simulator.sh* script to another location, keep in mind to copy also *docker-compose.yml* and directories: *config,json_schema and netconf*.
 In order to run simulator, invoke ./simulator.sh start
+You may be asked for providing password for ypur user during startup.
 Script downloads if necessary needed Docker images and runs instances of these images.
+The easiest way is to download or generate PNF Simulator zip archive with all needed configuration files.
 
 ###Logging
 It is possible to get access to logs by invocation of *./simulator.sh* logs. 
