@@ -15,7 +15,7 @@ if [ $COMPONENT == "dcae" ] || [ $COMPONENT == "DCAE" ]; then
 	kubectl delete service consul -n onap
 fi
 
-for op in secrets configmaps pvc pv services deployments statefulsets; do
+for op in secrets configmaps pvc pv services deployments statefulsets clusterrolebinding; do
 	ARRAY=(`kubectl get $op -n onap | grep dev-$COMPONENT | awk '{print $1}'`)
 	for i in ${ARRAY[*]}; do
 		kubectl delete $op -n onap $i
