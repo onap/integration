@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bada0100_5909f393",
+        "filename": "deployment/heat/onap-oom/env/windriver/onap-oom.env",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2018-10-31T15:44:48Z",
+      "side": 1,
+      "message": "variable name is correct but its the un-encrypted password for now - is that still OS_PASSWORD_ENCRYPTED ?",
+      "range": {
+        "startLine": 59,
+        "startChar": 8,
+        "endLine": 59,
+        "endChar": 34
+      },
+      "revId": "501824ffb9e60ef874269087d307f40ec15f7a7d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
