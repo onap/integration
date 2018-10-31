@@ -10,6 +10,8 @@
 #
 
 export DEBIAN_FRONTEND=noninteractive
+HOST_IP=$(hostname -I)
+echo $HOST_IP `hostname` >> /etc/hosts
 printenv
 
 mkdir -p /opt/config
@@ -114,10 +116,15 @@ sudo mv ./kubectl /usr/local/bin/kubectl
 mkdir ~/.kube
 
 # install helm __helm_version__
+mkdir -p helm
+pushd helm
 wget -q http://storage.googleapis.com/kubernetes-helm/helm-v__helm_version__-linux-amd64.tar.gz
 tar -zxvf helm-v__helm_version__-linux-amd64.tar.gz
-sudo mv linux-amd64/helm /usr/local/bin/helm
+sudo cp linux-amd64/helm /usr/local/bin/helm
+popd
 
+mkdir -p rancher
+pushd rancher
 echo export RANCHER_IP=__rancher_private_ip_addr__ > api-keys-rc
 source api-keys-rc
 
@@ -178,10 +185,17 @@ done
 jq -r .command token.json > rancher_agent_cmd.sh
 chmod +x rancher_agent_cmd.sh
 cp rancher_agent_cmd.sh /dockerdata-nfs
+popd
+
 cd /dockerdata-nfs
 git add -A
 git commit -a -m "Add rancher agent command file"
 cd ~
+
+cp /dockerdata-nfs/rancher_agent_cmd.sh .
+sed -i "s/docker run/docker run -e CATTLE_HOST_LABELS='orchestration=true' -e CATTLE_AGENT_IP=${HOST_IP}/g" rancher_agent_cmd.sh
+source rancher_agent_cmd.sh
+
 
 
 KUBETOKEN=$(echo -n 'Basic '$(echo -n "$CATTLE_ACCESS_KEY:$CATTLE_SECRET_KEY" | base64 -w 0) | base64 -w 0)
@@ -210,6 +224,8 @@ EOF
 
 export KUBECONFIG=/root/.kube/config
 kubectl config view
+
+
 
 # Enable auto-completion for kubectl
 echo "source <(kubectl completion bash)" >> ~/.bashrc
