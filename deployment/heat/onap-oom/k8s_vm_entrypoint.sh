@@ -10,14 +10,14 @@
 #
 
 export DEBIAN_FRONTEND=noninteractive
+HOST_IP=$(hostname -I)
+echo $HOST_IP `hostname` >> /etc/hosts
 printenv
 
 mkdir -p /opt/config
 echo "__docker_version__" > /opt/config/docker_version.txt
 echo "__rancher_ip_addr__" > /opt/config/rancher_ip_addr.txt
 echo "__rancher_private_ip_addr__" > /opt/config/rancher_private_ip_addr.txt
-HOST_IP=$(hostname -I)
-echo $HOST_IP `hostname` >> /etc/hosts
 
 mkdir -p /etc/docker
 if [ ! -z "__docker_proxy__" ]; then
