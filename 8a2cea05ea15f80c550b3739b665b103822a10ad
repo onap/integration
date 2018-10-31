@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bada0100_b926dfcc",
+        "filename": "deployment/heat/onap-oom/env/tlab/onap-oom.env",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1733
+      },
+      "writtenOn": "2018-10-31T17:05:09Z",
+      "side": 1,
+      "message": "These two lines may be removed as of Casablanca. They were needed for AAF support in Beijing.",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 45
+      },
+      "revId": "8a2cea05ea15f80c550b3739b665b103822a10ad",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_992bdb93",
+        "filename": "deployment/heat/onap-oom/env/windriver/onap-oom.env",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1733
+      },
+      "writtenOn": "2018-10-31T17:05:09Z",
+      "side": 1,
+      "message": "These two lines may be removed as of Casablanca. They were needed for AAF support in Beijing.",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 45
+      },
+      "revId": "8a2cea05ea15f80c550b3739b665b103822a10ad",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
