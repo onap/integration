@@ -35,7 +35,7 @@ OOM_GERRIT_BRANCH=master
 OOM_GERRIT_REFSPEC=refs/heads/master
 INTEGRATION_GERRIT_BRANCH=master
 INTEGRATION_GERRIT_REFSPEC=refs/heads/master
-
+DOCKER_MANIFEST=""
 
 # Verify that k8s works
 if [ $(kubectl get pods --namespace kube-system | tail -n +2 | grep -c Running) -lt 6 ]; then
@@ -76,9 +76,9 @@ git checkout FETCH_HEAD
 git checkout -b workarounds
 git log -1
 
-if [ ! -z "__docker_manifest__" ]; then
+if [ ! -z "$DOCKER_MANIFEST" ]; then
     cd version-manifest/src/main/scripts
-    ./update-oom-image-versions.sh ../resources/__docker_manifest__ ~/oom/
+    ./update-oom-image-versions.sh ../resources/$DOCKER_MANIFEST ~/oom/
 fi
 
 cd ~/oom
