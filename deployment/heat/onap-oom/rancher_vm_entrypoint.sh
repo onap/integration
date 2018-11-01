@@ -192,9 +192,12 @@ git add -A
 git commit -a -m "Add rancher agent command file"
 cd ~
 
-cp /dockerdata-nfs/rancher_agent_cmd.sh .
-sed -i "s/docker run/docker run -e CATTLE_HOST_LABELS='orchestration=true' -e CATTLE_AGENT_IP=${HOST_IP}/g" rancher_agent_cmd.sh
-source rancher_agent_cmd.sh
+
+# Uncomment this section to run orchestration plane on the Rancher VM
+#
+# cp /dockerdata-nfs/rancher_agent_cmd.sh .
+# sed -i "s/docker run/docker run -e CATTLE_HOST_LABELS='orchestration=true' -e CATTLE_AGENT_IP=${HOST_IP}/g" rancher_agent_cmd.sh
+# source rancher_agent_cmd.sh
 
 
 

@@ -101,7 +101,7 @@ for VM_NUM in $(seq 3); do
     VM_TYPE=etcd HOST_LABEL=etcd VM_NUM=$VM_NUM envsubst < $PARTS_DIR/onap-oom-2.yaml
 done
 
-for VM_NUM in $(seq 0); do
+for VM_NUM in $(seq 1); do
     VM_TYPE=orch HOST_LABEL=orchestration VM_NUM=$VM_NUM envsubst < $PARTS_DIR/onap-oom-2.yaml
 done
 

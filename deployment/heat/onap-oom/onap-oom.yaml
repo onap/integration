@@ -713,6 +713,43 @@ resources:
           template:
             get_file: k8s_vm_entrypoint.sh
 
+  orch_1_private_port:
+    type: OS::Neutron::Port
+    properties:
+      network: { get_resource: oam_network }
+      fixed_ips: [{"subnet": { get_resource: oam_subnet }}]
+      security_groups:
+      - { get_resource: onap_sg }
+
+  orch_1_floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network_id: { get_param: public_net_id }
+      port_id: { get_resource: orch_1_private_port }
+
+  orch_1_vm:
+    type: OS::Nova::Server
+    properties:
+      name:
+        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'orch', '1' ] ]
+      image: { get_param: ubuntu_1604_image }
+      flavor: { get_param: orch_vm_flavor }
+      key_name: { get_param: key_name }
+      networks:
+      - port: { get_resource: orch_1_private_port }
+      user_data_format: RAW
+      user_data:
+        str_replace:
+          params:
+            __docker_proxy__: { get_param: docker_proxy }
+            __apt_proxy__: { get_param: apt_proxy }
+            __docker_version__: { get_param: docker_version }
+            __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+            __host_label__: 'orchestration'
+          template:
+            get_file: k8s_vm_entrypoint.sh
+
 outputs:
   rancher_vm_ip:
     description: The IP address of the rancher instance
