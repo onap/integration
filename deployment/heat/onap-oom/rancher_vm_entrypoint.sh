@@ -203,6 +203,8 @@ cd ~
 
 KUBETOKEN=$(echo -n 'Basic '$(echo -n "$CATTLE_ACCESS_KEY:$CATTLE_SECRET_KEY" | base64 -w 0) | base64 -w 0)
 
+NAMESPACE=onap
+
 # create .kube/config
 cat > ~/.kube/config <<EOF
 apiVersion: v1
@@ -216,6 +218,7 @@ clusters:
 contexts:
 - context:
     cluster: "oom"
+    namespace: "$NAMESPACE"
     user: "oom"
   name: "oom"
 current-context: "oom"
@@ -291,7 +294,7 @@ helm repo list
 make all
 rsync -avt ~/oom/kubernetes/helm/plugins ~/.helm/
 helm search -l | grep local
-helm deploy dev local/onap -f ~/oom/kubernetes/onap/resources/environments/public-cloud.yaml -f ~/integration-override.yaml --namespace onap | tee ~/helm-deploy.log
+helm deploy dev local/onap -f ~/oom/kubernetes/onap/resources/environments/public-cloud.yaml -f ~/integration-override.yaml --namespace $NAMESPACE
 helm list
 
 
