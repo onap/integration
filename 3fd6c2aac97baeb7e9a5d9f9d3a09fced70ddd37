@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_87b0acf5",
+        "filename": "deployment/heat/onap-oom/onap-oom.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2018-11-06T19:10:26Z",
+      "side": 1,
+      "message": "these will need to be reviewed 1.6.18, 1.2.10 and 1.8.10 upgrades between RC1 and RC2 with the larger ONAP community - or documented/communicated",
+      "revId": "3fd6c2aac97baeb7e9a5d9f9d3a09fced70ddd37",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
