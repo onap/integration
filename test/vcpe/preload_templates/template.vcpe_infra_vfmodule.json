@@ -105,7 +105,11 @@
 	},
 	{
 	"vnf-parameter-name": "mr_ip_addr",
-	"vnf-parameter-value": "10.0.11.1"
+	"vnf-parameter-value": "10.12.5.239"
+	},
+	{
+	"vnf-parameter-name": "mr_ip_port",
+	"vnf-parameter-value": "30227"
 	},
 	{
 	"vnf-parameter-name": "vaaa_name_0",
