@@ -61,16 +61,18 @@ cat <<EOF
             __rancher_agent_version__: { get_param: rancher_agent_version }
             __kubectl_version__: { get_param: kubectl_version }
             __helm_version__: { get_param: helm_version }
+            __helm_deploy_delay__: { get_param: helm_deploy_delay }
+            __use_ramdisk__: { get_param: use_ramdisk }
             __public_net_id__: { get_param: public_net_id }
             __oam_network_cidr__: { get_param: oam_network_cidr }
             __oam_network_id__: { get_resource: oam_network }
             __oam_subnet_id__: { get_resource: oam_subnet }
             __sec_group__: { get_resource: onap_sg }
-            __k8s_1_vm_ip__: { get_attr: [k8s_1_floating_ip, floating_ip_address] }
+            __k8s_01_vm_ip__: { get_attr: [k8s_01_floating_ip, floating_ip_address] }
             __k8s_vm_ips__: [
 EOF
 
-for VM_NUM in $(seq $NUM_K8S_VMS); do
+for VM_NUM in $(seq -f %02g $NUM_K8S_VMS); do
     K8S_VM_NAME=k8s_$VM_NUM
     cat <<EOF
               get_attr: [${K8S_VM_NAME}_floating_ip, floating_ip_address],
@@ -82,7 +84,7 @@ cat <<EOF
             __k8s_private_ips__: [
 EOF
 
-for VM_NUM in $(seq $NUM_K8S_VMS); do
+for VM_NUM in $(seq -f %02g $NUM_K8S_VMS); do
     K8S_VM_NAME=k8s_$VM_NUM
     cat <<EOF
               get_attr: [${K8S_VM_NAME}_floating_ip, fixed_ip_address],
@@ -93,7 +95,7 @@ cat <<EOF
             ]
 EOF
 
-for VM_NUM in $(seq $NUM_K8S_VMS); do
+for VM_NUM in $(seq -f %02g $NUM_K8S_VMS); do
     VM_TYPE=k8s HOST_LABEL=compute VM_NUM=$VM_NUM envsubst < $PARTS_DIR/onap-oom-2.yaml
 done
 
@@ -108,7 +110,7 @@ done
 
 cat $PARTS_DIR/onap-oom-3.yaml
 
-for VM_NUM in $(seq $NUM_K8S_VMS); do
+for VM_NUM in $(seq -f %02g $NUM_K8S_VMS); do
     K8S_VM_NAME=k8s_$VM_NUM
     cat <<EOF
   ${K8S_VM_NAME}_vm_ip:

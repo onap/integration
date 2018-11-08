@@ -137,7 +137,7 @@ for n in $(seq 1 5); do
     for i in $(seq 1 30); do
 	sleep 30
 	RANCHER_IP=$(openstack stack output show $stack_name rancher_vm_ip -c output_value -f value)
-        K8S_IP=$(openstack stack output show $stack_name k8s_1_vm_ip -c output_value -f value)
+        K8S_IP=$(openstack stack output show $stack_name k8s_01_vm_ip -c output_value -f value)
 	timeout 1 ping -c 1 "$RANCHER_IP" && break
     done
 
