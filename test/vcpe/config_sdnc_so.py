@@ -69,7 +69,7 @@ def insert_customer_service_to_so(vcpecommon):
     logger = logging.getLogger('__name__')
     logger.info('Inserting neutron HEAT template to SO DB and creating a recipe for customer service')
     cmds = []
-    if False:
+    if True:
         csar_file = vcpecommon.find_file('rescust', 'csar', 'csar')
         parser = csar_parser.CsarParser()
         parser.parse_csar(csar_file)
@@ -96,5 +96,5 @@ def insert_customer_service_to_so(vcpecommon):
                 "'string', NULL);")
 
     print('\n'.join(cmds))
-#    vcpecommon.execute_cmds_so_db(cmds)
+    vcpecommon.execute_cmds_so_db(cmds)
 
