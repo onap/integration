@@ -81,7 +81,7 @@ By default it will execute all the tests corresponding to the command bash -c 'r
 
 If you want to execute only a subset of the tests you may precise the test cases using -t: bash -c 'run_tests -t robot_dcae'
 
-The possible test cases are indictaed in the testcases.yaml and are based on robotframework tags.
+The possible test cases are indicated in the testcases.yaml and are based on robotframework tags.
 
 If you want to push the results to the database, you can use the -r option:  bash -c 'run_tests -t all -r'
 
