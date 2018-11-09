@@ -34,6 +34,7 @@ echo "__rancher_version__" > /opt/config/rancher_version.txt
 echo "__rancher_agent_version__" > /opt/config/rancher_agent_version.txt
 echo "__kubectl_version__" > /opt/config/kubectl_version.txt
 echo "__helm_version__" > /opt/config/helm_version.txt
+echo "__helm_deploy_delay__" > /opt/config/helm_deploy_delay.txt
 
 cat <<EOF > /opt/config/integration-override.yaml
 __integration_override_yaml__
@@ -44,7 +45,7 @@ sed -i 's/\_\_oam_network_id__/__oam_network_id__/g' /opt/config/integration-ove
 sed -i 's/\_\_oam_subnet_id__/__oam_subnet_id__/g' /opt/config/integration-override.yaml
 sed -i 's/\_\_sec_group__/__sec_group__/g' /opt/config/integration-override.yaml
 sed -i 's/\_\_rancher_ip_addr__/__rancher_ip_addr__/g' /opt/config/integration-override.yaml
-sed -i 's/\_\_k8s_1_vm_ip__/__k8s_1_vm_ip__/g' /opt/config/integration-override.yaml
+sed -i 's/\_\_k8s_01_vm_ip__/__k8s_01_vm_ip__/g' /opt/config/integration-override.yaml
 sed -i 's/\_\_docker_proxy__/__docker_proxy__/g' /opt/config/integration-override.yaml
 cp /opt/config/integration-override.yaml /root
 cat /root/integration-override.yaml
@@ -74,11 +75,13 @@ while ! hash jq &> /dev/null; do
     sleep 10
 done
 
-# use RAM disk for /dockerdata-nfs for testing
-echo "tmpfs /dockerdata-nfs tmpfs noatime,size=75% 1 2" >> /etc/fstab
-mkdir -pv /dockerdata-nfs
-mount /dockerdata-nfs
+mkdir -p /dockerdata-nfs
 
+# use RAM disk for /dockerdata-nfs for testing
+if [ "__use_ramdisk__" = "true" ]; then
+    echo "tmpfs /dockerdata-nfs tmpfs noatime,size=75% 1 2" >> /etc/fstab
+    mount /dockerdata-nfs
+fi
 # version control the persistence volume to see what's happening
 chmod 777 /dockerdata-nfs/
 chown nobody:nogroup /dockerdata-nfs/
@@ -272,6 +275,7 @@ cd integration
 git fetch https://gerrit.onap.org/r/integration __integration_gerrit_refspec__
 git checkout FETCH_HEAD
 
+
 if [ ! -z "__docker_manifest__" ]; then
     cd version-manifest/src/main/scripts
     ./update-oom-image-versions.sh ../resources/__docker_manifest__ ~/oom/
@@ -292,10 +296,22 @@ sleep 10
 helm repo add local http://127.0.0.1:8879
 helm repo list
 make all
-rsync -avt ~/oom/kubernetes/helm/plugins ~/.helm/
 helm search -l | grep local
-helm deploy dev local/onap -f ~/oom/kubernetes/onap/resources/environments/public-cloud.yaml -f ~/integration-override.yaml --namespace $NAMESPACE
+
+# install helm deploy plugin
+rsync -avt ~/oom/kubernetes/helm/plugins ~/.helm/
+# temporary workaround to throttle the helm deploy to alleviate startup disk contention issues
+if [ ! -z "__helm_deploy_delay__" ]; then
+    sed -i "/\^enabled:/a\      echo sleep __helm_deploy_delay__\n      sleep __helm_deploy_delay__" ~/.helm/plugins/deploy/deploy.sh
+fi
+
+helm deploy dev local/onap -f ~/oom/kubernetes/onap/resources/environments/public-cloud.yaml -f ~/integration-override.yaml --namespace $NAMESPACE --verbose
+
+# re-install original helm deploy plugin
+rsync -avt ~/oom/kubernetes/helm/plugins ~/.helm/
+
 helm list
+
 
 
 # Check ONAP status:

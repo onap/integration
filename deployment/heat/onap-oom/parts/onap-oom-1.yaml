@@ -84,6 +84,15 @@ parameters:
     type: string
     default: "2.9.1"
 
+  helm_deploy_delay:
+    type: string
+    default: "2m"
+
+  use_ramdisk:
+    type: string
+    description: Set to "true" if you want to use a RAM disk for /dockerdata-nfs/.
+    default: "false"
+
 resources:
   random-str:
     type: OS::Heat::RandomString

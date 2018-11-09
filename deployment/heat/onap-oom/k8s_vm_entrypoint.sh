@@ -34,6 +34,9 @@ Acquire::https::Proxy "DIRECT";
 EOF
 fi
 
+# tune ext4 for performance
+sed -i 's/defaults/defaults,noatime,commit=60,barrier=0/' /etc/fstab
+
 mkdir -p /dockerdata-nfs
 echo "__rancher_private_ip_addr__:/dockerdata-nfs /dockerdata-nfs nfs noauto,noatime,fg,retry=1,x-systemd.automount,_netdev,soft,nolock,intr,tcp,actimeo=1800 0 0" | tee -a /etc/fstab
 

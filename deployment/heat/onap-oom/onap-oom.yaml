@@ -87,6 +87,15 @@ parameters:
     type: string
     default: "2.9.1"
 
+  helm_deploy_delay:
+    type: string
+    default: "2m"
+
+  use_ramdisk:
+    type: string
+    description: Set to "true" if you want to use a RAM disk for /dockerdata-nfs/.
+    default: "false"
+
 resources:
   random-str:
     type: OS::Heat::RandomString
@@ -202,37 +211,41 @@ resources:
             __rancher_agent_version__: { get_param: rancher_agent_version }
             __kubectl_version__: { get_param: kubectl_version }
             __helm_version__: { get_param: helm_version }
+            __helm_deploy_delay__: { get_param: helm_deploy_delay }
+            __use_ramdisk__: { get_param: use_ramdisk }
             __public_net_id__: { get_param: public_net_id }
             __oam_network_cidr__: { get_param: oam_network_cidr }
             __oam_network_id__: { get_resource: oam_network }
             __oam_subnet_id__: { get_resource: oam_subnet }
             __sec_group__: { get_resource: onap_sg }
-            __k8s_1_vm_ip__: { get_attr: [k8s_1_floating_ip, floating_ip_address] }
+            __k8s_01_vm_ip__: { get_attr: [k8s_01_floating_ip, floating_ip_address] }
             __k8s_vm_ips__: [
-              get_attr: [k8s_1_floating_ip, floating_ip_address],
-              get_attr: [k8s_2_floating_ip, floating_ip_address],
-              get_attr: [k8s_3_floating_ip, floating_ip_address],
-              get_attr: [k8s_4_floating_ip, floating_ip_address],
-              get_attr: [k8s_5_floating_ip, floating_ip_address],
-              get_attr: [k8s_6_floating_ip, floating_ip_address],
-              get_attr: [k8s_7_floating_ip, floating_ip_address],
-              get_attr: [k8s_8_floating_ip, floating_ip_address],
-              get_attr: [k8s_9_floating_ip, floating_ip_address],
+              get_attr: [k8s_01_floating_ip, floating_ip_address],
+              get_attr: [k8s_02_floating_ip, floating_ip_address],
+              get_attr: [k8s_03_floating_ip, floating_ip_address],
+              get_attr: [k8s_04_floating_ip, floating_ip_address],
+              get_attr: [k8s_05_floating_ip, floating_ip_address],
+              get_attr: [k8s_06_floating_ip, floating_ip_address],
+              get_attr: [k8s_07_floating_ip, floating_ip_address],
+              get_attr: [k8s_08_floating_ip, floating_ip_address],
+              get_attr: [k8s_09_floating_ip, floating_ip_address],
               get_attr: [k8s_10_floating_ip, floating_ip_address],
+              get_attr: [k8s_11_floating_ip, floating_ip_address],
             ]
             __k8s_private_ips__: [
-              get_attr: [k8s_1_floating_ip, fixed_ip_address],
-              get_attr: [k8s_2_floating_ip, fixed_ip_address],
-              get_attr: [k8s_3_floating_ip, fixed_ip_address],
-              get_attr: [k8s_4_floating_ip, fixed_ip_address],
-              get_attr: [k8s_5_floating_ip, fixed_ip_address],
-              get_attr: [k8s_6_floating_ip, fixed_ip_address],
-              get_attr: [k8s_7_floating_ip, fixed_ip_address],
-              get_attr: [k8s_8_floating_ip, fixed_ip_address],
-              get_attr: [k8s_9_floating_ip, fixed_ip_address],
+              get_attr: [k8s_01_floating_ip, fixed_ip_address],
+              get_attr: [k8s_02_floating_ip, fixed_ip_address],
+              get_attr: [k8s_03_floating_ip, fixed_ip_address],
+              get_attr: [k8s_04_floating_ip, fixed_ip_address],
+              get_attr: [k8s_05_floating_ip, fixed_ip_address],
+              get_attr: [k8s_06_floating_ip, fixed_ip_address],
+              get_attr: [k8s_07_floating_ip, fixed_ip_address],
+              get_attr: [k8s_08_floating_ip, fixed_ip_address],
+              get_attr: [k8s_09_floating_ip, fixed_ip_address],
               get_attr: [k8s_10_floating_ip, fixed_ip_address],
+              get_attr: [k8s_11_floating_ip, fixed_ip_address],
             ]
-  k8s_1_private_port:
+  k8s_01_private_port:
     type: OS::Neutron::Port
     properties:
       network: { get_resource: oam_network }
@@ -240,22 +253,22 @@ resources:
       security_groups:
       - { get_resource: onap_sg }
 
-  k8s_1_floating_ip:
+  k8s_01_floating_ip:
     type: OS::Neutron::FloatingIP
     properties:
       floating_network_id: { get_param: public_net_id }
-      port_id: { get_resource: k8s_1_private_port }
+      port_id: { get_resource: k8s_01_private_port }
 
-  k8s_1_vm:
+  k8s_01_vm:
     type: OS::Nova::Server
     properties:
       name:
-        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s', '1' ] ]
+        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s', '01' ] ]
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: k8s_vm_flavor }
       key_name: { get_param: key_name }
       networks:
-      - port: { get_resource: k8s_1_private_port }
+      - port: { get_resource: k8s_01_private_port }
       user_data_format: RAW
       user_data:
         str_replace:
@@ -269,7 +282,7 @@ resources:
           template:
             get_file: k8s_vm_entrypoint.sh
 
-  k8s_2_private_port:
+  k8s_02_private_port:
     type: OS::Neutron::Port
     properties:
       network: { get_resource: oam_network }
@@ -277,22 +290,22 @@ resources:
       security_groups:
       - { get_resource: onap_sg }
 
-  k8s_2_floating_ip:
+  k8s_02_floating_ip:
     type: OS::Neutron::FloatingIP
     properties:
       floating_network_id: { get_param: public_net_id }
-      port_id: { get_resource: k8s_2_private_port }
+      port_id: { get_resource: k8s_02_private_port }
 
-  k8s_2_vm:
+  k8s_02_vm:
     type: OS::Nova::Server
     properties:
       name:
-        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s', '2' ] ]
+        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s', '02' ] ]
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: k8s_vm_flavor }
       key_name: { get_param: key_name }
       networks:
-      - port: { get_resource: k8s_2_private_port }
+      - port: { get_resource: k8s_02_private_port }
       user_data_format: RAW
       user_data:
         str_replace:
@@ -306,7 +319,7 @@ resources:
           template:
             get_file: k8s_vm_entrypoint.sh
 
-  k8s_3_private_port:
+  k8s_03_private_port:
     type: OS::Neutron::Port
     properties:
       network: { get_resource: oam_network }
@@ -314,22 +327,22 @@ resources:
       security_groups:
       - { get_resource: onap_sg }
 
-  k8s_3_floating_ip:
+  k8s_03_floating_ip:
     type: OS::Neutron::FloatingIP
     properties:
       floating_network_id: { get_param: public_net_id }
-      port_id: { get_resource: k8s_3_private_port }
+      port_id: { get_resource: k8s_03_private_port }
 
-  k8s_3_vm:
+  k8s_03_vm:
     type: OS::Nova::Server
     properties:
       name:
-        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s', '3' ] ]
+        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s', '03' ] ]
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: k8s_vm_flavor }
       key_name: { get_param: key_name }
       networks:
-      - port: { get_resource: k8s_3_private_port }
+      - port: { get_resource: k8s_03_private_port }
       user_data_format: RAW
       user_data:
         str_replace:
@@ -343,7 +356,7 @@ resources:
           template:
             get_file: k8s_vm_entrypoint.sh
 
-  k8s_4_private_port:
+  k8s_04_private_port:
     type: OS::Neutron::Port
     properties:
       network: { get_resource: oam_network }
@@ -351,22 +364,22 @@ resources:
       security_groups:
       - { get_resource: onap_sg }
 
-  k8s_4_floating_ip:
+  k8s_04_floating_ip:
     type: OS::Neutron::FloatingIP
     properties:
       floating_network_id: { get_param: public_net_id }
-      port_id: { get_resource: k8s_4_private_port }
+      port_id: { get_resource: k8s_04_private_port }
 
-  k8s_4_vm:
+  k8s_04_vm:
     type: OS::Nova::Server
     properties:
       name:
-        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s', '4' ] ]
+        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s', '04' ] ]
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: k8s_vm_flavor }
       key_name: { get_param: key_name }
       networks:
-      - port: { get_resource: k8s_4_private_port }
+      - port: { get_resource: k8s_04_private_port }
       user_data_format: RAW
       user_data:
         str_replace:
@@ -380,7 +393,7 @@ resources:
           template:
             get_file: k8s_vm_entrypoint.sh
 
-  k8s_5_private_port:
+  k8s_05_private_port:
     type: OS::Neutron::Port
     properties:
       network: { get_resource: oam_network }
@@ -388,22 +401,22 @@ resources:
       security_groups:
       - { get_resource: onap_sg }
 
-  k8s_5_floating_ip:
+  k8s_05_floating_ip:
     type: OS::Neutron::FloatingIP
     properties:
       floating_network_id: { get_param: public_net_id }
-      port_id: { get_resource: k8s_5_private_port }
+      port_id: { get_resource: k8s_05_private_port }
 
-  k8s_5_vm:
+  k8s_05_vm:
     type: OS::Nova::Server
     properties:
       name:
-        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s', '5' ] ]
+        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s', '05' ] ]
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: k8s_vm_flavor }
       key_name: { get_param: key_name }
       networks:
-      - port: { get_resource: k8s_5_private_port }
+      - port: { get_resource: k8s_05_private_port }
       user_data_format: RAW
       user_data:
         str_replace:
@@ -417,7 +430,7 @@ resources:
           template:
             get_file: k8s_vm_entrypoint.sh
 
-  k8s_6_private_port:
+  k8s_06_private_port:
     type: OS::Neutron::Port
     properties:
       network: { get_resource: oam_network }
@@ -425,22 +438,22 @@ resources:
       security_groups:
       - { get_resource: onap_sg }
 
-  k8s_6_floating_ip:
+  k8s_06_floating_ip:
     type: OS::Neutron::FloatingIP
     properties:
       floating_network_id: { get_param: public_net_id }
-      port_id: { get_resource: k8s_6_private_port }
+      port_id: { get_resource: k8s_06_private_port }
 
-  k8s_6_vm:
+  k8s_06_vm:
     type: OS::Nova::Server
     properties:
       name:
-        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s', '6' ] ]
+        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s', '06' ] ]
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: k8s_vm_flavor }
       key_name: { get_param: key_name }
       networks:
-      - port: { get_resource: k8s_6_private_port }
+      - port: { get_resource: k8s_06_private_port }
       user_data_format: RAW
       user_data:
         str_replace:
@@ -454,7 +467,7 @@ resources:
           template:
             get_file: k8s_vm_entrypoint.sh
 
-  k8s_7_private_port:
+  k8s_07_private_port:
     type: OS::Neutron::Port
     properties:
       network: { get_resource: oam_network }
@@ -462,22 +475,22 @@ resources:
       security_groups:
       - { get_resource: onap_sg }
 
-  k8s_7_floating_ip:
+  k8s_07_floating_ip:
     type: OS::Neutron::FloatingIP
     properties:
       floating_network_id: { get_param: public_net_id }
-      port_id: { get_resource: k8s_7_private_port }
+      port_id: { get_resource: k8s_07_private_port }
 
-  k8s_7_vm:
+  k8s_07_vm:
     type: OS::Nova::Server
     properties:
       name:
-        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s', '7' ] ]
+        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s', '07' ] ]
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: k8s_vm_flavor }
       key_name: { get_param: key_name }
       networks:
-      - port: { get_resource: k8s_7_private_port }
+      - port: { get_resource: k8s_07_private_port }
       user_data_format: RAW
       user_data:
         str_replace:
@@ -491,7 +504,7 @@ resources:
           template:
             get_file: k8s_vm_entrypoint.sh
 
-  k8s_8_private_port:
+  k8s_08_private_port:
     type: OS::Neutron::Port
     properties:
       network: { get_resource: oam_network }
@@ -499,22 +512,22 @@ resources:
       security_groups:
       - { get_resource: onap_sg }
 
-  k8s_8_floating_ip:
+  k8s_08_floating_ip:
     type: OS::Neutron::FloatingIP
     properties:
       floating_network_id: { get_param: public_net_id }
-      port_id: { get_resource: k8s_8_private_port }
+      port_id: { get_resource: k8s_08_private_port }
 
-  k8s_8_vm:
+  k8s_08_vm:
     type: OS::Nova::Server
     properties:
       name:
-        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s', '8' ] ]
+        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s', '08' ] ]
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: k8s_vm_flavor }
       key_name: { get_param: key_name }
       networks:
-      - port: { get_resource: k8s_8_private_port }
+      - port: { get_resource: k8s_08_private_port }
       user_data_format: RAW
       user_data:
         str_replace:
@@ -528,7 +541,7 @@ resources:
           template:
             get_file: k8s_vm_entrypoint.sh
 
-  k8s_9_private_port:
+  k8s_09_private_port:
     type: OS::Neutron::Port
     properties:
       network: { get_resource: oam_network }
@@ -536,22 +549,22 @@ resources:
       security_groups:
       - { get_resource: onap_sg }
 
-  k8s_9_floating_ip:
+  k8s_09_floating_ip:
     type: OS::Neutron::FloatingIP
     properties:
       floating_network_id: { get_param: public_net_id }
-      port_id: { get_resource: k8s_9_private_port }
+      port_id: { get_resource: k8s_09_private_port }
 
-  k8s_9_vm:
+  k8s_09_vm:
     type: OS::Nova::Server
     properties:
       name:
-        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s', '9' ] ]
+        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s', '09' ] ]
       image: { get_param: ubuntu_1604_image }
       flavor: { get_param: k8s_vm_flavor }
       key_name: { get_param: key_name }
       networks:
-      - port: { get_resource: k8s_9_private_port }
+      - port: { get_resource: k8s_09_private_port }
       user_data_format: RAW
       user_data:
         str_replace:
@@ -589,6 +602,43 @@ resources:
       key_name: { get_param: key_name }
       networks:
       - port: { get_resource: k8s_10_private_port }
+      user_data_format: RAW
+      user_data:
+        str_replace:
+          params:
+            __docker_proxy__: { get_param: docker_proxy }
+            __apt_proxy__: { get_param: apt_proxy }
+            __docker_version__: { get_param: docker_version }
+            __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+            __host_label__: 'compute'
+          template:
+            get_file: k8s_vm_entrypoint.sh
+
+  k8s_11_private_port:
+    type: OS::Neutron::Port
+    properties:
+      network: { get_resource: oam_network }
+      fixed_ips: [{"subnet": { get_resource: oam_subnet }}]
+      security_groups:
+      - { get_resource: onap_sg }
+
+  k8s_11_floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network_id: { get_param: public_net_id }
+      port_id: { get_resource: k8s_11_private_port }
+
+  k8s_11_vm:
+    type: OS::Nova::Server
+    properties:
+      name:
+        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s', '11' ] ]
+      image: { get_param: ubuntu_1604_image }
+      flavor: { get_param: k8s_vm_flavor }
+      key_name: { get_param: key_name }
+      networks:
+      - port: { get_resource: k8s_11_private_port }
       user_data_format: RAW
       user_data:
         str_replace:
@@ -755,43 +805,47 @@ outputs:
     description: The IP address of the rancher instance
     value: { get_attr: [rancher_floating_ip, floating_ip_address] }
 
-  k8s_1_vm_ip:
-    description: The IP address of the k8s_1 instance
-    value: { get_attr: [k8s_1_floating_ip, floating_ip_address] }
+  k8s_01_vm_ip:
+    description: The IP address of the k8s_01 instance
+    value: { get_attr: [k8s_01_floating_ip, floating_ip_address] }
 
-  k8s_2_vm_ip:
-    description: The IP address of the k8s_2 instance
-    value: { get_attr: [k8s_2_floating_ip, floating_ip_address] }
+  k8s_02_vm_ip:
+    description: The IP address of the k8s_02 instance
+    value: { get_attr: [k8s_02_floating_ip, floating_ip_address] }
 
-  k8s_3_vm_ip:
-    description: The IP address of the k8s_3 instance
-    value: { get_attr: [k8s_3_floating_ip, floating_ip_address] }
+  k8s_03_vm_ip:
+    description: The IP address of the k8s_03 instance
+    value: { get_attr: [k8s_03_floating_ip, floating_ip_address] }
 
-  k8s_4_vm_ip:
-    description: The IP address of the k8s_4 instance
-    value: { get_attr: [k8s_4_floating_ip, floating_ip_address] }
+  k8s_04_vm_ip:
+    description: The IP address of the k8s_04 instance
+    value: { get_attr: [k8s_04_floating_ip, floating_ip_address] }
 
-  k8s_5_vm_ip:
-    description: The IP address of the k8s_5 instance
-    value: { get_attr: [k8s_5_floating_ip, floating_ip_address] }
+  k8s_05_vm_ip:
+    description: The IP address of the k8s_05 instance
+    value: { get_attr: [k8s_05_floating_ip, floating_ip_address] }
 
-  k8s_6_vm_ip:
-    description: The IP address of the k8s_6 instance
-    value: { get_attr: [k8s_6_floating_ip, floating_ip_address] }
+  k8s_06_vm_ip:
+    description: The IP address of the k8s_06 instance
+    value: { get_attr: [k8s_06_floating_ip, floating_ip_address] }
 
-  k8s_7_vm_ip:
-    description: The IP address of the k8s_7 instance
-    value: { get_attr: [k8s_7_floating_ip, floating_ip_address] }
+  k8s_07_vm_ip:
+    description: The IP address of the k8s_07 instance
+    value: { get_attr: [k8s_07_floating_ip, floating_ip_address] }
 
-  k8s_8_vm_ip:
-    description: The IP address of the k8s_8 instance
-    value: { get_attr: [k8s_8_floating_ip, floating_ip_address] }
+  k8s_08_vm_ip:
+    description: The IP address of the k8s_08 instance
+    value: { get_attr: [k8s_08_floating_ip, floating_ip_address] }
 
-  k8s_9_vm_ip:
-    description: The IP address of the k8s_9 instance
-    value: { get_attr: [k8s_9_floating_ip, floating_ip_address] }
+  k8s_09_vm_ip:
+    description: The IP address of the k8s_09 instance
+    value: { get_attr: [k8s_09_floating_ip, floating_ip_address] }
 
   k8s_10_vm_ip:
     description: The IP address of the k8s_10 instance
     value: { get_attr: [k8s_10_floating_ip, floating_ip_address] }
+
+  k8s_11_vm_ip:
+    description: The IP address of the k8s_11 instance
+    value: { get_attr: [k8s_11_floating_ip, floating_ip_address] }
 
