@@ -1,6 +1,6 @@
 {
    "solutionInfo" : {
-      "placement" : [
+      "placementInfo" : [
          {
             "cloudRegionId" : "RegionOne",
             "inventoryType" : "service",

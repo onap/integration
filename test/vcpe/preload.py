@@ -121,6 +121,15 @@ class Preload:
         self.logger.info('Preloading vGW')
         return self.preload(template_file, replace_dict, self.vcpecommon.sdnc_preload_vnf_url)
 
+    def preload_vgw_gra(self, template_file, brg_mac, commont_dict, name_suffix, vgw_vfmod_name_index):
+        replace_dict = {'${brg_mac}': brg_mac,
+                        '${suffix}': name_suffix
+                        '${vgw_vfmod_name_index}': vgw_vfmod_name_index
+                        }
+        replace_dict.update(commont_dict)
+        self.logger.info('Preloading vGW-GRA')
+        return self.preload(template_file, replace_dict, self.vcpecommon.sdnc_preload_vnf_url)
+
     def preload_vfmodule(self, template_file, service_instance_id, vnf_model, vfmodule_model, common_dict, name_suffix):
         """
         :param template_file:

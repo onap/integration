@@ -66,18 +66,24 @@ class CustomService:
             print(' 6. ping the web server: ping {0}'.format('10.2.0.10'))
             print(' 7. wget http://{0}'.format('10.2.0.10'))
 
-    def create_custom_service(self, csar_file, vgw_template_file, preload_dict=None):
+    def create_custom_service(self, csar_file, vgw_template_file, vgw_gra_template_file, preload_dict=None):
         name_suffix = datetime.now().strftime('%Y%m%d%H%M')
+        self.load_object(vgw_vfmod_name_index,vgw_vfmod_name_index_file)
         if self.vcpecommon.oom_mode:
             brg_mac = str(raw_input("Enter the BRG MAC address: "))
         else:
             brg_mac = self.vcpecommon.get_brg_mac_from_sdnc()
+        # get name index
+        self.load_object(vgw_vfmod_name_index,vgw_vfmod_name_index_file)
+        vgw_vfmod_name_index=vgw_vfmod_name_index+1
         # preload vGW
         if preload_dict:
             preloader = preload.Preload(self.vcpecommon)
             parameters_to_change = ['vgw_private_ip_0', 'vgw_private_ip_1', 'vgw_private_ip_2','vg_vgmux_tunnel_vni']
             self.vcpecommon.increase_ip_address_or_vni_in_template(vgw_template_file, parameters_to_change)
             preloader.preload_vgw(vgw_template_file, brg_mac, preload_dict, name_suffix)
+            # preload vGW-GRA
+            preloader.preload_vgw_gra(vgw_gra_template_file, brg_mac, preload_dict, name_suffix, vgw_vfmod_name_index)
 
         # create service
         so = soutils.SoUtils(self.vcpecommon, 'v5')

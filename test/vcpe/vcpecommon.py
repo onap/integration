@@ -85,6 +85,8 @@ class VcpeCommon:
         self.hosts = self.get_vm_ip(self.host_names, self.external_net_addr, self.external_net_prefix_len)
         # this is the keyword used to name vgw stack, must not be used in other stacks
         self.vgw_name_keyword = 'base_vcpe_vgw'
+        # this is the file that will keep the index of last assigned SO name
+        self.vgw_vfmod_name_index_file= '__var/vgw_vfmod_name_index'
         self.svc_instance_uuid_file = '__var/svc_instance_uuid'
         self.preload_dict_file = '__var/preload_dict'
         self.vgmux_vnf_name_file = '__var/vgmux_vnf_name'
@@ -123,6 +125,8 @@ class VcpeCommon:
                                         ':' + self.sdnc_preloading_port + '/restconf/operations/VNF-API:preload-network-topology-operation'
         self.sdnc_preload_vnf_url = 'http://' + self.hosts['sdnc'] + \
                                     ':' + self.sdnc_preloading_port + '/restconf/operations/VNF-API:preload-vnf-topology-operation'
+        self.sdnc_preload_gra_url = 'http://' + self.hosts['sdnc'] + \
+                                    ':' + self.sdnc_preloading_port + '/restconf/operations/GENERIC-RESOURCE-API:preload-vf-module-topology-operation'
         self.sdnc_ar_cleanup_url = 'http://' + self.hosts['sdnc'] + ':' + self.sdnc_preloading_port + \
                                    '/restconf/config/GENERIC-RESOURCE-API:'
 
