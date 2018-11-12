@@ -73,7 +73,7 @@ class VcpeCommon:
 
         self.oom_so_sdnc_aai_ip = '10.12.5.18'
         self.oom_dcae_ves_collector = '10.12.5.18'
-        self.so_nbi_port = '30223' if self.oom_mode else '8080'
+        self.so_nbi_port = '30277' if self.oom_mode else '8080'
         self.sdnc_preloading_port = '30202' if self.oom_mode else '8282'
         self.aai_query_port = '30233' if self.oom_mode else '8443'
         self.sniro_port = '30288' if self.oom_mode else '8080'
@@ -132,12 +132,12 @@ class VcpeCommon:
 
         #############################################################################################
         # SO urls, note: do NOT add a '/' at the end of the url
-        self.so_req_api_url = {'v4': 'http://' + self.hosts['so'] + ':' + self.so_nbi_port + '/ecomp/mso/infra/serviceInstances/v4',
-                           'v5': 'http://' + self.hosts['so'] + ':' + self.so_nbi_port + '/ecomp/mso/infra/serviceInstances/v5'}
-        self.so_check_progress_api_url = 'http://' + self.hosts['so'] + ':' + self.so_nbi_port + '/ecomp/mso/infra/orchestrationRequests/v5'
+        self.so_req_api_url = {'v4': 'http://' + self.hosts['so'] + ':' + self.so_nbi_port + '/onap/so/infra/serviceInstantiation/v7/serviceInstances',
+                           'v5': 'http://' + self.hosts['so'] + ':' + self.so_nbi_port + '/onap/so/infraserviceInstantiation/v7/serviceInstances'}
+        self.so_check_progress_api_url = 'http://' + self.hosts['so'] + ':' + self.so_nbi_port + '/onap/so/infra/orchestrationRequests/v6'
         self.so_userpass = 'InfraPortalClient', 'password1$'
         self.so_headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
-        self.so_db_name = 'mso_catalog'
+        self.so_db_name = 'catalogdb'
         self.so_db_user = 'root'
         self.so_db_pass = 'password'
         self.so_db_port = '30252' if self.oom_mode else '32769'

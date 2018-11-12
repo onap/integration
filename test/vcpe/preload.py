@@ -123,7 +123,7 @@ class Preload:
 
     def preload_vgw_gra(self, template_file, brg_mac, commont_dict, name_suffix, vgw_vfmod_name_index):
         replace_dict = {'${brg_mac}': brg_mac,
-                        '${suffix}': name_suffix
+                        '${suffix}': name_suffix,
                         '${vgw_vfmod_name_index}': vgw_vfmod_name_index
                         }
         replace_dict.update(commont_dict)
