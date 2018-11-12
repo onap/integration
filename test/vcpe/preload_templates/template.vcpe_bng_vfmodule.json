@@ -25,7 +25,7 @@
        "VNF-API:vnf-parameters": [
 		{
 		"vnf-parameter-name": "vcpe_image_name",
-		"vnf-parameter-value": "vbng-base-ubuntu-16-04"
+		"vnf-parameter-value": "vbng-casa-base-ubuntu-16-04"
 		},
 		{
 		"vnf-parameter-name": "vcpe_flavor_name",

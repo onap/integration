@@ -19,7 +19,7 @@
             "VNF-API:vnf-parameters": [
                 {
                     "vnf-parameter-name": "vcpe_image_name", 
-                    "vnf-parameter-value": "vbrg-base-ubuntu-16-04-new"
+                    "vnf-parameter-value": "vbrg-casa-base-ubuntu-16-04-new"
                 }, 
                 {
                     "vnf-parameter-name": "vcpe_flavor_name", 

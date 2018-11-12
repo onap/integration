@@ -189,7 +189,7 @@ def tmp_sniro():
     config_sniro(vcpecommon, svc_instance_uuid['gmux'], svc_instance_uuid['brg'])
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO, format='%(message)s')
+    logging.basicConfig(level=logging.DEBUG, format='%(message)s')
 
     print('----------------------------------------------------------------------------------------------------')
     print(' vcpe.py:            Brief info about this program')
