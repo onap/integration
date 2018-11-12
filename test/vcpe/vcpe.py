@@ -142,8 +142,9 @@ def deploy_custom_service():
     # create new service
     csar_file = vcpecommon.find_file('rescust', 'csar', 'csar')
     vgw_template_file = vcpecommon.find_file('vgw', 'json', 'preload_templates')
+    vgw_gra_template_file = vcpecommon.find_file('gwgra', 'json', 'preload_templates')
     preload_dict = vcpecommon.load_preload_data()
-    custom_service.create_custom_service(csar_file, vgw_template_file, preload_dict)
+    custom_service.create_custom_service(csar_file, vgw_template_file, vgw_gra_template_file, preload_dict)
 
 
 def closed_loop(lossrate=0):
@@ -174,6 +175,8 @@ def init_so_sdnc():
     vcpecommon = VcpeCommon()
     config_sdnc_so.insert_customer_service_to_so(vcpecommon)
     config_sdnc_so.insert_customer_service_to_sdnc(vcpecommon)
+    vgw_vfmod_name_index=0
+    self.save_object(vgw_vfmod_name_index, vgw_vfmod_name_index_file)
 
 
 def tmp_sniro():
