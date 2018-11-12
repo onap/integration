@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_a586f6b7",
+        "filename": "test/vcpe/vcpecommon.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2018-11-12T16:01:32Z",
+      "side": 1,
+      "message": "23 used to be for logging - music took it for a while - I updated log to use another - I understand that SO is using 77 right now\nhttps://git.onap.org/oom/tree/kubernetes/so/values.yaml#n40",
+      "revId": "cfb493b6efb1e40730e7a6f1b0149b5c1ecdac73",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
