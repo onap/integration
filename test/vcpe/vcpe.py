@@ -196,6 +196,7 @@ if __name__ == '__main__':
 #    print(' vcpe.py sdc:        Onboard VNFs, design and distribute vCPE services (under development)')
     print(' vcpe.py init:       Add customer service data to SDNC and SO DBs.')
     print(' vcpe.py infra:      Deploy infrastructure, including DHCP, AAA, DNS, Web Server, vBNG, vGMUX, vBRG.')
+    print(' vcpe.py brg:        Deploy brg only (for testing after infra succeeds).')
     print(' vcpe.py customer:   Deploy customer service, including vGW and VxLANs')
     print(' vcpe.py loop:       Test closed loop control')
     print('----------------------------------------------------------------------------------------------------')
