@@ -112,7 +112,7 @@
 				] },
 				"vf-module-assignments": {},
 				"vf-module-topology-identifier": {
-					"vf-module-name": "zRegionOne{$vgw_vfmod_name_index}_base_vcpe_vgw_0"
+					"vf-module-name": "zRegionOne${vgw_vfmod_name_index}_base_vcpe_vgw_0"
 				}
 			},
 			"vnf-resource-assignments": {},

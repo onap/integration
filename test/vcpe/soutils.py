@@ -170,7 +170,7 @@ class SoUtils:
             'modelInfo':  model,
             'subscriberInfo':  {'subscriberName': 'Kaneohe',
                                 'globalSubscriberId': self.vcpecommon.global_subscriber_id},
-            'cloudConfiguration': {"lcpCloudRegionId": 'CloudOwner_RegionOne', #self.vcpecommon.os_region_name,
+            'cloudConfiguration': {"lcpCloudRegionId": 'RegionOne', #self.vcpecommon.os_region_name,
                                    "tenantId": self.vcpecommon.os_tenant_id},
             'requestParameters': {
                 "userParams": [

@@ -68,15 +68,14 @@ class CustomService:
 
     def create_custom_service(self, csar_file, vgw_template_file, vgw_gra_template_file, preload_dict=None):
         name_suffix = datetime.now().strftime('%Y%m%d%H%M')
-        self.load_object(vgw_vfmod_name_index,vgw_vfmod_name_index_file)
         if self.vcpecommon.oom_mode:
             brg_mac = str(raw_input("Enter the BRG MAC address: "))
         else:
             brg_mac = self.vcpecommon.get_brg_mac_from_sdnc()
         # get name index
-        self.load_object(vgw_vfmod_name_index,vgw_vfmod_name_index_file)
-        vgw_vfmod_name_index=vgw_vfmod_name_index+1
-        self.save_object(vgw_vfmod_name_index,vgw_vfmod_name_index_file)
+        self.vgw_vfmod_name_index= self.vcpecommon.load_object(self.vcpecommon.vgw_vfmod_name_index_file)
+        self.vgw_vfmod_name_index=self.vgw_vfmod_name_index + 1
+        self.save_object(vgw_vfmod_name_index,self.vcpecommon.vgw_vfmod_name_index_file)
         # preload vGW
         if preload_dict:
             preloader = preload.Preload(self.vcpecommon)
