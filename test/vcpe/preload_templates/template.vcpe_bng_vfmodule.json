@@ -84,6 +84,10 @@
 		"vnf-parameter-value": "10.4.0.0/24"
 		},
 		{
+		"vnf-parameter-name": "sdnc_ip_addr",
+		"vnf-parameter-value": "${sdnc_brg_bng_ip}"
+		},
+		{
 		"vnf-parameter-name": "vbng_private_ip_0",
 		"vnf-parameter-value": "10.3.0.1"
 		},

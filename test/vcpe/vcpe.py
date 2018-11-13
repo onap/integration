@@ -175,8 +175,8 @@ def init_so_sdnc():
     vcpecommon = VcpeCommon()
     config_sdnc_so.insert_customer_service_to_so(vcpecommon)
     config_sdnc_so.insert_customer_service_to_sdnc(vcpecommon)
-    vgw_vfmod_name_index=0
-    self.save_object(vgw_vfmod_name_index, vgw_vfmod_name_index_file)
+    vgw_vfmod_name_index=  0
+    vcpecommon.save_object(vgw_vfmod_name_index, vcpecommon.vgw_vfmod_name_index_file)
 
 
 def tmp_sniro():
