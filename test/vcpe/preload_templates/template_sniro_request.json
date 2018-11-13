@@ -14,7 +14,7 @@
       },
       "method" : "POST",
       "base64Body" : "${base64_sniro_data}",
-      "url" : "https://${sniro_ip}:8080/adapters/rest/SDNCNotify/SNIROResponse"
+      "url" : " http://so-bpmn-infra.onap:8081/mso/WorkflowMessage/SNIROResponse"
     }
   }
 }

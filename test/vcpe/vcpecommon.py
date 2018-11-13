@@ -71,8 +71,15 @@ class VcpeCommon:
         self.logger = logging.getLogger(__name__)
         self.logger.info('Initializing configuration')
 
+        # OOM: this is the address that the brg and bng will nat for config of brg - 10.0.0.x address of k8 host for sdnc
+        self.sdnc_brg_bng_ip = '10.0.0.17'
+        # OOM: this is a k8 host external IP 
         self.oom_so_sdnc_aai_ip = '10.12.5.18'
+        # OOM: this is a k8 host external IP  can be same as oom_so_sdnc_aai_ip
         self.oom_dcae_ves_collector = '10.12.5.18'
+        # OOM: this is a k8 host external IP  can be same as oom_so_sdnc_aai_ip
+        self.mr_ip_addr = '10.12.5.18'
+        self.mr_ip_port = '30227'
         self.so_nbi_port = '30277' if self.oom_mode else '8080'
         self.sdnc_preloading_port = '30202' if self.oom_mode else '8282'
         self.aai_query_port = '30233' if self.oom_mode else '8443'
