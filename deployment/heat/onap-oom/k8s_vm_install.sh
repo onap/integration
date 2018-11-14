@@ -1,5 +1,4 @@
 #!/bin/bash -x
-#
 # Copyright 2018 Huawei Technologies Co., Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -8,16 +7,15 @@
 #
 #     http://www.apache.org/licenses/LICENSE-2.0
 #
-
 export DEBIAN_FRONTEND=noninteractive
-HOST_IP=$(hostname -I)
-echo $HOST_IP `hostname` >> /etc/hosts
+echo "__host_private_ip_addr__ $(hostname)" >> /etc/hosts
 printenv
 
 mkdir -p /opt/config
 echo "__docker_version__" > /opt/config/docker_version.txt
 echo "__rancher_ip_addr__" > /opt/config/rancher_ip_addr.txt
 echo "__rancher_private_ip_addr__" > /opt/config/rancher_private_ip_addr.txt
+echo "__host_private_ip_addr__" > /opt/config/host_private_ip_addr.txt
 
 mkdir -p /etc/docker
 if [ ! -z "__docker_proxy__" ]; then
@@ -28,7 +26,7 @@ if [ ! -z "__docker_proxy__" ]; then
 EOF
 fi
 if [ ! -z "__apt_proxy__" ]; then
-    cat > /etc/apt/apt.conf.d/30proxy<<EOF
+    cat > /etc/apt/apt.conf.d/30proxy <<EOF
 Acquire::http { Proxy "http://__apt_proxy__"; };
 Acquire::https::Proxy "DIRECT";
 EOF
@@ -58,15 +56,5 @@ while ! hash docker &> /dev/null; do
 done
 apt-mark hold docker-ce
 
-while [ ! -e /dockerdata-nfs/rancher_agent_cmd.sh ]; do
-    mount /dockerdata-nfs
-    sleep 10
-done
-
-cd ~
-cp /dockerdata-nfs/rancher_agent_cmd.sh .
-sed -i "s/docker run/docker run -e CATTLE_HOST_LABELS='__host_label__=true' -e CATTLE_AGENT_IP=${HOST_IP}/g" rancher_agent_cmd.sh
-source rancher_agent_cmd.sh
-sleep 1m
-
-reboot
+# Enable autorestart when VM reboots
+update-rc.d k8s_vm_init_serv defaults
