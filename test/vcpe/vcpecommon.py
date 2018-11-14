@@ -19,17 +19,17 @@ class VcpeCommon:
     external_net_prefix_len = 16
     #############################################################################################
     # set the openstack cloud access credentials here
-    oom_mode = False
+    oom_mode = True
 
     cloud = {
         '--os-auth-url': 'http://10.12.25.2:5000',
         '--os-username': 'kxi',
         '--os-user-domain-id': 'default',
         '--os-project-domain-id': 'default',
-        '--os-tenant-id': '41d6d38489bd40b09ea8a6b6b852dcbd' if oom_mode else '1e097c6713e74fd7ac8e4295e605ee1e',
+        '--os-tenant-id': 'b8ad3842ab3642f7bf3fbe4e4d3b9f86' if oom_mode else '1e097c6713e74fd7ac8e4295e605ee1e',
         '--os-region-name': 'RegionOne',
         '--os-password': 'n3JhGMGuDzD8',
-        '--os-project-domain-name': 'Integration-SB-00' if oom_mode else 'Integration-SB-07',
+        '--os-project-domain-name': 'Integration-SB-05' if oom_mode else 'Integration-SB-07',
         '--os-identity-api-version': '3'
     }
 
@@ -39,12 +39,8 @@ class VcpeCommon:
         'public_net': 'external',
         'public_net_id': '971040b2-7059-49dc-b220-4fab50cb2ad4'
     }
-# for sb07
-#    'oam_onap_lAky',
-# for sb00
-    #'oam_onap_net': 'oam_network_0qV7',
-    #'oam_onap_subnet': 'oam_network_0qV7',
-    #     End: configurations that you must change for a new ONAP installation
+    sdnc_controller_pod = 'dev-sdnc-sdnc-0'
+
     #############################################################################################
 
     template_variable_symbol = '${'
@@ -72,7 +68,7 @@ class VcpeCommon:
         self.logger.info('Initializing configuration')
 
         # OOM: this is the address that the brg and bng will nat for config of brg - 10.0.0.x address of k8 host for sdnc
-        self.sdnc_brg_bng_ip = '10.0.0.17'
+        self.sdnc_brg_bng_ip = get_pod_node_oam_ip(self.sdnc_controller_pod)[1]
         # OOM: this is a k8 host external IP 
         self.oom_so_sdnc_aai_ip = '10.12.5.18'
         # OOM: this is a k8 host external IP  can be same as oom_so_sdnc_aai_ip
@@ -320,6 +316,17 @@ class VcpeCommon:
             if this_net == network:
                 return str(ip)
         return None
+
+    def get_pod_node_oam_ip(self, pod):
+        """
+        :Assuming kubectl is available
+        :param pod: pod name as a string, e.g. 'dev-sdnc-sdnc-0'
+        :return pod's node oam ip (10.0.0.0/16)
+        """
+        cmd = "kubectl -n onap describe pod {0} |grep Node:|cut -d'/' -f2".format(pod)
+        ret = commands.getstatusoutput(cmd)
+        self.logger.debug("cmd = %s, ret = %s", cmd, ret)
+        return ret
 
     def get_vm_ip(self, keywords, net_addr=None, net_addr_len=None):
         """
