@@ -265,6 +265,48 @@ resources:
       floating_network_id: { get_param: public_net_id }
       port_id: { get_resource: k8s_01_private_port }
 
+  k8s_01_vm_scripts:
+    type: OS::Heat::CloudConfig
+    properties:
+      cloud_config:
+        power_state:
+          mode: reboot
+        runcmd:
+        - [ /opt/k8s_vm_install.sh ]
+        write_files:
+        - path: /opt/k8s_vm_install.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __docker_proxy__: { get_param: docker_proxy }
+                __apt_proxy__: { get_param: apt_proxy }
+                __docker_version__: { get_param: docker_version }
+                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __host_private_ip_addr__: { get_attr: [k8s_01_floating_ip, fixed_ip_address] }
+              template:
+                get_file: k8s_vm_install.sh
+        - path: /opt/k8s_vm_init.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __host_private_ip_addr__: { get_attr: [k8s_01_floating_ip, fixed_ip_address] }
+                __host_label__: 'compute'
+              template:
+                get_file: k8s_vm_init.sh
+        - path: /etc/init.d/k8s_vm_init_serv
+          permissions: '0755'
+          content:
+            get_file: k8s_vm_init_serv.sh
+
+  k8s_01_vm_config:
+    type: OS::Heat::MultipartMime
+    properties:
+      parts:
+      - config: { get_resource: k8s_01_vm_scripts }
+
   k8s_01_vm:
     type: OS::Nova::Server
     properties:
@@ -275,18 +317,8 @@ resources:
       key_name: { get_param: key_name }
       networks:
       - port: { get_resource: k8s_01_private_port }
-      user_data_format: RAW
-      user_data:
-        str_replace:
-          params:
-            __docker_proxy__: { get_param: docker_proxy }
-            __apt_proxy__: { get_param: apt_proxy }
-            __docker_version__: { get_param: docker_version }
-            __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
-            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
-            __host_label__: 'compute'
-          template:
-            get_file: k8s_vm_entrypoint.sh
+      user_data_format: SOFTWARE_CONFIG
+      user_data: { get_resource: k8s_01_vm_config }
 
   k8s_02_private_port:
     type: OS::Neutron::Port
@@ -302,6 +334,48 @@ resources:
       floating_network_id: { get_param: public_net_id }
       port_id: { get_resource: k8s_02_private_port }
 
+  k8s_02_vm_scripts:
+    type: OS::Heat::CloudConfig
+    properties:
+      cloud_config:
+        power_state:
+          mode: reboot
+        runcmd:
+        - [ /opt/k8s_vm_install.sh ]
+        write_files:
+        - path: /opt/k8s_vm_install.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __docker_proxy__: { get_param: docker_proxy }
+                __apt_proxy__: { get_param: apt_proxy }
+                __docker_version__: { get_param: docker_version }
+                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __host_private_ip_addr__: { get_attr: [k8s_02_floating_ip, fixed_ip_address] }
+              template:
+                get_file: k8s_vm_install.sh
+        - path: /opt/k8s_vm_init.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __host_private_ip_addr__: { get_attr: [k8s_02_floating_ip, fixed_ip_address] }
+                __host_label__: 'compute'
+              template:
+                get_file: k8s_vm_init.sh
+        - path: /etc/init.d/k8s_vm_init_serv
+          permissions: '0755'
+          content:
+            get_file: k8s_vm_init_serv.sh
+
+  k8s_02_vm_config:
+    type: OS::Heat::MultipartMime
+    properties:
+      parts:
+      - config: { get_resource: k8s_02_vm_scripts }
+
   k8s_02_vm:
     type: OS::Nova::Server
     properties:
@@ -312,18 +386,8 @@ resources:
       key_name: { get_param: key_name }
       networks:
       - port: { get_resource: k8s_02_private_port }
-      user_data_format: RAW
-      user_data:
-        str_replace:
-          params:
-            __docker_proxy__: { get_param: docker_proxy }
-            __apt_proxy__: { get_param: apt_proxy }
-            __docker_version__: { get_param: docker_version }
-            __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
-            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
-            __host_label__: 'compute'
-          template:
-            get_file: k8s_vm_entrypoint.sh
+      user_data_format: SOFTWARE_CONFIG
+      user_data: { get_resource: k8s_02_vm_config }
 
   k8s_03_private_port:
     type: OS::Neutron::Port
@@ -339,6 +403,48 @@ resources:
       floating_network_id: { get_param: public_net_id }
       port_id: { get_resource: k8s_03_private_port }
 
+  k8s_03_vm_scripts:
+    type: OS::Heat::CloudConfig
+    properties:
+      cloud_config:
+        power_state:
+          mode: reboot
+        runcmd:
+        - [ /opt/k8s_vm_install.sh ]
+        write_files:
+        - path: /opt/k8s_vm_install.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __docker_proxy__: { get_param: docker_proxy }
+                __apt_proxy__: { get_param: apt_proxy }
+                __docker_version__: { get_param: docker_version }
+                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __host_private_ip_addr__: { get_attr: [k8s_03_floating_ip, fixed_ip_address] }
+              template:
+                get_file: k8s_vm_install.sh
+        - path: /opt/k8s_vm_init.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __host_private_ip_addr__: { get_attr: [k8s_03_floating_ip, fixed_ip_address] }
+                __host_label__: 'compute'
+              template:
+                get_file: k8s_vm_init.sh
+        - path: /etc/init.d/k8s_vm_init_serv
+          permissions: '0755'
+          content:
+            get_file: k8s_vm_init_serv.sh
+
+  k8s_03_vm_config:
+    type: OS::Heat::MultipartMime
+    properties:
+      parts:
+      - config: { get_resource: k8s_03_vm_scripts }
+
   k8s_03_vm:
     type: OS::Nova::Server
     properties:
@@ -349,18 +455,8 @@ resources:
       key_name: { get_param: key_name }
       networks:
       - port: { get_resource: k8s_03_private_port }
-      user_data_format: RAW
-      user_data:
-        str_replace:
-          params:
-            __docker_proxy__: { get_param: docker_proxy }
-            __apt_proxy__: { get_param: apt_proxy }
-            __docker_version__: { get_param: docker_version }
-            __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
-            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
-            __host_label__: 'compute'
-          template:
-            get_file: k8s_vm_entrypoint.sh
+      user_data_format: SOFTWARE_CONFIG
+      user_data: { get_resource: k8s_03_vm_config }
 
   k8s_04_private_port:
     type: OS::Neutron::Port
@@ -376,6 +472,48 @@ resources:
       floating_network_id: { get_param: public_net_id }
       port_id: { get_resource: k8s_04_private_port }
 
+  k8s_04_vm_scripts:
+    type: OS::Heat::CloudConfig
+    properties:
+      cloud_config:
+        power_state:
+          mode: reboot
+        runcmd:
+        - [ /opt/k8s_vm_install.sh ]
+        write_files:
+        - path: /opt/k8s_vm_install.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __docker_proxy__: { get_param: docker_proxy }
+                __apt_proxy__: { get_param: apt_proxy }
+                __docker_version__: { get_param: docker_version }
+                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __host_private_ip_addr__: { get_attr: [k8s_04_floating_ip, fixed_ip_address] }
+              template:
+                get_file: k8s_vm_install.sh
+        - path: /opt/k8s_vm_init.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __host_private_ip_addr__: { get_attr: [k8s_04_floating_ip, fixed_ip_address] }
+                __host_label__: 'compute'
+              template:
+                get_file: k8s_vm_init.sh
+        - path: /etc/init.d/k8s_vm_init_serv
+          permissions: '0755'
+          content:
+            get_file: k8s_vm_init_serv.sh
+
+  k8s_04_vm_config:
+    type: OS::Heat::MultipartMime
+    properties:
+      parts:
+      - config: { get_resource: k8s_04_vm_scripts }
+
   k8s_04_vm:
     type: OS::Nova::Server
     properties:
@@ -386,18 +524,8 @@ resources:
       key_name: { get_param: key_name }
       networks:
       - port: { get_resource: k8s_04_private_port }
-      user_data_format: RAW
-      user_data:
-        str_replace:
-          params:
-            __docker_proxy__: { get_param: docker_proxy }
-            __apt_proxy__: { get_param: apt_proxy }
-            __docker_version__: { get_param: docker_version }
-            __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
-            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
-            __host_label__: 'compute'
-          template:
-            get_file: k8s_vm_entrypoint.sh
+      user_data_format: SOFTWARE_CONFIG
+      user_data: { get_resource: k8s_04_vm_config }
 
   k8s_05_private_port:
     type: OS::Neutron::Port
@@ -413,6 +541,48 @@ resources:
       floating_network_id: { get_param: public_net_id }
       port_id: { get_resource: k8s_05_private_port }
 
+  k8s_05_vm_scripts:
+    type: OS::Heat::CloudConfig
+    properties:
+      cloud_config:
+        power_state:
+          mode: reboot
+        runcmd:
+        - [ /opt/k8s_vm_install.sh ]
+        write_files:
+        - path: /opt/k8s_vm_install.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __docker_proxy__: { get_param: docker_proxy }
+                __apt_proxy__: { get_param: apt_proxy }
+                __docker_version__: { get_param: docker_version }
+                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __host_private_ip_addr__: { get_attr: [k8s_05_floating_ip, fixed_ip_address] }
+              template:
+                get_file: k8s_vm_install.sh
+        - path: /opt/k8s_vm_init.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __host_private_ip_addr__: { get_attr: [k8s_05_floating_ip, fixed_ip_address] }
+                __host_label__: 'compute'
+              template:
+                get_file: k8s_vm_init.sh
+        - path: /etc/init.d/k8s_vm_init_serv
+          permissions: '0755'
+          content:
+            get_file: k8s_vm_init_serv.sh
+
+  k8s_05_vm_config:
+    type: OS::Heat::MultipartMime
+    properties:
+      parts:
+      - config: { get_resource: k8s_05_vm_scripts }
+
   k8s_05_vm:
     type: OS::Nova::Server
     properties:
@@ -423,18 +593,8 @@ resources:
       key_name: { get_param: key_name }
       networks:
       - port: { get_resource: k8s_05_private_port }
-      user_data_format: RAW
-      user_data:
-        str_replace:
-          params:
-            __docker_proxy__: { get_param: docker_proxy }
-            __apt_proxy__: { get_param: apt_proxy }
-            __docker_version__: { get_param: docker_version }
-            __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
-            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
-            __host_label__: 'compute'
-          template:
-            get_file: k8s_vm_entrypoint.sh
+      user_data_format: SOFTWARE_CONFIG
+      user_data: { get_resource: k8s_05_vm_config }
 
   k8s_06_private_port:
     type: OS::Neutron::Port
@@ -450,6 +610,48 @@ resources:
       floating_network_id: { get_param: public_net_id }
       port_id: { get_resource: k8s_06_private_port }
 
+  k8s_06_vm_scripts:
+    type: OS::Heat::CloudConfig
+    properties:
+      cloud_config:
+        power_state:
+          mode: reboot
+        runcmd:
+        - [ /opt/k8s_vm_install.sh ]
+        write_files:
+        - path: /opt/k8s_vm_install.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __docker_proxy__: { get_param: docker_proxy }
+                __apt_proxy__: { get_param: apt_proxy }
+                __docker_version__: { get_param: docker_version }
+                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __host_private_ip_addr__: { get_attr: [k8s_06_floating_ip, fixed_ip_address] }
+              template:
+                get_file: k8s_vm_install.sh
+        - path: /opt/k8s_vm_init.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __host_private_ip_addr__: { get_attr: [k8s_06_floating_ip, fixed_ip_address] }
+                __host_label__: 'compute'
+              template:
+                get_file: k8s_vm_init.sh
+        - path: /etc/init.d/k8s_vm_init_serv
+          permissions: '0755'
+          content:
+            get_file: k8s_vm_init_serv.sh
+
+  k8s_06_vm_config:
+    type: OS::Heat::MultipartMime
+    properties:
+      parts:
+      - config: { get_resource: k8s_06_vm_scripts }
+
   k8s_06_vm:
     type: OS::Nova::Server
     properties:
@@ -460,18 +662,8 @@ resources:
       key_name: { get_param: key_name }
       networks:
       - port: { get_resource: k8s_06_private_port }
-      user_data_format: RAW
-      user_data:
-        str_replace:
-          params:
-            __docker_proxy__: { get_param: docker_proxy }
-            __apt_proxy__: { get_param: apt_proxy }
-            __docker_version__: { get_param: docker_version }
-            __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
-            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
-            __host_label__: 'compute'
-          template:
-            get_file: k8s_vm_entrypoint.sh
+      user_data_format: SOFTWARE_CONFIG
+      user_data: { get_resource: k8s_06_vm_config }
 
   k8s_07_private_port:
     type: OS::Neutron::Port
@@ -487,6 +679,48 @@ resources:
       floating_network_id: { get_param: public_net_id }
       port_id: { get_resource: k8s_07_private_port }
 
+  k8s_07_vm_scripts:
+    type: OS::Heat::CloudConfig
+    properties:
+      cloud_config:
+        power_state:
+          mode: reboot
+        runcmd:
+        - [ /opt/k8s_vm_install.sh ]
+        write_files:
+        - path: /opt/k8s_vm_install.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __docker_proxy__: { get_param: docker_proxy }
+                __apt_proxy__: { get_param: apt_proxy }
+                __docker_version__: { get_param: docker_version }
+                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __host_private_ip_addr__: { get_attr: [k8s_07_floating_ip, fixed_ip_address] }
+              template:
+                get_file: k8s_vm_install.sh
+        - path: /opt/k8s_vm_init.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __host_private_ip_addr__: { get_attr: [k8s_07_floating_ip, fixed_ip_address] }
+                __host_label__: 'compute'
+              template:
+                get_file: k8s_vm_init.sh
+        - path: /etc/init.d/k8s_vm_init_serv
+          permissions: '0755'
+          content:
+            get_file: k8s_vm_init_serv.sh
+
+  k8s_07_vm_config:
+    type: OS::Heat::MultipartMime
+    properties:
+      parts:
+      - config: { get_resource: k8s_07_vm_scripts }
+
   k8s_07_vm:
     type: OS::Nova::Server
     properties:
@@ -497,18 +731,8 @@ resources:
       key_name: { get_param: key_name }
       networks:
       - port: { get_resource: k8s_07_private_port }
-      user_data_format: RAW
-      user_data:
-        str_replace:
-          params:
-            __docker_proxy__: { get_param: docker_proxy }
-            __apt_proxy__: { get_param: apt_proxy }
-            __docker_version__: { get_param: docker_version }
-            __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
-            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
-            __host_label__: 'compute'
-          template:
-            get_file: k8s_vm_entrypoint.sh
+      user_data_format: SOFTWARE_CONFIG
+      user_data: { get_resource: k8s_07_vm_config }
 
   k8s_08_private_port:
     type: OS::Neutron::Port
@@ -524,6 +748,48 @@ resources:
       floating_network_id: { get_param: public_net_id }
       port_id: { get_resource: k8s_08_private_port }
 
+  k8s_08_vm_scripts:
+    type: OS::Heat::CloudConfig
+    properties:
+      cloud_config:
+        power_state:
+          mode: reboot
+        runcmd:
+        - [ /opt/k8s_vm_install.sh ]
+        write_files:
+        - path: /opt/k8s_vm_install.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __docker_proxy__: { get_param: docker_proxy }
+                __apt_proxy__: { get_param: apt_proxy }
+                __docker_version__: { get_param: docker_version }
+                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __host_private_ip_addr__: { get_attr: [k8s_08_floating_ip, fixed_ip_address] }
+              template:
+                get_file: k8s_vm_install.sh
+        - path: /opt/k8s_vm_init.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __host_private_ip_addr__: { get_attr: [k8s_08_floating_ip, fixed_ip_address] }
+                __host_label__: 'compute'
+              template:
+                get_file: k8s_vm_init.sh
+        - path: /etc/init.d/k8s_vm_init_serv
+          permissions: '0755'
+          content:
+            get_file: k8s_vm_init_serv.sh
+
+  k8s_08_vm_config:
+    type: OS::Heat::MultipartMime
+    properties:
+      parts:
+      - config: { get_resource: k8s_08_vm_scripts }
+
   k8s_08_vm:
     type: OS::Nova::Server
     properties:
@@ -534,18 +800,8 @@ resources:
       key_name: { get_param: key_name }
       networks:
       - port: { get_resource: k8s_08_private_port }
-      user_data_format: RAW
-      user_data:
-        str_replace:
-          params:
-            __docker_proxy__: { get_param: docker_proxy }
-            __apt_proxy__: { get_param: apt_proxy }
-            __docker_version__: { get_param: docker_version }
-            __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
-            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
-            __host_label__: 'compute'
-          template:
-            get_file: k8s_vm_entrypoint.sh
+      user_data_format: SOFTWARE_CONFIG
+      user_data: { get_resource: k8s_08_vm_config }
 
   k8s_09_private_port:
     type: OS::Neutron::Port
@@ -561,6 +817,48 @@ resources:
       floating_network_id: { get_param: public_net_id }
       port_id: { get_resource: k8s_09_private_port }
 
+  k8s_09_vm_scripts:
+    type: OS::Heat::CloudConfig
+    properties:
+      cloud_config:
+        power_state:
+          mode: reboot
+        runcmd:
+        - [ /opt/k8s_vm_install.sh ]
+        write_files:
+        - path: /opt/k8s_vm_install.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __docker_proxy__: { get_param: docker_proxy }
+                __apt_proxy__: { get_param: apt_proxy }
+                __docker_version__: { get_param: docker_version }
+                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __host_private_ip_addr__: { get_attr: [k8s_09_floating_ip, fixed_ip_address] }
+              template:
+                get_file: k8s_vm_install.sh
+        - path: /opt/k8s_vm_init.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __host_private_ip_addr__: { get_attr: [k8s_09_floating_ip, fixed_ip_address] }
+                __host_label__: 'compute'
+              template:
+                get_file: k8s_vm_init.sh
+        - path: /etc/init.d/k8s_vm_init_serv
+          permissions: '0755'
+          content:
+            get_file: k8s_vm_init_serv.sh
+
+  k8s_09_vm_config:
+    type: OS::Heat::MultipartMime
+    properties:
+      parts:
+      - config: { get_resource: k8s_09_vm_scripts }
+
   k8s_09_vm:
     type: OS::Nova::Server
     properties:
@@ -571,18 +869,8 @@ resources:
       key_name: { get_param: key_name }
       networks:
       - port: { get_resource: k8s_09_private_port }
-      user_data_format: RAW
-      user_data:
-        str_replace:
-          params:
-            __docker_proxy__: { get_param: docker_proxy }
-            __apt_proxy__: { get_param: apt_proxy }
-            __docker_version__: { get_param: docker_version }
-            __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
-            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
-            __host_label__: 'compute'
-          template:
-            get_file: k8s_vm_entrypoint.sh
+      user_data_format: SOFTWARE_CONFIG
+      user_data: { get_resource: k8s_09_vm_config }
 
   k8s_10_private_port:
     type: OS::Neutron::Port
@@ -598,6 +886,48 @@ resources:
       floating_network_id: { get_param: public_net_id }
       port_id: { get_resource: k8s_10_private_port }
 
+  k8s_10_vm_scripts:
+    type: OS::Heat::CloudConfig
+    properties:
+      cloud_config:
+        power_state:
+          mode: reboot
+        runcmd:
+        - [ /opt/k8s_vm_install.sh ]
+        write_files:
+        - path: /opt/k8s_vm_install.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __docker_proxy__: { get_param: docker_proxy }
+                __apt_proxy__: { get_param: apt_proxy }
+                __docker_version__: { get_param: docker_version }
+                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __host_private_ip_addr__: { get_attr: [k8s_10_floating_ip, fixed_ip_address] }
+              template:
+                get_file: k8s_vm_install.sh
+        - path: /opt/k8s_vm_init.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __host_private_ip_addr__: { get_attr: [k8s_10_floating_ip, fixed_ip_address] }
+                __host_label__: 'compute'
+              template:
+                get_file: k8s_vm_init.sh
+        - path: /etc/init.d/k8s_vm_init_serv
+          permissions: '0755'
+          content:
+            get_file: k8s_vm_init_serv.sh
+
+  k8s_10_vm_config:
+    type: OS::Heat::MultipartMime
+    properties:
+      parts:
+      - config: { get_resource: k8s_10_vm_scripts }
+
   k8s_10_vm:
     type: OS::Nova::Server
     properties:
@@ -608,18 +938,8 @@ resources:
       key_name: { get_param: key_name }
       networks:
       - port: { get_resource: k8s_10_private_port }
-      user_data_format: RAW
-      user_data:
-        str_replace:
-          params:
-            __docker_proxy__: { get_param: docker_proxy }
-            __apt_proxy__: { get_param: apt_proxy }
-            __docker_version__: { get_param: docker_version }
-            __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
-            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
-            __host_label__: 'compute'
-          template:
-            get_file: k8s_vm_entrypoint.sh
+      user_data_format: SOFTWARE_CONFIG
+      user_data: { get_resource: k8s_10_vm_config }
 
   k8s_11_private_port:
     type: OS::Neutron::Port
@@ -635,6 +955,48 @@ resources:
       floating_network_id: { get_param: public_net_id }
       port_id: { get_resource: k8s_11_private_port }
 
+  k8s_11_vm_scripts:
+    type: OS::Heat::CloudConfig
+    properties:
+      cloud_config:
+        power_state:
+          mode: reboot
+        runcmd:
+        - [ /opt/k8s_vm_install.sh ]
+        write_files:
+        - path: /opt/k8s_vm_install.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __docker_proxy__: { get_param: docker_proxy }
+                __apt_proxy__: { get_param: apt_proxy }
+                __docker_version__: { get_param: docker_version }
+                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __host_private_ip_addr__: { get_attr: [k8s_11_floating_ip, fixed_ip_address] }
+              template:
+                get_file: k8s_vm_install.sh
+        - path: /opt/k8s_vm_init.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __host_private_ip_addr__: { get_attr: [k8s_11_floating_ip, fixed_ip_address] }
+                __host_label__: 'compute'
+              template:
+                get_file: k8s_vm_init.sh
+        - path: /etc/init.d/k8s_vm_init_serv
+          permissions: '0755'
+          content:
+            get_file: k8s_vm_init_serv.sh
+
+  k8s_11_vm_config:
+    type: OS::Heat::MultipartMime
+    properties:
+      parts:
+      - config: { get_resource: k8s_11_vm_scripts }
+
   k8s_11_vm:
     type: OS::Nova::Server
     properties:
@@ -645,18 +1007,8 @@ resources:
       key_name: { get_param: key_name }
       networks:
       - port: { get_resource: k8s_11_private_port }
-      user_data_format: RAW
-      user_data:
-        str_replace:
-          params:
-            __docker_proxy__: { get_param: docker_proxy }
-            __apt_proxy__: { get_param: apt_proxy }
-            __docker_version__: { get_param: docker_version }
-            __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
-            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
-            __host_label__: 'compute'
-          template:
-            get_file: k8s_vm_entrypoint.sh
+      user_data_format: SOFTWARE_CONFIG
+      user_data: { get_resource: k8s_11_vm_config }
 
   k8s_12_private_port:
     type: OS::Neutron::Port
@@ -672,6 +1024,48 @@ resources:
       floating_network_id: { get_param: public_net_id }
       port_id: { get_resource: k8s_12_private_port }
 
+  k8s_12_vm_scripts:
+    type: OS::Heat::CloudConfig
+    properties:
+      cloud_config:
+        power_state:
+          mode: reboot
+        runcmd:
+        - [ /opt/k8s_vm_install.sh ]
+        write_files:
+        - path: /opt/k8s_vm_install.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __docker_proxy__: { get_param: docker_proxy }
+                __apt_proxy__: { get_param: apt_proxy }
+                __docker_version__: { get_param: docker_version }
+                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __host_private_ip_addr__: { get_attr: [k8s_12_floating_ip, fixed_ip_address] }
+              template:
+                get_file: k8s_vm_install.sh
+        - path: /opt/k8s_vm_init.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __host_private_ip_addr__: { get_attr: [k8s_12_floating_ip, fixed_ip_address] }
+                __host_label__: 'compute'
+              template:
+                get_file: k8s_vm_init.sh
+        - path: /etc/init.d/k8s_vm_init_serv
+          permissions: '0755'
+          content:
+            get_file: k8s_vm_init_serv.sh
+
+  k8s_12_vm_config:
+    type: OS::Heat::MultipartMime
+    properties:
+      parts:
+      - config: { get_resource: k8s_12_vm_scripts }
+
   k8s_12_vm:
     type: OS::Nova::Server
     properties:
@@ -682,18 +1076,8 @@ resources:
       key_name: { get_param: key_name }
       networks:
       - port: { get_resource: k8s_12_private_port }
-      user_data_format: RAW
-      user_data:
-        str_replace:
-          params:
-            __docker_proxy__: { get_param: docker_proxy }
-            __apt_proxy__: { get_param: apt_proxy }
-            __docker_version__: { get_param: docker_version }
-            __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
-            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
-            __host_label__: 'compute'
-          template:
-            get_file: k8s_vm_entrypoint.sh
+      user_data_format: SOFTWARE_CONFIG
+      user_data: { get_resource: k8s_12_vm_config }
 
   etcd_1_private_port:
     type: OS::Neutron::Port
@@ -709,6 +1093,48 @@ resources:
       floating_network_id: { get_param: public_net_id }
       port_id: { get_resource: etcd_1_private_port }
 
+  etcd_1_vm_scripts:
+    type: OS::Heat::CloudConfig
+    properties:
+      cloud_config:
+        power_state:
+          mode: reboot
+        runcmd:
+        - [ /opt/k8s_vm_install.sh ]
+        write_files:
+        - path: /opt/k8s_vm_install.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __docker_proxy__: { get_param: docker_proxy }
+                __apt_proxy__: { get_param: apt_proxy }
+                __docker_version__: { get_param: docker_version }
+                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __host_private_ip_addr__: { get_attr: [etcd_1_floating_ip, fixed_ip_address] }
+              template:
+                get_file: k8s_vm_install.sh
+        - path: /opt/k8s_vm_init.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __host_private_ip_addr__: { get_attr: [etcd_1_floating_ip, fixed_ip_address] }
+                __host_label__: 'etcd'
+              template:
+                get_file: k8s_vm_init.sh
+        - path: /etc/init.d/k8s_vm_init_serv
+          permissions: '0755'
+          content:
+            get_file: k8s_vm_init_serv.sh
+
+  etcd_1_vm_config:
+    type: OS::Heat::MultipartMime
+    properties:
+      parts:
+      - config: { get_resource: etcd_1_vm_scripts }
+
   etcd_1_vm:
     type: OS::Nova::Server
     properties:
@@ -719,18 +1145,8 @@ resources:
       key_name: { get_param: key_name }
       networks:
       - port: { get_resource: etcd_1_private_port }
-      user_data_format: RAW
-      user_data:
-        str_replace:
-          params:
-            __docker_proxy__: { get_param: docker_proxy }
-            __apt_proxy__: { get_param: apt_proxy }
-            __docker_version__: { get_param: docker_version }
-            __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
-            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
-            __host_label__: 'etcd'
-          template:
-            get_file: k8s_vm_entrypoint.sh
+      user_data_format: SOFTWARE_CONFIG
+      user_data: { get_resource: etcd_1_vm_config }
 
   etcd_2_private_port:
     type: OS::Neutron::Port
@@ -746,6 +1162,48 @@ resources:
       floating_network_id: { get_param: public_net_id }
       port_id: { get_resource: etcd_2_private_port }
 
+  etcd_2_vm_scripts:
+    type: OS::Heat::CloudConfig
+    properties:
+      cloud_config:
+        power_state:
+          mode: reboot
+        runcmd:
+        - [ /opt/k8s_vm_install.sh ]
+        write_files:
+        - path: /opt/k8s_vm_install.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __docker_proxy__: { get_param: docker_proxy }
+                __apt_proxy__: { get_param: apt_proxy }
+                __docker_version__: { get_param: docker_version }
+                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __host_private_ip_addr__: { get_attr: [etcd_2_floating_ip, fixed_ip_address] }
+              template:
+                get_file: k8s_vm_install.sh
+        - path: /opt/k8s_vm_init.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __host_private_ip_addr__: { get_attr: [etcd_2_floating_ip, fixed_ip_address] }
+                __host_label__: 'etcd'
+              template:
+                get_file: k8s_vm_init.sh
+        - path: /etc/init.d/k8s_vm_init_serv
+          permissions: '0755'
+          content:
+            get_file: k8s_vm_init_serv.sh
+
+  etcd_2_vm_config:
+    type: OS::Heat::MultipartMime
+    properties:
+      parts:
+      - config: { get_resource: etcd_2_vm_scripts }
+
   etcd_2_vm:
     type: OS::Nova::Server
     properties:
@@ -756,18 +1214,8 @@ resources:
       key_name: { get_param: key_name }
       networks:
       - port: { get_resource: etcd_2_private_port }
-      user_data_format: RAW
-      user_data:
-        str_replace:
-          params:
-            __docker_proxy__: { get_param: docker_proxy }
-            __apt_proxy__: { get_param: apt_proxy }
-            __docker_version__: { get_param: docker_version }
-            __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
-            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
-            __host_label__: 'etcd'
-          template:
-            get_file: k8s_vm_entrypoint.sh
+      user_data_format: SOFTWARE_CONFIG
+      user_data: { get_resource: etcd_2_vm_config }
 
   etcd_3_private_port:
     type: OS::Neutron::Port
@@ -783,6 +1231,48 @@ resources:
       floating_network_id: { get_param: public_net_id }
       port_id: { get_resource: etcd_3_private_port }
 
+  etcd_3_vm_scripts:
+    type: OS::Heat::CloudConfig
+    properties:
+      cloud_config:
+        power_state:
+          mode: reboot
+        runcmd:
+        - [ /opt/k8s_vm_install.sh ]
+        write_files:
+        - path: /opt/k8s_vm_install.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __docker_proxy__: { get_param: docker_proxy }
+                __apt_proxy__: { get_param: apt_proxy }
+                __docker_version__: { get_param: docker_version }
+                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __host_private_ip_addr__: { get_attr: [etcd_3_floating_ip, fixed_ip_address] }
+              template:
+                get_file: k8s_vm_install.sh
+        - path: /opt/k8s_vm_init.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __host_private_ip_addr__: { get_attr: [etcd_3_floating_ip, fixed_ip_address] }
+                __host_label__: 'etcd'
+              template:
+                get_file: k8s_vm_init.sh
+        - path: /etc/init.d/k8s_vm_init_serv
+          permissions: '0755'
+          content:
+            get_file: k8s_vm_init_serv.sh
+
+  etcd_3_vm_config:
+    type: OS::Heat::MultipartMime
+    properties:
+      parts:
+      - config: { get_resource: etcd_3_vm_scripts }
+
   etcd_3_vm:
     type: OS::Nova::Server
     properties:
@@ -793,18 +1283,8 @@ resources:
       key_name: { get_param: key_name }
       networks:
       - port: { get_resource: etcd_3_private_port }
-      user_data_format: RAW
-      user_data:
-        str_replace:
-          params:
-            __docker_proxy__: { get_param: docker_proxy }
-            __apt_proxy__: { get_param: apt_proxy }
-            __docker_version__: { get_param: docker_version }
-            __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
-            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
-            __host_label__: 'etcd'
-          template:
-            get_file: k8s_vm_entrypoint.sh
+      user_data_format: SOFTWARE_CONFIG
+      user_data: { get_resource: etcd_3_vm_config }
 
   orch_1_private_port:
     type: OS::Neutron::Port
@@ -820,6 +1300,48 @@ resources:
       floating_network_id: { get_param: public_net_id }
       port_id: { get_resource: orch_1_private_port }
 
+  orch_1_vm_scripts:
+    type: OS::Heat::CloudConfig
+    properties:
+      cloud_config:
+        power_state:
+          mode: reboot
+        runcmd:
+        - [ /opt/k8s_vm_install.sh ]
+        write_files:
+        - path: /opt/k8s_vm_install.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __docker_proxy__: { get_param: docker_proxy }
+                __apt_proxy__: { get_param: apt_proxy }
+                __docker_version__: { get_param: docker_version }
+                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __host_private_ip_addr__: { get_attr: [orch_1_floating_ip, fixed_ip_address] }
+              template:
+                get_file: k8s_vm_install.sh
+        - path: /opt/k8s_vm_init.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __host_private_ip_addr__: { get_attr: [orch_1_floating_ip, fixed_ip_address] }
+                __host_label__: 'orchestration'
+              template:
+                get_file: k8s_vm_init.sh
+        - path: /etc/init.d/k8s_vm_init_serv
+          permissions: '0755'
+          content:
+            get_file: k8s_vm_init_serv.sh
+
+  orch_1_vm_config:
+    type: OS::Heat::MultipartMime
+    properties:
+      parts:
+      - config: { get_resource: orch_1_vm_scripts }
+
   orch_1_vm:
     type: OS::Nova::Server
     properties:
@@ -830,18 +1352,8 @@ resources:
       key_name: { get_param: key_name }
       networks:
       - port: { get_resource: orch_1_private_port }
-      user_data_format: RAW
-      user_data:
-        str_replace:
-          params:
-            __docker_proxy__: { get_param: docker_proxy }
-            __apt_proxy__: { get_param: apt_proxy }
-            __docker_version__: { get_param: docker_version }
-            __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
-            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
-            __host_label__: 'orchestration'
-          template:
-            get_file: k8s_vm_entrypoint.sh
+      user_data_format: SOFTWARE_CONFIG
+      user_data: { get_resource: orch_1_vm_config }
 
   orch_2_private_port:
     type: OS::Neutron::Port
@@ -857,6 +1369,48 @@ resources:
       floating_network_id: { get_param: public_net_id }
       port_id: { get_resource: orch_2_private_port }
 
+  orch_2_vm_scripts:
+    type: OS::Heat::CloudConfig
+    properties:
+      cloud_config:
+        power_state:
+          mode: reboot
+        runcmd:
+        - [ /opt/k8s_vm_install.sh ]
+        write_files:
+        - path: /opt/k8s_vm_install.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __docker_proxy__: { get_param: docker_proxy }
+                __apt_proxy__: { get_param: apt_proxy }
+                __docker_version__: { get_param: docker_version }
+                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __host_private_ip_addr__: { get_attr: [orch_2_floating_ip, fixed_ip_address] }
+              template:
+                get_file: k8s_vm_install.sh
+        - path: /opt/k8s_vm_init.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __host_private_ip_addr__: { get_attr: [orch_2_floating_ip, fixed_ip_address] }
+                __host_label__: 'orchestration'
+              template:
+                get_file: k8s_vm_init.sh
+        - path: /etc/init.d/k8s_vm_init_serv
+          permissions: '0755'
+          content:
+            get_file: k8s_vm_init_serv.sh
+
+  orch_2_vm_config:
+    type: OS::Heat::MultipartMime
+    properties:
+      parts:
+      - config: { get_resource: orch_2_vm_scripts }
+
   orch_2_vm:
     type: OS::Nova::Server
     properties:
@@ -867,18 +1421,8 @@ resources:
       key_name: { get_param: key_name }
       networks:
       - port: { get_resource: orch_2_private_port }
-      user_data_format: RAW
-      user_data:
-        str_replace:
-          params:
-            __docker_proxy__: { get_param: docker_proxy }
-            __apt_proxy__: { get_param: apt_proxy }
-            __docker_version__: { get_param: docker_version }
-            __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
-            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
-            __host_label__: 'orchestration'
-          template:
-            get_file: k8s_vm_entrypoint.sh
+      user_data_format: SOFTWARE_CONFIG
+      user_data: { get_resource: orch_2_vm_config }
 
 outputs:
   rancher_vm_ip:
