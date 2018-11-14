@@ -68,7 +68,7 @@ class VcpeCommon:
         self.logger.info('Initializing configuration')
 
         # OOM: this is the address that the brg and bng will nat for config of brg - 10.0.0.x address of k8 host for sdnc
-        self.sdnc_brg_bng_ip = get_pod_node_oam_ip(self.sdnc_controller_pod)[1]
+        self.sdnc_brg_bng_ip = self.get_pod_node_oam_ip(self.sdnc_controller_pod)[1]
         # OOM: this is a k8 host external IP 
         self.oom_so_sdnc_aai_ip = '10.12.5.18'
         # OOM: this is a k8 host external IP  can be same as oom_so_sdnc_aai_ip
