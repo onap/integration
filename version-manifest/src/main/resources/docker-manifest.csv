@@ -54,9 +54,11 @@ onap/multicloud/openstack-pike,1.2.1
 onap/multicloud/openstack-windriver,1.2.1
 onap/multicloud/vio,1.2.1
 onap/multicloud/vio-vesagent,1.0.0
-onap/music/cassandra_3_11,3.0.23
-onap/music/cassandra_job,3.0.23
-onap/music/music,3.0.23
+onap/music/cassandra_3_11,3.0.24
+onap/music/cassandra_job,3.0.24
+onap/music/cassandra_music,3.0.0
+onap/music/music,3.0.24
+onap/music/prom,1.0.5
 onap/oom/kube2msb,1.1.0
 onap/optf-cmso-dbinit,1.0.1
 onap/optf-cmso-service,1.0.1
