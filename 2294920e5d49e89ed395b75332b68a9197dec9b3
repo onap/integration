@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_91e2069e",
+        "filename": "version-manifest/src/main/resources/docker-manifest.csv",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 35
+      },
+      "writtenOn": "2018-11-15T14:45:18Z",
+      "side": 1,
+      "message": "Please check this tag; it needs to be a released image.",
+      "range": {
+        "startLine": 61,
+        "startChar": 16,
+        "endLine": 61,
+        "endChar": 28
+      },
+      "revId": "2294920e5d49e89ed395b75332b68a9197dec9b3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
