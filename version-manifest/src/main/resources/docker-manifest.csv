@@ -131,7 +131,7 @@ onap/vfc/jujudriver,1.2.1
 onap/vfc/multivimproxy,1.2.1
 onap/vfc/nfvo/svnfm/huawei,1.2.1
 onap/vfc/nfvo/svnfm/nokia,1.1.0
-onap/vfc/nfvo/svnfm/nokiav2,1.2.1
+onap/vfc/nfvo/svnfm/nokiav2,1.3.0
 onap/vfc/nslcm,1.2.1
 onap/vfc/resmanagement,1.2.1
 onap/vfc/vnflcm,1.2.1
