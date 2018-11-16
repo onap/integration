@@ -33,6 +33,7 @@ import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -65,6 +66,7 @@ public class HttpClientAdapterImpl implements HttpClientAdapter {
         try {
             HttpPost request = createRequest(content, url);
             HttpResponse response = client.execute(request);
+            EntityUtils.consumeQuietly(response.getEntity());
             LOGGER.info(INVOKE, "Message sent, ves response code: {}", response.getStatusLine());
         } catch (IOException e) {
             LOGGER.warn("Error sending message to ves: {}", e.getMessage());
