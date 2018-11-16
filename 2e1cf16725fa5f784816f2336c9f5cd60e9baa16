@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_c66a111a",
+        "filename": "version-manifest/src/main/resources/docker-manifest.csv",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 35
+      },
+      "writtenOn": "2018-11-16T04:00:08Z",
+      "side": 1,
+      "message": "Just saw that this went from 1.3.0 down to 1.2.1.  Is this intentional?",
+      "range": {
+        "startLine": 134,
+        "startChar": 28,
+        "endLine": 134,
+        "endChar": 33
+      },
+      "revId": "2e1cf16725fa5f784816f2336c9f5cd60e9baa16",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
