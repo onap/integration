@@ -35,6 +35,7 @@ echo "__rancher_agent_version__" > /opt/config/rancher_agent_version.txt
 echo "__kubectl_version__" > /opt/config/kubectl_version.txt
 echo "__helm_version__" > /opt/config/helm_version.txt
 echo "__helm_deploy_delay__" > /opt/config/helm_deploy_delay.txt
+echo "__mtu__" > /opt/config/mtu.txt
 
 cat <<EOF > /opt/config/integration-override.yaml
 __integration_override_yaml__
@@ -50,12 +51,18 @@ sed -i 's/\_\_docker_proxy__/__docker_proxy__/g' /opt/config/integration-overrid
 cp /opt/config/integration-override.yaml /root
 cat /root/integration-override.yaml
 
-echo `hostname -I` `hostname` >> /etc/hosts
 mkdir -p /etc/docker
 if [ ! -z "__docker_proxy__" ]; then
     cat > /etc/docker/daemon.json <<EOF
 {
+  "mtu": __mtu__,
   "insecure-registries" : ["__docker_proxy__"]
+}
+EOF
+else
+    cat > /etc/docker/daemon.json <<EOF
+{
+  "mtu": __mtu__
 }
 EOF
 fi
@@ -157,7 +164,7 @@ curl -s -u "${CATTLE_ACCESS_KEY}:${CATTLE_SECRET_KEY}" \
 -X PUT \
 -H 'Accept: application/json' \
 -H 'Content-Type: application/json' \
--d '{"stacks":[{"type":"catalogTemplate", "answers":{"CONSTRAINT_TYPE":"required"}, "name":"kubernetes", "templateVersionId":"library:infra*k8s:52"}, {"type":"catalogTemplate", "name":"network-services", "templateId":"library:infra*network-services"}, {"type":"catalogTemplate", "name":"ipsec", "templateId":"library:infra*ipsec"}, {"type":"catalogTemplate", "name":"healthcheck", "templateId":"library:infra*healthcheck"}]}' \
+-d '{"stacks":[{"type":"catalogTemplate", "answers":{"CONSTRAINT_TYPE":"required"}, "name":"kubernetes", "templateVersionId":"library:infra*k8s:52"}, {"type":"catalogTemplate", "name":"network-services", "templateId":"library:infra*network-services"}, {"type":"catalogTemplate", "name":"ipsec", "templateId":"library:infra*ipsec", "answers":{"MTU":"__mtu__"}}, {"type":"catalogTemplate", "name":"healthcheck", "templateId":"library:infra*healthcheck"}]}' \
 "http://$RANCHER_IP:8080/v2-beta/projecttemplates/$TEMPLATE_ID"
 
 curl -s -u "${CATTLE_ACCESS_KEY}:${CATTLE_SECRET_KEY}" -X POST -H 'Content-Type: application/json' -d '{ "name":"oom", "projectTemplateId":"'$TEMPLATE_ID'" }' "http://$RANCHER_IP:8080/v2-beta/projects" > project.json
