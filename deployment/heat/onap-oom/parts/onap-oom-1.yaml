@@ -93,6 +93,10 @@ parameters:
     description: Set to "true" if you want to use a RAM disk for /dockerdata-nfs/.
     default: "false"
 
+  mtu:
+    type: number
+    default: 1500
+
 resources:
   random-str:
     type: OS::Heat::RandomString

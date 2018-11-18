@@ -96,6 +96,10 @@ parameters:
     description: Set to "true" if you want to use a RAM disk for /dockerdata-nfs/.
     default: "false"
 
+  mtu:
+    type: number
+    default: 1500
+
 resources:
   random-str:
     type: OS::Heat::RandomString
@@ -217,6 +221,7 @@ resources:
             __helm_version__: { get_param: helm_version }
             __helm_deploy_delay__: { get_param: helm_deploy_delay }
             __use_ramdisk__: { get_param: use_ramdisk }
+            __mtu__: { get_param: mtu }
             __public_net_id__: { get_param: public_net_id }
             __oam_network_cidr__: { get_param: oam_network_cidr }
             __oam_network_id__: { get_resource: oam_network }
@@ -285,6 +290,7 @@ resources:
                 __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
                 __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
                 __host_private_ip_addr__: { get_attr: [k8s_01_floating_ip, fixed_ip_address] }
+                __mtu__: { get_param: mtu }
               template:
                 get_file: k8s_vm_install.sh
         - path: /opt/k8s_vm_init.sh
@@ -354,6 +360,7 @@ resources:
                 __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
                 __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
                 __host_private_ip_addr__: { get_attr: [k8s_02_floating_ip, fixed_ip_address] }
+                __mtu__: { get_param: mtu }
               template:
                 get_file: k8s_vm_install.sh
         - path: /opt/k8s_vm_init.sh
@@ -423,6 +430,7 @@ resources:
                 __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
                 __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
                 __host_private_ip_addr__: { get_attr: [k8s_03_floating_ip, fixed_ip_address] }
+                __mtu__: { get_param: mtu }
               template:
                 get_file: k8s_vm_install.sh
         - path: /opt/k8s_vm_init.sh
@@ -492,6 +500,7 @@ resources:
                 __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
                 __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
                 __host_private_ip_addr__: { get_attr: [k8s_04_floating_ip, fixed_ip_address] }
+                __mtu__: { get_param: mtu }
               template:
                 get_file: k8s_vm_install.sh
         - path: /opt/k8s_vm_init.sh
@@ -561,6 +570,7 @@ resources:
                 __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
                 __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
                 __host_private_ip_addr__: { get_attr: [k8s_05_floating_ip, fixed_ip_address] }
+                __mtu__: { get_param: mtu }
               template:
                 get_file: k8s_vm_install.sh
         - path: /opt/k8s_vm_init.sh
@@ -630,6 +640,7 @@ resources:
                 __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
                 __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
                 __host_private_ip_addr__: { get_attr: [k8s_06_floating_ip, fixed_ip_address] }
+                __mtu__: { get_param: mtu }
               template:
                 get_file: k8s_vm_install.sh
         - path: /opt/k8s_vm_init.sh
@@ -699,6 +710,7 @@ resources:
                 __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
                 __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
                 __host_private_ip_addr__: { get_attr: [k8s_07_floating_ip, fixed_ip_address] }
+                __mtu__: { get_param: mtu }
               template:
                 get_file: k8s_vm_install.sh
         - path: /opt/k8s_vm_init.sh
@@ -768,6 +780,7 @@ resources:
                 __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
                 __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
                 __host_private_ip_addr__: { get_attr: [k8s_08_floating_ip, fixed_ip_address] }
+                __mtu__: { get_param: mtu }
               template:
                 get_file: k8s_vm_install.sh
         - path: /opt/k8s_vm_init.sh
@@ -837,6 +850,7 @@ resources:
                 __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
                 __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
                 __host_private_ip_addr__: { get_attr: [k8s_09_floating_ip, fixed_ip_address] }
+                __mtu__: { get_param: mtu }
               template:
                 get_file: k8s_vm_install.sh
         - path: /opt/k8s_vm_init.sh
@@ -906,6 +920,7 @@ resources:
                 __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
                 __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
                 __host_private_ip_addr__: { get_attr: [k8s_10_floating_ip, fixed_ip_address] }
+                __mtu__: { get_param: mtu }
               template:
                 get_file: k8s_vm_install.sh
         - path: /opt/k8s_vm_init.sh
@@ -975,6 +990,7 @@ resources:
                 __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
                 __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
                 __host_private_ip_addr__: { get_attr: [k8s_11_floating_ip, fixed_ip_address] }
+                __mtu__: { get_param: mtu }
               template:
                 get_file: k8s_vm_install.sh
         - path: /opt/k8s_vm_init.sh
@@ -1044,6 +1060,7 @@ resources:
                 __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
                 __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
                 __host_private_ip_addr__: { get_attr: [k8s_12_floating_ip, fixed_ip_address] }
+                __mtu__: { get_param: mtu }
               template:
                 get_file: k8s_vm_install.sh
         - path: /opt/k8s_vm_init.sh
@@ -1113,6 +1130,7 @@ resources:
                 __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
                 __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
                 __host_private_ip_addr__: { get_attr: [etcd_1_floating_ip, fixed_ip_address] }
+                __mtu__: { get_param: mtu }
               template:
                 get_file: k8s_vm_install.sh
         - path: /opt/k8s_vm_init.sh
@@ -1182,6 +1200,7 @@ resources:
                 __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
                 __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
                 __host_private_ip_addr__: { get_attr: [etcd_2_floating_ip, fixed_ip_address] }
+                __mtu__: { get_param: mtu }
               template:
                 get_file: k8s_vm_install.sh
         - path: /opt/k8s_vm_init.sh
@@ -1251,6 +1270,7 @@ resources:
                 __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
                 __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
                 __host_private_ip_addr__: { get_attr: [etcd_3_floating_ip, fixed_ip_address] }
+                __mtu__: { get_param: mtu }
               template:
                 get_file: k8s_vm_install.sh
         - path: /opt/k8s_vm_init.sh
@@ -1320,6 +1340,7 @@ resources:
                 __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
                 __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
                 __host_private_ip_addr__: { get_attr: [orch_1_floating_ip, fixed_ip_address] }
+                __mtu__: { get_param: mtu }
               template:
                 get_file: k8s_vm_install.sh
         - path: /opt/k8s_vm_init.sh
@@ -1389,6 +1410,7 @@ resources:
                 __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
                 __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
                 __host_private_ip_addr__: { get_attr: [orch_2_floating_ip, fixed_ip_address] }
+                __mtu__: { get_param: mtu }
               template:
                 get_file: k8s_vm_install.sh
         - path: /opt/k8s_vm_init.sh

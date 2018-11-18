@@ -16,12 +16,20 @@ echo "__docker_version__" > /opt/config/docker_version.txt
 echo "__rancher_ip_addr__" > /opt/config/rancher_ip_addr.txt
 echo "__rancher_private_ip_addr__" > /opt/config/rancher_private_ip_addr.txt
 echo "__host_private_ip_addr__" > /opt/config/host_private_ip_addr.txt
+echo "__mtu__" > /opt/config/mtu.txt
 
 mkdir -p /etc/docker
 if [ ! -z "__docker_proxy__" ]; then
     cat > /etc/docker/daemon.json <<EOF
 {
+  "mtu": __mtu__,
   "insecure-registries" : ["__docker_proxy__"]
+}
+EOF
+else
+    cat > /etc/docker/daemon.json <<EOF
+{
+  "mtu": __mtu__
 }
 EOF
 fi
