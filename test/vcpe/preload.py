@@ -154,6 +154,8 @@ class Preload:
                         '${service_type}': service_instance_id,
                         '${generic_vnf_name}': vnf_model['modelCustomizationName'],
                         '${vnf_name}': vfmodule_name,
+                        '${mr_ip_addr}': self.vcpecommon.mr_ip_addr,
+                        '${mr_ip_port}': self.vcpecommon.mr_ip_port,
                         '${suffix}': name_suffix}
         replace_dict.update(common_dict)
         self.logger.info('Preloading VF Module ' + vfmodule_name)
