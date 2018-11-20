@@ -46,7 +46,7 @@ parameters:
 
   integration_gerrit_refspec:
     type: string
-    default: "refs/heads/master"
+    default: ""
 
   oom_gerrit_branch:
     type: string
@@ -54,7 +54,7 @@ parameters:
 
   oom_gerrit_refspec:
     type: string
-    default: "refs/heads/master"
+    default: ""
 
   docker_manifest:
     type: string
