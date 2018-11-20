@@ -21,8 +21,8 @@ onap/aai-traversal,1.3.2
 onap/aai/esr-gui,1.2.1
 onap/aai/esr-server,1.2.1
 onap/admportal-sdnc-image,1.4.2
-onap/appc-cdt-image,1.4.1-SNAPSHOT-latest
-onap/appc-image,1.4.1-SNAPSHOT-latest
+onap/appc-cdt-image,1.4.3
+onap/appc-image,1.4.3
 onap/babel,1.3.2
 onap/ccsdk-ansible-server-image,0.3.2
 onap/ccsdk-apps-ms-neng,0.3.2
