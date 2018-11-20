@@ -1,5 +1,6 @@
 image,tag
 onap/aaf/aaf_agent,2.1.8
+onap/aaf/aaf_cass,2.1.8
 onap/aaf/aaf_cm,2.1.8
 onap/aaf/aaf_config,2.1.8
 onap/aaf/aaf_fs,2.1.8
