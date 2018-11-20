@@ -85,7 +85,7 @@
 		},
 		{
 		"vnf-parameter-name": "sdnc_ip_addr",
-		"vnf-parameter-value": "${sdnc_brg_bng_ip}"
+		"vnf-parameter-value": "${sdnc_oam_ip}"
 		},
 		{
 		"vnf-parameter-name": "vbng_private_ip_0",

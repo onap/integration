@@ -34,8 +34,8 @@ class VcpeCommon:
     }
 
     common_preload_config = {
-        'oam_onap_net': 'oam_network_0qV7' if oom_mode else 'oam_onap_lAky',
-        'oam_onap_subnet': 'oam_network_0qV7' if oom_mode else 'oam_onap_lAky',
+        'oam_onap_net': 'oam_network_AiBB' if oom_mode else 'oam_onap_lAky',
+        'oam_onap_subnet': 'oam_network_AiBB' if oom_mode else 'oam_onap_lAky',
         'public_net': 'external',
         'public_net_id': '971040b2-7059-49dc-b220-4fab50cb2ad4'
     }
@@ -68,13 +68,13 @@ class VcpeCommon:
         self.logger.info('Initializing configuration')
 
         # OOM: this is the address that the brg and bng will nat for config of brg - 10.0.0.x address of k8 host for sdnc
-        self.sdnc_brg_bng_ip = self.get_pod_node_oam_ip(self.sdnc_controller_pod)[1]
+        self.sdnc_oam_ip = '10.0.0.20'
         # OOM: this is a k8 host external IP 
-        self.oom_so_sdnc_aai_ip = '10.12.5.18'
+        self.oom_so_sdnc_aai_ip = '10.12.5.228'
         # OOM: this is a k8 host external IP  can be same as oom_so_sdnc_aai_ip
-        self.oom_dcae_ves_collector = '10.12.5.18'
+        self.oom_dcae_ves_collector = '10.12.5.228'
         # OOM: this is a k8 host external IP  can be same as oom_so_sdnc_aai_ip
-        self.mr_ip_addr = '10.12.5.18'
+        self.mr_ip_addr = '10.12.5.228'
         self.mr_ip_port = '30227'
         self.so_nbi_port = '30277' if self.oom_mode else '8080'
         self.sdnc_preloading_port = '30202' if self.oom_mode else '8282'
@@ -136,7 +136,7 @@ class VcpeCommon:
         #############################################################################################
         # SO urls, note: do NOT add a '/' at the end of the url
         self.so_req_api_url = {'v4': 'http://' + self.hosts['so'] + ':' + self.so_nbi_port + '/onap/so/infra/serviceInstantiation/v7/serviceInstances',
-                           'v5': 'http://' + self.hosts['so'] + ':' + self.so_nbi_port + '/onap/so/infraserviceInstantiation/v7/serviceInstances'}
+                           'v5': 'http://' + self.hosts['so'] + ':' + self.so_nbi_port + '/onap/so/infra/serviceInstantiation/v7/serviceInstances'}
         self.so_check_progress_api_url = 'http://' + self.hosts['so'] + ':' + self.so_nbi_port + '/onap/so/infra/orchestrationRequests/v6'
         self.so_userpass = 'InfraPortalClient', 'password1$'
         self.so_headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}

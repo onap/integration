@@ -47,15 +47,15 @@
                 }, 
                 {
                     "vnf-parameter-name": "vgw_private_ip_0", 
-                    "vnf-parameter-value": "10.5.0.92"
+                    "vnf-parameter-value": "10.5.0.111"
                 }, 
                 {
                     "vnf-parameter-name": "vgw_private_ip_1", 
-                    "vnf-parameter-value": "10.0.101.92"
+                    "vnf-parameter-value": "10.0.101.111"
                 }, 
                 {
                     "vnf-parameter-name": "vgw_private_ip_2", 
-                    "vnf-parameter-value": "10.2.0.7"
+                    "vnf-parameter-value": "10.2.0.26"
                 }, 
                 {
                     "vnf-parameter-name": "vgw_name_0", 
@@ -67,7 +67,7 @@
                 }, 
                 {
                     "vnf-parameter-name": "vg_vgmux_tunnel_vni", 
-                    "vnf-parameter-value": "92"
+                    "vnf-parameter-value": "111"
                 }, 
                 {
                     "vnf-parameter-name": "onap_private_net_id", 
