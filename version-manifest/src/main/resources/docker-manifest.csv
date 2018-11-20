@@ -20,7 +20,7 @@ onap/aai-resources,1.3.3
 onap/aai-traversal,1.3.2
 onap/aai/esr-gui,1.2.1
 onap/aai/esr-server,1.2.1
-onap/admportal-sdnc-image,1.4.1
+onap/admportal-sdnc-image,1.4.2
 onap/appc-cdt-image,1.4.0
 onap/appc-image,1.4.0
 onap/babel,1.3.2
@@ -111,10 +111,10 @@ onap/sdc-init-elasticsearch,1.3.3
 onap/sdc-kibana,1.3.3
 onap/sdc-onboard-backend,1.3.3
 onap/sdc-onboard-cassandra-init,1.3.3
-onap/sdnc-ansible-server-image,1.4.1
-onap/sdnc-dmaap-listener-image,1.4.1
-onap/sdnc-image,1.4.1
-onap/sdnc-ueb-listener-image,1.4.1
+onap/sdnc-ansible-server-image,1.4.2
+onap/sdnc-dmaap-listener-image,1.4.2
+onap/sdnc-image,1.4.2
+onap/sdnc-ueb-listener-image,1.4.2
 onap/search-data-service,1.3.1
 onap/sniroemulator,1.0.0
 onap/so/api-handler-infra,1.3.1
