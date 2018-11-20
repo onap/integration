@@ -270,8 +270,10 @@ git config --global log.decorate auto
 cd ~
 git clone -b __oom_gerrit_branch__ https://gerrit.onap.org/r/oom
 cd oom
-git fetch https://gerrit.onap.org/r/oom __oom_gerrit_refspec__
-git checkout FETCH_HEAD
+if [ ! -z "__oom_gerrit_refspec__" ]; then
+    git fetch https://gerrit.onap.org/r/oom __oom_gerrit_refspec__
+    git checkout FETCH_HEAD
+fi
 git checkout -b workarounds
 git log -1
 
@@ -279,8 +281,10 @@ git log -1
 cd ~
 git clone -b __integration_gerrit_branch__ https://gerrit.onap.org/r/integration
 cd integration
-git fetch https://gerrit.onap.org/r/integration __integration_gerrit_refspec__
-git checkout FETCH_HEAD
+if [ ! -z "__integration_gerrit_refspec__" ]; then
+    git fetch https://gerrit.onap.org/r/integration __integration_gerrit_refspec__
+    git checkout FETCH_HEAD
+fi
 
 
 if [ ! -z "__docker_manifest__" ]; then
