@@ -8,7 +8,7 @@ parameters:
   shared:
      type: boolean
      description: Shared amongst tenants
-     default: True
+     default: False
 outputs:
   network_id:
     description: Openstack network identifier

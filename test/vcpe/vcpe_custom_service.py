@@ -75,7 +75,7 @@ class CustomService:
         # get name index
         self.vgw_vfmod_name_index= self.vcpecommon.load_object(self.vcpecommon.vgw_vfmod_name_index_file)
         self.vgw_vfmod_name_index=self.vgw_vfmod_name_index + 1
-        self.save_object(vgw_vfmod_name_index,self.vcpecommon.vgw_vfmod_name_index_file)
+        self.vcpecommon.save_object(self.vgw_vfmod_name_index,self.vcpecommon.vgw_vfmod_name_index_file)
         # preload vGW
         if preload_dict:
             preloader = preload.Preload(self.vcpecommon)
@@ -83,7 +83,7 @@ class CustomService:
             self.vcpecommon.increase_ip_address_or_vni_in_template(vgw_template_file, parameters_to_change)
             preloader.preload_vgw(vgw_template_file, brg_mac, preload_dict, name_suffix)
             # preload vGW-GRA
-            preloader.preload_vgw_gra(vgw_gra_template_file, brg_mac, preload_dict, name_suffix, vgw_vfmod_name_index)
+            preloader.preload_vgw_gra(vgw_gra_template_file, brg_mac, preload_dict, name_suffix, str(self.vgw_vfmod_name_index))
 
         # create service
         so = soutils.SoUtils(self.vcpecommon, 'v5')

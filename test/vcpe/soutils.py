@@ -177,8 +177,16 @@ class SoUtils:
                     {
                         'name': 'BRG_WAN_MAC_Address',
                         'value': brg_mac
-                    }
-                     ,
+                    },
+                    {
+                       'name': 'VfModuleNames',
+                       'value': [
+                            {
+                                'VfModuleModelInvariantUuid': 'c16ad38c-2c2c-49ae-bbe8-66c7ffbcc30a',
+                                'VfModuleName': 'VGW2BRG-fa:16:3e:5c:27:8b'
+                            }
+                       ]
+                    },
                     {
                          "name": "Customer_Location",
                          "value": self.vcpecommon.customer_location_used_by_oof

@@ -63,7 +63,7 @@
                 },
                 {
                     "vnf-parameter-name": "sdnc_ip",
-                    "vnf-parameter-value": "${sdnc_brg_bng_ip}"
+                    "vnf-parameter-value": "${sdnc_oam_ip}"
                 },
                 {
                     "vnf-parameter-name": "vbrgemu_name_0",

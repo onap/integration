@@ -78,7 +78,9 @@ def insert_customer_service_to_so(vcpecommon):
                     "`SERVICE_MODEL_UUID`) VALUES ('createInstance','1','{0}'," \
                     "'/mso/async/services/CreateVcpeResCustService',NULL,181,NULL, NOW()," \
                     "'{1}');".format(parser.svc_model['modelName'], parser.svc_model['modelVersionId']))
+        vcpecommon.execute_cmds_so_db(cmds)
 
+    cmds = []
     cmds.append("delete from `heat_template_params` where"
                 "`HEAT_TEMPLATE_ARTIFACT_UUID`='efee1d84-b8ec-11e7-abc4-cec278b6b50a';")
     cmds.append("delete from `heat_template` where ARTIFACT_UUID='efee1d84-b8ec-11e7-abc4-cec278b6b50a';")

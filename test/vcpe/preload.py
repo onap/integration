@@ -128,7 +128,7 @@ class Preload:
                         }
         replace_dict.update(commont_dict)
         self.logger.info('Preloading vGW-GRA')
-        return self.preload(template_file, replace_dict, self.vcpecommon.sdnc_preload_vnf_url)
+        return self.preload(template_file, replace_dict, self.vcpecommon.sdnc_preload_gra_url)
 
     def preload_vfmodule(self, template_file, service_instance_id, vnf_model, vfmodule_model, common_dict, name_suffix):
         """
@@ -156,6 +156,7 @@ class Preload:
                         '${vnf_name}': vfmodule_name,
                         '${mr_ip_addr}': self.vcpecommon.mr_ip_addr,
                         '${mr_ip_port}': self.vcpecommon.mr_ip_port,
+                        '${sdnc_oam_ip}': self.vcpecommon.sdnc_oam_ip,
                         '${suffix}': name_suffix}
         replace_dict.update(common_dict)
         self.logger.info('Preloading VF Module ' + vfmodule_name)
