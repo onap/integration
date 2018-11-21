@@ -68,7 +68,7 @@ onap/music/cassandra_job,3.0.24
 onap/music/cassandra_music,3.0.0
 onap/music/music,3.0.24
 onap/music/prom,1.0.5
-onap/network-discovery,latest
+onap/network-discovery,1.4.2
 onap/oom/kube2msb,1.1.0
 onap/optf-cmso-dbinit,1.0.1
 onap/optf-cmso-service,1.0.1
@@ -120,7 +120,7 @@ onap/sdnc-dmaap-listener-image,1.4.2
 onap/sdnc-image,1.4.2
 onap/sdnc-ueb-listener-image,1.4.2
 onap/search-data-service,1.3.1
-onap/service-decomposition,latest
+onap/service-decomposition,1.4.2
 onap/sniroemulator,1.0.0
 onap/so/api-handler-infra,1.3.2-STAGING-latest
 onap/so/bpmn-infra,1.3.2-STAGING-latest
