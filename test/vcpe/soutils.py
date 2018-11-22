@@ -166,6 +166,7 @@ class SoUtils:
                                        'owningEntityName': self.vcpecommon.owning_entity_name}
 
     def generate_custom_service_request(self, instance_name, model, brg_mac):
+        brg_mac_enc = brg_mac.replace(':', '-')
         req_details = {
             'modelInfo':  model,
             'subscriberInfo':  {'subscriberName': 'Kaneohe',
@@ -182,8 +183,8 @@ class SoUtils:
                        'name': 'VfModuleNames',
                        'value': [
                             {
-                                'VfModuleModelInvariantUuid': 'c16ad38c-2c2c-49ae-bbe8-66c7ffbcc30a',
-                                'VfModuleName': 'VGW2BRG-fa:16:3e:5c:27:8b'
+                                'VfModuleModelInvariantUuid': self.vcpecommon.vgw_VfModuleModelInvariantUuid,
+                                'VfModuleName': 'VGW2BRG-{0}'.format(brg_mac_enc)
                             }
                        ]
                     },

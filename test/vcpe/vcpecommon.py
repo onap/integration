@@ -67,6 +67,8 @@ class VcpeCommon:
         self.logger = logging.getLogger(__name__)
         self.logger.info('Initializing configuration')
 
+        # vgw_VfModuleModelInvariantUuid is in rescust service csar, look in service-VcpesvcRescust1118-template.yml for groups vgw module metadata. TODO: read this value automcatically
+        self.vgw_VfModuleModelInvariantUuid = 'c16ad38c-2c2c-49ae-bbe8-66c7ffbcc30a'
         # OOM: this is the address that the brg and bng will nat for config of brg - 10.0.0.x address of k8 host for sdnc
         self.sdnc_oam_ip = '10.0.0.20'
         # OOM: this is a k8 host external IP 

@@ -72,6 +72,7 @@ class CustomService:
             brg_mac = str(raw_input("Enter the BRG MAC address: "))
         else:
             brg_mac = self.vcpecommon.get_brg_mac_from_sdnc()
+        brg_mac_enc = brg_mac.replace(':', '-')
         # get name index
         self.vgw_vfmod_name_index= self.vcpecommon.load_object(self.vcpecommon.vgw_vfmod_name_index_file)
         self.vgw_vfmod_name_index=self.vgw_vfmod_name_index + 1
@@ -83,7 +84,7 @@ class CustomService:
             self.vcpecommon.increase_ip_address_or_vni_in_template(vgw_template_file, parameters_to_change)
             preloader.preload_vgw(vgw_template_file, brg_mac, preload_dict, name_suffix)
             # preload vGW-GRA
-            preloader.preload_vgw_gra(vgw_gra_template_file, brg_mac, preload_dict, name_suffix, str(self.vgw_vfmod_name_index))
+            preloader.preload_vgw_gra(vgw_gra_template_file, brg_mac_enc, preload_dict, name_suffix, str(self.vgw_vfmod_name_index))
 
         # create service
         so = soutils.SoUtils(self.vcpecommon, 'v5')
