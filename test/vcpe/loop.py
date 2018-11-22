@@ -25,7 +25,7 @@ hosts = cpecommon.get_vm_ip(nodes)
 custom.del_vgmux_ves_mode(hosts['mux'])
 time.sleep(2)
 custom.del_vgmux_ves_collector(hosts['mux'])
-exit()
+#exit()
 
 time.sleep(2)
 logging.info('Setting vGMUX DCAE collector IP address')

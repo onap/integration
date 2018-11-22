@@ -61,4 +61,3 @@ if __name__ == '__main__':
     logger.debug('---------------------------------------------------------------')
     logger.debug('list interfaces after cleaning gmux')
     list_interface()
-

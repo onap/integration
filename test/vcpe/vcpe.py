@@ -159,7 +159,7 @@ def closed_loop(lossrate=0):
     time.sleep(2)
     vcpecommon.del_vgmux_ves_collector()
 
-    logger.info('Staring vGMUX data reporting to DCAE')
+    logger.info('Starting vGMUX data reporting to DCAE')
     time.sleep(2)
     vcpecommon.set_vgmux_ves_collector()
 
