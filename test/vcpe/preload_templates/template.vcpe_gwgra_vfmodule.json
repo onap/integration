@@ -17,6 +17,14 @@
 			"vf-module-topology": {
 				"vf-module-parameters":  {
             				"param": [
+                                        {
+                                            "name": "vcpe_image_name",
+                                            "value": "vgw-casa-base-ubuntu-16-04"
+                                        },
+                                        {
+                                            "name": "vcpe_flavor_name",
+                                            "value": "m1.medium"
+                                        },
 					{
 					    "name": "public_net_id", 
 					    "value": "${public_net_id}"
