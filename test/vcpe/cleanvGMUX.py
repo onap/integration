@@ -7,12 +7,12 @@ import json
 from datetime import datetime
 import time
 
-gmux_ip = '10.12.6.115'
+gmux_ip = ''
 logging.basicConfig(level=logging.DEBUG, format='%(message)s')
 logger = logging.getLogger('')
 headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
 auth = 'admin', 'admin'
-base_url = 'http://{0}:8183/restconf/config/ietf-interfaces:interfaces'.format(gmux_ip)
+base_url = ''
 
 def list_interface():
     url = base_url
@@ -54,6 +54,8 @@ def delete_interface(interface_name):
     logger.debug(r)
         
 if __name__ == '__main__':
+    gmux_ip = sys.argv[1]
+    base_url = 'http://{0}:8183/restconf/config/ietf-interfaces:interfaces'.format(gmux_ip)
     logger.debug('---------------------------------------------------------------')
     logger.debug('list interfaces before cleaning gmux')
     list_interface()
