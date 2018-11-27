@@ -18,6 +18,14 @@
             "VNF-API:vnf-assignments": {}, 
             "VNF-API:vnf-parameters": [
                 {
+                    "vnf-parameter-name": "vcpe_image_name", 
+                    "vnf-parameter-value": "vgw-casa-base-ubuntu-16-04"
+                }, 
+                {
+                    "vnf-parameter-name": "vcpe_flavor_name", 
+                    "vnf-parameter-value": "m1.medium"
+                }, 
+                {
                     "vnf-parameter-name": "public_net_id", 
                     "vnf-parameter-value": "${public_net_id}"
                 }, 
@@ -47,15 +55,15 @@
                 }, 
                 {
                     "vnf-parameter-name": "vgw_private_ip_0", 
-                    "vnf-parameter-value": "10.5.0.116"
+                    "vnf-parameter-value": "10.5.0.125"
                 }, 
                 {
                     "vnf-parameter-name": "vgw_private_ip_1", 
-                    "vnf-parameter-value": "10.0.101.116"
+                    "vnf-parameter-value": "10.0.101.125"
                 }, 
                 {
                     "vnf-parameter-name": "vgw_private_ip_2", 
-                    "vnf-parameter-value": "10.2.0.31"
+                    "vnf-parameter-value": "10.2.0.40"
                 }, 
                 {
                     "vnf-parameter-name": "vgw_name_0", 
@@ -67,7 +75,7 @@
                 }, 
                 {
                     "vnf-parameter-name": "vg_vgmux_tunnel_vni", 
-                    "vnf-parameter-value": "116"
+                    "vnf-parameter-value": "125"
                 }, 
                 {
                     "vnf-parameter-name": "onap_private_net_id", 

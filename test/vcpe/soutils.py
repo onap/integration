@@ -217,7 +217,7 @@ class SoUtils:
 
         # create service
         instance_name = '_'.join([self.vcpecommon.instance_name_prefix['service'],
-                                  parser.svc_model['modelName'], name_suffix])
+                                  parser.svc_model['modelName'][0:10], name_suffix])
         instance_name = instance_name.lower()
         req = self.generate_custom_service_request(instance_name, parser.svc_model, brg_mac)
         self.logger.info(json.dumps(req, indent=2, sort_keys=True))
