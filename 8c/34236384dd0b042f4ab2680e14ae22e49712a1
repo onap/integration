@@ -1,0 +1,9 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Conor Ward <conor.ward@est.tech>
+Code-Review+1: Ronan Keogh <ronan.keogh@ericsson.com>
+Code-Review+2: Gary Wu <gary.i.wu@huawei.com>
+Submitted-by: Gary Wu <gary.i.wu@huawei.com>
+Submitted-at: Wed, 28 Nov 2018 14:12:14 +0000
+Reviewed-on: https://gerrit.onap.org/r/73556
+Project: integration
+Branch: refs/heads/master
