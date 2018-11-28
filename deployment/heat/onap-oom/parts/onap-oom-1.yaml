@@ -42,7 +42,7 @@ parameters:
 
   integration_gerrit_branch:
     type: string
-    default: "master"
+    default: "3.0.0-ONAP"
 
   integration_gerrit_refspec:
     type: string
@@ -50,7 +50,7 @@ parameters:
 
   oom_gerrit_branch:
     type: string
-    default: "master"
+    default: "3.0.0-ONAP"
 
   oom_gerrit_refspec:
     type: string
