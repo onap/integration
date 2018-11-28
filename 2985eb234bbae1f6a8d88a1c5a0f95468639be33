@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_a642443c",
+        "filename": "docs/onap-oom-heat.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 343
+      },
+      "writtenOn": "2018-11-28T19:58:50Z",
+      "side": 1,
+      "message": "Looks like this \":\" is extra, please review it at: http://rst.ninjs.org (thanks Marco)",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 2
+      },
+      "revId": "2985eb234bbae1f6a8d88a1c5a0f95468639be33",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
