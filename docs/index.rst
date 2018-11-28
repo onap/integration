@@ -8,4 +8,4 @@ The Integration project provides the followning artifacts:
 - Test suites to check the various ONAP components based on Robot Framework
 - Artifacts for the use-case deployments
 
-.. include:: heat.rst
+.. include:: onap-oom-heat.rst
