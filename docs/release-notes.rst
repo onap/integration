@@ -6,7 +6,7 @@
 .. _doc-release-notes:
 
 Integration Release Notes
-=============
+=========================
 
 
 Integration Repo
@@ -19,13 +19,16 @@ Version: 3.0.0
 
 **New Features**
 
-* Enahanced deployment scripts and HEAT template for automated deployment of OOM onto a HA-enabled Kubernetes cluster
+* CI/CD with daily summary: `functional tests and health checks <http://onapci.org/grafana/d/8cGRqBOmz/daily-summary>`_. 
+* Container optimization through Integration sub-projectCIA project release notes
+* Enhanced deployment scripts and HEAT template for automated deployment of OOM onto a HA-enabled Kubernetes cluster
 * Updated scripts for OOM daily automated deployment tests
 * Added various helper scripts and configuration files for assisting the ONAP community's work on the various OpenLab test environments
 * Updated docker and java artifact versions for ONAP Casablanca release
 * Additional enhancements to automation test scripts for vCPE use case
 * Moved CSIT content to a separate integration/csit repo
 * Updates and enhancements to the CSIT test plans across projects to support the ONAP Casablanca use cases
+* Offline deployment: deploy ONAP without direct internet access for Beijing release
 
 
 
@@ -90,7 +93,7 @@ Version: 1.3.2
 **New Features**
 
 * Fully automated vFW Closed Loop instantiation and testing
-* Instantiaion of 5 new vCPE models
+* Instantiation of 5 new vCPE models
 
 
 Version: 1.3.1
