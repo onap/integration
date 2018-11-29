@@ -23,6 +23,7 @@ fully automates the deployment of ONAP using OOM as described in
 The ONAP OOM HEAT template deploys the entire ONAP platform.  It spins
 up an HA-enabled Kubernetes cluster, and deploys ONAP using OOM onto
 this cluster.
+
 - 1 Rancher VM that also serves as a shared NFS server
 - 3 etcd VMs for the Kubernetes HA etcd plane
 - 2 orch VMs for the Kubernetes HA orchestration plane
