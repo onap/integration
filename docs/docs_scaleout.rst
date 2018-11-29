@@ -14,7 +14,7 @@ Source files
 
 Description
 ~~~~~~~~~~~
-The Scale Out use case shows how users/network operators can add capacity to an existing VNF. ONAP Casablanca release supports scale out with manual trigger from VID and closed-loop enabled automation from Policy. This is demonstrated against the vLB/vDNS VNFs. For Casablanca, both APPC and SDNC controllers are supported. APPC is the official controller used for this use case and it can be used to scale multiple VNF types. SDNC is experimental for now and it can scale only the vDNS VNF developed for ONAP.
+The Scale Out use case shows how users/network operators can add Virtual Network Function Components (VNFCs) as part of a VF Module that has been instantiated in the Service model to an existing VNF, in order to increase capacity of the network. ONAP Casablanca release supports scale out with manual trigger from VID and closed-loop enabled automation from Policy. This is demonstrated against the vLB/vDNS VNFs developed for ONAP. For Casablanca, both APPC and SDNC controllers are used to demonstrate accepting request from SO to execute the Scale Out operation. APPC is the main controller used for this use case and it can be used to scale different VNF types. SDNC is experimental for now and it can scale only the vDNS VNF developed for ONAP.
 
 The Casablanca Scaling Use Case Wiki Page can be found here: https://wiki.onap.org/display/DW/Scaling+Use+Case+Extension
 
