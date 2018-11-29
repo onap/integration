@@ -7,7 +7,7 @@ vFW with HPA Tutorial: Setting Up and Configuration
 
 Description
 ~~~~~~~~~~~
-This use case makes modifications to the regular vFW use case in ONAP by giving the VMs certain hardware features (such as SRIOV NIC, CPU pinning, pci passthrough.. etc.) in order to enhance their performance. Multiple cloud regions with flavors that have hpa features are registered with ONAP. We then create policies that specify the hpa requirements of each VM in the use case. When a service instance is created with OOF specified as the homing solution, OOF responds with the homing solution (cloud region) and flavor directives that meet the requirements specified in the policy.
+This use case makes modifications to the regular vFW use case in ONAP by giving the VMs certain hardware features (such as SRIOV NIC, CPU pinning, pci passthrough.. etc.) in order to enhance their performance. Multiple cloud regions with flavors that have HPA features are registered with ONAP. We then create policies that specify the HPA requirements of each VM in the use case. When a service instance is created with OOF specified as the homing solution, OOF responds with the homing solution (cloud region) and flavor directives that meet the requirements specified in the policy.
 This tutorial covers enhancements 1 to 5 in Background of https://wiki.onap.org/pages/viewpage.action?pageId=41421112. It focuses on Test Plan 1.
 
 **Useful Links**
@@ -25,7 +25,12 @@ This tutorial covers enhancements 1 to 5 in Background of https://wiki.onap.org/
 
 Setting Up and Installation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Some fixes for HPA support were made subsequent to the release of the Casablanca images.  Several updated docker images need to be used to utilize the fixes.  The details of the docker images that need to be used and the issues that are fixed are described at this link https://wiki.onap.org/display/DW/Docker+image+updates+for+HPA+vFW+testing
+
+Instructions for updating the manifest of ONAP docker images can be found here:  https://onap.readthedocs.io/en/casablanca/submodules/integration.git/docs/#deploying-an-updated-docker-manifest
+
 Install OOM ONAP using the deploy script in the integration repo. Instructions for this can be found in this link https://wiki.onap.org/display/DW/OOM+Component. When the installation is complete (all the pods are either in running or completed state) Do the following;
+
 
 1. Check that all the required components were deployed;
    
@@ -42,7 +47,7 @@ Install OOM ONAP using the deploy script in the integration repo. Instructions f
    ``oom-rancher# ./ete-k8s.sh onap health``
 
    Ensure all the required components pass the health tests
-4. Modify so bpmn configmap to change the so vnf adapter endpoint to v2
+4. Modify the SO bpmn configmap to change the SO vnf adapter endpoint to v2
   
    ``oom-rancher#    kubectl -n onap edit configmap dev-so-so-bpmn-infra-app-configmap`` 
 
@@ -73,7 +78,7 @@ Install OOM ONAP using the deploy script in the integration repo. Instructions f
 
   ``oom-rancher# ./demo-k8s.sh onap init``
 
-7. Create hpa flavors in cloud regions to be registered with ONAP. All hpa flavor names must start with onap. During our tests, 3 cloud regions were registered and we created flavors in each cloud. The flavors match the flavors described in the test plan `here <https://wiki.onap.org/pages/viewpage.action?pageId=41421112>`_. 
+7. Create HPA flavors in cloud regions to be registered with ONAP. All HPA flavor names must start with onap. During our tests, 3 cloud regions were registered and we created flavors in each cloud. The flavors match the flavors described in the test plan `here <https://wiki.onap.org/pages/viewpage.action?pageId=41421112>`_. 
 
 - **Cloud Region One**
 
@@ -363,7 +368,7 @@ If an update is needed, the update can be done via rest using curl or postman
    
 11.  Onboard the vFW HPA template. The templates can be gotten from the `demo <https://github.com/onap/demo>`_ repo. The heat and env files used are located in demo/heat/vFW_HPA/vFW/. Create a zip file using the files. For onboarding instructions see steps 4 to 9 of `vFWCL instantiation, testing and debugging <https://wiki.onap.org/display/DW/vFWCL+instantiation%2C+testing%2C+and+debuging>`_. Note that in step 5, only one VSP is created. For the VSP the option to submit for testing in step 5cii was not shown. So you can check in and certify the VSP and proceed to step 6.
 
-12. Get the parameters (model info, model invarant id...etc) required to create a service instance via rest. This can be done by creating a service instance via VID as in step 10 of `vFWCL instantiation, testing and debugging <https://wiki.onap.org/display/DW/vFWCL+instantiation%2C+testing%2C+and+debuging>`_.  After creating the service instance, exec into the so bpmn pod and look into the /app/logs/bpmn/debug.log file. Search for the service instance and look for its request details. Then populate the parameters required to create a service instance via rest in step 13 below.
+12. Get the parameters (model info, model invarant id...etc) required to create a service instance via rest. This can be done by creating a service instance via VID as in step 10 of `vFWCL instantiation, testing and debugging <https://wiki.onap.org/display/DW/vFWCL+instantiation%2C+testing%2C+and+debuging>`_.  After creating the service instance, exec into the SO bpmn pod and look into the /app/logs/bpmn/debug.log file. Search for the service instance and look for its request details. Then populate the parameters required to create a service instance via rest in step 13 below.
 
 13. Create a service instance rest request but do not create service instance yet. Specify OOF as the homing solution and multicloud as the orchestrator. Be sure to use a service instance name that does not exist and populate the parameters with values gotten from step 12.
 
@@ -614,7 +619,7 @@ Push Policy
 
 19. Create vnf using VID as in 10f and 10g in `vFWCL instantiation, testing and debugging <https://wiki.onap.org/display/DW/vFWCL+instantiation%2C+testing%2C+and+debuging>`_.
 
-20. Do SDNC Preload. Instrcutions for this can be found in this `video <https://wiki.onap.org/display/DW/Running+the+ONAP+Demos?preview=/1015891/16010290/vFW_closed_loop.mp4>`_ (Fast forward to 3:55 in the video). The contents of my preload file are shown below;
+20. Do SDNC Preload. Instructions for this can be found in this `video <https://wiki.onap.org/display/DW/Running+the+ONAP+Demos?preview=/1015891/16010290/vFW_closed_loop.mp4>`_ (Fast forward to 3:55 in the video). The contents of my preload file are shown below;
 
 ::
 
