@@ -1,3 +1,5 @@
+.. _docs_vlb:
+
 vLoadBalancer Use Case
 ----------------------
 
