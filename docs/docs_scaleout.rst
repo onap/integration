@@ -1,3 +1,5 @@
+.. _docs_scaleout:
+
 VF Module Scale Out Use Case
 ----------------------------
 

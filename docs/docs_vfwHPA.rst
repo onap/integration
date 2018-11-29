@@ -2,6 +2,8 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. Copyright 2018 ONAP
 
+.. _docs_vfw_hpa:
+
 vFW with HPA Tutorial: Setting Up and Configuration
 ----------------------------------------------------
 

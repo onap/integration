@@ -1,3 +1,5 @@
+.. _docs_vcpe_tosca:
+
 vCPE with Tosca VNF
 ----------------------------
 
