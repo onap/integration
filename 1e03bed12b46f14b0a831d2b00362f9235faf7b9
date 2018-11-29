@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_cccbe2a3",
+        "filename": "docs/docs_vcpe_tosca.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1361
+      },
+      "writtenOn": "2018-11-29T18:02:15Z",
+      "side": 1,
+      "message": "1.2.5 is available in nexus3 repo. But not available in Casablanca release",
+      "range": {
+        "startLine": 136,
+        "startChar": 183,
+        "endLine": 136,
+        "endChar": 204
+      },
+      "revId": "1e03bed12b46f14b0a831d2b00362f9235faf7b9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
