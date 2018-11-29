@@ -1,0 +1,8 @@
+Code-Review+1: Rajendra Jaiswal <rajendra.jaiswal@ericsson.com>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+2: Gary Wu <gary.i.wu@huawei.com>
+Submitted-by: Gary Wu <gary.i.wu@huawei.com>
+Submitted-at: Thu, 29 Nov 2018 13:58:31 +0000
+Reviewed-on: https://gerrit.onap.org/r/73906
+Project: integration
+Branch: refs/heads/casablanca
