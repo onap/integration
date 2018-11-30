@@ -1,0 +1,9 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Eric Debeau <eric.debeau@orange.com>
+Code-Review+1: Brian Freeman <bf1936@att.com>
+Code-Review+2: Helen Chen <helen.chen@huawei.com>
+Submitted-by: Helen Chen <helen.chen@huawei.com>
+Submitted-at: Fri, 30 Nov 2018 14:36:09 +0000
+Reviewed-on: https://gerrit.onap.org/r/74032
+Project: integration
+Branch: refs/heads/casablanca
