@@ -4,7 +4,7 @@
 Source files
 ~~~~~~~~~~~~
 
-- Optional in case of use xNF simulator: https://git.onap.org/integration/tree/test/mocks/hvvessimulator/hvves_sim.yaml
+- Optional in case you want to use the xNF simulator: https://git.onap.org/integration/tree/test/mocks/hvvessimulator/hvves_sim.yaml
 
 Description
 ~~~~~~~~~~~
@@ -17,7 +17,7 @@ Component and API descriptions can be found under:
 How to verif
 ~~~~~~~~~~~~~
 
-Follow instructions under below links to send data to HV-VES collector and verify messages published on Kafka topic:
+Follow instructions in the links below to send data to HV-VES collector and verify messages published on Kafka topic:
 
 - `HV-VES xNF simulator integration to ONAP <https://wiki.onap.org/display/DW/HV-VES+simulator#HV-VESsimulator-HV-VESxNFsimulatorintegrationtoONAP>`_
 - `HV-VES xNF message simulation from shell <https://wiki.onap.org/display/DW/HV-VES+simulator#HV-VESsimulator-HV-VESxNFmessagesimulationfromshell>`_
