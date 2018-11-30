@@ -1,5 +1,10 @@
-CCVPN
-----------------------------
+.. This work is licensed under a Creative Commons Attribution 4.0
+   International License. http://creativecommons.org/licenses/by/4.0
+   
+.. _docs_ccvpn:
+
+CCVPN (Cross Domain and Cross Layer VPN)
+----------------------------------------
 
 Sevice used for CCVPN 
 ~~~~~~~~~~~~
@@ -100,7 +105,7 @@ a) Make an available csar file for CCVPN use case.
 b) Replace uuid of available files with what existing in SDC.
 c) Put available csar files in UUI local path (/home/uui).
 
-4) SO-1248. Csar needs to be manually placed into the bpmn corresponding directory
+4) SO docker branch 1.3.5 has fixes for the issues 1SO-1248.
 
 After SDC distribution success, copy all csar files from so-sdc-controller:
     connect to so-sdc-controller( eg: kubectl.exe exec -it -n onap dev-so-so-sdc-controller-77df99bbc9-stqdz /bin/sh )

@@ -1,7 +1,7 @@
 .. _integration-s3p:
 
-ONAP Casablanca S3P Improvements
---------------------------------
+ONAP Maturity Testing Notes
+---------------------------
 
 For the Casablanca release, ONAP continues to improve in multiple
 areas of Scalability, Security, Stability and Performance (S3P)
@@ -25,19 +25,19 @@ Detailed instructions on how these tests are run can be found at https://wiki.on
 
 Results: 100% PASS
 ~~~~~~~~~~~~~~~~~~
-=============== ======== ========= =========
-Test Case       Attempts Successes Pass Rate
-=============== ======== ========= =========
-Stability72hr   65       65        100%
-vFW Closed Loop 71       71        100%
-**Total**       136      136       **100%**
-=============== ======== ========= =========
+=================== ======== ========= =========
+Test Case           Attempts Successes Pass Rate
+=================== ======== ========= =========
+Stability 72 hours   65       65        100%
+vFW Closed Loop      71       71        100%
+**Total**            136      136       **100%**
+=================== ======== ========= =========
 
 Detailed results can be found at https://wiki.onap.org/display/DW/Casablanca+Release+Stability+Testing+Status .
 
 .. note::
  - The Wind River lab OpenStack instance sporadically returns authentication failures or dropped network connections under load.  The 
-   Stability72hr test runs that failed due to these known infrastructure issues were discarded.
+   Stability 72 hours test runs that failed due to these known infrastructure issues were discarded.
  - The Packet Generator VNF used in the vFW Closed Loop test becomes unstable after long run-times.  The vFWCL test runs that failed 
    due to Packet Generator failures (which are not ONAP platform failures) were discarded.
 
