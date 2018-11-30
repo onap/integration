@@ -1,7 +1,7 @@
 .. _integration-s3p:
 
-ONAP Casablanca S3P Improvements
---------------------------------
+ONAP Maturity Testing Notes
+---------------------------
 
 For the Casablanca release, ONAP continues to improve in multiple
 areas of Scalability, Security, Stability and Performance (S3P)
