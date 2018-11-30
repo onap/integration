@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_20606fa4",
+        "filename": "docs/docs_5g_rtpm.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2018-11-30T13:39:36Z",
+      "side": 1,
+      "message": "..in case you want to use the xNF simulator ...",
+      "revId": "66a9c01cb47de7b9efb5dc1a1b6b311bf25710dc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_c06e4396",
+        "filename": "docs/docs_5g_rtpm.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2018-11-30T13:39:36Z",
+      "side": 1,
+      "message": "in the links below",
+      "range": {
+        "startLine": 20,
+        "startChar": 20,
+        "endLine": 20,
+        "endChar": 37
+      },
+      "revId": "66a9c01cb47de7b9efb5dc1a1b6b311bf25710dc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
