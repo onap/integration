@@ -1,5 +1,10 @@
-CCVPN
-----------------------------
+.. This work is licensed under a Creative Commons Attribution 4.0
+   International License. http://creativecommons.org/licenses/by/4.0
+   
+.. _docs_ccvpn:
+
+CCVPN (Cross Domain and Cross Layer VPN)
+----------------------------------------
 
 Sevice used for CCVPN 
 ~~~~~~~~~~~~
