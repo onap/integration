@@ -1,5 +1,10 @@
-5G Bulk PM Use Case
-----------------------------
+.. This work is licensed under a Creative Commons Attribution 4.0
+   International License. http://creativecommons.org/licenses/by/4.0
+   
+.. _docs_5g_bulk_pm:
+
+5G Bulk PM
+----------
 
 5G Bulk PM Package
 ~~~~~~~~~~~~
