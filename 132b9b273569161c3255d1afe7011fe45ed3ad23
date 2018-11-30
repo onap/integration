@@ -1,0 +1,169 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_e5b4b9d2",
+        "filename": "docs/docs_vFWDT.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2018-11-30T08:16:22Z",
+      "side": 1,
+      "message": "remove trailing white space",
+      "revId": "132b9b273569161c3255d1afe7011fe45ed3ad23",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_a5c6b147",
+        "filename": "docs/docs_vFWDT.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2018-11-30T08:16:22Z",
+      "side": 1,
+      "message": "should be a json file extension Please avoid tab and trailing white spaces",
+      "revId": "132b9b273569161c3255d1afe7011fe45ed3ad23",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_45c5853a",
+        "filename": "docs/docs_vFWDT.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2018-11-30T08:16:22Z",
+      "side": 1,
+      "message": "should be a json file extension Please avoid tab and trailing white spaces",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 1
+      },
+      "revId": "132b9b273569161c3255d1afe7011fe45ed3ad23",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_c5e895b6",
+        "filename": "docs/docs_vFWDT.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2018-11-30T08:16:22Z",
+      "side": 1,
+      "message": "use json extension",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 86,
+        "endChar": 65
+      },
+      "revId": "132b9b273569161c3255d1afe7011fe45ed3ad23",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_a5cd515f",
+        "filename": "docs/docs_vFWDT.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2018-11-30T08:16:22Z",
+      "side": 1,
+      "message": "remove trailing white space",
+      "revId": "132b9b273569161c3255d1afe7011fe45ed3ad23",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_45dca512",
+        "filename": "docs/docs_vFWDT.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2018-11-30T08:16:22Z",
+      "side": 1,
+      "message": "should be a json file extension Please avoid tab and trailing white spaces",
+      "revId": "132b9b273569161c3255d1afe7011fe45ed3ad23",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_05b8ddc6",
+        "filename": "docs/files/vfw-1-preload.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2018-11-30T08:16:22Z",
+      "side": 1,
+      "message": "should be a json file extension Please avoid tab and trailing white spaces",
+      "revId": "132b9b273569161c3255d1afe7011fe45ed3ad23",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_a59f914f",
+        "filename": "docs/files/vfw-2-preload.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2018-11-30T08:16:22Z",
+      "side": 1,
+      "message": "should be a json file extension\nPlease avoid tab",
+      "revId": "132b9b273569161c3255d1afe7011fe45ed3ad23",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_65a9a97a",
+        "filename": "docs/files/vpkg-preload.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2018-11-30T08:16:22Z",
+      "side": 1,
+      "message": "should be a json file extension\nPlease avoid tab and trailing white spaces",
+      "revId": "132b9b273569161c3255d1afe7011fe45ed3ad23",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
