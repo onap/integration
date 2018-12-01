@@ -20,7 +20,7 @@ Version: 3.0.0
 **New Features**
 
 * CI/CD with daily summary: `functional tests and health checks <http://onapci.org/grafana/d/8cGRqBOmz/daily-summary>`_. 
-* Container optimization through Integration sub-projectCIA project release notes
+* Container optimization through the CIA sub-project
 * Enhanced deployment scripts and HEAT template for automated deployment of OOM onto a HA-enabled Kubernetes cluster
 * Updated scripts for OOM daily automated deployment tests
 * Added various helper scripts and configuration files for assisting the ONAP community's work on the various OpenLab test environments
@@ -40,6 +40,20 @@ Quick Links:
 
  	- `Project Vulnerability Review Table for Integration <https://wiki.onap.org/pages/viewpage.action?pageId=45298876>`_
 
+
+ONAP Maturity Testing Notes
+===========================
+
+For the Casablanca release, ONAP continues to improve in multiple areas of Scalability, Security, Stability and Performance (S3P) metrics.
+
+The Integration team ran the 72 hours stability testing (100% passing rate) and full resilience testing (96.9% passing rate) at ONAP OpenLabs. More details in :ref:`ONAP Maturity Testing Notes <integration-s3p>`.
+
+
+Verified Use Cases and Functional Requirements
+==============================================
+
+The Integration team verified 15 use cases and functional requirements. 
+The details can be found at :ref:`Verified Use Cases and Functional Requirements <docs_usecases>` session.
 
 O-Parent
 ========

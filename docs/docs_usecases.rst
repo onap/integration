@@ -9,9 +9,12 @@ Verified Use Cases and Functional Requirements
 
 Description
 ~~~~~~~~~~~
-This session includes use cases and functional requirements have been verified in Casablanca release by Integration team:
-    1. How to run them
-    2. Known issues and workaround
+This session includes use cases and functional requirements have been verified in Casablanca release by the Integration team:
+    1. What has been implemented
+    2. Step by step instruction on how to deploy them, including the links to download the related assets and resources 
+    3. Known issues and workaround
+    
+The final testing status can be found at `Casablanca Release Integration Testing Status Summery <https://wiki.onap.org/display/DW/Casablanca+Release+Integration+Testing+Status>`_
 
 Use Cases
 ~~~~~~~~~
@@ -29,24 +32,22 @@ Use Cases
 
 :ref:`vFirewall with HPA Use Case <docs_vfw_hpa>`
 
+:ref:`vFirewall Traffic Distribution Use Case <docs_vfw_traffic>`
+
 
 Functional Requirements
 ~~~~~~~~~~~~~~~~~~~~~~~
-:ref:`5G - Real Time PM and High Valume Stream Data Collection <docs_>`
+:ref:`5G - Real Time PM and High Valume Stream Data Collection <docs_realtime_pm>`
 
 :ref:`5G - PNF Plug and Play <docs_5g_pnf_pnp>`
 
 :ref:`5G - Buld PM <docs_5g_bulk_pm>`
 
-:ref:`5G - OOF amd PCI <docs_>`
-
 :ref:`5G - PNF Software Upgrade <docs_5g_pnf_software_upgrade>`
 
+:ref:`5G - OOF amd PCI <docs_>`
+
 :ref:`Change Management - Flexible Designer & Orchestrator <docs_>`
-
-:ref:`Change Management - Traffic Management <docs_>`
-
-:ref:`Change Management - 5G PNF In-place Software Upgrade <docs_>`
 
 :ref:`Change Management - Schedule optimization <docs_>`
 
