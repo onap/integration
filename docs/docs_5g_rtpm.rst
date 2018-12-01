@@ -1,3 +1,8 @@
+.. This work is licensed under a Creative Commons Attribution 4.0
+   International License. http://creativecommons.org/licenses/by/4.0
+   
+.. _docs_realtime_pm:
+
 5G - Real Time PM and High Stream Data Collection
 -------------------------------------------------
 
