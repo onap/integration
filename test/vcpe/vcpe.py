@@ -28,11 +28,15 @@ def config_sniro(vcpecommon, vgmux_svc_instance_uuid, vbrg_svc_instance_uuid):
     brg_ar_name = None
     vgw_name = None
     for model in parser.vnf_models:
+        logger.info('modelCustomizationName = %s', model['modelCustomizationName'])
         if 'tunnel' in model['modelCustomizationName']:
+            logger.info('tunnel is in %s', model['modelCustomizationName'])
             tunnelxconn_ar_name = model['modelCustomizationName']
         elif 'brg' in model['modelCustomizationName']:
+            logger.info('brg is in %s', model['modelCustomizationName'])
             brg_ar_name = model['modelCustomizationName']
-        elif 'vgw' in model['modelCustomizationName']:
+        #elif 'vgw' in model['modelCustomizationName']:
+        else:
             vgw_name = model['modelCustomizationName']
 
     if not (tunnelxconn_ar_name and brg_ar_name and vgw_name):
@@ -222,4 +226,6 @@ if __name__ == '__main__':
         closed_loop(0)
     elif sys.argv[1] == 'brg':
         deploy_brg_only()
+    elif sys.argv[1] == 'sniro':
+        tmp_sniro()
 

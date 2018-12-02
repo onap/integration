@@ -55,15 +55,15 @@
                 }, 
                 {
                     "vnf-parameter-name": "vgw_private_ip_0", 
-                    "vnf-parameter-value": "10.5.0.125"
+                    "vnf-parameter-value": "10.5.0.126"
                 }, 
                 {
                     "vnf-parameter-name": "vgw_private_ip_1", 
-                    "vnf-parameter-value": "10.0.101.125"
+                    "vnf-parameter-value": "10.0.101.126"
                 }, 
                 {
                     "vnf-parameter-name": "vgw_private_ip_2", 
-                    "vnf-parameter-value": "10.2.0.40"
+                    "vnf-parameter-value": "10.2.0.41"
                 }, 
                 {
                     "vnf-parameter-name": "vgw_name_0", 
@@ -75,7 +75,7 @@
                 }, 
                 {
                     "vnf-parameter-name": "vg_vgmux_tunnel_vni", 
-                    "vnf-parameter-value": "125"
+                    "vnf-parameter-value": "126"
                 }, 
                 {
                     "vnf-parameter-name": "onap_private_net_id", 
@@ -95,15 +95,15 @@
                 }, 
                 {
                     "vnf-parameter-name": "repo_url_artifacts", 
-                    "vnf-parameter-value": "https://nexus.onap.org/content/groups/staging"
+                    "vnf-parameter-value": "https://nexus.onap.org/content/repositories/releases"
                 }, 
                 {
                     "vnf-parameter-name": "demo_artifacts_version", 
                     "vnf-parameter-value": "1.1.1"
                 }, 
                 {
-                    "vnf-parameter-name": "install_script_version", 
-                    "vnf-parameter-value": "1.1.1"
+                    "vnf-parameter-name": "script_version", 
+                    "vnf-parameter-value": "1.3.0"
                 }, 
                 {
                     "vnf-parameter-name": "key_name", 
