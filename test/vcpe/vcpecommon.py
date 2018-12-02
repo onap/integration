@@ -26,16 +26,16 @@ class VcpeCommon:
         '--os-username': 'kxi',
         '--os-user-domain-id': 'default',
         '--os-project-domain-id': 'default',
-        '--os-tenant-id': 'b8ad3842ab3642f7bf3fbe4e4d3b9f86' if oom_mode else '1e097c6713e74fd7ac8e4295e605ee1e',
+        '--os-tenant-id': '41d6d38489bd40b09ea8a6b6b852dcbd' if oom_mode else '1e097c6713e74fd7ac8e4295e605ee1e',
         '--os-region-name': 'RegionOne',
         '--os-password': 'n3JhGMGuDzD8',
-        '--os-project-domain-name': 'Integration-SB-05' if oom_mode else 'Integration-SB-07',
+        '--os-project-domain-name': 'Integration-SB-00' if oom_mode else 'Integration-SB-07',
         '--os-identity-api-version': '3'
     }
 
     common_preload_config = {
-        'oam_onap_net': 'oam_network_AiBB' if oom_mode else 'oam_onap_lAky',
-        'oam_onap_subnet': 'oam_network_AiBB' if oom_mode else 'oam_onap_lAky',
+        'oam_onap_net': 'oam_network_uB1y' if oom_mode else 'oam_onap_lAky',
+        'oam_onap_subnet': 'oam_network_uB1y' if oom_mode else 'oam_onap_lAky',
         'public_net': 'external',
         'public_net_id': '971040b2-7059-49dc-b220-4fab50cb2ad4'
     }
@@ -61,22 +61,22 @@ class VcpeCommon:
     global_subscriber_id = 'SDN-ETHERNET-INTERNET'
     project_name = 'Project-Demonstration'
     owning_entity_id = '520cc603-a3c4-4ec2-9ef4-ca70facd79c0'
-    owning_entity_name = 'OE-Demonstration'
+    owning_entity_name = 'OE-Demonstration1'
 
     def __init__(self, extra_host_names=None):
         self.logger = logging.getLogger(__name__)
         self.logger.info('Initializing configuration')
 
         # vgw_VfModuleModelInvariantUuid is in rescust service csar, look in service-VcpesvcRescust1118-template.yml for groups vgw module metadata. TODO: read this value automcatically
-        self.vgw_VfModuleModelInvariantUuid = 'c16ad38c-2c2c-49ae-bbe8-66c7ffbcc30a'
+        self.vgw_VfModuleModelInvariantUuid = 'feb4cfc6-e018-4e42-808d-dbf242e7f63b'
         # OOM: this is the address that the brg and bng will nat for config of brg - 10.0.0.x address of k8 host for sdnc
-        self.sdnc_oam_ip = '10.0.0.20'
+        self.sdnc_oam_ip = '10.0.0.10'
         # OOM: this is a k8 host external IP 
-        self.oom_so_sdnc_aai_ip = '10.12.5.228'
+        self.oom_so_sdnc_aai_ip = '10.12.6.20'
         # OOM: this is a k8 host external IP  can be same as oom_so_sdnc_aai_ip
-        self.oom_dcae_ves_collector = '10.12.5.228'
+        self.oom_dcae_ves_collector = '10.12.6.20'
         # OOM: this is a k8 host external IP  can be same as oom_so_sdnc_aai_ip
-        self.mr_ip_addr = '10.12.5.228'
+        self.mr_ip_addr = '10.12.6.20'
         self.mr_ip_port = '30227'
         self.so_nbi_port = '30277' if self.oom_mode else '8080'
         self.sdnc_preloading_port = '30202' if self.oom_mode else '8282'
