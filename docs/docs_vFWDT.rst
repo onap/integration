@@ -1,6 +1,6 @@
 .. This work is licensed under a Creative Commons Attribution 4.0
    International License. http://creativecommons.org/licenses/by/4.0
-   
+
 .. _docs_vfw_traffic:
 
 .. contents::
@@ -12,9 +12,21 @@ vFW Traffic Distribution Use Case
 Description
 ~~~~~~~~~~~
 
-The purpose of this work was to create new LCM API in APPC – DistributeTraffic. The APPC/SDN-C client is requesting a change to traffic distribution (redistribution) done by a traffic balancing/distribution entity (aka anchor point) or mechanism. This action targets the traffic balancing/distribution entity, in some cases DNS, other cases a load balancer external to the VNF instance, as examples. Traffic distribution (weight) changes intended to take a VNF instance out of service are completed only when all in-flight traffic/transactions have been completed. To complete the traffic redistribution process, gracefully taking a VNF instance out-of-service,without dropping in-flight calls or sessions, QuiesceTraffic command may need to follow traffic distribution changes (assigning weight 0 or very low weight to VNF instance). The VNF application remains in an active state.
+The purpose of this work was to create new LCM API in APPC – DistributeTraffic.
+The APPC/SDN-C client is requesting a change to traffic distribution
+(redistribution) done by a traffic balancing/distribution entity (aka anchor
+point) or mechanism. This action targets the traffic balancing/distribution
+entity, in some cases DNS, other cases a load balancer external to the VNF
+instance, as examples. Traffic distribution (weight) changes intended to take
+a VNF instance out of service are completed only when all in-flight
+traffic/transactions have been completed. To complete the traffic
+redistribution process, gracefully taking a VNF instance out-of-service,without
+dropping in-flight calls or sessions, QuiesceTraffic command may need to follow
+traffic distribution changes (assigning weight 0 or very low weight to VNF
+instance). The VNF application remains in an active state.
 
-Traffic Distribution functionality is an outcome of Change Management project. Further details can be found on project's page
+Traffic Distribution functionality is an outcome of Change Management project.
+Further details can be found on project's page
 
 https://wiki.onap.org/display/DW/Change+Management+Extensions
 
@@ -27,7 +39,12 @@ Test Scenario
 
    Figure 1 The idea of DistributeTraffic LCM Use Case
 
-The idea of the scenario is shown on Figure 1. In a result of the DistributeTraffic LCM action traffic flow originated from vPKG to vFW 1 and vSINK 1 is redirected to vFW 2 and vSINK 2. Result of the change can be observed also on the vSINKs' dashboards which show a current incoming traffic. Observation of the dashboard from vSINK 1 and vSINK 2 proves that API works properly.
+The idea of the scenario is shown on Figure 1. In a result of the
+DistributeTraffic LCM action traffic flow originated from vPKG to vFW 1 and
+vSINK 1 is redirected to vFW 2 and vSINK 2. Result of the change can be
+observed also on the vSINKs' dashboards which show a current incoming traffic.
+Observation of the dashboard from vSINK 1 and vSINK 2 proves that API works
+properly.
 
 .. figure:: files/figure2.png
    :scale: 50 %
@@ -35,9 +52,11 @@ The idea of the scenario is shown on Figure 1. In a result of the DistributeTraf
 
    Figure 2 The result of traffic distribution
 
-In order to setup the scenario and to test the DistributeTraffic LCM API in action you need to perform the following steps:
+In order to setup the scenario and to test the DistributeTraffic LCM API in
+action you need to perform the following steps:
 
-1. Create an instance of vFWDT (vPKG , 2 x vFW, 2 x vSINK) – dedicated for the DistributeTraffic LCM API tests
+1. Create an instance of vFWDT (vPKG , 2 x vFW, 2 x vSINK) – dedicated for the
+DistributeTraffic LCM API tests
 
 #. Upload Ansible playbook to Ansible Server
 
@@ -58,7 +77,8 @@ You need to have an access to the following containers:
 
 -  Any container that can be used to call DMaaP API e.g. the SO container
 
-.. note:: This tutorial is based on SB-07 integration lab that was based on OpenStack deployment. For OOM based deployment port number may be different.
+.. note:: This tutorial is based on SB-07 integration lab that was based on
+   OpenStack deployment. For OOM based deployment port number may be different.
 
 Scenario Setup
 --------------
@@ -66,9 +86,16 @@ Scenario Setup
 vFWDT Instantiation
 ~~~~~~~~~~~~~~~~~~~
 
-In order to test a DistributeTraffic LCM API functionality a dedicated vFW instance must be prepared. It differs from a standard vFW instance by having an additional VF-module with a second instance of vFW and a second instance of vSINK. Thanks to that when a service instance is deployed there are already available two instances of vFW and vSINK that can be used for verification of DistributeTraffic LCM API – there is no need to use the ScaleOut function to test DistributeTraffic functionality what simplifies preparations for tests.
+In order to test a DistributeTraffic LCM API functionality a dedicated vFW
+instance must be prepared. It differs from a standard vFW instance by having
+an additional VF-module with a second instance of vFW and a second instance of
+vSINK. Thanks to that when a service instance is deployed there are already
+available two instances of vFW and vSINK that can be used for verification of
+DistributeTraffic LCM API – there is no need to use the ScaleOut function to
+test DistributeTraffic functionality what simplifies preparations for tests.
 
-In order to instantiate vFWDT please follow the procedure for standard vFW with following changes:
+In order to instantiate vFWDT please follow the procedure for standard vFW with
+following changes:
 
 1. Please use the following HEAT templates:
 
@@ -82,7 +109,8 @@ https://github.com/onap/demo/tree/master/heat/vFWDT
 
    Figure 3 Composition of vFWDT Service
 
-3. Use the following payload files in the SDNC-Preload phase during the VF-Module instantiation
+3. Use the following payload files in the SDNC-Preload phase during the
+VF-Module instantiation
 
 - :download:`vPKG preload example <files/vpkg-preload.json>`
 
@@ -90,7 +118,18 @@ https://github.com/onap/demo/tree/master/heat/vFWDT
 
 - :download:`vFW/SNK 2 preload example <files/vfw-2-preload.json>`
 
-**Note**: vFWDT has a specific configuration of the networks – different than the one in original vFW use case (see Figure 4). Two networks must be created before the heat stack creation: *onap-private* network (10.0.0.0/16 typically) and *onap-external-private* (e.g. "10.100.0.0/16"). The latter one should be connected over a router to the external network that gives an access to VMs. Thanks to that VMs can have a floating IP from the external network assigned automatically in a time of stacks' creation. Moreover, the vPKG heat stack must be created before the vFW/vSINK stacks (it means that the VF-module for vPKG must be created as a first one). The vPKG stack creates two networks for the vFWDT use case: *protected* and *unprotected*; so these networks must be present before the stacks for vFW/vSINK are created.
+.. note:: vFWDT has a specific configuration of the networks – different than
+   the one in original vFW use case (see Figure 4). Two networks must be
+   created before the heat stack creation: *onap-private* network
+   (10.0.0.0/16 typically) and *onap-external-private* (e.g. "10.100.0.0/16").
+   The latter one should be connected over a router to the external network
+   that gives an access to VMs. Thanks to that VMs can have a floating IP from
+   the external network assigned automatically in a time of stacks' creation.
+   Moreover, the vPKG heat stack must be created before the vFW/vSINK stacks
+   (it means that the VF-module for vPKG must be created as a first one). The
+   vPKG stack creates two networks for the vFWDT use case: *protected* and
+   *unprotected*; so these networks must be present before the stacks for
+   vFW/vSINK are created.
 
 .. figure:: files/figure4.png
    :scale: 20 %
@@ -101,7 +140,8 @@ https://github.com/onap/demo/tree/master/heat/vFWDT
 Configuration of Ansible Server
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-After an instantiation of the vFWDT service the Ansible server must be configured in order to allow it a reconfiguration of vPKG VM.
+After an instantiation of the vFWDT service the Ansible server must be
+configured in order to allow it a reconfiguration of vPKG VM.
 
 1. Enter the Ansible Server container
 
@@ -111,7 +151,8 @@ After an instantiation of the vFWDT service the Ansible server must be configure
 
     apt install wget nano
 
-3. Download the distribute traffic playbook into the :file:`/opt/onap/ccsdk/Playbooks` directory
+3. Download the distribute traffic playbook into the
+:file:`/opt/onap/ccsdk/Playbooks` directory
 
 ::
 
@@ -119,9 +160,11 @@ After an instantiation of the vFWDT service the Ansible server must be configure
 
     wget https://raw.githubusercontent.com/onap/appc-deployment/master/playbook/ansible_vfw_distributetraffic%400.00.yml
 
-4. Change with *nano* the *hosts: all* statement in the playbook into the *hosts: vpkg-1* statement
+4. Change with *nano* the *hosts: all* statement in the playbook into the
+*hosts: vpkg-1* statement
 
-5. Copy a private key file used for VMs' creation into the :file:`/opt/onap/ccsdk/Playbooks/vpkg-1.pem` file and give it proper rights
+5. Copy a private key file used for VMs' creation into the
+:file:`/opt/onap/ccsdk/Playbooks/vpkg-1.pem` file and give it proper rights
 
 ::
 
@@ -129,7 +172,8 @@ After an instantiation of the vFWDT service the Ansible server must be configure
 
 .. note:: The private key file must be related with a public key specified in the *pub_key* statement used in the *SDNC-Preloading* phase
 
-6. Edit the :file:`/opt/onap/ccsdk/Playbooks/Ansible\ \_\ inventory` file including *vpkg-1* host
+6. Edit the :file:`/opt/onap/ccsdk/Playbooks/Ansible\ \_\ inventory`
+file including *vpkg-1* host
 
 ::
 
@@ -145,7 +189,8 @@ After an instantiation of the vFWDT service the Ansible server must be configure
 
     ansible –i Ansible_inventory vpkg-1 –m ping
 
-8. Upload the payload file :file:`/opt/onap/ccsdk/Playbooks/config.json` with extra parameters for the Ansible playbook.
+8. Upload the payload file :file:`/opt/onap/ccsdk/Playbooks/config.json` with
+extra parameters for the Ansible playbook.
 
 ::
 
@@ -154,12 +199,18 @@ After an instantiation of the vFWDT service the Ansible server must be configure
        "sinkIp": "192.168.20.240"
     }
 
-.. note:: This step can be omitted when the CDT template file for the *DistributeTraffic* action will be formulated in a different way. In consequence all the parameters required by a playbook can be defined directly on the CDT level and there is no need to maintain this file. For our VNF this file contains an IP address of vFW 2 from the *unprotected* network and an IP address of vSINK 2 from the *protected* network.
+.. note:: This step can be omitted when the CDT template file for the
+   *DistributeTraffic* action will be formulated in a different way. In
+   consequence all the parameters required by a playbook can be defined
+   directly on the CDT level and there is no need to maintain this file. For
+   our VNF this file contains an IP address of vFW 2 from the *unprotected*
+   network and an IP address of vSINK 2 from the *protected* network.
 
 Configuration of MySQL/MariaDB for Ansible
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-For each VNF that uses the Ansible protocol you need to configure *PASSWORD* and *URL* field* in the *DEVICE_AUTHENTICATION* table.
+For each VNF that uses the Ansible protocol you need to configure *PASSWORD*
+and *URL* field* in the *DEVICE_AUTHENTICATION* table.
 
 1. Enter the MariaDB container
 
@@ -179,12 +230,16 @@ For each VNF that uses the Ansible protocol you need to configure *PASSWORD* and
     MariaDB [sdnctl]> UPDATE DEVICE_AUTHENTICATION SET PASSWORD = 'admin' WHERE DEVICE_AUTHENTICATION_ID=51;
 
 
-.. note:: You need to find in the *select* query result ID of row that has VNF Type like the one specified in the CDT, *DistributeTraffic* as an action name and *Ansible* as a name of a protocol. You should replace *ansiblehost* with an IP or a hostname of the Ansible Server reachable for the APPC container.
+.. note:: You need to find in the *select* query result ID of row that has VNF
+   Type like the one specified in the CDT, *DistributeTraffic* as an action
+   name and *Ansible* as a name of a protocol. You should replace *ansiblehost*
+   with an IP or a hostname of the Ansible Server reachable for the APPC container.
 
 Configuration of VNF in the APPC CDT tool
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Following steps aim to configure DistributeTraffic LCM action for our vFW VNF in APPC CDT tool.
+Following steps aim to configure DistributeTraffic LCM action for our vFW VNF
+in APPC CDT tool.
 
 1. Enter the Controller Design Tool page: http://appc_ip:CDT_port
 
@@ -198,7 +253,8 @@ Following steps aim to configure DistributeTraffic LCM action for our vFW VNF in
 
    Figure 5 Creation of new VNF type in CDT
 
-3. Enter the VNF Type retrieved from AAI or VID and press the *NEXT* button. Retrieve proper values for the vFWDT service instance
+3. Enter the VNF Type retrieved from AAI or VID and press the *NEXT* button.
+Retrieve proper values for the vFWDT service instance
 
 .. figure:: files/figure6.png
    :scale: 60 %
@@ -213,7 +269,8 @@ Following steps aim to configure DistributeTraffic LCM action for our vFW VNF in
 
    Figure 7 Creation of new VNF type in CDT
 
-4. For already created VNF Type (if the view does not open itself) click the *View/Edit* button. In the LCM action edit view in the first tab please choose:
+4. For already created VNF Type (if the view does not open itself) click the
+*View/Edit* button. In the LCM action edit view in the first tab please choose:
 
    -  *DistributeTraffic* as Action namethe
 
@@ -232,7 +289,8 @@ Following steps aim to configure DistributeTraffic LCM action for our vFW VNF in
 
    Figure 8 DistributeTraffic LCM action editing
 
-5. Go to the *Template* tab and upload the request template file of the DistributeTraffic LCM action
+5. Go to the *Template* tab and upload the request template file of the
+DistributeTraffic LCM action
 
 ::
 
@@ -245,9 +303,14 @@ Following steps aim to configure DistributeTraffic LCM action for our vFW VNF in
         "Timeout": 3600
     }
 
-.. note:: This step allows to create and edit template file for any APPC LCM DistributeTraffic action request for specified before VNF Type.
+.. note:: This step allows to create and edit template file for any APPC LCM
+   DistributeTraffic action request for specified before VNF Type.
 
-The *EnvParameters* group contains all the parameters that will be passed directly to the Ansible playbook during the request's execution. The *NodeList* parameter value must match the group of VMs like it was specified in the Ansible inventory file. *PlaybookName* must be the same as the name of playbook that was uploaded before to the Ansible server.
+The *EnvParameters* group contains all the parameters that will be passed
+directly to the Ansible playbook during the request's execution. The *NodeList*
+parameter value must match the group of VMs like it was specified in the
+Ansible inventory file. *PlaybookName* must be the same as the name of playbook
+that was uploaded before to the Ansible server.
 
 .. figure:: files/figure9.png
    :scale: 60 %
@@ -255,7 +318,9 @@ The *EnvParameters* group contains all the parameters that will be passed direct
 
    Figure 9 Request template file after uploading
 
-Select *ansible_vfw_distributetraffic@400.00.yml* and press CTRL+4 buttons. The new dialog window will appear. Enter a name *playbook* for this value and press the *Submit* button.
+Select *ansible_vfw_distributetraffic@400.00.yml* and press CTRL+4 buttons.
+The new dialog window will appear. Enter a name *playbook* for this value
+and press the *Submit* button.
 
 .. figure:: files/figure10.png
    :scale: 60 %
@@ -263,7 +328,8 @@ Select *ansible_vfw_distributetraffic@400.00.yml* and press CTRL+4 buttons. The 
 
    Figure 10 Editing "playbook" parameter of request template
 
-The same operation must be repeated for the *config.json* parameter. The parameter should have name *ConfigFileName*. Press the *Submit* button.
+The same operation must be repeated for the *config.json* parameter. The
+parameter should have name *ConfigFileName*. Press the *Submit* button.
 
 .. figure:: files/figure11.png
    :scale: 60 %
@@ -271,7 +337,9 @@ The same operation must be repeated for the *config.json* parameter. The paramet
 
    Figure 11 Editing "ConfigFileName" parameter of request template
 
-Afterwards press the *SYNCHRONIZE WITH TEMPLATE PARAMETERS* button. You will be moved to the *Parameter Definition* tab. The new parameters will be listed there.
+Afterwards press the *SYNCHRONIZE WITH TEMPLATE PARAMETERS* button. You will
+be moved to the *Parameter Definition* tab. The new parameters will be listed
+there.
 
 .. figure:: files/figure12.png
    :scale: 60 %
@@ -289,11 +357,14 @@ Below we propose three different ways to test DistributeTraffic LCM API.
 Test in CDT
 ~~~~~~~~~~~
 
-In order to test API in CDT go to *TEST* tab. Upload spreadsheet (Excel file) and enter VNF ID of vFWDT VNF.
+In order to test API in CDT go to *TEST* tab. Upload spreadsheet (Excel file)
+and enter VNF ID of vFWDT VNF.
 
 :download:`CDT request input <files/cdt-request-input.xlsx>`
 
-The spreadsheet contains input parameters for API request. Values from the this file are used to automatically fill in the LCM request template file being edited in previous steps. Click on *Execute test* button to test API in action.
+The spreadsheet contains input parameters for API request. Values from the this
+file are used to automatically fill in the LCM request template file being
+edited in previous steps. Click on *Execute test* button to test API in action.
 
 .. figure:: files/figure13.png
    :scale: 60 %
@@ -304,11 +375,13 @@ The spreadsheet contains input parameters for API request. Values from the this 
 APIDOC Explorer
 ~~~~~~~~~~~~~~~
 
-Another way to test API is to use APIDOC explorer of APPC that comes with OpenDaylight.
+Another way to test API is to use APIDOC explorer of APPC that comes with
+OpenDaylight.
 
 1. Enter APIDOC explorer page: http://appc_ip:appc_portal_port/apidoc/explorer/index.html
 
-.. note:: i.e. http://10.12.5.227:8282/apidoc/explorer/index.html for ONAP OpenStack deployment
+.. note:: i.e. http://10.12.5.227:8282/apidoc/explorer/index.html for ONAP
+   OpenStack deployment
 
 2. Choose *appc-provider-lcm* and find POST
    */operations/appc-provider-lcm:distribute-traffic*
@@ -339,12 +412,25 @@ Another way to test API is to use APIDOC explorer of APPC that comes with OpenDa
         }
     }
 
-.. note:: Remember to use *vnf-id* of your instance of vFW 1 and to set a unique *request-id*. The value of *playbook* and *ConfigFileName* parameters should be the same as uploaded to Ansible Server names of files and their locations. Timestamp must have proper value as well (not from the future and from the past but not more than 30s). In the *payload* parameter *configuration-parameters* section must correspond to all the parameters defined in the template of *DistributeTraffic* action in CDT.
+.. note:: Remember to use *vnf-id* of your instance of vFW 1 and to set a
+   unique *request-id*. The value of *playbook* and *ConfigFileName* parameters
+   should be the same as uploaded to Ansible Server names of files and their
+   locations. Timestamp must have proper value as well (not from the future and
+   from the past but not more than 30s). In the *payload* parameter
+   *configuration-parameters* section must correspond to all the parameters
+   defined in the template of *DistributeTraffic* action in CDT.
 
 DMaaP event distribution
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-The last option that can be used to test DistributeTraffic API is distribution of DMaaP event e.g. from SO container. It is the closest way to how DistributeTraffic API will be used in the future – invoked from a specific workflow by SO BPMN engine. For that we have a python script that prepares input parameters for DMaaP request. There is a need to change in the script IP address and Port of DMaaP. This script can be copied into any machine/container than has access to DMaaP – in particular it can be copied into the SO container.
+The last option that can be used to test DistributeTraffic API is distribution
+of DMaaP event e.g. from SO container. It is the closest way to how
+DistributeTraffic API will be used in the future – invoked from a specific
+workflow by SO BPMN engine. For that we have a python script that prepares
+input parameters for DMaaP request. There is a need to change in the script IP
+address and Port of DMaaP. This script can be copied into any machine/container
+than has access to DMaaP – in particular it can be copied into the SO container
+.
 
 ::
 
@@ -373,7 +459,9 @@ The last option that can be used to test DistributeTraffic API is distribution o
     os.system('curl -X POST -v -H "Content-Type: application/json" -d @./dmaap-payload.json http://10.12.6.80:3904/events/APPC-LCM-READ')
 
 
-POST request to DMaaP requires that *payload* data is specific to a APPC LCM request and defines the same input parameters for the DistributeTraffic LCM action like in the two previous methods.
+POST request to DMaaP requires that *payload* data is specific to a APPC LCM
+request and defines the same input parameters for the DistributeTraffic LCM
+action like in the two previous methods.
 
 ::
 

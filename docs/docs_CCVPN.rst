@@ -6,31 +6,44 @@
 CCVPN (Cross Domain and Cross Layer VPN)
 ----------------------------------------
 
-Sevice used for CCVPN 
-~~~~~~~~~~~~
+Sevice used for CCVPN
+~~~~~~~~~~~~~~~~~~~~~
 
-- SOTNVPNInfraService, SDWANVPNInfraService and SIteService: https://wiki.onap.org/display/DW/CCVPN+Service+Design
-- WanConnectionService ( Another way to describe CCVPN in a single service form which based on ONF CIM ): https://wiki.onap.org/display/DW/CCVPN+Wan+Connection+Service+Design
+- SOTNVPNInfraService, SDWANVPNInfraService and SIteService:
+  https://wiki.onap.org/display/DW/CCVPN+Service+Design
+- WanConnectionService ( Another way to describe CCVPN in a single service form
+  which based on ONF CIM ):
+  https://wiki.onap.org/display/DW/CCVPN+Wan+Connection+Service+Design
 
 Description
 ~~~~~~~~~~~
-Cross-domain, cross-layer VPN (CCVPN) is one of the use cases of the ONAP Casablanca release. This release demonstrates cross-operator ONAP orchestration and interoperability with third party SDN controllers and enables cross-domain, cross-layer and cross-operator service creation and assurance.
+Cross-domain, cross-layer VPN (CCVPN) is one of the use cases of the ONAP
+Casablanca release. This release demonstrates cross-operator ONAP orchestration
+and interoperability with third party SDN controllers and enables cross-domain,
+cross-layer and cross-operator service creation and assurance.
 
-The demonstration includes two ONAP instances, one deployed by Vodafone and one by China Mobile, both of which orchestrate the respective operator underlay OTN networks and overlay SD-WAN networks and peer to each other for cross-operator VPN service delivery.
+The demonstration includes two ONAP instances, one deployed by Vodafone and one
+by China Mobile, both of which orchestrate the respective operator underlay OTN
+networks and overlay SD-WAN networks and peer to each other for cross-operator
+VPN service delivery.
 
-The CCVPN Use Case Wiki Page can be found here: https://wiki.onap.org/display/DW/CCVPN%28Cross+Domain+and+Cross+Layer+VPN%29+USE+CASE.
+The CCVPN Use Case Wiki Page can be found here:
+https://wiki.onap.org/display/DW/CCVPN%28Cross+Domain+and+Cross+Layer+VPN%29+USE+CASE.
 
-The projects covered by this use case include: SDC, A&AI, UUI, SO, SDNC, OOF, Policy, DCAE(Holmes), External API, MSB
+The projects covered by this use case include: SDC, A&AI, UUI, SO, SDNC, OOF,
+Policy, DCAE(Holmes), External API, MSB.
 
 How to Use
 ~~~~~~~~~~
-Design time
-SOTNVPNInfraService, SDWANVPNInfraService and SIteService service Design steps can be found here: https://wiki.onap.org/display/DW/CCVPN+Service+Design
-WanConnectionService ( Another way to describe CCVPN in a single service form which based on ONF CIM ): https://wiki.onap.org/display/DW/CCVPN+Wan+Connection+Service+Design
+**Design time**
+SOTNVPNInfraService, SDWANVPNInfraService and SIteService service Design steps
+can be found here: https://wiki.onap.org/display/DW/CCVPN+Service+Design
+WanConnectionService ( Another way to describe CCVPN in a single service form
+which based on ONF CIM ): https://wiki.onap.org/display/DW/CCVPN+Wan+Connection+Service+Design
 
-Run Time:
-All opertion will be triggerd by UUI, inlcuding service creation and termination, link management and topology network display.
-
+**Run Time**
+All opertion will be triggerd by UUI, inlcuding service creation and
+termination, link management and topology network display.
 
 More details can be fonud here: https://wiki.onap.org/display/DW/CCVPN+Test+Guide
 
@@ -42,31 +55,36 @@ And the test status can be found: https://wiki.onap.org/display/DW/CCVPN++-Test+
 
 Known Issues and Resolutions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-1) AAI-1923. Link Management, UUI can't delete the link to external onap otn domain. 
+1) AAI-1923. Link Management, UUI can't delete the link to external ONAP OTN
+domain.
 
-For the manual steps provided by A&AI team, we should follow the steps as follow
-the only way to delete is using the forceDeleteTool shell script in the graphadmin container.
-First we will need to find the vertex id, you should be able to get the id by making the following GET request.
+For the manual steps provided by A&AI team, we should follow the steps as
+follow: the only way to delete is using the forceDeleteTool shell script in
+the graphadmin container.
+First we will need to find the vertex id, you should be able to get the id by
+making the following GET request.
+::
 
-GET /aai/v14/network/ext-aai-networks/ext-aai-network/createAndDelete/esr-system-info/test-esr-system-info-id-val-0?format=raw
+..GET /aai/v14/network/ext-aai-networks/ext-aai-network/createAndDelete/esr-system-info/test-esr-system-info-id-val-0?format=raw
 
 ::
 
-{
-"results": [
-{
-"id": "20624",
-"node-type": "pserver",
-"url": "/aai/v13/cloud-infrastructure/pservers/pserver/pserverid14503-as988q",
-"properties": {
-}
-}
-]
-}
+..{
+.."results": [
+..{
+.."id": "20624",
+.."node-type": "pserver",
+.."url": "/aai/v13/cloud-infrastructure/pservers/pserver/pserverid14503-as988q",
+.."properties": {
+..}
+..}
+..]
+..}
 
 Same goes for the ext-aai-network:
+::
 
-GET /aai/v14/network/ext-aai-networks/ext-aai-network/createAndDelete?format=raw
+..GET /aai/v14/network/ext-aai-networks/ext-aai-network/createAndDelete?format=raw
 
 Retrieve the id from the above output as that will be the vertex id that you want to remove.
 
@@ -74,7 +92,7 @@ Run the following command multiple times for both the esr-system-info and ext-aa
 
 ::
 
-kubectl exec -it $(kubectl get pods -lapp=aai-graphadmin -n onap --template 'range .items.metadata.name"\n"end' | head -1) -n onap gosu aaiadmin /opt/app/aai-graphadmin/scripts/forceDeleteTool.sh -action DELETE_NODE -userId YOUR_ID_ANY_VALUE -vertexId VERTEX_ID
+..kubectl exec -it $(kubectl get pods -lapp=aai-graphadmin -n onap --template 'range .items.metadata.name"\n"end' | head -1) -n onap gosu ..aaiadmin /opt/app/aai-graphadmin/scripts/forceDeleteTool.sh -action DELETE_NODE -userId YOUR_ID_ANY_VALUE -vertexId VERTEX_ID
 
 From the above, remove the YOUR_ID_ANY_VALUE and VERTEX_ID with your info.
 
@@ -84,6 +102,8 @@ To overcome the Service distribution, the SO catalog has to be populated with th
 a) Refering to the Csar that is generated in the SDC designed as per the detailes mentioned in the below link: https://wiki.onap.org/display/DW/CCVPN+Service+Design
 b) Download the Csar from SDC thus generated.
 c) copy the csar to SO sdc controller pod and bpmn pod
+::
+
   kubectl -n onap get pod|grep so
   kubectl -n onap exec -it dev-so-so-sdc-controller-c949f5fbd-qhfbl  /bin/sh
 

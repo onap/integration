@@ -1,4 +1,7 @@
-.. _docs_vlb:
+.. This work is licensed under a Creative Commons Attribution 4.0
+   International License. http://creativecommons.org/licenses/by/4.0
+
+   .. _docs_vlb:
 
 vLoadBalancer Use Case
 ----------------------
@@ -6,24 +9,33 @@ vLoadBalancer Use Case
 Source files
 ~~~~~~~~~~~~
 
-- Base VNF template file: https://git.onap.org/demo/plain/heat/vLB/base_vlb.yaml
-- Base VNF environment file: https://git.onap.org/demo/plain/heat/vLB/base_vlb.env
-
-- VF module scaling template file: https://git.onap.org/demo/plain/heat/vLB/dnsscaling.yaml
-- VF module scaling environment file: https://git.onap.org/demo/plain/heat/vLB/dnsscaling.env
-
+- `Base VNF template file <https://git.onap.org/demo/plain/heat/vLB/base_vlb.yaml?h=casablanca>`_
+- `Base VNF environment file <https://git.onap.org/demo/plain/heat/vLB/base_vlb.env?h=casablanca>`_
+- `VF module scaling template file <https://git.onap.org/demo/plain/heat/vLB/dnsscaling.yaml?h=casablanca>`_
+- `VF module scaling environment file <https://git.onap.org/demo/plain/heat/vLB/dnsscaling.env?h=casablanca>`_
 
 Description
 ~~~~~~~~~~~
-The use case is composed of three VFs: packet generator, load balancer, and DNS server. These VFs run in three separate VMs. The packet generator issues DNS lookup queries that reach the DNS server via the load balancer. DNS replies reach the packet generator via the load balancer as well. The load balancer reports the average amount of traffic per DNS over a time interval to the DCAE collector. When the average amount of traffic per DNS server crosses a predefined threshold, the closed-loop is triggered and a new DNS server is instantiated. 
+The use case is composed of three VFs: packet generator, load balancer, and DNS
+server. These VFs run in three separate VMs. The packet generator issues DNS
+lookup queries that reach the DNS server via the load balancer. DNS replies
+reach the packet generator via the load balancer as well. The load balancer
+reports the average amount of traffic per DNS over a time interval to the DCAE
+collector. When the average amount of traffic per DNS server crosses a
+predefined threshold, the closed-loop is triggered and a new DNS server is
+instantiated.
 
-To test the application, make sure that the security group in OpenStack has ingress/egress entries for protocol 47 (GRE). The user can run a DNS query from the packet generator VM:
+To test the application, make sure that the security group in OpenStack has
+ingress/egress entries for protocol 47 (GRE). The user can run a DNS query
+from the packet generator VM:
 
 ::
 
   dig @vLoadBalancer_IP host1.dnsdemo.onap.org
 
-The output below means that the load balancer has been set up correctly, has forwarded the DNS queries to one DNS instance, and the packet generator has received the DNS reply message. 
+The output below means that the load balancer has been set up correctly, has
+forwarded the DNS queries to one DNS instance, and the packet generator has
+received the DNS reply message.
 
 ::
 
@@ -34,46 +46,60 @@ The output below means that the load balancer has been set up correctly, has for
     ;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 31892
     ;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 2
     ;; WARNING: recursion requested but not available
-    
+
     ;; OPT PSEUDOSECTION:
     ; EDNS: version: 0, flags:; udp: 4096
     ;; QUESTION SECTION:
     ;host1.dnsdemo.onap.org.		IN	A
-    
+
     ;; ANSWER SECTION:
     host1.dnsdemo.onap.org.	604800	IN	A	10.0.100.101
-    
+
     ;; AUTHORITY SECTION:
     dnsdemo.onap.org.	604800	IN	NS	dnsdemo.onap.org.
-    
+
     ;; ADDITIONAL SECTION:
     dnsdemo.onap.org.	604800	IN	A	10.0.100.100
-    
+
     ;; Query time: 0 msec
     ;; SERVER: 192.168.9.111#53(192.168.9.111)
     ;; WHEN: Fri Nov 10 17:39:12 UTC 2017
     ;; MSG SIZE  rcvd: 97
- 
 
 Closedloop for vLoadBalancer/vDNS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Through the Policy Portal (accessible via the ONAP Portal), we can find the configuration and operation policies that are enabled by default for the vLoadBalancer/vDNS application:
+Through the Policy Portal (accessible via the ONAP Portal), we can find the
+configuration and operation policies that are enabled by default for the
+vLoadBalancer/vDNS application:
 
-- The configuration policy sets the thresholds for generating an onset event from DCAE to the Policy engine. Currently, the threshold is set to 200 packets, while the measurement interval is set to 10 seconds;
-- Once the threshold is crossed (e.g. the number of received packets is above 200 packets per 10 seconds), the Policy Engine executes the operational policy. The Policy engine queries A&AI to fetch the VNF UUID and sends a request to the Service Orchestrator (SO) to spin up a new DNS instance for the VNF identified by that UUID;
+- The configuration policy sets the thresholds for generating an onset event
+  from DCAE to the Policy engine. Currently, the threshold is set to 200
+  packets, while the measurement interval is set to 10 seconds;
+- Once the threshold is crossed (e.g. the number of received packets is above
+  200 packets per 10 seconds), the Policy Engine executes the operational
+  policy. The Policy engine queries A&AI to fetch the VNF UUID and sends a
+  request to the Service Orchestrator (SO) to spin up a new DNS instance for
+  the VNF identified by that UUID;
 - SO spins up a new DNS instance.
 
 
-To change the volume of queries generated by the packet generator, run the following command in a shell, replacing PacketGen_IP in the HTTP argument with localhost (if you run it in the packet generator VM) or the packet generator IP address:
+To change the volume of queries generated by the packet generator, run the
+following command in a shell, replacing PacketGen_IP in the HTTP argument with
+localhost (if you run it in the packet generator VM) or the packet generator IP
+address:
 
 ::
 
+  curl -X PUT -H "Authorization: Basic YWRtaW46YWRtaW4=" -H "Content-Type: application/json" -H "Cache-Control: no-cache" -d '{"pg-streams":{"pg-stream": [{"id":"dns1", "is-enabled":"true"}]}}' "http://PacketGen_IP:8183/restconf/config/sample-plugin:sample-plugin/pg-streams"
 
-  curl -X PUT -H "Authorization: Basic YWRtaW46YWRtaW4=" -H "Content-Type: application/json" -H "Cache-Control: no-cache" -d '{"pg-streams":{"pg-stream": [{"id":"dns1", "is-enabled":"true"}]}}' "http://PacketGen_IP:8183/restconf/config/sample-plugin:sample-plugin/pg-streams"  
- 
-- {"id":"dns1", "is-enabled":"true"} shows the stream "dns1" is enabled. The packet generator sends requests in the rate of 100 packets per 10 seconds;  
-- To increase the amount of traffic, you can enable more streams. The packet generator has 10 streams, "dns1", "dns2", "dns3" to "dns10". Each of them generates 100 packets per 10 seconds. To enable the streams, please add {"id":"dnsX", "is-enabled":"true"} to the pg-stream bracket of the curl command, where X is the stream ID.
+- {"id":"dns1", "is-enabled":"true"} shows the stream "dns1" is enabled. The
+  packet generator sends requests in the rate of 100 packets per 10 seconds;
+- To increase the amount of traffic, you can enable more streams. The packet
+  generator has 10 streams, "dns1", "dns2", "dns3" to "dns10". Each of them
+  generates 100 packets per 10 seconds. To enable the streams, please add
+  {"id":"dnsX", "is-enabled":"true"} to the pg-stream bracket of the curl
+  command, where X is the stream ID.
 
 For example, if you want to enable 3 streams, the curl command will be:
 
@@ -81,25 +107,34 @@ For example, if you want to enable 3 streams, the curl command will be:
 
     curl -X PUT -H "Authorization: Basic YWRtaW46YWRtaW4=" -H "Content-Type: application/json" -H "Cache-Control: no-cache" -d '{"pg-streams":{"pg-stream": [{"id":"dns1", "is-enabled":"true"}, {"id":"dns2", "is-enabled":"true"},{"id":"dns3", "is-enabled":"true"}]}}' "http://PacketGen_IP:8183/restconf/config/sample-plugin:sample-plugin/pg-streams"
 
-When the VNF starts, the packet generator is automatically configured to run 5 streams.
-
+When the VNF starts, the packet generator is automatically configured to run
+5 streams.
 
 Running the Use Case
 ~~~~~~~~~~~~~~~~~~~~
-Automated closed loop via Robot Framework is not supported at this time. For documentation about running the use case manually for previous releases, please look at the videos and the material available at this `wiki page`__.
+Automated closed loop via Robot Framework is not supported at this time. For
+documentation about running the use case manually for previous releases, please
+look at the videos and the material available at this `wiki page`__.
 
 __ https://wiki.onap.org/display/DW/Running+the+ONAP+Demos
 
-Although videos are still valid, users are encouraged to use the Heat templates linked at the top of this page rather than the old Heat templates in that wiki page.
+Although videos are still valid, users are encouraged to use the Heat templates
+linked at the top of this page rather than the old Heat templates in that wiki
+page.
 
 Known issues and resolution
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-1) The packet generator may become unresponsive and stop generating traffic. To solve the problem, reboot the packet generator.
+1) The packet generator may become unresponsive and stop generating traffic.
+To solve the problem, reboot the packet generator.
 
-2) The base and scaling VF module names need to follow a specific naming convention:
+2) The base and scaling VF module names need to follow a specific naming
+convention:
 
   a) The base VF module name must be "Vfmodule\_xyz"
 
-  b) The SDNC preload for the scaling VF module must set the VF module name to "vDNS\_xyz", where "xyz" is the same as the base module. This is required because during closed loop Policy looks for "Vfmodule\_" and replaces it with "vDNS\_"
+  b) The SDNC preload for the scaling VF module must set the VF module name to
+     "vDNS\_xyz", where "xyz" is the same as the base module. This is required
+     because during closed loop Policy looks for "Vfmodule\_" and replaces it
+     with "vDNS\_"
 
 3) Only one scaling operation is supported.
