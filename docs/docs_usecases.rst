@@ -47,7 +47,7 @@ Functional Requirements
 
 :ref:`5G - OOF amd PCI <docs_>`
 
-:ref:`Change Management - Flexible Designer & Orchestrator <docs_>`
+:ref:`Change Management Flexible Designer and Orchestrator <docs_CM_flexible_designer_orchestrator>`
 
-:ref:`Change Management - Schedule optimization <docs_>`
+:ref:`Change Management Schedule Optimization <docs_CM_schedule_optimizer>`
 
