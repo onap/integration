@@ -86,7 +86,7 @@ resources:
                         }
 
                         proto_files_checkout () {
-                            mkdir -p ~/hv-ves_sim/proto;cd ~/hv-ves_sim/proto;wget "https://gerrit.onap.org/r/gitweb?p=dcaegen2/collectors/hv-ves.git;a=blob_plain;f=hv-collector-domain/src/main/proto/event/VesEvent.proto;hb=HEAD" -O VesEvent.proto
+                            mkdir -p ~/hv-ves_sim/proto;cd ~/hv-ves_sim/proto;wget "https://gerrit.onap.org/r/gitweb?p=dcaegen2/collectors/hv-ves.git;a=blob_plain;f=hv-collector-domain/src/main/proto/event/VesEvent.proto;hb=refs/heads/casablanca" -O VesEvent.proto
                         }
 
                         kafkacat_install () {
@@ -94,7 +94,7 @@ resources:
                         }
 
                         hvves_sim_yml_checkout () {
-                            cd ~/hv-ves_sim/;wget "https://gerrit.onap.org/r/gitweb?p=dcaegen2/collectors/hv-ves.git;a=blob_plain;f=docker-compose.yml;hb=HEAD" -O docker-compose.yml;sed -i "s/image: o/image: nexus3.onap.org:$nexus_port\/o/g" docker-compose.yml
+                            cd ~/hv-ves_sim/;wget "https://gerrit.onap.org/r/gitweb?p=dcaegen2/collectors/hv-ves.git;a=blob_plain;f=docker-compose.yml;hb=refs/heads/casablanca" -O docker-compose.yml;sed -i "s/image: o/image: nexus3.onap.org:$nexus_port\/o/g" docker-compose.yml
                         }
 
                         dcae_simulator_disable () {
@@ -104,7 +104,7 @@ resources:
                         generate_certs () {
                             apt-get -y install default-jre
                             mkdir ~/hv-ves_sim/ssl
-                            cd ~/hv-ves_sim/ssl;wget "https://gerrit.onap.org/r/gitweb?p=dcaegen2/collectors/hv-ves.git;a=blob_plain;f=ssl/gen-certs.sh;hb=HEAD" -O gen-certs.sh;chmod +x gen-certs.sh
+                            cd ~/hv-ves_sim/ssl;wget "https://gerrit.onap.org/r/gitweb?p=dcaegen2/collectors/hv-ves.git;a=blob_plain;f=ssl/gen-certs.sh;hb=refs/heads/casablanca" -O gen-certs.sh;chmod +x gen-certs.sh
                             cd ~/hv-ves_sim/ssl;/bin/bash gen-certs.sh
                         }
 
@@ -176,7 +176,7 @@ resources:
 
                         message_samples_checkout () {
                                 mkdir ~/hv-ves_sim/samples
-                                cd ~/hv-ves_sim/samples ; wget "https://gerrit.onap.org/r/gitweb?p=integration/csit.git;a=blob_plain;f=tests/dcaegen2-collectors-hv-ves/testcases/resources/scenarios/authorization/xnf-valid-messages-request.json;hb=HEAD" -O xnf-valid-messages-request.json ; wget "https://gerrit.onap.org/r/gitweb?p=integration/csit.git;a=blob_plain;f=tests/dcaegen2-collectors-hv-ves/testcases/resources/scenarios/invalid-gpb-data/xnf-invalid-gpb-data-request.json;hb=HEAD" -O xnf-invalid-gpb-data-request.json ; wget "https://gerrit.onap.org/r/gitweb?p=integration/csit.git;a=blob_plain;f=tests/dcaegen2-collectors-hv-ves/testcases/resources/scenarios/multiple-simulators-payload/xnf-simulator-smaller-valid-request.json;hb=HEAD" -O xnf-simulator-smaller-valid-request.json
+                                cd ~/hv-ves_sim/samples ; wget "https://gerrit.onap.org/r/gitweb?p=integration/csit.git;a=blob_plain;f=tests/dcaegen2-collectors-hv-ves/testcases/resources/scenarios/authorization/xnf-valid-messages-request.json;hb=refs/heads/casablanca" -O xnf-valid-messages-request.json ; wget "https://gerrit.onap.org/r/gitweb?p=integration/csit.git;a=blob_plain;f=tests/dcaegen2-collectors-hv-ves/testcases/resources/scenarios/invalid-gpb-data/xnf-invalid-gpb-data-request.json;hb=refs/heads/casablanca" -O xnf-invalid-gpb-data-request.json ; wget "https://gerrit.onap.org/r/gitweb?p=integration/csit.git;a=blob_plain;f=tests/dcaegen2-collectors-hv-ves/testcases/resources/scenarios/multiple-simulators-payload/xnf-simulator-smaller-valid-request.json;hb=refs/heads/casablanca" -O xnf-simulator-smaller-valid-request.json
                         }
 
                         set_versions
