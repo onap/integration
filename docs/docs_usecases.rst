@@ -45,7 +45,7 @@ Functional Requirements
 
 :ref:`5G - PNF Software Upgrade <docs_5g_pnf_software_upgrade>`
 
-:ref:`5G - OOF amd PCI <docs_>`
+:ref:`5G - OOF and PCI <docs_5G_oof_pci>`
 
 :ref:`Change Management Flexible Designer and Orchestrator <docs_CM_flexible_designer_orchestrator>`
 
