@@ -71,7 +71,7 @@ Install OOM ONAP using the deploy script in the integration repo. Instructions f
 
    Then delete the bpmn pod
 
-   ``oom-rancher#  kubectl delete <pod-name> -n onap``
+   ``oom-rancher#  kubectl delete pod <pod-name> -n onap``
 
 5. Run robot healthdist
 
@@ -83,23 +83,39 @@ Install OOM ONAP using the deploy script in the integration repo. Instructions f
 7. Create HPA flavors in cloud regions to be registered with ONAP. All HPA flavor names must start with onap. During our tests, 3 cloud regions were registered and we created flavors in each cloud. The flavors match the flavors described in the test plan `here <https://wiki.onap.org/pages/viewpage.action?pageId=41421112>`_. 
 
 - **Cloud Region One**
+    Create Host aggregate for different sriov nic extra specs. In this cloud region, there are two types;
+     
+    ``#nova aggregate-create sriov-host  nova``
+
+    ``#nova aggregate-set-metadata 25 sriov_nic=sriov-nic-intel-8086-154C-private-1:2`` (25 is the list number for the new aggregate, this is shown when the aggregate is created)
+
+    ``#openstack host list``   (Check for host name, hostname is controller-0 in my simplex system)
+
+    ``#nova aggregate-add-host 25 controller-0``
+
+    ``#nova aggregate-create sriov-host-agg2 nova``    (a new host aggregate needs to be created for different extra specs)
+
+    ``#nova aggregate-set-metadata 26 sriov_nic=sriov-nic-intel-8086-154C-private-1:1``
+
+    ``#nova aggregate-add-host 26 controller-0``
+
 
     **Flavor11**
-     ``#nova flavor-create onap.hpa.flavor11 111 8 20 2``
+     ``#nova flavor-create onap.hpa.flavor11 111 512 20 2``
 
      ``#nova flavor-key onap.hpa.flavor11 set hw:mem_page_size=2048``
     
     **Flavor12**
-     ``#nova flavor-create onap.hpa.flavor12 112 12 20 2``
+     ``#nova flavor-create onap.hpa.flavor12 112 12 2048 2``
 
      ``#nova flavor-key onap.hpa.flavor12 set hw:mem_page_size=2048``
 
-     ``#openstack aggregate create --property aggregate_instance_extra_specs:sriov_nic=sriov-nic-intel-8086-154C-shared-1:3 aggr121``
+     ``#openstack aggregate create --property aggregate_instance_extra_specs:sriov_nic=sriov-nic-intel-8086-154C-private-1:2 aggr121``
 
-     ``#openstack flavor set onap.hpa.flavor12 --property aggregate_instance_extra_specs:sriov_nic=sriov-nic-intel-8086-154C-shared-1:3``
+     ``#openstack flavor set onap.hpa.flavor12 --property aggregate_instance_extra_specs:sriov_nic=sriov-nic-intel-8086-154C-private-1:2``
     
     **Flavor13**
-     ``#nova flavor-create onap.hpa.flavor13 113 12 20 2``  
+     ``#nova flavor-create onap.hpa.flavor13 113 2048 20 2``  
 
      ``#nova flavor-key onap.hpa.flavor13 set hw:mem_page_size=2048``
 
@@ -108,9 +124,23 @@ Install OOM ONAP using the deploy script in the integration repo. Instructions f
      ``#openstack flavor set onap.hpa.flavor13 --property aggregate_instance_extra_specs:sriov_nic=sriov-nic-intel-8086-154C-private-1:1``
 
 - **Cloud Region Two**
+    
+    ``#nova aggregate-create sriov-host  nova``
+
+    ``#nova aggregate-set-metadata 29 sriov_nic=sriov-nic-intel-8086-154C-private-1:2`` 
+
+    ``#openstack host list``   (Check for host name)
+
+    ``#nova aggregate-add-host 29 controller-0``
+
+    ``#nova aggregate-create sriov-host-agg2 nova``    (a new host aggregate needs to be created for different extra specs)
+
+    ``#nova aggregate-set-metadata 30 sriov_nic=sriov-nic-intel-8086-154C-shared-1:2``
+
+    ``#nova aggregate-add-host 30 controller-0``
 
     **Flavor21**
-     ``#nova flavor-create onap.hpa.flavor21 221 8 20 2``
+     ``#nova flavor-create onap.hpa.flavor21 221 512 20 2``
 
      ``#nova flavor-key onap.hpa.flavor21 set hw:mem_page_size=2048``
 
@@ -123,20 +153,27 @@ Install OOM ONAP using the deploy script in the integration repo. Instructions f
 
      ``#nova flavor-key onap.hpa.flavor22 set hw:mem_page_size=2048``
 
-     ``#openstack aggregate create --property aggregate_instance_extra_specs:sriov_nic=sriov-nic-intel-8086-154C-shared-1:2 aggr221``
+     ``#openstack aggregate create --property aggregate_instance_extra_specs:sriov_nic=sriov-nic-intel-8086-154C-private-1:2 aggr221``
 
-     ``#openstack flavor set onap.hpa.flavor22 --property aggregate_instance_extra_specs:sriov_nic=sriov-nic-intel-8086-154C-shared-1:2``
+     ``#openstack flavor set onap.hpa.flavor22 --property aggregate_instance_extra_specs:sriov_nic=sriov-nic-intel-8086-154C-private-1:2``
     
     **Flavor23**
-     ``#nova flavor-create onap.hpa.flavor23 223 12 20 2``  
+     ``#nova flavor-create onap.hpa.flavor23 223 2048 20 2``  
 
      ``#nova flavor-key onap.hpa.flavor23 set hw:mem_page_size=2048``
 
-     ``#openstack aggregate create --property aggregate_instance_extra_specs:sriov_nic=sriov-nic-intel-8086-154C-private-1:2 aggr231``
+     ``#openstack aggregate create --property aggregate_instance_extra_specs:sriov_nic=sriov-nic-intel-8086-154C-shared-1:2 aggr231``
 
-     ``#openstack flavor set onap.hpa.flavor23 --property aggregate_instance_extra_specs:sriov_nic=sriov-nic-intel-8086-154C-private-1:2``
+     ``#openstack flavor set onap.hpa.flavor23 --property aggregate_instance_extra_specs:sriov_nic=sriov-nic-intel-8086-154C-shared-1:2``
 
 - **Cloud Region Three**
+    ``#nova aggregate-create sriov-host  nova``
+
+    ``#nova aggregate-set-metadata 22 sriov_nic=sriov-nic-intel-8086-154C-private-1:1`` 
+
+    ``#openstack host list``   (Check for host name)
+
+    ``#ova aggregate-add-host 22 controller-0``
 
     **Flavor31**
      ``#nova flavor-create onap.hpa.flavor31 331 8 20 2``
@@ -212,7 +249,7 @@ If an update is needed, the update can be done via rest using curl or postman
 
         }'
 
-9. Register new cloud regions. This can be done using instructions (Step 1 to Step 3) on this `page <https://onap.readthedocs.io/en/latest/submodules/multicloud/framework.git/docs/multicloud-plugin-windriver/UserGuide-MultiCloud-WindRiver-TitaniumCloud.html#tutorial-onboard-instance-of-wind-river-titanium-cloud>`_. The already existing CloudOwner and cloud complex can be used. If step 3 does not work using the k8s ip and external port. It can be done using the internal ip address and port. Exec into any pod and run the command from the pod.
+9. Register new cloud regions. This can be done using instructions (Step 1 to Step 3) on this `page <https://onap.readthedocs.io/en/latest/submodules/multicloud/framework.git/docs/multicloud-plugin-windriver/UserGuide-MultiCloud-WindRiver-TitaniumCloud.html#tutorial-onboard-instance-of-wind-river-titanium-cloud>`_. **If SRIOV NICs are going to be used, an openstack user with admin priviledges must be specified in the ESR section of the put command in step 1**. The already existing CloudOwner and cloud complex can be used. Multicloud must be able to see flavors for all the clouds registered with ONAP or else you may issues with OOF. If step 3 does not work using the k8s ip and external port. It can be done using the internal ip address and port. Exec into any pod and run the command from the pod.
 
 - Get msb-iag internal ip address and port
 
@@ -368,7 +405,7 @@ If an update is needed, the update can be done via rest using curl or postman
             }'
 
    
-11.  Onboard the vFW HPA template. The templates can be gotten from the `demo <https://github.com/onap/demo>`_ repo. The heat and env files used are located in demo/heat/vFW_HPA/vFW/. Create a zip file using the files. For onboarding instructions see steps 4 to 9 of `vFWCL instantiation, testing and debugging <https://wiki.onap.org/display/DW/vFWCL+instantiation%2C+testing%2C+and+debuging>`_. Note that in step 5, only one VSP is created. For the VSP the option to submit for testing in step 5cii was not shown. So you can check in and certify the VSP and proceed to step 6.
+11.  Onboard the vFW HPA template. The templates can be gotten from the `demo <https://github.com/onap/demo>`_ repo. The heat and env files used are located in demo/heat/vFW_HPA/vFW/, if SRIOV NICs are going to be used for any of the VMs, use the SRIOV NIC heat templates in demo/heat/vFW_HPA/vFW_SRIOV_NIC/. Create a zip file using the files. For onboarding instructions see steps 4 to 9 of `vFWCL instantiation, testing and debugging <https://wiki.onap.org/display/DW/vFWCL+instantiation%2C+testing%2C+and+debuging>`_. Note that in step 5, only one VSP is created. For the VSP the option to submit for testing in step 5cii was not shown. So you can check in and certify the VSP and proceed to step 6.
 
 12. Get the parameters (model info, model invarant id...etc) required to create a service instance via rest. This can be done by creating a service instance via VID as in step 10 of `vFWCL instantiation, testing and debugging <https://wiki.onap.org/display/DW/vFWCL+instantiation%2C+testing%2C+and+debuging>`_.  After creating the service instance, exec into the SO bpmn pod and look into the /app/logs/bpmn/debug.log file. Search for the service instance and look for its request details. Then populate the parameters required to create a service instance via rest in step 13 below.
 
@@ -487,7 +524,7 @@ If an update is needed, the update can be done via rest using curl or postman
 
 14. Get the resourceModuleName to be used for creating policies. This can be gotten from the CSAR file of the service model created. However, an easy way to get the resourceModuleName is to send the service instance create request in step 13 above. This will fail as there are no policies but you can then go into the bpmn debug.log file and get its value by searching for resourcemodulename.
 
-15. Create policies. For instructions to do this, look in **method 2 (Manual upload)** of `OOF - HPA guide for integration testing <https://wiki.onap.org/display/DW/OOF+-+HPA+guide+for+integration+testing>`_. Put in the correct resouceModuleName. This is located in the resources section of the rest request. For example the resourceModuleName in the distance policy is 7400fd06C75f4a44A68f.
+15. Create policies. For instructions to do this, look in **method 2 (Manual upload)** of `OOF - HPA guide for integration testing <https://wiki.onap.org/display/DW/OOF+-+HPA+guide+for+integration+testing>`_. Put in the correct resouceModuleName. This is located in the resources section of the rest request. For example the resourceModuleName in the distance policy is 7400fd06C75f4a44A68f. When creating policies that include SRIOV NICs, be sure to specify both provider networks in the policy (can also be specified in the heat templates or preload), note that all interfaces on the same network must have the same vnic type.
 
 16. Do a get to verify all the polcies have been put in correctly. This can be done by doing an exec into the policy-pdp pod and running the following curl command.
 
@@ -543,8 +580,8 @@ Create Policy
 
 ::
 
-    curl -k -v  -X PUT --header 'Content-Type: application/json' --header 'Accept: text/plain' --header 'ClientAuth: cHl0aG9uOnRlc3Q=' --header 'Authorization: Basic dGVzdHBkcDphbHBoYTEyMw==' --header 'Environment: TEST' -d '{
-        "configBody": "{\"service\":\"hpaPolicy\",\"guard\":\"False\",\"content\":{\"flavorFeatures\":[{\"directives\":[{\"attributes\":[{\"attribute_value\":\"\",\"attribute_name\":\"firewall_flavor_name\"}],\"type\":\"flavor_directives\"}],\"type\":\"vnfc\",\"flavorProperties\":[{\"mandatory\":\"True\",\"hpa-feature-attributes\":[{\"hpa-attribute-value\":\"2\",\"unit\":\"\",\"operator\":\"=\",\"hpa-attribute-key\":\"numVirtualCpu\"},{\"hpa-attribute-value\":\"8\",\"unit\":\"MB\",\"operator\":\"=\",\"hpa-attribute-key\":\"virtualMemSize\"}],\"directives\":[],\"hpa-version\":\"v1\",\"architecture\":\"generic\",\"hpa-feature\":\"basicCapabilities\"},{\"mandatory\":\"True\",\"hpa-feature-attributes\":[{\"hpa-attribute-value\":\"2\",\"unit\":\"MB\",\"operator\":\"=\",\"hpa-attribute-key\":\"memoryPageSize\"}],\"directives\":[],\"hpa-version\":\"v1\",\"architecture\":\"generic\",\"hpa-feature\":\"hugePages\"},{\"hpa-feature\":\"localStorage\",\"hpa-version\":\"v1\",\"architecture\":\"generic\",\"mandatory\":\"True\",\"directives\":[],\"hpa-feature-attributes\":[{\"hpa-attribute-key\":\"diskSize\",\"hpa-attribute-value\":\"10\",\"operator\":\">=\",\"unit\":\"GB\"}]},{\"mandatory\":\"False\",\"score\":\"100\",\"directives\":[],\"hpa-version\":\"v1\",\"hpa-feature-attributes\":[{\"hpa-attribute-value\":\"isolate\",\"unit\":\"\",\"operator\":\"=\",\"hpa-attribute-key\":\"logicalCpuThreadPinningPolicy\"},{\"hpa-attribute-value\":\"dedicated\",\"unit\":\"\",\"operator\":\"=\",\"hpa-attribute-key\":\"logicalCpuPinningPolicy\"}],\"architecture\":\"generic\",\"hpa-feature\":\"cpuPinning\"}],\"id\":\"vfw\"},{\"directives\":[{\"attributes\":[{\"attribute_value\":\"\",\"attribute_name\":\"packetgen_flavor_name\"}],\"type\":\"flavor_directives\"}],\"type\":\"vnfc\",\"flavorProperties\":[{\"mandatory\":\"True\",\"hpa-feature-attributes\":[{\"hpa-attribute-value\":\"1\",\"operator\":\">=\",\"hpa-attribute-key\":\"numVirtualCpu\"},{\"hpa-attribute-value\":\"7\",\"unit\":\"GB\",\"operator\":\">=\",\"hpa-attribute-key\":\"virtualMemSize\"}],\"directives\":[],\"hpa-version\":\"v1\",\"architecture\":\"generic\",\"hpa-feature\":\"basicCapabilities\"},{\"hpa-feature\":\"localStorage\",\"hpa-version\":\"v1\",\"architecture\":\"generic\",\"mandatory\":\"True\",\"directives\":[],\"hpa-feature-attributes\":[{\"hpa-attribute-key\":\"diskSize\",\"hpa-attribute-value\":\"10\",\"operator\":\">=\",\"unit\":\"GB\"}]}],\"id\":\"vgenerator\"},{\"directives\":[{\"attributes\":[{\"attribute_value\":\"\",\"attribute_name\":\"sink_flavor_name\"}],\"type\":\"flavor_directives\"}],\"id\":\"vsink\",\"type\":\"vnfc\",\"flavorProperties\":[{\"mandatory\":\"True\",\"directives\":[],\"hpa-version\":\"v1\",\"hpa-feature-attributes\":[],\"architecture\":\"generic\",\"hpa-feature\":\"basicCapabilities\"}]}],\"policyType\":\"hpa\",\"policyScope\":[\"vfw\",\"us\",\"international\",\"ip\"],\"identity\":\"hpa-vFW\",\"resources\":[\"vFW\",\"VfwHpa\"]},\"priority\":\"3\",\"templateVersion\":\"OpenSource.version.1\",\"riskLevel\":\"2\",\"description\":\"HPApolicyforvFW\",\"policyName\":\"OSDF_CASABLANCA.hpa_policy_vFWHPA_1\",\"version\":\"test1\",\"riskType\":\"test\"}",
+     curl -k -v  -X PUT --header 'Content-Type: application/json' --header 'Accept: text/plain' --header 'ClientAuth: cHl0aG9uOnRlc3Q=' --header 'Authorization: Basic dGVzdHBkcDphbHBoYTEyMw==' --header 'Environment: TEST' -d '{
+        "configBody": "{\"service\":\"hpaPolicy\",\"guard\":\"False\",\"content\":{\"flavorFeatures\":[{\"directives\":[{\"attributes\":[{\"attribute_value\":\"\",\"attribute_name\":\"firewall_flavor_name\"}],\"type\":\"flavor_directives\"}],\"type\":\"vnfc\",\"flavorProperties\":[{\"mandatory\":\"True\",\"hpa-feature-attributes\":[{\"hpa-attribute-value\":\"2\",\"unit\":\"\",\"operator\":\"=\",\"hpa-attribute-key\":\"numVirtualCpu\"},{\"hpa-attribute-value\":\"512\",\"unit\":\"MB\",\"operator\":\"=\",\"hpa-attribute-key\":\"virtualMemSize\"}],\"directives\":[],\"hpa-version\":\"v1\",\"architecture\":\"generic\",\"hpa-feature\":\"basicCapabilities\"},{\"mandatory\":\"True\",\"hpa-feature-attributes\":[{\"hpa-attribute-value\":\"2\",\"unit\":\"MB\",\"operator\":\"=\",\"hpa-attribute-key\":\"memoryPageSize\"}],\"directives\":[],\"hpa-version\":\"v1\",\"architecture\":\"generic\",\"hpa-feature\":\"hugePages\"},{\"hpa-feature\":\"localStorage\",\"hpa-version\":\"v1\",\"architecture\":\"generic\",\"mandatory\":\"True\",\"directives\":[],\"hpa-feature-attributes\":[{\"hpa-attribute-key\":\"diskSize\",\"hpa-attribute-value\":\"10\",\"operator\":\">=\",\"unit\":\"GB\"}]},{\"mandatory\":\"False\",\"score\":\"100\",\"directives\":[],\"hpa-version\":\"v1\",\"hpa-feature-attributes\":[{\"hpa-attribute-value\":\"isolate\",\"unit\":\"\",\"operator\":\"=\",\"hpa-attribute-key\":\"logicalCpuThreadPinningPolicy\"},{\"hpa-attribute-value\":\"dedicated\",\"unit\":\"\",\"operator\":\"=\",\"hpa-attribute-key\":\"logicalCpuPinningPolicy\"}],\"architecture\":\"generic\",\"hpa-feature\":\"cpuPinning\"}],\"id\":\"vfw\"},{\"directives\":[{\"attributes\":[{\"attribute_value\":\"\",\"attribute_name\":\"packetgen_flavor_name\"}],\"type\":\"flavor_directives\"}],\"type\":\"vnfc\",\"flavorProperties\":[{\"mandatory\":\"True\",\"hpa-feature-attributes\":[{\"hpa-attribute-value\":\"1\",\"operator\":\">=\",\"hpa-attribute-key\":\"numVirtualCpu\"},{\"hpa-attribute-value\":\"7\",\"unit\":\"GB\",\"operator\":\">=\",\"hpa-attribute-key\":\"virtualMemSize\"}],\"directives\":[],\"hpa-version\":\"v1\",\"architecture\":\"generic\",\"hpa-feature\":\"basicCapabilities\"},{\"hpa-feature\":\"localStorage\",\"hpa-version\":\"v1\",\"architecture\":\"generic\",\"mandatory\":\"True\",\"directives\":[],\"hpa-feature-attributes\":[{\"hpa-attribute-key\":\"diskSize\",\"hpa-attribute-value\":\"10\",\"operator\":\">=\",\"unit\":\"GB\"}]}],\"id\":\"vgenerator\"},{\"directives\":[{\"attributes\":[{\"attribute_value\":\"\",\"attribute_name\":\"sink_flavor_name\"}],\"type\":\"flavor_directives\"}],\"id\":\"vsink\",\"type\":\"vnfc\",\"flavorProperties\":[{\"mandatory\":\"True\",\"directives\":[],\"hpa-version\":\"v1\",\"hpa-feature-attributes\":[],\"architecture\":\"generic\",\"hpa-feature\":\"basicCapabilities\"}]}],\"policyType\":\"hpa\",\"policyScope\":[\"vfw\",\"us\",\"international\",\"ip\"],\"identity\":\"hpa-vFW\",\"resources\":[\"vFW\",\"VfwHpa\"]},\"priority\":\"3\",\"templateVersion\":\"OpenSource.version.1\",\"riskLevel\":\"2\",\"description\":\"HPApolicyforvFW\",\"policyName\":\"OSDF_CASABLANCA.hpa_policy_vFWHPA_1\",\"version\":\"test1\",\"riskType\":\"test\"}",
         "policyName": "OSDF_CASABLANCA.hpa_policy_vFWHPA_1",
         "policyConfigType": "MicroService",
         "onapName": "SampleDemo",
@@ -571,24 +608,24 @@ Create Policy
 
 ::
 
-    curl -k -v  -X PUT --header 'Content-Type: application/json' --header 'Accept: text/plain' --header 'ClientAuth: cHl0aG9uOnRlc3Q=' --header 'Authorization: Basic dGVzdHBkcDphbHBoYTEyMw==' --header 'Environment: TEST' -d '{
-    "configBody": "{\"service\":\"hpaPolicy\",\"guard\":\"False\",\"content\":{\"flavorFeatures\":[{\"id\":\"vfw\",\"type\":\"vnfc\",\"directives\":[{\"type\":\"flavor_directives\",\"attributes\":[{\"attribute_name\":\"firewall_flavor_name\",\"attribute_value\":\"\"}]}],\"flavorProperties\":[{\"hpa-feature\":\"sriovNICNetwork\",\"hpa-version\":\"v1\",\"architecture\":\"intel\",\"mandatory\":\"True\",\"directives\":[{\"type\":\"sriovNICNetwork_directives\",\"attributes\":[{\"attribute_name\":\"vfw_private_0_port_vnic_type\",\"attribute_value\":\"direct\"}]}],\"hpa-feature-attributes\":[{\"hpa-attribute-key\":\"pciCount\",\"hpa-attribute-value\":\"1\",\"operator\":\"=\"},{\"hpa-attribute-key\":\"pciVendorId\",\"hpa-attribute-value\":\"8086\",\"operator\":\"=\"},{\"hpa-attribute-key\":\"pciDeviceId\",\"hpa-attribute-value\":\"154C\",\"operator\":\"=\"},{\"hpa-attribute-key\":\"physicalNetwork\",\"hpa-attribute-value\":\"private-1\",\"operator\":\"=\"}]}]},{\"id\":\"vgenerator\",\"type\":\"vnfc\",\"directives\":[{\"type\":\"flavor_directives\",\"attributes\":[{\"attribute_name\":\"packetgen_flavor_name\",\"attribute_value\":\"\"}]}],\"flavorProperties\":[{\"hpa-feature\":\"sriovNICNetwork\",\"hpa-version\":\"v1\",\"architecture\":\"intel\",\"mandatory\":\"True\",\"directives\":[{\"type\":\"sriovNICNetwork_directives\",\"attributes\":[{\"attribute_name\":\"vpg_private_0_port_vnic_type\",\"attribute_value\":\"direct\"}]}],\"hpa-feature-attributes\":[{\"hpa-attribute-key\":\"pciCount\",\"hpa-attribute-value\":\"3\",\"operator\":\"=\",\"unit\":\"\"},{\"hpa-attribute-key\":\"pciVendorId\",\"hpa-attribute-value\":\"8086\",\"operator\":\"=\",\"unit\":\"\"},{\"hpa-attribute-key\":\"pciDeviceId\",\"hpa-attribute-value\":\"154C\",\"operator\":\"=\",\"unit\":\"\"},{\"hpa-attribute-key\":\"physicalNetwork\",\"hpa-attribute-value\":\"shared-1\",\"operator\":\"=\"}]}]},{\"id\":\"vsink\",\"type\":\"vnfc\",\"directives\":[{\"type\":\"flavor_directives\",\"attributes\":[{\"attribute_name\":\"sink_flavor_name\",\"attribute_value\":\"\"}]}],\"flavorProperties\":[{\"hpa-feature\":\"sriovNICNetwork\",\"hpa-version\":\"v1\",\"architecture\":\"intel\",\"mandatory\":\"True\",\"directives\":[{\"type\":\"sriovNICNetwork_directives\",\"attributes\":[{\"attribute_name\":\"vsn_private_0_port_vnic_type\",\"attribute_value\":\"direct\"}]}],\"hpa-feature-attributes\":[{\"hpa-attribute-key\":\"pciCount\",\"hpa-attribute-value\":\"1\",\"operator\":\"=\",\"unit\":\"\"},{\"hpa-attribute-key\":\"pciVendorId\",\"hpa-attribute-value\":\"8086\",\"operator\":\"=\",\"unit\":\"\"},{\"hpa-attribute-key\":\"pciDeviceId\",\"hpa-attribute-value\":\"154C\",\"operator\":\"=\",\"unit\":\"\"},{\"hpa-attribute-key\":\"physicalNetwork\",\"hpa-attribute-value\":\"private-1\",\"operator\":\"=\"}]}]}],\"policyType\":\"hpa\",\"policyScope\":[\"vfw\",\"us\",\"international\",\"ip\"],\"identity\":\"hpa-vFW\",\"resources\":[\"vFW\",\"A5ece5a02e86450391d6\"]},\"priority\":\"3\",\"templateVersion\":\"OpenSource.version.1\",\"riskLevel\":\"2\",\"description\":\"HPApolicyforvFW\",\"policyName\":\"OSDF_CASABLANCA.hpa_policy_vFW_2\",\"version\":\"test1\",\"riskType\":\"test\"}",
-    "policyName": "OSDF_CASABLANCA.hpa_policy_vFW_2",
-    "policyConfigType": "MicroService",
-    "onapName": "SampleDemo",
-    "policyScope": "OSDF_CASABLANCA"
+        curl -k -v  -X PUT --header 'Content-Type: application/json' --header 'Accept: text/plain' --header 'ClientAuth: cHl0aG9uOnRlc3Q=' --header 'Authorization: Basic dGVzdHBkcDphbHBoYTEyMw==' --header 'Environment: TEST' -d '{
+     "configBody": "{  \"service\": \"hpaPolicy\",  \"guard\": \"False\",  \"content\": { \"flavorFeatures\": [ {\"id\": \"vfw\",\"type\": \"vnfc\",\"directives\": [  { \"type\": \"flavor_directives\", \"attributes\": [ {\"attribute_name\": \"firewall_flavor_name\",\"attribute_value\": \"\" } ]  }],\"flavorProperties\": [  { \"hpa-feature\": \"sriovNICNetwork\", \"hpa-version\": \"v1\", \"architecture\": \"intel\", \"mandatory\": \"True\", \"directives\": [ {\"type\": \"sriovNICNetwork_directives\",\"attributes\": [  { \"attribute_name\": \"vfw_private_0_port_vnic_type\", \"attribute_value\": \"direct\"  },  { \"attribute_name\": \"unprotected_private_provider_net\",\"attribute_value\": \"private-1\"  }] }, {\"type\": \"sriovNICNetwork_directives\",\"attributes\": [  { \"attribute_name\": \"vfw_private_1_port_vnic_type\", \"attribute_value\": \"direct\"  }, { \"attribute_name\": \"protected_private_provider_net\",\"attribute_value\": \"private-1\" } ] } ], \"hpa-feature-attributes\": [ {\"hpa-attribute-key\": \"pciCount\",\"hpa-attribute-value\": \"2\",\"operator\": \"=\" }, {\"hpa-attribute-key\": \"pciVendorId\",\"hpa-attribute-value\": \"8086\",\"operator\": \"=\" }, {\"hpa-attribute-key\": \"pciDeviceId\",\"hpa-attribute-value\": \"154C\",\"operator\": \"=\" },  { \"hpa-attribute-key\": \"physicalNetwork\",\"hpa-attribute-value\": \"private-1\",  \"operator\": \"=\" } ]  }] }, {\"id\": \"vgenerator\",\"type\": \"vnfc\",\"directives\": [  { \"type\": \"flavor_directives\", \"attributes\": [ {\"attribute_name\": \"packetgen_flavor_name\",\"attribute_value\": \"\" } ]  }],\"flavorProperties\": [  { \"hpa-feature\": \"sriovNICNetwork\", \"hpa-version\": \"v1\", \"architecture\": \"intel\", \"mandatory\": \"True\", \"directives\": [ {\"type\": \"sriovNICNetwork_directives\",\"attributes\": [  { \"attribute_name\": \"vpg_private_0_port_vnic_type\", \"attribute_value\": \"direct\"  },  { \"attribute_name\": \"unprotected_private_provider_net\",\"attribute_value\": \"private-1\"}] } ], \"hpa-feature-attributes\": [ {\"hpa-attribute-key\": \"pciCount\",\"hpa-attribute-value\": \"1\",\"operator\": \"=\",\"unit\": \"\" }, {\"hpa-attribute-key\": \"pciVendorId\",\"hpa-attribute-value\": \"8086\",\"operator\": \"=\",\"unit\": \"\" }, {\"hpa-attribute-key\": \"pciDeviceId\",\"hpa-attribute-value\": \"154C\",\"operator\": \"=\",\"unit\": \"\" }, {\"hpa-attribute-key\": \"physicalNetwork\",\"hpa-attribute-value\": \"private-1\",\"operator\": \"=\"  } ]  }] }, {\"id\": \"vsink\",\"type\": \"vnfc\",\"directives\": [  { \"type\": \"flavor_directives\", \"attributes\": [ {\"attribute_name\": \"sink_flavor_name\",\"attribute_value\": \"\" } ]  }],\"flavorProperties\": [  { \"hpa-feature\": \"sriovNICNetwork\", \"hpa-version\": \"v1\", \"architecture\": \"intel\", \"mandatory\": \"True\", \"directives\": [ {\"type\": \"sriovNICNetwork_directives\",\"attributes\": [  { \"attribute_name\": \"vsn_private_0_port_vnic_type\", \"attribute_value\": \"direct\"  } ,  { \"attribute_name\": \"unprotected_private_provider_net\",\"attribute_value\": \"private-1\"}] } ], \"hpa-feature-attributes\": [ {\"hpa-attribute-key\": \"pciCount\",\"hpa-attribute-value\": \"1\",\"operator\": \"=\",\"unit\": \"\" }, {\"hpa-attribute-key\": \"pciVendorId\",\"hpa-attribute-value\": \"8086\",\"operator\": \"=\",\"unit\": \"\" }, {\"hpa-attribute-key\": \"pciDeviceId\",\"hpa-attribute-value\": \"154C\",\"operator\": \"=\",\"unit\": \"\" }, {\"hpa-attribute-key\": \"physicalNetwork\",\"hpa-attribute-value\": \"private-1\",\"operator\": \"=\"  } ]  }] } ], \"policyType\": \"hpa\", \"policyScope\": [ \"vfw\", \"us\", \"international\", \"ip\" ], \"identity\": \"hpa-vFW\", \"resources\": [ \"vFW\", \"VfwHpaV2\" ]  },  \"priority\": \"3\",  \"templateVersion\": \"OpenSource.version.1\",  \"riskLevel\": \"2\",  \"description\": \"HPApolicyforvFW\",  \"policyName\": \"OSDF_CASABLANCA.hpa_policy_vFWHPA_2\",  \"version\": \"test1\",  \"riskType\": \"test\"}",
+     "policyName": "OSDF_CASABLANCA.hpa_policy_vFWHPA_2",
+     "policyConfigType": "MicroService",
+     "onapName": "SampleDemo",
+     "policyScope": "OSDF_CASABLANCA"
     }' 'https://pdp:8081/pdp/api/createPolicy'
-
 
 Push Policy    
 
 ::
-
-            curl -k -v  -X PUT --header 'Content-Type: application/json' --header 'Accept: text/plain' --header 'ClientAuth: cHl0aG9uOnRlc3Q=' --header 'Authorization: Basic dGVzdHBkcDphbHBoYTEyMw==' --header 'Environment: TEST' -d '{
+    
+    curl -k -v  -X PUT --header 'Content-Type: application/json' --header 'Accept: text/plain' --header 'ClientAuth: cHl0aG9uOnRlc3Q=' --header 'Authorization: Basic dGVzdHBkcDphbHBoYTEyMw==' --header 'Environment: TEST' -d '{
     "pdpGroup": "default",
-    "policyName": "OSDF_CASABLANCA.hpa_policy_vFW_2",
+    "policyName": "OSDF_CASABLANCA.hpa_policy_vFWHPA_2",
     "policyType": "MicroService"
     }' 'https://pdp:8081/pdp/api/pushPolicy'
+    
 
 
 **Test 3 (to ensure that right cloud-region is selected based on score)**
@@ -596,10 +633,10 @@ Push Policy
 Create Policy
 
 ::
-
-        curl -k -v  -X PUT --header 'Content-Type: application/json' --header 'Accept: text/plain' --header 'ClientAuth: cHl0aG9uOnRlc3Q=' --header 'Authorization: Basic dGVzdHBkcDphbHBoYTEyMw==' --header 'Environment: TEST' -d '{
-        "configBody": "{\"service\":\"hpaPolicy\",\"guard\":\"False\",\"content\":{\"flavorFeatures\":[{\"id\":\"vfw\",\"type\":\"vnfc\",\"directives\":[{\"type\":\"flavor_directives\",\"attributes\":[{\"attribute_name\":\"firewall_flavor_name\",\"attribute_value\":\"\"}]}],\"flavorProperties\":[{\"hpa-feature\":\"sriovNICNetwork\",\"hpa-version\":\"v1\",\"architecture\":\"intel\",\"mandatory\":\"False\",\"score\":\"100\",\"directives\":[{\"type\":\"sriovNICNetwork_directives\",\"attributes\":[{\"attribute_name\":\"vfw_private_0_port_vnic_type\",\"attribute_value\":\"direct\"}]}],\"hpa-feature-attributes\":[{\"hpa-attribute-key\":\"pciCount\",\"hpa-attribute-value\":\"1\",\"operator\":\"=\"},{\"hpa-attribute-key\":\"pciVendorId\",\"hpa-attribute-value\":\"8086\",\"operator\":\"=\"},{\"hpa-attribute-key\":\"pciDeviceId\",\"hpa-attribute-value\":\"154C\",\"operator\":\"=\"},{\"hpa-attribute-key\":\"physicalNetwork\",\"hpa-attribute-value\":\"shared-1\",\"operator\":\"=\"}]},{\"hpa-feature\":\"localStorage\",\"hpa-version\":\"v1\",\"architecture\":\"generic\",\"mandatory\":\"True\",\"directives\":[],\"hpa-feature-attributes\":[{\"hpa-attribute-key\":\"diskSize\",\"hpa-attribute-value\":\"10\",\"operator\":\">=\",\"unit\":\"GB\"}]},{\"hpa-feature\":\"hugePages\",\"hpa-version\":\"v1\",\"architecture\":\"generic\",\"mandatory\":\"True\",\"directives\":[],\"hpa-feature-attributes\":[{\"hpa-attribute-key\":\"memoryPageSize\",\"hpa-attribute-value\":\"2\",\"operator\":\"=\",\"unit\":\"MB\"}]},{\"hpa-feature\":\"basicCapabilities\",\"hpa-version\":\"v1\",\"architecture\":\"generic\",\"mandatory\":\"True\",\"directives\":[],\"hpa-feature-attributes\":[{\"hpa-attribute-key\":\"numVirtualCpu\",\"hpa-attribute-value\":\"2\",\"operator\":\"=\"},{\"hpa-attribute-key\":\"virtualMemSize\",\"hpa-attribute-value\":\"8\",\"operator\":\"=\",\"unit\":\"MB\"}]}]},{\"id\":\"vgenerator\",\"type\":\"vnfc\",\"directives\":[{\"type\":\"flavor_directives\",\"attributes\":[{\"attribute_name\":\"packetgen_flavor_name\",\"attribute_value\":\"\"}]}],\"flavorProperties\":[{\"hpa-feature\":\"hugePages\",\"hpa-version\":\"v1\",\"architecture\":\"generic\",\"mandatory\":\"False\",\"score\":\"200\",\"directives\":[],\"hpa-feature-attributes\":[{\"hpa-attribute-key\":\"memoryPageSize\",\"hpa-attribute-value\":\"1\",\"operator\":\"=\",\"unit\":\"GB\"}]},{\"hpa-feature\":\"localStorage\",\"hpa-version\":\"v1\",\"architecture\":\"generic\",\"mandatory\":\"True\",\"directives\":[],\"hpa-feature-attributes\":[{\"hpa-attribute-key\":\"diskSize\",\"hpa-attribute-value\":\"10\",\"operator\":\">=\",\"unit\":\"GB\"}]},{\"hpa-feature\":\"basicCapabilities\",\"hpa-version\":\"v1\",\"architecture\":\"generic\",\"mandatory\":\"True\",\"directives\":[],\"hpa-feature-attributes\":[{\"hpa-attribute-key\":\"numVirtualCpu\",\"hpa-attribute-value\":\"1\",\"operator\":\">=\"},{\"hpa-attribute-key\":\"virtualMemSize\",\"hpa-attribute-value\":\"2\",\"operator\":\">=\",\"unit\":\"GB\"}]}]},{\"id\":\"vsink\",\"type\":\"vnfc\",\"directives\":[{\"type\":\"flavor_directives\",\"attributes\":[{\"attribute_name\":\"sink_flavor_name\",\"attribute_value\":\"\"}]}],\"flavorProperties\":[{\"hpa-feature\":\"basicCapabilities\",\"hpa-version\":\"v1\",\"architecture\":\"generic\",\"mandatory\":\"True\",\"directives\":[],\"hpa-feature-attributes\":[]}]}],\"policyType\":\"hpa\",\"policyScope\":[\"vfw\",\"us\",\"international\",\"ip\"],\"identity\":\"hpa-vFW\",\"resources\":[\"vFW\",\"A5ece5a02e86450391d6\"]},\"priority\":\"3\",\"templateVersion\":\"OpenSource.version.1\",\"riskLevel\":\"2\",\"description\":\"HPApolicyforvFW\",\"policyName\":\"OSDF_CASABLANCA.hpa_policy_vFW_3\",\"version\":\"test1\",\"riskType\":\"test\"}",
-        "policyName": "OSDF_CASABLANCA.hpa_policy_vFW_3",
+    
+            curl -k -v  -X PUT --header 'Content-Type: application/json' --header 'Accept: text/plain' --header 'ClientAuth: cHl0aG9uOnRlc3Q=' --header 'Authorization: Basic dGVzdHBkcDphbHBoYTEyMw==' --header 'Environment: TEST' -d '{
+        "configBody": "{  \"service\": \"hpaPolicy\",  \"guard\": \"False\",  \"content\": { \"flavorFeatures\": [{\"id\": \"vfw\",\"type\": \"vnfc\",\"directives\": [  { \"type\": \"flavor_directives\", \"attributes\": [{\"attribute_name\": \"firewall_flavor_name\",\"attribute_value\": \"\"} ]  }],\"flavorProperties\": [  { \"hpa-feature\": \"sriovNICNetwork\", \"hpa-version\": \"v1\", \"architecture\": \"intel\", \"mandatory\": \"False\", \"score\": \"100\", \"directives\": [{\"type\": \"sriovNICNetwork_directives\",\"attributes\": [  { \"attribute_name\": \"vfw_private_1_port_vnic_type\", \"attribute_value\": \"direct\"  },  { \"attribute_name\": \"protected_private_provider_net\", \"attribute_value\": \"shared-1\"  }]} ], \"hpa-feature-attributes\": [{\"hpa-attribute-key\": \"pciCount\",\"hpa-attribute-value\": \"1\",\"operator\": \"=\"},{\"hpa-attribute-key\": \"pciVendorId\",\"hpa-attribute-value\": \"8086\",\"operator\": \"=\"},{\"hpa-attribute-key\": \"pciDeviceId\",\"hpa-attribute-value\": \"154C\",\"operator\": \"=\"},{\"hpa-attribute-key\": \"physicalNetwork\",\"hpa-attribute-value\": \"shared-1\",\"operator\": \"=\"} ]  },  { \"hpa-feature\": \"localStorage\", \"hpa-version\": \"v1\", \"architecture\": \"generic\", \"mandatory\": \"True\", \"directives\": [], \"hpa-feature-attributes\": [{\"hpa-attribute-key\": \"diskSize\",\"hpa-attribute-value\": \"10\",\"operator\": \">=\",\"unit\": \"GB\"} ]  },  { \"hpa-feature\": \"hugePages\", \"hpa-version\": \"v1\", \"architecture\": \"generic\", \"mandatory\": \"True\", \"directives\": [], \"hpa-feature-attributes\": [{\"hpa-attribute-key\": \"memoryPageSize\",\"hpa-attribute-value\": \"2\",\"operator\": \"=\",\"unit\": \"MB\"} ]  },  { \"hpa-feature\": \"basicCapabilities\", \"hpa-version\": \"v1\", \"architecture\": \"generic\", \"mandatory\": \"True\", \"directives\": [], \"hpa-feature-attributes\": [{\"hpa-attribute-key\": \"numVirtualCpu\",\"hpa-attribute-value\": \"2\",\"operator\": \"=\"},{\"hpa-attribute-key\": \"virtualMemSize\",\"hpa-attribute-value\": \"4096\",\"operator\": \"=\",\"unit\": \"MB\"} ]  }]},{\"id\": \"vgenerator\",\"type\": \"vnfc\",\"directives\": [  { \"type\": \"flavor_directives\", \"attributes\": [{\"attribute_name\": \"packetgen_flavor_name\",\"attribute_value\": \"\"} ]  }],\"flavorProperties\": [  { \"hpa-feature\": \"hugePages\", \"hpa-version\": \"v1\", \"architecture\": \"generic\", \"mandatory\": \"False\", \"score\": \"200\", \"directives\": [], \"hpa-feature-attributes\": [{\"hpa-attribute-key\": \"memoryPageSize\",\"hpa-attribute-value\": \"1\",\"operator\": \"=\",\"unit\": \"GB\"} ]  },  { \"hpa-feature\": \"localStorage\", \"hpa-version\": \"v1\", \"architecture\": \"generic\", \"mandatory\": \"True\", \"directives\": [], \"hpa-feature-attributes\": [{\"hpa-attribute-key\": \"diskSize\",\"hpa-attribute-value\": \"10\",\"operator\": \">=\",\"unit\": \"GB\"} ]  }, { \"hpa-feature\": \"sriovNICNetwork\", \"hpa-version\": \"v1\", \"architecture\": \"intel\", \"mandatory\": \"False\", \"score\": \"100\", \"directives\": [{\"type\": \"sriovNICNetwork_directives\",\"attributes\": [  { \"attribute_name\": \"unprotected_private_provider_net\", \"attribute_value\": \"private-0\"  }]} ], \"hpa-feature-attributes\": []  },  { \"hpa-feature\": \"basicCapabilities\", \"hpa-version\": \"v1\", \"architecture\": \"generic\", \"mandatory\": \"True\", \"directives\": [], \"hpa-feature-attributes\": [{\"hpa-attribute-key\": \"numVirtualCpu\",\"hpa-attribute-value\": \"1\",\"operator\": \">=\"},{\"hpa-attribute-key\": \"virtualMemSize\",\"hpa-attribute-value\": \"2\",\"operator\": \">=\",\"unit\": \"GB\"} ]  }]},{\"id\": \"vsink\",\"type\": \"vnfc\",\"directives\": [  { \"type\": \"flavor_directives\", \"attributes\": [{\"attribute_name\": \"sink_flavor_name\",\"attribute_value\": \"\"} ]  }],\"flavorProperties\": [  { \"hpa-feature\": \"basicCapabilities\", \"hpa-version\": \"v1\", \"architecture\": \"generic\", \"mandatory\": \"True\", \"directives\": [], \"hpa-feature-attributes\": []  },  { \"hpa-feature\": \"sriovNICNetwork\", \"hpa-version\": \"v1\", \"architecture\": \"intel\", \"mandatory\": \"False\", \"score\": \"100\", \"directives\": [{\"type\": \"sriovNICNetwork_directives\",\"attributes\": [  { \"attribute_name\": \"vsn_private_0_port_vnic_type\", \"attribute_value\": \"direct\"  }]} ], \"hpa-feature-attributes\": []  }]} ], \"policyType\": \"hpa\", \"policyScope\": [\"vfw\",\"us\",\"international\",\"ip\" ], \"identity\": \"hpa-vFW\", \"resources\": [\"vFW\",\"VfwHpaV2\" ]  },  \"priority\": \"3\",  \"templateVersion\": \"OpenSource.version.1\",  \"riskLevel\": \"2\",  \"description\": \"HPApolicyforvFW\",  \"policyName\": \"OSDF_CASABLANCA.hpa_policy_vFWHPA_3\",  \"version\": \"test1\",  \"riskType\": \"test\"}",
+        "policyName": "OSDF_CASABLANCA.hpa_policy_vFWHPA_3",
         "policyConfigType": "MicroService",
         "onapName": "SampleDemo",
         "policyScope": "OSDF_CASABLANCA"
@@ -609,20 +646,29 @@ Push Policy
 
 ::
 
-                curl -k -v  -X PUT --header 'Content-Type: application/json' --header 'Accept: text/plain' --header 'ClientAuth: cHl0aG9uOnRlc3Q=' --header 'Authorization: Basic dGVzdHBkcDphbHBoYTEyMw==' --header 'Environment: TEST' -d '{
-    "pdpGroup": "default",
-    "policyName": "OSDF_CASABLANCA.hpa_policy_vFW_3",
-    "policyType": "MicroService"
-    }' 'https://pdp:8081/pdp/api/pushPolicy'
-    
+                    curl -k -v  -X PUT --header 'Content-Type: application/json' --header 'Accept: text/plain' --header 'ClientAuth: cHl0aG9uOnRlc3Q=' --header 'Authorization: Basic dGVzdHBkcDphbHBoYTEyMw==' --header 'Environment: TEST' -d '{
+        "pdpGroup": "default",
+        "policyName": "OSDF_CASABLANCA.hpa_policy_vFW_3",
+        "policyType": "MicroService"
+        }' 'https://pdp:8081/pdp/api/pushPolicy'
+ 
+
+
+**Useful Links for Policy Creation**
+
+- `Policy Specification and Retrieval for OOF <https://wiki.onap.org/display/DW/Policy+Specification+and+Retrieval+for+OOF>`_
+- `HPA Policies and Mappings <https://wiki.onap.org/display/DW/HPA+Policies+and+Mappings>`_
+- `OOF R3 HPA & Cloud Agnostic policies <https://wiki.onap.org/pages/viewpage.action?pageId=40206714>`_
+   
 17. Create Service Instance using step 13 above
 
 18. Check bpmn logs to ensure that OOF sent homing response and flavor directives.
 
-19. Create vnf using VID as in 10f and 10g in `vFWCL instantiation, testing and debugging <https://wiki.onap.org/display/DW/vFWCL+instantiation%2C+testing%2C+and+debuging>`_.
+19. Create vnf using VID as in 10f and 10g in `vFWCL instantiation, testing and debugging <https://wiki.onap.org/display/DW/vFWCL+instantiation%2C+testing%2C+and+debuging>`_. Any cloud region may be specified, it will automatically be replaced by the homing solution provided by OOF.
 
-20. Do SDNC Preload. Instructions for this can be found in this `video <https://wiki.onap.org/display/DW/Running+the+ONAP+Demos?preview=/1015891/16010290/vFW_closed_loop.mp4>`_ (Fast forward to 3:55 in the video). The contents of my preload file are shown below;
+20. Do SDNC Preload. Instructions for this can be found in this `video <https://wiki.onap.org/display/DW/Running+the+ONAP+Demos?preview=/1015891/16010290/vFW_closed_loop.mp4>`_ (Fast forward to 3:55 in the video). The contents of my preload file are shown below, (Any non space separated string can be specified for flavors and provider net, the OOF directive will fill in the right flavors and network names. All the vnic types can be set to normal, the OOF directive will change the required interfaces to direct if SRIOV is used)
 
+**Preload Without SRIOV NICs**
 ::
 
     {
@@ -654,15 +700,15 @@ Push Policy
                     },
     				{
                         "vnf-parameter-name": "firewall_flavor_name",
-                        "vnf-parameter-value": "m1.large"
+                        "vnf-parameter-value": "a"
                     },
     				 {
                         "vnf-parameter-name": "sink_flavor_name",
-                        "vnf-parameter-value": "m1.medium"
+                        "vnf-parameter-value": "b"
                     },
     				 {
                         "vnf-parameter-name": "packetgen_flavor_name",
-                        "vnf-parameter-value": "m1.large"
+                        "vnf-parameter-value": "c"
                     },
                     {
                         "vnf-parameter-name": "public_net_id",
@@ -774,29 +820,6 @@ Push Policy
                         "vnf-parameter-value": "default"
                     },
                     {
-                        "vnf-parameter-name": "sdnc_model_name",
-                        "vnf-parameter-value": ""
-                    },
-                     {
-                        "vnf-parameter-name": "sdnc_model_version",
-                        "vnf-parameter-value": ""
-                    },
-                    {
-                        "vnf-parameter-name": "sdnc_artifact_name",
-                        "vnf-parameter-value": ""
-                    },
-
-                    {
-                        "vnf-parameter-name": "oof_directives",
-                        "vnf-parameter-value": "{\"directives\": [{\"id\": \"vfw\", \"type\": \"vnfc\", \"directives\": [{\"attributes\": [{\"attribute_name\": \"firewall_flavor_name\", \"attribute_value\": \"onap.hpa.flavor31\"}, {\"attribute_name\": \"flavorId\", \"attribute_value\": \"2297339f-6a89-4808-a78f-68216091f904\"}, {\"attribute_name\": \"flavorId\", \"attribute_value\": \"2297339f-6a89-4808-a78f-68216091f904\"}, {\"attribute_name\": \"flavorId\", \"attribute_value\": \"2297339f-6a89-4808-a78f-68216091f904\"}], \"type\": \"flavor_directives\"}]}, {\"id\": \"vgenerator\", \"type\": \"vnfc\", \"directives\": [{\"attributes\": [{\"attribute_name\": \"packetgen_flavor_name\", \"attribute_value\": \"onap.hpa.flavor32\"}, {\"attribute_name\": \"flavorId\", \"attribute_value\": \"2297339f-6a89-4808-a78f-68216091f904\"}], \"type\": \"flavor_directives\"}]}, {\"id\": \"vsink\", \"type\": \"vnfc\", \"directives\": [{\"attributes\": [{\"attribute_name\": \"sink_flavor_name\", \"attribute_value\": \"onap.large\"}, {\"attribute_name\": \"flavorId\", \"attribute_value\": \"2297339f-6a89-4808-a78f-68216091f904\"}], \"type\": \"flavor_directives\"}]}]}"
-                   },
-         
-                   {
-                        "vnf-parameter-name": "sdnc_directives",
-                        "vnf-parameter-value": "{}"
-                    },     
-    
-                    {
                         "vnf-parameter-name": "template_type",
                         "vnf-parameter-value": "heat"
                     }
@@ -815,7 +838,188 @@ Push Policy
         }}
     
 
-Change parameters based on your environment. 
+**Preload With SRIOV NICs**
+::
+
+    {
+        "input": {
+            "request-information": {
+                "notification-url": "openecomp.org",
+                "order-number": "1",
+                "order-version": "1",
+                "request-action": "PreloadVNFRequest",
+                "request-id": "test"
+            },
+            "sdnc-request-header": {
+                "svc-action": "reserve",
+                "svc-notification-url": "http://openecomp.org:8080/adapters/rest/SDNCNotify",
+                "svc-request-id": "test"
+            },
+            "vnf-topology-information": {
+                "vnf-assignments": {
+                    "availability-zones": [],
+                    "vnf-networks": [],
+                    "vnf-vms": []
+                },
+    			
+    
+                "vnf-parameters": [     
+    			    {
+                        "vnf-parameter-name": "vfw_image_name",
+                        "vnf-parameter-value": "ubuntu-16.04"
+                    },
+    				{
+                        "vnf-parameter-name": "firewall_flavor_name",
+                        "vnf-parameter-value": "a"
+                    },
+    				 {
+                        "vnf-parameter-name": "sink_flavor_name",
+                        "vnf-parameter-value": "b"
+                    },
+    				 {
+                        "vnf-parameter-name": "packetgen_flavor_name",
+                        "vnf-parameter-value": "c"
+                    },
+                    {
+                        "vnf-parameter-name": "public_net_id",
+                        "vnf-parameter-value": "external"
+                    },
+    				 {
+                        "vnf-parameter-name": "unprotected_private_net_id",
+                        "vnf-parameter-value": "unprotected_private_net"
+                    },
+    				{
+                        "vnf-parameter-name": "protected_private_net_id",
+                        "vnf-parameter-value": "protected_private_net"
+                    },
+                    {
+                        "vnf-parameter-name": "onap_private_net_id",
+                        "vnf-parameter-value": "oam_onap_vnf_test"
+                    },
+                    {
+                        "vnf-parameter-name": "protected_private_provider_net",
+                        "vnf-parameter-value": "a"
+                    },
+                    {
+                        "vnf-parameter-name": "unprotected_private_provider_net",
+                        "vnf-parameter-value": "b"
+                    },
+    
+                    {
+                        "vnf-parameter-name": "onap_private_subnet_id",
+                        "vnf-parameter-value": "oam_onap_vnf_test"
+                    },
+    				{
+                        "vnf-parameter-name": "unprotected_private_net_cidr",
+                        "vnf-parameter-value": "192.168.10.0/24"
+                    },
+    				{
+                        "vnf-parameter-name": "protected_private_net_cidr",
+                        "vnf-parameter-value": "192.168.20.0/24"
+                    },
+    				{
+                        "vnf-parameter-name": "onap_private_net_cidr",
+                        "vnf-parameter-value": "10.0.0.0/16"
+                    },
+    				{
+                        "vnf-parameter-name": "vfw_private_ip_0",
+                        "vnf-parameter-value": "192.168.10.100"
+                    },
+    				{
+                        "vnf-parameter-name": "vfw_private_ip_1",
+                        "vnf-parameter-value": "192.168.20.100"
+                    },
+    				{
+                        "vnf-parameter-name": "vfw_private_ip_2",
+                        "vnf-parameter-value": "10.0.100.1"
+                    },
+    				{
+                        "vnf-parameter-name": "vpg_private_ip_0",
+                        "vnf-parameter-value": "192.168.10.200"
+                    },
+    				{
+                        "vnf-parameter-name": "vpg_private_ip_1",
+                        "vnf-parameter-value": "10.0.100.2"
+                    },
+    				{
+                        "vnf-parameter-name": "vsn_private_ip_0",
+                        "vnf-parameter-value": "192.168.20.250"
+                    },
+    				{
+                        "vnf-parameter-name": "vsn_private_ip_1",
+                        "vnf-parameter-value": "10.0.100.3"
+                    },
+    				
+    				{
+                        "vnf-parameter-name": "vfw_name_0",
+                        "vnf-parameter-value": "vfw"
+                    },
+    				{
+                        "vnf-parameter-name": "vpg_name_0",
+                        "vnf-parameter-value": "vpktgen"
+                    },
+    				{
+                        "vnf-parameter-name": "vsn_name_0",
+                        "vnf-parameter-value": "vsink"
+                    },
+    				{
+                        "vnf-parameter-name": "vfw_private_0_port_vnic_type",
+                        "vnf-parameter-value": "normal"
+                    },
+    				{
+                        "vnf-parameter-name": "vfw_private_1_port_vnic_type",
+                        "vnf-parameter-value": "normal"
+                    },
+    				{
+                        "vnf-parameter-name": "vfw_private_2_port_vnic_type",
+                        "vnf-parameter-value": "normal"
+                    },
+    				{
+                        "vnf-parameter-name": "vpg_private_0_port_vnic_type",
+                        "vnf-parameter-value": "normal"
+                    },
+    				{
+                        "vnf-parameter-name": "vpg_private_1_port_vnic_type",
+                        "vnf-parameter-value": "normal"
+                    },
+    				{
+                        "vnf-parameter-name": "vsn_private_0_port_vnic_type",
+                        "vnf-parameter-value": "normal"
+                    },
+    				{
+                        "vnf-parameter-name": "vsn_private_1_port_vnic_type",
+                        "vnf-parameter-value": "normal"
+                    },
+                    {
+                        "vnf-parameter-name": "vf_module_id",
+                        "vnf-parameter-value": "VfwHpaV2..base_vfw..module-0"  
+                    },
+                    {
+                        "vnf-parameter-name": "sec_group",
+                        "vnf-parameter-value": "default"
+                    },
+     
+                    {
+                        "vnf-parameter-name": "template_type",
+                        "vnf-parameter-value": "heat"
+                    }
+    			
+                   
+                ],
+                "vnf-topology-identifier": {
+                    "generic-vnf-name": "test3-vnf",
+                    "generic-vnf-type": "vfw_hpa_v2 0",   
+                    "service-type": "c804c36f-7369-4ca7-8f85-61c4c73f1699",
+                    "vnf-name": "vfwhpa_test3", 
+                    "vnf-type": "VfwHpaV2..base_vfw..module-0"
+                    				
+                }
+            }
+        }}
+    
+
+
+**Change parameters based on your environment.** 
 
 **Note**
 
@@ -827,4 +1031,4 @@ Change parameters based on your environment.
     "vnf-name": "vfwhpa_stack",  <-- name to be given to the vf module
     "vnf-type": "VfwHpa..base_vfw..module-0" <-- can be found on the VID - VF Module dialog screen - Model Name
         
-21. Create vf module (11g of `vFWCL instantiation, testing and debugging <https://wiki.onap.org/display/DW/vFWCL+instantiation%2C+testing%2C+and+debuging>`_). If everything worked properly, you should see the stack created in your VIM(WR titanium cloud openstack in this case).
+21. Create vf module (11g of `vFWCL instantiation, testing and debugging <https://wiki.onap.org/display/DW/vFWCL+instantiation%2C+testing%2C+and+debuging>`_). Use the cloud region specied in the vnf creation (This will automatically be replaced with the OOF homing solution). If everything worked properly, you should see the stack created in your VIM(WR titanium cloud openstack in this case). Note that when deleting a VF module, the right cloud region on which the stack was created must be specified.
