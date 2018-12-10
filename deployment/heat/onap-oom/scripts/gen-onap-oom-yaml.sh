@@ -64,6 +64,7 @@ cat <<EOF
             __helm_deploy_delay__: { get_param: helm_deploy_delay }
             __use_ramdisk__: { get_param: use_ramdisk }
             __mtu__: { get_param: mtu }
+            __portal_hostname__: { get_param: portal_hostname }
             __public_net_id__: { get_param: public_net_id }
             __oam_network_cidr__: { get_param: oam_network_cidr }
             __oam_network_id__: { get_resource: oam_network }
