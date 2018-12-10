@@ -100,6 +100,11 @@ parameters:
     type: number
     default: 1500
 
+  portal_hostname:
+    type: string
+    description: The FQDN of the k8s host that will be used for the Portal UI component URLs; this needs to be resolveable at the client
+    default: "portal.api.simpledemo.onap.org"
+
 resources:
   random-str:
     type: OS::Heat::RandomString
@@ -222,6 +227,7 @@ resources:
             __helm_deploy_delay__: { get_param: helm_deploy_delay }
             __use_ramdisk__: { get_param: use_ramdisk }
             __mtu__: { get_param: mtu }
+            __portal_hostname__: { get_param: portal_hostname }
             __public_net_id__: { get_param: public_net_id }
             __oam_network_cidr__: { get_param: oam_network_cidr }
             __oam_network_id__: { get_resource: oam_network }

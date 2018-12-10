@@ -36,10 +36,12 @@ echo "__kubectl_version__" > /opt/config/kubectl_version.txt
 echo "__helm_version__" > /opt/config/helm_version.txt
 echo "__helm_deploy_delay__" > /opt/config/helm_deploy_delay.txt
 echo "__mtu__" > /opt/config/mtu.txt
+echo "__portal_hostname__" > /opt/config/portal_hostname.txt
 
 cat <<EOF > /opt/config/integration-override.yaml
 __integration_override_yaml__
 EOF
+sed -i 's/\_\_portal_hostname__/__portal_hostname__/g' /opt/config/integration-override.yaml
 sed -i 's/\_\_public_net_id__/__public_net_id__/g' /opt/config/integration-override.yaml
 sed -i 's|\_\_oam_network_cidr__|__oam_network_cidr__|g' /opt/config/integration-override.yaml
 sed -i 's/\_\_oam_network_id__/__oam_network_id__/g' /opt/config/integration-override.yaml
@@ -295,6 +297,14 @@ fi
 cd ~/oom
 git diff
 git commit -a -m "apply manifest versions"
+
+cd ~/oom
+# workaround to change onap portal cookie domain
+sed -i "s/^cookie_domain.*=.*/cookie_domain = __portal_hostname__/g" ./kubernetes/portal/charts/portal-app/resources/config/deliveries/properties/ONAPPORTAL/system.properties
+sed -i "s/^cookie_domain.*=.*/cookie_domain = __portal_hostname__/g" ./kubernetes/portal/charts/portal-sdk/resources/config/deliveries/properties/ONAPPORTALSDK/system.properties
+git diff
+git commit -a -m "set portal cookie domain"
+
 git tag -a "deploy0" -m "initial deployment"
 
 
