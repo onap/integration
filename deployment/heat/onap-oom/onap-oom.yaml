@@ -45,7 +45,7 @@ parameters:
 
   integration_gerrit_branch:
     type: string
-    default: "3.0.0-ONAP"
+    default: "casablanca"
 
   integration_gerrit_refspec:
     type: string
@@ -53,7 +53,7 @@ parameters:
 
   oom_gerrit_branch:
     type: string
-    default: "3.0.0-ONAP"
+    default: "casablanca"
 
   oom_gerrit_refspec:
     type: string
