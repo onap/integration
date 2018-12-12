@@ -166,7 +166,7 @@ curl -s -u "${CATTLE_ACCESS_KEY}:${CATTLE_SECRET_KEY}" \
 -X PUT \
 -H 'Accept: application/json' \
 -H 'Content-Type: application/json' \
--d '{"stacks":[{"type":"catalogTemplate", "answers":{"CONSTRAINT_TYPE":"required"}, "name":"kubernetes", "templateVersionId":"library:infra*k8s:52"}, {"type":"catalogTemplate", "name":"network-services", "templateId":"library:infra*network-services"}, {"type":"catalogTemplate", "name":"ipsec", "templateId":"library:infra*ipsec", "answers":{"MTU":"__mtu__"}}, {"type":"catalogTemplate", "name":"healthcheck", "templateId":"library:infra*healthcheck"}]}' \
+-d '{"stacks":[{"type":"catalogTemplate", "answers":{"CONSTRAINT_TYPE":"required"}, "name":"kubernetes", "templateVersionId":"library:infra*k8s:53"}, {"type":"catalogTemplate", "name":"network-services", "templateId":"library:infra*network-services"}, {"type":"catalogTemplate", "name":"ipsec", "templateId":"library:infra*ipsec", "answers":{"MTU":"__mtu__"}}, {"type":"catalogTemplate", "name":"healthcheck", "templateId":"library:infra*healthcheck"}]}' \
 "http://$RANCHER_IP:8080/v2-beta/projecttemplates/$TEMPLATE_ID"
 
 curl -s -u "${CATTLE_ACCESS_KEY}:${CATTLE_SECRET_KEY}" -X POST -H 'Content-Type: application/json' -d '{ "name":"oom", "projectTemplateId":"'$TEMPLATE_ID'" }' "http://$RANCHER_IP:8080/v2-beta/projects" > project.json
