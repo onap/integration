@@ -72,7 +72,7 @@ onap/network-discovery,1.4.2
 onap/oom/kube2msb,1.1.0
 onap/optf-cmso-dbinit,1.0.1
 onap/optf-cmso-service,1.0.1
-onap/optf-has,1.2.4
+onap/optf-has,1.2.5
 onap/optf-osdf,1.2.4
 onap/org.onap.dcaegen2.collectors.datafile.datafile-app-server,1.0.4
 onap/org.onap.dcaegen2.collectors.hv-ves.hv-collector-main,1.0.0
