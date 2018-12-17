@@ -204,3 +204,24 @@ Resolution: Replace the "input" field in the JSON template with "output"
 - Save the changes
 - If SDNC is deployed in cluster mode (3 SDNC replicas, dev-sdnc-sdnc-0, dev-sdnc-sdnc-1, dev-sdnc-sdnc-2), apply the same change to all the replicas in the cluster.
 
+4) When using SDNC, the JSON template for DMaaP messages has an extra newline at the end of the file
+
+Resolution: Delete the extra newline
+
+- Connect to the SDNC container from the Rancher VM in the Kubernetes cluster, for example
+
+::
+
+  kubectl exec -it -n onap dev-sdnc-sdnc-0 bash
+
+- Install your favorite text editor, for example 
+
+::
+
+  apt-get update; apt-get install vim -y
+
+- Open /opt/onap/sdnc/restapi/templates/lcm-dmaap-publish-template.json and execute the following operations
+    - :set binary
+    - :set noeol
+- Save the changes
+- If SDNC is deployed in cluster mode (3 SDNC replicas, dev-sdnc-sdnc-0, dev-sdnc-sdnc-1, dev-sdnc-sdnc-2), apply the same change to all the replicas in the cluster.
