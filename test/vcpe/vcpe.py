@@ -29,10 +29,10 @@ def config_sniro(vcpecommon, vgmux_svc_instance_uuid, vbrg_svc_instance_uuid):
     vgw_name = None
     for model in parser.vnf_models:
         logger.info('modelCustomizationName = %s', model['modelCustomizationName'])
-        if 'tunnel' in model['modelCustomizationName']:
+        if 'tunnel' in model['modelCustomizationName'].lower():
             logger.info('tunnel is in %s', model['modelCustomizationName'])
             tunnelxconn_ar_name = model['modelCustomizationName']
-        elif 'brg' in model['modelCustomizationName']:
+        elif 'brg' in model['modelCustomizationName'].lower():
             logger.info('brg is in %s', model['modelCustomizationName'])
             brg_ar_name = model['modelCustomizationName']
         #elif 'vgw' in model['modelCustomizationName']:
