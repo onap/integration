@@ -26,16 +26,16 @@ class VcpeCommon:
         '--os-username': 'kxi',
         '--os-user-domain-id': 'default',
         '--os-project-domain-id': 'default',
-        '--os-tenant-id': '41d6d38489bd40b09ea8a6b6b852dcbd' if oom_mode else '1e097c6713e74fd7ac8e4295e605ee1e',
+        '--os-tenant-id': 'bc43d50ffcb84750bac0c1707a9a765b' if oom_mode else '1e097c6713e74fd7ac8e4295e605ee1e',
         '--os-region-name': 'RegionOne',
         '--os-password': 'n3JhGMGuDzD8',
-        '--os-project-domain-name': 'Integration-SB-00' if oom_mode else 'Integration-SB-07',
+        '--os-project-domain-name': 'Integration-SB-03' if oom_mode else 'Integration-SB-07',
         '--os-identity-api-version': '3'
     }
 
     common_preload_config = {
-        'oam_onap_net': 'oam_network_uB1y' if oom_mode else 'oam_onap_lAky',
-        'oam_onap_subnet': 'oam_network_uB1y' if oom_mode else 'oam_onap_lAky',
+        'oam_onap_net': 'oam_network_2No2' if oom_mode else 'oam_onap_lAky',
+        'oam_onap_subnet': 'oam_network_2No2' if oom_mode else 'oam_onap_lAky',
         'public_net': 'external',
         'public_net_id': '971040b2-7059-49dc-b220-4fab50cb2ad4'
     }
@@ -67,16 +67,16 @@ class VcpeCommon:
         self.logger = logging.getLogger(__name__)
         self.logger.info('Initializing configuration')
 
-        # vgw_VfModuleModelInvariantUuid is in rescust service csar, look in service-VcpesvcRescust1118-template.yml for groups vgw module metadata. TODO: read this value automcatically
-        self.vgw_VfModuleModelInvariantUuid = 'feb4cfc6-e018-4e42-808d-dbf242e7f63b'
-        # OOM: this is the address that the brg and bng will nat for config of brg - 10.0.0.x address of k8 host for sdnc
-        self.sdnc_oam_ip = '10.0.0.10'
-        # OOM: this is a k8 host external IP 
-        self.oom_so_sdnc_aai_ip = '10.12.6.20'
-        # OOM: this is a k8 host external IP  can be same as oom_so_sdnc_aai_ip
-        self.oom_dcae_ves_collector = '10.12.6.20'
-        # OOM: this is a k8 host external IP  can be same as oom_so_sdnc_aai_ip
-        self.mr_ip_addr = '10.12.6.20'
+        # CHANGEME: vgw_VfModuleModelInvariantUuid is in rescust service csar, look in service-VcpesvcRescust1118-template.yml for groups vgw module metadata. TODO: read this value automcatically
+        self.vgw_VfModuleModelInvariantUuid = '26d6a718-17b2-4ba8-8691-c44343b2ecd2'
+        # CHANGEME: OOM: this is the address that the brg and bng will nat for sdnc access - 10.0.0.x address of k8 host for sdnc-0 container
+        self.sdnc_oam_ip = '10.0.0.18'
+        # CHANGEME: OOM: this is a k8s host external IP, e.g. oom-k8s-01 IP 
+        self.oom_so_sdnc_aai_ip = '10.12.6.236'
+        # CHANGEME: OOM: this is a k8s host external IP, e.g. oom-k8s-01 IP
+        self.oom_dcae_ves_collector = '10.12.6.236'
+        # CHANGEME: OOM: this is a k8s host external IP, e.g. oom-k8s-01 IP
+        self.mr_ip_addr = '10.12.6.236'
         self.mr_ip_port = '30227'
         self.so_nbi_port = '30277' if self.oom_mode else '8080'
         self.sdnc_preloading_port = '30202' if self.oom_mode else '8282'
