@@ -10,7 +10,7 @@ import mysql.connector
 import requests
 import commands
 import time
-
+from kubernetes import client, config
 
 class VcpeCommon:
     #############################################################################################
@@ -70,13 +70,13 @@ class VcpeCommon:
         # CHANGEME: vgw_VfModuleModelInvariantUuid is in rescust service csar, look in service-VcpesvcRescust1118-template.yml for groups vgw module metadata. TODO: read this value automcatically
         self.vgw_VfModuleModelInvariantUuid = '26d6a718-17b2-4ba8-8691-c44343b2ecd2'
         # CHANGEME: OOM: this is the address that the brg and bng will nat for sdnc access - 10.0.0.x address of k8 host for sdnc-0 container
-        self.sdnc_oam_ip = '10.0.0.18'
+        self.sdnc_oam_ip = self.get_pod_node_oam_ip('sdnc-sdnc-0')
         # CHANGEME: OOM: this is a k8s host external IP, e.g. oom-k8s-01 IP 
-        self.oom_so_sdnc_aai_ip = '10.12.6.236'
+        self.oom_so_sdnc_aai_ip = self.get_pod_node_public_ip('sdnc-sdnc-0')
         # CHANGEME: OOM: this is a k8s host external IP, e.g. oom-k8s-01 IP
-        self.oom_dcae_ves_collector = '10.12.6.236'
+        self.oom_dcae_ves_collector = self.get_pod_node_public_ip('sdnc-sdnc-0')
         # CHANGEME: OOM: this is a k8s host external IP, e.g. oom-k8s-01 IP
-        self.mr_ip_addr = '10.12.6.236'
+        self.mr_ip_addr = self.get_pod_node_public_ip('sdnc-sdnc-0')
         self.mr_ip_port = '30227'
         self.so_nbi_port = '30277' if self.oom_mode else '8080'
         self.sdnc_preloading_port = '30202' if self.oom_mode else '8282'
@@ -321,13 +321,46 @@ class VcpeCommon:
 
     def get_pod_node_oam_ip(self, pod):
         """
-        :Assuming kubectl is available
-        :param pod: pod name as a string, e.g. 'dev-sdnc-sdnc-0'
-        :return pod's node oam ip (10.0.0.0/16)
+        :Assuming kubectl is available and configured by default config (~/.kube/config) 
+        :param pod: pod name substring, e.g. 'sdnc-sdnc-0'
+        :return pod's cluster node oam ip (10.0.0.0/16)
         """
-        cmd = "kubectl -n onap describe pod {0} |grep Node:|cut -d'/' -f2".format(pod)
-        ret = commands.getstatusoutput(cmd)
-        self.logger.debug("cmd = %s, ret = %s", cmd, ret)
+        ret = None
+        config.load_kube_config()
+        api = client.CoreV1Api()
+        kslogger = logging.getLogger('kubernetes')
+        kslogger.setLevel(logging.INFO)
+        res = api.list_pod_for_all_namespaces()
+        for i in res.items:
+            if pod in i.metadata.name:
+                self.logger.debug("found %s\t%s\t%s", i.metadata.name, i.status.host_ip, i.spec.node_name)
+                ret = i.status.host_ip
+                break
+
+        if ret is None:
+            ret = raw_input("Enter sdnc-sdnc-0 pod cluster node OAM IP address(10.0.0.0/16): ")
+        return ret
+
+    def get_pod_node_public_ip(self, pod):
+        """
+        :Assuming kubectl is available and configured by default config (~/.kube/config) 
+        :param pod: pod name substring, e.g. 'sdnc-sdnc-0'
+        :return pod's cluster node public ip (i.e. 10.12.0.0/16)
+        """
+        ret = None
+        config.load_kube_config()
+        api = client.CoreV1Api()
+        kslogger = logging.getLogger('kubernetes')
+        kslogger.setLevel(logging.INFO)
+        res = api.list_pod_for_all_namespaces()
+        for i in res.items:
+            if pod in i.metadata.name:
+                self.logger.debug("found node %s public ip: %s", i.spec.node_name, self.get_vm_ip([i.spec.node_name])[i.spec.node_name])
+                ret = self.get_vm_ip([i.spec.node_name])[i.spec.node_name]
+                break
+
+        if ret is None:
+            ret = raw_input("Enter sdnc-sdnc-0 pod cluster node public IP address(i.e. 10.12.0.0/16): ")
         return ret
 
     def get_vm_ip(self, keywords, net_addr=None, net_addr_len=None):
@@ -358,7 +391,7 @@ class VcpeCommon:
         if len(ip_dict) != len(keywords):
             self.logger.error('Cannot find all desired IP addresses for %s.', keywords)
             self.logger.error(json.dumps(ip_dict, indent=4, sort_keys=True))
-            self.logger.error('Temporarily continue.. remember to check back vcpecommon.py line: 316')
+            self.logger.error('Temporarily continue.. remember to check back vcpecommon.py line: 396')
 #            sys.exit()
         return ip_dict
 

@@ -192,6 +192,10 @@ def tmp_sniro():
     # Setting up SNIRO
     config_sniro(vcpecommon, svc_instance_uuid['gmux'], svc_instance_uuid['brg'])
 
+def test(): 
+    vcpecommon = VcpeCommon()
+    print("sdnc_oam_ip: %s" % (vcpecommon.sdnc_oam_ip))
+
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG, format='%(message)s')
 
@@ -228,4 +232,6 @@ if __name__ == '__main__':
         deploy_brg_only()
     elif sys.argv[1] == 'sniro':
         tmp_sniro()
+    elif sys.argv[1] == 'test':
+        test()
 
