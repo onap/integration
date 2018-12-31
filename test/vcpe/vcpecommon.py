@@ -10,7 +10,9 @@ import mysql.connector
 import requests
 import commands
 import time
+from novaclient import client as openstackclient
 from kubernetes import client, config
+from netaddr import IPAddress, IPNetwork
 
 class VcpeCommon:
     #############################################################################################
@@ -64,7 +66,17 @@ class VcpeCommon:
     owning_entity_name = 'OE-Demonstration1'
 
     def __init__(self, extra_host_names=None):
+        rootlogger = logging.getLogger()
+        handler = logging.StreamHandler()
+        formatter = logging.Formatter('%(asctime)s %(levelname)s %(name)s.%(funcName)s(): %(message)s')
+        handler.setFormatter(formatter)
+        rootlogger.addHandler(handler)
+        rootlogger.setLevel(logging.INFO)
+
         self.logger = logging.getLogger(__name__)
+        self.logger.propagate = False
+        self.logger.addHandler(handler)
+        self.logger.setLevel(logging.DEBUG)
         self.logger.info('Initializing configuration')
 
         # CHANGEME: vgw_VfModuleModelInvariantUuid is in rescust service csar, look in service-VcpesvcRescust1118-template.yml for groups vgw module metadata. TODO: read this value automcatically
@@ -74,9 +86,9 @@ class VcpeCommon:
         # CHANGEME: OOM: this is a k8s host external IP, e.g. oom-k8s-01 IP 
         self.oom_so_sdnc_aai_ip = self.get_pod_node_public_ip('sdnc-sdnc-0')
         # CHANGEME: OOM: this is a k8s host external IP, e.g. oom-k8s-01 IP
-        self.oom_dcae_ves_collector = self.get_pod_node_public_ip('sdnc-sdnc-0')
+        self.oom_dcae_ves_collector = self.oom_so_sdnc_aai_ip
         # CHANGEME: OOM: this is a k8s host external IP, e.g. oom-k8s-01 IP
-        self.mr_ip_addr = self.get_pod_node_public_ip('sdnc-sdnc-0')
+        self.mr_ip_addr = self.oom_so_sdnc_aai_ip
         self.mr_ip_port = '30227'
         self.so_nbi_port = '30277' if self.oom_mode else '8080'
         self.sdnc_preloading_port = '30202' if self.oom_mode else '8282'
@@ -333,7 +345,7 @@ class VcpeCommon:
         res = api.list_pod_for_all_namespaces()
         for i in res.items:
             if pod in i.metadata.name:
-                self.logger.debug("found %s\t%s\t%s", i.metadata.name, i.status.host_ip, i.spec.node_name)
+                self.logger.debug("found {0}\t{1}\t{2}".format(i.metadata.name, i.status.host_ip, i.spec.node_name))
                 ret = i.status.host_ip
                 break
 
@@ -355,13 +367,29 @@ class VcpeCommon:
         res = api.list_pod_for_all_namespaces()
         for i in res.items:
             if pod in i.metadata.name:
-                self.logger.debug("found node %s public ip: %s", i.spec.node_name, self.get_vm_ip([i.spec.node_name])[i.spec.node_name])
-                ret = self.get_vm_ip([i.spec.node_name])[i.spec.node_name]
+                ret = self.get_vm_public_ip_by_nova(i.spec.node_name)
+                self.logger.debug("found node {0} public ip: {1}".format(i.spec.node_name, ret))
                 break
 
         if ret is None:
             ret = raw_input("Enter sdnc-sdnc-0 pod cluster node public IP address(i.e. 10.12.0.0/16): ")
         return ret
+
+    def get_vm_public_ip_by_nova(self, vm):
+        """
+        This method uses openstack nova api to retrieve vm public ip
+        :param vm: vm name
+        :return vm public ip
+        """
+        subnet = IPNetwork('{0}/{1}'.format(self.external_net_addr, self.external_net_prefix_len))
+        nova = openstackclient.Client(2, self.cloud['--os-username'], self.cloud['--os-password'], self.cloud['--os-tenant-id'], self.cloud['--os-auth-url']) 
+        for i in nova.servers.list():
+            if i.name == vm:
+                for k, v in i.networks.items():
+                    for ip in v:
+                        if IPAddress(ip) in subnet:
+                            return ip
+        return None
 
     def get_vm_ip(self, keywords, net_addr=None, net_addr_len=None):
         """

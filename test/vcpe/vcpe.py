@@ -194,7 +194,7 @@ def tmp_sniro():
 
 def test(): 
     vcpecommon = VcpeCommon()
-    print("sdnc_oam_ip: %s" % (vcpecommon.sdnc_oam_ip))
+    print("oom-k8s-04 public ip: %s" % (vcpecommon.get_vm_public_ip_by_nova('oom-k8s-04')))
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG, format='%(message)s')
