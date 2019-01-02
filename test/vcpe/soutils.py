@@ -340,7 +340,7 @@ class SoUtils:
                                                  vnf_instance_id, vnf_model)
             self.logger.debug(json.dumps(req, indent=2, sort_keys=True))
             req_id, vfmodule_instance_id = self.submit_create_req(req, 'vfmodule', svc_instance_id, vnf_instance_id)
-            if not self.check_progress(req_id, eta=70, interval=5):
+            if not self.check_progress(req_id, eta=70, interval=50):
                 self.logger.error('Failed to create VF Module {0}.'.format(vfmodule_instance_name))
                 return None
 
