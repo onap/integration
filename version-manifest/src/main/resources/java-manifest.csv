@@ -197,7 +197,7 @@ org.onap.dcaegen2.collectors.hv-ves,hv-collector-health-check,1.0.2
 org.onap.dcaegen2.collectors.hv-ves,hv-collector-main,1.0.2
 org.onap.dcaegen2.collectors.hv-ves,hv-collector-utils,1.0.2
 org.onap.dcaegen2.collectors.hv-ves,ves-hv-collector,1.0.2
-org.onap.dcaegen2.collectors.ves,VESCollector,1.3.1
+org.onap.dcaegen2.collectors.ves,VESCollector,1.3.2
 org.onap.dcaegen2.platform,inventory-api,1.0.0
 org.onap.dcaegen2.platform,servicechange-handler,1.0.0
 org.onap.dcaegen2.services,prh,1.1.1
