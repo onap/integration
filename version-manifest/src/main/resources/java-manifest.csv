@@ -48,7 +48,7 @@ org.onap.aai.event-client,event-client-api,1.3.1
 org.onap.aai.event-client,event-client-dmaap,1.3.1
 org.onap.aai.event-client,event-client-kafka,1.3.1
 org.onap.aai.gizmo,gizmo,1.3.0
-org.onap.aai.graphadmin,graphadmin,1.0.1
+org.onap.aai.graphadmin,graphadmin,1.0.3
 org.onap.aai.logging-service,common-logging,1.3.0
 org.onap.aai.logging-service,eelf-logging,1.3.0
 org.onap.aai.logging-service,logging-api,1.3.0
