@@ -211,7 +211,7 @@ org.onap.dmaap.messagerouter.dmaapclient,dmaapClient,1.0.0
 org.onap.dmaap.messagerouter.messageservice,dmaapMR1,1.0.1
 org.onap.dmaap.messagerouter.mirroragent,dmaapMMAgent,1.0.0
 org.onap.dmaap.messagerouter.msgrtr,msgrtr,1.0.0
-org.onap.externalapi-nbi,nbi-rest-services,3.0.1
+org.onap.externalapi-nbi,nbi-rest-services,3.0.2
 org.onap.holmes.common,holmes-actions,1.2.1
 org.onap.holmes.dsa,dmaap-dsa,1.2.1
 org.onap.holmes.engine-management,holmes-engine-d,1.2.0
