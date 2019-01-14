@@ -166,7 +166,7 @@ onap/vnfsdk/vnftest,1.1.0
 onap/vvp/cms,1.0.0
 onap/vvp/engagementmgr,1.0.0
 onap/vvp/gitlab,1.0.0
-onap/vvp/image-scanner,1.0.0
+onap/vvp/image-scanner,1.0.1
 onap/vvp/jenkins,1.0.0
 onap/vvp/portal,1.0.0
 onap/vvp/postgresql,1.0.0
