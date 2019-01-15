@@ -252,7 +252,7 @@ org.onap.portal.sdk,epsdk-workflow,2.4.0
 org.onap.sdc.jtosca,jtosca,1.4.5
 org.onap.sdc.sdc-distribution-client,sdc-distribution-client,1.3.0
 org.onap.sdc.sdc-titan-cassandra,sdc-titan-cassandra,1.2.0
-org.onap.sdc.sdc-tosca,sdc-tosca,1.4.6
+org.onap.sdc.sdc-tosca,sdc-tosca,1.4.62
 org.onap.sdnc.northbound,generic-resource-api.provider,1.4.3
 org.onap.sdnc.northbound,vnfapi-provider,1.4.3
 org.onap.sdnc.northbound,vnftools-provider,1.4.3
