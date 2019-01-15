@@ -1,0 +1,8 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: T M <tobias.mole@ericsson.com>
+Code-Review+2: Gary Wu <gary.i.wu@huawei.com>
+Submitted-by: Gary Wu <gary.i.wu@huawei.com>
+Submitted-at: Tue, 15 Jan 2019 18:44:30 +0000
+Reviewed-on: https://gerrit.onap.org/r/75802
+Project: integration
+Branch: refs/heads/casablanca
