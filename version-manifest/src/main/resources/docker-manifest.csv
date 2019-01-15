@@ -15,7 +15,7 @@ onap/aaf/sms,3.0.1
 onap/aaf/smsquorumclient,3.0.1
 onap/aaf/testcaservice,3.0.0
 onap/aai-cacher,1.0.0
-onap/aai-graphadmin,1.0.3
+onap/aai-graphadmin,1.0.4
 onap/aai-resources,1.3.5
 onap/aai-traversal,1.3.4
 onap/aai/esr-gui,1.2.1
