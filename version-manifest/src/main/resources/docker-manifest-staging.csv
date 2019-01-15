@@ -58,7 +58,7 @@ onap/multicloud/openstack-newton,1.2.3-STAGING
 onap/multicloud/openstack-ocata,1.2.3-STAGING
 onap/multicloud/openstack-pike,1.2.3-STAGING
 onap/multicloud/openstack-windriver,1.2.3-STAGING
-onap/multicloud/vio,1.2.2-STAGING
+onap/multicloud/vio,1.2.3-STAGING
 onap/multicloud/vio-vesagent,1.0.0
 onap/music/cassandra_3_11,3.0.24
 onap/music/cassandra_job,3.0.24
