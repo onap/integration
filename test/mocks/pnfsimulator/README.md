@@ -66,10 +66,3 @@ In order to verify connection, please use *FileZilla* for testing.
 ###Developer mode
 For development of PNF Simulator, run *simulator.sh* start-dev in order to run minimal necessary set of supporting services such as Netopeer of FTP servers.
 After that it is possible to run PNF Simulator from IDE.
-
-
-
-
-
-
-
