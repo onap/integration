@@ -3,7 +3,7 @@ version: '3'
 services:
   pnf-simulator:
     container_name: pnf-simulator
-    image: nexus3.onap.org:10003/onap/pnf-simulator:2.0.1-SNAPSHOT
+    image: nexus3.onap.org:10003/onap/pnf-simulator:4.0.0-SNAPSHOT
     ports:
       - "5000:5000"
     volumes:
