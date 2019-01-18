@@ -219,9 +219,10 @@ org.onap.msb.java-sdk,msb-java-sdk,1.1.1
 org.onap.msb.swagger-sdk,swagger-sdk,1.1.0
 org.onap.multicloud.azure,multicloud-azure,1.2.1
 org.onap.multicloud.framework,multivimbroker,1.2.2
-org.onap.multicloud.openstack,newton,1.2.2
-org.onap.multicloud.openstack,ocata,1.2.2
-org.onap.multicloud.openstack,windriver,1.2.2
+org.onap.multicloud.openstack,newton,1.2.3
+org.onap.multicloud.openstack,ocata,1.2.3
+org.onap.multicloud.openstack,pike,1.2.3
+org.onap.multicloud.openstack,windriver,1.2.3
 org.onap.multicloud.openstack.vmware,vesagent,1.0.0
 org.onap.multicloud.openstack.vmware,vio,1.2.1
 org.onap.music,MUSIC,3.0.23
