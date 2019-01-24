@@ -1,0 +1,494 @@
+{
+	"variables": [],
+	"info": {
+		"name": "10_Service Order",
+		"_postman_id": "28bdf2bb-4886-b8e7-45e3-eac832efc757",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET ExternalAPI-NBI component Status (HealthCheck)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"status\"] = jsonData.status === \"ok\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-nbi}}/nbi/api/v3/status",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "GET all service models from Service Catalog API",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"var service_found = false;",
+							"for (var i = 0; i < jsonData.length; i++) { ",
+							"   if (jsonData[i].name === postman.getGlobalVariable(\"service\")) {",
+							"       service_found = true;",
+							"       postman.setGlobalVariable(\"auto_service_id\", \"\"+jsonData[i].id+\"\");",
+							"   }",
+							"}",
+							"tests[postman.getGlobalVariable(\"service\")+\" exists\"] = service_found === true;",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-nbi}}/nbi/api/v3/serviceSpecification",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "GET all service instances via ServiceInventory API",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"var service_instance_found = false;",
+							"for (var i = 0; i < jsonData.length; i++) { ",
+							"   if (jsonData[i].name === postman.getGlobalVariable(\"service_instance_name\")) {",
+							"       service_instance_found = true;",
+							"   }",
+							"}",
+							"tests[postman.getGlobalVariable(\"service_instance_name\")+\" does not exist\"] = service_instance_found === false;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": {
+					"raw": "{{url-nbi}}/nbi/api/v3/service?relatedParty.id={{customer_name}}",
+					"host": [
+						"{{url-nbi}}"
+					],
+					"path": [
+						"nbi",
+						"api",
+						"v3",
+						"service"
+					],
+					"query": [
+						{
+							"key": "relatedParty.id",
+							"value": "{{customer_name}}",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Add service instance via ServiceOrder API",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 201\"] = responseCode.code === 201;",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[postman.getGlobalVariable(\"externalId\")+\" exists\"] = jsonData.externalId === postman.getGlobalVariable(\"externalId\");",
+							"",
+							"postman.setGlobalVariable(\"auto_service_order_id\", jsonData.id);",
+							"    "
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-nbi}}/nbi/api/v3/serviceOrder",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"externalId\": \"{{externalId}}\",\n  \"priority\": \"1\",\n  \"description\": \"{{service}} order for generic customer via Postman\",\n  \"category\": \"Consumer\",\n  \"requestedStartDate\": \"2018-04-26T08:33:37.299Z\",\n  \"requestedCompletionDate\": \"2018-04-26T08:33:37.299Z\",\n  \"relatedParty\": [\n    {\n      \"id\": \"{{customer_name}}\",\n      \"role\": \"ONAPcustomer\",\n      \"name\": \"{{customer_name}}\"\n    }\n  ],\n  \"orderItem\": [\n    {\n      \"id\": \"1\",\n      \"action\": \"add\",\n      \"service\": {\n        \"name\": \"{{service_instance_name}}\",\n        \"serviceState\": \"active\",\n        \"serviceSpecification\": {\n          \"id\": \"{{auto_service_id}}\"\n        }\n      }\n    }\n  ]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "GET previous serviceOrder",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[postman.getGlobalVariable(\"externalId\")+\" exists\"] = jsonData.externalId === postman.getGlobalVariable(\"externalId\");",
+							"tests[\"service_order_id exists\"] = jsonData.id === postman.getGlobalVariable(\"auto_service_order_id\");",
+							"tests[\"service Order state is COMPLETED\"] = jsonData.state === \"COMPLETED\";",
+							"tests[\"Service Instance state is ACTIVE\"] = jsonData.orderItem[0].service.serviceState === \"active\";",
+							"postman.setGlobalVariable(\"auto_service_instance_id\", \"\"+jsonData.orderItem[0].service.id+\"\");",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-nbi}}/nbi/api/v3/serviceOrder/{{auto_service_order_id}}",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"externalId\": \"NBI-SO002\",\n  \"priority\": \"1\",\n  \"description\": \"Firevall service ordering on customer not specified - added to generic customer\",\n  \"category\": \"Consumer\",\n  \"requestedStartDate\": \"2018-02-28T13:33:37.299Z\",\n  \"requestedCompletionDate\": \"2018-02-28T13:33:37.299Z\",\n  \"orderItem\": [\n    {\n      \"id\": \"1\",\n      \"action\": \"add\",\n      \"service\": {\n        \"id\": \"vFW0002\",\n        \"serviceState\": \"active\",\n        \"serviceSpecification\": {\n          \"id\": \"ff3c8594-499e-445c-8d14-758231f47799\"\n        }\n      }\n    }\n  ]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "GET created service instance in inventory",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": {
+					"raw": "{{url-nbi}}/nbi/api/v3/service/{{auto_service_instance_id}}?relatedParty.id={{customer_name}}&serviceSpecification.name={{service}}",
+					"host": [
+						"{{url-nbi}}"
+					],
+					"path": [
+						"nbi",
+						"api",
+						"v3",
+						"service",
+						"{{auto_service_instance_id}}"
+					],
+					"query": [
+						{
+							"key": "relatedParty.id",
+							"value": "{{customer_name}}",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "serviceSpecification.name",
+							"value": "{{service}}",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Delete service Instance via ServiceOrder API",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 201\"] = responseCode.code === 201;",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"auto_service_order_id\", jsonData.id);",
+							"",
+							"",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-nbi}}/nbi/api/v3/serviceOrder",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"externalId\": \"{{externalId}}\",\n  \"priority\": \"1\",\n  \"description\": \"{{service}} ordering on generic customer via Postman\",\n  \"category\": \"Consumer\",\n  \"requestedStartDate\": \"2018-04-26T08:33:37.299Z\",\n  \"requestedCompletionDate\": \"2018-04-26T08:33:37.299Z\",\n  \"relatedParty\": [\n    {\n      \"id\": \"{{customer_name}}\",\n      \"role\": \"ONAPcustomer\",\n      \"name\": \"{{customer_name}}\"\n    }\n  ],\n  \"orderItem\": [\n    {\n      \"id\": \"1\",\n      \"action\": \"delete\",\n      \"service\": {\n        \"id\": \"{{auto_service_instance_id}}\",\n        \"serviceState\": \"active\",\n        \"serviceSpecification\": {\n          \"id\": \"{{auto_service_id}}\"\n        }\n      }\n    }\n  ]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "DELAY 10s",
+			"request": {
+				"url": "https://postman-echo.com/delay/10",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "GET previous serviceOrder",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[postman.getGlobalVariable(\"externalId\")+\" exists\"] = jsonData.externalId === postman.getGlobalVariable(\"externalId\");",
+							"tests[\"service_order_id exists\"] = jsonData.id === postman.getGlobalVariable(\"auto_service_order_id\");",
+							"tests[\"service Order state is COMPLETED\"] = jsonData.state === \"COMPLETED\";",
+							"tests[\"Service Instance state is ACTIVE\"] = jsonData.orderItem[0].service.serviceState === \"active\";",
+							"postman.setGlobalVariable(\"auto_service_instance_id\", \"\"+jsonData.orderItem[0].service.id+\"\");",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-nbi}}/nbi/api/v3/serviceOrder/{{auto_service_order_id}}",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"externalId\": \"NBI-SO002\",\n  \"priority\": \"1\",\n  \"description\": \"Firevall service ordering on customer not specified - added to generic customer\",\n  \"category\": \"Consumer\",\n  \"requestedStartDate\": \"2018-02-28T13:33:37.299Z\",\n  \"requestedCompletionDate\": \"2018-02-28T13:33:37.299Z\",\n  \"orderItem\": [\n    {\n      \"id\": \"1\",\n      \"action\": \"add\",\n      \"service\": {\n        \"id\": \"vFW0002\",\n        \"serviceState\": \"active\",\n        \"serviceSpecification\": {\n          \"id\": \"ff3c8594-499e-445c-8d14-758231f47799\"\n        }\n      }\n    }\n  ]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "GET service instance in inventory (should no longer exists)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": {
+					"raw": "{{url-nbi}}/nbi/api/v3/service/{{auto_service_instance_id}}?relatedParty.id={{customer_name}}&serviceSpecification.name={{service}}",
+					"host": [
+						"{{url-nbi}}"
+					],
+					"path": [
+						"nbi",
+						"api",
+						"v3",
+						"service",
+						"{{auto_service_instance_id}}"
+					],
+					"query": [
+						{
+							"key": "relatedParty.id",
+							"value": "{{customer_name}}",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "serviceSpecification.name",
+							"value": "{{service}}",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "GET all service instance via ServiceInventory API",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"var service_instance_found = false;",
+							"for (var i = 0; i < jsonData.length; i++) { ",
+							"   if (jsonData[i].name === postman.getGlobalVariable(\"service_instance_name\")) {",
+							"       service_instance_found = true;",
+							"   }",
+							"}",
+							"tests[postman.getGlobalVariable(\"service_instance_name\")+\" does not exist\"] = service_instance_found === false;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": {
+					"raw": "{{url-nbi}}/nbi/api/v3/service?relatedParty.id={{customer_name}}",
+					"host": [
+						"{{url-nbi}}"
+					],
+					"path": [
+						"nbi",
+						"api",
+						"v3",
+						"service"
+					],
+					"query": [
+						{
+							"key": "relatedParty.id",
+							"value": "{{customer_name}}",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "GET hubs",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-nbi}}/nbi/api/v3/hub",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

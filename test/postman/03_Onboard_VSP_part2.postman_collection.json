@@ -1,0 +1,77 @@
+{
+	"variables": [],
+	"info": {
+		"name": "03_Onboard_VSP_part2",
+		"_postman_id": "296fe94c-89fd-6a70-53ee-e5e5faa6f570",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Upload zip file containing Heat files",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"if (jsonData.status === \"Success\") {",
+							"    tests[\"Upload Success\"] = true;   ",
+							"}",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/vendor-software-products/{{auto_vsp_id}}/versions/{{auto_vsp_version_id}}/orchestration-template-candidate",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "multipart/form-data",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-TransactionId",
+						"value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a",
+						"description": ""
+					},
+					{
+						"key": "USER_ID",
+						"value": "cs0008",
+						"description": ""
+					},
+					{
+						"key": "X-FromAppId",
+						"value": "robot-ete",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "upload",
+							"type": "file",
+							"src": "ubuntu16.zip",
+							"value": ""
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

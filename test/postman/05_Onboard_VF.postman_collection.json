@@ -1,0 +1,594 @@
+{
+	"variables": [],
+	"info": {
+		"name": "05_Onboard_VF",
+		"_postman_id": "3a292462-bd95-304c-041a-62a8bd1538a5",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "check vf exists and get id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"var vf_found = false;",
+							"for (var i = 0; i < jsonData.length; i++) { ",
+							"   if (jsonData[i][\"name\"] === postman.getGlobalVariable(\"vf_name\")) {",
+							"       vf_found = true;",
+							"       postman.setGlobalVariable(\"auto_vf_uuid\", \"\"+jsonData[i][\"uuid\"]+\"\");",
+							"       postman.setGlobalVariable(\"auto_vf_invariant_uuid\", \"\"+jsonData[i][\"invariantUUID\"]+\"\");",
+							"   }",
+							"}",
+							"if (vf_found === false) {",
+							"    tests[postman.getGlobalVariable(\"vf_name\")+\" does not exists, we continue the run\"] = true;",
+							"}",
+							"",
+							"else {",
+							"    tests[postman.getGlobalVariable(\"vf_name\")+\" already exists, stop the run\"] = true;",
+							"    postman.setNextRequest(null);",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": {
+					"raw": "{{url-sdc}}/sdc/v1/catalog/resources?resourceType=VF",
+					"host": [
+						"{{url-sdc}}"
+					],
+					"path": [
+						"sdc",
+						"v1",
+						"catalog",
+						"resources"
+					],
+					"query": [
+						{
+							"key": "resourceType",
+							"value": "VF",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-TransactionId",
+						"value": "ONAP-Test",
+						"description": ""
+					},
+					{
+						"key": "USER_ID",
+						"value": "cs0008",
+						"description": ""
+					},
+					{
+						"key": "X-FromAppId",
+						"value": "ONAP-Test",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU=",
+						"description": ""
+					},
+					{
+						"key": "x-ecomp-instanceid",
+						"value": "ONAP-Test",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"contactId\": \"cs0008\", \"vendorRelease\": \"1.0\", \"requirements\": {}, \"artifacts\": {}, \"capabilities\": {}, \"componentInstancesProperties\": {}, \"deploymentArtifacts\": {}, \"icon\": \"defaulticon\", \"vendorName\": \"test-api-license-model\", \"description\": \"vendor software product\", \"tags\": [\"test-vsp\"], \"groups\": [], \"properties\": [], \"categories\": [{\"subcategories\": [{\"normalizedName\": \"abstract\", \"name\": \"Abstract\", \"uniqueId\": \"resourceNewCategory.generic.abstract\", \"icons\": [\"icon\"]}], \"normalizedName\": \"generic\", \"name\": \"Generic\", \"uniqueId\": \"resourceNewCategory.generic\"}], \"name\": \"test-vsp\", \"toscaArtifacts\": {}, \"csarUUID\": \"F3CD5189C2DF45B4B1CFA6D6E45FD613\", \"resourceType\": \"VF\", \"csarVersion\": \"1.0\", \"componentType\": \"RESOURCE\", \"componentInstancesAttributes\": {}, \"attributes\": [], \"componentInstances\": []}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "check VSP exists and get infos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"var vsp_found = false;",
+							"for (var i = 0; i < jsonData.results.length; i++) { ",
+							"   if (jsonData.results[i].name === postman.getGlobalVariable(\"vsp_name\")) {",
+							"       vsp_found = true;",
+							"       postman.setGlobalVariable(\"auto_vsp_id\", \"\"+jsonData.results[i].id+\"\");",
+							"",
+							"   }",
+							"}",
+							"if (vsp_found === false) {",
+							"    tests[postman.getGlobalVariable(\"vsp_name\")+\" does not exists, we stop the run\"] = true;",
+							"    postman.setNextRequest(null);    ",
+							"}",
+							"",
+							"else {",
+							"    tests[postman.getGlobalVariable(\"vsp_name\")+\" exists, we can continue\"] = true;",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/vendor-software-products",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-TransactionId",
+						"value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a",
+						"description": ""
+					},
+					{
+						"key": "USER_ID",
+						"value": "cs0008",
+						"description": ""
+					},
+					{
+						"key": "X-FromAppId",
+						"value": "robot-ete",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"category\": \"resourceNewCategory.generic\", \"vendorId\": \"CE00625F0B334F7FBD7294293956649E\", \"subCategory\": \"resourceNewCategory.generic.abstract\", \"description\": \"vendor software product\", \"licensingVersion\": \"1.0\", \"licensingData\": {\"featureGroups\": [\"74F4A12BA9B5461CAF69C17AB4301889\"], \"licenseAgreement\": \"D738E60042A14FE0914B375F3FAE1BC8\"}, \"icon\": \"icon\", \"vendorName\": \"test-api-license-model\", \"name\": \"test-vsp\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get VSP versions",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"var vsp_found = false;",
+							"for (var i = 0; i < jsonData.results.length; i++) { ",
+							"   if (jsonData.results[i].name === postman.getGlobalVariable(\"vsp_name\")) {",
+							"       vsp_found = true;",
+							"       postman.setGlobalVariable(\"auto_vsp_version_id\", \"\"+jsonData.results[i].id+\"\");",
+							"       postman.setGlobalVariable(\"auto_vsp_version_name\", \"\"+jsonData.results[i].name+\"\");",
+							"   }",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/items/{{auto_vsp_id}}/versions",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-TransactionId",
+						"value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a",
+						"description": ""
+					},
+					{
+						"key": "USER_ID",
+						"value": "cs0008",
+						"description": ""
+					},
+					{
+						"key": "X-FromAppId",
+						"value": "robot-ete",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"category\": \"resourceNewCategory.generic\", \"vendorId\": \"CE00625F0B334F7FBD7294293956649E\", \"subCategory\": \"resourceNewCategory.generic.abstract\", \"description\": \"vendor software product\", \"licensingVersion\": \"1.0\", \"licensingData\": {\"featureGroups\": [\"74F4A12BA9B5461CAF69C17AB4301889\"], \"licenseAgreement\": \"D738E60042A14FE0914B375F3FAE1BC8\"}, \"icon\": \"icon\", \"vendorName\": \"test-api-license-model\", \"name\": \"test-vsp\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Vendor infos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"var vendor_found = false;",
+							"for (var i = 0; i < jsonData.results.length; i++) { ",
+							"   if (jsonData.results[i][\"name\"] === postman.getGlobalVariable(\"vendor_name\")) {",
+							"       vendor_found = true;",
+							"       postman.setGlobalVariable(\"auto_vendor_id\", \"\"+jsonData.results[i][\"id\"]+\"\");",
+							"   }",
+							"}",
+							"if (vendor_found === false) {",
+							"    tests[postman.getGlobalVariable(\"vendor_name\")+\" does not exists : we stop the run\"] = false;",
+							"    postman.setNextRequest(null);",
+							"}",
+							"",
+							"else {",
+							"    tests[postman.getGlobalVariable(\"vendor_name\")+\" exists\"] = true;",
+							"}",
+							"",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/vendor-license-models",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-TransactionId",
+						"value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a",
+						"description": ""
+					},
+					{
+						"key": "USER_ID",
+						"value": "cs0008",
+						"description": ""
+					},
+					{
+						"key": "X-FromAppId",
+						"value": "robot-ete",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"iconRef\": \"icon\", \"vendorName\": \"test-api-license-model\", \"description\": \"vendor license model\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Create VF resource",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 201\"] = responseCode.code === 201;",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"auto_vf_invariant_uuid\", \"\"+jsonData[\"invariantUUID\"]+\"\");",
+							"postman.setGlobalVariable(\"auto_vf_uuid\", \"\"+jsonData[\"uuid\"]+\"\");",
+							"postman.setGlobalVariable(\"auto_vf_unique_id\", \"\"+jsonData[\"uniqueId\"]+\"\");",
+							"",
+							"tests[\"VF version is in NOT_CERTIFIED_CHECKOUT status\"] = jsonData[\"lifecycleState\"] === \"NOT_CERTIFIED_CHECKOUT\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-sdc2}}/sdc1/feProxy/rest/v1/catalog/resources",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-TransactionId",
+						"value": "ONAP-Test",
+						"description": ""
+					},
+					{
+						"key": "USER_ID",
+						"value": "cs0008",
+						"description": ""
+					},
+					{
+						"key": "X-FromAppId",
+						"value": "ONAP-Test",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU=",
+						"description": ""
+					},
+					{
+						"key": "x-ecomp-instanceid",
+						"value": "ONAP-Test",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"artifacts\": {},\r\n\t\"toscaArtifacts\": {},\r\n\t\"contactId\": \"cs0008\",\r\n\t\"categories\": [{\r\n\t\t\"name\": \"Generic\",\r\n\t\t\"normalizedName\": \"generic\",\r\n\t\t\"uniqueId\": \"resourceNewCategory.generic\",\r\n\t\t\"icons\": null,\r\n\t\t\"subcategories\": [{\r\n\t\t\t\"name\": \"Abstract\",\r\n\t\t\t\"normalizedName\": \"abstract\",\r\n\t\t\t\"uniqueId\": \"resourceNewCategory.generic.abstract\",\r\n\t\t\t\"icons\": [\"objectStorage\", \"compute\"],\r\n\t\t\t\"groupings\": null,\r\n\t\t\t\"ownerId\": null,\r\n\t\t\t\"empty\": false\r\n\t\t}],\r\n\t\t\"ownerId\": null,\r\n\t\t\"empty\": false\r\n\t}],\r\n\t\"description\": \"VF named {{vf_name}}\",\r\n\t\"icon\": \"defaulticon\",\r\n\t\"componentInstancesProperties\": {},\r\n\t\"componentInstancesAttributes\": {},\r\n\t\"name\": \"{{vf_name}}\",\r\n\t\"tags\": [\"{{vf_name}}\"],\r\n\t\"capabilities\": {},\r\n\t\"requirements\": {},\r\n\t\"deploymentArtifacts\": {},\r\n\t\"componentType\": \"RESOURCE\",\r\n\t\"vendorName\": \"{{vendor_name}}\",\r\n\t\"vendorRelease\": \"1.0\",\r\n\t\"componentInstances\": [],\r\n\t\"properties\": [],\r\n\t\"attributes\": [],\r\n\t\"groups\": [],\r\n\t\"resourceType\": \"VF\",\r\n\t\"csarUUID\": \"{{auto_vsp_id}}\",\r\n\t\"csarVersion\": \"{{auto_vsp_version_name}}\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Checkin VF resource",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"VF version is in NOT_CERTIFIED_CHECKIN status\"] = jsonData[\"lifecycleState\"] === \"NOT_CERTIFIED_CHECKIN\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-sdc}}/sdc/v1/catalog/resources/{{auto_vf_uuid}}/lifecycleState/checkin",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-TransactionId",
+						"value": "ONAP-Test",
+						"description": ""
+					},
+					{
+						"key": "USER_ID",
+						"value": "cs0008",
+						"description": ""
+					},
+					{
+						"key": "X-FromAppId",
+						"value": "ONAP-Test",
+						"description": ""
+					},
+					{
+						"key": "X-ECOMP-InstanceID",
+						"value": "ONAP-Test",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"userRemarks\": \"ONAP-Test checkin\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Certify VF resource",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"VF version is in CERTIFIED status\"] = jsonData[\"lifecycleState\"] === \"CERTIFIED\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-sdc2}}/sdc1/feProxy/rest/v1/catalog/resources/{{auto_vf_unique_id}}/lifecycleState/certify",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-TransactionId",
+						"value": "ONAP-Test",
+						"description": ""
+					},
+					{
+						"key": "USER_ID",
+						"value": "cs0008",
+						"description": ""
+					},
+					{
+						"key": "X-FromAppId",
+						"value": "ONAP-Test",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU=",
+						"description": ""
+					},
+					{
+						"key": "X-ECOMP-InstanceID",
+						"value": "ONAP-Test",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"userRemarks\": \"certify\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get VF infos by uniqueId to get new vf_unique_Id (=new version id)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"auto_vf_new_unique_id\", \"\"+jsonData[\"metadata\"][\"allVersions\"][\"1.0\"]+\"\");",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": {
+					"raw": "{{url-sdc2}}/sdc1/feProxy/rest/v1/catalog/resources/{{auto_vf_unique_id}}/filteredDataByParams?include=metadata",
+					"host": [
+						"{{url-sdc2}}"
+					],
+					"path": [
+						"sdc1",
+						"feProxy",
+						"rest",
+						"v1",
+						"catalog",
+						"resources",
+						"{{auto_vf_unique_id}}",
+						"filteredDataByParams"
+					],
+					"query": [
+						{
+							"key": "include",
+							"value": "metadata",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-TransactionId",
+						"value": "ONAP-Test",
+						"description": ""
+					},
+					{
+						"key": "USER_ID",
+						"value": "cs0008",
+						"description": ""
+					},
+					{
+						"key": "X-FromAppId",
+						"value": "ONAP-Test",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU=",
+						"description": ""
+					},
+					{
+						"key": "x-ecomp-instanceid",
+						"value": "ONAP-Test",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"contactId\": \"cs0008\", \"vendorRelease\": \"1.0\", \"requirements\": {}, \"artifacts\": {}, \"capabilities\": {}, \"componentInstancesProperties\": {}, \"deploymentArtifacts\": {}, \"icon\": \"defaulticon\", \"vendorName\": \"test-api-license-model\", \"description\": \"vendor software product\", \"tags\": [\"test-vsp\"], \"groups\": [], \"properties\": [], \"categories\": [{\"subcategories\": [{\"normalizedName\": \"abstract\", \"name\": \"Abstract\", \"uniqueId\": \"resourceNewCategory.generic.abstract\", \"icons\": [\"icon\"]}], \"normalizedName\": \"generic\", \"name\": \"Generic\", \"uniqueId\": \"resourceNewCategory.generic\"}], \"name\": \"test-vsp\", \"toscaArtifacts\": {}, \"csarUUID\": \"F3CD5189C2DF45B4B1CFA6D6E45FD613\", \"resourceType\": \"VF\", \"csarVersion\": \"1.0\", \"componentType\": \"RESOURCE\", \"componentInstancesAttributes\": {}, \"attributes\": [], \"componentInstances\": []}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
