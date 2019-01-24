@@ -1,0 +1,233 @@
+{
+  "id": "840dff41-02b1-d25c-166d-2d2e34f090de",
+  "name": "Postman Globals",
+  "values": [
+    {
+      "key": "service",
+      "value": "integration_test_freeradius",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "vf_name",
+      "value": "integration_test_VF_freeradius",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "vsp_name",
+      "value": "integration_test_VSP",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "vendor_name",
+      "value": "onap_integration_vendor",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "owning_entity",
+      "value": "integration_test_OE",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "platform",
+      "value": "integration_test_platform",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "project",
+      "value": "integration_test_project",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "lineofbusiness",
+      "value": "integration_test_LOB",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "customer_name",
+      "value": "integration_test_customer",
+      "description": "",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "cloud_owner_name",
+      "value": "CloudOwner",
+      "description": "",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "cloud_region_id",
+      "value": "RegionOne",
+      "description": "",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "tenant_name",
+      "value": "openlab-vnfs",
+      "description": "",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "tenant_id",
+      "value": "900c4b62bccf4b11a21e3ac92ff8fc65",
+      "description": "",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "externalId",
+      "value": "integration_test_BSS-001",
+      "description": "",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "service_instance_name",
+      "value": "integration_test_freeradius_instance_001",
+      "description": "",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "listener_url",
+      "value": "http://10.4.2.65:8080/externalapi/listener/v1/listener",
+      "description": "",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "auto_vendor_version_id",
+      "value": "",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "auto_vendor_id",
+      "value": "",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "auto_vsp_id",
+      "value": "",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "auto_vsp_version_id",
+      "value": "",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "auto_vsp_version_name",
+      "value": "",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "auto_vf_invariant_uuid",
+      "value": "",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "auto_vf_uuid",
+      "value": "",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "auto_vf_unique_id",
+      "value": "",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "auto_vf_new_unique_id",
+      "value": "",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "auto_service_uuid",
+      "value": "",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "auto_service_unique_id",
+      "value": "",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "auto_service_invariant_uuid",
+      "value": "",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "auto_service_invariantUUID",
+      "type": "text",
+      "value": "",
+      "enabled": true
+    },
+    {
+      "key": "auto_service_resource_version",
+      "type": "text",
+      "value": "",
+      "enabled": true
+    },
+    {
+      "key": "auto_distribution_id",
+      "type": "text",
+      "value": "",
+      "enabled": true
+    },
+    {
+      "key": "auto_customer_id",
+      "type": "text",
+      "value": "",
+      "enabled": true
+    },
+    {
+      "key": "auto_service_new_unique_id",
+      "type": "text",
+      "value": "",
+      "enabled": true
+    },
+    {
+      "key": "auto_service_id",
+      "type": "text",
+      "value": "",
+      "enabled": true
+    },
+    {
+      "key": "auto_service_order_id",
+      "type": "text",
+      "value": "",
+      "enabled": true
+    },
+    {
+      "key": "auto_service_instance_id",
+      "type": "text",
+      "value": "",
+      "enabled": true
+    }
+  ],
+  "_postman_variable_scope": "globals",
+  "_postman_exported_at": "2019-01-24T16:48:52.023Z",
+  "_postman_exported_using": "Postman/5.5.4"
+}

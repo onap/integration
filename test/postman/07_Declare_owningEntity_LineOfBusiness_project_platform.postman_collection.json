@@ -1,0 +1,144 @@
+{
+	"variables": [],
+	"info": {
+		"name": "07_Declare_owningEntity_LineOfBusiness_project_platform",
+		"_postman_id": "7143bf9e-0167-af43-26cb-0cec6550dcd1",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Declare owningEntity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = (responseCode.code === 200) || (responseCode.code === 207) ;",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-vid}}/vid/maintenance/category_parameter/owningEntity",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"options\": [\"{{owning_entity}}\"]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Declare platform",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = (responseCode.code === 200) || (responseCode.code === 207) ;",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-vid}}/vid/maintenance/category_parameter/platform",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"options\": [\"{{platform}}\"]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Declare lineOfBusiness",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = (responseCode.code === 200) || (responseCode.code === 207) ;",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-vid}}/vid/maintenance/category_parameter/lineOfBusiness",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"options\": [\"{{lineofbusiness}}\"]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Declare project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = (responseCode.code === 200) || (responseCode.code === 207) ;",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-vid}}/vid/maintenance/category_parameter/project",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"options\": [\"{{project}}\"]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

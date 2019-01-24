@@ -1,0 +1,375 @@
+{
+	"variables": [],
+	"info": {
+		"name": "02_Onboard_VSP_part1",
+		"_postman_id": "8c958074-e35a-6ae9-4ce4-2133b11d72b0",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "check VSP exists",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"var vsp_found = false;",
+							"for (var i = 0; i < jsonData['results'].length; i++) { ",
+							"   if (jsonData['results'][i].name === postman.getGlobalVariable(\"vsp_name\")) {",
+							"       vsp_found = true;",
+							"   }",
+							"}",
+							"",
+							"if (vsp_found === false) {",
+							"    tests[postman.getGlobalVariable(\"vsp_name\")+\" does not exists, we continue\"] = true;",
+							"}",
+							"",
+							"else {",
+							"    tests[postman.getGlobalVariable(\"vsp_name\")+\" already exists, we stop the run\"] = true;",
+							"    postman.setNextRequest(null);",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/vendor-software-products",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-TransactionId",
+						"value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a",
+						"description": ""
+					},
+					{
+						"key": "USER_ID",
+						"value": "cs0008",
+						"description": ""
+					},
+					{
+						"key": "X-FromAppId",
+						"value": "robot-ete",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"category\": \"resourceNewCategory.generic\", \"vendorId\": \"CE00625F0B334F7FBD7294293956649E\", \"subCategory\": \"resourceNewCategory.generic.abstract\", \"description\": \"vendor software product\", \"licensingVersion\": \"1.0\", \"licensingData\": {\"featureGroups\": [\"74F4A12BA9B5461CAF69C17AB4301889\"], \"licenseAgreement\": \"D738E60042A14FE0914B375F3FAE1BC8\"}, \"icon\": \"icon\", \"vendorName\": \"test-api-license-model\", \"name\": \"test-vsp\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Vendor infos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"var vendor_found = false;",
+							"for (var i = 0; i < jsonData.results.length; i++) { ",
+							"   if (jsonData.results[i][\"name\"] === postman.getGlobalVariable(\"vendor_name\")) {",
+							"       vendor_found = true;",
+							"       postman.setGlobalVariable(\"auto_vendor_id\", \"\"+jsonData.results[i][\"id\"]+\"\");",
+							"   }",
+							"}",
+							"if (vendor_found === false) {",
+							"    tests[postman.getGlobalVariable(\"vendor_name\")+\" does not exists : we stop the run\"] = false;",
+							"    postman.setNextRequest(null);",
+							"}",
+							"",
+							"else {",
+							"    tests[postman.getGlobalVariable(\"vendor_name\")+\" exists\"] = true;",
+							"}",
+							"",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/vendor-license-models",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-TransactionId",
+						"value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a",
+						"description": ""
+					},
+					{
+						"key": "USER_ID",
+						"value": "cs0008",
+						"description": ""
+					},
+					{
+						"key": "X-FromAppId",
+						"value": "robot-ete",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"iconRef\": \"icon\", \"vendorName\": \"test-api-license-model\", \"description\": \"vendor license model\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Create VSP",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"auto_vsp_id\", \"\"+jsonData[\"itemId\"]+\"\");",
+							"postman.setGlobalVariable(\"auto_vsp_version_id\", \"\"+jsonData[\"version\"][\"id\"]+\"\");",
+							"postman.setGlobalVariable(\"auto_vsp_version_name\", \"\"+jsonData[\"version\"][\"name\"]+\"\");",
+							"",
+							"tests[\"Vendor version is in Draft status\"] = jsonData[\"version\"][\"status\"] === \"Draft\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/vendor-software-products",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-TransactionId",
+						"value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a",
+						"description": ""
+					},
+					{
+						"key": "USER_ID",
+						"value": "cs0008",
+						"description": ""
+					},
+					{
+						"key": "X-FromAppId",
+						"value": "robot-ete",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"{{vsp_name}}\",\r\n  \"description\": \"vendor software product\",\r\n  \"icon\": \"icon\",\r\n  \"category\": \"resourceNewCategory.generic\",\r\n  \"subCategory\": \"resourceNewCategory.generic.abstract\",\r\n  \"vendorName\": \"{{vendor_name}}\",\r\n  \"vendorId\": \"{{auto_vendor_id}}\",\r\n  \"licensingData\": {},\r\n  \"onboardingMethod\": \"NetworkPackage\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": [
+				{
+					"id": "ca88aaf4-ec1b-4d75-8834-85c628a10c50",
+					"name": "Create Vendor Software Product",
+					"originalRequest": {
+						"url": "",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"_postman_previewtype": "text",
+					"header": [
+						{
+							"name": "access-control-allow-credentials",
+							"key": "access-control-allow-credentials",
+							"value": "true",
+							"description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials."
+						},
+						{
+							"name": "access-control-allow-origin",
+							"key": "access-control-allow-origin",
+							"value": "chrome-extension://fhbjgbiflinjbdggehcddcbncdddomop",
+							"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+						},
+						{
+							"name": "access-control-expose-headers",
+							"key": "access-control-expose-headers",
+							"value": "",
+							"description": "Lets a server whitelist headers that browsers are allowed to access."
+						},
+						{
+							"name": "content-type",
+							"key": "content-type",
+							"value": "application/json",
+							"description": "The mime type of this content"
+						},
+						{
+							"name": "date",
+							"key": "date",
+							"value": "Wed, 06 Jun 2018 15:02:46 GMT",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"name": "server",
+							"key": "server",
+							"value": "Jetty(9.3.21.v20170918)",
+							"description": "A name for the server"
+						},
+						{
+							"name": "transfer-encoding",
+							"key": "transfer-encoding",
+							"value": "chunked",
+							"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+						}
+					],
+					"cookie": [],
+					"responseTime": 82,
+					"body": "{\"vspId\":\"b3267b0aefbd4e2ea52be0e414139b1c\"}"
+				}
+			]
+		},
+		{
+			"name": "Get VSP versions",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/items/{{auto_vsp_id}}/versions",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-TransactionId",
+						"value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a",
+						"description": ""
+					},
+					{
+						"key": "USER_ID",
+						"value": "cs0008",
+						"description": ""
+					},
+					{
+						"key": "X-FromAppId",
+						"value": "robot-ete",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"category\": \"resourceNewCategory.generic\", \"vendorId\": \"CE00625F0B334F7FBD7294293956649E\", \"subCategory\": \"resourceNewCategory.generic.abstract\", \"description\": \"vendor software product\", \"licensingVersion\": \"1.0\", \"licensingData\": {\"featureGroups\": [\"74F4A12BA9B5461CAF69C17AB4301889\"], \"licenseAgreement\": \"D738E60042A14FE0914B375F3FAE1BC8\"}, \"icon\": \"icon\", \"vendorName\": \"test-api-license-model\", \"name\": \"test-vsp\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get VSP status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/items/{{auto_vsp_id}}/versions/{{auto_vsp_version_id}}",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-TransactionId",
+						"value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a",
+						"description": ""
+					},
+					{
+						"key": "USER_ID",
+						"value": "cs0008",
+						"description": ""
+					},
+					{
+						"key": "X-FromAppId",
+						"value": "robot-ete",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"category\": \"resourceNewCategory.generic\", \"vendorId\": \"CE00625F0B334F7FBD7294293956649E\", \"subCategory\": \"resourceNewCategory.generic.abstract\", \"description\": \"vendor software product\", \"licensingVersion\": \"1.0\", \"licensingData\": {\"featureGroups\": [\"74F4A12BA9B5461CAF69C17AB4301889\"], \"licenseAgreement\": \"D738E60042A14FE0914B375F3FAE1BC8\"}, \"icon\": \"icon\", \"vendorName\": \"test-api-license-model\", \"name\": \"test-vsp\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,1065 @@
+{
+	"variables": [],
+	"info": {
+		"name": "08_Declare_Customer_Service_Subscription_Cloud",
+		"_postman_id": "ea6f17c2-1abd-62ff-a260-17fad1bdf6b8",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "List Customers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var customer_found = false;",
+							"if (responseCode.code === 404) {",
+							"    tests[postman.getGlobalVariable(\"customer_name\")+\" does not exists\"] = true;",
+							"}",
+							"else {",
+							"    if (responseCode.code === 200) {",
+							"        tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"        }",
+							"    var jsonData = JSON.parse(responseBody);",
+							"    for (var i = 0; i < jsonData.customer.length; i++) { ",
+							"       if (jsonData.customer[i][\"global-customer-id\"] === postman.getGlobalVariable(\"customer_name\")) {",
+							"           customer_found = true;",
+							"           postman.setGlobalVariable(\"auto_customer_id\", \"\"+jsonData.customer[i][\"global-customer-id\"]+\"\");",
+							"       }",
+							"    }",
+							"    if (customer_found === false) {",
+							"        tests[postman.getGlobalVariable(\"customer_name\")+\" does not exists\"] = true;",
+							"    }",
+							"    ",
+							"    else {",
+							"        tests[postman.getGlobalVariable(\"customer_name\")+\" already exists, we skip creation\"] = true;",
+							"        postman.setNextRequest(\"List Services from SDC catalog\");",
+							"    }",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-aai}}/aai/v14/business/customers",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic QUFJOkFBSQ==",
+						"description": ""
+					},
+					{
+						"key": "X-FromAppId",
+						"value": "AAI",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-TransactionId",
+						"value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"global-customer-id\": \"Chouchen22\",\r\n    \"subscriber-name\": \"Chouchen22\",\r\n    \"subscriber-type\": \"INFRA\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Declare a Customer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 201\"] = responseCode.code === 201;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-aai}}/aai/v14/business/customers/customer/{{customer_name}}",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic QUFJOkFBSQ==",
+						"description": ""
+					},
+					{
+						"key": "X-FromAppId",
+						"value": "AAI",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-TransactionId",
+						"value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"global-customer-id\": \"{{customer_name}}\",\n    \"subscriber-name\": \"{{customer_name}}\",\n    \"subscriber-type\": \"INFRA\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Check customer creation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"var customer_found = false;",
+							"for (var i = 0; i < jsonData.customer.length; i++) { ",
+							"   if (jsonData.customer[i][\"global-customer-id\"] === postman.getGlobalVariable(\"customer_name\")) {",
+							"       customer_found = true;",
+							"       postman.setGlobalVariable(\"auto_customer_id\", \"\"+jsonData.customer[i][\"global-customer-id\"]+\"\");",
+							"   }",
+							"}",
+							"tests[postman.getGlobalVariable(\"customer_name\")+\" found\"] = customer_found === true;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-aai}}/aai/v14/business/customers",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic QUFJOkFBSQ==",
+						"description": ""
+					},
+					{
+						"key": "X-FromAppId",
+						"value": "AAI",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-TransactionId",
+						"value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"global-customer-id\": \"Chouchen22\",\r\n    \"subscriber-name\": \"Chouchen22\",\r\n    \"subscriber-type\": \"INFRA\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "List Services from SDC catalog",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"var service_found = false;",
+							"for (var i = 0; i < jsonData.length; i++) { ",
+							"   if (jsonData[i][\"name\"] === postman.getGlobalVariable(\"service\")) {",
+							"       service_found = true;",
+							"       postman.setGlobalVariable(\"auto_service_invariantUUID\", \"\"+jsonData[i][\"invariantUUID\"]+\"\");",
+							"   }",
+							"}",
+							"",
+							"if (service_found === false) {",
+							"    tests[postman.getGlobalVariable(\"service\")+\" does not exists\"] = true;",
+							"    postman.setNextRequest(null);",
+							"}",
+							"",
+							"else {",
+							"    tests[postman.getGlobalVariable(\"service\")+\" exists, we continue the run\"] = true;",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-sdc}}/sdc/v1/catalog/services",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-TransactionId",
+						"value": "ONAP-Test",
+						"description": ""
+					},
+					{
+						"key": "USER_ID",
+						"value": "cs0008",
+						"description": ""
+					},
+					{
+						"key": "X-FromAppId",
+						"value": "ONAP-Test",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU=",
+						"description": ""
+					},
+					{
+						"key": "x-ecomp-instanceid",
+						"value": "ONAP-Test",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"contactId\": \"cs0008\", \"vendorRelease\": \"1.0\", \"requirements\": {}, \"artifacts\": {}, \"capabilities\": {}, \"componentInstancesProperties\": {}, \"deploymentArtifacts\": {}, \"icon\": \"defaulticon\", \"vendorName\": \"test-api-license-model\", \"description\": \"vendor software product\", \"tags\": [\"test-vsp\"], \"groups\": [], \"properties\": [], \"categories\": [{\"subcategories\": [{\"normalizedName\": \"abstract\", \"name\": \"Abstract\", \"uniqueId\": \"resourceNewCategory.generic.abstract\", \"icons\": [\"icon\"]}], \"normalizedName\": \"generic\", \"name\": \"Generic\", \"uniqueId\": \"resourceNewCategory.generic\"}], \"name\": \"test-vsp\", \"toscaArtifacts\": {}, \"csarUUID\": \"F3CD5189C2DF45B4B1CFA6D6E45FD613\", \"resourceType\": \"VF\", \"csarVersion\": \"1.0\", \"componentType\": \"RESOURCE\", \"componentInstancesAttributes\": {}, \"attributes\": [], \"componentInstances\": []}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Check Subscription in AAI",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var service_found = false;",
+							"if (responseCode.code === 404) {",
+							"    tests[postman.getGlobalVariable(\"service\")+\" does not exists in AAI\"] = true;",
+							"}",
+							"else {",
+							"    if (responseCode.code === 200) {",
+							"        tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"        }",
+							"    var jsonData = JSON.parse(responseBody);",
+							"    for (var i = 0; i < jsonData.service.length; i++) { ",
+							"       if (jsonData.service[i][\"service-description\"] === postman.getGlobalVariable(\"service\")) {",
+							"           service_found = true;",
+							"       }",
+							"    }",
+							"    ",
+							"    if (service_found === false) {",
+							"        tests[postman.getGlobalVariable(\"service\")+\" does not exists in AAI\"] = true;",
+							"    }",
+							"    ",
+							"    else {",
+							"        tests[postman.getGlobalVariable(\"service\")+\" already exists in AAI, we skip creation\"] = true;",
+							"        postman.setNextRequest(\"check cloud-region exists\");",
+							"    }",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-aai}}/aai/v14/service-design-and-creation/services",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-FromAppId",
+						"value": "AAI",
+						"description": ""
+					},
+					{
+						"key": "X-TransactionId",
+						"value": "get_aai_subscr",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic QUFJOkFBSQ==",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Declare subscription in AAI",
+			"request": {
+				"url": "{{url-aai}}/aai/v14/service-design-and-creation/services/service/{{auto_service_invariantUUID}}",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic QUFJOkFBSQ==",
+						"description": ""
+					},
+					{
+						"key": "X-FromAppId",
+						"value": "AAI",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-TransactionId",
+						"value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"service-id\": \"{{auto_service_invariantUUID}}\",\r\n\"service-description\": \"{{service}}\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Check Subscription creation in AAI",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"var service_found = false;",
+							"for (var i = 0; i < jsonData.service.length; i++) { ",
+							"   if (jsonData.service[i][\"service-description\"] === postman.getGlobalVariable(\"service\")) {",
+							"       service_found = true;",
+							"       postman.setGlobalVariable(\"auto_service_resource_version\", \"\"+jsonData.service[i][\"resource-version\"]+\"\");",
+							"   }",
+							"}",
+							"tests[postman.getGlobalVariable(\"service\")+\" found\"] = service_found === true;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-aai}}/aai/v14/service-design-and-creation/services",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-FromAppId",
+						"value": "AAI",
+						"description": ""
+					},
+					{
+						"key": "X-TransactionId",
+						"value": "get_aai_subscr",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic QUFJOkFBSQ==",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "check cloud-region exists",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var region_found = false;",
+							"if (responseCode.code === 404) {",
+							"    tests[postman.getGlobalVariable(\"cloud_region_id\")+\" does not exists in AAI\"] = true;",
+							"}",
+							"else {",
+							"    if (responseCode.code === 200) {",
+							"        tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"        }",
+							"var jsonData = JSON.parse(responseBody);",
+							"for (var i = 0; i < jsonData[\"cloud-region\"].length; i++) { ",
+							"   if (jsonData[\"cloud-region\"][i][\"cloud-region-id\"] === postman.getGlobalVariable(\"cloud_region_id\")) {",
+							"       region_found = true;",
+							"   }",
+							"}",
+							"",
+							"if (region_found === false) {",
+							"    tests[postman.getGlobalVariable(\"cloud_region_id\")+\" does not exists\"] = true;",
+							"}",
+							"else {",
+							"    tests[postman.getGlobalVariable(\"cloud_region_id\")+\" already exists, we skip creation\"] = true;",
+							"    postman.setNextRequest(\"check tenant in cloud region\");",
+							"}",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-aai}}/aai/v14/cloud-infrastructure/cloud-regions",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic QUFJOkFBSQ==",
+						"description": ""
+					},
+					{
+						"key": "X-FromAppId",
+						"value": "AAI",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-TransactionId",
+						"value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "create CloudOwner/RegionOne cloud-region",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 201\"] = responseCode.code === 201;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-aai}}/aai/v14/cloud-infrastructure/cloud-regions/cloud-region/{{cloud_owner_name}}/{{cloud_region_id}}",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic QUFJOkFBSQ==",
+						"description": ""
+					},
+					{
+						"key": "X-FromAppId",
+						"value": "AAI",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-TransactionId",
+						"value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cloud-owner\": \"{{cloud_owner_name}}\",\r\n    \"cloud-region-id\": \"{{cloud_region_id}}\",\r\n    \"cloud-type\": \"openstack\",\r\n    \"owner-defined-type\": \"\",\r\n    \"cloud-region-version\": \"\",\r\n    \"cloud-zone\": \"\",\r\n    \"complex-name\": \"\",\r\n    \"identity-url\": \"\",\r\n    \"sriov-automation\": false,\r\n    \"cloud-extra-info\": \"\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Check Cloud-region creation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"var region_found = false;",
+							"for (var i = 0; i < jsonData[\"cloud-region\"].length; i++) { ",
+							"   if (jsonData[\"cloud-region\"][i][\"cloud-region-id\"] === postman.getGlobalVariable(\"cloud_region_id\")) {",
+							"       region_found = true;",
+							"   }",
+							"}",
+							"tests[postman.getGlobalVariable(\"cloud_region_id\")+\" found\"] = region_found === true;",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-aai}}/aai/v14/cloud-infrastructure/cloud-regions",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic QUFJOkFBSQ==",
+						"description": ""
+					},
+					{
+						"key": "X-FromAppId",
+						"value": "AAI",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-TransactionId",
+						"value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "check tenant in cloud region",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var tenant_found = false;",
+							"if (responseCode.code === 404) {",
+							"    tests[postman.getGlobalVariable(\"tenant_name\")+\" does not exists in AAI\"] = true;",
+							"}",
+							"else {",
+							"    if (responseCode.code === 200) {",
+							"        tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"        }",
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"if(jsonData.hasOwnProperty('tenant'))",
+							"    {",
+							"    for (var i = 0; i < jsonData.tenant.length; i++) ",
+							"        { ",
+							"        if (jsonData.tenant[i]['tenant-id'] === postman.getGlobalVariable(\"tenant_id\")) ",
+							"            {",
+							"            tenant_found = true;",
+							"            }",
+							"        }",
+							"    if (tenant_found === true) ",
+							"        {",
+							"        tests[postman.getGlobalVariable(\"tenant_name\")+\" already exists, we skip creation\"] = true;",
+							"        postman.setNextRequest(\"check customer-service-tenant relations\");",
+							"        }",
+							"",
+							"if (tenant_found === false)",
+							"    {",
+							"    tests[postman.getGlobalVariable(\"tenant_name\")+\" does not exists\"] = true;",
+							"    }",
+							"}",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-aai}}/aai/v14/cloud-infrastructure/cloud-regions/cloud-region/{{cloud_owner_name}}/{{cloud_region_id}}/tenants",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic QUFJOkFBSQ==",
+						"description": ""
+					},
+					{
+						"key": "X-FromAppId",
+						"value": "AAI",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-TransactionId",
+						"value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "add tenant to region",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 201\"] = responseCode.code === 201;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-aai}}/aai/v14/cloud-infrastructure/cloud-regions/cloud-region/{{cloud_owner_name}}/{{cloud_region_id}}/tenants/tenant/{{tenant_id}}",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic QUFJOkFBSQ==",
+						"description": ""
+					},
+					{
+						"key": "X-FromAppId",
+						"value": "AAI",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-TransactionId",
+						"value": "get_aai_subscr",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"tenant-id\": \"{{tenant_id}}\",\n    \"tenant-name\": \"{{tenant_name}}\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "check tenant creation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"var tenant_found = false;",
+							"for (var i = 0; i < jsonData[\"tenant\"].length; i++) { ",
+							"   if (jsonData[\"tenant\"][i][\"tenant-id\"] === postman.getGlobalVariable(\"tenant_id\")) {",
+							"       tenant_found = true;",
+							"   }",
+							"}",
+							"tests[postman.getGlobalVariable(\"tenant_name\")+\" found\"] = tenant_found === true;",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-aai}}/aai/v14/cloud-infrastructure/cloud-regions/cloud-region/{{cloud_owner_name}}/{{cloud_region_id}}/tenants",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic QUFJOkFBSQ==",
+						"description": ""
+					},
+					{
+						"key": "X-FromAppId",
+						"value": "AAI",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-TransactionId",
+						"value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "check customer-service-tenant relations",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var relation_found = false;",
+							"if (responseCode.code === 404) {",
+							"    tests[postman.getGlobalVariable(\"tenant_name\")+\" / \"+postman.getGlobalVariable(\"service\")+ \" relation does not exists\"] = true;",
+							"}",
+							"else {",
+							"    if (responseCode.code === 200) {",
+							"        tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"        }",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"for (var i = 0; i < jsonData[\"service-subscription\"].length; i++) { ",
+							"   if (jsonData[\"service-subscription\"][i][\"service-type\"] === postman.getGlobalVariable(\"service\")) {",
+							"       relation_found = true;",
+							"   }",
+							"}",
+							"",
+							"if (relation_found === false) {",
+							"    tests[postman.getGlobalVariable(\"tenant_name\")+\" / \"+postman.getGlobalVariable(\"service\")+ \" relation does not exists\"] = true;",
+							"}",
+							"",
+							"else {",
+							"    tests[postman.getGlobalVariable(\"tenant_name\")+\" / \"+postman.getGlobalVariable(\"service\")+ \" already exists, we skip relation creation\"] = true;",
+							"    postman.setNextRequest(\"check customer-service-tenant relation creation\");",
+							"}",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": {
+					"raw": "{{url-aai}}/aai/v14/business/customers/customer/{{customer_name}}/service-subscriptions?depth=all",
+					"host": [
+						"{{url-aai}}"
+					],
+					"path": [
+						"aai",
+						"v14",
+						"business",
+						"customers",
+						"customer",
+						"{{customer_name}}",
+						"service-subscriptions"
+					],
+					"query": [
+						{
+							"key": "depth",
+							"value": "all",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic QUFJOkFBSQ==",
+						"description": ""
+					},
+					{
+						"key": "X-FromAppId",
+						"value": "AAI",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-TransactionId",
+						"value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"global-customer-id\": \"Sina\",\r\n    \"subscriber-name\": \"Sina\",\r\n    \"subscriber-type\": \"INFRA\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Add customer-service-tenant relations init",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 201\"] = responseCode.code === 201;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": {
+					"raw": "{{url-aai}}/aai/v14/business/customers/customer/{{customer_name}}/service-subscriptions/service-subscription/{{service}}?resource-version={{auto_service_resource_version}}",
+					"host": [
+						"{{url-aai}}"
+					],
+					"path": [
+						"aai",
+						"v14",
+						"business",
+						"customers",
+						"customer",
+						"{{customer_name}}",
+						"service-subscriptions",
+						"service-subscription",
+						"{{service}}"
+					],
+					"query": [
+						{
+							"key": "resource-version",
+							"value": "{{auto_service_resource_version}}",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic QUFJOkFBSQ==",
+						"description": ""
+					},
+					{
+						"key": "X-FromAppId",
+						"value": "AAI",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-TransactionId",
+						"value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"service-type\": \"{{service}}\",\r\n\t\"relationship-list\": {\r\n\t\t\"relationship\": [{\r\n\t\t\t\"related-to\": \"tenant\",\r\n\t\t\t\"related-link\": \"https://aai.api.simpledemo.onap.org:8443/aai/v11/cloud-infrastructure/cloud-regions/cloud-region/{{cloud_owner_name}}/{{cloud_region_id}}/tenants/tenant/{{tenant_id}}\",\r\n\t\t\t\"relationship-data\": [{\r\n\t\t\t\t\t\"relationship-key\": \"cloud-region.cloud-owner\",\r\n\t\t\t\t\t\"relationship-value\": \"{{cloud_owner_name}}\"\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t\"relationship-key\": \"cloud-region.cloud-region-id\",\r\n\t\t\t\t\t\"relationship-value\": \"{{cloud_region_id}}\"\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t\"relationship-key\": \"tenant.tenant-id\",\r\n\t\t\t\t\t\"relationship-value\": \"{{tenant_id}}\"\r\n\t\t\t\t}\r\n\t\t\t],\r\n\t\t\t\"related-to-property\": [{\r\n\t\t\t\t\"property-key\": \"tenant.tenant-name\",\r\n\t\t\t\t\"property-value\": \"{{tenant_name}}\"\r\n\t\t\t}]\r\n\t\t}]\r\n\t}\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "check customer-service-tenant relation creation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"var service_found = false;",
+							"for (var i = 0; i < jsonData[\"service-subscription\"].length; i++) { ",
+							"   if (jsonData[\"service-subscription\"][i][\"service-type\"] === postman.getGlobalVariable(\"service\")) {",
+							"       service_found = true;",
+							"   }",
+							"}",
+							"tests[postman.getGlobalVariable(\"service\")+\" found\"] = service_found === true;",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": {
+					"raw": "{{url-aai}}/aai/v14/business/customers/customer/{{customer_name}}/service-subscriptions?depth=all",
+					"host": [
+						"{{url-aai}}"
+					],
+					"path": [
+						"aai",
+						"v14",
+						"business",
+						"customers",
+						"customer",
+						"{{customer_name}}",
+						"service-subscriptions"
+					],
+					"query": [
+						{
+							"key": "depth",
+							"value": "all",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic QUFJOkFBSQ==",
+						"description": ""
+					},
+					{
+						"key": "X-FromAppId",
+						"value": "AAI",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-TransactionId",
+						"value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"global-customer-id\": \"Sina\",\r\n    \"subscriber-name\": \"Sina\",\r\n    \"subscriber-type\": \"INFRA\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
