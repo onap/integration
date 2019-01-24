@@ -36,7 +36,7 @@ onap/clamp,3.0.3
 onap/clamp-dashboard-kibana,3.0.3
 onap/clamp-dashboard-logstash,3.0.3
 onap/cli,2.0.4
-onap/data-router,1.3.2
+onap/data-router,1.3.3
 onap/dcae-be,1.3.0
 onap/dcae-dt,1.2.0
 onap/dcae-fe,1.3.0
