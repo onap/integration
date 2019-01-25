@@ -8,19 +8,15 @@ tiers:
             Set of basic Functional tests to validate the ONAP installation.
         testcases:
             -
-                case_name: robot_healthcheck
+                case_name: core
                 project_name: functest
                 criteria: 100
                 blocking: true
                 description: >-
-                    This test case verifies the basic ONAP API: appc, sdnc,so,
-                    vid, ....based on the default robot tests
-                dependencies:
-                    installer: ''
-                    scenario: ''
+                    This test case verifies the API of core ONAP components
+                    aai, dmap, portal, sdc, sdnc, so, robot
                 run:
-                    module: 'xtesting.core.robotframework'
-                    class: 'RobotFramework'
+                    name: 'robotframework'
                     args:
                         suites:
                             - /var/opt/OpenECOMP_ETE/robot/testsuites/health-check.robot
@@ -28,100 +24,71 @@ tiers:
                             - core
                         variablefile:
                             - '/share/config/integration_robot_properties.py'
-                            - '/share/config/integration_vm_properties.py'
+                            - '/share/config/vm_properties.py'
                             - '/share/config/integration_preload_parameters.py'
 
             -
-                case_name: robot_api
+                case_name: small
                 project_name: functest
                 criteria: 100
                 blocking: false
                 description: >-
-                    This test case verifies DCAE api
-                    based on the default robot tests
-                dependencies:
-                    installer: ''
-                    scenario: ''
+                    This test case verifies the API of the components
+                    aai, dmap, portal, sdc, sdnc, so, robot,
+                    AAF, APPC, CLI, COnsul, ESR, Log, MSB, Multicloud, NBI, VID
                 run:
-                    module: 'xtesting.core.robotframework'
-                    class: 'RobotFramework'
+                    name: 'robotframework'
                     args:
                         suites:
                             - /var/opt/OpenECOMP_ETE/robot/testsuites/health-check.robot
                         include:
-                            - api
+                            - core
+                            - small
                         variablefile:
                             - '/share/config/integration_robot_properties.py'
-                            - '/share/config/integration_vm_properties.py'
+                            - '/share/config/vm_properties.py'
                             - '/share/config/integration_preload_parameters.py'
 
             -
-                case_name: robot_dcae
+                case_name: medium
                 project_name: functest
                 criteria: 100
                 blocking: false
                 description: >-
-                    This test case verifies DCAE api
-                    based on the default robot tests
-                dependencies:
-                    installer: ''
-                    scenario: ''
+                    This test case verifies the API of the components
+                    aai, dmap, portal, sdc, sdnc, so, robot,
+                    AAF, APPC, CLI, COnsul, ESR, Log, MSB, Multicloud, NBI, VID,
+                    CLAMP, DCAE, OOF, POLICY, UUI, SNIRO
                 run:
-                    module: 'xtesting.core.robotframework'
-                    class: 'RobotFramework'
+                    name: 'robotframework'
                     args:
                         suites:
                             - /var/opt/OpenECOMP_ETE/robot/testsuites/health-check.robot
                         include:
-                            - dcae
+                            - core
+                            - small
+                            - medium
                         variablefile:
                             - '/share/config/integration_robot_properties.py'
-                            - '/share/config/integration_vm_properties.py'
+                            - '/share/config/vm_properties.py'
                             - '/share/config/integration_preload_parameters.py'
             -
-                case_name: robot_multicloud
+                case_name: full
                 project_name: functest
                 criteria: 100
                 blocking: false
                 description: >-
-                    This test case verifies the multicloud features of ONAP
+                    This test case verifies all the healthcheck Robot tests
                     based on the default robot tests
-                dependencies:
-                    installer: ''
-                    scenario: ''
                 run:
-                    module: 'xtesting.core.robotframework'
-                    class: 'RobotFramework'
+                    name: 'robotframework'
                     args:
                         suites:
                             - /var/opt/OpenECOMP_ETE/robot/testsuites/health-check.robot
                         include:
-                            - multicloud
+                            - health
                         variablefile:
                             - '/share/config/integration_robot_properties.py'
-                            - '/share/config/integration_vm_properties.py'
+                            - '/share/config/vm_properties.py'
                             - '/share/config/integration_preload_parameters.py'
-            -
-                case_name: robot_3rdparty
-                project_name: functest
-                criteria: 100
-                blocking: false
-                description: >-
-                    This test case verifies the ONAP 3rd party API
-                    especially the different drivers
-                    based on the default robot tests
-                dependencies:
-                    installer: ''
-                    scenario: ''
-                run:
-                    module: 'xtesting.core.robotframework'
-                    class: 'RobotFramework'
-                    args:
-                        suites:
-                            - /var/opt/OpenECOMP_ETE/robot/testsuites/health-check.robot
-                        include:
-                            - 3rdparty
-                        variablefile:
-                            - '/share/config/integration_robot_properties.py'
-                            - '/share/config/integration_vm_properties.py'
-                            - '/share/config/integration_preload_parameters.py'
+
