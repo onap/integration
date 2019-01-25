@@ -68,7 +68,7 @@ vFWDT Instantiation
 
 In order to test a DistributeTraffic LCM API functionality a dedicated vFW instance must be prepared. It differs from a standard vFW instance by having an additional VF-module with a second instance of vFW and a second instance of vSINK. Thanks to that when a service instance is deployed there are already available two instances of vFW and vSINK that can be used for verification of DistributeTraffic LCM API – there is no need to use the ScaleOut function to test DistributeTraffic functionality what simplifies preparations for tests.
 
-In order to instantiate vFWDT please follow the procedure for standard vFW with following changes:
+In order to instantiate vFWDT service please follow the procedure for standard vFW with following changes:
 
 1. Please use the following HEAT templates:
 
@@ -96,95 +96,12 @@ https://github.com/onap/demo/tree/master/heat/vFWDT
    :scale: 20 %
    :align: center
 
-   Figure 4 Configuration of networks for vFWDT
-
-Configuration of Ansible Server
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-After an instantiation of the vFWDT service the Ansible server must be configured in order to allow it a reconfiguration of vPKG VM.
-
-1. Enter the Ansible Server container
-
-2. Install nano and wget
-
-::
-
-    apt install wget nano
-
-3. Download the distribute traffic playbook into the :file:`/opt/onap/ccsdk/Playbooks` directory
-
-::
-
-    cd /opt/onap/ccsdk/Playbooks
-
-    wget https://raw.githubusercontent.com/onap/appc-deployment/master/playbook/ansible_vfw_distributetraffic%400.00.yml
-
-4. Change with *nano* the *hosts: all* statement in the playbook into the *hosts: vpkg-1* statement
-
-5. Copy a private key file used for VMs' creation into the :file:`/opt/onap/ccsdk/Playbooks/vpkg-1.pem` file and give it proper rights
-
-::
-
-    chown 400 vpkg-1.pem
-
-.. note:: The private key file must be related with a public key specified in the *pub_key* statement used in the *SDNC-Preloading* phase
-
-6. Edit the :file:`/opt/onap/ccsdk/Playbooks/Ansible\ \_\ inventory` file including *vpkg-1* host
-
-::
-
-    [vpkg-1]
-    vpkg-1 ansible_ssh_host=10.0.110.2 ansible_ssh_user=ubuntu
-    ansible_ssh_private_key_file=/opt/onap/ccsdk/Playbooks/vpkg-1.pem
-
-.. note:: Change IP address respectively
-
-7. Test that the Ansible server can access *vpkg-1* host over ssh
-
-::
-
-    ansible –i Ansible_inventory vpkg-1 –m ping
-
-8. Upload the payload file :file:`/opt/onap/ccsdk/Playbooks/config.json` with extra parameters for the Ansible playbook.
-
-::
-
-    {
-       "fwIp": "192.168.10.110",
-       "sinkIp": "192.168.20.240"
-    }
-
-.. note:: This step can be omitted when the CDT template file for the *DistributeTraffic* action will be formulated in a different way. In consequence all the parameters required by a playbook can be defined directly on the CDT level and there is no need to maintain this file. For our VNF this file contains an IP address of vFW 2 from the *unprotected* network and an IP address of vSINK 2 from the *protected* network.
-
-Configuration of MySQL/MariaDB for Ansible
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-For each VNF that uses the Ansible protocol you need to configure *PASSWORD* and *URL* field* in the *DEVICE_AUTHENTICATION* table.
-
-1. Enter the MariaDB container
-
-2. Enter the Maria DB CLI (password is *gamma*)
-
-::
-
-    mysql -u sdnctl -p
-
-3. Invoke the following commands
-
-::
-
-    MariaDB [(none)]> use sdnctl;
-    MariaDB [sdnctl]> select * from DEVICE_AUTHENTICATION;
-    MariaDB [sdnctl]> UPDATE DEVICE_AUTHENTICATION SET URL = 'http://ansiblehost:8000/Dispatch' WHERE DEVICE_AUTHENTICATION_ID=51;
-    MariaDB [sdnctl]> UPDATE DEVICE_AUTHENTICATION SET PASSWORD = 'admin' WHERE DEVICE_AUTHENTICATION_ID=51;
-
-
-.. note:: You need to find in the *select* query result ID of row that has VNF Type like the one specified in the CDT, *DistributeTraffic* as an action name and *Ansible* as a name of a protocol. You should replace *ansiblehost* with an IP or a hostname of the Ansible Server reachable for the APPC container.
+   Figure 4 Configuration of networks for vFWDT service
 
 Configuration of VNF in the APPC CDT tool
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Following steps aim to configure DistributeTraffic LCM action for our vFW VNF in APPC CDT tool.
+Following steps aim to configure DistributeTraffic LCM action for our vPKG VNF in APPC CDT tool.
 
 1. Enter the Controller Design Tool page: http://appc_ip:CDT_port
 
@@ -237,7 +154,7 @@ Following steps aim to configure DistributeTraffic LCM action for our vFW VNF in
 ::
 
     {
-        "PlaybookName": "ansible_vfw_distributetraffic@400.00.yml",
+        "PlaybookName": "ansible_vfw_distributetraffic@0.00.yml",
         "NodeList": ["vpkg-1"],
         "EnvParameters": {
             "ConfigFileName": "config.json"
@@ -255,7 +172,7 @@ The *EnvParameters* group contains all the parameters that will be passed direct
 
    Figure 9 Request template file after uploading
 
-Select *ansible_vfw_distributetraffic@400.00.yml* and press CTRL+4 buttons. The new dialog window will appear. Enter a name *playbook* for this value and press the *Submit* button.
+Select *ansible_vfw_distributetraffic@0.00.yml* and press CTRL+4 buttons. The new dialog window will appear. Enter a name *playbook* for this value and press the *Submit* button.
 
 .. figure:: files/figure10.png
    :scale: 60 %
@@ -281,6 +198,88 @@ Afterwards press the *SYNCHRONIZE WITH TEMPLATE PARAMETERS* button. You will be 
 
 Finally, go back to the *Reference Data* tab and click *SAVE ALL TO APPC*.
 
+Configuration of Ansible Server
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+After an instantiation of the vFWDT service the Ansible server must be configured in order to allow it a reconfiguration of vPKG VM.
+
+1. Enter the Ansible Server container
+
+2. Install nano and wget
+
+::
+
+    apt install wget nano
+
+3. Download the distribute traffic playbook into the :file:`/opt/onap/ccsdk/Playbooks` directory
+
+::
+
+    cd /opt/onap/ccsdk/Playbooks
+
+    wget https://raw.githubusercontent.com/onap/appc-deployment/master/playbook/ansible_vfw_distributetraffic%400.00.yml
+
+4. Change with *nano* the *hosts: all* statement in the playbook into the *hosts: vpkg-1* statement
+
+5. Copy a private key file used for VMs' creation into the :file:`/opt/onap/ccsdk/Playbooks/vpkg-1.pem` file and give it proper rights
+
+::
+
+    chmod 400 vpkg-1.pem
+
+.. note:: The private key file must be related with a public key specified in the *pub_key* statement used in the *SDNC-Preloading* phase
+
+6. Edit the :file:`/opt/onap/ccsdk/Playbooks/Ansible\ \_\ inventory` file including *vpkg-1* host
+
+::
+
+    [vpkg-1]
+    vpkg-1 ansible_ssh_host=10.0.110.2 ansible_ssh_user=ubuntu ansible_ssh_private_key_file=/opt/onap/ccsdk/Playbooks/vpkg-1.pem
+
+.. note:: Change IP address respectively
+
+7. Test that the Ansible server can access *vpkg-1* host over ssh
+
+::
+
+    ansible –i Ansible_inventory vpkg-1 –m ping
+
+8. Upload the payload file :file:`/opt/onap/ccsdk/Playbooks/config.json` with extra parameters for the Ansible playbook.
+
+::
+
+    {
+       "fwIp": "192.168.10.110",
+       "sinkIp": "192.168.20.240"
+    }
+
+.. note:: This step can be omitted when the CDT template file for the *DistributeTraffic* action will be formulated in a different way. In consequence all the parameters required by a playbook can be defined directly on the CDT level and there is no need to maintain this file. For our VNF this file contains an IP address of vFW 2 from the *unprotected* network and an IP address of vSINK 2 from the *protected* network.
+
+Configuration of MySQL/MariaDB for Ansible
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For each VNF that uses the Ansible protocol you need to configure *PASSWORD* and *URL* field* in the *DEVICE_AUTHENTICATION* table.
+
+1. Enter the MariaDB container
+
+2. Enter the Maria DB CLI (password is *gamma*)
+
+::
+
+    mysql -u sdnctl -p
+
+3. Invoke the following commands
+
+::
+
+    MariaDB [(none)]> use sdnctl;
+    MariaDB [sdnctl]> select * from DEVICE_AUTHENTICATION;
+    MariaDB [sdnctl]> UPDATE DEVICE_AUTHENTICATION SET URL = 'http://ansiblehost:8000/Dispatch' WHERE DEVICE_AUTHENTICATION_ID=51;
+    MariaDB [sdnctl]> UPDATE DEVICE_AUTHENTICATION SET PASSWORD = 'admin' WHERE DEVICE_AUTHENTICATION_ID=51;
+
+
+.. note:: You need to find in the *select* query result ID of row that has VNF Type like the one specified in the CDT, *DistributeTraffic* as an action name and *Ansible* as a name of a protocol. You should replace *ansiblehost* with an IP or a hostname of the Ansible Server reachable for the APPC container.
+
 Testing DistributeTraffic LCM API
 ---------------------------------
 
@@ -289,7 +288,7 @@ Below we propose three different ways to test DistributeTraffic LCM API.
 Test in CDT
 ~~~~~~~~~~~
 
-In order to test API in CDT go to *TEST* tab. Upload spreadsheet (Excel file) and enter VNF ID of vFWDT VNF.
+In order to test API in CDT go to *TEST* tab. Upload spreadsheet (Excel file) and enter VNF ID of vPKG VNF.
 
 :download:`CDT request input <files/cdt-request-input.xlsx>`
 
@@ -335,7 +334,7 @@ Another way to test API is to use APIDOC explorer of APPC that comes with OpenDa
             "action-identifiers": {
                 "vnf-id": "2bd5cc6e-9738-436f-b5a8-c1a749a89f52"
             },
-            "payload": "{\"configuration-parameters\":{\"ConfigFileName\":\ "/opt/onap/ccsdk/Playbooks/dt-vpkg-1-config.json\",\"playbook\":\"ansible_vfw_distributetraffic@400.00.yml\",\"node_list\":\"[vpkg-1]\"}}"
+            "payload": "{\"configuration-parameters\":{\"ConfigFileName\":\ "/opt/onap/ccsdk/Playbooks/dt-vpkg-1-config.json\",\"playbook\":\"ansible_vfw_distributetraffic@0.00.yml\",\"node_list\":\"[vpkg-1]\"}}"
         }
     }
 
@@ -381,7 +380,7 @@ POST request to DMaaP requires that *payload* data is specific to a APPC LCM req
         "body": {
             "input": {
                 "action": "DistributeTraffic",
-                "payload": "{\"configuration-parameters\":{\"ConfigFileName\":\"/opt/onap/ccsdk/Playbooks/dt-vpkg-1-config.json\",\"playbook\":\"ansible_vfw_distributetraffic@400.00.yml\",\"node_list\":\"[vpkg-1]\"}}",
+                "payload": "{\"configuration-parameters\":{\"ConfigFileName\":\"/opt/onap/ccsdk/Playbooks/dt-vpkg-1-config.json\",\"playbook\":\"ansible_vfw_distributetraffic@0.00.yml\",\"node_list\":\"[vpkg-1]\"}}",
                 "common-header": {
                     "api-ver": "2.00",
                     "timestamp": "2018-10-22T11:11:25.244Z",
