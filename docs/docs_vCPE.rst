@@ -23,18 +23,32 @@ Most part of the use case has been automated by vcpe scripts. For the details on
 
 Test Status
 ~~~~~~~~~~~~~~~~~~~~~
-The use case has been tested for Casablanca release, the test report can be found on https://wiki.onap.org/display/DW/vCPE+-+Test+Status
+The use case had been tested for Casablanca Maintenance release, the regression test is reported on https://wiki.onap.org/display/DW/Casablanca+Maintenance+Release+Integration+Testing+Status 
+The use case had been tested for Casablanca release, the test report can be found on https://wiki.onap.org/display/DW/vCPE+-+Test+Status
 
-Known Issues and Workaround
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Known Issues and Workaround for Casablanca Maintenance Release
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1) vCPE infra service model distribution will fail due to a bug in SO, see the JIRA on https://jira.onap.org/browse/SO-1400, and follow the instruction on the comment section to expand database table size
+ 
+2) Firewalls are installed on BRG and vBNG. In order to allow SDNC to send BRG configuration message through vBNG, SDNC host VM IP address is preloaded on BRG and vBNG, and provisioned into the firewalls. If SDNC changes its host VM, SDNC host VM IP changes and we need to manually update the IP in /opt/config/sdnc_ip.txt. Then run:
+
+::
+
+  root>vppctl tap delete tap-0
+  root>vppctl tap delete tap-1
+  root>/opt/bind_nic.sh
+  root>/opt/set_nat.sh
+
+Known Issues and Workaround for Casablanca Release
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 1) Firewalls are installed on BRG and vBNG. In order to allow SDNC to send BRG configuration message through vBNG, SDNC host VM IP address is preloaded on BRG and vBNG, and provisioned into the firewalls. If SDNC changes its host VM, SDNC host VM IP changes and we need to manually update the IP in /opt/config/sdnc_ip.txt. Then run:
 
 ::
 
   root>vppctl tap delete tap-0
   root>vppctl tap delete tap-1
-  root>/opt/nat_service.sh
-  root>vppctl restart
+  root>/opt/bind_nic.sh
+  root>/opt/set_nat.sh
 
 2) APPC has a bug which prevents DG from reading AAI info. We needs an DG update. See the JIRA on https://jira.onap.org/browse/APPC-1249
 
