@@ -38,10 +38,31 @@ Test Status and Plans
 ~~~~~~~~~~~~~~~~~~~~~
 All test case covered by this use case: https://wiki.onap.org/display/DW/CCVPN+Integration+Test+Case
 
-And the test status can be found: https://wiki.onap.org/display/DW/CCVPN++-Test+Status
+And the test status for Casablanca release can be found: https://wiki.onap.org/display/DW/CCVPN++-Test+Status
 
-Known Issues and Resolutions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The test status for Casablanca Maintenance release can be found: https://wiki.onap.org/display/DW/Casablanca+Maintenance+Release+Integration+Testing+Status
+
+Known Issues and Resolutions for Casablanca Maintenance Release
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1) Site service distribution error, this is caused by SDC-parser and have been solved in SDC Parser 1.4.63, see the JIRA on https://jira.onap.org/browse/SDC-1955
+
+2) Csar distribution write SO DB error, this have been solved https://jira.onap.org/browse/SO-1407
+
+3) SO haven't register in msb automatically, see the JIRA on https://jira.onap.org/browse/SO-1239 and follow the instruction on comments section to register SO API in MSB manually.
+
+4) UUI call SO to create service, SO V3 API can work, but V5 can't work, so in casablanca relase please use SO V3 and V5 will be provided in Dublin release, JIRA is created https://jira.onap.org/browse/SO-1439
+
+5) SO can not get "operationType" in CreateSDNCNetworkResourece and ActivateSDNCNetworkResource. This can be tracked on https://jira.onap.org/browse/SO-1417
+
+6) Sdc Controller Error while CSAR distribution. This can be tracked on https://jira.onap.org/browse/SO-1408
+
+The known Issue list which solution will be move to Dublin release 
+https://jira.onap.org/browse/SO-1438
+https://jira.onap.org/browse/SO-1434
+
+
+Known Issues and Resolutions for Casablanca Release 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 1) AAI-1923. Link Management, UUI can't delete the link to external onap otn domain. 
 
 For the manual steps provided by A&AI team, we should follow the steps as follow
