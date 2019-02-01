@@ -448,6 +448,175 @@
 			"response": []
 		},
 		{
+			"name": "check complex exists",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var complex_found = false;",
+							"if (responseCode.code === 404) {",
+							"    tests[postman.getGlobalVariable(\"complex_name\")+\" does not exists in AAI\"] = true;",
+							"}",
+							"else {",
+							"    if (responseCode.code === 200) {",
+							"        tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"        }",
+							"var jsonData = JSON.parse(responseBody);",
+							"for (var i = 0; i < jsonData[\"complex\"].length; i++) { ",
+							"   if (jsonData[\"complex\"][i][\"complex-name\"] === postman.getGlobalVariable(\"complex_name\")) {",
+							"       complex_found = true;",
+							"   }",
+							"}",
+							"",
+							"if (complex_found === false) {",
+							"    tests[postman.getGlobalVariable(\"complex_name\")+\" does not exists\"] = true;",
+							"}",
+							"else {",
+							"    tests[postman.getGlobalVariable(\"complex_name\")+\" already exists, we skip creation\"] = true;",
+							"    postman.setNextRequest(\"check cloud-region exists\");",
+							"}",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-aai}}/aai/v14/cloud-infrastructure/complexes",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic QUFJOkFBSQ==",
+						"description": ""
+					},
+					{
+						"key": "X-FromAppId",
+						"value": "AAI",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-TransactionId",
+						"value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "create Complex",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 201\"] = responseCode.code === 201;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-aai}}/aai/v14/cloud-infrastructure/complexes/complex/{{complex_name}}",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic QUFJOkFBSQ==",
+						"description": ""
+					},
+					{
+						"key": "X-FromAppId",
+						"value": "AAI",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-TransactionId",
+						"value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"physical-location-id\": \"{{complex_name}}\",\n    \"data-center-code\": \"\",\n    \"complex-name\": \"{{complex_name}}\",\n    \"identity-url\": \"\",\n    \"physical-location-type\": \"\",\n    \"street1\": \"\",\n    \"street2\": \"\",\n    \"city\": \"\",\n    \"state\": \"\",\n    \"postal-code\": \"\",\n    \"country\": \"\",\n    \"region\": \"\",\n    \"latitude\": \"\",\n    \"longitude\": \"\",\n    \"elevation\": \"\",\n    \"lata\": \"\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Check complex creation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"var complex_found = false;",
+							"for (var i = 0; i < jsonData[\"complex\"].length; i++) { ",
+							"   if (jsonData[\"complex\"][i][\"complex-name\"] === postman.getGlobalVariable(\"complex_name\")) {",
+							"       complex_found = true;",
+							"   }",
+							"}",
+							"tests[postman.getGlobalVariable(\"complex_name\")+\" found\"] = complex_found === true;",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-aai}}/aai/v14/cloud-infrastructure/complexes",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic QUFJOkFBSQ==",
+						"description": ""
+					},
+					{
+						"key": "X-FromAppId",
+						"value": "AAI",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-TransactionId",
+						"value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
 			"name": "check cloud-region exists",
 			"event": [
 				{
@@ -457,7 +626,7 @@
 						"exec": [
 							"var region_found = false;",
 							"if (responseCode.code === 404) {",
-							"    tests[postman.getGlobalVariable(\"cloud_region_id\")+\" does not exists in AAI\"] = true;",
+							"    tests[postman.getGlobalVariable(\"onap_cloud_region_id\")+\" does not exists in AAI\"] = true;",
 							"}",
 							"else {",
 							"    if (responseCode.code === 200) {",
@@ -465,16 +634,16 @@
 							"        }",
 							"var jsonData = JSON.parse(responseBody);",
 							"for (var i = 0; i < jsonData[\"cloud-region\"].length; i++) { ",
-							"   if (jsonData[\"cloud-region\"][i][\"cloud-region-id\"] === postman.getGlobalVariable(\"cloud_region_id\")) {",
+							"   if (jsonData[\"cloud-region\"][i][\"cloud-region-id\"] === postman.getGlobalVariable(\"onap_cloud_region_id\")) {",
 							"       region_found = true;",
 							"   }",
 							"}",
 							"",
 							"if (region_found === false) {",
-							"    tests[postman.getGlobalVariable(\"cloud_region_id\")+\" does not exists\"] = true;",
+							"    tests[postman.getGlobalVariable(\"onap_cloud_region_id\")+\" does not exists\"] = true;",
 							"}",
 							"else {",
-							"    tests[postman.getGlobalVariable(\"cloud_region_id\")+\" already exists, we skip creation\"] = true;",
+							"    tests[postman.getGlobalVariable(\"onap_cloud_region_id\")+\" already exists, we skip creation\"] = true;",
 							"    postman.setNextRequest(\"check tenant in cloud region\");",
 							"}",
 							"}"
@@ -526,7 +695,7 @@
 				}
 			],
 			"request": {
-				"url": "{{url-aai}}/aai/v14/cloud-infrastructure/cloud-regions/cloud-region/{{cloud_owner_name}}/{{cloud_region_id}}",
+				"url": "{{url-aai}}/aai/v14/cloud-infrastructure/cloud-regions/cloud-region/{{cloud_owner_name}}/{{onap_cloud_region_id}}",
 				"method": "PUT",
 				"header": [
 					{
@@ -557,7 +726,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"cloud-owner\": \"{{cloud_owner_name}}\",\r\n    \"cloud-region-id\": \"{{cloud_region_id}}\",\r\n    \"cloud-type\": \"openstack\",\r\n    \"owner-defined-type\": \"\",\r\n    \"cloud-region-version\": \"\",\r\n    \"cloud-zone\": \"\",\r\n    \"complex-name\": \"\",\r\n    \"identity-url\": \"\",\r\n    \"sriov-automation\": false,\r\n    \"cloud-extra-info\": \"\"\r\n}"
+					"raw": "{\r\n    \"cloud-owner\": \"{{cloud_owner_name}}\",\r\n    \"cloud-region-id\": \"{{onap_cloud_region_id}}\",\r\n    \"cloud-type\": \"{{cloud_type}}\",\r\n    \"owner-defined-type\": \"\",\r\n    \"cloud-region-version\": \"{{cloud_region_version}}\",\r\n    \"cloud-zone\": \"\",\r\n    \"complex-name\": \"{{complex_name}}\",\r\n    \"identity-url\": \"WillBeUpdatedByMultiCloud\",\r\n    \"sriov-automation\": false,\r\n    \"cloud-extra-info\": \"{\\\"openstack-region-id\\\":\\\"{{openstack_region_id}}\\\"}\",\r\n    \"esr-system-info-list\": {\r\n    \t\"esr-system-info\": [\r\n            {\r\n            \"esr-system-info-id\": \"{{random_uuid}}\",\r\n            \"service-url\": \"{{keystone_url}}\",\r\n            \"user-name\": \"{{user_name}}\",\r\n            \"password\": \"{{keystone_password}}\",\r\n            \"system-type\": \"VIM\",\r\n            \"ssl-insecure\": true,\r\n            \"cloud-domain\": \"Default\",\r\n            \"default-tenant\": \"{{tenant_name}}\",\r\n            \"system-status\": \"active\"\r\n            }\r\n        ]\r\n    }\r\n}"
 				},
 				"description": ""
 			},
@@ -576,11 +745,11 @@
 							"var jsonData = JSON.parse(responseBody);",
 							"var region_found = false;",
 							"for (var i = 0; i < jsonData[\"cloud-region\"].length; i++) { ",
-							"   if (jsonData[\"cloud-region\"][i][\"cloud-region-id\"] === postman.getGlobalVariable(\"cloud_region_id\")) {",
+							"   if (jsonData[\"cloud-region\"][i][\"cloud-region-id\"] === postman.getGlobalVariable(\"onap_cloud_region_id\")) {",
 							"       region_found = true;",
 							"   }",
 							"}",
-							"tests[postman.getGlobalVariable(\"cloud_region_id\")+\" found\"] = region_found === true;",
+							"tests[postman.getGlobalVariable(\"onap_cloud_region_id\")+\" found\"] = region_found === true;",
 							""
 						]
 					}
@@ -612,6 +781,58 @@
 					}
 				],
 				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "associate Cloud-region to a complex",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200 : cloud-region associated to a complex\"] = responseCode.code === 200;",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url-aai}}/aai/v14/cloud-infrastructure/cloud-regions/cloud-region/{{cloud_owner_name}}/{{onap_cloud_region_id}}/relationship-list/relationship",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic QUFJOkFBSQ==",
+						"description": ""
+					},
+					{
+						"key": "X-FromAppId",
+						"value": "AAI",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-TransactionId",
+						"value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"related-to\": \"complex\",\n    \"related-link\": \"/aai/v13/cloud-infrastructure/complexes/complex/{{complex_name}}\",\n    \"relationship-data\": [\n        {\n        \"relationship-key\": \"complex.physical-location-id\",\n        \"relationship-value\": \"{{complex_name}}\"\n        }\n        ]\n    }"
+				},
 				"description": ""
 			},
 			"response": []
@@ -660,7 +881,7 @@
 				}
 			],
 			"request": {
-				"url": "{{url-aai}}/aai/v14/cloud-infrastructure/cloud-regions/cloud-region/{{cloud_owner_name}}/{{cloud_region_id}}/tenants",
+				"url": "{{url-aai}}/aai/v14/cloud-infrastructure/cloud-regions/cloud-region/{{cloud_owner_name}}/{{onap_cloud_region_id}}/tenants",
 				"method": "GET",
 				"header": [
 					{
@@ -708,7 +929,7 @@
 				}
 			],
 			"request": {
-				"url": "{{url-aai}}/aai/v14/cloud-infrastructure/cloud-regions/cloud-region/{{cloud_owner_name}}/{{cloud_region_id}}/tenants/tenant/{{tenant_id}}",
+				"url": "{{url-aai}}/aai/v14/cloud-infrastructure/cloud-regions/cloud-region/{{cloud_owner_name}}/{{onap_cloud_region_id}}/tenants/tenant/{{tenant_id}}",
 				"method": "PUT",
 				"header": [
 					{
@@ -769,7 +990,7 @@
 				}
 			],
 			"request": {
-				"url": "{{url-aai}}/aai/v14/cloud-infrastructure/cloud-regions/cloud-region/{{cloud_owner_name}}/{{cloud_region_id}}/tenants",
+				"url": "{{url-aai}}/aai/v14/cloud-infrastructure/cloud-regions/cloud-region/{{cloud_owner_name}}/{{onap_cloud_region_id}}/tenants",
 				"method": "GET",
 				"header": [
 					{
@@ -971,7 +1192,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\t\"service-type\": \"{{service}}\",\r\n\t\"relationship-list\": {\r\n\t\t\"relationship\": [{\r\n\t\t\t\"related-to\": \"tenant\",\r\n\t\t\t\"related-link\": \"https://aai.api.simpledemo.onap.org:8443/aai/v11/cloud-infrastructure/cloud-regions/cloud-region/{{cloud_owner_name}}/{{cloud_region_id}}/tenants/tenant/{{tenant_id}}\",\r\n\t\t\t\"relationship-data\": [{\r\n\t\t\t\t\t\"relationship-key\": \"cloud-region.cloud-owner\",\r\n\t\t\t\t\t\"relationship-value\": \"{{cloud_owner_name}}\"\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t\"relationship-key\": \"cloud-region.cloud-region-id\",\r\n\t\t\t\t\t\"relationship-value\": \"{{cloud_region_id}}\"\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t\"relationship-key\": \"tenant.tenant-id\",\r\n\t\t\t\t\t\"relationship-value\": \"{{tenant_id}}\"\r\n\t\t\t\t}\r\n\t\t\t],\r\n\t\t\t\"related-to-property\": [{\r\n\t\t\t\t\"property-key\": \"tenant.tenant-name\",\r\n\t\t\t\t\"property-value\": \"{{tenant_name}}\"\r\n\t\t\t}]\r\n\t\t}]\r\n\t}\r\n}"
+					"raw": "{\r\n\t\"service-type\": \"{{service}}\",\r\n\t\"relationship-list\": {\r\n\t\t\"relationship\": [{\r\n\t\t\t\"related-to\": \"tenant\",\r\n\t\t\t\"related-link\": \"https://aai.api.simpledemo.onap.org:8443/aai/v11/cloud-infrastructure/cloud-regions/cloud-region/{{cloud_owner_name}}/{{onap_cloud_region_id}}/tenants/tenant/{{tenant_id}}\",\r\n\t\t\t\"relationship-data\": [{\r\n\t\t\t\t\t\"relationship-key\": \"cloud-region.cloud-owner\",\r\n\t\t\t\t\t\"relationship-value\": \"{{cloud_owner_name}}\"\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t\"relationship-key\": \"cloud-region.cloud-region-id\",\r\n\t\t\t\t\t\"relationship-value\": \"{{onap_cloud_region_id}}\"\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t\"relationship-key\": \"tenant.tenant-id\",\r\n\t\t\t\t\t\"relationship-value\": \"{{tenant_id}}\"\r\n\t\t\t\t}\r\n\t\t\t],\r\n\t\t\t\"related-to-property\": [{\r\n\t\t\t\t\"property-key\": \"tenant.tenant-name\",\r\n\t\t\t\t\"property-value\": \"{{tenant_name}}\"\r\n\t\t\t}]\r\n\t\t}]\r\n\t}\r\n}"
 				},
 				"description": ""
 			},

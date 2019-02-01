@@ -176,7 +176,11 @@
 							"tests[\"service_order_id exists\"] = jsonData.id === postman.getGlobalVariable(\"auto_service_order_id\");",
 							"tests[\"service Order state is COMPLETED\"] = jsonData.state === \"COMPLETED\";",
 							"tests[\"Service Instance state is ACTIVE\"] = jsonData.orderItem[0].service.serviceState === \"active\";",
-							"postman.setGlobalVariable(\"auto_service_instance_id\", \"\"+jsonData.orderItem[0].service.id+\"\");",
+							"",
+							"if(jsonData.hasOwnProperty('orderItem.service.id')){",
+							"    postman.setGlobalVariable(\"auto_service_instance_id\", \"\"+jsonData.orderItem.service.id+\"\");",
+							"}",
+							"postman.setGlobalVariable(\"auto_service_messageInformation\", \"\"+jsonData.orderMessage[0].messageInformation+\"\");",
 							""
 						]
 					}
