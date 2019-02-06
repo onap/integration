@@ -19,7 +19,7 @@ Version: 3.0.1
 
 **New Features**
 
-* Automated vCPE use case (HEAT based) service design and distribution
+* Enhanced vCPE use case (HEAT based) script to reduce manual steps
 
 Version: 3.0.0
 --------------
@@ -117,7 +117,16 @@ and TOSCA templates.
 
 
 Robot Test Suite
-===========
+================
+
+Version: 1.3.3
+--------------
+
+:Release Date: 2019-01-31
+
+**New Features**
+
+* Automated vCPE use case (HEAT based) services design and distribution
 
 Version: 1.3.2
 --------------
