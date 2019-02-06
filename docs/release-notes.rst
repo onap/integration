@@ -19,7 +19,7 @@ Version: 3.0.0
 
 **New Features**
 
-* CI/CD with daily summary: `functional tests and health checks <http://onapci.org/grafana/d/8cGRqBOmz/daily-summary>`_. 
+* CI/CD with daily summary: `functional tests and health checks <http://onapci.org/grafana/d/8cGRqBOmz/daily-summary>`_.
 * Container optimization through the CIA sub-project
 * Enhanced deployment scripts and HEAT template for automated deployment of OOM onto a HA-enabled Kubernetes cluster
 * Updated scripts for OOM daily automated deployment tests
@@ -32,7 +32,7 @@ Version: 3.0.0
 
 **Security Notes**
 
-Integration code has been formally scanned during build time using NexusIQ and all Critical vulnerabilities have been addressed, items that remain open have been assessed for risk and actions to be taken in future release. 
+Integration code has been formally scanned during build time using NexusIQ and all Critical vulnerabilities have been addressed, items that remain open have been assessed for risk and actions to be taken in future release.
 The Integration open Critical security vulnerabilities and their risk assessment have been documented as part of the `project <https://wiki.onap.org/pages/viewpage.action?pageId=45298876>`_.
 
 Quick Links:
@@ -44,15 +44,17 @@ Quick Links:
 ONAP Maturity Testing Notes
 ===========================
 
-For the Casablanca release, ONAP continues to improve in multiple areas of Scalability, Security, Stability and Performance (S3P) metrics.
+For the Casablanca release, ONAP continues to improve in multiple areas of Scalability, Security, Stability and Performance (S3P) metrics.  The same was maintained for the Casablanca Maintenance Release.
 
 The Integration team ran the 72 hours stability testing (100% passing rate) and full resilience testing (96.9% passing rate) at ONAP OpenLabs. More details in :ref:`ONAP Maturity Testing Notes <integration-s3p>`.
+
+The full stability and resilience testing was repeated for the Casablanca Maintenance Release.  The Integration team verified that the same results were achieved in each of the S3P metrics as were observed for the Casablanca release.
 
 
 Verified Use Cases and Functional Requirements
 ==============================================
 
-The Integration team verified 15 use cases and functional requirements. 
+The Integration team verified 15 use cases and functional requirements.
 The details can be found at :ref:`Verified Use Cases and Functional Requirements <docs_usecases>` session.
 
 O-Parent
