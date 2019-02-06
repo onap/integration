@@ -12,6 +12,15 @@ Integration Release Notes
 Integration Repo
 ================
 
+Version: 3.0.1
+--------------
+
+:Release Date: 2019-01-31
+
+**New Features**
+
+* Automated vCPE use case (HEAT based) service design and distribution
+
 Version: 3.0.0
 --------------
 
