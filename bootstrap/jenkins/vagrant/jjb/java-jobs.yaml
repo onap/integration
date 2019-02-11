@@ -459,27 +459,3 @@
      - 'vnfsdk_validation':
          repo: 'vnfsdk/validation'
          pom: 'pom.xml'
-     - 'vvp_cms':
-         repo: 'vvp/cms'
-         pom: 'pom.xml'
-     - 'vvp_engagementmgr':
-         repo: 'vvp/engagementmgr'
-         pom: 'pom.xml'
-     - 'vvp_gitlab':
-         repo: 'vvp/gitlab'
-         pom: 'pom.xml'
-     - 'vvp_image-scanner':
-         repo: 'vvp/image-scanner'
-         pom: 'pom.xml'
-     - 'vvp_jenkins':
-         repo: 'vvp/jenkins'
-         pom: 'pom.xml'
-     - 'vvp_portal':
-         repo: 'vvp/portal'
-         pom: 'pom.xml'
-     - 'vvp_postgresql':
-         repo: 'vvp/postgresql'
-         pom: 'pom.xml'
-     - 'vvp_test-engine':
-         repo: 'vvp/test-engine'
-         pom: 'pom.xml'
