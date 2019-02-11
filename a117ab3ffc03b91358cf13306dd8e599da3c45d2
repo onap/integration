@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "abafa2eb_0116e8f7",
+        "filename": "version-manifest/src/main/resources/docker-manifest-staging.csv",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 35
+      },
+      "writtenOn": "2019-02-11T17:01:57Z",
+      "side": 1,
+      "message": "I\u0027d suggest that we use their most recent released version instead.",
+      "range": {
+        "startLine": 94,
+        "startChar": 51,
+        "endLine": 94,
+        "endChar": 57
+      },
+      "revId": "a117ab3ffc03b91358cf13306dd8e599da3c45d2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
