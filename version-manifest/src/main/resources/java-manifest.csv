@@ -196,8 +196,8 @@ org.onap.dcaegen2.services.prh,prh-aai-client,1.1.1
 org.onap.dcaegen2.services.prh,prh-app-server,1.1.1
 org.onap.dcaegen2.services.prh,prh-commons,1.1.1
 org.onap.dcaegen2.services.prh,prh-dmaap-client,1.1.1
-org.onap.dmaap.datarouter.datarouter-node,1.0.6
-org.onap.dmaap.datarouter.datarouter-prov,1.0.6
+org.onap.dmaap.datarouter.datarouter-node,2.0.0
+org.onap.dmaap.datarouter.datarouter-prov,2.0.0
 org.onap.dmaap.messagerouter.dmaapclient,dmaapClient,1.0.0
 org.onap.dmaap.messagerouter.messageservice,dmaapMR1,1.0.1
 org.onap.dmaap.messagerouter.mirroragent,dmaapMMAgent,1.0.0
