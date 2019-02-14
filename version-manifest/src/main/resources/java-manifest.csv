@@ -243,9 +243,9 @@ org.onap.sdc.jtosca,jtosca,1.4.5
 org.onap.sdc.sdc-distribution-client,sdc-distribution-client,1.3.0
 org.onap.sdc.sdc-titan-cassandra,sdc-titan-cassandra,1.2.0
 org.onap.sdc.sdc-tosca,sdc-tosca,1.4.6
-org.onap.sdnc.northbound,generic-resource-api.provider,1.4.2
-org.onap.sdnc.northbound,vnfapi-provider,1.4.2
-org.onap.sdnc.northbound,vnftools-provider,1.4.2
+org.onap.sdnc.northbound,generic-resource-api.provider,1.5.0-SNAPSHOT
+org.onap.sdnc.northbound,vnfapi-provider,1.5.0-SNAPSHOT
+org.onap.sdnc.northbound,vnftools-provider,1.5.0-SNAPSHOT
 org.onap.usecase-ui.server,usecase-ui-server,1.2.1
 org.onap.vfc.gvnfm.vnflcm.lcm,vfc-gvnfm-vnflcm-lcm,1.2.2
 org.onap.vfc.gvnfm.vnfmgr.mgr,vfc-gvnfm-vnfmgr-mgr,1.2.1
