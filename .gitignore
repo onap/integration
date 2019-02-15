@@ -25,5 +25,5 @@ seccom/
 csit/
 .idea
 *.iml
-
+/.pydevproject
 /bin/
