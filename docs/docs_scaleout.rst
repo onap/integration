@@ -164,7 +164,19 @@ Casablanca Scale Out completed all tests as found here: https://wiki.onap.org/pa
 
 Known Issues and Resolutions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-1) When running closed loop-enabled scale out, the closed loop designed in CLAMP conflicts with the default closed loop defined for the old vLB/vDNS use case
+1) SO fails service distribution
+
+Resolution: Update SO database as below 
+
+- Connect to the SO database POD
+- Login to mysql: mysql -uroot -ppassword
+- Select database: use catalogdb:
+- Update tables:
+    - ALTER TABLE vnf_resource_customization MODIFY IF EXISTS RESOURCE_INPUT varchar(20000);
+    - ALTER TABLE network_resource_customization MODIFY IF EXISTS RESOURCE_INPUT varchar(20000);
+    - ALTER TABLE allotted_resource_customization MODIFY IF EXISTS RESOURCE_INPUT varchar(20000);
+
+2) When running closed loop-enabled scale out, the closed loop designed in CLAMP conflicts with the default closed loop defined for the old vLB/vDNS use case
 
 Resolution: Change TCA configuration for the old vLB/vDNS use case
 
@@ -173,7 +185,7 @@ Resolution: Change TCA configuration for the old vLB/vDNS use case
 - Change "subscriberConsumerGroup" in the TCA configuration to something different, for example "OpenDCAE-c13" instead of the default value "OpenDCAE-c12"
 - Click "UPDATE" to upload the new TCA configuration
 
-2) When running closed loop-enabled scale out, the permitAll guard policy conflicts with the scale out guard policy
+3) When running closed loop-enabled scale out, the permitAll guard policy conflicts with the scale out guard policy
 
 Resolution: Undeploy the permitAll guard policy
 
@@ -183,45 +195,3 @@ Resolution: Undeploy the permitAll guard policy
 - Click the pencil symbol next to "default" in the PDP Groups table
 - Select "Decision_AllPermitGuard"
 - Click "Remove"
-
-3) When using SDNC, the JSON template for DMaaP messages has a wrong "input" field
-
-Resolution: Replace the "input" field in the JSON template with "output"
-
-- Connect to the SDNC container from the Rancher VM in the Kubernetes cluster, for example
-
-::
-
-  kubectl exec -it -n onap dev-sdnc-sdnc-0 bash
-
-- Install your favorite text editor, for example 
-
-::
-
-  apt-get update; apt-get install vim -y
-
-- Open /opt/onap/sdnc/restapi/templates/lcm-dmaap-publish-template.json and replace "input" with "output" in the JSON object body
-- Save the changes
-- If SDNC is deployed in cluster mode (3 SDNC replicas, dev-sdnc-sdnc-0, dev-sdnc-sdnc-1, dev-sdnc-sdnc-2), apply the same change to all the replicas in the cluster.
-
-4) When using SDNC, the JSON template for DMaaP messages has an extra newline at the end of the file
-
-Resolution: Delete the extra newline
-
-- Connect to the SDNC container from the Rancher VM in the Kubernetes cluster, for example
-
-::
-
-  kubectl exec -it -n onap dev-sdnc-sdnc-0 bash
-
-- Install your favorite text editor, for example 
-
-::
-
-  apt-get update; apt-get install vim -y
-
-- Open /opt/onap/sdnc/restapi/templates/lcm-dmaap-publish-template.json and execute the following operations
-    - :set binary
-    - :set noeol
-- Save the changes
-- If SDNC is deployed in cluster mode (3 SDNC replicas, dev-sdnc-sdnc-0, dev-sdnc-sdnc-1, dev-sdnc-sdnc-2), apply the same change to all the replicas in the cluster.

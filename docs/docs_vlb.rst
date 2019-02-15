@@ -94,12 +94,26 @@ Although videos are still valid, users are encouraged to use the Heat templates 
 
 Known issues and resolution
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-1) The packet generator may become unresponsive and stop generating traffic. To solve the problem, reboot the packet generator.
+1) SO fails service distribution
 
-2) The base and scaling VF module names need to follow a specific naming convention:
+Resolution: Update SO database as below 
+
+- Connect to the SO database POD
+- Login to mysql: mysql -uroot -ppassword
+- Select database: use catalogdb:
+- Update tables:
+    - ALTER TABLE vnf_resource_customization MODIFY IF EXISTS RESOURCE_INPUT varchar(20000);
+    - ALTER TABLE network_resource_customization MODIFY IF EXISTS RESOURCE_INPUT varchar(20000);
+    - ALTER TABLE allotted_resource_customization MODIFY IF EXISTS RESOURCE_INPUT varchar(20000);
+
+2) The packet generator may become unresponsive to external inputs like changing the number of active streams
+
+Resolution: Reboot the packet generator VM.
+
+3) The base and scaling VF module names need to follow a specific naming convention:
 
   a) The base VF module name must be "Vfmodule\_xyz"
 
   b) The SDNC preload for the scaling VF module must set the VF module name to "vDNS\_xyz", where "xyz" is the same as the base module. This is required because during closed loop Policy looks for "Vfmodule\_" and replaces it with "vDNS\_"
 
-3) Only one scaling operation is supported.
+4) Only one scaling operation is supported.
