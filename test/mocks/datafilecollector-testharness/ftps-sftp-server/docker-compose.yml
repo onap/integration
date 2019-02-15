@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+
+  sftp-server1:
+    container_name: sftp-server1
+    image: atmoz/sftp:alpine
+    ports:
+      - "1022:22"
+    volumes:
+      - ./files/onap/:/home/onap/
+    restart: on-failure
+    command: onap:pano:1001
+
+  ftpes-server-vsftpd:
+    container_name: ftpes-server-vsftpd
+    image: docker.io/panubo/vsftpd
+    ports:
+      - "21:21"
+      - "8001-8010:8001-8010"
+    environment:
+      FTP_USER: onap
+      FTP_PASSWORD: pano
+      PASV_ADDRESS: localhost
+      PASV_MIN_PORT: 8001
+      PASV_MAX_PORT: 8010
+    volumes:
+      - ./tls/ftp.crt:/etc/ssl/private/ftp.crt:ro
+      - ./tls/ftp.key:/etc/ssl/private/ftp.key:ro
+      - ./tls/dfc.crt:/etc/ssl/private/dfc.crt:ro
+      - ./configuration/vsftpd_ssl.conf:/etc/vsftpd_ssl.conf:ro
+
+      - ./files/onap/0.5MB.tar.gz:/srv/0.5MB.tar.gz:ro
+      - ./files/onap/1MB.tar.gz:/srv/1MB.tar.gz:ro
+      - ./files/onap/5MB.tar.gz:/srv/5MB.tar.gz:ro
+      - ./files/onap/10MB.tar.gz:/srv/10MB.tar.gz:ro
+    restart: on-failure
+    command: vsftpd /etc/vsftpd_ssl.conf
+
