@@ -21,6 +21,10 @@ Version: 3.0.1
 
 * Enhanced vCPE use case (HEAT based) script to reduce manual steps
 
+**Bug Fixes**
+
+* INT-789 vcpe script fails when creating configuration
+
 Version: 3.0.0
 --------------
 
@@ -102,7 +106,7 @@ Version: 1.2.0
 
 
 Demo Artifacts (HEAT Templates)
-==============
+===============================
 
 Version: 1.3.0
 --------------
@@ -127,6 +131,15 @@ Version: 1.3.3
 **New Features**
 
 * Automated vCPE use case (HEAT based) services design and distribution
+
+**Bug Fixes**
+
+* INT-717 Add vGMUX to heatbridge name validation table
+* INT-685 E2E PNF registration scenario fix
+* INT-757 Test script for CDS vFWNG model distribution fails
+* INT-601 Add vCPEResCust Model onboarding
+* TEST-136 Specify robotframework package version
+* INT-790 Automate pulling vCPE allotted resource info
 
 Version: 1.3.2
 --------------
