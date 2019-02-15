@@ -155,7 +155,7 @@ Automated scale out requires the user to onboard a DCAE blueprint in SDC when cr
 - From the same "Manage" dropdown, click "Deploy" to deploy the TCA blueprint to DCAE
  
 The vLB/vDNS VNF generates traffic and reports metrics to the VES collector in the DCAE platform. The number of incoming packets to the vLB is used to evaluate the policy defined for closed loop. If the provided threshold is crossed, DCAE generates an event that reaches the Policy Engine, which in turn activates the scale out closed loop described above.
- 
+
 For more information about scale out, videos, and material used for running the use case, please look at the wiki page: https://wiki.onap.org/display/DW/Running+Scale+Out+Use+Case+for+Casablanca
 
 Test Status and Plans
@@ -183,45 +183,3 @@ Resolution: Undeploy the permitAll guard policy
 - Click the pencil symbol next to "default" in the PDP Groups table
 - Select "Decision_AllPermitGuard"
 - Click "Remove"
-
-3) When using SDNC, the JSON template for DMaaP messages has a wrong "input" field
-
-Resolution: Replace the "input" field in the JSON template with "output"
-
-- Connect to the SDNC container from the Rancher VM in the Kubernetes cluster, for example
-
-::
-
-  kubectl exec -it -n onap dev-sdnc-sdnc-0 bash
-
-- Install your favorite text editor, for example 
-
-::
-
-  apt-get update; apt-get install vim -y
-
-- Open /opt/onap/sdnc/restapi/templates/lcm-dmaap-publish-template.json and replace "input" with "output" in the JSON object body
-- Save the changes
-- If SDNC is deployed in cluster mode (3 SDNC replicas, dev-sdnc-sdnc-0, dev-sdnc-sdnc-1, dev-sdnc-sdnc-2), apply the same change to all the replicas in the cluster.
-
-4) When using SDNC, the JSON template for DMaaP messages has an extra newline at the end of the file
-
-Resolution: Delete the extra newline
-
-- Connect to the SDNC container from the Rancher VM in the Kubernetes cluster, for example
-
-::
-
-  kubectl exec -it -n onap dev-sdnc-sdnc-0 bash
-
-- Install your favorite text editor, for example 
-
-::
-
-  apt-get update; apt-get install vim -y
-
-- Open /opt/onap/sdnc/restapi/templates/lcm-dmaap-publish-template.json and execute the following operations
-    - :set binary
-    - :set noeol
-- Save the changes
-- If SDNC is deployed in cluster mode (3 SDNC replicas, dev-sdnc-sdnc-0, dev-sdnc-sdnc-1, dev-sdnc-sdnc-2), apply the same change to all the replicas in the cluster.
