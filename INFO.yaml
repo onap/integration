@@ -7,7 +7,7 @@ project_lead: &onap_releng_ptl
     email: 'yang.xu3@huawei.com'
     id: 'xuyang11'
     company: 'Huawei'
-    timezone: 'America/New Jersey'
+    timezone: 'America/New York'
 primary_contact: *onap_releng_ptl
 issue_tracking:
     type: 'jira'
