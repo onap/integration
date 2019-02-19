@@ -8,7 +8,7 @@ services:
     ports:
       - "1022:22"
     volumes:
-      - ./files/onap/:/home/onap/
+      - ./files/onap/sftp/:/home/onap/
     restart: on-failure
     command: onap:pano:1001
 
@@ -30,10 +30,7 @@ services:
       - ./tls/dfc.crt:/etc/ssl/private/dfc.crt:ro
       - ./configuration/vsftpd_ssl.conf:/etc/vsftpd_ssl.conf:ro
 
-      - ./files/onap/0.5MB.tar.gz:/srv/0.5MB.tar.gz:ro
-      - ./files/onap/1MB.tar.gz:/srv/1MB.tar.gz:ro
-      - ./files/onap/5MB.tar.gz:/srv/5MB.tar.gz:ro
-      - ./files/onap/10MB.tar.gz:/srv/10MB.tar.gz:ro
+      - ./files/onap/ftps/:/srv/
     restart: on-failure
     command: vsftpd /etc/vsftpd_ssl.conf
 
