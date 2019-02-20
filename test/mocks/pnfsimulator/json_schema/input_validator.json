@@ -79,17 +79,7 @@
         "unitType": {
           "type": "string"
         }
-      },
-      "required": [
-        "serialNumber",
-        "vendorName",
-        "oamV4IpAddress",
-        "oamV6IpAddress",
-        "unitFamily",
-        "modelNumber",
-        "softwareVersion",
-        "unitType"
-      ]
+      }
     },
     "notificationParams": {
       "type": "object",
