@@ -132,6 +132,6 @@ committers:
         email: 'mariusz.wagner@nokia.com'
         company: 'Nokia'
         id: 'mwagner9'
-        timezone: 'n/a'
+        timezone: 'Poland/Wroclaw'
 tsc:
     approval: 'https://lists.onap.org/pipermail/onap-tsc'
