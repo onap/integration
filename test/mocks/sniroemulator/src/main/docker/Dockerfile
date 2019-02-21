@@ -1,10 +1,13 @@
-FROM openjdk:8-jre
+FROM openjdk:8-jre-alpine
 
 MAINTAINER Geora Barsky <georab@amdocs.com>
 
+# need bash as most scripts expect it
+RUN apk --no-cache add bash
+
 RUN mkdir -p /var/wiremock/lib/ 
 
-ADD sniroemulator.jar /var/wiremock/lib/app.jar
+COPY sniroemulator.jar /var/wiremock/lib/app.jar
 
 WORKDIR /home/wiremock
 

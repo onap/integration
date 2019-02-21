@@ -16,10 +16,12 @@
 </parent>
 
 <properties>
-    <dockerLocation>${basedir}/target</dockerLocation>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.version>1.8</java.version>
+    <dockerLocation>${basedir}/target</dockerLocation>
+    <docker.tag>latest</docker.tag>
+    <docker.maven.plugin.version>1.2.0</docker.maven.plugin.version>
     <versions.jackson>2.8.9</versions.jackson>
     <jetty.version>9.2.22.v20170606</jetty.version>
     <start-class>org.onap.integration.test.mocks.sniroemulator.MockApplication</start-class>
@@ -220,14 +222,14 @@
         <plugin>
             <groupId>com.spotify</groupId>
             <artifactId>docker-maven-plugin</artifactId>
-            <version>1.0.0</version>
+            <version>${docker.maven.plugin.version}</version>
             <configuration>
                 <verbose>true</verbose>
                 <registryUrl>${docker.push.registry}</registryUrl>
                 <imageName>${docker.push.registry}/onap/${project.artifactId}</imageName>
                 <dockerDirectory>${dockerLocation}</dockerDirectory>
                 <imageTags>
-                    <imageTag>latest</imageTag>
+                    <imageTag>${docker.tag}</imageTag>
                 </imageTags>
                 <forceTags>true</forceTags>
             </configuration>
