@@ -1,0 +1,11 @@
+# EXAMPLE: TC1 generates (i) 10 files of 1 MB in ftps directory,
+# (ii) 30 files of 5 MB in sftp directory, and (iii) 10 files of 10 MB in sftp directory
+TC1:
+  size_files: 1 5 10
+  number_files: 10 30 10
+  directory_files: ftps sftp sftp
+
+TC2:
+  size_files: 0.5 1 5
+  number_files: 2 3 1
+  directory_files: ftps ftps sftp
