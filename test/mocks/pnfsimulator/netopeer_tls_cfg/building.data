@@ -1,0 +1,10 @@
+{
+  "building:rooms": {
+    "room": [
+      {
+        "room-number": 3,
+        "size": 3
+      }
+    ]
+  }
+}

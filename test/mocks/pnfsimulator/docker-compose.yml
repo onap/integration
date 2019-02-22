@@ -20,8 +20,10 @@ services:
     image: sysrepo/sysrepo-netopeer2:latest
     ports:
       - "830:830"
+      - "6513:6513"
     volumes:
       - ./netconf:/netconf
+      - ./netopeer_tls_cfg:/netopeer_tls_cfg
     env_file:
       - ./config/netconf.env
     restart: on-failure
@@ -29,6 +31,7 @@ services:
       - sftp-server
       - ftpes-server-pure-ftpd
       - ftpes-server-vsftpd
+    command: bash -c "/netopeer_tls_cfg/update_tls.sh"
 
   sftp-server:
     container_name: sftp-server
