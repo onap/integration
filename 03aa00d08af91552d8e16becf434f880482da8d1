@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c730a7ef_719190ad",
+        "filename": "test/mocks/pnfsimulator/netopeer_tls_cfg/update_tls.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5006
+      },
+      "writtenOn": "2019-02-25T12:27:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee07a040_88aced93",
+      "revId": "03aa00d08af91552d8e16becf434f880482da8d1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "916f23e2_01ea2725",
         "filename": "test/mocks/pnfsimulator/netopeer_tls_cfg/update_tls.sh",
         "patchSetId": 3
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "f7bf3110_a452f54b",
+        "filename": "test/mocks/pnfsimulator/netopeer_tls_cfg/update_tls.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5006
+      },
+      "writtenOn": "2019-02-25T12:27:03Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "916f23e2_01ea2725",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 4
+      },
+      "revId": "03aa00d08af91552d8e16becf434f880482da8d1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "59e65aa9_5421b548",
         "filename": "test/mocks/pnfsimulator/netopeer_tls_cfg/update_tls.sh",
         "patchSetId": 3
@@ -53,6 +95,30 @@
       "writtenOn": "2019-02-23T14:16:16Z",
       "side": 1,
       "message": "if these lines are not needed anymore, perhaps would be good to remove them.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 113
+      },
+      "revId": "03aa00d08af91552d8e16becf434f880482da8d1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4ef5814_b06c79bb",
+        "filename": "test/mocks/pnfsimulator/netopeer_tls_cfg/update_tls.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5006
+      },
+      "writtenOn": "2019-02-25T12:27:03Z",
+      "side": 1,
+      "message": "These were kept for further dev, if needed. removed in upcoming patch.",
+      "parentUuid": "59e65aa9_5421b548",
       "range": {
         "startLine": 17,
         "startChar": 0,
