@@ -1,0 +1,9 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Rahul Tyagi <rahul.tyagi@ericsson.com>
+Code-Review+1: Rodrigo Ottero <rodrigo.ottero@est.tech>
+Code-Review+2: Gary Wu <gary.i.wu@huawei.com>
+Submitted-by: Gary Wu <gary.i.wu@huawei.com>
+Submitted-at: Mon, 25 Feb 2019 18:54:11 +0000
+Reviewed-on: https://gerrit.onap.org/r/79038
+Project: integration
+Branch: refs/heads/master
