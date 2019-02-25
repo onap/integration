@@ -1,0 +1,9 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Conor Ward <conor.ward@est.tech>
+Code-Review+1: Emmett  Cox <emmett.cox@est.tech>
+Code-Review+2: Mariusz Wagner <mariusz.wagner@nokia.com>
+Submitted-by: Mariusz Wagner <mariusz.wagner@nokia.com>
+Submitted-at: Mon, 25 Feb 2019 09:24:53 +0000
+Reviewed-on: https://gerrit.onap.org/r/78856
+Project: integration
+Branch: refs/heads/master
