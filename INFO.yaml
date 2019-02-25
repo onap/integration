@@ -135,3 +135,9 @@ committers:
         timezone: 'Poland/Wroclaw'
 tsc:
     approval: 'https://lists.onap.org/pipermail/onap-tsc'
+    changes:
+        - type: 'Addition'
+          name: 'Brian Freeman'
+          name: 'Mariusz Wagner'
+          link: 'https://wiki.onap.org/display/DW/TSC+2019-02-21'
+
