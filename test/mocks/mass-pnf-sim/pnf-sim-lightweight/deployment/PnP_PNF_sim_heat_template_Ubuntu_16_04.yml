@@ -1,0 +1,165 @@
+description: Heat template that deploys PnP PNF simulator
+heat_template_version: '2013-05-23'
+outputs:
+  PNF_PnP_simualtor_private_ip:
+    description: IP address of PNF_PnP_simualtor in private network
+    value:
+      get_attr: [PNF_PnP_simualtor, first_address]
+  PNF_PnP_simualtor_public_ip:
+    description: Floating IP address of PNF_PnP_simualtor in public network
+    value:
+      get_attr: [PNF_PnP_simualtor_public, floating_ip_address]
+parameters:
+  flavor_name:
+    description: Type of instance (flavor) to be used
+    label: Flavor
+    type: string
+  image_name:
+    description: Ubuntu 16.04 image to be used
+    label: Image name or ID
+    type: string
+  key_name:
+    description: Public/Private key pair name
+    label: Key pair name
+    type: string
+  private_net_id:
+    description: Private network id
+    label: Private network name or ID
+    type: string
+  private_subnet_id:
+    description: Private subnet id
+    label: Private subnetwork name or ID
+    type: string
+  public_net_id:
+    description: Public network that enables remote connection to VNF
+    label: Public network name or ID
+    type: string
+  security_group:
+    default: default
+    description: Security group to be used
+    label: Security Groups
+    type: string
+  proxy:
+    default: ''
+    description: Proxy
+    label: Proxy
+    type: string
+  correlation_id:
+    default: 'someId'
+    description: Correlation ID
+    label: Correlation ID
+    type: string
+  VES-HOST:
+    default: 'VES-HOST'
+    description: VES collector host ip
+    label: VES ip
+    type: string
+  VES-PORT:
+    default: 'VES-PORT'
+    description: VES collector host port
+    label: VES port
+    type: string
+resources:
+  PNF_PnP_simualtor:
+    properties:
+      flavor:
+        get_param: flavor_name
+      image:
+        get_param: image_name
+      key_name:
+        get_param: key_name
+      networks:
+      - port:
+          get_resource: PNF_PnP_simualtor_port0
+      user_data:
+        str_replace:
+          params:
+            $proxy:
+              get_param: proxy
+            $VES-PORT:
+              get_param: VES-PORT
+            $VES-HOST:
+              get_param: VES-HOST
+            $correlation_id:
+              get_param: correlation_id
+          template: |
+            #!/bin/bash
+
+            set_versions () {
+                DOCKER_VERSION=17.03
+                DOCKER_COMPOSE_VERSION=1.22.0
+                PROTOBUF_VERSION=3.6.1
+            }
+
+            enable_root_ssh () {
+                sed -i 's/PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
+                sed -i 's/PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
+                service sshd restart
+                echo -e "onap\nonap" | passwd root
+            }
+
+            update_os () {
+                rm -rf /var/lib/apt/lists/*
+                apt-get clean
+                apt-get update
+            }
+
+            docker_install_and_configure () {
+                curl "https://releases.rancher.com/install-docker/$DOCKER_VERSION.sh" | sh
+                mkdir -p /etc/systemd/system/docker.service.d/
+                cat > /etc/systemd/system/docker.service.d/docker.conf << EOF
+            [Service]
+            ExecStart=
+            ExecStart=/usr/bin/dockerd -H fd:// --insecure-registry=nexus3.onap.org:10003
+            Environment="HTTP_PROXY=$proxy"
+            Environment="HTTPS_PROXY=$proxy"
+            EOF
+                systemctl daemon-reload
+                systemctl restart docker
+                apt-mark hold docker-ce
+                docker login -u docker -p docker nexus3.onap.org:10003
+            }
+
+            docker_compose_install () {
+                curl -L "https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+                chmod +x /usr/local/bin/docker-compose
+            }
+
+            pnf_sim_file_checkout () {
+                cd /root; git clone https://gerrit.onap.org/r/integration
+                printf "{\n  \"simulatorParams\": {\n    \"vesServerUrl\": \"http://$VES-HOST:$VES-PORT/eventListener/v7\",\n    \"testDuration\": \"10\",\n    \"messageInterval\": \"1\"\n  },\n  \"commonEventHeaderParams\": {\n    \"eventName\": \"pnfRegistration_Nokia_5gDu\",\n    \"nfNamingCode\": \"gNB\",\n    \"nfcNamingCode\": \"oam\",\n    \"sourceName\": \"$correlation_id\",\n    \"sourceId\": \"val13\",\n    \"reportingEntityName\": \"NOK6061ZW3\"\n  },\n  \"pnfRegistrationParams\": {\n    \"serialNumber\": \"6061ZW3\",\n    \"vendorName\": \"Nokia\",\n    \"oamV4IpAddress\": \"val3\",\n    \"oamV6IpAddress\": \"val4\",\n    \"unitFamily\": \"BBU\",\n    \"modelNumber\": \"val6\",\n    \"softwareVersion\": \"val7\",\n    \"unitType\": \"val8\"\n  }\n}" > integration/test/mocks/pnfsimulator/config/config.json
+            }
+
+            start_simulator () {
+               docker login -u docker -p docker nexus3.onap.org:10003
+               cd ~/integration/test/mocks/pnfsimulator
+               ./simulator.sh start
+            }
+
+            set_versions
+            enable_root_ssh
+            update_os
+            docker_install_and_configure
+            docker_compose_install
+            pnf_sim_file_checkout
+            start_simulator
+
+    type: OS::Nova::Server
+  PNF_PnP_simualtor_port0:
+    properties:
+      fixed_ips:
+      - subnet_id:
+          get_param: private_subnet_id
+      network_id:
+        get_param: private_net_id
+      security_groups:
+      - get_param: security_group
+    type: OS::Neutron::Port
+  PNF_PnP_simualtor_public:
+    properties:
+      floating_network_id:
+        get_param: public_net_id
+      port_id:
+        get_resource: PNF_PnP_simualtor_port0
+    type: OS::Neutron::FloatingIP
+

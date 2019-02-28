@@ -1,0 +1,205 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "simulatorParams": {
+      "type": "object",
+      "properties": {
+        "vesServerUrl": {
+          "type": "string"
+        },
+        "testDuration": {
+          "type": "string"
+        },
+        "messageInterval": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "vesServerUrl",
+        "testDuration",
+        "messageInterval"
+      ]
+    },
+    "commonEventHeaderParams": {
+      "type": "object",
+      "properties": {
+        "eventName": {
+          "type": "string"
+        },
+        "nfNamingCode": {
+          "type": "string"
+        },
+        "nfcNamingCode": {
+          "type": "string"
+        },
+        "sourceName": {
+          "type": "string"
+        },
+        "sourceId": {
+          "type": "string"
+        },
+        "reportingEntityName": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "eventName",
+        "sourceName",
+        "sourceId",
+        "reportingEntityName"
+      ]
+    },
+
+
+    "pnfRegistrationParams": {
+      "type": "object",
+      "properties": {
+        "serialNumber": {
+          "type": "string"
+        },
+        "vendorName": {
+          "type": "string"
+        },
+        "oamV4IpAddress": {
+          "type": "string"
+        },
+        "oamV6IpAddress": {
+          "type": "string"
+        },
+        "unitFamily": {
+          "type": "string"
+        },
+        "modelNumber": {
+          "type": "string"
+        },
+        "softwareVersion": {
+          "type": "string"
+        },
+        "unitType": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "serialNumber",
+        "vendorName",
+        "oamV4IpAddress",
+        "oamV6IpAddress",
+        "unitFamily",
+        "modelNumber",
+        "softwareVersion",
+        "unitType"
+      ]
+    },
+    "notificationParams": {
+      "type": "object",
+      "properties": {
+        "changeIdentifier": {
+          "type": "string"
+        },
+        "changeType": {
+          "type": "string"
+        },
+        "arrayOfNamedHashMap": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "hashMap": {
+                  "type": "object",
+                  "properties": {
+                    "location": {
+                      "type": "string"
+                    },
+                    "compression": {
+                      "type": "string"
+                    },
+                    "fileFormatType": {
+                      "type": "string"
+                    },
+                    "fileFormatVersion": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "location",
+                    "compression",
+                    "fileFormatType",
+                    "fileFormatVersion"
+                  ]
+                }
+              },
+              "required": [
+                "name",
+                "hashMap"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "hashMap": {
+                  "type": "object",
+                  "properties": {
+                    "location": {
+                      "type": "string"
+                    },
+                    "compression": {
+                      "type": "string"
+                    },
+                    "fileFormatType": {
+                      "type": "string"
+                    },
+                    "fileFormatVersion": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "location",
+                    "compression",
+                    "fileFormatType",
+                    "fileFormatVersion"
+                  ]
+                }
+              },
+              "required": [
+                "name",
+                "hashMap"
+              ]
+            }
+          ]
+        }
+      },
+      "required": [
+        "changeIdentifier",
+        "changeType",
+        "arrayOfNamedHashMap"
+      ]
+    }
+  },
+
+  "oneOf": [
+    {
+      "required": [
+        "simulatorParams",
+        "commonEventHeaderParams",
+        "pnfRegistrationParams"
+      ]
+    },
+    {
+      "required": [
+        "simulatorParams",
+        "commonEventHeaderParams",
+        "notificationParams"
+      ]
+    }
+  ]
+
+
+}

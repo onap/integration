@@ -1,0 +1,59 @@
+version: '2'
+networks:
+  front-${I}:
+    driver: bridge
+    ipam:
+      config:
+      - gateway: "${IPGW}"
+        subnet: "${IPSUBNET}/28"
+      driver: default
+services:
+  pnf-simulator-${I}:
+    container_name: pnf-simulator-${I}
+
+    image: nexus3.onap.org:10003/onap/pnf-simulator:4.0.0-SNAPSHOT
+    networks:
+      front-${I}:
+        ipv4_address: "${IPPNFSIM}"
+    volumes:
+      - ./logs:/var/log
+      - ./json_schema:/json_schema
+    env_file:
+      - ./config/netconf.env
+    restart: on-failure
+
+  sftp-server-${I}:
+    container_name: sftp-server-$I
+    image: atmoz/sftp:alpine
+    networks:
+      front-${I}:
+        ipv4_address: "${IPSFTP}"
+    volumes:
+      - ./files/onap/:/home/onap/
+    restart: on-failure
+    command: onap:pano:1001
+
+  ftpes-server-vsftpd-${I}:
+    container_name: ftpes-server-vsftpd-$I
+    image: docker.io/panubo/vsftpd
+    networks:
+      front-${I}:
+        ipv4_address: "${IPFTPS}"
+    environment:
+      FTP_USER: onap
+      FTP_PASSWORD: pano
+      PASV_ADDRESS: localhost
+      PASV_MIN_PORT: 8001
+      PASV_MAX_PORT: 8010
+    volumes:
+      - ./tls/ftp.crt:/etc/ssl/private/ftp.crt:ro
+      - ./tls/ftp.key:/etc/ssl/private/ftp.key:ro
+      - ./tls/dfc.crt:/etc/ssl/private/dfc.crt:ro
+      - ./config/vsftpd_ssl.conf:/etc/vsftpd_ssl.conf:ro
+      - ./files/onap/0.5MB.tar.gz:/srv/0.5MB.tar.gz:ro
+      - ./files/onap/1MB.tar.gz:/srv/1MB.tar.gz:ro
+      - ./files/onap/5MB.tar.gz:/srv/5MB.tar.gz:ro
+      - ./files/onap/10MB.tar.gz:/srv/10MB.tar.gz:ro
+    restart: on-failure
+    command: vsftpd /etc/vsftpd_ssl.conf
+
