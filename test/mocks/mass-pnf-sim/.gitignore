@@ -1,3 +1,4 @@
 pnf-sim-lw-*
 .env/
 pnf-sim-lightweight/logs/*
+files/onap/*
