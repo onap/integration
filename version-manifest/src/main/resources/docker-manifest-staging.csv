@@ -158,7 +158,7 @@ onap/vfc/wfengine-activiti,1.2.0-STAGING-latest
 onap/vfc/wfengine-mgrservice,1.2.0-STAGING-latest
 onap/vfc/ztesdncdriver,1.2.0-STAGING-latest
 onap/vfc/ztevnfmdriver,1.2.1-STAGING-latest
-onap/vid,3.2-STAGING-latest
+onap/vid,4.0-STAGING-latest
 onap/vnfsdk/ice,1.1.0
 onap/vnfsdk/refrepo,1.2.0
 onap/vnfsdk/refrepo/postgres,1.2.0
