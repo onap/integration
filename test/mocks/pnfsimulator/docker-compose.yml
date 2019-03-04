@@ -31,7 +31,7 @@ services:
       - sftp-server
       - ftpes-server-pure-ftpd
       - ftpes-server-vsftpd
-    command: bash -c "/netopeer_tls_cfg/update_tls.sh"
+    command: bash -c "/netopeer_tls_cfg/entrypoint.sh"
 
   sftp-server:
     container_name: sftp-server
