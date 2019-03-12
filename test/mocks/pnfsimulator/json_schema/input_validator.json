@@ -61,12 +61,6 @@
         "vendorName": {
           "type": "string"
         },
-        "oamV4IpAddress": {
-          "type": "string"
-        },
-        "oamV6IpAddress": {
-          "type": "string"
-        },
         "unitFamily": {
           "type": "string"
         },
@@ -78,6 +72,9 @@
         },
         "unitType": {
           "type": "string"
+        },
+        "additionalFields": {
+          "type": "object"
         }
       }
     },
