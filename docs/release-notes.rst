@@ -58,6 +58,17 @@ The details can be found at :ref:`Verified Use Cases and Functional Requirements
 O-Parent
 ========
 
+Version: 1.2.3
+--------------
+
+:Release Date: 2019-02-11
+
+**Bug Fixes**
+
+* Updated various library dependency versions per SECCOM input
+* Fixed Checkstyle configuration issues
+
+
 Version: 1.2.2
 --------------
 
