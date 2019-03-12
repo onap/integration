@@ -9,7 +9,11 @@ SUBSCRIBE_APP_PATH='/opt/dev/sysrepo/build/examples/application_changes_example'
 upload_yang_data_model()
 {
   sysrepoctl -i -g $MOUNT_PATH/mynetconf.yang
+  sleep 5
+  echo ' subscribing to mynetconf model.'
   $SUBSCRIBE_APP_PATH mynetconf > /dev/null &
+  sleep 5
+  echo ' creating data for mynetconf model.'
   sysrepocfg --datastore=running --format=json mynetconf --import=$MOUNT_PATH/mynetconf.data
 }
 
