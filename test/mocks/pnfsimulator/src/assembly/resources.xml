@@ -57,6 +57,13 @@
             </includes>
         </fileSet>
         <fileSet>
+            <directory>netopeer_tls_cfg</directory>
+            <outputDirectory>netopeer_tls_cfg</outputDirectory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+        </fileSet>
+        <fileSet>
             <directory>sftp</directory>
             <outputDirectory>sftp</outputDirectory>
             <includes>
