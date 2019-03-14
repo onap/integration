@@ -15,6 +15,8 @@
   "pnfRegistrationParams": {
     "serialNumber": "6061ZW3",
     "vendorName": "Nokia",
+    "oamV4IpAddress": "val3",
+    "oamV6IpAddress": "val4",
     "unitFamily": "BBU",
     "modelNumber": "val6",
     "softwareVersion": "val7",
