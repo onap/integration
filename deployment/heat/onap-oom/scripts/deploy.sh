@@ -111,8 +111,15 @@ SSH_KEY=~/.ssh/onap_key
 
 source $WORKSPACE/test/ete/scripts/install_openstack_cli.sh
 
+#SO_ENCRYPTION_KEY=aa3871669d893c7fb8abbcda31b88b4f
+#export OS_PASSWORD_ENCRYPTED=$(echo -n "$OS_PASSWORD" | openssl aes-128-ecb -e -K "$SO_ENCRYPTION_KEY" -nosalt | xxd -c 256 -p)
+
+#Use new encryption method
+pushd $WORKSPACE/deployment/heat/onap-oom/scripts
+javac Crypto.java
 SO_ENCRYPTION_KEY=aa3871669d893c7fb8abbcda31b88b4f
-export OS_PASSWORD_ENCRYPTED=$(echo -n "$OS_PASSWORD" | openssl aes-128-ecb -e -K "$SO_ENCRYPTION_KEY" -nosalt | xxd -c 256 -p)
+export OS_PASSWORD_ENCRYPTED=$(java Crypto "$OS_PASSWORD" "$SO_ENCRYPTION_KEY")
+popd
 
 for n in $(seq 1 5); do
     if [ $full_deletion = true ] ; then
