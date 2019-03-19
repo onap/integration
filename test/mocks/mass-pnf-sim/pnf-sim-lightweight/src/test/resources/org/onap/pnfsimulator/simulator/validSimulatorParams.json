@@ -1,0 +1,5 @@
+{
+  "vesServerUrl": "http://VES-HOST:VES-PORT/eventListener/v7",
+  "testDuration": "10",
+  "messageInterval": "1"
+}

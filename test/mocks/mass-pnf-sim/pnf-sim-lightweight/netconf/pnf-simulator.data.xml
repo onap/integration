@@ -1,0 +1,4 @@
+<config xmlns="http://nokia.com/pnf-simulator">
+  <itemValue1>42</itemValue1>
+  <itemValue2>35</itemValue2>
+</config>

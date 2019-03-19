@@ -1,0 +1,7 @@
+---
+vesip: http://localhost:10000
+ipftps: 10.11.0.67
+ipsftp: 10.11.0.68
+#when run in simulator, it does not have own IP
+ippnfsim: localhost  
+...

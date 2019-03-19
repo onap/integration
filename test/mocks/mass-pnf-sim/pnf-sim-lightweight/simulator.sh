@@ -6,9 +6,12 @@ COMPOSE_FILE_NAME=docker-compose.yml
 NETOPEER_CONTAINER_NAME=netopeer
 SIMULATOR_CONTAINER_NAME=pnf-simulator
 SIMULATOR_PORT=5000
-SIMULATOR_START_URL=http://localhost:$SIMULATOR_PORT/simulator/start
-SIMULATOR_STOP_URL=http://localhost:$SIMULATOR_PORT/simulator/stop
-SIMULATOR_STATUS_URL=http://localhost:$SIMULATOR_PORT/simulator/status
+
+SIMULATOR_BASE=http://localhost:$SIMULATOR_PORT/simulator/
+SIMULATOR_START_URL=$SIMULATOR_BASE/start
+SIMULATOR_STOP_URL=$SIMULATOR_BASE/stop
+SIMULATOR_STATUS_URL=$SIMULATOR_BASE/status
+
 RUNNING_COMPOSE_CONFIG=$COMPOSE_FILE_NAME
 
 function main(){
@@ -27,6 +30,8 @@ function main(){
             stop;;
         "run-simulator")
             run_simulator;;
+        "trigger-simulator")
+            trigger_simulator;;
         "stop-simulator")
             stop_simulator;;
         "status")
@@ -36,6 +41,18 @@ function main(){
         *)
             print_help;;
     esac
+}
+
+
+function get_pnfsim_ip() {
+
+	export IPPNFSIM=$(cat ./config/config.yml | grep ippnfsim | awk -F'[ ]' '{print $2}')
+	echo "PNF-Sim IP: " $IPPNFSIM
+	
+	export SIMULATOR_BASE=http://$IPPNFSIM:$SIMULATOR_PORT/simulator/
+	export SIMULATOR_START_URL=$SIMULATOR_BASE/start
+	export SIMULATOR_STOP_URL=$SIMULATOR_BASE/stop
+	export SIMULATOR_STATUS_URL=$SIMULATOR_BASE/status
 }
 
 function compose(){
@@ -63,13 +80,13 @@ function compose(){
 
 	set_vsftpd_file_owner
 
-	write_config $IPVES $IPFTPS $IPSFTP
+	write_config $IPVES $IPFTPS $IPSFTP $IPPNFSIM
 
 }
 
 function build_image(){
     if [ -f pom.xml ]; then
-        mvn clean package docker:build
+        mvn clean package docker:build -Dcheckstyle.skip -DskipTests
     else
         echo "pom.xml file not found"
         exit 1
@@ -83,15 +100,15 @@ function set_vsftpd_file_owner() {
 
 function write_config(){
 	#building a YML file for usage in Java
-	echo "---" > config/config.yml
-	echo "configuration:" >> config/config.yml
-	echo "  vesip: $1" >> config/config.yml
-	echo "  ipftps: $2" >> config/config.yml
-	echo "  ipsftp: $3" >> config/config.yml
+	echo "vesip: $1" > config/config.yml
+	echo "ipftps: $2" >> config/config.yml
+	echo "ipsftp: $3" >> config/config.yml
+	echo "ippnfsim: $4" >> config/config.yml
 }
 
 function start(){
 
+	get_pnfsim_ip
     if [[ $(running_containers) ]]; then
         echo "Simulator containers are already up"
     else
@@ -108,7 +125,7 @@ function running_containers(){
 }
 
 function stop(){
-
+	get_pnfsim_ip
     if [[ $(running_containers) ]]; then
         docker-compose -f $RUNNING_COMPOSE_CONFIG down
         docker-compose -f $RUNNING_COMPOSE_CONFIG rm
@@ -117,8 +134,16 @@ function stop(){
     fi
 }
 
-function run_simulator(){
+function trigger_simulator(){
+get_pnfsim_ip
+cat << EndOfMessage
+Simulator response:
+$(curl -s -X POST -H "Content-Type: application/json" -H "X-ONAP-RequestID: 123" -H "X-InvocationID: 456" -d @config/config.json $SIMULATOR_START_URL)
+EndOfMessage
+}
 
+function run_simulator(){
+get_pnfsim_ip
 cat << EndOfMessage
 Simulator response:
 $(curl -s -X POST -H "Content-Type: application/json" -H "X-ONAP-RequestID: 123" -H "X-InvocationID: 456" -d @config/$CONFIG_JSON $SIMULATOR_START_URL)
@@ -126,6 +151,7 @@ EndOfMessage
 }
 
 function stop_simulator(){
+get_pnfsim_ip
 cat << EndOfMessage
 Simulator response:
 $(curl -s -X POST $SIMULATOR_STOP_URL)
@@ -133,7 +159,7 @@ EndOfMessage
 }
 
 function get_status(){
-
+	get_pnfsim_ip
     if [[ $(running_containers) ]]; then
         print_status
     else
@@ -142,6 +168,7 @@ function get_status(){
 }
 
 function print_status(){
+get_pnfsim_ip
 cat << EndOfMessage
 $(docker-compose -f $RUNNING_COMPOSE_CONFIG ps)
 
@@ -156,6 +183,7 @@ Available options:
 build - locally builds simulator image from existing code
 start - starts simulator and netopeer2 containers using remote simulator image and specified model name
 compose - customize the docker-compose and configuration based on arguments
+trigger-simulator - start monitoring the ROP files and report periodically
 run-simulator - starts sending PNF registration messages with parameters specified in config.json
 stop-simulator - stop sending PNF registration messages
 stop - stops both containers

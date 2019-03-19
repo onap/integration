@@ -12,8 +12,13 @@ The modification are focusing on the following areas:
 ###Pre-configuration
 The ipstart should align to a /28 Ip address range start (e.g. 10.11.0.16, 10.11.0.32)
 
+For debug purposes, you can use your own IP address as VES collector, use "ip" command to determine it.
+
 Example:
-python3 ./mass-pnf-sim.py  --bootstrap 2 --ipves 10.11.0.2 --ipstart 10.11.0.16
+python3 ./mass-pnf-sim.py  --bootstrap 2 --ipves http://10.148.95.??:10000 --ipstart 10.11.0.16
+
+###Replacing VES for test purposes
+`nc -l 10000`
 
 ###Start
 Define the amount of simulators to be launched

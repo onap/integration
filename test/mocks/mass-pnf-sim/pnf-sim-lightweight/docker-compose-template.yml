@@ -10,14 +10,15 @@ networks:
 services:
   pnf-simulator-${I}:
     container_name: pnf-simulator-${I}
-
-    image: nexus3.onap.org:10003/onap/pnf-simulator:4.0.0-SNAPSHOT
+    image: nexus3.onap.org:10003/onap/masspnf-simulator:1.0.0-SNAPSHOT
     networks:
       front-${I}:
         ipv4_address: "${IPPNFSIM}"
     volumes:
       - ./logs:/var/log
       - ./json_schema:/json_schema
+      - ./config/config.yml:/config/config.yml:rw
+      - ./files/:/files/:rw
     env_file:
       - ./config/netconf.env
     restart: on-failure

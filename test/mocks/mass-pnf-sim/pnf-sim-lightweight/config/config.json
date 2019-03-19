@@ -1,7 +1,7 @@
 {
   "simulatorParams": {
-    "vesServerUrl": "http://localhost:10000/eventListener/v7",
-    "testDuration": "10",
+    "vesServerUrl": "http://10.10.1.99:9999/eventListener/v7",
+    "testDuration": "1",
     "messageInterval": "1"
   },
   "commonEventHeaderParams": {

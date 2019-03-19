@@ -1,0 +1,9 @@
+module pnf-simulator {
+  namespace "http://nokia.com/pnf-simulator";
+  prefix config;
+  container config {
+    config true;
+    leaf itemValue1 {type uint32;}
+    leaf itemValue2 {type uint32;}
+  }
+}
