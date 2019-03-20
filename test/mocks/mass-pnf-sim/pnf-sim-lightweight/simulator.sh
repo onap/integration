@@ -27,7 +27,7 @@ function main(){
         "start")
             start $COMPOSE_FILE_NAME;;
         "stop")
-            stop;;
+            stop $2;;
         "run-simulator")
             run_simulator;;
         "trigger-simulator")
@@ -74,9 +74,7 @@ function compose(){
 	docker-compose -f docker-compose-temporary.yml config > docker-compose.yml
 	rm docker-compose-temporary.yml
 
-	cd files
-	./prepare-ROP-files.sh
-	cd -
+	./ROP_file_creator.sh $I &
 
 	set_vsftpd_file_owner
 
@@ -126,6 +124,8 @@ function running_containers(){
 
 function stop(){
 	get_pnfsim_ip
+    kill $(ps -a | grep "[.]/ROP_file_creator.sh $1" | awk '{print $1}')
+
     if [[ $(running_containers) ]]; then
         docker-compose -f $RUNNING_COMPOSE_CONFIG down
         docker-compose -f $RUNNING_COMPOSE_CONFIG rm
