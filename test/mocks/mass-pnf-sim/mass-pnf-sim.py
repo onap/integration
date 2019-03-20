@@ -135,7 +135,7 @@ if args.stop:
         completed = subprocess.run(
             'cd ' +
             foldername +
-            "; ./simulator.sh stop",
+            "; ./simulator.sh stop " + str(i),
             shell=True)
         print('Stopping:', completed.stdout)
 
