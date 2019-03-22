@@ -70,7 +70,7 @@ parameters:
 
   rancher_version:
     type: string
-    default: "1.6.25"
+    default: "1.6.26"
 
   rancher_agent_version:
     type: string
@@ -78,7 +78,7 @@ parameters:
 
   kubectl_version:
     type: string
-    default: "1.11.5"
+    default: "1.11.6"
 
   helm_version:
     type: string
