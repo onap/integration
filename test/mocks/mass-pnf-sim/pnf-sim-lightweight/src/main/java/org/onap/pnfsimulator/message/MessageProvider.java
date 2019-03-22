@@ -114,24 +114,6 @@ public class MessageProvider {
         JSONArray jsonArrayOfNamedHashMap = new JSONArray();
         jsonArrayOfNamedHashMap.put(jsonHashMap);
 
-
-
-        // // notification.put("name", "NAME_DUMMY");
-        // JSONObject notification = new JSONObject();
-        //
-        // notificationParams.ifPresent(jsonObject -> {
-        // copyParametersToFields(notification, notificationFields);
-        // commonEventHeader.put(DOMAIN, DOMAIN_NOTIFICATION);
-        // event.put(NOTIFICATION_FIELDS, notificationFields);
-        // });
-
-
-        // notificationParams.ifPresent(jsonObject -> {
-        // copyParametersToFields(jsonObject.toMap(), notificationFields);
-        // commonEventHeader.put(DOMAIN, DOMAIN_NOTIFICATION);
-        // event.put(NOTIFICATION_FIELDS, notificationFields);
-        // });
-
         event.put(COMMON_EVENT_HEADER, commonEventHeader);
         JSONObject root = new JSONObject();
         root.put(EVENT, event);
@@ -141,7 +123,6 @@ public class MessageProvider {
 
     public JSONObject createOneVesEvent(String xnfUrl, String fileName) {
 
-        String notificationFields;
         JSONObject nof = new JSONObject();
 
         nof.put("notificationFieldsVersion", "2.0");
@@ -150,19 +131,19 @@ public class MessageProvider {
         nof.put("changeIdentifier", "PM_MEAS_FILES");
 
         JSONObject hm = new JSONObject();
-        hm.put("location", xnfUrl.concat(fileName));
+        hm.put("location", "ftpes://".concat(xnfUrl).concat(fileName));
         hm.put("fileFormatType", "org.3GPP.32.435#measCollec");
         hm.put("fileFormatVersion", "V10");
         hm.put("compression", "gzip");
 
-        JSONObject aonh = new JSONObject();
-        aonh.put("name", fileName);
+        JSONObject aonhElement = new JSONObject();
+        aonhElement.put("name", fileName);
+        aonhElement.put("hashMap", hm);
 
-        aonh.put("hashMap", hm);
+        JSONArray aonh = new JSONArray();
+        aonh.put(aonhElement);
 
         nof.put("arrayOfNamedHashMap", aonh);
-
-        String nofString = nof.toString();
 
         JSONObject ceh = new JSONObject(); // commonEventHandler
         ceh.put("startEpochMicrosec", "1551865758690");
@@ -183,18 +164,23 @@ public class MessageProvider {
         JSONObject ihf = new JSONObject(); // internalHeaderFields
         ceh.put("internalHeaderFields", ihf);
 
-        JSONObject event = new JSONObject();
-        event.put("commonEventHeader", ceh);
-        event.put("notificationFields", nof);
+        JSONObject eventContent = new JSONObject();
+        eventContent.put("commonEventHeader", ceh);
+        eventContent.put("notificationFields", nof);
 
-        System.out.println("event: ");
+
+        JSONObject event = new JSONObject();
+        event.put("event", eventContent);
+
+        System.out.println("VES messages to be sent: ");
         System.out.println(event.toString());
 
         return event;
 
      // @formatter:off
         /*
-        {
+    {
+        "event": {
             "commonEventHeader": {                          <== "ceh"
                 "startEpochMicrosec": "1551865758690",
                 "sourceId": "val13",
@@ -217,21 +203,21 @@ public class MessageProvider {
                 "notificationFieldsVersion": "2.0",
                 "changeType": "FileReady",
                 "changeIdentifier": "PM_MEAS_FILES",
-                "arrayOfNamedHashMap": {                    <== "aonh"
-                    "name": "A20161224.1030-1045.bin.gz",
-                    "hashMap": {                            <== "hm"
-                        "location": "ftpes://192.169.0.1:22/ftp/rop/A20161224.1030-1045.bin.gz",
-                        "fileFormatType": "org.3GPP.32.435#measCollec",
-                        "fileFormatVersion": "V10",
-                        "compression": "gzip"
+                "arrayOfNamedHashMap": [                    <== "aonh"
+                    {                                       <== "aonhElement"
+                        "name": "A20161224.1030-1045.bin.gz",
+                        "hashMap": {                            <== "hm"
+                            "location": "ftpes://192.169.0.1:22/ftp/rop/A20161224.1030-1045.bin.gz",
+                            "fileFormatType": "org.3GPP.32.435#measCollec",
+                            "fileFormatVersion": "V10",
+                            "compression": "gzip"
+                         }
                     }
-                }
+                ]
             }
         }
-
-        */
-     // @formatter:on
-
     }
-
+    */
+     // @formatter:on
+    }
 }

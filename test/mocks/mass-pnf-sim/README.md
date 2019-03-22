@@ -15,19 +15,21 @@ The ipstart should align to a /28 Ip address range start (e.g. 10.11.0.16, 10.11
 For debug purposes, you can use your own IP address as VES collector, use "ip" command to determine it.
 
 Example:
-python3 ./mass-pnf-sim.py  --bootstrap 2 --ipves http://10.148.95.??:10000 --ipstart 10.11.0.16
+./mass-pnf-sim.py  --bootstrap 2 --ipves http://10.148.95.??:10000 --ipfileserver 10.148.95.??? --ipstart 10.11.0.16
 
 ###Replacing VES for test purposes
-`nc -l 10000`
+`sudo nc -vv -l -k -p 10000`
 
 ###Start
 Define the amount of simulators to be launched
-python3 ./mass-pnf-sim.py  --start 2
+./mass-pnf-sim.py  --start 2
 
+###Trigger 
+./mass-pnf-sim.py  --trigger 2
 
 ###Stop and clean
-python3 ./mass-pnf-sim.py  --stop 2
-python3 ./mass-pnf-sim.py  --clean
+./mass-pnf-sim.py  --stop 2
+./mass-pnf-sim.py  --clean
 
 ###Cleaning and recovery after incorrect configuration
 docker stop $(docker ps -aq); docker rm $(docker ps -aq)
