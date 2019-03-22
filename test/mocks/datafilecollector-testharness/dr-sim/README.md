@@ -1,3 +1,9 @@
+#Alternative to running python (as described below) on your machine, use the docker files.
+1. Build docker container with ```docker build -t drsim_common:latest .```
+2. Run the container ```docker-compose up```
+
+
+
 1. install nodejs
 2. install npm
 Make sure that you run these commands in the application directory "dr-sim"

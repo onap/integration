@@ -1,3 +1,52 @@
+
+#Alternative to running python (as described below) on your machine, use the docker files.
+1. Build docker container with ```docker build -t mrsim:latest .```
+2. Run the container ```docker-compose up```
+The behavior can be changed by argument to the python script in the docker-compose.yml
+
+The simulator can be queried for statistics
+localhost:2222/ctr_requests   - return an integer of the number of get request to the event poll path
+localhost:2222/ctr_responses  - return an integer of the number of get responses to the event poll path
+localhost:2222/ctr_unique_files - returns an integer or the number of unique files. A unique file is the combination of node+file_sequence_number 
+
+
+##Common TC info
+File names for 1MB, 5MB and 50MB files
+Files in the format: <size-in-mb>MB_<sequence-number>.tar.gz    Ex. for 5MB file with sequence number 12:  5MB_12.tar.gz
+The sequence numbers are stepped so that all files have unique names
+Missing files (files that are not expected to be found in the ftp server. Format: MissingFile_<sequence-number>.tar.gz
+
+Limited event streams
+When the number of events are exhausted, empty replies are returned '[]'
+
+TC100 - One ME, SFTP, 1 1MB file, 1 event
+TC101 - One ME, SFTP, 1 5MB file, 1 event
+TC102 - One ME, SFTP, 1 50MB file, 1 event
+
+TC110 - One ME, SFTP, 1MB files, 1 file per event, 100 events, 1 event per poll.
+TC111 - One ME, SFTP, 1MB files, 100 files per event, 100 events, 1 event per poll.
+TC112 - One ME, SFTP, 5MB files, 100 files per event, 100 events, 1 event per poll.
+TC113 - One ME, SFTP, 1MB files, 100 files per event, 100 events. All events in one poll.
+
+
+TC120 - One ME, SFTP, 1MB files, 100 files per event, 100 events, 1 event per poll. 10% of replies each: no response, empty message, slow response, 404-error, malformed json
+TC121 - One ME, SFTP, 1MB files, 100 files per event, 100 events, 1 event per poll. 10% missing files
+TC122 - One ME, SFTP, 1MB files, 100 files per event, 100 events. 1 event per poll. All files with identical name. 
+
+Endless event streams
+TC1000 - One ME, SFTP, 1MB files, 100 files per event, endless number of events, 1 event per poll
+TC1001 - One ME, SFTP, 5MB files, 100 files per event, endless number of events, 1 event per poll
+
+
+TC510 - 5 ME, SFTP, 1MB files, 1 file per event, 100 events, 1 event per poll.
+
+
+TC200-TC202 same as TC100-TC102 but with FTPS
+TC210-TC213 same as TC110-TC113 but with FTPS
+TC2000-TC2001 same as TC1000-TC1001 but with FTPS
+TC610 same as TC510 but with FTPS
+
+
 ## Developer workflow
 
 1. ```sudo apt install python3-venv```

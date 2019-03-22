@@ -37,7 +37,7 @@ then
 
 		# Create symlinks
 		N_SYMLINKS=${nf_array[$n]}-1
-		for ((l=1;l<=$N_SYMLINKS;l++))
+		for ((l=0;l<=$N_SYMLINKS;l++))
 		do
 			SYMLINK_NAME=$FILE_SIZE"MB_"$l".tar.gz"
 			ln -s ./$FILE_NAME $DIRECTORY/$SYMLINK_NAME

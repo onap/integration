@@ -1,0 +1,10 @@
+version: '2'
+
+services:
+  mrsim:
+    image: mrsim:latest
+    ports:
+     - "2222:2222"
+    container_name: mrsim
+    command: python mr-sim.py --tc100
+# Change -tc100 to other tc number for desired behavior.
