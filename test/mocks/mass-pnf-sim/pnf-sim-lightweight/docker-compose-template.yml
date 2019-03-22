@@ -29,6 +29,8 @@ services:
     networks:
       front-${I}:
         ipv4_address: "${IPSFTP}"
+    ports:
+      - "${PORTSFTP}:22"
     volumes:
       - ./files/onap/:/home/onap/
     restart: on-failure
@@ -40,6 +42,8 @@ services:
     networks:
       front-${I}:
         ipv4_address: "${IPFTPS}"
+    ports:
+         - "${PORTFTPS}:21"
     environment:
       FTP_USER: onap
       FTP_PASSWORD: pano

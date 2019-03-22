@@ -14,8 +14,18 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    '--trigger',
+    help='Trigger one single VES event from each simulator',
+)
+
+parser.add_argument(
     '--ipves',
     help='IP of the VES collector',
+)
+
+parser.add_argument(
+    '--ipfileserver',
+    help='Visible IP of the file server (SFTP/FTPS) to be included in the VES event',
 )
 
 parser.add_argument(
@@ -49,6 +59,8 @@ args = parser.parse_args()
 if args.bootstrap and args.ipstart and args.ipves:
     print("Bootstrap:")
 
+    start_port=2000
+
     for i in range(int(args.bootstrap)):
         print("PNF simulator instance: " + str(i) + ".")
 
@@ -63,9 +75,15 @@ if args.bootstrap and args.ipstart and args.ipves:
         IpPnfSim = ipaddress.ip_address(args.ipstart) + int(2 + (i * 16))
         print("\tIp Pnf SIM:" + str(IpPnfSim))
 
+        IpFileServer = args.ipfileserver
+
+        
+        PortSftp=start_port +1
+        PortFtps=start_port +2 
+        start_port +=2
         IpFtps = ipaddress.ip_address(args.ipstart) + int(3 + (i * 16))
         print("\tIp Ftps: " + str(IpFtps))
-
+ 
         IpSftp = ipaddress.ip_address(args.ipstart) + int(4 + (i * 16))
         print("\tIp Sftp:" + str(IpSftp))
 
@@ -84,6 +102,9 @@ if args.bootstrap and args.ipstart and args.ipves:
             str(i) + " " +\
             str(args.ipves) + " " +\
             str(IpPnfSim) + " " +\
+            str(IpFileServer) + " " +\
+            str(PortSftp) + " " +\
+            str(PortFtps) + " " +\
             str(IpFtps) + " " +\
             str(IpSftp)
 
@@ -138,6 +159,20 @@ if args.stop:
             "; ./simulator.sh stop " + str(i),
             shell=True)
         print('Stopping:', completed.stdout)
+
+
+if args.trigger:
+    print("Triggering VES sending:")
+
+    for i in range(int(args.trigger)):
+        foldername = "pnf-sim-lw-" + str(i)
+
+        completed = subprocess.run(
+            'cd ' +
+            foldername +
+            "; ./simulator.sh trigger-simulator",
+            shell=True)
+        print('Status:', completed.stdout)
 
 else:
     print("No instruction was defined")

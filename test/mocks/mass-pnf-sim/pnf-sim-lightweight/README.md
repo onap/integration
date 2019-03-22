@@ -1,6 +1,6 @@
 ##Local development shortcuts:
 ####To start listening on port 10000 for test purposes
-`nc -l 10000`
+`nc -l -k -p 10000`
 ####Test the command above: 
 `echo "Hello World" | nc localhost  10000`
 
@@ -27,10 +27,12 @@ Accept-Encoding: gzip,deflate
 ```
 
 ```javascript
-{"commonEventHeader":{"startEpochMicrosec":"1551865758690","sourceId":"val13","eventId":"registration_51865758",
+{"event":{"commonEventHeader":{"startEpochMicrosec":"1551865758690","sourceId":"val13","eventId":"registration_51865758",
 "nfcNamingCode":"oam","internalHeaderFields":{},"priority":"Normal","version":"4.0.1","reportingEntityName":"NOK6061ZW3",
-"sequence":"0","domain":"notification","lastEpochMicrosec":"1551865758690","eventName":"pnfRegistration_Nokia_5gDu","vesEventListenerVersion":"7.0.1",
-"sourceName":"NOK6061ZW3","nfNamingCode":"gNB"},"notificationFields":{"notificationFieldsVersion":"2.0","changeType":"FileReady",
-"changeIdentifier":"PM_MEAS_FILES","arrayOfNamedHashMap":{"name":"10MB.tar.gz",
-"hashMap":{"location":"10.11.0.68/10MB.tar.gz","fileFormatType":"org.3GPP.32.435#measCollec","fileFormatVersion":"V10","compression":"gzip"}}}}
+"sequence":"0","domain":"notification","lastEpochMicrosec":"1551865758690","eventName":"pnfRegistration_Nokia_5gDu",
+"vesEventListenerVersion":"7.0.1","sourceName":"NOK6061ZW3","nfNamingCode":"gNB"},
+"notificationFields":{"notificationFieldsVersion":"2.0","changeType":"FileReady","changeIdentifier":"PM_MEAS_FILES",
+"arrayOfNamedHashMap":[{"name":"10MB.tar.gz","hashMap":{
+"location":"ftpes://10.11.0.68/10MB.tar.gz","fileFormatType":"org.3GPP.32.435#measCollec",
+"fileFormatVersion":"V10","compression":"gzip"}}]}}}
 ```

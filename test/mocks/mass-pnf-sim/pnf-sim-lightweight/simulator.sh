@@ -20,8 +20,8 @@ function main(){
 
     case $COMMAND in
     	"compose")
-            compose $2 $3 $4 $5 $6 $7 $8;;
-             #IPGW, #IPSUBNET, #I, #IPVES, #IPPNFSIM, #IPFTP, #IPSFTP,
+            compose $2 $3 $4 $5 $6 $7 $8 $9 "${10}" "${11}" ;;
+             #IPGW, #IPSUBNET, #I, #IPVES, #IPPNFSIM, #IPFILESERVER, #PORTSFTP, #PORTFTPS, #IPFTPS, #IPSFTP
         "build")
             build_image;;
         "start")
@@ -64,8 +64,11 @@ function compose(){
 	export I=$3
 	export IPVES=$4
 	export IPPNFSIM=$5
-	export IPFTPS=$6
-	export IPSFTP=$7
+	export IPFILESERVER=$6
+	export PORTSFTP=$7
+	export PORTFTPS=$8
+	export IPFTPS=$9
+	export IPSFTP=${10}
 
 	#will insert $I to distinguish containers, networks properly
 	#docker compose cannot substitute these, as they are keys, not values.
@@ -78,7 +81,7 @@ function compose(){
 
 	set_vsftpd_file_owner
 
-	write_config $IPVES $IPFTPS $IPSFTP $IPPNFSIM
+	write_config $IPVES $IPFILESERVER $PORTSFTP $PORTFTPS $IPPNFSIM
 
 }
 
@@ -99,9 +102,9 @@ function set_vsftpd_file_owner() {
 function write_config(){
 	#building a YML file for usage in Java
 	echo "vesip: $1" > config/config.yml
-	echo "ipftps: $2" >> config/config.yml
-	echo "ipsftp: $3" >> config/config.yml
-	echo "ippnfsim: $4" >> config/config.yml
+	echo "ipsftp: $2:$3" >> config/config.yml
+	echo "ipftps: $2:$4" >> config/config.yml
+	echo "ippnfsim: $5" >> config/config.yml
 }
 
 function start(){
