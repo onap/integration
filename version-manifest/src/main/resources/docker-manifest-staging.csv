@@ -44,8 +44,8 @@ onap/dcae-fe,1.3-STAGING-latest
 onap/dcae-tools,1.3-STAGING-latest
 onap/dcae-tosca-app,1.3-STAGING-latest
 onap/dmaap/buscontroller,1.0.23
-onap/dmaap/datarouter-node,2.0.1-SNAPSHOT
-onap/dmaap/datarouter-prov,2.0.1-SNAPSHOT
+onap/dmaap/datarouter-node,2.0.2-SNAPSHOT
+onap/dmaap/datarouter-prov,2.0.2-SNAPSHOT
 onap/dmaap/dmaap-mr,1.1.10
 onap/dmaap/kafka01101,0.0.1
 onap/dmaap/zookeeper,1.0.0
