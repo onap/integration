@@ -1,7 +1,9 @@
 ---
-vesip: http://localhost:10000
-ipftps: 10.11.0.67
-ipsftp: 10.11.0.68
+urlves: http://localhost:10000/eventListener/v7
+urlftps: ftps://onap:pano@10.11.0.67
+urlsftp: sftp://onap:pano@10.11.0.68
 #when run in simulator, it does not have own IP
-ippnfsim: localhost  
+ippnfsim: localhost
+defaultfileserver: sftp
+#defaultfileserver: ftps
 ...

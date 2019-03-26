@@ -27,6 +27,11 @@ function main(){
         "start")
             start $COMPOSE_FILE_NAME;;
         "stop")
+            if [[ -z ${2+x} ]]
+            then
+               echo "Error: action 'stop' requires the instance identifier"
+               exit
+            fi
             stop $2;;
         "run-simulator")
             run_simulator;;
@@ -101,10 +106,11 @@ function set_vsftpd_file_owner() {
 
 function write_config(){
 	#building a YML file for usage in Java
-	echo "vesip: $1" > config/config.yml
-	echo "ipsftp: $2:$3" >> config/config.yml
-	echo "ipftps: $2:$4" >> config/config.yml
+	echo "urlves: $1" > config/config.yml
+	echo "urlsftp: sftp://onap:pano@$2:$3" >> config/config.yml
+	echo "urlftps: ftps://onap:pano@$2:$4" >> config/config.yml
 	echo "ippnfsim: $5" >> config/config.yml
+	echo "defaultfileserver: sftp" >> config/config.yml
 }
 
 function start(){
@@ -127,7 +133,7 @@ function running_containers(){
 
 function stop(){
 	get_pnfsim_ip
-    kill $(ps -a | grep "[.]/ROP_file_creator.sh $1" | awk '{print $1}')
+    kill $(ps -ef | grep "[.]/ROP_file_creator.sh $1" | head -n 1 | awk '{print $2}')
 
     if [[ $(running_containers) ]]; then
         docker-compose -f $RUNNING_COMPOSE_CONFIG down

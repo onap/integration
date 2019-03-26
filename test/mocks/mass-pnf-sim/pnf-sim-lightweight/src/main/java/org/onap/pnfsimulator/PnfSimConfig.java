@@ -1,47 +1,57 @@
 package org.onap.pnfsimulator;
 
 public class PnfSimConfig {
-    private String vesip;
-    private String ipftps;
-    private String ipsftp;
+    private String urlves;
+    private String urlftps;
+    private String urlsftp;
     private String ippnfsim;
+    private String defaultfileserver;
 
-    public String getVesip() {
-        return vesip;
+    public String getDefaultfileserver() {
+        return defaultfileserver;
     }
 
-    public void setVesip(String vesip) {
-        this.vesip = vesip;
+    public void setDefaultfileserver(String defaultfileserver) {
+        this.defaultfileserver = defaultfileserver;
     }
 
-    public String getIpftps() {
-        return ipftps;
+
+    public String getUrlves() {
+        return urlves;
     }
 
-    public void setIpftps(String ipftps) {
-        this.ipftps = ipftps;
+    public void setUrlves(String urlves) {
+        this.urlves = urlves;
     }
 
-    public String getIpsftp() {
-        return ipsftp;
+    public String getUrlftps() {
+        return urlftps;
     }
 
-    public void setIpsftp(String ipsftp) {
-        this.ipsftp = ipsftp;
+    public void setUrlftps(String urlftps) {
+        this.urlftps = urlftps;
+    }
+
+    public String getUrlsftp() {
+        return urlsftp;
+    }
+
+    public void setUrlsftp(String urlsftp) {
+        this.urlsftp = urlsftp;
     }
 
     public void setIppnfsim(String ippnfsim) {
         this.ippnfsim = ippnfsim;
     }
 
-    @Override
-    public String toString() {
-        return "PnfSimConfig [vesip=" + vesip + ", ipftps=" + ipftps + ", ippnfsim=" + ippnfsim + ", ipsftp=" + ipsftp
-                + "]";
-    }
-
     public String getIppnfsim() {
         return ippnfsim;
+    }
+
+    @Override
+    public String toString() {
+        return "PnfSimConfig [vesip=" + urlves + ", urlftps=" + urlftps + ", ippnfsim=" + ippnfsim + ", urlsftp="
+                + urlsftp + "]";
     }
 
 

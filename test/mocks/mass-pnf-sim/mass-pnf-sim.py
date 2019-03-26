@@ -19,8 +19,8 @@ parser.add_argument(
 )
 
 parser.add_argument(
-    '--ipves',
-    help='IP of the VES collector',
+    '--urlves',
+    help='URL of the VES collector',
 )
 
 parser.add_argument(
@@ -56,7 +56,7 @@ parser.add_argument(
 
 args = parser.parse_args()
 
-if args.bootstrap and args.ipstart and args.ipves:
+if args.bootstrap and args.ipstart and args.urlves:
     print("Bootstrap:")
 
     start_port=2000
@@ -81,11 +81,11 @@ if args.bootstrap and args.ipstart and args.ipves:
         PortSftp=start_port +1
         PortFtps=start_port +2 
         start_port +=2
-        IpFtps = ipaddress.ip_address(args.ipstart) + int(3 + (i * 16))
-        print("\tIp Ftps: " + str(IpFtps))
+        UrlFtps = str(ipaddress.ip_address(args.ipstart) + int(3 + (i * 16)))
+        print("\tUrl Ftps: " + str(UrlFtps))
  
-        IpSftp = ipaddress.ip_address(args.ipstart) + int(4 + (i * 16))
-        print("\tIp Sftp:" + str(IpSftp))
+        UrlSftp = str(ipaddress.ip_address(args.ipstart) + int(4 + (i * 16)))
+        print("\tUrl Sftp: " + str(UrlSftp))
 
         foldername = "pnf-sim-lw-" + str(i)
         completed = subprocess.run('mkdir ' + foldername, shell=True)
@@ -96,17 +96,17 @@ if args.bootstrap and args.ipstart and args.ipves:
             shell=True)
         print('\tCloning folder:', completed.stdout)
 
-        composercmd = "./simulator.sh compose " +\
-            str(ip_gw) + " " +\
-            str(ip_subnet) + " " +\
-            str(i) + " " +\
-            str(args.ipves) + " " +\
-            str(IpPnfSim) + " " +\
-            str(IpFileServer) + " " +\
-            str(PortSftp) + " " +\
-            str(PortFtps) + " " +\
-            str(IpFtps) + " " +\
-            str(IpSftp)
+        composercmd = "./simulator.sh compose " + \
+            str(ip_gw) + " " + \
+            str(ip_subnet) + " " + \
+            str(i) + " " + \
+            str(args.urlves) + " " + \
+            str(IpPnfSim) + " " + \
+            str(IpFileServer) + " " + \
+            str(PortSftp) + " " + \
+            str(PortFtps) + " " + \
+            str(UrlFtps) + " " + \
+            str(UrlSftp)
 
         completed = subprocess.run(
             'set -x; cd ' +
@@ -115,6 +115,9 @@ if args.bootstrap and args.ipstart and args.ipves:
             composercmd,
             shell=True)
         print('Cloning:', completed.stdout)
+
+    completed = subprocess.run('set -x; cd pnf-sim-lightweight; ./simulator.sh build ', shell=True)
+    print("Build docker image: ", completed.stdout)
 
     sys.exit()
 

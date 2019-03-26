@@ -53,18 +53,26 @@ public class SimulatorFactory {
             Optional<JSONObject> pnfRegistrationParams, Optional<JSONObject> notificationParams)
             throws ProcessingException, IOException, ValidationException {
         PnfSimConfig configuration = ConfigurationProvider.getConfigInstance();
-        String xnfUrl = "sftp://onap:pano@" + configuration.getIpsftp() + "/";
-        String vesUrl = configuration.getVesip() + "/eventListener/v7";
+
+        String xnfUrl = null;
+
+        if (configuration.getDefaultfileserver().equals("sftp")) {
+            xnfUrl = configuration.getUrlsftp() + "/";
+        } else if (configuration.getDefaultfileserver().equals("ftps")) {
+            xnfUrl = configuration.getUrlftps() + "/";
+        }
+
+        String urlVes = configuration.getUrlves();
 
         Duration duration = Duration.ofSeconds(parseInt(simulatorParams.getString(TEST_DURATION)));
         Duration interval = Duration.ofSeconds(parseInt(simulatorParams.getString(MESSAGE_INTERVAL)));
 
         List<String> fileList = FileProvider.getFiles();
-        JSONObject messageBody = messageProvider
-                .createMessage(commonEventHeaderParams, pnfRegistrationParams, notificationParams, fileList, xnfUrl);
+        JSONObject messageBody = messageProvider.createMessage(commonEventHeaderParams, pnfRegistrationParams,
+                notificationParams, fileList, xnfUrl);
         validator.validate(messageBody.toString(), DEFAULT_OUTPUT_SCHEMA_PATH);
 
-        return Simulator.builder().withVesUrl(vesUrl).withDuration(duration).withInterval(interval)
+        return Simulator.builder().withVesUrl(urlVes).withDuration(duration).withInterval(interval)
                 .withMessageBody(messageBody).build();
 
     }
