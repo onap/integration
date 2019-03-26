@@ -1,0 +1,59 @@
+version: '2'
+services:
+      
+  drsim:
+    network_mode: "host"
+    image: drsim_common:latest
+    ports:
+     - "3906:3906"
+     - "3907:3907"
+    container_name: dfc_dr-sim
+    command: node dmaapDR.js ${DR_TC}
+
+  drsim_redir:
+    image: drsim_common:latest
+    ports:
+     - "3908:3908"
+     - "3909:3909"
+    container_name: dfc_dr-redir-sim
+    command: node dmaapDR_redir.js ${DR_REDIR_TC}
+
+  mrsim:
+    image: mrsim:latest
+    ports:
+     - "2222:2222"
+    container_name: dfc_mr-sim
+    command: python mr-sim.py ${MR_TC}
+
+  sftp-server:
+    container_name: dfc_sftp-server
+    image: atmoz/sftp:alpine
+    ports:
+      - "1022:22"
+#    volumes:
+#      - ./files/onap/sftp/:/home/onap/
+    restart: on-failure
+    command: onap:pano:1001
+
+
+  ftpes-server-vsftpd:
+    container_name: dfc_ftpes-server-vsftpd
+    image: docker.io/panubo/vsftpd
+    ports:
+      - "21:21"
+      - "8001-8010:8001-8010"
+    environment:
+      FTP_USER: onap
+      FTP_PASSWORD: pano
+      PASV_ADDRESS: localhost
+      PASV_MIN_PORT: 8001
+      PASV_MAX_PORT: 8010
+    volumes:
+      - ./tls/ftp.crt:/etc/ssl/private/ftp.crt:ro
+      - ./tls/ftp.key:/etc/ssl/private/ftp.key:ro
+      - ./tls/dfc.crt:/etc/ssl/private/dfc.crt:ro
+      - ./configuration/vsftpd_ssl.conf:/etc/vsftpd_ssl.conf:ro
+
+#      - ./files/onap/ftps/:/srv/
+    restart: on-failure
+  
