@@ -26,3 +26,6 @@ csit/
 *.iml
 /.pydevproject
 /bin/
+*.class
+*.csar
+benchmark/
