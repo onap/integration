@@ -43,6 +43,7 @@ public final class MessageConstants {
     //parameters
     static final String DOMAIN = "domain";
     static final String EVENT_ID = "eventId";
+    static final String TIME_ZONE_OFFSET = "timeZoneOffset";
     static final String EVENT_TYPE = "eventType";
     static final String LAST_EPOCH_MICROSEC = "lastEpochMicrosec";
     static final String PRIORITY = "priority";
@@ -51,6 +52,8 @@ public final class MessageConstants {
     static final String INTERNAL_HEADER_FIELDS = "internalHeaderFields";
     static final String VERSION = "version";
     static final String VES_EVENT_LISTENER_VERSION = "vesEventListenerVersion";
+    static final String SOURCE_NAME = "sourceName";
+    static final String REPORTING_ENTITY_NAME = "reportingEntityName";
     //constant values
     static final int SEQUENCE_NUMBER = 0;
     static final String VERSION_NUMBER = "4.0.1";
@@ -71,9 +74,20 @@ public final class MessageConstants {
     // Notifications
     //parameters
     static final String NOTIFICATION_FIELDS_VERSION = "notificationFieldsVersion";
+    static final String ARRAY_OF_NAMED_HASH_MAP = "arrayOfNamedHashMap";
+    static final String NAME = "name";
+    static final String HASH_MAP = "hashMap";
+    static final String FILE_FORMAT_TYPE = "fileFormatType";
+    static final String LOCATION = "location";
+    static final String FILE_FORMAT_VERSION = "fileFormatVersion";
+    static final String COMPRESSION = "compression";
+
     //constant values
     static final String NOTIFICATION_FIELDS_VERSION_VALUE = "2.0";
     static final String DOMAIN_NOTIFICATION ="notification";
+    static final String FILE_FORMAT_TYPE_VALUE = "org.3GPP.32.435#measCollec";
+    static final String FILE_FORMAT_VERSION_VALUE = "V10";
+    static final String COMPRESSION_VALUE = "gzip";
 
     private MessageConstants() {
     }

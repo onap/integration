@@ -17,6 +17,7 @@
 
 package org.onap.pnfsimulator.message;
 
+import static org.onap.pnfsimulator.message.MessageConstants.ARRAY_OF_NAMED_HASH_MAP;
 import static org.onap.pnfsimulator.message.MessageConstants.COMMON_EVENT_HEADER;
 import static org.onap.pnfsimulator.message.MessageConstants.DOMAIN;
 import static org.onap.pnfsimulator.message.MessageConstants.DOMAIN_NOTIFICATION;
@@ -25,7 +26,8 @@ import static org.onap.pnfsimulator.message.MessageConstants.EVENT;
 import static org.onap.pnfsimulator.message.MessageConstants.EVENT_TYPE;
 import static org.onap.pnfsimulator.message.MessageConstants.NOTIFICATION_FIELDS;
 import static org.onap.pnfsimulator.message.MessageConstants.PNF_REGISTRATION_FIELDS;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.json.JSONArray;
@@ -35,6 +37,13 @@ public class MessageProvider {
 
     public JSONObject createMessage(JSONObject commonEventHeaderParams, Optional<JSONObject> pnfRegistrationParams,
             Optional<JSONObject> notificationParams) {
+        List<String> emptyList = new ArrayList<>();
+        String emptyString = "";
+        return createMessage(commonEventHeaderParams, pnfRegistrationParams, notificationParams, emptyList, emptyString);
+    }
+
+    public JSONObject createMessage(JSONObject commonEventHeaderParams, Optional<JSONObject> pnfRegistrationParams,
+            Optional<JSONObject> notificationParams, List<String> fileList, String xnfUrl) {
 
         if (!pnfRegistrationParams.isPresent() && !notificationParams.isPresent()) {
             throw new IllegalArgumentException(
@@ -59,6 +68,8 @@ public class MessageProvider {
         JSONObject notificationFields = JSONObjectFactory.generateNotificationFields();
         notificationParams.ifPresent(jsonObject -> {
             copyParametersToFields(jsonObject.toMap(), notificationFields);
+            JSONArray arrayOfNamedHashMap = JSONObjectFactory.generateArrayOfNamedHashMap(fileList, xnfUrl);
+            notificationFields.put(ARRAY_OF_NAMED_HASH_MAP, arrayOfNamedHashMap);
             commonEventHeader.put(DOMAIN, DOMAIN_NOTIFICATION);
             event.put(NOTIFICATION_FIELDS, notificationFields);
         });
@@ -73,151 +84,5 @@ public class MessageProvider {
         paramersMap.forEach((key, value) -> {
             fieldsJsonObject.put(key, value);
         });
-    }
-
-    public JSONObject createOneVes(JSONObject commonEventHeaderParams, Optional<JSONObject> pnfRegistrationParams,
-            Optional<JSONObject> notificationParams, String url, String fileName) {
-
-
-        if (!pnfRegistrationParams.isPresent() && !notificationParams.isPresent()) {
-            throw new IllegalArgumentException(
-                    "Both PNF registration and notification parameters objects are not present");
-        }
-        JSONObject event = new JSONObject();
-
-        JSONObject commonEventHeader = JSONObjectFactory.generateConstantCommonEventHeader();
-        Map<String, Object> commonEventHeaderFields = commonEventHeaderParams.toMap();
-        commonEventHeaderFields.forEach((key, value) -> {
-            commonEventHeader.put(key, value);
-        });
-
-        JSONObject pnfRegistrationFields = JSONObjectFactory.generatePnfRegistrationFields();
-        pnfRegistrationParams.ifPresent(jsonObject -> {
-            copyParametersToFields(jsonObject.toMap(), pnfRegistrationFields);
-            commonEventHeader.put(DOMAIN, DOMAIN_PNF_REGISTRATION);
-            commonEventHeader.put(EVENT_TYPE, DOMAIN_PNF_REGISTRATION);
-            event.put(PNF_REGISTRATION_FIELDS, pnfRegistrationFields);
-        });
-
-        JSONObject notificationFields = JSONObjectFactory.generateNotificationFields();
-
-        Map hashMap = new HashMap();
-        hashMap.put("location", "LOCATION_DUMMY");
-        hashMap.put("fileFormatType", "org.3GPP.32.435#measCollec");
-        hashMap.put("fileFormatVersion", "V10");
-        hashMap.put("compression", "gzip");
-
-
-        JSONObject jsonHashMap = new JSONObject();
-        jsonHashMap.put("hashmap", jsonHashMap);
-
-        JSONArray jsonArrayOfNamedHashMap = new JSONArray();
-        jsonArrayOfNamedHashMap.put(jsonHashMap);
-
-        event.put(COMMON_EVENT_HEADER, commonEventHeader);
-        JSONObject root = new JSONObject();
-        root.put(EVENT, event);
-        return root;
-
-    }
-
-    public JSONObject createOneVesEvent(String xnfUrl, String fileName) {
-
-        JSONObject nof = new JSONObject();
-
-        nof.put("notificationFieldsVersion", "2.0");
-
-        nof.put("changeType", "FileReady");
-        nof.put("changeIdentifier", "PM_MEAS_FILES");
-
-        JSONObject hm = new JSONObject();
-        hm.put("location", "ftpes://".concat(xnfUrl).concat(fileName));
-        hm.put("fileFormatType", "org.3GPP.32.435#measCollec");
-        hm.put("fileFormatVersion", "V10");
-        hm.put("compression", "gzip");
-
-        JSONObject aonhElement = new JSONObject();
-        aonhElement.put("name", fileName);
-        aonhElement.put("hashMap", hm);
-
-        JSONArray aonh = new JSONArray();
-        aonh.put(aonhElement);
-
-        nof.put("arrayOfNamedHashMap", aonh);
-
-        JSONObject ceh = new JSONObject(); // commonEventHandler
-        ceh.put("startEpochMicrosec", "1551865758690");
-        ceh.put("sourceId", "val13");
-        ceh.put("eventId", "registration_51865758");
-        ceh.put("nfcNamingCode", "oam");
-        ceh.put("priority", "Normal");
-        ceh.put("version", "4.0.1");
-        ceh.put("reportingEntityName", "NOK6061ZW3");
-        ceh.put("sequence", "0");
-        ceh.put("domain", "notification");
-        ceh.put("lastEpochMicrosec", "1551865758690");
-        ceh.put("eventName", "pnfRegistration_Nokia_5gDu");
-        ceh.put("vesEventListenerVersion", "7.0.1");
-        ceh.put("sourceName", "NOK6061ZW3");
-        ceh.put("nfNamingCode", "gNB");
-
-        JSONObject ihf = new JSONObject(); // internalHeaderFields
-        ceh.put("internalHeaderFields", ihf);
-
-        JSONObject eventContent = new JSONObject();
-        eventContent.put("commonEventHeader", ceh);
-        eventContent.put("notificationFields", nof);
-
-
-        JSONObject event = new JSONObject();
-        event.put("event", eventContent);
-
-        System.out.println("VES messages to be sent: ");
-        System.out.println(event.toString());
-
-        return event;
-
-     // @formatter:off
-        /*
-    {
-        "event": {
-            "commonEventHeader": {                          <== "ceh"
-                "startEpochMicrosec": "1551865758690",
-                "sourceId": "val13",
-                "eventId": "registration_51865758",
-                "nfcNamingCode": "oam",
-                "internalHeaderFields": {},                 <== "ihf"
-                "priority": "Normal",
-                "version": "4.0.1",
-                "reportingEntityName": "NOK6061ZW3",
-                "sequence": "0",
-                "domain": "notification",
-                "lastEpochMicrosec": "1551865758690",
-                "eventName": "pnfRegistration_Nokia_5gDu",
-                "vesEventListenerVersion": "7.0.1",
-                "sourceName": "NOK6061ZW3",
-                "nfNamingCode": "gNB"
-            },
-            "notificationFields": {                         <== "nof"
-                "": "",
-                "notificationFieldsVersion": "2.0",
-                "changeType": "FileReady",
-                "changeIdentifier": "PM_MEAS_FILES",
-                "arrayOfNamedHashMap": [                    <== "aonh"
-                    {                                       <== "aonhElement"
-                        "name": "A20161224.1030-1045.bin.gz",
-                        "hashMap": {                            <== "hm"
-                            "location": "ftpes://192.169.0.1:22/ftp/rop/A20161224.1030-1045.bin.gz",
-                            "fileFormatType": "org.3GPP.32.435#measCollec",
-                            "fileFormatVersion": "V10",
-                            "compression": "gzip"
-                         }
-                    }
-                ]
-            }
-        }
-    }
-    */
-     // @formatter:on
     }
 }
