@@ -1,0 +1,192 @@
+heat_template_version: 2015-10-15
+description: ONAP on RKE Kubernetes using OOM
+
+parameters:
+  docker_proxy:
+    type: string
+
+  apt_proxy:
+    type: string
+
+  public_net_id:
+    type: string
+    description: The ID of the Public network for floating IP address allocation
+
+  oam_network_cidr:
+    type: string
+    description: CIDR of the OAM ONAP network
+
+  ubuntu_1804_image:
+    type: string
+    description: Name of the Ubuntu 18.04 image
+
+  rancher_vm_flavor:
+    type: string
+    description: VM flavor for Rancher
+
+  k8s_vm_flavor:
+    type: string
+    description: VM flavor for k8s hosts
+
+  etcd_vm_flavor:
+    type: string
+    description: VM flavor for etcd hosts
+
+  orch_vm_flavor:
+    type: string
+    description: VM flavor for orch hosts
+
+  integration_override_yaml:
+    type: string
+    description: Content for integration_override.yaml
+
+  integration_gerrit_branch:
+    type: string
+    default: "master"
+
+  integration_gerrit_refspec:
+    type: string
+    default: ""
+
+  oom_gerrit_branch:
+    type: string
+    default: "master"
+
+  oom_gerrit_refspec:
+    type: string
+    default: ""
+
+  docker_manifest:
+    type: string
+    default: ""
+
+  key_name:
+    type: string
+    default: "onap_key"
+
+  docker_version:
+    type: string
+    default: "17.03.2"
+
+  rancher_version:
+    type: string
+    default: "1.6.26"
+
+  rancher_agent_version:
+    type: string
+    default: "1.2.11"
+
+  kubectl_version:
+    type: string
+    default: "1.13.4"
+
+  helm_version:
+    type: string
+    default: "2.9.1"
+
+  helm_deploy_delay:
+    type: string
+    default: "3m"
+
+  use_ramdisk:
+    type: string
+    description: Set to "true" if you want to use a RAM disk for /dockerdata-nfs/.
+    default: "false"
+
+  mtu:
+    type: number
+    default: 1500
+
+  portal_hostname:
+    type: string
+    description: The FQDN of the k8s host that will be used for the Portal UI component URLs; this needs to be resolveable at the client
+    default: "portal.api.simpledemo.onap.org"
+
+resources:
+  random-str:
+    type: OS::Heat::RandomString
+    properties:
+      length: 4
+
+  # ONAP security group
+  onap_sg:
+    type: OS::Neutron::SecurityGroup
+    properties:
+      name:
+        str_replace:
+          template: base_rand
+          params:
+            base: onap_sg
+            rand: { get_resource: random-str }
+      description: security group used by ONAP
+      rules:
+        # All egress traffic
+        - direction: egress
+          ethertype: IPv4
+        - direction: egress
+          ethertype: IPv6
+        # ingress traffic
+        # ICMP
+        - protocol: icmp
+        - protocol: udp
+          port_range_min: 1
+          port_range_max: 65535
+        - protocol: tcp
+          port_range_min: 1
+          port_range_max: 65535
+        # Protocols used for vLB/vDNS use case
+        - protocol: 47
+        - protocol: 53
+        - protocol: 132
+
+
+  # ONAP management private network
+  oam_network:
+    type: OS::Neutron::Net
+    properties:
+      name:
+        str_replace:
+          template: oam_network_rand
+          params:
+            rand: { get_resource: random-str }
+
+  oam_subnet:
+    type: OS::Neutron::Subnet
+    properties:
+      name:
+        str_replace:
+          template: oam_network_rand
+          params:
+            rand: { get_resource: random-str }
+      network_id: { get_resource: oam_network }
+      cidr: { get_param: oam_network_cidr }
+      dns_nameservers: [ "8.8.8.8" ]
+
+  router:
+    type: OS::Neutron::Router
+    properties:
+      name:
+        list_join: ['-', [{ get_param: 'OS::stack_name' }, 'router']]
+      external_gateway_info:
+        network: { get_param: public_net_id }
+
+  router_interface:
+    type: OS::Neutron::RouterInterface
+    properties:
+      router_id: { get_resource: router }
+      subnet_id: { get_resource: oam_subnet }
+
+  rancher_private_port:
+    type: OS::Neutron::Port
+    properties:
+      network: { get_resource: oam_network }
+      fixed_ips: [{"subnet": { get_resource: oam_subnet }}]
+      security_groups:
+      - { get_resource: onap_sg }
+
+  rancher_floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network_id: { get_param: public_net_id }
+      port_id: { get_resource: rancher_private_port }
+

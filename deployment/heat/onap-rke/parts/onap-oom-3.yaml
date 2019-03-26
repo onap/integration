@@ -1,0 +1,5 @@
+outputs:
+  rancher_vm_ip:
+    description: The IP address of the rancher instance
+    value: { get_attr: [rancher_floating_ip, floating_ip_address] }
+

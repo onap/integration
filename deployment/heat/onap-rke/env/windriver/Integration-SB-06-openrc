@@ -1,0 +1,9 @@
+export OS_PROJECT_ID=7fad299815104c0a8f90a8df80343f03
+export OS_PROJECT_NAME=Integration-SB-06
+export OS_USER_DOMAIN_NAME=Default
+export OS_USERNAME=demo
+export OS_PASSWORD=onapdemo
+export OS_AUTH_URL=http://10.12.25.2:5000/v3
+export OS_IDENTITY_API_VERSION=3
+export OS_REGION_NAME=RegionOne
+export OS_INTERFACE=public
