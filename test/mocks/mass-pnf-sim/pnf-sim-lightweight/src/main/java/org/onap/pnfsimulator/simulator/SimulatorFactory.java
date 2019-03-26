@@ -20,13 +20,11 @@ package org.onap.pnfsimulator.simulator;
 import static java.lang.Integer.parseInt;
 import static org.onap.pnfsimulator.message.MessageConstants.MESSAGE_INTERVAL;
 import static org.onap.pnfsimulator.message.MessageConstants.TEST_DURATION;
-import static org.onap.pnfsimulator.message.MessageConstants.VES_SERVER_URL;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import java.io.IOException;
 import java.time.Duration;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.onap.pnfsimulator.ConfigurationProvider;
 import org.onap.pnfsimulator.FileProvider;
@@ -54,35 +52,20 @@ public class SimulatorFactory {
     public Simulator create(JSONObject simulatorParams, JSONObject commonEventHeaderParams,
             Optional<JSONObject> pnfRegistrationParams, Optional<JSONObject> notificationParams)
             throws ProcessingException, IOException, ValidationException {
+        PnfSimConfig configuration = ConfigurationProvider.getConfigInstance();
+        String xnfUrl = "sftp://onap:pano@" + configuration.getIpsftp() + "/";
+        String vesUrl = configuration.getVesip() + "/eventListener/v7";
+
         Duration duration = Duration.ofSeconds(parseInt(simulatorParams.getString(TEST_DURATION)));
         Duration interval = Duration.ofSeconds(parseInt(simulatorParams.getString(MESSAGE_INTERVAL)));
-        String vesUrl = simulatorParams.getString(VES_SERVER_URL);
 
-        JSONObject messageBody =
-                messageProvider.createMessage(commonEventHeaderParams, pnfRegistrationParams, notificationParams);
+        List<String> fileList = FileProvider.getFiles();
+        JSONObject messageBody = messageProvider
+                .createMessage(commonEventHeaderParams, pnfRegistrationParams, notificationParams, fileList, xnfUrl);
         validator.validate(messageBody.toString(), DEFAULT_OUTPUT_SCHEMA_PATH);
 
-        JSONArray messageBodyArray = new JSONArray();
-
-        PnfSimConfig configuration = ConfigurationProvider.getConfigInstance();
-        String xnfUrl = configuration.getIpsftp() + "/";
-
-        ArrayList<String> fileList = FileProvider.getFiles();
-
-        // for (String f : fileList) {
-        // System.out.println("f processed from fileList: " + f.toString());
-        // JSONObject vesEvent = messageProvider.createOneVes(commonEventHeaderParams,
-        // pnfRegistrationParams,
-        // notificationParams, url, f);
-        // messageBodyArray.put(vesEvent);
-        // }
-
-        String fileName = fileList.get(1);
-        System.out.println("f processed from fileList: " + fileName.toString());
-        JSONObject vesEvent = messageProvider.createOneVesEvent(xnfUrl, fileName);
-
-        return Simulator.builder().withVesUrl(configuration.getVesip()).withDuration(duration).withInterval(interval)
-                .withMessageBody(vesEvent).build();
+        return Simulator.builder().withVesUrl(vesUrl).withDuration(duration).withInterval(interval)
+                .withMessageBody(messageBody).build();
 
     }
 }

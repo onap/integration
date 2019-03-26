@@ -1,7 +1,8 @@
 #!/bin/bash
 MAIN_DIRECTORY=${PWD##*/}
-FILE_DIRECTORY=./files/onap
-FILE_TEMPLATE=./templates/file_template.xml.gz
+FULL_DIRECTORY=${PWD}
+FILE_DIRECTORY=$FULL_DIRECTORY/files/onap
+FILE_TEMPLATE=$FULL_DIRECTORY/templates/file_template.xml.gz
 UPDATE_MINS=15
 NUM_FILES=96
 
@@ -11,11 +12,11 @@ mkdir -p "$FILE_DIRECTORY"
 for ((n=0;n<$NUM_FILES;n++))
 do
 	if [[ "$OSTYPE" == "linux-gnu" ]]; then		# Linux OS
-		DATE=$(date -d $(($UPDATE_MINS*$n))" minutes ago" +"%Y%m%d")
+		DATE=$(date -d $(($UPDATE_MINS*($n+1)-1))" minutes ago" +"%Y%m%d")
 		TIME_START=$(date -d $(($UPDATE_MINS*($n+1)-1))" minutes ago" +"%H%M%z")
 		TIME_END=$(date -d $(($UPDATE_MINS*$n))" minutes ago" +"%H%M%z")  
 	elif [[ "$OSTYPE" == "darwin"* ]]; then		# Mac OS
-		DATE=$(date -v "-"$(($UPDATE_MINS*$n))"M" +"%Y%m%d")
+		DATE=$(date -v "-"$(($UPDATE_MINS*($n+1)-1))"M" +"%Y%m%d")
 		TIME_START=$(date -v "-"$(($UPDATE_MINS*($n+1)-1))"M" +"%H%M%z")
 		TIME_END=$(date -v "-"$(($UPDATE_MINS*$n))"M" +"%H%M%z")
 	else
@@ -36,11 +37,12 @@ do
 	OLD_TIMESTAMP=${TIMESTAMP_ARRAY[$NUM_FILES-1]}
 	unset TIMESTAMP_ARRAY[$NUM_FILES-1]
 
-	DATE=$(date +"%Y%m%d")
 	TIME_END=$(date +"%H%M%z")
 	if [[ "$OSTYPE" == "linux-gnu" ]]; then		# Linux OS
+		DATE=$(date -d $(($UPDATE_MINS-1))" minutes ago" +"%Y%m%d")
 		TIME_START=$(date -d $(($UPDATE_MINS-1))" minutes ago" +"%H%M%z")
 	elif [[ "$OSTYPE" == "darwin"* ]]; then		# Mac OS
+		DATE=$(date -v "-"$(($UPDATE_MINS-1))"M" +"%Y%m%d")
 		TIME_START=$(date -v "-"$(($UPDATE_MINS-1))"M" +"%H%M%z")
 	else
 		echo "ERROR: OS not supported"

@@ -5,9 +5,6 @@
     "simulatorParams": {
       "type": "object",
       "properties": {
-        "vesServerUrl": {
-          "type": "string"
-        },
         "testDuration": {
           "type": "string"
         },
@@ -16,7 +13,6 @@
         }
       },
       "required": [
-        "vesServerUrl",
         "testDuration",
         "messageInterval"
       ]
@@ -32,22 +28,10 @@
         },
         "nfcNamingCode": {
           "type": "string"
-        },
-        "sourceName": {
-          "type": "string"
-        },
-        "sourceId": {
-          "type": "string"
-        },
-        "reportingEntityName": {
-          "type": "string"
         }
       },
       "required": [
-        "eventName",
-        "sourceName",
-        "sourceId",
-        "reportingEntityName"
+        "eventName"
       ]
     },
 
@@ -99,87 +83,11 @@
         },
         "changeType": {
           "type": "string"
-        },
-        "arrayOfNamedHashMap": {
-          "type": "array",
-          "items": [
-            {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string"
-                },
-                "hashMap": {
-                  "type": "object",
-                  "properties": {
-                    "location": {
-                      "type": "string"
-                    },
-                    "compression": {
-                      "type": "string"
-                    },
-                    "fileFormatType": {
-                      "type": "string"
-                    },
-                    "fileFormatVersion": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "location",
-                    "compression",
-                    "fileFormatType",
-                    "fileFormatVersion"
-                  ]
-                }
-              },
-              "required": [
-                "name",
-                "hashMap"
-              ]
-            },
-            {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string"
-                },
-                "hashMap": {
-                  "type": "object",
-                  "properties": {
-                    "location": {
-                      "type": "string"
-                    },
-                    "compression": {
-                      "type": "string"
-                    },
-                    "fileFormatType": {
-                      "type": "string"
-                    },
-                    "fileFormatVersion": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "location",
-                    "compression",
-                    "fileFormatType",
-                    "fileFormatVersion"
-                  ]
-                }
-              },
-              "required": [
-                "name",
-                "hashMap"
-              ]
-            }
-          ]
         }
       },
       "required": [
         "changeIdentifier",
-        "changeType",
-        "arrayOfNamedHashMap"
+        "changeType"
       ]
     }
   },

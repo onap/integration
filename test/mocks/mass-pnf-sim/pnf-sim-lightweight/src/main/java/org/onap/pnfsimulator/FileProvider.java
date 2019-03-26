@@ -7,34 +7,34 @@ import java.util.List;
 
 public class FileProvider {
 
-    public static ArrayList<String> getFiles() {
+    private FileProvider() {}
 
-        List<String> files = QueryFiles();
+    public static List<String> getFiles() {
 
-        Collections.sort(files);
+        List<String> files = queryFiles();
 
-        ArrayList<String> fileListSorted = new ArrayList<String>();
+        files.sort(Collections.reverseOrder());
+
+        List<String> fileListSorted = new ArrayList<>();
         for (String f : files) {
-            System.out.println("Next file: " + f);
             fileListSorted.add(f);
         }
         return fileListSorted;
     }
 
-    private static List<String> QueryFiles() {
+    private static List<String> queryFiles() {
 
         File folder = new File("./files/onap/");
         File[] listOfFiles = folder.listFiles();
-        ArrayList<String> results = new ArrayList<String>();
+        List<String> results = new ArrayList<>();
 
         if (listOfFiles.length == 0) {
-            return null;
+            return results;
             // TODO: this should be a thrown exception catched in the Simulator class
         }
 
         for (int i = 0; i < listOfFiles.length; i++) {
             if (listOfFiles[i].isFile()) {
-                System.out.println("File: " + listOfFiles[i].getName());
                 results.add(listOfFiles[i].getName());
             }
         }
