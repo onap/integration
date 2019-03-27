@@ -881,6 +881,9 @@ resources:
       user_data: { get_resource: orch_3_vm_config }
 
 outputs:
+  docker_proxy:
+    value: { get_param: docker_proxy }
+
   rancher_vm_ip:
     description: The IP address of the rancher instance
     value: { get_attr: [rancher_floating_ip, floating_ip_address] }

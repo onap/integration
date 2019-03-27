@@ -85,7 +85,7 @@ sed -i 's|http://archive.ubuntu.com|http://nova.clouds.archive.ubuntu.com|g' /et
 
 while ! hash jq &> /dev/null; do
     apt-get -y update
-    apt-get -y install apt-transport-https ca-certificates curl software-properties-common jq make nfs-kernel-server moreutils
+    apt-get -y install curl jq make nfs-kernel-server moreutils
     sleep 10
 done
 
@@ -107,17 +107,15 @@ chmod 777 /dockerdata-nfs/
 chown nobody:nogroup /dockerdata-nfs/
 cd /dockerdata-nfs/
 git init
-git config user.email "root@onap"
-git config user.name "root"
 git add -A
 git commit -m "initial commit"
 
 # export NFS mount
 echo "/dockerdata-nfs *(rw,fsid=1,async,no_root_squash,no_subtree_check)" | tee /etc/exports
-
-
 exportfs -a
 systemctl restart nfs-kernel-server
+
+
 
 cd ~
 
@@ -125,7 +123,7 @@ cd ~
 curl -s -LO https://storage.googleapis.com/kubernetes-release/release/v__kubectl_version__/bin/linux/amd64/kubectl
 chmod +x ./kubectl
 sudo mv ./kubectl /usr/local/bin/kubectl
-mkdir ~/.kube
+mkdir -p ~/.kube
 
 # install helm __helm_version__
 mkdir -p helm
@@ -135,34 +133,10 @@ tar -zxvf helm-v__helm_version__-linux-amd64.tar.gz
 sudo cp linux-amd64/helm /usr/local/bin/helm
 popd
 
-NAMESPACE=onap
-
-# wait for /root/.kube/config to show up
-while [ ! -e /root/.kube/config ]; do
-    sleep 1m
-done
-
-
-export KUBECONFIG=/root/.kube/config
-kubectl config view
 
 
 
-# Enable auto-completion for kubectl
-echo "source <(kubectl completion bash)" >> ~/.bashrc
-
-
-# wait for kubernetes to initialze
-sleep 3m
-until [ $(kubectl get pods --namespace kube-system | tail -n +2 | grep -c Running) -ge 6 ]; do
-    sleep 1m
-done
-
-
-# Install using OOM
-
-
-# Clone OOM:
+# Clone OOM repo
 cd ~
 git clone -b __oom_gerrit_branch__ https://gerrit.onap.org/r/oom
 cd oom
@@ -173,7 +147,7 @@ fi
 git checkout -b workarounds
 git log -1
 
-# Clone integration
+# Clone integration repo
 cd ~
 git clone -b __integration_gerrit_branch__ https://gerrit.onap.org/r/integration
 cd integration
@@ -202,18 +176,42 @@ git commit -a -m "set portal cookie domain"
 git tag -a "deploy0" -m "initial deployment"
 
 
-echo "install tiller/helm"
+
+
+
+
+
+# wait for /root/.kube/config to show up; will be placed by deploy script after RKE completes
+while [ ! -e /root/.kube/config ]; do
+    sleep 1m
+done
+
+
+NAMESPACE=onap
+export KUBECONFIG=/root/.kube/config
+kubectl config set-context $(kubectl config current-context) --namespace=$NAMESPACE
+kubectl config view
+
+
+# Enable auto-completion for kubectl
+echo "source <(kubectl completion bash)" >> ~/.bashrc
+
+
+until [ $(kubectl get cs | tail -n +2 | grep -c Healthy) -ge 5 ]; do
+    sleep 1m
+done
+
+
+# install tiller/helm
 kubectl -n kube-system create serviceaccount tiller
 kubectl create clusterrolebinding tiller --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
 helm init --service-account tiller
 kubectl -n kube-system rollout status deploy/tiller-deploy
-
-# Run ONAP:
-cd ~/oom/kubernetes/
-helm init --client-only
-helm init --upgrade
 helm serve &
 sleep 10
+
+# Make ONAP helm charts
+cd ~/oom/kubernetes/
 helm repo add local http://127.0.0.1:8879
 helm repo list
 make all
@@ -226,6 +224,7 @@ if [ ! -z "__helm_deploy_delay__" ]; then
     sed -i "/\^enabled:/a\      echo sleep __helm_deploy_delay__\n      sleep __helm_deploy_delay__" ~/.helm/plugins/deploy/deploy.sh
 fi
 
+# Deploy ONAP
 helm deploy dev local/onap -f ~/oom/kubernetes/onap/resources/environments/public-cloud.yaml -f ~/integration-override.yaml --namespace $NAMESPACE --verbose
 
 # re-install original helm deploy plugin
