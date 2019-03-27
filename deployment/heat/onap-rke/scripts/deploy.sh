@@ -9,7 +9,7 @@
 #     http://www.apache.org/licenses/LICENSE-2.0
 #
 
-stack_name="oom"
+stack_name="onap"
 portal_hostname="portal.api.simpledemo.onap.org"
 full_deletion=false
 
@@ -111,9 +111,6 @@ SSH_KEY=~/.ssh/onap_key
 
 source $WORKSPACE/test/ete/scripts/install_openstack_cli.sh
 
-#SO_ENCRYPTION_KEY=aa3871669d893c7fb8abbcda31b88b4f
-#export OS_PASSWORD_ENCRYPTED=$(echo -n "$OS_PASSWORD" | openssl aes-128-ecb -e -K "$SO_ENCRYPTION_KEY" -nosalt | xxd -c 256 -p)
-
 #Use new encryption method
 pushd $WORKSPACE/deployment/heat/onap-rke/scripts
 javac Crypto.java
@@ -178,8 +175,7 @@ for VM_NAME in $(grep _vm: ./onap-oom.yaml~ | cut -d: -f1); do
 done
 
 cat > ./cluster.yml~ <<EOF
-# If you intened to deploy Kubernetes in an air-gapped environment,
-# please consult the documentation on how to configure custom RKE images.
+# GENERATED for $stack_name
 nodes:
 EOF
 
@@ -196,12 +192,7 @@ for VM_NAME in $(grep -E 'k8s_.+_vm:' ./onap-oom.yaml~ | cut -d: -f1); do
   - worker
   hostname_override: "$VM_HOSTNAME"
   user: ubuntu
-  docker_socket: /var/run/docker.sock
-  ssh_key: ""
-  ssh_key_path: ~/.ssh/onap_key
-  ssh_cert: ""
-  ssh_cert_path: ""
-  labels: {}
+  ssh_key_path: "$SSH_KEY"
 EOF
 done
 
@@ -219,137 +210,42 @@ for VM_NAME in $(grep -E 'orch_.+_vm:' ./onap-oom.yaml~ | cut -d: -f1); do
   - etcd
   hostname_override: "$VM_HOSTNAME"
   user: ubuntu
-  docker_socket: /var/run/docker.sock
-  ssh_key: ""
-  ssh_key_path: ~/.ssh/onap_key
-  ssh_cert: ""
-  ssh_cert_path: ""
-  labels: {}
+  ssh_key_path: "$SSH_KEY"
 EOF
 done
 
+DOCKER_PROXY=$(openstack stack output show $stack_name docker_proxy -c output_value -f value)
+
 cat >> ./cluster.yml~ <<EOF
 services:
-  etcd:
-    image: ""
-    extra_args: {}
-    extra_binds: []
-    extra_env: []
-    external_urls: []
-    ca_cert: ""
-    cert: ""
-    key: ""
-    path: ""
-    snapshot: null
-    retention: ""
-    creation: ""
-    backup_config: null
   kube-api:
-    image: ""
-    extra_args: {}
-    extra_binds: []
-    extra_env: []
     service_cluster_ip_range: 10.43.0.0/16
-    service_node_port_range: ""
     pod_security_policy: false
     always_pull_images: false
   kube-controller:
-    image: ""
-    extra_args: {}
-    extra_binds: []
-    extra_env: []
     cluster_cidr: 10.42.0.0/16
     service_cluster_ip_range: 10.43.0.0/16
-  scheduler:
-    image: ""
-    extra_args: {}
-    extra_binds: []
-    extra_env: []
   kubelet:
-    image: ""
-    extra_args: {}
-    extra_binds: []
-    extra_env: []
     cluster_domain: cluster.local
-    infra_container_image: ""
     cluster_dns_server: 10.43.0.10
     fail_swap_on: false
-  kubeproxy:
-    image: ""
-    extra_args: {}
-    extra_binds: []
-    extra_env: []
 network:
   plugin: canal
-  options: {}
 authentication:
   strategy: x509
-  sans: []
-  webhook: null
-addons: ""
-addons_include: []
-system_images:
-  etcd: rancher/coreos-etcd:v3.2.24-rancher1
-  alpine: rancher/rke-tools:v0.1.27
-  nginx_proxy: rancher/rke-tools:v0.1.27
-  cert_downloader: rancher/rke-tools:v0.1.27
-  kubernetes_services_sidecar: rancher/rke-tools:v0.1.27
-  kubedns: rancher/k8s-dns-kube-dns:1.15.0
-  dnsmasq: rancher/k8s-dns-dnsmasq-nanny:1.15.0
-  kubedns_sidecar: rancher/k8s-dns-sidecar:1.15.0
-  kubedns_autoscaler: rancher/cluster-proportional-autoscaler:1.0.0
-  coredns: coredns/coredns:1.2.6
-  coredns_autoscaler: rancher/cluster-proportional-autoscaler:1.0.0
-  kubernetes: rancher/hyperkube:v1.13.4-rancher1
-  flannel: rancher/coreos-flannel:v0.10.0-rancher1
-  flannel_cni: rancher/flannel-cni:v0.3.0-rancher1
-  calico_node: rancher/calico-node:v3.4.0
-  calico_cni: rancher/calico-cni:v3.4.0
-  calico_controllers: ""
-  calico_ctl: rancher/calico-ctl:v2.0.0
-  canal_node: rancher/calico-node:v3.4.0
-  canal_cni: rancher/calico-cni:v3.4.0
-  canal_flannel: rancher/coreos-flannel:v0.10.0
-  weave_node: weaveworks/weave-kube:2.5.0
-  weave_cni: weaveworks/weave-npc:2.5.0
-  pod_infra_container: rancher/pause:3.1
-  ingress: rancher/nginx-ingress-controller:0.21.0-rancher3
-  ingress_backend: rancher/nginx-ingress-controller-defaultbackend:1.4-rancher1
-  metrics_server: rancher/metrics-server:v0.3.1
-ssh_key_path: ~/.ssh/onap_key
-ssh_cert_path: ""
+ssh_key_path: "$SSH_KEY"
 ssh_agent_auth: false
 authorization:
   mode: rbac
-  options: {}
 ignore_docker_version: false
-kubernetes_version: ""
-private_registries: []
-ingress:
-  provider: ""
-  options: {}
-  node_selector: {}
-  extra_args: {}
+kubernetes_version: "v1.13.4-rancher1-2"
+private_registries:
+- url: $DOCKER_PROXY
+  is_default: true
 cluster_name: "$stack_name"
-cloud_provider:
-  name: ""
-prefix_path: ""
-addon_job_timeout: 0
-bastion_host:
-  address: ""
-  port: ""
-  user: ""
-  ssh_key: ""
-  ssh_key_path: ""
-  ssh_cert: ""
-  ssh_cert_path: ""
-monitoring:
-  provider: ""
-  options: {}
 restore:
   restore: false
   snapshot_name: ""
-dns: null
 EOF
 
 rm -rf ./target
@@ -369,37 +265,5 @@ popd
 
 sleep 2m
 ssh -o StrictHostKeychecking=no -i $SSH_KEY ubuntu@$RANCHER_IP "sed -u '/Cloud-init.*finished/q' <(tail -n+0 -f /var/log/cloud-init-output.log)"
-
-PREV_RESULT=0
-for n in $(seq 1 20); do
-  RESULT=$(ssh -i $SSH_KEY ubuntu@$RANCHER_IP 'sudo su -c "kubectl -n onap get pods"' | grep -vE 'Running|Complete|NAME' | wc -l)
-  if [[ $? -eq 0 && ( $RESULT -eq 0 || $RESULT -eq $PREV_RESULT ) ]]; then
-    break
-  fi
-  sleep 15m
-  PREV_RESULT=$RESULT
-done
-
-PREV_RESULT=0
-for n in $(seq 1 20); do
-  echo "Wait for HEALTHCHECK count $n of 10"
-  ROBOT_POD=$(ssh -i $SSH_KEY ubuntu@$RANCHER_IP 'sudo su -c "kubectl --namespace onap get pods"' | grep robot | sed 's/ .*//')
-  ssh -i $SSH_KEY ubuntu@$RANCHER_IP  'sudo su -l root -c "/root/oom/kubernetes/robot/ete-k8s.sh onap health"'
-  RESULT=$?
-  if [[ $RESULT -lt 10 && ( $RESULT -eq 0 || $RESULT -eq $PREV_RESULT ) ]]; then
-    break
-  fi
-  sleep 15m
-  PREV_RESULT=$RESULT
-done
-if [ "$ROBOT_POD" == "" ]; then
-  exit 1
-fi
-
-LOG_DIR=$(echo "kubectl exec -n onap $ROBOT_POD -- ls -1t /share/logs | grep health | head -1" | ssh -i $SSH_KEY ubuntu@$RANCHER_IP sudo su)
-echo "kubectl cp -n onap $ROBOT_POD:share/logs/$LOG_DIR /tmp/robot/logs/$LOG_DIR" | ssh -i $SSH_KEY ubuntu@$RANCHER_IP sudo su
-echo "Browse Robot results at http://$K8S_IP:30209/logs/$LOG_DIR/"
-mkdir -p $WORKSPACE/archives/healthcheck
-rsync -e "ssh -i $SSH_KEY" -avtz ubuntu@$RANCHER_IP:/tmp/robot/logs/$LOG_DIR/ $WORKSPACE/archives/healthcheck
 
 exit 0

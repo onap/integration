@@ -50,7 +50,7 @@ sed -i 's|http://archive.ubuntu.com|http://nova.clouds.archive.ubuntu.com|g' /et
 while ! hash jq &> /dev/null; do
     apt-get -y update
     # apt-get -y dist-upgrade
-    apt-get -y install apt-transport-https ca-certificates curl software-properties-common jq nfs-common docker.io
+    apt-get -y install curl jq nfs-common docker.io
     systemctl enable docker
     usermod -aG docker ubuntu
     sleep 10
