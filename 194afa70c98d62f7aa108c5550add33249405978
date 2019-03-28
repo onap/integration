@@ -22,6 +22,30 @@
       "revId": "194afa70c98d62f7aa108c5550add33249405978",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81711ca5_1f7daa58",
+        "filename": "version-manifest/src/main/resources/docker-manifest-staging.csv",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 4893
+      },
+      "writtenOn": "2019-03-28T11:16:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d3e5f44_96154448",
+      "range": {
+        "startLine": 47,
+        "startChar": 31,
+        "endLine": 47,
+        "endChar": 32
+      },
+      "revId": "194afa70c98d62f7aa108c5550add33249405978",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
