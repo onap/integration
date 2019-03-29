@@ -17,12 +17,20 @@
 
 package org.onap.pnfsimulator.simulator;
 
+import com.github.fge.jsonschema.core.exceptions.ProcessingException;
+import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.json.JSONObject;
+import org.onap.pnfsimulator.FileProvider;
+import org.onap.pnfsimulator.message.MessageProvider;
 import org.onap.pnfsimulator.simulator.client.HttpClientAdapter;
 import org.onap.pnfsimulator.simulator.client.HttpClientAdapterImpl;
+import org.onap.pnfsimulator.simulator.validation.JSONValidator;
+import org.onap.pnfsimulator.simulator.validation.ValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -41,6 +49,11 @@ public class Simulator extends Thread {
     private Duration duration;
     private Duration interval;
     private Instant endTime;
+    private JSONObject commonEventHeaderParams;
+    private Optional<JSONObject> pnfRegistrationParams;
+    private Optional<JSONObject> notificationParams;
+    private String xnfUrl;
+    private static final String DEFAULT_OUTPUT_SCHEMA_PATH = "json_schema/output_validator_ves_schema_30.0.1.json";
 
     private Simulator() {}
 
@@ -55,11 +68,19 @@ public class Simulator extends Thread {
         endTime = Instant.now().plus(duration);
         while (isEndless || runningTimeNotExceeded()) {
             try {
+                List<String> fileList = FileProvider.getFiles();
+                MessageProvider messageProvider = new MessageProvider();
+                JSONValidator validator = new JSONValidator();
+
+                messageBody = messageProvider.createMessage(this.commonEventHeaderParams, this.pnfRegistrationParams,
+                        this.notificationParams, fileList, this.xnfUrl);
+                validator.validate(messageBody.toString(), DEFAULT_OUTPUT_SCHEMA_PATH);
+
                 LOGGER.info("Message to be sent:\n" + getMessage());
                 httpClient.send(messageBody.toString(), vesUrl);
                 Thread.sleep(interval.toMillis());
-            } catch (InterruptedException e) {
-                LOGGER.info("Simulation interrupted");
+            } catch (InterruptedException  | ValidationException | ProcessingException | IOException e) {
+                LOGGER.info("Simulation stopped due to an exception");
                 return;
             }
         }
@@ -96,16 +117,21 @@ public class Simulator extends Thread {
 
         private String vesUrl;
         private HttpClientAdapter httpClient;
-        private JSONObject messageBody;
+        //private JSONObject messageBody;
         private Duration duration;
         private Duration interval;
+        private Optional<JSONObject> notificationParams;
+        private Optional<JSONObject> pnfRegistrationParams;
+        private JSONObject commonEventHeaderParams;
+        private String xnfUrl;
 
         private Builder() {
             this.vesUrl = "";
             this.httpClient = new HttpClientAdapterImpl();
-            this.messageBody = new JSONObject();
+            //this.messageBody = new JSONObject();
             this.duration = Duration.ZERO;
             this.interval = Duration.ZERO;
+            this.commonEventHeaderParams = new JSONObject();
         }
 
         public Builder withVesUrl(String vesUrl) {
@@ -118,10 +144,10 @@ public class Simulator extends Thread {
             return this;
         }
 
-        public Builder withMessageBody(JSONObject messageBody) {
+        /*public Builder withMessageBody(JSONObject messageBody) {
             this.messageBody = messageBody;
             return this;
-        }
+        }*/
 
         public Builder withDuration(Duration duration) {
             this.duration = duration;
@@ -134,13 +160,37 @@ public class Simulator extends Thread {
             return this;
         }
 
+        public Builder withCommonEventHeaderParams(JSONObject commonEventHeaderParams) {
+            this.commonEventHeaderParams = commonEventHeaderParams;
+            return this;
+        }
+
+        public Builder withNotificationParams(Optional<JSONObject> notificationParams) {
+            this.notificationParams = notificationParams;
+            return this;
+        }
+
+        public Builder withPnfRegistrationParams(Optional<JSONObject> pnfRegistrationParams) {
+            this.pnfRegistrationParams = pnfRegistrationParams;
+            return this;
+        }
+
+        public Builder withXnfUrl(String xnfUrl) {
+            this.xnfUrl = xnfUrl;
+            return this;
+        }
+
         public Simulator build() {
             Simulator simulator = new Simulator();
             simulator.vesUrl = this.vesUrl;
             simulator.httpClient = this.httpClient;
-            simulator.messageBody = this.messageBody;
+            //simulator.messageBody = this.messageBody;
             simulator.duration = this.duration;
             simulator.interval = this.interval;
+            simulator.xnfUrl = this.xnfUrl;
+            simulator.commonEventHeaderParams = this.commonEventHeaderParams;
+            simulator.pnfRegistrationParams = this.pnfRegistrationParams;
+            simulator.notificationParams = this.notificationParams;
             simulator.isEndless = duration.equals(Duration.ZERO);
             return simulator;
         }

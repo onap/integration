@@ -34,5 +34,8 @@ Define the amount of simulators to be launched
 ./mass-pnf-sim.py  --stop 2
 ./mass-pnf-sim.py  --clean
 
+###Verbose printout from Python
+python3 -m trace --trace --count -C . ./mass-pnf-sim.py .....
+
 ###Cleaning and recovery after incorrect configuration
 docker stop $(docker ps -aq); docker rm $(docker ps -aq)

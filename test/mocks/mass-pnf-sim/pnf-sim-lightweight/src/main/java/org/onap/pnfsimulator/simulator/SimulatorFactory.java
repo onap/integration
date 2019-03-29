@@ -20,42 +20,21 @@ package org.onap.pnfsimulator.simulator;
 import static java.lang.Integer.parseInt;
 import static org.onap.pnfsimulator.message.MessageConstants.MESSAGE_INTERVAL;
 import static org.onap.pnfsimulator.message.MessageConstants.TEST_DURATION;
-import com.github.fge.jsonschema.core.exceptions.ProcessingException;
-import java.io.IOException;
 import java.time.Duration;
-import java.util.List;
 import java.util.Optional;
 import org.json.JSONObject;
 import org.onap.pnfsimulator.ConfigurationProvider;
-import org.onap.pnfsimulator.FileProvider;
 import org.onap.pnfsimulator.PnfSimConfig;
-import org.onap.pnfsimulator.message.MessageProvider;
-import org.onap.pnfsimulator.simulator.validation.JSONValidator;
-import org.onap.pnfsimulator.simulator.validation.ValidationException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SimulatorFactory {
 
-    private static final String DEFAULT_OUTPUT_SCHEMA_PATH = "json_schema/output_validator_ves_schema_30.0.1.json";
-
-    private MessageProvider messageProvider;
-    private JSONValidator validator;
-
-    @Autowired
-    public SimulatorFactory(MessageProvider messageProvider, JSONValidator validator) {
-        this.messageProvider = messageProvider;
-        this.validator = validator;
-    }
-
     public Simulator create(JSONObject simulatorParams, JSONObject commonEventHeaderParams,
-            Optional<JSONObject> pnfRegistrationParams, Optional<JSONObject> notificationParams)
-            throws ProcessingException, IOException, ValidationException {
+            Optional<JSONObject> pnfRegistrationParams, Optional<JSONObject> notificationParams) {
         PnfSimConfig configuration = ConfigurationProvider.getConfigInstance();
 
         String xnfUrl = null;
-
         if (configuration.getDefaultfileserver().equals("sftp")) {
             xnfUrl = configuration.getUrlsftp() + "/";
         } else if (configuration.getDefaultfileserver().equals("ftps")) {
@@ -63,17 +42,11 @@ public class SimulatorFactory {
         }
 
         String urlVes = configuration.getUrlves();
-
         Duration duration = Duration.ofSeconds(parseInt(simulatorParams.getString(TEST_DURATION)));
         Duration interval = Duration.ofSeconds(parseInt(simulatorParams.getString(MESSAGE_INTERVAL)));
 
-        List<String> fileList = FileProvider.getFiles();
-        JSONObject messageBody = messageProvider.createMessage(commonEventHeaderParams, pnfRegistrationParams,
-                notificationParams, fileList, xnfUrl);
-        validator.validate(messageBody.toString(), DEFAULT_OUTPUT_SCHEMA_PATH);
-
-        return Simulator.builder().withVesUrl(urlVes).withDuration(duration).withInterval(interval)
-                .withMessageBody(messageBody).build();
-
+        return Simulator.builder().withVesUrl(urlVes).withXnfUrl(xnfUrl).withDuration(duration)
+                .withCommonEventHeaderParams(commonEventHeaderParams).withNotificationParams(notificationParams)
+                .withPnfRegistrationParams(pnfRegistrationParams).withInterval(interval).build();
     }
 }

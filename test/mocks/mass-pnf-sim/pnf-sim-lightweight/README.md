@@ -10,7 +10,8 @@
 ~/dev/git/integration/test/mocks/mass-pnf-sim/pnf-sim-lightweight$ curl -s -X POST -H "Content-Type: application/json" -H "X-ONAP-RequestID: 123" -H "X-InvocationID: 456" -d @config/config.json 
 http://localhost:5000/simulator/start
 ```
-
+#### VES event sending
+the default action is to send a VES Message every 15 minutes and the total duration of the VES FileReady Message sending is 1 day (these values can be changed in config/config.json)
 
 Message from the stdout of nc:
 
