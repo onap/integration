@@ -99,7 +99,7 @@ onap/org.onap.dcaegen2.services.pm-mapper,latest
 onap/org.onap.dcaegen2.services.prh.prh-app-server,1.2.1-SNAPSHOT
 onap/policy-apex-pdp,2.1-SNAPSHOT-latest
 onap/policy-distribution,2.1.0-SNAPSHOT-latest
-onap/policy-drools,1.4-SNAPSHOT-latest
+onap/policy-pdpd-cl,1.4-SNAPSHOT-latest
 onap/policy-pe,1.4-SNAPSHOT-latest
 onap/pomba-aai-context-builder,1.4.0-SNAPSHOT-latest
 onap/pomba-context-aggregator,1.4.0-SNAPSHOT-latest
