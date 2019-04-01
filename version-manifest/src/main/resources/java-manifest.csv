@@ -165,7 +165,7 @@ org.onap.ccsdk.sli.plugins,properties-node-provider,0.3.3
 org.onap.ccsdk.sli.plugins,restapi-call-node-provider,0.3.3
 org.onap.ccsdk.storage.pgaas,pgaas,1.0.0
 org.onap.ccsdk.utils,utils,1.0.0
-org.onap.clamp.clds.clamp,clamp,3.0.3
+org.onap.clamp.clds.clamp,clamp,3.0.4
 org.onap.cli,cli-framework,2.0.4
 org.onap.cli,cli-main,2.0.4
 org.onap.cli,cli-plugins-sample,2.0.4
