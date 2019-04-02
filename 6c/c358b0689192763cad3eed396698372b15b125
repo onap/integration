@@ -1,0 +1,9 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Paul Dennehy <paul.p.dennehy@est.tech>
+Code-Review+1: Gerard Nugent <gerard.nugent@est.tech>
+Code-Review+2: Marco Platania <platania@research.att.com>
+Submitted-by: Marco Platania <platania@research.att.com>
+Submitted-at: Tue, 02 Apr 2019 16:17:29 +0000
+Reviewed-on: https://gerrit.onap.org/r/83875
+Project: integration
+Branch: refs/heads/casablanca
