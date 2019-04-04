@@ -70,7 +70,7 @@ final class JSONObjectFactory {
         commonEventHeader.put(INTERNAL_HEADER_FIELDS, new JSONObject());
         commonEventHeader.put(VERSION, VERSION_NUMBER);
         commonEventHeader.put(VES_EVENT_LISTENER_VERSION, VES_EVENT_LISTENER_VERSION_NUMBER);
-        String absPath = System.getProperty("user.dir");
+        String absPath = new File("").getAbsolutePath();
         String nodeName = absPath.substring(absPath.lastIndexOf(File.separator)+1);
         commonEventHeader.put(SOURCE_NAME, nodeName);
         commonEventHeader.put(REPORTING_ENTITY_NAME, nodeName);

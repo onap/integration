@@ -19,6 +19,8 @@ services:
       - ./json_schema:/json_schema
       - ./config/config.yml:/config/config.yml:rw
       - ./files/:/files/:rw
+    environment:
+      TZ: "${TIMEZONE}"
     env_file:
       - ./config/netconf.env
     restart: on-failure

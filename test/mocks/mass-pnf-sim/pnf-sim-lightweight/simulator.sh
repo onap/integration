@@ -74,6 +74,8 @@ function compose(){
 	export PORTFTPS=$8
 	export IPFTPS=$9
 	export IPSFTP=${10}
+	LOCALTIME=$(ls -l /etc/localtime)
+	export TIMEZONE=${LOCALTIME//*zoneinfo\/}
 
 	#will insert $I to distinguish containers, networks properly
 	#docker compose cannot substitute these, as they are keys, not values.
