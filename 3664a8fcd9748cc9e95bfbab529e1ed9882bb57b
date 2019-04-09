@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "ba57be05_b43e39b2",
+        "filename": "test/mocks/pnfsimulator/src/test/java/org/onap/pnfsimulator/simulator/ResourceReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 2815
+      },
+      "writtenOn": "2019-04-09T12:20:53Z",
+      "side": 1,
+      "message": "Either make both methods static or instance accessible\n- Don\u0027t Mix static and instance access in same class. It\u0027s confusing, inconsistent especially when instance method uses public static one. \n- The readResource method is unnecessary - a whole instance is required for simple string concatenation. \n- avoid invocations between public API methods of a class - changes in one method may affect the other. If common logic is required then extract it to a private method.\n- the name \u0027readResourceFromBaseDir\u0027 is misleading. It does not read anything from a basedir - what actually is a basedir is not defined anywhere in this method (only the unrelated baseDirectory instance field)",
+      "parentUuid": "0efc505b_42862184",
+      "revId": "3664a8fcd9748cc9e95bfbab529e1ed9882bb57b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9426d595_1acc99b1",
         "filename": "test/mocks/pnfsimulator/src/test/java/org/onap/pnfsimulator/simulator/ResourceReader.java",
         "patchSetId": 3
