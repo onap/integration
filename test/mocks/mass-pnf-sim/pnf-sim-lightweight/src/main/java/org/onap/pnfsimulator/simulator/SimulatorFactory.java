@@ -24,6 +24,7 @@ import java.time.Duration;
 import java.util.Optional;
 import org.json.JSONObject;
 import org.onap.pnfsimulator.ConfigurationProvider;
+import org.onap.pnfsimulator.FileProvider;
 import org.onap.pnfsimulator.PnfSimConfig;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +47,8 @@ public class SimulatorFactory {
         Duration interval = Duration.ofSeconds(parseInt(simulatorParams.getString(MESSAGE_INTERVAL)));
 
         return Simulator.builder().withVesUrl(urlVes).withXnfUrl(xnfUrl).withDuration(duration)
-                .withCommonEventHeaderParams(commonEventHeaderParams).withNotificationParams(notificationParams)
-                .withPnfRegistrationParams(pnfRegistrationParams).withInterval(interval).build();
+                .withFileProvider(new FileProvider()).withCommonEventHeaderParams(commonEventHeaderParams)
+                .withNotificationParams(notificationParams).withPnfRegistrationParams(pnfRegistrationParams)
+                .withInterval(interval).build();
     }
 }

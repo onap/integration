@@ -1,8 +1,5 @@
 {
-  "eventName": "pnfRegistration_Nokia_5gDu",
+  "eventName": "Noti_RnNode-Ericsson_FileReady",
   "nfNamingCode": "gNB",
-  "nfcNamingCode": "oam",
-  "sourceName": "NOK6061ZW3",
-  "sourceId": "val13",
-  "reportingEntityName": "NOK6061ZW3"
+  "nfcNamingCode": "oam"
 }

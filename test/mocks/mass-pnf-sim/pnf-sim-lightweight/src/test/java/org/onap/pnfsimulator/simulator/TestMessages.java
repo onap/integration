@@ -26,13 +26,13 @@ import java.nio.file.Paths;
 import java.util.Optional;
 import org.json.JSONObject;
 
-final class TestMessages {
+public final class TestMessages {
 
     static final JSONObject VALID_SIMULATOR_PARAMS = new JSONObject(getContent("validSimulatorParams.json"));
-    static final JSONObject VALID_COMMON_EVENT_HEADER_PARAMS = new JSONObject(getContent("validCommonEventHeaderParams.json"));
+    public static final JSONObject VALID_COMMON_EVENT_HEADER_PARAMS = new JSONObject(getContent("validCommonEventHeaderParams.json"));
     static final Optional<JSONObject> VALID_PNF_REGISTRATION_PARAMS = Optional
         .of(new JSONObject(getContent("validPnfRegistrationParams.json")));
-    static final Optional<JSONObject> VALID_NOTIFICATION_PARAMS = Optional
+    public static final Optional<JSONObject> VALID_NOTIFICATION_PARAMS = Optional
         .of(new JSONObject(getContent("validNotificationParams.json")));
 
     static final JSONObject INVALID_SIMULATOR_PARAMS = new JSONObject(
