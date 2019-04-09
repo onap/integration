@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "305c9d54_547544da",
+        "filename": "test/mocks/pnfsimulator/src/test/java/org/onap/pnfsimulator/simulator/ResourceReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 3395
+      },
+      "writtenOn": "2019-04-09T13:49:22Z",
+      "side": 1,
+      "message": "final",
+      "revId": "c2cb0a2071dfb39c1e306d4c760daad8a512769b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
