@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * PNF-REGISTRATION-HANDLER
  * ================================================================================
- * Copyright (C) 2018 NOKIA Intellectual Property. All rights reserved.
+ * Copyright (C) 2018-2019 NOKIA Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,61 +20,23 @@
 
 package org.onap.pnfsimulator.message;
 
-import static org.onap.pnfsimulator.message.MessageConstants.COMMON_EVENT_HEADER;
-import static org.onap.pnfsimulator.message.MessageConstants.DOMAIN;
-import static org.onap.pnfsimulator.message.MessageConstants.EVENT;
-import static org.onap.pnfsimulator.message.MessageConstants.EVENT_TYPE;
-import static org.onap.pnfsimulator.message.MessageConstants.NOTIFICATION_FIELDS;
-import static org.onap.pnfsimulator.message.MessageConstants.DOMAIN_PNF_REGISTRATION;
-import static org.onap.pnfsimulator.message.MessageConstants.DOMAIN_NOTIFICATION;
-import static org.onap.pnfsimulator.message.MessageConstants.PNF_REGISTRATION_FIELDS;
-
-import java.util.Map;
-import java.util.Optional;
 import org.json.JSONObject;
 
 public class MessageProvider {
 
-    public JSONObject createMessage(JSONObject commonEventHeaderParams, Optional<JSONObject> pnfRegistrationParams,
-        Optional<JSONObject> notificationParams) {
-
-        if (!pnfRegistrationParams.isPresent() && !notificationParams.isPresent()) {
-            throw new IllegalArgumentException(
-                "Both PNF registration and notification parameters objects are not present");
-        }
-        JSONObject event = new JSONObject();
-
-        JSONObject commonEventHeader = JSONObjectFactory.generateConstantCommonEventHeader();
-        Map<String, Object> commonEventHeaderFields = commonEventHeaderParams.toMap();
-        commonEventHeaderFields.forEach((key, value) -> {
-            commonEventHeader.put(key, value);
-        });
-
-        JSONObject pnfRegistrationFields = JSONObjectFactory.generatePnfRegistrationFields();
-        pnfRegistrationParams.ifPresent(jsonObject -> {
-            copyParametersToFields(jsonObject.toMap(), pnfRegistrationFields);
-            commonEventHeader.put(DOMAIN, DOMAIN_PNF_REGISTRATION);
-            commonEventHeader.put(EVENT_TYPE, DOMAIN_PNF_REGISTRATION);
-            event.put(PNF_REGISTRATION_FIELDS, pnfRegistrationFields);
-        });
-
-        JSONObject notificationFields = JSONObjectFactory.generateNotificationFields();
-        notificationParams.ifPresent(jsonObject -> {
-            copyParametersToFields(jsonObject.toMap(), notificationFields);
-            commonEventHeader.put(DOMAIN, DOMAIN_NOTIFICATION);
-            event.put(NOTIFICATION_FIELDS, notificationFields);
-        });
-
-        event.put(COMMON_EVENT_HEADER, commonEventHeader);
-        JSONObject root = new JSONObject();
-        root.put(EVENT, event);
-        return root;
+    public JSONObject createMessageWithNotification(JSONObject commonEventHeaderParams,
+                                                    JSONObject notificationParams) {
+        return MessageBuilder
+                .withCommonEventHeaderParams(commonEventHeaderParams)
+                .withNotificationParams(notificationParams)
+                .build();
     }
 
-    private void copyParametersToFields(Map<String, Object> paramersMap, JSONObject fieldsJsonObject) {
-        paramersMap.forEach((key, value) -> {
-            fieldsJsonObject.put(key, value);
-        });
+    public JSONObject createMessageWithPnfRegistration(JSONObject commonEventHeaderParams, JSONObject pnfRegistrationParams) {
+        return MessageBuilder
+                .withCommonEventHeaderParams(commonEventHeaderParams)
+                .withPnfRegistrationParams(pnfRegistrationParams)
+                .build();
     }
 
 }
