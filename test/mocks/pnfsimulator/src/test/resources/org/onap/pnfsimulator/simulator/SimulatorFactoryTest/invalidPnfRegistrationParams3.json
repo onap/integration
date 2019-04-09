@@ -1,0 +1,14 @@
+{
+  "pnfSerialNumber": "val1",
+  "pnfOamIpv4Address": "val3",
+  "pnfFamily": "val5",
+  "pnfModelNumber": "val6",
+  "pnfSoftwareVersion": "val7",
+  "pnfType": "val8",
+  "eventName": "val9",
+  "nfNamingCode": "val10",
+  "nfcNamingCode": "val11",
+  "sourceName": "val12",
+  "sourceId": "val13",
+  "reportingEntityName": "val14"
+}
