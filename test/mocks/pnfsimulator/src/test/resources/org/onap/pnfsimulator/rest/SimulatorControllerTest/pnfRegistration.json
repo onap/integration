@@ -1,0 +1,24 @@
+{
+  "simulatorParams": {
+    "vesServerUrl": "http://10.154.187.70:8080/eventListener/v7",
+    "testDuration": "10",
+    "messageInterval": "1"
+  },
+  "commonEventHeaderParams": {
+    "eventName": "val11",
+    "nfNamingCode": "val12",
+    "nfcNamingCode": "val13",
+    "sourceName": "val14",
+    "sourceId": "val15",
+    "reportingEntityName": "val16"
+  },
+  "pnfRegistrationParams": {
+    "SerialNumber": "val1",
+    "VendorName": "val2",
+    "OamIpv4Address": "val3",
+    "OamIpv6Address": "val4",
+    "Family": "val5",
+    "ModelNumber": "val6",
+    "SoftwareVersion": "val7"
+  }
+}
