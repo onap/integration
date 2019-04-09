@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * PNF-REGISTRATION-HANDLER
  * ================================================================================
- * Copyright (C) 2018 NOKIA Intellectual Property. All rights reserved.
+ * Copyright (C) 2018-2019 NOKIA Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,97 +20,21 @@
 
 package org.onap.pnfsimulator.simulator;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Optional;
 import org.json.JSONObject;
 
 final class TestMessages {
+    private static final ResourceReader resourceReader = new ResourceReader("org/onap/pnfsimulator/TestMessages/");
 
-    static final JSONObject VALID_SIMULATOR_PARAMS = new JSONObject(getContent("validSimulatorParams.json"));
-    static final JSONObject VALID_COMMON_EVENT_HEADER_PARAMS = new JSONObject(getContent("validCommonEventHeaderParams.json"));
-    static final Optional<JSONObject> VALID_PNF_REGISTRATION_PARAMS = Optional
-        .of(new JSONObject(getContent("validPnfRegistrationParams.json")));
-    static final Optional<JSONObject> VALID_NOTIFICATION_PARAMS = Optional
-        .of(new JSONObject(getContent("validNotificationParams.json")));
+    static final JSONObject VALID_SIMULATOR_PARAMS = new JSONObject(resourceReader.readResource("validSimulatorParams.json"));
+    static final JSONObject VALID_COMMON_EVENT_HEADER_PARAMS = new JSONObject(resourceReader.readResource("validCommonEventHeaderParams.json"));
+    static final JSONObject VALID_PNF_REGISTRATION_PARAMS = new JSONObject(resourceReader.readResource("validPnfRegistrationParams.json"));
+    static final JSONObject VALID_NOTIFICATION_PARAMS = new JSONObject(resourceReader.readResource("validNotificationParams.json"));
 
-    static final JSONObject INVALID_SIMULATOR_PARAMS = new JSONObject(
-        "{\n" +
-            "    \"vesServerUrl\": \"http://10.42.111.42:8080/eventListener/v5\",\n" +
-            "    \"messageInterval\": \"1\"\n" +
-            "}");
-
-
-    static final Optional<JSONObject> INVALID_PNF_REGISTRATION_PARAMS_1 = Optional.of(new JSONObject(
-        "{\n" +
-            "    \"pnfSerialNumber\": \"val1\",\n" +
-            "    \"pnfVendorName\": \"val2\",\n" +
-            "    \"pnfFamily\": \"val5\",\n" +
-            "    \"pnfModelNumber\": \"val6\",\n" +
-            "    \"pnfSoftwareVersion\": \"val7\",\n" +
-            "    \"pnfType\": \"val8\",\n" +
-            "    \"eventName\": \"val9\",\n" +
-            "    \"nfNamingCode\": \"val10\",\n" +
-            "    \"nfcNamingCode\": \"val11\",\n" +
-            "    \"sourceName\": \"val12\",\n" +
-            "    \"sourceId\": \"val13\",\n" +
-            "    \"reportingEntityName\": \"val14\"\n" +
-            "}"));
-
-    static final Optional<JSONObject> INVALID_PNF_REGISTRATION_PARAMS_2 = Optional.of(new JSONObject(
-        "{\n" +
-            "    \"pnfVendorName\": \"val2\",\n" +
-            "    \"pnfOamIpv4Address\": \"val3\",\n" +
-            "    \"pnfOamIpv6Address\": \"val4\",\n" +
-            "    \"pnfFamily\": \"val5\",\n" +
-            "    \"pnfModelNumber\": \"val6\",\n" +
-            "    \"pnfSoftwareVersion\": \"val7\",\n" +
-            "    \"pnfType\": \"val8\",\n" +
-            "    \"eventName\": \"val9\",\n" +
-            "    \"nfNamingCode\": \"val10\",\n" +
-            "    \"nfcNamingCode\": \"val11\",\n" +
-            "    \"sourceName\": \"val12\",\n" +
-            "    \"sourceId\": \"val13\",\n" +
-            "    \"reportingEntityName\": \"val14\"\n" +
-            "}"));
-
-    static final Optional<JSONObject> INVALID_PNF_REGISTRATION_PARAMS_3 = Optional.of(new JSONObject(
-        "{\n" +
-            "    \"pnfSerialNumber\": \"val1\",\n" +
-            "    \"pnfOamIpv4Address\": \"val3\",\n" +
-            "    \"pnfFamily\": \"val5\",\n" +
-            "    \"pnfModelNumber\": \"val6\",\n" +
-            "    \"pnfSoftwareVersion\": \"val7\",\n" +
-            "    \"pnfType\": \"val8\",\n" +
-            "    \"eventName\": \"val9\",\n" +
-            "    \"nfNamingCode\": \"val10\",\n" +
-            "    \"nfcNamingCode\": \"val11\",\n" +
-            "    \"sourceName\": \"val12\",\n" +
-            "    \"sourceId\": \"val13\",\n" +
-            "    \"reportingEntityName\": \"val14\"\n" +
-            "}"));
-
-    static final Optional<JSONObject> INVALID_NOTIFICATION_PARAMS = Optional.of(new JSONObject(
-        "{\n" +
-            "    \"mother\": \"val1\",\n" +
-            "    \"father\": \"val3\",\n" +
-            "}"));
-
+    static final JSONObject INVALID_SIMULATOR_PARAMS = new JSONObject(resourceReader.readResource("invalidSimulatorParams.json"));
+    static final JSONObject INVALID_PNF_REGISTRATION_PARAMS_1 = new JSONObject(resourceReader.readResource("invalidPnfRegistrationParams1.json"));
+    static final JSONObject INVALID_PNF_REGISTRATION_PARAMS_2 = new JSONObject(resourceReader.readResource("invalidPnfRegistrationParams2.json"));
+    static final JSONObject INVALID_PNF_REGISTRATION_PARAMS_3 = new JSONObject(resourceReader.readResource("invalidPnfRegistrationParams3.json"));
 
     private TestMessages() {
-    }
-
-    private static String getContent(String fileName) {
-        try {
-            String pathAsString = TestMessages.class.getResource(fileName).getPath();
-            StringBuilder stringBuilder = new StringBuilder();
-            Files.readAllLines(Paths.get(pathAsString)).forEach(line -> {
-                stringBuilder.append(line);
-            });
-            return stringBuilder.toString();
-        } catch (IOException e) {
-            throw new RuntimeException(String.format("Cannot read JSON file %s", fileName));
-        }
     }
 }

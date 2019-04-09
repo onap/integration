@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * PNF-REGISTRATION-HANDLER
  * ================================================================================
- * Copyright (C) 2018-2019 NOKIA Intellectual Property. All rights reserved.
+ * Copyright (C) 2019 NOKIA Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,25 +18,31 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.pnfsimulator.message;
+package org.onap.pnfsimulator.simulator;
 
-import org.json.JSONObject;
+import com.google.common.io.Resources;
 
-public class MessageProvider {
+import java.io.IOException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
-    public JSONObject createMessageWithNotification(JSONObject commonEventHeaderParams,
-                                                    JSONObject notificationParams) {
-        return MessageBuilder
-                .withCommonEventHeaderParams(commonEventHeaderParams)
-                .withNotificationParams(notificationParams)
-                .build();
+public class ResourceReader {
+    private final String baseDirectory;
+
+    public ResourceReader(String baseDirectory) {
+        this.baseDirectory = baseDirectory;
     }
 
-    public JSONObject createMessageWithPnfRegistration(JSONObject commonEventHeaderParams, JSONObject pnfRegistrationParams) {
-        return MessageBuilder
-                .withCommonEventHeaderParams(commonEventHeaderParams)
-                .withPnfRegistrationParams(pnfRegistrationParams)
-                .build();
+    public String readResource(String resourceName) {
+        return readResourceFromBaseDir(baseDirectory + resourceName);
     }
 
+    public static String readResourceFromBaseDir(String resourceName) {
+        try {
+            URL pnfRegistrationJson = Resources.getResource(resourceName);
+            return Resources.toString(pnfRegistrationJson, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
