@@ -4,12 +4,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.onap.pnfsimulator.simulator.validation.NoRopFilesException;
 
 public class FileProvider {
 
-    private FileProvider() {}
-
-    public static List<String> getFiles() {
+    public List<String> getFiles() throws NoRopFilesException {
 
         List<String> files = queryFiles();
 
@@ -22,17 +21,15 @@ public class FileProvider {
         return fileListSorted;
     }
 
-    private static List<String> queryFiles() {
+    private static List<String> queryFiles() throws NoRopFilesException {
 
         File folder = new File("./files/onap/");
         File[] listOfFiles = folder.listFiles();
-        List<String> results = new ArrayList<>();
-
-        if (listOfFiles.length == 0) {
-            return results;
-            // TODO: this should be a thrown exception catched in the Simulator class
+        if (listOfFiles == null || listOfFiles.length == 0) {
+            throw new NoRopFilesException("No ROP files found in specified directory");
         }
 
+        List<String> results = new ArrayList<>();
         for (int i = 0; i < listOfFiles.length; i++) {
             if (listOfFiles[i].isFile()) {
                 results.add(listOfFiles[i].getName());

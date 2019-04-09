@@ -22,8 +22,27 @@ package org.onap.pnfsimulator.message;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.onap.pnfsimulator.message.MessageConstants.*;
-
+import static org.onap.pnfsimulator.message.MessageConstants.EVENT_ID;
+import static org.onap.pnfsimulator.message.MessageConstants.INTERNAL_HEADER_FIELDS;
+import static org.onap.pnfsimulator.message.MessageConstants.LAST_EPOCH_MICROSEC;
+import static org.onap.pnfsimulator.message.MessageConstants.NOTIFICATION_FIELDS_VERSION;
+import static org.onap.pnfsimulator.message.MessageConstants.NOTIFICATION_FIELDS_VERSION_VALUE;
+import static org.onap.pnfsimulator.message.MessageConstants.PNF_LAST_SERVICE_DATE;
+import static org.onap.pnfsimulator.message.MessageConstants.PNF_MANUFACTURE_DATE;
+import static org.onap.pnfsimulator.message.MessageConstants.PNF_REGISTRATION_FIELDS_VERSION;
+import static org.onap.pnfsimulator.message.MessageConstants.PNF_REGISTRATION_FIELDS_VERSION_VALUE;
+import static org.onap.pnfsimulator.message.MessageConstants.PRIORITY;
+import static org.onap.pnfsimulator.message.MessageConstants.PRIORITY_NORMAL;
+import static org.onap.pnfsimulator.message.MessageConstants.REPORTING_ENTITY_NAME;
+import static org.onap.pnfsimulator.message.MessageConstants.SEQUENCE;
+import static org.onap.pnfsimulator.message.MessageConstants.SEQUENCE_NUMBER;
+import static org.onap.pnfsimulator.message.MessageConstants.SOURCE_NAME;
+import static org.onap.pnfsimulator.message.MessageConstants.START_EPOCH_MICROSEC;
+import static org.onap.pnfsimulator.message.MessageConstants.TIME_ZONE_OFFSET;
+import static org.onap.pnfsimulator.message.MessageConstants.VERSION;
+import static org.onap.pnfsimulator.message.MessageConstants.VERSION_NUMBER;
+import static org.onap.pnfsimulator.message.MessageConstants.VES_EVENT_LISTENER_VERSION;
+import static org.onap.pnfsimulator.message.MessageConstants.VES_EVENT_LISTENER_VERSION_NUMBER;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
@@ -32,14 +51,17 @@ public class JSONObjectFactoryTest {
     @Test
     public void generateConstantCommonEventHeader_shouldCreateProperly(){
         JSONObject commonEventHeader = JSONObjectFactory.generateConstantCommonEventHeader();
-        assertEquals(8,commonEventHeader.toMap().size());
+        assertEquals(11,commonEventHeader.toMap().size());
         assertTrue(commonEventHeader.has(EVENT_ID));
+        assertTrue(commonEventHeader.has(TIME_ZONE_OFFSET));
         assertTrue(commonEventHeader.has(LAST_EPOCH_MICROSEC));
         assertTrue(commonEventHeader.has(PRIORITY));
         assertTrue(commonEventHeader.has(SEQUENCE));
         assertTrue(commonEventHeader.has(START_EPOCH_MICROSEC));
         assertTrue(commonEventHeader.has(INTERNAL_HEADER_FIELDS));
         assertTrue(commonEventHeader.has(VERSION));
+        assertTrue(commonEventHeader.has(SOURCE_NAME));
+        assertTrue(commonEventHeader.has(REPORTING_ENTITY_NAME));
         assertEquals(commonEventHeader.get(PRIORITY),PRIORITY_NORMAL);
         assertEquals(commonEventHeader.get(SEQUENCE),SEQUENCE_NUMBER);
         assertEquals(commonEventHeader.get(VERSION),VERSION_NUMBER);
@@ -59,7 +81,7 @@ public class JSONObjectFactoryTest {
     @Test
     public void generateEventId_shouldCreateProperly(){
         String eventId = JSONObjectFactory.generateEventId();
-        assertTrue(eventId.startsWith("registration_"));
+        assertTrue(eventId.startsWith("FileReady_"));
     }
 
     @Test

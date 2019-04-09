@@ -30,6 +30,7 @@ import org.onap.pnfsimulator.message.MessageProvider;
 import org.onap.pnfsimulator.simulator.client.HttpClientAdapter;
 import org.onap.pnfsimulator.simulator.client.HttpClientAdapterImpl;
 import org.onap.pnfsimulator.simulator.validation.JSONValidator;
+import org.onap.pnfsimulator.simulator.validation.NoRopFilesException;
 import org.onap.pnfsimulator.simulator.validation.ValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +55,8 @@ public class Simulator extends Thread {
     private Optional<JSONObject> notificationParams;
     private String xnfUrl;
     private static final String DEFAULT_OUTPUT_SCHEMA_PATH = "json_schema/output_validator_ves_schema_30.0.1.json";
+    private FileProvider fileProvider;
+    private Exception thrownException = null;
 
     private Simulator() {}
 
@@ -68,10 +71,10 @@ public class Simulator extends Thread {
         endTime = Instant.now().plus(duration);
         while (isEndless || runningTimeNotExceeded()) {
             try {
-                List<String> fileList = FileProvider.getFiles();
+
+                List<String> fileList = fileProvider.getFiles();
                 MessageProvider messageProvider = new MessageProvider();
                 JSONValidator validator = new JSONValidator();
-
                 messageBody = messageProvider.createMessage(this.commonEventHeaderParams, this.pnfRegistrationParams,
                         this.notificationParams, fileList, this.xnfUrl);
                 validator.validate(messageBody.toString(), DEFAULT_OUTPUT_SCHEMA_PATH);
@@ -79,8 +82,9 @@ public class Simulator extends Thread {
                 LOGGER.info("Message to be sent:\n" + getMessage());
                 httpClient.send(messageBody.toString(), vesUrl);
                 Thread.sleep(interval.toMillis());
-            } catch (InterruptedException  | ValidationException | ProcessingException | IOException e) {
-                LOGGER.info("Simulation stopped due to an exception");
+            } catch (InterruptedException  | ValidationException | ProcessingException | IOException | NoRopFilesException e) {
+                LOGGER.info("Simulation stopped due to an exception: " + e);
+                thrownException = e;
                 return;
             }
         }
@@ -109,6 +113,10 @@ public class Simulator extends Thread {
         return isEndless;
     }
 
+    public Exception getThrownException() {
+        return thrownException;
+    }
+
     public long getRemainingTime() {
         return Duration.between(Instant.now(), endTime).getSeconds();
     }
@@ -124,6 +132,7 @@ public class Simulator extends Thread {
         private Optional<JSONObject> pnfRegistrationParams;
         private JSONObject commonEventHeaderParams;
         private String xnfUrl;
+        private FileProvider fileProvider;
 
         private Builder() {
             this.vesUrl = "";
@@ -180,6 +189,11 @@ public class Simulator extends Thread {
             return this;
         }
 
+        public Builder withFileProvider(FileProvider fileProvider) {
+            this.fileProvider = fileProvider;
+            return this;
+        }
+
         public Simulator build() {
             Simulator simulator = new Simulator();
             simulator.vesUrl = this.vesUrl;
@@ -188,6 +202,7 @@ public class Simulator extends Thread {
             simulator.duration = this.duration;
             simulator.interval = this.interval;
             simulator.xnfUrl = this.xnfUrl;
+            simulator.fileProvider = this.fileProvider;
             simulator.commonEventHeaderParams = this.commonEventHeaderParams;
             simulator.pnfRegistrationParams = this.pnfRegistrationParams;
             simulator.notificationParams = this.notificationParams;

@@ -27,7 +27,6 @@ import static org.onap.pnfsimulator.message.MessageConstants.COMMON_EVENT_HEADER
 import static org.onap.pnfsimulator.message.MessageConstants.EVENT;
 import static org.onap.pnfsimulator.message.MessageConstants.NOTIFICATION_FIELDS;
 import static org.onap.pnfsimulator.message.MessageConstants.PNF_REGISTRATION_FIELDS;
-
 import java.util.Optional;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeAll;
@@ -93,23 +92,31 @@ public class MessageProviderTest {
     }
 
     @Test
-    public void createMessage_should_add_specified_params_to_valid_subobjects() {
+    public void createMessage_should_add_specified_params_to_valid_subobjects_with_event_pnf_registration() {
         JSONObject message = messageProvider
-            .createMessage(new JSONObject(), Optional.of(new JSONObject(testParamsPnfRegistration)),
-                Optional.of(new JSONObject(testParamsNotification)));
+            .createMessage(new JSONObject(), Optional.of(new JSONObject(testParamsPnfRegistration)), Optional.empty());
         JSONObject event = message.getJSONObject(EVENT);
 
         JSONObject commonEventHeader = event.getJSONObject(COMMON_EVENT_HEADER);
-        assertEquals(10, commonEventHeader.keySet().size());
+        assertEquals(13, commonEventHeader.keySet().size());
 
         JSONObject pnfRegistrationFields = event.getJSONObject(PNF_REGISTRATION_FIELDS);
         assertEquals("pnfVal1", pnfRegistrationFields.getString("pnfKey1"));
         assertEquals("pnfVal2", pnfRegistrationFields.getString("pnfKey2"));
+    }
+
+    @Test
+    public void createMessage_should_add_specified_params_to_valid_subobjects_with_event_notification() {
+        JSONObject message = messageProvider
+            .createMessage(new JSONObject(), Optional.empty(), Optional.of(new JSONObject(testParamsNotification)));
+        JSONObject event = message.getJSONObject(EVENT);
+
+        JSONObject commonEventHeader = event.getJSONObject(COMMON_EVENT_HEADER);
+        assertEquals(12, commonEventHeader.keySet().size());
 
         JSONObject notificationFields = event.getJSONObject(NOTIFICATION_FIELDS);
         assertEquals("notVal1", notificationFields.getString("notKey1"));
         assertEquals("notVal2", notificationFields.getString("notKey2"));
-
     }
 
 }

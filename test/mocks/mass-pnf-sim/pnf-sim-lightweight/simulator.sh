@@ -92,7 +92,7 @@ function compose(){
 
 function build_image(){
     if [ -f pom.xml ]; then
-        mvn clean package docker:build -Dcheckstyle.skip -DskipTests
+        mvn clean package docker:build -Dcheckstyle.skip
     else
         echo "pom.xml file not found"
         exit 1
