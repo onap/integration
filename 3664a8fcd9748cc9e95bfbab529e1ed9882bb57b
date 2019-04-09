@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0efc505b_42862184",
+        "filename": "test/mocks/pnfsimulator/src/test/java/org/onap/pnfsimulator/simulator/ResourceReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 2795
+      },
+      "writtenOn": "2019-04-09T11:48:02Z",
+      "side": 1,
+      "message": "It\u0027s public static because I used it as static method.\n\nAnyway now if someone wants to load just one file, they can do it without creating new ResourceReader instance.",
+      "parentUuid": "43e64bc8_8360168f",
+      "revId": "3664a8fcd9748cc9e95bfbab529e1ed9882bb57b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9426d595_1acc99b1",
         "filename": "test/mocks/pnfsimulator/src/test/java/org/onap/pnfsimulator/simulator/ResourceReader.java",
         "patchSetId": 3
