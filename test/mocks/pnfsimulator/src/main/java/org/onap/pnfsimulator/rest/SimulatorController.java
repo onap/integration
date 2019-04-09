@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * PNF-REGISTRATION-HANDLER
  * ================================================================================
- * Copyright (C) 2018 NOKIA Intellectual Property. All rights reserved.
+ * Copyright (C) 2018-2019 NOKIA Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,32 +20,9 @@
 
 package org.onap.pnfsimulator.rest;
 
-import static org.onap.pnfsimulator.logging.MDCVariables.INSTANCE_UUID;
-import static org.onap.pnfsimulator.logging.MDCVariables.INVOCATION_ID;
-import static org.onap.pnfsimulator.logging.MDCVariables.REQUEST_ID;
-import static org.onap.pnfsimulator.logging.MDCVariables.RESPONSE_CODE;
-import static org.onap.pnfsimulator.logging.MDCVariables.SERVICE_NAME;
-import static org.onap.pnfsimulator.logging.MDCVariables.X_INVOCATION_ID;
-import static org.onap.pnfsimulator.logging.MDCVariables.X_ONAP_REQUEST_ID;
-import static org.onap.pnfsimulator.message.MessageConstants.SIMULATOR_PARAMS;
-import static org.onap.pnfsimulator.message.MessageConstants.COMMON_EVENT_HEADER_PARAMS;
-import static org.onap.pnfsimulator.rest.util.ResponseBuilder.MESSAGE;
-import static org.onap.pnfsimulator.rest.util.ResponseBuilder.REMAINING_TIME;
-import static org.onap.pnfsimulator.rest.util.ResponseBuilder.SIMULATOR_STATUS;
-import static org.onap.pnfsimulator.rest.util.ResponseBuilder.TIMESTAMP;
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-import static org.springframework.http.HttpStatus.OK;
-
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
-import java.util.Optional;
-import java.util.UUID;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.onap.pnfsimulator.message.MessageConstants;
 import org.onap.pnfsimulator.rest.util.DateUtil;
 import org.onap.pnfsimulator.rest.util.ResponseBuilder;
 import org.onap.pnfsimulator.simulator.Simulator;
@@ -66,6 +43,30 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.UUID;
+
+import static org.onap.pnfsimulator.logging.MDCVariables.INSTANCE_UUID;
+import static org.onap.pnfsimulator.logging.MDCVariables.INVOCATION_ID;
+import static org.onap.pnfsimulator.logging.MDCVariables.REQUEST_ID;
+import static org.onap.pnfsimulator.logging.MDCVariables.RESPONSE_CODE;
+import static org.onap.pnfsimulator.logging.MDCVariables.SERVICE_NAME;
+import static org.onap.pnfsimulator.logging.MDCVariables.X_INVOCATION_ID;
+import static org.onap.pnfsimulator.logging.MDCVariables.X_ONAP_REQUEST_ID;
+import static org.onap.pnfsimulator.message.MessageConstants.COMMON_EVENT_HEADER_PARAMS;
+import static org.onap.pnfsimulator.message.MessageConstants.NOTIFICATION_PARAMS;
+import static org.onap.pnfsimulator.message.MessageConstants.PNF_REGISTRATION_PARAMS;
+import static org.onap.pnfsimulator.message.MessageConstants.SIMULATOR_PARAMS;
+import static org.onap.pnfsimulator.rest.util.ResponseBuilder.MESSAGE;
+import static org.onap.pnfsimulator.rest.util.ResponseBuilder.REMAINING_TIME;
+import static org.onap.pnfsimulator.rest.util.ResponseBuilder.SIMULATOR_STATUS;
+import static org.onap.pnfsimulator.rest.util.ResponseBuilder.TIMESTAMP;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequestMapping("/simulator")
@@ -95,10 +96,10 @@ public class SimulatorController {
         if (isSimulatorRunning()) {
             MDC.put(RESPONSE_CODE, BAD_REQUEST.toString());
             return ResponseBuilder
-                .status(BAD_REQUEST)
-                .put(TIMESTAMP, DateUtil.getTimestamp(RESPONSE_DATE_FORMAT))
-                .put(MESSAGE, "Cannot start simulator since it's already running")
-                .build();
+                    .status(BAD_REQUEST)
+                    .put(TIMESTAMP, DateUtil.getTimestamp(RESPONSE_DATE_FORMAT))
+                    .put(MESSAGE, "Cannot start simulator since it's already running")
+                    .build();
         }
 
         try {
@@ -106,50 +107,58 @@ public class SimulatorController {
             JSONObject root = new JSONObject(message);
             JSONObject simulatorParams = root.getJSONObject(SIMULATOR_PARAMS);
             JSONObject commonEventHeaderParams = root.getJSONObject(COMMON_EVENT_HEADER_PARAMS);
-            Optional<JSONObject> pnfRegistrationFields = root.has(MessageConstants.PNF_REGISTRATION_PARAMS) ? Optional
-                .of(root.getJSONObject(MessageConstants.PNF_REGISTRATION_PARAMS)) : Optional.empty();
-            Optional<JSONObject> notificationFields = root.has(MessageConstants.NOTIFICATION_PARAMS) ? Optional
-                .of(root.getJSONObject(MessageConstants.NOTIFICATION_PARAMS)) : Optional.empty();
-            simulator = factory
-                .create(simulatorParams, commonEventHeaderParams, pnfRegistrationFields, notificationFields);
+            simulator = createSimulator(root, simulatorParams, commonEventHeaderParams);
             simulator.start();
 
             MDC.put(RESPONSE_CODE, OK.toString());
             return ResponseBuilder
-                .status(OK)
-                .put(TIMESTAMP, DateUtil.getTimestamp(RESPONSE_DATE_FORMAT))
-                .put(MESSAGE, "Simulator started")
-                .build();
+                    .status(OK)
+                    .put(TIMESTAMP, DateUtil.getTimestamp(RESPONSE_DATE_FORMAT))
+                    .put(MESSAGE, "Simulator started")
+                    .build();
 
         } catch (JSONException e) {
             MDC.put(RESPONSE_CODE, BAD_REQUEST.toString());
             LOGGER.warn("Cannot start simulator, invalid json format: {}", e.getMessage());
             LOGGER.debug("Received json has invalid format", e);
             return ResponseBuilder
-                .status(BAD_REQUEST)
-                .put(TIMESTAMP, DateUtil.getTimestamp(RESPONSE_DATE_FORMAT))
-                .put(MESSAGE, "Cannot start simulator, invalid json format")
-                .build();
+                    .status(BAD_REQUEST)
+                    .put(TIMESTAMP, DateUtil.getTimestamp(RESPONSE_DATE_FORMAT))
+                    .put(MESSAGE, "Cannot start simulator, invalid json format")
+                    .build();
 
         } catch (ProcessingException | ValidationException | IOException e) {
             MDC.put(RESPONSE_CODE, BAD_REQUEST.toString());
             LOGGER.warn("Json validation failed: {}", e.getMessage());
             return ResponseBuilder
-                .status(BAD_REQUEST)
-                .put(TIMESTAMP, DateUtil.getTimestamp(RESPONSE_DATE_FORMAT))
-                .put(MESSAGE, "Cannot start simulator - Json format is not compatible with schema definitions")
-                .build();
+                    .status(BAD_REQUEST)
+                    .put(TIMESTAMP, DateUtil.getTimestamp(RESPONSE_DATE_FORMAT))
+                    .put(MESSAGE, "Cannot start simulator - Json format is not compatible with schema definitions")
+                    .build();
 
         } catch (Exception e) {
             MDC.put(RESPONSE_CODE, INTERNAL_SERVER_ERROR.toString());
             LOGGER.error("Cannot start simulator - unexpected exception", e);
             return ResponseBuilder
-                .status(INTERNAL_SERVER_ERROR)
-                .put(TIMESTAMP, DateUtil.getTimestamp(RESPONSE_DATE_FORMAT))
-                .put(MESSAGE, "Unexpected exception: " + e.getMessage())
-                .build();
+                    .status(INTERNAL_SERVER_ERROR)
+                    .put(TIMESTAMP, DateUtil.getTimestamp(RESPONSE_DATE_FORMAT))
+                    .put(MESSAGE, "Unexpected exception: " + e.getMessage())
+                    .build();
         } finally {
             MDC.clear();
+        }
+    }
+
+    private Simulator createSimulator(JSONObject root, JSONObject simulatorParams, JSONObject commonEventHeaderParams)
+            throws ProcessingException, IOException, ValidationException {
+        JSONObject pnfRegistrationFields = root.optJSONObject(PNF_REGISTRATION_PARAMS);
+        JSONObject notificationFields = root.optJSONObject(NOTIFICATION_PARAMS);
+        if (pnfRegistrationFields != null && notificationFields == null) {
+            return factory.createSimulatorWithPnfRegistration(simulatorParams, commonEventHeaderParams, pnfRegistrationFields);
+        } else if (pnfRegistrationFields == null && notificationFields != null) {
+            return factory.createSimulatorWithNotification(simulatorParams, commonEventHeaderParams, notificationFields);
+        } else {
+            throw new ValidationException("Exactly one of pnfRegistrationFields or notificationFields should be present");
         }
     }
 
@@ -157,22 +166,22 @@ public class SimulatorController {
     public ResponseEntity status() {
         if (isSimulatorRunning()) {
             ResponseBuilder responseBuilder = ResponseBuilder
-                .status(OK)
-                .put(TIMESTAMP, DateUtil.getTimestamp(RESPONSE_DATE_FORMAT))
-                .put(SIMULATOR_STATUS, "RUNNING");
+                    .status(OK)
+                    .put(TIMESTAMP, DateUtil.getTimestamp(RESPONSE_DATE_FORMAT))
+                    .put(SIMULATOR_STATUS, "RUNNING");
 
             return !simulator.isEndless() ?
-                responseBuilder
-                    .put(REMAINING_TIME, simulator.getRemainingTime())
-                    .build() :
-                responseBuilder
-                    .build();
+                    responseBuilder
+                            .put(REMAINING_TIME, simulator.getRemainingTime())
+                            .build() :
+                    responseBuilder
+                            .build();
         } else {
             return ResponseBuilder
-                .status(OK)
-                .put(TIMESTAMP, DateUtil.getTimestamp(RESPONSE_DATE_FORMAT))
-                .put(SIMULATOR_STATUS, "NOT RUNNING")
-                .build();
+                    .status(OK)
+                    .put(TIMESTAMP, DateUtil.getTimestamp(RESPONSE_DATE_FORMAT))
+                    .put(SIMULATOR_STATUS, "NOT RUNNING")
+                    .build();
         }
     }
 
@@ -182,16 +191,16 @@ public class SimulatorController {
             simulator.interrupt();
 
             return ResponseBuilder
-                .status(OK)
-                .put(TIMESTAMP, DateUtil.getTimestamp(RESPONSE_DATE_FORMAT))
-                .put(MESSAGE, "Simulator successfully stopped")
-                .build();
+                    .status(OK)
+                    .put(TIMESTAMP, DateUtil.getTimestamp(RESPONSE_DATE_FORMAT))
+                    .put(MESSAGE, "Simulator successfully stopped")
+                    .build();
         } else {
             return ResponseBuilder
-                .status(BAD_REQUEST)
-                .put(TIMESTAMP, DateUtil.getTimestamp(RESPONSE_DATE_FORMAT))
-                .put(MESSAGE, "Cannot stop simulator, because it's not running")
-                .build();
+                    .status(BAD_REQUEST)
+                    .put(TIMESTAMP, DateUtil.getTimestamp(RESPONSE_DATE_FORMAT))
+                    .put(MESSAGE, "Cannot stop simulator, because it's not running")
+                    .build();
         }
     }
 

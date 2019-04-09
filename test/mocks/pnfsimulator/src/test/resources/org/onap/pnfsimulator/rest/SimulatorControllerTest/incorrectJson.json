@@ -1,0 +1,12 @@
+{
+  "mes": {
+    "vesServerUrl": "http://10.154.187.70:8080/eventListener/v5",
+    "testDuration": "10",
+    "messageInterval": "1"
+  },
+  "messageParams": {
+    "sourceName": "val12",
+    "sourceId": "val13",
+    "reportingEntityName": "val14"
+  }
+}
