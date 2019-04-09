@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * PNF-REGISTRATION-HANDLER
  * ================================================================================
- * Copyright (C) 2018 NOKIA Intellectual Property. All rights reserved.
+ * Copyright (C) 2018-2019 NOKIA Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,95 +20,100 @@
 
 package org.onap.pnfsimulator.message;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.json.JSONObject;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.onap.pnfsimulator.simulator.ResourceReader;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.data.MapEntry.entry;
 import static org.onap.pnfsimulator.message.MessageConstants.COMMON_EVENT_HEADER;
 import static org.onap.pnfsimulator.message.MessageConstants.EVENT;
 import static org.onap.pnfsimulator.message.MessageConstants.NOTIFICATION_FIELDS;
 import static org.onap.pnfsimulator.message.MessageConstants.PNF_REGISTRATION_FIELDS;
 
-import java.util.Optional;
-import org.json.JSONObject;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-
 public class MessageProviderTest {
 
-    private static final String testParamsPnfRegistration =
-        "{\"pnfKey1\": \"pnfVal1\",\"pnfKey2\": \"pnfVal2\",\"pnfKey3\": \"pnfVal3\",\"pnfKey4\": \"pnfVal4\"}";
+    private static String testParamsPnfRegistration;
 
-    private static final String testParamsNotification =
-        "{\"notKey1\": \"notVal1\",\"notKey2\": \"notVal2\",\"notKey3\": \"notVal3\",\"notKey4\": \"notVal4\"}";
+    private static String testParamsNotification;
 
-    private static MessageProvider messageProvider;
+    private MessageProvider messageProvider = new MessageProvider();
 
     @BeforeAll
     public static void setup() {
-        messageProvider = new MessageProvider();
+        ResourceReader reader = new ResourceReader("org/onap/pnfsimulator/message/MessageProviderTest/");
+        testParamsPnfRegistration = reader.readResource("pnfRegistrationParams.json");
+        testParamsNotification = reader.readResource("notificationParams.json");
     }
 
     @Test
-    public void createMessage_should_throw_when_given_empty_arguments() {
-        assertThrows(IllegalArgumentException.class,
-            () -> messageProvider.createMessage(new JSONObject(), Optional.empty(), Optional.empty()),
-            "Params object cannot be null");
-    }
-
-    @Test
-    public void createMessage_should_create_constant_message_when_no_params_specified() {
-        JSONObject message = messageProvider.createMessage(new JSONObject(), Optional.ofNullable(new JSONObject()),
-            Optional.ofNullable(new JSONObject()));
+    public void createMessageWithPnfRegistration_should_create_constant_message_when_no_params_specified() {
+        JSONObject message = messageProvider.createMessageWithPnfRegistration(new JSONObject(), new JSONObject());
         JSONObject event = message.getJSONObject(EVENT);
 
         JSONObject commonEventHeader = event.getJSONObject(COMMON_EVENT_HEADER);
         JSONObject pnfRegistrationFields = event.getJSONObject(PNF_REGISTRATION_FIELDS);
-        JSONObject notificationFields = event.getJSONObject(NOTIFICATION_FIELDS);
 
         JSONObject expectedCommonEventHeader = JSONObjectFactory.generateConstantCommonEventHeader();
         JSONObject expectedPnfRegistrationFields = JSONObjectFactory.generatePnfRegistrationFields();
-        JSONObject expectedNotificationFields = JSONObjectFactory.generateNotificationFields();
 
-        expectedCommonEventHeader
-            .toMap()
-            .forEach((key, val) -> assertTrue(commonEventHeader.has(key),
-                () -> String.format("Key %s is not present", key)));
-
-        expectedPnfRegistrationFields
-            .toMap()
-            .forEach((key, val) -> assertTrue(pnfRegistrationFields.has(key),
-                () -> String.format("Key %s is not present", key)));
-
-        expectedNotificationFields
-            .toMap()
-            .forEach((key, val) -> assertTrue(notificationFields.has(key),
-                () -> String.format("Key %s is not present", key)));
+        assertThat(commonEventHeader.keySet())
+                .containsAll(expectedCommonEventHeader.keySet());
+        assertThat(pnfRegistrationFields.keySet())
+                .containsAll(expectedPnfRegistrationFields.keySet());
     }
 
     @Test
-    public void createMessage_should_throw_exception_when_params_specified_as_empty() {
-        assertThrows(IllegalArgumentException.class,
-            () -> messageProvider.createMessage(new JSONObject(), Optional.empty(),
-                Optional.empty()));
-    }
-
-    @Test
-    public void createMessage_should_add_specified_params_to_valid_subobjects() {
-        JSONObject message = messageProvider
-            .createMessage(new JSONObject(), Optional.of(new JSONObject(testParamsPnfRegistration)),
-                Optional.of(new JSONObject(testParamsNotification)));
+    public void createMessageWithNotification_should_create_constant_message_when_no_params_specified() {
+        JSONObject message = messageProvider.createMessageWithNotification(new JSONObject(),
+                new JSONObject());
         JSONObject event = message.getJSONObject(EVENT);
 
         JSONObject commonEventHeader = event.getJSONObject(COMMON_EVENT_HEADER);
-        assertEquals(10, commonEventHeader.keySet().size());
+        JSONObject notificationFields = event.getJSONObject(NOTIFICATION_FIELDS);
+
+        JSONObject expectedCommonEventHeader = JSONObjectFactory.generateConstantCommonEventHeader();
+        JSONObject expectedNotificationFields = JSONObjectFactory.generateNotificationFields();
+
+        assertThat(commonEventHeader.keySet())
+                .containsAll(expectedCommonEventHeader.keySet());
+
+        assertThat(notificationFields.keySet())
+                .containsAll(expectedNotificationFields.keySet());
+    }
+
+    @Test
+    public void createMessageWithPnfRegistration_should_add_specified_params_to_valid_subobjects() {
+        JSONObject message = messageProvider
+                .createMessageWithPnfRegistration(new JSONObject(), new JSONObject(testParamsPnfRegistration));
+        JSONObject event = message.getJSONObject(EVENT);
+
+        JSONObject commonEventHeader = event.getJSONObject(COMMON_EVENT_HEADER);
 
         JSONObject pnfRegistrationFields = event.getJSONObject(PNF_REGISTRATION_FIELDS);
-        assertEquals("pnfVal1", pnfRegistrationFields.getString("pnfKey1"));
-        assertEquals("pnfVal2", pnfRegistrationFields.getString("pnfKey2"));
+        assertThat(pnfRegistrationFields.toMap()).contains(
+                entry("pnfKey1", "pnfVal1"),
+                entry("pnfKey2", "pnfVal2"),
+                entry("pnfKey3", "pnfVal3"),
+                entry("pnfKey4", "pnfVal4")
+        );
+    }
+
+    @Test
+    public void createMessageWithNotification_should_add_specified_params_to_valid_subobjects() {
+        JSONObject message = messageProvider
+                .createMessageWithNotification(new JSONObject(),
+                        new JSONObject(testParamsNotification));
+        JSONObject event = message.getJSONObject(EVENT);
 
         JSONObject notificationFields = event.getJSONObject(NOTIFICATION_FIELDS);
-        assertEquals("notVal1", notificationFields.getString("notKey1"));
-        assertEquals("notVal2", notificationFields.getString("notKey2"));
+        assertThat(notificationFields.toMap()).contains(
+                entry("notKey1", "notVal1"),
+                entry("notKey2", "notVal2"),
+                entry("notKey3", "notVal3"),
+                entry("notKey4", "notVal4")
+        );
 
     }
 
