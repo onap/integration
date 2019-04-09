@@ -128,11 +128,21 @@
           </execution>
         </executions>
         <configuration>
-          <executable>src/main/scripts/generate-signature.sh</executable>
+          <executable>openssl</executable>
           <arguments>
-            <argument>src/main/resources/securityContent/sample-pnf.cert</argument>
-            <argument>src/main/resources/securityContent/sample-pnf-private-key.pem</argument>
+            <argument>cms</argument>
+            <argument>-sign</argument>
+            <argument>-binary</argument>
+            <argument>-nocerts</argument>
+            <argument>-outform</argument>
+            <argument>pem</argument>
+            <argument>-signer</argument>
+            <argument>${project.basedir}/src/main/resources/securityContent/sample-pnf.cert</argument>
+            <argument>-inkey</argument>
+            <argument>${project.basedir}/src/main/resources/securityContent/sample-pnf-private-key.pem</argument>
+            <argument>-in</argument>
             <argument>${project.build.directory}/signed-csar/${csar.name}.csar</argument>
+            <argument>-out</argument>
             <argument>${project.build.directory}/signed-csar/${csar.name}.cms</argument>
           </arguments>
         </configuration>
