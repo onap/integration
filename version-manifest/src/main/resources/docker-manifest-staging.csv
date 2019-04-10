@@ -76,7 +76,7 @@ onap/optf-cmso-service,1.0.1
 onap/optf-has,1.2.5
 onap/optf-osdf,1.2.4
 onap/org.onap.dcaegen2.analytics.tca-gen2.dcae-analytics-tca-web,3.0.0-SNAPSHOT
-onap/org.onap.dcaegen2.collectors.datafile.datafile-app-server,1.1.1-SNAPSHOT
+onap/org.onap.dcaegen2.collectors.datafile.datafile-app-server,1.1.1
 onap/org.onap.dcaegen2.collectors.hv-ves.hv-collector-main,1.1.0-SNAPSHOT
 onap/org.onap.dcaegen2.collectors.restconfcollector,latest
 onap/org.onap.dcaegen2.collectors.snmptrap,1.4-STAGING-latest
@@ -90,7 +90,7 @@ onap/org.onap.dcaegen2.deployments.redis-cluster-container,1.0-STAGING-latest
 onap/org.onap.dcaegen2.deployments.tca-cdap-container,1.1-STAGING-latest
 onap/org.onap.dcaegen2.deployments.tls-init-container,1.0-STAGING-latest
 onap/org.onap.dcaegen2.platform.configbinding.app-app,2.3-STAGING-latest
-onap/org.onap.dcaegen2.platform.deployment-handler,3.2.0
+onap/org.onap.dcaegen2.platform.deployment-handler,4.0.0
 onap/org.onap.dcaegen2.platform.inventory-api,3.2.0
 onap/org.onap.dcaegen2.platform.policy-handler,4.6-STAGING-latest
 onap/org.onap.dcaegen2.platform.servicechange-handler,latest
