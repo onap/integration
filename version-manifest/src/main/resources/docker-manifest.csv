@@ -155,7 +155,7 @@ onap/vfc/wfengine-activiti,1.2.0
 onap/vfc/wfengine-mgrservice,1.2.0
 onap/vfc/ztesdncdriver,1.2.0
 onap/vfc/ztevnfmdriver,1.2.1
-onap/vid,3.2.2
+onap/vid,3.2.3
 onap/vnfsdk/ice,1.1.0
 onap/vnfsdk/refrepo,1.2.0
 onap/vnfsdk/refrepo/postgres,1.2.0
