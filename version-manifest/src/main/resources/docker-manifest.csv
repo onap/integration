@@ -84,7 +84,7 @@ onap/org.onap.dcaegen2.deployments.tca-cdap-container,1.1.0
 onap/org.onap.dcaegen2.deployments.tls-init-container,1.0.0
 onap/org.onap.dcaegen2.platform.cdapbroker,4.1.0
 onap/org.onap.dcaegen2.platform.configbinding.app-app,2.2.3
-onap/org.onap.dcaegen2.platform.deployment-handler,3.0.3
+onap/org.onap.dcaegen2.platform.deployment-handler,4.0.0
 onap/org.onap.dcaegen2.platform.inventory-api,3.0.4
 onap/org.onap.dcaegen2.platform.policy-handler,4.4.0
 onap/org.onap.dcaegen2.platform.servicechange-handler,1.1.5
