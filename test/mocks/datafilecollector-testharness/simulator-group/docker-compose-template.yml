@@ -1,8 +1,17 @@
 version: '2'
+
+networks:
+  dfcnet:
+    ipam:
+      config:
+        - subnet: 192.168.100.0/16
+          
 services:
       
   drsim:
-    network_mode: "host"
+    networks:
+      dfcnet:
+        ipv4_address: 192.168.100.2
     image: drsim_common:latest
     ports:
      - "3906:3906"
@@ -11,6 +20,9 @@ services:
     command: node dmaapDR.js ${DR_TC}
 
   drsim_redir:
+    networks:
+      dfcnet:
+        ipv4_address: 192.168.100.3
     image: drsim_common:latest
     ports:
      - "3908:3908"
@@ -19,6 +31,9 @@ services:
     command: node dmaapDR_redir.js ${DR_REDIR_TC}
 
   mrsim:
+    networks:
+      dfcnet:
+        ipv4_address: 192.168.100.1
     image: mrsim:latest
     ports:
      - "2222:2222"
@@ -26,17 +41,17 @@ services:
     command: python mr-sim.py ${MR_TC}
 
   sftp-server:
+    network_mode: bridge
     container_name: dfc_sftp-server
     image: atmoz/sftp:alpine
     ports:
       - "1022:22"
-#    volumes:
-#      - ./files/onap/sftp/:/home/onap/
     restart: on-failure
     command: onap:pano:1001
 
 
   ftpes-server-vsftpd:
+    network_mode: bridge
     container_name: dfc_ftpes-server-vsftpd
     image: docker.io/panubo/vsftpd
     ports:
@@ -54,6 +69,5 @@ services:
       - ./tls/dfc.crt:/etc/ssl/private/dfc.crt:ro
       - ./configuration/vsftpd_ssl.conf:/etc/vsftpd_ssl.conf:ro
 
-#      - ./files/onap/ftps/:/srv/
     restart: on-failure
   

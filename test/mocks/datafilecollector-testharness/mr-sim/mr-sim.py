@@ -3,14 +3,19 @@ import os
 from werkzeug import secure_filename
 from flask import Flask, render_template, request
 from time import sleep
+import time
 import sys
 import json
 from flask import Flask
+
 app = Flask(__name__)
 
 #Server info
 HOST_IP = "0.0.0.0"
 HOST_PORT = 2222
+
+SFTP_PORT = 1022
+FTPS_PORT = 21
 
 #Test function to check server running
 @app.route('/',
@@ -45,6 +50,30 @@ def counter_uniquefiles():
 def testcase_info():
     global tc_num
     return tc_num
+
+#Returns number of events
+@app.route('/ctr_events',
+    methods=['GET'])
+def counter_events():
+    global ctr_events
+    return str(ctr_events)
+
+#Returns number of events
+@app.route('/execution_time',
+    methods=['GET'])
+def exe_time():
+    global startTime
+    
+    stopTime = time.time()
+    minutes, seconds = divmod(stopTime-startTime, 60)
+    return "{:0>2}:{:0>2}".format(int(minutes),int(seconds))
+
+#Returns number of unique PNFs
+@app.route('/ctr_unique_PNFs',
+    methods=['GET'])
+def counter_uniquePNFs():
+    global pnfMap
+    return str(len(pnfMap))
 
 #Messages polling function
 @app.route(
@@ -86,7 +115,12 @@ def MR_reply():
       return tc1001("sftp")
 
     elif args.tc510:
-      return tc510("sftp")      
+      return tc510("sftp")  
+    elif args.tc511:
+      return tc511("sftp")   
+  
+    elif args.tc710:
+      return tc710("sftp")     
 
 
     elif args.tc200:
@@ -118,7 +152,12 @@ def MR_reply():
       return tc2001("ftps")
 
     elif args.tc610:
-      return tc510("ftps")     
+      return tc510("ftps")  
+    elif args.tc611:
+      return tc511("ftps") 
+  
+    elif args.tc810:
+      return tc710("ftps")   
 
 
 #### Test case functions
@@ -127,6 +166,7 @@ def MR_reply():
 def tc100(ftptype):
   global ctr_responses
   global ctr_unique_files
+  global ctr_events
 
   ctr_responses = ctr_responses + 1
 
@@ -134,28 +174,35 @@ def tc100(ftptype):
     return buildOkResponse("[]")
 
   seqNr = (ctr_responses-1)
-  msg = getEventHead() + getEventName("1MB_" + str(seqNr) + ".tar.gz",ftptype,"onap","pano","localhost",1022) + getEventEnd()
+  nodeName = createNodeName(0)
+  fileName = createFileName(nodeName, seqNr, "1MB")
+  msg = getEventHead(nodeName) + getEventName(fileName,ftptype,"onap","pano") + getEventEnd()
   fileMap[seqNr] = seqNr
+  ctr_events = ctr_events+1
   return buildOkResponse("["+msg+"]")
 
 def tc101(ftptype):
   global ctr_responses
   global ctr_unique_files
+  global ctr_events
 
   ctr_responses = ctr_responses + 1
 
   if (ctr_responses > 1):
     return buildOkResponse("[]")  
- 
-  seqNr = (ctr_responses-1)
-  msg = getEventHead() + getEventName("5MB_" + str(seqNr) + ".tar.gz",ftptype,"onap","pano","localhost",1022) + getEventEnd()
-  fileMap[seqNr] = seqNr
 
+  seqNr = (ctr_responses-1)
+  nodeName = createNodeName(0)
+  fileName = createFileName(nodeName, seqNr, "5MB")
+  msg = getEventHead(nodeName) + getEventName(fileName,ftptype,"onap","pano") + getEventEnd()
+  fileMap[seqNr] = seqNr
+  ctr_events = ctr_events+1
   return buildOkResponse("["+msg+"]")
 
 def tc102(ftptype):
   global ctr_responses
   global ctr_unique_files
+  global ctr_events
 
   ctr_responses = ctr_responses + 1
 
@@ -163,14 +210,17 @@ def tc102(ftptype):
     return buildOkResponse("[]")  
 
   seqNr = (ctr_responses-1)
-  msg = getEventHead() + getEventName("50MB_" + str(seqNr) + ".tar.gz",ftptype,"onap","pano","localhost",1022) + getEventEnd()
+  nodeName = createNodeName(0)
+  fileName = createFileName(nodeName, seqNr, "50MB")
+  msg = getEventHead(nodeName) + getEventName(fileName,ftptype,"onap","pano") + getEventEnd()
   fileMap[seqNr] = seqNr
-
+  ctr_events = ctr_events+1
   return buildOkResponse("["+msg+"]")
 
 def tc110(ftptype):
   global ctr_responses
   global ctr_unique_files
+  global ctr_events
 
   ctr_responses = ctr_responses + 1
 
@@ -178,75 +228,89 @@ def tc110(ftptype):
     return buildOkResponse("[]")  
   
   seqNr = (ctr_responses-1)
-  msg = getEventHead() + getEventName("1MB_" + str(seqNr) + ".tar.gz",ftptype,"onap","pano","localhost",1022) + getEventEnd()
+  nodeName = createNodeName(0)
+  fileName = createFileName(nodeName, seqNr, "1MB")
+  msg = getEventHead(nodeName) + getEventName(fileName,ftptype,"onap","pano") + getEventEnd()
   fileMap[seqNr] = seqNr
-
+  ctr_events = ctr_events+1
   return buildOkResponse("["+msg+"]")
 
 def tc111(ftptype):
   global ctr_responses
   global ctr_unique_files
+  global ctr_events
 
   ctr_responses = ctr_responses + 1
 
   if (ctr_responses > 100):
     return buildOkResponse("[]")  
-  
-  msg = getEventHead()
+
+  nodeName = createNodeName(0)
+  msg = getEventHead(nodeName)
 
   for i in range(100):
     seqNr = i+(ctr_responses-1)
     if i != 0: msg = msg + ","
-    msg = msg + getEventName("1MB_" + str(seqNr) + ".tar.gz",ftptype,"onap","pano","localhost",1022)
+    fileName = createFileName(nodeName, seqNr, "1MB")
+    msg = msg + getEventName(fileName,ftptype,"onap","pano")
     fileMap[seqNr] = seqNr
 
   msg = msg + getEventEnd()
+  ctr_events = ctr_events+1
 
   return buildOkResponse("["+msg+"]")
 
 def tc112(ftptype):
   global ctr_responses
   global ctr_unique_files
+  global ctr_events
 
   ctr_responses = ctr_responses + 1
 
   if (ctr_responses > 100):
     return buildOkResponse("[]")  
-  
-  msg = getEventHead()
+
+  nodeName = createNodeName(0)
+  msg = getEventHead(nodeName)
 
   for i in range(100):
     seqNr = i+(ctr_responses-1)
     if i != 0: msg = msg + ","
-    msg = msg + getEventName("5MB_" + str(seqNr) + ".tar.gz",ftptype,"onap","pano","localhost",1022)
+    fileName = createFileName(nodeName, seqNr, "5MB")
+    msg = msg + getEventName(fileName,ftptype,"onap","pano")
     fileMap[seqNr] = seqNr
 
   msg = msg + getEventEnd()
+  ctr_events = ctr_events+1
 
   return buildOkResponse("["+msg+"]")
 
 def tc113(ftptype):
   global ctr_responses
   global ctr_unique_files
+  global ctr_events
 
   ctr_responses = ctr_responses + 1
 
   if (ctr_responses > 1):
     return buildOkResponse("[]")  
-  
+
+  nodeName = createNodeName(0)
   msg = ""
 
   for evts in range(100):  # build 100 evts
     if (evts > 0):
       msg = msg + ","
-    msg = msg + getEventHead()
+    msg = msg + getEventHead(nodeName)
     for i in range(100):   # build 100 files
       seqNr = i+evts+100*(ctr_responses-1)
       if i != 0: msg = msg + ","
-      msg = msg + getEventName("1MB_" + str(seqNr) + ".tar.gz",ftptype,"onap","pano","localhost",1022)
+      fileName = createFileName(nodeName, seqNr, "1MB")
+      msg = msg + getEventName(fileName,ftptype,"onap","pano")
       fileMap[seqNr] = seqNr
 
     msg = msg + getEventEnd()
+    ctr_events = ctr_events+1
 
   return buildOkResponse("["+msg+"]")
 
@@ -254,20 +318,23 @@ def tc113(ftptype):
 def tc120(ftptype):
   global ctr_responses
   global ctr_unique_files
+  global ctr_events
 
   ctr_responses = ctr_responses + 1
+
+  nodeName = createNodeName(0)
 
   if (ctr_responses > 100):
     return buildOkResponse("[]")  
 
   if (ctr_responses % 10 == 2):
     return  # Return nothing
-  
+
   if (ctr_responses % 10 == 3):
     return buildOkResponse("") # Return empty message
 
   if (ctr_responses % 10 == 4):
-    return buildOkResponse(getEventHead()) # Return part of a json event
+    return buildOkResponse(getEventHead(nodeName)) # Return part of a json event
 
   if (ctr_responses % 10 == 5):
     return buildEmptyResponse(404) # Return empty message with status code
@@ -275,64 +342,72 @@ def tc120(ftptype):
   if (ctr_responses % 10 == 6):
     sleep(60)
 
-  
-  msg = getEventHead()
+
+  msg = getEventHead(nodeName)
 
   for i in range(100):
     seqNr = i+(ctr_responses-1)
     if i != 0: msg = msg + ","
-    msg = msg + getEventName("1MB_" + str(seqNr) + ".tar.gz",ftptype,"onap","pano","localhost",1022)
+    fileName = createFileName(nodeName, seqNr, "1MB")
+    msg = msg + getEventName(fileName,ftptype,"onap","pano")
     fileMap[seqNr] = seqNr
 
   msg = msg + getEventEnd()
+  ctr_events = ctr_events+1
 
   return buildOkResponse("["+msg+"]")
 
 def tc121(ftptype):
   global ctr_responses
   global ctr_unique_files
+  global ctr_events
 
   ctr_responses = ctr_responses + 1
 
   if (ctr_responses > 100):
-    return buildOkResponse("[]")  
-  
-  msg = getEventHead()
+    return buildOkResponse("[]")
 
+  nodeName = createNodeName(0)
+  msg = getEventHead(nodeName)
+
+  fileName = ""
   for i in range(100):
     seqNr = i+(ctr_responses-1)
     if (seqNr%10 == 0):     # Every 10th file is "missing"
-      fn = "MissingFile_" + str(seqNr) + ".tar.gz"
+      fileName = createMissingFileName(nodeName, seqNr, "1MB")
     else:
-      fn = "1MB_" + str(seqNr) + ".tar.gz"
+      fileName = createFileName(nodeName, seqNr, "1MB")
       fileMap[seqNr] = seqNr
 
     if i != 0: msg = msg + ","
-    msg = msg + getEventName(fn,ftptype,"onap","pano","localhost",1022)
-    
+    msg = msg + getEventName(fileName,ftptype,"onap","pano")
 
   msg = msg + getEventEnd()
+  ctr_events = ctr_events+1
 
   return buildOkResponse("["+msg+"]")
 
 def tc122(ftptype):
   global ctr_responses
   global ctr_unique_files
+  global ctr_events
 
   ctr_responses = ctr_responses + 1
 
   if (ctr_responses > 100):
     return buildOkResponse("[]")  
-  
-  msg = getEventHead()
+
+  nodeName = createNodeName(0)
+  msg = getEventHead(nodeName)
 
   for i in range(100):
-    fn = "1MB_0.tar.gz"  # All files identical names
+    fileName = createFileName(nodeName, 0, "1MB")  # All files identical names
     if i != 0: msg = msg + ","
-    msg = msg + getEventName(fn,ftptype,"onap","pano","localhost",1022)
+    msg = msg + getEventName(fileName,ftptype,"onap","pano")
 
   fileMap[0] = 0
   msg = msg + getEventEnd()
+  ctr_events = ctr_events+1
 
   return buildOkResponse("["+msg+"]")
 
@@ -340,42 +415,51 @@ def tc122(ftptype):
 def tc1000(ftptype):
   global ctr_responses
   global ctr_unique_files
+  global ctr_events
 
   ctr_responses = ctr_responses + 1
 
-  msg = getEventHead()
+  nodeName = createNodeName(0)
+  msg = getEventHead(nodeName)
 
   for i in range(100):
     seqNr = i+(ctr_responses-1)
     if i != 0: msg = msg + ","
-    msg = msg + getEventName("1MB_" + str(seqNr) + ".tar.gz",ftptype,"onap","pano","localhost",1022)
+    fileName = createFileName(nodeName, seqNr, "1MB")
+    msg = msg + getEventName(fileName,ftptype,"onap","pano")
     fileMap[seqNr] = seqNr
 
   msg = msg + getEventEnd()
+  ctr_events = ctr_events+1
 
   return buildOkResponse("["+msg+"]")
 
 def tc1001(ftptype):
   global ctr_responses
   global ctr_unique_files
+  global ctr_events
 
   ctr_responses = ctr_responses + 1
 
-  msg = getEventHead()
+  nodeName = createNodeName(0)
+  msg = getEventHead(nodeName)
 
   for i in range(100):
     seqNr = i+(ctr_responses-1)
     if i != 0: msg = msg + ","
-    msg = msg + getEventName("5MB_" + str(seqNr) + ".tar.gz",ftptype,"onap","pano","localhost",1022)
+    fileName = createFileName(nodeName, seqNr, "5MB")
+    msg = msg + getEventName(fileName,ftptype,"onap","pano")
     fileMap[seqNr] = seqNr
 
   msg = msg + getEventEnd()
+  ctr_events = ctr_events+1
 
   return buildOkResponse("["+msg+"]")
 
 def tc510(ftptype):
   global ctr_responses
   global ctr_unique_files
+  global ctr_events
 
   ctr_responses = ctr_responses + 1
 
@@ -384,17 +468,81 @@ def tc510(ftptype):
 
   msg = ""
 
-  for evts in range(700):  # build events for 5 MEs
-    if (evts > 0):
+  for pnfs in range(700):  # build events for 700 MEs
+    if (pnfs > 0):
       msg = msg + ","
-    msg = msg + getEventHeadNodeName("PNF"+str(evts))
+    nodeName = createNodeName(pnfs)
+    msg = msg + getEventHead(nodeName)
     seqNr = (ctr_responses-1)
-    msg = msg + getEventName("1MB_" + str(seqNr) + ".tar.gz",ftptype,"onap","pano","localhost",1022)
-    seqNr = seqNr + evts*1000000 #Create unique id for this node and file
+    fileName = createFileName(nodeName, seqNr, "1MB")
+    msg = msg + getEventName(fileName,ftptype,"onap","pano")
+    seqNr = seqNr + pnfs*1000000 #Create unique id for this node and file
     fileMap[seqNr] = seqNr
     msg = msg + getEventEnd()
+    ctr_events = ctr_events+1
 
   return buildOkResponse("["+msg+"]")
+
+def tc511(ftptype):
+  global ctr_responses
+  global ctr_unique_files
+  global ctr_events
+
+  ctr_responses = ctr_responses + 1
+
+  if (ctr_responses > 5):
+    return buildOkResponse("[]")  
+
+  msg = ""
+
+  for pnfs in range(700):  # build events for 700 MEs
+    if (pnfs > 0):
+      msg = msg + ","
+    nodeName = createNodeName(pnfs)
+    msg = msg + getEventHead(nodeName)
+    seqNr = (ctr_responses-1)
+    fileName = createFileName(nodeName, seqNr, "1KB")
+    msg = msg + getEventName(fileName,ftptype,"onap","pano")
+    seqNr = seqNr + pnfs*1000000 #Create unique id for this node and file
+    fileMap[seqNr] = seqNr
+    msg = msg + getEventEnd()
+    ctr_events = ctr_events+1
+
+  return buildOkResponse("["+msg+"]")
+
+def tc710(ftptype):
+  global ctr_responses
+  global ctr_unique_files
+  global ctr_events
+
+  ctr_responses = ctr_responses + 1
+  
+  if (ctr_responses > 100):
+    return buildOkResponse("[]")
+
+  msg = ""
+  
+  batch = (ctr_responses-1)%20;  
+
+  for pnfs in range(35):  # build events for 35 PNFs at a time. 20 batches -> 700
+    if (pnfs > 0):
+      msg = msg + ","
+    nodeName = createNodeName(pnfs + batch*35)
+    msg = msg + getEventHead(nodeName)
+
+    for i in range(100):  # 100 files per event
+      seqNr = i + int((ctr_responses-1)/20);
+      if i != 0: msg = msg + ","
+      fileName = createFileName(nodeName, seqNr, "1MB")
+      msg = msg + getEventName(fileName,ftptype,"onap","pano")
+      seqNr = seqNr + (pnfs+batch*35)*1000000 #Create unique id for this node and file
+      fileMap[seqNr] = seqNr
+
+    msg = msg + getEventEnd()
+    ctr_events = ctr_events+1
+
+  return buildOkResponse("["+msg+"]")
+
 
 #Mapping FTPS TCs
 def tc200(ftptype):
@@ -419,6 +567,14 @@ def tc221(ftptype):
   return tc121(ftptype)
 def tc222(ftptype):
   return tc122(ftptype)
+  
+def tc610(ftptype):
+  return tc510(ftptype)
+def tc611(ftptype):
+  return tc511(ftptype)
+  
+def tc810(ftptype):
+  return tc710(ftptype)
 
 def tc2000(ftptype):
   return tc1000(ftptype)
@@ -427,11 +583,21 @@ def tc2001(ftptype):
 
 #### Functions to build json messages and respones ####
 
-# Function to build fixed beginning of an event
-def getEventHead():
-  return getEventHeadNodeName("oteNB5309")
+def createNodeName(index):
+    return "PNF"+str(index);
 
-def getEventHeadNodeName(nodename):
+def createFileName(nodeName, index, size):
+    return "A20000626.2315+0200-2330+0200_" + nodeName + "-" + str(index) + "-" +size + ".tar.gz";
+
+def createMissingFileName(nodeName, index, size):
+    return "AMissingFile_" + nodeName + "-" + str(index) + "-" +size + ".tar.gz";
+
+
+# Function to build fixed beginning of an event
+
+def getEventHead(nodename):
+  global pnfMap
+  pnfMap.add(nodename) 
   headStr = """
         {
           "event": {
@@ -461,7 +627,13 @@ def getEventHeadNodeName(nodename):
   return headStr
 
 # Function to build the variable part of an event
-def getEventName(fn,type,user,passwd,ip,port):
+def getEventName(fn,type,user,passwd):
+    port = SFTP_PORT
+    ip = sftp_ip
+    if (type == "ftps"):
+        port = FTPS_PORT
+        ip = ftps_ip
+        
     nameStr =        """{
                   "name": \"""" + fn + """",
                   "hashMap": {
@@ -501,14 +673,25 @@ def buildEmptyResponse(status_code):
 
 
 if __name__ == "__main__":
-  
+
+    # IP addresses to use for ftp servers, using localhost if not env var is set
+    sftp_ip = os.environ.get('SFTP_SIM_IP', 'localhost')
+    ftps_ip = os.environ.get('FTPS_SIM_IP', 'localhost')
+    
+    
+
     #Counters
     ctr_responses = 0
     ctr_requests = 0
     ctr_unique_files = 0
+    ctr_events = 0
+    startTime = time.time()
 
-    #Keeps all reponded file names
+    #Keeps all responded file names
     fileMap = {}
+
+    #Keeps all responded PNF names
+    pnfMap = set()
 
     tc_num = "Not set"
     tc_help = "Not set"
@@ -572,9 +755,17 @@ if __name__ == "__main__":
     parser.add_argument(
         '--tc510',
         action='store_true',
-        help='TC510 - 5 MEs, SFTP, 1MB files, 1 file per event, 100 events, 1 event per poll.')
+        help='TC510 - 700 MEs, SFTP, 1MB files, 1 file per event, 3500 events, 700 event per poll.')
+    
+    parser.add_argument(
+        '--tc511',
+        action='store_true',
+        help='TC511 - 700 MEs, SFTP, 1KB files, 1 file per event, 3500 events, 700 event per poll.')
 
-
+    parser.add_argument(
+        '--tc710',
+        action='store_true',
+        help='TC710 - 700 MEs, SFTP, 1MB files, 100 files per event, 3500 events, 35 event per poll.')
 
 # FTPS TCs with single ME
     parser.add_argument(
@@ -632,11 +823,21 @@ if __name__ == "__main__":
     parser.add_argument(
         '--tc610',
         action='store_true',
-        help='TC510 - 5 MEs, FTPS, 1MB files, 1 file per event, 100 events, 1 event per poll.')
+        help='TC610 - 700 MEs, FTPS, 1MB files, 1 file per event, 3500 events, 700 event per poll.')
+
+    parser.add_argument(
+        '--tc611',
+        action='store_true',
+        help='TC611 - 700 MEs, FTPS, 1KB files, 1 file per event, 3500 events, 700 event per poll.')
+
+    parser.add_argument(
+        '--tc810',
+        action='store_true',
+        help='TC810 - 700 MEs, FTPS, 1MB files, 100 files per event, 3500 events, 35 event per poll.')
 
     args = parser.parse_args()
 
-    
+
 
     if args.tc100:
         tc_num = "TC# 100"
@@ -668,6 +869,11 @@ if __name__ == "__main__":
 
     elif args.tc510:
         tc_num = "TC# 510"
+    elif args.tc511:
+        tc_num = "TC# 511"
+        
+    elif args.tc710:
+        tc_num = "TC# 710"
 
     elif args.tc200:
         tc_num = "TC# 200"
@@ -697,14 +903,25 @@ if __name__ == "__main__":
     elif args.tc2001:
         tc_num = "TC# 2001"
 
+
     elif args.tc610:
         tc_num = "TC# 610"
+    elif args.tc611:
+        tc_num = "TC# 611"
+           
+    elif args.tc810:
+        tc_num = "TC# 810"
 
     else:
         print("No TC was defined")
         print("use --help for usage info")
         sys.exit()
 
-    print(tc_num)
- 
+    print("TC num: " + tc_num)
+    
+        
+    print("Using " + sftp_ip + " for sftp server address in file urls.")
+    print("Using " + ftps_ip + " for ftps server address in file urls.")
+
     app.run(port=HOST_PORT, host=HOST_IP)
+

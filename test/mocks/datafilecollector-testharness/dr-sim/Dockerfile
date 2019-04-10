@@ -12,7 +12,10 @@ COPY cert/ cert/
 RUN npm install express
 RUN npm install argparse
 
-EXPOSE 3906
-EXPOSE 3907
-EXPOSE 3908
-EXPOSE 3909
+#Ports for DR
+#EXPOSE 3906
+#EXPOSE 3907
+
+#Ports for DR redir
+#EXPOSE 3908
+#EXPOSE 3909
