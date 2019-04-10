@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1d8629c_1d641881",
+        "filename": "version-manifest/src/main/resources/docker-manifest-staging.csv",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2019-04-10T05:11:42Z",
+      "side": 1,
+      "message": "this is not in the release repository",
+      "range": {
+        "startLine": 79,
+        "startChar": 63,
+        "endLine": 79,
+        "endChar": 68
+      },
+      "revId": "dc51d9f5deb40d752c466100cf109211a1024d54",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db6933eb_c858ca5a",
+        "filename": "version-manifest/src/main/resources/docker-manifest-staging.csv",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2019-04-10T05:11:42Z",
+      "side": 1,
+      "message": "not in release repo on nexus3",
+      "range": {
+        "startLine": 93,
+        "startChar": 51,
+        "endLine": 93,
+        "endChar": 56
+      },
+      "revId": "dc51d9f5deb40d752c466100cf109211a1024d54",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
