@@ -241,6 +241,12 @@ resources:
               get_attr: [k8s_04_floating_ip, floating_ip_address],
               get_attr: [k8s_05_floating_ip, floating_ip_address],
               get_attr: [k8s_06_floating_ip, floating_ip_address],
+              get_attr: [k8s_07_floating_ip, floating_ip_address],
+              get_attr: [k8s_08_floating_ip, floating_ip_address],
+              get_attr: [k8s_09_floating_ip, floating_ip_address],
+              get_attr: [k8s_10_floating_ip, floating_ip_address],
+              get_attr: [k8s_11_floating_ip, floating_ip_address],
+              get_attr: [k8s_12_floating_ip, floating_ip_address],
             ]
             __k8s_private_ips__: [
               get_attr: [k8s_01_floating_ip, fixed_ip_address],
@@ -249,6 +255,12 @@ resources:
               get_attr: [k8s_04_floating_ip, fixed_ip_address],
               get_attr: [k8s_05_floating_ip, fixed_ip_address],
               get_attr: [k8s_06_floating_ip, fixed_ip_address],
+              get_attr: [k8s_07_floating_ip, fixed_ip_address],
+              get_attr: [k8s_08_floating_ip, fixed_ip_address],
+              get_attr: [k8s_09_floating_ip, fixed_ip_address],
+              get_attr: [k8s_10_floating_ip, fixed_ip_address],
+              get_attr: [k8s_11_floating_ip, fixed_ip_address],
+              get_attr: [k8s_12_floating_ip, fixed_ip_address],
             ]
   k8s_01_private_port:
     type: OS::Neutron::Port
@@ -670,6 +682,426 @@ resources:
       user_data_format: SOFTWARE_CONFIG
       user_data: { get_resource: k8s_06_vm_config }
 
+  k8s_07_private_port:
+    type: OS::Neutron::Port
+    properties:
+      network: { get_resource: oam_network }
+      fixed_ips: [{"subnet": { get_resource: oam_subnet }}]
+      security_groups:
+      - { get_resource: onap_sg }
+
+  k8s_07_floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network_id: { get_param: public_net_id }
+      port_id: { get_resource: k8s_07_private_port }
+
+  k8s_07_vm_scripts:
+    type: OS::Heat::CloudConfig
+    properties:
+      cloud_config:
+        power_state:
+          mode: reboot
+        runcmd:
+        - [ /opt/k8s_vm_install.sh ]
+        write_files:
+        - path: /opt/k8s_vm_install.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __docker_proxy__: { get_param: docker_proxy }
+                __apt_proxy__: { get_param: apt_proxy }
+                __docker_version__: { get_param: docker_version }
+                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __host_private_ip_addr__: { get_attr: [k8s_07_floating_ip, fixed_ip_address] }
+                __mtu__: { get_param: mtu }
+              template:
+                get_file: k8s_vm_install.sh
+        - path: /opt/k8s_vm_init.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __host_private_ip_addr__: { get_attr: [k8s_07_floating_ip, fixed_ip_address] }
+                __host_label__: 'compute'
+              template:
+                get_file: k8s_vm_init.sh
+        - path: /etc/init.d/k8s_vm_init_serv
+          permissions: '0755'
+          content:
+            get_file: k8s_vm_init_serv.sh
+
+  k8s_07_vm_config:
+    type: OS::Heat::MultipartMime
+    properties:
+      parts:
+      - config: { get_resource: k8s_07_vm_scripts }
+
+  k8s_07_vm:
+    type: OS::Nova::Server
+    properties:
+      name:
+        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s', '07' ] ]
+      image: { get_param: ubuntu_1804_image }
+      flavor: { get_param: k8s_vm_flavor }
+      key_name: { get_param: key_name }
+      networks:
+      - port: { get_resource: k8s_07_private_port }
+      user_data_format: SOFTWARE_CONFIG
+      user_data: { get_resource: k8s_07_vm_config }
+
+  k8s_08_private_port:
+    type: OS::Neutron::Port
+    properties:
+      network: { get_resource: oam_network }
+      fixed_ips: [{"subnet": { get_resource: oam_subnet }}]
+      security_groups:
+      - { get_resource: onap_sg }
+
+  k8s_08_floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network_id: { get_param: public_net_id }
+      port_id: { get_resource: k8s_08_private_port }
+
+  k8s_08_vm_scripts:
+    type: OS::Heat::CloudConfig
+    properties:
+      cloud_config:
+        power_state:
+          mode: reboot
+        runcmd:
+        - [ /opt/k8s_vm_install.sh ]
+        write_files:
+        - path: /opt/k8s_vm_install.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __docker_proxy__: { get_param: docker_proxy }
+                __apt_proxy__: { get_param: apt_proxy }
+                __docker_version__: { get_param: docker_version }
+                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __host_private_ip_addr__: { get_attr: [k8s_08_floating_ip, fixed_ip_address] }
+                __mtu__: { get_param: mtu }
+              template:
+                get_file: k8s_vm_install.sh
+        - path: /opt/k8s_vm_init.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __host_private_ip_addr__: { get_attr: [k8s_08_floating_ip, fixed_ip_address] }
+                __host_label__: 'compute'
+              template:
+                get_file: k8s_vm_init.sh
+        - path: /etc/init.d/k8s_vm_init_serv
+          permissions: '0755'
+          content:
+            get_file: k8s_vm_init_serv.sh
+
+  k8s_08_vm_config:
+    type: OS::Heat::MultipartMime
+    properties:
+      parts:
+      - config: { get_resource: k8s_08_vm_scripts }
+
+  k8s_08_vm:
+    type: OS::Nova::Server
+    properties:
+      name:
+        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s', '08' ] ]
+      image: { get_param: ubuntu_1804_image }
+      flavor: { get_param: k8s_vm_flavor }
+      key_name: { get_param: key_name }
+      networks:
+      - port: { get_resource: k8s_08_private_port }
+      user_data_format: SOFTWARE_CONFIG
+      user_data: { get_resource: k8s_08_vm_config }
+
+  k8s_09_private_port:
+    type: OS::Neutron::Port
+    properties:
+      network: { get_resource: oam_network }
+      fixed_ips: [{"subnet": { get_resource: oam_subnet }}]
+      security_groups:
+      - { get_resource: onap_sg }
+
+  k8s_09_floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network_id: { get_param: public_net_id }
+      port_id: { get_resource: k8s_09_private_port }
+
+  k8s_09_vm_scripts:
+    type: OS::Heat::CloudConfig
+    properties:
+      cloud_config:
+        power_state:
+          mode: reboot
+        runcmd:
+        - [ /opt/k8s_vm_install.sh ]
+        write_files:
+        - path: /opt/k8s_vm_install.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __docker_proxy__: { get_param: docker_proxy }
+                __apt_proxy__: { get_param: apt_proxy }
+                __docker_version__: { get_param: docker_version }
+                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __host_private_ip_addr__: { get_attr: [k8s_09_floating_ip, fixed_ip_address] }
+                __mtu__: { get_param: mtu }
+              template:
+                get_file: k8s_vm_install.sh
+        - path: /opt/k8s_vm_init.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __host_private_ip_addr__: { get_attr: [k8s_09_floating_ip, fixed_ip_address] }
+                __host_label__: 'compute'
+              template:
+                get_file: k8s_vm_init.sh
+        - path: /etc/init.d/k8s_vm_init_serv
+          permissions: '0755'
+          content:
+            get_file: k8s_vm_init_serv.sh
+
+  k8s_09_vm_config:
+    type: OS::Heat::MultipartMime
+    properties:
+      parts:
+      - config: { get_resource: k8s_09_vm_scripts }
+
+  k8s_09_vm:
+    type: OS::Nova::Server
+    properties:
+      name:
+        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s', '09' ] ]
+      image: { get_param: ubuntu_1804_image }
+      flavor: { get_param: k8s_vm_flavor }
+      key_name: { get_param: key_name }
+      networks:
+      - port: { get_resource: k8s_09_private_port }
+      user_data_format: SOFTWARE_CONFIG
+      user_data: { get_resource: k8s_09_vm_config }
+
+  k8s_10_private_port:
+    type: OS::Neutron::Port
+    properties:
+      network: { get_resource: oam_network }
+      fixed_ips: [{"subnet": { get_resource: oam_subnet }}]
+      security_groups:
+      - { get_resource: onap_sg }
+
+  k8s_10_floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network_id: { get_param: public_net_id }
+      port_id: { get_resource: k8s_10_private_port }
+
+  k8s_10_vm_scripts:
+    type: OS::Heat::CloudConfig
+    properties:
+      cloud_config:
+        power_state:
+          mode: reboot
+        runcmd:
+        - [ /opt/k8s_vm_install.sh ]
+        write_files:
+        - path: /opt/k8s_vm_install.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __docker_proxy__: { get_param: docker_proxy }
+                __apt_proxy__: { get_param: apt_proxy }
+                __docker_version__: { get_param: docker_version }
+                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __host_private_ip_addr__: { get_attr: [k8s_10_floating_ip, fixed_ip_address] }
+                __mtu__: { get_param: mtu }
+              template:
+                get_file: k8s_vm_install.sh
+        - path: /opt/k8s_vm_init.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __host_private_ip_addr__: { get_attr: [k8s_10_floating_ip, fixed_ip_address] }
+                __host_label__: 'compute'
+              template:
+                get_file: k8s_vm_init.sh
+        - path: /etc/init.d/k8s_vm_init_serv
+          permissions: '0755'
+          content:
+            get_file: k8s_vm_init_serv.sh
+
+  k8s_10_vm_config:
+    type: OS::Heat::MultipartMime
+    properties:
+      parts:
+      - config: { get_resource: k8s_10_vm_scripts }
+
+  k8s_10_vm:
+    type: OS::Nova::Server
+    properties:
+      name:
+        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s', '10' ] ]
+      image: { get_param: ubuntu_1804_image }
+      flavor: { get_param: k8s_vm_flavor }
+      key_name: { get_param: key_name }
+      networks:
+      - port: { get_resource: k8s_10_private_port }
+      user_data_format: SOFTWARE_CONFIG
+      user_data: { get_resource: k8s_10_vm_config }
+
+  k8s_11_private_port:
+    type: OS::Neutron::Port
+    properties:
+      network: { get_resource: oam_network }
+      fixed_ips: [{"subnet": { get_resource: oam_subnet }}]
+      security_groups:
+      - { get_resource: onap_sg }
+
+  k8s_11_floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network_id: { get_param: public_net_id }
+      port_id: { get_resource: k8s_11_private_port }
+
+  k8s_11_vm_scripts:
+    type: OS::Heat::CloudConfig
+    properties:
+      cloud_config:
+        power_state:
+          mode: reboot
+        runcmd:
+        - [ /opt/k8s_vm_install.sh ]
+        write_files:
+        - path: /opt/k8s_vm_install.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __docker_proxy__: { get_param: docker_proxy }
+                __apt_proxy__: { get_param: apt_proxy }
+                __docker_version__: { get_param: docker_version }
+                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __host_private_ip_addr__: { get_attr: [k8s_11_floating_ip, fixed_ip_address] }
+                __mtu__: { get_param: mtu }
+              template:
+                get_file: k8s_vm_install.sh
+        - path: /opt/k8s_vm_init.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __host_private_ip_addr__: { get_attr: [k8s_11_floating_ip, fixed_ip_address] }
+                __host_label__: 'compute'
+              template:
+                get_file: k8s_vm_init.sh
+        - path: /etc/init.d/k8s_vm_init_serv
+          permissions: '0755'
+          content:
+            get_file: k8s_vm_init_serv.sh
+
+  k8s_11_vm_config:
+    type: OS::Heat::MultipartMime
+    properties:
+      parts:
+      - config: { get_resource: k8s_11_vm_scripts }
+
+  k8s_11_vm:
+    type: OS::Nova::Server
+    properties:
+      name:
+        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s', '11' ] ]
+      image: { get_param: ubuntu_1804_image }
+      flavor: { get_param: k8s_vm_flavor }
+      key_name: { get_param: key_name }
+      networks:
+      - port: { get_resource: k8s_11_private_port }
+      user_data_format: SOFTWARE_CONFIG
+      user_data: { get_resource: k8s_11_vm_config }
+
+  k8s_12_private_port:
+    type: OS::Neutron::Port
+    properties:
+      network: { get_resource: oam_network }
+      fixed_ips: [{"subnet": { get_resource: oam_subnet }}]
+      security_groups:
+      - { get_resource: onap_sg }
+
+  k8s_12_floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network_id: { get_param: public_net_id }
+      port_id: { get_resource: k8s_12_private_port }
+
+  k8s_12_vm_scripts:
+    type: OS::Heat::CloudConfig
+    properties:
+      cloud_config:
+        power_state:
+          mode: reboot
+        runcmd:
+        - [ /opt/k8s_vm_install.sh ]
+        write_files:
+        - path: /opt/k8s_vm_install.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __docker_proxy__: { get_param: docker_proxy }
+                __apt_proxy__: { get_param: apt_proxy }
+                __docker_version__: { get_param: docker_version }
+                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
+                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __host_private_ip_addr__: { get_attr: [k8s_12_floating_ip, fixed_ip_address] }
+                __mtu__: { get_param: mtu }
+              template:
+                get_file: k8s_vm_install.sh
+        - path: /opt/k8s_vm_init.sh
+          permissions: '0755'
+          content:
+            str_replace:
+              params:
+                __host_private_ip_addr__: { get_attr: [k8s_12_floating_ip, fixed_ip_address] }
+                __host_label__: 'compute'
+              template:
+                get_file: k8s_vm_init.sh
+        - path: /etc/init.d/k8s_vm_init_serv
+          permissions: '0755'
+          content:
+            get_file: k8s_vm_init_serv.sh
+
+  k8s_12_vm_config:
+    type: OS::Heat::MultipartMime
+    properties:
+      parts:
+      - config: { get_resource: k8s_12_vm_scripts }
+
+  k8s_12_vm:
+    type: OS::Nova::Server
+    properties:
+      name:
+        list_join: ['-', [ { get_param: 'OS::stack_name' }, 'k8s', '12' ] ]
+      image: { get_param: ubuntu_1804_image }
+      flavor: { get_param: k8s_vm_flavor }
+      key_name: { get_param: key_name }
+      networks:
+      - port: { get_resource: k8s_12_private_port }
+      user_data_format: SOFTWARE_CONFIG
+      user_data: { get_resource: k8s_12_vm_config }
+
   orch_1_private_port:
     type: OS::Neutron::Port
     properties:
@@ -935,6 +1367,54 @@ outputs:
   k8s_06_vm_private_ip:
     description: The private IP address of the k8s_06 instance
     value: { get_attr: [k8s_06_floating_ip, fixed_ip_address] }
+
+  k8s_07_vm_ip:
+    description: The IP address of the k8s_07 instance
+    value: { get_attr: [k8s_07_floating_ip, floating_ip_address] }
+
+  k8s_07_vm_private_ip:
+    description: The private IP address of the k8s_07 instance
+    value: { get_attr: [k8s_07_floating_ip, fixed_ip_address] }
+
+  k8s_08_vm_ip:
+    description: The IP address of the k8s_08 instance
+    value: { get_attr: [k8s_08_floating_ip, floating_ip_address] }
+
+  k8s_08_vm_private_ip:
+    description: The private IP address of the k8s_08 instance
+    value: { get_attr: [k8s_08_floating_ip, fixed_ip_address] }
+
+  k8s_09_vm_ip:
+    description: The IP address of the k8s_09 instance
+    value: { get_attr: [k8s_09_floating_ip, floating_ip_address] }
+
+  k8s_09_vm_private_ip:
+    description: The private IP address of the k8s_09 instance
+    value: { get_attr: [k8s_09_floating_ip, fixed_ip_address] }
+
+  k8s_10_vm_ip:
+    description: The IP address of the k8s_10 instance
+    value: { get_attr: [k8s_10_floating_ip, floating_ip_address] }
+
+  k8s_10_vm_private_ip:
+    description: The private IP address of the k8s_10 instance
+    value: { get_attr: [k8s_10_floating_ip, fixed_ip_address] }
+
+  k8s_11_vm_ip:
+    description: The IP address of the k8s_11 instance
+    value: { get_attr: [k8s_11_floating_ip, floating_ip_address] }
+
+  k8s_11_vm_private_ip:
+    description: The private IP address of the k8s_11 instance
+    value: { get_attr: [k8s_11_floating_ip, fixed_ip_address] }
+
+  k8s_12_vm_ip:
+    description: The IP address of the k8s_12 instance
+    value: { get_attr: [k8s_12_floating_ip, floating_ip_address] }
+
+  k8s_12_vm_private_ip:
+    description: The private IP address of the k8s_12 instance
+    value: { get_attr: [k8s_12_floating_ip, fixed_ip_address] }
 
   orch_1_vm_ip:
     description: The IP address of the orch_1 instance
