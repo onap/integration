@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "806274f6_2631195d",
+        "filename": "deployment/heat/onap-rke/env/windriver/onap-oom.env",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 333
+      },
+      "writtenOn": "2019-04-11T20:23:44Z",
+      "side": 1,
+      "message": "Can we change replicaCount to 3? we see some error in music, not sure if it is related to this count",
+      "range": {
+        "startLine": 142,
+        "startChar": 11,
+        "endLine": 142,
+        "endChar": 27
+      },
+      "revId": "ab21cb4fdf4c4908b1a0d83b566ba550594ffc6a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
