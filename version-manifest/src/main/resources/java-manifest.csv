@@ -254,7 +254,6 @@ org.onap.vfc.nfvo.db,vfc-nfvo-db,1.2.2
 org.onap.vfc.nfvo.driver.ems.ems,emsdriver-standalone,1.2.1
 org.onap.vfc.nfvo.driver.sfc.zte.sfc-driver-standalone,vfc-nfvo-driver-sfc-zte-sfc-driver,1.2.0
 org.onap.vfc.nfvo.driver.vnfm.gvnfm.gvnfmadapter,vfc-nfvo-driver-vnfm-gvnfm-gvnfmadapter,1.2.2
-org.onap.vfc.nfvo.driver.vnfm.svnfm,vfcadaptor-deployment,1.1.0
 org.onap.vfc.nfvo.driver.vnfm.svnfm.huawei.vnfmadapter,hw-vnfmadapter-deployment,1.2.1
 org.onap.vfc.nfvo.driver.vnfm.svnfm.nokiav2,driverwar,1.2.1
 org.onap.vfc.nfvo.driver.vnfm.svnfm.zte.vmanager,vfc-nfvo-driver-vnfm-svnfm-zte-vmanager,1.2.1
