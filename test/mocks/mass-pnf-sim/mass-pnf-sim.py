@@ -18,6 +18,17 @@ parser.add_argument(
     help='Trigger one single VES event from each simulator',
 )
 
+
+parser.add_argument(
+    '--triggerstart',
+    help='Trigger only a subset of the simulators (note --triggerend)',
+)
+
+parser.add_argument(
+    '--triggerend',
+    help='Last instance to trigger',
+)
+
 parser.add_argument(
     '--urlves',
     help='URL of the VES collector',
@@ -176,6 +187,22 @@ if args.trigger:
             "; ./simulator.sh trigger-simulator",
             shell=True)
         print('Status:', completed.stdout)
+        
+if args.triggerstart and args.triggerend:
+    print("Triggering VES sending by a range of simulators:")
+    
+    for i in range(int(args.triggerstart), int(args.triggerend)+1):
+        foldername = "pnf-sim-lw-" + str(i)
+        print("Instance being processed:" + str(i))
+         
+        completed = subprocess.run(
+            'cd ' +
+            foldername +
+            "; ./simulator.sh trigger-simulator",
+            shell=True)
+        print('Status:', completed.stdout)
+         
+        
 
 else:
     print("No instruction was defined")
