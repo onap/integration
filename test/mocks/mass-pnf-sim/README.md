@@ -30,6 +30,13 @@ Define the amount of simulators to be launched
 ###Trigger
 ./mass-pnf-sim.py  --trigger 2
 
+###Trigger only a subset of the simulators
+./mass-pnf-sim.py  --triggerstart 0 --triggerend 3
+#this will trigger 0,1,2,3 
+
+./mass-pnf-sim.py  --triggerstart 4 --triggerend 5
+#this will trigger 4,5
+
 ###Stop and clean
 ./mass-pnf-sim.py  --stop 2
 ./mass-pnf-sim.py  --clean
