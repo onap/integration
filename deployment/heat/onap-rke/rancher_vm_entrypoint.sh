@@ -168,8 +168,8 @@ git commit -a -m "apply manifest versions"
 
 cd ~/oom
 # workaround to change onap portal cookie domain
-sed -i "s/^cookie_domain.*=.*/cookie_domain = __portal_hostname__/g" ./kubernetes/portal/charts/portal-app/resources/config/deliveries/properties/ONAPPORTAL/system.properties
-sed -i "s/^cookie_domain.*=.*/cookie_domain = __portal_hostname__/g" ./kubernetes/portal/charts/portal-sdk/resources/config/deliveries/properties/ONAPPORTALSDK/system.properties
+#sed -i "s/^cookie_domain.*=.*/cookie_domain = __portal_hostname__/g" ./kubernetes/portal/charts/portal-app/resources/config/deliveries/properties/ONAPPORTAL/system.properties
+#sed -i "s/^cookie_domain.*=.*/cookie_domain = __portal_hostname__/g" ./kubernetes/portal/charts/portal-sdk/resources/config/deliveries/properties/ONAPPORTALSDK/system.properties
 git diff
 git commit -a -m "set portal cookie domain"
 
