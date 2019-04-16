@@ -223,6 +223,7 @@ org.onap.multicloud.openstack,ocata,1.2.4
 org.onap.multicloud.openstack,pike,1.2.4
 org.onap.multicloud.openstack,windriver,1.2.4
 org.onap.multicloud.openstack.vmware,vio,1.2.2
+org.onap.multicloud.openstack.fcaps,1.0.0
 org.onap.music,MUSIC,3.0.23
 org.onap.oparent,oparent,1.2.3
 org.onap.policy.apex-pdp,apex-pdp,2.0.4
