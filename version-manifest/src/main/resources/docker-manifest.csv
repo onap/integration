@@ -54,10 +54,12 @@ onap/model-loader,1.3.1
 onap/msb/msb_apigateway,1.2.1
 onap/msb/msb_discovery,1.2.1
 onap/multicloud/azure,1.2.2
-onap/multicloud/framework,1.2.2
-onap/multicloud/openstack-ocata,1.2.4
-onap/multicloud/openstack-pike,1.2.4
-onap/multicloud/openstack-windriver,1.2.4
+onap/multicloud/framework,1.3.1
+onap/multicloud/openstack-fcaps,1.3.1
+onap/multicloud/openstack-ocata,1.3.1
+onap/multicloud/openstack-pike,1.3.1
+onap/multicloud/openstack-starlingx,1.3.1
+onap/multicloud/openstack-windriver,1.3.1
 onap/multicloud/vio,1.2.2
 onap/music/cassandra_3_11,3.0.24
 onap/music/cassandra_job,3.0.24
