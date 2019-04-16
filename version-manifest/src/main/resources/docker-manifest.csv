@@ -55,6 +55,7 @@ onap/msb/msb_apigateway,1.2.1
 onap/msb/msb_discovery,1.2.1
 onap/multicloud/azure,1.2.2
 onap/multicloud/framework,1.2.2
+onap/multicloud/fcaps,1.0.0
 onap/multicloud/openstack-ocata,1.2.4
 onap/multicloud/openstack-pike,1.2.4
 onap/multicloud/openstack-windriver,1.2.4
