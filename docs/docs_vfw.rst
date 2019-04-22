@@ -63,13 +63,21 @@ The command above enables 5 streams.
 
 Running the Use Case
 ~~~~~~~~~~~~~~~~~~~~
-Users can run the use case using the automated Robot Framework or manually. For using the Robot Framework in an ONAP instance installed with OOM, users have to connect to the Rancher VM and run the following command:
+Users can run the use case using the automated Robot Framework or manually. For using the Robot Framework in an ONAP instance installed with OOM, users have to connect to the Rancher VM and run the following operations:
+
+::
+
+  bash oom/kubernetes/robot/ete-k8s.sh <namespace> instantiateVFWCL
+
+::
+
+  kubectl exec -it $PAP_POD -n onap -c pap -- bash -c 'export PRELOAD_POLICIES=true; /tmp/policy-install/config/push-policies.sh'
 
 ::
 
   bash oom/kubernetes/robot/demo-k8s.sh <namespace> vfwclosedloop <pgn-ip-address>
 
-The script sets the packet generator to high and low rates, and checks whether the policy kicks in to modulate the rates back to medium.
+The first instruction instantiate the vFW using the templates in the heat/vFWCL directory in the demo repository. The second instruction pushes policies to the Policy Engine, while the third instruction sets the packet generator to high and low rates, checking whether the policy kicks in to modulate the rates back to medium.
 
 For documentation about running the use case manually for previous releases, please look at the videos and the material available at this `wiki page`__.
 
