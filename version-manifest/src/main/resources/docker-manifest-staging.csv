@@ -104,10 +104,10 @@ onap/pomba-aai-context-builder,1.4.0-SNAPSHOT-latest
 onap/pomba-context-aggregator,1.4.0-SNAPSHOT-latest
 onap/pomba-network-discovery-context-builder,1.4.0-SNAPSHOT-latest
 onap/pomba-sdc-context-builder,1.4.0-SNAPSHOT-latest
-onap/portal-app,2.3.1
-onap/portal-db,2.3.1
-onap/portal-sdk,2.3.1
-onap/portal-wms,2.3.1
+onap/portal-app,2.5.0-STAGING-latest
+onap/portal-db,2.5.0-STAGING-latest
+onap/portal-sdk,2.5.0-STAGING-latest
+onap/portal-wms,2.5.0-STAGING-latest
 onap/rproxy,2.1-STAGING-latest
 onap/sdc-backend,1.4-STAGING-latest
 onap/sdc-backend-init,1.4-STAGING-latest
