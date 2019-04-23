@@ -1,5 +1,5 @@
 {
-  "id": "840dff41-02b1-d25c-166d-2d2e34f090de",
+  "id": "eefacaa7-254c-3fc7-f946-b7d87508e343",
   "name": "Postman Globals",
   "values": [
     {
@@ -59,7 +59,7 @@
     },
     {
       "key": "cloud_owner_name",
-      "value": "CloudOwner",
+      "value": "OPNFV",
       "description": "",
       "type": "text",
       "enabled": true
@@ -228,6 +228,6 @@
     }
   ],
   "_postman_variable_scope": "globals",
-  "_postman_exported_at": "2019-01-24T16:48:52.023Z",
+  "_postman_exported_at": "2019-01-25T07:54:33.611Z",
   "_postman_exported_using": "Postman/5.5.4"
 }
