@@ -1,0 +1,71 @@
+#!/usr/bin/python
+
+import sys
+import json
+
+import conf
+import ems_util
+
+
+def upgrade_precheck(pnf_id, old_sw_version, target_sw_version, rule_name, tmp_file=None):
+    ne_info = ems_util.get_ne_info_from_db_by_id(pnf_id)
+
+    if not ne_info:
+        ret_value = {
+            "result": conf.RESULT_FAILURE,
+            "reason": "Can not find NE %s" % pnf_id
+        }
+        return ret_value
+
+    current_sw_version_in_db = ne_info.get("currentSwVersion", "")
+
+    if old_sw_version != current_sw_version_in_db:
+        ret_value = {
+            "result": conf.RESULT_FAILURE,
+            "reason": "Current SW version %s in PNF is not matched with oldSwVersion %s" %
+                      (current_sw_version_in_db, old_sw_version)
+        }
+        return ret_value
+
+    ne_info["checkStatus"] = conf.STATUS_PRECHECKED
+    ems_util.update_ne_info(ne_info)
+
+    ret_value = {
+         "result": conf.RESULT_SUCCESS
+    }
+
+    return ret_value
+
+
+def main():
+    #  {{pnfId}} {{oldSwVersion}} {{targetSwVersion}} {{ruleName}} /tmp/tmp-{{Id}}
+
+    if len(sys.argv) < 5:
+        ret_value = {
+            "result": conf.RESULT_FAILURE,
+            "reason": "Missing parameters"
+        }
+        print json.dumps(ret_value)
+        sys.exit(conf.RET_CODE_FAILURE)
+
+    if len(sys.argv) >= 5:
+        pnf_id = sys.argv[1]
+        old_sw_version = sys.argv[2]
+        target_sw_version = sys.argv[3]
+        rule_name = sys.argv[4]
+        tmp_file = None
+
+    if len(sys.argv) >= 6:
+        tmp_file = sys.argv[5]
+
+    ret_value = upgrade_precheck(pnf_id, old_sw_version, target_sw_version, rule_name, tmp_file)
+    print json.dumps(ret_value)
+
+    if ret_value["result"] == conf.RESULT_SUCCESS:
+        sys.exit(conf.RET_CODE_SUCCESS)
+    else:
+        sys.exit(conf.RET_CODE_FAILURE)
+
+
+if __name__ == '__main__':
+    main()
