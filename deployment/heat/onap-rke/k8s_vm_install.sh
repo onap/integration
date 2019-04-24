@@ -50,7 +50,13 @@ sed -i 's|http://archive.ubuntu.com|http://nova.clouds.archive.ubuntu.com|g' /et
 while ! hash jq &> /dev/null; do
     apt-get -y update
     # apt-get -y dist-upgrade
-    apt-get -y install curl jq nfs-common docker.io
+    apt-get -y install curl jq nfs-common
+    sleep 10
+done
+
+# install docker
+while ! hash docker &> /dev/null; do
+    curl https://releases.rancher.com/install-docker/__docker_version__.sh | sh
     systemctl enable docker
     usermod -aG docker ubuntu
     sleep 10
