@@ -12,6 +12,11 @@ Source files
 - VF module scaling template file: https://git.onap.org/demo/plain/heat/vLBMS/dnsscaling.yaml
 - VF module scaling environment file: https://git.onap.org/demo/plain/heat/vLBMS/dnsscaling.env
 
+VVP Report
+~~~~~~~~~~
+
+:download:`vLBMS report <files/vLBMS_report.json>`
+
 Description
 ~~~~~~~~~~~
 The Scale Out use case shows how users/network operators can add Virtual Network Function Components (VNFCs) as part of a VF Module that has been instantiated in the Service model to an existing VNF, in order to increase capacity of the network. ONAP Casablanca release supports scale out with manual trigger from VID and closed-loop enabled automation from Policy. This is demonstrated against the vLB/vDNS VNFs developed for ONAP. For Casablanca, both APPC and SDNC controllers are used to demonstrate accepting request from SO to execute the Scale Out operation. APPC is the main controller used for this use case and it can be used to scale different VNF types. SDNC is experimental for now and it can scale only the vDNS VNF developed for ONAP.
