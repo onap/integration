@@ -12,6 +12,12 @@ Source files
 - vPacketGenerator template file: https://git.onap.org/demo/plain/heat/vFWCL/vPKG/base_vpkg.yaml
 - vPacketGenerator environment file: https://git.onap.org/demo/plain/heat/vFWCL/vPKG/base_vpkg.env
 
+VVP Report
+~~~~~~~~~~
+
+:download:`vFWCL/vPKG report <files/vFWCL_vPKG_report.json>`
+
+:download:`vFWCL/vFWSNK report <files/vFWCL_vFWSNK_report.json>`
 
 Description
 ~~~~~~~~~~~
