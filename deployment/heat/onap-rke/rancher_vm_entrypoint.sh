@@ -35,8 +35,6 @@ echo "__oom_gerrit_refspec__" > /opt/config/oom_gerrit_refspec.txt
 echo "__docker_manifest__" > /opt/config/docker_manifest.txt
 echo "__docker_proxy__" > /opt/config/docker_proxy.txt
 echo "__docker_version__" > /opt/config/docker_version.txt
-echo "__rancher_version__" > /opt/config/rancher_version.txt
-echo "__rancher_agent_version__" > /opt/config/rancher_agent_version.txt
 echo "__kubectl_version__" > /opt/config/kubectl_version.txt
 echo "__helm_version__" > /opt/config/helm_version.txt
 echo "__helm_deploy_delay__" > /opt/config/helm_deploy_delay.txt
