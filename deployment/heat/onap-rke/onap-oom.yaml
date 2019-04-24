@@ -19,6 +19,10 @@ parameters:
     type: string
     description: CIDR of the OAM ONAP network
 
+  oam_ext_network_cidr:
+    type: string
+    description: CIDR of the onap_oam_ext network
+
   ubuntu_1804_image:
     type: string
     description: Name of the Ubuntu 18.04 image
@@ -134,6 +138,13 @@ resources:
         - protocol: 53
         - protocol: 132
 
+  router:
+    type: OS::Neutron::Router
+    properties:
+      name:
+        list_join: ['-', [{ get_param: 'OS::stack_name' }, 'router']]
+      external_gateway_info:
+        network: { get_param: public_net_id }
 
   # ONAP management private network
   oam_network:
@@ -157,19 +168,30 @@ resources:
       cidr: { get_param: oam_network_cidr }
       dns_nameservers: [ "8.8.8.8" ]
 
-  router:
-    type: OS::Neutron::Router
-    properties:
-      name:
-        list_join: ['-', [{ get_param: 'OS::stack_name' }, 'router']]
-      external_gateway_info:
-        network: { get_param: public_net_id }
-
-  router_interface:
+  oam_router_interface:
     type: OS::Neutron::RouterInterface
     properties:
       router_id: { get_resource: router }
       subnet_id: { get_resource: oam_subnet }
+
+  oam_ext_network:
+    type: OS::Neutron::Net
+    properties:
+      name: onap_oam_ext
+
+  oam_ext_subnet:
+    type: OS::Neutron::Subnet
+    properties:
+      name: onap_oam_ext
+      network_id: { get_resource: oam_ext_network }
+      cidr: { get_param: oam_ext_network_cidr }
+      dns_nameservers: [ "8.8.8.8" ]
+
+  oam_ext_router_interface:
+    type: OS::Neutron::RouterInterface
+    properties:
+      router_id: { get_resource: router }
+      subnet_id: { get_resource: oam_ext_subnet }
 
   rancher_private_port:
     type: OS::Neutron::Port
