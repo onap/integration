@@ -182,6 +182,7 @@ resources:
       name: onap_oam_ext
       network_id: { get_resource: oam_ext_network }
       cidr: { get_param: oam_ext_network_cidr }
+      enable_dhcp: false
       dns_nameservers: [ "8.8.8.8" ]
 
   oam_ext_router_interface:
