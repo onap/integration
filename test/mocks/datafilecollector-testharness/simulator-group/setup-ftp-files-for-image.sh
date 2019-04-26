@@ -37,10 +37,10 @@ p=0
 while [ $p -lt $PNFS ]; do 
     i=0
     while [ $i -lt $NUM ]; do  #Problem with for loop and var substituion in curly bracket....so used good old style loop
-    	if [ $FSIZE = "ALL" ] || [ $FSIZE = "1KB" ]; then ln -s 1KB.tar.gz 'A20000626.2315+0200-2330+0200_PNF'$p'-'$i'-1KB.tar.gz'; fi
-        if [ $FSIZE = "ALL" ] || [ $FSIZE = "1MB" ]; then ln -s 1MB.tar.gz 'A20000626.2315+0200-2330+0200_PNF'$p'-'$i'-1MB.tar.gz'; fi
-        if [ $FSIZE = "ALL" ] || [ $FSIZE = "5MB" ]; then ln -s 5MB.tar.gz 'A20000626.2315+0200-2330+0200_PNF'$p'-'$i'-5MB.tar.gz'; fi
-        if [ $FSIZE = "ALL" ] || [ $FSIZE = "50MB" ]; then ln -s 50MB.tar.gz 'A20000626.2315+0200-2330+0200_PNF'$p'-'$i'-50MB.tar.gz'; fi
+    	if [ $FSIZE = "ALL" ] || [ $FSIZE = "1KB" ]; then ln -s 1KB.tar.gz 'A20000626.2315+0200-2330+0200_PNF'$p'-'$i'-1KB.tar.gz' >& /dev/null; fi
+        if [ $FSIZE = "ALL" ] || [ $FSIZE = "1MB" ]; then ln -s 1MB.tar.gz 'A20000626.2315+0200-2330+0200_PNF'$p'-'$i'-1MB.tar.gz' >& /dev/null; fi
+        if [ $FSIZE = "ALL" ] || [ $FSIZE = "5MB" ]; then ln -s 5MB.tar.gz 'A20000626.2315+0200-2330+0200_PNF'$p'-'$i'-5MB.tar.gz' >& /dev/null; fi
+        if [ $FSIZE = "ALL" ] || [ $FSIZE = "50MB" ]; then ln -s 50MB.tar.gz 'A20000626.2315+0200-2330+0200_PNF'$p'-'$i'-50MB.tar.gz' >& /dev/null; fi
     let i=i+1
     done
     let p=p+1

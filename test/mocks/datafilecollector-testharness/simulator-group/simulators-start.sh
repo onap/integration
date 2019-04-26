@@ -51,11 +51,13 @@ fi
 if [ $FTP_TYPE = "ALL" ] || [ $FTP_TYPE = "SFTP" ]; then
 	echo "Creating files for SFTP server, may take time...."
 	docker cp setup-ftp-files-for-image.sh $SFTP_SIM:/tmp/
-	docker exec -w /home/onap/ $SFTP_SIM /tmp/setup-ftp-files-for-image.sh $NUM_FTPFILES $NUM_PNFS $FILE_SIZE #>/dev/null 2>&1
+	#Double slash needed for docker on win...
+	docker exec -w //home/onap/ $SFTP_SIM //tmp/setup-ftp-files-for-image.sh $NUM_FTPFILES $NUM_PNFS $FILE_SIZE #>/dev/null 2>&1
 fi
 if [ $FTP_TYPE = "ALL" ] || [ $FTP_TYPE = "FTPS" ]; then
 	echo "Creating files for FTPS server, may take time...."
 	docker cp setup-ftp-files-for-image.sh $FTPS_SIM:/tmp/setup-ftp-files-for-image.sh
-	docker exec -w /srv $FTPS_SIM /tmp/setup-ftp-files-for-image.sh $NUM_FTPFILES $NUM_PNFS $FILE_SIZE #>/dev/null 2>&1
+	#Double slash needed for docker on win...
+	docker exec -w //srv $FTPS_SIM //tmp/setup-ftp-files-for-image.sh $NUM_FTPFILES $NUM_PNFS $FILE_SIZE #>/dev/null 2>&1
 fi
 echo "Done: All simulators started and configured"

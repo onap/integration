@@ -6,6 +6,9 @@ const stream = require('stream');
 var app = express();
 var fs = require("fs");
 var path = require('path');
+const sleep = (milliseconds) => {
+  return new Promise(resolve => setTimeout(resolve, milliseconds))
+}
 var ArgumentParser = require('argparse').ArgumentParser;
 var privateKey  = fs.readFileSync('cert/private.key', 'utf8');
 var certificate = fs.readFileSync('cert/certificate.crt', 'utf8');
@@ -43,6 +46,7 @@ const tc_no_publish ="no_publish"
 const tc_10p_no_response = "10p_no_response";
 const tc_10first_no_response = "10first_no_response";
 const tc_100first_no_response = "100first_no_response";
+const tc_all_delay_1s = "all_delay_1s";
 const tc_all_delay_10s = "all_delay_10s";
 const tc_10p_delay_10s = "10p_delay_10s";
 const tc_10p_error_response = "10p_error_response";
@@ -64,7 +68,10 @@ if (args.tc==tc_normal) {
 } else if (args.tc==tc_100first_no_response) {
   console.log("TC: " + args.tc)
 
-} else if (args.tc==tc_all_delay_10s) {
+} else if (args.tc==tc_all_delay_1s) {
+  console.log("TC: " + args.tc)
+  
+ } else if (args.tc==tc_all_delay_10s) {
   console.log("TC: " + args.tc)
 
 } else if (args.tc==tc_10p_delay_10s) {
@@ -89,6 +96,7 @@ if (args.printtc) {
   console.log("TC " + tc_10p_no_response + ": 10% % no response (file not published)");
   console.log("TC " + tc_10first_no_response + ": 10 first requests give no response (files not published)");
   console.log("TC " + tc_100first_no_response + ": 100 first requests give no response (files not published)");
+  console.log("TC " + tc_all_delay_1s + ": All responses delayed 1s, normal publish");
   console.log("TC " + tc_all_delay_10s + ": All responses delayed 10s, normal publish");
   console.log("TC " + tc_10p_delay_10s + ": 10% of responses delayed 10s, normal publish");
   console.log("TC " + tc_10p_error_response + ": 10% error response (file not published)");
@@ -174,14 +182,6 @@ app.put('/publish/1/:filename', function (req, res) {
 		tr_publish_responses++;
 		res.send(400, "");
 		return;
-	} else if (args.tc==tc_10p_delay_10s && (ctr_publish_requests%10)==0) {
-		console.log("sleep begin");
-		timer(10000).then(_=>console.log("sleeping done")); 
-	} else if (args.tc==tc_all_delay_10s) {
-		//var sleep = require('sleep');
-		console.log("sleep begin");
-		//sleep.sleep(10); 
-		timer(10000).then(_=>console.log("sleeping done")); 
 	}
 
 	//Remaining part if normal file publish
@@ -218,6 +218,22 @@ app.put('/publish/1/:filename', function (req, res) {
 	lastPublish = fmtMSS(Math.floor((Date.now()-startTime)/1000));
 	dwl_volume = dwl_volume + req.body.length;
 
+	if (args.tc==tc_10p_delay_10s && (ctr_publish_requests%10)==0) {
+        sleep(10000).then(() => {
+			res.send("ok");
+		});
+		return;
+	} else if (args.tc==tc_all_delay_10s) {
+        sleep(10000).then(() => {
+			res.send("ok");
+		});
+		return;
+	}  else if (args.tc==tc_all_delay_1s) {
+        sleep(1000).then(() => {
+			res.send("ok");
+		});
+		return;
+	}
 	res.send("ok")
 });
 

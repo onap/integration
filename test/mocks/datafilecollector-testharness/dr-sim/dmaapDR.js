@@ -5,6 +5,9 @@ var express = require('express');
 const stream = require('stream');
 var app = express();
 var fs = require('fs');
+const sleep = (milliseconds) => {
+  return new Promise(resolve => setTimeout(resolve, milliseconds))
+}
 var privateKey  = fs.readFileSync('cert/private.key', 'utf8');
 var certificate = fs.readFileSync('cert/certificate.crt', 'utf8');
 var credentials = {key: privateKey, cert: certificate};
@@ -19,11 +22,14 @@ const tc_all_published = "all_published"
 const tc_10p_no_response = "10p_no_response";
 const tc_10first_no_response = "10first_no_response";
 const tc_100first_no_response = "100first_no_response";
+const tc_all_delay_1s = "all_delay_1s";
 const tc_all_delay_10s = "all_delay_10s";
 const tc_10p_delay_10s = "10p_delay_10s";
 const tc_10p_error_response = "10p_error_response";
 const tc_10first_error_response = "10first_error_response";
 const tc_100first_error_response = "100first_error_response";
+
+var drr_sim_ip = '127.0.0.1'; //IP for redirect to DR redir sim. Can be changed by env DRR_SIM_IP
 
 //Counters
 var ctr_publish_query = 0;
@@ -32,6 +38,7 @@ var ctr_publish_query_not_published = 0;
 var ctr_publish_req = 0;
 var ctr_publish_req_redirect = 0;
 var ctr_publish_req_published = 0;
+var ctr_double_publish = 0
 
 var parser = new ArgumentParser({
 	  version: '0.0.1',
@@ -67,6 +74,9 @@ if (args.tc==tc_normal) {
 } else if (args.tc==tc_100first_no_response) {
 	console.log("TC: " + args.tc)
 
+} else if (args.tc==tc_all_delay_1s) {
+	console.log("TC: " + args.tc)
+	
 } else if (args.tc==tc_all_delay_10s) {
 	console.log("TC: " + args.tc)
 
@@ -93,6 +103,7 @@ if (args.printtc) {
 	console.log("TC " + tc_10p_no_response + ": 10% % no response for query and publish. Otherwise normal case.");
 	console.log("TC " + tc_10first_no_response + ": 10 first queries and requests gives no response for query and publish. Otherwise normal case.");
 	console.log("TC " + tc_100first_no_response + ": 100 first queries and requests gives no response for query and publish. Otherwise normal case.");
+	console.log("TC " + tc_all_delay_1s + ": All responses delayed 1s (both query and publish).");
 	console.log("TC " + tc_all_delay_10s + ": All responses delayed 10s (both query and publish).");
 	console.log("TC " + tc_10p_delay_10s + ": 10% of responses delayed 10s, (both query and publish).");
 	console.log("TC " + tc_10p_error_response + ": 10% error response for query and publish. Otherwise normal case.");
@@ -149,6 +160,9 @@ app.get("/ctr_published_files",function(req, res){
 app.get("/tc_info",function(req, res){
 	res.send(args.tc);
 })
+app.get("/ctr_double_publish",function(req, res){
+	res.send(""+ctr_double_publish);
+})
 function fmtMSS(s){
 	return(s-(s%=60))/60+(9<s?':':':0')+s    //Format time diff in mm:ss
 }
@@ -177,28 +191,21 @@ app.get('/feedlog/1/',function(req, res){
 	//Ugly fix, plus signs replaces with spaces in query params....need to put them back
 	filename = filename.replace(/ /g,"+");
 	
+	var sleeptime=0;
 	if (args.tc==tc_normal) {
-	  //continue
-	}  else if (args.tc==tc_none_published) {
-		ctr_publish_query_not_published++;
-		res.send("[]");
-		return;
-	} else if (args.tc==tc_all_published) {
-		ctr_publish_query_published++;
-		res.send("[" + filename + "]");
-		return;
+		sleeptime=0;
 	} else if (args.tc==tc_10p_no_response && (ctr_publish_query%10) == 0) {
 		return;
 	} else if (args.tc==tc_10first_no_response && ctr_publish_query<11) {
 		return;
 	} else if (args.tc==tc_100first_no_response && ctr_publish_query<101) {
 		return;
+	} else if (args.tc==tc_all_delay_1s) {
+		sleeptime=1000;
 	} else if (args.tc==tc_all_delay_10s) {
-		console.log("sleep begin");
-		timer(10000).then(_=>console.log("sleeping done")); 
+		sleeptime=10000;
 	} else if (args.tc==tc_10p_delay_10s && (ctr_publish_query%10) == 0) {
-		console.log("sleep begin");
-		timer(10000).then(_=>console.log("sleeping done")); 
+		sleeptime=10000;
 	} else if (args.tc==tc_10p_error_response && (ctr_publish_query%10) == 0) {
 		res.send(400);
 		return;
@@ -212,12 +219,20 @@ app.get('/feedlog/1/',function(req, res){
 
 	if (published.includes(filename)) {
 		ctr_publish_query_published++;
-		res.send("[" + filename + "]");
+		strToSend="[" + filename + "]";
 	} else {
 		ctr_publish_query_not_published++;
-		res.send("[]");
+		strToSend="[]";
 	}
-})
+	if (sleeptime > 0) {
+		sleep(sleeptime).then(() => {
+			res.send(strToSend);
+		});
+	} else {
+		res.send(strToSend);
+	}
+});
+
 
 app.put('/publish/1/:filename', function (req, res) {
 	console.log("url:"+req.url);
@@ -229,10 +244,10 @@ app.put('/publish/1/:filename', function (req, res) {
 	console.log(filename);
 
 	if (args.tc==tc_normal) {
-	    //continue
+	// Continue
 	} else if (args.tc==tc_none_published) {
 		ctr_publish_req_redirect++;
-		res.redirect(301, 'http://127.0.0.1:3908/publish/1/'+filename);
+		res.redirect(301, 'http://' + drr_sim_ip + ':3908/publish/1/'+filename);
 		return;
 	} else if (args.tc==tc_all_published) {
 		ctr_publish_req_published++;
@@ -244,12 +259,15 @@ app.put('/publish/1/:filename', function (req, res) {
 		return;
 	} else if (args.tc==tc_100first_no_response && ctr_publish_req<101) {
 		return;
+	} else if (args.tc==tc_all_delay_1s) {
+		do_publish_delay(res, filename, 1000);
+		return;
 	} else if (args.tc==tc_all_delay_10s) {
-		console.log("sleep begin");
-		timer(10000).then(_=>console.log("sleeping done")); 
+		do_publish_delay(res, filename, 10000);
+		return;
 	} else if (args.tc==tc_10p_delay_10s && (ctr_publish_req%10) == 0) {
-		console.log("sleep begin");
-		timer(10000).then(_=>console.log("sleeping done")); 
+		do_publish_delay(res, filename, 10000);
+		return;
 	} else if (args.tc==tc_10p_error_response && (ctr_publish_req%10) == 0) {
 		res.send(400);
 		return;
@@ -260,15 +278,29 @@ app.put('/publish/1/:filename', function (req, res) {
 		res.send(400);
 		return;
 	}
-
 	if (!published.includes(filename)) {
 		ctr_publish_req_redirect++;
-		res.redirect(301, 'http://127.0.0.1:3908/publish/1/'+filename);
+		res.redirect(301, 'http://'+drr_sim_ip+':3908/publish/1/'+filename);
 	} else {
 		ctr_publish_req_published++;
 		res.send("ok");
 	}
+	return;
 })
+
+function do_publish_delay(res, filename, sleeptime) {
+	if (!published.includes(filename)) {
+		ctr_publish_req_redirect++;
+		sleep(1000).then(() => {
+			res.redirect(301, 'http://'+drr_sim_ip+':3908/publish/1/'+filename);
+		});
+	} else {
+		ctr_publish_req_published++;
+		sleep(1000).then(() => {
+			res.send("ok");
+		});
+	}
+}
 
 //Callback from DR REDIR server, when file is published ok this PUT request update the list of published files.
 app.put('/dr_redir_publish/:filename', function (req, res) {
@@ -281,6 +313,7 @@ app.put('/dr_redir_publish/:filename', function (req, res) {
 		published.push(filename);
 	} else {
 		console.log("File already marked as published. Callback from DR redir SIM. url: " + req.url);
+		ctr_double_publish = ctr_double_publish+1;
 	}
 
 	res.send("ok");
@@ -295,3 +328,8 @@ httpServer.listen(httpPort);
 console.log("DR-simulator listening (http) at "+httpPort);
 httpsServer.listen(httpsPort);
 console.log("DR-simulator listening (https) at "+httpsPort);
+
+if (process.env.DRR_SIM_IP) {
+	drr_sim_ip=process.env.DRR_SIM_IP;
+} 
+console.log("Using IP " + drr_sim_ip + " for redirect to DR redir sim");

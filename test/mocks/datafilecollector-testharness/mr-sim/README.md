@@ -4,11 +4,13 @@
 2. Run the container ```docker-compose up```
 The behavior can be changed by argument to the python script in the docker-compose.yml
 
-The simulator can be queried for statistics (use curl from cmd line or open in browser, curl used below):
+The simulator can be queried for statistics  and  started/stopped (use curl from cmd line or open in browser, curl used below):
 
 `curl localhost:2222/ctr_requests`   - return an integer of the number of get request to the event poll path
 
 `curl localhost:2222/ctr_responses`  - return an integer of the number of get responses to the event poll path
+
+`curl localhost:2222/ctr_files` - returns an integer or the number files.  
 
 `curl localhost:2222/ctr_unique_files` - returns an integer or the number of unique files. A unique file is the combination of node+file_sequence_number 
 
@@ -18,7 +20,15 @@ The simulator can be queried for statistics (use curl from cmd line or open in b
 
 `curl localhost:2222/execution_time` - returns the execution time in mm:ss
 
+`curl localhost:2222/exe_time_first_poll` - returns the execution time in mm:ss from the first poll
+
 `curl localhost:2222/ctr_unique_PNFs` - return the number of unique PNFS in alla events.
+
+`curl localhost:2222/start` - start event delivery (default status).
+
+`curl localhost:2222/stop` - stop event delivery.
+
+`curl localhost:2222/status` - Return the started or stopped status.
 
 ##Common TC info
 File names for 1MB, 5MB and 50MB files

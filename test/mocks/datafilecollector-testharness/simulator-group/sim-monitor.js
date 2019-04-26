@@ -30,18 +30,26 @@ function getSimCtr(url, cb) {
 
 	}).on("error", (err) => {
   		console.log("Error: " + err.message);
-  		cb("no response from simulator");
+  		cb("no response");
 	});
 };
 
 //Status variables, for parameters values fetched from other simulators
-var mr1, mr2, mr3, mr4, mr5, mr6, mr7;
+var mr1, mr2, mr3, mr4, mr5, mr6, mr7, mr8, mr9, mr10;
 
-var dr1, dr2, dr3, dr4, dr5, dr6, dr7, dr8, dr9;
+var dr1, dr2, dr3, dr4, dr5, dr6, dr7, dr8, dr9, dr10;
 
 var drr1, drr2, drr3, drr4, drr5, drr6;
 
+//Heartbeat var
+var dfc1;
+
 app.get("/mon",function(req, res){
+
+	//DFC
+	getSimCtr("http://127.0.0.1:8100/heartbeat", function(data) {
+		dfc1 = data;
+    });
 
 	//MR
     getSimCtr("http://127.0.0.1:2222/ctr_requests", function(data) {
@@ -64,6 +72,15 @@ app.get("/mon",function(req, res){
     });
     getSimCtr("http://127.0.0.1:2222/ctr_unique_PNFs", function(data) {
     	mr7 = data;
+    });
+    getSimCtr("http://127.0.0.1:2222/exe_time_first_poll", function(data) {
+    	mr8 = data;
+    });
+    getSimCtr("http://127.0.0.1:2222/ctr_files", function(data) {
+    	mr9 = data;
+    });
+    getSimCtr("http://127.0.0.1:2222/status", function(data) {
+    	mr10 = data;
     });
 
     //DR
@@ -94,7 +111,10 @@ app.get("/mon",function(req, res){
     getSimCtr("http://127.0.0.1:3906/execution_time", function(data) {
     	dr9 = data;
     });
- 
+    getSimCtr("http://127.0.0.1:3906/ctr_double_publish", function(data) {
+    	dr10 = data;
+    });
+
     //DR REDIR
     getSimCtr("http://127.0.0.1:3908/ctr_publish_requests", function(data) {
     	drr1 = data;
@@ -120,21 +140,28 @@ app.get("/mon",function(req, res){
           "<html>" +
           "<head>" +
             "<meta http-equiv=\"refresh\" content=\"5\">"+  //5 sec auto reefresh
-            "<title>Simulator monitor</title>"+
-          "</head>" +
-          "<body>" +
+            "<title>DFC and simulator monitor</title>"+
+            "</head>" +
+            "<body>" +
+            "<h3>DFC</h3>" +
+            "<font face=\"Courier New\">"+
+            "Heartbeat:....................................." + dfc1 + "<br>" +
+            "</font>"+
             "<h3>MR Simulator</h3>" +
-            "<font face=\"courier\">"+
+            "<font face=\"Courier New\">"+
             "MR TC:........................................." + mr4 + "<br>" +
+            "Status:........................................" + mr10 + "<br>" +
             "Execution time (mm.ss):........................" + mr6 + "<br>" +
+            "Execution time from first poll (mm.ss):....... " + mr8 + "<br>" +
             "Number of requests (polls):...................." + mr1 + "<br>" +
             "Number of responses (polls):..................." + mr2 + "<br>" +
+            "Number of files in all responses:.............." + mr9 + "<br>" +
             "Number of unique files in all responses:......." + mr3 + "<br>" +
             "Number of events..............................." + mr5 + "<br>" +
             "Number of unique PNFs.........................." + mr7 + "<br>" +
             "</font>"+
             "<h3>DR Simulator</h3>" +
-            "<font face=\"courier\">"+
+            "<font face=\"Courier New\">"+
             "DR TC:........................................." + dr8 + "<br>" +
             "Execution time (mm.ss):........................" + dr9 + "<br>" +
             "Number of queries:............................." + dr1 + "<br>" +
@@ -144,9 +171,10 @@ app.get("/mon",function(req, res){
             "Number of responses with redirect:............." + dr5 + "<br>" +
             "Number of responses without redirect:.........." + dr6 + "<br>" +
             "Number of published files:....................." + dr7 + "<br>" +
+            "Number of double published files:.............." + dr10 + "<br>" +
             "</font>"+
             "<h3>DR Redirect Simulator</h3>" +
-            "<font face=\"courier\">"+
+            "<font face=\"Courier New\">"+
             "DR REDIR TC:..................................." + drr3 + "<br>" +
             "Execution time (mm.ss):........................" + drr4 + "<br>" +
             "Number of requests:............................" + drr1 + "<br>" +

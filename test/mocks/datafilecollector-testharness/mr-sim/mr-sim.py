@@ -37,6 +37,13 @@ def counter_responses():
     global ctr_responses
     return str(ctr_responses)
 
+#Returns the total number of file
+@app.route('/ctr_files',
+    methods=['GET'])
+def counter_files():
+    global ctr_files
+    return str(ctr_files)
+
 #Returns number of unique files
 @app.route('/ctr_unique_files',
     methods=['GET'])
@@ -58,15 +65,49 @@ def counter_events():
     global ctr_events
     return str(ctr_events)
 
-#Returns number of events
+#Returns execution time in mm:ss
 @app.route('/execution_time',
     methods=['GET'])
 def exe_time():
     global startTime
-    
+
     stopTime = time.time()
     minutes, seconds = divmod(stopTime-startTime, 60)
     return "{:0>2}:{:0>2}".format(int(minutes),int(seconds))
+
+#Returns the timestamp for first poll
+@app.route('/exe_time_first_poll',
+    methods=['GET'])
+def exe_time_first_poll():
+    global firstPollTime
+
+    if (firstPollTime == 0):
+        return "--:--"
+    minutes, seconds = divmod(time.time()-firstPollTime, 60)
+    return "{:0>2}:{:0>2}".format(int(minutes),int(seconds))
+
+#Starts event delivery
+@app.route('/start',
+    methods=['GET'])
+def start():
+    global runningState
+    runningState="Started"
+    return runningState
+
+#Stops event delivery
+@app.route('/stop',
+    methods=['GET'])
+def stop():
+    global runningState
+    runningState="Stopped"
+    return runningState
+
+#Returns the running state
+@app.route('/status',
+    methods=['GET'])
+def status():
+    global runningState
+    return runningState
 
 #Returns number of unique PNFs
 @app.route('/ctr_unique_PNFs',
@@ -81,10 +122,20 @@ def counter_uniquePNFs():
     methods=['GET'])
 def MR_reply():
     global ctr_requests
+    global ctr_responses
     global args
+    global runningState
+    global firstPollTime
+
+    if (firstPollTime == 0):
+        firstPollTime = time.time()
 
     ctr_requests = ctr_requests + 1
     print("MR: poll request#: " + str(ctr_requests))
+
+    if (runningState == "Stopped"):
+        ctr_responses = ctr_responses + 1
+        return buildOkResponse("[]")
 
     if args.tc100:
       return tc100("sftp")
@@ -114,50 +165,100 @@ def MR_reply():
     elif args.tc1001:
       return tc1001("sftp")
 
+    elif args.tc1100:
+      return tc1100("sftp","1MB")
+    elif args.tc1101:
+      return tc1100("sftp","50MB")
+    elif args.tc1102:
+      return tc1100("sftp","50MB")
+    elif args.tc1200:
+      return tc1200("sftp","1MB")
+    elif args.tc1201:
+      return tc1200("sftp","5MB")
+    elif args.tc1202:
+      return tc1200("sftp","50MB")
+    elif args.tc1300:
+      return tc1300("sftp","1MB")
+    elif args.tc1301:
+      return tc1300("sftp","5MB")
+    elif args.tc1302:
+      return tc1300("sftp","50MB")
+
+    elif args.tc500:
+      return tc500("sftp","1MB")
+    elif args.tc501:
+      return tc500("sftp","5MB")
+    elif args.tc502:
+      return tc500("sftp","50MB")
     elif args.tc510:
-      return tc510("sftp")  
+      return tc510("sftp")
     elif args.tc511:
-      return tc511("sftp")   
-  
+      return tc511("sftp")
+
     elif args.tc710:
-      return tc710("sftp")     
+      return tc710("sftp")
 
 
     elif args.tc200:
-      return tc200("ftps")
+      return tc100("ftps")
     elif args.tc201:
-      return tc201("ftps")
+      return tc101("ftps")
     elif args.tc202:
-      return tc202("ftps")
+      return tc102("ftps")
 
     elif args.tc210:
-      return tc210("ftps")
+      return tc110("ftps")
     elif args.tc211:
-      return tc211("ftps")
+      return tc111("ftps")
     elif args.tc212:
-      return tc212("ftps")
+      return tc112("ftps")
     elif args.tc213:
-      return tc213("ftps")
+      return tc113("ftps")
 
     elif args.tc220:
-      return tc220("ftps")
+      return tc120("ftps")
     elif args.tc221:
-      return tc221("ftps")
+      return tc121("ftps")
     elif args.tc222:
-      return tc222("ftps")
+      return tc122("ftps")
 
     elif args.tc2000:
-      return tc2000("ftps")
+      return tc1000("ftps")
     elif args.tc2001:
-      return tc2001("ftps")
+      return tc1001("ftps")
 
+    elif args.tc2100:
+      return tc1100("ftps","1MB")
+    elif args.tc2101:
+      return tc1100("ftps","50MB")
+    elif args.tc2102:
+      return tc1100("ftps","50MB")
+    elif args.tc2200:
+      return tc1200("ftps","1MB")
+    elif args.tc2201:
+      return tc1200("ftps","5MB")
+    elif args.tc2202:
+      return tc1200("ftps","50MB")
+    elif args.tc2300:
+      return tc1300("ftps","1MB")
+    elif args.tc2301:
+      return tc1300("ftps","5MB")
+    elif args.tc2302:
+      return tc1300("ftps","50MB")
+
+    elif args.tc600:
+      return tc500("ftps","1MB")
+    elif args.tc601:
+      return tc500("ftps","5MB")
+    elif args.tc602:
+      return tc500("ftps","50MB")
     elif args.tc610:
-      return tc510("ftps")  
+      return tc510("ftps")
     elif args.tc611:
-      return tc511("ftps") 
-  
+      return tc511("ftps")
+
     elif args.tc810:
-      return tc710("ftps")   
+      return tc710("ftps")
 
 
 #### Test case functions
@@ -189,7 +290,7 @@ def tc101(ftptype):
   ctr_responses = ctr_responses + 1
 
   if (ctr_responses > 1):
-    return buildOkResponse("[]")  
+    return buildOkResponse("[]")
 
   seqNr = (ctr_responses-1)
   nodeName = createNodeName(0)
@@ -207,7 +308,7 @@ def tc102(ftptype):
   ctr_responses = ctr_responses + 1
 
   if (ctr_responses > 1):
-    return buildOkResponse("[]")  
+    return buildOkResponse("[]")
 
   seqNr = (ctr_responses-1)
   nodeName = createNodeName(0)
@@ -225,8 +326,8 @@ def tc110(ftptype):
   ctr_responses = ctr_responses + 1
 
   if (ctr_responses > 100):
-    return buildOkResponse("[]")  
-  
+    return buildOkResponse("[]")
+
   seqNr = (ctr_responses-1)
   nodeName = createNodeName(0)
   fileName = createFileName(nodeName, seqNr, "1MB")
@@ -243,7 +344,7 @@ def tc111(ftptype):
   ctr_responses = ctr_responses + 1
 
   if (ctr_responses > 100):
-    return buildOkResponse("[]")  
+    return buildOkResponse("[]")
 
   nodeName = createNodeName(0)
   msg = getEventHead(nodeName)
@@ -268,7 +369,7 @@ def tc112(ftptype):
   ctr_responses = ctr_responses + 1
 
   if (ctr_responses > 100):
-    return buildOkResponse("[]")  
+    return buildOkResponse("[]")
 
   nodeName = createNodeName(0)
   msg = getEventHead(nodeName)
@@ -293,7 +394,7 @@ def tc113(ftptype):
   ctr_responses = ctr_responses + 1
 
   if (ctr_responses > 1):
-    return buildOkResponse("[]")  
+    return buildOkResponse("[]")
 
   nodeName = createNodeName(0)
   msg = ""
@@ -325,7 +426,7 @@ def tc120(ftptype):
   nodeName = createNodeName(0)
 
   if (ctr_responses > 100):
-    return buildOkResponse("[]")  
+    return buildOkResponse("[]")
 
   if (ctr_responses % 10 == 2):
     return  # Return nothing
@@ -395,7 +496,7 @@ def tc122(ftptype):
   ctr_responses = ctr_responses + 1
 
   if (ctr_responses > 100):
-    return buildOkResponse("[]")  
+    return buildOkResponse("[]")
 
   nodeName = createNodeName(0)
   msg = getEventHead(nodeName)
@@ -456,6 +557,142 @@ def tc1001(ftptype):
 
   return buildOkResponse("["+msg+"]")
 
+
+def tc1100(ftptype, filesize):
+  global ctr_responses
+  global ctr_unique_files
+  global ctr_events
+
+  ctr_responses = ctr_responses + 1
+
+  msg = ""
+
+  batch = (ctr_responses-1)%20;
+
+  for pnfs in range(35):  # build events for 35 PNFs at a time. 20 batches -> 700
+    if (pnfs > 0):
+      msg = msg + ","
+    nodeName = createNodeName(pnfs + batch*35)
+    msg = msg + getEventHead(nodeName)
+
+    for i in range(100):  # 100 files per event
+      seqNr = i + int((ctr_responses-1)/20);
+      if i != 0: msg = msg + ","
+      fileName = createFileName(nodeName, seqNr, filesize)
+      msg = msg + getEventName(fileName,ftptype,"onap","pano")
+      seqNr = seqNr + (pnfs+batch*35)*1000000 #Create unique id for this node and file
+      fileMap[seqNr] = seqNr
+
+    msg = msg + getEventEnd()
+    ctr_events = ctr_events+1
+
+  return buildOkResponse("["+msg+"]")
+
+def tc1200(ftptype, filesize):
+  global ctr_responses
+  global ctr_unique_files
+  global ctr_events
+
+  ctr_responses = ctr_responses + 1
+
+  msg = ""
+
+  batch = (ctr_responses-1)%20;
+
+  for pnfs in range(35):  # build events for 35 PNFs at a time. 20 batches -> 700
+    if (pnfs > 0):
+      msg = msg + ","
+    nodeName = createNodeName(pnfs + batch*35)
+    msg = msg + getEventHead(nodeName)
+
+    for i in range(100):  # 100 files per event, all new files
+      seqNr = i+100 * int((ctr_responses-1)/20);
+      if i != 0: msg = msg + ","
+      fileName = createFileName(nodeName, seqNr, filesize)
+      msg = msg + getEventName(fileName,ftptype,"onap","pano")
+      seqNr = seqNr + (pnfs+batch*35)*1000000 #Create unique id for this node and file
+      fileMap[seqNr] = seqNr
+
+    msg = msg + getEventEnd()
+    ctr_events = ctr_events+1
+
+  return buildOkResponse("["+msg+"]")
+
+
+def tc1300(ftptype, filesize):
+  global ctr_responses
+  global ctr_unique_files
+  global ctr_events
+  global rop_counter
+  global rop_timestamp
+
+  ctr_responses = ctr_responses + 1
+
+  #Start a  event deliver for all 700 nodes every 15min
+  rop = time.time()-rop_timestamp
+  if ((rop < 900) & (rop_counter%20 == 0) & (rop_counter != 0)):
+      return buildOkResponse("[]")
+  else:
+    if (rop_counter%20 == 0):
+        rop_timestamp = time.time()
+
+    rop_counter = rop_counter+1
+
+  msg = ""
+
+  batch = (rop_counter-1)%20;
+
+  for pnfs in range(35):  # build events for 35 PNFs at a time. 20 batches -> 700
+    if (pnfs > 0):
+      msg = msg + ","
+    nodeName = createNodeName(pnfs + batch*35)
+    msg = msg + getEventHead(nodeName)
+
+    for i in range(100):  # 100 files per event
+      seqNr = i + int((rop_counter-1)/20);
+      if i != 0: msg = msg + ","
+      fileName = createFileName(nodeName, seqNr, filesize)
+      msg = msg + getEventName(fileName,ftptype,"onap","pano")
+      seqNr = seqNr + (pnfs+batch*35)*1000000 #Create unique id for this node and file
+      fileMap[seqNr] = seqNr
+
+    msg = msg + getEventEnd()
+    ctr_events = ctr_events+1
+
+  return buildOkResponse("["+msg+"]")
+
+def tc500(ftptype, filesize):
+  global ctr_responses
+  global ctr_unique_files
+  global ctr_events
+
+  ctr_responses = ctr_responses + 1
+
+  if (ctr_responses > 1):
+    return buildOkResponse("[]")
+
+  msg = ""
+
+
+  for pnfs in range(700):
+    if (pnfs > 0):
+      msg = msg + ","
+    nodeName = createNodeName(pnfs)
+    msg = msg + getEventHead(nodeName)
+
+    for i in range(2):
+      seqNr = i;
+      if i != 0: msg = msg + ","
+      fileName = createFileName(nodeName, seqNr, filesize)
+      msg = msg + getEventName(fileName,ftptype,"onap","pano")
+      seqNr = seqNr + pnfs*1000000 #Create unique id for this node and file
+      fileMap[seqNr] = seqNr
+
+    msg = msg + getEventEnd()
+    ctr_events = ctr_events+1
+
+  return buildOkResponse("["+msg+"]")
+
 def tc510(ftptype):
   global ctr_responses
   global ctr_unique_files
@@ -464,7 +701,7 @@ def tc510(ftptype):
   ctr_responses = ctr_responses + 1
 
   if (ctr_responses > 5):
-    return buildOkResponse("[]")  
+    return buildOkResponse("[]")
 
   msg = ""
 
@@ -491,7 +728,7 @@ def tc511(ftptype):
   ctr_responses = ctr_responses + 1
 
   if (ctr_responses > 5):
-    return buildOkResponse("[]")  
+    return buildOkResponse("[]")
 
   msg = ""
 
@@ -516,13 +753,13 @@ def tc710(ftptype):
   global ctr_events
 
   ctr_responses = ctr_responses + 1
-  
+
   if (ctr_responses > 100):
     return buildOkResponse("[]")
 
   msg = ""
-  
-  batch = (ctr_responses-1)%20;  
+
+  batch = (ctr_responses-1)%20;
 
   for pnfs in range(35):  # build events for 35 PNFs at a time. 20 batches -> 700
     if (pnfs > 0):
@@ -544,52 +781,19 @@ def tc710(ftptype):
   return buildOkResponse("["+msg+"]")
 
 
-#Mapping FTPS TCs
-def tc200(ftptype):
-  return tc100(ftptype)
-def tc201(ftptype):
-  return tc101(ftptype)
-def tc202(ftptype):
-  return tc102(ftptype)
-
-def tc210(ftptype):
-  return tc110(ftptype)
-def tc211(ftptype):
-  return tc111(ftptype)
-def tc212(ftptype):
-  return tc112(ftptype)
-def tc213(ftptype):
-  return tc113(ftptype)
-
-def tc220(ftptype):
-  return tc120(ftptype)
-def tc221(ftptype):
-  return tc121(ftptype)
-def tc222(ftptype):
-  return tc122(ftptype)
-  
-def tc610(ftptype):
-  return tc510(ftptype)
-def tc611(ftptype):
-  return tc511(ftptype)
-  
-def tc810(ftptype):
-  return tc710(ftptype)
-
-def tc2000(ftptype):
-  return tc1000(ftptype)
-def tc2001(ftptype):
-  return tc1001(ftptype)
-
 #### Functions to build json messages and respones ####
 
 def createNodeName(index):
     return "PNF"+str(index);
 
 def createFileName(nodeName, index, size):
+    global ctr_files
+    ctr_files = ctr_files + 1
     return "A20000626.2315+0200-2330+0200_" + nodeName + "-" + str(index) + "-" +size + ".tar.gz";
 
 def createMissingFileName(nodeName, index, size):
+    global ctr_files
+    ctr_files = ctr_files + 1
     return "AMissingFile_" + nodeName + "-" + str(index) + "-" +size + ".tar.gz";
 
 
@@ -633,7 +837,7 @@ def getEventName(fn,type,user,passwd):
     if (type == "ftps"):
         port = FTPS_PORT
         ip = ftps_ip
-        
+
     nameStr =        """{
                   "name": \"""" + fn + """",
                   "hashMap": {
@@ -677,15 +881,18 @@ if __name__ == "__main__":
     # IP addresses to use for ftp servers, using localhost if not env var is set
     sftp_ip = os.environ.get('SFTP_SIM_IP', 'localhost')
     ftps_ip = os.environ.get('FTPS_SIM_IP', 'localhost')
-    
-    
 
     #Counters
     ctr_responses = 0
     ctr_requests = 0
+    ctr_files=0
     ctr_unique_files = 0
     ctr_events = 0
     startTime = time.time()
+    firstPollTime = 0
+    runningState = "Started"
+    rop_counter = 0
+    rop_timestamp = time.time()
 
     #Keeps all responded file names
     fileMap = {}
@@ -753,10 +960,25 @@ if __name__ == "__main__":
 
 # SFTP TCs with multiple MEs
     parser.add_argument(
+        '--tc500',
+        action='store_true',
+        help='TC500 - 700 MEs, SFTP, 1MB files, 2 new files per event, 700 events, all event in one poll.')
+
+    parser.add_argument(
+        '--tc501',
+        action='store_true',
+        help='TC501 - 700 MEs, SFTP, 5MB files, 2 new files per event, 700 events, all event in one poll.')
+
+    parser.add_argument(
+        '--tc502',
+        action='store_true',
+        help='TC502 - 700 MEs, SFTP, 50MB files, 2 new files per event, 700 events, all event in one poll.')
+
+    parser.add_argument(
         '--tc510',
         action='store_true',
         help='TC510 - 700 MEs, SFTP, 1MB files, 1 file per event, 3500 events, 700 event per poll.')
-    
+
     parser.add_argument(
         '--tc511',
         action='store_true',
@@ -766,6 +988,46 @@ if __name__ == "__main__":
         '--tc710',
         action='store_true',
         help='TC710 - 700 MEs, SFTP, 1MB files, 100 files per event, 3500 events, 35 event per poll.')
+
+    parser.add_argument(
+        '--tc1100',
+        action='store_true',
+        help='TC1100 - 700 ME, SFTP, 1MB files, 100 files per event, endless number of events, 35 event per poll')
+    parser.add_argument(
+        '--tc1101',
+        action='store_true',
+        help='TC1101 - 700 ME, SFTP, 5MB files, 100 files per event, endless number of events, 35 event per poll')
+    parser.add_argument(
+        '--tc1102',
+        action='store_true',
+        help='TC1102 - 700 ME, SFTP, 50MB files, 100 files per event, endless number of events, 35 event per poll')
+
+    parser.add_argument(
+        '--tc1200',
+        action='store_true',
+        help='TC1200 - 700 ME, SFTP, 1MB files, 100 new files per event, endless number of events, 35 event per poll')
+    parser.add_argument(
+        '--tc1201',
+        action='store_true',
+        help='TC1201 - 700 ME, SFTP, 5MB files, 100 new files per event, endless number of events, 35 event per poll')
+    parser.add_argument(
+        '--tc1202',
+        action='store_true',
+        help='TC1202 - 700 ME, SFTP, 50MB files, 100 new files per event, endless number of events, 35 event per poll')
+
+    parser.add_argument(
+        '--tc1300',
+        action='store_true',
+        help='TC1300 - 700 ME, SFTP, 1MB files, 100 files per event, endless number of events, 35 event per poll, 20 event polls every 15min')
+    parser.add_argument(
+        '--tc1301',
+        action='store_true',
+        help='TC1301 - 700 ME, SFTP, 5MB files, 100 files per event, endless number of events, 35 event per poll, 20 event polls every 15min')
+    parser.add_argument(
+        '--tc1302',
+        action='store_true',
+        help='TC1302 - 700 ME, SFTP, 50MB files, 100 files per event, endless number of events, 35 event per poll, 20 event polls every 15min')
+
 
 # FTPS TCs with single ME
     parser.add_argument(
@@ -818,7 +1080,62 @@ if __name__ == "__main__":
     parser.add_argument(
         '--tc2001',
         action='store_true',
-        help='TC2001 - One ME, FTPS, 5MB files, 100 files per event, endless number of events, 1 event per poll')    
+        help='TC2001 - One ME, FTPS, 5MB files, 100 files per event, endless number of events, 1 event per poll')
+
+
+    parser.add_argument(
+        '--tc2100',
+        action='store_true',
+        help='TC2100 - 700 ME, FTPS, 1MB files, 100 files per event, endless number of events, 35 event per poll')
+    parser.add_argument(
+        '--tc2101',
+        action='store_true',
+        help='TC2101 - 700 ME, FTPS, 5MB files, 100 files per event, endless number of events, 35 event per poll')
+    parser.add_argument(
+        '--tc2102',
+        action='store_true',
+        help='TC2102 - 700 ME, FTPS, 50MB files, 100 files per event, endless number of events, 35 event per poll')
+
+    parser.add_argument(
+        '--tc2200',
+        action='store_true',
+        help='TC2200 - 700 ME, FTPS, 1MB files, 100 new files per event, endless number of events, 35 event per poll')
+    parser.add_argument(
+        '--tc2201',
+        action='store_true',
+        help='TC2201 - 700 ME, FTPS, 5MB files, 100 new files per event, endless number of events, 35 event per poll')
+    parser.add_argument(
+        '--tc2202',
+        action='store_true',
+        help='TC2202 - 700 ME, FTPS, 50MB files, 100 new files per event, endless number of events, 35 event per poll')
+
+    parser.add_argument(
+        '--tc2300',
+        action='store_true',
+        help='TC2300 - 700 ME, FTPS, 1MB files, 100 files per event, endless number of events, 35 event per poll, 20 event polls every 15min')
+    parser.add_argument(
+        '--tc2301',
+        action='store_true',
+        help='TC2301 - 700 ME, FTPS, 5MB files, 100 files per event, endless number of events, 35 event per poll, 20 event polls every 15min')
+    parser.add_argument(
+        '--tc2302',
+        action='store_true',
+        help='TC2302 - 700 ME, FTPS, 50MB files, 100 files per event, endless number of events, 35 event per poll, 20 event polls every 15min')
+
+    parser.add_argument(
+        '--tc600',
+        action='store_true',
+        help='TC600 - 700 MEs, FTPS, 1MB files, 2 new files per event, 700 events, all event in one poll.')
+
+    parser.add_argument(
+        '--tc601',
+        action='store_true',
+        help='TC601 - 700 MEs, FTPS, 5MB files, 2 new files per event, 700 events, all event in one poll.')
+
+    parser.add_argument(
+        '--tc602',
+        action='store_true',
+        help='TC602 - 700 MEs, FTPS, 50MB files, 2 new files per event, 700 events, all event in one poll.')
 
     parser.add_argument(
         '--tc610',
@@ -867,11 +1184,36 @@ if __name__ == "__main__":
     elif args.tc1001:
         tc_num = "TC# 1001"
 
+    elif args.tc1100:
+        tc_num = "TC# 1100"
+    elif args.tc1101:
+        tc_num = "TC# 1101"
+    elif args.tc1102:
+        tc_num = "TC# 1102"
+    elif args.tc1200:
+        tc_num = "TC# 1200"
+    elif args.tc1201:
+        tc_num = "TC# 1201"
+    elif args.tc1202:
+        tc_num = "TC# 1202"
+    elif args.tc1300:
+        tc_num = "TC# 1300"
+    elif args.tc1301:
+        tc_num = "TC# 1301"
+    elif args.tc1302:
+        tc_num = "TC# 1302"
+
+    elif args.tc500:
+        tc_num = "TC# 500"
+    elif args.tc501:
+        tc_num = "TC# 501"
+    elif args.tc502:
+        tc_num = "TC# 502"
     elif args.tc510:
         tc_num = "TC# 510"
     elif args.tc511:
         tc_num = "TC# 511"
-        
+
     elif args.tc710:
         tc_num = "TC# 710"
 
@@ -903,12 +1245,36 @@ if __name__ == "__main__":
     elif args.tc2001:
         tc_num = "TC# 2001"
 
+    elif args.tc2100:
+        tc_num = "TC# 2100"
+    elif args.tc2101:
+        tc_num = "TC# 2101"
+    elif args.tc2102:
+        tc_num = "TC# 2102"
+    elif args.tc2200:
+        tc_num = "TC# 2200"
+    elif args.tc2201:
+        tc_num = "TC# 2201"
+    elif args.tc2202:
+        tc_num = "TC# 2202"
+    elif args.tc2300:
+        tc_num = "TC# 2300"
+    elif args.tc2301:
+        tc_num = "TC# 2301"
+    elif args.tc2302:
+        tc_num = "TC# 2302"
 
+    elif args.tc600:
+        tc_num = "TC# 600"
+    elif args.tc601:
+        tc_num = "TC# 601"
+    elif args.tc602:
+        tc_num = "TC# 602"
     elif args.tc610:
         tc_num = "TC# 610"
     elif args.tc611:
         tc_num = "TC# 611"
-           
+
     elif args.tc810:
         tc_num = "TC# 810"
 
@@ -918,8 +1284,7 @@ if __name__ == "__main__":
         sys.exit()
 
     print("TC num: " + tc_num)
-    
-        
+
     print("Using " + sftp_ip + " for sftp server address in file urls.")
     print("Using " + ftps_ip + " for ftps server address in file urls.")
 

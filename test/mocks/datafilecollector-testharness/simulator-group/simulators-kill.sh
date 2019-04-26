@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#Stop all simulators 
+#Stop all simulators
 
 docker kill dfc_dr-sim
 docker kill dfc_dr-redir-sim

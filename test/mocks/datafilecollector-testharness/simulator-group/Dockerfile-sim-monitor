@@ -1,0 +1,15 @@
+#Image for monitor simulator
+
+FROM node:8
+
+WORKDIR /app
+
+COPY sim-monitor.js ./
+COPY package*.json ./
+
+RUN npm install express
+RUN npm install argparse
+
+EXPOSE 9999
+
+CMD node /app/sim-monitor.js

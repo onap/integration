@@ -41,6 +41,8 @@ DR
 
 `curl localhost:3906/execution_time` - returns the execution times in mm:ss
 
+`curl localhost:3906/ctr_double_publish` - returns the number of double published files
+
 
 DR REDIR
 

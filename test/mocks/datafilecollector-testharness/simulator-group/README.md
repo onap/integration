@@ -31,11 +31,12 @@ cp -r ../ftps-sftp-server/tls .
 ###Execution
 
 Edit the `docker-compose-setup.sh` (or create a copy) to setup the env variables to the desired test behavior for each simulators.
-See each simulator to find a description of the available settings.
+See each simulator to find a description of the available settings (DR_TC, DR_REDIR_TC and MR_TC).
 The following env variables shall be set (example values).
 Note that NUM_FTPFILES and NUM_PNFS controls the number of ftp files created in the ftp servers. 
-A total of NUM_FTPFILES * NUM_PNFS ftp files will be created in each dtp server (4 files in the below example). 
+A total of NUM_FTPFILES * NUM_PNFS ftp files will be created in each ftp server (4 files in the below example). 
 Large settings will be time consuming at start of the servers.
+Note that the number of files must match the number of file references emitted from the MR sim.
 
 DR_TC="--tc normal"           #Normal behavior of the DR sim
 
@@ -48,6 +49,12 @@ BC_TC=""                      #Not in use yet
 NUM_FTPFILES="2"              #Two file for each PNF
 
 NUM_PNFS="2"                  #Two PNFs
+
+To minimize the number of ftp file creation, the following two variables can be configured in the same file.
+FILE_SIZE="1MB"               #File size for FTP file (1KB, 1MB, 5MB, 50MB or ALL)
+FTP_TYPE="SFTP"               #Type of FTP files to generate (SFTP, FTPS or ALL) 
+
+If `FTP_TYPE` is set to `ALL`, both ftp servers will be populated with the same files. If set to `SFTP` or `FTPS` then only the server serving that protocol will be populated with files.
 
 Run the script `docker-compose-setup.sh`to create a docker-compose with the desired settings. The desired setting
 in the script need to be manually adapted to for each specific simulator behavior according to the above. Check each simulator for available
@@ -73,3 +80,12 @@ or the one in nexus `nexus3.onap.org:10001/onap/org.onap.dcaegen2.collectors.dat
 ###Simulator monitor
 Start the simulator monitor server with `sim-monitor-start.sh` and the open a browser with the url `localhost:9999/mon`
 to see the statisics page with data from MR sim, DR sim and DR redir sim.
+Or run as a container, build image first. Note, does not work on Mac.
+
+`cp ../dr-sim/package.json .`
+
+`docker build  -t sim-mon:latest -f Dockerfile-sim-monitor  .`
+
+Then run it, `docker run --network="host" --name sim-mon -it -d sim-mon:latest`
+
+Stop it with `docker stop sim-mon` and if desired, remove the container by `docker rm sim-mon`

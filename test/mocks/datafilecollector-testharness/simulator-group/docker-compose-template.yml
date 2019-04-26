@@ -70,4 +70,4 @@ services:
       - ./configuration/vsftpd_ssl.conf:/etc/vsftpd_ssl.conf:ro
 
     restart: on-failure
-  
+    command: vsftpd /etc/vsftpd_ssl.conf
