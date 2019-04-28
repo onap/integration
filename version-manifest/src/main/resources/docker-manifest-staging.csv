@@ -59,6 +59,7 @@ onap/msb/msb_apigateway,1.2.4-STAGING-latest
 onap/msb/msb_discovery,1.2.3-STAGING-latest
 onap/multicloud/azure,1.2.1
 onap/multicloud/framework,1.3.0-STAGING
+onap/multicloud/openstack-lenovo,1.3.0-STAGING
 onap/multicloud/openstack-ocata,1.3.0-STAGING
 onap/multicloud/openstack-pike,1.3.0-STAGING
 onap/multicloud/openstack-windriver,1.3.0-STAGING
