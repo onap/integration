@@ -18,7 +18,7 @@ module=$1
 deploy=dev-$1
 cd /root/oom/kubernetes
 helm delete $deploy --purge
-/root/integration/deployment/heat/onap-oom/scripts/cleanup.sh $module
+/root/integration/deployment/heat/onap-rke/scripts/cleanup.sh $module
 rm -rf /dockerdata-nfs/$deploy
 make $module
 make onap 
