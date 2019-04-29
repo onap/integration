@@ -95,7 +95,7 @@ class VcpeCommon:
         self.aai_query_port = '30233' if self.oom_mode else '8443'
         self.sniro_port = '30288' if self.oom_mode else '8080'
 
-        self.host_names = ['so', 'sdnc', 'robot', 'aai-inst1', self.dcae_ves_collector_name]
+        self.host_names = ['sdc', 'so', 'sdnc', 'robot', 'aai-inst1', self.dcae_ves_collector_name]
         if extra_host_names:
             self.host_names.extend(extra_host_names)
         # get IP addresses
@@ -129,6 +129,14 @@ class VcpeCommon:
             "customerLongitude": "-97.040443",
             "customerName": "some_company"
         }
+
+        #############################################################################################
+        # SDC urls
+        self.sdc_get_request_userpass = 'vid','Kp8bJ4SXszM0WXlhak3eHlcse2gAw84vaoGGmJvUy2U'
+        self.sdc_get_request_headers = {'X-ECOMP-InstanceID': 'VID'}
+        self.sdc_port = '30205'
+        self.sdc_url_prefix = 'http://' + self.hosts['sdc'] + ':' + self.sdc_port
+        self.sdc_service_list_url = self.sdc_url_prefix + '/sdc/v1/catalog/services'
 
         #############################################################################################
         # SDNC urls
@@ -425,7 +433,7 @@ class VcpeCommon:
 
     def get_oom_onap_vm_ip(self, keywords):
         vm_ip = {}
-        onap_vm_list = set(['so', 'sdnc', 'aai-inst1', 'robot', self.dcae_ves_collector_name])
+        onap_vm_list = set(['sdc', 'so', 'sdnc', 'aai-inst1', 'robot', self.dcae_ves_collector_name])
         for vm in keywords:
             if vm in onap_vm_list:
                 vm_ip[vm] = self.oom_so_sdnc_aai_ip
