@@ -2,6 +2,7 @@
 import sys
 import logging
 from vcpecommon import *
+import sdcutils
 import soutils
 from datetime import datetime
 import preload
@@ -182,6 +183,10 @@ def init_so_sdnc():
     vgw_vfmod_name_index=  0
     vcpecommon.save_object(vgw_vfmod_name_index, vcpecommon.vgw_vfmod_name_index_file)
 
+def download_vcpe_service_templates():
+    vcpecommon = VcpeCommon()
+    sdc = sdcutils.SdcUtils(vcpecommon)
+    sdc.get_service_list()
 
 def tmp_sniro():
     logger = logging.getLogger(__name__)
@@ -217,6 +222,7 @@ if __name__ == '__main__':
     elif sys.argv[1] == 'init':
         if 'y' == raw_input('Ready to add customer service data to SDNC and SO DBs? This is needed only once.'
                             'y/n: ').lower():
+            download_vcpe_service_templates()
             init_so_sdnc()
     elif sys.argv[1] == 'infra':
         if 'y' == raw_input('Ready to deploy infrastructure? y/n: ').lower():
