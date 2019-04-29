@@ -72,8 +72,8 @@ onap/network-discovery,1.5.0-SNAPSHOT-latest
 onap/oom/kube2msb,1.1.0
 onap/optf-cmso-dbinit,latest
 onap/optf-cmso-service,latest
-onap/optf-has,1.2.5
-onap/optf-osdf,1.2.4
+onap/optf-has,1.2.5-SNAPSHOT-latest
+onap/optf-osdf,1.2.4-SNAPSHOT-latest
 onap/org.onap.dcaegen2.analytics.tca-gen2.dcae-analytics-tca-web,3.0.0-SNAPSHOT
 onap/org.onap.dcaegen2.collectors.datafile.datafile-app-server,1.1.1
 onap/org.onap.dcaegen2.collectors.hv-ves.hv-collector-main,1.1.0-SNAPSHOT
