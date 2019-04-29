@@ -25,7 +25,7 @@
 				}
 			],
 			"request": {
-				"url": "{{url-nbi}}/nbi/api/v3/status",
+				"url": "{{url-nbi}}/status",
 				"method": "GET",
 				"header": [],
 				"body": {},
@@ -58,7 +58,7 @@
 				}
 			],
 			"request": {
-				"url": "{{url-nbi}}/nbi/api/v3/serviceSpecification",
+				"url": "{{url-nbi}}/serviceSpecification",
 				"method": "GET",
 				"header": [],
 				"body": {},
@@ -90,7 +90,7 @@
 			],
 			"request": {
 				"url": {
-					"raw": "{{url-nbi}}/nbi/api/v3/service?relatedParty.id={{customer_name}}",
+					"raw": "{{url-nbi}}/service?relatedParty.id={{customer_name}}",
 					"host": [
 						"{{url-nbi}}"
 					],
@@ -137,7 +137,7 @@
 				}
 			],
 			"request": {
-				"url": "{{url-nbi}}/nbi/api/v3/serviceOrder",
+				"url": "{{url-nbi}}/serviceOrder",
 				"method": "POST",
 				"header": [
 					{
@@ -187,7 +187,7 @@
 				}
 			],
 			"request": {
-				"url": "{{url-nbi}}/nbi/api/v3/serviceOrder/{{auto_service_order_id}}",
+				"url": "{{url-nbi}}/serviceOrder/{{auto_service_order_id}}",
 				"method": "GET",
 				"header": [
 					{
@@ -228,7 +228,7 @@
 			],
 			"request": {
 				"url": {
-					"raw": "{{url-nbi}}/nbi/api/v3/service/{{auto_service_instance_id}}?relatedParty.id={{customer_name}}&serviceSpecification.name={{service}}",
+					"raw": "{{url-nbi}}/service/{{auto_service_instance_id}}?relatedParty.id={{customer_name}}&serviceSpecification.name={{service}}",
 					"host": [
 						"{{url-nbi}}"
 					],
@@ -283,7 +283,7 @@
 				}
 			],
 			"request": {
-				"url": "{{url-nbi}}/nbi/api/v3/serviceOrder",
+				"url": "{{url-nbi}}/serviceOrder",
 				"method": "POST",
 				"header": [
 					{
@@ -343,7 +343,7 @@
 				}
 			],
 			"request": {
-				"url": "{{url-nbi}}/nbi/api/v3/serviceOrder/{{auto_service_order_id}}",
+				"url": "{{url-nbi}}/serviceOrder/{{auto_service_order_id}}",
 				"method": "GET",
 				"header": [
 					{
@@ -384,7 +384,7 @@
 			],
 			"request": {
 				"url": {
-					"raw": "{{url-nbi}}/nbi/api/v3/service/{{auto_service_instance_id}}?relatedParty.id={{customer_name}}&serviceSpecification.name={{service}}",
+					"raw": "{{url-nbi}}/service/{{auto_service_instance_id}}?relatedParty.id={{customer_name}}&serviceSpecification.name={{service}}",
 					"host": [
 						"{{url-nbi}}"
 					],
@@ -444,7 +444,7 @@
 			],
 			"request": {
 				"url": {
-					"raw": "{{url-nbi}}/nbi/api/v3/service?relatedParty.id={{customer_name}}",
+					"raw": "{{url-nbi}}/service?relatedParty.id={{customer_name}}",
 					"host": [
 						"{{url-nbi}}"
 					],
@@ -486,7 +486,7 @@
 				}
 			],
 			"request": {
-				"url": "{{url-nbi}}/nbi/api/v3/hub",
+				"url": "{{url-nbi}}/hub",
 				"method": "GET",
 				"header": [],
 				"body": {},
