@@ -164,6 +164,6 @@ onap/vnfsdk/ice,1.1.0
 onap/vnfsdk/refrepo,1.2.0
 onap/vnfsdk/refrepo/postgres,1.2.0
 onap/vnfsdk/vnftest,1.1.0
-onap/workflow-backend,1.4.0-SNAPSHOT
-onap/workflow-frontend,1.4.0-SNAPSHOT
-onap/workflow-init,1.4.0-SNAPSHOT
+onap/workflow-backend,latest
+onap/workflow-frontend,latest
+onap/workflow-init,latest
