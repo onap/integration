@@ -58,7 +58,7 @@ onap/multicloud/framework,1.2.2
 onap/multicloud/openstack-ocata,1.2.4
 onap/multicloud/openstack-pike,1.2.4
 onap/multicloud/openstack-windriver,1.2.4
-onap/multicloud/vio,1.2.2
+onap/multicloud/vio,1.3.1
 onap/music/cassandra_3_11,3.0.24
 onap/music/cassandra_job,3.0.24
 onap/music/cassandra_music,3.0.0
