@@ -132,11 +132,18 @@ class VcpeCommon:
 
         #############################################################################################
         # SDC urls
-        self.sdc_get_request_userpass = 'vid','Kp8bJ4SXszM0WXlhak3eHlcse2gAw84vaoGGmJvUy2U'
-        self.sdc_get_request_headers = {'X-ECOMP-InstanceID': 'VID'}
-        self.sdc_port = '30205'
-        self.sdc_url_prefix = 'http://' + self.hosts['sdc'] + ':' + self.sdc_port
-        self.sdc_service_list_url = self.sdc_url_prefix + '/sdc/v1/catalog/services'
+        self.sdc_be_port = '30205'
+        self.sdc_be_request_userpass = 'vid', 'Kp8bJ4SXszM0WXlhak3eHlcse2gAw84vaoGGmJvUy2U'
+        self.sdc_be_request_headers = {'X-ECOMP-InstanceID': 'VID'}
+        self.sdc_be_url_prefix = 'http://' + self.hosts['sdc'] + ':' + self.sdc_be_port
+        self.sdc_service_list_url = self.sdc_be_url_prefix + '/sdc/v1/catalog/services'
+
+        self.sdc_fe_port = '30206'
+        self.sdc_fe_request_userpass = 'beep', 'boop'
+        self.sdc_fe_request_headers = {'USER_ID': 'demo', 'Content-Type': 'application/json'}
+        self.sdc_fe_url_prefix = 'http://' + self.hosts['sdc'] + ':' + self.sdc_fe_port
+        self.sdc_get_category_list_url = self.sdc_fe_url_prefix + '/sdc1/feProxy/rest/v1/categories'
+        self.sdc_create_allotted_resource_subcategory_url = self.sdc_fe_url_prefix + '/sdc1/feProxy/rest/v1/category/resources/resourceNewCategory.allotted%20resource/subCategory'
 
         #############################################################################################
         # SDNC urls
