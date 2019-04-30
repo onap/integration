@@ -162,6 +162,7 @@ fi
 
 cd ~/oom
 git diff
+git submodule foreach --recursive 'git commit -a -m "apply manifest versions" || :'
 git commit -a -m "apply manifest versions"
 
 cd ~/oom
