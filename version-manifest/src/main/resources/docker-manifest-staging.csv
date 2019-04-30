@@ -157,7 +157,7 @@ onap/vfc/vnfmgr,1.3.0-STAGING-latest
 onap/vfc/vnfres,1.3.0-STAGING-latest
 onap/vfc/wfengine-activiti,1.3.0-STAGING-latest
 onap/vfc/wfengine-mgrservice,1.3.0-STAGING-latest
-onap/vfc/ztesdncdriver,1.2.0-STAGING-latest
+onap/vfc/ztesdncdriver,1.3.0-STAGING-latest
 onap/vfc/ztevnfmdriver,1.3.0-STAGING-latest
 onap/vid,4.0-STAGING-latest
 onap/vnfsdk/ice,1.1.0
