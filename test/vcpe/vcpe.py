@@ -183,10 +183,22 @@ def init_so_sdnc():
     vgw_vfmod_name_index=  0
     vcpecommon.save_object(vgw_vfmod_name_index, vcpecommon.vgw_vfmod_name_index_file)
 
-def download_vcpe_service_templates():
+
+def init():
     vcpecommon = VcpeCommon()
+    init_sdc(vcpecommon)
+    download_vcpe_service_templates(vcpecommon)
+
+
+def init_sdc(vcpecommon):
     sdc = sdcutils.SdcUtils(vcpecommon)
-    sdc.get_service_list()
+    sdc.create_allotted_resource_subcategory('BRG')
+
+
+def download_vcpe_service_templates(vcpecommon):
+    sdc = sdcutils.SdcUtils(vcpecommon)
+    sdc.download_vcpe_service_template()
+
 
 def tmp_sniro():
     logger = logging.getLogger(__name__)
@@ -197,9 +209,11 @@ def tmp_sniro():
     # Setting up SNIRO
     config_sniro(vcpecommon, svc_instance_uuid['gmux'], svc_instance_uuid['brg'])
 
+
 def test(): 
     vcpecommon = VcpeCommon()
     print("oom-k8s-04 public ip: %s" % (vcpecommon.get_vm_public_ip_by_nova('oom-k8s-04')))
+
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG, format='%(message)s')
@@ -220,9 +234,7 @@ if __name__ == '__main__':
     if sys.argv[1] == 'sdc':
         print('Under development')
     elif sys.argv[1] == 'init':
-        if 'y' == raw_input('Ready to add customer service data to SDNC and SO DBs? This is needed only once.'
-                            'y/n: ').lower():
-            download_vcpe_service_templates()
+            init()
             init_so_sdnc()
     elif sys.argv[1] == 'infra':
         if 'y' == raw_input('Ready to deploy infrastructure? y/n: ').lower():
