@@ -109,7 +109,7 @@ public class SimulatorTest {
     void should_throw_noropfiles_exception_given_empty_filelist() {
         Simulator simulator = Simulator.builder()
                 .withDuration(Duration.ofMillis(100))
-                .withInterval(Duration.ofMillis(10))
+                .withInterval(Duration.ofMillis(100))
                 .withCommonEventHeaderParams(VALID_COMMON_EVENT_HEADER_PARAMS)
                 .withPnfRegistrationParams(VALID_PNF_REGISTRATION_PARAMS)
                 .withNotificationParams(Optional.empty())
@@ -127,7 +127,7 @@ public class SimulatorTest {
 
         Simulator simulator = Simulator.builder()
                 .withDuration(Duration.ofMillis(100))
-                .withInterval(Duration.ofMillis(10))
+                .withInterval(Duration.ofMillis(100))
                 .withCommonEventHeaderParams(VALID_COMMON_EVENT_HEADER_PARAMS)
                 .withPnfRegistrationParams(INVALID_PNF_REGISTRATION_PARAMS_1)
                 .withNotificationParams(Optional.empty())
@@ -140,7 +140,7 @@ public class SimulatorTest {
 
         simulator = Simulator.builder()
                 .withDuration(Duration.ofMillis(100))
-                .withInterval(Duration.ofMillis(10))
+                .withInterval(Duration.ofMillis(100))
                 .withCommonEventHeaderParams(VALID_COMMON_EVENT_HEADER_PARAMS)
                 .withPnfRegistrationParams(INVALID_PNF_REGISTRATION_PARAMS_2)
                 .withNotificationParams(Optional.empty())
@@ -153,7 +153,7 @@ public class SimulatorTest {
 
         simulator = Simulator.builder()
                 .withDuration(Duration.ofMillis(100))
-                .withInterval(Duration.ofMillis(10))
+                .withInterval(Duration.ofMillis(100))
                 .withCommonEventHeaderParams(VALID_COMMON_EVENT_HEADER_PARAMS)
                 .withPnfRegistrationParams(INVALID_PNF_REGISTRATION_PARAMS_3)
                 .withNotificationParams(Optional.empty())
@@ -166,7 +166,7 @@ public class SimulatorTest {
 
         simulator = Simulator.builder()
                 .withDuration(Duration.ofMillis(100))
-                .withInterval(Duration.ofMillis(10))
+                .withInterval(Duration.ofMillis(100))
                 .withCommonEventHeaderParams(VALID_COMMON_EVENT_HEADER_PARAMS)
                 .withPnfRegistrationParams(VALID_PNF_REGISTRATION_PARAMS)
                 .withNotificationParams(INVALID_NOTIFICATION_PARAMS)
@@ -185,7 +185,7 @@ public class SimulatorTest {
         HttpClientAdapter httpClientMock = Mockito.mock(HttpClientAdapter.class);
         Simulator simulator = Simulator.builder()
                 .withDuration(Duration.ofMillis(100))
-                .withInterval(Duration.ofMillis(10))
+                .withInterval(Duration.ofMillis(100))
                 .withCommonEventHeaderParams(VALID_COMMON_EVENT_HEADER_PARAMS)
                 .withPnfRegistrationParams(Optional.empty())
                 .withNotificationParams(VALID_NOTIFICATION_PARAMS)
