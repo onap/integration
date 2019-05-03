@@ -20,8 +20,8 @@ function main(){
 
     case $COMMAND in
     	"compose")
-            compose $2 $3 $4 $5 $6 $7 $8 $9 "${10}" "${11}" ;;
-             #IPGW, #IPSUBNET, #I, #IPVES, #IPPNFSIM, #IPFILESERVER, #PORTSFTP, #PORTFTPS, #IPFTPS, #IPSFTP
+            compose $2 $3 $4 $5 $6 $7 $8 $9 "${10}" "${11}" "${12}" ;;
+             #IPGW, #IPSUBNET, #I, #URLVES, #IPPNFSIM, #IPFILESERVER, #TYPEFILESERVER, #PORTSFTP, #PORTFTPS, #IPFTPS, #IPSFTP
         "build")
             build_image;;
         "start")
@@ -67,13 +67,14 @@ function compose(){
 	export IPGW=$1
 	export IPSUBNET=$2
 	export I=$3
-	export IPVES=$4
+	export URLVES=$4
 	export IPPNFSIM=$5
 	export IPFILESERVER=$6
-	export PORTSFTP=$7
-	export PORTFTPS=$8
-	export IPFTPS=$9
-	export IPSFTP=${10}
+	export TYPEFILESERVER=$7
+	export PORTSFTP=$8
+	export PORTFTPS=$9
+	export IPFTPS=${10}
+	export IPSFTP=${11}
 	LOCALTIME=$(ls -l /etc/localtime)
 	export TIMEZONE=${LOCALTIME//*zoneinfo\/}
 
@@ -88,7 +89,7 @@ function compose(){
 
 	set_vsftpd_file_owner
 
-	write_config $IPVES $IPFILESERVER $PORTSFTP $PORTFTPS $IPPNFSIM
+	write_config $URLVES $IPFILESERVER $TYPEFILESERVER $PORTSFTP $PORTFTPS $IPPNFSIM
 
 }
 
@@ -109,10 +110,10 @@ function set_vsftpd_file_owner() {
 function write_config(){
 	#building a YML file for usage in Java
 	echo "urlves: $1" > config/config.yml
-	echo "urlsftp: sftp://onap:pano@$2:$3" >> config/config.yml
-	echo "urlftps: ftps://onap:pano@$2:$4" >> config/config.yml
-	echo "ippnfsim: $5" >> config/config.yml
-	echo "defaultfileserver: sftp" >> config/config.yml
+	echo "urlsftp: sftp://onap:pano@$2:$4" >> config/config.yml
+	echo "urlftps: ftps://onap:pano@$2:$5" >> config/config.yml
+	echo "ippnfsim: $6" >> config/config.yml
+	echo "typefileserver: $3" >> config/config.yml
 }
 
 function start(){
@@ -203,12 +204,14 @@ clear-logs - deletes log folder
 
 Starting simulation:
 - Setup the instance of this simulator by:
-  - ./simulator.sh compose IPGW IPSUBNET I IPVES IPPNFSIM IPFTPS IPSFTP
-	where Gw and subnet will be used for docker network
+  - ./simulator.sh compose IPGW IPSUBNET I URLVES IPPNFSIM IPFILESERVER TYPEFILESERVER PORTSFTP PORTFTPS IPFTPS IPSFTP
+	where IPGW and IPSUBNET will be used for docker network
 	where I is the integer suffix to differentiate instances
-	where IPVES is the address of the VES collector
-	where IPPNFSIM, IPFTPS, IPSFTP are the addresses for containers
-	e.g. ./simulator.sh compose 10.11.0.65 10.11.0.64 3 10.11.0.2 10.11.0.66 10.11.0.67 10.11.0.68
+	where URLVES is the URL of the VES collector
+	where IPPNFSIM, IPFILESERVER, IPFTPS, IPSFTP are the IP addresses for containers
+    where TYPEFILESERVER is the type of fileserver, i.e., FTPS or SFTP
+	where PORTSFTP, PORTFTPS are the SFTP and FTPS ports
+	e.g. ./simulator.sh compose 10.11.0.65 10.11.0.64 3 http://10.11.0.69:10000/eventListener/v7 10.11.0.2 10.11.0.66 ftps 2001 2002 10.11.0.67 10.11.0.68
 
 - Setup environment with "./simulator.sh start". It will download required docker images from the internet and run them on docker machine
 - To start the simulation use "./simulator.sh run-simulator", which will start sending PNF registration messages with parameters specified in config.json    {TODO, might not be needed}

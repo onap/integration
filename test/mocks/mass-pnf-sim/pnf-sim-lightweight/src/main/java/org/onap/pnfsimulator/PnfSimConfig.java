@@ -5,14 +5,14 @@ public class PnfSimConfig {
     private String urlftps;
     private String urlsftp;
     private String ippnfsim;
-    private String defaultfileserver;
+    private String typefileserver;
 
-    public String getDefaultfileserver() {
-        return defaultfileserver;
+    public String getTypefileserver() {
+        return typefileserver;
     }
 
-    public void setDefaultfileserver(String defaultfileserver) {
-        this.defaultfileserver = defaultfileserver;
+    public void setTypefileserver(String typefileserver) {
+        this.typefileserver = typefileserver;
     }
 
 
@@ -50,10 +50,8 @@ public class PnfSimConfig {
 
     @Override
     public String toString() {
-        return "PnfSimConfig [vesip=" + urlves + ", urlftps=" + urlftps + ", ippnfsim=" + ippnfsim + ", urlsftp="
-                + urlsftp + "]";
+        return "PnfSimConfig [vesip=" + urlves + ", urlftps=" + urlftps + ", urlsftp=" + urlsftp + ", ippnfsim="
+                + ippnfsim + ", typefileserver=" + typefileserver + "]";
     }
-
-
 
 }

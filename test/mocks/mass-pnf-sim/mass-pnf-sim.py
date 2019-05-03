@@ -40,6 +40,11 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    '--typefileserver',
+    help='Type of the file server (SFTP/FTPS) to be included in the VES event',
+)
+
+parser.add_argument(
     '--ipstart',
     help='IP address range beginning',
 )
@@ -87,6 +92,7 @@ if args.bootstrap and args.ipstart and args.urlves:
         print("\tIp Pnf SIM:" + str(IpPnfSim))
 
         IpFileServer = args.ipfileserver
+        TypeFileServer = args.typefileserver
 
         
         PortSftp=start_port +1
@@ -114,6 +120,7 @@ if args.bootstrap and args.ipstart and args.urlves:
             str(args.urlves) + " " + \
             str(IpPnfSim) + " " + \
             str(IpFileServer) + " " + \
+            str(TypeFileServer) + " " + \
             str(PortSftp) + " " + \
             str(PortFtps) + " " + \
             str(UrlFtps) + " " + \

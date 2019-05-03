@@ -36,9 +36,9 @@ public class SimulatorFactory {
         PnfSimConfig configuration = ConfigurationProvider.getConfigInstance();
 
         String xnfUrl = null;
-        if (configuration.getDefaultfileserver().equals("sftp")) {
+        if (configuration.getTypefileserver().equals("sftp")) {
             xnfUrl = configuration.getUrlsftp() + "/";
-        } else if (configuration.getDefaultfileserver().equals("ftps")) {
+        } else if (configuration.getTypefileserver().equals("ftps")) {
             xnfUrl = configuration.getUrlftps() + "/";
         }
 

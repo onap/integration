@@ -4,6 +4,5 @@ urlftps: ftps://onap:pano@10.11.0.67
 urlsftp: sftp://onap:pano@10.11.0.68
 #when run in simulator, it does not have own IP
 ippnfsim: localhost
-defaultfileserver: sftp
-#defaultfileserver: ftps
+typefileserver: sftp
 ...
