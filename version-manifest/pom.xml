@@ -85,19 +85,6 @@
         </configuration>
         <executions>
           <execution>
-            <id>check-docker-manifest-sorted</id>
-            <phase>validate</phase>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-            <configuration>
-              <arguments>
-                <argument>${project.basedir}/src/main/scripts/check-sorted.sh</argument>
-                <argument>${project.basedir}/src/main/resources/docker-manifest.csv</argument>
-              </arguments>
-            </configuration>
-          </execution>
-          <execution>
             <id>check-docker-manifest-staging-sorted</id>
             <phase>validate</phase>
             <goals>
@@ -124,19 +111,6 @@
             </configuration>
           </execution>
           <execution>
-            <id>check-docker-images-released</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-            <configuration>
-              <arguments>
-                <argument>${project.basedir}/src/main/scripts/check-docker-manifest.sh</argument>
-                <argument>${project.basedir}/src/main/resources/docker-manifest.csv</argument>
-              </arguments>
-            </configuration>
-          </execution>
-          <execution>
             <id>check-docker-staging-images-exist</id>
             <phase>verify</phase>
             <goals>
@@ -145,20 +119,6 @@
             <configuration>
               <arguments>
                 <argument>${project.basedir}/src/main/scripts/check-docker-manifest-staging.sh</argument>
-                <argument>${project.basedir}/src/main/resources/docker-manifest-staging.csv</argument>
-              </arguments>
-            </configuration>
-          </execution>
-          <execution>
-            <id>compare-docker-manifests</id>
-            <phase>validate</phase>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-            <configuration>
-              <arguments>
-                <argument>${project.basedir}/src/main/scripts/compare-docker-manifests.sh</argument>
-                <argument>${project.basedir}/src/main/resources/docker-manifest.csv</argument>
                 <argument>${project.basedir}/src/main/resources/docker-manifest-staging.csv</argument>
               </arguments>
             </configuration>
