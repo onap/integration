@@ -196,13 +196,13 @@ def create_vf_model(parameters, vsp_id):
 
 def create_service_model(parameters, vf_unique_id):
     create_string = "oclip service-model-create -z {} -y {} -e {} -x {} -c {} -b {} -u {} -p {} -m {} |grep ID".format(parameters["project-code"], \
-      parameters["service-model-desc"], parameters["icon-id"], parameters["service-model-name"], parameters["category-display"], \
-      parameters["category"],parameters["sdc_creator"], parameters["sdc_password"], parameters["sdc_catalog_url"])
+    parameters["service-model-desc"], parameters["icon-id"], parameters["service-model-name"], parameters["category-display"], \
+    parameters["category"],parameters["sdc_creator"], parameters["sdc_password"], parameters["sdc_catalog_url"])
 
     service_model_id = (get_out_helper_2((os.popen(create_string)).read()))[1]
 
-    add_string = "oclip service-model-add-vf -x {} -b {} -y {} -z {} -u {} -p {} -m {}".format(service_model_id, parameters["vf-version"], \
-    vf_unique_id, parameters["vf-name"], parameters["sdc_creator"], parameters["sdc_password"], parameters["sdc_catalog_url"] )
+    os.system("oclip service-model-add-vf -x {} -b {} -y {} -z {} -u {} -p {} -m {}".format(service_model_id, parameters["vf-version"], \
+    vf_unique_id, parameters["vf-name"], parameters["sdc_creator"], parameters["sdc_password"], parameters["sdc_catalog_url"] ))
 
     os.system("oclip service-model-test-request -b {} -r {} -u {} -p {} -m {}".format(service_model_id, parameters["service-test-remarks"], \
     parameters["sdc_creator"], parameters["sdc_password"], parameters["sdc_catalog_url"]))
@@ -212,21 +212,20 @@ def create_service_model(parameters, vf_unique_id):
 
     os.system("oclip service-model-test-accept -b {} -r {} -u {} -p {} -m {}".format(service_model_id, parameters["service-accept-remarks"], \
     parameters["sdc_tester"], parameters["sdc_password"], parameters["sdc_catalog_url"]))
-
-    #Get new Id for the service model
-    new_service_model_values = (os.popen("oclip service-model-list -u {} -p {} -m {} |grep {}".format(parameters["sdc_creator"], \
+    
+    #Get uniqueId for the service model
+    service_model_values = (os.popen("oclip service-model-list -u {} -p {} -m {} |grep {}".format(parameters["sdc_creator"], \
       parameters["sdc_password"], parameters["sdc_catalog_url"], parameters["service-model-name"]))).read()
-    new_service_model_values = get_out_helper_2(new_service_model_values)
-    new_service_model_id = (new_service_model_values)[0]
-
-
-    os.system("oclip service-model-approve -b {} -r {} -u {} -p {} -m {}".format(new_service_model_id, parameters["service-approve-remarks"], \
+    service_model_values = get_out_helper_2(service_model_values)
+    service_model_uniqueId = (service_model_values)[1]
+    
+    os.system("oclip service-model-approve -b {} -r {} -u {} -p {} -m {}".format(service_model_uniqueId, parameters["service-approve-remarks"], \
     parameters["sdc_governor"], parameters["sdc_password"], parameters["sdc_catalog_url"]))
 
-    os.system("oclip service-model-distribute -b {} -u {} -p {} -m {}".format(new_service_model_id, parameters["sdc_operator"], \
+    os.system("oclip service-model-distribute -b {} -u {} -p {} -m {}".format(service_model_uniqueId, parameters["sdc_operator"], \
     parameters["sdc_password"], parameters["sdc_catalog_url"]))
 
-    return new_service_model_values
+    return service_model_values
 
 
 #VNF Deployment Section
@@ -235,7 +234,7 @@ def create_service_model(parameters, vf_unique_id):
 def add_policies(parameters):
     resource_string = (os.popen("oclip get-resource-module-name  -u {} -p {} -m {} |grep {}".format(\
       parameters["sdc_creator"], parameters["sdc_password"], parameters["sdc_catalog_url"], \
-      parameters["vsp-name"] ))).read()
+      parameters["service-model-name"] ))).read()
     resource_module_name =   (get_out_helper_2(resource_string))[1]
 
     #Upload policy models
@@ -244,18 +243,18 @@ def add_policies(parameters):
         parameters["policy_password"], parameters["policy_url"]))
       time.sleep(0.5)
 
-      print("Put in the resourceModuleName {} in your policy files in {}. ".format(resource_module_name, \
-      (parameters["policy_models_directory"])))
-      raw_input("Press Enter to continue...")
+    print("Put in the resourceModuleName {} in your policy files in {}. ".format(resource_module_name, \
+    (parameters["policy_directory"])))
+    raw_input("Press Enter to continue...")
 
     #Loop through policy, put in resource_model_name and create policies
     for policy in os.listdir(parameters["policy_directory"]):
       policy_name = "{}.{}".format(parameters["policy_scope"], os.path.splitext(policy)[0])
-
+      policy_file = (os.path.join(parameters["policy_directory"], policy))
       #Create policy
-      os.system("oclip policy-create-outdated -m {} -u {} -p {} -x {} -S {} -T {} -o {} -b $(cat {})".format(parameters["policy_url"]),\
-      parameters["policy_username"], policy["policy_password"], policy_name, parameters["policy_scope"], \
-      parameters["policy_config_type"], parameters["policy_onapName"], os.path.join(parameters["policy_models_directory"], policy) )
+      os.system("oclip policy-create-outdated -m {} -u {} -p {} -x {} -S {} -T {} -o {} -b $(cat {})".format(parameters["policy_url"],\
+      parameters["policy_username"], parameters["policy_password"], policy_name, parameters["policy_scope"], \
+      parameters["policy_config_type"], parameters["policy_onapName"], policy_file))
 
       #Push policy
       os.system("oclip policy-push-outdated -m {} -u {} -p {} -x {} -b {} -c {}".format(parameters["policy_url"], \
@@ -266,8 +265,8 @@ def add_policies(parameters):
 def create_service_instance(parameters, sevice_model_list):
     #Get Required parameters
     service_uuid = service_model_list[0]
-    service_invariant_uuid = service_model_list[1]
-    service_version = service_model_list[3]
+    service_invariant_uuid = service_model_list[2]
+    service_version = service_model_list[4]
 
     owning_entity_values = (os.popen("oclip owning-entity-list -u {} -p {} -m {} |grep {}".format(parameters["aai_username"], \
       parameters["aai_password"], parameters["aai_url"], parameters["owning-entity-name"]))).read()
@@ -278,7 +277,7 @@ def create_service_instance(parameters, sevice_model_list):
       -H {} -n {} -e {} -j {} -S {} -g {} -z {} -c {} -u {} -p {} -m {} |grep service-id".format(parameters["service_name"], \
         parameters["customer-latitude"], parameters["customer-longitude"], parameters["orchestrator"], parameters["a-la-carte"], \
         parameters["service-model-name"], parameters["company-name"], parameters["projectName"], parameters["requestor-id"], \
-        parameters["owning-entity-name"], parameters["instance-name"], service_type, parameters["test-api"], parameters["homing-solution"], \
+        parameters["owning-entity-name"], parameters["instance-name"], parameters["service_name"], parameters["test-api"], parameters["homing-solution"], \
         service_uuid, service_invariant_uuid, service_version, parameters["subscriber_name"], service_uuid, owning_entity_id, \
         parameters["customer_name"], parameters["so_username"], parameters["so_password"], parameters["so_url"] ))).read()
 
@@ -293,7 +292,7 @@ def create_service_instance(parameters, sevice_model_list):
 
     return output_dict
 
-def query_db(parameters, vf_model_uuid):
+def query_db(parameters, service_model_uuid, vf_model_uuid):
 
     out_dictionary = {}
     #Query DB Certain parameters required
@@ -303,7 +302,7 @@ def query_db(parameters, vf_model_uuid):
 
     #Get vf model customization values
     values.execute('SELECT MODEL_INSTANCE_NAME, MODEL_CUSTOMIZATION_UUID FROM vnf_resource_customization WHERE \
-      VNF_RESOURCE_MODEL_UUID = "{}"'.format(vf_model_uuid))
+      SERVICE_MODEL_UUID = "{}"'.format(service_model_uuid))
     vf_customization_values = values.fetchall()
 
     out_dictionary["vf_model_customization_name"] = vf_customization_values[0][0]
@@ -319,7 +318,7 @@ def query_db(parameters, vf_model_uuid):
     out_dictionary["vf_module_model_version"] = vf_module_values[0][3]
 
     values.execute('SELECT MODEL_CUSTOMIZATION_UUID FROM vf_module_customization WHERE \
-      VF_MODULE_MODEL_UUID = "{}"'.format(out_dictionary[vf_module_model_id]))
+      VF_MODULE_MODEL_UUID = "{}"'.format(out_dictionary["vf_module_model_id"]))
     vf_module_customization = values.fetchall()
 
     out_dictionary["vf_module_customization_id"] = vf_module_customization[0][0]
@@ -352,11 +351,11 @@ def create_vnf(parameters, service_dict, db_dict, vf_model_dict):
 
     #Create vnf
     vnf_create_out = (os.popen("oclip vnf-create -j {} -q {} -k {} -l {} -y {} -z {} -r {} -c {} -o {} -e {} -g {} -b {} -n {} -i {} -vn '{}'\
-       -w {} -pn {} -lob {} -u {} -p {} -m {} |grep vf-id".format(service_invariant_uuid, parameters["service-model-name"], service_uuid, cloud_region, \
-        service_instance_id, tenant-id, parameters["requestor-id"], vf_model_uuid, parameters["generic-vnf-name"], parameters["vf-name"], \
-        vf_model_version, vf_model_invariant_uuid, service_version, vf_model_customization_name,  parameters["service_name"], \
-        parameters["Platform-Demonstration"], parameters["lob-name"], parameters["so_username"], parameters["so_password"], \
-        parameters["so_url"]))).read()
+       -w {} -pn {} -lob {} -u {} -p {} -m {} |grep vf-id".format(service_invariant_uuid, parameters["service-model-name"], \
+           service_uuid, cloud_region, service_instance_id, tenant_id, parameters["requestor-id"], vf_model_uuid, \
+           parameters["generic-vnf-name"], parameters["vf-name"], vf_model_version, vf_model_invariant_uuid, service_version, \
+           vf_model_customization_id,  vf_model_customization_name, parameters["service_name"], parameters["platform-name"], \
+           parameters["lob-name"], parameters["so_username"], parameters["so_password"], parameters["so_url"]))).read()
 
     vnf_instance_id = (get_out_helper_2(vnf_create_out))[1]
 
@@ -431,8 +430,8 @@ def create_vf_module(parameters, service_dict, vnf_dict, db_dict):
 
 
     os.system("oclip vf-module-create -w {} -mn '{}' -x {} -l {} -sv {} -vc {} -vm {} -mv {} -i {} -vf {} -vi {}  -r {} \
-      -mc {} -api {} -mi {} -vid {} -y {} -R {} -si {} -up {} -sd {} -z {} -vn {} -vv {} -u {} -p {} -m {}".format(tenant-id, \
-        vf_module_customization_name, service_instance_id, cloud_region, service_version, vf_module_customization_id, vf_module_model_version,\
+      -mc {} -api {} -mi {} -vid {} -y {} -R {} -si {} -up {} -sd {} -z {} -vn {} -vv {} -u {} -p {} -m {}".format(tenant_id, \
+        vf_model_customization_name, service_instance_id, cloud_region, service_version, vf_module_customization_id, vf_module_model_version,\
          vf_model_version, parameters["vf-module-name"], parameters["vf-name"], vf_module_model_invariant_id, parameters["supress-rollback"], \
          vf_model_customization_id, parameters["test-api"], vf_model_invariant_uuid, vf_model_id, vnf_instance_id, parameters["requestor-id"], \
          service_uuid, parameters["use-preload"], service_invariant_uuid, parameters["service-model-name"], vf_module_model_name, \
@@ -459,11 +458,14 @@ vsp_id = create_vsp(parameters, output)
 vf_model_dict = create_vf_model(parameters, vsp_id)
 vf_id = vf_model_dict["vf_id"]
 vf_unique_id = vf_model_dict["vf_unique_id"]
-sevice_model_list = create_service_model(parameters, vf_unique_id)
+service_model_list = create_service_model(parameters, vf_unique_id)
 
-add_policies(parameters)
+#add_policies function not currently working, using curl commands 
+#add_policies(parameters)
+
 service_dict = create_service_instance(parameters, service_model_list)
-db_dict = query_db(parameters, vf_id)
+service_model_uuid = service_dict["service_uuid"]
+db_dict = query_db(parameters, service_model_uuid, vf_id)
 vnf_dict = create_vnf(parameters, service_dict, db_dict, vf_model_dict)
 sdnc_preload(parameters, db_dict, service_dict)
 create_vf_module(parameters, service_dict, vnf_dict, db_dict)

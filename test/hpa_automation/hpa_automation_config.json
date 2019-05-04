@@ -140,12 +140,13 @@
 "vf-remarks" :"remarkss",
 "vf-version" : "1.0",
 
+"//" : "Be sure to include single quotes in parameters that have spaces",
 "project-code" : "000000",
 "service-model-name" : "vfw-hpa",
-"service-model-desc" : "hpa service model",
+"service-model-desc" : "'hpa service model'",
 "icon-id" : "network_l_1-3",
-"category-display" : "Network L1-3",
-"category" : "network l1-3",
+"category-display" : "'Network L1-3'",
+"category" : "'network l1-3'",
 
 "service-test-remarks" : "test",
 "service-accept-remarks" : "accepted",
