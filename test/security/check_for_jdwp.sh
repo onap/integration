@@ -47,7 +47,8 @@ do_jdwp_handshake() {
 	local jdwp_challenge="JDWP-Handshake\n"
 	local jdwp_response="JDWP-Handshake"
 
-	local response=`nc $ip $port <<<$jdwp_challenge`
+	# 10s timeout to avoid hangs when service doesn't answer at all
+	local response=`nc -w 10 $ip $port <<<$jdwp_challenge | tr '\0' '\n'`
 	if [[ $response == *"$jdwp_response"* ]]; then
 		return 0
 	fi
