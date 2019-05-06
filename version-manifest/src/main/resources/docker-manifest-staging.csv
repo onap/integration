@@ -131,7 +131,7 @@ onap/sdnc-ansible-server-image,1.5-STAGING-latest
 onap/sdnc-dmaap-listener-image,1.5-STAGING-latest
 onap/sdnc-image,1.5-STAGING-latest
 onap/sdnc-ueb-listener-image,1.5-STAGING-latest
-onap/search-data-service,1.4.2
+onap/search-data-service,1.4.3
 onap/service-decomposition,1.5.0-SNAPSHOT-latest
 onap/sniroemulator,1.0.0
 onap/so/api-handler-infra,1.4.0-STAGING-latest
