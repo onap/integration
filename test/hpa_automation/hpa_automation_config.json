@@ -34,7 +34,8 @@
 "policy_onapName" : "SampleDemo",
 "policy_config_type": "MicroService",
 "policy_pdp_group" : "default",
-
+"//" : "Put in a temp resource module name, should be the same in policy files, script will replace it in policies",
+"temp_resource_module_name" : "resource_name",
 
 "//" : "#Parameters required to create cloud complex",
 "complex_name" : "clli1",
