@@ -175,3 +175,4 @@ onap/vnfsdk/vnftest,1.1.0
 onap/workflow-backend,latest
 onap/workflow-frontend,latest
 onap/workflow-init,latest
+onap/modeling/genericparser,1.0.1-STAGING-latest
