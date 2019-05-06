@@ -27,7 +27,17 @@ def get_projects_list():
 
 def create_repos_list(projects):
     """Create a map of all projects to their repositories' URLs."""
-    return {p: {"url": "{}/{}".format(ONAP_CGIT, p), "url-pattern": {"base-url": "{url}/tree/{path}{anchor}", "anchor": "#n{line}"}} for p in projects}
+    repos_list = {}
+    for p in projects:
+        repos_list[p] = {
+            "url": "{}/{}".format(ONAP_CGIT, p),
+            "url-pattern": {
+                "base-url": "{url}/tree/{path}{anchor}",
+                "anchor": "#n{line}"
+            }
+        }
+
+    return repos_list
 
 
 def main():
