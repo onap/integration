@@ -169,8 +169,8 @@ onap/vfc/ztesdncdriver,1.3.0-STAGING-latest
 onap/vfc/ztevnfmdriver,1.3.0-STAGING-latest
 onap/vid,4.0-STAGING-latest
 onap/vnfsdk/ice,1.1.0
-onap/vnfsdk/refrepo,1.2.0
-onap/vnfsdk/refrepo/postgres,1.2.0
+onap/vnfsdk/refrepo,1.3.0
+onap/vnfsdk/refrepo/postgres,1.3.0
 onap/vnfsdk/vnftest,1.1.0
 onap/workflow-backend,latest
 onap/workflow-frontend,latest
