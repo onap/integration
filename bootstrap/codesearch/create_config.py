@@ -26,15 +26,24 @@ def get_projects_list(gerrit):
     return projects.keys()
 
 
-def create_repos_list(projects, git):
+def create_repos_list(projects, gitweb, git, gerrit):
     """Create a map of all projects to their repositories' URLs."""
     repos_list = {}
     for p in projects:
+        if gitweb:
+            project_url = "{}/{}.git".format(gerrit, p)
+            code_url = "{}/gitweb?p={}.git;hb=HEAD;a=blob;f={{path}}{{anchor}}".format(gerrit, p)
+            anchor = "#l{line}"
+        else:
+            project_url = "{}/{}".format(git, p)
+            code_url = "{url}/tree/{path}{anchor}"
+            anchor = "#n{line}"
+
         repos_list[p] = {
-            "url": "{}/{}".format(git, p),
+            "url": project_url,
             "url-pattern": {
-                "base-url": "{url}/tree/{path}{anchor}",
-                "anchor": "#n{line}"
+                "base-url": code_url,
+                "anchor": anchor
             }
         }
 
@@ -45,7 +54,9 @@ def parse_arguments():
     """Return parsed command-line arguments."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--gerrit', help='Gerrit address', default=DEFAULT_GERRIT)
-    parser.add_argument('--git', help='git address', default=DEFAULT_GIT)
+    access = parser.add_mutually_exclusive_group()
+    access.add_argument('--gitweb', help='use Gerrit\'s gitweb (bool)', action='store_true')
+    access.add_argument('--git', help='use external git (address)', default=DEFAULT_GIT)
 
     return parser.parse_args()
 
@@ -54,7 +65,8 @@ def main():
     """Main entry point for the script."""
     arguments = parse_arguments()
 
-    repos = create_repos_list(get_projects_list(arguments.gerrit), arguments.git)
+    projects = get_projects_list(arguments.gerrit)
+    repos = create_repos_list(projects, arguments.gitweb, arguments.git, arguments.gerrit)
     config = {
         "max-concurrent-indexers": 2,
         "dbpath": "data",
