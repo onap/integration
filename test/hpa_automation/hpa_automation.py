@@ -177,13 +177,20 @@ def create_vf_model(parameters, vsp_id):
       parameters["sdc_creator"], parameters["sdc_password"], parameters["vf-name"]))).read()
     output = (get_out_helper_2(output))
 
+    vf_unique_id = output[1]
+
+    os.system("oclip vf-model-certify -b {} -r {} -u {} -p {} -m {}".format(vf_unique_id, parameters["vf-remarks"], \
+      parameters["sdc_creator"], parameters["sdc_password"], parameters["sdc_catalog_url"]))
+
+    #Check for new parameters after certification
+    output = (os.popen("oclip vf-model-list -m {} -u {} -p {} | grep {}".format(parameters["sdc_catalog_url"], \
+                              parameters["sdc_creator"], parameters["sdc_password"], parameters["vf-name"]))).read()
+    output = (get_out_helper_2(output))
+
     vf_id = output[0]
     vf_unique_id = output[1]
     vf_model_invariant_uuid = output[2]
     vf_model_version = output[4]
-
-    os.system("oclip vf-model-certify -b {} -r {} -u {} -p {} -m {}".format(vf_unique_id, parameters["vf-remarks"], \
-      parameters["sdc_creator"], parameters["sdc_password"], parameters["sdc_catalog_url"]))
 
     out_dict = {}
     out_dict["vf_id"] = vf_id
@@ -237,15 +244,20 @@ def add_policies(parameters):
       parameters["service-model-name"] ))).read()
     resource_module_name =   (get_out_helper_2(resource_string))[1]
 
-    #Upload policy models
+   #Put in the right resource module name in all policies located in parameters["policy_directory"]
+    os.system("find {}/ -type f -exec sed -i 's/{}/{}/g' {{}} \;".format(
+      parameters["policy_directory"], parameters["temp_resource_module_name"], resource_module_name))
+
+   #Upload policy models
     for model in os.listdir(parameters["policy_models_directory"]):
       os.system("oclip policy-type-create -x {} -u {} -p {} -m {}".format(model, parameters["policy_username"], \
         parameters["policy_password"], parameters["policy_url"]))
       time.sleep(0.5)
 
-    print("Put in the resourceModuleName {} in your policy files in {}. ".format(resource_module_name, \
-    (parameters["policy_directory"])))
-    raw_input("Press Enter to continue...")
+    #print("Put in the resourceModuleName {} in your policy files in {}. ".format(resource_module_name, \
+    #(parameters["policy_directory"])))
+    #raw_input("Press Enter to continue...")
+
 
     #Loop through policy, put in resource_model_name and create policies
     for policy in os.listdir(parameters["policy_directory"]):
@@ -430,12 +442,12 @@ def create_vf_module(parameters, service_dict, vnf_dict, db_dict):
 
 
     os.system("oclip vf-module-create -w {} -mn '{}' -x {} -l {} -sv {} -vc {} -vm {} -mv {} -i {} -vf {} -vi {}  -r {} \
-      -mc {} -api {} -mi {} -vid {} -y {} -R {} -si {} -up {} -sd {} -z {} -vn {} -vv {} -u {} -p {} -m {}".format(tenant_id, \
+      -mc {} -api {} -mi {} -vid {} -y {} -R {} -si {} -up {} -sd {} -z {} -vn {} -vv {} -co {} -u {} -p {} -m {}".format(tenant_id, \
         vf_model_customization_name, service_instance_id, cloud_region, service_version, vf_module_customization_id, vf_module_model_version,\
          vf_model_version, parameters["vf-module-name"], parameters["vf-name"], vf_module_model_invariant_id, parameters["supress-rollback"], \
          vf_model_customization_id, parameters["test-api"], vf_model_invariant_uuid, vf_model_id, vnf_instance_id, parameters["requestor-id"], \
          service_uuid, parameters["use-preload"], service_invariant_uuid, parameters["service-model-name"], vf_module_model_name, \
-         vf_module_model_version_id, parameters["so_username"], parameters["so_password"], parameters["so_url"]))
+         vf_module_model_version_id, parameters["cloud-owner"], parameters["so_username"], parameters["so_password"], parameters["so_url"]))
 
 
 
