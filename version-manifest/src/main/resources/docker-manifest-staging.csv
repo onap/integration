@@ -18,8 +18,8 @@ onap/aai-graphadmin,1.1.0
 onap/aai-resources,1.4.0
 onap/aai-schema-service,1.0.6
 onap/aai-traversal,1.4.1
-onap/aai/esr-gui,1.4.0-STAGING-latest
-onap/aai/esr-server,1.4.0-STAGING-latest
+onap/aai/esr-gui,1.4.0
+onap/aai/esr-server,1.4.0
 onap/admportal-sdnc-image,1.5-STAGING-latest
 onap/appc-cdt-image,1.5.0-SNAPSHOT-latest
 onap/appc-image,1.5.0-SNAPSHOT-latest
