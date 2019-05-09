@@ -1,0 +1,139 @@
+{
+    "open_cli_product" : "onap-dublin",
+    "open_cli_home" : "/root/cli/deployment/zip/target/deployunzip",
+    "aai_url" : "https://10.12.6.235:30233",
+    "aai_username" : "AAI",
+    "aai_password" : "AAI",
+    "sdc_catalog_url" : "http://10.12.6.235:30205",
+    "sdc_password" : "demo123456!",
+    "sdc_creator" : "cs0008",
+
+    "multicloud_url" : "http://10.12.6.235:30280",
+    "policy_url" : "https://10.12.6.235:30240",
+    "policy_username" : "testpdp",
+    "policy_password" : "alpha123",
+    "policy_models_directory" : "/root/tosca/optf-osdf/osdf/models/policy/placement/tosca_upload/",
+    "policy_directory" : "/root/tosca/vcpe_policies",
+    "policy_scope" : "OSDF_DUBLIN",
+    "policy_onapName" : "SampleDemo",
+    "policy_config_type": "MicroService",
+    "policy_pdp_group" : "default",
+    "//" : "Put in a temp resource module name, should be the same in policy files, script will replace it in policies",
+    "temp_resource_module_name" : "resource_name",
+
+    "//" : "#Parameters required to create cloud complex",
+    "complex_name" : "clli1",
+    "street1" : "street1",
+    "street2" : "street2",
+    "physical_location" : "phy_type",
+    "data_center_code" : "code1",
+    "latitude" : "32.89948",
+    "longitude" : "97.045443",
+    "lata" : "example-lata-val-28399",
+    "elevation" : "example-elevation-val-28399",
+    "region" : "northwest",
+    "state" : "oregon",
+    "city" : "hillsboro",
+    "postal-code" : "00000",
+    "country" : "USA",
+    "identity_url" : "example-identity-url-val-56898",
+    "service-model-name" : "vfw-hpa",
+    "//" : "#Dictionary containing cloud regions and their Parameters",
+
+    "cloud_region_data":{
+        "ONAP-POD-01-Rail-05":{
+            "cloud-region-version" : "titanium_cloud",
+            "esr-system-info-id":"5c85ce1f-aa78-4ebf-8d6f-4b62784e9bc7",
+            "service-url": "http://10.12.11.1:5000/v3",
+            "user-name":"${cloud-username}",
+            "password":"${cloud-password}",
+            "system-type": "VIM",
+            "ssl-insecure":true,
+            "cloud-domain":"Default",
+            "default-tenant":"Integration-HPA",
+            "tenant-id" : "709ba629fe194f8699b12f9d6ffd86a0",
+            "cloud-type" : "openstack",
+            "identity-url": "WillBeUpdatedByMultiCloud",
+            "system-status":"active"
+        },
+        "ONAP-POD-01-Rail-06":{
+            "cloud-region-version" : "titanium_cloud",
+            "esr-system-info-id":"5c85ce1f-aa78-4ebf-8d6f-4b62773e9bc7",
+            "service-url": "http://10.12.11.1:5000/v3",
+            "user-name":"${cloud-username}",
+            "password":"${cloud-password}",
+            "system-type": "VIM",
+            "ssl-insecure":true,
+            "cloud-domain":"Default",
+            "default-tenant":"Integration-HPA",
+            "tenant-id" : "709ba629fe194f8699b12f9d6ffd86a0",
+            "cloud-type" : "openstack",
+            "identity-url": "WillBeUpdatedByMultiCloud",
+            "system-status":"active"
+        },
+        "ONAP-POD-01-Rail-07":{
+            "cloud-region-version" : "titanium_cloud",
+            "esr-system-info-id":"4c85ce1f-aa78-4ebf-8d6f-4b62773e9bc7",
+            "service-url": "http://10.12.11.1:5000/v3",
+            "user-name":"${cloud-username}",
+            "password":"${cloud-password}",
+            "system-type": "VIM",
+            "ssl-insecure":true,
+            "cloud-domain":"Default",
+            "default-tenant":"Integration-HPA",
+            "tenant-id" : "709ba629fe194f8699b12f9d6ffd86a0",
+            "cloud-type" : "openstack",
+            "identity-url": "WillBeUpdatedByMultiCloud",
+            "system-status":"active"
+        }
+    },
+
+    "//" : "#Parameters to register cloud region",
+    "cloud-owner" : "CloudOwner",
+    "owner-defined-type" : "t1",
+    "cloud-zone" : "CloudZone",
+
+    "//" : "#Parameters to vfc",
+    "vnd-csars":{
+        "vnf-vgw-csar-id": "You need change it",
+        "vnf-vgmux-csar-id": "You need change it",
+        "vnf-infra-csar-id": "You need change it",
+        "vnf-vbng-csar-id": "You need change it",
+        "vnf-vbrgemu-csar-id": "You need change it"
+    },
+    "ns-csar-id": "You need change it",
+    "ns-csar-name": "vcpe",
+    "location-constraints":[
+        {
+            "vnfProfileId": "3fca3543-07f5-492f-812c-ed462e4f94f4",
+            "locationConstraints": {
+                "vimId": "INTEL_ONAP-POD-01-Rail-07"
+            }
+        },
+        {
+            "vnfProfileId": "0408f076-e6c0-4c82-9940-272fddbb82de",
+            "locationConstraints": {
+                "vimId": "INTEL_ONAP-POD-01-Rail-07"
+            }
+        },
+        {
+            "vnfProfileId": "b1bb0ce7-2222-4fa7-95ed-4840d70a1100",
+            "locationConstraints": {
+                "vimId": "INTEL_ONAP-POD-01-Rail-07"
+            }
+        },
+        {
+            "vnfProfileId": "b1bb0ce7-2222-4fa7-95ed-4840d70a1101",
+            "locationConstraints": {
+                "vimId": "INTEL_ONAP-POD-01-Rail-07"
+            }
+        },
+        {
+            "vnfProfileId": "b1bb0ce7-2222-4fa7-95ed-4840d70a1102",
+            "locationConstraints": {
+                "vimId": "INTEL_ONAP-POD-01-Rail-07"
+            }
+        }
+    ],
+    "sdc-controller-id": "2"
+}
