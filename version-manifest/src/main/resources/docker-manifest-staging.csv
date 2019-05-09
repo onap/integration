@@ -63,8 +63,8 @@ onap/holmes/engine-management,1.2.3-STAGING-latest
 onap/holmes/rule-management,1.2.4-STAGING-latest
 onap/model-loader,1.4.0
 onap/modeling/genericparser,1.0.1-STAGING-latest
-onap/msb/msb_apigateway,1.2.4-STAGING-latest
-onap/msb/msb_discovery,1.2.3-STAGING-latest
+onap/msb/msb_apigateway,1.2.5-STAGING-latest
+onap/msb/msb_discovery,1.2.5-STAGING-latest
 onap/multicloud/azure,1.2.1
 onap/multicloud/framework,1.3.2-STAGING
 onap/multicloud/openstack-fcaps,1.3.2-STAGING
