@@ -18,8 +18,8 @@ for line in $(join -t, $1 $2 | tail -n +2); do
     release=$(echo $line | cut -d , -f 2)
     staging=$(echo $line | cut -d , -f 3)
 
-    if [[ "${staging}_" < "${release}_" ]]; then
-        echo "[WARNING] $image:$staging is older than $release."
+    if [[ "${staging//./-}_" < "${release//./-}_" ]]; then
+        echo "[ERROR] $image:$staging is out-of-date vs. release ($release)."
     fi
 done
 exit $err
