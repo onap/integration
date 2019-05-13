@@ -59,8 +59,8 @@ onap/dmaap/zookeeper,6.0.0
 onap/externalapi/nbi,3.0.2
 onap/fproxy,2.1-STAGING-latest
 onap/gizmo,1.4.0
-onap/holmes/engine-management,1.2.3-STAGING-latest
-onap/holmes/rule-management,1.2.4-STAGING-latest
+onap/holmes/engine-management,1.2.5-STAGING-latest
+onap/holmes/rule-management,1.2.6-STAGING-latest
 onap/model-loader,1.4.0
 onap/modeling/genericparser,1.0.1-STAGING-latest
 onap/msb/msb_apigateway,1.2.5-STAGING-latest
