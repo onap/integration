@@ -266,7 +266,7 @@ until ./rke up; do
     ./rke remove
 done
 
-scp ./kube_config_cluster.yml root@$RANCHER_IP:/root/.kube/config
+scp -i $SSH_KEY ./kube_config_cluster.yml root@$RANCHER_IP:/root/.kube/config
 popd
 
 
