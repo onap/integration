@@ -21,8 +21,8 @@ onap/aai-traversal,1.4.1
 onap/aai/esr-gui,1.4.0
 onap/aai/esr-server,1.4.0
 onap/admportal-sdnc-image,1.5-STAGING-latest
-onap/appc-cdt-image,1.5.0-SNAPSHOT-latest
-onap/appc-image,1.5.0-SNAPSHOT-latest
+onap/appc-cdt-image,1.5.1-SNAPSHOT-latest
+onap/appc-image,1.5.1-SNAPSHOT-latest
 onap/babel,1.4.2
 onap/ccsdk-alpine-image,0.4-STAGING-latest
 onap/ccsdk-ansible-server-image,0.4-STAGING-latest
