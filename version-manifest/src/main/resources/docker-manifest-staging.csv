@@ -56,7 +56,7 @@ onap/dmaap/datarouter-prov,2.1.0
 onap/dmaap/dmaap-mr,1.1.14
 onap/dmaap/kafka111,1.0.1
 onap/dmaap/zookeeper,6.0.0
-onap/externalapi/nbi,3.0.2
+onap/externalapi/nbi,4.0.0
 onap/fproxy,2.1-STAGING-latest
 onap/gizmo,1.4.0
 onap/holmes/engine-management,1.2.5-STAGING-latest
