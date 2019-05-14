@@ -30,6 +30,6 @@ fi
 cd $OOM_DIR/kubernetes
 
 echo "image,tag" > $MANIFEST.tmp
-rgrep -h -E ': onap/.*:.*' | awk '{$1=$1};1' | cut -d' ' -f2 | tr ':' ',' >> $MANIFEST.tmp
+rgrep -h -E ':\s*onap/.*:.*' | awk '{$1=$1};1' | cut -d' ' -f2 | tr ':' ',' >> $MANIFEST.tmp
 LC_ALL=C sort -u < $MANIFEST.tmp > $MANIFEST
 rm $MANIFEST.tmp
