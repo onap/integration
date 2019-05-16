@@ -1,14 +1,14 @@
 {
     "open_cli_product" : "onap-dublin",
     "open_cli_home" : "/root/cli/deployment/zip/target/deployunzip",
-    "aai_url" : "https://10.12.6.235:30233",
+    "aai_url" : "https://10.12.5.224:30233",
     "aai_username" : "AAI",
     "aai_password" : "AAI",
     "sdc_catalog_url" : "http://10.12.6.235:30205",
     "sdc_password" : "demo123456!",
     "sdc_creator" : "cs0008",
 
-    "multicloud_url" : "http://10.12.6.235:30280",
+    "multicloud_url" : "http://10.12.5.224:30280",
     "policy_url" : "https://10.12.6.235:30240",
     "policy_username" : "testpdp",
     "policy_password" : "alpha123",
@@ -135,5 +135,17 @@
             }
         }
     ],
+    "vnfm_params":{
+        "GVNFMDRIVER":{
+	    "type": "gvnfmdriver",
+	    "vendor": "vfc",
+	    "version": "v1.0",
+            "url": "http://msb-iag:80/",
+	    "vim-id": "CloudOwner_ONAP-POD-01-Rail-07",
+            "user-name": "admin",
+	    "user-password": "admin",
+	    "vnfm-version": "v1.0"
+	}
+    },
     "sdc-controller-id": "2"
 }

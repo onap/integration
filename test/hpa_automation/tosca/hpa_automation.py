@@ -77,6 +77,22 @@ def register_all_clouds(parameters):
     for cloud_region, cloud_region_values in cloud_dictionary.iteritems():
         register_cloud_helper(cloud_region, cloud_region_values, parameters)
 
+def register_vnfm_helper(vnfm_key, values, parameters):
+    #Create vnfm
+    vnfm_create_string = 'oclip vnfm-create -b {} -c {} -e {} -v {} -g {} -x {} -i {} -j {} -q {} \
+    -m {} -u {} -p {}'.format(vnfm_key, values.get("type"), values.get("vendor"), \
+      values.get("version"), values.get("url"), values.get("vim-id"), \
+      values.get("user-name"), values.get("user-password"), values.get("vnfm-version"), \
+      parameters["aai_url"], parameters["aai_username"], parameters["aai_password"])
+
+    os.system(vnfm_create_string)
+
+def register_vnfm(parameters):
+    vnfm_params = parameters["vnfm_params"]
+    for vnfm_key, vnfm_values in vnfm_params.iteritems():
+        register_vnfm_helper(vnfm_key, vnfm_values, parameters)
+
+
 #VNF Deployment Section
 def add_policies(parameters):
     resource_string = (os.popen("oclip get-resource-module-name  -u {} -p {} -m {} |grep {}".format(\
@@ -162,17 +178,20 @@ set_open_cli_env(parameters)
 # 2.Create cloud complex
 create_complex(parameters)
 
-# 3.FIXME:Because SDC internal API will change without notice, so I will maually design VNF and Service.
+# 3.Register all clouds
+register_all_clouds(parameters)
+
+# 4.Register vnfm
+register_vnfm(parameters)
+
+# 5.FIXME:Because SDC internal API will change without notice, so I will maually design VNF and Service.
 # SDC output data model is not align with VFC, we use an workaround method
 # We just do run time automation 
 
-# 4.Register all clouds
-register_all_clouds(parameters)
-
-# 5.add_policies function not currently working, using curl commands
+# 6.add_policies function not currently working, using curl commands
 # add_policies(parameters)
 
-# 6. VFC part
+# 7. VFC part
 vnf_onboard_output = onboard_vnf(parameters)
 print vnf_onboard_output
 ns_onboard_out = onboard_ns(parameters)
