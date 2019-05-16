@@ -20,6 +20,9 @@ for line in $(join -t, $1 $2 | tail -n +2); do
 
     if [[ "${staging//./-}_" < "${release//./-}_" ]]; then
         echo "[ERROR] $image:$staging is out-of-date vs. release ($release)."
+
+        # Uncomment the following to update the staging manifest with the release version
+        # sed -i "s|$image,.*|$image,$release|g" $2
     fi
 done
 exit $err
