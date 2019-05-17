@@ -80,7 +80,7 @@ onap/music/cassandra_job,3.0.24
 onap/music/cassandra_music,3.0.0
 onap/music/music,3.0.24
 onap/music/prom,1.0.5
-onap/network-discovery,1.5.0-SNAPSHOT-latest
+onap/network-discovery,1.5.1
 onap/oom/kube2msb,1.1.0
 onap/optf-cmso-dbinit,latest
 onap/optf-cmso-service,latest
@@ -120,6 +120,7 @@ onap/pomba-aai-context-builder,1.4.0
 onap/pomba-context-aggregator,1.4.0
 onap/pomba-network-discovery-context-builder,1.4.0
 onap/pomba-sdc-context-builder,1.4.0
+onap/pomba-sdnc-context-builder,1.4.0
 onap/portal-app,2.5.0
 onap/portal-db,2.5.0
 onap/portal-sdk,2.5.0
@@ -140,7 +141,7 @@ onap/sdnc-dmaap-listener-image,1.5-STAGING-latest
 onap/sdnc-image,1.5-STAGING-latest
 onap/sdnc-ueb-listener-image,1.5-STAGING-latest
 onap/search-data-service,1.4.3
-onap/service-decomposition,1.5.0-SNAPSHOT-latest
+onap/service-decomposition,1.5.1
 onap/sniroemulator,1.0.0
 onap/so/api-handler-infra,1.4.2-STAGING-latest
 onap/so/bpmn-infra,1.4.2-STAGING-latest
