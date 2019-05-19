@@ -87,7 +87,7 @@ onap/optf-cmso-service,latest
 onap/optf-has,1.3.0
 onap/optf-osdf,1.3.0
 onap/org.onap.dcaegen2.analytics.tca-gen2.dcae-analytics-tca-web,3.0.0-SNAPSHOT
-onap/org.onap.dcaegen2.collectors.datafile.datafile-app-server,1.1.2
+onap/org.onap.dcaegen2.collectors.datafile.datafile-app-server,1.1.3
 onap/org.onap.dcaegen2.collectors.hv-ves.hv-collector-main,1.1.0
 onap/org.onap.dcaegen2.collectors.restconfcollector,1.1.1
 onap/org.onap.dcaegen2.collectors.snmptrap,1.4-STAGING-latest
@@ -96,10 +96,10 @@ onap/org.onap.dcaegen2.deployments.bootstrap,1.1.3
 onap/org.onap.dcaegen2.deployments.cm-container,1.6.2
 onap/org.onap.dcaegen2.deployments.consul-loader-container,1.0-STAGING-latest
 onap/org.onap.dcaegen2.deployments.healthcheck-container,1.2.4
-onap/org.onap.dcaegen2.deployments.k8s-bootstrap-container,1.4.17
+onap/org.onap.dcaegen2.deployments.k8s-bootstrap-container,1.4.18
 onap/org.onap.dcaegen2.deployments.multisite-init-container,1.0.0
 onap/org.onap.dcaegen2.deployments.redis-cluster-container,1.0-STAGING-latest
-onap/org.onap.dcaegen2.deployments.tca-cdap-container,1.1.1
+onap/org.onap.dcaegen2.deployments.tca-cdap-container,1.1.2
 onap/org.onap.dcaegen2.deployments.tls-init-container,1.0.3
 onap/org.onap.dcaegen2.platform.configbinding.app-app,2.3.0
 onap/org.onap.dcaegen2.platform.deployment-handler,4.0.1
@@ -111,7 +111,7 @@ onap/org.onap.dcaegen2.services.heartbeat,2.1.0
 onap/org.onap.dcaegen2.services.mapper.vesadapter.universalvesadaptor,1.0.0
 onap/org.onap.dcaegen2.services.pm-mapper,1.0.1
 onap/org.onap.dcaegen2.services.prh.prh-app-server,1.2.3
-onap/org.onap.dcaegen2.services.son-handler,1.0.1
+onap/org.onap.dcaegen2.services.son-handler,1.0.2
 onap/policy-apex-pdp,2.1-SNAPSHOT-latest
 onap/policy-distribution,2.1.0-SNAPSHOT-latest
 onap/policy-pdpd-cl,1.4-SNAPSHOT-latest
