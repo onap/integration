@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c351a7e8_038a6281",
+        "filename": "version-manifest/src/main/resources/docker-manifest-staging.csv",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-05-21T21:59:51Z",
+      "side": 1,
+      "message": "I assume this is correct",
+      "revId": "694a8cc0b71e78ea169db5e97b23007fdee74ebb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
