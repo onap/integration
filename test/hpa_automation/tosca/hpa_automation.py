@@ -17,6 +17,7 @@ import os
 import time
 import argparse
 import sys
+import requests
 
 def get_parameters(file):
     parameters = json.load(file)
@@ -130,37 +131,79 @@ def add_policies(parameters):
         parameters["policy_pdp_group"]))
 
 def onboard_vnf(parameters):
-    ns_csars = parameters["vnd-csars"]
-    vnf_onboard_outs = {}
+    vnfs = parameters["vnfs"]
+    vnf_onboard_outputs = {}
 
-    for key, value in ns_csars.items():
-        vnf_onboard_string = 'oclip vfc-catalog-onboard-vnf -c {}'.format(value)
-        vnf_onboard_outs["key"] = (os.popen(ns_onboard_string)).read()
-    return vnf_onboard_outs
+    for key, value in vnfs.items():
+        vnf_onboard_string = 'oclip vfc-catalog-onboard-vnf -c {}'.format(value.get("csar-id"))
+        vnf_onboard_outs[key] = (os.popen(ns_onboard_string)).read()
+    return vnf_onboard_outputs
 
 def onboard_ns(parameters):
     ns_onboard_string = 'oclip vfc-catalog-onboard-ns -c {}'.format(parameters["ns-csar-id"])
     ns_onboard_out = (os.popen(ns_onboard_string)).read()
     return ns_onboard_out
 
-def create_ns(parameters):
-    ns_create_string = 'oclip vfc-nslcm-create -c {} -n {}'.format(parameters["ns-csar-id"], \
-      parameters["ns-csar-name"])
+def create_ns(parameters, csar_id):
+    ns = parameters["ns"]
+    ns_create_string = 'oclip vfc-nslcm-create -m {} -c {} -n {}'.format(parameters["vfc-url"], \
+       csar_id, ns.get("name"))
+    print ns_create_string
     ns_create_out = (os.popen(ns_create_string)).read()
-    ns_instance_id = (get_out_helper_2(ns_create_out))[1]
-    ns_model_dict["vnf_instance_id"] = ns_instance_id
-    return ns_model_dict
+    print ns_create_out
+    ns_instance_id = (get_out_helper_2(ns_create_out))[3]
+    return ns_instance_id
 
-def instantiate_ns(parameters, ns_model_dict):
-    ns_instance_id = ns_model_dict["ns_instance_id"]
-    ns_instantiate_string = 'oclip vfc-nslcm-instantiate -i {} -c {} -n {}'.format(ns_instance_id, \
-      parameters["location-constraints"], parameters["sdc-controller-id"])
+def instantiate_ns(parameters, ns_instance_id):
+    ns_instantiate_string = 'oclip vfc-nslcm-instantiate -m {} -i {} -c {} -n {}'.format(parameters["vfc-url"], \
+        ns_instance_id, parameters["location"], parameters["sdc-controller-id"])
+    print ns_instantiate_string
+
     ns_instantiate_out = (os.popen(ns_instantiate_string)).read()
     return ns_instantiate_out
+
+def create_ns_package(parameters):
+    ns = parameters["ns"]
+    create_ns_string = 'oclip vfc-catalog-create-ns -m {} -c {} -e {}'.format(parameters["vfc-url"], \
+      ns.get("key"), ns.get("value"))
+    cmd_out = (os.popen(create_ns_string)).read()
+    out_list =  get_out_helper_2(cmd_out) 
+    return out_list[4]
+
+def create_vnf_package(parameters):
+    vnfs = parameters["vnfs"]
+    outputs = {}
+
+    for vnf_key, vnf_values in vnfs.iteritems():
+        create_vnf_string = 'oclip vfc-catalog-create-vnf -m {} -c {} -e {}'.format(parameters["vfc-url"], \
+          vnf_values.get("key"), vnf_values.get("value"))
+        cmd_out = (os.popen(create_vnf_string)).read()
+        out_list =  get_out_helper_2(cmd_out) 
+        outputs[vnf_key] = out_list[4]
+
+    return outputs
+
+def upload_ns_package(parameters, ns_package_output):
+    ns = parameters["ns"]
+    ns_upload_string = '{}/api/nsd/v1/ns_descriptors/{}/nsd_content'.format(parameters["vfc-url"], ns_package_output)
+    print ns_upload_string
+    print ns.get("path")
+    resp = requests.put(ns_upload_string, files={'file': open(ns.get("path"), 'rb')})
+    return resp
+
+def upload_vnf_package(parameters, vnf_package_output):
+    vnfs = parameters["vnfs"]
+    for vnf_key, vnf_values in vnfs.iteritems():
+        vnf_upload_str = '{}/api/vnfpkgm/v1/vnf_packages/{}/package_content'.format(parameters["vfc-url"], \
+          vnf_package_output[vnf_key], vnf_package_output[vnf_key])
+        resp = requests.put(vnf_upload_str, files={'file': open(vnf_values.get("path"), 'rb')})
+    return resp
+
 
 #Run Functions
 parser = argparse.ArgumentParser()
 parser.add_argument('-f', action='store', dest='config_file_path', help='Store config file path')
+parser.add_argument('-t', action='store', dest='type', help='Store config file path')
 
 parser.add_argument('--version', action='version', version='%(prog)s 1.0')
 
@@ -184,19 +227,35 @@ register_all_clouds(parameters)
 # 4.Register vnfm
 register_vnfm(parameters)
 
-# 5.FIXME:Because SDC internal API will change without notice, so I will maually design VNF and Service.
+# 5.create csar file
+# 5.1 upload csar file to catalog
+# 5.2 FIXME:Because SDC internal API will change without notice, so I will maually design VNF and Service.
 # SDC output data model is not align with VFC, we use an workaround method
 # We just do run time automation 
+ns_package_output = ""
+
+if type == "sdc":
+    print "use csar file is distributed by sdc"
+    # vnf_onboard_output = onboard_vnf(parameters)
+    # print vnf_onboard_output
+    # ns_onboard_out = onboard_ns(parameters)
+    # print ns_onboard_out
+else:
+    print "use csar file is uploaded by local"
+    vnf_package_output = create_vnf_package(parameters)
+    print vnf_package_output
+    ns_package_output = create_ns_package(parameters)
+    print ns_package_output
+    upload_vnf_out = upload_vnf_package(parameters, vnf_package_output)
+    print upload_vnf_out
+    upload_ns_out = upload_ns_package(parameters, ns_package_output)
+    print upload_ns_out
 
 # 6.add_policies function not currently working, using curl commands
 # add_policies(parameters)
 
 # 7. VFC part
-vnf_onboard_output = onboard_vnf(parameters)
-print vnf_onboard_output
-ns_onboard_out = onboard_ns(parameters)
-print ns_onboard_out
-ns_model_dict = create_ns(parameters)
-print ns_model_dict
-instantiate_ns_output = instantiate_ns(parameters, ns_model_dict)
+ns_instance_id = create_ns(parameters, ns_package_output)
+print ns_instance_id
+instantiate_ns_output = instantiate_ns(parameters, ns_instance_id)
 print instantiate_ns_output

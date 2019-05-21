@@ -1,6 +1,6 @@
 {
     "open_cli_product" : "onap-dublin",
-    "open_cli_home" : "/root/cli/deployment/zip/target/deployunzip",
+    "open_cli_home" : "/opt/oclip",
     "aai_url" : "https://10.12.5.224:30233",
     "aai_username" : "AAI",
     "aai_password" : "AAI",
@@ -94,15 +94,47 @@
     "cloud-zone" : "CloudZone",
 
     "//" : "#Parameters to vfc",
-    "vnd-csars":{
-        "vnf-vgw-csar-id": "You need change it",
-        "vnf-vgmux-csar-id": "You need change it",
-        "vnf-infra-csar-id": "You need change it",
-        "vnf-vbng-csar-id": "You need change it",
-        "vnf-vbrgemu-csar-id": "You need change it"
+    "vfc-url": "http://10.12.6.88:30280",
+    "vnfs":{
+        "infra":{
+            "path": "/root/oclip/dublin/infra.csar",
+            "csar-id": "You need change it",
+            "key": "key2",
+            "value": "value2"
+        },
+        "vgmux":{
+            "path": "/root/oclip/dublin/vgmux.csar",
+            "csar-id": "You need change it",
+            "key": "key2",
+            "value": "value2"
+        },
+        "vbng":{
+            "path": "/root/oclip/dublin/vbng.csar",
+            "csar-id": "You need change it",
+            "key": "key2",
+            "value": "value2"
+        },
+        "vbrgemu":{
+            "path": "/root/oclip/dublin/vbrgemu.csar",
+            "csar-id": "You need change it",
+            "key": "key2",
+            "value": "value2"
+        },
+        "vgw":{
+	    "path": "/opt/oclip/dublin/vgw.csar",
+	    "csar-id": "You need change it",
+	    "key": "key2",
+	    "value": "value2"
+	}
     },
-    "ns-csar-id": "You need change it",
-    "ns-csar-name": "vcpe",
+    "ns":{
+        "csar-id": "You need change it",
+	"key": "key1",
+	"value": "value1",
+        "path": "/opt/oclip/dublin/ns_vgw.csar",
+        "name": "vcpe1"
+    },
+    "location": "CloudOwner_ONAP-POD-01-Rail-07",
     "location-constraints":[
         {
             "vnfProfileId": "3fca3543-07f5-492f-812c-ed462e4f94f4",
