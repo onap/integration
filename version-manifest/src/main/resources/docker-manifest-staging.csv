@@ -112,10 +112,13 @@ onap/org.onap.dcaegen2.services.mapper.vesadapter.universalvesadaptor,1.0.0
 onap/org.onap.dcaegen2.services.pm-mapper,1.0.1
 onap/org.onap.dcaegen2.services.prh.prh-app-server,1.2.3
 onap/org.onap.dcaegen2.services.son-handler,1.0.1
+onap/policy-api,2.0.1-SNAPSHOT-latest
 onap/policy-apex-pdp,2.1-SNAPSHOT-latest
-onap/policy-distribution,2.1.0-SNAPSHOT-latest
+onap/policy-distribution,2.1.1-SNAPSHOT-latest
+onap/policy-pap,2.0.1-SNAPSHOT-latest
 onap/policy-pdpd-cl,1.4-SNAPSHOT-latest
 onap/policy-pe,1.4-SNAPSHOT-latest
+onap/policy-xacml-pdp,2.0.1-SNAPSHOT-latest
 onap/pomba-aai-context-builder,1.4.0
 onap/pomba-context-aggregator,1.4.0
 onap/pomba-network-discovery-context-builder,1.4.0
