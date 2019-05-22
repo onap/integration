@@ -18,6 +18,7 @@ import time
 import argparse
 import sys
 import requests
+import mysql.connector
 
 def get_parameters(file):
     parameters = json.load(file)
@@ -225,42 +226,109 @@ def register_vnfm(parameters):
     for vnfm_key, vnfm_values in vnfm_params.iteritems():
         register_vnfm_helper(vnfm_key, vnfm_values, parameters)
 
+def add_policy_models(parameters):
+    mydb = mysql.connector.connect(
+      host="policydb",
+      user="policy_user",
+      passwd="policy_user",
+      database="onap_sdk",
+    )
 
-#VNF Deployment Section
-def add_policies(parameters):
-    resource_string = (os.popen("oclip get-resource-module-name  -u {} -p {} -m {} |grep {}".format(\
-      parameters["sdc_creator"], parameters["sdc_password"], parameters["sdc_catalog_url"], \
-      parameters["service-model-name"] ))).read()
-    resource_module_name =   (get_out_helper_2(resource_string))[1]
+    mycursor = mydb.cursor()
 
-   #Put in the right resource module name in all policies located in parameters["policy_directory"]
-    os.system("find {}/ -type f -exec sed -i 's/{}/{}/g' {{}} \;".format(
-      parameters["policy_directory"], parameters["temp_resource_module_name"], resource_module_name))
+    sql = "INSERT INTO optimizationmodels (modelname, description, dependency, imported_by, \
+          attributes, ref_attributes, sub_attributes, version, annotation, enumValues, \
+          dataOrderInfo) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    val = [
+        ('hpaPolicy', 'HPA Tests Model', '[]', 'demo', 'identity=string:defaultValue-null:required-true:MANY-false:description-null', \
+         'policyScope=MANY-true,policyType=POLICYTYPE:MANY-false,resources=MANY-true,flavorFeatures=flavorFeatures_properties:MANY-true:description-null', \
+         '{"directives_properties":{"attributes":"directives_attributes_properties:required-false:MANY-true:description-null",\
+         "type":"string:defaultValue-null:required-false:MANY-false:description-null"},\
+         "directives_attributes_properties":{"attribute_name":"string:defaultValue-null:required-false:MANY-false:description-null",\
+         "attribute_value":"string:defaultValue-null:required-false:MANY-false:description-null"},\
+         "flavorProperties_properties":{"score":"string:defaultValue-null:required-false:MANY-false:description-null",\
+         "hpa-feature-attributes":"hpa-feature-attributes_properties:required-true:MANY-true:description-null",\
+         "directives":"directives_properties:required-true:MANY-true:description-null",\
+         "hpa-version":"string:defaultValue-null:required-true:MANY-false:description-null",\
+         "hpa-feature":"string:defaultValue-null:required-true:MANY-false:description-null",\
+         "mandatory":"string:defaultValue-null:required-true:MANY-false:description-null",\
+         "architecture":"string:defaultValue-null:required-true:MANY-false:description-null"},\
+         "flavorFeatures_properties":{"directives":"directives_properties:required-true:MANY-true:description-null",\
+         "flavorProperties":"flavorProperties_properties:required-true:MANY-true:description-null",\
+         "id":"string:defaultValue-null:required-true:MANY-false:description-null",\
+         "type":"string:defaultValue-null:required-true:MANY-false:description-null"},\
+         "hpa-feature-attributes_properties":{"unit":"string:defaultValue-null:required-false:MANY-false:description-null",\
+         "hpa-attribute-value":"string:defaultValue-null:required-true:MANY-false:description-null",\
+         "hpa-attribute-key":"string:defaultValue-null:required-true:MANY-false:description-null",\
+         "operator":"OPERATOR:defaultValue-null:required-false:MANY-false:description-null"}}', \
+         'test1', 'policyScope=matching-true, policyType=matching-true', \
+         'OPERATOR=[<,<equal-sign,>,>equal-sign,equal-sign,!equal-sign,any,all,subset,], POLICYTYPE=[hpa,]', '""'),
+        ('distancePolicy', 'distancePolicy', '[]', 'demo', 'identity=string:defaultValue-null:required-true:MANY-false:description-null', \
+         'policyScope=MANY-true,distanceProperties=distanceProperties_properties:MANY-false:description-null,policyType=POLICYTYPE:MANY-false,\
+          resources=MANY-true,applicableResources=APPLICABLERESOURCES:MANY-false', \
+         '{"distanceProperties_properties":{"locationInfo":"string:defaultValue-null:required-true:MANY-false:description-null",\
+           "distance":"distance_properties:required-true:MANY-false:description-null"},\
+           "distance_properties":{"unit":"UNIT:defaultValue-null:required-true:MANY-false:description-null",\
+           "value":"string:defaultValue-null:required-true:MANY-false:description-null","operator":"OPERATOR:defaultValue-null:required-true:MANY-false:description-null"}}', \
+           'test1', 'policyScope=matching-true, policyType=matching-true', \
+           'OPERATOR=[<,<equal-sign,>,>equal-sign,equal-sign,], APPLICABLERESOURCES=[any,all,], POLICYTYPE=[distance_to_location,] ', '""'),
+        ('optimizationPolicy', 'Optimization policy model', '[]', 'demo', 'identity=string:defaultValue-null:required-true:MANY-false:description-null', \
+         'objectiveParameter=objectiveParameter_properties:MANY-false:description-null,policyScope=MANY-true,policyType=POLICYTYPE:MANY-false,\
+          objective=objectiveParameter_properties:MANY-false:description-null', \
+         '{"parameterAttributes_properties":{"customerLocationInfo":"string:defaultValue-null:required-true:MANY-false:description-null",\
+           "parameter":"string:defaultValue-null:required-true:MANY-false:description-null",\
+           "resources":"string:defaultValue-null:required-true:MANY-false:description-null",\
+           "weight":"string:defaultValue-null:required-true:MANY-false:description-null",\
+           "operator":"OPERATOR:defaultValue-null:required-true:MANY-false:description-null"},\
+           "objectiveParameter_properties":{"parameterAttributes":"parameterAttributes_properties:required-true:MANY-true:description-null",\
+           "operator":"OPERATOR:defaultValue-null:required-true:MANY-false:description-null"}}', \
+           'test1', 'policyScope=matching-true, policyType=matching-true', 'OPERATOR=[*,+,-,/,%,], POLICYTYPE=[placement_optimization,]', '""'),
+        ('queryPolicy', 'Query policy model', '[]', 'demo', 'identity=string:defaultValue-null:required-true:MANY-false:description-null', \
+         'policyScope=MANY-true,policyType=POLICYTYPE:MANY-false,queryProperties=queryProperties_properties:MANY-true:description-null', \
+         '{"queryProperties_properties":{"attribute_location":"string:defaultValue-null:required-true:MANY-false:description-null",\
+           "attribute":"string:defaultValue-null:required-true:MANY-false:description-null","value":"string:defaultValue-null:required-true:MANY-false:description-null"}}', \
+         'test1', 'policyScope=matching-true, policyType=matching-true', 'POLICYTYPE=[request_param_query,]', '""'),
+        ('vnfPolicy', 'VnfPolicy model', '[]', 'demo', 'identity=string:defaultValue-null:required-true:MANY-false:description-null', \
+         'policyScope=MANY-true,policyType=POLICYTYPE:MANY-false,resources=MANY-true,\
+          vnfProperties=vnfProperties_properties:MANY-true:description-null,applicableResources=APPLICABLERESOURCES:MANY-false', \
+         '{"vnfProperties_properties":{"serviceType":"string:defaultValue-null:required-true:MANY-false:description-null",\
+           "inventoryProvider":"string:defaultValue-null:required-true:MANY-false:description-null",\
+           "inventoryType":"INVENTORYTYPE:defaultValue-null:required-true:MANY-false:description-null",\
+         "customerId":"string:defaultValue-null:required-true:MANY-false:description-null"}}', \
+         'test1', 'policyScope=matching-true, policyType=matching-true', \
+         'INVENTORYTYPE=[serviceInstanceId,vnfName,cloudRegionId,vimId,], APPLICABLERESOURCES=[any,all,], POLICYTYPE=[vnfPolicy,]', '""'),
+        ('vim_fit', 'Capacity policy model', '[]', 'demo', 'identity=string:defaultValue-null:required-true:MANY-false:description-null', \
+         'policyScope=MANY-true,policyType=POLICYTYPE:MANY-false,capacityProperties=capacityProperties_properties:MANY-false:description-null,\
+          resources=MANY-true,applicableResources=APPLICABLERESOURCES:MANY-false', \
+         '{"capacityProperties_properties":{"request":"string:defaultValue-null:required-true:MANY-false:description-null",\
+           "controller":"string:defaultValue-null:required-true:MANY-false:description-null"}}', \
+           'test1', 'policyScope=matching-true, policyType=matching-true ', ' APPLICABLERESOURCES=[any,all,], POLICYTYPE=[vim_fit,]', '""'),
+        ('affinityPolicy', 'Affinity policy model', '[]', 'demo', 'identity=string:defaultValue-null:required-true:MANY-false:description-null', \
+         'policyScope=MANY-true,policyType=POLICYTYPE:MANY-false,affinityProperties=affinityProperties_properties:MANY-false:description-null,\
+          resources=MANY-true,applicableResources=APPLICABLERESOURCES:MANY-false', \
+         '{"affinityProperties_properties":{"qualifier":"QUALIFIER:defaultValue-null:required-true:MANY-false:description-null",\
+           "category":"string:defaultValue-null:required-true:MANY-false:description-null"}}', \
+           'test1', 'policyScope=matching-true, policyType=matching-true ', ' APPLICABLERESOURCES=[any,all,], POLICYTYPE=[zone,], QUALIFIER=[same,different,]', '""'),
+        ('pciPolicy', 'Pci policy model', '[]', 'demo', 'identity=string:defaultValue-null:required-true:MANY-false:description-null', \
+         'policyScope=MANY-true,policyType=POLICYTYPE:MANY-false,resources=MANY-true,pciProperties=pciProperties_properties:MANY-true:description-null', \
+         '{"pciProperties_properties":{"pciOptimizationTimeConstraint":"string:defaultValue-null:required-false:MANY-false:description-null",\
+           "pciOptimizationNwConstraint":"string:defaultValue-null:required-false:MANY-false:description-null",\
+           "algoCategory":"string:defaultValue-null:required-false:MANY-false:description-null",\
+           "pciOptmizationAlgoName":"string:defaultValue-null:required-false:MANY-false:description-null",\
+           "pciOptimizationPriority":"string:defaultValue-null:required-false:MANY-false:description-null"}}', \
+           'test1', 'olicyScope=matching-true, policyType=matching-true ', ' POLICYTYPE=[pciPolicy,]', '""'),
+        ('subscriberPolicy', 'Subscriber Policy Model', '[]', 'demo', 'identity=string:defaultValue-null:required-true:MANY-false:description-null', \
+         'policyScope=MANY-true,policyType=POLICYTYPE:MANY-false,properties=properties_properties:MANY-false:description-type of a policy', \
+         '{"properties_properties":{"provStatus":"PROVSTATUS:defaultValue-null:required-true:MANY-false:description-null",\
+           "subscriberName":"SUBSCRIBERNAME:defaultValue-null:required-true:MANY-false:description-null",\
+           "subscriberRole":"SUBSCRIBERROLE:defaultValue-null:required-true:MANY-false:description-null"}}', \
+         'test1', 'policyScope=matching-true, policyType=matching-true, properties=matching-true ', \
+         ' SUBSCRIBERNAME=[], SUBSCRIBERROLE=[], POLICYTYPE=[subscriberPolicy,], PROVSTATUS=[]', '""')
+    ]
 
-   #Upload policy models
-    for model in os.listdir(parameters["policy_models_directory"]):
-      os.system("oclip policy-type-create -x {} -u {} -p {} -m {}".format(model, parameters["policy_username"], \
-        parameters["policy_password"], parameters["policy_url"]))
-      time.sleep(0.5)
-
-    #print("Put in the resourceModuleName {} in your policy files in {}. ".format(resource_module_name, \
-    #(parameters["policy_directory"])))
-    #raw_input("Press Enter to continue...")
-
-
-    #Loop through policy, put in resource_model_name and create policies
-    for policy in os.listdir(parameters["policy_directory"]):
-      policy_name = "{}.{}".format(parameters["policy_scope"], os.path.splitext(policy)[0])
-      policy_file = (os.path.join(parameters["policy_directory"], policy))
-      #Create policy
-      os.system("oclip policy-create-outdated -m {} -u {} -p {} -x {} -S {} -T {} -o {} -b $(cat {})".format(parameters["policy_url"],\
-      parameters["policy_username"], parameters["policy_password"], policy_name, parameters["policy_scope"], \
-      parameters["policy_config_type"], parameters["policy_onapName"], policy_file))
-
-      #Push policy
-      os.system("oclip policy-push-outdated -m {} -u {} -p {} -x {} -b {} -c {}".format(parameters["policy_url"], \
-        parameters["policy_username"], parameters["policy_password"], policy_name, parameters["policy_config_type"],\
-        parameters["policy_pdp_group"]))
+    mycursor.executemany(sql, val)
+    mydb.commit()
+    print(mycursor.rowcount, "was inserted.")
 
 def onboard_vnf(parameters):
     vnfs = parameters["vnfs"]
@@ -390,7 +458,7 @@ else:
     print upload_ns_out
 
 # 6.add_policies function not currently working, using curl commands
-# add_policies(parameters)
+add_policy_models(parameters)
 
 # 7. VFC part
 ns_instance_id = create_ns(parameters, ns_package_output)
