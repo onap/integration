@@ -4,7 +4,7 @@
     "aai_url" : "https://10.12.5.224:30233",
     "aai_username" : "AAI",
     "aai_password" : "AAI",
-    "sdc_onboarding_url" : "http://10.12.5.202:8081",
+    "sdc_onboarding_url" : "http://10.43.89.129:8081",
     "sdc_catalog_url" : "http://10.12.5.180:30205",
     "sdc_password" : "demo123456!",
     "sdc_creator" : "cs0008",
@@ -13,11 +13,10 @@
     "sdc_operator" : "op0001",
 
     "multicloud_url" : "http://10.12.5.224:30280",
-    "policy_url" : "https://10.12.6.235:30240",
+    "policy_url" : "https://10.42.9.13:8081",
     "policy_username" : "testpdp",
     "policy_password" : "alpha123",
-    "policy_models_directory" : "/root/tosca/optf-osdf/osdf/models/policy/placement/tosca_upload/",
-    "policy_directory" : "/root/tosca/vcpe_policies",
+    "policy_directory" : "/opt/oclip/dublin/vcpe_policies",
     "policy_scope" : "OSDF_DUBLIN",
     "policy_onapName" : "SampleDemo",
     "policy_config_type": "MicroService",
@@ -133,7 +132,7 @@
     "vfc-url": "http://10.12.6.88:30280",
     "vnfs":{
         "infra":{
-            "path": "/root/oclip/dublin/infra.csar",
+            "path": "/opt/oclip/dublin/infra.csar",
             "csar-id": "You need change it",
             "vsp-name" : "infra-hpa-vsp",
             "vsp-desc" : "infra-hpa-vsp-desc",
@@ -146,7 +145,7 @@
             "value": "value2"
         },
         "vgmux":{
-            "path": "/root/oclip/dublin/vgmux.csar",
+            "path": "/opt/oclip/dublin/vgmux.csar",
             "csar-id": "You need change it",
             "vsp-name" : "vgmux-hpa-vsp",
             "vsp-desc" : "vgmux-hpa-vsp-desc",
@@ -159,7 +158,7 @@
             "value": "value2"
         },
         "vbng":{
-            "path": "/root/oclip/dublin/vbng.csar",
+            "path": "/opt/oclip/dublin/vbng.csar",
             "csar-id": "You need change it",
             "vsp-name" : "vbng-hpa-vsp",
             "vsp-desc" : "vbng-hpa-vsp-desc",
@@ -172,7 +171,7 @@
             "value": "value2"
         },
         "vbrgemu":{
-            "path": "/root/oclip/dublin/vbrgemu.csar",
+            "path": "/opt/oclip/dublin/vbrgemu.csar",
             "csar-id": "You need change it",
             "vsp-name" : "vbrgemu-hpa-vsp",
             "vsp-desc" : "vbgremu-hpa-vsp-desc",

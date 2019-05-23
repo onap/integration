@@ -235,12 +235,10 @@ def add_policy_models(parameters):
     )
 
     mycursor = mydb.cursor()
-
-    sql = "INSERT INTO optimizationmodels (modelname, description, dependency, imported_by, \
-          attributes, ref_attributes, sub_attributes, version, annotation, enumValues, \
-          dataOrderInfo) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-    val = [
-        ('hpaPolicy', 'HPA Tests Model', '[]', 'demo', 'identity=string:defaultValue-null:required-true:MANY-false:description-null', \
+    hpa_sql = "INSERT INTO optimizationmodels (modelname, description, dependency, imported_by, \
+              attributes, ref_attributes, sub_attributes, version, annotation, enumValues, \
+              dataOrderInfo) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    hpa_val = ('hpaPolicy', 'HPA Tests Model', '[]', 'demo', 'identity=string:defaultValue-null:required-true:MANY-false:description-null', \
          'policyScope=MANY-true,policyType=POLICYTYPE:MANY-false,resources=MANY-true,flavorFeatures=flavorFeatures_properties:MANY-true:description-null', \
          '{"directives_properties":{"attributes":"directives_attributes_properties:required-false:MANY-true:description-null",\
          "type":"string:defaultValue-null:required-false:MANY-false:description-null"},\
@@ -262,7 +260,14 @@ def add_policy_models(parameters):
          "hpa-attribute-key":"string:defaultValue-null:required-true:MANY-false:description-null",\
          "operator":"OPERATOR:defaultValue-null:required-false:MANY-false:description-null"}}', \
          'test1', 'policyScope=matching-true, policyType=matching-true', \
-         'OPERATOR=[<,<equal-sign,>,>equal-sign,equal-sign,!equal-sign,any,all,subset,], POLICYTYPE=[hpa,]', '""'),
+         'OPERATOR=[<,<equal-sign,>,>equal-sign,equal-sign,!equal-sign,any,all,subset,], POLICYTYPE=[hpa,]', '""')
+
+    mycursor.execute(hpa_sql, hpa_val)
+    
+    sql = "INSERT INTO microservicemodels (modelname, description, dependency, imported_by, \
+          attributes, ref_attributes, sub_attributes, version, annotation, enumValues, \
+          dataOrderInfo) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    val = [
         ('distancePolicy', 'distancePolicy', '[]', 'demo', 'identity=string:defaultValue-null:required-true:MANY-false:description-null', \
          'policyScope=MANY-true,distanceProperties=distanceProperties_properties:MANY-false:description-null,policyType=POLICYTYPE:MANY-false,\
           resources=MANY-true,applicableResources=APPLICABLERESOURCES:MANY-false', \
@@ -329,7 +334,22 @@ def add_policy_models(parameters):
     mycursor.executemany(sql, val)
     mydb.commit()
     print(mycursor.rowcount, "was inserted.")
+    
+def add_policies(parameters):
+    #Loop through policy, put in resource_model_name and create policies
+    for policy in os.listdir(parameters["policy_directory"]):
+      policy_name = "{}.{}".format(parameters["policy_scope"], os.path.splitext(policy)[0])
+      policy_file = (os.path.join(parameters["policy_directory"], policy))
+      #Create policy
+      os.system("oclip policy-create-outdated -m {} -u {} -p {} -x {} -S {} -T {} -o {} -b $(cat {})".format(parameters["policy_url"],\
+      parameters["policy_username"], parameters["policy_password"], policy_name, parameters["policy_scope"], \
+      parameters["policy_config_type"], parameters["policy_onapName"], policy_file))
 
+      #Push policy
+      os.system("oclip policy-push-outdated -m {} -u {} -p {} -x {} -b {} -c {}".format(parameters["policy_url"], \
+        parameters["policy_username"], parameters["policy_password"], policy_name, parameters["policy_config_type"],\
+        parameters["policy_pdp_group"]))
+    
 def onboard_vnf(parameters):
     vnfs = parameters["vnfs"]
     vnf_onboard_outputs = {}
@@ -459,6 +479,7 @@ else:
 
 # 6.add_policies function not currently working, using curl commands
 add_policy_models(parameters)
+add_policies(parameters)
 
 # 7. VFC part
 ns_instance_id = create_ns(parameters, ns_package_output)
