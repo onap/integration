@@ -1,22 +1,13 @@
 #!/usr/bin/python
 
-#Prerequisites for machine to run this
-#Put in required parameters in hpa_automation_config.json
-#Install python-pip (apt install python-pip)
-#Install python mysql.connector (pip install mysql-connector-python)
-#Install ONAP CLI
-#Must have connectivity to the ONAP, a k8s vm already running is recommended
-#Create Preload File, the script will modify the parameters required from serivce model, service instance
-#and vnf instance
-#Create policies for homing
-#Put in CSAR file
-#modify so-bpmn configmap and change version to v2
+'''
+Read the README file before running this script
+'''
 
 import json
 import os
 import mysql.connector as mariadb
 import time
-
 
 def get_parameters(file):
     parameters = json.load(file)
@@ -63,6 +54,7 @@ def register_cloud_helper(cloud_region, values, parameters):
     multicloud_register_string = "oclip multicloud-register-cloud -y {} -x {} -m {}".format(parameters["cloud-owner"], \
       cloud_region, parameters["multicloud_url"])
     os.system(multicloud_register_string)
+    time.sleep(2)
 
 def register_all_clouds(parameters):
     cloud_dictionary = parameters["cloud_region_data"]
@@ -237,11 +229,10 @@ def create_service_model(parameters, vf_unique_id):
 
 #VNF Deployment Section
 
-
 def add_policies(parameters):
     resource_string = (os.popen("oclip get-resource-module-name  -u {} -p {} -m {} |grep {}".format(\
       parameters["sdc_creator"], parameters["sdc_password"], parameters["sdc_catalog_url"], \
-      parameters["service-model-name"] ))).read()
+      parameters["vf-name"] ))).read()
     resource_module_name =   (get_out_helper_2(resource_string))[1]
 
    #Put in the right resource module name in all policies located in parameters["policy_directory"]
@@ -249,21 +240,15 @@ def add_policies(parameters):
       parameters["policy_directory"], parameters["temp_resource_module_name"], resource_module_name))
 
    #Upload policy models
-    for model in os.listdir(parameters["policy_models_directory"]):
-      os.system("oclip policy-type-create -x {} -u {} -p {} -m {}".format(model, parameters["policy_username"], \
-        parameters["policy_password"], parameters["policy_url"]))
-      time.sleep(0.5)
-
-    #print("Put in the resourceModuleName {} in your policy files in {}. ".format(resource_module_name, \
-    #(parameters["policy_directory"])))
-    #raw_input("Press Enter to continue...")
-
+    os.system("python insert_policy_models.py {} {} {}".format(parameters["policy_db_ip"], parameters["policy_db_user"], \
+            parameters["policy_db_password"]))
 
     #Loop through policy, put in resource_model_name and create policies
     for policy in os.listdir(parameters["policy_directory"]):
       policy_name = "{}.{}".format(parameters["policy_scope"], os.path.splitext(policy)[0])
       policy_file = (os.path.join(parameters["policy_directory"], policy))
-      #Create policy
+ 
+     #Create policy
       os.system("oclip policy-create-outdated -m {} -u {} -p {} -x {} -S {} -T {} -o {} -b $(cat {})".format(parameters["policy_url"],\
       parameters["policy_username"], parameters["policy_password"], policy_name, parameters["policy_scope"], \
       parameters["policy_config_type"], parameters["policy_onapName"], policy_file))
@@ -272,7 +257,7 @@ def add_policies(parameters):
       os.system("oclip policy-push-outdated -m {} -u {} -p {} -x {} -b {} -c {}".format(parameters["policy_url"], \
         parameters["policy_username"], parameters["policy_password"], policy_name, parameters["policy_config_type"],\
         parameters["policy_pdp_group"]))
-
+ 
 
 def create_service_instance(parameters, sevice_model_list):
     #Get Required parameters
@@ -346,8 +331,6 @@ def create_vnf(parameters, service_dict, db_dict, vf_model_dict):
     vf_model_uuid = vf_model_dict["vf_id"]
     vf_model_invariant_uuid = vf_model_dict["vf_model_invariant_uuid"]
     vf_model_version = vf_model_dict["vf_model_version"]
-
-
 
     vf_model_customization_name = db_dict["vf_model_customization_name"]
     vf_model_customization_id = db_dict["vf_model_customization_id"]
@@ -471,10 +454,7 @@ vf_model_dict = create_vf_model(parameters, vsp_id)
 vf_id = vf_model_dict["vf_id"]
 vf_unique_id = vf_model_dict["vf_unique_id"]
 service_model_list = create_service_model(parameters, vf_unique_id)
-
-#add_policies function not currently working, using curl commands
-#add_policies(parameters)
-
+add_policies(parameters)
 service_dict = create_service_instance(parameters, service_model_list)
 service_model_uuid = service_dict["service_uuid"]
 db_dict = query_db(parameters, service_model_uuid, vf_id)
