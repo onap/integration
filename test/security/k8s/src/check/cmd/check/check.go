@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"check/rancher"
+	"check/validators/master"
 )
 
 func main() {
@@ -13,5 +14,13 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Printf("%s\n", k8sParams)
+
+	log.Printf("IsBasicAuthFileAbsent: %t\n", master.IsBasicAuthFileAbsent(k8sParams))
+	log.Printf("IsInsecureAllowAnyTokenAbsent: %t\n", master.IsInsecureAllowAnyTokenAbsent(k8sParams))
+
+	log.Printf("IsAnonymousAuthDisabled: %t\n", master.IsAnonymousAuthDisabled(k8sParams))
+	log.Printf("IsKubeletHTTPSConnected: %t\n", master.IsKubeletHTTPSConnected(k8sParams))
+	log.Printf("IsInsecurePortUnbound: %t\n", master.IsInsecurePortUnbound(k8sParams))
+	log.Printf("IsProfilingDisabled: %t\n", master.IsProfilingDisabled(k8sParams))
+	log.Printf("IsRepairMalformedUpdatesDisabled: %t\n", master.IsRepairMalformedUpdatesDisabled(k8sParams))
 }
