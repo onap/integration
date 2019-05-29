@@ -29,10 +29,25 @@
 # Output: List of pods exposing http endpoints
 #
 
+#Prerequisities commands list
+REQ_APPS=(kubectl nmap awk column sort paste grep wc)
+
+
+
+# Check for prerequisites apps
+for cmd in "${REQ_APPS[@]}"; do
+	if ! [ -x "$(command -v "$cmd")" ]; then
+		echo "Error: command $cmd is not installed"
+		exit 1
+	fi
+done
+
+
 if [ "$#" -lt 1 ]; then
     echo "Usage: $0 <k8s-namespace>"
     exit 1
 fi
+
 
 K8S_NAMESPACE=$1
 
