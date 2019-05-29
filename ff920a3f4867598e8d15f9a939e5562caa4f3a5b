@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a6c5e611_d853175c",
+        "filename": "test/security/k8s/.gitignore",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4965
+      },
+      "writtenOn": "2019-05-29T21:29:26Z",
+      "side": 1,
+      "message": "TO be honest I don\u0027t get it a little bit but it may be my lack of git knowledge\n\nisn\u0027t /bin/check a global path? How it belongs to the git ignore? Maybe it should be ./bin/check?",
+      "revId": "ff920a3f4867598e8d15f9a939e5562caa4f3a5b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eec716c2_2d309d8d",
+        "filename": "test/security/k8s/README.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4965
+      },
+      "writtenOn": "2019-05-29T21:29:26Z",
+      "side": 1,
+      "message": "Why do we have 2 README?",
+      "revId": "ff920a3f4867598e8d15f9a939e5562caa4f3a5b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
