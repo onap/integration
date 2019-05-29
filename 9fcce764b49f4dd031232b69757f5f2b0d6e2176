@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d3b5e05_f48dc96c",
+        "filename": "test/security/k8s/src/check/cmd/check/check.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4965
+      },
+      "writtenOn": "2019-05-29T21:32:08Z",
+      "side": 1,
+      "message": "would be great to provide here some documentation or at least references to the CIS sections",
+      "revId": "9fcce764b49f4dd031232b69757f5f2b0d6e2176",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
