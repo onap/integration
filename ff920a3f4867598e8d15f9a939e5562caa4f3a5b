@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "57ce8cfd_1db82ce0",
+        "filename": "test/security/k8s/.gitignore",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2019-05-30T09:22:14Z",
+      "side": 1,
+      "message": "Leading slash is used to match top level pattern only (\"A leading slash matches the beginning of the pathname\", https://git-scm.com/docs/gitignore)",
+      "parentUuid": "a6c5e611_d853175c",
+      "revId": "ff920a3f4867598e8d15f9a939e5562caa4f3a5b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "eec716c2_2d309d8d",
         "filename": "test/security/k8s/README.rst",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "ff920a3f4867598e8d15f9a939e5562caa4f3a5b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26f22186_c9e865ec",
+        "filename": "test/security/k8s/README.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2019-05-30T09:22:14Z",
+      "side": 1,
+      "message": "README without extension is to keep its version history, this one is the symlink to ensure proper rendering on e.g. https://github.com/onap/integration",
+      "parentUuid": "eec716c2_2d309d8d",
+      "revId": "ff920a3f4867598e8d15f9a939e5562caa4f3a5b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
