@@ -16,6 +16,24 @@
       "revId": "273f0115923c8285a9c765d68e611384fac09358",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1323b460_6056b5a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2019-05-30T09:51:00Z",
+      "side": 1,
+      "message": "You\u0027re right, PATH in env is enough\n\nI\u0027m used to remote calls without having env properly populated, hence my \"absolute-path-required\" quirk. As long as it is called locally this dependency might be dropped\n\nLet me know what you think",
+      "parentUuid": "2f101a9a_6e0f2063",
+      "revId": "273f0115923c8285a9c765d68e611384fac09358",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
