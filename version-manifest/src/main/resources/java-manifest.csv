@@ -225,7 +225,7 @@ org.onap.modeling.toscaparsers,kwalify,1.0.0
 org.onap.modeling.toscaparsers.nfvparser,modeling-toscaparsers-nfvparser,1.0.0
 org.onap.msb.java-sdk,msb-java-sdk,1.2.0
 org.onap.msb.swagger-sdk,swagger-sdk,1.2.0
-org.onap.multicloud.azure,multicloud-azure,1.2.2
+org.onap.multicloud.azure,multicloud-azure,1.2.3
 org.onap.multicloud.framework,multivimbroker,1.3.3
 org.onap.multicloud.openstack,fcaps,1.3.4
 org.onap.multicloud.openstack,lenovo,1.3.4
