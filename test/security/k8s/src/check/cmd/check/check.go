@@ -25,4 +25,7 @@ func main() {
 	log.Printf("IsProfilingDisabled: %t\n", master.IsProfilingDisabled(k8sParams))
 	log.Printf("IsRepairMalformedUpdatesDisabled: %t\n", master.IsRepairMalformedUpdatesDisabled(k8sParams))
 	log.Printf("IsServiceAccountLookupEnabled: %t\n", master.IsServiceAccountLookupEnabled(k8sParams))
+
+	log.Printf("IsInsecureBindAddressAbsentOrLoopback: %t\n", master.IsInsecureBindAddressAbsentOrLoopback(k8sParams))
+	log.Printf("IsSecurePortAbsentOrValid: %t\n", master.IsSecurePortAbsentOrValid(k8sParams))
 }
