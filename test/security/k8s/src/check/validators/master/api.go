@@ -6,7 +6,9 @@ import (
 )
 
 const (
-	disabledPort = 0
+	portDisabled = 0
+	portLowest   = 1
+	portHighest  = 65536
 )
 
 // IsBasicAuthFileAbsent validates there is no basic authentication file specified.
@@ -40,7 +42,7 @@ func IsKubeletHTTPSConnected(params []string) bool {
 
 // IsInsecurePortUnbound validates there is single "--insecure-port" flag and it is set to "0" (disabled).
 func IsInsecurePortUnbound(params []string) bool {
-	return hasSingleFlagArgument("--insecure-port=", strconv.Itoa(disabledPort), params)
+	return hasSingleFlagArgument("--insecure-port=", strconv.Itoa(portDisabled), params)
 }
 
 // IsProfilingDisabled validates there is single "--profiling" flag and it is set to "false".
@@ -82,4 +84,34 @@ func filterFlags(strs []string, flag string) []string {
 func splitKV(s, sep string) (string, string) {
 	ret := strings.SplitN(s, sep, 2)
 	return ret[0], ret[1]
+}
+
+// IsInsecureBindAddressAbsentOrLoopback validates there is no insecure bind address or it is loopback address.
+func IsInsecureBindAddressAbsentOrLoopback(params []string) bool {
+	return isFlagAbsent("--insecure-bind-address=", params) ||
+		hasSingleFlagArgument("--insecure-bind-address=", "127.0.0.1", params)
+}
+
+// IsSecurePortAbsentOrValid validates there is no secure port set explicitly or it has legal value.
+func IsSecurePortAbsentOrValid(params []string) bool {
+	return isFlagAbsent("--secure-port=", params) ||
+		hasFlagValidPort("--secure-port=", params)
+}
+
+// hasFlagValidPort checks whether selected flag has valid port as an argument in given command.
+func hasFlagValidPort(flag string, params []string) bool {
+	found := filterFlags(params, flag)
+	if len(found) != 1 {
+		return false
+	}
+
+	_, value := splitKV(found[0], "=")
+	port, err := strconv.Atoi(value) // what about empty parameter?
+	if err != nil {
+		return false
+	}
+	if port < portLowest || port > portHighest {
+		return false
+	}
+	return true
 }
