@@ -228,6 +228,9 @@ def create_service_model(parameters, vf_unique_id):
 
 
 #VNF Deployment Section
+def upload_policy_models(parameters):
+    os.system("python insert_policy_models.py {} {} {}".format(parameters["policy_db_ip"], \
+            parameters["policy_db_user"], parameters["policy_db_password"]))
 
 def add_policies(parameters):
     resource_string = (os.popen("oclip get-resource-module-name  -u {} -p {} -m {} |grep {}".format(\
@@ -238,10 +241,6 @@ def add_policies(parameters):
    #Put in the right resource module name in all policies located in parameters["policy_directory"]
     os.system("find {}/ -type f -exec sed -i 's/{}/{}/g' {{}} \;".format(
       parameters["policy_directory"], parameters["temp_resource_module_name"], resource_module_name))
-
-   #Upload policy models
-    os.system("python insert_policy_models.py {} {} {}".format(parameters["policy_db_ip"], parameters["policy_db_user"], \
-            parameters["policy_db_password"]))
 
     #Loop through policy, put in resource_model_name and create policies
     for policy in os.listdir(parameters["policy_directory"]):
@@ -441,23 +440,57 @@ def create_vf_module(parameters, service_dict, vnf_dict, db_dict):
 
 config_file_path = "/root/automation_stuff/hpa_automation_config.json"
 config_file = open(config_file_path)
+
+#Get required parameters from hpa config file
 parameters = get_parameters(config_file)
+
+#Set CLI env variables
 set_open_cli_env(parameters)
+
 create_complex(parameters)
 register_all_clouds(parameters)
 create_service_type(parameters)
 create_customer(parameters)
 add_customer_subscription(parameters)
-output = create_vlm(parameters)
-vsp_id = create_vsp(parameters, output)
+
+vlm_output = create_vlm(parameters)
+print "vlm parameters={}".format(vlm_output)
+
+vsp_id = create_vsp(parameters, vlm_output)
+print "vsp id={}".format(vsp_id)
+
 vf_model_dict = create_vf_model(parameters, vsp_id)
+print "vf model parameters={}".format(vf_model_dict)
 vf_id = vf_model_dict["vf_id"]
 vf_unique_id = vf_model_dict["vf_unique_id"]
+
 service_model_list = create_service_model(parameters, vf_unique_id)
+print "service model parameters={}".format(service_model_list)
+
+upload_policy_models(parameters)
 add_policies(parameters)
+
 service_dict = create_service_instance(parameters, service_model_list)
+print "service instance parameters={}".format(service_dict)
 service_model_uuid = service_dict["service_uuid"]
+
 db_dict = query_db(parameters, service_model_uuid, vf_id)
-vnf_dict = create_vnf(parameters, service_dict, db_dict, vf_model_dict)
+
+#Wait for Service instance to be created then create VNF Instance
+while True:
+    #Check if service instance has been created"
+    check_service_instance = os.popen("oclip service-instance-list -u {} -p {} -m {} |grep {}".format(parameters["aai_username"], \
+            parameters["aai_password"], parameters["aai_url"], parameters["instance-name"])).read()
+    if check_service_instance:
+        print "service instance created successfully"
+        #Create VNF Instance
+        vnf_dict = create_vnf(parameters, service_dict, db_dict, vf_model_dict)
+        time.sleep(10)
+        print "vnf instance parameters={}".format(vnf_dict)
+        break
+    print "service instance create in progress"
+    time.sleep(30)
+
+#Preload VF module and create VF module
 sdnc_preload(parameters, db_dict, service_dict)
 create_vf_module(parameters, service_dict, vnf_dict, db_dict)
