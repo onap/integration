@@ -12,63 +12,100 @@ vFW Traffic Distribution Use Case
 Description
 ~~~~~~~~~~~
 
-The purpose of this work was to create new LCM API in APPC – DistributeTraffic. The APPC/SDN-C client is requesting a change to traffic distribution (redistribution) done by a traffic balancing/distribution entity (aka anchor point) or mechanism. This action targets the traffic balancing/distribution entity, in some cases DNS, other cases a load balancer external to the VNF instance, as examples. Traffic distribution (weight) changes intended to take a VNF instance out of service are completed only when all in-flight traffic/transactions have been completed. To complete the traffic redistribution process, gracefully taking a VNF instance out-of-service,without dropping in-flight calls or sessions, QuiesceTraffic command may need to follow traffic distribution changes (assigning weight 0 or very low weight to VNF instance). The VNF application remains in an active state.
+The purpose of this work is to show Traffic Distribiution functionality implemented in Casablanca nad Dublin releases on vFW Use Case. 
+The orchstration workflow triggers a change to traffic distribution (redistribution) done by a traffic balancing/distribution entity (aka anchor point). 
+The DistributeTraffic action targets the traffic balancing/distribution entity, in some cases DNS, other cases a load balancer external to the VNF instance, as examples. 
+Traffic distribution (weight) changes intended to take a VNF instance out of service are completed only when all in-flight traffic/transactions have been completed. 
+DistributeTrafficCheck command may be used to verify initial conditions of redistribution or can be used to verify the state of VNFs and redistribution itself. 
+To complete the traffic redistribution process, gracefully taking a VNF instance out-of-service/into-service, without dropping in-flight calls or sessions, 
+QuiesceTraffic/ResumeTraffic command may need to follow traffic distribution changes (assigning weight 0 or very low weight to VNF instance). The VNF application remains in an active state.
 
-Traffic Distribution functionality is an outcome of Change Management project. Further details can be found on project's page
 
-https://wiki.onap.org/display/DW/Change+Management+Extensions
+Traffic Distribution functionality is an outcome of Change Management project. Further details can be found on following pages
+
+https://wiki.onap.org/display/DW/Change+Management+Extensions (DistributeTraffic LCM and Use Case)
+
+https://wiki.onap.org/display/DW/Change+Management+Dublin+Extensions (Distribute Traffic Workflow with Optimization Framework)
 
 Test Scenario
 ~~~~~~~~~~~~~
 
-.. figure:: files/figure1.png
+.. figure:: files/dt-use-case.png
    :scale: 40 %
    :align: center
 
-   Figure 1 The idea of DistributeTraffic LCM Use Case
+   Figure 1 The idea of Traffic Distribution Use Case
 
-The idea of the scenario is shown on Figure 1. In a result of the DistributeTraffic LCM action traffic flow originated from vPKG to vFW 1 and vSINK 1 is redirected to vFW 2 and vSINK 2. Result of the change can be observed also on the vSINKs' dashboards which show a current incoming traffic. Observation of the dashboard from vSINK 1 and vSINK 2 proves that API works properly.
+The idea of the simplified scenario presented in Casablanca release is shown on Figure 1. In a result of the DistributeTraffic LCM action traffic flow originated from vPKG to vFW 1 and vSINK 1 is redirected to vFW 2 and vSINK 2 (as it is seen on Figure 2). 
+Result of the change can be observed also on the vSINKs' dashboards which show a current incoming traffic. Observation of the dashboard from vSINK 1 and vSINK 2 proves that API works properly.
 
-.. figure:: files/figure2.png
-   :scale: 50 %
+.. figure:: files/dt-result.png
+   :scale: 60 %
    :align: center
 
    Figure 2 The result of traffic distribution
+
+The purpose of the workj in Dublin release was to built a Traffic Distribution Workflow that takes as an input configuration parameters delivered by Optimization Framework and on their basis several LCM actions are executed in specific workflow. 
+
+.. figure:: files/dt-workflow.png
+   :scale: 60 %
+   :align: center
+
+   Figure 3 The Traffic Distribution Workflow
+
+The prepared Traffic Distribution Workflow has following steps:
+
+- Workflow sends placement request to Optimization Framework (**1**) specific information about vPKG and vFW-SINK models and VNF-ID of vFW that we want to migrate traffic out from. 
+  Optimization Framework role is to find the vFW-SINK VNF/VF-module instance where traffic should be migrated to and vPKG which will be associated with this vFW. 
+  Altough in our case the calculation is very simple the mechanism is ready to work for service instances with VNF having houndreds of VF-odules spread accross different data centers.
+
+- Optimization Framework takes from the Policy Framework policies (**2-3**) for VNFs and for relations between each other (in our case there is checked ACTIVE status of vFW-SINK and vPKG VF-modules and the Region to which they belong)
+
+- Optimization Framework, base on the information from the polcies and service topology information taken from A&AI (**4-11**), offers traffc distribution anchor and destination canidates' pairs (**12-13**) (pairs of VF-modules data with information about their V-Servers and their network interfaces). This information is returned to the workflow script (**14**). 
+
+- Information from Optimization Framework can be used to construct APPC LCM requests for DistributeTrafficCheck and DistributeTraffic commands (**15, 24, 33, 42**). This information is used to fill CDT templates with proper data for further Ansible playbooks execution (**17, 26, 35, 44**)
+
+- In the first DistributeTrafficCheck LCM request on vPGN VNF/VF-Module APPC, over Ansible, checks if already configured destinatrion of vPKG packages is different than already configured. If not workflow is stopped (**23**).
+
+- Next, APPC performs the DistributeTraffic action like it is shown on Figure 1 and Figure 2 (**25-31**). If operation is completed properly traffic should be redirected to vFW 2 and vSINK 2 instance. If not, workflow is stopped (**32**).
+
+- Finally, APPC executes the DistributeTrafficCheck action on vFW 1 in order to verify that it does not receives any traffic anymore (**34-40**) and on vFW 2 in order to verify that it receives traffic forwrdd from vFW 2 (**43-49**)
+
+Scenario Setup
+--------------
 
 In order to setup the scenario and to test the DistributeTraffic LCM API in action you need to perform the following steps:
 
 1. Create an instance of vFWDT (vPKG , 2 x vFW, 2 x vSINK) – dedicated for the DistributeTraffic LCM API tests
 
-#. Upload Ansible playbook to Ansible Server
+#. Gather A&AI facts for Traffic Distribution use case configuration
 
-#. Setup Ansible Server to work with vPKG VM
+#. Install Traffic Distribution workflow packages
 
-#. Create configuration file for DistributeTraffic LCM in Ansible Server
+#. Configure Optimization Framework for Traffic Distribution workflow
 
-#. Configure VNF in APPC CDT tool
+#. Configure vPKG and vFW VNFs in APPC CDT tool
 
-#. Invoke REST API via APIDOC explorer, CDT Test tool or DMaaP
+#. Configure Ansible Server to work with vPKG and vFW VMs
 
-You need to have an access to the following containers:
+#. Execute Traffic Distribution Workflow 
 
--  APPC MariaDB container – setup Ansible adapter for VNF
+You will use the following ONAP K8s VMs or containers:
 
--  APPC Ansible Server container – setyp of Ansible Server,
-   configuration of playbook and input parameters for action
+-  ONAP Rancher Server – workflow setup and its execution
 
--  Any container that can be used to call DMaaP API e.g. the SO container
+-  APPC MariaDB container – setup Ansible adapter for vFWDT VNFs
 
-.. note:: This tutorial is based on SB-07 integration lab that was based on OpenStack deployment. For OOM based deployment port number may be different.
+-  APPC Ansible Server container – setup of Ansible Server, configuration of playbook and input parameters for LCM actions
 
-Scenario Setup
---------------
+.. note:: In all occurences <K8S-NODE-IP> constant is the IP address of any K8s Node of ONAP OOM installation which hosts ONAP pods i.e. k8s-node-1 and <K8S-RANCHER-IP> constant is the IP address of K8S Rancher Server
 
-vFWDT Instantiation
-~~~~~~~~~~~~~~~~~~~
+vFWDT Service Instantiation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In order to test a DistributeTraffic LCM API functionality a dedicated vFW instance must be prepared. It differs from a standard vFW instance by having an additional VF-module with a second instance of vFW and a second instance of vSINK. Thanks to that when a service instance is deployed there are already available two instances of vFW and vSINK that can be used for verification of DistributeTraffic LCM API – there is no need to use the ScaleOut function to test DistributeTraffic functionality what simplifies preparations for tests.
 
-In order to instantiate vFWDT please follow the procedure for standard vFW with following changes:
+In order to instantiate vFWDT service please follow the procedure for standard vFW with following changes. You can create such service manually or you can use robot framework. For manual instantiation:
 
 1. Please use the following HEAT templates:
 
@@ -76,8 +113,8 @@ https://github.com/onap/demo/tree/master/heat/vFWDT
 
 2. Create Virtual Service in SDC with composition like it is shown on Figure 3
 
-.. figure:: files/figure3.png
-   :scale: 50 %
+.. figure:: files/vfwdt-service.png
+   :scale: 60 %
    :align: center
 
    Figure 3 Composition of vFWDT Service
@@ -90,318 +127,627 @@ https://github.com/onap/demo/tree/master/heat/vFWDT
 
 - :download:`vFW/SNK 2 preload example <files/vfw-2-preload.json>`
 
-**Note**: vFWDT has a specific configuration of the networks – different than the one in original vFW use case (see Figure 4). Two networks must be created before the heat stack creation: *onap-private* network (10.0.0.0/16 typically) and *onap-external-private* (e.g. "10.100.0.0/16"). The latter one should be connected over a router to the external network that gives an access to VMs. Thanks to that VMs can have a floating IP from the external network assigned automatically in a time of stacks' creation. Moreover, the vPKG heat stack must be created before the vFW/vSINK stacks (it means that the VF-module for vPKG must be created as a first one). The vPKG stack creates two networks for the vFWDT use case: *protected* and *unprotected*; so these networks must be present before the stacks for vFW/vSINK are created.
+.. note:: Use publikc-key that is a pair for private key files used to log into ONAP OOM Rancher server. It will simplify further configuration
 
-.. figure:: files/figure4.png
-   :scale: 20 %
+.. note:: vFWDT has a specific configuration of the networks – different than the one in original vFW use case (see Figure 4). Two networks must be created before the heat stack creation: *onap-private* network (10.0.0.0/16 typically) and *onap-external-private* (e.g. "10.100.0.0/16"). The latter one should be connected over a router to the external network that gives an access to VMs. Thanks to that VMs can have a floating IP from the external network assigned automatically in a time of stacks' creation. Moreover, the vPKG heat stack must be created before the vFW/vSINK stacks (it means that the VF-module for vPKG must be created as a first one). The vPKG stack creates two networks for the vFWDT use case: *protected* and *unprotected*; so these networks must be present before the stacks for vFW/vSINK are created.
+
+.. figure:: files/vfwdt-networks.png
+   :scale: 15 %
    :align: center
 
-   Figure 4 Configuration of networks for vFWDT
+   Figure 4 Configuration of networks for vFWDT service
+
+4. Go to *robot* folder in Rancher server (being *root* user)
+
+Go to the Rancher node and locate *demo-k8s.sh* script in *oom/kubernetes/robot* directory. This script will be used to run heatbridge procedure which will update A&AI information taken from OpenStack
+
+5. Run robot *heatbridge* in order to upload service topology information into A&AI
+
+::
+
+    ./demo-k8s.sh onap heatbridge <stack_name> <service_instance_id> <service> <oam-ip-address>
+
+where:
+
+- <stack_name> - HEAT stack name from: OpenStack -> Orchestration -> Stacks
+- <service_instance_id> - is service_instance_id which you can get from VID or AAI REST API
+- <service> - in our case it should be vFWDT but may different (vFW, vFWCL) if you have assigned different service type in SDC
+- <oam-ip-address> - it is the name of HEAT input which stores ONAP management network name
+
+Much easier way to create vFWDT service instance is to trigger it from the robot framework. Robot automates creation of service instance and it runs also heatbridge. To create vFWDT this way:
+
+1. Go to *robot* folder in Rancher server (being *root* user)
+
+Go to the Rancher node and locate *demo-k8s.sh* script in *oom/kubernetes/robot* directory. This script will be used to run instantiate vFWDT service
+
+2. Run robot scripts for vFWDT instantiation
+
+::
+
+    ./demo-k8s.sh onap init
+    ./ete-k8s.sh onap instantiateVFWDT
+
+
+.. note:: You can verify the status of robot's service instantiation process by going to http://<K8S-NODE-IP>:30209/logs/ (login/password: test/test)
+
+After successful instantiation of vFWDT service go to the OpenStack dashboard and project which is configured for VNFs deployment and locate vFWDT VMs. Choose one and try to ssh into one them to proove that further ansible configuration action will be possible
+
+::
+
+    ssh -i <rancher_private_key> ubuntu@<VM-IP>
+
+
+.. note:: The same private key file is used to ssh into Rancher server and VMs created by ONAP
+
+Preparation of Workflow Script Environment
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+1. Enter over ssh Rancher server using root user
+
+::
+
+    ssh -i <rancher_private_key> root@<K8S-RANCHER-IP>
+
+2. Clone onap/demo repository
+
+::
+
+    git clone --single-branch --branch dublin "https://gerrit.onap.org/r/demo"
+
+3. Enter vFWDT tutorial directory
+
+::
+
+    cd demo/tutorials/vFWDT
+    ls
+
+which should show following folders
+
+::
+
+    root@sb01-rancher:~/demo/tutorials/vFWDT# ls
+    playbooks  preloads  workflow
+
+
+.. note:: Remeber vFWDT tutorial directory `~/demo/tutorials/vFWDT` for further use
+
+4. Install python dependencies
+
+::
+
+    sudo apt-get install python3-pip
+    pip3 install -r workflow/requirements.txt --user
+
+Gathering Scenario Facts
+------------------------
+In order to configure CDT tool for execution of Ansible playbooks and for execution of Traffic distribution workflow we need following A&AI facts for vFWDT service
+
+- **vnf-id** of generic-vnf vFW instance that we want to migrate traffic out from
+- **vnf-type** of vPKG VNF - required to configure CDT for Distribute Traffic LCMs
+- **vnf-type** of vFW-SINK VNFs - required to configure CDT for Distribute Traffic LCMs
+
+Gathering facts from VID Portal
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+1. Enter the VID portal
+
+:: 
+    
+    https://<K8S-NODE-IP>:30200/vid/welcome.htm
+
+2. In the left hand menu enter **Search for Existing Service Instances**
+
+3. Select proper subscriber from the list and press **Submit** button. When service instance of vFWDT Service Type appears Click on **View/Edit** link
+
+.. note:: The name of the subscriber you can read from the robot logs if your have created vFWDT instance with robot. Otherwise this should be *Demonstration* subscriber
+
+4. For each VNF in vFWDT service instance note its *vnf-id* and *vnf-type*
+
+.. figure:: files/vfwdt-vid-vpkg.png
+   :scale: 60 %
+   :align: center
+
+   Figure 5 vnf-type and vnf-id for vPKG VNF
+
+.. figure:: files/vfwdt-vid-vnf-1.png
+   :scale: 60 %
+   :align: center
+
+   Figure 6 vnf-type and vnf-id for vFW-SINK 1 VNF
+
+.. figure:: files/vfwdt-vid-vnf-2.png
+   :scale: 60 %
+   :align: center
+
+   Figure 7 vnf-type and vnf-id for vFW-SINK 2 VNF
+
+Gathering facts directly from A&AI
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+1. Enter OpenStack dashboard on whicvh vFWDT instance was created and got to **Project->Compute->Instances** and read VM names of vPKG VM and 2 vFW VMs created in vFWDT service instance
+
+2. Open Postman or any other REST client
+
+3. In Postman in General Settings disable *SSL Certificate verification*
+
+4. You can use also following Postman Collection for AAI :download:`AAI Postman Collection <files/vfwdt-aai-postman.json>`
+
+5. Alternatively create Collection and set its *Authorization* to *Basic Auth* type with login/password: AAI/AAI
+
+6. Create new GET query for *tenants* type with following link and read *tenant-id* value
+
+::
+
+    https://<K8S-NODE-IP>:30233/aai/v14/cloud-infrastructure/cloud-regions/cloud-region/CloudOwner/RegionOne/tenants/
+
+.. note:: *CloudOwner* and *Region* names are fixed for default setup of ONAP
+
+7. Create new GET query for *vserver* type with following link replacing <tenant-id> with value read before and <vm-name> with vPKG VM name read from OpenStack dashboard
+
+::
+
+    https://<K8S-NODE-IP>:30233/aai/v14/cloud-infrastructure/cloud-regions/cloud-region/CloudOwner/RegionOne/tenants/tenant/<tenant-id>/vservers/?vserver-name=<vm-name>
+
+Read from the response (realtionship with *generic-vnf* type) vnf-id of vPKG VNF
+
+.. note:: If you do not receive any vserver candidate it means that heatbridge procedure was not performed or was not completed successfuly. It is mandatory to continue this tutorial
+
+8. Create new GET query for *generic-vnf* type with following link replacing <vnf-id> with value read from previous GET response
+
+::
+
+    https://<K8S-NODE-IP>:30233/aai/v14/network/generic-vnfs/generic-vnf/<vnf-id>
+
+9. Repeat this procedure also for 2 vFW VMs and note their *vnf-type* and *vnf-id*
+
+Configuration of ONAP Environment
+---------------------------------
+This sections show the steps necessary to configure CDT and Ansible server what is required for execution of APPC LCM actions in the workflow script
+
+Testing Gathered Facts on Workflow Script
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Having collected *vnf-id* and *vnf-type* parameters we can execute Traffic Distribution Workflow Python script. It works in two modes. First one executes ony initial phase where AAI and OOF 
+is used to collect neccessary information for configuration of APPC and for further execution phase. The second mode performs also second phase which executes APPC LCM actions.
+
+At this stage we will execute script in the initial mode to generate some configuration helpful in CDT and Ansible configuration.
+
+1. Enter vFWDT tutorial directory on Rancher server (already created in `Preparation of Workflow Script Environment`_) and execute there workflow script with follwoing parameters
+
+::
+
+    python3 workflow.py <VNF-ID> <K8S-NODE-IP> True False True True
+
+For now and for further use workflow script has following input parameters:
+
+- vnf-id of vFW VNF instance that traffic should be migrated out from
+- IP of ONAP OOM Node
+- if script should use and build OOF response cache (cache it speed-ups further executions of script)
+- if instead of vFWDT service instance vFW or vFWCL one is used (should be False always)
+- if only configuration information will be collected (True for initial phase and False for full execution of workflow)
+- if APPC LCM action status should be verified and FAILURE should stop workflow (when False FAILED status of LCM action does not stop execution of further LCM actions)
+
+2. The script at this stage should give simmilar output 
+
+::
+
+    Executing workflow for VNF ID '909d396b-4d99-4c6a-a59b-abe948873303' on ONAP with IP 10.12.5.63
+
+    OOF Cache True, is CL vFW False, only info False, check LCM result True
+
+    vFWDT Service Information:
+    {
+        "vf-module-id": "0dce0e61-9309-449a-8e3e-f001635aaab1",
+        "service-info": {
+            "global-customer-id": "DemoCust_ccc04407-1740-4359-b3c4-51bbcb62d9f6",
+            "service-type": "vFWDT",
+            "service-instance-id": "ab37d391-95c6-4844-b7c3-23d111bfa2ce"
+        },
+        "vfw-model-info": {
+            "model-version-id": "f7fc17ba-48b9-456b-acc1-f89f31eda8cc",
+            "vnf-type": "vFWDT 2019-05-20 21:10:/vFWDT_vFWSNK b463aa83-b1fc 0",
+            "model-invariant-id": "0dfe8d6d-21c1-42f6-867a-1867cebb7751",
+            "vnf-name": "Ete_vFWDTvFWSNK_ccc04407_1"
+        },
+        "vpgn-model-info": {
+            "model-version-id": "0f8a2467-af44-4d7c-ac55-a346dcad9e0e",
+            "vnf-type": "vFWDT 2019-05-20 21:10:/vFWDT_vPKG a646a255-9bee 0",
+            "model-invariant-id": "75e5ec48-f43e-40d2-9877-867cf182e3d0",
+            "vnf-name": "Ete_vFWDTvPKG_ccc04407_0"
+        }
+    }
+
+    Ansible Inventory:
+    [vpgn]
+    vofwl01pgn4407 ansible_ssh_host=10.0.210.103 ansible_ssh_user=ubuntu
+    [vfw-sink]
+    vofwl01vfw4407 ansible_ssh_host=10.0.110.1 ansible_ssh_user=ubuntu
+    vofwl02vfw4407 ansible_ssh_host=10.0.110.4 ansible_ssh_user=ubuntu
+
+The result should have almoast the same information for *vnf-id's* of both vFW VNFs. *vnf-type* for vPKG and vFW VNFs should be the same like those collected in previous steps. 
+Ansible Inventory section contains information about the content Ansible Inventor file that will be configured later on `Configuration of Ansible Server`_
+
+Configuration of VNF in the APPC CDT tool
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Following steps aim to configure DistributeTraffic LCM action for our vPKG and vFW-SINK VNFs in APPC CDT tool.
+
+1. Enter the Controller Design Tool portal
+
+::
+
+    https://<K8S-NODE-IP>:30289/index.html
+
+2. Click on *MY VNFS* button and login to CDT portal giving i.e. *demo* user name
+
+3. Click on the *CREATE NEW VNF TYPE* button
+
+.. figure:: files/vfwdt-create-vnf-type.png
+   :scale: 70 %
+   :align: center
+
+   Figure 8 Creation of new VNF type in CDT
+
+4. Enter previously retrieved VNF Type for vPKG VNF and press the *NEXT* button
+
+.. figure:: files/vfwdt-enter-vnf-type.png
+   :scale: 70 %
+   :align: center
+
+   Figure 9 Creation of new VNF type in CDT
+
+5. For already created VNF Type (if the view does not open itself) click the *View/Edit* button. In the LCM action edit view in the first tab please choose:
+
+-  *DistributeTraffic* as Action name
+
+-  *ANSIBLE* as Device Protocol
+
+-  *Y* value in Template dropdown menu
+
+-  *admin* as User Name
+
+-  *8000* as Port Number
+
+
+.. figure:: files/vfwdt-new-lcm-ref-data.png
+   :scale: 70 %
+   :align: center
+
+   Figure 10 DistributeTraffic LCM action editing
+
+6. Go to the *Template* tab and in the editor paste the request template of the DistributeTraffic LCM action for vPKG VNF type
+
+::
+
+    {
+        "InventoryNames": "VM",
+        "PlaybookName": "${()=(book_name)}",
+        "NodeList": [{
+            "vm-info": [{
+                "ne_id": "${()=(ne_id)}", 
+                "fixed_ip_address": "${()=(fixed_ip_address)}"
+            }], 
+            "site": "site",
+            "vnfc-type": "vpgn"
+        }],
+        "EnvParameters": {
+            "ConfigFileName": "../traffic_distribution_config.json",
+            "vnf_instance": "vfwdt",
+        },
+        "FileParameters": {
+            "traffic_distribution_config.json": "${()=(file_parameter_content)}"
+        },
+        "Timeout": 3600
+    }
+
+.. note:: For all this VNF types and for all actions CDT template is the same except **vnfc-type** parameter that for vPKG VNF type should have value *vpgn* and for vFW-SINK VNF type should have value *vfw-sink*
+
+The meaning of selected template parameters is following:
+
+- **EnvParameters** group contains all the parameters that will be passed directly to the Ansible playbook during the request's execution. *vnf_instance* is an obligatory parameter for VNF Ansible LCMs. In our case for simplification it has predefined value
+- **InventoryNames** parameter is obligatory if you want to have NodeList with limited VMs or VNFCs that playbook should be executed on. It can have value *VM* or *VNFC*. In our case *VM* valuye means that NodeList will have information about VMs on which playbook should be executed. In this use case this is always only one VM
+- **NodeList** parameter value must match the group of VMs like it was specified in the Ansible inventory file. *PlaybookName* must be the same as the name of playbook that was uploaded before to the Ansible server.
+- **FileParameters**
+
+
+.. figure:: files/vfwdt-create-template.png
+   :scale: 70 %
+   :align: center
+
+   Figure 11 LCM DistributeTraffic request template
+
+7. Afterwards press the *SYNCHRONIZE WITH TEMPLATE PARAMETERS* button. You will be moved to the *Parameter Definition* tab. The new parameters will be listed there.
+
+.. figure:: files/vfwdt-template-parameters.png
+   :scale: 70 %
+   :align: center
+
+   Figure 12 Summary of parameters specified for DistributeTraffic LCM action.
+
+.. note:: For each parameter you can define its: mandatory presence; default value; source (Manual/A&AI). For our case modification of this settings is not necessary
+
+8. Finally, go back to the *Reference Data* tab and click *SAVE ALL TO APPC*.
+
+.. note:: Remember to configure DistributeTraffic and DistributeTrafficCheck actions for vPKG VNF type and DistributeTrafficCheck action for vFW-SINK
 
 Configuration of Ansible Server
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 After an instantiation of the vFWDT service the Ansible server must be configured in order to allow it a reconfiguration of vPKG VM.
 
-1. Enter the Ansible Server container
-
-2. Install nano and wget
+1. Copy from Rancher server private key file used for vFWDT VMs' creation and used for access to Rancher server into the :file:`/opt/ansible-server/Playbooks/onap.pem` file
 
 ::
 
-    apt install wget nano
+    sudo kubectl cp <path/to/file>/onap.pem onap/`kubectl get pods -o go-template --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}' | grep appc-ansible`:/opt/ansible-server/Playbooks/
 
-3. Download the distribute traffic playbook into the :file:`/opt/onap/ccsdk/Playbooks` directory
+.. note:: The private key file must be the same like configured at this stage `vFWDT Service Instantiation`_
 
-::
-
-    cd /opt/onap/ccsdk/Playbooks
-
-    wget https://raw.githubusercontent.com/onap/appc-deployment/master/playbook/ansible_vfw_distributetraffic%400.00.yml
-
-4. Change with *nano* the *hosts: all* statement in the playbook into the *hosts: vpkg-1* statement
-
-5. Copy a private key file used for VMs' creation into the :file:`/opt/onap/ccsdk/Playbooks/vpkg-1.pem` file and give it proper rights
+2. Enter the Rancher server and then enter the APPC Ansible server container
 
 ::
 
-    chown 400 vpkg-1.pem
+    kubectl exec -it -n onap `kubectl get pods -o go-template --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}' | grep appc-ansible` -- sh
 
-.. note:: The private key file must be related with a public key specified in the *pub_key* statement used in the *SDNC-Preloading* phase
-
-6. Edit the :file:`/opt/onap/ccsdk/Playbooks/Ansible\ \_\ inventory` file including *vpkg-1* host
+3. Give the private key file a proper access rights
 
 ::
 
-    [vpkg-1]
-    vpkg-1 ansible_ssh_host=10.0.110.2 ansible_ssh_user=ubuntu
-    ansible_ssh_private_key_file=/opt/onap/ccsdk/Playbooks/vpkg-1.pem
+    cd /opt/ansible-server/Playbooks/
+    chmod 400 onap.pem
+    chown ansible:ansible onap.pem
 
-.. note:: Change IP address respectively
-
-7. Test that the Ansible server can access *vpkg-1* host over ssh
-
-::
-
-    ansible –i Ansible_inventory vpkg-1 –m ping
-
-8. Upload the payload file :file:`/opt/onap/ccsdk/Playbooks/config.json` with extra parameters for the Ansible playbook.
+4. Edit the :file:`/opt/ansible-server/Playbooks/Ansible\ \_\ inventory` file including all the hosts of vFWDT service instance used in this use case. 
+   The content of the file is generated by workflow script `Testing Gathered Facts on Workflow Script`_
 
 ::
 
-    {
-       "fwIp": "192.168.10.110",
-       "sinkIp": "192.168.20.240"
-    }
+    [vpgn]
+    vofwl01pgn4407 ansible_ssh_host=10.0.210.103 ansible_ssh_user=ubuntu
+    [vfw-sink]
+    vofwl01vfw4407 ansible_ssh_host=10.0.110.1 ansible_ssh_user=ubuntu
+    vofwl02vfw4407 ansible_ssh_host=10.0.110.4 ansible_ssh_user=ubuntu
 
-.. note:: This step can be omitted when the CDT template file for the *DistributeTraffic* action will be formulated in a different way. In consequence all the parameters required by a playbook can be defined directly on the CDT level and there is no need to maintain this file. For our VNF this file contains an IP address of vFW 2 from the *unprotected* network and an IP address of vSINK 2 from the *protected* network.
+.. note:: Names of hosts and their IP addresses will be different. The names of the host groups are the same like 'vnfc-type' attributes configured in the CDT templates
 
-Configuration of MySQL/MariaDB for Ansible
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+5. Configure the default private key file used by Ansible server to access hosts over ssh
 
-For each VNF that uses the Ansible protocol you need to configure *PASSWORD* and *URL* field* in the *DEVICE_AUTHENTICATION* table.
+::
 
-1. Enter the MariaDB container
+    vi /etc/ansible/ansible.cfg
 
-2. Enter the Maria DB CLI (password is *gamma*)
+::
+
+    [defaults]
+    host_key_checking = False
+    private_key_file = /opt/ansible-server/Playbooks/onap.pem
+
+
+.. note:: This is the default privaye key file. In the `/opt/ansible-server/Playbooks/Ansible\ \_\ inventory` different key could be configured but APPC in time of execution of playbbok on Ansible server creates its own dedicated inventory file which does not have private key file specified. In consequence, this key file configured is mandatory for proper execution of playbooks by APPC
+
+
+6. Test that the Ansible server can access over ssh vFWDT hosts configured in the ansible inventory 
+
+::
+
+    ansible –i Ansible_inventory vpgn,vfw-sink –m ping
+
+
+7. Download the distribute traffic playbook into the :file:`/opt/ansible-server/Playbooks` directory
+
+Exit Ansible server pod and enter vFWDT tutorial directory `Preparation of Workflow Script Environment`_ on Rancher server. Afterwards, copy playbooks into Ansible server pod
+
+::
+
+    sudo kubectl cp playbooks/vfw-sink onap/`kubectl get pods -o go-template --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}' | grep appc-ansible`:/opt/ansible-server/Playbooks/
+    sudo kubectl cp playbooks/vpgn onap/`kubectl get pods -o go-template --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}' | grep appc-ansible`:/opt/ansible-server/Playbooks/
+
+8. After the configuration of Ansible serverthe structure of `/opt/ansible-server/Playbooks` directory should be following
+
+::
+
+    /opt/ansible-server/Playbooks $ ls -R
+    .:
+    Ansible_inventory  onap.pem           vfw-sink           vpgn
+
+    ./vfw-sink:
+    latest
+
+    ./vfw-sink/latest:
+    ansible
+
+    ./vfw-sink/latest/ansible:
+    distributetrafficcheck
+
+    ./vfw-sink/latest/ansible/distributetrafficcheck:
+    site.yml
+
+    ./vpgn:
+    latest
+
+    ./vpgn/latest:
+    ansible
+
+    ./vpgn/latest/ansible:
+    distributetraffic       distributetrafficcheck
+
+    ./vpgn/latest/ansible/distributetraffic:
+    site.yml
+
+    ./vpgn/latest/ansible/distributetrafficcheck:
+    site.yml
+
+
+Configuration of APPC DB for Ansible
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For each VNF that uses the Ansible protocol you need to configure *PASSWORD* and *URL* field in the *DEVICE_AUTHENTICATION* table. This step must be performed after configuration in CDT which populates data in *DEVICE_AUTHENTICATION* table.
+
+1. Enter the APPC DB container
+
+::
+
+    kubectl exec -it -n onap `kubectl get pods -o go-template --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}' | grep appc-db-0` -- sh
+
+2. Enter the APPC DB CLI (password is *gamma*)
 
 ::
 
     mysql -u sdnctl -p
 
-3. Invoke the following commands
+3. Execute the following SQL commands
 
 ::
 
     MariaDB [(none)]> use sdnctl;
+    MariaDB [sdnctl]> UPDATE DEVICE_AUTHENTICATION SET URL = 'http://appc-ansible-server:8000/Dispatch' WHERE ACTION LIKE 'DistributeTraffic%';
+    MariaDB [sdnctl]> UPDATE DEVICE_AUTHENTICATION SET PASSWORD = 'admin' WHERE ACTION LIKE 'DistributeTraffic%';
     MariaDB [sdnctl]> select * from DEVICE_AUTHENTICATION;
-    MariaDB [sdnctl]> UPDATE DEVICE_AUTHENTICATION SET URL = 'http://ansiblehost:8000/Dispatch' WHERE DEVICE_AUTHENTICATION_ID=51;
-    MariaDB [sdnctl]> UPDATE DEVICE_AUTHENTICATION SET PASSWORD = 'admin' WHERE DEVICE_AUTHENTICATION_ID=51;
 
-
-.. note:: You need to find in the *select* query result ID of row that has VNF Type like the one specified in the CDT, *DistributeTraffic* as an action name and *Ansible* as a name of a protocol. You should replace *ansiblehost* with an IP or a hostname of the Ansible Server reachable for the APPC container.
-
-Configuration of VNF in the APPC CDT tool
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Following steps aim to configure DistributeTraffic LCM action for our vFW VNF in APPC CDT tool.
-
-1. Enter the Controller Design Tool page: http://appc_ip:CDT_port
-
-.. note:: i.e. http://10.12.5.227:8080 for ONAP OpenStack deployment
-
-2. Click on the *CREATE NEW VNF TYPE* button
-
-.. figure:: files/figure5.png
-   :scale: 60 %
-   :align: center
-
-   Figure 5 Creation of new VNF type in CDT
-
-3. Enter the VNF Type retrieved from AAI or VID and press the *NEXT* button. Retrieve proper values for the vFWDT service instance
-
-.. figure:: files/figure6.png
-   :scale: 60 %
-   :align: center
-
-   Figure 6 Retrieving VNF type value with VID from Virtual Service Instance
-
-
-.. figure:: files/figure7.png
-   :scale: 60 %
-   :align: center
-
-   Figure 7 Creation of new VNF type in CDT
-
-4. For already created VNF Type (if the view does not open itself) click the *View/Edit* button. In the LCM action edit view in the first tab please choose:
-
-   -  *DistributeTraffic* as Action namethe
-
-   -  *ANSIBLE* as Device Protocol
-
-   -  *Y* value in Template dropdown menu
-
-   -  *admin* as User Name
-
-   -  *8000* as Port Number
-
-
-.. figure:: files/figure8.png
-   :scale: 60 %
-   :align: center
-
-   Figure 8 DistributeTraffic LCM action editing
-
-5. Go to the *Template* tab and upload the request template file of the DistributeTraffic LCM action
+Result should be simmilar to the following one:
 
 ::
 
-    {
-        "PlaybookName": "ansible_vfw_distributetraffic@400.00.yml",
-        "NodeList": ["vpkg-1"],
-        "EnvParameters": {
-            "ConfigFileName": "config.json"
-        },
-        "Timeout": 3600
-    }
+    +--------------------------+------------------------------------------------------+----------+------------------------+-----------+----------+-------------+------------------------------------------+
+    | DEVICE_AUTHENTICATION_ID | VNF_TYPE                                             | PROTOCOL | ACTION                 | USER_NAME | PASSWORD | PORT_NUMBER | URL                                      |
+    +--------------------------+------------------------------------------------------+----------+------------------------+-----------+----------+-------------+------------------------------------------+
+    |                      137 | vFWDT 2019-05-20 21:10:/vFWDT_vPKG a646a255-9bee 0   | ANSIBLE  | DistributeTraffic      | admin     | admin    |        8000 | http://appc-ansible-server:8000/Dispatch |
+    |                      143 | vFWDT 2019-05-20 21:10:/vFWDT_vFWSNK b463aa83-b1fc 0 | ANSIBLE  | DistributeTraffic      | admin     | admin    |        8000 | http://appc-ansible-server:8000/Dispatch |
+    |                      149 | vFWDT 2019-05-20 21:10:/vFWDT_vFWSNK b463aa83-b1fc 0 | ANSIBLE  | DistributeTrafficCheck | admin     | admin    |        8000 | http://appc-ansible-server:8000/Dispatch |
+    |                      152 | vFWDT 2019-05-20 21:10:/vFWDT_vPKG a646a255-9bee 0   | ANSIBLE  | DistributeTrafficCheck | admin     | admin    |        8000 | http://appc-ansible-server:8000/Dispatch |
+    +--------------------------+------------------------------------------------------+----------+------------------------+-----------+----------+-------------+------------------------------------------+
+    4 rows in set (0.00 sec)
 
-.. note:: This step allows to create and edit template file for any APPC LCM DistributeTraffic action request for specified before VNF Type.
 
-The *EnvParameters* group contains all the parameters that will be passed directly to the Ansible playbook during the request's execution. The *NodeList* parameter value must match the group of VMs like it was specified in the Ansible inventory file. *PlaybookName* must be the same as the name of playbook that was uploaded before to the Ansible server.
+Testing Traffic Distribution Workflow
+-------------------------------------
 
-.. figure:: files/figure9.png
-   :scale: 60 %
-   :align: center
+Since all the configuration of components of ONAP is already prepared it is possible to enter second phase of Traffic Distribution Workflow execution - 
+the execution of DistributeTraffic and DistributeTrafficCheck LCM actions with configuration resolved before by OptimizationFramework. 
 
-   Figure 9 Request template file after uploading
 
-Select *ansible_vfw_distributetraffic@400.00.yml* and press CTRL+4 buttons. The new dialog window will appear. Enter a name *playbook* for this value and press the *Submit* button.
+Workflow Execution
+~~~~~~~~~~~~~~~~~~
 
-.. figure:: files/figure10.png
-   :scale: 60 %
-   :align: center
-
-   Figure 10 Editing "playbook" parameter of request template
-
-The same operation must be repeated for the *config.json* parameter. The parameter should have name *ConfigFileName*. Press the *Submit* button.
-
-.. figure:: files/figure11.png
-   :scale: 60 %
-   :align: center
-
-   Figure 11 Editing "ConfigFileName" parameter of request template
-
-Afterwards press the *SYNCHRONIZE WITH TEMPLATE PARAMETERS* button. You will be moved to the *Parameter Definition* tab. The new parameters will be listed there.
-
-.. figure:: files/figure12.png
-   :scale: 60 %
-   :align: center
-
-   Figure 12 Summary of parameters specified for DistributeTraffic LCM action.
-
-Finally, go back to the *Reference Data* tab and click *SAVE ALL TO APPC*.
-
-Testing DistributeTraffic LCM API
----------------------------------
-
-Below we propose three different ways to test DistributeTraffic LCM API.
-
-Test in CDT
-~~~~~~~~~~~
-
-In order to test API in CDT go to *TEST* tab. Upload spreadsheet (Excel file) and enter VNF ID of vFWDT VNF.
-
-:download:`CDT request input <files/cdt-request-input.xlsx>`
-
-The spreadsheet contains input parameters for API request. Values from the this file are used to automatically fill in the LCM request template file being edited in previous steps. Click on *Execute test* button to test API in action.
-
-.. figure:: files/figure13.png
-   :scale: 60 %
-   :align: center
-
-   Figure 13 Result of DistributeTraffic LCM API execution from CDT
-
-APIDOC Explorer
-~~~~~~~~~~~~~~~
-
-Another way to test API is to use APIDOC explorer of APPC that comes with OpenDaylight.
-
-1. Enter APIDOC explorer page: http://appc_ip:appc_portal_port/apidoc/explorer/index.html
-
-.. note:: i.e. http://10.12.5.227:8282/apidoc/explorer/index.html for ONAP OpenStack deployment
-
-2. Choose *appc-provider-lcm* and find POST
-   */operations/appc-provider-lcm:distribute-traffic*
-
-3. In the *payload* input paste below mentioned content.
+In order to run Traffic Distribution Workflow execute following commands from the vFWDT tutorial directory `Preparation of Workflow Script Environment`_ on Rancher server.
 
 ::
 
-    {
-        "input": {
-            "common-header": {
-                "timestamp": "2018-10-18T08:51:01.628Z",
-                "api-ver": "2.00",
-                "originator-id": "demo",
-                "request-id": "1539852661628",
-                "sub-request-id": "1539852661629",
-                "flags": {
-                    "mode": "NORMAL",
-                    "force": "TRUE",
-                    "ttl": 3600
-                }
-            },
-            "action": "DistributeTraffic",
-            "action-identifiers": {
-                "vnf-id": "2bd5cc6e-9738-436f-b5a8-c1a749a89f52"
-            },
-            "payload": "{\"configuration-parameters\":{\"ConfigFileName\":\ "/opt/onap/ccsdk/Playbooks/dt-vpkg-1-config.json\",\"playbook\":\"ansible_vfw_distributetraffic@400.00.yml\",\"node_list\":\"[vpkg-1]\"}}"
-        }
-    }
+    cd workflow
+    python3 workflow.py 909d396b-4d99-4c6a-a59b-abe948873303 10.12.5.63 True False False True
 
-.. note:: Remember to use *vnf-id* of your instance of vFW 1 and to set a unique *request-id*. The value of *playbook* and *ConfigFileName* parameters should be the same as uploaded to Ansible Server names of files and their locations. Timestamp must have proper value as well (not from the future and from the past but not more than 30s). In the *payload* parameter *configuration-parameters* section must correspond to all the parameters defined in the template of *DistributeTraffic* action in CDT.
 
-DMaaP event distribution
-~~~~~~~~~~~~~~~~~~~~~~~~
+The order of executed LCM actions is following:
 
-The last option that can be used to test DistributeTraffic API is distribution of DMaaP event e.g. from SO container. It is the closest way to how DistributeTraffic API will be used in the future – invoked from a specific workflow by SO BPMN engine. For that we have a python script that prepares input parameters for DMaaP request. There is a need to change in the script IP address and Port of DMaaP. This script can be copied into any machine/container than has access to DMaaP – in particular it can be copied into the SO container.
+1. DistributeTrafficCheck on vPKG VM - ansible playbook checks if traffic destinations specified by OOF is not configued in the vPKG and traffic does not go from vPKG already.
+   If vPKG send alreadyt traffic to destination the playbook will fail and workflow will break.
+2. DistributeTraffic on vPKG VM - ansible playbook reconfigures vPKG in order to send traffic to destination specified before by OOF. When everything is fine at this stage
+   change of the traffic should be observed on following dashboards (please turn on automatic reload of graphs)
+
+    ::
+        
+        http://<vSINK-1-IP>:667/
+        http://<vSINK-2-IP>:667/
+
+3. DistributeTrafficCheck on vFW-1 VM - ansible playbook checks if traffic is not present on vFW from which traffic should be migrated out. If traffic is still present after 30 seconds playbook fails
+4. DistributeTrafficCheck on vFW-2 VM - ansible playbook checks if traffic is present on vFW from which traffic should be migrated out. If traffic is still not present after 30 seconds playbook fails
+
+
+Workflow Results
+~~~~~~~~~~~~~~~~
+
+Expected result of workflow execution, when everythin is fine, is following:
 
 ::
 
-    from datetime import datetime
-    import os
-    import json
-    from pprint import pprint
-    from random import randint
+    Distribute Traffic Workflow Execution:
+    APPC REQ 0 - DistributeTrafficCheck
+    Request Accepted. Receiving result status...
+    Checking LCM DistributeTrafficCheck Status
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    SUCCESSFUL
+    APPC REQ 1 - DistributeTraffic
+    Request Accepted. Receiving result status...
+    Checking LCM DistributeTraffic Status
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    SUCCESSFUL
+    APPC REQ 2 - DistributeTrafficCheck
+    Request Accepted. Receiving result status...
+    Checking LCM DistributeTrafficCheck Status
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    SUCCESSFUL
+    APPC REQ 3 - DistributeTrafficCheck
+    Request Accepted. Receiving result status...
+    Checking LCM DistributeTrafficCheck Status
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    SUCCESSFUL
 
-    request_id = randint(1, 100000000)
-
-    curr_utc_timestamp = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.244Z')
-
-    data = ''
-
-    with open('dmaap-payload.json') as json_data:
-        data = json.load(json_data)
-        data['body']['input']['common-header']['timestamp'] = curr_utc_timestamp
-        data['body']['input']['common-header']['request-id'] = request_id
-        json_data.close()
-        pprint(data)
-
-    with open('dmaap-payload.json', 'w') as outfile:
-        json.dump(data, outfile)
-
-    os.system('curl -X POST -v -H "Content-Type: application/json" -d @./dmaap-payload.json http://10.12.6.80:3904/events/APPC-LCM-READ')
-
-
-POST request to DMaaP requires that *payload* data is specific to a APPC LCM request and defines the same input parameters for the DistributeTraffic LCM action like in the two previous methods.
+In case of failure the result can be following:
 
 ::
 
-    {
-        "body": {
-            "input": {
-                "action": "DistributeTraffic",
-                "payload": "{\"configuration-parameters\":{\"ConfigFileName\":\"/opt/onap/ccsdk/Playbooks/dt-vpkg-1-config.json\",\"playbook\":\"ansible_vfw_distributetraffic@400.00.yml\",\"node_list\":\"[vpkg-1]\"}}",
-                "common-header": {
-                    "api-ver": "2.00",
-                    "timestamp": "2018-10-22T11:11:25.244Z",
-                    "flags": {
-                        "force": "TRUE",
-                        "mode": "NORMAL",
-                        "ttl": 36000
-                    },
-                    "request-id": 27081074,
-                    "originator-id": "demo",
-                    "sub-request-id": "1540197850899"
-                },
-                "action-identifiers": {
-                    "vnf-id": "50ac9605-ce63-442d-a103-80e9cf4753ca"
-                }
-            }
-        },
-        "cambria.partition": "APPC",
-        "rpc-name": "distribute-traffic",
-        "correlation-id": "c09ac7d1-de62-0016-2000-e63701125557-201",
-        "version": "2.0",
-        "type": "request"
-    }
+    Distribute Traffic Workflow Execution:
+    APPC REQ 0 - DistributeTrafficCheck
+    Request Accepted. Receiving result status...
+    Checking LCM DistributeTrafficCheck Status
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    IN_PROGRESS
+    FAILED
+    Traceback (most recent call last):
+    File "workflow.py", line 563, in <module>
+        sys.argv[5].lower() == 'true', sys.argv[6].lower() == 'true')
+    File "workflow.py", line 557, in execute_workflow
+        confirm_appc_lcm_action(onap_ip, req, check_result)
+    File "workflow.py", line 529, in confirm_appc_lcm_action
+        raise Exception("LCM {} {} - {}".format(req['input']['action'], status['status'], status['status-reason']))
+    Exception: LCM DistributeTrafficCheck FAILED - FAILED
+
+.. note:: When CDT and Ansible is configured properly Traffic Distribution Workflow can fail when you pass as a vnf-id argument the ID of vFW VNF which does not handle traffic at the moment. To solve that pass the VNF ID of the other vFW VNF instance. Because of the same reason you cannot execute twice in a row workflow for the same VNF ID if first execution succedds.

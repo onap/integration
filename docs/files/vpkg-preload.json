@@ -65,11 +65,8 @@
                          "vnf-parameter-name": "ext_private_net_cidr",
                          "vnf-parameter-value": "10.100.0.0/16"
                     }, {
-                         "vnf-parameter-name": "repo_url_artifacts",
-                         "vnf-parameter-value": "https://nexus.onap.org/content/repositories/releases"
-                    }, {
-                         "vnf-parameter-name": "repo_url_blob",
-                         "vnf-parameter-value": "https://nexus.onap.org/content/repositories/raw"
+                         "vnf-parameter-name": "nexus_artifact_repo",
+                         "vnf-parameter-value": "https://nexus.onap.org"
                     }, {
                          "vnf-parameter-name": "vfw_name_0",
                          "vnf-parameter-value": "vfw-vfw-0-dt"
@@ -87,7 +84,7 @@
                          "vnf-parameter-value": "m1.medium"
                     }, {
                          "vnf-parameter-name": "install_script_version",
-                         "vnf-parameter-value": "1.2.1"
+                         "vnf-parameter-value": "1.4.0"
                     }, {
                          "vnf-parameter-name": "vfw_private_ip_0",
                          "vnf-parameter-value": "192.168.10.100"
@@ -120,7 +117,7 @@
                          "vnf-parameter-value": "10.100.100.3"
                     }, {
                          "vnf-parameter-name": "demo_artifacts_version",
-                         "vnf-parameter-value": "1.2.1"
+                         "vnf-parameter-value": "1.4.0"
                     }, {
                          "vnf-parameter-name": "pub_key",
                          "vnf-parameter-value": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6KbTxfT368DNBzLyfTYJ0INI7mkRXc/xMpx349TXGBTQ06g2toN/p9OM188EGZd/qERRXcdnKY8lYULVIXZEoQbXTus2gTQWXy1zn5nhSkhste3L1uG+sjHySQHBj5NyOC32iNehRNu03bHi8XRBAOHZsXx6JpkltLXgWqQI91+h9i7I/4trpPyODtzz1DLIkbXv9woncwllKf4bmm+Bk6/OJKHuAlBdCLL5diZqODEZlKOyPPC9c07a835sskMgbscPrvBQigZFRNerjQlFXXCHjRwoBMvfS7kD7/R/K1fmSLtH0w4VEp5iwS9SIezgEeO2aDFPucmYG4MQDGzAz"
