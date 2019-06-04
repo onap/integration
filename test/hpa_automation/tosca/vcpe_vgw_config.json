@@ -131,58 +131,6 @@
     "//" : "#Parameters to vfc",
     "vfc-url": "http://10.12.5.224:30280",
     "vnfs":{
-        "infra":{
-            "path": "/opt/oclip/dublin/infra.csar",
-            "csar-id": "You need change it",
-            "vsp-name" : "infra-hpa-vsp",
-            "vsp-desc" : "infra-hpa-vsp-desc",
-            "vsp-version" : "1.0",
-            "vf-name" : "infra-hpa-vf",
-            "vf-description" : "infra-hpa-vf",
-            "vf-remarks" :"remarkss",
-            "vf-version" : "1.0",
-            "key": "key2",
-            "value": "value2"
-        },
-        "vgmux":{
-            "path": "/opt/oclip/dublin/vgmux.csar",
-            "csar-id": "You need change it",
-            "vsp-name" : "vgmux-hpa-vsp",
-            "vsp-desc" : "vgmux-hpa-vsp-desc",
-            "vsp-version" : "1.0",
-            "vf-name" : "vgmux-hpa-vf",
-            "vf-description" : "vgmux-hpa-vf",
-            "vf-remarks" :"remarkss",
-            "vf-version" : "1.0",
-            "key": "key2",
-            "value": "value2"
-        },
-        "vbng":{
-            "path": "/opt/oclip/dublin/vbng.csar",
-            "csar-id": "You need change it",
-            "vsp-name" : "vbng-hpa-vsp",
-            "vsp-desc" : "vbng-hpa-vsp-desc",
-            "vsp-version" : "1.0",
-            "vf-name" : "vbng-hpa-vf",
-            "vf-description" : "vbng-hpa-vf",
-            "vf-remarks" :"remarkss",
-            "vf-version" : "1.0",
-            "key": "key2",
-            "value": "value2"
-        },
-        "vbrgemu":{
-            "path": "/opt/oclip/dublin/vbrgemu.csar",
-            "csar-id": "You need change it",
-            "vsp-name" : "vbrgemu-hpa-vsp",
-            "vsp-desc" : "vbgremu-hpa-vsp-desc",
-            "vsp-version" : "1.0",
-            "vf-name" : "vbgremu-hpa-vf",
-            "vf-description" : "vbgremu-hpa-vf",
-            "vf-remarks" :"remarkss",
-            "vf-version" : "1.0",
-            "key": "key2",
-            "value": "value2"
-        },
         "vgw":{
 	    "path": "/opt/oclip/dublin/vgw.csar",
 	    "csar-id": "You need change it",

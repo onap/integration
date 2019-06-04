@@ -1,0 +1,44 @@
+## Guide for hpa_automation.py script in tosca
+
+These guide describes how to run the hpa_automation.py script. It can be used to run the vCPE end to end
+use cases.
+
+## Prerequisites
+
+ - Login in your CLI container.
+ - Install python mysql.connector in CLI container (pip install mysql-connector-python)
+ - Create Nodeport for Policy pdp using the pdp_service_expose.yaml file (copy pdp_service_expose.yaml
+   in hpa_automation/tosca to rancher and run kubectl apply -f pdp_expose.yaml)
+ - Design vCPE in SDC, you can refer to https://wiki.onap.org/display/DW/vCPE+with+Tosca+VNF+Test+Guide.
+ - Put in the CSAR file to be used to create service models and specify its path in vcpe_config.json
+ - Put in the right parameters for automation in vcpe_config.json or vcpe_vgw_config.json
+   you must change below params:
+   - aai_url: https://<node-ip>:30233
+   - sdc_onboarding_url: http://<cluster-ip>:8081
+   - sdc_catalog_url: http://<node-ip>:30205
+   - multicloud_url: http://<node-ip>:30280
+   - policy_url: https://<node-ip>:30694
+   - vfc-url: http://<node-ip>:30280
+   - cloud_region_data
+   - vnfs path
+   - ns path
+ - You can run the following commands.
+   vcpe_config.json including all vnfs.
+   vcpe_vgw_config.json including vgw vnf, we can use it to test VF-C and do simple integration test.
+   - Use local package which is submitted by local file system.
+     # python hpa_automation.py -f vcpe_vgw_config.json -t "local"
+   - Use sdc package which is distributed from SDC.
+     # python hpa_automation.py -f vcpe_config.json -t "sdc"
+
+**Points to Note:**
+ - The hpa_automation.py runs end to end. It does the following;
+   - Create cloud complex
+   - Register cloud regions
+   - Create service type
+   - Create customer and adds customer subscription
+   - SDC Onboarding (Create VLM, VSP, VF Model, and service model)
+   - Upload policy models and adds policies
+   - Create Service Instance and VNF Instance
+ - There are well named functions that do the above items every time the script is run. If you do not
+   wish to run any part of that, you can go into the script and comment out the section at the bottom
+   that handles that portion.

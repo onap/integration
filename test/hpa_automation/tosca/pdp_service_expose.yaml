@@ -1,0 +1,36 @@
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    msb.onap.org/service-info: '[ { "serviceName": "pdp", "version": "v1", "url":
+      "/pdp", "protocol": "REST", "port": "8081", "visualRange":"1" }, ]'
+  creationTimestamp: 2019-04-17T18:49:51Z
+  labels:
+    app: pdp
+    chart: pdp-4.0.0
+    heritage: Tiller
+    release: dev-policy
+  name: policy-pdp
+  namespace: onap
+  resourceVersion: "15043"
+  selfLink: /api/v1/namespaces/onap/services/pdp
+  uid: 95215ada-6141-11e9-a5ab-0201c4470b4f
+spec:
+  clusterIP: 10.43.200.169
+  ports:
+  - name: pdp
+    port: 8081
+    nodePort: 30694
+    protocol: TCP
+    targetPort: 8081
+  selector:
+    app: pdp
+    release: dev-policy
+  sessionAffinity: None
+  type: NodePort
+status:
+  loadBalancer: {}
