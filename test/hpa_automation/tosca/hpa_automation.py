@@ -211,6 +211,30 @@ def register_all_clouds(parameters):
     for cloud_region, cloud_region_values in cloud_dictionary.iteritems():
         register_cloud_helper(cloud_region, cloud_region_values, parameters)
 
+def create_service_type(parameters):
+    create_string = "oclip service-type-create -x {} -m {} -u {} -p {}".format( parameters["service_name"], \
+      parameters["aai_url"], parameters["aai_username"], parameters["aai_password"])
+    os.system(create_string)
+
+def create_customer(parameters):
+    create_string = "oclip customer-create -x {} -y {} -m {} -u {} -p {}".format( parameters["customer_name"], \
+    parameters["subscriber_name"], parameters["aai_url"], parameters["aai_username"], parameters["aai_password"])
+    os.system(create_string)
+
+def add_customer_subscription(parameters):
+    subscription_check = 0
+    for cloud_region, cloud_region_values in (parameters["cloud_region_data"]).iteritems():
+      if subscription_check == 0 :
+        subscription_string = "oclip subscription-create -x {} -c {} -z {} -e {} -y {} -r {} -m {} -u {} -p {}".format(\
+          parameters["customer_name"], cloud_region_values.get("tenant-id"), parameters["cloud-owner"], parameters["service_name"],\
+          cloud_region_values.get("default-tenant"), cloud_region, parameters["aai_url"], parameters["aai_username"], parameters["aai_password"] )
+      else:
+        subscription_string = "oclip subscription-cloud-add -x {} -c {} -z {} -e {} -y {} -r {} -m {} -u {} -p {}".format(\
+          parameters["customer_name"], cloud_region_values.get("tenant-id"), parameters["cloud-owner"], parameters["service_name"],\
+          cloud_region_values.get("default-tenant"), cloud_region, parameters["aai_url"], parameters["aai_username"], parameters["aai_password"] )
+      os.system(subscription_string)
+      subscription_check+=1
+
 def register_vnfm_helper(vnfm_key, values, parameters):
     #Create vnfm
     vnfm_create_string = 'oclip vnfm-create -b {} -c {} -e {} -v {} -g {} -x {} -i {} -j {} -q {} \
@@ -366,8 +390,8 @@ def onboard_ns(parameters):
 
 def create_ns(parameters, csar_id):
     ns = parameters["ns"]
-    ns_create_string = 'oclip vfc-nslcm-create -m {} -c {} -n {}'.format(parameters["vfc-url"], \
-       csar_id, ns.get("name"))
+    ns_create_string = 'oclip vfc-nslcm-create -m {} -c {} -n {} -q {} -S {}'.format(parameters["vfc-url"], \
+       csar_id, ns.get("name"), parameters["customer_name"], parameters["service_name"])
     print ns_create_string
     ns_create_out = (os.popen(ns_create_string)).read()
     print ns_create_out
@@ -442,8 +466,13 @@ set_open_cli_env(parameters)
 # 2.Create cloud complex
 create_complex(parameters)
 
-# 3.Register all clouds
+# 3.1 Register all clouds
 register_all_clouds(parameters)
+
+# 3.2 create service and customer
+create_service_type(parameters)
+create_customer(parameters)
+add_customer_subscription(parameters)
 
 # 4.Register vnfm
 register_vnfm(parameters)
@@ -457,11 +486,11 @@ ns_package_output = ""
 
 if model == "sdc":
     print "use csar file is distributed by sdc"
-    output = create_vlm(parameters)
-    vsp_dict = create_vsp(parameters, output)
-    vf_dict = create_vf_model(parameters, vsp_dict)
-    service_model_list = create_service_model(parameters, vf_dict)
-    #
+    # output = create_vlm(parameters)
+    # vsp_dict = create_vsp(parameters, output)
+    # vf_dict = create_vf_model(parameters, vsp_dict)
+    # service_model_list = create_service_model(parameters, vf_dict)
+   
     vnf_onboard_output = onboard_vnf(parameters)
     print vnf_onboard_output
     ns_onboard_out = onboard_ns(parameters)
@@ -483,7 +512,6 @@ add_policies(parameters)
 
 # 7. VFC part
 ns_instance_id = create_ns(parameters, ns_package_output)
-ns_instance_id = "d0ecc83f-339f-4621-b565-07eb9090a379"
 print ns_instance_id
 instantiate_ns_output = instantiate_ns(parameters, ns_instance_id)
 print instantiate_ns_output
