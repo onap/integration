@@ -244,9 +244,16 @@ def add_policies(parameters):
 
     #Loop through policy, put in resource_model_name and create policies
     for policy in os.listdir(parameters["policy_directory"]):
-      policy_name = "{}.{}".format(parameters["policy_scope"], os.path.splitext(policy)[0])
+
       policy_file = (os.path.join(parameters["policy_directory"], policy))
 
+      #Get policy name from policy file
+      policy_contents = open(policy_file, 'r').read()
+      start_string = '"policyName\\":\\"'
+      end_string = '\\",\\"ver'
+      policy_name = policy_contents[policy_contents.find(start_string)+len(start_string):policy_contents.rfind(end_string)]
+
+ 
      #Create policy
       os.system("oclip policy-create-outdated -m {} -u {} -p {} -x {} -S {} -T {} -o {} -b $(cat {})".format(parameters["policy_url"],\
       parameters["policy_username"], parameters["policy_password"], policy_name, parameters["policy_scope"], \
@@ -256,7 +263,7 @@ def add_policies(parameters):
       os.system("oclip policy-push-outdated -m {} -u {} -p {} -x {} -b {} -c {}".format(parameters["policy_url"], \
         parameters["policy_username"], parameters["policy_password"], policy_name, parameters["policy_config_type"],\
         parameters["policy_pdp_group"]))
-
+ 
 
 def create_service_instance(parameters, sevice_model_list):
     #Get Required parameters
@@ -449,7 +456,9 @@ set_open_cli_env(parameters)
 
 create_complex(parameters)
 register_all_clouds(parameters)
+
 create_service_type(parameters)
+
 create_customer(parameters)
 add_customer_subscription(parameters)
 
@@ -470,10 +479,10 @@ print "service model parameters={}".format(service_model_list)
 upload_policy_models(parameters)
 add_policies(parameters)
 
+#Create Service Instance
 service_dict = create_service_instance(parameters, service_model_list)
 print "service instance parameters={}".format(service_dict)
 service_model_uuid = service_dict["service_uuid"]
-
 db_dict = query_db(parameters, service_model_uuid, vf_id)
 
 #Wait for Service instance to be created then create VNF Instance
@@ -494,3 +503,5 @@ while True:
 #Preload VF module and create VF module
 sdnc_preload(parameters, db_dict, service_dict)
 create_vf_module(parameters, service_dict, vnf_dict, db_dict)
+
+print "Deployment complete!!!, check cloud to confirm that vf module has been created"
