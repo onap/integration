@@ -1333,6 +1333,10 @@ outputs:
     description: The IP address of the rancher instance
     value: { get_attr: [rancher_floating_ip, floating_ip_address] }
 
+  rancher_vm_private_ip:
+    description: The private IP address of the rancher instance
+    value: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+
   k8s_01_vm_ip:
     description: The IP address of the k8s_01 instance
     value: { get_attr: [k8s_01_floating_ip, floating_ip_address] }
