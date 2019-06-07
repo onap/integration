@@ -221,6 +221,7 @@ rsync -avt ~/oom/kubernetes/helm/plugins ~/.helm/
 # temporary workaround to throttle the helm deploy to alleviate startup disk contention issues
 if [ ! -z "__helm_deploy_delay__" ]; then
     sed -i "/\^enabled:/a\      echo sleep __helm_deploy_delay__\n      sleep __helm_deploy_delay__" ~/.helm/plugins/deploy/deploy.sh
+    sed -i 's/for subchart in \*/for subchart in aaf cassandra mariadb-galera dmaap */' ~/.helm/plugins/deploy/deploy.sh
 fi
 
 # Deploy ONAP
