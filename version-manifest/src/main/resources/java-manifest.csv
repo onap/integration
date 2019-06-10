@@ -193,10 +193,10 @@ org.onap.dcaegen2.collectors.ves,VESCollector,1.4.4
 org.onap.dcaegen2.platform,inventory-api,3.2.0
 org.onap.dcaegen2.platform,servicechange-handler,1.1.5
 org.onap.dcaegen2.services,pm-mapper,1.0.1
-org.onap.dcaegen2.services,prh,1.2.3
+org.onap.dcaegen2.services,prh,1.2.4
 org.onap.dcaegen2.services.components,bbs-event-processor,1.0.0
 org.onap.dcaegen2.services.mapper.vesadapter,UniversalVesAdapter,1.0.0
-org.onap.dcaegen2.services.prh,prh-commons,1.2.3
+org.onap.dcaegen2.services.prh,prh-commons,1.2.4
 org.onap.dcaegen2.services.sdk.rest.services,aai-client,1.1.6
 org.onap.dcaegen2.services.sdk.rest.services,cbs-client,1.1.6
 org.onap.dcaegen2.services.sdk.rest.services,common-dependency,1.1.6
@@ -204,7 +204,7 @@ org.onap.dcaegen2.services.sdk.rest.services,dmaap-client,1.1.6
 org.onap.dcaegen2.services.sdk.rest.services,model,1.1.6
 org.onap.dcaegen2.services.sdk.security.crypt,crypt-password,1.1.6
 org.onap.dcaegen2.services.sdk.standardization,api-custom-header,1.1.6
-org.onap.dcaegen2.services.son-handler,son-handler,1.0.2
+org.onap.dcaegen2.services.son-handler,son-handler,1.0.3
 org.onap.dmaap.datarouter.datarouter-node,2.1.0,
 org.onap.dmaap.datarouter.datarouter-prov,2.1.0,
 org.onap.dmaap.messagerouter.dmaapclient,dmaapClient,1.0.0
