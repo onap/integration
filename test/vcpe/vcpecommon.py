@@ -171,7 +171,7 @@ class VcpeCommon:
         self.so_headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
         self.so_db_name = 'catalogdb'
         self.so_db_user = 'root'
-        self.so_db_pass = 'password'
+        self.so_db_pass = 'secretpassword'
         self.so_db_port = '30252' if self.oom_mode else '32769'
 
         self.vpp_inf_url = 'http://{0}:8183/restconf/config/ietf-interfaces:interfaces'

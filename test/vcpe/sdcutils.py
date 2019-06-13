@@ -34,7 +34,7 @@ class SdcUtils:
         self.logger.debug('---------------------------------------------------------------')
 
         for service in data:
-            if service['name'].startswith('demoVCPE') or service['name'].startswith('vCPEResCust'):
+            if (service['name'].startswith('demoVCPE') or service['name'].startswith('vCPEResCust')) and service['distributionStatus'] == 'DISTRIBUTED':
                 self.logger.debug('service name = %s, url = %s' % (service['name'], service['toscaModelURL']))
                 self.download_file(self.vcpecommon.sdc_be_url_prefix + service['toscaModelURL'])
 
