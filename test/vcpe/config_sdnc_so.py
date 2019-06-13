@@ -73,11 +73,12 @@ def insert_customer_service_to_so(vcpecommon):
         csar_file = vcpecommon.find_file('rescust', 'csar', 'csar')
         parser = csar_parser.CsarParser()
         parser.parse_csar(csar_file)
-        cmds.append("INSERT INTO `service_recipe` (`ACTION`, `VERSION_STR`, `DESCRIPTION`, `ORCHESTRATION_URI`, " \
-                    "`SERVICE_PARAM_XSD`, `RECIPE_TIMEOUT`, `SERVICE_TIMEOUT_INTERIM`, `CREATION_TIMESTAMP`, " \
-                    "`SERVICE_MODEL_UUID`) VALUES ('createInstance','1','{0}'," \
+        cmds.append("INSERT INTO service_recipe (ACTION, VERSION_STR, DESCRIPTION, ORCHESTRATION_URI, " \
+                    "SERVICE_PARAM_XSD, RECIPE_TIMEOUT, SERVICE_TIMEOUT_INTERIM, CREATION_TIMESTAMP, " \
+                    "SERVICE_MODEL_UUID) VALUES ('createInstance','1','{0}'," \
                     "'/mso/async/services/CreateVcpeResCustService',NULL,181,NULL, NOW()," \
                     "'{1}');".format(parser.svc_model['modelName'], parser.svc_model['modelVersionId']))
+        logger.info('\n'.join(cmds))
         vcpecommon.execute_cmds_so_db(cmds)
 
     cmds = []

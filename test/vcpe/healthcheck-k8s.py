@@ -28,7 +28,7 @@ print(json.dumps(json.loads(sz), indent=4))
 
 print('\n')
 print('Checking SDNC DB for vBRG MAC address')
-cmd = "kubectl -n onap exec dev-sdnc-sdnc-db-0 -c sdnc-db  -- mysql -usdnctl -pgamma sdnctl -e 'select * from DHCP_MAP;'"
+cmd = "kubectl exec dev-mariadb-galera-mariadb-galera-0 -- mysql -uroot -psecretpassword sdnctl -e 'select * from DHCP_MAP'"
 p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
 (output, error) = p.communicate()
 print(output)
