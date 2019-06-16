@@ -1,0 +1,1930 @@
+tosca_definitions_version: tosca_simple_yaml_1_1
+metadata:
+  invariantUUID: dfabdcae-cf50-4801-9885-9a3a9cc07e6f
+  UUID: ee55b537-7be5-4377-93c1-5d92931b6a78
+  name: vLoadBalancerCDS
+  description: vLB_CDS
+  type: Service
+  category: Network L4+
+  serviceType: ''
+  serviceRole: ''
+  instantiationType: A-la-carte
+  serviceEcompNaming: true
+  ecompGeneratedNaming: true
+  namingPolicy: ''
+  environmentContext: General_Revenue-Bearing
+imports:
+- nodes:
+    file: nodes.yml
+- datatypes:
+    file: data.yml
+- capabilities:
+    file: capabilities.yml
+- relationships:
+    file: relationships.yml
+- groups:
+    file: groups.yml
+- policies:
+    file: policies.yml
+- annotations:
+    file: annotations.yml
+- service-vLoadBalancerCDS-interface:
+    file: service-Vloadbalancercds-template-interface.yml
+- resource-vLoadBalancerCDS:
+    file: resource-Vloadbalancercds-template.yml
+- resource-vLoadBalancerCDS-interface:
+    file: resource-Vloadbalancercds-template-interface.yml
+topology_template:
+  node_templates:
+    vLoadBalancerCDS 0:
+      type: org.openecomp.resource.vf.Vloadbalancercds
+      metadata:
+        invariantUUID: a77f9280-5c02-46cd-b1fc-855975db9df9
+        UUID: ff0e99ce-a521-44b5-b11b-da7e07ac83fc
+        customizationUUID: b8b8a25d-19de-4581-bb63-f2dc8c0d79a7
+        version: '1.0'
+        name: vLoadBalancerCDS
+        description: vLB_CDS
+        type: VF
+        category: Application L4+
+        subcategory: Load Balancer
+        resourceVendor: 1627ae7f-c659-4a51-b647
+        resourceVendorRelease: '1.0'
+        resourceVendorModelNumber: ''
+      properties:
+        vlb_int_pktgen_private_ip_0: 192.168.9.111
+        vlb_private_net_cidr: 192.168.10.0/24
+        vdns_onap_private_ip_0: ASSIGN A PRIVATE ADDRESS IN THE ONAP NETWORK SPACE TO THE VDNS
+        vlb_private_net_id: zdfw1lb01_private
+        vdns_image_name: PUT THE IMAGE NAME HERE (UBUNTU 1604)
+        public_net_id: PUT THE NETWORK ID HERE
+        sec_group: PUT THE ONAP SECURITY GROUP HERE
+        nf_type: LOADBALANCER
+        nexus_artifact_repo: https://nexus.onap.org
+        onap_private_net_cidr: PUT THE ONAP NETWORK CIDR HERE
+        vdns_name_0: zdfw1lb01dns01
+        vdns_int_private_ip_0: 192.168.10.212
+        vlb_0_mac_address: fa:16:3e:00:01:10
+        vpg_onap_private_ip_0: ASSIGN A PRIVATE ADDRESS IN THE ONAP NETWORK SPACE TO THE VPKTGEN
+        dcae_collector_ip: 10.0.4.1
+        vip: 192.168.9.112
+        vpg_name_0: zdfw1lb01pg01
+        int_private_net_id: vLBMS_zdfw1lb01_private
+        vpg_0_mac_address: fa:16:3e:00:01:20
+        nf_naming:
+          ecomp_generated_naming: true
+        multi_stage_design: 'false'
+        onap_private_net_id: PUT THE ONAP PRIVATE NETWORK NAME HERE
+        nf_naming_code: ONAP-LOADBALANCER
+        sdnc_artifact_name: vdns-vnf
+        demo_artifacts_version: 1.4.0-SNAPSHOT
+        vlb_int_private_ip_0: 192.168.10.111
+        int_private_subnet_id: vLBMS_zdfw1lb01_private_subnet
+        key_name: vlb_key
+        vlb_name_0: zdfw1lb01lb01
+        vpg_0_int_pktgen_private_port_0_mac: fa:16:3e:00:01:20
+        sdnc_model_version: 1.0.0
+        install_script_version: 1.4.0-SNAPSHOT
+        int_pktgen_private_net_id: vLBMS_zdfw1pktgen01_private
+        vf_module_id: vLoadBalancer
+        skip_post_instantiation_configuration: true
+        nf_function: vlb
+        keypair: vlb_key
+        vnf_name: vLBMS
+        onap_private_subnet_id: PUT THE ONAP PRIVATE NETWORK NAME HERE
+        gre_ipaddr: 192.168.10.112
+        pg_int: 192.168.9.109
+        vnf_id: vLoadBalancer_demo_app
+        vpg_flavor_name: PUT THE FLAVOR NAME HERE (m1.medium suggested)
+        dcae_collector_port: '30235'
+        vlb_flavor_name: PUT THE FLAVOR NAME HERE (m1.medium suggested)
+        pktgen_private_net_cidr: 192.168.9.0/24
+        vpg_image_name: PUT THE IMAGE NAME HERE (UBUNTU 1604)
+        vdns_flavor_name: PUT THE FLAVOR NAME HERE (m1.medium suggested)
+        availability_zone_max_count: 1
+        nb_api_version: 1.2.0
+        vpg_int_pktgen_private_ip_0: 192.168.9.110
+        pub_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDQXYJYYi3/OUZXUiCYWdtc7K0m5C0dJKVxPG0eI8EWZrEHYdfYe6WoTSDJCww+1qlBSpA5ac/Ba4Wn9vh+lR1vtUKkyIC/nrYb90ReUd385Glkgzrfh5HdR5y5S2cL/Frh86lAn9r6b3iWTJD8wBwXFyoe1S2nMTOIuG4RPNvfmyCTYVh8XTCCE8HPvh3xv2r4egawG1P4Q4UDwk+hDBXThY2KS8M5/8EMyxHV0ImpLbpYCTBA6KYDIRtqmgS6iKyy8v2D1aSY5mc9J0T5t9S2Gv+VZQNWQDDKNFnxqYaAo1uEoq/i1q63XC5AD3ckXb2VT6dp23BQMdDfbHyUWfJN
+        int_pktgen_private_subnet_id: vLBMS_zdfw1pktgen01_private_subnet
+        pktgen_private_net_id: zdfw1pktgen01_private
+        nf_role: vLB
+        vlb_onap_private_ip_0: PUT THE PRIVATE ADDRESS OF THE VLB IN THE ONAP NETWORK SPACE HERE
+        vlb_image_name: PUT THE IMAGE NAME HERE (UBUNTU 1604)
+        cloud_env: PUT openstack OR rackspace HERE
+        sdnc_model_name: test
+        vlb_0_int_pktgen_private_port_0_mac: fa:16:3e:00:01:10
+      capabilities:
+        abstract_vdns.disk.device.read.requests.rate_vdns:
+          properties:
+            unit: request/s
+            description: Average rate of read requests
+            type: Gauge
+            category: disk
+        abstract_vpg.memory.resident_vpg:
+          properties:
+            unit: MB
+            description: Volume of RAM used by the instance on the physical machine
+            type: Gauge
+            category: compute
+        abstract_vlb.network.outgoing.packets.rate_vlb_vlb_int_private_port_0:
+          properties:
+            unit: packet/s
+            description: Average rate of outgoing packets
+            type: Gauge
+            category: network
+        abstract_vpg.disk.write.bytes_vpg:
+          properties:
+            unit: B
+            description: Volume of writes
+            type: Cumulative
+            category: compute
+        abstract_vlb.network.incoming.packets.rate_vlb_vlb_int_pktgen_private_port_0:
+          properties:
+            unit: packet/s
+            description: Average rate of incoming packets
+            type: Gauge
+            category: network
+        abstract_vlb.network.outgoing.bytes_vlb_vlb_onap_private_port_0:
+          properties:
+            unit: B
+            description: Number of outgoing bytes
+            type: Cumulative
+            category: network
+        abstract_vlb.disk.allocation_vlb:
+          properties:
+            unit: B
+            description: The amount of disk occupied by the instance on the host machine
+            type: Gauge
+            category: disk
+        abstract_vpg.disk.usage_vpg:
+          properties:
+            unit: B
+            description: The physical size in bytes of the image container on the host
+            type: Gauge
+            category: disk
+        abstract_vlb.instance_vlb:
+          properties:
+            unit: instance
+            description: Existence of instance
+            type: Gauge
+            category: compute
+        abstract_vdns.disk.device.write.requests.rate_vdns:
+          properties:
+            unit: request/s
+            description: Average rate of write requests
+            type: Gauge
+            category: disk
+        abstract_vpg.network.outgoing.packets.rate_vpg_vpg_int_pktgen_private_port_0:
+          properties:
+            unit: packet/s
+            description: Average rate of outgoing packets
+            type: Gauge
+            category: network
+        abstract_vlb.port_mirroring_vlb_vlb_onap_private_port_0:
+          properties:
+            connection_point:
+              network_role:
+                get_input: port_vlb_onap_private_port_0_network_role
+              nfc_naming_code: vlb
+        abstract_vlb.network.incoming.bytes.rate_vlb_vlb_int_pktgen_private_port_0:
+          properties:
+            unit: B/s
+            description: Average rate of incoming bytes
+            type: Gauge
+            category: network
+        abstract_vlb.disk.device.read.bytes.rate_vlb:
+          properties:
+            unit: B/s
+            description: Average rate of reads
+            type: Gauge
+            category: disk
+        abstract_vdns.disk.write.bytes.rate_vdns:
+          properties:
+            unit: B/s
+            description: Average rate of writes
+            type: Gauge
+            category: compute
+        abstract_vlb.vcpus_vlb:
+          properties:
+            unit: vcpu
+            description: Number of virtual CPUs allocated to the instance
+            type: Gauge
+            category: compute
+        abstract_vdns.vcpus_vdns:
+          properties:
+            unit: vcpu
+            description: Number of virtual CPUs allocated to the instance
+            type: Gauge
+            category: compute
+        abstract_vpg.network.outpoing.packets_vpg_vpg_int_pktgen_private_port_0:
+          properties:
+            unit: packet
+            description: Number of outgoing packets
+            type: Cumulative
+            category: network
+        abstract_vpg.network.outpoing.packets_vpg_vpg_onap_private_port_0:
+          properties:
+            unit: packet
+            description: Number of outgoing packets
+            type: Cumulative
+            category: network
+        abstract_vlb.network.incoming.packets_vlb_vlb_int_pktgen_private_port_0:
+          properties:
+            unit: packet
+            description: Number of incoming packets
+            type: Cumulative
+            category: network
+        abstract_vpg.memory.usage_vpg:
+          properties:
+            unit: MB
+            description: Volume of RAM used by the instance from the amount of its allocated memory
+            type: Gauge
+            category: compute
+        abstract_vpg.disk.iops_vpg:
+          properties:
+            unit: count/s
+            description: Average disk iops
+            type: Gauge
+            category: disk
+        abstract_vdns.disk.device.iops_vdns:
+          properties:
+            unit: count/s
+            description: Average disk iops per device
+            type: Gauge
+            category: disk
+        abstract_vlb.network.outgoing.bytes_vlb_vlb_int_pktgen_private_port_0:
+          properties:
+            unit: B
+            description: Number of outgoing bytes
+            type: Cumulative
+            category: network
+        abstract_vpg.disk.device.capacity_vpg:
+          properties:
+            unit: B
+            description: The amount of disk per device that the instance can see
+            type: Gauge
+            category: disk
+        abstract_vpg.disk.write.requests.rate_vpg:
+          properties:
+            unit: request/s
+            description: Average rate of write requests
+            type: Gauge
+            category: compute
+        abstract_vdns.network.outpoing.packets_vdns_vdns_onap_private_port_0:
+          properties:
+            unit: packet
+            description: Number of outgoing packets
+            type: Cumulative
+            category: network
+        abstract_vpg.network.incoming.packets.rate_vpg_vpg_int_pktgen_private_port_0:
+          properties:
+            unit: packet/s
+            description: Average rate of incoming packets
+            type: Gauge
+            category: network
+        int_private_network.end_point:
+          properties:
+            protocol: tcp
+            initiator: source
+            network_name: PRIVATE
+            secure: false
+        abstract_vpg.disk.read.bytes_vpg:
+          properties:
+            unit: B
+            description: Volume of reads
+            type: Cumulative
+            category: compute
+        int_pktgen_private_network.end_point:
+          properties:
+            protocol: tcp
+            initiator: source
+            network_name: PRIVATE
+            secure: false
+        abstract_vdns.disk.device.latency_vdns:
+          properties:
+            unit: ms
+            description: Average disk latency per device
+            type: Gauge
+            category: disk
+        abstract_vlb.cpu_vlb:
+          properties:
+            unit: ns
+            description: CPU time used
+            type: Cumulative
+            category: compute
+        abstract_vlb.disk.write.requests_vlb:
+          properties:
+            unit: request
+            description: Number of write requests
+            type: Cumulative
+            category: compute
+        abstract_vpg.network.outgoing.packets.rate_vpg_vpg_onap_private_port_0:
+          properties:
+            unit: packet/s
+            description: Average rate of outgoing packets
+            type: Gauge
+            category: network
+        abstract_vlb.memory.usage_vlb:
+          properties:
+            unit: MB
+            description: Volume of RAM used by the instance from the amount of its allocated memory
+            type: Gauge
+            category: compute
+        abstract_vlb.disk.write.bytes_vlb:
+          properties:
+            unit: B
+            description: Volume of writes
+            type: Cumulative
+            category: compute
+        abstract_vpg.disk.device.read.bytes_vpg:
+          properties:
+            unit: B
+            description: Volume of reads
+            type: Cumulative
+            category: disk
+        abstract_vlb.disk.device.latency_vlb:
+          properties:
+            unit: ms
+            description: Average disk latency per device
+            type: Gauge
+            category: disk
+        abstract_vpg.disk.capacity_vpg:
+          properties:
+            unit: B
+            description: The amount of disk that the instance can see
+            type: Gauge
+            category: disk
+        abstract_vpg.disk.device.read.bytes.rate_vpg:
+          properties:
+            unit: B/s
+            description: Average rate of reads
+            type: Gauge
+            category: disk
+        abstract_vdns.network.outgoing.packets.rate_vdns_vdns_int_private_port_0:
+          properties:
+            unit: packet/s
+            description: Average rate of outgoing packets
+            type: Gauge
+            category: network
+        abstract_vdns.disk.write.requests_vdns:
+          properties:
+            unit: request
+            description: Number of write requests
+            type: Cumulative
+            category: compute
+        abstract_vpg.scalable_vpg:
+          properties:
+            max_instances: 1
+            min_instances: 1
+        abstract_vlb.endpoint_vlb:
+          properties:
+            secure: true
+        abstract_vlb.network.incoming.packets_vlb_vlb_int_private_port_0:
+          properties:
+            unit: packet
+            description: Number of incoming packets
+            type: Cumulative
+            category: network
+        abstract_vpg.disk.device.allocation_vpg:
+          properties:
+            unit: B
+            description: The amount of disk per device occupied by the instance on the host machine
+            type: Gauge
+            category: disk
+        abstract_vlb.network.outpoing.packets_vlb_vlb_int_pktgen_private_port_0:
+          properties:
+            unit: packet
+            description: Number of outgoing packets
+            type: Cumulative
+            category: network
+        abstract_vdns.network.incoming.packets.rate_vdns_vdns_int_private_port_0:
+          properties:
+            unit: packet/s
+            description: Average rate of incoming packets
+            type: Gauge
+            category: network
+        abstract_vpg.network.incoming.bytes.rate_vpg_vpg_int_pktgen_private_port_0:
+          properties:
+            unit: B/s
+            description: Average rate of incoming bytes
+            type: Gauge
+            category: network
+        abstract_vpg.network.incoming.packets_vpg_vpg_int_pktgen_private_port_0:
+          properties:
+            unit: packet
+            description: Number of incoming packets
+            type: Cumulative
+            category: network
+        abstract_vpg.disk.device.iops_vpg:
+          properties:
+            unit: count/s
+            description: Average disk iops per device
+            type: Gauge
+            category: disk
+        abstract_vdns.disk.device.read.requests_vdns:
+          properties:
+            unit: request
+            description: Number of read requests
+            type: Cumulative
+            category: disk
+        abstract_vlb.network.incoming.packets_vlb_vlb_onap_private_port_0:
+          properties:
+            unit: packet
+            description: Number of incoming packets
+            type: Cumulative
+            category: network
+        abstract_vdns.disk.read.requests_vdns:
+          properties:
+            unit: request
+            description: Number of read requests
+            type: Cumulative
+            category: compute
+        abstract_vpg.network.incoming.packets.rate_vpg_vpg_onap_private_port_0:
+          properties:
+            unit: packet/s
+            description: Average rate of incoming packets
+            type: Gauge
+            category: network
+        abstract_vlb.disk.device.iops_vlb:
+          properties:
+            unit: count/s
+            description: Average disk iops per device
+            type: Gauge
+            category: disk
+        abstract_vlb.disk.write.requests.rate_vlb:
+          properties:
+            unit: request/s
+            description: Average rate of write requests
+            type: Gauge
+            category: compute
+        abstract_vpg.disk.latency_vpg:
+          properties:
+            unit: ms
+            description: Average disk latency
+            type: Gauge
+            category: disk
+        abstract_vdns.network.incoming.bytes_vdns_vdns_int_private_port_0:
+          properties:
+            unit: B
+            description: Number of incoming bytes
+            type: Cumulative
+            category: network
+        abstract_vdns.disk.device.capacity_vdns:
+          properties:
+            unit: B
+            description: The amount of disk per device that the instance can see
+            type: Gauge
+            category: disk
+        abstract_vpg.instance_vpg:
+          properties:
+            unit: instance
+            description: Existence of instance
+            type: Gauge
+            category: compute
+        abstract_vdns.network.outgoing.bytes_vdns_vdns_int_private_port_0:
+          properties:
+            unit: B
+            description: Number of outgoing bytes
+            type: Cumulative
+            category: network
+        abstract_vpg.port_mirroring_vpg_vpg_onap_private_port_0:
+          properties:
+            connection_point:
+              network_role:
+                get_input: port_vpg_onap_private_port_0_network_role
+              nfc_naming_code: vpg
+        abstract_vlb.network.outgoing.packets.rate_vlb_vlb_int_pktgen_private_port_0:
+          properties:
+            unit: packet/s
+            description: Average rate of outgoing packets
+            type: Gauge
+            category: network
+        abstract_vlb.network.incoming.bytes_vlb_vlb_int_private_port_0:
+          properties:
+            unit: B
+            description: Number of incoming bytes
+            type: Cumulative
+            category: network
+        abstract_vlb.disk.device.capacity_vlb:
+          properties:
+            unit: B
+            description: The amount of disk per device that the instance can see
+            type: Gauge
+            category: disk
+        abstract_vdns.network.outgoing.bytes_vdns_vdns_onap_private_port_0:
+          properties:
+            unit: B
+            description: Number of outgoing bytes
+            type: Cumulative
+            category: network
+        abstract_vdns.disk.write.bytes_vdns:
+          properties:
+            unit: B
+            description: Volume of writes
+            type: Cumulative
+            category: compute
+        abstract_vdns.network.outgoing.bytes.rate_vdns_vdns_int_private_port_0:
+          properties:
+            unit: B/s
+            description: Average rate of outgoing bytes
+            type: Gauge
+            category: network
+        abstract_vpg.network.incoming.packets_vpg_vpg_onap_private_port_0:
+          properties:
+            unit: packet
+            description: Number of incoming packets
+            type: Cumulative
+            category: network
+        abstract_vlb.network.outgoing.packets.rate_vlb_vlb_onap_private_port_0:
+          properties:
+            unit: packet/s
+            description: Average rate of outgoing packets
+            type: Gauge
+            category: network
+        abstract_vdns.network.incoming.bytes.rate_vdns_vdns_int_private_port_0:
+          properties:
+            unit: B/s
+            description: Average rate of incoming bytes
+            type: Gauge
+            category: network
+        abstract_vdns.disk.allocation_vdns:
+          properties:
+            unit: B
+            description: The amount of disk occupied by the instance on the host machine
+            type: Gauge
+            category: disk
+        abstract_vlb.disk.write.bytes.rate_vlb:
+          properties:
+            unit: B/s
+            description: Average rate of writes
+            type: Gauge
+            category: compute
+        abstract_vlb.network.outgoing.bytes.rate_vlb_vlb_int_private_port_0:
+          properties:
+            unit: B/s
+            description: Average rate of outgoing bytes
+            type: Gauge
+            category: network
+        abstract_vlb.disk.read.bytes_vlb:
+          properties:
+            unit: B
+            description: Volume of reads
+            type: Cumulative
+            category: compute
+        abstract_vlb.disk.device.usage_vlb:
+          properties:
+            unit: B
+            description: The physical size in bytes of the image container on the host per device
+            type: Gauge
+            category: disk
+        abstract_vlb.disk.device.read.requests_vlb:
+          properties:
+            unit: request
+            description: Number of read requests
+            type: Cumulative
+            category: disk
+        abstract_vpg.disk.allocation_vpg:
+          properties:
+            unit: B
+            description: The amount of disk occupied by the instance on the host machine
+            type: Gauge
+            category: disk
+        abstract_vlb.network.incoming.bytes_vlb_vlb_int_pktgen_private_port_0:
+          properties:
+            unit: B
+            description: Number of incoming bytes
+            type: Cumulative
+            category: network
+        abstract_vlb.network.incoming.bytes.rate_vlb_vlb_onap_private_port_0:
+          properties:
+            unit: B/s
+            description: Average rate of incoming bytes
+            type: Gauge
+            category: network
+        abstract_vlb.network.outpoing.packets_vlb_vlb_int_private_port_0:
+          properties:
+            unit: packet
+            description: Number of outgoing packets
+            type: Cumulative
+            category: network
+        abstract_vdns.network.outgoing.packets.rate_vdns_vdns_onap_private_port_0:
+          properties:
+            unit: packet/s
+            description: Average rate of outgoing packets
+            type: Gauge
+            category: network
+        abstract_vpg.network.incoming.bytes_vpg_vpg_int_pktgen_private_port_0:
+          properties:
+            unit: B
+            description: Number of incoming bytes
+            type: Cumulative
+            category: network
+        abstract_vdns.endpoint_vdns:
+          properties:
+            secure: true
+        abstract_vlb.network.incoming.bytes_vlb_vlb_onap_private_port_0:
+          properties:
+            unit: B
+            description: Number of incoming bytes
+            type: Cumulative
+            category: network
+        abstract_vpg.network.outgoing.bytes.rate_vpg_vpg_int_pktgen_private_port_0:
+          properties:
+            unit: B/s
+            description: Average rate of outgoing bytes
+            type: Gauge
+            category: network
+        abstract_vlb.network.incoming.packets.rate_vlb_vlb_int_private_port_0:
+          properties:
+            unit: packet/s
+            description: Average rate of incoming packets
+            type: Gauge
+            category: network
+        abstract_vpg.disk.read.bytes.rate_vpg:
+          properties:
+            unit: B/s
+            description: Average rate of reads
+            type: Gauge
+            category: compute
+        abstract_vpg.disk.device.read.requests_vpg:
+          properties:
+            unit: request
+            description: Number of read requests
+            type: Cumulative
+            category: disk
+        abstract_vdns.disk.read.bytes_vdns:
+          properties:
+            unit: B
+            description: Volume of reads
+            type: Cumulative
+            category: compute
+        abstract_vlb.disk.root.size_vlb:
+          properties:
+            unit: GB
+            description: Size of root disk
+            type: Gauge
+            category: compute
+        abstract_vdns.disk.device.read.bytes_vdns:
+          properties:
+            unit: B
+            description: Volume of reads
+            type: Cumulative
+            category: disk
+        abstract_vdns.disk.device.write.bytes_vdns:
+          properties:
+            unit: B
+            description: Volume of writes
+            type: Cumulative
+            category: disk
+        abstract_vlb.cpu_util_vlb:
+          properties:
+            unit: '%'
+            description: Average CPU utilization
+            type: Gauge
+            category: compute
+        abstract_vpg.network.incoming.bytes.rate_vpg_vpg_onap_private_port_0:
+          properties:
+            unit: B/s
+            description: Average rate of incoming bytes
+            type: Gauge
+            category: network
+        abstract_vpg.disk.read.requests_vpg:
+          properties:
+            unit: request
+            description: Number of read requests
+            type: Cumulative
+            category: compute
+        abstract_vlb.network.incoming.packets.rate_vlb_vlb_onap_private_port_0:
+          properties:
+            unit: packet/s
+            description: Average rate of incoming packets
+            type: Gauge
+            category: network
+        abstract_vlb.disk.iops_vlb:
+          properties:
+            unit: count/s
+            description: Average disk iops
+            type: Gauge
+            category: disk
+        abstract_vpg.network.incoming.bytes_vpg_vpg_onap_private_port_0:
+          properties:
+            unit: B
+            description: Number of incoming bytes
+            type: Cumulative
+            category: network
+        abstract_vdns.memory.usage_vdns:
+          properties:
+            unit: MB
+            description: Volume of RAM used by the instance from the amount of its allocated memory
+            type: Gauge
+            category: compute
+        abstract_vdns.disk.device.write.bytes.rate_vdns:
+          properties:
+            unit: B/s
+            description: Average rate of writes
+            type: Gauge
+            category: disk
+        abstract_vlb.network.incoming.bytes.rate_vlb_vlb_int_private_port_0:
+          properties:
+            unit: B/s
+            description: Average rate of incoming bytes
+            type: Gauge
+            category: network
+        abstract_vpg.disk.device.write.bytes_vpg:
+          properties:
+            unit: B
+            description: Volume of writes
+            type: Cumulative
+            category: disk
+        abstract_vlb.disk.ephemeral.size_vlb:
+          properties:
+            unit: GB
+            description: Size of ephemeral disk
+            type: Gauge
+            category: compute
+        abstract_vdns.cpu_util_vdns:
+          properties:
+            unit: '%'
+            description: Average CPU utilization
+            type: Gauge
+            category: compute
+        abstract_vlb.cpu.delta_vlb:
+          properties:
+            unit: ns
+            description: CPU time used since previous datapoint
+            type: Delta
+            category: compute
+        abstract_vdns.memory_vdns:
+          properties:
+            unit: MB
+            description: Volume of RAM allocated to the instance
+            type: Gauge
+            category: compute
+        abstract_vdns.port_mirroring_vdns_vdns_onap_private_port_0:
+          properties:
+            connection_point:
+              network_role:
+                get_input: port_vdns_onap_private_port_0_network_role
+              nfc_naming_code: vdns
+        abstract_vdns.scalable_vdns:
+          properties:
+            max_instances: 1
+            min_instances: 1
+        abstract_vdns.disk.ephemeral.size_vdns:
+          properties:
+            unit: GB
+            description: Size of ephemeral disk
+            type: Gauge
+            category: compute
+        abstract_vlb.disk.usage_vlb:
+          properties:
+            unit: B
+            description: The physical size in bytes of the image container on the host
+            type: Gauge
+            category: disk
+        abstract_vpg.disk.device.write.bytes.rate_vpg:
+          properties:
+            unit: B/s
+            description: Average rate of writes
+            type: Gauge
+            category: disk
+        abstract_vlb.scalable_vlb:
+          properties:
+            max_instances: 1
+            min_instances: 1
+        abstract_vdns.disk.iops_vdns:
+          properties:
+            unit: count/s
+            description: Average disk iops
+            type: Gauge
+            category: disk
+        abstract_vlb.disk.device.read.requests.rate_vlb:
+          properties:
+            unit: request/s
+            description: Average rate of read requests
+            type: Gauge
+            category: disk
+        abstract_vdns.network.incoming.packets_vdns_vdns_int_private_port_0:
+          properties:
+            unit: packet
+            description: Number of incoming packets
+            type: Cumulative
+            category: network
+        abstract_vdns.disk.latency_vdns:
+          properties:
+            unit: ms
+            description: Average disk latency
+            type: Gauge
+            category: disk
+        abstract_vpg.endpoint_vpg:
+          properties:
+            secure: true
+        abstract_vdns.network.outgoing.bytes.rate_vdns_vdns_onap_private_port_0:
+          properties:
+            unit: B/s
+            description: Average rate of outgoing bytes
+            type: Gauge
+            category: network
+        abstract_vlb.memory.resident_vlb:
+          properties:
+            unit: MB
+            description: Volume of RAM used by the instance on the physical machine
+            type: Gauge
+            category: compute
+        abstract_vlb.disk.device.write.requests_vlb:
+          properties:
+            unit: request
+            description: Number of write requests
+            type: Cumulative
+            category: disk
+        abstract_vlb.network.outgoing.bytes_vlb_vlb_int_private_port_0:
+          properties:
+            unit: B
+            description: Number of outgoing bytes
+            type: Cumulative
+            category: network
+        abstract_vdns.network.incoming.packets_vdns_vdns_onap_private_port_0:
+          properties:
+            unit: packet
+            description: Number of incoming packets
+            type: Cumulative
+            category: network
+        abstract_vpg.cpu_util_vpg:
+          properties:
+            unit: '%'
+            description: Average CPU utilization
+            type: Gauge
+            category: compute
+        abstract_vpg.vcpus_vpg:
+          properties:
+            unit: vcpu
+            description: Number of virtual CPUs allocated to the instance
+            type: Gauge
+            category: compute
+        abstract_vdns.disk.device.write.requests_vdns:
+          properties:
+            unit: request
+            description: Number of write requests
+            type: Cumulative
+            category: disk
+        abstract_vpg.cpu_vpg:
+          properties:
+            unit: ns
+            description: CPU time used
+            type: Cumulative
+            category: compute
+        abstract_vdns.cpu_vdns:
+          properties:
+            unit: ns
+            description: CPU time used
+            type: Cumulative
+            category: compute
+        abstract_vdns.disk.write.requests.rate_vdns:
+          properties:
+            unit: request/s
+            description: Average rate of write requests
+            type: Gauge
+            category: compute
+        abstract_vdns.network.incoming.bytes.rate_vdns_vdns_onap_private_port_0:
+          properties:
+            unit: B/s
+            description: Average rate of incoming bytes
+            type: Gauge
+            category: network
+        abstract_vpg.disk.root.size_vpg:
+          properties:
+            unit: GB
+            description: Size of root disk
+            type: Gauge
+            category: compute
+        abstract_vpg.disk.device.usage_vpg:
+          properties:
+            unit: B
+            description: The physical size in bytes of the image container on the host per device
+            type: Gauge
+            category: disk
+        abstract_vpg.disk.device.write.requests.rate_vpg:
+          properties:
+            unit: request/s
+            description: Average rate of write requests
+            type: Gauge
+            category: disk
+        abstract_vdns.disk.device.usage_vdns:
+          properties:
+            unit: B
+            description: The physical size in bytes of the image container on the host per device
+            type: Gauge
+            category: disk
+        abstract_vdns.network.outpoing.packets_vdns_vdns_int_private_port_0:
+          properties:
+            unit: packet
+            description: Number of outgoing packets
+            type: Cumulative
+            category: network
+        abstract_vlb.disk.device.write.bytes.rate_vlb:
+          properties:
+            unit: B/s
+            description: Average rate of writes
+            type: Gauge
+            category: disk
+        abstract_vlb.disk.latency_vlb:
+          properties:
+            unit: ms
+            description: Average disk latency
+            type: Gauge
+            category: disk
+        abstract_vlb.disk.device.read.bytes_vlb:
+          properties:
+            unit: B
+            description: Volume of reads
+            type: Cumulative
+            category: disk
+        abstract_vdns.disk.capacity_vdns:
+          properties:
+            unit: B
+            description: The amount of disk that the instance can see
+            type: Gauge
+            category: disk
+        abstract_vdns.instance_vdns:
+          properties:
+            unit: instance
+            description: Existence of instance
+            type: Gauge
+            category: compute
+        abstract_vdns.disk.read.bytes.rate_vdns:
+          properties:
+            unit: B/s
+            description: Average rate of reads
+            type: Gauge
+            category: compute
+        abstract_vlb.network.outpoing.packets_vlb_vlb_onap_private_port_0:
+          properties:
+            unit: packet
+            description: Number of outgoing packets
+            type: Cumulative
+            category: network
+        abstract_vdns.disk.root.size_vdns:
+          properties:
+            unit: GB
+            description: Size of root disk
+            type: Gauge
+            category: compute
+        abstract_vpg.memory_vpg:
+          properties:
+            unit: MB
+            description: Volume of RAM allocated to the instance
+            type: Gauge
+            category: compute
+        abstract_vpg.disk.ephemeral.size_vpg:
+          properties:
+            unit: GB
+            description: Size of ephemeral disk
+            type: Gauge
+            category: compute
+        abstract_vlb.disk.device.allocation_vlb:
+          properties:
+            unit: B
+            description: The amount of disk per device occupied by the instance on the host machine
+            type: Gauge
+            category: disk
+        abstract_vdns.disk.usage_vdns:
+          properties:
+            unit: B
+            description: The physical size in bytes of the image container on the host
+            type: Gauge
+            category: disk
+        abstract_vlb.disk.device.write.bytes_vlb:
+          properties:
+            unit: B
+            description: Volume of writes
+            type: Cumulative
+            category: disk
+        abstract_vpg.disk.device.read.requests.rate_vpg:
+          properties:
+            unit: request/s
+            description: Average rate of read requests
+            type: Gauge
+            category: disk
+        abstract_vpg.disk.device.write.requests_vpg:
+          properties:
+            unit: request
+            description: Number of write requests
+            type: Cumulative
+            category: disk
+        abstract_vpg.disk.device.latency_vpg:
+          properties:
+            unit: ms
+            description: Average disk latency per device
+            type: Gauge
+            category: disk
+        abstract_vlb.network.outgoing.bytes.rate_vlb_vlb_int_pktgen_private_port_0:
+          properties:
+            unit: B/s
+            description: Average rate of outgoing bytes
+            type: Gauge
+            category: network
+        abstract_vpg.network.outgoing.bytes_vpg_vpg_int_pktgen_private_port_0:
+          properties:
+            unit: B
+            description: Number of outgoing bytes
+            type: Cumulative
+            category: network
+        abstract_vdns.network.incoming.bytes_vdns_vdns_onap_private_port_0:
+          properties:
+            unit: B
+            description: Number of incoming bytes
+            type: Cumulative
+            category: network
+        abstract_vlb.disk.device.write.requests.rate_vlb:
+          properties:
+            unit: request/s
+            description: Average rate of write requests
+            type: Gauge
+            category: disk
+        abstract_vdns.memory.resident_vdns:
+          properties:
+            unit: MB
+            description: Volume of RAM used by the instance on the physical machine
+            type: Gauge
+            category: compute
+        abstract_vlb.disk.capacity_vlb:
+          properties:
+            unit: B
+            description: The amount of disk that the instance can see
+            type: Gauge
+            category: disk
+        abstract_vdns.network.incoming.packets.rate_vdns_vdns_onap_private_port_0:
+          properties:
+            unit: packet/s
+            description: Average rate of incoming packets
+            type: Gauge
+            category: network
+        abstract_vdns.disk.device.read.bytes.rate_vdns:
+          properties:
+            unit: B/s
+            description: Average rate of reads
+            type: Gauge
+            category: disk
+        abstract_vlb.disk.read.bytes.rate_vlb:
+          properties:
+            unit: B/s
+            description: Average rate of reads
+            type: Gauge
+            category: compute
+        abstract_vlb.disk.read.requests_vlb:
+          properties:
+            unit: request
+            description: Number of read requests
+            type: Cumulative
+            category: compute
+        abstract_vpg.cpu.delta_vpg:
+          properties:
+            unit: ns
+            description: CPU time used since previous datapoint
+            type: Delta
+            category: compute
+        abstract_vpg.disk.write.bytes.rate_vpg:
+          properties:
+            unit: B/s
+            description: Average rate of writes
+            type: Gauge
+            category: compute
+        abstract_vlb.network.outgoing.bytes.rate_vlb_vlb_onap_private_port_0:
+          properties:
+            unit: B/s
+            description: Average rate of outgoing bytes
+            type: Gauge
+            category: network
+        abstract_vlb.memory_vlb:
+          properties:
+            unit: MB
+            description: Volume of RAM allocated to the instance
+            type: Gauge
+            category: compute
+        abstract_vpg.network.outgoing.bytes_vpg_vpg_onap_private_port_0:
+          properties:
+            unit: B
+            description: Number of outgoing bytes
+            type: Cumulative
+            category: network
+        abstract_vpg.network.outgoing.bytes.rate_vpg_vpg_onap_private_port_0:
+          properties:
+            unit: B/s
+            description: Average rate of outgoing bytes
+            type: Gauge
+            category: network
+        abstract_vdns.disk.device.allocation_vdns:
+          properties:
+            unit: B
+            description: The amount of disk per device occupied by the instance on the host machine
+            type: Gauge
+            category: disk
+        abstract_vpg.disk.write.requests_vpg:
+          properties:
+            unit: request
+            description: Number of write requests
+            type: Cumulative
+            category: compute
+        abstract_vdns.cpu.delta_vdns:
+          properties:
+            unit: ns
+            description: CPU time used since previous datapoint
+            type: Delta
+            category: compute
+  groups:
+    vloadbalancercds0..Vloadbalancercds..vlb..module-2:
+      type: org.openecomp.groups.VfModule
+      metadata:
+        vfModuleModelName: Vloadbalancercds..vlb..module-2
+        vfModuleModelInvariantUUID: 4358a1db-109d-4b9e-bf68-cee3d11c833c
+        vfModuleModelUUID: 1dab7d6a-28ef-4981-b772-5c74ce295078
+        vfModuleModelVersion: '1'
+        vfModuleModelCustomizationUUID: 14f5dea1-347e-4795-b37f-d80e842af0c4
+      properties:
+        min_vf_module_instances: 0
+        vf_module_label: vlb
+        max_vf_module_instances: 1
+        vf_module_type: Expansion
+        isBase: false
+        initial_count: 0
+        volume_group: false
+    vloadbalancercds0..Vloadbalancercds..vdns..module-3:
+      type: org.openecomp.groups.VfModule
+      metadata:
+        vfModuleModelName: Vloadbalancercds..vdns..module-3
+        vfModuleModelInvariantUUID: 2815d321-c6b4-4f21-b7f7-fa5adf8ed7d9
+        vfModuleModelUUID: 524e34ed-9789-453e-ab73-8eff30eafef3
+        vfModuleModelVersion: '1'
+        vfModuleModelCustomizationUUID: ded42059-2f35-42d4-848b-16e1ab1ad197
+      properties:
+        min_vf_module_instances: 0
+        vf_module_label: vdns
+        max_vf_module_instances: 50
+        vf_module_type: Expansion
+        isBase: false
+        initial_count: 0
+        volume_group: false
+    vloadbalancercds0..Vloadbalancercds..base_template..module-0:
+      type: org.openecomp.groups.VfModule
+      metadata:
+        vfModuleModelName: Vloadbalancercds..base_template..module-0
+        vfModuleModelInvariantUUID: 147976ed-f199-4460-a1be-229be414fab8
+        vfModuleModelUUID: 33c460ec-cbb5-419c-a14c-65512f7e5ac6
+        vfModuleModelVersion: '1'
+        vfModuleModelCustomizationUUID: ca8ec700-d3b9-4472-b771-ee1439eed41b
+      properties:
+        min_vf_module_instances: 1
+        vf_module_label: base_template
+        max_vf_module_instances: 1
+        vf_module_type: Base
+        isBase: true
+        initial_count: 1
+        volume_group: false
+    vloadbalancercds0..Vloadbalancercds..vpkg..module-1:
+      type: org.openecomp.groups.VfModule
+      metadata:
+        vfModuleModelName: Vloadbalancercds..vpkg..module-1
+        vfModuleModelInvariantUUID: 6dae98f3-e042-4297-9f40-921b16d80197
+        vfModuleModelUUID: 83bd729a-9fef-470a-adef-f8da75c9397c
+        vfModuleModelVersion: '1'
+        vfModuleModelCustomizationUUID: 7858046f-ae28-4a2e-be10-9dea42dce477
+      properties:
+        min_vf_module_instances: 0
+        vf_module_label: vpkg
+        max_vf_module_instances: 1
+        vf_module_type: Expansion
+        isBase: false
+        initial_count: 0
+        volume_group: false
+  policies:
+    vloadbalancercds..app..0:
+      type: onap.policies.monitoring.cdap.tca.hi.lo.app
+      metadata:
+        invariantUUID: f2a79f0d-c3bb-4437-9b25-e7ca99ba9e31
+        UUID: b5562460-435d-455c-97fe-794c99b09a95
+        version: '1.0'
+        name: vloadbalancercds..app..0
+  substitution_mappings:
+    node_type: org.openecomp.service.Vloadbalancercds
+    capabilities:
+      vloadbalancercds0.abstract_vdns.network.outpoing.packets_vdns_vdns_int_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.network.outpoing.packets_vdns_vdns_int_private_port_0
+      vloadbalancercds0.abstract_vlb.disk.device.usage_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.disk.device.usage_vlb
+      vloadbalancercds0.abstract_vpg.attachment_vpg_vpg_int_pktgen_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.attachment_vpg_vpg_int_pktgen_private_port_0
+      vloadbalancercds0.abstract_vdns.disk.read.bytes_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.disk.read.bytes_vdns
+      vloadbalancercds0.abstract_vpg.disk.read.bytes_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.disk.read.bytes_vpg
+      vloadbalancercds0.abstract_vlb.disk.device.latency_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.disk.device.latency_vlb
+      vloadbalancercds0.abstract_vdns.disk.write.requests_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.disk.write.requests_vdns
+      vloadbalancercds0.abstract_vdns.disk.allocation_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.disk.allocation_vdns
+      vloadbalancercds0.abstract_vpg.disk.device.read.bytes.rate_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.disk.device.read.bytes.rate_vpg
+      vloadbalancercds0.abstract_vlb.disk.write.bytes_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.disk.write.bytes_vlb
+      vloadbalancercds0.int_pktgen_private_network.feature:
+      - vLoadBalancerCDS 0
+      - int_pktgen_private_network.feature
+      vloadbalancercds0.abstract_vlb.memory_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.memory_vlb
+      vloadbalancercds0.abstract_vdns.disk.root.size_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.disk.root.size_vdns
+      vloadbalancercds0.abstract_vdns.network.outgoing.packets.rate_vdns_vdns_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.network.outgoing.packets.rate_vdns_vdns_onap_private_port_0
+      vloadbalancercds0.abstract_vlb.disk.allocation_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.disk.allocation_vlb
+      vloadbalancercds0.abstract_vlb.disk.device.write.requests_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.disk.device.write.requests_vlb
+      vloadbalancercds0.abstract_vdns.disk.write.requests.rate_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.disk.write.requests.rate_vdns
+      vloadbalancercds0.abstract_vdns.disk.device.read.requests_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.disk.device.read.requests_vdns
+      vloadbalancercds0.abstract_vdns.binding_vdns_vdns_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.binding_vdns_vdns_onap_private_port_0
+      vloadbalancercds0.abstract_vlb.disk.device.write.bytes.rate_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.disk.device.write.bytes.rate_vlb
+      vloadbalancercds0.abstract_vlb.disk.read.requests_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.disk.read.requests_vlb
+      vloadbalancercds0.abstract_vpg.disk.capacity_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.disk.capacity_vpg
+      vloadbalancercds0.abstract_vlb.feature_vlb_vlb_int_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.feature_vlb_vlb_int_private_port_0
+      vloadbalancercds0.abstract_vdns.disk.write.bytes_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.disk.write.bytes_vdns
+      vloadbalancercds0.abstract_vdns.attachment_vdns_vdns_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.attachment_vdns_vdns_onap_private_port_0
+      vloadbalancercds0.abstract_vpg.disk.device.write.bytes_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.disk.device.write.bytes_vpg
+      vloadbalancercds0.abstract_vlb.network.outpoing.packets_vlb_vlb_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.network.outpoing.packets_vlb_vlb_onap_private_port_0
+      vloadbalancercds0.abstract_vpg.memory.resident_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.memory.resident_vpg
+      vloadbalancercds0.abstract_vdns.disk.iops_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.disk.iops_vdns
+      vloadbalancercds0.abstract_vpg.disk.device.capacity_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.disk.device.capacity_vpg
+      vloadbalancercds0.abstract_vlb.network.outgoing.packets.rate_vlb_vlb_int_pktgen_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.network.outgoing.packets.rate_vlb_vlb_int_pktgen_private_port_0
+      vloadbalancercds0.abstract_vpg.disk.device.allocation_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.disk.device.allocation_vpg
+      vloadbalancercds0.abstract_vlb.network.outgoing.bytes.rate_vlb_vlb_int_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.network.outgoing.bytes.rate_vlb_vlb_int_private_port_0
+      vloadbalancercds0.abstract_vpg.disk.read.requests_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.disk.read.requests_vpg
+      vloadbalancercds0.abstract_vdns.network.outgoing.bytes.rate_vdns_vdns_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.network.outgoing.bytes.rate_vdns_vdns_onap_private_port_0
+      vloadbalancercds0.abstract_vlb.network.incoming.bytes_vlb_vlb_int_pktgen_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.network.incoming.bytes_vlb_vlb_int_pktgen_private_port_0
+      vloadbalancercds0.abstract_vlb.binding_vlb_vlb_int_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.binding_vlb_vlb_int_private_port_0
+      vloadbalancercds0.abstract_vlb.attachment_vlb_vlb_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.attachment_vlb_vlb_onap_private_port_0
+      vloadbalancercds0.abstract_vpg.network.incoming.bytes_vpg_vpg_int_pktgen_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.network.incoming.bytes_vpg_vpg_int_pktgen_private_port_0
+      vloadbalancercds0.abstract_vdns.cpu.delta_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.cpu.delta_vdns
+      vloadbalancercds0.abstract_vdns.memory.usage_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.memory.usage_vdns
+      vloadbalancercds0.abstract_vpg.instance_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.instance_vpg
+      vloadbalancercds0.abstract_vpg.disk.device.read.bytes_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.disk.device.read.bytes_vpg
+      vloadbalancercds0.abstract_vdns.endpoint_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.endpoint_vdns
+      vloadbalancercds0.abstract_vlb.disk.write.requests.rate_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.disk.write.requests.rate_vlb
+      vloadbalancercds0.abstract_vdns.disk.device.write.requests_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.disk.device.write.requests_vdns
+      vloadbalancercds0.abstract_vpg.cpu.delta_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.cpu.delta_vpg
+      vloadbalancercds0.abstract_vlb.network.incoming.packets.rate_vlb_vlb_int_pktgen_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.network.incoming.packets.rate_vlb_vlb_int_pktgen_private_port_0
+      vloadbalancercds0.abstract_vdns.instance_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.instance_vdns
+      vloadbalancercds0.abstract_vpg.disk.latency_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.disk.latency_vpg
+      vloadbalancercds0.abstract_vpg.feature_vpg_vpg_int_pktgen_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.feature_vpg_vpg_int_pktgen_private_port_0
+      vloadbalancercds0.abstract_vdns.cpu_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.cpu_vdns
+      vloadbalancercds0.abstract_vlb.disk.read.bytes.rate_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.disk.read.bytes.rate_vlb
+      vloadbalancercds0.abstract_vdns.network.incoming.packets_vdns_vdns_int_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.network.incoming.packets_vdns_vdns_int_private_port_0
+      vloadbalancercds0.abstract_vpg.network.outgoing.packets.rate_vpg_vpg_int_pktgen_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.network.outgoing.packets.rate_vpg_vpg_int_pktgen_private_port_0
+      vloadbalancercds0.abstract_vlb.cpu.delta_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.cpu.delta_vlb
+      vloadbalancercds0.abstract_vlb.os_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.os_vlb
+      vloadbalancercds0.abstract_vdns.feature_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.feature_vdns
+      vloadbalancercds0.abstract_vpg.feature_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.feature_vpg
+      vloadbalancercds0.abstract_vlb.network.outpoing.packets_vlb_vlb_int_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.network.outpoing.packets_vlb_vlb_int_private_port_0
+      vloadbalancercds0.abstract_vlb.network.incoming.packets.rate_vlb_vlb_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.network.incoming.packets.rate_vlb_vlb_onap_private_port_0
+      vloadbalancercds0.abstract_vpg.cpu_util_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.cpu_util_vpg
+      vloadbalancercds0.abstract_vlb.disk.device.write.bytes_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.disk.device.write.bytes_vlb
+      vloadbalancercds0.abstract_vpg.network.incoming.packets.rate_vpg_vpg_int_pktgen_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.network.incoming.packets.rate_vpg_vpg_int_pktgen_private_port_0
+      vloadbalancercds0.abstract_vdns.network.outgoing.bytes_vdns_vdns_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.network.outgoing.bytes_vdns_vdns_onap_private_port_0
+      vloadbalancercds0.abstract_vpg.disk.device.write.requests.rate_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.disk.device.write.requests.rate_vpg
+      vloadbalancercds0.abstract_vdns.binding_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.binding_vdns
+      vloadbalancercds0.abstract_vpg.binding_vpg_vpg_int_pktgen_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.binding_vpg_vpg_int_pktgen_private_port_0
+      vloadbalancercds0.abstract_vdns.scalable_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.scalable_vdns
+      vloadbalancercds0.abstract_vlb.forwarder_vlb_vlb_int_pktgen_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.forwarder_vlb_vlb_int_pktgen_private_port_0
+      vloadbalancercds0.abstract_vpg.disk.allocation_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.disk.allocation_vpg
+      vloadbalancercds0.abstract_vdns.disk.device.read.bytes.rate_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.disk.device.read.bytes.rate_vdns
+      vloadbalancercds0.abstract_vpg.disk.read.bytes.rate_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.disk.read.bytes.rate_vpg
+      vloadbalancercds0.abstract_vpg.disk.device.write.requests_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.disk.device.write.requests_vpg
+      vloadbalancercds0.abstract_vlb.disk.read.bytes_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.disk.read.bytes_vlb
+      vloadbalancercds0.abstract_vpg.network.outgoing.packets.rate_vpg_vpg_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.network.outgoing.packets.rate_vpg_vpg_onap_private_port_0
+      vloadbalancercds0.abstract_vlb.disk.root.size_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.disk.root.size_vlb
+      vloadbalancercds0.int_private_network.attachment:
+      - vLoadBalancerCDS 0
+      - int_private_network.attachment
+      vloadbalancercds0.abstract_vdns.disk.latency_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.disk.latency_vdns
+      vloadbalancercds0.abstract_vlb.binding_vlb_vlb_int_pktgen_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.binding_vlb_vlb_int_pktgen_private_port_0
+      vloadbalancercds0.abstract_vpg.disk.device.iops_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.disk.device.iops_vpg
+      vloadbalancercds0.abstract_vlb.memory.resident_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.memory.resident_vlb
+      vloadbalancercds0.abstract_vlb.network.outgoing.packets.rate_vlb_vlb_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.network.outgoing.packets.rate_vlb_vlb_onap_private_port_0
+      vloadbalancercds0.abstract_vdns.port_mirroring_vdns_vdns_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.port_mirroring_vdns_vdns_onap_private_port_0
+      vloadbalancercds0.abstract_vlb.disk.device.iops_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.disk.device.iops_vlb
+      vloadbalancercds0.abstract_vdns.binding_vdns_vdns_int_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.binding_vdns_vdns_int_private_port_0
+      vloadbalancercds0.abstract_vpg.network.incoming.packets.rate_vpg_vpg_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.network.incoming.packets.rate_vpg_vpg_onap_private_port_0
+      vloadbalancercds0.abstract_vdns.disk.capacity_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.disk.capacity_vdns
+      vloadbalancercds0.abstract_vdns.disk.device.allocation_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.disk.device.allocation_vdns
+      vloadbalancercds0.abstract_vpg.scalable_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.scalable_vpg
+      vloadbalancercds0.abstract_vlb.disk.usage_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.disk.usage_vlb
+      vloadbalancercds0.abstract_vpg.disk.write.bytes.rate_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.disk.write.bytes.rate_vpg
+      vloadbalancercds0.abstract_vdns.network.incoming.bytes_vdns_vdns_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.network.incoming.bytes_vdns_vdns_onap_private_port_0
+      vloadbalancercds0.abstract_vlb.network.incoming.packets.rate_vlb_vlb_int_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.network.incoming.packets.rate_vlb_vlb_int_private_port_0
+      vloadbalancercds0.int_private_network.link:
+      - vLoadBalancerCDS 0
+      - int_private_network.link
+      vloadbalancercds0.abstract_vpg.disk.device.write.bytes.rate_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.disk.device.write.bytes.rate_vpg
+      vloadbalancercds0.abstract_vlb.disk.latency_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.disk.latency_vlb
+      vloadbalancercds0.abstract_vpg.network.incoming.packets_vpg_vpg_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.network.incoming.packets_vpg_vpg_onap_private_port_0
+      vloadbalancercds0.abstract_vpg.network.outpoing.packets_vpg_vpg_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.network.outpoing.packets_vpg_vpg_onap_private_port_0
+      vloadbalancercds0.abstract_vlb.disk.device.read.bytes_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.disk.device.read.bytes_vlb
+      vloadbalancercds0.abstract_vpg.network.incoming.bytes.rate_vpg_vpg_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.network.incoming.bytes.rate_vpg_vpg_onap_private_port_0
+      vloadbalancercds0.abstract_vlb.network.incoming.bytes.rate_vlb_vlb_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.network.incoming.bytes.rate_vlb_vlb_onap_private_port_0
+      vloadbalancercds0.abstract_vpg.disk.device.latency_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.disk.device.latency_vpg
+      vloadbalancercds0.abstract_vlb.disk.device.read.bytes.rate_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.disk.device.read.bytes.rate_vlb
+      vloadbalancercds0.abstract_vlb.disk.capacity_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.disk.capacity_vlb
+      vloadbalancercds0.abstract_vdns.disk.read.bytes.rate_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.disk.read.bytes.rate_vdns
+      vloadbalancercds0.abstract_vlb.disk.write.bytes.rate_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.disk.write.bytes.rate_vlb
+      vloadbalancercds0.abstract_vpg.port_mirroring_vpg_vpg_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.port_mirroring_vpg_vpg_onap_private_port_0
+      vloadbalancercds0.abstract_vpg.endpoint_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.endpoint_vpg
+      vloadbalancercds0.abstract_vpg.network.outgoing.bytes.rate_vpg_vpg_int_pktgen_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.network.outgoing.bytes.rate_vpg_vpg_int_pktgen_private_port_0
+      vloadbalancercds0.abstract_vpg.network.outgoing.bytes_vpg_vpg_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.network.outgoing.bytes_vpg_vpg_onap_private_port_0
+      vloadbalancercds0.abstract_vdns.feature_vdns_vdns_int_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.feature_vdns_vdns_int_private_port_0
+      vloadbalancercds0.abstract_vdns.network.incoming.packets.rate_vdns_vdns_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.network.incoming.packets.rate_vdns_vdns_onap_private_port_0
+      vloadbalancercds0.abstract_vlb.network.incoming.bytes.rate_vlb_vlb_int_pktgen_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.network.incoming.bytes.rate_vlb_vlb_int_pktgen_private_port_0
+      vloadbalancercds0.abstract_vlb.feature_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.feature_vlb
+      vloadbalancercds0.abstract_vpg.attachment_vpg_vpg_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.attachment_vpg_vpg_onap_private_port_0
+      vloadbalancercds0.abstract_vdns.disk.device.latency_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.disk.device.latency_vdns
+      vloadbalancercds0.abstract_vdns.network.outgoing.bytes_vdns_vdns_int_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.network.outgoing.bytes_vdns_vdns_int_private_port_0
+      vloadbalancercds0.abstract_vlb.network.outgoing.packets.rate_vlb_vlb_int_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.network.outgoing.packets.rate_vlb_vlb_int_private_port_0
+      vloadbalancercds0.abstract_vdns.network.incoming.bytes_vdns_vdns_int_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.network.incoming.bytes_vdns_vdns_int_private_port_0
+      vloadbalancercds0.abstract_vdns.network.outpoing.packets_vdns_vdns_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.network.outpoing.packets_vdns_vdns_onap_private_port_0
+      vloadbalancercds0.abstract_vlb.endpoint_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.endpoint_vlb
+      vloadbalancercds0.abstract_vlb.binding_vlb_vlb_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.binding_vlb_vlb_onap_private_port_0
+      vloadbalancercds0.abstract_vlb.feature_vlb_vlb_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.feature_vlb_vlb_onap_private_port_0
+      vloadbalancercds0.abstract_vpg.disk.ephemeral.size_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.disk.ephemeral.size_vpg
+      vloadbalancercds0.abstract_vpg.disk.device.read.requests.rate_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.disk.device.read.requests.rate_vpg
+      vloadbalancercds0.abstract_vpg.network.outpoing.packets_vpg_vpg_int_pktgen_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.network.outpoing.packets_vpg_vpg_int_pktgen_private_port_0
+      vloadbalancercds0.abstract_vdns.network.outgoing.packets.rate_vdns_vdns_int_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.network.outgoing.packets.rate_vdns_vdns_int_private_port_0
+      vloadbalancercds0.abstract_vdns.disk.device.usage_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.disk.device.usage_vdns
+      vloadbalancercds0.abstract_vlb.disk.write.requests_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.disk.write.requests_vlb
+      vloadbalancercds0.abstract_vdns.host_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.host_vdns
+      vloadbalancercds0.abstract_vpg.disk.usage_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.disk.usage_vpg
+      vloadbalancercds0.abstract_vlb.network.incoming.bytes_vlb_vlb_int_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.network.incoming.bytes_vlb_vlb_int_private_port_0
+      vloadbalancercds0.abstract_vdns.os_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.os_vdns
+      vloadbalancercds0.abstract_vlb.network.incoming.bytes_vlb_vlb_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.network.incoming.bytes_vlb_vlb_onap_private_port_0
+      vloadbalancercds0.abstract_vdns.network.outgoing.bytes.rate_vdns_vdns_int_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.network.outgoing.bytes.rate_vdns_vdns_int_private_port_0
+      vloadbalancercds0.abstract_vpg.network.incoming.bytes_vpg_vpg_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.network.incoming.bytes_vpg_vpg_onap_private_port_0
+      vloadbalancercds0.abstract_vpg.memory_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.memory_vpg
+      vloadbalancercds0.abstract_vpg.forwarder_vpg_vpg_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.forwarder_vpg_vpg_onap_private_port_0
+      vloadbalancercds0.abstract_vlb.disk.iops_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.disk.iops_vlb
+      vloadbalancercds0.abstract_vlb.network.incoming.packets_vlb_vlb_int_pktgen_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.network.incoming.packets_vlb_vlb_int_pktgen_private_port_0
+      vloadbalancercds0.abstract_vlb.forwarder_vlb_vlb_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.forwarder_vlb_vlb_onap_private_port_0
+      vloadbalancercds0.abstract_vdns.disk.device.capacity_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.disk.device.capacity_vdns
+      vloadbalancercds0.abstract_vpg.disk.device.usage_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.disk.device.usage_vpg
+      vloadbalancercds0.int_pktgen_private_network.end_point:
+      - vLoadBalancerCDS 0
+      - int_pktgen_private_network.end_point
+      vloadbalancercds0.abstract_vpg.disk.device.read.requests_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.disk.device.read.requests_vpg
+      vloadbalancercds0.abstract_vpg.disk.root.size_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.disk.root.size_vpg
+      vloadbalancercds0.abstract_vlb.memory.usage_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.memory.usage_vlb
+      vloadbalancercds0.abstract_vdns.network.incoming.bytes.rate_vdns_vdns_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.network.incoming.bytes.rate_vdns_vdns_onap_private_port_0
+      vloadbalancercds0.abstract_vpg.cpu_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.cpu_vpg
+      vloadbalancercds0.abstract_vlb.vcpus_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.vcpus_vlb
+      vloadbalancercds0.int_pktgen_private_network.link:
+      - vLoadBalancerCDS 0
+      - int_pktgen_private_network.link
+      vloadbalancercds0.abstract_vpg.vcpus_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.vcpus_vpg
+      vloadbalancercds0.abstract_vlb.scalable_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.scalable_vlb
+      vloadbalancercds0.abstract_vdns.memory.resident_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.memory.resident_vdns
+      vloadbalancercds0.abstract_vlb.network.outgoing.bytes_vlb_vlb_int_pktgen_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.network.outgoing.bytes_vlb_vlb_int_pktgen_private_port_0
+      vloadbalancercds0.abstract_vdns.disk.device.iops_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.disk.device.iops_vdns
+      vloadbalancercds0.abstract_vlb.network.incoming.packets_vlb_vlb_int_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.network.incoming.packets_vlb_vlb_int_private_port_0
+      vloadbalancercds0.abstract_vlb.disk.device.write.requests.rate_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.disk.device.write.requests.rate_vlb
+      vloadbalancercds0.abstract_vdns.forwarder_vdns_vdns_int_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.forwarder_vdns_vdns_int_private_port_0
+      vloadbalancercds0.abstract_vlb.binding_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.binding_vlb
+      vloadbalancercds0.abstract_vdns.disk.device.write.bytes.rate_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.disk.device.write.bytes.rate_vdns
+      vloadbalancercds0.abstract_vlb.network.outgoing.bytes_vlb_vlb_int_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.network.outgoing.bytes_vlb_vlb_int_private_port_0
+      vloadbalancercds0.int_pktgen_private_network.attachment:
+      - vLoadBalancerCDS 0
+      - int_pktgen_private_network.attachment
+      vloadbalancercds0.abstract_vdns.network.incoming.packets_vdns_vdns_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.network.incoming.packets_vdns_vdns_onap_private_port_0
+      vloadbalancercds0.abstract_vdns.memory_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.memory_vdns
+      vloadbalancercds0.int_private_network.end_point:
+      - vLoadBalancerCDS 0
+      - int_private_network.end_point
+      vloadbalancercds0.abstract_vpg.network.incoming.bytes.rate_vpg_vpg_int_pktgen_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.network.incoming.bytes.rate_vpg_vpg_int_pktgen_private_port_0
+      vloadbalancercds0.int_private_network.feature:
+      - vLoadBalancerCDS 0
+      - int_private_network.feature
+      vloadbalancercds0.abstract_vlb.disk.device.read.requests.rate_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.disk.device.read.requests.rate_vlb
+      vloadbalancercds0.abstract_vdns.vcpus_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.vcpus_vdns
+      vloadbalancercds0.abstract_vpg.network.outgoing.bytes_vpg_vpg_int_pktgen_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.network.outgoing.bytes_vpg_vpg_int_pktgen_private_port_0
+      vloadbalancercds0.abstract_vlb.forwarder_vlb_vlb_int_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.forwarder_vlb_vlb_int_private_port_0
+      vloadbalancercds0.abstract_vdns.forwarder_vdns_vdns_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.forwarder_vdns_vdns_onap_private_port_0
+      vloadbalancercds0.abstract_vdns.network.incoming.bytes.rate_vdns_vdns_int_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.network.incoming.bytes.rate_vdns_vdns_int_private_port_0
+      vloadbalancercds0.abstract_vpg.os_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.os_vpg
+      vloadbalancercds0.abstract_vpg.network.incoming.packets_vpg_vpg_int_pktgen_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.network.incoming.packets_vpg_vpg_int_pktgen_private_port_0
+      vloadbalancercds0.abstract_vpg.memory.usage_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.memory.usage_vpg
+      vloadbalancercds0.abstract_vpg.feature_vpg_vpg_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.feature_vpg_vpg_onap_private_port_0
+      vloadbalancercds0.abstract_vdns.disk.write.bytes.rate_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.disk.write.bytes.rate_vdns
+      vloadbalancercds0.abstract_vpg.disk.write.requests_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.disk.write.requests_vpg
+      vloadbalancercds0.abstract_vdns.cpu_util_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.cpu_util_vdns
+      vloadbalancercds0.abstract_vdns.disk.device.read.requests.rate_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.disk.device.read.requests.rate_vdns
+      vloadbalancercds0.abstract_vlb.network.outgoing.bytes.rate_vlb_vlb_int_pktgen_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.network.outgoing.bytes.rate_vlb_vlb_int_pktgen_private_port_0
+      vloadbalancercds0.abstract_vlb.network.outgoing.bytes.rate_vlb_vlb_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.network.outgoing.bytes.rate_vlb_vlb_onap_private_port_0
+      vloadbalancercds0.abstract_vlb.attachment_vlb_vlb_int_pktgen_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.attachment_vlb_vlb_int_pktgen_private_port_0
+      vloadbalancercds0.abstract_vdns.network.incoming.packets.rate_vdns_vdns_int_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.network.incoming.packets.rate_vdns_vdns_int_private_port_0
+      vloadbalancercds0.abstract_vlb.instance_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.instance_vlb
+      vloadbalancercds0.abstract_vlb.disk.device.read.requests_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.disk.device.read.requests_vlb
+      vloadbalancercds0.abstract_vlb.disk.device.capacity_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.disk.device.capacity_vlb
+      vloadbalancercds0.abstract_vlb.network.outpoing.packets_vlb_vlb_int_pktgen_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.network.outpoing.packets_vlb_vlb_int_pktgen_private_port_0
+      vloadbalancercds0.abstract_vlb.host_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.host_vlb
+      vloadbalancercds0.abstract_vpg.disk.iops_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.disk.iops_vpg
+      vloadbalancercds0.abstract_vlb.feature_vlb_vlb_int_pktgen_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.feature_vlb_vlb_int_pktgen_private_port_0
+      vloadbalancercds0.abstract_vpg.disk.write.bytes_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.disk.write.bytes_vpg
+      vloadbalancercds0.abstract_vlb.cpu_util_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.cpu_util_vlb
+      vloadbalancercds0.abstract_vlb.disk.device.allocation_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.disk.device.allocation_vlb
+      vloadbalancercds0.abstract_vdns.disk.device.write.requests.rate_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.disk.device.write.requests.rate_vdns
+      vloadbalancercds0.abstract_vpg.network.outgoing.bytes.rate_vpg_vpg_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.network.outgoing.bytes.rate_vpg_vpg_onap_private_port_0
+      vloadbalancercds0.abstract_vdns.disk.device.read.bytes_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.disk.device.read.bytes_vdns
+      vloadbalancercds0.abstract_vpg.forwarder_vpg_vpg_int_pktgen_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.forwarder_vpg_vpg_int_pktgen_private_port_0
+      vloadbalancercds0.abstract_vdns.disk.device.write.bytes_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.disk.device.write.bytes_vdns
+      vloadbalancercds0.abstract_vlb.cpu_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.cpu_vlb
+      vloadbalancercds0.abstract_vdns.disk.usage_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.disk.usage_vdns
+      vloadbalancercds0.abstract_vpg.host_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.host_vpg
+      vloadbalancercds0.abstract_vlb.disk.ephemeral.size_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.disk.ephemeral.size_vlb
+      vloadbalancercds0.abstract_vdns.attachment_vdns_vdns_int_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.attachment_vdns_vdns_int_private_port_0
+      vloadbalancercds0.abstract_vpg.binding_vpg_vpg_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.binding_vpg_vpg_onap_private_port_0
+      vloadbalancercds0.abstract_vdns.disk.ephemeral.size_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.disk.ephemeral.size_vdns
+      vloadbalancercds0.abstract_vlb.network.incoming.bytes.rate_vlb_vlb_int_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.network.incoming.bytes.rate_vlb_vlb_int_private_port_0
+      vloadbalancercds0.abstract_vpg.disk.write.requests.rate_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.disk.write.requests.rate_vpg
+      vloadbalancercds0.abstract_vlb.network.outgoing.bytes_vlb_vlb_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.network.outgoing.bytes_vlb_vlb_onap_private_port_0
+      vloadbalancercds0.abstract_vlb.port_mirroring_vlb_vlb_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.port_mirroring_vlb_vlb_onap_private_port_0
+      vloadbalancercds0.abstract_vlb.network.incoming.packets_vlb_vlb_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.network.incoming.packets_vlb_vlb_onap_private_port_0
+      vloadbalancercds0.abstract_vdns.disk.read.requests_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.disk.read.requests_vdns
+      vloadbalancercds0.abstract_vdns.feature_vdns_vdns_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.feature_vdns_vdns_onap_private_port_0
+      vloadbalancercds0.abstract_vlb.attachment_vlb_vlb_int_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.attachment_vlb_vlb_int_private_port_0
+      vloadbalancercds0.abstract_vpg.binding_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.binding_vpg
+    requirements:
+      vloadbalancercds0.abstract_vlb.dependency_vlb_vlb_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.dependency_vlb_vlb_onap_private_port_0
+      vloadbalancercds0.abstract_vpg.link_vpg_vpg_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.link_vpg_vpg_onap_private_port_0
+      vloadbalancercds0.abstract_vpg.dependency_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.dependency_vpg
+      vloadbalancercds0.abstract_vlb.dependency_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.dependency_vlb
+      vloadbalancercds0.abstract_vdns.link_vdns_vdns_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.link_vdns_vdns_onap_private_port_0
+      vloadbalancercds0.abstract_vdns.link_vdns_vdns_int_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.link_vdns_vdns_int_private_port_0
+      vloadbalancercds0.abstract_vdns.dependency_vdns_vdns_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.dependency_vdns_vdns_onap_private_port_0
+      vloadbalancercds0.abstract_vlb.dependency_vlb_vlb_int_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.dependency_vlb_vlb_int_private_port_0
+      vloadbalancercds0.abstract_vlb.link_vlb_vlb_int_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.link_vlb_vlb_int_private_port_0
+      vloadbalancercds0.abstract_vpg.dependency_vpg_vpg_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.dependency_vpg_vpg_onap_private_port_0
+      vloadbalancercds0.int_private_network.dependency:
+      - vLoadBalancerCDS 0
+      - int_private_network.dependency
+      vloadbalancercds0.abstract_vdns.dependency_vdns_vdns_int_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.dependency_vdns_vdns_int_private_port_0
+      vloadbalancercds0.abstract_vdns.local_storage_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.local_storage_vdns
+      vloadbalancercds0.abstract_vlb.link_vlb_vlb_int_pktgen_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.link_vlb_vlb_int_pktgen_private_port_0
+      vloadbalancercds0.abstract_vpg.local_storage_vpg:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.local_storage_vpg
+      vloadbalancercds0.abstract_vdns.dependency_vdns:
+      - vLoadBalancerCDS 0
+      - abstract_vdns.dependency_vdns
+      vloadbalancercds0.abstract_vpg.link_vpg_vpg_int_pktgen_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.link_vpg_vpg_int_pktgen_private_port_0
+      vloadbalancercds0.abstract_vlb.local_storage_vlb:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.local_storage_vlb
+      vloadbalancercds0.abstract_vpg.dependency_vpg_vpg_int_pktgen_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vpg.dependency_vpg_vpg_int_pktgen_private_port_0
+      vloadbalancercds0.int_pktgen_private_network.dependency:
+      - vLoadBalancerCDS 0
+      - int_pktgen_private_network.dependency
+      vloadbalancercds0.abstract_vlb.link_vlb_vlb_onap_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.link_vlb_vlb_onap_private_port_0
+      vloadbalancercds0.abstract_vlb.dependency_vlb_vlb_int_pktgen_private_port_0:
+      - vLoadBalancerCDS 0
+      - abstract_vlb.dependency_vlb_vlb_int_pktgen_private_port_0
