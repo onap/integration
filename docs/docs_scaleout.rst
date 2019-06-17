@@ -11,13 +11,14 @@ Additional files
 ~~~~~~~~~~~~~~~~
 - DCAE blueprint: https://git.onap.org/integration/tree/docs/files/scaleout/k8s-tca-clamp-policy-05162019.yaml
 - TOSCA model template: https://git.onap.org/integration/tree/docs/files/scaleout/service-Vloadbalancercds-template.yml
+- Naming policy script: https://git.onap.org/integration/tree/docs/files/scaleout/push_naming_policy.sh
 
 Description
 ~~~~~~~~~~~
 The scale out use case uses a VNF composed of three virtual functions. A traffic generator (vPacketGen), a load balancer (vLB), and a DNS (vDNS). Communication between the vPacketGen and the vLB, and the vLB and the vDNS occurs via two separate private networks. In addition, all virtual functions have an interface to the ONAP OAM private network, as shown in the topology below.
 
-.. image:: topology.png
-   :target: files/scaleout/topology.png
+.. figure:: files/scaleout/topology.png
+   :align: center
 
 The vPacketGen issues DNS lookup queries that reach the DNS server via the vLB. vDNS replies reach the packet generator via the vLB as well. The vLB reports the average amount of traffic per vDNS instances over a given time interval (e.g. 10 seconds) to the DCAE collector via the ONAP OAM private network.
 
@@ -76,63 +77,70 @@ During the creation of the service, there are a few extra steps that need to be 
 
 After importing the Vendor Software Package (VSP), as described in the SDC wiki page, users need to set property values in the Property Assignment window, as shown below:
 
-.. image:: 9.png
-   :target: files/scaleout/9.png
+.. figure:: files/scaleout/9.png
+   :align: center
 
 These properties include parameters in the Heat template (which will be overridden by CDS and then don't need to be changed) and other parameters that describe the VNF type or are used to link the service to the configuration in the CDS package.
 
 Users can search for parameter names starting with "nf" to assign values that describe the VNF type, such as nf_type, nf_function, and nf_role. Users are free to choose the values they like. Users should also set "skip_post_instantiation" to "TRUE", as for Dublin CDS is not used for post-instantiation configuration. 
 
-.. image:: 10.png
-   :target: files/scaleout/10.png
+.. figure:: files/scaleout/10.png
+   :align: center
 
 For CDS parameters, users can search for names starting with "sdnc". These parameters have to match the configuration blueprint in CDS. To use the standard blueprint shipped with CDS, please set the parameters as below. For further details, please refer to the CDS documentation.
 
-.. image:: 11.png
-   :target: files/scaleout/11.png
+.. figure:: files/scaleout/11.png
+   :align: center
 
 
 After importing the VSP, users need to onboard the DCAE blueprint and the Policy Model used to design closed loops in CLAMP. From the "Composition" tab in the service menu, select the artifact icon on the right, as shown below:
 
-.. image:: 1.png
-   :target: files/scaleout/1.png
+.. figure:: files/scaleout/1.png
+   :align: center
 
 Upload the DCAE blueprint linked at the top of the page using the pop-up window.
 
-.. image:: 2.png
-   :target: files/scaleout/2.png
+.. figure:: files/scaleout/2.png
+   :align: center
 
 The blueprint will appear in the artifacts section on the right.
 
-.. image:: 3.png
-   :target: files/scaleout/3.png
+.. figure:: files/scaleout/3.png
+   :align: center
 
 To attach a Policy Model to the service, open the Policy drop-down list on left.
 
-.. image:: 4.png
-   :target: files/scaleout/4.png
+.. figure:: files/scaleout/4.png
+   :align: center
 
 Then, add the TCA Policy.
 
-.. image:: 5.png
-   :target: files/scaleout/5.png
+.. figure:: files/scaleout/5.png
+   :align: center
 
 The Policy will be attached to the service.
 
-.. image:: 6.png
-   :target: files/scaleout/6.png
+.. figure:: files/scaleout/6.png
+   :align: center
 
 Finally, users need to provide the maximum number of instances that ONAP is allowed to create as part of the scale out use case by setting up deployment properties. 
 
-.. image:: 7.png
-   :target: files/scaleout/7.png
+.. figure:: files/scaleout/7.png
+   :align: center
 
 This VNF only supports scaling the vDNS, so users should select the vDNS module from the right panel and then click the "max_vf_module_instance" link. The maximum number of instances to scale can be set to an arbitrary number higher than zero.
 
-.. image:: 8.png
-   :target: files/scaleout/8.png
+.. figure:: files/scaleout/8.png
+   :align: center
 
 At this point, users can complete the service creation by testing, accepting, and distributing the Service Models as described in the SDC wiki page.
+
+In order to instantiate the VNF using CDS features, users need to deploy the naming policy that CDS uses for resource name generation to the Policy Engine. User can copy and run the script at the top of the page from any ONAP pod, for example Robot or Drools. The script uses the Policy endpoint defined in the Kubernetes domain, so the execution has to be triggered from some pod in the Kubernetes space.
+
+::
+
+    kubectl exec -it dev-policy-drools-0
+    ./push_naming_policy.sh
 
 
 Closed Loop Design from CLAMP
@@ -141,35 +149,35 @@ Once the service is distributed, users can design the closed loop from CLAMP, us
 
 Use the "Closed Loop" link to open a distributed model.
 
-.. image:: 12.png
-   :target: files/scaleout/12.png
+.. figure:: files/scaleout/12.png
+   :align: center
 
 Select the closed loop associated to the distributed service model.
 
-.. image:: 13.png
-   :target: files/scaleout/13.png
+.. figure:: files/scaleout/13.png
+   :align: center
 
 The closed loop main page for TCA microservices is shown below.
 
-.. image:: 14.png
-   :target: files/scaleout/14.png
+.. figure:: files/scaleout/14.png
+   :align: center
 
 Click on the TCA box to create a configuration policy. From the pop-up window, users need to click "Add item" to create a new policy and fill it in with specific information, as shown below.
 
-.. image:: 15.png
-   :target: files/scaleout/15.png
+.. figure:: files/scaleout/15.png
+   :align: center
 
 For this use case, the control loop schema type is "VM", while the event name has to match the event name reported in the VNF telemetry, which is "vLoadBalancer".
 
 Once the policy item has been created, users can define a threshold that will be used at runtime to evaluate telemetry reported by the vLB. When the specified threshold is crossed, DCAE generates an ONSET event that will tell Policy Engine which closed loop to activate.
 
-.. image:: 16.png
-   :target: files/scaleout/16.png
+.. figure:: files/scaleout/16.png
+   :align: center
 
 After the configuration policy is created, users need to create the operational policy, which the Policy Engine uses to determine which actions and parameters should be used during closed loop.
 
-.. image:: 17.png
-   :target: files/scaleout/17.png
+.. figure:: files/scaleout/17.png
+   :align: center
 
 Select "VF Module Create" recipe and "SO" actor. The payload section is:
 
@@ -188,15 +196,15 @@ indicates that resolution for parameter "ip-addr" is available at "$.vf-module-t
 
 The target type to select is VF module, as we are scaling a VF module. Please select the vDNS module as target resource ID.
 
-.. image:: 18.png
-   :target: files/scaleout/18.png
+.. figure:: files/scaleout/18.png
+   :align: center
 
 For what regards guard policies, either "Frequency Limiter", or "MinMax", or both can be used for the scale out use case. The example below shows the definition of a "Frequency Limiter" guard policy. Irrespective of the guard policy type, the policy name should be x.y.scaleout.
 
 Once the operational policy design is completed, users can submit and then deploy the closed loop clicking the "Submit" and "Deploy" buttons, respectively, as shown below.
 
-.. image:: 20.png
-   :target: files/scaleout/20.png
+.. figure:: files/scaleout/20.png
+   :align: center
 
 At this point, the closed loop is deployed to Policy Engine and DCAE, and a new microservice will be deployed to the DCAE platform.
 
@@ -315,7 +323,7 @@ SO has a default entry for VNF type "vLoadBalancerMS/vLoadBalancerMS 0"
 
 How to Use
 ~~~~~~~~~~
-After the VNF has been instantiated using the CDS configuration blueprint, user should manually configure the vLB to open a connection towards the vDNS. At this time, automated post-instantiation configuration with CDS is not supported. Note that this step is NOT required during scale out operations, as VNF reconfiguration will be triggered by SO and executed by APPC. To change the state of the vLB, the users can run the following REST call, replacing the IP addresses in the VNF endpoint and JSON object to match the private IP addresses of their vDNS instance:
+After the VNF has been instantiated using the CDS configuration blueprint, user should manually configure the vLB to open a connection towards the vDNS. At this time, the use case doesn't support automated post-instantiation configuration with CDS. Note that this step is NOT required during scale out operations, as VNF reconfiguration will be triggered by SO and executed by APPC. To change the state of the vLB, the users can run the following REST call, replacing the IP addresses in the VNF endpoint and JSON object to match the private IP addresses of their vDNS instance:
 
 ::
 
