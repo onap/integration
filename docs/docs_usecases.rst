@@ -20,13 +20,11 @@ Use Cases
 ~~~~~~~~~
 :ref:`vFirewall Use Case <docs_vfw>`
 
-:ref:`vLoadBalancer Use Case <docs_vlb>`
+:ref:`VF Module Scale Out Use Case (vLoadBalancer/vDSN example) <docs_scaleout>`
 
 :ref:`vCPE Use Case <docs_vcpe>`
 
 :ref:`vCPE with TOSCA VNF (w/ HPA) Use Case <docs_vcpe_tosca>`
-
-:ref:`VF Module Scale Out Use Case <docs_scaleout>`
 
 :ref:`CCVPN (Cross Domain and Cross Layer VPN) Use Case <docs_ccvpn>`
 

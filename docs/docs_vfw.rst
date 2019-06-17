@@ -6,11 +6,11 @@ vFirewall Use Case
 Source files
 ~~~~~~~~~~~~
 
-- vFirewall/vSink template file: https://git.onap.org/demo/plain/heat/vFWCL/vFWSNK/base_vfw.yaml
-- vFirewall/vSink environment file: https://git.onap.org/demo/plain/heat/vFWCL/vFWSNK/base_vfw.env
+- vFirewall/vSink template file: https://git.onap.org/demo/tree/heat/vFWCL/vFWSNK/base_vfw.yaml?h=dublin
+- vFirewall/vSink environment file: https://git.onap.org/demo/tree/heat/vFWCL/vFWSNK/base_vfw.env?h=dublin
 
-- vPacketGenerator template file: https://git.onap.org/demo/plain/heat/vFWCL/vPKG/base_vpkg.yaml
-- vPacketGenerator environment file: https://git.onap.org/demo/plain/heat/vFWCL/vPKG/base_vpkg.env
+- vPacketGenerator template file: https://git.onap.org/demo/tree/heat/vFWCL/vPKG/base_vpkg.env?h=dublin
+- vPacketGenerator environment file: https://git.onap.org/demo/tree/heat/vFWCL/vPKG/base_vpkg.env?h=dublin
 
 VVP Report
 ~~~~~~~~~~
@@ -51,18 +51,22 @@ The packet generator contains 10 streams: fw_udp1, fw_udp2, fw_udp3, ..., fw_udp
 per 10 seconds. A script in /opt/run_traffic_fw_demo.sh on the packet generator VM starts automatically and alternates high 
 traffic (i.e. 10 active streams at the same time) and low traffic (1 active stream) every 5 minutes.
 
-To enable a stream, include
-
-::
-
- {"id":"fw_udp1", "is-enabled":"true"} in the pg-stream bracket 
-
 To adjust the traffic volume produced by the packet generator, run the following command in a shell, replacing PacketGen_IP in 
 the HTTP argument with localhost (if you run it in the packet generator VM) or the packet generator IP address:
 
 ::
 
- curl -X PUT -H "Authorization: Basic YWRtaW46YWRtaW4=" -H "Content-Type: application/json" -H "Cache-Control: no-cache" -d '{"pg-streams":{"pg-stream": [{"id":"fw_udp1", "is-enabled":"true"},{"id":"fw_udp2", "is-enabled":"true"},{"id":"fw_udp3", "is-enabled":"true"},{"id":"fw_udp4", "is-enabled":"true"},{"id":"fw_udp5", "is-enabled":"true"}]}}' "http://PacketGen_IP:8183/restconf/config/sample-plugin:sample-plugin/pg-streams"
+  curl -X PUT \
+  https://PacketGen_IP:8445/restconf/config/stream-count:stream-count/streams \
+  -H 'Accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -H 'Postman-Token: 88610924-938b-4d64-a682-0b0aabed4a6d' \
+  -H 'cache-control: no-cache' \
+  -d '{
+    "streams": {
+        "active-streams": 5
+    }}'
+
 
 The command above enables 5 streams.
 
