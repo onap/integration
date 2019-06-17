@@ -17,7 +17,19 @@ fi
 
 if [ $COMPONENT == "sdc" ] || [ $COMPONENT == "SDC" ]; then
         for keyspace in sdctitan sdcrepository sdcartifact sdccomponent sdcaudit; do
-	        kubectl exec -it dev-cassandra-cassandra-0 -- cqlsh -u cassandra -p cassandra -e "drop keyspace ${keyspace}"
+	        kubectl exec dev-cassandra-cassandra-0 -- cqlsh -u cassandra -p cassandra -e "drop keyspace ${keyspace}"
+        done
+fi
+
+if [ $COMPONENT == "so" ] || [ $COMPONENT == "SO" ]; then
+        for database in camundabpmn catalogdb requestdb; do
+		kubectl exec dev-mariadb-galera-mariadb-galera-0 -- mysql -uroot -psecretpassword -e "drop database ${database}"
+        done
+fi
+
+if [ $COMPONENT == "sdnc" ] || [ $COMPONENT == "SDNC" ]; then
+        for database in sdnctl; do
+		kubectl exec dev-mariadb-galera-mariadb-galera-0 -- mysql -uroot -psecretpassword -e "drop database ${database}"
         done
 fi
 
