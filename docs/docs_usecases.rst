@@ -11,9 +11,9 @@ Description
 ~~~~~~~~~~~
 This session includes use cases and functional requirements have been verified in Casablanca release by the Integration team:
     1. What has been implemented
-    2. Step by step instruction on how to deploy them, including the links to download the related assets and resources 
+    2. Step by step instruction on how to deploy them, including the links to download the related assets and resources
     3. Known issues and workaround
-    
+
 The final testing status can be found at `Casablanca Release Integration Testing Status Summery <https://wiki.onap.org/display/DW/Casablanca+Release+Integration+Testing+Status>`_
 
 Use Cases
@@ -32,6 +32,7 @@ Use Cases
 
 :ref:`vFirewall Traffic Distribution Use Case <docs_vfw_traffic>`
 
+:ref:`BBS (Broadband Service) Use Case <docs_bbs>`
 
 Functional Requirements
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -48,4 +49,3 @@ Functional Requirements
 :ref:`Change Management Flexible Designer and Orchestrator <docs_CM_flexible_designer_orchestrator>`
 
 :ref:`Change Management Schedule Optimization <docs_CM_schedule_optimizer>`
-
