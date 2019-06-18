@@ -255,7 +255,7 @@ org.onap.sdc.sdc-tosca,sdc-tosca,1.5.1
 org.onap.sdnc.northbound,generic-resource-api.provider,1.5.3
 org.onap.sdnc.northbound,vnfapi-provider,1.5.3
 org.onap.sdnc.northbound,vnftools-provider,1.5.3
-org.onap.usecase-ui.server,usecase-ui-server,2.0.0
+org.onap.usecase-ui.server,usecase-ui-server,2.0.1
 org.onap.vfc.gvnfm.vnflcm.lcm,vfc-gvnfm-vnflcm-lcm,1.2.2
 org.onap.vfc.gvnfm.vnfmgr.mgr,vfc-gvnfm-vnfmgr-mgr,1.2.1
 org.onap.vfc.gvnfm.vnfres.res,vfc-gvnfm-vnfres-res,1.2.1
