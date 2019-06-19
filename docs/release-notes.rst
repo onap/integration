@@ -12,23 +12,18 @@ Integration Release Notes
 Integration Repo
 ================
 
-Version: 3.0.0
+Version: 4.0.0
 --------------
 
-:Release Date: 2018-11-30
+:Release Date: 2019-06-21
 
 **New Features**
 
-* CI/CD with daily summary: `functional tests and health checks <http://onapci.org/grafana/d/8cGRqBOmz/daily-summary>`_. 
-* Container optimization through the CIA sub-project
-* Enhanced deployment scripts and HEAT template for automated deployment of OOM onto a HA-enabled Kubernetes cluster
+* ONAP deployment script with RKE and OOM
 * Updated scripts for OOM daily automated deployment tests
-* Added various helper scripts and configuration files for assisting the ONAP community's work on the various OpenLab test environments
-* Updated docker and java artifact versions for ONAP Casablanca release
-* Additional enhancements to automation test scripts for vCPE use case
-* Moved CSIT content to a separate integration/csit repo
-* Updates and enhancements to the CSIT test plans across projects to support the ONAP Casablanca use cases
-* Offline deployment: deploy ONAP without direct internet access for Beijing release
+* Automation script for use cases
+* Updated java artifact versions for ONAP Dublin release
+* Updates and enhancements to the CSIT test plans across projects to support the ONAP Dublin use cases
 
 **Security Notes**
 
@@ -44,7 +39,7 @@ Quick Links:
 ONAP Maturity Testing Notes
 ===========================
 
-For the Casablanca release, ONAP continues to improve in multiple areas of Scalability, Security, Stability and Performance (S3P) metrics.
+For Dublin release, ONAP continues to improve in multiple areas of Scalability, Security, Stability and Performance (S3P) metrics.
 
 The Integration team ran the 72 hours stability testing (100% passing rate) and full resilience testing (96.9% passing rate) at ONAP OpenLabs. More details in :ref:`ONAP Maturity Testing Notes <integration-s3p>`.
 
@@ -52,7 +47,7 @@ The Integration team ran the 72 hours stability testing (100% passing rate) and 
 Verified Use Cases and Functional Requirements
 ==============================================
 
-The Integration team verified 15 use cases and functional requirements. 
+The Integration team verified 30 use cases and functional requirements. 
 The details can be found at :ref:`Verified Use Cases and Functional Requirements <docs_usecases>` session.
 
 O-Parent
@@ -102,7 +97,7 @@ Version: 1.2.0
 
 
 Demo Artifacts (HEAT Templates)
-==============
+===============================
 
 Version: 1.3.0
 --------------
@@ -117,7 +112,28 @@ and TOSCA templates.
 
 
 Robot Test Suite
-===========
+================
+
+Version: 1.4.1
+
+:Release Date: 2019-06-09
+
+**New Features**
+
+* Update vFWCL use case test script
+
+
+Version: 1.4.0
+
+:Release Date: 2019-05-24
+
+**New Features**
+
+* Update vFWCL use case closed loop policy
+* Fix vCPE use case test bugs
+* Support resource VL type in test script
+* Add test script for new use cases
+* Enhance existing use cases test script
 
 Version: 1.3.2
 --------------

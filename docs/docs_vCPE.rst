@@ -68,7 +68,7 @@ Here are the main steps to run the use case in Integration lab environment, wher
 
 :: 
 
-   kubectl -n onap exec -it dev-sdnc-sdnc-0 -- /opt/sdnc/bin/addIpAddresses.sh VGW 10.5.0 22 250`
+   kubectl -n onap exec -it dev-sdnc-sdnc-0 -- /opt/sdnc/bin/addIpAddresses.sh VGW 10.5.0 22 250
 
 7. Install python and other python libraries
 
@@ -111,42 +111,42 @@ Here are the main steps to run the use case in Integration lab environment, wher
    
    vcpe.py init
 
-9. Run the command from Rancher node to insert vcpe customer service workflow entry in SO catalogdb. You should be able to see the following command printed out from the above step output
+10. Run the command from Rancher node to insert vcpe customer service workflow entry in SO catalogdb. You should be able to see the following command printed out from the above step output
 
 ::
 
    kubectl exec dev-mariadb-galera-mariadb-galera-0 -- mysql -uroot -psecretpassword -e "INSERT INTO catalogdb.service_recipe (ACTION, VERSION_STR, DESCRIPTION, ORCHESTRATION_URI, SERVICE_PARAM_XSD, RECIPE_TIMEOUT, SERVICE_TIMEOUT_INTERIM, CREATION_TIMESTAMP, SERVICE_MODEL_UUID) VALUES ('createInstance','1','vCPEResCust 2019-06-03 _04ba','/mso/async/services/CreateVcpeResCustService',NULL,181,NULL, NOW(),'6c4a469d-ca2c-4b02-8cf1-bd02e9c5a7ce')"
 
-10. Instantiate vCPE infra services
+11. Instantiate vCPE infra services
 
 ::
 
     vcpe.py infra
 
-11. Install curl command inside sdnc-sdnc-0 container
+12. Install curl command inside sdnc-sdnc-0 container
 
-12. From Rancher node run command to check connectivity from sdnc to brg and gmux, and the configuration of brg and gmux
+13. From Rancher node run command to check connectivity from sdnc to brg and gmux, and the configuration of brg and gmux
 
 ::
 
     healthcheck-k8s.py onap
 
-13. Update libevel.so in vGMUX VM. See tutorial wiki for details
+14. Update libevel.so in vGMUX VM. See tutorial wiki for details
 
-14. Run heatbridge. The heatbridge command usage: demo-k8s.sh <namespace> heatbridge <stack_name> <service_instance_id> <service> <oam-ip-address>. See an example as following:
+15. Run heatbridge. The heatbridge command usage: demo-k8s.sh <namespace> heatbridge <stack_name> <service_instance_id> <service> <oam-ip-address>. See an example as following:
 
 ::
 
     ~/integration/test/vcpe# ~/oom/kubernetes/robot/demo-k8s.sh onap heatbridge vcpe_vfmodule_e2744f48729e4072b20b_201811262136 d8914ef3-3fdb-4401-adfe-823ee75dc604 vCPEvGMUX 10.0.101.21
 
-15. Push new Policy. Download the policy files and follow steps in JIRA INT-1089 - Create vCPE closed loop policy and push to policy engine
+16. Push new Policy. Download the policy files and follow steps in JIRA INT-1089 - Create vCPE closed loop policy and push to policy engine
 
 ::
 
     curl -k --silent --user 'healthcheck:zb!XztG34' -X POST "https://policy-api:6969/policy/api/v1/policytypes/onap.policies.controlloop.Operational/versions/1.0.0/policies" -H "Accept: application/json" -H "Content-Type: application/json" -d @operational.vcpe.json.txt
     curl --silent -k --user 'healthcheck:zb!XztG34' -X POST "https://policy-pap:6969/policy/pap/v1/pdps/policies" -H "Accept: application/json" -H "Content-Type: application/json" -d @operational.vcpe.pap.json.txt
 
-16. Start closeloop by triggering packet drop VES event. You may need to run the command twice if the first run fails
+17. Start closeloop by triggering packet drop VES event. You may need to run the command twice if the first run fails
 
 :: 
 
@@ -159,7 +159,7 @@ The use case has been tested for Dublin release, the test report can be found on
 
 Known Issues and Workaround
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-1) NATs are installed on BRG and vBNG. In order to allow SDNC to send BRG configuration message through vBNG, SDNC host VM IP address is preloaded on BRG and vBNG, and provisioned into the firewalls. If SDNC changes its host VM, SDNC host VM IP changes and we need to manually update the IP in /opt/config/sdnc_ip.txt. Then run:
+1) NATs are installed on BRG and vBNG. In order to allow SDNC to send BRG configuration message through vBNG, SDNC host VM IP address is preloaded on BRG and vBNG during VM instantiation, and provisioned into the NATs. If SDNC changes its host VM, SDNC host VM IP changes and we need to manually update the IP in /opt/config/sdnc_ip.txt. Then run:
 
 ::
 
