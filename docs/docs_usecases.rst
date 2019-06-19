@@ -34,6 +34,8 @@ Use Cases
 
 :ref:`BBS (Broadband Service) Use Case <docs_bbs>`
 
+:ref:`vIPsec with HPA Use Case <docs_vipsec_hpa>`
+
 Functional Requirements
 ~~~~~~~~~~~~~~~~~~~~~~~
 :ref:`5G - Real Time PM and High Valume Stream Data Collection <docs_realtime_pm>`
