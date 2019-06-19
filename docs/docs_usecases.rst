@@ -28,7 +28,7 @@ Use Cases
 
 :ref:`CCVPN (Cross Domain and Cross Layer VPN) Use Case <docs_ccvpn>`
 
-:ref:`vFirewall with HPA Use Case <docs_vfw_hpa>`
+:ref:`vFirewall/vDNS with HPA Use Case <docs_vfw_hpa>`
 
 :ref:`vFirewall Traffic Distribution Use Case <docs_vfw_traffic>`
 

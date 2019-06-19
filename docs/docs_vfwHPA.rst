@@ -4,11 +4,11 @@
 
 .. _docs_vfw_hpa:
 
-vFW with HPA Tutorial: Setting Up and Configuration
-----------------------------------------------------
+vFW/vDNS with HPA Tutorial: Setting Up and Configuration
+--------------------------------------------------------
 
 Description
-~~~~~~~~~~~
+~~~~~~~~~~
 This use case makes modifications to the regular vFW use case in ONAP by giving the VMs certain hardware features (such as SRIOV NIC, CPU pinning, pci passthrough.. etc.) in order to enhance their performance. Multiple cloud regions with flavors that have HPA features are registered with ONAP. We then create policies that specify the HPA requirements of each VM in the use case. When a service instance is created with OOF specified as the homing solution, OOF responds with the homing solution (cloud region) and flavor directives that meet the requirements specified in the policy.
 This tutorial covers enhancements 1 to 5 in Background of https://wiki.onap.org/pages/viewpage.action?pageId=41421112. It focuses on Test Plan 1.
 
@@ -26,7 +26,7 @@ This tutorial covers enhancements 1 to 5 in Background of https://wiki.onap.org/
 
 
 Setting Up and Installation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 Some fixes for HPA support were made subsequent to the release of the Casablanca images.  Several updated docker images need to be used to utilize the fixes.  The details of the docker images that need to be used and the issues that are fixed are described at this link https://wiki.onap.org/display/DW/Docker+image+updates+for+HPA+vFW+testing
 
 Instructions for updating the manifest of ONAP docker images can be found here:  https://onap.readthedocs.io/en/casablanca/submodules/integration.git/docs/#deploying-an-updated-docker-manifest
@@ -73,14 +73,8 @@ Install OOM ONAP using the deploy script in the integration repo. Instructions f
 
    ``oom-rancher#  kubectl delete <pod-name> -n onap``
 
-5. Run robot healthdist
 
-   ``oom-rancher# ./ete-k8s.sh onap healthdist``
-6. Run robot demo init, this initializes the default Demonstration customer and distributes the default models
-
-  ``oom-rancher# ./demo-k8s.sh onap init``
-
-7. Create HPA flavors in cloud regions to be registered with ONAP. All HPA flavor names must start with onap. During our tests, 3 cloud regions were registered and we created flavors in each cloud. The flavors match the flavors described in the test plan `here <https://wiki.onap.org/pages/viewpage.action?pageId=41421112>`_. 
+5. Create HPA flavors in cloud regions to be registered with ONAP. All HPA flavor names must start with onap. During our tests, 3 cloud regions were registered and we created flavors in each cloud. The flavors match the flavors described in the test plan `here <https://wiki.onap.org/pages/viewpage.action?pageId=41421112>`_. 
 
 - **Cloud Region One**
 
@@ -161,6 +155,19 @@ Install OOM ONAP using the deploy script in the integration repo. Instructions f
 
      ``#openstack flavor set onap.hpa.flavor33 --property aggregate_instance_extra_specs:sriov_nic=sriov-nic-intel-8086-154C-shared-1:1`` 
 
+**Note: Use case can be run manually or using automation script (recommended)**
+
+
+After completing steps 1 to 5 above, the use case can be set up either manually using **step 6 to 21** below or using the hpa automation script in the integration repo. It can be found in this `link <https://github.com/onap/integration/tree/master/test/hpa_automation/heat>`_. The automation script is not limited to the vFW use case, it can also be used for vDNS and should ideally work with other hpa use cases such as vIPSEC. Instructions for running the script can be found in the README file in the link above. Note that the identity and policy name must be different for all the policies in the policy engine.
+
+
+
+6. Run robot healthdist
+
+   ``oom-rancher# ./ete-k8s.sh onap healthdist``
+7. Run robot demo init, this initializes the default Demonstration customer and distributes the default models
+
+  ``oom-rancher# ./demo-k8s.sh onap init``
 
 8. Check that the cloud complex has the right values and update if it does not. Required values are;
 
