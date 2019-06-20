@@ -24,6 +24,8 @@ Version: 4.0.0
 * Automation script for use cases
 * Updated java artifact versions for ONAP Dublin release
 * Updates and enhancements to the CSIT test plans across projects to support the ONAP Dublin use cases
+* Postman collection for test
+* Security test scripts
 
 **Security Notes**
 

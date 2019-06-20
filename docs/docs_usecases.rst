@@ -9,12 +9,12 @@ Verified Use Cases and Functional Requirements
 
 Description
 ~~~~~~~~~~~
-This session includes use cases and functional requirements have been verified in Casablanca release by the Integration team:
+This session includes use cases and functional requirements which have been verified in Dublin release by the Integration team:
     1. What has been implemented
     2. Step by step instruction on how to deploy them, including the links to download the related assets and resources
     3. Known issues and workaround
 
-The final testing status can be found at `Casablanca Release Integration Testing Status Summery <https://wiki.onap.org/display/DW/Casablanca+Release+Integration+Testing+Status>`_
+The final testing status can be found at `Dublin Release Integration Testing Status Summery <https://wiki.onap.org/display/DW/Dublin+Release+Integration+Testing+Status>`_
 
 Use Cases
 ~~~~~~~~~
