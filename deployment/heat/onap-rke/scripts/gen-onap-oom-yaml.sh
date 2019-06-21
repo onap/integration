@@ -30,26 +30,26 @@ EOF
 cat $PARTS_DIR/onap-oom-1.yaml
 
 cat <<EOF
-  rancher_vm:
+  nfs_vm:
     type: OS::Nova::Server
     properties:
       name:
-        list_join: ['-', [{ get_param: 'OS::stack_name' }, 'rancher']]
+        list_join: ['-', [{ get_param: 'OS::stack_name' }, 'nfs']]
       image: { get_param: ubuntu_1804_image }
-      flavor: { get_param: rancher_vm_flavor }
+      flavor: { get_param: nfs_vm_flavor }
       key_name: { get_param: key_name }
       networks:
-      - port: { get_resource: rancher_private_port }
+      - port: { get_resource: nfs_private_port }
       user_data_format: RAW
       user_data:
         str_replace:
           template:
-            get_file: rancher_vm_entrypoint.sh
+            get_file: nfs_vm_entrypoint.sh
           params:
             __docker_proxy__: { get_param: docker_proxy }
             __apt_proxy__: { get_param: apt_proxy }
-            __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
-            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+            __nfs_ip_addr__: { get_attr: [nfs_floating_ip, floating_ip_address] }
+            __nfs_private_ip_addr__: { get_attr: [nfs_floating_ip, fixed_ip_address] }
             __integration_override_yaml__: { get_param: integration_override_yaml }
             __integration_gerrit_branch__: { get_param: integration_gerrit_branch }
             __integration_gerrit_refspec__: { get_param: integration_gerrit_refspec }
@@ -60,7 +60,6 @@ cat <<EOF
             __kubectl_version__: { get_param: kubectl_version }
             __helm_version__: { get_param: helm_version }
             __helm_deploy_delay__: { get_param: helm_deploy_delay }
-            __use_ramdisk__: { get_param: use_ramdisk }
             __mtu__: { get_param: mtu }
             __portal_hostname__: { get_param: portal_hostname }
             __public_net_id__: { get_param: public_net_id }

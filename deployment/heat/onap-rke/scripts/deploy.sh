@@ -156,18 +156,18 @@ for n in $(seq 1 5); do
 
     for i in $(seq 1 30); do
 	sleep 30
-	RANCHER_IP=$(openstack stack output show $stack_name rancher_vm_ip -c output_value -f value)
+	NFS_IP=$(openstack stack output show $stack_name nfs_vm_ip -c output_value -f value)
         K8S_IP=$(openstack stack output show $stack_name k8s_01_vm_ip -c output_value -f value)
-	timeout 1 ping -c 1 "$RANCHER_IP" && break
+	timeout 1 ping -c 1 "$NFS_IP" && break
     done
 
-    timeout 1 ping -c 1 "$RANCHER_IP" && break
+    timeout 1 ping -c 1 "$NFS_IP" && break
 
-    echo Error: OpenStack infrastructure issue: unable to reach rancher "$RANCHER_IP"
+    echo Error: OpenStack infrastructure issue: unable to reach NFS server "$NFS_IP"
     sleep 10
 done
 
-if ! timeout 1 ping -c 1 "$RANCHER_IP"; then
+if ! timeout 1 ping -c 1 "$NFS_IP"; then
     exit 2
 fi
 
@@ -270,11 +270,11 @@ until ./rke up; do
     ./rke remove
 done
 
-scp -i $SSH_KEY ./kube_config_cluster.yml root@$RANCHER_IP:/root/.kube/config
+scp -i $SSH_KEY ./kube_config_cluster.yml root@$NFS_IP:/root/.kube/config
 popd
 
 
 sleep 2m
-ssh -o StrictHostKeychecking=no -i $SSH_KEY ubuntu@$RANCHER_IP "sed -u '/Cloud-init.*finished/q' <(tail -n+0 -f /var/log/cloud-init-output.log)"
+ssh -o StrictHostKeychecking=no -i $SSH_KEY ubuntu@$NFS_IP "sed -u '/Cloud-init.*finished/q' <(tail -n+0 -f /var/log/cloud-init-output.log)"
 
 exit 0

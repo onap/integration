@@ -27,17 +27,13 @@ parameters:
     type: string
     description: Name of the Ubuntu 18.04 image
 
-  rancher_vm_flavor:
+  nfs_vm_flavor:
     type: string
-    description: VM flavor for Rancher
+    description: VM flavor for Nfs
 
   k8s_vm_flavor:
     type: string
     description: VM flavor for k8s hosts
-
-  etcd_vm_flavor:
-    type: string
-    description: VM flavor for etcd hosts
 
   orch_vm_flavor:
     type: string
@@ -86,11 +82,6 @@ parameters:
   helm_deploy_delay:
     type: string
     default: "3m"
-
-  use_ramdisk:
-    type: string
-    description: Set to "true" if you want to use a RAM disk for /dockerdata-nfs/.
-    default: "false"
 
   mtu:
     type: number
@@ -194,7 +185,7 @@ resources:
       router_id: { get_resource: router }
       subnet_id: { get_resource: oam_ext_subnet }
 
-  rancher_private_port:
+  nfs_private_port:
     type: OS::Neutron::Port
     properties:
       network: { get_resource: oam_network }
@@ -202,32 +193,31 @@ resources:
       security_groups:
       - { get_resource: onap_sg }
 
-  rancher_floating_ip:
+  nfs_floating_ip:
     type: OS::Neutron::FloatingIP
     properties:
       floating_network_id: { get_param: public_net_id }
-      port_id: { get_resource: rancher_private_port }
-
-  rancher_vm:
+      port_id: { get_resource: nfs_private_port }
+  nfs_vm:
     type: OS::Nova::Server
     properties:
       name:
-        list_join: ['-', [{ get_param: 'OS::stack_name' }, 'rancher']]
+        list_join: ['-', [{ get_param: 'OS::stack_name' }, 'nfs']]
       image: { get_param: ubuntu_1804_image }
-      flavor: { get_param: rancher_vm_flavor }
+      flavor: { get_param: nfs_vm_flavor }
       key_name: { get_param: key_name }
       networks:
-      - port: { get_resource: rancher_private_port }
+      - port: { get_resource: nfs_private_port }
       user_data_format: RAW
       user_data:
         str_replace:
           template:
-            get_file: rancher_vm_entrypoint.sh
+            get_file: nfs_vm_entrypoint.sh
           params:
             __docker_proxy__: { get_param: docker_proxy }
             __apt_proxy__: { get_param: apt_proxy }
-            __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
-            __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+            __nfs_ip_addr__: { get_attr: [nfs_floating_ip, floating_ip_address] }
+            __nfs_private_ip_addr__: { get_attr: [nfs_floating_ip, fixed_ip_address] }
             __integration_override_yaml__: { get_param: integration_override_yaml }
             __integration_gerrit_branch__: { get_param: integration_gerrit_branch }
             __integration_gerrit_refspec__: { get_param: integration_gerrit_refspec }
@@ -238,7 +228,6 @@ resources:
             __kubectl_version__: { get_param: kubectl_version }
             __helm_version__: { get_param: helm_version }
             __helm_deploy_delay__: { get_param: helm_deploy_delay }
-            __use_ramdisk__: { get_param: use_ramdisk }
             __mtu__: { get_param: mtu }
             __portal_hostname__: { get_param: portal_hostname }
             __public_net_id__: { get_param: public_net_id }
@@ -306,8 +295,8 @@ resources:
                 __docker_proxy__: { get_param: docker_proxy }
                 __apt_proxy__: { get_param: apt_proxy }
                 __docker_version__: { get_param: docker_version }
-                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
-                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __nfs_ip_addr__: { get_attr: [nfs_floating_ip, floating_ip_address] }
+                __nfs_private_ip_addr__: { get_attr: [nfs_floating_ip, fixed_ip_address] }
                 __host_private_ip_addr__: { get_attr: [k8s_01_floating_ip, fixed_ip_address] }
                 __mtu__: { get_param: mtu }
               template:
@@ -344,7 +333,6 @@ resources:
       - port: { get_resource: k8s_01_private_port }
       user_data_format: SOFTWARE_CONFIG
       user_data: { get_resource: k8s_01_vm_config }
-
   k8s_02_private_port:
     type: OS::Neutron::Port
     properties:
@@ -376,8 +364,8 @@ resources:
                 __docker_proxy__: { get_param: docker_proxy }
                 __apt_proxy__: { get_param: apt_proxy }
                 __docker_version__: { get_param: docker_version }
-                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
-                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __nfs_ip_addr__: { get_attr: [nfs_floating_ip, floating_ip_address] }
+                __nfs_private_ip_addr__: { get_attr: [nfs_floating_ip, fixed_ip_address] }
                 __host_private_ip_addr__: { get_attr: [k8s_02_floating_ip, fixed_ip_address] }
                 __mtu__: { get_param: mtu }
               template:
@@ -414,7 +402,6 @@ resources:
       - port: { get_resource: k8s_02_private_port }
       user_data_format: SOFTWARE_CONFIG
       user_data: { get_resource: k8s_02_vm_config }
-
   k8s_03_private_port:
     type: OS::Neutron::Port
     properties:
@@ -446,8 +433,8 @@ resources:
                 __docker_proxy__: { get_param: docker_proxy }
                 __apt_proxy__: { get_param: apt_proxy }
                 __docker_version__: { get_param: docker_version }
-                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
-                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __nfs_ip_addr__: { get_attr: [nfs_floating_ip, floating_ip_address] }
+                __nfs_private_ip_addr__: { get_attr: [nfs_floating_ip, fixed_ip_address] }
                 __host_private_ip_addr__: { get_attr: [k8s_03_floating_ip, fixed_ip_address] }
                 __mtu__: { get_param: mtu }
               template:
@@ -484,7 +471,6 @@ resources:
       - port: { get_resource: k8s_03_private_port }
       user_data_format: SOFTWARE_CONFIG
       user_data: { get_resource: k8s_03_vm_config }
-
   k8s_04_private_port:
     type: OS::Neutron::Port
     properties:
@@ -516,8 +502,8 @@ resources:
                 __docker_proxy__: { get_param: docker_proxy }
                 __apt_proxy__: { get_param: apt_proxy }
                 __docker_version__: { get_param: docker_version }
-                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
-                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __nfs_ip_addr__: { get_attr: [nfs_floating_ip, floating_ip_address] }
+                __nfs_private_ip_addr__: { get_attr: [nfs_floating_ip, fixed_ip_address] }
                 __host_private_ip_addr__: { get_attr: [k8s_04_floating_ip, fixed_ip_address] }
                 __mtu__: { get_param: mtu }
               template:
@@ -554,7 +540,6 @@ resources:
       - port: { get_resource: k8s_04_private_port }
       user_data_format: SOFTWARE_CONFIG
       user_data: { get_resource: k8s_04_vm_config }
-
   k8s_05_private_port:
     type: OS::Neutron::Port
     properties:
@@ -586,8 +571,8 @@ resources:
                 __docker_proxy__: { get_param: docker_proxy }
                 __apt_proxy__: { get_param: apt_proxy }
                 __docker_version__: { get_param: docker_version }
-                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
-                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __nfs_ip_addr__: { get_attr: [nfs_floating_ip, floating_ip_address] }
+                __nfs_private_ip_addr__: { get_attr: [nfs_floating_ip, fixed_ip_address] }
                 __host_private_ip_addr__: { get_attr: [k8s_05_floating_ip, fixed_ip_address] }
                 __mtu__: { get_param: mtu }
               template:
@@ -624,7 +609,6 @@ resources:
       - port: { get_resource: k8s_05_private_port }
       user_data_format: SOFTWARE_CONFIG
       user_data: { get_resource: k8s_05_vm_config }
-
   k8s_06_private_port:
     type: OS::Neutron::Port
     properties:
@@ -656,8 +640,8 @@ resources:
                 __docker_proxy__: { get_param: docker_proxy }
                 __apt_proxy__: { get_param: apt_proxy }
                 __docker_version__: { get_param: docker_version }
-                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
-                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __nfs_ip_addr__: { get_attr: [nfs_floating_ip, floating_ip_address] }
+                __nfs_private_ip_addr__: { get_attr: [nfs_floating_ip, fixed_ip_address] }
                 __host_private_ip_addr__: { get_attr: [k8s_06_floating_ip, fixed_ip_address] }
                 __mtu__: { get_param: mtu }
               template:
@@ -694,7 +678,6 @@ resources:
       - port: { get_resource: k8s_06_private_port }
       user_data_format: SOFTWARE_CONFIG
       user_data: { get_resource: k8s_06_vm_config }
-
   k8s_07_private_port:
     type: OS::Neutron::Port
     properties:
@@ -726,8 +709,8 @@ resources:
                 __docker_proxy__: { get_param: docker_proxy }
                 __apt_proxy__: { get_param: apt_proxy }
                 __docker_version__: { get_param: docker_version }
-                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
-                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __nfs_ip_addr__: { get_attr: [nfs_floating_ip, floating_ip_address] }
+                __nfs_private_ip_addr__: { get_attr: [nfs_floating_ip, fixed_ip_address] }
                 __host_private_ip_addr__: { get_attr: [k8s_07_floating_ip, fixed_ip_address] }
                 __mtu__: { get_param: mtu }
               template:
@@ -764,7 +747,6 @@ resources:
       - port: { get_resource: k8s_07_private_port }
       user_data_format: SOFTWARE_CONFIG
       user_data: { get_resource: k8s_07_vm_config }
-
   k8s_08_private_port:
     type: OS::Neutron::Port
     properties:
@@ -796,8 +778,8 @@ resources:
                 __docker_proxy__: { get_param: docker_proxy }
                 __apt_proxy__: { get_param: apt_proxy }
                 __docker_version__: { get_param: docker_version }
-                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
-                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __nfs_ip_addr__: { get_attr: [nfs_floating_ip, floating_ip_address] }
+                __nfs_private_ip_addr__: { get_attr: [nfs_floating_ip, fixed_ip_address] }
                 __host_private_ip_addr__: { get_attr: [k8s_08_floating_ip, fixed_ip_address] }
                 __mtu__: { get_param: mtu }
               template:
@@ -834,7 +816,6 @@ resources:
       - port: { get_resource: k8s_08_private_port }
       user_data_format: SOFTWARE_CONFIG
       user_data: { get_resource: k8s_08_vm_config }
-
   k8s_09_private_port:
     type: OS::Neutron::Port
     properties:
@@ -866,8 +847,8 @@ resources:
                 __docker_proxy__: { get_param: docker_proxy }
                 __apt_proxy__: { get_param: apt_proxy }
                 __docker_version__: { get_param: docker_version }
-                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
-                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __nfs_ip_addr__: { get_attr: [nfs_floating_ip, floating_ip_address] }
+                __nfs_private_ip_addr__: { get_attr: [nfs_floating_ip, fixed_ip_address] }
                 __host_private_ip_addr__: { get_attr: [k8s_09_floating_ip, fixed_ip_address] }
                 __mtu__: { get_param: mtu }
               template:
@@ -904,7 +885,6 @@ resources:
       - port: { get_resource: k8s_09_private_port }
       user_data_format: SOFTWARE_CONFIG
       user_data: { get_resource: k8s_09_vm_config }
-
   k8s_10_private_port:
     type: OS::Neutron::Port
     properties:
@@ -936,8 +916,8 @@ resources:
                 __docker_proxy__: { get_param: docker_proxy }
                 __apt_proxy__: { get_param: apt_proxy }
                 __docker_version__: { get_param: docker_version }
-                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
-                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __nfs_ip_addr__: { get_attr: [nfs_floating_ip, floating_ip_address] }
+                __nfs_private_ip_addr__: { get_attr: [nfs_floating_ip, fixed_ip_address] }
                 __host_private_ip_addr__: { get_attr: [k8s_10_floating_ip, fixed_ip_address] }
                 __mtu__: { get_param: mtu }
               template:
@@ -974,7 +954,6 @@ resources:
       - port: { get_resource: k8s_10_private_port }
       user_data_format: SOFTWARE_CONFIG
       user_data: { get_resource: k8s_10_vm_config }
-
   k8s_11_private_port:
     type: OS::Neutron::Port
     properties:
@@ -1006,8 +985,8 @@ resources:
                 __docker_proxy__: { get_param: docker_proxy }
                 __apt_proxy__: { get_param: apt_proxy }
                 __docker_version__: { get_param: docker_version }
-                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
-                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __nfs_ip_addr__: { get_attr: [nfs_floating_ip, floating_ip_address] }
+                __nfs_private_ip_addr__: { get_attr: [nfs_floating_ip, fixed_ip_address] }
                 __host_private_ip_addr__: { get_attr: [k8s_11_floating_ip, fixed_ip_address] }
                 __mtu__: { get_param: mtu }
               template:
@@ -1044,7 +1023,6 @@ resources:
       - port: { get_resource: k8s_11_private_port }
       user_data_format: SOFTWARE_CONFIG
       user_data: { get_resource: k8s_11_vm_config }
-
   k8s_12_private_port:
     type: OS::Neutron::Port
     properties:
@@ -1076,8 +1054,8 @@ resources:
                 __docker_proxy__: { get_param: docker_proxy }
                 __apt_proxy__: { get_param: apt_proxy }
                 __docker_version__: { get_param: docker_version }
-                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
-                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __nfs_ip_addr__: { get_attr: [nfs_floating_ip, floating_ip_address] }
+                __nfs_private_ip_addr__: { get_attr: [nfs_floating_ip, fixed_ip_address] }
                 __host_private_ip_addr__: { get_attr: [k8s_12_floating_ip, fixed_ip_address] }
                 __mtu__: { get_param: mtu }
               template:
@@ -1114,7 +1092,6 @@ resources:
       - port: { get_resource: k8s_12_private_port }
       user_data_format: SOFTWARE_CONFIG
       user_data: { get_resource: k8s_12_vm_config }
-
   orch_1_private_port:
     type: OS::Neutron::Port
     properties:
@@ -1146,8 +1123,8 @@ resources:
                 __docker_proxy__: { get_param: docker_proxy }
                 __apt_proxy__: { get_param: apt_proxy }
                 __docker_version__: { get_param: docker_version }
-                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
-                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __nfs_ip_addr__: { get_attr: [nfs_floating_ip, floating_ip_address] }
+                __nfs_private_ip_addr__: { get_attr: [nfs_floating_ip, fixed_ip_address] }
                 __host_private_ip_addr__: { get_attr: [orch_1_floating_ip, fixed_ip_address] }
                 __mtu__: { get_param: mtu }
               template:
@@ -1184,7 +1161,6 @@ resources:
       - port: { get_resource: orch_1_private_port }
       user_data_format: SOFTWARE_CONFIG
       user_data: { get_resource: orch_1_vm_config }
-
   orch_2_private_port:
     type: OS::Neutron::Port
     properties:
@@ -1216,8 +1192,8 @@ resources:
                 __docker_proxy__: { get_param: docker_proxy }
                 __apt_proxy__: { get_param: apt_proxy }
                 __docker_version__: { get_param: docker_version }
-                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
-                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __nfs_ip_addr__: { get_attr: [nfs_floating_ip, floating_ip_address] }
+                __nfs_private_ip_addr__: { get_attr: [nfs_floating_ip, fixed_ip_address] }
                 __host_private_ip_addr__: { get_attr: [orch_2_floating_ip, fixed_ip_address] }
                 __mtu__: { get_param: mtu }
               template:
@@ -1254,7 +1230,6 @@ resources:
       - port: { get_resource: orch_2_private_port }
       user_data_format: SOFTWARE_CONFIG
       user_data: { get_resource: orch_2_vm_config }
-
   orch_3_private_port:
     type: OS::Neutron::Port
     properties:
@@ -1286,8 +1261,8 @@ resources:
                 __docker_proxy__: { get_param: docker_proxy }
                 __apt_proxy__: { get_param: apt_proxy }
                 __docker_version__: { get_param: docker_version }
-                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
-                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __nfs_ip_addr__: { get_attr: [nfs_floating_ip, floating_ip_address] }
+                __nfs_private_ip_addr__: { get_attr: [nfs_floating_ip, fixed_ip_address] }
                 __host_private_ip_addr__: { get_attr: [orch_3_floating_ip, fixed_ip_address] }
                 __mtu__: { get_param: mtu }
               template:
@@ -1324,18 +1299,17 @@ resources:
       - port: { get_resource: orch_3_private_port }
       user_data_format: SOFTWARE_CONFIG
       user_data: { get_resource: orch_3_vm_config }
-
 outputs:
   docker_proxy:
     value: { get_param: docker_proxy }
 
-  rancher_vm_ip:
-    description: The IP address of the rancher instance
-    value: { get_attr: [rancher_floating_ip, floating_ip_address] }
+  nfs_vm_ip:
+    description: The IP address of the nfs instance
+    value: { get_attr: [nfs_floating_ip, floating_ip_address] }
 
-  rancher_vm_private_ip:
-    description: The private IP address of the rancher instance
-    value: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+  nfs_vm_private_ip:
+    description: The private IP address of the nfs instance
+    value: { get_attr: [nfs_floating_ip, fixed_ip_address] }
 
   k8s_01_vm_ip:
     description: The IP address of the k8s_01 instance

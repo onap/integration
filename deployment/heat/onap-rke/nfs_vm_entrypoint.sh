@@ -20,7 +20,7 @@ echo $HOST_IP `hostname` >> /etc/hosts
 printenv
 
 mkdir -p /opt/config
-echo "__rancher_ip_addr__" > /opt/config/rancher_ip_addr.txt
+echo "__nfs_ip_addr__" > /opt/config/nfs_ip_addr.txt
 echo "__k8s_vm_ips__" > /opt/config/k8s_vm_ips.txt
 echo "__k8s_private_ips__" > /opt/config/k8s_private_ips.txt
 echo "__public_net_id__" > /opt/config/public_net_id.txt
@@ -50,7 +50,7 @@ sed -i 's|\_\_oam_network_cidr__|__oam_network_cidr__|g' /opt/config/integration
 sed -i 's/\_\_oam_network_id__/__oam_network_id__/g' /opt/config/integration-override.yaml
 sed -i 's/\_\_oam_subnet_id__/__oam_subnet_id__/g' /opt/config/integration-override.yaml
 sed -i 's/\_\_sec_group__/__sec_group__/g' /opt/config/integration-override.yaml
-sed -i 's/\_\_rancher_ip_addr__/__rancher_ip_addr__/g' /opt/config/integration-override.yaml
+sed -i 's/\_\_nfs_ip_addr__/__nfs_ip_addr__/g' /opt/config/integration-override.yaml
 sed -i 's/\_\_k8s_01_vm_ip__/__k8s_01_vm_ip__/g' /opt/config/integration-override.yaml
 sed -i 's/\_\_docker_proxy__/__docker_proxy__/g' /opt/config/integration-override.yaml
 cp /opt/config/integration-override.yaml /root
@@ -89,15 +89,9 @@ done
 
 mkdir -p /dockerdata-nfs
 
-# use RAM disk for /dockerdata-nfs for testing
-if [ "__use_ramdisk__" = "true" ]; then
-    echo "tmpfs /dockerdata-nfs tmpfs noatime,size=75% 1 2" >> /etc/fstab
-    mount /dockerdata-nfs
-fi
-
 # update and initialize git
-git config --global user.email root@rancher
-git config --global user.name root@rancher
+git config --global user.email root@nfs
+git config --global user.name root@nfs
 git config --global log.decorate auto
 
 # version control the persistence volume to see what's happening

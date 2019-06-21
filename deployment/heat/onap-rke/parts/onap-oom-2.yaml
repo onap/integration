@@ -29,8 +29,8 @@
                 __docker_proxy__: { get_param: docker_proxy }
                 __apt_proxy__: { get_param: apt_proxy }
                 __docker_version__: { get_param: docker_version }
-                __rancher_ip_addr__: { get_attr: [rancher_floating_ip, floating_ip_address] }
-                __rancher_private_ip_addr__: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+                __nfs_ip_addr__: { get_attr: [nfs_floating_ip, floating_ip_address] }
+                __nfs_private_ip_addr__: { get_attr: [nfs_floating_ip, fixed_ip_address] }
                 __host_private_ip_addr__: { get_attr: [${VM_TYPE}_${VM_NUM}_floating_ip, fixed_ip_address] }
                 __mtu__: { get_param: mtu }
               template:
@@ -67,4 +67,3 @@
       - port: { get_resource: ${VM_TYPE}_${VM_NUM}_private_port }
       user_data_format: SOFTWARE_CONFIG
       user_data: { get_resource: ${VM_TYPE}_${VM_NUM}_vm_config }
-
