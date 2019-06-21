@@ -3,7 +3,7 @@
 ONAP Maturity Testing Notes
 ---------------------------
 
-For the Casablanca release, ONAP continues to improve in multiple
+For the Dublin release, ONAP continues to improve in multiple
 areas of Scalability, Security, Stability and Performance (S3P)
 metrics.
 
@@ -21,25 +21,28 @@ The Stability Test has two main components:
 - Running "ete stability72hr" Robot suite periodically.  This test suite verifies that ONAP can instantiate vDNS, vFWCL, and VVG.
 - Set up vFW Closed Loop to remain running, then check periodically that the closed loop functionality is still working.
 
-Detailed instructions on how these tests are run can be found at https://wiki.onap.org/display/DW/Casablanca+Stability+Testing+Instructions .
 
 Results: 100% PASS
 ~~~~~~~~~~~~~~~~~~
-=================== ======== ========= =========
-Test Case           Attempts Successes Pass Rate
-=================== ======== ========= =========
-Stability 72 hours   65       65        100%
-vFW Closed Loop      71       71        100%
-**Total**            136      136       **100%**
-=================== ======== ========= =========
+=================== ======== ========== ======== ========= =========
+Test Case           Attempts Env Issues Failures Successes Pass Rate
+=================== ======== ========== ======== ========= =========
+Stability 72 hours  72       34         0        38        100%
+vFW Closed Loop     75       7          0        68        100%
+**Total**           147      41         0        106       **100%**
+=================== ======== ========== ======== ========= =========
 
-Detailed results can be found at https://wiki.onap.org/display/DW/Casablanca+Release+Stability+Testing+Status .
+Detailed results can be found at https://wiki.onap.org/display/DW/Dublin+Release+Stability+Testing+Status .
 
 .. note::
- - The Wind River lab OpenStack instance sporadically returns authentication failures or dropped network connections under load.  The 
-   Stability 72 hours test runs that failed due to these known infrastructure issues were discarded.
- - The Packet Generator VNF used in the vFW Closed Loop test becomes unstable after long run-times.  The vFWCL test runs that failed 
-   due to Packet Generator failures (which are not ONAP platform failures) were discarded.
+ - Overall results were good. All of the test failures were due to
+   issues with the unstable environment and tooling framework.
+ - JIRAs were created for readiness/liveness probe issues found while
+   testing under the unstable environment. Patches applied to oom and
+   testsuite during the testing helped reduce test failures due to
+   environment and tooling framework issues.
+ - The vFW Closed Loop test was very stable and self recovered from
+   environment issues.
 
 
 Resilience
@@ -52,18 +55,18 @@ Methodology
 For each Use Case, a list of the ONAP components involved is identified.  The pods of each of those components are systematically deleted one-by-one; after each pod deletion, we wait for the pods to recover, then execute the Use Case again to verify successful ONAP platform recovery.
 
 
-Results: 96.9% PASS
+Results: 99.4% PASS
 ~~~~~~~~~~~~~~~~~~~
-=============================== ======== ========= =========
-Use Case                        Attempts Successes Pass Rate
-=============================== ======== ========= =========
-VNF Onboarding and Distribution 45       44        97.8%
-VNF Instantiation               54       52        96.3%
-vFW Closed Loop                 61       59        96.7%
-**Total**                       160      155       **96.9%**
-=============================== ======== ========= =========
+=============================== ======== ========== ======== ========= =========
+Use Case                        Attempts Env Issues Failures Successes Pass Rate
+=============================== ======== ========== ======== ========= =========
+VNF Onboarding and Distribution 49       0          0        49        100%
+VNF Instantiation               64       19         1        44        97.8%
+vFW Closed Loop                 66       0          0        66        100%
+**Total**                       179      19         1        159       **99.4%**
+=============================== ======== ========== ======== ========= =========
 
-Detailed results can be found at https://wiki.onap.org/display/DW/Casablanca+Release+Stability+Testing+Status .
+Detailed results can be found at https://wiki.onap.org/display/DW/Dublin+Release+Resilience+Testing+Status .
 
 
 Deployability
