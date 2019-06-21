@@ -42,6 +42,8 @@ Functional Requirements
 
 :ref:`5G - Buld PM <docs_5g_bulk_pm>`
 
+:ref:`5G - Configuration over NETCONF <docs_5G_Configuration_over_NETCONF>`
+
 :ref:`5G - PNF Software Upgrade <docs_5g_pnf_software_upgrade>`
 
 :ref:`5G - OOF and PCI <docs_5G_oof_pci>`
