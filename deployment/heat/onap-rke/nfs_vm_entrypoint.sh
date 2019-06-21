@@ -20,7 +20,9 @@ echo $HOST_IP `hostname` >> /etc/hosts
 printenv
 
 mkdir -p /opt/config
+echo "__nfs_volume_id__" > /opt/config/nfs_volume_id.txt
 echo "__nfs_ip_addr__" > /opt/config/nfs_ip_addr.txt
+echo "__nfs_private_ip_addr__" > /opt/config/nfs_private_ip_addr.txt
 echo "__k8s_vm_ips__" > /opt/config/k8s_vm_ips.txt
 echo "__k8s_private_ips__" > /opt/config/k8s_private_ips.txt
 echo "__public_net_id__" > /opt/config/public_net_id.txt
@@ -83,11 +85,15 @@ sed -i 's|http://archive.ubuntu.com|http://nova.clouds.archive.ubuntu.com|g' /et
 
 while ! hash jq &> /dev/null; do
     apt-get -y update
-    apt-get -y install curl jq make nfs-kernel-server moreutils
+    apt-get -y install curl jq make nfs-kernel-server moreutils zfsutils-linux
     sleep 10
 done
 
-mkdir -p /dockerdata-nfs
+nfs_volume_dev="/dev/disk/by-id/virtio-$(echo "__nfs_volume_id__" | cut -c -20)"
+
+zpool create -f -m /dockerdata-nfs dockerdata-nfs $nfs_volume_dev
+zfs set compression=lz4 dockerdata-nfs
+zfs set sharenfs="rw=*" dockerdata-nfs
 
 # update and initialize git
 git config --global user.email root@nfs
@@ -101,11 +107,6 @@ cd /dockerdata-nfs/
 git init
 git add -A
 git commit -m "initial commit"
-
-# export NFS mount
-echo "/dockerdata-nfs *(rw,fsid=1,async,no_root_squash,no_subtree_check)" | tee /etc/exports
-exportfs -a
-systemctl restart nfs-kernel-server
 
 
 

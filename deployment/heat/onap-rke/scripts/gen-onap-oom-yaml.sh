@@ -30,6 +30,17 @@ EOF
 cat $PARTS_DIR/onap-oom-1.yaml
 
 cat <<EOF
+  nfs_volume:
+    type: OS::Cinder::Volume
+    properties:
+      size: 200
+
+  nfs_volume_att:
+    type: OS::Cinder::VolumeAttachment
+    properties:
+      instance_uuid: { get_resource: nfs_vm }
+      volume_id: { get_resource: nfs_volume }
+
   nfs_vm:
     type: OS::Nova::Server
     properties:
@@ -46,6 +57,7 @@ cat <<EOF
           template:
             get_file: nfs_vm_entrypoint.sh
           params:
+            __nfs_volume_id__: { get_resource: nfs_volume }
             __docker_proxy__: { get_param: docker_proxy }
             __apt_proxy__: { get_param: apt_proxy }
             __nfs_ip_addr__: { get_attr: [nfs_floating_ip, floating_ip_address] }
