@@ -7,10 +7,10 @@ ONAP OOM HEAT Template
 Source files
 ~~~~~~~~~~~~
 
-- HEAT template files: https://git.onap.org/integration/tree/deployment/heat/onap-oom?h=casablanca
-- Sample OpenStack RC file: https://git.onap.org/integration/tree/deployment/heat/onap-oom/env/windriver/Integration-SB-00-openrc?h=casablanca
-- Sample environment file: https://git.onap.org/integration/tree/deployment/heat/onap-oom/env/windriver/onap-oom.env?h=casablanca
-- Deployment script: https://git.onap.org/integration/tree/deployment/heat/onap-oom/scripts/deploy.sh?h=casablanca
+- HEAT template files: https://git.onap.org/integration/tree/deployment/heat/onap-rke?h=dublin
+- Sample OpenStack RC file: https://git.onap.org/integration/tree/deployment/heat/onap-rke/env/windriver/Integration-SB-00-openrc?h=dublin
+- Sample environment file: https://git.onap.org/integration/tree/deployment/heat/onap-rke/env/windriver/onap-oom.env?h=dublin
+- Deployment script: https://git.onap.org/integration/tree/deployment/heat/onap-rke/scripts/deploy.sh?h=dublin
 
 
 Description
@@ -24,10 +24,9 @@ The ONAP OOM HEAT template deploys the entire ONAP platform.  It spins
 up an HA-enabled Kubernetes cluster, and deploys ONAP using OOM onto
 this cluster.
 
-- 1 Rancher VM that also serves as a shared NFS server
-- 3 etcd VMs for the Kubernetes HA etcd plane
-- 2 orch VMs for the Kubernetes HA orchestration plane
-- 12 k8s VMs for the Kubernetes HA compute hosts
+- 1 Shared NFS server (called Rancher VM for legacy reasons)
+- 3 orch VMs for Kubernetes HA controller and etcd roles
+- 12 k8s VMs for Kubernetes HA worker roles
 
 
 Quick Start
@@ -39,7 +38,7 @@ you need to do to deploy ONAP:
 ::
 
    git clone https://git.onap.org/integration
-   cd integration/deployment/heat/onap-oom/
+   cd integration/deployment/heat/onap-rke/
    source ./env/windriver/Integration-SB-00-openrc
    ./scripts/deploy.sh ./env/windriver/onap-oom.env
 
@@ -68,7 +67,7 @@ OpenStack environment as well.
 
    rancher_vm_flavor: m1.large
    k8s_vm_flavor: m1.xlarge
-   etcd_vm_flavor: m1.medium
+   etcd_vm_flavor: m1.medium # not currently used
    orch_vm_flavor: m1.medium
 
    key_name: onap_key
@@ -81,7 +80,6 @@ set the apt_proxy and docker_proxy parameters to the empty string "".
 
 rancher_vm_flavor needs to have 8 GB of RAM.
 k8s_vm_flavor needs to have 16 GB of RAM.
-etcd_vm_flavor needs to have 4 GB of RAM.
 orch_vm_flavor needs to have 4 GB of RAM.
 
 By default the template assumes that you have already imported a
@@ -101,7 +99,6 @@ Exploring the Rancher VM
 
 The Rancher VM that is spun up by this HEAT template serves the
 following key roles:
-- Installaion of the Rancher server
 - Hosts the /dockerdata-nfs/ NFS export shared by all the k8s VMs for persistent volumes
 - git clones the oom repo into /root/oom
 - git clones the integration repo into /root/integration
@@ -116,9 +113,9 @@ Deploying an Updated Docker Manifest
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Some late changes in the ONAP docker images did not make it in time
-for the Casablanca release.  Depending on the Use Case you are trying
+for the Dublin release.  Depending on the Use Case you are trying
 deploy, you may need to update the docker image manifest with certain
-newer docker image versions than what was shipped with ONAP Casablanca
+newer docker image versions than what was shipped with ONAP Dublin
 release.
 
 The ONAP integration repo contains a script that will apply the docker
