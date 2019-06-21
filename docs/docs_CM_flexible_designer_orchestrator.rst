@@ -1,114 +1,289 @@
-.. _docs_CM_flexible_designer_orchestrator: 
+.. contents::
+   :depth: 3
+..
 
-Change Management Flexible Designer and Orchestrator  
------------------------------------------------------------------------------
+Dublin Workflow Designer Release Notes
+======================================
 
-Description 
-~~~~~~~~~~~~~~
+The Workflow Editor was developed in the Beijing release by Amdocs and
+is available in SDC for users to create workflows.
 
-The change management flexible designer and orchestrator enables a user to design a change workflow in SDC using a catalog of activities and distribute and deploy the workflow to SO for execution. 
+NOTE: For the Dublin release only FlowCompleteActivity, Set/UnSet
+InMaint Flags Building Blocks were tested. Testing for the other
+Building Blocks for an InPlaceSWUpdate will be tested in the El Alto
+release.
 
-How to Use
-~~~~~~~~~~~
-To use the flexible designer and orchestrator functionality, one has to execute the following steps: 
+Building Blocks Available 
+--------------------------
 
-1) Activity upload (SO to SDC) 
+The following building blocks will be visible in the SDC Workflow
+Designer Editor. Those that were tested are marked with an “\*”. Those
+that are unmarked were not tested.
 
-2) Change workflow design and certification (in SDC) 
+-  VNFSetInMaintFlagActivity  \*
 
-3) Change workflow testing (in SDC) 
+-  VNFUnsetInMaintFlagActivity  \*                     
 
-4) Change workflow distribution and deployment (SDC to SO) 
+-  FlowCompleteActivity \*                 
 
-For steps 2-4, use the ONAP portal: 
+-  VNFCheckInMaintFlagActivity  
 
-https://portal.api.simpledemo.onap.org:30225/ONAPPORTAL/login.htm 
+-  PauseForManualTaskActivity            
 
-Login in designer: cs0008 
+-  VNFCheckClosedLoopDisabledFlagActivity      
 
-Password for all users is: demo123456!
+-  VNFCheckPserversLockedFlagActivity    
 
-Activity upload - Source files 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-  VNFHealthCheckActivity                
 
-SO Activity Specs: 
+-  VnfInPlaceSoftwareUpdate             
 
-https://git.onap.org/so/tree/bpmn/so-bpmn-building-blocks/src/main/resources/ActivitySpec
+-  VNFLockActivity                      
 
-Activity upload - How to use
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-  VNFQuiesceTrafficActivity             
 
-Use the manual activity spec upload process for now - for every json file in ActivitySpec directory run the curl commands below
+-  VNFResumeTrafficActivity              
 
-Deploy SO Activity Spec to SDC:
-curl -X POST http://sdc-wfd-be:8080/v1.0/activity-spec -H "C
-ontent-Type: application/json" -d @<activity name>.json
+-  VNFSetClosedLoopDisabledFlagActivity  
 
-The output will be of the form:{"id":"...","versionId":"..."}
+-  VNFSnapShotActivity                   
 
-Make a note of id from the output.
+-  VNFStartActivity                      
 
-Certify SO Activity Spec in SDC:
-curl -X PUT "http://sdc-wfd-be:8080/v1.0/activity-spec/<id returned on deployment>/versions/latest/actions" -H  "accept: */*" -H  "Content-Type: application/json" -d "{  \"action\": \"CERTIFY\"}"
+-  VNFStopActivity                       
 
-Example:
+-  VNFUnlockActivity                     
 
-curl -X POST http://sdc-wfd-be:8080/v1.0/activity-spec -H "C
-ontent-Type: application/json" -d @VNFUnsetInMaintFlagActivitySpec.json
+-  VNFUnsetClosedLoopDisabledFlagActivity
 
-Output:
-{"id":"fad363f616d5422b94fe2351c8b44c48","versionId":"cd6af48e3c8247d2ab7568849d"}
-curl -X PUT "http://sdc-wfd-be:8080/v1.0/activity-spec/fad363f616d5422b94fe2351c8b44c48/versions/latest/actions" -H  "accept: */*" -H  "Content-Type: application/json" -d "{  \"action\": \"CERTIFY\"}"
+-  VNFUpgradeBackupActivity              
 
-Change workflow design and certification
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-1) Go to SDC on the ONAP portal. Use login with role of designer (cs0008)  
+-  VNFUpgradePostCheckActivity  
 
-2) Disable protection for now 
+-  VNFUpgradePreCheckActivity 
 
-3) Go to Workflow and click on Add a workflow. Provide a Name and Description for the new workflow. After clicking on Create, it will display a page with General, Input/Output and Composition. In Input/output, provide a NF_id as input and status as output. Save the workflow 
+-  VNFUpgradeSoftwareActivity
 
-4) Go to Composition and design the new workflow. 
+-  DistributeTrafficActivity Check Release Notes for this BB
 
-5) Start and End indicates the start and end of the workflow. Add an activity after start. Make it a service event and add an activity using the details option on the right. Select the Activity Spec. 
+-  DistributeTrafficCheckActivity   Check Release Notes for this BB
 
-6) Save the workflow 
+Pre-Workflow Execution
+----------------------
 
-7) Certify the workflow. Once certified, the workflow design cannot be changed. If one needs to change it post certification, one can create a new version of the workflow. 
+1. Users must ensure that the required Ansible scripts are available and
+   loaded the appropriate Ansible server prior to attempting to execute
+   a workflow. Building blocks for InPlaceSWUpgrade that require Ansible
+   Scripts include:
 
-8) Go back to Home and add a VF. Provide a name, category, description, Contact ID, vendor and vendor release for the VF. Save the VF. Go to Operation and Add a new operation. This is the step where you link the workflow to the VF. 
+-  VNFUpgradePreCheck,
 
-9) Go to Home and add a Service. Provide a name, category, description, contact ID, project Code for the service. Save the service.  Then go to Composition, select the VF previously created. Click on submit for testing. The service is ready for testing. 
+-  VNFUpgradeSoftware,
 
-Change workflow testing 
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+-  VNFUpgradePostCheck,
 
-1) Switch the user with tester role (jm0007) 
+1. If a building block exists in SO and is not showing up in the SDC
+   Workflow Designer (WFD), activities can be manually uploaded by
+   following instructions in the Change Managmenet Extension Release
+   Notes for CasaBlanca. This was tested and SO is expected to
+   automatically push the activities/BuildingBlocks (BBs) to SDC.
 
-2) In Home, the service would be displayed as Ready for Testing 
+2. User must create a workflow, attach it to the vNF model. It is
+   recommended that they test it in a test environment prior to
+   executing in a production environment.
 
-3) Click on the service and then start testing. 
+3. NOTE: The workflow distribution mechanism was working until after
+   Dublin code freeze in the test environment. Since we are not sure if
+   something broke, we are including instructions in to manually upload
+   the WF to SO. The Steps to upload a BPMN directly to SO are:
 
-4) Click on Accept and provide Certification confirmation. Now the workflow is ready for distribution. 
+    | - populate\_wfd\_tbl.sh ,
+    | - workflow\_template.xml
+    | - workflowtbl.sql
+    | It is recommended that the user cleanup the workflow tables. The
+      Sqls to do so are in
+    | -<cleanup\_rerun.txt.>.
 
-Change workflow distribution and deployment 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Here are the steps to populate the wfd tables
 
-1) Switch the user with governor role (gv0001). Governor is responsible for approving the distribution 
+    A. Create an absolute path directory
 
-2) Click on the service name and click on Approve. Provide the distribution confirmation comment. This approves the workflow distribution. 
+    This will be the directory where the files and the scripts reside
+    for populating the WFD tables.
 
-3) Switch the user with operator role (op0001).
+    Eg: /home/uid/workflows
 
-4) Click on the service name and then click on Distribution. Click on Distribute to distribute the workflow to SO. Then click on Monitor to check the distribution status. The CSAR along with BPMN is distributed from SDC to SO. 
+    B. Save the following files into the directory created in step 1
+    (eg:/home/uid/workflows)
 
-5) Once distribution is completed from SDC to SO, SO will automatically deploy the workflow. SO automatically makes the workflow ready for execution. 
+    populate\_wfd\_tbl.sh ,
 
-Known Issues and Resolution 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-SO has an issue with workflow validation during execution. 
-https://jira.onap.org/browse/SO-1243 
-We would be resolving this as a maintenance patch in Casablanca. 
-For Casablanca, the workflow design, testing, distribution and deployment have been successfully tested. 
+    workflow\_template.xml ,
 
-SDC user guide can be found here: https://wiki.onap.org/display/DW/Design
+    WorkflowSample.bpmn,
+
+    workflowtbl.sql
+
+    C. Change the user, password, and db in populate\_wfd\_tbl.sh
+
+    EG: mysql -u<user> -p<password> -D<schema>
+
+    In the script right now we used user=root, password=password,
+    schema=catalogdb
+
+                                 
+
+    D. Create your workflow bpmn (WorkflowSample.bpmn provided as a
+    sample)
+
+    Attributes from the workflow bpmn created for testing are used in
+    the workflow\_template.xml file so that the related WFD tables are
+    populated.
+
+    E. Edit the Workflow\_template.xml based on your workflow bpm that
+    you have created.
+
+    Template is populated with sample values as examples.
+
+    <?xml version="1.0" encoding="UTF-8"?>
+
+    <workflow-template>
+
+      <workflow ARTIFACT\_UUID="a90f8eaa-7c20-422f-8c81-aacbca6fb9e7"
+    ARTIFACT\_NAME="workflowSample.bpmn" NAME="workflowSample.bpmn"
+    OPERATION\_NAME="inPlaceSoftwareUpdate"
+
+      VERSION="1.0" DESCRIPTION="Workflow Artifact Description" BODY=""
+    RESOURCE\_TARGET="VNF" SOURCE="SDC" TIMEOUT\_MINUTES="120"
+
+      ARTIFACT\_CHECKSUM="ZjUzNjg1NDMyMTc4MWJmZjFlNDcyOGQ0Zjc1YWQwYzQ\\u003d">
+
+      </workflow>
+
+    //VNF to be used
+
+      <vnf NAME="abcd-abcd-abcd-abcd-abcd" VERSION="1.0"/>
+
+    //list the activities you are designed in the workflow bpmn and the
+    sequence order.
+
+      <activity\_spec\_sequence NAME="VNFSetInMaintFlagActivity"
+    VERSION="1.0" SEQUENCE="1"/>
+
+      <activity\_spec\_sequence NAME="VNFUnsetInMaintFlagActivity"
+    VERSION="1.0" SEQUENCE="2"/>
+
+      <activity\_spec\_category NAME="VNF"/>
+
+    </workflow-template>
+
+     
+
+    F.  => ./populate\_wfd\_tbl.sh <directory with absolute path that we
+    have created in step 1>
+
+    Eg:=> ./populate\_wfd\_tbl.sh '/home/uid/workflows'
+
+1. There is a correction in the code to connect the WF to the vNF in the
+   SO table, however, due to environment issues, it was not tested prior
+   to code freeze. We do expect it to work, however, in the event that
+   it does not, the user needs manually update the SO database to link
+   the WF to the vNF by following these instructions.
+
+   a. Login to dev-mariadb-galera-mariadb-galera-0 pod
+
+   b. mysql -ucataloguser -pcatalog123
+
+   c. use catalogdb;
+
+   d. select id from workflow where name = '<your workflow name>;
+
+   e. insert into vnf\_resource\_to\_workflow
+      (‘VNF\_RESOURCE\_MODEL\_UUID’, ‘WORKFLOW\_ID’)VALUES (‘<model uuid
+      of your VNF Resource>’,<workflow id obtained in the query in step
+      4>);
+
+Workflow Initiation
+-------------------
+
+After creating a workflow, attaching it to the vNF model and
+distributing the model, the workflow can now be initiated at the VID
+interface by: (Note – a vNF of the same model version must also be
+instantiated)
+
+1. Go to VID and Select “vNF Changes” from the left menu.
+
+2. Select the “+ New” icon at the top of the window.
+
+   a. Enter the fields displayed by VID. As selections are made, other
+      fields will appear. Any field where the entry “box” turns red when
+      selected, is mandatory.
+
+   b. Target Model is displayed but not needed for InPlaceSWUpdate or
+      Configupdate WFs
+
+   c. A configuration file must be uploaded to execute the ConfigUpdate
+      WF. This input is not used for InPlaceSWUpdate.
+
+   d. Operations Timeout is a mandatory field.
+
+   e. Existing and New SW Version fields are mandatory for
+      InPlaceSWUpdate.
+
+3. Available vNF dropdown
+
+   a. To select more than one vNF instance, just select the desired
+      instances from the dropdown list. You may select one or many.
+
+   b. To delete a selected vNF instance, click the “X” to the left of
+      that instance.
+
+   c. To exit the vNF instance selection mode, click in the blank space
+      on the Pop-Up. DO NOT click outside the Pop-Up as this is
+      equivalent to clicking <Cancel>.
+
+4. If the workflow desired is not displayed when clicking on the
+   Workflow “Box”, it means that the workflow is either not attached to
+   the vNF Model Version of the selected instance or the vNF Modell has
+   not been distributed and deployed in SO. Go back to steps 3-5 of the
+   previous section to correct.
+
+5. Once all fields are populated, select <Confirm> at the bottom of the
+   pop-up window to execute the workflow.
+
+6. To cancel your selections, click <Cancel> at the bottom of the pop-up
+   window.
+
+Workflow Status
+---------------
+
+Once the workflow is initiated, the user can view status of the workflow
+by Selecting the Active and Completed TABS.
+
+1. Click the Refresh icon above and to the right of the status table
+   being viewed to refresh the data.
+
+2. Click the icon in the status column to view specific status about the
+   workflow in that row.
+
+   a. Red icon indicates a failure or issue.
+
+   b. Green icon indicates in Progress or successful completion.
+
+Pause for Manual Task Building Block Handling
+---------------------------------------------
+
+Descoped from Dublin. To be tested in El Alto.
+
+Native (Hard Coded) SO Workflows
+--------------------------------
+
+The user will also see Native (Hard Coded) workflows along with
+workflows they create for the selected vNF type in the dropdown menu on
+the VID screen when initiating a workflow. These require ansible scripts
+and are available to test with your particular vNF. Only Scale out was
+part of the Dublin release. The others were not part of the release but
+are available to test with your vNF. Please refer to the Scale out
+release notes for further information.
+
+https://onap.readthedocs.io/en/latest/submodules/integration.git/docs/docs_scaleout.html#docs-scaleout
