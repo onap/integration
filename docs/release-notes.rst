@@ -29,7 +29,7 @@ Version: 4.0.0
 
 **Security Notes**
 
-Integration code has been formally scanned during build time using NexusIQ and all Critical vulnerabilities have been addressed, items that remain open have been assessed for risk and actions to be taken in future release. 
+Integration code has been formally scanned during build time using NexusIQ and all Critical vulnerabilities have been addressed, items that remain open have been assessed for risk and actions to be taken in future release.
 The Integration open Critical security vulnerabilities and their risk assessment have been documented as part of the `project <https://wiki.onap.org/pages/viewpage.action?pageId=45298876>`_.
 
 Quick Links:
@@ -49,11 +49,20 @@ The Integration team ran the 72 hours stability testing (100% passing rate) and 
 Verified Use Cases and Functional Requirements
 ==============================================
 
-The Integration team verified 30 use cases and functional requirements. 
+The Integration team verified 30 use cases and functional requirements.
 The details can be found at :ref:`Verified Use Cases and Functional Requirements <docs_usecases>` session.
 
 O-Parent
 ========
+
+Version: 2.0.0
+--------------
+
+:Release Date: 2019-03-08
+
+**New Features**
+
+* Updated oparent POM files to support LF's new global job template.
 
 Version: 1.2.3
 --------------
