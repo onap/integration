@@ -43,10 +43,6 @@ if [ $(kubectl get pods --namespace kube-system | tail -n +2 | grep -c Running) 
     exit 1
 fi
 
-if [ ! -f /dockerdata-nfs/rancher_agent_cmd.sh ]; then
-    cp /root/rancher_agent_cmd.sh /dockerdata-nfs
-fi
-
 
 kubectl delete namespace $NS
 for op in secrets configmaps pvc pv services deployments statefulsets clusterrolebinding; do

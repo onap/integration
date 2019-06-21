@@ -2,11 +2,11 @@ outputs:
   docker_proxy:
     value: { get_param: docker_proxy }
 
-  rancher_vm_ip:
-    description: The IP address of the rancher instance
-    value: { get_attr: [rancher_floating_ip, floating_ip_address] }
+  nfs_vm_ip:
+    description: The IP address of the nfs instance
+    value: { get_attr: [nfs_floating_ip, floating_ip_address] }
 
-  rancher_vm_private_ip:
-    description: The private IP address of the rancher instance
-    value: { get_attr: [rancher_floating_ip, fixed_ip_address] }
+  nfs_vm_private_ip:
+    description: The private IP address of the nfs instance
+    value: { get_attr: [nfs_floating_ip, fixed_ip_address] }
 

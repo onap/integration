@@ -13,8 +13,8 @@ printenv
 
 mkdir -p /opt/config
 echo "__docker_version__" > /opt/config/docker_version.txt
-echo "__rancher_ip_addr__" > /opt/config/rancher_ip_addr.txt
-echo "__rancher_private_ip_addr__" > /opt/config/rancher_private_ip_addr.txt
+echo "__nfs_ip_addr__" > /opt/config/nfs_ip_addr.txt
+echo "__nfs_private_ip_addr__" > /opt/config/nfs_private_ip_addr.txt
 echo "__host_private_ip_addr__" > /opt/config/host_private_ip_addr.txt
 echo "__mtu__" > /opt/config/mtu.txt
 
@@ -42,7 +42,7 @@ fi
 
 
 mkdir -p /dockerdata-nfs
-echo "__rancher_private_ip_addr__:/dockerdata-nfs /dockerdata-nfs nfs noauto,noatime,fg,retry=1,x-systemd.automount,_netdev,soft,nolock,intr,tcp,actimeo=1800 0 0" | tee -a /etc/fstab
+echo "__nfs_private_ip_addr__:/dockerdata-nfs /dockerdata-nfs nfs noauto,noatime,fg,retry=1,x-systemd.automount,_netdev,soft,nolock,intr,tcp,actimeo=1800 0 0" | tee -a /etc/fstab
 
 # workaround for OpenStack intermittent failure to change default apt mirrors
 sed -i 's|http://archive.ubuntu.com|http://nova.clouds.archive.ubuntu.com|g' /etc/apt/sources.list
