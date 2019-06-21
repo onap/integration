@@ -24,8 +24,6 @@ Use Cases
 
 :ref:`vCPE Use Case <docs_vcpe>`
 
-:ref:`vCPE with TOSCA VNF (w/ HPA) Use Case <docs_vcpe_tosca>`
-
 :ref:`CCVPN (Cross Domain and Cross Layer VPN) Use Case <docs_ccvpn>`
 
 :ref:`vFirewall/vDNS with HPA Use Case <docs_vfw_hpa>`
