@@ -1,5 +1,5 @@
-export OS_PROJECT_ID=09d8566ea45e43aa974cf447ed591d77
-export OS_PROJECT_NAME=Integration-OOM-Staging-Daily
+export OS_PROJECT_ID=c27d16b88a4141ec8abcc07e731c0f24
+export OS_PROJECT_NAME=Integration-Verify
 export OS_USER_DOMAIN_NAME=Default
 export OS_USERNAME=demo
 export OS_PASSWORD=onapdemo

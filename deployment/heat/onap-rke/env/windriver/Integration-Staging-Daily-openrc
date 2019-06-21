@@ -1,5 +1,5 @@
-export OS_PROJECT_ID=56d245b3c668419380d3b0f912497e29
-export OS_PROJECT_NAME=Integration-HEAT-Daily
+export OS_PROJECT_ID=09d8566ea45e43aa974cf447ed591d77
+export OS_PROJECT_NAME=Integration-Staging-Daily
 export OS_USER_DOMAIN_NAME=Default
 export OS_USERNAME=demo
 export OS_PASSWORD=onapdemo

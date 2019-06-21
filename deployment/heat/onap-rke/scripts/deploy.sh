@@ -109,7 +109,11 @@ set -x
 
 SSH_KEY=~/.ssh/onap_key
 
-source $WORKSPACE/test/ete/scripts/install_openstack_cli.sh
+if ! hash openstack jq
+then
+    echo "ERROR: Required commands not found; please install openstack CLI and jq."
+    exit 2
+fi
 
 SO_ENCRYPTION_KEY=aa3871669d893c7fb8abbcda31b88b4f
 export OS_PASSWORD_ENCRYPTED_FOR_ROBOT=$(echo -n "$OS_PASSWORD" | openssl aes-128-ecb -e -K "$SO_ENCRYPTION_KEY" -nosalt | xxd -c 256 -p)
@@ -123,9 +127,9 @@ popd
 
 for n in $(seq 1 5); do
     if [ $full_deletion = true ] ; then
-        $WORKSPACE/test/ete/scripts/teardown-onap.sh -n $stack_name -q
+        $WORKSPACE/deployment/heat/onap-rke/scripts/teardown-onap.sh -n $stack_name -q
     else
-        $WORKSPACE/test/ete/scripts/teardown-onap.sh -n $stack_name
+        $WORKSPACE/deployment/heat/onap-rke/scripts/teardown-onap.sh -n $stack_name
     fi
 
     cd $WORKSPACE/deployment/heat/onap-rke

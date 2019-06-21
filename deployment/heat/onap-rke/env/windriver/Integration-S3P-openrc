@@ -1,5 +1,5 @@
-export OS_PROJECT_ID=c27d16b88a4141ec8abcc07e731c0f24
-export OS_PROJECT_NAME=Integration-OOM-Verify
+export OS_PROJECT_ID=56d245b3c668419380d3b0f912497e29
+export OS_PROJECT_NAME=Integration-S3P-openrc
 export OS_USER_DOMAIN_NAME=Default
 export OS_USERNAME=demo
 export OS_PASSWORD=onapdemo
