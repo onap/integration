@@ -89,6 +89,9 @@ while ! hash jq &> /dev/null; do
     sleep 10
 done
 
+sed -i 's/RPCNFSDCOUNT=.*/RPCNFSDCOUNT=32/' /etc/default/nfs-kernel-server
+service nfs-kernel-server restart
+
 nfs_volume_dev="/dev/disk/by-id/virtio-$(echo "__nfs_volume_id__" | cut -c -20)"
 
 zpool create -f -m /dockerdata-nfs dockerdata-nfs $nfs_volume_dev
