@@ -30,12 +30,12 @@ Version: 4.0.0
 **Security Notes**
 
 Integration code has been formally scanned during build time using NexusIQ and all Critical vulnerabilities have been addressed, items that remain open have been assessed for risk and actions to be taken in future release.
-The Integration open Critical security vulnerabilities and their risk assessment have been documented as part of the `project <https://wiki.onap.org/pages/viewpage.action?pageId=45298876>`_.
+The Integration open Critical security vulnerabilities and their risk assessment have been documented as part of the `project <https://wiki.onap.org/pages/viewpage.action?pageId=64003733>`_.
 
 Quick Links:
  	- `Integration project page <https://wiki.onap.org/display/DW/Integration+Project>`_
 
- 	- `Project Vulnerability Review Table for Integration <https://wiki.onap.org/pages/viewpage.action?pageId=45298876>`_
+ 	- `Project Vulnerability Review Table for Integration <https://wiki.onap.org/pages/viewpage.action?pageId=64003733>`_
 
 
 ONAP Maturity Testing Notes
