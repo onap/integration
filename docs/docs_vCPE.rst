@@ -15,7 +15,7 @@ More details on the vCPE Use Case can be found on wiki page https://wiki.onap.or
 
 Source Code
 ~~~~~~~~~~~
-vcpe test scripts: https://gerrit.onap.org/r/gitweb?p=integration.git;a=tree;f=test/vcpe;h=76572f4912e7b375e1e4d0177a0e50a61691dc4a;hb=refs/heads/casablanca
+vcpe test scripts: https://git.onap.org/integration/tree/test/vcpe?h=dublin
 
 How to Use
 ~~~~~~~~~~
