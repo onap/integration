@@ -6,8 +6,36 @@
 CCVPN (Cross Domain and Cross Layer VPN)
 ----------------------------------------
 
+Update for Dublin release
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+1. Service model optimization
+
+In Dublin release,the design of CCVPN was optimized by having support of List type of Input in SDC.
+During onboarding and design phase, one end to end service is created using SDC. This service is
+composed of these two kinds of resources:
+• VPN resource
+• Site resource
+You can see the details from here https://wiki.onap.org/display/DW/Details+of+Targeted+Service+Template
+
+2. Closed Loop in bandwidth adjustment
+Simulate alarm at the edge site branch and ONAP will execute close-loop automatically and trigger bandwidth to change higher.
+
+3. Site Change
+Site can be add or delete according to the requirements
+
+
+More information about CCVPN in Dublin release:https://wiki.onap.org/pages/viewpage.action?pageId=45296665
+and the test case in Dublin can be found:https://wiki.onap.org/display/DW/CCVPN+Test+Cases+for+Dublin+Release
+And test status:https://wiki.onap.org/display/DW/CCVPN+Test+Status
+
+Note: CCVPN integration testing coversed service design, service creation and closed-loop bandwidth adjustments in Dublin release.
+The service termination and service change will continue to be tested in E release. 
+During the integration testing, SDC, SO, SDC master branch are used which include the enhanced features for CCVPN use case. 
+
+
 Sevice used for CCVPN 
-~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
 
 - SOTNVPNInfraService, SDWANVPNInfraService and SIteService: https://wiki.onap.org/display/DW/CCVPN+Service+Design
 - WanConnectionService ( Another way to describe CCVPN in a single service form which based on ONF CIM ): https://wiki.onap.org/display/DW/CCVPN+Wan+Connection+Service+Design
@@ -63,6 +91,7 @@ GET /aai/v14/network/ext-aai-networks/ext-aai-network/createAndDelete/esr-system
 }
 ]
 }
+
 
 Same goes for the ext-aai-network:
 
