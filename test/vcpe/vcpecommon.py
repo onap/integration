@@ -66,16 +66,7 @@ class VcpeCommon:
     owning_entity_name = 'OE-Demonstration1'
 
     def __init__(self, extra_host_names=None):
-        rootlogger = logging.getLogger()
-        handler = logging.StreamHandler()
-        formatter = logging.Formatter('%(asctime)s %(levelname)s %(name)s.%(funcName)s(): %(message)s')
-        handler.setFormatter(formatter)
-        rootlogger.addHandler(handler)
-        rootlogger.setLevel(logging.INFO)
-
         self.logger = logging.getLogger(__name__)
-        self.logger.propagate = False
-        self.logger.addHandler(handler)
         self.logger.setLevel(logging.DEBUG)
         self.logger.info('Initializing configuration')
 

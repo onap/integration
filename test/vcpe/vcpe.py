@@ -1,6 +1,9 @@
 #! /usr/bin/python
-import sys
+
 import logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(name)s.%(funcName)s(): %(message)s')
+
+import sys
 from vcpecommon import *
 import sdcutils
 import soutils
@@ -57,7 +60,6 @@ def create_one_service(vcpecommon, csar_file, vnf_template_file, preload_dict, s
 
 
 def deploy_brg_only():
-    logging.basicConfig(level=logging.INFO, format='%(message)s')
     logger = logging.getLogger(__name__)
 
     vcpecommon = VcpeCommon()
@@ -153,9 +155,6 @@ def deploy_custom_service():
 
 
 def closed_loop(lossrate=0):
-    if lossrate > 0:
-        while 'y' != raw_input('Please enter docker container "drools" in Policy VM and type "policy stop". Then enter y here: ').lower():
-            continue
     nodes = ['brg', 'mux']
     logger = logging.getLogger('__name__')
     vcpecommon = VcpeCommon(nodes)
@@ -172,7 +171,7 @@ def closed_loop(lossrate=0):
     time.sleep(2)
     vcpecommon.set_vgmux_packet_loss_rate(lossrate, vcpecommon.load_vgmux_vnf_name())
     if lossrate > 0:
-        print('Please enter docker container "drools" in Policy VM and type "policy start". Then observe vGMUX being restarted.')
+        print('Now please observe vGMUX being restarted')
 
 
 def init_so_sdnc():
@@ -216,8 +215,6 @@ def test():
 
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.DEBUG, format='%(message)s')
-
     print('----------------------------------------------------------------------------------------------------')
     print(' vcpe.py:            Brief info about this program')
 #    print(' vcpe.py sdc:        Onboard VNFs, design and distribute vCPE services (under development)')

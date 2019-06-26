@@ -66,8 +66,7 @@ def insert_customer_service_to_sdnc(vcpecommon):
 
 
 def insert_customer_service_to_so(vcpecommon):
-    logger = logging.getLogger('__name__')
-    logger.info('Inserting neutron HEAT template to SO DB and creating a recipe for customer service')
+    logger = logging.getLogger(__name__)
     cmds = []
     if True:
         csar_file = vcpecommon.find_file('rescust', 'csar', 'csar')
@@ -78,26 +77,7 @@ def insert_customer_service_to_so(vcpecommon):
                     "SERVICE_MODEL_UUID) VALUES ('createInstance','1','{0}'," \
                     "'/mso/async/services/CreateVcpeResCustService',NULL,181,NULL, NOW()," \
                     "'{1}');".format(parser.svc_model['modelName'], parser.svc_model['modelVersionId']))
+        logger.info(
+            'Please manually run the following sql command in SO catalogdb database to insert customer service recipe')
         logger.info('\n'.join(cmds))
-        vcpecommon.execute_cmds_so_db(cmds)
-
-    cmds = []
-    cmds.append("delete from `heat_template_params` where"
-                "`HEAT_TEMPLATE_ARTIFACT_UUID`='efee1d84-b8ec-11e7-abc4-cec278b6b50a';")
-    cmds.append("delete from `heat_template` where ARTIFACT_UUID='efee1d84-b8ec-11e7-abc4-cec278b6b50a';")
-    network_tempalte_file = vcpecommon.find_file('neutron', 'yaml', 'preload_templates')
-    with open(network_tempalte_file, 'r') as fin:
-        lines = fin.readlines()
-        longtext = '\n'.join(lines)
-        cmds.append("INSERT INTO `heat_template`(`ARTIFACT_UUID`, `NAME`, `VERSION`, `BODY`, `TIMEOUT_MINUTES`, " \
-                    "`DESCRIPTION`, `CREATION_TIMESTAMP`, `ARTIFACT_CHECKSUM`) VALUES(" \
-                    "'efee1d84-b8ec-11e7-abc4-cec278b6b50a', 'Generic NeutronNet', '1', '{0}', 10, " \
-                    "'Generic Neutron Template', NOW(), 'MANUAL RECORD');".format(longtext))
-
-    cmds.append("INSERT INTO `heat_template_params`(`HEAT_TEMPLATE_ARTIFACT_UUID`, `PARAM_NAME`, `IS_REQUIRED`, " \
-                "`PARAM_TYPE`, `PARAM_ALIAS`) VALUES('efee1d84-b8ec-11e7-abc4-cec278b6b50a', 'shared', 0, " \
-                "'string', NULL);")
-
-    print('\n'.join(cmds))
-    vcpecommon.execute_cmds_so_db(cmds)
-
+        #vcpecommon.execute_cmds_so_db(cmds)
