@@ -14,13 +14,13 @@ This session includes use cases and functional requirements which have been veri
     2. Step by step instruction on how to deploy them, including the links to download the related assets and resources
     3. Known issues and workaround
 
-The final testing status can be found at `Dublin Release Integration Testing Status Summery <https://wiki.onap.org/display/DW/Dublin+Release+Integration+Testing+Status>`_
+The final testing status can be found at `Dublin Release Integration Testing Status Summary <https://wiki.onap.org/display/DW/Dublin+Release+Integration+Testing+Status>`_
 
 Use Cases
 ~~~~~~~~~
 :ref:`vFirewall Use Case <docs_vfw>`
 
-:ref:`VF Module Scale Out Use Case (vLoadBalancer/vDSN example) <docs_scaleout>`
+:ref:`VF Module Scale Out Use Case (vLoadBalancer/vDNS example) <docs_scaleout>`
 
 :ref:`vCPE Use Case <docs_vcpe>`
 
@@ -36,11 +36,11 @@ Use Cases
 
 Functional Requirements
 ~~~~~~~~~~~~~~~~~~~~~~~
-:ref:`5G - Real Time PM and High Valume Stream Data Collection <docs_realtime_pm>`
+:ref:`5G - Real Time PM and High Volume Stream Data Collection <docs_realtime_pm>`
 
 :ref:`5G - PNF Plug and Play <docs_5g_pnf_pnp>`
 
-:ref:`5G - Buld PM <docs_5g_bulk_pm>`
+:ref:`5G - Bulk PM <docs_5g_bulk_pm>`
 
 :ref:`5G - Configuration over NETCONF <docs_5G_Configuration_over_NETCONF>`
 
