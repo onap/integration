@@ -16,5 +16,6 @@ pip install mysql-connector-python
 pip install progressbar2
 pip install python-novaclient
 pip install python-openstackclient
+pip install python-heatclient
 pip install netaddr
 pip install kubernetes

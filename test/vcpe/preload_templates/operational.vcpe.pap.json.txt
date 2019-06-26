@@ -1,0 +1,8 @@
+{
+  "policies": [
+    {
+      "policy-id": "operational.vcpe",
+      "policy-version": 1
+    }
+  ]
+}

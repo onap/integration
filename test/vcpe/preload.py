@@ -13,6 +13,7 @@ import base64
 class Preload:
     def __init__(self, vcpecommon):
         self.logger = logging.getLogger(__name__)
+        self.logger.setLevel(logging.DEBUG)
         self.vcpecommon = vcpecommon
 
     def replace(self, sz, replace_dict):
