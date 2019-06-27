@@ -67,7 +67,6 @@ cat <<EOF
             __integration_gerrit_refspec__: { get_param: integration_gerrit_refspec }
             __oom_gerrit_branch__: { get_param: oom_gerrit_branch }
             __oom_gerrit_refspec__: { get_param: oom_gerrit_refspec }
-            __docker_manifest__: { get_param: docker_manifest }
             __docker_version__: { get_param: docker_version }
             __kubectl_version__: { get_param: kubectl_version }
             __helm_version__: { get_param: helm_version }

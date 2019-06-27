@@ -34,7 +34,6 @@ echo "__integration_gerrit_branch__" > /opt/config/integration_gerrit_branch.txt
 echo "__integration_gerrit_refspec__" > /opt/config/integration_gerrit_refspec.txt
 echo "__oom_gerrit_branch__" > /opt/config/oom_gerrit_branch.txt
 echo "__oom_gerrit_refspec__" > /opt/config/oom_gerrit_refspec.txt
-echo "__docker_manifest__" > /opt/config/docker_manifest.txt
 echo "__docker_proxy__" > /opt/config/docker_proxy.txt
 echo "__docker_version__" > /opt/config/docker_version.txt
 echo "__kubectl_version__" > /opt/config/kubectl_version.txt
@@ -152,16 +151,6 @@ if [ ! -z "__integration_gerrit_refspec__" ]; then
     git checkout FETCH_HEAD
 fi
 
-
-if [ ! -z "__docker_manifest__" ]; then
-    cd version-manifest/src/main/scripts
-    ./update-oom-image-versions.sh ../resources/__docker_manifest__ ~/oom/
-fi
-
-cd ~/oom
-git diff
-git submodule foreach --recursive 'git commit -a -m "apply manifest versions" || :'
-git commit -a -m "apply manifest versions"
 
 cd ~/oom
 # workaround to change onap portal cookie domain

@@ -56,10 +56,6 @@ parameters:
     type: string
     default: ""
 
-  docker_manifest:
-    type: string
-    default: ""
-
   key_name:
     type: string
     default: "onap_key"

@@ -35,7 +35,6 @@ OOM_GERRIT_BRANCH=master
 OOM_GERRIT_REFSPEC=refs/heads/master
 INTEGRATION_GERRIT_BRANCH=master
 INTEGRATION_GERRIT_REFSPEC=refs/heads/master
-DOCKER_MANIFEST=""
 
 # Verify that k8s works
 if [ $(kubectl get pods --namespace kube-system | tail -n +2 | grep -c Running) -lt 6 ]; then
@@ -72,14 +71,6 @@ git checkout FETCH_HEAD
 git checkout -b workarounds
 git log -1
 
-if [ ! -z "$DOCKER_MANIFEST" ]; then
-    cd version-manifest/src/main/scripts
-    ./update-oom-image-versions.sh ../resources/$DOCKER_MANIFEST ~/oom/
-fi
-
-cd ~/oom
-git diff
-git commit -a -m "apply manifest versions"
 git tag -a "deploy0" -m "initial deployment"
 
 
@@ -99,4 +90,3 @@ rsync -avt ~/oom/kubernetes/helm/plugins ~/.helm/
 helm search -l | grep local
 helm deploy dev local/onap -f ~/oom/kubernetes/onap/resources/environments/public-cloud.yaml -f ~/integration-override.yaml --namespace onap | ts | tee -a ~/helm-deploy.log
 helm list
-

@@ -25,22 +25,21 @@ fi
 
 
 usage() {
-    echo "Usage: $0 [ -n <number of VMs {2-15}> ][ -s <stack name> ][ -m <manifest> ][ -d <domain> ][ -i <integration_branch> ][ -o <oom_branch> ][ -r ][ -q ] <env>" 1>&2;
+    echo "Usage: $0 [ -n <number of VMs {2-15}> ][ -s <stack name> ][ -d <domain> ][ -i <integration_branch> ][ -o <oom_branch> ][ -r ][ -q ] <env>" 1>&2;
 
-    echo "n:    Set the number of VM's that will be installed. This number must be between 2 and 15" 1>&2;
-    echo "s:    Set the name to be used for stack. This name will be used for naming of resources" 1>&2;
-    echo "d:    Set the base domain name to be used in portal UI URLs" 1>&2;
-    echo "m:    The docker manifest to apply; can only \"docker-manifest-staging.csv\"." 1>&2;
-    echo "i:    Set the branch of integration repo to clone." 1>&2;
-    echo "o:    Set the branch of oom repo to clone." 1>&2;
-    echo "r:    Delete all resources relating to ONAP within enviroment." 1>&2;
-    echo "q:    Quiet Delete of all ONAP resources." 1>&2;
+    echo "n:    Number of worker VMs to deploy. This number must be between 2 and 15." 1>&2;
+    echo "s:    Stack name. This name will be used for naming of resources." 1>&2;
+    echo "d:    Base domain name to be used in portal UI URLs." 1>&2;
+    echo "i:    Branch of integration repo to clone." 1>&2;
+    echo "o:    Branch of oom repo to clone." 1>&2;
+    echo "r:    Delete all ONAP resource within tenant." 1>&2;
+    echo "q:    Quiet delete of all ONAP resources within tenant." 1>&2;
 
     exit 1;
 }
 
 
-while getopts ":n:s:d:m:i:o:rq" o; do
+while getopts ":n:s:d:i:o:rq" o; do
     case "${o}" in
         n)
             if [[ ${OPTARG} =~ ^[0-9]+$ ]];then
@@ -63,13 +62,6 @@ while getopts ":n:s:d:m:i:o:rq" o; do
         d)
             if [[ ! ${OPTARG} =~ ^[0-9]+$ ]];then
                 portal_hostname=${OPTARG}
-            else
-                usage
-            fi
-            ;;
-        m)
-            if [ -f $WORKSPACE/version-manifest/src/main/resources/${OPTARG} ]; then
-                docker_manifest=${OPTARG}
             else
                 usage
             fi
@@ -155,7 +147,7 @@ for n in $(seq 1 5); do
         ./scripts/gen-onap-oom-yaml.sh $vm_num > onap-oom.yaml~
     fi
 
-    if ! openstack stack create -t ./onap-oom.yaml~ -e $ENV_FILE~ $stack_name --parameter integration_gerrit_branch=$integration_gerrit_branch --parameter oom_gerrit_branch=$oom_gerrit_branch --parameter docker_manifest=$docker_manifest --parameter portal_hostname=$portal_hostname; then
+    if ! openstack stack create -t ./onap-oom.yaml~ -e $ENV_FILE~ $stack_name --parameter integration_gerrit_branch=$integration_gerrit_branch --parameter oom_gerrit_branch=$oom_gerrit_branch -parameter portal_hostname=$portal_hostname; then
         break
     fi
 
