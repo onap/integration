@@ -9,14 +9,6 @@ cluster = [
   { name: 'worker', hostname: 'worker', ip: '172.17.0.101' }
 ]
 
-ranchercli = <<-SCRIPT
-wget https://releases.rancher.com/cli/v0.6.12/rancher-linux-amd64-v0.6.12.tar.gz
-tar xf rancher-linux-amd64-v0.6.12.tar.gz
-sudo mv rancher-v0.6.12/rancher /usr/local/bin/
-rmdir rancher-v0.6.12/
-rm rancher-linux-amd64-v0.6.12.tar.gz
-SCRIPT
-
 Vagrant.configure('2') do |config|
   cluster.each do |node|
     config.vm.define node[:name] do |config|
@@ -39,7 +31,7 @@ Vagrant.configure('2') do |config|
       if node[:name] == 'master'
         config.vm.network "forwarded_port", guest: 8080, host: 8080
         config.vm.provision :shell, path: "../tools/imported/openstack-rancher.sh"
-        config.vm.provision :shell, inline: ranchercli
+        config.vm.provision :shell, path: "../tools/get_ranchercli.sh"
       end
 
       if node[:name] == 'worker'
