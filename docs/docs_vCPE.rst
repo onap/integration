@@ -191,4 +191,4 @@ Known Issues and Workaround
   root>/opt/nat_service.sh
   root>vppctl restart
 
-
+2) During vCPE customer service instantiation, though vGW should come up successfully BRG vxlan tunnel configuration is likely to fail in SDNC cluster environment due to SDNC unreachable to BRG. See more detail in JIRA INT-1127. One workaround is to run vCPE use case with SDNC cluster disabled.
