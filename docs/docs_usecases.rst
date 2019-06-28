@@ -53,3 +53,5 @@ Functional Requirements
 :ref:`Change Management Flexible Designer and Orchestrator <docs_CM_flexible_designer_orchestrator>`
 
 :ref:`Change Management Schedule Optimization <docs_CM_schedule_optimizer>`
+
+:ref:`VNFM adapter in SO (support ETSI SOL003 interface) <docs_sol3_adapter>`
