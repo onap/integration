@@ -38,15 +38,15 @@ Functional Requirements
 ~~~~~~~~~~~~~~~~~~~~~~~
 :ref:`5G - Real Time PM and High Volume Stream Data Collection <docs_realtime_pm>`
 
-:ref:`5G - PNF Plug and Play <docs_5g_pnf_pnp>`
-
 :ref:`5G - Bulk PM <docs_5g_bulk_pm>`
 
 :ref:`5G - Configuration over NETCONF <docs_5G_Configuration_over_NETCONF>`
 
-:ref:`5G - PNF Software Upgrade <docs_5g_pnf_software_upgrade>`
-
 :ref:`5G - OOF and PCI <docs_5G_oof_pci>`
+
+:ref:`PNF Support - PNF Plug and Play <docs_5g_pnf_pnp>`
+
+:ref:`PNF Support - PNF Software Upgrade <docs_5g_pnf_software_upgrade>`
 
 :ref:`Change Management Flexible Designer and Orchestrator <docs_CM_flexible_designer_orchestrator>`
 
