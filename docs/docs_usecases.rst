@@ -34,6 +34,8 @@ Use Cases
 
 :ref:`vIPsec with HPA Use Case <docs_vipsec_hpa>`
 
+:ref:`vFirewall/edgex with multicloud kubernetes plugin <docs_vfw_edgex_multicloud_k8s>`
+
 Functional Requirements
 ~~~~~~~~~~~~~~~~~~~~~~~
 :ref:`5G - Real Time PM and High Volume Stream Data Collection <docs_realtime_pm>`
