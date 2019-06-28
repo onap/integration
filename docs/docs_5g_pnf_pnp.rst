@@ -14,13 +14,7 @@ Source files
 Description
 ~~~~~~~~~~~
 
-The PNF PnP flow is a method, which allows to register within ONAP/AAI a PNF resource instance.
-This PNF resource instance is correlated with an existing service instance.
-PNF Plug and Play is used to register a PNF when it comes on-line.
-This use case is intended to be applicable to a variety of PNFs such as routers and 5G base stations.
-The steps and descriptions have been drafted to be as general as possible and to be applicable
-to a relatively wide variety of PNFs. However, the use case was originally developed with a consideration
-for 5G PNF Distributed Units (DU).
+The PNF Plug and Play is a procedure that is executed between a PNF and ONAP. In the process of PNF registration, ONAP establishes a PNF resource instance for the PNF with a corresponding A&AI entry. The PNF registration uses a VES exchange with the PNF Registration handler within ONAP to complete the registration. Allowing the PNF resource instance to be associated with an existing service instance. This use case is intended to be applicable to a variety of PNFs such as routers and 5G base stations. The steps and descriptions have been drafted to be as general as possible and to be applicable to a relatively wide variety of PNFs. However, the use case was originally developed with a consideration for 5G PNF Distributed Units (DU).
 
 **Useful Links**
 
