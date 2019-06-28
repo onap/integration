@@ -1,4 +1,4 @@
-.. docs_sol3_adapter:
+.. _docs_sol3_adapter:
 
 VNFM adapter in SO (support ETSI SOL003 interface)
 --------------------------------------------------------------
