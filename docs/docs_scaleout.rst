@@ -28,7 +28,7 @@ To run the use case, make sure that the security group in OpenStack has ingress/
 
   dig @vLoadBalancer_IP host1.dnsdemo.onap.org
 
-The output below means that the vLB has been set up correctly, has forwarded the DNS queries to a vDNS instance, and the vPacketGen has received the vDNS reply message. 
+The output below means that the vLB has been set up correctly, has forwarded the DNS queries to a vDNS instance, and the vPacketGen has received the vDNS reply message.
 
 ::
 
@@ -39,21 +39,21 @@ The output below means that the vLB has been set up correctly, has forwarded the
     ;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 31892
     ;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 2
     ;; WARNING: recursion requested but not available
-    
+
     ;; OPT PSEUDOSECTION:
     ; EDNS: version: 0, flags:; udp: 4096
     ;; QUESTION SECTION:
     ;host1.dnsdemo.onap.org.		IN	A
-    
+
     ;; ANSWER SECTION:
     host1.dnsdemo.onap.org.	604800	IN	A	10.0.100.101
-    
+
     ;; AUTHORITY SECTION:
     dnsdemo.onap.org.	604800	IN	NS	dnsdemo.onap.org.
-    
+
     ;; ADDITIONAL SECTION:
     dnsdemo.onap.org.	604800	IN	A	10.0.100.100
-    
+
     ;; Query time: 0 msec
     ;; SERVER: 192.168.9.111#53(192.168.9.111)
     ;; WHEN: Fri Nov 10 17:39:12 UTC 2017
@@ -65,15 +65,23 @@ The Scale Out Use Case
 The Scale Out use case shows how users/network operators can add Virtual Network Function Components (VNFCs) as part of a VF Module that has been instantiated in the Service model, in order to increase capacity of the network. ONAP Dublin release supports scale out with manual trigger by directly calling SO APIs and closed-loop-enabled automation from Policy. For Dublin, the APPC controller is used to demonstrate accepting request from SO to execute the Scale Out operation. APPC can be used to scale different VNF types, not only the VNF described in this document.
 
 
-VNF Instantiation
-~~~~~~~~~~~~~~~~~
+PART 1 - Service Definition and Onboarding
+------------------------------------------
+This use-case requires operations on several ONAP components to perform service definition and onboarding
+
+
+1-1 using CDS : VNF configuration modeling and upload
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 For Dublin, the scale out use case integrates with the Controller Design Studio (CDS) ONAP component to automate the generation of cloud configuration at VNF instantiation time. Users can model this configuration at VNF design time and onboard the blueprint to CDS via the CDS GUI. The blueprint includes naming policies and network configuration details (e.g. IP address families, network names, etc.) that CDS will use during VNF instantiation to generate resource names and assign network configuration to VMs through the cloud orchestrator.
 
 Please look at the CDS documentation for details about how to create configuration models, blueprints, and use the CDS tool: https://wiki.onap.org/display/DW/Modeling+Concepts. For running the use case, users can use the standard model package that CDS provides out of the box, which can be found here: https://wiki.onap.org/pages/viewpage.action?pageId=64007442
 
-Once the configuration blueprint is uploaded to CDS, users can create and instantiate the service using SDC. For details about service design and creation, please refer to the SDC wiki page: https://wiki.onap.org/display/DW/Design
 
-During the creation of the service, there are a few extra steps that need to be executed to make the VNF ready for scale out. These require users to login to the SDC Portal as service designer user (username: cs0008, password: demo123456!).
+1-2 using SDC : VNF onboarding and Service definition
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Once the configuration blueprint is uploaded to CDS, users can define and onboard a service using SDC. For details about service design and creation, please refer to the SDC wiki page: https://wiki.onap.org/display/DW/Design
+
+During the creation of the service in SDC, there are a few extra steps that need to be executed to make the VNF ready for scale out. These require users to login to the SDC Portal as service designer user (username: cs0008, password: demo123456!).
 
 After importing the Vendor Software Package (VSP), as described in the SDC wiki page, users need to set property values in the Property Assignment window, as shown below:
 
@@ -82,7 +90,7 @@ After importing the Vendor Software Package (VSP), as described in the SDC wiki 
 
 These properties include parameters in the Heat template (which will be overridden by CDS and then don't need to be changed) and other parameters that describe the VNF type or are used to link the service to the configuration in the CDS package.
 
-Users can search for parameter names starting with "nf" to assign values that describe the VNF type, such as nf_type, nf_function, and nf_role. Users are free to choose the values they like. Users should also set "skip_post_instantiation" to "TRUE", as for Dublin CDS is not used for post-instantiation configuration. 
+Users can search for parameter names starting with "nf" to assign values that describe the VNF type, such as nf_type, nf_function, and nf_role. Users are free to choose the values they like. Users should also set "skip_post_instantiation" to "TRUE", as for Dublin CDS is not used for post-instantiation configuration.
 
 .. figure:: files/scaleout/10.png
    :align: center
@@ -118,23 +126,27 @@ Then, add the TCA Policy.
 .. figure:: files/scaleout/5.png
    :align: center
 
-The Policy will be attached to the service.
+The Policy will be attached to the service defined in SDC
 
 .. figure:: files/scaleout/6.png
    :align: center
 
-Finally, users need to provide the maximum number of instances that ONAP is allowed to create as part of the scale out use case by setting up deployment properties. 
+Finally, users need to provide the maximum number of VNF instances that ONAP is allowed to create as part of the scale out use case by setting up deployment properties.
 
 .. figure:: files/scaleout/7.png
    :align: center
 
-This VNF only supports scaling the vDNS, so users should select the vDNS module from the right panel and then click the "max_vf_module_instance" link. The maximum number of instances to scale can be set to an arbitrary number higher than zero.
+This VNF only supports scaling the vDNS, so users should select the vDNS module from the right panel and then click the "max_vf_module_instance" link. The maximum number of VNF instances to scale can be set to an arbitrary number higher than zero.
 
 .. figure:: files/scaleout/8.png
    :align: center
 
-At this point, users can complete the service creation by testing, accepting, and distributing the Service Models as described in the SDC wiki page.
+At this point, users can complete the service creation in SDC by testing, accepting, and distributing the Service Models as described in the SDC user manual.
 
+
+
+1-3 using a shell script : deploy naming policy
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 In order to instantiate the VNF using CDS features, users need to deploy the naming policy that CDS uses for resource name generation to the Policy Engine. User can copy and run the script at the top of the page from any ONAP pod, for example Robot or Drools. The script uses the Policy endpoint defined in the Kubernetes domain, so the execution has to be triggered from some pod in the Kubernetes space.
 
 ::
@@ -143,9 +155,9 @@ In order to instantiate the VNF using CDS features, users need to deploy the nam
     ./push_naming_policy.sh
 
 
-Closed Loop Design from CLAMP
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Once the service is distributed, users can design the closed loop from CLAMP, using the GUI at https://clamp.api.simpledemo.onap.org:30258/designer/index.html
+1-4 using CLAMP : Closed Loop Design
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Once the service model is distributed, users can design the closed loop from CLAMP, using the GUI at https://clamp.api.simpledemo.onap.org:30258/designer/index.html
 
 Use the "Closed Loop" link to open a distributed model.
 
@@ -184,7 +196,7 @@ Select "VF Module Create" recipe and "SO" actor. The payload section is:
 ::
 
     requestParameters: '{"usePreload":false,"userParams":[]}'
-    configurationParameters: '[{"ip-addr":"$.vf-module-topology.vf-module-parameters.param[17].value","oam-ip-addr":"$.vf-module-topology.vf-module-parameters.param[31].value"}]' 
+    configurationParameters: '[{"ip-addr":"$.vf-module-topology.vf-module-parameters.param[17].value","oam-ip-addr":"$.vf-module-topology.vf-module-parameters.param[31].value"}]'
 
 Policy Engine passes the payload to SO, which will then use it during VF module instantiation to resolve configuration parameters. The JSON path
 
@@ -209,15 +221,15 @@ Once the operational policy design is completed, users can submit and then deplo
 At this point, the closed loop is deployed to Policy Engine and DCAE, and a new microservice will be deployed to the DCAE platform.
 
 
-Creating a VNF Template with CDT
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1-5 using CDT : Creating a VNF Template
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Before running scale out use case, the users need to create a VNF template using the Controller Design Tool (CDT), a design-time tool that allows users to create and on-board VNF templates into APPC. The template describes which control operation can be executed against the VNF (e.g. scale out, health check, modify configuration, etc.), the protocols that the VNF supports, port numbers, VNF APIs, and credentials for authentication. Being VNF agnostic, APPC uses these templates to "learn" about specific VNFs and the supported operations.
 CDT requires two input:
 
-1) the list of parameters that APPC will receive (ip-addr, oam-ip-addr, enabled in the example above); 
+1) the list of parameters that APPC will receive (ip-addr, oam-ip-addr, enabled in the example above);
 
 2) the VNF API that APPC will use to reconfigure the VNF.
- 
+
 Below is an example of the parameters file (yaml format), which we call parameters.yaml:
 ::
 
@@ -250,7 +262,7 @@ Below is an example of the parameters file (yaml format), which we call paramete
       rule-type: null
       request-keys: null
       response-keys: null
- 
+
 Here is an example of API for the vLB VNF used for this use case. We name the file after the vnf-type contained in SDNC (i.e. Vloadbalancerms..vdns..module-3):
 ::
 
@@ -263,7 +275,7 @@ Here is an example of API for the vLB VNF used for this use case. We name the fi
             </vdns-instance>
         </vdns-instances>
     </vlb-business-vnf-onap-plugin>
- 
+
 To create the VNF template in CDT, the following steps are required:
 
 - Connect to the CDT GUI: http://ANY-K8S-IP:30289
@@ -276,24 +288,24 @@ To create the VNF template in CDT, the following steps are required:
 - Click "Template Tab" and upload API template (.yaml) file
 - Click "Reference Data" Tab
 - Click "Save All to APPC"
- 
-For health check operation, we just need to specify the protocol, the port number and username of the VNF (REST, 8183, and "admin" respectively, in the case of vLB/vDNS) and the API. For the vLB/vDNS, the API is: 
+
+For health check operation, we just need to specify the protocol, the port number and username of the VNF (REST, 8183, and "admin" respectively, in the case of vLB/vDNS) and the API. For the vLB/vDNS, the API is:
 ::
 
   restconf/operational/health-vnf-onap-plugin:health-vnf-onap-plugin-state/health-check
- 
+
 Note that we don't need to create a VNF template for health check, so the "Template" flag can be set to "N". Again, the user has to click "Save All to APPC" to update the APPC database.
 At this time, CDT doesn't allow users to provide VNF password from the GUI. To update the VNF password we need to log into the APPC Maria DB container and change the password manually:
 ::
 
   mysql -u sdnctl -p (type "gamma" when password is prompted)
   use sdnctl;
-  UPDATE DEVICE_AUTHENTICATION SET PASSWORD='admin' WHERE 
+  UPDATE DEVICE_AUTHENTICATION SET PASSWORD='admin' WHERE
   VNF_TYPE='vLoadBalancerMS/vLoadBalancerMS 0'; (use your VNF type)
 
 
-Setting the Controller Type in SO Database
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1-6 using SO : Setting the Controller Type in SO Database
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Users need to specify which controller to use for the scale out use case. For Dublin, the supported controller is APPC. Users need to create an association between the controller and the VNF type in the SO database.
 
 To do so:
@@ -321,8 +333,19 @@ To do so:
 SO has a default entry for VNF type "vLoadBalancerMS/vLoadBalancerMS 0"
 
 
-How to Use
-~~~~~~~~~~
+
+
+PART 2 - Scale-out use-case Instantiation
+-----------------------------------------
+
+TO BE DESCRIBED
+
+
+PART 3 - post_instantiation
+---------------------------
+
+3-1 using the VNF : vLB manual configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 After the VNF has been instantiated using the CDS configuration blueprint, user should manually configure the vLB to open a connection towards the vDNS. At this time, the use case doesn't support automated post-instantiation configuration with CDS. Note that this step is NOT required during scale out operations, as VNF reconfiguration will be triggered by SO and executed by APPC. To change the state of the vLB, the users can run the following REST call, replacing the IP addresses in the VNF endpoint and JSON object to match the private IP addresses of their vDNS instance:
 
 ::
@@ -342,7 +365,12 @@ After the VNF has been instantiated using the CDS configuration blueprint, user 
         }
     ]}'
 
-At this point, the VNF is fully set up. To allow automated scale out via closed loop, the users need to inventory the VNF resources in AAI. This is done by running the heatbridge python script in /root/oom/kubernetes/robot in the Rancher VM in the Kubernetes cluster:
+At this point, the VNF is fully set up.
+
+
+3-2 using AAI : update AAI inventory with VNF resources
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+To allow automated scale out via closed loop, the users need to inventory the VNF resources in AAI. This is done by running the heatbridge python script in /root/oom/kubernetes/robot in the Rancher VM in the Kubernetes cluster:
 
 ::
 
@@ -350,6 +378,12 @@ At this point, the VNF is fully set up. To allow automated scale out via closed 
 
 Heatbridge is needed for control loops because DCAE and Policy runs queries against AAI using vServer names as key.
 
+
+PART 4 - running a manual Scale Out
+-----------------------------------
+
+4- 1 using SO : manually triggering scale-out
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 For scale out with manual trigger, VID is not supported at this time. Users can run the use case by directly calling SO APIs:
 
 ::
@@ -433,12 +467,15 @@ For scale out with manual trigger, VID is not supported at this time. Users can 
 To fill in the JSON object, users can refer to the Service Model TOSCA template at the top of the page. The template contains all the model (invariant/version/customization) IDs of service, VNF, and VF modules that the input request to SO needs.
 
 
+
+
+
 Test Status and Plans
-~~~~~~~~~~~~~~~~~~~~~
+---------------------
 Dublin Scale Out test cases can be found here: https://wiki.onap.org/pages/viewpage.action?pageId=59966105
 
 Known Issues and Resolutions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------
 1) When running closed loop-enabled scale out, the closed loop designed in CLAMP conflicts with the default closed loop defined for the old vLB/vDNS use case
 
 Resolution: Change TCA configuration for the old vLB/vDNS use case
