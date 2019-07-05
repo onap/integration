@@ -40,11 +40,6 @@ func IsAnonymousAuthDisabled(params []string) bool {
 	return hasSingleFlagArgument("--anonymous-auth=", "false", params)
 }
 
-// IsKubeletHTTPSConnected validates there is single "--kubelet-https" flag and it is set to "true".
-func IsKubeletHTTPSConnected(params []string) bool {
-	return hasSingleFlagArgument("--kubelet-https=", "true", params)
-}
-
 // IsInsecurePortUnbound validates there is single "--insecure-port" flag and it is set to "0" (disabled).
 func IsInsecurePortUnbound(params []string) bool {
 	return hasSingleFlagArgument("--insecure-port=", strconv.Itoa(portDisabled), params)
@@ -94,6 +89,12 @@ func filterFlags(strs []string, flag string) []string {
 func splitKV(s, sep string) (string, string) {
 	ret := strings.SplitN(s, sep, 2)
 	return ret[0], ret[1]
+}
+
+// IsKubeletHTTPSAbsentOrEnabled validates there is single "--kubelet-https" flag and it is set to "true".
+func IsKubeletHTTPSAbsentOrEnabled(params []string) bool {
+	return isFlagAbsent("--kubelet-https=", params) ||
+		hasSingleFlagArgument("--kubelet-https=", "true", params)
 }
 
 // IsInsecureBindAddressAbsentOrLoopback validates there is no insecure bind address or it is loopback address.
