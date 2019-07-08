@@ -338,7 +338,259 @@ SO has a default entry for VNF type "vLoadBalancerMS/vLoadBalancerMS 0"
 PART 2 - Scale-out use-case Instantiation
 -----------------------------------------
 
-TO BE DESCRIBED
+GET information from SDC catalogdb
+
+::
+
+  curl -X GET \
+    'https://{{k8s}}:30204/sdc/v1/catalog/services' \
+    -H 'Authorization: Basic dmlkOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU=' \
+    -H 'X-ECOMP-InstanceID: VID' \
+    -H 'cache-control: no-cache'
+
+
+In the response you should find values for:
+
+* service-uuid
+* service-invariantUUID
+* service-name
+
+
+GET informations from SO catalogdb
+
+::
+
+  curl -X GET \
+    'http://{{k8s}}:30744/ecomp/mso/catalog/v2/serviceVnfs?serviceModelName={{service-name}}' \
+    -H 'Authorization: Basic YnBlbDpwYXNzd29yZDEk' \
+    -H 'cache-control: no-cache'
+
+
+In the response you should find values for:
+
+* vnf-modelinfo-modelname
+* vnf-modelinfo-modeluuid
+* vnf-modelinfo-modelinvariantuuid
+* vnf-modelinfo-modelcustomizationuuid
+* vnf-modelinfo-modelinstancename
+* vnf-vfmodule-0-modelinfo-modelname
+* vnf-vfmodule-0-modelinfo-modeluuid
+* vnf-vfmodule-0-modelinfo-modelinvariantuuid
+* vnf-vfmodule-0-modelinfo-modelcustomizationuuid
+* vnf-vfmodule-1-modelinfo-modelname
+* vnf-vfmodule-1-modelinfo-modeluuid
+* vnf-vfmodule-1-modelinfo-modelinvariantuuid
+* vnf-vfmodule-1-modelinfo-modelcustomizationuuid
+* vnf-vfmodule-2-modelinfo-modelname
+* vnf-vfmodule-2-modelinfo-modeluuid
+* vnf-vfmodule-2-modelinfo-modelinvariantuuid
+* vnf-vfmodule-2-modelinfo-modelcustomizationuuid
+* vnf-vfmodule-3-modelinfo-modelname
+* vnf-vfmodule-3-modelinfo-modeluuid
+* vnf-vfmodule-3-modelinfo-modelinvariantuuid
+* vnf-vfmodule-3-modelinfo-modelcustomizationuuid
+
+
+Note : all those informations are also available in the TOSCA service template in the SDC
+
+You need after:
+
+* a SSH public key value that will allow you then to connect to the VM.
+* the cloudSite name and TenantId where to deploy the service
+* the name of the security group that will be used in the tenant for your service
+* the name of the network that will be used to connect your VM
+* the name of your Openstack image
+* the name of yout Openstack VM flavor
+
+We supposed here that we are using some already declared informations:
+
+* customer named "Demonstration"
+* subscriptionServiceType named "vFW"
+* projectName named "Project-Demonstration"
+* owningEntityName named "OE-Demonstration"
+* platformName named "test"
+* lineOfBusinessName named "someValue"
+
+Having all those information, you are now able to build the SO request
+that will instantiate Service, VNF, VF modules and Heat stacks:
+
+::
+
+  curl -X POST \
+  'http://{{k8s}}:30277/onap/so/infra/serviceInstantiation/v7/serviceInstances' \
+  -H 'Content-Type: application/json' \
+  -H 'cache-control: no-cache' \
+  -d '{
+  "requestDetails": {
+    "subscriberInfo": {
+      "globalSubscriberId": "Demonstration"
+    },
+    "requestInfo": {
+      "suppressRollback": false,
+      "productFamilyId": "a9a77d5a-123e-4ca2-9eb9-0b015d2ee0fb",
+      "requestorId": "adt",
+      "instanceName": "{{cds-instance-name}}",
+      "source": "VID"
+    },
+    "cloudConfiguration": {
+      "lcpCloudRegionId": "{{CloudSite-name}}",
+      "tenantId": "{{tenantId}}"
+    },
+    "requestParameters": {
+      "subscriptionServiceType": "vFW",
+      "userParams": [
+        {
+          "Homing_Solution": "none"
+        },
+        {
+          "service": {
+            "instanceParams": [
+
+            ],
+            "instanceName": "{{cds-instance-name}}",
+            "resources": {
+              "vnfs": [
+                {
+                  "modelInfo": {
+                "modelName": "{{vnf-modelinfo-modelname}}",
+                "modelVersionId": "{{vnf-modelinfo-modeluuid}}",
+                "modelInvariantUuid": "{{vnf-modelinfo-modelinvariantuuid}}",
+                "modelVersion": "1.0",
+                "modelCustomizationId": "{{vnf-modelinfo-modelcustomizationuuid}}",
+                "modelInstanceName": "{{vnf-modelinfo-modelinstancename}}"
+                  },
+                  "cloudConfiguration": {
+                    "lcpCloudRegionId": "{{CloudSite-name}}",
+                    "tenantId": "{{tenantId}}"
+                  },
+                  "platform": {
+                    "platformName": "test"
+                  },
+                  "lineOfBusiness": {
+                    "lineOfBusinessName": "someValue"
+                  },
+                  "productFamilyId": "a9a77d5a-123e-4ca2-9eb9-0b015d2ee0fb",
+                  "instanceName": "{{vnf-modelinfo-modelinstancename}}",
+                  "instanceParams": [
+                    {
+                      "onap_private_net_id": "olc-private",
+                      "onap_private_subnet_id": "olc-private",
+                      "pub_key": "{{Your SSH public key value}}",
+                      "image_name": "{{my_image_name}}",
+                      "flavor_name":"{{my_VM_flavor_name}}"
+                    }
+                  ],
+                  "vfModules": [
+                    {
+                      "modelInfo": {
+                        "modelName": "{{vnf-vfmodule-0-modelinfo-modelname}}",
+                        "modelVersionId": "{{vnf-vfmodule-0-modelinfo-modeluuid}}",
+                        "modelInvariantUuid": "{{vnf-vfmodule-0-modelinfo-modelinvariantuuid}}",
+                        "modelVersion": "1",
+                        "modelCustomizationId": "{{vnf-vfmodule-0-modelinfo-modelcustomizationuuid}}"
+                       },
+                      "instanceName": "{{vnf-vfmodule-0-modelinfo-modelname}}",
+                      "instanceParams": [
+                                                 {
+                          "sec_group": "{{your_security_group_name}}",
+                          "public_net_id": "{{your_public_network_name}}"
+                        }
+                      ]
+                    },
+                    {
+                      "modelInfo": {
+                        "modelName": "{{vnf-vfmodule-1-modelinfo-modelname}}",
+                        "modelVersionId": "{{vnf-vfmodule-1-modelinfo-modeluuid}}",
+                        "modelInvariantUuid": "{{vnf-vfmodule-1-modelinfo-modelinvariantuuid}}",
+                        "modelVersion": "1",
+                        "modelCustomizationId": "{{vnf-vfmodule-1-modelinfo-modelcustomizationuuid}}"
+                       },
+                      "instanceName": "{{vnf-vfmodule-1-modelinfo-modelname}}",
+                      "instanceParams": [
+                        {
+                          "sec_group": "{{your_security_group_name}}",
+                          "public_net_id": "{{your_public_network_name}}"
+                        }
+                      ]
+                    },
+                    {
+                      "modelInfo": {
+                        "modelName": "{{vnf-vfmodule-2-modelinfo-modelname}}",
+                        "modelVersionId": "{{vnf-vfmodule-2-modelinfo-modeluuid}}",
+                        "modelInvariantUuid": "{{vnf-vfmodule-2-modelinfo-modelinvariantuuid}}",
+                        "modelVersion": "1",
+                        "modelCustomizationId": "{{vnf-vfmodule-2-modelinfo-modelcustomizationuuid}}"
+                       },
+                      "instanceName": "{{vnf-vfmodule-2-modelinfo-modelname}}",
+                      "instanceParams": [
+                        {
+                          "sec_group": "{{your_security_group_name}}",
+                          "public_net_id": "{{your_public_network_name}}"
+                        }
+                      ]
+                    },
+                    {
+                      "modelInfo": {
+                        "modelName": "{{vnf-vfmodule-3-modelinfo-modelname}}",
+                        "modelVersionId": "{{vnf-vfmodule-3-modelinfo-modeluuid}}",
+                        "modelInvariantUuid": "{{vnf-vfmodule-3-modelinfo-modelinvariantuuid}}",
+                        "modelVersion": "1",
+                        "modelCustomizationId": "{{vnf-vfmodule-3-modelinfo-modelcustomizationuuid}}"
+                      },
+                      "instanceName": "{{vnf-vfmodule-3-modelinfo-modelname}}",
+                      "instanceParams": [
+                        {
+                          "sec_group": "{{your_security_group_name}}",
+                          "public_net_id": "{{your_public_network_name}}"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "modelInfo": {
+              "modelVersion": "1.0",
+        "modelVersionId": "{{service-uuid}}",
+        "modelInvariantId": "{{service-invariantUUID}}",
+        "modelName": "{{service-name}}",
+              "modelType": "service"
+            }
+          }
+        }
+      ],
+      "aLaCarte": false
+    },
+    "project": {
+      "projectName": "Project-Demonstration"
+    },
+    "owningEntity": {
+      "owningEntityId": "24ef5425-bec4-4fa3-ab03-c0ecf4eaac96",
+      "owningEntityName": "OE-Demonstration"
+    },
+    "modelInfo": {
+      "modelVersion": "1.0",
+        "modelVersionId": "{{service-uuid}}",
+        "modelInvariantId": "{{service-invariantUUID}}",
+        "modelName": "{{service-name}}",
+     "modelType": "service"
+    }
+  }
+  }'
+
+
+In the response, you will obtain a requestId that will be usefull
+to follow the instantiation request status in the ONAP SO:
+
+
+::
+
+  curl -X GET \
+    'http://{{k8s}}:30086/infraActiveRequests/{{requestid}}' \
+    -H 'cache-control: no-cache'
+
+
+
 
 
 PART 3 - post_instantiation
