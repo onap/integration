@@ -18,7 +18,7 @@ test:
 	go test $(PROJECT)/...
 
 clean:
-	rm $(BIN_DIR)/$(BIN)
-	rmdir $(BIN_DIR)
+	-rm $(BIN_DIR)/$(BIN)
+	-rmdir $(BIN_DIR)
 
 .PHONY: all run build test clean $(BIN)
