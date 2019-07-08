@@ -28,6 +28,13 @@ Run
 .. _`Rancher CLI`: https://rancher.com/docs/rancher/v1.6/en/cli
 .. _Docker: https://docs.docker.com/install
 
+Test
+----
+
+- Ginkgo_
+
+.. _Ginkgo: https://onsi.github.io/ginkgo/#getting-ginkgo
+
 Running
 =======
 
@@ -36,3 +43,12 @@ Calling::
   make run
 
 will build and run configuration check executable. It is the default target.
+
+Testing
+=======
+
+Calling::
+
+  make test
+
+will run tests.

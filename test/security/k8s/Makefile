@@ -13,8 +13,12 @@ $(BIN): export GOPATH = $(shell pwd)
 $(BIN):
 	go install $(PROJECT)/cmd/$(BIN)
 
+test: export GOPATH = $(shell pwd)
+test:
+	go test $(PROJECT)/...
+
 clean:
 	rm $(BIN_DIR)/$(BIN)
 	rmdir $(BIN_DIR)
 
-.PHONY: all run build clean $(BIN)
+.PHONY: all run build test clean $(BIN)
