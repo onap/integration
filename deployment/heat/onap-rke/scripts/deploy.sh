@@ -147,7 +147,7 @@ for n in $(seq 1 5); do
         ./scripts/gen-onap-oom-yaml.sh $vm_num > onap-oom.yaml~
     fi
 
-    if ! openstack stack create -t ./onap-oom.yaml~ -e $ENV_FILE~ $stack_name --parameter integration_gerrit_branch=$integration_gerrit_branch --parameter oom_gerrit_branch=$oom_gerrit_branch -parameter portal_hostname=$portal_hostname; then
+    if ! openstack stack create -t ./onap-oom.yaml~ -e $ENV_FILE~ $stack_name --parameter integration_gerrit_branch=$integration_gerrit_branch --parameter oom_gerrit_branch=$oom_gerrit_branch --parameter portal_hostname=$portal_hostname; then
         break
     fi
 
