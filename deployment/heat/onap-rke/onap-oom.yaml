@@ -23,6 +23,16 @@ parameters:
     type: string
     description: CIDR of the onap_oam_ext network
 
+  oam_ext_network_host_route:
+    type: json
+    description: >
+        host routes
+        "destination": '10.12.0.0/16'
+        "nexthop": '10.100.0.1'
+    default:
+        "destination": '10.12.0.0/16'
+        "nexthop": '10.100.0.1'
+
   ubuntu_1804_image:
     type: string
     description: Name of the Ubuntu 18.04 image
@@ -172,7 +182,9 @@ resources:
       name: onap_oam_ext
       network_id: { get_resource: oam_ext_network }
       cidr: { get_param: oam_ext_network_cidr }
-      enable_dhcp: false
+      enable_dhcp: true
+      host_routes:
+      - { get_param: oam_ext_network_host_route }
       dns_nameservers: [ "8.8.8.8" ]
 
   oam_ext_router_interface:
