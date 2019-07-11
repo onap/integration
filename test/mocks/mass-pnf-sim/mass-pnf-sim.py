@@ -76,6 +76,11 @@ if args.bootstrap and args.ipstart and args.urlves:
     print("Bootstrap:")
 
     start_port=2000
+    ftps_pasv_port_start=8000
+    ftps_pasv_port_num_of_ports=10
+    
+    ftps_pasv_port_end=ftps_pasv_port_start + ftps_pasv_port_num_of_ports
+    
 
     for i in range(int(args.bootstrap)):
         print("PNF simulator instance: " + str(i) + ".")
@@ -124,7 +129,9 @@ if args.bootstrap and args.ipstart and args.urlves:
             str(PortSftp) + " " + \
             str(PortFtps) + " " + \
             str(UrlFtps) + " " + \
-            str(UrlSftp)
+            str(UrlSftp) + " " + \
+            str(ftps_pasv_port_start) + " " + \
+            str(ftps_pasv_port_end)
 
         completed = subprocess.run(
             'set -x; cd ' +
@@ -133,6 +140,9 @@ if args.bootstrap and args.ipstart and args.urlves:
             composercmd,
             shell=True)
         print('Cloning:', completed.stdout)
+        
+        ftps_pasv_port_start += ftps_pasv_port_num_of_ports + 1
+        ftps_pasv_port_end += ftps_pasv_port_num_of_ports +1
 
     completed = subprocess.run('set -x; cd pnf-sim-lightweight; ./simulator.sh build ', shell=True)
     print("Build docker image: ", completed.stdout)

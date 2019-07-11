@@ -20,8 +20,8 @@ function main(){
 
     case $COMMAND in
     	"compose")
-            compose $2 $3 $4 $5 $6 $7 $8 $9 "${10}" "${11}" "${12}" ;;
-             #IPGW, #IPSUBNET, #I, #URLVES, #IPPNFSIM, #IPFILESERVER, #TYPEFILESERVER, #PORTSFTP, #PORTFTPS, #IPFTPS, #IPSFTP
+            compose $2 $3 $4 $5 $6 $7 $8 $9 "${10}" "${11}" "${12}" "${13}" "${14}" ;;
+             #IPGW, #IPSUBNET, #I, #URLVES, #IPPNFSIM, #IPFILESERVER, #TYPEFILESERVER, #PORTSFTP, #PORTFTPS, #IPFTPS, #IPSFTP, #FTPS_PASV_MIN, #FTPS_PAST_MAX
         "build")
             build_image;;
         "start")
@@ -63,7 +63,7 @@ function get_pnfsim_ip() {
 function compose(){
 	#creating custom docker-compose based on IP arguments
 	#creting config.json by injecting the same IP
-
+	
 	export IPGW=$1
 	export IPSUBNET=$2
 	export I=$3
@@ -75,6 +75,8 @@ function compose(){
 	export PORTFTPS=$9
 	export IPFTPS=${10}
 	export IPSFTP=${11}
+	export FTPS_PASV_MIN=${12}
+	export FTPS_PASV_MAX=${13}
 	LOCALTIME=$(ls -l /etc/localtime)
 	export TIMEZONE=${LOCALTIME//*zoneinfo\/}
 
@@ -87,9 +89,13 @@ function compose(){
 
 	./ROP_file_creator.sh $I &
 
-	set_vsftpd_file_owner
-
 	write_config $URLVES $IPFILESERVER $TYPEFILESERVER $PORTSFTP $PORTFTPS $IPPNFSIM
+
+	cd config
+    envsubst < vsftpd_ssl-TEMPLATE.conf > vsftpd_ssl.conf
+	cd -
+
+	set_vsftpd_file_owner
 
 }
 
