@@ -30,8 +30,8 @@ Vagrant.configure('2') do |config|
 
       if node[:name] == 'master'
         config.vm.network "forwarded_port", guest: 8080, host: 8080
-        config.vm.provision :shell, path: "../tools/imported/openstack-rancher.sh"
-        config.vm.provision :shell, path: "../tools/get_ranchercli.sh"
+        config.vm.provision :shell, path: "../tools/casablanca/imported/openstack-rancher.sh"
+        config.vm.provision :shell, path: "../tools/casablanca/get_ranchercli.sh"
       end
 
       if node[:name] == 'worker'
