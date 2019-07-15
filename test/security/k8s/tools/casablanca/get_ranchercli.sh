@@ -10,7 +10,7 @@ VERSION="${1:-$DEFAULT_VERSION}"
 ARCH="${2:-$DEFAULT_ARCH}"
 SYSTEM="${3:-$DEFAULT_SYSTEM}"
 
-ARCHIVE="rancher-${SYSTEM}-${ARCHITECTURE}-${VERSION}.tar.gz"
+ARCHIVE="rancher-${SYSTEM}-${ARCH}-${VERSION}.tar.gz"
 DIRECTORY="rancher-${VERSION}"
 URL="https://releases.rancher.com/cli/${VERSION}/${ARCHIVE}"
 
