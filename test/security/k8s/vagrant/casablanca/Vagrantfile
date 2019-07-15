@@ -1,6 +1,8 @@
 # -*- mode: ruby -*-
 # -*- coding: utf-8 -*-
 
+host_ip = "192.168.121.1"
+
 vm_memory = 2 * 1024
 vm_cpus = 1
 
@@ -27,6 +29,7 @@ Vagrant.configure('2') do |config|
       end
 
       config.vm.network :private_network, ip: node[:ip]
+      config.vm.provision :shell, inline: "echo nameserver #{host_ip} | resolvconf -a eth0.inet"
 
       if node[:name] == 'master'
         config.vm.network "forwarded_port", guest: 8080, host: 8080
