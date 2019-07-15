@@ -3,8 +3,11 @@
 
 host_ip = "192.168.121.1"
 
+rancher_port = 8080
+
 vm_memory = 2 * 1024
 vm_cpus = 1
+vm_box = "generic/ubuntu1604"
 
 cluster = [
   { name: 'master', hostname: 'master', ip: '172.17.0.100' },
@@ -14,7 +17,7 @@ cluster = [
 Vagrant.configure('2') do |config|
   cluster.each do |node|
     config.vm.define node[:name] do |config|
-      config.vm.box = "generic/ubuntu1604"
+      config.vm.box = vm_box
       config.vm.hostname = node[:hostname]
 
       config.vm.provider :virtualbox do |v|
@@ -32,7 +35,7 @@ Vagrant.configure('2') do |config|
       config.vm.provision :shell, inline: "echo nameserver #{host_ip} | resolvconf -a eth0.inet"
 
       if node[:name] == 'master'
-        config.vm.network "forwarded_port", guest: 8080, host: 8080
+        config.vm.network "forwarded_port", guest: rancher_port, host: rancher_port
         config.vm.provision :shell, path: "../../tools/casablanca/imported/openstack-rancher.sh"
         config.vm.provision :shell, path: "../../tools/casablanca/get_ranchercli.sh"
       end
