@@ -1,4 +1,4 @@
-.. This work is licensed under a Creative Commons Attribution 4.0 International License.
+.. This work is licensed under a Creative Commons Attribution 5.0 International License.
 .. http://creativecommons.org/licenses/by/4.0
 .. Copyright 2018 ONAP
 
@@ -48,6 +48,34 @@ be followed while making the tgz.
 
 NOTE: The .tgz file must be a tgz created from the top level helm chart
 folder. I.e. a folder that contains a Chart.yaml file in it.
+For vFW use case the content of tgz file must be following
+::
+
+    $ helm package firewall
+
+    $ tar -tf firewall-0.1.0.tgz
+
+    firewall/.helmignore
+    firewall/Chart.yaml
+    firewall/templates/onap-private-net.yaml
+    firewall/templates/_helpers.tpl
+    firewall/templates/protected-private-net.yaml
+    firewall/templates/deployment.yaml
+    firewall/templates/unprotected-private-net.yaml
+    firewall/values.yaml
+    firewall/charts/sink/.helmignore
+    firewall/charts/sink/Chart.yaml
+    firewall/charts/sink/templates/configmap.yaml
+    firewall/charts/sink/templates/_helpers.tpl
+    firewall/charts/sink/templates/service.yaml
+    firewall/charts/sink/templates/deployment.yaml
+    firewall/charts/sink/values.yaml
+    firewall/charts/packetgen/.helmignore
+    firewall/charts/packetgen/Chart.yaml
+    firewall/charts/packetgen/templates/_helpers.tpl
+    firewall/charts/packetgen/templates/deployment.yaml
+    firewall/charts/packetgen/values.yaml
+
 
 
 Listed below is an example of the contents inside a heat template
@@ -91,7 +119,7 @@ Key thing is note the addition of cloud artifact
 	]
   }
 
-**Base\_dummy.yaml**
+**base\_dummy.yaml**
 ~~~~~~~~~~~~~~~~~~~~~
 Designed to be minimal HEAT template
 
@@ -115,7 +143,7 @@ Designed to be minimal HEAT template
 
     vnf_id:
       type: string
-	    label: id of vnf
+	    label: id of vnommand to read (GET) Definition
       description: Provided by ONAP
 
     vnf_name:
@@ -151,7 +179,7 @@ Designed to be minimal HEAT template
 
 
 
-**Base\_dummy.env**
+**base\_dummy.env**
 
 ::
 
@@ -449,6 +477,22 @@ optional in the manifest file.
    - filepath: testfol/subdir/deployment.yaml
      chartpath: vault-consul-dev/templates/deployment.yaml
 
+We need to read the name of the Definition which was created while distribution of the service from SDC.
+
+**Command to read the Definition name and its version**
+On the ONAP K8s Rancher host execute following statement
+
+::
+
+ kubectl logs -n onap `kubectl get pods -o go-template --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}' | grep multicloud-k8s | head -1` -c multicloud-k8s
+
+From the output read the name of the definition which is "rb-name" and "rb-version" respectively
+
+::
+
+ 127.0.0.1 - - [15/Jul/2019:07:56:21 +0000] "POST /v1/rb/definition/test-rbdef/1/content HTTP/1.1"
+
+**Command to read (GET) Definition**
 
 With this information, we are ready to upload the profile with the
 following JSON data
@@ -457,11 +501,11 @@ following JSON data
 
  {
    "rb-name": "test-rbdef",
-   "rb-version": "v1",
+   "rb-version": "1",
    "profile-name": "p1",
    "release-name": "r1", //If release-name is not provided, profile-name will be used
    "namespace": "testnamespace1",
-   "kubernetes-version": "1.12.3"
+   "kubernetes-version": "1.13.5"
  }
 
 
@@ -470,7 +514,7 @@ following JSON data
 
 ::
 
- curl -i -d @create_rbprofile.json -X POST http://MSB_NODE_IP:30280/api/multicloud-k8s/v1/v1/rb/definition/test-rbdef/v1/profile
+ curl -i -d @create_rbprofile.json -X POST http://MSB_NODE_IP:30280/api/multicloud-k8s/v1/v1/rb/definition/test-rbdef/1/profile
 
 
 
@@ -478,7 +522,7 @@ following JSON data
 
 ::
 
- curl -i --data-binary @profile.tar.gz -X POST http://MSB_NODE_IP:30280/api/multicloud-k8s/v1/v1/rb/definition/test-rbdef/v1/profile/p1/content
+ curl -i --data-binary @profile.tar.gz -X POST http://MSB_NODE_IP:30280/api/multicloud-k8s/v1/v1/rb/definition/test-rbdef/1/profile/p1/content
 
 
 
@@ -486,16 +530,16 @@ following JSON data
 
 ::
 
- curl -i http://MSB_NODE_IP:30280/api/multicloud-k8s/v1/v1/rb/definition/test-rbdef/v1/profile
+ curl -i http://MSB_NODE_IP:30280/api/multicloud-k8s/v1/v1/rb/definition/test-rbdef/1/profile
   # Get one Profile
-  curl -i http://MSB_NODE_IP:30280/api/multicloud-k8s/v1/v1/rb/definition/test-rbdef/v1/profile/p1
+  curl -i http://MSB_NODE_IP:30280/api/multicloud-k8s/v1/v1/rb/definition/test-rbdef/1/profile/p1
 
 
 
 **Command to DELETE Profile**
 ::
 
- curl -i -X DELETE http://MSB_NODE_IP:30280/api/multicloud-k8s/v1/v1/rb/definition/test-rbdef/v1/profile/p1
+ curl -i -X DELETE http://MSB_NODE_IP:30280/api/multicloud-k8s/v1/v1/rb/definition/test-rbdef/1/profile/p1
 
 
 **Instantiation**
@@ -516,7 +560,7 @@ the type of the registration.
    "cloud-region": "kud",
    "profile-name": "p1",
    "rb-name":"test-rbdef",
-   "rb-version":"v1",
+   "rb-version":"1",
    "labels": {
    }
   }
@@ -540,7 +584,7 @@ The command returns the following JSON
  {
  "id": "ZKMTSaxv",
  "rb-name": "mongo",
- "rb-version": "v1",
+ "rb-version": "1",
  "profile-name": "profile1",
  "cloud-region": "kud",
  "namespace": "testns",
