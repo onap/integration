@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fec0c7cf_d1e7af70",
+        "filename": "docs/docs_vfw_edgex_k8s.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2019-07-16T07:28:18Z",
+      "side": 1,
+      "message": "tabulation to be removed\nnommand to read: what is it ?",
+      "revId": "3d1d4c5640e56b44ca6ff8bd17f8b4d841223b54",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
