@@ -227,34 +227,7 @@
 				}
 			],
 			"request": {
-				"url": {
-					"raw": "{{url-nbi}}/service/{{auto_service_instance_id}}?relatedParty.id={{customer_name}}&serviceSpecification.name={{service}}",
-					"host": [
-						"{{url-nbi}}"
-					],
-					"path": [
-						"nbi",
-						"api",
-						"v3",
-						"service",
-						"{{auto_service_instance_id}}"
-					],
-					"query": [
-						{
-							"key": "relatedParty.id",
-							"value": "{{customer_name}}",
-							"equals": true,
-							"description": ""
-						},
-						{
-							"key": "serviceSpecification.name",
-							"value": "{{service}}",
-							"equals": true,
-							"description": ""
-						}
-					],
-					"variable": []
-				},
+				"url": "{{url-nbi}}/service/{{auto_service_instance_id}}",
 				"method": "GET",
 				"header": [],
 				"body": {},
@@ -374,7 +347,7 @@
 						"type": "text/javascript",
 						"exec": [
 							"",
-							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Status code is 404\"] = responseCode.code === 404;",
 							"",
 							"",
 							""
@@ -383,34 +356,7 @@
 				}
 			],
 			"request": {
-				"url": {
-					"raw": "{{url-nbi}}/service/{{auto_service_instance_id}}?relatedParty.id={{customer_name}}&serviceSpecification.name={{service}}",
-					"host": [
-						"{{url-nbi}}"
-					],
-					"path": [
-						"nbi",
-						"api",
-						"v3",
-						"service",
-						"{{auto_service_instance_id}}"
-					],
-					"query": [
-						{
-							"key": "relatedParty.id",
-							"value": "{{customer_name}}",
-							"equals": true,
-							"description": ""
-						},
-						{
-							"key": "serviceSpecification.name",
-							"value": "{{service}}",
-							"equals": true,
-							"description": ""
-						}
-					],
-					"variable": []
-				},
+                                "url": "{{url-nbi}}/service/{{auto_service_instance_id}}",
 				"method": "GET",
 				"header": [],
 				"body": {},
