@@ -16,6 +16,24 @@
       "revId": "3d1d4c5640e56b44ca6ff8bd17f8b4d841223b54",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61b21493_8c26a378",
+        "filename": "docs/docs_vfw_edgex_k8s.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 5033
+      },
+      "writtenOn": "2019-07-17T17:17:05Z",
+      "side": 1,
+      "message": "Hi Eric, thank you for reviewing the patch. Missed this, maybe the line got overwritten will formatting it. Will correct it.",
+      "parentUuid": "fec0c7cf_d1e7af70",
+      "revId": "3d1d4c5640e56b44ca6ff8bd17f8b4d841223b54",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
