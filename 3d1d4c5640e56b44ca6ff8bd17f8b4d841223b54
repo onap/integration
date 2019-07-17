@@ -34,6 +34,29 @@
       "revId": "3d1d4c5640e56b44ca6ff8bd17f8b4d841223b54",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "314be478_40c3c5c0",
+        "filename": "docs/docs_vfw_edgex_k8s.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 1603
+      },
+      "writtenOn": "2019-07-17T21:26:55Z",
+      "side": 1,
+      "message": "I think it would be helpful to show generic versions of these curl commands in addition to the specific examples:  e.g.   ..../api/multicloud-k8s/v1/v1/rb/definition/{rb-name}/{rb-version}/profile\n\nand likewise for the following curls - just to make it clear.\n(is it really   .../v1/v1/...  ? - I guess so)",
+      "range": {
+        "startLine": 517,
+        "startChar": 127,
+        "endLine": 518,
+        "endChar": 0
+      },
+      "revId": "3d1d4c5640e56b44ca6ff8bd17f8b4d841223b54",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
