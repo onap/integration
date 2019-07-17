@@ -8,19 +8,33 @@
   "dmaap.security.keyStorePath": "keyStorePath",
   "dmaap.security.keyStorePasswordPath": "change it",
   "dmaap.security.enableDmaapCertAuth": "false",
-  "dmaap.dmaapProducerConfiguration": [
-    {
-      "changeIdentifier": "PM_MEAS_FILES",
-      "feedName": "feed01"
+  "streams_publishes": {
+    "PM_MEAS_FILES": {
+      "type": "data_router",
+      "username": "user",
+      "log_url": "https://drsim:3907/feedlog/1",
+      "publish_url": "https://drsim:3907/publish/1",
+      "location": "loc00",
+      "password": "password",
+      "publisher_id": "972.360gm"
     },
-    {
-      "changeIdentifier": "CTR_FILES",
-      "feedName": "feed02"
+    "CTR_FILES": {
+      "type": "data_router",
+      "dmaap_info": {
+        "feed02": {
+          "username": "user",
+          "log_url": "https://drsim:3907/feedlog/2",
+          "publish_url": "https://drsim:3907/publish/2",
+          "location": "loc00",
+          "password": "password",
+          "publisher_id": "972.360gm"
+        }
+      }
     }
-  ],
+  },
   "streams_subscribes": {
     "dmaap_subscriber": {
-      "dmmap_info": {
+      "dmaap_info": {
         "topic_url": "http://dradmin:dradmin@mrsim:2222/events/unauthenticated.VES_NOTIFICATION_OUTPUT/OpenDcae-c12/C12"
       },
       "type": "message_router"

@@ -1,23 +1,34 @@
 {
-   "dmaap.ftpesConfig.keyCert":"config/dfc.jks",
-   "dmaap.ftpesConfig.keyPassword":"secret",
-   "dmaap.ftpesConfig.trustedCa":"config/ftp.jks",
-   "dmaap.ftpesConfig.trustedCaPassword":"secret",
-   "dmaap.security.trustStorePath":"change it",
-   "dmaap.security.trustStorePasswordPath":"trustStorePasswordPath",
-   "dmaap.security.keyStorePath":"keyStorePath",
-   "dmaap.security.keyStorePasswordPath":"change it",
-   "dmaap.security.enableDmaapCertAuth":"false",
-   "dmaap.dmaapProducerConfiguration" : {
-         "changeIdentifier":"CTR_MEAS_FILES",
-         "feedName":"feed02"
-    },
-    "streams_subscribes":{
-      "dmaap_subscriber":{
-         "dmmap_info":{
-            "topic_url":"http://dradmin:dradmin@mrsim:2222/events/unauthenticated.VES_NOTIFICATION_OUTPUT/OpenDcae-c12/C12"
-         },
-         "type":"message_router"
+  "dmaap.ftpesConfig.keyCert": "config/dfc.jks",
+  "dmaap.ftpesConfig.keyPassword": "secret",
+  "dmaap.ftpesConfig.trustedCa": "config/ftp.jks",
+  "dmaap.ftpesConfig.trustedCaPassword": "secret",
+  "dmaap.security.trustStorePath": "change it",
+  "dmaap.security.trustStorePasswordPath": "trustStorePasswordPath",
+  "dmaap.security.keyStorePath": "keyStorePath",
+  "dmaap.security.keyStorePasswordPath": "change it",
+  "dmaap.security.enableDmaapCertAuth": "false",
+  "streams_subscribes": {
+    "dmaap_subscriber": {
+      "dmaap_info": {
+        "topic_url": "http://dradmin:dradmin@mrsim:2222/events/unauthenticated.VES_NOTIFICATION_OUTPUT/OpenDcae-c12/C12"
+      },
+      "type": "message_router"
+    }
+  },
+  "streams_publishes": {
+    "CTR_MEAS_FILES": {
+      "type": "data_router",
+      "dmaap_info": {
+        "feed02": {
+          "username": "user",
+          "log_url": "https://drsim:3907/feedlog/2",
+          "publish_url": "https://drsim:3907/publish/2",
+          "location": "loc00",
+          "password": "password",
+          "publisher_id": "972.360gm"
+        }
       }
-   }
+    }
+  }
 }
