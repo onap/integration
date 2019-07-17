@@ -14,6 +14,15 @@ var privateKey  = fs.readFileSync('cert/private.key', 'utf8');
 var certificate = fs.readFileSync('cert/certificate.crt', 'utf8');
 var credentials = {key: privateKey, cert: certificate};
 
+var total_first_publish=0;
+var total_last_publish=0
+var total_files=0;
+var speed=0;
+
+var feeds="1:A";  //Comma separated list of feedId:filePrefix. Default is feedId=1 and file prefix 'A'
+var feedNames=[];
+var filePrefixes=[];
+var feedIndexes=[];
 
 var bodyParser = require('body-parser')
 var startTime = Date.now();
@@ -21,10 +30,11 @@ var startTime = Date.now();
 var dr_callback_ip = '192.168.100.2'; //IP for DR when running as container. Can be changed by env DR_SIM_IP
 
 //Counters
-var ctr_publish_requests = 0;
-var ctr_publish_responses = 0;
-var lastPublish = "";
-var dwl_volume = 0;
+var ctr_publish_requests = [];
+var ctr_publish_requests_bad_file_prefix = [];
+var ctr_publish_responses = [];
+var lastPublish = [];
+var dwl_volume = [];
 
 var parser = new ArgumentParser({
 	version: '0.0.1',
@@ -134,66 +144,194 @@ app.get("/",function(req, res){
 	res.send("ok");
 })
 
+function toCommaList(ctrArray) {
+	var str="";
+	for(i=0;i<feedNames.length;i++) {
+		if (i!=0) {
+			str=str+",";
+		}
+		str=str+ctrArray[i];
+	}
+	return str;
+}
+
+function toCommaListTime(ctrArray) {
+	var str="";
+	for(i=0;i<feedNames.length;i++) {
+		if (i!=0) {
+			str=str+",";
+		}
+		if (ctrArray[i] < 0) {
+			str=str+"--:--";
+		} else {
+			str=str+fmtMSS(ctrArray[i]);
+		}
+	}
+	return str;
+}
+
+function sumList(ctrArray) {
+	var tmp=0;
+	for(i=0;i<feedNames.length;i++) {
+		tmp=tmp+ctrArray[i];
+	}
+	return ""+tmp;
+}
+
+function largestInListTime(ctrArray) {
+	var tmp=-1;
+	var str=""
+	for(i=0;i<feedNames.length;i++) {
+		if (ctrArray[i] > tmp) {
+			tmp = ctrArray[i];
+		}
+	}
+	if (tmp < 0) {
+		str="--:--";
+	} else {
+		str=fmtMSS(tmp);
+	}
+	return str;
+}
+
 //Counter readout
 app.get("/ctr_publish_requests",function(req, res){
-	res.send(""+ctr_publish_requests);
+	res.send(""+sumList(ctr_publish_requests));
 })
+app.get("/feeds/ctr_publish_requests/",function(req, res){
+	res.send(toCommaList(ctr_publish_requests));
+})
+app.get("/ctr_publish_requests/:feedId",function(req, res){
+	var feedId = req.params.feedId;
+	res.send(""+ctr_publish_requests[feedIndexes[feedId]]);
+})
+
+app.get("/ctr_publish_requests_bad_file_prefix",function(req, res){
+	res.send(""+sumList(ctr_publish_requests_bad_file_prefix));
+})
+app.get("/feeds/ctr_publish_requests_bad_file_prefix/",function(req, res){
+	res.send(toCommaList(ctr_publish_requests_bad_file_prefix));
+})
+app.get("/ctr_publish_requests_bad_file_prefix/:feedId",function(req, res){
+	var feedId = req.params.feedId;
+	res.send(""+ctr_publish_requests_bad_file_prefix[feedIndexes[feedId]]);
+})
+
 app.get("/ctr_publish_responses",function(req, res){
-	res.send(""+ctr_publish_responses);
+	res.send(""+sumList(ctr_publish_responses));
 })
+app.get("/feeds/ctr_publish_responses/",function(req, res){
+	res.send(toCommaList(ctr_publish_responses));
+})
+app.get("/ctr_publish_responses/:feedId",function(req, res){
+	var feedId = req.params.feedId;
+	res.send(""+ctr_publish_responses[feedIndexes[feedId]]);
+})
+
 app.get("/execution_time",function(req, res){
-	diff = fmtMSS(Math.floor((Date.now()-startTime)/1000));
+	var diff = fmtMSS(Math.floor((Date.now()-startTime)/1000));
 	res.send(""+diff);
 })
 app.get("/time_lastpublish",function(req, res){
-	res.send(""+lastPublish);
+	res.send(""+largestInListTime(lastPublish));
 })
+app.get("/feeds/time_lastpublish/",function(req, res){
+	res.send(toCommaListTime(lastPublish));
+})
+app.get("/time_lastpublish/:feedId",function(req, res){
+	var feedId = req.params.feedId;
+	if (lastPublish[feedIndexes[feedId]] < 0) {
+		res.send("--:--");
+	}
+	res.send(""+fmtMSS(lastPublish[feedIndexes[feedId]]));
+})
+
 app.get("/dwl_volume",function(req, res){
-	res.send(""+fmtLargeNumber(dwl_volume));
+	res.send(""+fmtLargeNumber(sumList(dwl_volume)));
 })
+app.get("/feeds/dwl_volume/",function(req, res){
+	var str="";
+	for(i=0;i<feedNames.length;i++) {
+		if (i!=0) {
+			str=str+",";
+		}
+		str=str+fmtLargeNumber(dwl_volume[i]);
+	}
+	res.send(str);
+})
+app.get("/dwl_volume/:feedId",function(req, res){
+	var feedId = req.params.feedId;
+	res.send(""+fmtLargeNumber(dwl_volume[feedIndexes[feedId]]));
+})
+
 app.get("/tc_info",function(req, res){
 	res.send(args.tc);
 })
 
-app.put('/publish/1/:filename', function (req, res) {
+app.get("/feeds",function(req, res){
+	res.send(feeds);
+})
+
+app.get("/speed",function(req, res){
+	res.send(""+speed);
+})
+
+function filenameStartsWith(fileName, feedIndex) {
+	var i=0;
+	for(i=0;i<filePrefixes[feedIndex].length;i++) {
+		var prefix=filePrefixes[feedIndex][i];
+		if (fileName.startsWith(prefix)) {
+			return true;
+		}
+	}
+	return false;
+}
+
+app.put('/publish/:feedId/:filename', function (req, res) {
+
 	console.log(req.url);
-	console.log("First 25 bytes of body: " + req.body.slice(0,25))
+	var feedId=req.params.feedId;
+//	console.log("First 25 bytes of body: " + req.body.slice(0,25))
 	console.log(req.headers)
-	ctr_publish_requests++;
+	ctr_publish_requests[feedIndexes[feedId]]++;
+	var filename = req.params.filename;
+	if (!filenameStartsWith(filename, feedIndexes[feedId])) {
+		ctr_publish_requests_bad_file_prefix[feedIndexes[feedId]]++;
+	}
+	var ctr = ctr_publish_requests[feedIndexes[feedId]];
 	if (args.tc == tc_no_publish) {
-		tr_publish_responses++;
+		ctr_publish_responses[feedIndexes[feedId]]++;
 		res.send("ok")
 		return;
-	} else if (args.tc==tc_10p_no_response && (ctr_publish_requests%10)==0) {
+	} else if (args.tc==tc_10p_no_response && (ctr%10)==0) {
 		return;
-	} else if (args.tc==tc_10first_no_response && ctr_publish_requests<11) {
+	} else if (args.tc==tc_10first_no_response && ctr<11) {
 		return;
-	} else if (args.tc==tc_100first_no_response && ctr_publish_requests<101) {
+	} else if (args.tc==tc_100first_no_response && ctr<101) {
 		return;
-	} else if (args.tc==tc_10p_error_response && (ctr_publish_requests%10)==0) {
-		tr_publish_responses++;
+	} else if (args.tc==tc_10p_error_response && (ctr%10)==0) {
+		ctr_publish_responses[feedIndexes[feedId]]++;
 		res.send(400, "");
 		return;
-	} else if (args.tc==tc_10first_error_response && ctr_publish_requests<11) {
-		tr_publish_responses++;
+	} else if (args.tc==tc_10first_error_response && ctr<11) {
+		ctr_publish_responses[feedIndexes[feedId]]++;
 		res.send(400, "");
 		return;
-	} else if (args.tc==tc_100first_error_response && ctr_publish_requests<101) {
-		tr_publish_responses++;
+	} else if (args.tc==tc_100first_error_response && ctr<101) {
+		ctr_publish_responses[feedIndexes[feedId]]++;
 		res.send(400, "");
 		return;
 	}
 
 	//Remaining part if normal file publish
 
-	var filename = req.params.filename;
 	console.log(filename);
-	//Create filename (appending file size to name) to store
-  	var storedFilename = path.resolve(__dirname, filename+"-"+req.body.length); 
+	//Create filename (appending file size and feedid to name) to store
+  	var storedFilename = path.resolve(__dirname, filename+"-"+feedId+"-"+req.body.length); 
   	fs.writeFile(storedFilename, "", function (error) {  //Store file with zero size
   		if (error) { console.error(error); }
 	});
-	
+
 	//Make callback to update list of publish files in DR sim
 	//Note the hard code ip-adress, DR sim get this ip if simulators started from the
 	//script in the 'simulatorgroup' dir.
@@ -201,24 +339,23 @@ app.put('/publish/1/:filename', function (req, res) {
 	var util = require('util');
 	var exec = require('child_process').exec;
 
-	var command = 'curl -s -X PUT http://' + dr_callback_ip + ':3906/dr_redir_publish/' +req.params.filename;
+	var command = 'curl -s -X PUT http://' + dr_callback_ip + ':3906/dr_redir_publish/'+feedId+'/'+filename;
 
 	console.log("Callback to DR sim to report file published, cmd: " + command);
-	child = exec(command, function(error, stdout, stderr){
+	var child = exec(command, function(error, stdout, stderr){
 		console.log('stdout: ' + stdout);
 		console.log('stderr: ' + stderr);
 		if(error !== null) {
 			console.log('exec error: ' + error);
 		}
-		
 	});
 
 	//Update status variables
-	ctr_publish_responses++;
-	lastPublish = fmtMSS(Math.floor((Date.now()-startTime)/1000));
-	dwl_volume = dwl_volume + req.body.length;
+	ctr_publish_responses[feedIndexes[feedId]]++;
+	lastPublish[feedIndexes[feedId]] = Math.floor((Date.now()-startTime)/1000);
+	dwl_volume[feedIndexes[feedId]] = dwl_volume[feedIndexes[feedId]] + req.body.length;
 
-	if (args.tc==tc_10p_delay_10s && (ctr_publish_requests%10)==0) {
+	if (args.tc==tc_10p_delay_10s && (ctr%10)==0) {
         sleep(10000).then(() => {
 			res.send("ok");
 		});
@@ -234,6 +371,15 @@ app.put('/publish/1/:filename', function (req, res) {
 		});
 		return;
 	}
+	if (total_first_publish == 0) {
+		total_first_publish=Date.now()/1000;
+	}
+	total_last_publish=Date.now()/1000;
+	total_files++;
+	if (total_last_publish > total_first_publish) {
+		speed = Math.round((total_files/(total_last_publish-total_first_publish))*10)/10;
+	}
+
 	res.send("ok")
 });
 
@@ -250,5 +396,36 @@ console.log("DR-simulator listening (https) at "+httpsPort)
 
 if (process.env.DR_SIM_IP) {
 	dr_callback_ip=process.env.DR_SIM_IP;
-} 
+}
 console.log("Using IP " + dr_callback_ip + " for callback to DR sim");
+
+if (process.env.DR_REDIR_FEEDS) {
+	feeds=process.env.DR_REDIR_FEEDS;
+}
+console.log("Configured list of feeds: " + feeds);
+
+var i=0;
+feedNames=feeds.split(',');
+for(i=0;i<feedNames.length;i++) {
+	var tmp=feedNames[i].split(':');
+	feedNames[i]=tmp[0].trim();
+	feedIndexes[feedNames[i]]=i;
+	filePrefixes[i]=[]
+	var j=0;
+	for(j=1;j<tmp.length;j++) {
+		filePrefixes[i][j-1]=tmp[j];
+	}
+
+	ctr_publish_requests[i] = 0;
+	ctr_publish_requests_bad_file_prefix[i] = 0;
+	ctr_publish_responses[i] = 0;
+	lastPublish[i] = -1;
+	dwl_volume[i] = 0;
+}
+console.log("Parsed mapping between feed id and file name prefix");
+for(i=0;i<feedNames.length;i++) {
+	var fn = feedNames[i];
+	for (j=0;j<filePrefixes[i].length;j++) {
+		console.log("Feed id: " + fn + ", file name prefix: " + filePrefixes[i][j]);
+	}
+}

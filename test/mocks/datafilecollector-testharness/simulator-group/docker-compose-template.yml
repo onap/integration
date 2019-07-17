@@ -1,17 +1,40 @@
 version: '2'
 
 networks:
-  dfcnet:
-    ipam:
-      config:
-        - subnet: 192.168.100.0/16
-          
+   dfcnet:
+      external:
+         name: dfcnet
+
 services:
-      
+
+  consul-server:
+    networks:
+      - dfcnet
+    container_name: dfc_consul
+    image: docker.io/consul:1.4.4
+    ports:
+      - "8500:8500"
+    volumes:
+      - ./consul/consul/:/consul/config
+
+  config-binding-service:
+    networks:
+      - dfcnet
+    container_name: dfc_cbs
+    image: nexus3.onap.org:10001/onap/org.onap.dcaegen2.platform.configbinding.app-app:2.3.0
+    ports:
+      - "10000:10000"
+    environment:
+      - CONSUL_HOST=consul-server
+    depends_on:
+      - consul-server
+
   drsim:
     networks:
-      dfcnet:
-        ipv4_address: 192.168.100.2
+      - dfcnet
+    environment:
+        DRR_SIM_IP: ${DR_REDIR_SIM}
+        DR_FEEDS: ${DR_FEEDS}
     image: drsim_common:latest
     ports:
      - "3906:3906"
@@ -21,8 +44,10 @@ services:
 
   drsim_redir:
     networks:
-      dfcnet:
-        ipv4_address: 192.168.100.3
+      - dfcnet
+    environment: 
+        DR_SIM_IP: drsim
+        DR_REDIR_FEEDS: ${DR_REDIR_FEEDS}
     image: drsim_common:latest
     ports:
      - "3908:3908"
@@ -32,42 +57,131 @@ services:
 
   mrsim:
     networks:
-      dfcnet:
-        ipv4_address: 192.168.100.1
+      - dfcnet
+    environment:
+        SFTP_SIMS: ${SFTP_SIMS}
+        FTPS_SIMS: ${FTPS_SIMS}
+        NUM_FTP_SERVERS: ${NUM_FTP_SERVERS}
+        MR_GROUPS: ${MR_GROUPS}
+        MR_FILE_PREFIX_MAPPING: ${MR_FILE_PREFIX_MAPPING}
     image: mrsim:latest
     ports:
      - "2222:2222"
     container_name: dfc_mr-sim
     command: python mr-sim.py ${MR_TC}
 
-  sftp-server:
-    network_mode: bridge
-    container_name: dfc_sftp-server
+  sftp-server0:
+    networks:
+      - dfcnet
+    container_name: dfc_sftp-server0
     image: atmoz/sftp:alpine
     ports:
       - "1022:22"
     restart: on-failure
     command: onap:pano:1001
 
-
-  ftpes-server-vsftpd:
-    network_mode: bridge
-    container_name: dfc_ftpes-server-vsftpd
-    image: docker.io/panubo/vsftpd
+  sftp-server1:
+    networks:
+      - dfcnet
+    container_name: dfc_sftp-server1
+    image: atmoz/sftp:alpine
     ports:
-      - "21:21"
-      - "8001-8010:8001-8010"
+      - "1023:22"
+    restart: on-failure
+    command: onap:pano:1001
+
+  sftp-server2:
+    networks:
+      - dfcnet
+    container_name: dfc_sftp-server2
+    image: atmoz/sftp:alpine
+    ports:
+      - "1024:22"
+    restart: on-failure
+    command: onap:pano:1001
+
+  sftp-server3:
+    networks:
+      - dfcnet
+    container_name: dfc_sftp-server3
+    image: atmoz/sftp:alpine
+    ports:
+      - "1025:22"
+    restart: on-failure
+    command: onap:pano:1001
+
+  sftp-server4:
+    networks:
+      - dfcnet
+    container_name: dfc_sftp-server4
+    image: atmoz/sftp:alpine
+    ports:
+      - "1026:22"
+    restart: on-failure
+    command: onap:pano:1001
+
+  ftpes-server-vsftpd0:
+    networks:
+      - dfcnet
+    container_name: dfc_ftpes-server-vsftpd0
+    image: ftps_vsftpd:latest
+    ports:
+      - "1032:21"
     environment:
       FTP_USER: onap
       FTP_PASSWORD: pano
-      PASV_ADDRESS: localhost
-      PASV_MIN_PORT: 8001
-      PASV_MAX_PORT: 8010
-    volumes:
-      - ./tls/ftp.crt:/etc/ssl/private/ftp.crt:ro
-      - ./tls/ftp.key:/etc/ssl/private/ftp.key:ro
-      - ./tls/dfc.crt:/etc/ssl/private/dfc.crt:ro
-      - ./configuration/vsftpd_ssl.conf:/etc/vsftpd_ssl.conf:ro
-
     restart: on-failure
     command: vsftpd /etc/vsftpd_ssl.conf
+
+  ftpes-server-vsftpd1:
+    networks:
+      - dfcnet
+    container_name: dfc_ftpes-server-vsftpd1
+    image: ftps_vsftpd:latest
+    ports:
+      - "1033:21"
+    environment:
+      FTP_USER: onap
+      FTP_PASSWORD: pano
+    restart: on-failure
+    command: vsftpd /etc/vsftpd_ssl.conf
+
+  ftpes-server-vsftpd2:
+    networks:
+      - dfcnet
+    container_name: dfc_ftpes-server-vsftpd2
+    image: ftps_vsftpd:latest
+    ports:
+      - "1034:21"
+    environment:
+      FTP_USER: onap
+      FTP_PASSWORD: pano
+    restart: on-failure
+    command: vsftpd /etc/vsftpd_ssl.conf
+
+  ftpes-server-vsftpd3:
+    networks:
+      - dfcnet
+    container_name: dfc_ftpes-server-vsftpd3
+    image: ftps_vsftpd:latest
+    ports:
+      - "1035:21"
+    environment:
+      FTP_USER: onap
+      FTP_PASSWORD: pano
+    restart: on-failure
+    command: vsftpd /etc/vsftpd_ssl.conf
+
+  ftpes-server-vsftpd4:
+    networks:
+      - dfcnet
+    container_name: dfc_ftpes-server-vsftpd4
+    image: ftps_vsftpd:latest
+    ports:
+      - "1036:21"
+    environment:
+      FTP_USER: onap
+      FTP_PASSWORD: pano
+    restart: on-failure
+    command: vsftpd /etc/vsftpd_ssl.conf
+

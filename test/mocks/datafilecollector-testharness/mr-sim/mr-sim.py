@@ -14,8 +14,25 @@ app = Flask(__name__)
 HOST_IP = "0.0.0.0"
 HOST_PORT = 2222
 
-SFTP_PORT = 1022
-FTPS_PORT = 21
+sftp_hosts=[]
+sftp_ports=[]
+ftps_hosts=[]
+ftps_ports=[]
+num_ftp_servers=0
+
+def sumList(ctrArray):
+    tmp=0
+    for i in range(len(ctrArray)):
+        tmp=tmp+ctrArray[i];
+
+    return str(tmp);
+
+def sumListLength(ctrArray):
+    tmp=0
+    for i in range(len(ctrArray)):
+        tmp=tmp+len(ctrArray[i]);
+
+    return str(tmp);
 
 #Test function to check server running
 @app.route('/',
@@ -23,33 +40,140 @@ FTPS_PORT = 21
 def index():
     return 'Hello world'
 
+#Returns the list of configured groups
+@app.route('/groups',
+    methods=['GET'])
+def group_ids():
+    global configuredGroups
+    return configuredGroups
+
+#Returns the list of configured changeids
+@app.route('/changeids',
+    methods=['GET'])
+def change_ids():
+    global configuredChangeIds
+    return configuredChangeIds
+
+#Returns the list of configured fileprefixes
+@app.route('/fileprefixes',
+    methods=['GET'])
+def fileprefixes():
+    global configuredPrefixes
+    return configuredPrefixes
+
+
 #Returns number of polls
 @app.route('/ctr_requests',
     methods=['GET'])
 def counter_requests():
     global ctr_requests
-    return str(ctr_requests)
+    return sumList(ctr_requests)
 
-#Returns number of replies
+#Returns number of polls for all groups
+@app.route('/groups/ctr_requests',
+    methods=['GET'])
+def group_counter_requests():
+    global ctr_requests
+    global groupNames
+    tmp=''
+    for i in range(len(groupNames)):
+        if (i > 0):
+            tmp=tmp+','
+        tmp=tmp+str(ctr_requests[i])
+    return tmp
+
+#Returns the total number of polls for a group
+@app.route('/ctr_requests/<groupId>',
+    methods=['GET'])
+def counter_requests_group(groupId):
+    global ctr_requests
+    global groupNameIndexes
+    return str(ctr_requests[groupNameIndexes[groupId]])
+
+#Returns number of poll replies
 @app.route('/ctr_responses',
     methods=['GET'])
 def counter_responses():
     global ctr_responses
-    return str(ctr_responses)
+    return sumList(ctr_responses)
 
-#Returns the total number of file
+#Returns number of poll replies for all groups
+@app.route('/groups/ctr_responses',
+    methods=['GET'])
+def group_counter_responses():
+    global ctr_responses
+    global groupNames
+    tmp=''
+    for i in range(len(groupNames)):
+        if (i > 0):
+            tmp=tmp+','
+        tmp=tmp+str(ctr_responses[i])
+    return tmp
+
+#Returns the total number of poll replies for a group
+@app.route('/ctr_responses/<groupId>',
+    methods=['GET'])
+def counter_responses_group(groupId):
+    global ctr_responses
+    global groupNameIndexes
+    return str(ctr_responses[groupNameIndexes[groupId]])
+
+#Returns the total number of files
 @app.route('/ctr_files',
     methods=['GET'])
 def counter_files():
     global ctr_files
-    return str(ctr_files)
+    return sumList(ctr_files)
+
+#Returns the total number of file for all groups
+@app.route('/groups/ctr_files',
+    methods=['GET'])
+def group_counter_files():
+    global ctr_files
+    global groupNames
+    tmp=''
+    for i in range(len(groupNames)):
+        if (i > 0):
+            tmp=tmp+','
+        tmp=tmp+str(ctr_files[i])
+    return tmp
+
+#Returns the total number of files for a group
+@app.route('/ctr_files/<groupId>',
+    methods=['GET'])
+def counter_files_group(groupId):
+    global ctr_files
+    global groupNameIndexes
+    return str(ctr_files[groupNameIndexes[groupId]])
+
 
 #Returns number of unique files
 @app.route('/ctr_unique_files',
     methods=['GET'])
 def counter_uniquefiles():
     global fileMap
-    return str(len(fileMap))
+    return sumListLength(fileMap)
+
+#Returns number of unique files for all groups
+@app.route('/groups/ctr_unique_files',
+    methods=['GET'])
+def group_counter_uniquefiles():
+    global fileMap
+    global groupNames
+    tmp=''
+    for i in range(len(groupNames)):
+        if (i > 0):
+            tmp=tmp+','
+        tmp=tmp+str(len(fileMap[i]))
+    return tmp
+
+#Returns the total number of unique files for a group
+@app.route('/ctr_unique_files/<groupId>',
+    methods=['GET'])
+def counter_uniquefiles_group(groupId):
+    global fileMap
+    global groupNameIndexes
+    return str(len(fileMap[groupNameIndexes[groupId]]))
 
 #Returns tc info
 @app.route('/tc_info',
@@ -63,7 +187,28 @@ def testcase_info():
     methods=['GET'])
 def counter_events():
     global ctr_events
-    return str(ctr_events)
+    return sumList(ctr_events)
+
+#Returns number of events for all groups
+@app.route('/groups/ctr_events',
+    methods=['GET'])
+def group_counter_events():
+    global ctr_events
+    global groupNames
+    tmp=''
+    for i in range(len(groupNames)):
+        if (i > 0):
+            tmp=tmp+','
+        tmp=tmp+str(ctr_events[i])
+    return tmp
+
+#Returns the total number of events for a group
+@app.route('/ctr_events/<groupId>',
+    methods=['GET'])
+def counter_events_group(groupId):
+    global ctr_events
+    global groupNameIndexes
+    return str(ctr_events[groupNameIndexes[groupId]])
 
 #Returns execution time in mm:ss
 @app.route('/execution_time',
@@ -81,9 +226,44 @@ def exe_time():
 def exe_time_first_poll():
     global firstPollTime
 
-    if (firstPollTime == 0):
+    tmp = 0
+    for i in range(len(groupNames)):
+        if (firstPollTime[i] > tmp):
+            tmp = firstPollTime[i]
+
+    if (tmp == 0):
         return "--:--"
-    minutes, seconds = divmod(time.time()-firstPollTime, 60)
+    minutes, seconds = divmod(time.time()-tmp, 60)
+    return "{:0>2}:{:0>2}".format(int(minutes),int(seconds))
+
+#Returns the timestamp for first poll for all groups
+@app.route('/groups/exe_time_first_poll',
+    methods=['GET'])
+def group_exe_time_first_poll():
+    global firstPollTime
+    global groupNames
+
+    tmp=''
+    for i in range(len(groupNames)):
+        if (i > 0):
+            tmp=tmp+','
+        if (firstPollTime[i] == 0):
+            tmp=tmp+ "--:--"
+        else:
+            minutes, seconds = divmod(time.time()-firstPollTime[i], 60)
+            tmp=tmp+"{:0>2}:{:0>2}".format(int(minutes),int(seconds))
+    return tmp
+
+#Returns the timestamp for first poll for a group
+@app.route('/exe_time_first_poll/<groupId>',
+    methods=['GET'])
+def exe_time_first_poll_group(groupId):
+    global ctr_requests
+    global groupNameIndexes
+
+    if (firstPollTime[groupNameIndexes[groupId]] == 0):
+        return "--:--"
+    minutes, seconds = divmod(time.time()-firstPollTime[groupNameIndexes[groupId]], 60)
     return "{:0>2}:{:0>2}".format(int(minutes),int(seconds))
 
 #Starts event delivery
@@ -114,521 +294,656 @@ def status():
     methods=['GET'])
 def counter_uniquePNFs():
     global pnfMap
-    return str(len(pnfMap))
+    return sumListLength(pnfMap)
+
+#Returns number of unique PNFs for all groups
+@app.route('/groups/ctr_unique_PNFs',
+    methods=['GET'])
+def group_counter_uniquePNFs():
+    global pnfMap
+    global groupNames
+    tmp=''
+    for i in range(len(groupNames)):
+        if (i > 0):
+            tmp=tmp+','
+        tmp=tmp+str(len(pnfMap[i]))
+    return tmp
+
+#Returns the unique PNFs for a group
+@app.route('/ctr_unique_PNFs/<groupId>',
+    methods=['GET'])
+def counter_uniquePNFs_group(groupId):
+    global pnfMap
+    global groupNameIndexes
+    return str(len(pnfMap[groupNameIndexes[groupId]]))
+
 
 #Messages polling function
 @app.route(
-    "/events/unauthenticated.VES_NOTIFICATION_OUTPUT/OpenDcae-c12/C12",
+    "/events/unauthenticated.VES_NOTIFICATION_OUTPUT/<consumerGroup>/<consumerId>",
     methods=['GET'])
-def MR_reply():
+def MR_reply(consumerGroup, consumerId):
     global ctr_requests
     global ctr_responses
     global args
     global runningState
     global firstPollTime
+    global groupNameIndexes
+    global changeIds
+    global filePrefixes
 
-    if (firstPollTime == 0):
-        firstPollTime = time.time()
+    groupIndex = groupNameIndexes[consumerGroup]
+    print("Setting groupIndex: " + str(groupIndex))
 
-    ctr_requests = ctr_requests + 1
-    print("MR: poll request#: " + str(ctr_requests))
+    reqCtr = ctr_requests[groupIndex]
+    changeId = changeIds[groupIndex][reqCtr%len(changeIds[groupIndex])]
+    print("Setting changeid: " + changeId)
+    filePrefix = filePrefixes[changeId]
+    print("Setting file name prefix: " + filePrefix)
+
+    if (firstPollTime[groupIndex] == 0):
+        firstPollTime[groupIndex] = time.time()
+
+    ctr_requests[groupIndex] = ctr_requests[groupIndex] + 1
+    print("MR: poll request#: " + str(ctr_requests[groupIndex]))
 
     if (runningState == "Stopped"):
-        ctr_responses = ctr_responses + 1
+        ctr_responses[groupIndex] = ctr_responses[groupIndex] + 1
         return buildOkResponse("[]")
 
+
+
     if args.tc100:
-      return tc100("sftp")
+      return tc100(groupIndex, changeId, filePrefix, "sftp", "1MB")
     elif args.tc101:
-      return tc101("sftp")
+      return tc100(groupIndex, changeId, filePrefix, "sftp", "5MB")
     elif args.tc102:
-      return tc102("sftp")
+      return tc100(groupIndex, changeId, filePrefix, "sftp", "50MB")
 
     elif args.tc110:
-      return tc110("sftp")
+      return tc110(groupIndex, changeId, filePrefix, "sftp")
     elif args.tc111:
-      return tc111("sftp")
+      return tc111(groupIndex, changeId, filePrefix, "sftp")
     elif args.tc112:
-      return tc112("sftp")
+      return tc112(groupIndex, changeId, filePrefix, "sftp")
     elif args.tc113:
-      return tc113("sftp")
+      return tc113(groupIndex, changeId, filePrefix, "sftp")
 
     elif args.tc120:
-      return tc120("sftp")
+      return tc120(groupIndex, changeId, filePrefix, "sftp")
     elif args.tc121:
-      return tc121("sftp")
+      return tc121(groupIndex, changeId, filePrefix, "sftp")
     elif args.tc122:
-      return tc122("sftp")
+      return tc122(groupIndex, changeId, filePrefix, "sftp")
 
     elif args.tc1000:
-      return tc1000("sftp")
+      return tc1000(groupIndex, changeId, filePrefix, "sftp")
     elif args.tc1001:
-      return tc1001("sftp")
+      return tc1001(groupIndex, changeId, filePrefix, "sftp")
 
     elif args.tc1100:
-      return tc1100("sftp","1MB")
+      return tc1100(groupIndex, changeId, filePrefix, "sftp","1MB")
     elif args.tc1101:
-      return tc1100("sftp","50MB")
+      return tc1100(groupIndex, changeId, filePrefix, "sftp","50MB")
     elif args.tc1102:
-      return tc1100("sftp","50MB")
+      return tc1100(groupIndex, changeId, filePrefix, "sftp","50MB")
     elif args.tc1200:
-      return tc1200("sftp","1MB")
+      return tc1200(groupIndex, changeId, filePrefix, "sftp","1MB")
     elif args.tc1201:
-      return tc1200("sftp","5MB")
+      return tc1200(groupIndex, changeId, filePrefix, "sftp","5MB")
     elif args.tc1202:
-      return tc1200("sftp","50MB")
+      return tc1200(groupIndex, changeId, filePrefix, "sftp","50MB")
     elif args.tc1300:
-      return tc1300("sftp","1MB")
+      return tc1300(groupIndex, changeId, filePrefix, "sftp","1MB")
     elif args.tc1301:
-      return tc1300("sftp","5MB")
+      return tc1300(groupIndex, changeId, filePrefix, "sftp","5MB")
     elif args.tc1302:
-      return tc1300("sftp","50MB")
+      return tc1300(groupIndex, changeId, filePrefix, "sftp","50MB")
+
+    elif args.tc1500:
+      return tc1500(groupIndex, changeId, filePrefix, "sftp","1MB")
 
     elif args.tc500:
-      return tc500("sftp","1MB")
+      return tc500(groupIndex, changeId, filePrefix, "sftp","1MB")
     elif args.tc501:
-      return tc500("sftp","5MB")
+      return tc500(groupIndex, changeId, filePrefix, "sftp","5MB")
     elif args.tc502:
-      return tc500("sftp","50MB")
+      return tc500(groupIndex, changeId, filePrefix, "sftp","50MB")
     elif args.tc510:
-      return tc510("sftp")
+      return tc510(groupIndex, changeId, filePrefix, "sftp", "1MB")
     elif args.tc511:
-      return tc511("sftp")
+      return tc511(groupIndex, changeId, filePrefix, "sftp", "1KB")
+
+    elif args.tc550:
+      return tc510(groupIndex, changeId, filePrefix, "sftp", "50MB")
 
     elif args.tc710:
-      return tc710("sftp")
+      return tc710(groupIndex, changeId, filePrefix, "sftp")
 
 
     elif args.tc200:
-      return tc100("ftps")
+      return tc100(groupIndex, changeId, filePrefix, "ftps", "1MB")
     elif args.tc201:
-      return tc101("ftps")
+      return tc100(groupIndex, changeId, filePrefix, "ftps", "5MB")
     elif args.tc202:
-      return tc102("ftps")
+      return tc100(groupIndex, changeId, filePrefix, "ftps", "50MB")
 
     elif args.tc210:
-      return tc110("ftps")
+      return tc110(groupIndex, changeId, filePrefix, "ftps")
     elif args.tc211:
-      return tc111("ftps")
+      return tc111(groupIndex, changeId, filePrefix, "ftps")
     elif args.tc212:
-      return tc112("ftps")
+      return tc112(groupIndex, changeId, filePrefix, "ftps")
     elif args.tc213:
-      return tc113("ftps")
+      return tc113(groupIndex, changeId, filePrefix, "ftps")
 
     elif args.tc220:
-      return tc120("ftps")
+      return tc120(groupIndex, changeId, filePrefix, "ftps")
     elif args.tc221:
-      return tc121("ftps")
+      return tc121(groupIndex, changeId, filePrefix, "ftps")
     elif args.tc222:
-      return tc122("ftps")
+      return tc122(groupIndex, changeId, filePrefix, "ftps")
 
     elif args.tc2000:
-      return tc1000("ftps")
+      return tc1000(groupIndex, changeId, filePrefix, "ftps")
     elif args.tc2001:
-      return tc1001("ftps")
+      return tc1001(groupIndex, changeId, filePrefix, "ftps")
 
     elif args.tc2100:
-      return tc1100("ftps","1MB")
+      return tc1100(groupIndex, changeId, filePrefix, "ftps","1MB")
     elif args.tc2101:
-      return tc1100("ftps","50MB")
+      return tc1100(groupIndex, changeId, filePrefix, "ftps","50MB")
     elif args.tc2102:
-      return tc1100("ftps","50MB")
+      return tc1100(groupIndex, changeId, filePrefix, "ftps","50MB")
     elif args.tc2200:
-      return tc1200("ftps","1MB")
+      return tc1200(groupIndex, changeId, filePrefix, "ftps","1MB")
     elif args.tc2201:
-      return tc1200("ftps","5MB")
+      return tc1200(groupIndex, changeId, filePrefix, "ftps","5MB")
     elif args.tc2202:
-      return tc1200("ftps","50MB")
+      return tc1200(groupIndex, changeId, filePrefix, "ftps","50MB")
     elif args.tc2300:
-      return tc1300("ftps","1MB")
+      return tc1300(groupIndex, changeId, filePrefix, "ftps","1MB")
     elif args.tc2301:
-      return tc1300("ftps","5MB")
+      return tc1300(groupIndex, changeId, filePrefix, "ftps","5MB")
     elif args.tc2302:
-      return tc1300("ftps","50MB")
+      return tc1300(groupIndex, changeId, filePrefix, "ftps","50MB")
+
+    elif args.tc2500:
+      return tc1500(groupIndex, changeId, filePrefix, "ftps","1MB")
 
     elif args.tc600:
-      return tc500("ftps","1MB")
+      return tc500(groupIndex, changeId, filePrefix, "ftps","1MB")
     elif args.tc601:
-      return tc500("ftps","5MB")
+      return tc500(groupIndex, changeId, filePrefix, "ftps","5MB")
     elif args.tc602:
-      return tc500("ftps","50MB")
+      return tc500(groupIndex, changeId, filePrefix, "ftps","50MB")
     elif args.tc610:
-      return tc510("ftps")
+      return tc510(groupIndex, changeId, filePrefix, "ftps", "1MB")
     elif args.tc611:
-      return tc511("ftps")
-
+      return tc511(groupIndex, changeId, filePrefix, "ftps", "1KB")
+    elif args.tc650:
+      return tc510(groupIndex, changeId, filePrefix, "ftps", "50MB")
     elif args.tc810:
-      return tc710("ftps")
+      return tc710(groupIndex, changeId, filePrefix, "ftps")
 
 
 #### Test case functions
 
 
-def tc100(ftptype):
+def tc100(groupIndex, changeId, filePrefix, ftpType, fileSize):
   global ctr_responses
-  global ctr_unique_files
   global ctr_events
 
-  ctr_responses = ctr_responses + 1
 
-  if (ctr_responses > 1):
+  ctr_responses[groupIndex] = ctr_responses[groupIndex] + 1
+
+  if (ctr_responses[groupIndex] > 1):
     return buildOkResponse("[]")
 
-  seqNr = (ctr_responses-1)
-  nodeName = createNodeName(0)
-  fileName = createFileName(nodeName, seqNr, "1MB")
-  msg = getEventHead(nodeName) + getEventName(fileName,ftptype,"onap","pano") + getEventEnd()
-  fileMap[seqNr] = seqNr
-  ctr_events = ctr_events+1
+  seqNr = (ctr_responses[groupIndex]-1)
+  nodeIndex=0
+  nodeName = createNodeName(nodeIndex)
+  fileName = createFileName(groupIndex, filePrefix, nodeName, seqNr, fileSize)
+  msg = getEventHead(groupIndex, changeId, nodeName) + getEventName(fileName,ftpType,"onap","pano",nodeIndex) + getEventEnd()
+  fileMap[groupIndex][seqNr*hash(filePrefix)] = seqNr
+  ctr_events[groupIndex] = ctr_events[groupIndex]+1
   return buildOkResponse("["+msg+"]")
 
-def tc101(ftptype):
+#def tc101(groupIndex, ftpType):
+#  global ctr_responses
+#  global ctr_events
+#
+#  ctr_responses[groupIndex] = ctr_responses[groupIndex] + 1
+#
+#  if (ctr_responses[groupIndex] > 1):
+#    return buildOkResponse("[]")
+#
+#  seqNr = (ctr_responses[groupIndex]-1)
+#  nodeName = createNodeName(0)
+#  fileName = createFileName(groupIndex, nodeName, seqNr, "5MB")
+#  msg = getEventHead(groupIndex, nodeName) + getEventName(fileName,ftpType,"onap","pano") + getEventEnd()
+#  fileMap[groupIndex][seqNr] = seqNr
+#  ctr_events[groupIndex] = ctr_events[groupIndex]+1
+#  return buildOkResponse("["+msg+"]")
+#
+#def tc102(groupIndex, ftpType):
+#  global ctr_responses
+#  global ctr_events
+#
+#  ctr_responses[groupIndex] = ctr_responses[groupIndex] + 1
+#
+#  if (ctr_responses[groupIndex] > 1):
+#    return buildOkResponse("[]")
+#
+#  seqNr = (ctr_responses[groupIndex]-1)
+#  nodeName = createNodeName(0)
+#  fileName = createFileName(groupIndex, nodeName, seqNr, "50MB")
+#  msg = getEventHead(groupIndex, nodeName) + getEventName(fileName,ftpType,"onap","pano") + getEventEnd()
+#  fileMap[groupIndex][seqNr] = seqNr
+#  ctr_events[groupIndex] = ctr_events[groupIndex]+1
+#  return buildOkResponse("["+msg+"]")
+
+def tc110(groupIndex, changeId, filePrefix, ftpType):
   global ctr_responses
-  global ctr_unique_files
   global ctr_events
 
-  ctr_responses = ctr_responses + 1
 
-  if (ctr_responses > 1):
+  ctr_responses[groupIndex] = ctr_responses[groupIndex] + 1
+
+  if (ctr_responses[groupIndex] > 100):
     return buildOkResponse("[]")
 
-  seqNr = (ctr_responses-1)
-  nodeName = createNodeName(0)
-  fileName = createFileName(nodeName, seqNr, "5MB")
-  msg = getEventHead(nodeName) + getEventName(fileName,ftptype,"onap","pano") + getEventEnd()
-  fileMap[seqNr] = seqNr
-  ctr_events = ctr_events+1
+  seqNr = (ctr_responses[groupIndex]-1)
+  nodeIndex=0
+  nodeName = createNodeName(nodeIndex)
+  fileName = createFileName(groupIndex, filePrefix, nodeName, seqNr, "1MB")
+  msg = getEventHead(groupIndex, changeId, nodeName) + getEventName(fileName,ftpType,"onap","pano",nodeIndex) + getEventEnd()
+  fileMap[groupIndex][seqNr*hash(filePrefix)] = seqNr
+  ctr_events[groupIndex] = ctr_events[groupIndex]+1
   return buildOkResponse("["+msg+"]")
 
-def tc102(ftptype):
+def tc111(groupIndex, changeId, filePrefix, ftpType):
   global ctr_responses
-  global ctr_unique_files
   global ctr_events
 
-  ctr_responses = ctr_responses + 1
 
-  if (ctr_responses > 1):
+  ctr_responses[groupIndex] = ctr_responses[groupIndex] + 1
+
+  if (ctr_responses[groupIndex] > 100):
     return buildOkResponse("[]")
 
-  seqNr = (ctr_responses-1)
-  nodeName = createNodeName(0)
-  fileName = createFileName(nodeName, seqNr, "50MB")
-  msg = getEventHead(nodeName) + getEventName(fileName,ftptype,"onap","pano") + getEventEnd()
-  fileMap[seqNr] = seqNr
-  ctr_events = ctr_events+1
-  return buildOkResponse("["+msg+"]")
-
-def tc110(ftptype):
-  global ctr_responses
-  global ctr_unique_files
-  global ctr_events
-
-  ctr_responses = ctr_responses + 1
-
-  if (ctr_responses > 100):
-    return buildOkResponse("[]")
-
-  seqNr = (ctr_responses-1)
-  nodeName = createNodeName(0)
-  fileName = createFileName(nodeName, seqNr, "1MB")
-  msg = getEventHead(nodeName) + getEventName(fileName,ftptype,"onap","pano") + getEventEnd()
-  fileMap[seqNr] = seqNr
-  ctr_events = ctr_events+1
-  return buildOkResponse("["+msg+"]")
-
-def tc111(ftptype):
-  global ctr_responses
-  global ctr_unique_files
-  global ctr_events
-
-  ctr_responses = ctr_responses + 1
-
-  if (ctr_responses > 100):
-    return buildOkResponse("[]")
-
-  nodeName = createNodeName(0)
-  msg = getEventHead(nodeName)
+  nodeIndex=0
+  nodeName = createNodeName(nodeIndex)
+  msg = getEventHead(groupIndex, changeId, nodeName)
 
   for i in range(100):
-    seqNr = i+(ctr_responses-1)
+    seqNr = i+(ctr_responses[groupIndex]-1)
     if i != 0: msg = msg + ","
-    fileName = createFileName(nodeName, seqNr, "1MB")
-    msg = msg + getEventName(fileName,ftptype,"onap","pano")
-    fileMap[seqNr] = seqNr
+    fileName = createFileName(groupIndex, filePrefix, nodeName, seqNr, "1MB")
+    msg = msg + getEventName(fileName,ftpType,"onap","pano",nodeIndex)
+    fileMap[groupIndex][seqNr*hash(filePrefix)] = seqNr
 
   msg = msg + getEventEnd()
-  ctr_events = ctr_events+1
+  ctr_events[groupIndex] = ctr_events[groupIndex]+1
 
   return buildOkResponse("["+msg+"]")
 
-def tc112(ftptype):
+def tc112(groupIndex, changeId, filePrefix, ftpType):
   global ctr_responses
-  global ctr_unique_files
   global ctr_events
 
-  ctr_responses = ctr_responses + 1
 
-  if (ctr_responses > 100):
+  ctr_responses[groupIndex] = ctr_responses[groupIndex] + 1
+
+  if (ctr_responses[groupIndex] > 100):
     return buildOkResponse("[]")
 
-  nodeName = createNodeName(0)
-  msg = getEventHead(nodeName)
+  nodeIndex=0
+  nodeName = createNodeName(nodeIndex)
+  msg = getEventHead(groupIndex, changeId, nodeName)
 
   for i in range(100):
-    seqNr = i+(ctr_responses-1)
+    seqNr = i+(ctr_responses[groupIndex]-1)
     if i != 0: msg = msg + ","
-    fileName = createFileName(nodeName, seqNr, "5MB")
-    msg = msg + getEventName(fileName,ftptype,"onap","pano")
-    fileMap[seqNr] = seqNr
+    fileName = createFileName(groupIndex, filePrefix, nodeName, seqNr, "5MB")
+    msg = msg + getEventName(fileName,ftpType,"onap","pano",nodeIndex)
+    fileMap[groupIndex][seqNr*hash(filePrefix)] = seqNr
 
   msg = msg + getEventEnd()
-  ctr_events = ctr_events+1
+  ctr_events[groupIndex] = ctr_events[groupIndex]+1
 
   return buildOkResponse("["+msg+"]")
 
-def tc113(ftptype):
+def tc113(groupIndex, changeId, filePrefix, ftpType):
   global ctr_responses
-  global ctr_unique_files
   global ctr_events
 
-  ctr_responses = ctr_responses + 1
 
-  if (ctr_responses > 1):
+  ctr_responses[groupIndex] = ctr_responses[groupIndex] + 1
+
+  if (ctr_responses[groupIndex] > 1):
     return buildOkResponse("[]")
 
-  nodeName = createNodeName(0)
+  nodeIndex=0
+  nodeName = createNodeName(nodeIndex)
   msg = ""
 
   for evts in range(100):  # build 100 evts
     if (evts > 0):
       msg = msg + ","
-    msg = msg + getEventHead(nodeName)
+    msg = msg + getEventHead(groupIndex, changeId, nodeName)
     for i in range(100):   # build 100 files
-      seqNr = i+evts+100*(ctr_responses-1)
+      seqNr = i+evts+100*(ctr_responses[groupIndex]-1)
       if i != 0: msg = msg + ","
-      fileName = createFileName(nodeName, seqNr, "1MB")
-      msg = msg + getEventName(fileName,ftptype,"onap","pano")
-      fileMap[seqNr] = seqNr
+      fileName = createFileName(groupIndex, filePrefix, nodeName, seqNr, "1MB")
+      msg = msg + getEventName(fileName,ftpType,"onap","pano",nodeIndex)
+      fileMap[groupIndex][seqNr*hash(filePrefix)] = seqNr
 
     msg = msg + getEventEnd()
-    ctr_events = ctr_events+1
+    ctr_events[groupIndex] = ctr_events[groupIndex]+1
 
   return buildOkResponse("["+msg+"]")
 
 
-def tc120(ftptype):
+def tc120(groupIndex, changeId, filePrefix, ftpType):
   global ctr_responses
-  global ctr_unique_files
   global ctr_events
 
-  ctr_responses = ctr_responses + 1
 
-  nodeName = createNodeName(0)
+  ctr_responses[groupIndex] = ctr_responses[groupIndex] + 1
 
-  if (ctr_responses > 100):
+  nodeIndex=0
+  nodeName = createNodeName(nodeIndex)
+
+  if (ctr_responses[groupIndex] > 100):
     return buildOkResponse("[]")
 
-  if (ctr_responses % 10 == 2):
+  if (ctr_responses[groupIndex] % 10 == 2):
     return  # Return nothing
 
-  if (ctr_responses % 10 == 3):
+  if (ctr_responses[groupIndex] % 10 == 3):
     return buildOkResponse("") # Return empty message
 
-  if (ctr_responses % 10 == 4):
-    return buildOkResponse(getEventHead(nodeName)) # Return part of a json event
+  if (ctr_responses[groupIndex] % 10 == 4):
+    return buildOkResponse(getEventHead(groupIndex, changeId, nodeName)) # Return part of a json event
 
-  if (ctr_responses % 10 == 5):
+  if (ctr_responses[groupIndex] % 10 == 5):
     return buildEmptyResponse(404) # Return empty message with status code
 
-  if (ctr_responses % 10 == 6):
+  if (ctr_responses[groupIndex] % 10 == 6):
     sleep(60)
 
 
-  msg = getEventHead(nodeName)
+  msg = getEventHead(groupIndex, changeId, nodeName)
 
   for i in range(100):
-    seqNr = i+(ctr_responses-1)
+    seqNr = i+(ctr_responses[groupIndex]-1)
     if i != 0: msg = msg + ","
-    fileName = createFileName(nodeName, seqNr, "1MB")
-    msg = msg + getEventName(fileName,ftptype,"onap","pano")
-    fileMap[seqNr] = seqNr
+    fileName = createFileName(groupIndex, filePrefix, nodeName, seqNr, "1MB")
+    msg = msg + getEventName(fileName,ftpType,"onap","pano",nodeIndex)
+    fileMap[groupIndex][seqNr*hash(filePrefix)] = seqNr
 
   msg = msg + getEventEnd()
-  ctr_events = ctr_events+1
+  ctr_events[groupIndex] = ctr_events[groupIndex]+1
 
   return buildOkResponse("["+msg+"]")
 
-def tc121(ftptype):
+def tc121(groupIndex, changeId, filePrefix, ftpType):
   global ctr_responses
-  global ctr_unique_files
   global ctr_events
 
-  ctr_responses = ctr_responses + 1
 
-  if (ctr_responses > 100):
+  ctr_responses[groupIndex] = ctr_responses[groupIndex] + 1
+
+  if (ctr_responses[groupIndex] > 100):
     return buildOkResponse("[]")
 
-  nodeName = createNodeName(0)
-  msg = getEventHead(nodeName)
+  nodeIndex=0
+  nodeName = createNodeName(nodeIndex)
+  msg = getEventHead(groupIndex, changeId, nodeName)
 
   fileName = ""
   for i in range(100):
-    seqNr = i+(ctr_responses-1)
+    seqNr = i+(ctr_responses[groupIndex]-1)
     if (seqNr%10 == 0):     # Every 10th file is "missing"
-      fileName = createMissingFileName(nodeName, seqNr, "1MB")
+      fileName = createMissingFileName(groupIndex, filePrefix, nodeName, seqNr, "1MB")
     else:
-      fileName = createFileName(nodeName, seqNr, "1MB")
-      fileMap[seqNr] = seqNr
+      fileName = createFileName(groupIndex, filePrefix, nodeName, seqNr, "1MB")
+      fileMap[groupIndex][seqNr*hash(filePrefix)] = seqNr
 
     if i != 0: msg = msg + ","
-    msg = msg + getEventName(fileName,ftptype,"onap","pano")
+    msg = msg + getEventName(fileName,ftpType,"onap","pano",nodeIndex)
 
   msg = msg + getEventEnd()
-  ctr_events = ctr_events+1
+  ctr_events[groupIndex] = ctr_events[groupIndex]+1
 
   return buildOkResponse("["+msg+"]")
 
-def tc122(ftptype):
+def tc122(groupIndex, changeId, filePrefix, ftpType):
   global ctr_responses
-  global ctr_unique_files
   global ctr_events
 
-  ctr_responses = ctr_responses + 1
 
-  if (ctr_responses > 100):
+  ctr_responses[groupIndex] = ctr_responses[groupIndex] + 1
+
+  if (ctr_responses[groupIndex] > 100):
     return buildOkResponse("[]")
 
-  nodeName = createNodeName(0)
-  msg = getEventHead(nodeName)
+  nodeIndex=0
+  nodeName = createNodeName(nodeIndex)
+  msg = getEventHead(groupIndex, changeId, nodeName)
 
   for i in range(100):
-    fileName = createFileName(nodeName, 0, "1MB")  # All files identical names
+    fileName = createFileName(groupIndex, filePrefix, nodeName, 0, "1MB")  # All files identical names
     if i != 0: msg = msg + ","
-    msg = msg + getEventName(fileName,ftptype,"onap","pano")
+    msg = msg + getEventName(fileName,ftpType,"onap","pano", nodeIndex)
 
-  fileMap[0] = 0
+  fileMap[groupIndex][0] = 0
   msg = msg + getEventEnd()
-  ctr_events = ctr_events+1
+  ctr_events[groupIndex] = ctr_events[groupIndex]+1
 
   return buildOkResponse("["+msg+"]")
 
 
-def tc1000(ftptype):
+def tc1000(groupIndex, changeId, filePrefix, ftpType):
   global ctr_responses
-  global ctr_unique_files
   global ctr_events
 
-  ctr_responses = ctr_responses + 1
 
-  nodeName = createNodeName(0)
-  msg = getEventHead(nodeName)
+  ctr_responses[groupIndex] = ctr_responses[groupIndex] + 1
+
+  nodeIndex=0
+  nodeName = createNodeName(nodeIndex)
+  msg = getEventHead(groupIndex, changeId, nodeName)
 
   for i in range(100):
-    seqNr = i+(ctr_responses-1)
+    seqNr = i+(ctr_responses[groupIndex]-1)
     if i != 0: msg = msg + ","
-    fileName = createFileName(nodeName, seqNr, "1MB")
-    msg = msg + getEventName(fileName,ftptype,"onap","pano")
-    fileMap[seqNr] = seqNr
+    fileName = createFileName(groupIndex, filePrefix, nodeName, seqNr, "1MB")
+    msg = msg + getEventName(fileName,ftpType,"onap","pano",nodeIndex)
+    fileMap[groupIndex][seqNr*hash(filePrefix)] = seqNr
 
   msg = msg + getEventEnd()
-  ctr_events = ctr_events+1
+  ctr_events[groupIndex] = ctr_events[groupIndex]+1
 
   return buildOkResponse("["+msg+"]")
 
-def tc1001(ftptype):
+def tc1001(groupIndex, changeId, filePrefix, ftpType):
   global ctr_responses
-  global ctr_unique_files
   global ctr_events
 
-  ctr_responses = ctr_responses + 1
 
-  nodeName = createNodeName(0)
-  msg = getEventHead(nodeName)
+  ctr_responses[groupIndex] = ctr_responses[groupIndex] + 1
+
+  nodeIndex=0
+  nodeName = createNodeName(nodeIndex)
+  msg = getEventHead(groupIndex, changeId, nodeName)
 
   for i in range(100):
-    seqNr = i+(ctr_responses-1)
+    seqNr = i+(ctr_responses[groupIndex]-1)
     if i != 0: msg = msg + ","
-    fileName = createFileName(nodeName, seqNr, "5MB")
-    msg = msg + getEventName(fileName,ftptype,"onap","pano")
-    fileMap[seqNr] = seqNr
+    fileName = createFileName(groupIndex, filePrefix, nodeName, seqNr, "5MB")
+    msg = msg + getEventName(fileName,ftpType,"onap","pano",nodeIndex)
+    fileMap[groupIndex][seqNr*hash(filePrefix)] = seqNr
 
   msg = msg + getEventEnd()
-  ctr_events = ctr_events+1
+  ctr_events[groupIndex] = ctr_events[groupIndex]+1
 
   return buildOkResponse("["+msg+"]")
 
 
-def tc1100(ftptype, filesize):
+def tc1100(groupIndex, changeId, filePrefix, ftpType, filesize):
   global ctr_responses
-  global ctr_unique_files
   global ctr_events
 
-  ctr_responses = ctr_responses + 1
+
+  ctr_responses[groupIndex] = ctr_responses[groupIndex] + 1
 
   msg = ""
 
-  batch = (ctr_responses-1)%20;
+  batch = (ctr_responses[groupIndex]-1)%20;
 
   for pnfs in range(35):  # build events for 35 PNFs at a time. 20 batches -> 700
     if (pnfs > 0):
       msg = msg + ","
-    nodeName = createNodeName(pnfs + batch*35)
-    msg = msg + getEventHead(nodeName)
+    nodeIndex=pnfs + batch*35
+    nodeName = createNodeName(nodeIndex)
+    msg = msg + getEventHead(groupIndex, changeId, nodeName)
 
     for i in range(100):  # 100 files per event
-      seqNr = i + int((ctr_responses-1)/20);
+      seqNr = i + int((ctr_responses[groupIndex]-1)/20);
       if i != 0: msg = msg + ","
-      fileName = createFileName(nodeName, seqNr, filesize)
-      msg = msg + getEventName(fileName,ftptype,"onap","pano")
+      fileName = createFileName(groupIndex, filePrefix, nodeName, seqNr, filesize)
+      msg = msg + getEventName(fileName,ftpType,"onap","pano",nodeIndex)
       seqNr = seqNr + (pnfs+batch*35)*1000000 #Create unique id for this node and file
-      fileMap[seqNr] = seqNr
+      fileMap[groupIndex][seqNr*hash(filePrefix)] = seqNr
 
     msg = msg + getEventEnd()
-    ctr_events = ctr_events+1
+    ctr_events[groupIndex] = ctr_events[groupIndex]+1
 
   return buildOkResponse("["+msg+"]")
 
-def tc1200(ftptype, filesize):
+def tc1200(groupIndex, changeId, filePrefix, ftpType, filesize):
   global ctr_responses
-  global ctr_unique_files
   global ctr_events
 
-  ctr_responses = ctr_responses + 1
+
+  ctr_responses[groupIndex] = ctr_responses[groupIndex] + 1
 
   msg = ""
 
-  batch = (ctr_responses-1)%20;
+  batch = (ctr_responses[groupIndex]-1)%20;
 
   for pnfs in range(35):  # build events for 35 PNFs at a time. 20 batches -> 700
     if (pnfs > 0):
       msg = msg + ","
-    nodeName = createNodeName(pnfs + batch*35)
-    msg = msg + getEventHead(nodeName)
+    nodeIndex=pnfs + batch*35
+    nodeName = createNodeName(nodeIndex)
+    msg = msg + getEventHead(groupIndex, changeId, nodeName)
 
     for i in range(100):  # 100 files per event, all new files
-      seqNr = i+100 * int((ctr_responses-1)/20);
+      seqNr = i+100 * int((ctr_responses[groupIndex]-1)/20);
       if i != 0: msg = msg + ","
-      fileName = createFileName(nodeName, seqNr, filesize)
-      msg = msg + getEventName(fileName,ftptype,"onap","pano")
+      fileName = createFileName(groupIndex, filePrefix, nodeName, seqNr, filesize)
+      msg = msg + getEventName(fileName,ftpType,"onap","pano",nodeIndex)
       seqNr = seqNr + (pnfs+batch*35)*1000000 #Create unique id for this node and file
-      fileMap[seqNr] = seqNr
+      fileMap[groupIndex][seqNr*hash(filePrefix)] = seqNr
 
     msg = msg + getEventEnd()
-    ctr_events = ctr_events+1
+    ctr_events[groupIndex] = ctr_events[groupIndex]+1
 
   return buildOkResponse("["+msg+"]")
 
 
-def tc1300(ftptype, filesize):
+def tc1300(groupIndex, changeId, filePrefix, ftpType, filesize):
   global ctr_responses
-  global ctr_unique_files
   global ctr_events
   global rop_counter
   global rop_timestamp
 
-  ctr_responses = ctr_responses + 1
+  if (rop_counter == 0):
+      rop_timestamp = time.time()
+
+  ctr_responses[groupIndex] = ctr_responses[groupIndex] + 1
 
   #Start a  event deliver for all 700 nodes every 15min
+  rop = time.time()-rop_timestamp
+  if ((rop < 900) & (rop_counter%20 == 0) & (rop_counter != 0)):
+      return buildOkResponse("[]")
+  else:
+    if (rop_counter%20 == 0) & (rop_counter > 0):
+        rop_timestamp = rop_timestamp+900
+
+    rop_counter = rop_counter+1
+
+  msg = ""
+
+  batch = (rop_counter-1)%20;
+
+  for pnfs in range(35):  # build events for 35 PNFs at a time. 20 batches -> 700
+    if (pnfs > 0):
+      msg = msg + ","
+    nodeIndex=pnfs + batch*35
+    nodeName = createNodeName(nodeIndex)
+    msg = msg + getEventHead(groupIndex, changeId, nodeName)
+
+    for i in range(100):  # 100 files per event
+      seqNr = i + int((rop_counter-1)/20);
+      if i != 0: msg = msg + ","
+      fileName = createFileName(groupIndex, filePrefix, nodeName, seqNr, filesize)
+      msg = msg + getEventName(fileName,ftpType,"onap","pano",nodeIndex)
+      seqNr = seqNr + (pnfs+batch*35)*1000000 #Create unique id for this node and file
+      fileMap[groupIndex][seqNr*hash(filePrefix)] = seqNr
+
+    msg = msg + getEventEnd()
+    ctr_events[groupIndex] = ctr_events[groupIndex]+1
+
+  return buildOkResponse("["+msg+"]")
+
+def tc1500(groupIndex, changeId, filePrefix, ftpType, filesize):
+  global ctr_responses
+  global ctr_events
+  global rop_counter
+  global rop_timestamp
+
+  if (rop_counter == 0):
+      rop_timestamp = time.time()
+
+  ctr_responses[groupIndex] = ctr_responses[groupIndex] + 1
+
+  if (ctr_responses[groupIndex] <= 2000 ):   #first 25h of event doess not care of 15min rop timer
+
+    msg = ""
+
+    batch = (ctr_responses[groupIndex]-1)%20;
+
+    for pnfs in range(35):  # build events for 35 PNFs at a time. 20 batches -> 700
+        if (pnfs > 0):
+            msg = msg + ","
+
+        nodeIndex=pnfs + batch*35
+        nodeName = createNodeName(nodeIndex)
+        msg = msg + getEventHead(groupIndex, changeId, nodeName)
+
+        for i in range(100):  # 100 files per event
+            seqNr = i + int((ctr_responses[groupIndex]-1)/20);
+            if i != 0: msg = msg + ","
+            if (seqNr < 100):
+                fileName = createMissingFileName(groupIndex, filePrefix, nodeName, seqNr, "1MB")
+            else:
+                fileName = createFileName(groupIndex, filePrefix, nodeName, seqNr, "1MB")
+                seqNr = seqNr + (pnfs+batch*35)*1000000 #Create unique id for this node and file
+                fileMap[groupIndex][seqNr*hash(filePrefix)] = seqNr
+            msg = msg + getEventName(fileName,ftpType,"onap","pano",nodeIndex)
+
+
+        msg = msg + getEventEnd()
+        ctr_events[groupIndex] = ctr_events[groupIndex]+1
+
+        rop_counter = rop_counter+1
+    return buildOkResponse("["+msg+"]")
+
+  #Start an event delivery for all 700 nodes every 15min
   rop = time.time()-rop_timestamp
   if ((rop < 900) & (rop_counter%20 == 0) & (rop_counter != 0)):
       return buildOkResponse("[]")
@@ -645,30 +960,31 @@ def tc1300(ftptype, filesize):
   for pnfs in range(35):  # build events for 35 PNFs at a time. 20 batches -> 700
     if (pnfs > 0):
       msg = msg + ","
-    nodeName = createNodeName(pnfs + batch*35)
-    msg = msg + getEventHead(nodeName)
+    nodeIndex=pnfs + batch*35
+    nodeName = createNodeName(nodeIndex)
+    msg = msg + getEventHead(groupIndex, changeId, nodeName)
 
     for i in range(100):  # 100 files per event
       seqNr = i + int((rop_counter-1)/20);
       if i != 0: msg = msg + ","
-      fileName = createFileName(nodeName, seqNr, filesize)
-      msg = msg + getEventName(fileName,ftptype,"onap","pano")
+      fileName = createFileName(groupIndex, filePrefix, nodeName, seqNr, filesize)
+      msg = msg + getEventName(fileName,ftpType,"onap","pano", nodeIndex)
       seqNr = seqNr + (pnfs+batch*35)*1000000 #Create unique id for this node and file
-      fileMap[seqNr] = seqNr
+      fileMap[groupIndex][seqNr*hash(filePrefix)] = seqNr
 
     msg = msg + getEventEnd()
-    ctr_events = ctr_events+1
+    ctr_events[groupIndex] = ctr_events[groupIndex]+1
 
   return buildOkResponse("["+msg+"]")
 
-def tc500(ftptype, filesize):
+def tc500(groupIndex, changeId, filePrefix, ftpType, filesize):
   global ctr_responses
-  global ctr_unique_files
   global ctr_events
 
-  ctr_responses = ctr_responses + 1
 
-  if (ctr_responses > 1):
+  ctr_responses[groupIndex] = ctr_responses[groupIndex] + 1
+
+  if (ctr_responses[groupIndex] > 1):
     return buildOkResponse("[]")
 
   msg = ""
@@ -678,29 +994,29 @@ def tc500(ftptype, filesize):
     if (pnfs > 0):
       msg = msg + ","
     nodeName = createNodeName(pnfs)
-    msg = msg + getEventHead(nodeName)
+    msg = msg + getEventHead(groupIndex, changeId, nodeName)
 
     for i in range(2):
       seqNr = i;
       if i != 0: msg = msg + ","
-      fileName = createFileName(nodeName, seqNr, filesize)
-      msg = msg + getEventName(fileName,ftptype,"onap","pano")
+      fileName = createFileName(groupIndex, filePrefix, nodeName, seqNr, filesize)
+      msg = msg + getEventName(fileName,ftpType,"onap","pano",pnfs)
       seqNr = seqNr + pnfs*1000000 #Create unique id for this node and file
-      fileMap[seqNr] = seqNr
+      fileMap[groupIndex][seqNr*hash(filePrefix)] = seqNr
 
     msg = msg + getEventEnd()
-    ctr_events = ctr_events+1
+    ctr_events[groupIndex] = ctr_events[groupIndex]+1
 
   return buildOkResponse("["+msg+"]")
 
-def tc510(ftptype):
+def tc510(groupIndex, changeId, filePrefix, ftpType, fileSize):
   global ctr_responses
-  global ctr_unique_files
   global ctr_events
 
-  ctr_responses = ctr_responses + 1
 
-  if (ctr_responses > 5):
+  ctr_responses[groupIndex] = ctr_responses[groupIndex] + 1
+
+  if (ctr_responses[groupIndex] > 5):
     return buildOkResponse("[]")
 
   msg = ""
@@ -709,25 +1025,25 @@ def tc510(ftptype):
     if (pnfs > 0):
       msg = msg + ","
     nodeName = createNodeName(pnfs)
-    msg = msg + getEventHead(nodeName)
-    seqNr = (ctr_responses-1)
-    fileName = createFileName(nodeName, seqNr, "1MB")
-    msg = msg + getEventName(fileName,ftptype,"onap","pano")
+    msg = msg + getEventHead(groupIndex, changeId, nodeName)
+    seqNr = (ctr_responses[groupIndex]-1)
+    fileName = createFileName(groupIndex, filePrefix, nodeName, seqNr, fileSize)
+    msg = msg + getEventName(fileName,ftpType,"onap","pano",pnfs)
     seqNr = seqNr + pnfs*1000000 #Create unique id for this node and file
-    fileMap[seqNr] = seqNr
+    fileMap[groupIndex][seqNr*hash(filePrefix)] = seqNr
     msg = msg + getEventEnd()
-    ctr_events = ctr_events+1
+    ctr_events[groupIndex] = ctr_events[groupIndex]+1
 
   return buildOkResponse("["+msg+"]")
 
-def tc511(ftptype):
+def tc511(groupIndex, changeId, filePrefix, ftpType, fileSize):
   global ctr_responses
-  global ctr_unique_files
   global ctr_events
 
-  ctr_responses = ctr_responses + 1
 
-  if (ctr_responses > 5):
+  ctr_responses[groupIndex] = ctr_responses[groupIndex] + 1
+
+  if (ctr_responses[groupIndex] > 5):
     return buildOkResponse("[]")
 
   msg = ""
@@ -736,47 +1052,48 @@ def tc511(ftptype):
     if (pnfs > 0):
       msg = msg + ","
     nodeName = createNodeName(pnfs)
-    msg = msg + getEventHead(nodeName)
-    seqNr = (ctr_responses-1)
-    fileName = createFileName(nodeName, seqNr, "1KB")
-    msg = msg + getEventName(fileName,ftptype,"onap","pano")
+    msg = msg + getEventHead(groupIndex, changeId, nodeName)
+    seqNr = (ctr_responses[groupIndex]-1)
+    fileName = createFileName(groupIndex, filePrefix, nodeName, seqNr, fileSize)
+    msg = msg + getEventName(fileName,ftpType,"onap","pano",pnfs)
     seqNr = seqNr + pnfs*1000000 #Create unique id for this node and file
-    fileMap[seqNr] = seqNr
+    fileMap[groupIndex][seqNr*hash(filePrefix)] = seqNr
     msg = msg + getEventEnd()
-    ctr_events = ctr_events+1
+    ctr_events[groupIndex] = ctr_events[groupIndex]+1
 
   return buildOkResponse("["+msg+"]")
 
-def tc710(ftptype):
+def tc710(groupIndex, changeId, filePrefix, ftpType):
   global ctr_responses
-  global ctr_unique_files
   global ctr_events
 
-  ctr_responses = ctr_responses + 1
 
-  if (ctr_responses > 100):
+  ctr_responses[groupIndex] = ctr_responses[groupIndex] + 1
+
+  if (ctr_responses[groupIndex] > 100):
     return buildOkResponse("[]")
 
   msg = ""
 
-  batch = (ctr_responses-1)%20;
+  batch = (ctr_responses[groupIndex]-1)%20;
 
   for pnfs in range(35):  # build events for 35 PNFs at a time. 20 batches -> 700
     if (pnfs > 0):
       msg = msg + ","
-    nodeName = createNodeName(pnfs + batch*35)
-    msg = msg + getEventHead(nodeName)
+    nodeIndex=pnfs + batch*35
+    nodeName = createNodeName(nodeIndex)
+    msg = msg + getEventHead(groupIndex, changeId, nodeName)
 
     for i in range(100):  # 100 files per event
-      seqNr = i + int((ctr_responses-1)/20);
+      seqNr = i + int((ctr_responses[groupIndex]-1)/20);
       if i != 0: msg = msg + ","
-      fileName = createFileName(nodeName, seqNr, "1MB")
-      msg = msg + getEventName(fileName,ftptype,"onap","pano")
+      fileName = createFileName(groupIndex, filePrefix, nodeName, seqNr, "1MB")
+      msg = msg + getEventName(fileName,ftpType,"onap","pano",nodeIndex)
       seqNr = seqNr + (pnfs+batch*35)*1000000 #Create unique id for this node and file
-      fileMap[seqNr] = seqNr
+      fileMap[groupIndex][seqNr*hash(filePrefix)] = seqNr
 
     msg = msg + getEventEnd()
-    ctr_events = ctr_events+1
+    ctr_events[groupIndex] = ctr_events[groupIndex]+1
 
   return buildOkResponse("["+msg+"]")
 
@@ -786,22 +1103,22 @@ def tc710(ftptype):
 def createNodeName(index):
     return "PNF"+str(index);
 
-def createFileName(nodeName, index, size):
+def createFileName(groupIndex, filePrefix, nodeName, index, size):
     global ctr_files
-    ctr_files = ctr_files + 1
-    return "A20000626.2315+0200-2330+0200_" + nodeName + "-" + str(index) + "-" +size + ".tar.gz";
+    ctr_files[groupIndex] = ctr_files[groupIndex] + 1
+    return filePrefix+"20000626.2315+0200-2330+0200_" + nodeName + "-" + str(index) + "-" +size + ".tar.gz";
 
-def createMissingFileName(nodeName, index, size):
+def createMissingFileName(groupIndex, filePrefix, nodeName, index, size):
     global ctr_files
-    ctr_files = ctr_files + 1
-    return "AMissingFile_" + nodeName + "-" + str(index) + "-" +size + ".tar.gz";
+    ctr_files[groupIndex] = ctr_files[groupIndex] + 1
+    return filePrefix+"MissingFile_" + nodeName + "-" + str(index) + "-" +size + ".tar.gz";
 
 
 # Function to build fixed beginning of an event
 
-def getEventHead(nodename):
+def getEventHead(groupIndex, changeId, nodename):
   global pnfMap
-  pnfMap.add(nodename) 
+  pnfMap[groupIndex].add(nodename)
   headStr = """
         {
           "event": {
@@ -825,18 +1142,19 @@ def getEventHead(nodename):
             "notificationFields": {
               "notificationFieldsVersion": "2.0",
               "changeType": "FileReady",
-              "changeIdentifier": "PM_MEAS_FILES",
+              "changeIdentifier": \"""" + changeId + """",
               "arrayOfNamedHashMap": [
           """ 
   return headStr
 
 # Function to build the variable part of an event
-def getEventName(fn,type,user,passwd):
-    port = SFTP_PORT
-    ip = sftp_ip
+def getEventName(fn,type,user,passwd, nodeIndex):
+    nodeIndex=nodeIndex%num_ftp_servers
+    port = sftp_ports[nodeIndex]
+    ip = sftp_hosts[nodeIndex]
     if (type == "ftps"):
-        port = FTPS_PORT
-        ip = ftps_ip
+        port = ftps_ports[nodeIndex]
+        ip = ftps_hosts[nodeIndex]
 
     nameStr =        """{
                   "name": \"""" + fn + """",
@@ -879,26 +1197,102 @@ def buildEmptyResponse(status_code):
 if __name__ == "__main__":
 
     # IP addresses to use for ftp servers, using localhost if not env var is set
-    sftp_ip = os.environ.get('SFTP_SIM_IP', 'localhost')
-    ftps_ip = os.environ.get('FTPS_SIM_IP', 'localhost')
+    sftp_sims = os.environ.get('SFTP_SIMS', 'localhost:1022')
+    ftps_sims = os.environ.get('FTPS_SIMS', 'localhost:21')
+    num_ftp_servers = int(os.environ.get('NUM_FTP_SERVERS', 1))
+
+    print("Configured sftp sims: " + sftp_sims)
+    print("Configured ftps sims: " + ftps_sims)
+    print("Configured number of ftp servers: " + str(num_ftp_servers))
+
+    tmp=sftp_sims.split(',')
+    for i in range(len(tmp)):
+        hp=tmp[i].split(':')
+        sftp_hosts.append(hp[0])
+        sftp_ports.append(hp[1])
+
+    tmp=ftps_sims.split(',')
+    for i in range(len(tmp)):
+        hp=tmp[i].split(':')
+        ftps_hosts.append(hp[0])
+        ftps_ports.append(hp[1])
+
+    groups = os.environ.get('MR_GROUPS', 'OpenDcae-c12:PM_MEAS_FILES')
+    configuredPrefixes = os.environ.get('MR_FILE_PREFIX_MAPPING', 'PM_MEAS_FILES:A')
+
+    if (len(groups) == 0 ):
+        groups='OpenDcae-c12:PM_MEAS_FILES'
+        print("Using default group: " + groups)
+    else:
+        print("Configured groups: " + groups)
+
+    if (len(configuredPrefixes) == 0 ):
+        configuredPrefixes='PM_MEAS_FILES:A'
+        print("Using default changeid to file prefix mapping: " + configuredPrefixes)
+    else:
+        print("Configured changeid to file prefix mapping: " + configuredPrefixes)
 
     #Counters
-    ctr_responses = 0
-    ctr_requests = 0
-    ctr_files=0
-    ctr_unique_files = 0
-    ctr_events = 0
+    ctr_responses = []
+    ctr_requests = []
+    ctr_files=[]
+    ctr_events = []
     startTime = time.time()
-    firstPollTime = 0
+    firstPollTime = []
     runningState = "Started"
+     #Keeps all responded file names
+    fileMap = []
+    #Keeps all responded PNF names
+    pnfMap = []
+    #Handles rop periods for tests that deliveres events every 15 min
     rop_counter = 0
     rop_timestamp = time.time()
 
-    #Keeps all responded file names
-    fileMap = {}
+    #List of configured group names
+    groupNames = []
+    #Mapping between group name and index in groupNames
+    groupNameIndexes = {}
+    #String of configured groups
+    configuredGroups = ""
+    #String of configured change identifiers
+    configuredChangeIds = ""
+    #List of changed identifiers
+    changeIds = []
+    #List of filePrefixes
+    filePrefixes = {}
 
-    #Keeps all responded PNF names
-    pnfMap = set()
+    tmp=groups.split(',')
+    for i in range(len(tmp)):
+        g=tmp[i].split(':')
+        for j in range(len(g)):
+            g[j] = g[j].strip()
+            if (j == 0):
+                if (len(configuredGroups) > 0):
+                    configuredGroups=configuredGroups+","
+                configuredGroups=configuredGroups+g[0]
+                groupNames.append(g[0])
+                groupNameIndexes[g[0]] = i
+                changeIds.append({})
+                ctr_responses.append(0)
+                ctr_requests.append(0)
+                ctr_files.append(0)
+                ctr_events.append(0)
+                firstPollTime.append(0)
+                pnfMap.append(set())
+                fileMap.append({})
+                if (len(configuredChangeIds) > 0):
+                    configuredChangeIds=configuredChangeIds+","
+            else:
+                changeIds[i][j-1]=g[j]
+                if (j > 1):
+                    configuredChangeIds=configuredChangeIds+":"
+                configuredChangeIds=configuredChangeIds+g[j]
+
+    # Create a map between changeid and file name prefix
+    tmp=configuredPrefixes.split(',')
+    for i in range(len(tmp)):
+        p=tmp[i].split(':')
+        filePrefixes[p[0]] = p[1]
 
     tc_num = "Not set"
     tc_help = "Not set"
@@ -985,6 +1379,11 @@ if __name__ == "__main__":
         help='TC511 - 700 MEs, SFTP, 1KB files, 1 file per event, 3500 events, 700 event per poll.')
 
     parser.add_argument(
+        '--tc550',
+        action='store_true',
+        help='TC550 - 700 MEs, SFTP, 50MB files, 1 file per event, 3500 events, 700 event per poll.')
+
+    parser.add_argument(
         '--tc710',
         action='store_true',
         help='TC710 - 700 MEs, SFTP, 1MB files, 100 files per event, 3500 events, 35 event per poll.')
@@ -1028,6 +1427,10 @@ if __name__ == "__main__":
         action='store_true',
         help='TC1302 - 700 ME, SFTP, 50MB files, 100 files per event, endless number of events, 35 event per poll, 20 event polls every 15min')
 
+    parser.add_argument(
+        '--tc1500',
+        action='store_true',
+        help='TC1500 - 700 ME, SFTP, 1MB files, 100 files per event, 35 events per poll, simulating 25h backlog of decreasing number of outdated files and then 20 event polls every 15min for 1h')
 
 # FTPS TCs with single ME
     parser.add_argument(
@@ -1123,6 +1526,11 @@ if __name__ == "__main__":
         help='TC2302 - 700 ME, FTPS, 50MB files, 100 files per event, endless number of events, 35 event per poll, 20 event polls every 15min')
 
     parser.add_argument(
+        '--tc2500',
+        action='store_true',
+        help='TC2500 - 700 ME, FTPS, 1MB files, 100 files per event, 35 events per poll, simulating 25h backlog of decreasing number of outdated files and then 20 event polls every 15min for 1h')
+
+    parser.add_argument(
         '--tc600',
         action='store_true',
         help='TC600 - 700 MEs, FTPS, 1MB files, 2 new files per event, 700 events, all event in one poll.')
@@ -1146,6 +1554,11 @@ if __name__ == "__main__":
         '--tc611',
         action='store_true',
         help='TC611 - 700 MEs, FTPS, 1KB files, 1 file per event, 3500 events, 700 event per poll.')
+
+    parser.add_argument(
+        '--tc650',
+        action='store_true',
+        help='TC610 - 700 MEs, FTPS, 50MB files, 1 file per event, 3500 events, 700 event per poll.')
 
     parser.add_argument(
         '--tc810',
@@ -1203,6 +1616,9 @@ if __name__ == "__main__":
     elif args.tc1302:
         tc_num = "TC# 1302"
 
+    elif args.tc1500:
+        tc_num = "TC# 1500"
+
     elif args.tc500:
         tc_num = "TC# 500"
     elif args.tc501:
@@ -1213,6 +1629,9 @@ if __name__ == "__main__":
         tc_num = "TC# 510"
     elif args.tc511:
         tc_num = "TC# 511"
+
+    elif args.tc550:
+        tc_num = "TC# 550"
 
     elif args.tc710:
         tc_num = "TC# 710"
@@ -1264,6 +1683,9 @@ if __name__ == "__main__":
     elif args.tc2302:
         tc_num = "TC# 2302"
 
+    elif args.tc2500:
+        tc_num = "TC# 2500"
+
     elif args.tc600:
         tc_num = "TC# 600"
     elif args.tc601:
@@ -1274,7 +1696,8 @@ if __name__ == "__main__":
         tc_num = "TC# 610"
     elif args.tc611:
         tc_num = "TC# 611"
-
+    elif args.tc650:
+        tc_num = "TC# 650"
     elif args.tc810:
         tc_num = "TC# 810"
 
@@ -1285,8 +1708,13 @@ if __name__ == "__main__":
 
     print("TC num: " + tc_num)
 
-    print("Using " + sftp_ip + " for sftp server address in file urls.")
-    print("Using " + ftps_ip + " for ftps server address in file urls.")
+    for i in range(len(sftp_hosts)):
+        print("Using " + str(sftp_hosts[i]) + ":" + str(sftp_ports[i]) + " for sftp server with index " + str(i) + " for sftp server address and port in file urls.")
+
+    for i in range(len(ftps_hosts)):
+        print("Using " + str(ftps_hosts[i]) + ":" + str(ftps_ports[i]) + " for ftps server with index " + str(i) + " for ftps server address and port in file urls.")
+
+    print("Using up to " + str(num_ftp_servers) + " ftp servers, for each protocol for PNFs.")
 
     app.run(port=HOST_PORT, host=HOST_IP)
 

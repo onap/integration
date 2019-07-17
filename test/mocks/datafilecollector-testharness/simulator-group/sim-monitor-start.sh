@@ -1,7 +1,7 @@
 #/bin/bash
 
-#Script to start the sim-monitor
+#Script to install dependencies and start the sim-monitor
 
-#Re-using modules for dr-sim
-cp -r ../dr-sim/node_modules .
-node sim-monitor.js
+npm install express
+node sim-monitor
+

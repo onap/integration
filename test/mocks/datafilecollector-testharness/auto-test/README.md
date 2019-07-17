@@ -8,12 +8,14 @@ The functions are described further below.
 The integration repo is needed as well as docker.
 If needed setup the ``DFC_LOCAL_IMAGE`` and ``DFC_REMOTE_IMAGE`` env var in test_env.sh to point to the dfc images (local registry image or next registry image) without the image tag.
 The predefined images should be ok for current usage:
+
 ``DFC_REMOTE_IMAGE=nexus3.onap.org:10001/onap/org.onap.dcaegen2.collectors.datafile.datafile-app-server``
+
 ``DFC_LOCAL_IMAGE=onap/org.onap.dcaegen2.collectors.datafile.datafile-app-server``
 
 If the test cases/suites in this dir are not executed in the auto-test dir in the integration repo, then the ``SIM_GROUP`` env var need to point to the ``simulator-group`` dir. 
-See instructions in the test_env.sh. The ../common dir is needed as well in the case. That is, it is possible to have auto-test dir (and the common dir) somewhere 
-than in the integration repo but the simulator group dir need to be available.
+See instructions in the test_env.sh. The ../common dir is needed as well in the case. That is, it is possible to have auto-test dir (and the common dir) somewhere else
+than in the integration repo but the simulator-group and common dir need to be available.
 
 ##Test cases and test suites naming.
 Each file filename should have the format ``<tc-id>.sh`` for test cases and ``<ts-id>.sh`` for test suite. The tc-id and ts-id are the
@@ -24,14 +26,17 @@ A simple way to list all test cases/suite along with the description is to do ``
 ##Logs from containers and test cases
 All logs from each test cases are stored under ``logs/<tc-id>/``.
 The logs include the application.log and the container log from dfc, the container logs from each simulator and the test case log (same as the screen output).
-
+In the test cases the logs are stored with a prefix so the logs can be stored at different steps during the test. All test cases contains an entry to save all logs with prefix 'END' at the end of each test case.
 ##Execution##
-Test cases and test suites are executed by: ``./<tc-id or ts-id>.sh local | remote | remote-remove | manual-container | manual-app``</br>
+Test cases and test suites are executed by: `` [sudo] ./<tc-id or ts-id>.sh local | remote | remote-remove | manual-container | manual-app``</br>
 **local** - uses the dfc image pointed out by ``DFC_LOCAL_IMAGE`` in the test_env, should be the dfc image built locally in your docker registry.</br>
 **remote** - uses the dfc image pointed out by ``DFC_REMOTE_IMAGE`` in the test_env, should be the dfc nexus image in your docker registry.</br>
 **remote-remove** - uses the dfc image pointed out by ``DFC_REMOTE_IMAGE`` in the test_env, should be the dfc nexus image in your docker registry. Removes the nexus image and pull from remote registry.</br>
 **manual-container** - uses dfc in a manually started container. The script will prompt you for manual starting and stopping of the container.</br>
 **manual-app** - uses dfc app started as an external process (from eclipse etc). The script will prompt you for manual start and stop of the process.</br>
+
+When running dfc manually, either as a container or an app the ports need to be set to map the instance id of the dfc. Most test cases start dfc with index 0, then the test case expects the ports of dfc to be mapped to the standar port number. 
+However, if a higher instance id than 0 is used then the mapped ports need add that index to the port number (eg, if index 2 is used the dfc need to map port 8102 and 8435 instead of the standard 8100 and 8433).
 
 ##Test case file##
 A test case file contains a number of steps to verify a certain functionality.
@@ -72,16 +77,22 @@ The following is a list of the available functions in a test case file. Please s
 Print the env variables needed for the simulators and their setup
 
 **clean_containers**</br>
-Stop and remove all containers including dfc app and simulators
+Stop and remove all containers including dfc apps and simulators
 
-**start_simulators**
+**start_simulators**</br>
 Start all simulators in the simulator group
 
-**start_dfc**</br>
-Start the dfc application
+**start_dfc <dfc-instance-id>**</br>
+Start the dfc application. The arg shall be an integer from 0 to 5 reprenting the dfc instance to start. DFC app will get a name like 'dfc_app0' to 'dfc_app4'.
 
-**kill_dfc**</br>
-Stop and remove the dfc app container
+**kill_dfc  <dfc-instance-id> **</br>
+Stop and remove the dfc app container with the instance id.
+
+**consul_config_app <dfc-instance-id> <json-file-path>**</br>
+Configure consul with json file with app config for a dfc instance using the dfc instance id and the json file.
+
+**consul_config_dmaap <dfc-instance-id> <json-file-path>**</br>
+Configure consul with json file with dmaap config for a dfc instance using the dfc instance id and the json file.
 
 **kill_dr**</br>
 Stop and remove the DR simulator container
@@ -92,11 +103,23 @@ Stop and remove the DR redir simulator container
 **kill_mr**</br>
 Stop and remove the MR simulator container
 
-**kill_sftp**</br>
-Stop and remove the SFTP container
+**kill_sftp <sftp-instance-id>**</br>
+Stop and remove a SFTP container with the supplied instance id (0-5).
 
-**kill_ftps**</br>
-Stop and remove the FTPS container
+**stop_sftp <sftp-instance-id>**</br>
+Stop a SFTP container with the supplied instance id (0-5).
+
+**start_sftp <sftp-instance-id>**</br>
+Start a previously stopped SFTP container with the supplied instance id (0-5).
+
+**kill_ftps <ftps-instance-id>**</br>
+Stop and remove a FTPS container with the supplied instance id (0-5).
+
+**stop_ftps <ftps-instance-id>**</br>
+Stop a FTPS container with the supplied instance id (0-5).
+
+**start_ftps <ftps-instance-id>**</br>
+Start a previously stopped FTPS container with the supplied instance id (0-5).
 
 **mr_print <vaiable-name>**</br>
 Print a variable value from the MR simulator.
@@ -106,6 +129,9 @@ Print a varialle value from the DR simulator.
 
 **drr_print <vaiable-name>**</br>
 Print a variable value from the DR redir simulator.
+
+**dfc_print <dfc-instance-id> <vaiable-name>**</br>
+Print a variable value from an dfc instance with the supplied instance id (0-5).
 
 **mr_read <vaiable-name>**</br>
 Read a variable value from MR sim and send to stdout
@@ -178,6 +204,14 @@ less than the target or not.
 before setting pass or fail depending on if the variable value is less than the target
 value or not.
 
+**dr_contain_str <variable-name> <target-value> [<timeout-in-sec>]**</br>
+Tests if a variable value in the DR simulator contains a substring target and and optional timeout.
+</br>Arg: ``<variable-name> <target-value>`` - This test set pass or fail depending on if the variable contains
+the target substring or not.
+</br>Arg: ``<variable-name> <target-value> <timeout-in-sec>``  - This test waits up to the timeout seconds
+before setting pass or fail depending on if the variable value contains the target
+substring or not.
+
 **drr_equal <variable-name> <target-value> [<timeout-in-sec>]**</br>
 Tests if a variable value in the DR Redir simulator is equal to a target value and and optional timeout.
 </br>Arg: ``<variable-name> <target-value>`` - This test set pass or fail depending on if the variable is
@@ -202,6 +236,14 @@ less than the target or not.
 before setting pass or fail depending on if the variable value is less than the target
 value or not.
 
+**drr_contain_str <variable-name> <target-value> [<timeout-in-sec>]**</br>
+Tests if a variable value in the DR Redir simulator contains a substring target and and optional timeout.
+</br>Arg: ``<variable-name> <target-value>`` - This test set pass or fail depending on if the variable contains
+the target substring or not.
+</br>Arg: ``<variable-name> <target-value> <timeout-in-sec>``  - This test waits up to the timeout seconds
+before setting pass or fail depending on if the variable value contains the target
+substring or not.
+
 **dfc_contain_str <variable-name> <substring-in-quotes>**</br>
 Test is a variable in the DFC contains a substring.
 
@@ -225,7 +267,7 @@ Comments that shall be visible on the screen as well as in the test case log, us
 
 ##Test suite files##
 A test suite file contains one or more test cases to run in sequence.
-A description of the test case should be given to the TS_ONELINE_DESCR var. The description will be printed in the test result.
+A description of the test case should be given to the ``TS_ONELINE_DESCR`` var. The description will be printed in the test result.
 
 The empty template for a test suite files looks like this:
 
@@ -235,7 +277,7 @@ The empty template for a test suite files looks like this:
 ```
 #!/bin/bash
 
-TS_ONELINE_DESCR="<test-suite-description"
+TS_ONELINE_DESCR="<test-suite-description>"
 
 . ../common/testsuite_common.sh
 
@@ -257,7 +299,7 @@ suite_complete
 
 The ../common/testsuite_common.sh contains all functions needed for a test suite file.
 
-The following is a list of the available functions in a test case file. Please see a defined test suite for examples.
+The following is a list of the available functions in a test case file. Please see a existing test suite for examples.
 
 **suite_setup**</br>
 Sets up the test suite and print out a heading.

@@ -50,7 +50,7 @@ suite_setup() {
     touch .tmp_tcsuite_fail
 }
 
-print_err() {
+__print_err() {
     echo ${FUNCNAME[1]} " "$1" " ${BASH_SOURCE[$i+2]} " line" ${BASH_LINENO[$i+1]}
 }
 

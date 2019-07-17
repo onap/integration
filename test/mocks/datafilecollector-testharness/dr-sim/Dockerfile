@@ -1,6 +1,6 @@
 #Common image for both dmmapDR and dmaapDR_redir
 
-FROM node:8
+FROM node:12
 
 WORKDIR /app
 

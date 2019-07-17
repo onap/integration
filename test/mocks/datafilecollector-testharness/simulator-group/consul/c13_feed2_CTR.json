@@ -1,0 +1,23 @@
+{
+  "dmaap.ftpesConfig.keyCert": "config/dfc.jks",
+  "dmaap.ftpesConfig.keyPassword": "secret",
+  "dmaap.ftpesConfig.trustedCa": "config/ftp.jks",
+  "dmaap.ftpesConfig.trustedCaPassword": "secret",
+  "dmaap.security.trustStorePath": "change it",
+  "dmaap.security.trustStorePasswordPath": "trustStorePasswordPath",
+  "dmaap.security.keyStorePath": "keyStorePath",
+  "dmaap.security.keyStorePasswordPath": "change it",
+  "dmaap.security.enableDmaapCertAuth": "false",
+  "dmaap.dmaapProducerConfiguration": {
+    "changeIdentifier": "CTR_MEAS_FILES",
+    "feedName": "feed02"
+  },
+  "streams_subscribes": {
+    "dmaap_subscriber": {
+      "dmmap_info": {
+        "topic_url": "http://dradmin:dradmin@mrsim:2222/events/unauthenticated.VES_NOTIFICATION_OUTPUT/OpenDcae-c13/C13"
+      },
+      "type": "message_router"
+    }
+  }
+}

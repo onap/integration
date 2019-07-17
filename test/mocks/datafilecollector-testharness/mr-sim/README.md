@@ -1,3 +1,84 @@
+#MR-simulator 
+This readme contains:
+
+**Introduction**
+
+**Building and running**
+
+**Configuration**
+
+###Introduction###
+The MR-sim is a python script delivering batches of events including one or more fileReady for one or more PNFs.
+It is possible to configure number of events, PNFs, consumer groups, exising or missing files, file prefixes and change identifier.
+In addition, MR sim can be configured to deliver file url for up to 5 FTP servers (simulating the PNFs).
+
+###Building and running###
+It is possible build and run MR-sim manually as a container if needed. In addition MR-sim can be executed as python script, see instuctions further down.
+Otherwise it is recommended to use the test scripts in the auto-test dir or run all simulators in one go using scripts in the simulator-group dir.
+
+To build and run manually as a docker container:
+1. Build docker container with ```docker build -t mrsim:latest .```
+2. Run the container ```docker-compose up```
+
+###Configuration###
+The event pattern, called TC, of the MR-sim is controlled with a arg to python script. See section TC info for available patterns.
+All other configuration is done via envrionment variables.
+The simulator listens to port 2222.
+
+The following envrionment vaiables are used:
+**FTPS_SIMS** - A comma-separated list of hostname:port for the FTP servers to generate ftps file urls for. If not set MR sim will assume 'localhost:21'. Minimum 1 and maximum 5 host-port pairs can be given.
+**SFTP_SIMS** - A comma-separated list of hostname:port for the FTP servers to generate sftp file urls for. If not set MR sim will assume 'localhost:1022'. Minimum 1 and maximum 5 host-port pairs can be given.
+**NUM_FTP_SERVERS** - Number of FTP servers to use out of those specified in the envrioment variables above. The number shall be in the range 1-5.
+**MR_GROUPS** - A comma-separated list of consummer-group:changeId[:changeId]*. Defines which change identifier that should be used for each consumer gropu. If not set the MR-sim will assume 'OpenDcae-c12:PM_MEAS_FILES'.
+**MR_FILE_PREFIX_MAPPING** - A comma-separated list of changeId:filePrefix. Defines which file prefix to use for each change identifier, needed to distinguish files for each change identifiers. If not set the MR-sim will assume 'PM_MEAS_FILES:A
+
+
+
+###Statistics read-out and commands###
+The simulator can be queried for statistics  and  started/stopped (use curl from cmd line or open in browser, curl used below):
+
+`curl localhost:2222` - Just returns 'Hello World'.
+
+`curl localhost:2222/groups` - Return a comma-separated list of configured consumer groups..
+
+`curl localhost:2222/changeids` - Return a commar-separated list of configured change id sets, where each set is a list of colon-separated change for each configured consumer group.
+
+`curl localhost:2222/fileprefixes` - Return the setting of env var MR_FILE_PREFIX_MAPPING.
+
+`curl localhost:2222/ctr_requests`   - return an integer of the number of get request to the event poll path
+
+`curl localhost:2222/groups/ctr_requests`   - return an integer of the number of get requests, for all consumer groups, to the event poll path
+
+`curl localhost:2222/ctr_requests/<consumer-group>`   - return an integer of the number of get requests, for the specified consumer group, to the event poll path
+
+
+
+
+
+
+
+`curl localhost:2222/ctr_responses`  - return an integer of the number of get responses to the event poll path
+
+`curl localhost:2222/ctr_files` - returns an integer or the number files.  
+
+`curl localhost:2222/ctr_unique_files` - returns an integer or the number of unique files. A unique file is the combination of node+file_sequence_number 
+
+`curl localhost:2222/tc_info` - returns the tc string (as given on the cmd line)
+
+`curl localhost:2222/ctr_events` - returns the total number of events
+
+`curl localhost:2222/execution_time` - returns the execution time in mm:ss
+
+`curl localhost:2222/exe_time_first_poll` - returns the execution time in mm:ss from the first poll
+
+`curl localhost:2222/ctr_unique_PNFs` - return the number of unique PNFS in alla events.
+
+`curl localhost:2222/start` - start event delivery (default status).
+
+`curl localhost:2222/stop` - stop event delivery.
+
+`curl localhost:2222/status` - Return the started or stopped status.
+
 
 #Alternative to running python (as described below) on your machine, use the docker files.
 1. Build docker container with ```docker build -t mrsim:latest .```

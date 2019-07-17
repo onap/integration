@@ -1,6 +1,5 @@
-configuration
-tls
 docker-compose.yml
 node_modules
 package.json
-prepare-images.sh
+package-lock.json
+.tmp*
