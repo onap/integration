@@ -1,0 +1,71 @@
+# -*- mode: ruby -*-
+# -*- coding: utf-8 -*-
+
+host_ip = "192.168.121.1"
+operator_key = "~/.ssh/onap-key"
+
+vm_memory = 2 * 1024
+vm_cpus = 1
+vm_box = "generic/ubuntu1804"
+
+operation = { name: 'operator', hostname: 'operator', ip: '172.17.0.254' }
+cluster = [
+  { name: 'control', hostname: 'control', ip: '172.17.0.100' },
+  { name: 'worker', hostname: 'worker', ip: '172.17.0.101' }
+]
+
+all = cluster.dup << operation
+
+Vagrant.configure('2') do |config|
+  all.each do |machine|
+    config.vm.define machine[:name] do |config|
+      config.vm.box = vm_box
+      config.vm.hostname = machine[:hostname]
+
+      config.vm.provider :virtualbox do |v|
+        v.name = machine[:name]
+        v.memory = vm_memory
+        v.cpus = vm_cpus
+      end
+
+      config.vm.provider :libvirt do |v|
+        v.memory = vm_memory
+        v.cpus = vm_cpus
+      end
+
+      config.vm.network :private_network, ip: machine[:ip]
+      config.vm.provision :shell, inline: <<-SHELL
+        rm -f /etc/resolv.conf # drop its dynamic management by systemd-resolved
+        echo nameserver #{host_ip} | tee /etc/resolv.conf
+      SHELL
+
+      if machine[:name] == 'control'
+        config.vm.provision :shell, path: "../../tools/dublin/imported/openstack-k8s-controlnode.sh"
+      end
+
+      if machine[:name] == 'worker'
+        config.vm.provision :shell, path: "../../tools/dublin/imported/openstack-k8s-workernode.sh"
+      end
+
+      if machine[:name] == 'operator'
+        config.vm.provision :shell, path: "../../tools/dublin/get_rke.sh"
+
+        config.vm.provision :shell, inline: <<-SHELL
+          apt-get update
+          apt-get install sshpass
+        SHELL
+        config.vm.provision :shell, privileged: false, inline: <<-SHELL
+          ssh-keygen -q -b 4096 -t rsa -f #{operator_key} -N ""
+        SHELL
+
+        ips = ""
+        cluster.each { |node| ips << node[:ip] << " " }
+        config.vm.provision :shell, privileged: false, inline: <<-SHELL
+          for ip in #{ips}; do
+            sshpass -p vagrant ssh-copy-id -o StrictHostKeyChecking=no -i #{operator_key} "$ip"
+          done
+        SHELL
+      end
+    end
+  end
+end
