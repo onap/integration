@@ -47,8 +47,13 @@ apt-get install -y python3 python3-pip librdkafka-dev
 pip3 install flask flask_restful
 nohup python3 /netconf/yang_loader_server.py &
 
+cd /opt/dev/sysrepo && cmake .
+cd /opt/dev/sysrepo && make -j2
+
 /bin/cp -R /$NETOPEER_CHANGE_SAVER /opt/dev/
-ln -s /opt/dev/sysrepo/build/src/libsysrepo.so /$NETOPEER_CHANGE_SAVER/libsysrepo.so
+cp /opt/dev/sysrepo/swig/libSysrepo-cpp.so /opt/dev/$NETOPEER_CHANGE_SAVER/
+ln -s /opt/dev/sysrepo/build/src/libsysrepo.so /opt/dev/$NETOPEER_CHANGE_SAVER/libsysrepo.so
+
 cd  /opt/dev/$NETOPEER_CHANGE_SAVER && cmake .
 cd  /opt/dev/$NETOPEER_CHANGE_SAVER && make
 /opt/dev/$NETOPEER_CHANGE_SAVER/bin/netopeer-change-saver pnf-simulator kafka1 config
