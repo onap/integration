@@ -11,10 +11,10 @@ find_package(Threads REQUIRED)
 
 add_executable(netopeer-change-saver main.cpp sysrepo.h Application.cpp Application.h KafkaWrapper.cpp KafkaWrapper.h
         SysrepoCallback.cpp SysrepoCallback.h)
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/libsysrepo-cpp.so
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/libSysrepo-cpp.so
         DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/bin)
 
-target_link_libraries(netopeer-change-saver libsysrepo-cpp.so)
+target_link_libraries(netopeer-change-saver libSysrepo-cpp.so)
 target_link_libraries(netopeer-change-saver libsysrepo.so)
 target_link_libraries(netopeer-change-saver Threads::Threads)
 target_link_libraries(netopeer-change-saver librdkafka.so)
