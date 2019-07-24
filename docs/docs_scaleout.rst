@@ -327,8 +327,8 @@ To do so:
 
 ::
 
-    INSER INTO controller_selection_reference (`VNF_TYPE`, `CONTROLLER_NAME`, `ACTION_CATEGORY`) VALUES ('<VNF Type>', 'APPC', 'ConfigScaleOut');
-    INSER INTO controller_selection_reference (`VNF_TYPE`, `CONTROLLER_NAME`, `ACTION_CATEGORY`) VALUES ('<VNF Type>', 'APPC', 'HealthCheck');
+    INSERT INTO controller_selection_reference (`VNF_TYPE`, `CONTROLLER_NAME`, `ACTION_CATEGORY`) VALUES ('<VNF Type>', 'APPC', 'ConfigScaleOut');
+    INSERT INTO controller_selection_reference (`VNF_TYPE`, `CONTROLLER_NAME`, `ACTION_CATEGORY`) VALUES ('<VNF Type>', 'APPC', 'HealthCheck');
 
 SO has a default entry for VNF type "vLoadBalancerMS/vLoadBalancerMS 0"
 
