@@ -1,5 +1,22 @@
 #!/usr/bin/env bash
 
+#
+# @file        test/security/k8s/tools/dublin/get_rke.sh
+# @author      Pawel Wieczorek <p.wieczorek2@samsung.com>
+# @brief       Utility for obtaining RKE tool
+#
+
+# Dependencies:
+#     wget
+#     coreutils
+#
+# Privileges:
+# Script expects to be run with administrative privileges for accessing /usr/local/bin
+#
+# Usage:
+# # ./get_rke.sh [VERSION [ARCH [SYSTEM]]]
+#
+
 # Constants
 DEFAULT_VERSION='v0.2.1'
 DEFAULT_ARCH='amd64'
@@ -19,5 +36,4 @@ wget "$URL"
 chmod +x "${BINARY}"
 
 # Installation
-echo '# Privilege elevation needed to move RKE binary to /usr/local/bin'
-sudo mv "${BINARY}" "/usr/local/bin/${BINARY%%_*}" # this also renames binary to "rke"
+mv "${BINARY}" "/usr/local/bin/${BINARY%%_*}" # this also renames binary to "rke"
