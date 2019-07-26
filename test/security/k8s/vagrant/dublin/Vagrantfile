@@ -26,16 +26,19 @@ SCRIPT
 
 $add_to_docker_group = <<-SCRIPT
   USER="$1"
+  echo "Adding ${USER} to 'docker' group"
   usermod -aG docker "$USER"
 SCRIPT
 
 $install_sshpass = <<-SCRIPT
   apt-get update
+  echo "Installing 'sshpass'"
   apt-get install sshpass
 SCRIPT
 
 $generate_key = <<-SCRIPT
   KEY_FILE="$1"
+  echo "Generating SSH key (${KEY_FILE})"
   ssh-keygen -q -b 4096 -t rsa -f "$KEY_FILE" -N ""
 SCRIPT
 
@@ -44,14 +47,19 @@ $deploy_key = <<-SCRIPT
   USER="$2"
   PASS="$PASSWORD"
   IPS="$3"
+  echo "Deploying ${KEY} for ${USER}"
   for ip in $IPS; do
+    echo "on ${ip}"
     sshpass -p "$PASS" ssh-copy-id -o StrictHostKeyChecking=no -i "$KEY" "${USER}@${ip}"
   done
 SCRIPT
 
 $link_dotfiles = <<-SCRIPT
   for rc in /vagrant/dot_*; do
-    ln -sf "$rc" "${HOME}/.${rc##*dot_}"
+    src="$rc"
+    dst="${HOME}/.${rc##*dot_}"
+    echo "Symlinking ${src} to ${dst}"
+    ln -sf "$src" "$dst"
   done
 SCRIPT
 
