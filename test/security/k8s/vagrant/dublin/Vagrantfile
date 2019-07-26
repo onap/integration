@@ -18,6 +18,11 @@ cluster = [
 
 all = cluster.dup << operation
 
+$add_to_docker_group = <<-SCRIPT
+  USER="$1"
+  usermod -aG docker "$USER"
+SCRIPT
+
 $deploy_key = <<-SCRIPT
   KEY="$1"
   USER="$2"
@@ -59,12 +64,12 @@ Vagrant.configure('2') do |config|
 
       if machine[:name] == 'control'
         config.vm.provision :shell, path: "../../tools/dublin/imported/openstack-k8s-controlnode.sh"
-        config.vm.provision :shell, inline: "usermod -aG docker vagrant" # script above adds "ubuntu" user only
+        config.vm.provision :shell, inline: $add_to_docker_group, args: vagrant_user
       end
 
       if machine[:name] == 'worker'
         config.vm.provision :shell, path: "../../tools/dublin/imported/openstack-k8s-workernode.sh"
-        config.vm.provision :shell, inline: "usermod -aG docker vagrant" # script above adds "ubuntu" user only
+        config.vm.provision :shell, inline: $add_to_docker_group, args: vagrant_user
       end
 
       if machine[:name] == 'operator'
