@@ -18,9 +18,25 @@ cluster = [
 
 all = cluster.dup << operation
 
+$replace_dns = <<-SCRIPT
+  HOST_IP="$1"
+  rm -f /etc/resolv.conf # drop its dynamic management by systemd-resolved
+  echo nameserver "$HOST_IP" | tee /etc/resolv.conf
+SCRIPT
+
 $add_to_docker_group = <<-SCRIPT
   USER="$1"
   usermod -aG docker "$USER"
+SCRIPT
+
+$install_sshpass = <<-SCRIPT
+  apt-get update
+  apt-get install sshpass
+SCRIPT
+
+$generate_key = <<-SCRIPT
+  KEY_FILE="$1"
+  ssh-keygen -q -b 4096 -t rsa -f "$KEY_FILE" -N ""
 SCRIPT
 
 $deploy_key = <<-SCRIPT
@@ -57,10 +73,7 @@ Vagrant.configure('2') do |config|
       end
 
       config.vm.network :private_network, ip: machine[:ip]
-      config.vm.provision :shell, inline: <<-SHELL
-        rm -f /etc/resolv.conf # drop its dynamic management by systemd-resolved
-        echo nameserver #{host_ip} | tee /etc/resolv.conf
-      SHELL
+      config.vm.provision :shell, run: "always", inline: $replace_dns, args: host_ip
 
       if machine[:name] == 'control'
         config.vm.provision :shell, path: "../../tools/dublin/imported/openstack-k8s-controlnode.sh"
@@ -80,13 +93,8 @@ Vagrant.configure('2') do |config|
 
         config.vm.provision :shell, path: "../../tools/dublin/get_rke.sh"
 
-        config.vm.provision :shell, inline: <<-SHELL
-          apt-get update
-          apt-get install sshpass
-        SHELL
-        config.vm.provision :shell, privileged: false, inline: <<-SHELL
-          ssh-keygen -q -b 4096 -t rsa -f #{operator_key} -N ""
-        SHELL
+        config.vm.provision :shell, inline: $install_sshpass
+        config.vm.provision :shell, privileged: false, inline: $generate_key, args: operator_key
 
         ips = ""
         cluster.each { |node| ips << node[:ip] << " " }
