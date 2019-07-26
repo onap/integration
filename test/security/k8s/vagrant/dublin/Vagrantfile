@@ -5,7 +5,9 @@ host_ip = "192.168.121.1"
 operator_key = "${HOME}/.ssh/onap-key"
 vagrant_user = "vagrant"
 vagrant_password = "vagrant"
-synced_folder = "/vagrant"
+synced_folder_main = "/vagrant"
+synced_folder_config = "#{synced_folder_main}/config"
+cluster_yml = "cluster.yml"
 
 vm_memory = 2 * 1024
 vm_cpus = 1
@@ -65,6 +67,17 @@ $link_dotfiles = <<-SCRIPT
   done
 SCRIPT
 
+$link_cluster_yml = <<-SCRIPT
+  SYNC_DIR="$1"
+  CLUSTER_YML="$2"
+  src="${SYNC_DIR}/${CLUSTER_YML}"
+  dst="$HOME"
+  echo "Symlinking ${src} to ${dst}"
+  ln -sf "$src" "$dst"
+SCRIPT
+
+$rke_up = "rke up"
+
 Vagrant.configure('2') do |config|
   all.each do |machine|
     config.vm.define machine[:name] do |config|
@@ -96,19 +109,18 @@ Vagrant.configure('2') do |config|
       end
 
       if machine[:name] == 'operator'
-        config.vm.synced_folder "../../tools/config", synced_folder, type: "rsync"
+        config.vm.synced_folder ".", synced_folder_main, type: "rsync", rsync__exclude: "Vagrantfile"
+        config.vm.synced_folder "../../tools/config", synced_folder_config, type: "rsync"
 
         config.vm.provision "link_dotfiles_root", type: :shell, run: "always" do |s|
           s.inline = $link_dotfiles
-          s.args = synced_folder
+          s.args = synced_folder_config
         end
         config.vm.provision "link_dotfiles_user", type: :shell, run: "always" do |s|
           s.privileged = false
           s.inline = $link_dotfiles
-          s.args = synced_folder
+          s.args = synced_folder_config
         end
-
-        config.vm.provision "get_rke", type: :shell, path: "../../tools/dublin/get_rke.sh"
 
         config.vm.provision "install_sshpass", type: :shell, inline: $install_sshpass
         config.vm.provision "generate_key", type: :shell, privileged: false, inline: $generate_key, args: operator_key
@@ -121,6 +133,14 @@ Vagrant.configure('2') do |config|
           s.args = [operator_key, vagrant_user, ips]
           s.env = {'PASSWORD': vagrant_password}
         end
+
+        config.vm.provision "get_rke", type: :shell, path: "../../tools/dublin/get_rke.sh"
+        config.vm.provision "link_cluster_yml", type: :shell, run: "always" do |s|
+          s.privileged = false
+          s.inline = $link_cluster_yml
+          s.args = [synced_folder_main, cluster_yml]
+        end
+        config.vm.provision "rke_up", type: :shell, run: "never", privileged: false, inline: $rke_up
       end
     end
   end
