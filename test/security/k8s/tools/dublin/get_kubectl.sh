@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
 #
-# @file        test/security/k8s/tools/dublin/get_rke.sh
+# @file        test/security/k8s/tools/dublin/get_kubectl.sh
 # @author      Pawel Wieczorek <p.wieczorek2@samsung.com>
-# @brief       Utility for obtaining RKE tool
+# @brief       Utility for obtaining kubectl tool
 #
 
 # Dependencies:
@@ -14,11 +14,14 @@
 # Script expects to be run with administrative privileges for accessing /usr/local/bin
 #
 # Usage:
-# # ./get_rke.sh [VERSION [ARCH [SYSTEM]]]
+# # ./get_kubectl.sh [VERSION [ARCH [SYSTEM]]]
 #
 
 # Constants
-DEFAULT_VERSION='v0.2.1'
+BINARY='kubectl'
+INSTALL_DIR='/usr/local/bin/'
+
+DEFAULT_VERSION='v1.13.5'
 DEFAULT_ARCH='amd64'
 DEFAULT_SYSTEM='linux'
 
@@ -27,8 +30,7 @@ VERSION="${1:-$DEFAULT_VERSION}"
 ARCH="${2:-$DEFAULT_ARCH}"
 SYSTEM="${3:-$DEFAULT_SYSTEM}"
 
-BINARY="rke_${SYSTEM}-${ARCH}"
-URL="https://github.com/rancher/rke/releases/download/${VERSION}/${BINARY}"
+URL="https://storage.googleapis.com/kubernetes-release/release/${VERSION}/bin/${SYSTEM}/${ARCH}/${BINARY}"
 
 
 # Prerequistes
@@ -36,4 +38,4 @@ wget "$URL"
 chmod +x "$BINARY"
 
 # Installation
-mv "$BINARY" "/usr/local/bin/${BINARY%%_*}" # this also renames binary to "rke"
+mv "$BINARY" "$INSTALL_DIR"
