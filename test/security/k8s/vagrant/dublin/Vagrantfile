@@ -21,7 +21,7 @@ cluster = [
 
 all = cluster.dup << operation
 
-operation_post_msg = "Run: \"vagrant provision #{operation[:name]} --provision-with=rke_up\" to complete cluster creation"
+operation_post_msg = "Run: \"vagrant provision #{operation[:name]} --provision-with=rke_up,setup_kubectl\" to complete cluster creation"
 
 $replace_dns = <<-SCRIPT
   HOST_IP="$1"
@@ -149,6 +149,12 @@ Vagrant.configure('2') do |config|
         config.trigger.before :destroy do |trigger|
           trigger.warn = "Removing cluster"
           trigger.run_remote = {privileged: false, inline: $rke_down}
+        end
+
+        config.vm.provision "get_kubectl", type: :shell, path: "../../tools/dublin/get_kubectl.sh"
+        config.vm.provision "setup_kubectl", type: :shell, run: "never" do |s|
+          s.privileged = false
+          s.path = "../../tools/dublin/setup_kubectl.sh"
         end
       end
     end
