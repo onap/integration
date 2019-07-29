@@ -1,5 +1,5 @@
 export OS_PROJECT_ID=7fad299815104c0a8f90a8df80343f03
-export OS_PROJECT_NAME=Integration-SB-06
+export OS_PROJECT_NAME=Integration-Instantiation
 export OS_USER_DOMAIN_NAME=Default
 export OS_USERNAME=demo
 export OS_PASSWORD=onapdemo
