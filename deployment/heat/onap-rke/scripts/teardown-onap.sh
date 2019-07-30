@@ -112,7 +112,7 @@ else
 
     STACK=$install_name
 
-    STATUS=$(openstack stack check $STACK)
+    STATUS=$(openstack stack check $STACK 2>&1)
 
     if [ "Stack not found: $install_name" != "$STATUS" ]; then
         openstack stack delete $STACK

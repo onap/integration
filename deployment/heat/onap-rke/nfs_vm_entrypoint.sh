@@ -93,14 +93,18 @@ service nfs-kernel-server restart
 
 nfs_volume_dev="/dev/disk/by-id/virtio-$(echo "__nfs_volume_id__" | cut -c -20)"
 
+until [ -b "$nfs_volume_dev" ]; do
+    sleep 1m
+done
+
 zpool create -f -m /dockerdata-nfs dockerdata-nfs $nfs_volume_dev
 zfs set compression=lz4 dockerdata-nfs
 zfs set sharenfs="rw=*" dockerdata-nfs
 
 # update and initialize git
-git config --global user.email root@nfs
-git config --global user.name root@nfs
-git config --global log.decorate auto
+git config --system user.email root@nfs
+git config --system user.name root@nfs
+git config --system log.decorate auto
 
 # version control the persistence volume to see what's happening
 chmod 777 /dockerdata-nfs/
@@ -108,7 +112,7 @@ chown nobody:nogroup /dockerdata-nfs/
 cd /dockerdata-nfs/
 git init
 git add -A
-git commit -m "initial commit"
+git commit -m "initial commit" --allow-empty
 
 
 
