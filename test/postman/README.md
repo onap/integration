@@ -2,10 +2,10 @@
 
 ## Using Postman
 
-That repository contains 9 Postman collections and 2 environment files.
+That repository contains several Postman collections and 2 environment files.
 
-They have been tested with Onap Casablanca (they are not compatible with
-  Beijing, and there is not guaranty about ONAP "master" as API definition
+They have been tested with Onap Dublin (they are not compatible with
+  Casablanca, and there is not guaranty about ONAP "master" as API definition
   can change)
 
 You first need to import all those files into your Postman.
@@ -17,7 +17,7 @@ And you should see all the collections
 Each collection is made of several API operations
 ![postman](./images/collection-detail.png)
 
-Running all those collections, in the order, from 1 to 8 will create a lot of
+Running all those collections, in the order, from 1 to 10 will create a lot of
 objects in ONAP components :
 
 - SDC : vendor, VSP, zip file upload, VF from VSP, Service, add VF to Service
@@ -26,7 +26,7 @@ objects in ONAP components :
 - NBI : serviceOrder to add a service instance, serviceOrder to delete a service
  instance
 
-The order is very important because a lot of API request will need the API
+The order is very important because a lot of API requests will need the API
  response from the previous operation.
 ![postman](./images/collection-detail-test.png)
 
@@ -42,7 +42,7 @@ Before running those collections, once in Postman, you need to have a look
 at "globals" environment parameters.
 ![postman](./images/globals.png)
 
-All variables that begin by "auto_" must not be change (they will be modified
+All variables that begin by "auto_" must NOT be changed (they will be modified
  using API response)
 All other variables must be adapted to your needs.
 In particular, you need to put your own values for cloud_region_id, tenant_name
@@ -93,6 +93,6 @@ docker run --network="host" --volume="/home/debian/rene/onap-tests/postman:/etc/
 docker run --network="host" --volume="/home/debian/rene/onap-tests/postman:/etc/newman" postman/newman:alpine run 10_Service_Order.postman_collection.json --environment integration_test_urls.postman_environment.json --globals globals.postman_globals.json --export-globals globals.postman_globals.json --reporters cli,json --reporter-cli-no-assertions --reporter-cli-no-console
 ```
 
-All collections are run, you can see results and you will also obtain result json files in the onap-tests/postamn/newman directory
+All collections are processed, then you can see results and you will also obtain result json files in the onap-tests/postamn/newman directory
 
 Of course you can adapt globals variables in globals.postman_globals.json or change the USECASE=$'ubuntu16' value to onboard any heat template located in onap_tests/templates/heat_files directory

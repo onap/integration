@@ -1,3 +1,4 @@
+<<<<<<< HEAD   (11b0d7 Fix typo in scale out documentation)
 {
 	"variables": [],
 	"info": {
@@ -496,3 +497,5 @@
 		}
 	]
 }
+=======
+>>>>>>> CHANGE (0ebd04 Issue-ID: INT-1178 updated Postman collection for Dublin)
