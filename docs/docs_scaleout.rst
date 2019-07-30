@@ -626,7 +626,7 @@ To allow automated scale out via closed loop, the users need to inventory the VN
 
 ::
 
-    ./demo-k8s.ete onap heatbridge <vLB stack_name in OpenStack> <service_instance_id> vLB vlb_onap_private_ip_0
+    ./demo-k8s.sh onap heatbridge <vLB stack_name in OpenStack> <service_instance_id> vLB vlb_onap_private_ip_0
 
 Heatbridge is needed for control loops because DCAE and Policy runs queries against AAI using vServer names as key.
 
