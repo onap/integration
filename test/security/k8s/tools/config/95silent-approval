@@ -1,0 +1,2 @@
+Quiet "1";
+APT::Get::Assume-Yes "true";
