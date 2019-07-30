@@ -21,6 +21,8 @@ cluster = [
 
 all = cluster.dup << operation
 
+operation_post_msg = "Run: \"vagrant provision #{operation[:name]} --provision-with=rke_up\" to complete cluster creation"
+
 $replace_dns = <<-SCRIPT
   HOST_IP="$1"
   rm -f /etc/resolv.conf # drop its dynamic management by systemd-resolved
@@ -140,6 +142,8 @@ Vagrant.configure('2') do |config|
           s.inline = $link_cluster_yml
           s.args = [synced_folder_main, cluster_yml]
         end
+
+        config.vm.post_up_message = operation_post_msg
         config.vm.provision "rke_up", type: :shell, run: "never", privileged: false, inline: $rke_up
       end
     end
