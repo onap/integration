@@ -4,9 +4,11 @@ description: ONAP on RKE Kubernetes using OOM
 parameters:
   docker_proxy:
     type: string
+    default: ""
 
   apt_proxy:
     type: string
+    default: ""
 
   public_net_id:
     type: string
