@@ -1,10 +1,8 @@
 {
-	"variables": [],
 	"info": {
+		"_postman_id": "ba79b08d-2a04-4a00-8f30-e805efc2e636",
 		"name": "07_Declare_owningEntity_LineOfBusiness_project_platform",
-		"_postman_id": "7143bf9e-0167-af43-26cb-0cec6550dcd1",
-		"description": "",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -13,34 +11,45 @@
 				{
 					"listen": "test",
 					"script": {
-						"type": "text/javascript",
+						"id": "0643260b-1c9a-450e-aa72-ac2115244a97",
 						"exec": [
-							"tests[\"Status code is 200\"] = (responseCode.code === 200) || (responseCode.code === 207) ;",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
 							""
-						]
+						],
+						"type": "text/javascript"
 					}
 				}
 			],
 			"request": {
-				"url": "{{url-vid}}/vid/maintenance/category_parameter/owningEntity",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					},
 					{
 						"key": "Accept-Encoding",
-						"value": "gzip, deflate",
-						"description": ""
+						"value": "gzip, deflate"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n    \"options\": [\"{{owning_entity}}\"]\n}"
 				},
-				"description": ""
+				"url": {
+					"raw": "{{url-vid}}/vid/maintenance/category_parameter/owningEntity",
+					"host": [
+						"{{url-vid}}"
+					],
+					"path": [
+						"vid",
+						"maintenance",
+						"category_parameter",
+						"owningEntity"
+					]
+				}
 			},
 			"response": []
 		},
@@ -50,29 +59,40 @@
 				{
 					"listen": "test",
 					"script": {
-						"type": "text/javascript",
+						"id": "6d0d2a8b-b756-4386-9113-d39722218bf5",
 						"exec": [
-							"tests[\"Status code is 200\"] = (responseCode.code === 200) || (responseCode.code === 207) ;",
-							""
-						]
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
 					}
 				}
 			],
 			"request": {
-				"url": "{{url-vid}}/vid/maintenance/category_parameter/platform",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n    \"options\": [\"{{platform}}\"]\n}"
 				},
-				"description": ""
+				"url": {
+					"raw": "{{url-vid}}/vid/maintenance/category_parameter/platform",
+					"host": [
+						"{{url-vid}}"
+					],
+					"path": [
+						"vid",
+						"maintenance",
+						"category_parameter",
+						"platform"
+					]
+				}
 			},
 			"response": []
 		},
@@ -82,29 +102,40 @@
 				{
 					"listen": "test",
 					"script": {
-						"type": "text/javascript",
+						"id": "e177b994-db59-4b13-b003-b6fc0dda6907",
 						"exec": [
-							"tests[\"Status code is 200\"] = (responseCode.code === 200) || (responseCode.code === 207) ;",
-							""
-						]
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
 					}
 				}
 			],
 			"request": {
-				"url": "{{url-vid}}/vid/maintenance/category_parameter/lineOfBusiness",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n    \"options\": [\"{{lineofbusiness}}\"]\n}"
 				},
-				"description": ""
+				"url": {
+					"raw": "{{url-vid}}/vid/maintenance/category_parameter/lineOfBusiness",
+					"host": [
+						"{{url-vid}}"
+					],
+					"path": [
+						"vid",
+						"maintenance",
+						"category_parameter",
+						"lineOfBusiness"
+					]
+				}
 			},
 			"response": []
 		},
@@ -114,29 +145,40 @@
 				{
 					"listen": "test",
 					"script": {
-						"type": "text/javascript",
+						"id": "a5eb2421-a949-44f9-a8f7-786b672aede3",
 						"exec": [
-							"tests[\"Status code is 200\"] = (responseCode.code === 200) || (responseCode.code === 207) ;",
-							""
-						]
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
 					}
 				}
 			],
 			"request": {
-				"url": "{{url-vid}}/vid/maintenance/category_parameter/project",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n    \"options\": [\"{{project}}\"]\n}"
 				},
-				"description": ""
+				"url": {
+					"raw": "{{url-vid}}/vid/maintenance/category_parameter/project",
+					"host": [
+						"{{url-vid}}"
+					],
+					"path": [
+						"vid",
+						"maintenance",
+						"category_parameter",
+						"project"
+					]
+				}
 			},
 			"response": []
 		}

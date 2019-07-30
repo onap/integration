@@ -1,10 +1,8 @@
 {
-	"variables": [],
 	"info": {
+		"_postman_id": "cbb6c6d5-bcfb-4867-b6a3-36c2b56325bb",
 		"name": "03_Onboard_VSP_part2",
-		"_postman_id": "296fe94c-89fd-6a70-53ee-e5e5faa6f570",
-		"description": "",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -13,49 +11,46 @@
 				{
 					"listen": "test",
 					"script": {
-						"type": "text/javascript",
+						"id": "033f8cad-de66-4de9-8858-f3c72629c838",
 						"exec": [
-							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
 							"",
-							"var jsonData = JSON.parse(responseBody);",
+							"var jsonData = pm.response.json();",
 							"",
 							"if (jsonData.status === \"Success\") {",
 							"    tests[\"Upload Success\"] = true;   ",
 							"}",
 							"",
 							""
-						]
+						],
+						"type": "text/javascript"
 					}
 				}
 			],
 			"request": {
-				"url": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/vendor-software-products/{{auto_vsp_id}}/versions/{{auto_vsp_version_id}}/orchestration-template-candidate",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "multipart/form-data",
-						"description": ""
+						"value": "multipart/form-data"
 					},
 					{
 						"key": "Accept",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					},
 					{
 						"key": "X-TransactionId",
-						"value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a",
-						"description": ""
+						"value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a"
 					},
 					{
 						"key": "USER_ID",
-						"value": "cs0008",
-						"description": ""
+						"value": "cs0008"
 					},
 					{
 						"key": "X-FromAppId",
-						"value": "robot-ete",
-						"description": ""
+						"value": "robot-ete"
 					}
 				],
 				"body": {
@@ -64,12 +59,27 @@
 						{
 							"key": "upload",
 							"type": "file",
-							"src": "ubuntu16.zip",
-							"value": ""
+							"src": ""
 						}
 					]
 				},
-				"description": ""
+				"url": {
+					"raw": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/vendor-software-products/{{auto_vsp_id}}/versions/{{auto_vsp_version_id}}/orchestration-template-candidate",
+					"host": [
+						"{{url-sdc2}}"
+					],
+					"path": [
+						"sdc1",
+						"feProxy",
+						"onboarding-api",
+						"v1.0",
+						"vendor-software-products",
+						"{{auto_vsp_id}}",
+						"versions",
+						"{{auto_vsp_version_id}}",
+						"orchestration-template-candidate"
+					]
+				}
 			},
 			"response": []
 		}
