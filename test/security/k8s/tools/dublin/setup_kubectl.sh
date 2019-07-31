@@ -17,7 +17,9 @@
 #
 
 # Constants
+BASHRC='.bashrc'
 BASH_ALIASES='.bash_aliases'
+USE_ONAP_ALIAS='useonap'
 
 DEFAULT_RKE_CONFIG='kube_config_cluster.yml'
 DEFAULT_KUBE_DIR='.kube'
@@ -31,11 +33,20 @@ KUBE_CONFIG="${3:-$DEFAULT_KUBE_CONFIG}"
 KUBE_CONTEXT="${4:-$DEFAULT_KUBE_CONTEXT}"
 
 USE_ONAP="f() { export KUBECONFIG=${KUBE_DIR}/${KUBE_CONFIG}; kubectl config use-context ${KUBE_CONTEXT}; }; f"
+USE_ONAP_CONFIG="$(cat<<CONFIG
+
+# Use ONAP context for kubectl utility (defined in ${HOME}/${BASH_ALIASES})
+${USE_ONAP_ALIAS}
+CONFIG
+)"
 
 
 # Prerequistes
 mkdir -p "$KUBE_DIR"
-echo "alias useonap='${USE_ONAP}'" >> "${HOME}/${BASH_ALIASES}"
+echo "alias ${USE_ONAP_ALIAS}='${USE_ONAP}'" >> "${HOME}/${BASH_ALIASES}"
 
 # Setup
 cp "$RKE_CONFIG" "${KUBE_DIR}/${KUBE_CONFIG}"
+
+# Post-setup
+echo "$USE_ONAP_CONFIG" >> "${HOME}/${BASHRC}"
