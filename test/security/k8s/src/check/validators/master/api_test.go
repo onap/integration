@@ -123,8 +123,8 @@ var _ = Describe("Api", func() {
 				Expect(IsSecurePortAbsentOrValid(params)).To(Equal(expected))
 			},
 			Entry("Is explicitly disabled on insecure cluster", []string{"--secure-port=0"}, false),
-			Entry("Should be absent or set to valid port on Casablanca cluster", kubeApiServerCasablanca, true),
 			Entry("Should be absent or set to valid port on CIS-compliant cluster", kubeApiServerCISCompliant, true),
+			Entry("Should be absent or set to valid port on Casablanca cluster", kubeApiServerCasablanca, true),
 		)
 
 		DescribeTable("Profiling",
