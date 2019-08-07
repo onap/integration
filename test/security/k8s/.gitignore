@@ -1,2 +1,7 @@
 # Built binaries
 /bin/check
+
+# Go packages, sources (except this project)
+/pkg/
+/src/*
+!/src/check/
