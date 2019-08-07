@@ -5,3 +5,6 @@
 /pkg/
 /src/*
 !/src/check/
+
+# Additional Go utilities
+/bin/ginkgo
