@@ -242,16 +242,14 @@
       <plugin>
         <groupId>com.spotify</groupId>
         <artifactId>docker-maven-plugin</artifactId>
-        <version>1.1.1</version>
+        <version>1.0.0</version>
         <configuration>
           <imageName>${docker.registry}/${docker.image.name}</imageName>
           <dockerDirectory>${project.basedir}/docker</dockerDirectory>
           <forceTags>true</forceTags>
           <registryUrl>${docker.registry}</registryUrl>
           <imageTags>
-            <tag>latest</tag>
-            <tag>${project.version}</tag>
-            <tag>${project.version}-${maven.build.timestamp}</tag>
+            <imageTag>latest</imageTag>
           </imageTags>
           <resources>
             <resource>
