@@ -1,0 +1,17 @@
+{
+    "name": "",
+    "description": "",
+    "data": [
+        {
+            "file": "simulators_heat_template.yml",
+            "type": "HEAT",
+            "isBase": "true",
+            "data": [
+                {
+                    "file": "simulators_variables.env",
+                    "type": "HEAT_ENV"
+                }
+            ]
+        }
+    ]
+}
