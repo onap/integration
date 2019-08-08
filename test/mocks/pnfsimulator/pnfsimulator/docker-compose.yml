@@ -24,7 +24,7 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: zXcVbN123!
 
   pnf-simulator:
-    image: nexus3.onap.org:10003/onap/pnfsimulator:5.0.0-SNAPSHOT
+    image: nexus3.onap.org:10003/onap/pnfsimulator
     ports:
       - "5000:5000"
     volumes:

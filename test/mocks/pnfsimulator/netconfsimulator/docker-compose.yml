@@ -26,7 +26,7 @@ services:
     - zookeeper
 
   netconf-simulator:
-    image: nexus3.onap.org:10003/onap/netconfsimulator:5.0.0-SNAPSHOT
+    image: nexus3.onap.org:10003/onap/netconfsimulator
     ports:
     - "9000:8080"
     restart: on-failure
