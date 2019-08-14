@@ -1,0 +1,9 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Piotr Darosz <piotr.darosz@nokia.com>
+Code-Review+1: Krzysztof Kuzmicki <krzysztof.kuzmicki@nokia.com>
+Code-Review+2: Daniel Rose <dr695h@att.com>
+Submitted-by: Daniel Rose <dr695h@att.com>
+Submitted-at: Wed, 14 Aug 2019 18:07:31 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/integration/+/93021
+Project: integration
+Branch: refs/heads/master
