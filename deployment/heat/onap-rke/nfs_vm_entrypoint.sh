@@ -97,9 +97,14 @@ until [ -b "$nfs_volume_dev" ]; do
     sleep 1m
 done
 
-zpool create -f -m /dockerdata-nfs dockerdata-nfs $nfs_volume_dev
-zfs set compression=lz4 dockerdata-nfs
-zfs set sharenfs="rw=*" dockerdata-nfs
+zpool create -f -m /dockerdata-nfs-z dockerdata-nfs-z  $nfs_volume_dev
+zfs set compression=lz4 dockerdata-nfs-z
+zfs set sharenfs="rw=*" dockerdata-nfs-z
+
+
+mkdir -p /dockerdata-nfs
+
+
 
 # update and initialize git
 git config --system user.email root@nfs
@@ -115,6 +120,10 @@ git add -A
 git commit -m "initial commit" --allow-empty
 
 
+# export NFS mount
+echo "/dockerdata-nfs *(rw,fsid=1,async,no_root_squash,no_subtree_check)" | tee /etc/exports
+exportfs -a
+systemctl restart nfs-kernel-server
 
 cd ~
 
