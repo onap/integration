@@ -18,7 +18,7 @@ sftp_hosts=[]
 sftp_ports=[]
 ftps_hosts=[]
 ftps_ports=[]
-num_ftp_servers=0
+num_ftp_servers=1
 
 def sumList(ctrArray):
     tmp=0
@@ -1218,6 +1218,7 @@ if __name__ == "__main__":
         ftps_ports.append(hp[1])
 
     groups = os.environ.get('MR_GROUPS', 'OpenDcae-c12:PM_MEAS_FILES')
+    print("Groups detected: " + groups )
     configuredPrefixes = os.environ.get('MR_FILE_PREFIX_MAPPING', 'PM_MEAS_FILES:A')
 
     if (len(groups) == 0 ):

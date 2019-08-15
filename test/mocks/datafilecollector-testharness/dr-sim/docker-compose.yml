@@ -14,4 +14,4 @@ services:
      - "3908:3908"
      - "3909:3909"
     container_name: drsim_redir
-    command: node dmaapDR_redir.js    
+    command: node dmaapDR_redir.js

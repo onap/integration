@@ -35,7 +35,7 @@ const tc_10p_error_response = "10p_error_response";
 const tc_10first_error_response = "10first_error_response";
 const tc_100first_error_response = "100first_error_response";
 
-var drr_sim_ip = '127.0.0.1'; //IP for redirect to DR redir sim. Can be changed by env DRR_SIM_IP
+var drr_sim_ip = 'drsim_redir'; //IP for redirect to DR redir sim. Can be changed by env DRR_SIM_IP
 
 //Counters
 var ctr_publish_query = [];
