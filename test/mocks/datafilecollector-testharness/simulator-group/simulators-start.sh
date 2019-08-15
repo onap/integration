@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -x 
 server_check() {
 	for i in {1..10}; do
 		res=$(curl  -s -o /dev/null -w "%{http_code}" localhost:$2$3)

@@ -1,4 +1,5 @@
 #!/bin/bash
+bash -x 
 
 # Script to configure consul with json configuration files with 'localhost' urls. This
 # is needed when running the simulator as as a stand-alone app or via a dfc container in 'host' network mode. 
@@ -24,20 +25,10 @@ if ! [ -f $3 ]; then
 	exit 1
 fi
 
-if [ $1 == "app" ]; then
-	appname=$DFC_APP_BASE$2
-	echo "Replacing 'mrsim' with 'localhost' in json app config for consul"
-	sed 's/mrsim/localhost/g' $3 > .tmp_file.json
-elif [ $1 == "dmaap" ]; then
-	appname=$DFC_APP_BASE$2":dmaap"
-	echo "Replacing 'drsim' with 'localhost' in json dmaap config for consul"
-	sed 's/drsim/localhost/g' $3 > .tmp_file.json
-else
-	__print_err "config type should be 'app' or 'dmaap'"
-	exit 1
-fi
-
 echo "Configuring consul for " $appname " from " $3
-curl -s http://127.0.0.1:${CONSUL_PORT}/v1/kv/${appname}?dc=dc1 -X PUT -H 'Accept: application/json' -H 'Content-Type: application/json' -H 'X-Requested-With: XMLHttpRequest' --data-binary "@"$tmp_file.json >/dev/null
+curl -s http://127.0.0.1:${CONSUL_PORT}/v1/kv/${appname}?dc=dc1 -X PUT -H 'Accept: application/json' -H 'Content-Type: application/json' -H 'X-Requested-With: XMLHttpRequest' --data-binary "@"$3
+
+echo "Reading back from consul:"
+curl "http://127.0.0.1:${CONSUL_PORT}/v1/kv/${appname}?dc=dc1&raw=0"
 
 echo "done"
