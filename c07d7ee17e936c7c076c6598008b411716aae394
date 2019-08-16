@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63aa59eb_84eb25f3",
+        "filename": "deployment/heat/onap-rke/scripts/cleanup.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2019-08-16T16:58:43Z",
+      "side": 1,
+      "message": "so I guess usage was what didnt match the $1,$2,$3 \nshould be onap_component_name namespace deployment ?",
+      "range": {
+        "startLine": 7,
+        "startChar": 27,
+        "endLine": 7,
+        "endChar": 67
+      },
+      "revId": "c07d7ee17e936c7c076c6598008b411716aae394",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
