@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e9d1726_e2a2daf0",
+        "filename": "deployment/heat/onap-rke/scripts/cleanup.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2019-08-16T14:43:39Z",
+      "side": 1,
+      "message": "isnt this $3",
+      "range": {
+        "startLine": 11,
+        "startChar": 19,
+        "endLine": 11,
+        "endChar": 20
+      },
+      "revId": "69a99444797e55697f29e3ec51c7e35ef9d129f3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af28a23d_7a1fb4da",
+        "filename": "deployment/heat/onap-rke/scripts/cleanup.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2019-08-16T14:43:39Z",
+      "side": 1,
+      "message": "isnt NAMESPACE  $1 ?",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 49
+      },
+      "revId": "69a99444797e55697f29e3ec51c7e35ef9d129f3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6a58d25_3ee050d5",
+        "filename": "deployment/heat/onap-rke/scripts/cleanup.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2019-08-16T14:43:39Z",
+      "side": 1,
+      "message": "is this for cloudify created \"dep ?\"",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 10
+      },
+      "revId": "69a99444797e55697f29e3ec51c7e35ef9d129f3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
