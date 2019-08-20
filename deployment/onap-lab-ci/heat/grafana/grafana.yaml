@@ -1,0 +1,36 @@
+heat_template_version: 2015-10-15
+
+resources:
+  influxdb_data:
+    type: OS::Cinder::Volume
+    properties:
+      size: 100
+  grafana:
+    type: OS::Nova::Server
+    properties:
+      name: grafana
+      image: bionic
+      flavor: m1.large
+      key_name: mykey
+      networks:
+        - network: c5ef4668-8a11-441d-8ce8-4a211a94885f
+      user_data_format: RAW
+      user_data:
+        str_replace:
+          params:
+            "%voldata_id%": { get_resource: influxdb_data }
+          template:
+            get_file: grafana_vm_config.yaml
+  influxdb_data_att:
+    type: OS::Cinder::VolumeAttachment
+    properties:
+      instance_uuid: { get_resource: grafana }
+      volume_id: { get_resource: influxdb_data }
+
+outputs:
+  instance_name:
+    description: Name of the instance.
+    value: { get_attr: [ grafana, name ] }
+  instance_ip:
+    description: IP address of the instance.
+    value: { get_attr: [ grafana, first_address ] }

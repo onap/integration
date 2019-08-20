@@ -1,0 +1,61 @@
+#cloud-config
+# vim: syntax=yaml
+write_files:
+- path: /opt/format-disks
+  permissions: '0700'
+  content: |
+    #!/bin/bash
+    voldata_id="%voldata_id%"
+    voldata_dev="/dev/disk/by-id/virtio-$(echo ${voldata_id} | cut -c -20)"
+    mkfs.ext4 ${voldata_dev}
+    mkdir -pv /var/lib/influxdb
+    echo "${voldata_dev} /var/lib/influxdb ext4 defaults 1 2" >> /etc/fstab
+    mount /var/lib/influxdb
+- path: /opt/grafana_vm_entrypoint.sh
+  permissions: '0755'
+  content: |
+    #!/bin/bash -x
+
+    printenv
+
+    cp ~ubuntu/.ssh/authorized_keys /root/.ssh
+
+    cat > /etc/apt/apt.conf.d/90curtin-aptproxy<<EOF
+    Acquire::http::Proxy "http://10.145.122.117:8000/";
+    EOF
+
+    source /etc/lsb-release
+    curl -sL https://repos.influxdata.com/influxdb.key | sudo apt-key add -
+    echo "deb https://repos.influxdata.com/${DISTRIB_ID,,} ${DISTRIB_CODENAME} stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
+    curl https://packagecloud.io/gpg.key | sudo apt-key add -
+    echo "deb https://packagecloud.io/grafana/stable/debian/ stretch main" | sudo tee /etc/apt/sources.list.d/grafana.list
+
+    apt-get update
+
+    cat >> /etc/inputrc <<EOF
+    set show-all-if-ambiguous on
+    set show-all-if-unmodified on
+    set match-hidden-files off
+    set mark-symlinked-directories on
+    EOF
+
+    export HOME=/root
+    apt-get -y install git
+    git config --global user.email "grafana@localhost"
+    git config --global user.name "grafana"
+    apt-get -y install etckeeper
+
+    apt-get -y install influxdb
+    apt-get -y install grafana
+
+    systemctl daemon-reload
+
+    systemctl enable influxdb
+    systemctl start influxdb
+
+    systemctl enable grafana-server.service
+    systemctl start grafana-server
+
+runcmd:
+- /opt/format-disks
+- /opt/grafana_vm_entrypoint.sh

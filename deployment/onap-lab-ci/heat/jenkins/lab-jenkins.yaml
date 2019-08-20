@@ -1,0 +1,36 @@
+heat_template_version: 2015-10-15
+
+resources:
+  jenkins_data:
+    type: OS::Cinder::Volume
+    properties:
+      size: 400
+  jenkins:
+    type: OS::Nova::Server
+    properties:
+      name: jenkins
+      image: bionic
+      flavor: m1.medium
+      key_name: mykey
+      networks:
+        - network: c5ef4668-8a11-441d-8ce8-4a211a94885f
+      user_data_format: RAW
+      user_data:
+        str_replace:
+          params:
+            "%voldata_id%": { get_resource: jenkins_data }
+          template:
+            get_file: jenkins_vm_config.yaml
+  jenkins_data_att:
+    type: OS::Cinder::VolumeAttachment
+    properties:
+      instance_uuid: { get_resource: jenkins }
+      volume_id: { get_resource: jenkins_data }
+
+outputs:
+  instance_name:
+    description: Name of the instance.
+    value: { get_attr: [ jenkins, name ] }
+  instance_ip:
+    description: IP address of the instance.
+    value: { get_attr: [ jenkins, first_address ] }

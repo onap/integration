@@ -1,0 +1,241 @@
+---
+- builder:
+    name: run-rke-ete
+    builders:
+      - shell: |
+          #!/bin/bash
+          set +x
+          . $WORKSPACE/deployment/heat/onap-rke/env/{lab-name}/{tenant-name}-openrc
+          . $JENKINS_HOME/onap-lab-ci/labs/{lab-name}-openrc
+          source $WORKSPACE/test/ete/scripts/install_openstack_cli.sh
+
+          set -x
+          rm -rf $WORKSPACE/archives
+          mkdir -p $WORKSPACE/archives
+
+          SSH_KEY=~/.ssh/onap_key
+          ENV_FILE=./env/{lab-name}/onap-oom.env
+          STACK_NAME={stack-name}
+
+          cd $WORKSPACE/deployment/heat/onap-rke/
+          ./scripts/deploy.sh -s $STACK_NAME -d {stack-name}.{lab-name}.onapci.org -i {integration-branch} -o {oom-branch} -q $ENV_FILE
+
+          NFS_IP=$(openstack stack output show $STACK_NAME nfs_vm_ip -c output_value -f value)
+          K8S_IP=$(openstack stack output show $STACK_NAME k8s_01_vm_ip -c output_value -f value)
+
+          set +x
+          ~/onap-lab-ci/labs/set-dns-record.sh "{stack-name}.{lab-name}" $K8S_IP
+          set -x
+
+          # deploy log and pomba at the end since they're by default disabled in integration-override
+          ssh -i $SSH_KEY ubuntu@$NFS_IP 'sudo su -c "helm deploy dev local/onap -f ~/oom/kubernetes/onap/resources/environments/public-cloud.yaml -f ~/integration-override.yaml --namespace onap --verbose --set log.enabled=true --set pomba.enabled=true"'
+
+          PREV_RESULT=999
+          for n in $(seq 1 8); do
+            echo "Wait for pods to be up, $n of 8"
+            RESULT=$(ssh -i $SSH_KEY ubuntu@$NFS_IP 'sudo su -c "kubectl -n onap get pods"' | grep -vE 'NAME|Completed|Error|1/1|2/2' | wc -l)
+            if [[ $? -eq 0 && ( $RESULT -eq 0 || $RESULT -ge $PREV_RESULT ) ]]; then
+              break
+            fi
+            sleep 15m
+            PREV_RESULT=$RESULT
+          done
+
+          PREV_RESULT=127
+          for n in $(seq 1 8); do
+            echo "Wait for HEALTHCHECK, $n of 8"
+            ROBOT_POD=$(ssh -i $SSH_KEY ubuntu@$NFS_IP 'sudo su -c "kubectl --namespace onap get pods"' | grep robot | sed 's/ .*//')
+            ssh -i $SSH_KEY ubuntu@$NFS_IP  'sudo su -l root -c "/root/oom/kubernetes/robot/ete-k8s.sh onap health"'
+            RESULT=$?
+            if [[ $RESULT -lt 20 && ( $RESULT -eq 0 || $RESULT -ge $PREV_RESULT ) ]]; then
+              break
+            fi
+            sleep 15m
+            PREV_RESULT=$RESULT
+          done
+          if [ "$ROBOT_POD" == "" ]; then
+            exit 1
+          fi
+
+          LOG_DIR=$(echo "kubectl exec -n onap $ROBOT_POD -- ls -1t /share/logs | grep health | head -1" | ssh -i $SSH_KEY ubuntu@$NFS_IP sudo su)
+          echo "Browse Robot results at http://$K8S_IP:30209/logs/$LOG_DIR/"
+          mkdir -p $WORKSPACE/archives/healthcheck
+          rsync -e "ssh -i $SSH_KEY" -avtz ubuntu@$NFS_IP:/dockerdata-nfs/dev-robot/robot/logs/$LOG_DIR/ $WORKSPACE/archives/healthcheck
+
+          # record states of pods and containers
+          ssh -i $SSH_KEY root@$NFS_IP 'kubectl get pods -n onap'
+          ssh -i $SSH_KEY root@$NFS_IP "kubectl get pods -n onap -o json" > $WORKSPACE/archives/onap-pods.json
+          ssh -i $SSH_KEY root@$NFS_IP "/root/integration/deployment/heat/onap-rke/scripts/get-image-tags.sh | tee image-tags.log" > $WORKSPACE/archives/image-tags.log
+
+          # demo init
+          ssh -i $SSH_KEY ubuntu@$NFS_IP  'sudo su -l root -c "/root/oom/kubernetes/robot/demo-k8s.sh onap init"'
+          LOG_DIR=$(echo "kubectl exec -n onap $ROBOT_POD -- ls -1t /share/logs | grep demo_init | head -1" | ssh -i $SSH_KEY ubuntu@$NFS_IP sudo su)
+          echo "Browse Robot results at http://$K8S_IP:30209/logs/$LOG_DIR/"
+          mkdir -p $WORKSPACE/archives/demo-init
+          rsync -e "ssh -i $SSH_KEY" -avtz ubuntu@$NFS_IP:/dockerdata-nfs/dev-robot/robot/logs/$LOG_DIR/ $WORKSPACE/archives/demo-init
+
+          # ete ete
+          ssh -i $SSH_KEY ubuntu@$NFS_IP  'sudo su -l root -c "/root/oom/kubernetes/robot/ete-k8s.sh onap ete execscript"'
+          LOG_DIR=$(echo "kubectl exec -n onap $ROBOT_POD -- ls -1t /share/logs | grep ete_ete | head -1" | ssh -i $SSH_KEY ubuntu@$NFS_IP sudo su)
+          echo "Browse Robot results at http://$K8S_IP:30209/logs/$LOG_DIR/"
+          mkdir -p $WORKSPACE/archives/ete
+          rsync -e "ssh -i $SSH_KEY" -avtz ubuntu@$NFS_IP:/dockerdata-nfs/dev-robot/robot/logs/$LOG_DIR/ $WORKSPACE/archives/ete
+
+          # ete instantiate
+          ssh -i $SSH_KEY ubuntu@$NFS_IP  'sudo su -l root -c "/root/oom/kubernetes/robot/ete-k8s.sh onap instantiate"'
+          LOG_DIR=$(echo "kubectl exec -n onap $ROBOT_POD -- ls -1t /share/logs | grep instantiate | head -1" | ssh -i $SSH_KEY ubuntu@$NFS_IP sudo su)
+          echo "Browse Robot results at http://$K8S_IP:30209/logs/$LOG_DIR/"
+          mkdir -p $WORKSPACE/archives/instantiate
+          rsync -e "ssh -i $SSH_KEY" -avtz ubuntu@$NFS_IP:/dockerdata-nfs/dev-robot/robot/logs/$LOG_DIR/ $WORKSPACE/archives/instantiate
+
+          # ete portal
+          ssh -i $SSH_KEY ubuntu@$NFS_IP  'sudo su -l root -c "/root/oom/kubernetes/robot/ete-k8s.sh onap portal"'
+          LOG_DIR=$(echo "kubectl exec -n onap $ROBOT_POD -- ls -1t /share/logs | grep portal | head -1" | ssh -i $SSH_KEY ubuntu@$NFS_IP sudo su)
+          echo "Browse Robot results at http://$K8S_IP:30209/logs/$LOG_DIR/"
+          mkdir -p $WORKSPACE/archives/portal
+          rsync -e "ssh -i $SSH_KEY" -avtz ubuntu@$NFS_IP:/dockerdata-nfs/dev-robot/robot/logs/$LOG_DIR/ $WORKSPACE/archives/portal
+
+          # ete instantiateDemoVFWCL
+          ssh -i $SSH_KEY ubuntu@$NFS_IP  'sudo su -l root -c "/root/oom/kubernetes/robot/ete-k8s.sh onap instantiateDemoVFWCL"'
+          LOG_DIR=$(echo "kubectl exec -n onap $ROBOT_POD -- ls -1t /share/logs | grep instantiateDemoVFWCL | head -1" | ssh -i $SSH_KEY ubuntu@$NFS_IP sudo su)
+          echo "Browse Robot results at http://$K8S_IP:30209/logs/$LOG_DIR/"
+          mkdir -p $WORKSPACE/archives/instantiateDemoVFWCL
+          rsync -e "ssh -i $SSH_KEY" -avtz ubuntu@$NFS_IP:/dockerdata-nfs/dev-robot/robot/logs/$LOG_DIR/ $WORKSPACE/archives/instantiateDemoVFWCL
+
+          # ete sdc-dcae-d
+          ssh -i $SSH_KEY ubuntu@$NFS_IP  'sudo su -l root -c "/root/oom/kubernetes/robot/ete-k8s.sh onap sdc-dcae-d"'
+          LOG_DIR=$(echo "kubectl exec -n onap $ROBOT_POD -- ls -1t /share/logs | grep sdc-dcae-d | head -1" | ssh -i $SSH_KEY ubuntu@$NFS_IP sudo su)
+          echo "Browse Robot results at http://$K8S_IP:30209/logs/$LOG_DIR/"
+          mkdir -p $WORKSPACE/archives/sdc-dcae-d
+          rsync -e "ssh -i $SSH_KEY" -avtz ubuntu@$NFS_IP:/dockerdata-nfs/dev-robot/robot/logs/$LOG_DIR/ $WORKSPACE/archives/sdc-dcae-d
+
+
+          # demo vfwclosedloop
+          PKG_STACK=$(openstack stack list -f value -c "Stack Name" --sort creation_time:desc | grep Vfmodule_Demo_vFWCLvPKG | head -1)
+          PUBLIC_NET_ID=$(openstack stack show $STACK_NAME -f json | jq -r '.parameters.public_net_id')
+          PUBLIC_NET_NAME=$(openstack network show $PUBLIC_NET_ID -f value -c name)
+          PKG_IP=$(openstack stack resource show $PKG_STACK vpg_server_0 -f json | jq -r ".attributes.addresses.$PUBLIC_NET_NAME[0].addr")
+          echo "/root/oom/kubernetes/robot/demo-k8s.sh onap vfwclosedloop $PKG_IP" | ssh -i $SSH_KEY ubuntu@$NFS_IP sudo su
+          LOG_DIR=$(echo "kubectl exec -n onap $ROBOT_POD -- ls -1t /share/logs | grep vfwclosedloop | head -1" | ssh -i $SSH_KEY ubuntu@$NFS_IP sudo su)
+          echo "Browse Robot results at http://$K8S_IP:30209/logs/$LOG_DIR/"
+          mkdir -p $WORKSPACE/archives/vfwclosedloop
+          rsync -e "ssh -i $SSH_KEY" -avtz ubuntu@$NFS_IP:/dockerdata-nfs/dev-robot/robot/logs/$LOG_DIR/ $WORKSPACE/archives/vfwclosedloop
+
+
+          cd $WORKSPACE/archives
+          rebot -N "ONAP CI" --removekeywords wuks --output output.xml --merge $(ls -rt */output.xml)
+
+          exit 0
+
+- job-template:
+    disabled_var:
+    triggers_var:
+    name: '{env}-staging-{frequency}'
+    description: 'Staging deployment to {lab-name} {tenant-name}'
+    disabled: '{obj:disabled_var}'
+    project-type: freestyle
+    lab-name: ''
+    tenant-name: ''
+    scm:
+      - git-integration:
+          branch: "{integration-branch}"
+    wrappers:
+      - timestamps
+      - timeout:
+          timeout: 720
+          fail: true
+    triggers: '{obj:triggers_var}'
+    builders:
+      - run-rke-ete:
+          stack-name: '{stack-name}'
+          lab-name: '{lab-name}'
+          tenant-name: '{tenant-name}'
+          integration-branch: '{integration-branch}'
+          oom-branch: '{oom-branch}'
+    publishers:
+      - integration-robot
+      - pods-influxdb
+      - archive-logs
+      - trigger-lf-lab-job:
+          lab-name: '{lab-name}'
+
+- job-template:
+    disabled_var:
+    triggers_var:
+    name: '{env}-release-{frequency}'
+    description: 'Release deployment to {lab-name} {tenant-name}'
+    disabled: '{obj:disabled_var}'
+    project-type: freestyle
+    lab-name: ''
+    tenant-name: ''
+    scm:
+      - git-integration:
+          branch: "{integration-branch}"
+    wrappers:
+      - timestamps
+      - timeout:
+          timeout: 720
+          fail: true
+    triggers: '{obj:triggers_var}'
+    builders:
+      - run-rke-ete:
+          stack-name: '{stack-name}'
+          lab-name: '{lab-name}'
+          tenant-name: '{tenant-name}'
+          integration-branch: '{integration-branch}'
+          oom-branch: '{oom-branch}'
+    publishers:
+      - integration-robot
+      - pods-influxdb
+      - archive-logs
+      - trigger-lf-lab-job:
+          lab-name: '{lab-name}'
+
+- builder:
+    name: run-cleanup
+    builders:
+      - shell: |
+          #!/bin/bash
+          set +x
+          . $WORKSPACE/deployment/heat/onap-rke/env/{lab-name}/{tenant-name}-openrc
+          . $JENKINS_HOME/onap-lab-ci/labs/{lab-name}-openrc
+
+          set -x
+          rm -rf $WORKSPACE/archives
+          mkdir -p $WORKSPACE/archives
+
+          SSH_KEY=~/.ssh/onap_key
+
+          openstack project list -f value | while read line; do
+            OS_PROJECT_ID=$(echo $line | cut -d' ' -f1)
+            OS_PROJECT_NAME=$(echo $line | cut -d' ' -f2-)
+
+            openstack stack list -f value -c 'Stack Name' | while read STACK_NAME; do
+              NFS_IP=$(openstack stack output show $STACK_NAME nfs_vm_ip -c output_value -f value)
+              if [ ! -z "$NFS_IP" ]; then
+                # timeout 20 ssh -i $SSH_KEY root@$NFS_IP "helm delete dev-log"
+                # timeout 20 ssh -i $SSH_KEY root@$NFS_IP "helm delete dev-pomba"
+                timeout 20 ssh -i $SSH_KEY root@$NFS_IP "kubectl top pod | sort --reverse --key 2 --numeric | head -20"
+              fi
+            done
+          done
+
+          exit 0
+
+- job-template:
+    name: '{env}-cleanup'
+    description: 'Clean up {lab-name} tenants'
+    project-type: freestyle
+    lab-name: ''
+    tenant-name: ''
+    scm:
+      - git-integration:
+          branch: "{integration-branch}"
+    wrappers:
+      - timestamps
+    builders:
+      - run-cleanup:
+          lab-name: '{lab-name}'
+          tenant-name: '{tenant-name}'
+    publishers:
+      - archive-logs
