@@ -1,34 +1,49 @@
 #! /usr/bin/python
 
-import logging
-import json
+import argparse
 import commands
-import sys
+import json
+import logging
 import subprocess
+import sys
 
-if len(sys.argv) <2:
-   print('namespace not provided')
-   print('Usage: healthcheck-k8s.py onap')
-   sys.exit()
+def parse_args():
+    """
+    Parse command line arguments
+    :return: arguments
+    """
+    parser = argparse.ArgumentParser(description='Processing arguments for vCPE healthcheck')
+    parser.add_argument('--namespace', default="onap",
+                             metavar=('<namespace_name>'),
+                             help='Namespace name for existing ONAP deployment')
+    parser.add_argument('--environment', default="dev",
+                             metavar=('<environment_name>'),
+                             help='Environment name for existing ONAP deployment visible in <environment_name>-sdnc-sdnc-0 pod name')
+    args = parser.parse_args()
+    return args
 
-namespace=sys.argv[1]
+
+args = parse_args()
+
+namespace = args.namespace
+environment = args.environment
 
 print('Checking vGMUX REST API from SDNC')
 cmd = 'curl -s -u admin:admin -X GET http://10.0.101.21:8183/restconf/config/ietf-interfaces:interfaces'
-ret = commands.getstatusoutput("kubectl -n {0} exec dev-sdnc-sdnc-0 -- bash -c '{1}'".format(namespace,cmd))
+ret = commands.getstatusoutput("kubectl -n {0} exec {1}-sdnc-sdnc-0 -- bash -c '{2}'".format(args.namespace, args.environment, cmd))
 sz = ret[-1].split('\n')[-1]
 print(json.dumps(json.loads(sz), indent=4))
 
 print('\n')
 print('Checking vBRG REST API from SDNC')
 cmd = 'curl -s -u admin:admin -X GET http://10.3.0.2:8183/restconf/config/ietf-interfaces:interfaces'
-ret = commands.getstatusoutput("kubectl -n {0} exec dev-sdnc-sdnc-0 -- bash -c '{1}'".format(namespace,cmd))
+ret = commands.getstatusoutput("kubectl -n {0} exec {1}-sdnc-sdnc-0 -- bash -c '{2}'".format(args.namespace, args.environment, cmd))
 sz = ret[-1].split('\n')[-1]
 print(json.dumps(json.loads(sz), indent=4))
 
 print('\n')
 print('Checking SDNC DB for vBRG MAC address')
-cmd = "kubectl exec dev-mariadb-galera-mariadb-galera-0 -- mysql -uroot -psecretpassword sdnctl -e 'select * from DHCP_MAP'"
+cmd = "kubectl -n {0} exec {1}-mariadb-galera-mariadb-galera-0 -- mysql -uroot -psecretpassword sdnctl -e 'select * from DHCP_MAP'".format(args.namespace, args.environment)
 p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
 (output, error) = p.communicate()
 print(output)
