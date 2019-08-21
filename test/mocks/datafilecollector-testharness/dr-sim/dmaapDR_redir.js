@@ -10,8 +10,8 @@ const sleep = (milliseconds) => {
   return new Promise(resolve => setTimeout(resolve, milliseconds))
 }
 var ArgumentParser = require('argparse').ArgumentParser;
-var privateKey  = fs.readFileSync('cert/private.key', 'utf8');
-var certificate = fs.readFileSync('cert/certificate.crt', 'utf8');
+var privateKey  = fs.readFileSync('cert/key.pem', 'utf8');
+var certificate = fs.readFileSync('cert/cert.pem', 'utf8');
 var credentials = {key: privateKey, cert: certificate};
 
 var total_first_publish=0;
@@ -68,7 +68,7 @@ if (args.tc==tc_normal) {
 
 } else if (args.tc==tc_no_publish) {
 	console.log("TC: " + args.tc)
-  
+
 } else if (args.tc==tc_10p_no_response) {
   console.log("TC: " + args.tc)
 
@@ -80,13 +80,13 @@ if (args.tc==tc_normal) {
 
 } else if (args.tc==tc_all_delay_1s) {
   console.log("TC: " + args.tc)
-  
+
  } else if (args.tc==tc_all_delay_10s) {
   console.log("TC: " + args.tc)
 
 } else if (args.tc==tc_10p_delay_10s) {
 	console.log("TC: " + args.tc)
-  
+
 } else if (args.tc==tc_10p_error_response) {
   console.log("TC: " + args.tc)
 
@@ -327,7 +327,7 @@ app.put('/publish/:feedId/:filename', function (req, res) {
 
 	console.log(filename);
 	//Create filename (appending file size and feedid to name) to store
-  	var storedFilename = path.resolve(__dirname, filename+"-"+feedId+"-"+req.body.length); 
+  	var storedFilename = path.resolve(__dirname, filename+"-"+feedId+"-"+req.body.length);
   	fs.writeFile(storedFilename, "", function (error) {  //Store file with zero size
   		if (error) { console.error(error); }
 	});

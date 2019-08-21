@@ -7,7 +7,6 @@ WORKDIR /app
 COPY dmaapDR.js ./
 COPY dmaapDR_redir.js ./
 COPY package*.json ./
-COPY cert/ cert/
 
 RUN npm install express
 RUN npm install argparse

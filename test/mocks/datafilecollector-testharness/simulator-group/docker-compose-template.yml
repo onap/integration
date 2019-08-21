@@ -29,6 +29,14 @@ services:
     depends_on:
       - consul-server
 
+  tls-init-container:
+    container_name: dfc_tls-init-container
+    image: nexus3.onap.org:10001/onap/org.onap.dcaegen2.deployments.tls-init-container
+    networks:
+      - dfcnet
+    volumes:
+      - ./tls:/opt/tls/shared:rw
+
   drsim:
     networks:
       - dfcnet
@@ -41,11 +49,15 @@ services:
      - "3907:3907"
     container_name: dfc_dr-sim
     command: node dmaapDR.js ${DR_TC}
+    volumes:
+      - ./tls:/app/cert/:rw
+    depends_on:
+      - tls-init-container
 
   drsim_redir:
     networks:
       - dfcnet
-    environment: 
+    environment:
         DR_SIM_IP: drsim
         DR_REDIR_FEEDS: ${DR_REDIR_FEEDS}
     image: drsim_common:latest
@@ -54,6 +66,10 @@ services:
      - "3909:3909"
     container_name: dfc_dr-redir-sim
     command: node dmaapDR_redir.js ${DR_REDIR_TC}
+    volumes:
+      - ./tls:/app/cert/:rw
+    depends_on:
+      - tls-init-container
 
   mrsim:
     networks:
@@ -66,9 +82,14 @@ services:
         MR_FILE_PREFIX_MAPPING: ${MR_FILE_PREFIX_MAPPING}
     image: mrsim:latest
     ports:
-     - "2222:2222"
+      - "2222:2222"
+      - "2223:2223"
     container_name: dfc_mr-sim
     command: python mr-sim.py ${MR_TC}
+    volumes:
+      - ./tls:/app/cert/:rw
+    depends_on:
+      - tls-init-container
 
   sftp-server0:
     networks:
@@ -132,6 +153,10 @@ services:
       FTP_PASSWORD: pano
     restart: on-failure
     command: vsftpd /etc/vsftpd_ssl.conf
+    volumes:
+      - ./tls:/etc/ssl/private/:rw
+    depends_on:
+      - tls-init-container
 
   ftpes-server-vsftpd1:
     networks:
@@ -145,6 +170,10 @@ services:
       FTP_PASSWORD: pano
     restart: on-failure
     command: vsftpd /etc/vsftpd_ssl.conf
+    volumes:
+      - ./tls:/etc/ssl/private/:rw
+    depends_on:
+      - tls-init-container
 
   ftpes-server-vsftpd2:
     networks:
@@ -158,6 +187,10 @@ services:
       FTP_PASSWORD: pano
     restart: on-failure
     command: vsftpd /etc/vsftpd_ssl.conf
+    volumes:
+      - ./tls:/etc/ssl/private/:rw
+    depends_on:
+      - tls-init-container
 
   ftpes-server-vsftpd3:
     networks:
@@ -171,6 +204,10 @@ services:
       FTP_PASSWORD: pano
     restart: on-failure
     command: vsftpd /etc/vsftpd_ssl.conf
+    volumes:
+      - ./tls:/etc/ssl/private/:rw
+    depends_on:
+      - tls-init-container
 
   ftpes-server-vsftpd4:
     networks:
@@ -184,4 +221,7 @@ services:
       FTP_PASSWORD: pano
     restart: on-failure
     command: vsftpd /etc/vsftpd_ssl.conf
-
+    volumes:
+      - ./tls:/etc/ssl/private/:rw
+    depends_on:
+      - tls-init-container

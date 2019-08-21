@@ -1,18 +1,19 @@
 import argparse
-import os
-from werkzeug import secure_filename
-from flask import Flask, render_template, request
-from time import sleep
-import time
-import sys
 import json
-from flask import Flask
+import os
+import sys
+import time
+from time import sleep
+
+from flask import Flask, render_template, request
+from werkzeug import secure_filename
 
 app = Flask(__name__)
 
 #Server info
 HOST_IP = "0.0.0.0"
 HOST_PORT = 2222
+HOST_PORT_TLS = 2223
 
 sftp_hosts=[]
 sftp_ports=[]
@@ -1144,7 +1145,7 @@ def getEventHead(groupIndex, changeId, nodename):
               "changeType": "FileReady",
               "changeIdentifier": \"""" + changeId + """",
               "arrayOfNamedHashMap": [
-          """ 
+          """
   return headStr
 
 # Function to build the variable part of an event
@@ -1300,7 +1301,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
 
-#SFTP TCs with single ME 
+#SFTP TCs with single ME
     parser.add_argument(
         '--tc100',
         action='store_true',
@@ -1717,5 +1718,16 @@ if __name__ == "__main__":
 
     print("Using up to " + str(num_ftp_servers) + " ftp servers, for each protocol for PNFs.")
 
-    app.run(port=HOST_PORT, host=HOST_IP)
+    def https_app(**kwargs):
+        import ssl
+        context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
+        context.load_cert_chain('cert/cert.pem', 'cert/key.pem')
+        app.run(ssl_context=context, **kwargs)
 
+    from multiprocessing import Process
+
+    kwargs = dict(host=HOST_IP)
+    Process(target=https_app, kwargs=dict(kwargs, port=HOST_PORT_TLS),
+            daemon=True).start()
+
+    app.run(port=HOST_PORT, host=HOST_IP)

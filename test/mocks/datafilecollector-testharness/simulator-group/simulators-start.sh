@@ -12,6 +12,18 @@ server_check() {
 	echo "Simulator " $1 " on localhost:$2$3 - no response"
 }
 
+server_check_https() {
+	for i in {1..10}; do
+		res=$(curl  -k -s -o /dev/null -w "%{http_code}" https://localhost:$2$3)
+		if [ $res -gt 199 ] && [ $res -lt 300 ]; then
+			echo "Simulator " $1 " on https://localhost:$2$3 responded ok"
+			return
+		fi
+		sleep 1
+	done
+	echo "Simulator " $1 " on https://localhost:$2$3 - no response"
+}
+
 ftps_server_check() {
 	for i in {1..10}; do
 		res=$(curl --silent --max-time 3 localhost:$2 2>&1 | grep vsFTPd)
@@ -97,6 +109,9 @@ server_check      "consul       " 8500 "/v1/catalog/service/agent"
 server_check      "DR sim       " 3906 "/"
 server_check      "DR redir sim " 3908 "/"
 server_check      "MR sim       " 2222 "/"
+server_check_https "DR sim https      " 3907 "/"
+server_check_https "DR redir sim https" 3909 "/"
+server_check_https "MR sim https      " 2223 "/"
 ftps_server_check "FTPS server 0" 1032
 ftps_server_check "FTPS server 1" 1033
 ftps_server_check "FTPS server 2" 1034
