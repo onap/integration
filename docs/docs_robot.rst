@@ -201,7 +201,7 @@ If you consider the ete-k8s.sh script, the following testsuites are referenced:
 * hvves.robot: HVVES, ete
 * model-distribution-vcpe.robot: distributevCPEResCust
 * model-distribution.robot: distribute, distributeVFWDT, distributeVLB
-* oof-*.robot: cmso, has, homing
+* oof-cmso.robot, oof-homing.robot, oof-has.robot: oof related tests
 * pnf-registration.robot: ete, pnf_registrate
 * post-install-tests.robot dmaapacl, postinstall
 * update_onap_page.robot: UpdateWebPage
