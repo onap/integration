@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This env variable is only needed if the auto test scripts tests are executed in a different folder than 'auto-test' in the integration repo 
+# This env variable is only needed if the auto test scripts tests are executed in a different folder than 'auto-test' in the integration repo
 # Change '<local-path>' to your path to the integration repo. In addition to the auto-test, the 'common' dir is needed if not executed in the
 # integration repo.
 #
@@ -26,6 +26,7 @@ CONSUL_HOST="consul-server"
 CONSUL_PORT=8500
 CONFIG_BINDING_SERVICE="config-binding-service"
 MR_PORT=2222
+MR_PORT_SECURE=2223
 DR_PORT=3906
 DR_PORT_SECURE=3907
 DRR_PORT=3908

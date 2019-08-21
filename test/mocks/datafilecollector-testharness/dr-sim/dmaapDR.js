@@ -8,8 +8,8 @@ var fs = require('fs');
 const sleep = (milliseconds) => {
   return new Promise(resolve => setTimeout(resolve, milliseconds))
 }
-var privateKey  = fs.readFileSync('cert/private.key', 'utf8');
-var certificate = fs.readFileSync('cert/certificate.crt', 'utf8');
+var privateKey  = fs.readFileSync('cert/key.pem', 'utf8');
+var certificate = fs.readFileSync('cert/cert.pem', 'utf8');
 var credentials = {key: privateKey, cert: certificate};
 
 var feeds="1:A";  //Comma separated list of feedId:filePrefix. Default is feedId=1 and file prefix 'A'
@@ -87,7 +87,7 @@ if (args.tc==tc_normal) {
 
 } else if (args.tc==tc_all_delay_1s) {
 	console.log("TC: " + args.tc)
-	
+
 } else if (args.tc==tc_all_delay_10s) {
 	console.log("TC: " + args.tc)
 

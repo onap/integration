@@ -29,13 +29,13 @@ log_sim_settings
 
 start_simulators
 
-consul_config_app   0                                    "../simulator-group/consul/c12_feed2_PM.json"
+consul_config_app   0                                    "../simulator-group/consul/c12_feed2_PM_secureMR.json"
 consul_config_dmaap 0                                    "../simulator-group/consul/dmaap_feed2.json"
 
-mr_equal            ctr_requests                         0 60
+mr_secure_equal     ctr_requests                         0 60
 dr_equal            ctr_published_files                  0 60
 
-mr_print            tc_info
+mr_secure_print     tc_info
 dr_print            tc_info
 drr_print           tc_info
 
@@ -47,11 +47,11 @@ sleep_wait          30
 
 dr_equal            ctr_published_files                  1
 
-mr_greater          ctr_requests                         1
+mr_secure_greater   ctr_requests                         1
 
-mr_equal            ctr_events                           1
-mr_equal            ctr_unique_files                     1
-mr_equal            ctr_unique_PNFs                      1
+mr_secure_equal     ctr_events                           1
+mr_secure_equal     ctr_unique_files                     1
+mr_secure_equal     ctr_unique_PNFs                      1
 
 dr_equal            ctr_publish_query                    1
 dr_equal            ctr_publish_query_bad_file_prefix    0

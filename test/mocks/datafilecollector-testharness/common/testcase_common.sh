@@ -70,7 +70,7 @@ fi
 TESTLOGS=$PWD/logs
 
 # Create a log dir for the test case
-mkdir -p $TESTLOGS/$ATC 
+mkdir -p $TESTLOGS/$ATC
 
 # Clear the log dir for the test case
 rm $TESTLOGS/$ATC/*.log &> /dev/null
@@ -99,7 +99,7 @@ if [ -z "$SIM_GROUP" ]; then
 			echo "Trying to set env var SIM_GROUP to dir 'simulator-group' in the integration repo, but failed."
 			echo "Please set the SIM_GROUP manually in the test_env.sh"
 			exit 1
-		else 
+		else
 			echo "SIM_GROUP auto set to: " $SIM_GROUP
 		fi
 elif [ $SIM_GROUP = *simulator_group ]; then
@@ -198,7 +198,7 @@ __print_err() {
 #<flag-to-strip-new-line> may contain any string, it is just a flag
 # Returns the variable value (if success) and return code 0 or an error message and return code 1
 __do_curl() {
-	res=$(curl -sw "%{http_code}" $1)
+	res=$(curl -skw "%{http_code}" $1)
 	http_code="${res:${#res}-3}"
 	if [ ${#res} -eq 3 ]; then
   		echo "<no-response-from-server>"
@@ -543,7 +543,7 @@ start_dfc() {
 	if [ $1 -lt 0 ] || [ $1 -gt $DFC_MAX_IDX ]; then
 		__print_err "arg should be 0.."$DFC_MAX_IDX
 		exit 1
-	fi 
+	fi
 	appname=$DFC_APP_BASE$1
 	STARTED_DFCS=$STARTED_DFCS"_"$appname"_"
 
@@ -781,6 +781,15 @@ mr_print() {
 	echo -e "---- MR sim, \033[1m $1 \033[0m: $(__do_curl http://127.0.0.1:$MR_PORT/$1)"
 }
 
+# Print a variable value from the MR https simulator. Arg: <variable-name>
+mr_secure_print() {
+	if [ $# != 1 ]; then
+    	__print_err "need one arg, <sim-param>"
+		exit 1
+	fi
+	echo -e "---- MR sim, \033[1m $1 \033[0m: $(__do_curl https://127.0.0.1:$MR_PORT_SECURE/$1)"
+}
+
 # Print a variable value from the DR simulator. Arg: <variable-name>
 dr_print() {
 	if [ $# != 1 ]; then
@@ -816,6 +825,11 @@ dfc_print() {
 # Read a variable value from MR sim and send to stdout. Arg: <variable-name>
 mr_read() {
 	echo "$(__do_curl http://127.0.0.1:$MR_PORT/$1)"
+}
+
+# Read a variable value from MR https sim and send to stdout. Arg: <variable-name>
+mr_secure_read() {
+	echo "$(__do_curl https://127.0.0.1:$MR_PORT_SECURE/$1)"
 }
 
 # Read a variable value from DR sim and send to stdout. Arg: <variable-name>
@@ -894,6 +908,14 @@ mr_equal() {
 	fi
 }
 
+mr_secure_equal() {
+	if [ $# -eq 2 ] || [ $# -eq 3 ]; then
+		__var_test "MR" "https://127.0.0.1:$MR_PORT_SECURE/" $1 "=" $2 $3
+	else
+		__print_err "Wrong args to mr_secure_equal, needs two or three args: <sim-param> <target-value> [ timeout ]"
+	fi
+}
+
 # Tests if a variable value in the MR simulator is greater than a target value and and optional timeout.
 # Arg: <variable-name> <target-value> - This test set pass or fail depending on if the variable is
 # greater than the target or not.
@@ -905,6 +927,14 @@ mr_greater() {
 		__var_test "MR" "http://127.0.0.1:$MR_PORT/" $1 ">" $2 $3
 	else
 		__print_err "Wrong args to mr_greater, needs two or three args: <sim-param> <target-value> [ timeout ]"
+	fi
+}
+
+mr_secure_greater() {
+	if [ $# -eq 2 ] || [ $# -eq 3 ]; then
+		__var_test "MR" "https://127.0.0.1:$MR_PORT_SECURE/" $1 ">" $2 $3
+	else
+		__print_err "Wrong args to mr_secure_greater, needs two or three args: <sim-param> <target-value> [ timeout ]"
 	fi
 }
 
@@ -921,6 +951,13 @@ mr_less() {
 		__print_err "Wrong args to mr_less, needs two or three args: <sim-param> <target-value> [ timeout ]"
 	fi
 }
+mr_secure_less() {
+	if [ $# -eq 2 ] || [ $# -eq 3 ]; then
+		__var_test "MR" "https://127.0.0.1:$MR_PORT_SECURE/" $1 "<" $2 $3
+	else
+		__print_err "Wrong args to mr_secure_less, needs two or three args: <sim-param> <target-value> [ timeout ]"
+	fi
+}
 
 # Tests if a variable value in the MR simulator contains the target string and and optional timeout.
 # Arg: <variable-name> <target-value> - This test set pass or fail depending on if the variable contains
@@ -933,6 +970,13 @@ mr_contain_str() {
 		__var_test "MR" "http://127.0.0.1:$MR_PORT/" $1 "contain_str" $2 $3
 	else
 		__print_err "Wrong args to mr_contain_str, needs two or three args: <sim-param> <target-value> [ timeout ]"
+	fi
+}
+mr_secure_contain_str() {
+	if [ $# -eq 2 ] || [ $# -eq 3 ]; then
+		__var_test "MR" "https://127.0.0.1:$MR_PORT_SECURE/" $1 "contain_str" $2 $3
+	else
+		__print_err "Wrong args to mr_secure_contain_str, needs two or three args: <sim-param> <target-value> [ timeout ]"
 	fi
 }
 

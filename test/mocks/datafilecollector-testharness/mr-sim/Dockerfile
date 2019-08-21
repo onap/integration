@@ -6,5 +6,4 @@ WORKDIR /app
 
 RUN pip install -r requirements.txt
 
-EXPOSE 2222
-
+EXPOSE 2222 2223

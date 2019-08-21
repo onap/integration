@@ -1,18 +1,5 @@
 FROM docker.io/panubo/vsftpd
 
-
-COPY tls/ftp.crt /etc/ssl/private/ftp.crt
-RUN chmod 644 /etc/ssl/private/ftp.crt
-RUN chown root:root /etc/ssl/private/ftp.crt
-
-COPY tls/ftp.key /etc/ssl/private/ftp.key
-RUN chmod 644 /etc/ssl/private/ftp.key
-RUN chown root:root /etc/ssl/private/ftp.key
-
-COPY tls/dfc.crt /etc/ssl/private/dfc.crt
-RUN chmod 644 /etc/ssl/private/dfc.crt
-RUN chown root:root /etc/ssl/private/dfc.crt
-
 COPY configuration/vsftpd_ssl.conf /etc/vsftpd_ssl.conf
 RUN chmod 644 /etc/vsftpd_ssl.conf
 RUN chown root:root /etc/vsftpd_ssl.conf

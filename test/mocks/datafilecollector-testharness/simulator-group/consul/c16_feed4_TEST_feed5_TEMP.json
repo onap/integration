@@ -1,8 +1,8 @@
 {
-  "dmaap.ftpesConfig.keyCert": "config/dfc.jks",
-  "dmaap.ftpesConfig.keyPassword": "secret",
-  "dmaap.ftpesConfig.trustedCa": "config/ftp.jks",
-  "dmaap.ftpesConfig.trustedCaPassword": "secret",
+  "dmaap.ftpesConfig.keyCert":"config/dfc.jks",
+  "dmaap.ftpesConfig.keyPassword":"hD:!w:CxF]lGvM6Mz9l^j[7U",
+  "dmaap.ftpesConfig.trustedCa":"config/ftp.jks",
+  "dmaap.ftpesConfig.trustedCaPassword":"ee%v.7Y3nf*We2T2Z$}}c%S?",
   "dmaap.security.trustStorePath": "change it",
   "dmaap.security.trustStorePasswordPath": "trustStorePasswordPath",
   "dmaap.security.keyStorePath": "keyStorePath",
