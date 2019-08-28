@@ -15,6 +15,7 @@ use cases.
    you must change below params:
    - aai_url: https://<node-ip>:30233
    - sdc_onboarding_url: http://<cluster-ip>:8081
+     <cludster-ip> can be geted by "kubectl get services -n onap -o wide | grep sdc-onboarding-be"
    - sdc_catalog_url: http://<node-ip>:30205
    - multicloud_url: http://<node-ip>:30280
    - policy_url: https://<node-ip>:30694
