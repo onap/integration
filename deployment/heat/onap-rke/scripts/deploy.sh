@@ -252,7 +252,7 @@ ssh_agent_auth: false
 authorization:
   mode: rbac
 ignore_docker_version: false
-kubernetes_version: "v1.13.5-rancher1-2"
+kubernetes_version: "v1.15.3-rancher1-1"
 private_registries:
 - url: $DOCKER_PROXY
   is_default: true
@@ -267,7 +267,7 @@ mkdir -p ./target
 cp ./cluster.yml~ ./target/cluster.yml
 pushd ./target
 
-wget https://github.com/rancher/rke/releases/download/v0.2.1/rke_linux-amd64
+wget https://github.com/rancher/rke/releases/download/v0.2.8/rke_linux-amd64
 mv rke_linux-amd64 rke
 chmod +x rke
 
