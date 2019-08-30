@@ -35,7 +35,7 @@ consul_config_dmaap 0                                    "../simulator-group/con
 mr_secure_equal     ctr_requests                         0 60
 dr_equal            ctr_published_files                  0 60
 
-mr_secure_print            tc_info
+mr_secure_print     tc_info
 dr_print            tc_info
 drr_print           tc_info
 

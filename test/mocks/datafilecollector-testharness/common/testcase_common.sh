@@ -356,7 +356,7 @@ __docker_rm() {
 }
 
 __start_dfc_image() {
-
+	set -x
 	if [ $# != 2 ]; then
     	__print_err "need tow args, <dfc-instance-name> 0.."$$DFC_MAX_IDX
 		exit 1
@@ -375,20 +375,20 @@ __start_dfc_image() {
 	docker network ls| grep $DOCKER_SIM_NWNAME > /dev/null || docker network create $DOCKER_SIM_NWNAME
 
 	echo "Starting DFC: " $appname " with ports mapped to " $localport " and " $localport_secure " in docker network "$DOCKER_SIM_NWNAME
-
-	docker run -d -p $localport":8100" -p $localport_secure":8433" --network=$DOCKER_SIM_NWNAME -e CONSUL_HOST=$CONSUL_HOST -e CONSUL_PORT=$CONSUL_PORT -e CONFIG_BINDING_SERVICE=$CONFIG_BINDING_SERVICE -e HOSTNAME=$appname --name $appname $DFC_IMAGE > /dev/null
-
+	docker run -d --volume $(pwd)/../simulator-group/tls/:/opt/app/datafile/etc/cert/ -p $localport":8100" -p $localport_secure":8433" --network=$DOCKER_SIM_NWNAME -e CONSUL_HOST=$CONSUL_HOST -e CONSUL_PORT=$CONSUL_PORT -e CONFIG_BINDING_SERVICE=$CONFIG_BINDING_SERVICE -e HOSTNAME=$appname --name $appname $DFC_IMAGE
+	sleep 3
+	set +x
 	dfc_started=false
 	for i in {1..10}; do
-	if [ $(docker inspect --format '{{ .State.Running }}' $appname) ]
- 	then
-	 	echo " Image: $(docker inspect --format '{{ .Config.Image }}' ${appname})"
-   		echo "DFC container ${appname} running"
-		dfc_started=true
-   		break
- 	else
-   		sleep $i
- 	fi
+		if [ $(docker inspect --format '{{ .State.Running }}' $appname) ]
+		 	then
+			 	echo " Image: $(docker inspect --format '{{ .Config.Image }}' ${appname})"
+		   		echo "DFC container ${appname} running"
+				dfc_started=true
+		   		break
+		 	else
+		   		sleep $i
+	 	fi
 	done
 	if ! [ $dfc_started  ]; then
 		echo "DFC container ${appname} could not be started"
@@ -410,8 +410,9 @@ __start_dfc_image() {
 	 	fi
 	done
 
-	if ! [ $dfc_hb  ]; then
+	if [ "$dfc_hb" = "false"  ]; then
 		echo "DFC ${appname} did not respond to heartbeat"
+		exit 1
 	fi
 }
 

@@ -1,12 +1,12 @@
 {
-  "dmaap.ftpesConfig.keyCert":"config/dfc.jks",
-  "dmaap.ftpesConfig.keyPassword":"hD:!w:CxF]lGvM6Mz9l^j[7U",
-  "dmaap.ftpesConfig.trustedCa":"config/ftp.jks",
-  "dmaap.ftpesConfig.trustedCaPassword":"ee%v.7Y3nf*We2T2Z$}}c%S?",
-  "dmaap.security.trustStorePath": "change it",
-  "dmaap.security.trustStorePasswordPath": "trustStorePasswordPath",
-  "dmaap.security.keyStorePath": "keyStorePath",
-  "dmaap.security.keyStorePasswordPath": "change it",
+  "dmaap.ftpesConfig.keyCert": "/opt/app/datafile/etc/cert/cert.jks",
+  "dmaap.ftpesConfig.keyPasswordPath": "/opt/app/datafile/etc/cert/jks.pass",
+  "dmaap.ftpesConfig.trustedCa": "/opt/app/datafile/etc/cert/trust.jks",
+  "dmaap.ftpesConfig.trustedCaPasswordPath": "/opt/app/datafile/etc/cert/trust.pass",
+  "dmaap.security.trustStorePath": "/opt/app/datafile/etc/cert/trust.jks",
+  "dmaap.security.trustStorePasswordPath": "/opt/app/datafile/etc/cert/trust.pass",
+  "dmaap.security.keyStorePath": "/opt/app/datafile/etc/cert/cert.jks",
+  "dmaap.security.keyStorePasswordPath": "/opt/app/datafile/etc/cert/jks.pass",
   "dmaap.security.enableDmaapCertAuth": "false",
   "streams_publishes": {
     "CTR_MEAS_FILES": {

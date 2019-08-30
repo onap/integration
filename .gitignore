@@ -1,6 +1,7 @@
 .idea/
 .project
 .classpath
+.factorypath
 .settings/
 target/
 autorelease/build/*/
