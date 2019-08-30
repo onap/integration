@@ -557,35 +557,28 @@ start_dfc() {
 	fi
 }
 
-# Configure consul with dfc config, args <app|dmaap> <dfc-instance-id> <json-file-path>
+# Configure consul with dfc config, args <dfc-instance-id> <json-file-path>
 # Not intended to be called directly by test scripts.
 __consul_config() {
 
-	if [ $# != 3 ]; then
-    	__print_err "need three args, <app|dmaap> <dfc-instance-id> <json-file-path>"
+	if [ $# != 2 ]; then
+    	__print_err "need two args, <dfc-instance-id> <json-file-path>"
 		exit 1
 	fi
 
-	if [ $2 -lt 0 ] || [ $2 -gt $DFC_MAX_IDX ]; then
+	if [ $1 -lt 0 ] || [ $1 -gt $DFC_MAX_IDX ]; then
 		__print_err "dfc-instance-id should be 0.."$DFC_MAX_IDX
 		exit 1
 	fi
-	if ! [ -f $3 ]; then
-		__print_err "json file does not extis: "$3
+	if ! [ -f $2 ]; then
+		__print_err "json file does not extis: "$2
 		exit 1
 	fi
 
-	if [ $1 == "app" ]; then
-		appname=$DFC_APP_BASE$2
-	elif [ $1 == "dmaap" ]; then
-		appname=$DFC_APP_BASE$2":dmaap"
-	else
-		__print_err "config type should be 'app' or 'dmaap'"
-		exit 1
-	fi
+	appname=$DFC_APP_BASE$1
 
-	echo "Configuring consul for " $appname " from " $3
-	curl -s http://127.0.0.1:${CONSUL_PORT}/v1/kv/${appname}?dc=dc1 -X PUT -H 'Accept: application/json' -H 'Content-Type: application/json' -H 'X-Requested-With: XMLHttpRequest' --data-binary "@"$3 >/dev/null
+	echo "Configuring consul for " $appname " from " $2
+	curl -s http://127.0.0.1:${CONSUL_PORT}/v1/kv/${appname}?dc=dc1 -X PUT -H 'Accept: application/json' -H 'Content-Type: application/json' -H 'X-Requested-With: XMLHttpRequest' --data-binary "@"$2 >/dev/null
 }
 
 # Configure consul with dfc app config, args <dfc-instance-id> <json-file-path>
@@ -593,20 +586,11 @@ consul_config_app() {
 	if [ $START_ARG == "manual-app" ]; then
 		echo "Replacing 'mrsim' with 'localhost' in json app config for consul"
 		sed 's/mrsim/localhost/g' $2 > .tmp_app.json
-		__consul_config app $1 .tmp_app.json
-	else
-		__consul_config app $1 $2
-	fi
-}
-
-# Configure consul with dfc dmaap config, args <dfc-instance-id> <json-file-path>
-consul_config_dmaap() {
-	if [ $START_ARG == "manual-app" ]; then
 		echo "Replacing 'drsim' with 'localhost' in json dmaap config for consul"
-		sed 's/drsim/localhost/g' $2 > .tmp_dmaap.json
-		__consul_config dmaap $1 .tmp_dmaap.json
+		sed 's/drsim/localhost/g' .tmp_app.json > .app.json
+		__consul_config $1 .app.json
 	else
-		__consul_config dmaap $1 $2
+		__consul_config $1 $2
 	fi
 }
 

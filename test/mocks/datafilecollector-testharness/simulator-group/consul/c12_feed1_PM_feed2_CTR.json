@@ -18,7 +18,7 @@
       "password": "password",
       "publisher_id": "972.360gm"
     },
-    "CTR_FILES": {
+    "CTR_MEAS_FILES": {
       "type": "data_router",
       "dmaap_info": {
         "feed02": {

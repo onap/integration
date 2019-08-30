@@ -32,19 +32,14 @@ log_sim_settings
 start_simulators
 
 consul_config_app   0 "../simulator-group/consul/c12_feed1_PM_feed2_CTR.json"
-consul_config_dmaap 0 "../simulator-group/consul/dmaap_feed1_2_3_4_5.json"
 
 consul_config_app   1 "../simulator-group/consul/c13_feed2_CTR.json"
-consul_config_dmaap 1 "../simulator-group/consul/dmaap_feed1_2_3_4_5.json"
 
 consul_config_app   2 "../simulator-group/consul/c14_feed3_LOG.json"
-consul_config_dmaap 2 "../simulator-group/consul/dmaap_feed1_2_3_4_5.json"
 
 consul_config_app   3 "../simulator-group/consul/c15_feed1_PM_feed4_TEST.json"
-consul_config_dmaap 3 "../simulator-group/consul/dmaap_feed1_2_3_4_5.json"
 
 consul_config_app   2 "../simulator-group/consul/c16_feed4_TEST_feed5_TEMP.json"
-consul_config_dmaap 4 "../simulator-group/consul/dmaap_feed1_2_3_4_5.json"
 
 
 mr_print			""
@@ -432,31 +427,34 @@ start_dfc 2
 start_dfc 3
 start_dfc 4
 
-dr_equal            ctr_published_files             1 60
+dr_greater          ctr_published_files             1 60
 
 sleep_wait          30
 
-dr_equal            ctr_published_files             1
-
 mr_greater          ctr_requests                    1
 
-mr_equal            ctr_events                      1
-mr_equal            ctr_unique_files                1
-mr_equal            ctr_unique_PNFs                 1
+mr_greater          ctr_events                      1
+mr_greater          ctr_unique_files                1
+mr_greater          ctr_unique_PNFs                 1
 
-dr_equal            ctr_publish_query               1
+dr_greater          ctr_publish_query               1
 dr_equal            ctr_publish_query_published     0
-dr_equal            ctr_publish_query_not_published 1
-dr_equal            ctr_publish_req                 1
-dr_equal            ctr_publish_req_redirect        1
+dr_greater          ctr_publish_query_not_published 1
+dr_greater          ctr_publish_req                 1
+dr_greater          ctr_publish_req_redirect        1
 dr_equal            ctr_publish_req_published       0
-dr_equal            ctr_published_files             1
+dr_greater          ctr_published_files             1
 dr_equal            ctr_double_publish              0
 
-drr_equal           ctr_publish_requests            1
-drr_equal           ctr_publish_responses           1
+drr_greater         ctr_publish_requests            1
+drr_greater         ctr_publish_responses           1
 
-drr_equal           dwl_volume                      1000000
+drr_greater         dwl_volume                      1000000
+
+
+####There is a risk of double publishing when running multiple DFCs.
+####The related counters ctr_publish_query_published and ctr_double_publish may be non-zero.
+
 
 check_dfc_logs
 

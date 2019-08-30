@@ -45,6 +45,8 @@ Run the script `prepare-images.sh` to build the docker images for MR, DR and FTP
 ###Summary of scripts and files
 `consul_config.sh` - Convert a json config file to work with dfc when manually started as java-app or container and then add that json to Consul.
 
+`dfc-internal-stats.sh` - Periodically extract jvm data and dfc internal data and print to console/file.
+
 `docker-compose-setup.sh` - Sets environment variables for the simulators and start the simulators with that settings.
 
 `docker-compose-template.yml` - A docker compose template with environment variables setting. Used for producing a docker-compose file to defined the simulator containers.
@@ -76,16 +78,9 @@ cd ../dr-sim
 
 Run the docker build command to build the image for the DR simulators: `docker build -t drsim_common:latest .'
 
-
-cd ../simulator-group
-
-Copy the 'configuration' and 'tls' catalogues from the ftps-sftp-server dir.
-
+cd ../ftps-sftp-server
 Check the README.md in ftps-sftp-server dir in case the cert need to be updated.
-
-cp -r ../ftps-sftp-server/configuration .
-
-cp -r ../ftps-sftp-server/tls .
+Run the docker build command to build the image for the DR simulators: `docker build -t ftps_vsftpd:latest -f Dockerfile-ftps .'
 
 
 ###Execution
