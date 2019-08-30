@@ -22,6 +22,8 @@ Build
 Run
 ---
 
+.. note:: Below applies to Rancher-based clusters (e.g. Casablanca)
+
 - `Rancher CLI`_
 - Docker_ (required to perform selected Rancher CLI calls)
 
