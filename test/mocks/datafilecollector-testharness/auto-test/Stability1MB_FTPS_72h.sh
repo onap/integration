@@ -30,7 +30,6 @@ log_sim_settings
 start_simulators
 
 consul_config_app   0                                    "../simulator-group/consul/c12_feed2_PM.json"
-consul_config_dmaap 0                                    "../simulator-group/consul/dmaap_feed2.json"
 
 mr_equal            ctr_requests                         0 60
 dr_equal            ctr_published_files                  0 60
@@ -62,7 +61,7 @@ TARGET_EVENTS=$((TARGET_FILES-70000+700))  #First event from a PNF is 100 new fi
 TARGET_VOLUME=$((TARGET_FILES*1000000))
 
 #Maximum number of configured FTP files, if DFC reach this then the NUM_FTPSFILES need to be increased.
-MAX_FILES=$((NUM_FTPFILE*NUM_PNFS))
+MAX_FILES=$((NUM_FTPFILES*NUM_PNFS))
 
 #Wait remaining time upto 15 min for DFC to download all consumed events
 sleep_wait          870

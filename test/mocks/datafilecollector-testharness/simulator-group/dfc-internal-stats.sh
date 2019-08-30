@@ -34,7 +34,7 @@ else
 	print_usage
 	exit 1
 fi
-fileoutput="./.tmp_stats.txt"
+fileoutput=".tmp_stats.txt"
 
 echo "Stats piped to file: "$fileoutput
 
@@ -75,29 +75,41 @@ do_curl_status() {
 
 }
 
+OK=0 # Flag for DFC response (0==no response, 1==reponse ok and logging can start)
 
 while [ true ]; do
-	if [ $heading -eq 1 ]; then
-    	echo  -n "date" >> $fileoutput
-    else
-    	ds=$(date)
-    	echo -n $ds >> $fileoutput
-    fi
-    if [ $stat == "all" ] || [ $stat == "jvm" ]; then
-    	echo "=========    DFC JVM Stats   ========="
-    	do_curl_actuator jvm.threads.live
-    	do_curl_actuator jvm.threads.peak
-    	do_curl_actuator process.files.open
-    	do_curl_actuator process.files.max
-    	do_curl_actuator jvm.memory.used
-    	do_curl_actuator jvm.memory.max
-    fi
+	if [ $OK -eq 0 ]; then
+		test=$(curl -s localhost:${dfcport}/status)
+		if [ -z "$test" ] && [ $heading -eq 1 ]; then
+			echo "No response from dfc on port: ${dfcport}. Retrying..."
+		else
+			echo "Response from dfc on port: ${dfcport}. Starts logging."
+			OK=1
+		fi
+	fi
+	if [ $OK -eq 1 ]; then
+		if [ $heading -eq 1 ]; then
+	    	echo  -n "date" >> $fileoutput
+	    else
+	    	ds=$(date)
+	    	echo -n $ds >> $fileoutput
+	    fi
+	    if [ $stat == "all" ] || [ $stat == "jvm" ]; then
+	    	echo "=========    DFC JVM Stats   ========="
+	    	do_curl_actuator jvm.threads.live
+	    	do_curl_actuator jvm.threads.peak
+	    	do_curl_actuator process.files.open
+	    	do_curl_actuator process.files.max
+	    	do_curl_actuator jvm.memory.used
+	    	do_curl_actuator jvm.memory.max
+	    fi
 
-	if [ $stat == "all" ] || [ $stat == "internal" ]; then
-    	echo "========= DFC internal Stats ========="
-    	do_curl_status
-    fi
-	echo ""  >> $fileoutput
-	heading=0
+		if [ $stat == "all" ] || [ $stat == "internal" ]; then
+	    	echo "========= DFC internal Stats ========="
+	    	do_curl_status
+	    fi
+		echo ""  >> $fileoutput
+		heading=0
+	fi
     sleep 5
 done
