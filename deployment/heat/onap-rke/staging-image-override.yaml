@@ -86,4 +86,12 @@ so:
       image: onap/so/request-db-adapter:1.5.1-STAGING-latest
 vid:
     image: onap/vid:5.0-STAGING-latest
-
+portal:
+    portal-app:
+      image: onap/portal-app:2.6.0-STAGING-latest
+    portal-mariadb:
+      image: onap/portal-db:2.6.0-STAGING-latest
+    portal-sdk:
+      image: onap/portal-sdk:2.6.0-STAGING-latest
+    portal-widget:
+      image: onap/portal-wms:2.6.0-STAGING-latest
