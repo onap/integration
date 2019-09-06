@@ -1,5 +1,5 @@
 #!/bin/bash
-set -x 
+set -x
 server_check() {
 	for i in {1..10}; do
 		res=$(curl  -s -o /dev/null -w "%{http_code}" localhost:$2$3)
@@ -58,6 +58,9 @@ docker network ls| grep $DOCKER_SIM_NWNAME > /dev/null || docker network create 
 docker-compose -f docker-compose-template.yml config > docker-compose.yml
 
 docker-compose up -d
+
+sudo chown $(id -u):$(id -g) consul
+sudo chown $(id -u):$(id -g) consul/consul/
 
 declare -a SFTP_SIM
 declare -a FTPS_SIM
