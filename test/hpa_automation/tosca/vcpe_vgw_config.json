@@ -134,6 +134,7 @@
         "vgw":{
 	    "path": "/opt/oclip/dublin/vgw.csar",
 	    "csar-id": "You need change it",
+            "url": "http://msb-iag:80",
             "vsp-name" : "vgw-hpa-vsp",
             "vsp-desc" : "vgw-hpa-vsp-desc",
             "vsp-version" : "1.0",
