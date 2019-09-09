@@ -147,6 +147,7 @@
 	}
     },
     "ns":{
+        "url": "http://msb-iag:80",
         "csar-id": "You need change it",
 	"key": "key1",
 	"value": "value1",

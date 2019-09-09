@@ -385,7 +385,8 @@ def onboard_vnf(parameters):
     return vnf_onboard_outputs
 
 def onboard_ns(parameters):
-    ns_onboard_string = 'oclip vfc-catalog-onboard-ns -c {}'.format(parameters["ns-csar-id"])
+    ns_onboard_string = 'oclip vfc-catalog-onboard-ns -m {} -c {}'.format(parameters["ns"]["url"],
+                                                                          parameters["ns"]["csar-id"])
     ns_onboard_out = (os.popen(ns_onboard_string)).read()
     return ns_onboard_out
 
