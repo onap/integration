@@ -380,7 +380,7 @@ def onboard_vnf(parameters):
 
     for key, value in vnfs.items():
         vnf_onboard_string = 'oclip vfc-catalog-onboard-vnf -c {}'.format(value.get("csar-id"))
-        vnf_onboard_outs[key] = (os.popen(ns_onboard_string)).read()
+        vnf_onboard_outputs[key] = (os.popen(vnf_onboard_string)).read()
     return vnf_onboard_outputs
 
 def onboard_ns(parameters):
