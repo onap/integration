@@ -1,0 +1,80 @@
+{
+	u 'key-group-name': u 'hpa-key', u 'feature-grp-name': u 'hpa-feature', u 'policy_onapName': u 'SampleDemo', u 'service_name': u 'vCPE', u 'vfc-url': u 'http://10.12.5.224:30280', u 'category-display': u "'Network L1-3'", u 'cloud_region_data': {
+		u 'ONAP-POD-01-Rail-07': {
+			u 'tenant-id': u '709ba629fe194f8699b12f9d6ffd86a0',
+			u 'user-name': u '${cloud-username}',
+			u 'system-status': u 'active',
+			u 'ssl-insecure': True,
+			u 'service-url': u 'http://10.12.11.1:5000/v3',
+			u 'esr-system-info-id': u '4c85ce1f-aa78-4ebf-8d6f-4b62773e9bc7',
+			u 'cloud-domain': u 'Default',
+			u 'identity-url': u 'WillBeUpdatedByMultiCloud',
+			u 'system-type': u 'VIM',
+			u 'default-tenant': u 'Integration-HPA',
+			u 'password': u '${cloud-password}',
+			u 'cloud-type': u 'openstack',
+			u 'cloud-region-version': u 'titanium_cloud'
+		},
+		u 'ONAP-POD-01-Rail-06': {
+			u 'tenant-id': u '709ba629fe194f8699b12f9d6ffd86a0',
+			u 'user-name': u '${cloud-username}',
+			u 'system-status': u 'active',
+			u 'ssl-insecure': True,
+			u 'service-url': u 'http://10.12.11.1:5000/v3',
+			u 'esr-system-info-id': u '5c85ce1f-aa78-4ebf-8d6f-4b62773e9bc7',
+			u 'cloud-domain': u 'Default',
+			u 'identity-url': u 'WillBeUpdatedByMultiCloud',
+			u 'system-type': u 'VIM',
+			u 'default-tenant': u 'Integration-HPA',
+			u 'password': u '${cloud-password}',
+			u 'cloud-type': u 'openstack',
+			u 'cloud-region-version': u 'titanium_cloud'
+		},
+		u 'ONAP-POD-01-Rail-05': {
+			u 'tenant-id': u '709ba629fe194f8699b12f9d6ffd86a0',
+			u 'user-name': u '${cloud-username}',
+			u 'system-status': u 'active',
+			u 'ssl-insecure': True,
+			u 'service-url': u 'http://10.12.11.1:5000/v3',
+			u 'esr-system-info-id': u '5c85ce1f-aa78-4ebf-8d6f-4b62784e9bc7',
+			u 'cloud-domain': u 'Default',
+			u 'identity-url': u 'WillBeUpdatedByMultiCloud',
+			u 'system-type': u 'VIM',
+			u 'default-tenant': u 'Integration-HPA',
+			u 'password': u '${cloud-password}',
+			u 'cloud-type': u 'openstack',
+			u 'cloud-region-version': u 'titanium_cloud'
+		}
+	}, u 'sdc_creator': u 'cs0008', u 'temp_resource_module_name': u 'resource_name', u 'service-approve-remarks': u 'approved', u 'start-date': u '04/23/2019', u 'agreement-desc': u 'hpa-agreement', u 'aai_url': u 'https://10.12.5.224:30233', u 'category': u "'network l1-3'", u 'postal-code': u '00000', u 'feature-grp-desc': u 'hpa-feature', u 'customer_name': u 'hpa_cust', u 'sdc_password': u 'demo123456!', u 'city': u 'hillsboro', u 'open_cli_home': u '/opt/oclip', u 'policy_scope': u 'OSDF_DUBLIN', u 'sdc_tester': u 'jm0007', u 'sdc_governor': u 'gv0001', u 'aai_username': u 'AAI', u 'open_cli_product': u 'onap-dublin', u 'state': u 'oregon', u 'policy_pdp_group': u 'default', u 'owner-defined-type': u 't1', u 'vnfs': {
+		u 'vgw': {
+			u 'vf-remarks': u 'remarkss',
+			u 'vf-description': u 'vgw-hpa-vf',
+			u 'vsp-name': u 'vgw-hpa-vsp',
+			u 'vsp-desc': u 'vgw-hpa-vsp-desc',
+			u 'csar-id': u 'You need change it',
+			u 'value': u 'value2',
+			u 'vf-version': u '1.0',
+			u 'key': u 'key2',
+			u 'path': u '/opt/oclip/dublin/vgw.csar',
+			u 'vsp-version': u '1.0',
+			u 'vf-name': u 'vgw-hpa-vf'
+		}
+	}, u 'multicloud_url': u 'http://10.12.5.224:30280', u 'lata': u 'example-lata-val-28399', u 'entitlement-pool-name': u 'hpa-pool', u 'physical_location': u 'phy_type', u 'street1': u 'street1', u 'latitude': u '32.89948', u 'ns': {
+		u 'csar-id': u 'You need change it',
+		u 'path': u '/opt/oclip/dublin/ns_vgw.csar',
+		u 'value': u 'value1',
+		u 'key': u 'key1',
+		u 'name': u 'vcpe1'
+	}, u 'onboarding-method': u 'NetworkPackage', u 'location': u 'CloudOwner_ONAP-POD-01-Rail-07', u 'policy_config_type': u 'MicroService', u 'policy_username': u 'testpdp', u 'vnfm_params': {
+		u 'GVNFMDRIVER': {
+			u 'user-password': u 'admin',
+			u 'user-name': u 'admin',
+			u 'vendor': u 'vfc',
+			u 'url': u 'http://msb-iag:80/',
+			u 'version': u 'v1.0',
+			u 'vim-id': u 'CloudOwner_ONAP-POD-01-Rail-07',
+			u 'vnfm-version': u 'v1.0',
+			u 'type': u 'gvnfmdriver'
+		}
+	}, u 'elevation': u 'example-elevation-val-28399', u 'service-test-remarks': u 'test', u 'sdc-controller-id': u '2', u 'sdc_catalog_url': u 'http://10.12.5.224:30205', u 'street2': u 'street2', u 'service-model-desc': u "'hpa service model'", u 'cloud-zone': u 'CloudZone', u 'key-group-type': u 'Universal', u 'expiry-date': u '12/31/2040', u 'service-model-name': u 'vcpe-hpa', u 'policy_url': u 'https://10.12.5.224:30694', u 'vendor-name': u 'Intel', u 'agreement-name': u 'hpa-agreement', u 'sdc_operator': u 'op0001', u 'service-accept-remarks': u 'accepted', u 'complex_name': u 'clli1', u 'identity_url': u 'example-identity-url-val-56898', u 'policy_password': u 'alpha123', u '//': u '#Parameters to vfc', u 'part-no': u 'hpa-part', u 'aai_password': u 'AAI', u 'subscriber_name': u 'hpa_cust', u 'data_center_code': u 'code1', u 'country': u 'USA', u 'region': u 'northwest', u 'policy_directory': u '/opt/oclip/dublin/vcpe_policies', u 'longitude': u '97.045443', u 'project-code': u '000000', u 'icon-id': u 'network_l_1-3', u 'entitlement-description': u 'hpa-pool', u 'sdc_onboarding_url': u 'http://10.43.89.129:8081', u 'cloud-owner': u 'CloudOwner'
+}
