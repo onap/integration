@@ -373,20 +373,24 @@ def add_policies(parameters):
       os.system("oclip policy-push-outdated -m {} -u {} -p {} -x {} -b {} -c {}".format(parameters["policy_url"], \
         parameters["policy_username"], parameters["policy_password"], policy_name, parameters["policy_config_type"],\
         parameters["policy_pdp_group"]))
-    
+
+
 def onboard_vnf(parameters):
     vnfs = parameters["vnfs"]
     vnf_onboard_outputs = {}
 
     for key, value in vnfs.items():
-        vnf_onboard_string = 'oclip vfc-catalog-onboard-vnf -c {}'.format(value.get("csar-id"))
+        vnf_onboard_string = 'oclip vfc-catalog-onboard-vnf -m {} -c {}'\
+            .format(value.get("url"), value.get("csar-id"))
         vnf_onboard_outputs[key] = (os.popen(vnf_onboard_string)).read()
     return vnf_onboard_outputs
+
 
 def onboard_ns(parameters):
     ns_onboard_string = 'oclip vfc-catalog-onboard-ns -c {}'.format(parameters["ns-csar-id"])
     ns_onboard_out = (os.popen(ns_onboard_string)).read()
     return ns_onboard_out
+
 
 def create_ns(parameters, csar_id):
     ns = parameters["ns"]
