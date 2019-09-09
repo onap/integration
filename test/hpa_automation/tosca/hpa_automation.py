@@ -380,7 +380,7 @@ def onboard_vnf(parameters):
 
     for key, value in vnfs.items():
         vnf_onboard_string = 'oclip vfc-catalog-onboard-vnf -c {}'.format(value.get("csar-id"))
-        vnf_onboard_outs[key] = (os.popen(ns_onboard_string)).read()
+        vnf_onboard_outs[key] = (os.popen(vnf_onboard_string)).read()
     return vnf_onboard_outputs
 
 def onboard_ns(parameters):
@@ -411,18 +411,23 @@ def create_ns_package(parameters):
     create_ns_string = 'oclip vfc-catalog-create-ns -m {} -c {} -e {}'.format(parameters["vfc-url"], \
       ns.get("key"), ns.get("value"))
     cmd_out = (os.popen(create_ns_string)).read()
-    out_list =  get_out_helper_2(cmd_out) 
+    out_list = get_out_helper_2(cmd_out)
     return out_list[4]
 
 def create_vnf_package(parameters):
+    parameters = json.dumps(parameters).decode('unicode-escape')
+    parameters = json.loads(parameters)
+    print type(parameters)
     vnfs = parameters["vnfs"]
+
+    print vnfs
     outputs = {}
 
     for vnf_key, vnf_values in vnfs.iteritems():
         create_vnf_string = 'oclip vfc-catalog-create-vnf -m {} -c {} -e {}'.format(parameters["vfc-url"], \
           vnf_values.get("key"), vnf_values.get("value"))
         cmd_out = (os.popen(create_vnf_string)).read()
-        out_list =  get_out_helper_2(cmd_out) 
+        out_list = get_out_helper_2(cmd_out)
         outputs[vnf_key] = out_list[4]
 
     return outputs
@@ -445,6 +450,7 @@ def upload_vnf_package(parameters, vnf_package_output):
 
 
 #Run Functions
+
 parser = argparse.ArgumentParser()
 parser.add_argument('-f', action='store', dest='config_file_path', help='Store config file path')
 parser.add_argument('-t', action='store', dest='model', help='Store config file path')
@@ -483,35 +489,38 @@ register_vnfm(parameters)
 # SDC output data model is not align with VFC, we use an workaround method
 # We just do run time automation 
 ns_package_output = ""
-
-if model == "sdc":
-    print "use csar file is distributed by sdc"
-    # output = create_vlm(parameters)
-    # vsp_dict = create_vsp(parameters, output)
-    # vf_dict = create_vf_model(parameters, vsp_dict)
-    # service_model_list = create_service_model(parameters, vf_dict)
-   
-    vnf_onboard_output = onboard_vnf(parameters)
-    print vnf_onboard_output
-    ns_onboard_out = onboard_ns(parameters)
-    print ns_onboard_out
-else:
-    print "use csar file is uploaded by local"
-    vnf_package_output = create_vnf_package(parameters)
-    print vnf_package_output
-    ns_package_output = create_ns_package(parameters)
-    print ns_package_output
-    upload_vnf_out = upload_vnf_package(parameters, vnf_package_output)
-    print upload_vnf_out
-    upload_ns_out = upload_ns_package(parameters, ns_package_output)
-    print upload_ns_out
-
-# 6.add_policies function not currently working, using curl commands
-add_policy_models(parameters)
-add_policies(parameters)
-
-# 7. VFC part
-ns_instance_id = create_ns(parameters, ns_package_output)
-print ns_instance_id
-instantiate_ns_output = instantiate_ns(parameters, ns_instance_id)
-print instantiate_ns_output
+print "use csar file is uploaded by local"
+vnf_package_output = create_vnf_package(parameters)
+#     print vnf_package_output
+# if model == "sdc":
+#     print "use csar file is distributed by sdc"
+#     # output = create_vlm(parameters)
+#     # vsp_dict = create_vsp(parameters, output)
+#     # vf_dict = create_vf_model(parameters, vsp_dict)
+#     # service_model_list = create_service_model(parameters, vf_dict)
+#
+#     vnf_onboard_output = onboard_vnf(parameters)
+#     print vnf_onboard_output
+#     ns_onboard_out = onboard_ns(parameters)
+#     print ns_onboard_out
+# else:
+#     print "use csar file is uploaded by local"
+#     vnf_package_output = create_vnf_package(parameters)
+#     print 11111111111111111111111111111111
+#     print vnf_package_output
+#     ns_package_output = create_ns_package(parameters)
+#     print ns_package_output
+#     upload_vnf_out = upload_vnf_package(parameters, vnf_package_output)
+#     print upload_vnf_out
+#     upload_ns_out = upload_ns_package(parameters, ns_package_output)
+#     print upload_ns_out
+#
+# # 6.add_policies function not currently working, using curl commands
+# add_policy_models(parameters)
+# add_policies(parameters)
+#
+# # 7. VFC part
+# ns_instance_id = create_ns(parameters, ns_package_output)
+# print ns_instance_id
+# instantiate_ns_output = instantiate_ns(parameters, ns_instance_id)
+# print instantiate_ns_output
