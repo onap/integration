@@ -53,6 +53,8 @@ sdc:
     sdc-cs:
       image: onap/sdc-cassandra:1.5-STAGING-latest
       cassandraInitImage: onap/sdc-cassandra-init:1.5-STAGING-latest
+robot:
+  image: onap/testsuite:1.5.2-STAGING-latest
 sdnc:
     image: onap/sdnc-image:1.7-STAGING-latest
     sdnc-ansible-server:
