@@ -146,7 +146,7 @@ Here are the main steps to run the use case in Integration lab environment, wher
 
 ::
 
-    healthcheck-k8s.py onap
+    healthcheck-k8s.py --namespace <namespace name> --environment <env name>
 
 15. Instantiate vCPE customer service. Input the BRG MAC when prompt
 
