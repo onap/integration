@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90198cc9_4a732e5c",
+        "filename": "test/vcpe/healthcheck-k8s.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2019-09-10T12:12:06Z",
+      "side": 1,
+      "message": "Added this to print default values (in \u0027--help\u0027) used by the script to avoid confusion.",
+      "revId": "4baa51c89bd56894646458273a62bf3b2963b298",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
