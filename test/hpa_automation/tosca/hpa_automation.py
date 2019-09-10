@@ -397,7 +397,7 @@ def create_ns(parameters, csar_id):
     print ns_create_string
     ns_create_out = (os.popen(ns_create_string)).read()
     print ns_create_out
-    ns_instance_id = (get_out_helper_2(ns_create_out))[3]
+    ns_instance_id = (get_out_helper_2(ns_create_out))[4]
     return ns_instance_id
 
 def instantiate_ns(parameters, ns_instance_id):
@@ -495,8 +495,8 @@ if model == "sdc":
    
     vnf_onboard_output = onboard_vnf(parameters)
     print vnf_onboard_output
-    ns_onboard_out = onboard_ns(parameters)
-    print ns_onboard_out
+    ns_out = onboard_ns(parameters)
+    print ns_out
 else:
     print "use csar file is uploaded by local"
     vnf_package_output = create_vnf_package(parameters)
@@ -505,15 +505,15 @@ else:
     print ns_package_output
     upload_vnf_out = upload_vnf_package(parameters, vnf_package_output)
     print upload_vnf_out
-    upload_ns_out = upload_ns_package(parameters, ns_package_output)
-    print upload_ns_out
+    ns_out = upload_ns_package(parameters, ns_package_output)
+    print ns_out
 
 # 6.add_policies function not currently working, using curl commands
 add_policy_models(parameters)
 add_policies(parameters)
 
 # 7. VFC part
-ns_instance_id = create_ns(parameters, ns_package_output)
+ns_instance_id = create_ns(parameters, ns_out)
 print ns_instance_id
 instantiate_ns_output = instantiate_ns(parameters, ns_instance_id)
 print instantiate_ns_output
