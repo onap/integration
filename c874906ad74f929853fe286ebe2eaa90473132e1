@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51e72d6c_c886510c",
+        "filename": "test/hpa_automation/tosca/hpa_automation.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 2363
+      },
+      "writtenOn": "2019-09-10T05:11:18Z",
+      "side": 1,
+      "message": "please change to ns_out",
+      "range": {
+        "startLine": 498,
+        "startChar": 4,
+        "endLine": 498,
+        "endChar": 19
+      },
+      "revId": "c874906ad74f929853fe286ebe2eaa90473132e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b7198cc_51c49650",
+        "filename": "test/hpa_automation/tosca/hpa_automation.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 2363
+      },
+      "writtenOn": "2019-09-10T05:11:18Z",
+      "side": 1,
+      "message": "please change to ns_out",
+      "range": {
+        "startLine": 499,
+        "startChar": 10,
+        "endLine": 499,
+        "endChar": 24
+      },
+      "revId": "c874906ad74f929853fe286ebe2eaa90473132e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4dd7f27e_52a0f01a",
+        "filename": "test/hpa_automation/tosca/hpa_automation.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 2363
+      },
+      "writtenOn": "2019-09-10T05:11:18Z",
+      "side": 1,
+      "message": "please change to ns_out",
+      "range": {
+        "startLine": 508,
+        "startChar": 4,
+        "endLine": 508,
+        "endChar": 18
+      },
+      "revId": "c874906ad74f929853fe286ebe2eaa90473132e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73dd3cfa_7ff421f7",
+        "filename": "test/hpa_automation/tosca/hpa_automation.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 2363
+      },
+      "writtenOn": "2019-09-10T05:11:18Z",
+      "side": 1,
+      "message": "please change ns_out",
+      "range": {
+        "startLine": 516,
+        "startChar": 39,
+        "endLine": 516,
+        "endChar": 56
+      },
+      "revId": "c874906ad74f929853fe286ebe2eaa90473132e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
