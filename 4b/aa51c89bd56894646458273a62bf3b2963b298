@@ -1,0 +1,8 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Michal Ptacek <m.ptacek@partner.samsung.com>
+Code-Review+2: Daniel Rose <dr695h@att.com>
+Submitted-by: Daniel Rose <dr695h@att.com>
+Submitted-at: Tue, 10 Sep 2019 15:12:25 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/integration/+/95353
+Project: integration
+Branch: refs/heads/master
