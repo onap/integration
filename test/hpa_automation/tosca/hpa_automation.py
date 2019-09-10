@@ -397,7 +397,7 @@ def create_ns(parameters, csar_id):
     print ns_create_string
     ns_create_out = (os.popen(ns_create_string)).read()
     print ns_create_out
-    ns_instance_id = (get_out_helper_2(ns_create_out))[3]
+    ns_instance_id = (get_out_helper_2(ns_create_out))[4]
     return ns_instance_id
 
 def instantiate_ns(parameters, ns_instance_id):
