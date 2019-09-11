@@ -192,3 +192,8 @@ Known Issues and Workaround
   root>vppctl restart
 
 2) During vCPE customer service instantiation, though vGW should come up successfully BRG vxlan tunnel configuration is likely to fail in SDNC cluster environment due to SDNC unreachable to BRG. See more detail in JIRA INT-1127. One workaround is to run vCPE use case with SDNC cluster disabled.
+
+3) In some Openstack environments (e.g. Ocata version), there is an issue with DHCP anti-spoofing rules preventing BRG to receive DHCP reply (Option 82) from DHCP. By default Openstack neutron is using *IptablesFirewallDriver*, which is actively inserting *Prevent DHCP Spoofing by VM* rules into linuxbridge firewall rules. This feature should prevent mailicious traffic from rogue VM inside Openstack, however it's affecting also vCPE usecase. Manual tweaking of fw rules is not persistent and those rules are automatically regenerated, but one can disable this logic by switching to *neutron.agent.firewall.NoopFirewallDriver*. More details can be found on https://codesomniac.com/2017/07/how-to-run-a-dhcp-server-as-openstack-instance/
+
+   **NOTE:** To propagate change in firewall_driver one need to restart neutron-linuxbridge-agent and also openstack-nova-compute services.
+
