@@ -14,12 +14,15 @@ from novaclient import client as openstackclient
 from kubernetes import client, config
 from netaddr import IPAddress, IPNetwork
 
+######################################################################
+# Parts which must be updated / cross-checked during each deployment #
+# are marked as CHANGEME                                             #
+######################################################################
+
 class VcpeCommon:
     #############################################################################################
-    #     Start: configurations that you must change for a new ONAP installation
-
-    #############################################################################################
-    # Set network prefix of k8s host external address; mainly used for pod public IP autodetection
+    # Set network prefix of k8s host external address; it's used for pod public IP autodetection
+    # but can be overriden from user in case of autodetection failure
     external_net_addr = '10.12.0.0'
     external_net_prefix_len = 16
 
@@ -27,6 +30,9 @@ class VcpeCommon:
     # set the openstack cloud access credentials here
     oom_mode = True
 
+    ###########################
+    # set Openstack credentials
+    # CHANGEME part
     cloud = {
         '--os-auth-url': 'http://10.12.25.2:5000',
         '--os-username': 'kxi',
@@ -39,18 +45,24 @@ class VcpeCommon:
         '--os-identity-api-version': '3'
     }
 
+    ############################################################################
+    # set oam and public network which must exist in openstack before deployment
+    # CHANGEME part
     common_preload_config = {
         'oam_onap_net': 'oam_network_2No2' if oom_mode else 'oam_onap_lAky',
         'oam_onap_subnet': 'oam_network_2No2' if oom_mode else 'oam_onap_lAky',
         'public_net': 'external',
         'public_net_id': '971040b2-7059-49dc-b220-4fab50cb2ad4'
     }
-    sdnc_controller_pod = 'dev-sdnc-sdnc-0'
 
-    #############################################################################################
+    #############################################################################
+    # set name of sdnc controller pod, prefix is taken from helm environment name
+    # CHANGEME part
+    sdnc_controller_pod = 'dev-sdnc-sdnc-0'
 
     template_variable_symbol = '${'
     cpe_vm_prefix = 'zdcpe'
+
     #############################################################################################
     # preloading network config
     #  key=network role
@@ -74,15 +86,20 @@ class VcpeCommon:
         self.logger.setLevel(logging.DEBUG)
         self.logger.info('Initializing configuration')
 
-        # CHANGEME: vgw_VfModuleModelInvariantUuid is in rescust service csar, look in service-VcpesvcRescust1118-template.yml for groups vgw module metadata. TODO: read this value automcatically
+        ##################################################################################################################################
+        # following param must be updated e.g. from csar file (grep for VfModuleModelInvariantUuid string) before vcpe.py customer call !!
+        # vgw_VfModuleModelInvariantUuid is in rescust service csar,
+        # look in service-VcpesvcRescust1118-template.yml for groups vgw module metadata. TODO: read this value automatically
+        # CHANGEME part
         self.vgw_VfModuleModelInvariantUuid = '26d6a718-17b2-4ba8-8691-c44343b2ecd2'
-        # CHANGEME: OOM: this is the address that the brg and bng will nat for sdnc access - 10.0.0.x address of k8 host for sdnc-0 container
+
+        # OOM: this is the address that the brg and bng will nat for sdnc access - 10.0.0.x address of k8 host for sdnc-0 container
         self.sdnc_oam_ip = self.get_pod_node_oam_ip('sdnc-sdnc-0')
-        # CHANGEME: OOM: this is a k8s host external IP, e.g. oom-k8s-01 IP 
+        # OOM: this is a k8s host external IP, e.g. oom-k8s-01 IP 
         self.oom_so_sdnc_aai_ip = self.get_pod_node_public_ip('sdnc-sdnc-0')
-        # CHANGEME: OOM: this is a k8s host external IP, e.g. oom-k8s-01 IP
+        # OOM: this is a k8s host external IP, e.g. oom-k8s-01 IP
         self.oom_dcae_ves_collector = self.oom_so_sdnc_aai_ip
-        # CHANGEME: OOM: this is a k8s host external IP, e.g. oom-k8s-01 IP
+        # OOM: this is a k8s host external IP, e.g. oom-k8s-01 IP
         self.mr_ip_addr = self.oom_so_sdnc_aai_ip
         self.mr_ip_port = '30227'
         self.so_nbi_port = '30277' if self.oom_mode else '8080'
@@ -111,7 +128,12 @@ class VcpeCommon:
             'vfmodule': 'vcpe_vfmodule'
         }
         self.aai_userpass = 'AAI', 'AAI'
+
+        ############################################################################################################
+        # following key is overriding public key from vCPE heat templates, it's important to use correct one in here
+        # CHANGEME part
         self.pub_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDKXDgoo3+WOqcUG8/5uUbk81+yczgwC4Y8ywTmuQqbNxlY1oQ0YxdMUqUnhitSXs5S/yRuAVOYHwGg2mCs20oAINrP+mxBI544AMIb9itPjCtgqtE2EWo6MmnFGbHB4Sx3XioE7F4VPsh7japsIwzOjbrQe+Mua1TGQ5d4nfEOQaaglXLLPFfuc7WbhbJbK6Q7rHqZfRcOwAMXgDoBqlyqKeiKwnumddo2RyNT8ljYmvB6buz7KnMinzo7qB0uktVT05FH9Rg0CTWH5norlG5qXgP2aukL0gk1ph8iAt7uYLf1ktp+LJI2gaF6L0/qli9EmVCSLr1uJ38Q8CBflhkh'
+
         self.os_tenant_id = self.cloud['--os-tenant-id']
         self.os_region_name = self.cloud['--os-region-name']
         self.common_preload_config['pub_key'] = self.pub_key
