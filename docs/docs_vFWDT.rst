@@ -12,13 +12,13 @@ vFW Traffic Distribution Use Case
 Description
 ~~~~~~~~~~~
 
-The purpose of this work is to show Traffic Distribiution functionality implemented in Casablanca nad Dublin releases on vFW Use Case. 
+The purpose of this work is to show Traffic Distribiution functionality implemented in Casablanca and Dublin releases for vFW Use Case.
 The orchstration workflow triggers a change to traffic distribution (redistribution) done by a traffic balancing/distribution entity (aka anchor point). 
 The DistributeTraffic action targets the traffic balancing/distribution entity, in some cases DNS, other cases a load balancer external to the VNF instance, as examples. 
 Traffic distribution (weight) changes intended to take a VNF instance out of service are completed only when all in-flight traffic/transactions have been completed. 
 DistributeTrafficCheck command may be used to verify initial conditions of redistribution or can be used to verify the state of VNFs and redistribution itself. 
 To complete the traffic redistribution process, gracefully taking a VNF instance out-of-service/into-service, without dropping in-flight calls or sessions, 
-QuiesceTraffic/ResumeTraffic command may need to follow traffic distribution changes (assigning weight 0 or very low weight to VNF instance). The VNF application remains in an active state.
+QuiesceTraffic/ResumeTraffic command may need to follow traffic distribution changes. The VNF application remains in an active state.
 
 
 Traffic Distribution functionality is an outcome of Change Management project. Further details can be found on following pages
@@ -36,8 +36,8 @@ Test Scenario
 
    Figure 1 The idea of Traffic Distribution Use Case
 
-The idea of the simplified scenario presented in Casablanca release is shown on Figure 1. In a result of the DistributeTraffic LCM action traffic flow originated from vPKG to vFW 1 and vSINK 1 is redirected to vFW 2 and vSINK 2 (as it is seen on Figure 2). 
-Result of the change can be observed also on the vSINKs' dashboards which show a current incoming traffic. Observation of the dashboard from vSINK 1 and vSINK 2 proves that API works properly.
+The idea of the simplified scenario presented in the Casablanca release is shown on Figure 1. In a result of the DistributeTraffic LCM action traffic flow originated from vPKG to vFW 1 and vSINK 1 is redirected to vFW 2 and vSINK 2 (as it is seen on Figure 2).
+Result of the change can be observed also on the vSINKs' dashboards which show a current incoming traffic. Observation of the dashboard from vSINK 1 and vSINK 2 proves workflow works properly.
 
 .. figure:: files/dt-result.png
    :scale: 60 %
@@ -45,7 +45,7 @@ Result of the change can be observed also on the vSINKs' dashboards which show a
 
    Figure 2 The result of traffic distribution
 
-The purpose of the workj in Dublin release was to built a Traffic Distribution Workflow that takes as an input configuration parameters delivered by Optimization Framework and on their basis several LCM actions are executed in specific workflow. 
+The purpose of the work in the Dublin release was to built a Traffic Distribution Workflow that takes as an input configuration parameters delivered by Optimization Framework and on their basis several traffic distribution LCM actions are executed by APPC in the specific workflow.
 
 .. figure:: files/dt-workflow.png
    :scale: 60 %
@@ -55,13 +55,13 @@ The purpose of the workj in Dublin release was to built a Traffic Distribution W
 
 The prepared Traffic Distribution Workflow has following steps:
 
-- Workflow sends placement request to Optimization Framework (**1**) specific information about vPKG and vFW-SINK models and VNF-ID of vFW that we want to migrate traffic out from. 
+- Workflow sends placement request to Optimization Framework (**1**) specific information about the vPKG and vFW-SINK models and VNF-ID of vFW that we want to migrate traffic out from. 
   Optimization Framework role is to find the vFW-SINK VNF/VF-module instance where traffic should be migrated to and vPKG which will be associated with this vFW. 
-  Altough in our case the calculation is very simple the mechanism is ready to work for service instances with VNF having houndreds of VF-odules spread accross different data centers.
+  Although in our case the calculation is very simple, the mechanism is ready to work for instances of services with VNF having houndreds of VF-modules spread accross different cloud regions.
 
 - Optimization Framework takes from the Policy Framework policies (**2-3**) for VNFs and for relations between each other (in our case there is checked ACTIVE status of vFW-SINK and vPKG VF-modules and the Region to which they belong)
 
-- Optimization Framework, base on the information from the polcies and service topology information taken from A&AI (**4-11**), offers traffc distribution anchor and destination canidates' pairs (**12-13**) (pairs of VF-modules data with information about their V-Servers and their network interfaces). This information is returned to the workflow script (**14**). 
+- Optimization Framework, base on the information from the polcies and service topology information taken from A&AI (**4-11**), offers traffic distribution anchor and destination canidates' pairs (**12-13**) (pairs of VF-modules data with information about their V-Servers and their network interfaces). This information is returned to the workflow script (**14**).
 
 - Information from Optimization Framework can be used to construct APPC LCM requests for DistributeTrafficCheck and DistributeTraffic commands (**15, 24, 33, 42**). This information is used to fill CDT templates with proper data for further Ansible playbooks execution (**17, 26, 35, 44**)
 
@@ -69,7 +69,7 @@ The prepared Traffic Distribution Workflow has following steps:
 
 - Next, APPC performs the DistributeTraffic action like it is shown on Figure 1 and Figure 2 (**25-31**). If operation is completed properly traffic should be redirected to vFW 2 and vSINK 2 instance. If not, workflow is stopped (**32**).
 
-- Finally, APPC executes the DistributeTrafficCheck action on vFW 1 in order to verify that it does not receives any traffic anymore (**34-40**) and on vFW 2 in order to verify that it receives traffic forwrdd from vFW 2 (**43-49**)
+- Finally, APPC executes the DistributeTrafficCheck action on vFW 1 in order to verify that it does not receives any traffic anymore (**34-40**) and on vFW 2 in order to verify that it receives traffic forwarded from vFW 2 (**43-49**)
 
 Scenario Setup
 --------------
@@ -201,7 +201,7 @@ Preparation of Workflow Script Environment
     cd demo/tutorials/vFWDT
     ls
 
-which should show following folders
+what should show following folders
 
 ::
 
@@ -209,7 +209,7 @@ which should show following folders
     playbooks  preloads  workflow
 
 
-.. note:: Remeber vFWDT tutorial directory `~/demo/tutorials/vFWDT` for further use
+.. note:: Remember vFWDT tutorial directory `~/demo/tutorials/vFWDT` for the further use
 
 4. Install python dependencies
 
@@ -302,7 +302,88 @@ Read from the response (realtionship with *generic-vnf* type) vnf-id of vPKG VNF
 
 Configuration of ONAP Environment
 ---------------------------------
-This sections show the steps necessary to configure CDT and Ansible server what is required for execution of APPC LCM actions in the workflow script
+This sections show the steps necessary to configure Policies, CDT and Ansible server what is required for execution of APPC LCM actions in the workflow script
+
+Configuration of Policies for Optimization Framework
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+We need to enter the Policy editor in order to upload policy types and then the policy rules for the demo. The polcies are required for the Optimization Framework and they guide OOF how to determine
+vFW and vPGN instances used in the Traffic Distribution workflow.
+
+1. Enter the Policy portal
+
+Specify *demo*:*demo* as a login and password
+
+::
+
+    https://<K8S-NODE-IP>:30219/onap/login.htm
+
+From the left side menu enter *Dictionary* section and from the combo boxes select *MicroService Policy* and *MicroService Models* respectively. Below you can see the result.
+
+.. figure:: files/vfwdt-policy-type-list.png
+   :scale: 70 %
+   :align: center
+
+   Figure 8 List of MicroService policy types in the Policy portal
+
+2. Upload the policy types
+
+Before policy rules for Traffic Distribution can be uploaded we need to create policy types to store these rules. For that we need to create following three types:
+
+- VNF Policy - it used to filter vf-module instances i.e. base on their attributes from the AAI like *provStatus*, *cloudRegionId* etc.
+- Query Policy - it is used to declare extra inpt parameters for OOF placement request  - in our case we need to specify cloud region name
+- Affinity Policy - it is used to specify the placement rule used for selection vf-module candiate pairs of vFW vf-module instance (traffic destination) and vPGN vf-module instance (anchor point). In this case the match is done by belonging to the same cloud region
+
+Enter vFWDT tutorial directory on Rancher server (already created in `Preparation of Workflow Script Environment`_) and create policy types from the following files
+
+::
+
+    root@sb01-rancher:~/demo/tutorials/vFWDT# ls policies/types/
+    affinityPolicy-v20181031.yml  queryPolicy-v20181031.yml  vnfPolicy-v20181031.yml
+
+For each file press *Create* button, choose the policy type file, select the *Micro Service Option* (always one available) and enter the *Version* which must be the same like the one specified for policy instances. In this case pass value *OpenSource.version.1*
+
+.. figure:: files/vfwdt-add-micro-service-policy.png
+   :scale: 70 %
+   :align: center
+
+   Figure 9 Creation of new MicroService policy type for OOF
+
+In a result you should see in the dictionary all three new types of policies declared
+
+.. figure:: files/vfwdt-completed-policy-type-list.png
+   :scale: 70 %
+   :align: center
+
+   Figure 10 Completed list of MicroService policy types in the Policy portal
+
+3. Push the policies into the PDP
+
+In order to push policies into the PDP it is required to execute already prepared *uploadPolicies.sh* script that builds policy creation/update requests and automatically sends them to the Policy PDP pod
+
+::
+
+    root@sb01-rancher:~/demo/tutorials/vFWDT# ls policies/rules/
+    QueryPolicy_vFW_TD.json  affinity_vFW_TD.json  uploadPolicies.sh  vnfPolicy_vFW_TD.json  vnfPolicy_vPGN_TD.json
+
+When necessary, you can modify policy json files. Script will read these files and will build new PDP requests based on them. To create new policies execute script in the following way
+
+::
+
+    ./policies/rules/uploadPolicies.sh
+
+To update existing policies execute script with an extra argument
+
+::
+
+    ./policies/rules/uploadPolicies.sh U
+
+The result can be verified in the Policy portal, in the *Editor* section, after entering *OSDF_DUBLIN* directory
+
+.. figure:: files/vfwdt-policy-editor-osdf-dublin.png
+   :scale: 70 %
+   :align: center
+
+   Figure 11 List of policies for OOF and vFW traffic distribution
 
 Testing Gathered Facts on Workflow Script
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -321,7 +402,8 @@ At this stage we will execute script in the initial mode to generate some config
 For now and for further use workflow script has following input parameters:
 
 - vnf-id of vFW VNF instance that traffic should be migrated out from
-- IP of ONAP OOM Node
+- External IP of ONAP Rancher Node i.e. 10.12.5.160 (If Rancher Node is missing this is NFS node)
+- External IP of ONAP K8s Worker Node i.e. 10.12.5.212
 - if script should use and build OOF response cache (cache it speed-ups further executions of script)
 - if instead of vFWDT service instance vFW or vFWCL one is used (should be False always)
 - if only configuration information will be collected (True for initial phase and False for full execution of workflow)
@@ -331,7 +413,7 @@ For now and for further use workflow script has following input parameters:
 
 ::
 
-    Executing workflow for VNF ID '909d396b-4d99-4c6a-a59b-abe948873303' on ONAP with IP 10.12.5.63
+    Executing workflow for VNF ID '909d396b-4d99-4c6a-a59b-abe948873303' on Rancher with IP 10.0.0.10 and ONAP with IP 10.12.5.217
 
     OOF Cache True, is CL vFW False, only info False, check LCM result True
 
@@ -386,7 +468,7 @@ Following steps aim to configure DistributeTraffic LCM action for our vPKG and v
    :scale: 70 %
    :align: center
 
-   Figure 8 Creation of new VNF type in CDT
+   Figure 12 Creation of new VNF type in CDT
 
 4. Enter previously retrieved VNF Type for vPKG VNF and press the *NEXT* button
 
@@ -394,7 +476,7 @@ Following steps aim to configure DistributeTraffic LCM action for our vPKG and v
    :scale: 70 %
    :align: center
 
-   Figure 9 Creation of new VNF type in CDT
+   Figure 13 Creation of new VNF type in CDT
 
 5. For already created VNF Type (if the view does not open itself) click the *View/Edit* button. In the LCM action edit view in the first tab please choose:
 
@@ -413,7 +495,7 @@ Following steps aim to configure DistributeTraffic LCM action for our vPKG and v
    :scale: 70 %
    :align: center
 
-   Figure 10 DistributeTraffic LCM action editing
+   Figure 14 DistributeTraffic LCM action editing
 
 6. Go to the *Template* tab and in the editor paste the request template of the DistributeTraffic LCM action for vPKG VNF type
 
@@ -454,7 +536,7 @@ The meaning of selected template parameters is following:
    :scale: 70 %
    :align: center
 
-   Figure 11 LCM DistributeTraffic request template
+   Figure 15 LCM DistributeTraffic request template
 
 7. Afterwards press the *SYNCHRONIZE WITH TEMPLATE PARAMETERS* button. You will be moved to the *Parameter Definition* tab. The new parameters will be listed there.
 
@@ -462,7 +544,7 @@ The meaning of selected template parameters is following:
    :scale: 70 %
    :align: center
 
-   Figure 12 Summary of parameters specified for DistributeTraffic LCM action.
+   Figure 16 Summary of parameters specified for DistributeTraffic LCM action.
 
 .. note:: For each parameter you can define its: mandatory presence; default value; source (Manual/A&AI). For our case modification of this settings is not necessary
 
@@ -634,7 +716,7 @@ In order to run Traffic Distribution Workflow execute following commands from th
 ::
 
     cd workflow
-    python3 workflow.py 909d396b-4d99-4c6a-a59b-abe948873303 10.12.5.63 True False False True
+    python3 workflow.py 909d396b-4d99-4c6a-a59b-abe948873303 10.12.5.217 10.12.5.63 True False False True
 
 
 The order of executed LCM actions is following:
