@@ -17,8 +17,12 @@ from netaddr import IPAddress, IPNetwork
 class VcpeCommon:
     #############################################################################################
     #     Start: configurations that you must change for a new ONAP installation
+
+    #############################################################################################
+    # Set network prefix of k8s host external address; mainly used for pod public IP autodetection
     external_net_addr = '10.12.0.0'
     external_net_prefix_len = 16
+
     #############################################################################################
     # set the openstack cloud access credentials here
     oom_mode = True
