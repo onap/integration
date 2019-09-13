@@ -196,7 +196,7 @@ class VcpeCommon:
         self.vpp_api_userpass = ('admin', 'admin')
         self.vpp_ves_url= 'http://{0}:8183/restconf/config/vesagent:vesagent'
 
-    def headbridge(self, openstack_stack_name, svc_instance_uuid):
+    def heatbridge(self, openstack_stack_name, svc_instance_uuid):
         """
         Add vserver information to AAI
         """
