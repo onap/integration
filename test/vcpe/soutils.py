@@ -346,7 +346,7 @@ class SoUtils:
 
         # run heatbridge
         if heatbridge:
-            self.vcpecommon.headbridge(vfmodule_instance_name, svc_instance_id)
+            self.vcpecommon.heatbridge(vfmodule_instance_name, svc_instance_id)
             self.vcpecommon.save_vgmux_vnf_name(vnf_instance_name)
 
         return svc_instance_id
