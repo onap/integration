@@ -229,7 +229,7 @@ def create_service_model(parameters, vf_unique_id):
 
 #VNF Deployment Section
 def upload_policy_models(parameters):
-    os.system("python insert_policy_models.py {} {} {}".format(parameters["policy_db_ip"], \
+    os.system("python insert_policy_models_heat.py {} {} {}".format(parameters["policy_db_ip"], \
             parameters["policy_db_user"], parameters["policy_db_password"]))
 
 def add_policies(parameters):
@@ -488,8 +488,8 @@ db_dict = query_db(parameters, service_model_uuid, vf_id)
 #Wait for Service instance to be created then create VNF Instance
 while True:
     #Check if service instance has been created"
-    check_service_instance = os.popen("oclip service-instance-list -u {} -p {} -m {} |grep {}".format(parameters["aai_username"], \
-            parameters["aai_password"], parameters["aai_url"], parameters["instance-name"])).read()
+    check_service_instance = os.popen("oclip service-instance-list -u {} -p {} -m {} |grep {}-{}".format(parameters["aai_username"], \
+            parameters["aai_password"], parameters["aai_url"], parameters["instance-name"], parameters["service_name"])).read()
     if check_service_instance:
         print "service instance created successfully"
         #Create VNF Instance
