@@ -498,8 +498,8 @@ def tc100(groupIndex, changeId, filePrefix, ftpType, fileSize):
 
   ctr_responses[groupIndex] = ctr_responses[groupIndex] + 1
 
-  if (ctr_responses[groupIndex] > 1):
-    return buildOkResponse("[]")
+  #if (ctr_responses[groupIndex] > 1):
+  #  return buildOkResponse("[]")
 
   seqNr = (ctr_responses[groupIndex]-1)
   nodeIndex=0
