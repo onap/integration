@@ -30,8 +30,8 @@ if [ $COMPONENT == "dcae" ]; then
 fi
 
 if [ $COMPONENT == "sdc" ]; then
-        for keyspace in sdctitan sdcrepository sdcartifact sdccomponent sdcaudit; do
-	        kubectl -n $NAMESPACE exec dev-cassandra-cassandra-0 -- cqlsh -u cassandra -p cassandra -e "drop keyspace ${keyspace}"
+        for keyspace in sdctitan sdcrepository sdcartifact sdccomponent sdcaudit workflow dox zusammen_dox zusammen_workflow ; do
+	        kubectl -n $NAMESPACE exec dev-cassandra-cassandra-0 -- cqlsh -u cassandra -p cassandra --request-timeout=30 -e "drop keyspace ${keyspace}"
         done
 fi
 
