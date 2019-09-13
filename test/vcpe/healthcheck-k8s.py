@@ -1,10 +1,9 @@
 #! /usr/bin/python
 
 import argparse
-import commands
 import json
 import logging
-import subprocess
+from subprocess import Popen,PIPE
 import sys
 
 def parse_args():
@@ -28,22 +27,29 @@ args = parse_args()
 namespace = args.namespace
 environment = args.environment
 
-print('Checking vGMUX REST API from SDNC')
-cmd = 'curl -s -u admin:admin -X GET http://10.0.101.21:8183/restconf/config/ietf-interfaces:interfaces'
-ret = commands.getstatusoutput("kubectl -n {0} exec {1}-sdnc-sdnc-0 -- bash -c '{2}'".format(namespace, environment, cmd))
-sz = ret[-1].split('\n')[-1]
-print(json.dumps(json.loads(sz), indent=4))
+# config section
+kube_cmd = 'kubectl -n {0} exec {1}-sdnc-sdnc-0 -- bash -c '.format(namespace, environment)
+curl_cmd = 'curl -s -u admin:admin -X GET http://{0}:8183/restconf/config/ietf-interfaces:interfaces'
+endpoints = {
+    "vGMUX": '10.0.101.21',
+    "vBRG": '10.3.0.2'
+}
+# end of config section
 
-print('\n')
-print('Checking vBRG REST API from SDNC')
-cmd = 'curl -s -u admin:admin -X GET http://10.3.0.2:8183/restconf/config/ietf-interfaces:interfaces'
-ret = commands.getstatusoutput("kubectl -n {0} exec {1}-sdnc-sdnc-0 -- bash -c '{2}'".format(namespace, environment, cmd))
-sz = ret[-1].split('\n')[-1]
-print(json.dumps(json.loads(sz), indent=4))
+for ename,eip in endpoints.items():
+    print('Checking {0} REST API from SDNC'.format(ename))
+    p = Popen(kube_cmd.split() + [curl_cmd.format(eip)], stdout=PIPE, stderr=PIPE)
+    (output, error) = p.communicate()
+    if p.returncode:
+        print(error)
+        sys.exit(p.returncode)
+    else:
+        print(json.dumps(json.loads(output), indent=4))
+    print('\n')
 
-print('\n')
 print('Checking SDNC DB for vBRG MAC address')
-cmd = "kubectl -n {0} exec {1}-mariadb-galera-mariadb-galera-0 -- mysql -uroot -psecretpassword sdnctl -e 'select * from DHCP_MAP'".format(namespace, environment)
-p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
+kube_db_cmd = 'kubectl -n {0} exec {1}-mariadb-galera-mariadb-galera-0 -- bash -c'
+db_cmd = "mysql -uroot -psecretpassword sdnctl -e 'select * from DHCP_MAP'"
+p = Popen(kube_db_cmd.format(namespace, environment).split() + [db_cmd], stdout=PIPE)
 (output, error) = p.communicate()
 print(output)
