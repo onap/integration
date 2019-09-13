@@ -94,9 +94,9 @@ class VcpeCommon:
         self.vgw_VfModuleModelInvariantUuid = '26d6a718-17b2-4ba8-8691-c44343b2ecd2'
 
         # OOM: this is the address that the brg and bng will nat for sdnc access - 10.0.0.x address of k8 host for sdnc-0 container
-        self.sdnc_oam_ip = self.get_pod_node_oam_ip('sdnc-sdnc-0')
+        self.sdnc_oam_ip = self.get_pod_node_oam_ip(self.sdnc_controller_pod)
         # OOM: this is a k8s host external IP, e.g. oom-k8s-01 IP 
-        self.oom_so_sdnc_aai_ip = self.get_pod_node_public_ip('sdnc-sdnc-0')
+        self.oom_so_sdnc_aai_ip = self.get_pod_node_public_ip(self.sdnc_controller_pod)
         # OOM: this is a k8s host external IP, e.g. oom-k8s-01 IP
         self.oom_dcae_ves_collector = self.oom_so_sdnc_aai_ip
         # OOM: this is a k8s host external IP, e.g. oom-k8s-01 IP
@@ -382,7 +382,7 @@ class VcpeCommon:
                 break
 
         if ret is None:
-            ret = raw_input("Enter sdnc-sdnc-0 pod cluster node OAM IP address(10.0.0.0/16): ")
+            ret = raw_input("Enter " + self.sdnc_controller_pod + " pod cluster node OAM IP address(10.0.0.0/16): ")
         return ret
 
     def get_pod_node_public_ip(self, pod):
@@ -404,7 +404,7 @@ class VcpeCommon:
                 break
 
         if ret is None:
-            ret = raw_input("Enter sdnc-sdnc-0 pod cluster node public IP address(i.e. 10.12.0.0/16): ")
+            ret = raw_input("Enter " + self.sdnc_controller_pod + " pod cluster node public IP address(i.e. " + self.external_net_addr + "): ")
         return ret
 
     def get_vm_public_ip_by_nova(self, vm):
