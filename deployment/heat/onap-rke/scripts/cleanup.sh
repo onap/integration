@@ -13,7 +13,7 @@ NAMESPACE=`echo "$2" | tr '[:upper:]' '[:lower:]'`
 DEPLOYMENT=`echo "$3" | tr '[:upper:]' '[:lower:]'`
 
 if [ $COMPONENT == "dcae" ]; then
-        ARRAY=(`kubectl get replicasets -n $NAMESPACE | grep $DEPLOYMENT- | awk '{print $1}'`)
+        ARRAY=(`kubectl get replicasets -n $NAMESPACE | grep $DEPLOYMENT-dcaegen2 | awk '{print $1}'`)
 	for i in ${ARRAY[*]}; do
 		kubectl delete replicaset -n $NAMESPACE $i
 	done
