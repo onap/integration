@@ -126,3 +126,39 @@ func hasFlagValidPort(flag string, params []string) bool {
 	}
 	return true
 }
+
+// IsAlwaysAdmitAdmissionControlPluginExcluded validates AlwaysAdmit is excluded from admission control plugins.
+func IsAlwaysAdmitAdmissionControlPluginExcluded(params []string) bool {
+	if isSingleFlagPresent("--enable-admission-plugins=", params) {
+		return !hasFlagArgumentIncluded("--enable-admission-plugins=", "AlwaysAdmit", params)
+	}
+	if isSingleFlagPresent("--admission-control=", params) {
+		return !hasFlagArgumentIncluded("--admission-control=", "AlwaysAdmit", params)
+	}
+	return false
+}
+
+// isSingleFlagPresent checks presence of selected flag and whether it was used once.
+func isSingleFlagPresent(flag string, params []string) bool {
+	found := filterFlags(params, flag)
+	if len(found) != 1 {
+		return false
+	}
+	return true
+}
+
+// hasFlagArgumentIncluded checks whether selected flag includes requested argument.
+func hasFlagArgumentIncluded(flag string, argument string, params []string) bool {
+	found := filterFlags(params, flag)
+	if len(found) != 1 {
+		return false
+	}
+
+	_, values := splitKV(found[0], "=")
+	for _, v := range strings.Split(values, ",") {
+		if v == argument {
+			return true
+		}
+	}
+	return false
+}

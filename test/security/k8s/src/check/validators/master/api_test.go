@@ -18,6 +18,10 @@ var _ = Describe("Api", func() {
 			"--profiling=false",
 			"--repair-malformed-updates=false",
 			"--service-account-lookup=true",
+			"--enable-admission-plugins=NamespaceLifecycle,LimitRanger,ServiceAccount," +
+				"TaintNodesByCondition,Priority,DefaultTolerationSeconds,DefaultStorageClass," +
+				"PersistentVolumeClaimResize,MutatingAdmissionWebhook,ValidatingAdmissionWebhook," +
+				"ResourceQuota",
 		}
 
 		// kubeApiServerCasablanca was obtained from virtual environment for testing
@@ -211,6 +215,17 @@ var _ = Describe("Api", func() {
 			Entry("Is not set on Casablanca cluster", kubeApiServerCasablanca, false),
 			Entry("Should be set to true on CIS-compliant cluster", kubeApiServerCISCompliant, true),
 			Entry("Should be set to true on Dublin cluster", kubeApiServerDublin, true),
+		)
+
+		DescribeTable("AlwaysAdmit admission control plugin",
+			func(params []string, expected bool) {
+				Expect(IsAlwaysAdmitAdmissionControlPluginExcluded(params)).To(Equal(expected))
+			},
+			Entry("Is not absent on insecure cluster", []string{"--enable-admission-plugins=Foo,Bar,AlwaysAdmit,Baz,Quuz"}, false),
+			Entry("Is not absent on insecure deprecated cluster", []string{"--admission-control=Foo,Bar,AlwaysAdmit,Baz,Quuz"}, false),
+			Entry("Should be absent on CIS-compliant cluster", kubeApiServerCISCompliant, true),
+			Entry("Should be absent on Casablanca cluster", kubeApiServerCasablanca, true),
+			Entry("Should be absent on Dublin cluster", kubeApiServerDublin, true),
 		)
 	})
 })

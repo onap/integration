@@ -51,4 +51,6 @@ func main() {
 	log.Printf("IsKubeletHTTPSAbsentOrEnabled: %t\n", master.IsKubeletHTTPSAbsentOrEnabled(k8sParams))
 	log.Printf("IsInsecureBindAddressAbsentOrLoopback: %t\n", master.IsInsecureBindAddressAbsentOrLoopback(k8sParams))
 	log.Printf("IsSecurePortAbsentOrValid: %t\n", master.IsSecurePortAbsentOrValid(k8sParams))
+
+	log.Printf("IsAlwaysAdmitAdmissionControlPluginExcluded: %t\n", master.IsAlwaysAdmitAdmissionControlPluginExcluded(k8sParams))
 }
