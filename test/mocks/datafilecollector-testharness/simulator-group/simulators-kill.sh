@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #Script to kill and remove all simulators
-
+docker logs dfc_mr-sim
 echo "Killing simulator containers"
 docker kill dfc_dr-sim
 docker kill dfc_dr-redir-sim
