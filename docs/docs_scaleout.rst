@@ -64,6 +64,32 @@ The Scale Out Use Case
 ~~~~~~~~~~~~~~~~~~~~~~
 The Scale Out use case shows how users/network operators can add Virtual Network Function Components (VNFCs) as part of a VF Module that has been instantiated in the Service model, in order to increase capacity of the network. ONAP Dublin release supports scale out with manual trigger by directly calling SO APIs and closed-loop-enabled automation from Policy. For Dublin, the APPC controller is used to demonstrate accepting request from SO to execute the Scale Out operation. APPC can be used to scale different VNF types, not only the VNF described in this document.
 
+The figure below shows all the interactions that take place during scale out operations.
+
+.. figure:: files/scaleout/scaleout.png
+   :align: center
+
+There are four different message flows:
+  - Gray: This is communication that happens internally to the VNF and it is described in the section above.
+  - Green: Scale out with manual trigger.
+  - Red: Closed-loop enabled scale out.
+  - Black: Orchestration and VNF lifecycle management (LCM) operations.
+
+The numbers in the figure represent the sequence of steps within a given flow. Note that interactions between the components in the picture and AAI, SDNC, and DMaaP are not shown for clarity's sake.
+
+Scale out with manual trigger (green flow) and closed-loop enabled scale out (red flow) are mutually exclusive. When the manual trigger is used, VID directly triggers the appropriate workflow in SO (step 1 of the green flow in the figure above). See Section 4 for more details. 
+
+When closed-loop enabled scale out is used, Policy triggers the SO workflow. The closed loop starts with the vLB periodically reporting telemetry about traffic patterns to the VES collector in DCAE (step 1 of the red flow). When the amount of traffic exceeds a given threshold (which the user defines during closed loop creation in CLAMP - see Section 1-4), DCAE notifies Policy (step 2), which in turn triggers the appropriate action. For this use case, the action is contacting SO to augment resource capacity in the network (step 3).
+
+At high level, once SO receives a call for scale out actions, it first creates a new VF module (step 1 of the black flow), then calls APPC to trigger some LCM actions (step 2). APPC runs VNF health check and configuration scale out as part of LCM actions (step 3). At this time, the VNF health check only reports the health status of the vLB, while the configuration scale out operation adds a new vDNS instance to the vLB internal state. As a result of configuration scale out, the vLB opens a connection towards the new vDNS instance.
+
+At deeper level, the SO workflow works as depicted below:
+
+.. figure:: files/scaleout/so-blocks.png
+   :align: center
+
+SO first contacts APPC to run VNF health check and proceeds on to the next block only if the vLB is healthy (not shown in the previous figure for simplicity's sake). Then, SO assigns resources, instantiates, and activates the new VF module. Finally, SO calls APPC again for configuration scale out and VNF health check. The VNF health check at the end of the workflow validates that the vLB health status hasn't been negatively affected by the scale out operation.
+
 
 PART 1 - Service Definition and Onboarding
 ------------------------------------------
@@ -720,7 +746,12 @@ For scale out with manual trigger, VID is not supported at this time. Users can 
   }'
 
 
-To fill in the JSON object, users can refer to the Service Model TOSCA template linked at the top of the page. The template contains all the model (invariant/version/customization) IDs of service, VNF, and VF modules that the input request to SO needs.
+To fill in the JSON object, users need to download the Service Model TOSCA template from the SDC Portal using one of the standard SDC users (for example user: cs0008, password: demo123456!). After logging to SDC, the user should select from the catalog the vLB service that they created, click the "TOSCA Artifacts" link on the left, and finally the download button on the right, as shown in the figure below:
+
+.. figure:: files/scaleout/tosca_template_fig.png
+   :align: center
+
+For the example described below, users can refer to the TOSCA template linked at the top of the page. The template contains all the model (invariant/version/customization) IDs of service, VNF, and VF modules that the input request to SO needs.
 
 The values of modelInvariantId, modelVersionId, and modelName in the relatedInstance item identified by "modelType": "service" in the JSON request to SO have to match invariantUUID, UUID, and name, respectively, in the TOSCA template:
 ::
