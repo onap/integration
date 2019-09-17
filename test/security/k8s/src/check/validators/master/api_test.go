@@ -23,6 +23,7 @@ var _ = Describe("Api", func() {
 				"PersistentVolumeClaimResize,MutatingAdmissionWebhook,ValidatingAdmissionWebhook," +
 				"ResourceQuota,AlwaysPullImages,DenyEscalatingExec,SecurityContextDeny," +
 				"PodSecurityPolicy,NodeRestriction,EventRateLimit",
+			"--authorization-mode=RBAC",
 		}
 
 		// kubeApiServerCasablanca was obtained from virtual environment for testing
@@ -314,6 +315,17 @@ var _ = Describe("Api", func() {
 			Entry("Should not be disabled on CIS-compliant cluster", kubeApiServerCISCompliant, true),
 			Entry("Should not be disabled on Casablanca cluster", kubeApiServerCasablanca, true),
 			Entry("Should not be disabled on Dublin cluster", kubeApiServerDublin, true),
+		)
+
+		DescribeTable("AlwaysAllow authorization mode",
+			func(params []string, expected bool) {
+				Expect(IsAlwaysAllowAuthorizationModeExcluded(params)).To(Equal(expected))
+			},
+			Entry("Is not explicitly disabled on insecure cluster", []string{}, false),
+			Entry("Is not absent on insecure cluster", []string{"--authorization-mode=Foo,Bar,AlwaysAllow,Baz,Quuz"}, false),
+			Entry("Is not explicitly disabled on Casablanca cluster", kubeApiServerCasablanca, false),
+			Entry("Should be absent on CIS-compliant cluster", kubeApiServerCISCompliant, true),
+			Entry("Should be absent on Dublin cluster", kubeApiServerDublin, true),
 		)
 	})
 })

@@ -63,4 +63,6 @@ func main() {
 	log.Printf("IsEventRateLimitAdmissionControlPluginIncluded: %t\n", master.IsEventRateLimitAdmissionControlPluginIncluded(k8sParams))
 
 	log.Printf("IsNamespaceLifecycleAdmissionControlPluginNotExcluded: %t\n", master.IsNamespaceLifecycleAdmissionControlPluginNotExcluded(k8sParams))
+
+	log.Printf("IsAlwaysAllowAuthorizationModeExcluded: %t\n", master.IsAlwaysAllowAuthorizationModeExcluded(k8sParams))
 }
