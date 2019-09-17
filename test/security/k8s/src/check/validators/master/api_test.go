@@ -305,5 +305,15 @@ var _ = Describe("Api", func() {
 			Entry("Is not present on Dublin cluster", kubeApiServerDublin, false),
 			Entry("Should be present on CIS-compliant cluster", kubeApiServerCISCompliant, true),
 		)
+
+		DescribeTable("NamespaceLifecycle admission control plugin",
+			func(params []string, expected bool) {
+				Expect(IsNamespaceLifecycleAdmissionControlPluginNotExcluded(params)).To(Equal(expected))
+			},
+			Entry("Is explicitly disabled on insecure cluster", []string{"--disable-admission-plugins=Foo,Bar,NamespaceLifecycle,Baz,Quuz"}, false),
+			Entry("Should not be disabled on CIS-compliant cluster", kubeApiServerCISCompliant, true),
+			Entry("Should not be disabled on Casablanca cluster", kubeApiServerCasablanca, true),
+			Entry("Should not be disabled on Dublin cluster", kubeApiServerDublin, true),
+		)
 	})
 })
