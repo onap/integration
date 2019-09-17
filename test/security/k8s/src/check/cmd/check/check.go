@@ -67,4 +67,7 @@ func main() {
 	log.Printf("IsAlwaysAllowAuthorizationModeExcluded: %t\n", master.IsAlwaysAllowAuthorizationModeExcluded(k8sParams))
 
 	log.Printf("IsAuditLogPathSet: %t\n", master.IsAuditLogPathSet(k8sParams))
+	log.Printf("IsAuditLogMaxAgeValid: %t\n", master.IsAuditLogPathSet(k8sParams))
+	log.Printf("IsAuditLogMaxBackupValid: %t\n", master.IsAuditLogPathSet(k8sParams))
+	log.Printf("IsAuditLogMaxSizeValid: %t\n", master.IsAuditLogPathSet(k8sParams))
 }

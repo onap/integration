@@ -9,6 +9,10 @@ const (
 	portDisabled = 0
 	portLowest   = 1
 	portHighest  = 65536
+
+	auditLogAge     = 30
+	auditLogBackups = 10
+	auditLogSize    = 100
 )
 
 // IsBasicAuthFileAbsent validates there is no basic authentication file specified.
@@ -268,6 +272,40 @@ func hasSingleFlagNonemptyArgument(flag string, params []string) bool {
 
 	_, value := splitKV(found[0], "=")
 	if value == "" {
+		return false
+	}
+	return true
+}
+
+// IsAuditLogMaxAgeValid validates audit log age is set and it has recommended value.
+func IsAuditLogMaxAgeValid(params []string) bool {
+	return hasSingleFlagRecommendedNumericArgument("--audit-log-maxage", auditLogAge, params)
+}
+
+// IsAuditLogMaxBackupValid validates audit log age is set and it has recommended value.
+func IsAuditLogMaxBackupValid(params []string) bool {
+	return hasSingleFlagRecommendedNumericArgument("--audit-log-maxbackup", auditLogBackups, params)
+}
+
+// IsAuditLogMaxSizeValid validates audit log age is set and it has recommended value.
+func IsAuditLogMaxSizeValid(params []string) bool {
+	return hasSingleFlagRecommendedNumericArgument("--audit-log-maxsize", auditLogSize, params)
+}
+
+// hasSingleFlagRecommendedNumericArgument checks whether selected flag was used once and has
+// an argument that is greater or equal than the recommended value for given command.
+func hasSingleFlagRecommendedNumericArgument(flag string, recommendation int, params []string) bool {
+	found := filterFlags(params, flag)
+	if len(found) != 1 {
+		return false
+	}
+
+	_, value := splitKV(found[0], "=")
+	arg, err := strconv.Atoi(value) // what about empty parameter?
+	if err != nil {
+		return false
+	}
+	if arg < recommendation {
 		return false
 	}
 	return true
