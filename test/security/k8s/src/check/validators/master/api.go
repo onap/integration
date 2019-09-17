@@ -253,3 +253,22 @@ func IsAlwaysAllowAuthorizationModeExcluded(params []string) bool {
 	return isSingleFlagPresent("--authorization-mode=", params) &&
 		!hasFlagArgumentIncluded("--authorization-mode=", "AlwaysAllow", params)
 }
+
+// IsAuditLogPathSet validates there is single "--audit-log-path" flag and has non-empty argument.
+func IsAuditLogPathSet(params []string) bool {
+	return hasSingleFlagNonemptyArgument("--audit-log-path=", params)
+}
+
+// hasSingleFlagNonemptyArgument checks whether selected flag was used once and has non-empty argument.
+func hasSingleFlagNonemptyArgument(flag string, params []string) bool {
+	found := filterFlags(params, flag)
+	if len(found) != 1 {
+		return false
+	}
+
+	_, value := splitKV(found[0], "=")
+	if value == "" {
+		return false
+	}
+	return true
+}

@@ -24,6 +24,7 @@ var _ = Describe("Api", func() {
 				"ResourceQuota,AlwaysPullImages,DenyEscalatingExec,SecurityContextDeny," +
 				"PodSecurityPolicy,NodeRestriction,EventRateLimit",
 			"--authorization-mode=RBAC",
+			"--audit-log-path=/var/log/apiserver/audit.log",
 		}
 
 		// kubeApiServerCasablanca was obtained from virtual environment for testing
@@ -188,6 +189,17 @@ var _ = Describe("Api", func() {
 			Entry("Should be absent on CIS-compliant cluster", kubeApiServerCISCompliant, true),
 			Entry("Should be absent on Casablanca cluster", kubeApiServerCasablanca, true),
 			Entry("Should be absent on Dublin cluster", kubeApiServerDublin, true),
+		)
+
+		DescribeTable("Audit log path",
+			func(params []string, expected bool) {
+				Expect(IsAuditLogPathSet(params)).To(Equal(expected))
+			},
+			Entry("Is absent on insecure cluster", []string{}, false),
+			Entry("Is empty on insecure cluster", []string{"--audit-log-path="}, false),
+			Entry("Is absent on Casablanca cluster", kubeApiServerCasablanca, false),
+			Entry("Is absent on Dublin cluster", kubeApiServerDublin, false),
+			Entry("Should be present on CIS-compliant cluster", kubeApiServerCISCompliant, true),
 		)
 	})
 
