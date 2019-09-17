@@ -53,4 +53,12 @@ func main() {
 	log.Printf("IsSecurePortAbsentOrValid: %t\n", master.IsSecurePortAbsentOrValid(k8sParams))
 
 	log.Printf("IsAlwaysAdmitAdmissionControlPluginExcluded: %t\n", master.IsAlwaysAdmitAdmissionControlPluginExcluded(k8sParams))
+
+	log.Printf("IsAlwaysPullImagesAdmissionControlPluginIncluded: %t\n", master.IsAlwaysPullImagesAdmissionControlPluginIncluded(k8sParams))
+	log.Printf("IsDenyEscalatingExecAdmissionControlPluginIncluded: %t\n", master.IsDenyEscalatingExecAdmissionControlPluginIncluded(k8sParams))
+	log.Printf("IsSecurityContextDenyAdmissionControlPluginIncluded: %t\n", master.IsSecurityContextDenyAdmissionControlPluginIncluded(k8sParams))
+	log.Printf("IsPodSecurityPolicyAdmissionControlPluginIncluded: %t\n", master.IsPodSecurityPolicyAdmissionControlPluginIncluded(k8sParams))
+	log.Printf("IsServiceAccountAdmissionControlPluginIncluded: %t\n", master.IsServiceAccountAdmissionControlPluginIncluded(k8sParams))
+	log.Printf("IsNodeRestrictionAdmissionControlPluginIncluded: %t\n", master.IsNodeRestrictionAdmissionControlPluginIncluded(k8sParams))
+	log.Printf("IsEventRateLimitAdmissionControlPluginIncluded: %t\n", master.IsEventRateLimitAdmissionControlPluginIncluded(k8sParams))
 }

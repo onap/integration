@@ -138,6 +138,83 @@ func IsAlwaysAdmitAdmissionControlPluginExcluded(params []string) bool {
 	return false
 }
 
+// IsAlwaysPullImagesAdmissionControlPluginIncluded validates AlwaysPullImages is included in admission control plugins.
+func IsAlwaysPullImagesAdmissionControlPluginIncluded(params []string) bool {
+	if isSingleFlagPresent("--enable-admission-plugins=", params) {
+		return hasFlagArgumentIncluded("--enable-admission-plugins=", "AlwaysPullImages", params)
+	}
+	if isSingleFlagPresent("--admission-control=", params) {
+		return hasFlagArgumentIncluded("--admission-control=", "AlwaysPullImages", params)
+	}
+	return false
+}
+
+// IsDenyEscalatingExecAdmissionControlPluginIncluded validates DenyEscalatingExec is included in admission control plugins.
+func IsDenyEscalatingExecAdmissionControlPluginIncluded(params []string) bool {
+	if isSingleFlagPresent("--enable-admission-plugins=", params) {
+		return hasFlagArgumentIncluded("--enable-admission-plugins=", "DenyEscalatingExec", params)
+	}
+	if isSingleFlagPresent("--admission-control=", params) {
+		return hasFlagArgumentIncluded("--admission-control=", "DenyEscalatingExec", params)
+	}
+	return false
+}
+
+// IsSecurityContextDenyAdmissionControlPluginIncluded validates SecurityContextDeny is included in admission control plugins.
+func IsSecurityContextDenyAdmissionControlPluginIncluded(params []string) bool {
+	if isSingleFlagPresent("--enable-admission-plugins=", params) {
+		return hasFlagArgumentIncluded("--enable-admission-plugins=", "SecurityContextDeny", params)
+	}
+	if isSingleFlagPresent("--admission-control=", params) {
+		return hasFlagArgumentIncluded("--admission-control=", "SecurityContextDeny", params)
+	}
+	return false
+}
+
+// IsPodSecurityPolicyAdmissionControlPluginIncluded validates PodSecurityPolicy is included in admission control plugins.
+func IsPodSecurityPolicyAdmissionControlPluginIncluded(params []string) bool {
+	if isSingleFlagPresent("--enable-admission-plugins=", params) {
+		return hasFlagArgumentIncluded("--enable-admission-plugins=", "PodSecurityPolicy", params)
+	}
+	if isSingleFlagPresent("--admission-control=", params) {
+		return hasFlagArgumentIncluded("--admission-control=", "PodSecurityPolicy", params)
+	}
+	return false
+}
+
+// IsServiceAccountAdmissionControlPluginIncluded validates ServiceAccount is included in admission control plugins.
+func IsServiceAccountAdmissionControlPluginIncluded(params []string) bool {
+	if isSingleFlagPresent("--enable-admission-plugins=", params) {
+		return hasFlagArgumentIncluded("--enable-admission-plugins=", "ServiceAccount", params)
+	}
+	if isSingleFlagPresent("--admission-control=", params) {
+		return hasFlagArgumentIncluded("--admission-control=", "ServiceAccount", params)
+	}
+	return false
+}
+
+// IsNodeRestrictionAdmissionControlPluginIncluded validates NodeRestriction is included in admission control plugins.
+func IsNodeRestrictionAdmissionControlPluginIncluded(params []string) bool {
+	if isSingleFlagPresent("--enable-admission-plugins=", params) {
+		return hasFlagArgumentIncluded("--enable-admission-plugins=", "NodeRestriction", params)
+	}
+	if isSingleFlagPresent("--admission-control=", params) {
+		return hasFlagArgumentIncluded("--admission-control=", "NodeRestriction", params)
+	}
+	return false
+}
+
+// IsEventRateLimitAdmissionControlPluginIncluded validates EventRateLimit is included in admission control plugins.
+func IsEventRateLimitAdmissionControlPluginIncluded(params []string) bool {
+	if isSingleFlagPresent("--enable-admission-plugins=", params) {
+		return hasFlagArgumentIncluded("--enable-admission-plugins=", "EventRateLimit", params)
+	}
+	if isSingleFlagPresent("--admission-control=", params) {
+		return hasFlagArgumentIncluded("--admission-control=", "EventRateLimit", params)
+	}
+	return false
+}
+
 // isSingleFlagPresent checks presence of selected flag and whether it was used once.
 func isSingleFlagPresent(flag string, params []string) bool {
 	found := filterFlags(params, flag)

@@ -21,7 +21,8 @@ var _ = Describe("Api", func() {
 			"--enable-admission-plugins=NamespaceLifecycle,LimitRanger,ServiceAccount," +
 				"TaintNodesByCondition,Priority,DefaultTolerationSeconds,DefaultStorageClass," +
 				"PersistentVolumeClaimResize,MutatingAdmissionWebhook,ValidatingAdmissionWebhook," +
-				"ResourceQuota",
+				"ResourceQuota,AlwaysPullImages,DenyEscalatingExec,SecurityContextDeny," +
+				"PodSecurityPolicy,NodeRestriction,EventRateLimit",
 		}
 
 		// kubeApiServerCasablanca was obtained from virtual environment for testing
@@ -226,6 +227,83 @@ var _ = Describe("Api", func() {
 			Entry("Should be absent on CIS-compliant cluster", kubeApiServerCISCompliant, true),
 			Entry("Should be absent on Casablanca cluster", kubeApiServerCasablanca, true),
 			Entry("Should be absent on Dublin cluster", kubeApiServerDublin, true),
+		)
+
+		DescribeTable("AlwaysPullImages admission control plugin",
+			func(params []string, expected bool) {
+				Expect(IsAlwaysPullImagesAdmissionControlPluginIncluded(params)).To(Equal(expected))
+			},
+			Entry("Is not present on insecure cluster", []string{"--enable-admission-plugins=Foo,Bar"}, false),
+			Entry("Is not present on insecure deprecated cluster", []string{"--admission-control=Foo,Bar"}, false),
+			Entry("Is not present on Casablanca cluster", kubeApiServerCasablanca, false),
+			Entry("Is not present on Dublin cluster", kubeApiServerDublin, false),
+			Entry("Should be present on CIS-compliant cluster", kubeApiServerCISCompliant, true),
+		)
+
+		DescribeTable("DenyEscalatingExec admission control plugin",
+			func(params []string, expected bool) {
+				Expect(IsDenyEscalatingExecAdmissionControlPluginIncluded(params)).To(Equal(expected))
+			},
+			Entry("Is not present on insecure cluster", []string{"--enable-admission-plugins=Foo,Bar"}, false),
+			Entry("Is not present on insecure deprecated cluster", []string{"--admission-control=Foo,Bar"}, false),
+			Entry("Is not present on Casablanca cluster", kubeApiServerCasablanca, false),
+			Entry("Is not present on Dublin cluster", kubeApiServerDublin, false),
+			Entry("Should be present on CIS-compliant cluster", kubeApiServerCISCompliant, true),
+		)
+
+		DescribeTable("SecurityContextDeny admission control plugin",
+			func(params []string, expected bool) {
+				Expect(IsSecurityContextDenyAdmissionControlPluginIncluded(params)).To(Equal(expected))
+			},
+			Entry("Is not present on insecure cluster", []string{"--enable-admission-plugins=Foo,Bar"}, false),
+			Entry("Is not present on insecure deprecated cluster", []string{"--admission-control=Foo,Bar"}, false),
+			Entry("Is not present on Casablanca cluster", kubeApiServerCasablanca, false),
+			Entry("Is not present on Dublin cluster", kubeApiServerDublin, false),
+			Entry("Should be present on CIS-compliant cluster", kubeApiServerCISCompliant, true),
+		)
+
+		DescribeTable("PodSecurityPolicy admission control plugin",
+			func(params []string, expected bool) {
+				Expect(IsPodSecurityPolicyAdmissionControlPluginIncluded(params)).To(Equal(expected))
+			},
+			Entry("Is not present on insecure cluster", []string{"--enable-admission-plugins=Foo,Bar"}, false),
+			Entry("Is not present on insecure deprecated cluster", []string{"--admission-control=Foo,Bar"}, false),
+			Entry("Is not present on Casablanca cluster", kubeApiServerCasablanca, false),
+			Entry("Is not present on Dublin cluster", kubeApiServerDublin, false),
+			Entry("Should be present on CIS-compliant cluster", kubeApiServerCISCompliant, true),
+		)
+
+		DescribeTable("ServiceAccount admission control plugin",
+			func(params []string, expected bool) {
+				Expect(IsServiceAccountAdmissionControlPluginIncluded(params)).To(Equal(expected))
+			},
+			Entry("Is not present on insecure cluster", []string{"--enable-admission-plugins=Foo,Bar"}, false),
+			Entry("Is not present on insecure deprecated cluster", []string{"--admission-control=Foo,Bar"}, false),
+			Entry("Should be present on CIS-compliant cluster", kubeApiServerCISCompliant, true),
+			Entry("Should be present on Casablanca cluster", kubeApiServerCasablanca, true),
+			Entry("Should be present on Dublin cluster", kubeApiServerDublin, true),
+		)
+
+		DescribeTable("NodeRestriction admission control plugin",
+			func(params []string, expected bool) {
+				Expect(IsNodeRestrictionAdmissionControlPluginIncluded(params)).To(Equal(expected))
+			},
+			Entry("Is not present on insecure cluster", []string{"--enable-admission-plugins=Foo,Bar"}, false),
+			Entry("Is not present on insecure deprecated cluster", []string{"--admission-control=Foo,Bar"}, false),
+			Entry("Is not present on Casablanca cluster", kubeApiServerCasablanca, false),
+			Entry("Should be present on CIS-compliant cluster", kubeApiServerCISCompliant, true),
+			Entry("Should be present on Dublin cluster", kubeApiServerDublin, true),
+		)
+
+		DescribeTable("EventRateLimit admission control plugin",
+			func(params []string, expected bool) {
+				Expect(IsEventRateLimitAdmissionControlPluginIncluded(params)).To(Equal(expected))
+			},
+			Entry("Is not present on insecure cluster", []string{"--enable-admission-plugins=Foo,Bar"}, false),
+			Entry("Is not present on insecure deprecated cluster", []string{"--admission-control=Foo,Bar"}, false),
+			Entry("Is not present on Casablanca cluster", kubeApiServerCasablanca, false),
+			Entry("Is not present on Dublin cluster", kubeApiServerDublin, false),
+			Entry("Should be present on CIS-compliant cluster", kubeApiServerCISCompliant, true),
 		)
 	})
 })
