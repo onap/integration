@@ -105,26 +105,6 @@ var _ = Describe("Api", func() {
 	)
 
 	Describe("Boolean flags", func() {
-		DescribeTable("Basic authentication file",
-			func(params []string, expected bool) {
-				Expect(IsBasicAuthFileAbsent(params)).To(Equal(expected))
-			},
-			Entry("Is not absent on insecure cluster", []string{"--basic-auth-file=/path/to/file"}, false),
-			Entry("Should be absent on CIS-compliant cluster", kubeApiServerCISCompliant, true),
-			Entry("Should be absent on Casablanca cluster", kubeApiServerCasablanca, true),
-			Entry("Should be absent on Dublin cluster", kubeApiServerDublin, true),
-		)
-
-		DescribeTable("Token authentication file",
-			func(params []string, expected bool) {
-				Expect(IsTokenAuthFileAbsent(params)).To(Equal(expected))
-			},
-			Entry("Is not absent on insecure cluster", []string{"--token-auth-file=/path/to/file"}, false),
-			Entry("Should be absent on CIS-compliant cluster", kubeApiServerCISCompliant, true),
-			Entry("Should be absent on Casablanca cluster", kubeApiServerCasablanca, true),
-			Entry("Should be absent on Dublin cluster", kubeApiServerDublin, true),
-		)
-
 		DescribeTable("Accepting any token",
 			func(params []string, expected bool) {
 				Expect(IsInsecureAllowAnyTokenAbsent(params)).To(Equal(expected))
@@ -145,6 +125,17 @@ var _ = Describe("Api", func() {
 			Entry("Should be set to false on Dublin cluster", kubeApiServerDublin, true),
 		)
 
+		DescribeTable("Profiling",
+			func(params []string, expected bool) {
+				Expect(IsProfilingDisabled(params)).To(Equal(expected))
+			},
+			Entry("Is not set on insecure cluster", []string{}, false),
+			Entry("Is explicitly enabled on insecure cluster", []string{"--profiling=true"}, false),
+			Entry("Is not set on Casablanca cluster", kubeApiServerCasablanca, false),
+			Entry("Should be set to false on CIS-compliant cluster", kubeApiServerCISCompliant, true),
+			Entry("Should be set to false on Dublin cluster", kubeApiServerDublin, true),
+		)
+
 		DescribeTable("HTTPS for kubelet",
 			func(params []string, expected bool) {
 				Expect(IsKubeletHTTPSAbsentOrEnabled(params)).To(Equal(expected))
@@ -155,6 +146,52 @@ var _ = Describe("Api", func() {
 			Entry("Should be absent or set to true on Dublin cluster", kubeApiServerDublin, true),
 		)
 
+		DescribeTable("Repairing malformed updates",
+			func(params []string, expected bool) {
+				Expect(IsRepairMalformedUpdatesDisabled(params)).To(Equal(expected))
+			},
+			Entry("Is not set on insecure cluster", []string{}, false),
+			Entry("Is explicitly enabled on insecure cluster", []string{"--repair-malformed-updates=true"}, false),
+			Entry("Is not set on Casablanca cluster", kubeApiServerCasablanca, false),
+			Entry("Should be set to false on CIS-compliant cluster", kubeApiServerCISCompliant, true),
+			Entry("Should be set to false on Dublin cluster", kubeApiServerDublin, true),
+		)
+
+		DescribeTable("Service account lookup",
+			func(params []string, expected bool) {
+				Expect(IsServiceAccountLookupEnabled(params)).To(Equal(expected))
+			},
+			Entry("Is not set on insecure cluster", []string{}, false),
+			Entry("Is explicitly disabled on insecure cluster", []string{"--service-account-lookup=false"}, false),
+			Entry("Is not set on Casablanca cluster", kubeApiServerCasablanca, false),
+			Entry("Should be set to true on CIS-compliant cluster", kubeApiServerCISCompliant, true),
+			Entry("Should be set to true on Dublin cluster", kubeApiServerDublin, true),
+		)
+	})
+
+	Describe("File path flags", func() {
+		DescribeTable("Basic authentication file",
+			func(params []string, expected bool) {
+				Expect(IsBasicAuthFileAbsent(params)).To(Equal(expected))
+			},
+			Entry("Is not absent on insecure cluster", []string{"--basic-auth-file=/path/to/file"}, false),
+			Entry("Should be absent on CIS-compliant cluster", kubeApiServerCISCompliant, true),
+			Entry("Should be absent on Casablanca cluster", kubeApiServerCasablanca, true),
+			Entry("Should be absent on Dublin cluster", kubeApiServerDublin, true),
+		)
+
+		DescribeTable("Token authentication file",
+			func(params []string, expected bool) {
+				Expect(IsTokenAuthFileAbsent(params)).To(Equal(expected))
+			},
+			Entry("Is not absent on insecure cluster", []string{"--token-auth-file=/path/to/file"}, false),
+			Entry("Should be absent on CIS-compliant cluster", kubeApiServerCISCompliant, true),
+			Entry("Should be absent on Casablanca cluster", kubeApiServerCasablanca, true),
+			Entry("Should be absent on Dublin cluster", kubeApiServerDublin, true),
+		)
+	})
+
+	Describe("Address and port flags", func() {
 		DescribeTable("Bind address",
 			func(params []string, expected bool) {
 				Expect(IsInsecureBindAddressAbsentOrLoopback(params)).To(Equal(expected))
@@ -185,40 +222,9 @@ var _ = Describe("Api", func() {
 			Entry("Should be absent or set to valid port on Casablanca cluster", kubeApiServerCasablanca, true),
 			Entry("Should be absent or set to valid port on Dublin cluster", kubeApiServerDublin, true),
 		)
+	})
 
-		DescribeTable("Profiling",
-			func(params []string, expected bool) {
-				Expect(IsProfilingDisabled(params)).To(Equal(expected))
-			},
-			Entry("Is not set on insecure cluster", []string{}, false),
-			Entry("Is explicitly enabled on insecure cluster", []string{"--profiling=true"}, false),
-			Entry("Is not set on Casablanca cluster", kubeApiServerCasablanca, false),
-			Entry("Should be set to false on CIS-compliant cluster", kubeApiServerCISCompliant, true),
-			Entry("Should be set to false on Dublin cluster", kubeApiServerDublin, true),
-		)
-
-		DescribeTable("Repairing malformed updates",
-			func(params []string, expected bool) {
-				Expect(IsRepairMalformedUpdatesDisabled(params)).To(Equal(expected))
-			},
-			Entry("Is not set on insecure cluster", []string{}, false),
-			Entry("Is explicitly enabled on insecure cluster", []string{"--repair-malformed-updates=true"}, false),
-			Entry("Is not set on Casablanca cluster", kubeApiServerCasablanca, false),
-			Entry("Should be set to false on CIS-compliant cluster", kubeApiServerCISCompliant, true),
-			Entry("Should be set to false on Dublin cluster", kubeApiServerDublin, true),
-		)
-
-		DescribeTable("Service account lookup",
-			func(params []string, expected bool) {
-				Expect(IsServiceAccountLookupEnabled(params)).To(Equal(expected))
-			},
-			Entry("Is not set on insecure cluster", []string{}, false),
-			Entry("Is explicitly disabled on insecure cluster", []string{"--service-account-lookup=false"}, false),
-			Entry("Is not set on Casablanca cluster", kubeApiServerCasablanca, false),
-			Entry("Should be set to true on CIS-compliant cluster", kubeApiServerCISCompliant, true),
-			Entry("Should be set to true on Dublin cluster", kubeApiServerDublin, true),
-		)
-
+	Describe("Argument list flags", func() {
 		DescribeTable("AlwaysAdmit admission control plugin",
 			func(params []string, expected bool) {
 				Expect(IsAlwaysAdmitAdmissionControlPluginExcluded(params)).To(Equal(expected))
