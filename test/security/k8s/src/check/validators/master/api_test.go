@@ -25,6 +25,9 @@ var _ = Describe("Api", func() {
 				"PodSecurityPolicy,NodeRestriction,EventRateLimit",
 			"--authorization-mode=RBAC",
 			"--audit-log-path=/var/log/apiserver/audit.log",
+			"--audit-log-maxage=30",
+			"--audit-log-maxbackup=10",
+			"--audit-log-maxsize=100",
 		}
 
 		// kubeApiServerCasablanca was obtained from virtual environment for testing
@@ -233,6 +236,44 @@ var _ = Describe("Api", func() {
 			Entry("Should be absent or set to valid port on CIS-compliant cluster", kubeApiServerCISCompliant, true),
 			Entry("Should be absent or set to valid port on Casablanca cluster", kubeApiServerCasablanca, true),
 			Entry("Should be absent or set to valid port on Dublin cluster", kubeApiServerDublin, true),
+		)
+	})
+
+	Describe("Numeric flags", func() {
+		DescribeTable("Audit log age",
+			func(params []string, expected bool) {
+				Expect(IsAuditLogMaxAgeValid(params)).To(Equal(expected))
+			},
+			Entry("Is absent on insecure cluster", []string{}, false),
+			Entry("Is empty on insecure cluster", []string{"--audit-log-maxage="}, false),
+			Entry("Is insufficient on insecure cluster", []string{"--audit-log-maxage=5"}, false),
+			Entry("Is absent on Casablanca cluster", kubeApiServerCasablanca, false),
+			Entry("Is absent on Dublin cluster", kubeApiServerDublin, false),
+			Entry("Should be set appropriately on CIS-compliant cluster", kubeApiServerCISCompliant, true),
+		)
+
+		DescribeTable("Audit log backups",
+			func(params []string, expected bool) {
+				Expect(IsAuditLogMaxBackupValid(params)).To(Equal(expected))
+			},
+			Entry("Is absent on insecure cluster", []string{}, false),
+			Entry("Is empty on insecure cluster", []string{"--audit-log-maxbackup="}, false),
+			Entry("Is insufficient on insecure cluster", []string{"--audit-log-maxbackup=2"}, false),
+			Entry("Is absent on Casablanca cluster", kubeApiServerCasablanca, false),
+			Entry("Is absent on Dublin cluster", kubeApiServerDublin, false),
+			Entry("Should be set appropriately on CIS-compliant cluster", kubeApiServerCISCompliant, true),
+		)
+
+		DescribeTable("Audit log size",
+			func(params []string, expected bool) {
+				Expect(IsAuditLogMaxSizeValid(params)).To(Equal(expected))
+			},
+			Entry("Is absent on insecure cluster", []string{}, false),
+			Entry("Is empty on insecure cluster", []string{"--audit-log-maxsize="}, false),
+			Entry("Is insufficient on insecure cluster", []string{"--audit-log-maxsize=5"}, false),
+			Entry("Is absent on Casablanca cluster", kubeApiServerCasablanca, false),
+			Entry("Is absent on Dublin cluster", kubeApiServerDublin, false),
+			Entry("Should be set appropriately on CIS-compliant cluster", kubeApiServerCISCompliant, true),
 		)
 	})
 
