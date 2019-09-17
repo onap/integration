@@ -215,6 +215,14 @@ func IsEventRateLimitAdmissionControlPluginIncluded(params []string) bool {
 	return false
 }
 
+// IsNamespaceLifecycleAdmissionControlPluginNotExcluded validates NamespaceLifecycle is excluded from admission control plugins.
+func IsNamespaceLifecycleAdmissionControlPluginNotExcluded(params []string) bool {
+	if isSingleFlagPresent("--disable-admission-plugins=", params) {
+		return !hasFlagArgumentIncluded("--disable-admission-plugins=", "NamespaceLifecycle", params)
+	}
+	return true
+}
+
 // isSingleFlagPresent checks presence of selected flag and whether it was used once.
 func isSingleFlagPresent(flag string, params []string) bool {
 	found := filterFlags(params, flag)

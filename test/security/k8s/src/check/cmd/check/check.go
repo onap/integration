@@ -61,4 +61,6 @@ func main() {
 	log.Printf("IsServiceAccountAdmissionControlPluginIncluded: %t\n", master.IsServiceAccountAdmissionControlPluginIncluded(k8sParams))
 	log.Printf("IsNodeRestrictionAdmissionControlPluginIncluded: %t\n", master.IsNodeRestrictionAdmissionControlPluginIncluded(k8sParams))
 	log.Printf("IsEventRateLimitAdmissionControlPluginIncluded: %t\n", master.IsEventRateLimitAdmissionControlPluginIncluded(k8sParams))
+
+	log.Printf("IsNamespaceLifecycleAdmissionControlPluginNotExcluded: %t\n", master.IsNamespaceLifecycleAdmissionControlPluginNotExcluded(k8sParams))
 }
