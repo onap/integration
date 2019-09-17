@@ -247,3 +247,9 @@ func hasFlagArgumentIncluded(flag string, argument string, params []string) bool
 	}
 	return false
 }
+
+// IsAlwaysAllowAuthorizationModeExcluded validates AlwaysAllow is excluded from admission control plugins.
+func IsAlwaysAllowAuthorizationModeExcluded(params []string) bool {
+	return isSingleFlagPresent("--authorization-mode=", params) &&
+		!hasFlagArgumentIncluded("--authorization-mode=", "AlwaysAllow", params)
+}
