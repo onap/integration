@@ -23,7 +23,7 @@ class SdcUtils:
 
         url = self.vcpecommon.sdc_service_list_url
         self.logger.info(url)
-        r = requests.get(url, headers=self.vcpecommon.sdc_be_request_headers, auth=self.vcpecommon.sdc_be_request_userpass)
+        r = requests.get(url, headers=self.vcpecommon.sdc_be_request_headers, auth=self.vcpecommon.sdc_be_request_userpass, verify=False)
         self.logger.debug(r)
         data = r.json()
 
@@ -48,7 +48,7 @@ class SdcUtils:
 
     def download_file(self, url):
         self.logger.info(url)
-        response = requests.get(url, headers=self.vcpecommon.sdc_be_request_headers, auth=self.vcpecommon.sdc_be_request_userpass)
+        response = requests.get(url, headers=self.vcpecommon.sdc_be_request_headers, auth=self.vcpecommon.sdc_be_request_userpass, verify=False)
         filename = 'csar/' + self.get_filename_from_cd(response.headers.get('Content-Disposition'))
         open(filename, 'wb').write(response.content)
 
@@ -59,7 +59,7 @@ class SdcUtils:
         """
         url = self.vcpecommon.sdc_get_category_list_url
         self.logger.info(url)
-        resp = requests.get(url, headers=self.vcpecommon.sdc_fe_request_headers, auth=self.vcpecommon.sdc_fe_request_userpass)
+        resp = requests.get(url, headers=self.vcpecommon.sdc_fe_request_headers, auth=self.vcpecommon.sdc_fe_request_userpass, verify=False)
         data = resp.json()
 
         self.logger.debug('---------------------------------------------------------------')
@@ -79,7 +79,7 @@ class SdcUtils:
                     url = self.vcpecommon.sdc_create_allotted_resource_subcategory_url
                     self.logger.info(url)
                     details = {"name" : newSubcategory}
-                    resp = requests.post(url, headers=self.vcpecommon.sdc_fe_request_headers, auth=self.vcpecommon.sdc_fe_request_userpass, json=details)
+                    resp = requests.post(url, headers=self.vcpecommon.sdc_fe_request_headers, auth=self.vcpecommon.sdc_fe_request_userpass, json=details, verify=False)
                     self.logger.debug('---------------------------------------------------------------')
                     self.logger.debug('------- Creation subcategory request submitted to SDC, got response --------')
                     self.logger.debug('response code = %s' % resp.status_code )
