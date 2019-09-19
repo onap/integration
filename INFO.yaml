@@ -4,10 +4,10 @@ project_creation_date: '2017-02-10'
 lifecycle_state: 'Incubation'
 project_category: ''
 project_lead: &onap_releng_ptl
-    name: 'Yang Xu'
-    email: 'yang.xu3@huawei.com'
-    id: 'xuyang11'
-    company: 'Huawei'
+    name: 'Brian Freeman'
+    email: 'bf1936@att.com'
+    id: 'bdfreeman1421'
+    company: 'AT&T'
     timezone: 'America/New_York'
 primary_contact: *onap_releng_ptl
 issue_tracking:
@@ -123,8 +123,8 @@ committers:
       id: 'xinhuili'
       timezone: 'America/Santa_Clara'
     - name: 'Yang Xu'
-      email: 'yang.xu3@huawei.com'
-      company: 'Huawei'
+      email: 'xuyang11@gmail.com'
+      company: 'Individual Contributor'
       id: 'xuyang11'
       timezone: 'America/New_York'
     - name: 'yunlong ying'
@@ -146,7 +146,5 @@ tsc:
     approval: 'https://lists.onap.org/pipermail/onap-tsc'
     changes:
         - type: 'Addition'
-          name: 'Brian Freeman'
-          name: 'Mariusz Wagner'
+          name: 'Brian Freeman, Mariusz Wagner'
           link: 'https://wiki.onap.org/display/DW/TSC+2019-02-21'
-
