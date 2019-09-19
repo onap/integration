@@ -28,6 +28,9 @@ var _ = Describe("Api", func() {
 			"--audit-log-maxage=30",
 			"--audit-log-maxbackup=10",
 			"--audit-log-maxsize=100",
+			"--kubelet-certificate-authority=TrustedCA",
+			"--client-ca-file=/etc/kubernetes/ssl/ca.pem",
+			"--etcd-cafile=/etc/kubernetes/etcd/ca.pem",
 		}
 
 		// kubeApiServerCasablanca was obtained from virtual environment for testing
@@ -203,6 +206,39 @@ var _ = Describe("Api", func() {
 			Entry("Is absent on Casablanca cluster", kubeApiServerCasablanca, false),
 			Entry("Is absent on Dublin cluster", kubeApiServerDublin, false),
 			Entry("Should be present on CIS-compliant cluster", kubeApiServerCISCompliant, true),
+		)
+
+		DescribeTable("Kubelet certificate authority",
+			func(params []string, expected bool) {
+				Expect(IsKubeletCertificateAuthoritySet(params)).To(Equal(expected))
+			},
+			Entry("Is absent on insecure cluster", []string{}, false),
+			Entry("Is empty on insecure cluster", []string{"--kubelet-certificate-authority="}, false),
+			Entry("Is absent on Casablanca cluster", kubeApiServerCasablanca, false),
+			Entry("Is absent on Dublin cluster", kubeApiServerDublin, false),
+			Entry("Should be present on CIS-compliant cluster", kubeApiServerCISCompliant, true),
+		)
+
+		DescribeTable("Client certificate authority",
+			func(params []string, expected bool) {
+				Expect(IsClientCertificateAuthoritySet(params)).To(Equal(expected))
+			},
+			Entry("Is absent on insecure cluster", []string{}, false),
+			Entry("Is empty on insecure cluster", []string{"--client-ca-file="}, false),
+			Entry("Should be present on CIS-compliant cluster", kubeApiServerCISCompliant, true),
+			Entry("Should be present on Casablanca cluster", kubeApiServerCasablanca, true),
+			Entry("Should be present on Dublin cluster", kubeApiServerDublin, true),
+		)
+
+		DescribeTable("Etcd certificate authority",
+			func(params []string, expected bool) {
+				Expect(IsEtcdCertificateAuthoritySet(params)).To(Equal(expected))
+			},
+			Entry("Is absent on insecure cluster", []string{}, false),
+			Entry("Is empty on insecure cluster", []string{"-etcd-cafile="}, false),
+			Entry("Should be present on CIS-compliant cluster", kubeApiServerCISCompliant, true),
+			Entry("Should be present on Casablanca cluster", kubeApiServerCasablanca, true),
+			Entry("Should be present on Dublin cluster", kubeApiServerDublin, true),
 		)
 	})
 

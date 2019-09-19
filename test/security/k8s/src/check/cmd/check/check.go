@@ -70,4 +70,8 @@ func main() {
 	log.Printf("IsAuditLogMaxAgeValid: %t\n", master.IsAuditLogPathSet(k8sParams))
 	log.Printf("IsAuditLogMaxBackupValid: %t\n", master.IsAuditLogPathSet(k8sParams))
 	log.Printf("IsAuditLogMaxSizeValid: %t\n", master.IsAuditLogPathSet(k8sParams))
+
+	log.Printf("IsKubeletCertificateAuthoritySet: %t\n", master.IsKubeletCertificateAuthoritySet(k8sParams))
+	log.Printf("IsClientCertificateAuthoritySet: %t\n", master.IsClientCertificateAuthoritySet(k8sParams))
+	log.Printf("IsEtcdCertificateAuthoritySet: %t\n", master.IsEtcdCertificateAuthoritySet(k8sParams))
 }

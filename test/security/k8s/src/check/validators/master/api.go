@@ -263,6 +263,21 @@ func IsAuditLogPathSet(params []string) bool {
 	return hasSingleFlagNonemptyArgument("--audit-log-path=", params)
 }
 
+// IsKubeletCertificateAuthoritySet validates there is single "--kubelet-certificate-authority" flag and has non-empty argument.
+func IsKubeletCertificateAuthoritySet(params []string) bool {
+	return hasSingleFlagNonemptyArgument("--kubelet-certificate-authority", params)
+}
+
+// IsClientCertificateAuthoritySet validates there is single "--client-ca-file" flag and has non-empty argument.
+func IsClientCertificateAuthoritySet(params []string) bool {
+	return hasSingleFlagNonemptyArgument("--client-ca-file", params)
+}
+
+// IsEtcdCertificateAuthoritySet validates there is single "--etcd-cafile" flag and has non-empty argument.
+func IsEtcdCertificateAuthoritySet(params []string) bool {
+	return hasSingleFlagNonemptyArgument("--etcd-cafile", params)
+}
+
 // hasSingleFlagNonemptyArgument checks whether selected flag was used once and has non-empty argument.
 func hasSingleFlagNonemptyArgument(flag string, params []string) bool {
 	found := filterFlags(params, flag)
