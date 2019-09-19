@@ -74,4 +74,9 @@ func main() {
 	log.Printf("IsKubeletCertificateAuthoritySet: %t\n", master.IsKubeletCertificateAuthoritySet(k8sParams))
 	log.Printf("IsClientCertificateAuthoritySet: %t\n", master.IsClientCertificateAuthoritySet(k8sParams))
 	log.Printf("IsEtcdCertificateAuthoritySet: %t\n", master.IsEtcdCertificateAuthoritySet(k8sParams))
+
+	log.Printf("IsServiceAccountKeySet: %t\n", master.IsServiceAccountKeySet(k8sParams))
+	log.Printf("IsKubeletClientCertificateAndKeySet: %t\n", master.IsKubeletClientCertificateAndKeySet(k8sParams))
+	log.Printf("IsEtcdCertificateAndKeySet: %t\n", master.IsEtcdCertificateAndKeySet(k8sParams))
+	log.Printf("IsTLSCertificateAndKeySet: %t\n", master.IsTLSCertificateAndKeySet(k8sParams))
 }

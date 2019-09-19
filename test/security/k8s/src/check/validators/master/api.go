@@ -278,6 +278,29 @@ func IsEtcdCertificateAuthoritySet(params []string) bool {
 	return hasSingleFlagNonemptyArgument("--etcd-cafile", params)
 }
 
+// IsServiceAccountKeySet validates there is single "--service-account-key-file" flag and has non-empty argument.
+func IsServiceAccountKeySet(params []string) bool {
+	return hasSingleFlagNonemptyArgument("--service-account-key-file", params)
+}
+
+// IsKubeletClientCertificateAndKeySet validates there are single "--kubelet-client-certificate" and "--kubelet-client-key" flags and have non-empty arguments.
+func IsKubeletClientCertificateAndKeySet(params []string) bool {
+	return hasSingleFlagNonemptyArgument("--kubelet-client-certificate", params) &&
+		hasSingleFlagNonemptyArgument("--kubelet-client-key", params)
+}
+
+// IsEtcdCertificateAndKeySet validates there are single "--etcd-certfile" and "--etcd-keyfile" flags and have non-empty arguments.
+func IsEtcdCertificateAndKeySet(params []string) bool {
+	return hasSingleFlagNonemptyArgument("--etcd-certfile", params) &&
+		hasSingleFlagNonemptyArgument("--etcd-keyfile", params)
+}
+
+// IsTLSCertificateAndKeySet validates there are single "--tls-cert-file" and "--tls-private-key-file" flags and have non-empty arguments.
+func IsTLSCertificateAndKeySet(params []string) bool {
+	return hasSingleFlagNonemptyArgument("--tls-cert-file", params) &&
+		hasSingleFlagNonemptyArgument("--tls-private-key-file", params)
+}
+
 // hasSingleFlagNonemptyArgument checks whether selected flag was used once and has non-empty argument.
 func hasSingleFlagNonemptyArgument(flag string, params []string) bool {
 	found := filterFlags(params, flag)

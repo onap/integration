@@ -31,6 +31,13 @@ var _ = Describe("Api", func() {
 			"--kubelet-certificate-authority=TrustedCA",
 			"--client-ca-file=/etc/kubernetes/ssl/ca.pem",
 			"--etcd-cafile=/etc/kubernetes/etcd/ca.pem",
+			"--service-account-key-file=/etc/kubernetes/ssl/kube-service-account-token-key.pem",
+			"--kubelet-client-certificate=/etc/kubernetes/ssl/cert.pem",
+			"--kubelet-client-key=/etc/kubernetes/ssl/key.pem",
+			"--etcd-certfile=/etc/kubernetes/etcd/cert.pem",
+			"--etcd-keyfile=/etc/kubernetes/etcd/key.pem",
+			"--tls-cert-file=/etc/kubernetes/ssl/cert.pem",
+			"--tls-private-key-file=/etc/kubernetes/ssl/key.pem",
 		}
 
 		// kubeApiServerCasablanca was obtained from virtual environment for testing
@@ -236,6 +243,50 @@ var _ = Describe("Api", func() {
 			},
 			Entry("Is absent on insecure cluster", []string{}, false),
 			Entry("Is empty on insecure cluster", []string{"-etcd-cafile="}, false),
+			Entry("Should be present on CIS-compliant cluster", kubeApiServerCISCompliant, true),
+			Entry("Should be present on Casablanca cluster", kubeApiServerCasablanca, true),
+			Entry("Should be present on Dublin cluster", kubeApiServerDublin, true),
+		)
+
+		DescribeTable("Service account key",
+			func(params []string, expected bool) {
+				Expect(IsServiceAccountKeySet(params)).To(Equal(expected))
+			},
+			Entry("Is absent on insecure cluster", []string{}, false),
+			Entry("Is empty on insecure cluster", []string{"--service-account-key-file="}, false),
+			Entry("Is absent on Casablanca cluster", kubeApiServerCasablanca, false),
+			Entry("Should be present on CIS-compliant cluster", kubeApiServerCISCompliant, true),
+			Entry("Should be present on Dublin cluster", kubeApiServerDublin, true),
+		)
+
+		DescribeTable("Kubelet client certificate and key",
+			func(params []string, expected bool) {
+				Expect(IsKubeletClientCertificateAndKeySet(params)).To(Equal(expected))
+			},
+			Entry("Is absent on insecure cluster", []string{}, false),
+			Entry("Is empty on insecure cluster", []string{"--kubelet-client-certificate= --kubelet-client-key="}, false),
+			Entry("Should be present on CIS-compliant cluster", kubeApiServerCISCompliant, true),
+			Entry("Should be present on Casablanca cluster", kubeApiServerCasablanca, true),
+			Entry("Should be present on Dublin cluster", kubeApiServerDublin, true),
+		)
+
+		DescribeTable("Etcd certificate and key",
+			func(params []string, expected bool) {
+				Expect(IsEtcdCertificateAndKeySet(params)).To(Equal(expected))
+			},
+			Entry("Is absent on insecure cluster", []string{}, false),
+			Entry("Is empty on insecure cluster", []string{"--etcd-certfile= --etcd-keyfile="}, false),
+			Entry("Should be present on CIS-compliant cluster", kubeApiServerCISCompliant, true),
+			Entry("Should be present on Casablanca cluster", kubeApiServerCasablanca, true),
+			Entry("Should be present on Dublin cluster", kubeApiServerDublin, true),
+		)
+
+		DescribeTable("TLS certificate and key",
+			func(params []string, expected bool) {
+				Expect(IsTLSCertificateAndKeySet(params)).To(Equal(expected))
+			},
+			Entry("Is absent on insecure cluster", []string{}, false),
+			Entry("Is empty on insecure cluster", []string{"--tls-cert-file= --tls-private-key-file="}, false),
 			Entry("Should be present on CIS-compliant cluster", kubeApiServerCISCompliant, true),
 			Entry("Should be present on Casablanca cluster", kubeApiServerCasablanca, true),
 			Entry("Should be present on Dublin cluster", kubeApiServerDublin, true),
