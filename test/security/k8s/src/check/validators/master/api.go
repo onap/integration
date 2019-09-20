@@ -13,6 +13,11 @@ const (
 	auditLogAge     = 30
 	auditLogBackups = 10
 	auditLogSize    = 100
+
+	strongCryptoCiphers = "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_128_GCM" +
+		"_SHA256,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_RSA_WITH_AES_256_GCM" +
+		"_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_AES_256_GCM" +
+		"_SHA384,TLS_RSA_WITH_AES_256_GCM_SHA384,TLS_RSA_WITH_AES_128_GCM_SHA256"
 )
 
 // IsBasicAuthFileAbsent validates there is no basic authentication file specified.
@@ -62,6 +67,11 @@ func IsRepairMalformedUpdatesDisabled(params []string) bool {
 // IsServiceAccountLookupEnabled validates there is single "--service-account-lookup" flag and it is set to "true".
 func IsServiceAccountLookupEnabled(params []string) bool {
 	return hasSingleFlagArgument("--service-account-lookup=", "true", params)
+}
+
+// IsStrongCryptoCipherInUse validates there is single "--tls-cipher-suites=" flag and it is set to strong crypto ciphers.
+func IsStrongCryptoCipherInUse(params []string) bool {
+	return hasSingleFlagArgument("--tls-cipher-suites=", strongCryptoCiphers, params)
 }
 
 // hasSingleFlagArgument checks whether selected flag was used once and has requested argument.

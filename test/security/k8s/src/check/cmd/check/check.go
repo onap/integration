@@ -79,4 +79,6 @@ func main() {
 	log.Printf("IsKubeletClientCertificateAndKeySet: %t\n", master.IsKubeletClientCertificateAndKeySet(k8sParams))
 	log.Printf("IsEtcdCertificateAndKeySet: %t\n", master.IsEtcdCertificateAndKeySet(k8sParams))
 	log.Printf("IsTLSCertificateAndKeySet: %t\n", master.IsTLSCertificateAndKeySet(k8sParams))
+
+	log.Printf("IsStrongCryptoCipherInUse: %t\n", master.IsStrongCryptoCipherInUse(k8sParams))
 }

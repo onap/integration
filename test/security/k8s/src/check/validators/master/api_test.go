@@ -38,6 +38,11 @@ var _ = Describe("Api", func() {
 			"--etcd-keyfile=/etc/kubernetes/etcd/key.pem",
 			"--tls-cert-file=/etc/kubernetes/ssl/cert.pem",
 			"--tls-private-key-file=/etc/kubernetes/ssl/key.pem",
+			"--tls-cipher-suites=TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256," +
+				"TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305," +
+				"TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305," +
+				"TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_RSA_WITH_AES_256_GCM_SHA384," +
+				"TLS_RSA_WITH_AES_128_GCM_SHA256",
 		}
 
 		// kubeApiServerCasablanca was obtained from virtual environment for testing
@@ -472,6 +477,20 @@ var _ = Describe("Api", func() {
 			Entry("Is not explicitly disabled on Casablanca cluster", kubeApiServerCasablanca, false),
 			Entry("Should be absent on CIS-compliant cluster", kubeApiServerCISCompliant, true),
 			Entry("Should be absent on Dublin cluster", kubeApiServerDublin, true),
+		)
+	})
+
+	Describe("Flags requiring strict equality", func() {
+		DescribeTable("Strong Cryptographic Ciphers",
+			func(params []string, expected bool) {
+				Expect(IsStrongCryptoCipherInUse(params)).To(Equal(expected))
+			},
+			Entry("Is absent on insecure cluster", []string{}, false),
+			Entry("Is empty on insecure cluster", []string{"--tls-cipher-suites="}, false),
+			Entry("Is incomplete on insecure cluster", []string{"--tls-cipher-suites=TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256"}, false),
+			Entry("Is incomplete on Casablanca cluster", kubeApiServerCasablanca, false),
+			Entry("Is incomplete on Dublin cluster", kubeApiServerDublin, false),
+			Entry("Should be complete on CIS-compliant cluster", kubeApiServerCISCompliant, true),
 		)
 	})
 })
