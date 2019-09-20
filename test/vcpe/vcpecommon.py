@@ -103,7 +103,7 @@ class VcpeCommon:
         self.mr_ip_addr = self.oom_so_sdnc_aai_ip
         self.mr_ip_port = '30227'
         self.so_nbi_port = '30277' if self.oom_mode else '8080'
-        self.sdnc_preloading_port = '30202' if self.oom_mode else '8282'
+        self.sdnc_preloading_port = '30267' if self.oom_mode else '8282'
         self.aai_query_port = '30233' if self.oom_mode else '8443'
         self.sniro_port = '30288' if self.oom_mode else '8080'
 
@@ -170,13 +170,13 @@ class VcpeCommon:
         self.sdnc_db_pass = 'gamma'
         self.sdnc_db_port = '32774'
         self.sdnc_headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
-        self.sdnc_preload_network_url = 'http://' + self.hosts['sdnc'] + \
+        self.sdnc_preload_network_url = 'https://' + self.hosts['sdnc'] + \
                                         ':' + self.sdnc_preloading_port + '/restconf/operations/VNF-API:preload-network-topology-operation'
-        self.sdnc_preload_vnf_url = 'http://' + self.hosts['sdnc'] + \
+        self.sdnc_preload_vnf_url = 'https://' + self.hosts['sdnc'] + \
                                     ':' + self.sdnc_preloading_port + '/restconf/operations/VNF-API:preload-vnf-topology-operation'
-        self.sdnc_preload_gra_url = 'http://' + self.hosts['sdnc'] + \
+        self.sdnc_preload_gra_url = 'https://' + self.hosts['sdnc'] + \
                                     ':' + self.sdnc_preloading_port + '/restconf/operations/GENERIC-RESOURCE-API:preload-vf-module-topology-operation'
-        self.sdnc_ar_cleanup_url = 'http://' + self.hosts['sdnc'] + ':' + self.sdnc_preloading_port + \
+        self.sdnc_ar_cleanup_url = 'https://' + self.hosts['sdnc'] + ':' + self.sdnc_preloading_port + \
                                    '/restconf/config/GENERIC-RESOURCE-API:'
 
         #############################################################################################

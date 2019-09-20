@@ -1,7 +1,8 @@
 #! /usr/bin/python
 
 import logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(name)s.%(funcName)s(): %(message)s')
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s %(name)s.%(funcName)s(): %(message)s')
+#logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(name)s.%(funcName)s(): %(message)s')
 
 import sys
 from vcpecommon import *
@@ -191,7 +192,8 @@ def init():
 
 def init_sdc(vcpecommon):
     sdc = sdcutils.SdcUtils(vcpecommon)
-    sdc.create_allotted_resource_subcategory('BRG')
+    # default SDC creates BRG - remove this in frankfurt
+    #sdc.create_allotted_resource_subcategory('BRG')
 
 
 def download_vcpe_service_templates(vcpecommon):
