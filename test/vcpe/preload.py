@@ -43,7 +43,7 @@ class Preload:
 
     def reset_sniro(self):
         self.logger.debug('Clearing SNIRO data')
-        r = requests.post(self.vcpecommon.sniro_url + '/reset', headers=self.vcpecommon.sniro_headers)
+        r = requests.post(self.vcpecommon.sniro_url + '/reset', headers=self.vcpecommon.sniro_headers, verify=False)
         if 2 != r.status_code / 100:
             self.logger.debug(r.content)
             self.logger.error('Clearing SNIRO date failed.')
