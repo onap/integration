@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ddbc8dc_bc906ea5",
+        "filename": "deployment/aks/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2019-09-20T14:32:00Z",
+      "side": 1,
+      "message": "should we add a special note that you also need to add the block that your ssh client will use for any access ? is this ssh or allow * form those blocks ?",
+      "range": {
+        "startLine": 88,
+        "startChar": 27,
+        "endLine": 88,
+        "endChar": 63
+      },
+      "revId": "fe0aa0b4482d87a4a5f66655fbf0ca887040ef05",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4134502_5a416019",
+        "filename": "deployment/aks/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2019-09-20T14:32:00Z",
+      "side": 1,
+      "message": "probably needs to go at the top",
+      "range": {
+        "startLine": 319,
+        "startChar": 0,
+        "endLine": 319,
+        "endChar": 44
+      },
+      "revId": "fe0aa0b4482d87a4a5f66655fbf0ca887040ef05",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
