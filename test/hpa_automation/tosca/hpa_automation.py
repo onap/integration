@@ -92,10 +92,10 @@ def create_vlm(parameters):
 
 def create_vsp(parameters, in_list):
     vnfs = parameters["vnf"]
-    vsp_dict = {}
+    vsp_ids = {}
     for name, value in vnfs.iteritems():
         create_string = "oclip vsp-create -j {} -o {} -e {} -x {} -y {} -i {} -c {} -g {} -u {} -p {} -m {}".format( in_list[0], \
-          parameters["onboarding-method"], parameters["vendor-name" ], value.get("vsp-name"), value.get("vsp-desc"), in_list[1], \
+          parameters["onboarding-method"], parameters["vendor-name"], value.get("vsp-name"), value.get("vsp-desc"), in_list[1], \
           in_list[2], in_list[3], parameters["sdc_creator"], parameters["sdc_password"], parameters["sdc_onboarding_url"] )
         command_out = (os.popen(create_string)).read()
         out_list = get_out_helper(command_out)
