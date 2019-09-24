@@ -408,6 +408,19 @@ def instantiate_ns(parameters, ns_instance_id):
     ns_instantiate_out = (os.popen(ns_instantiate_string)).read()
     return ns_instantiate_out
 
+def terminate_ns(parameters, ns_instance_id):
+    ns_terminate_string = 'oclip vfc-nslcm-terminate -m {} -i {}'.format(parameters["vfc-url"], ns_instance_id)
+    print ns_terminate_string
+    ns_terminate_out = (os.popen(ns_terminate_string)).read()
+    print ns_terminate_out
+    return ns_terminate_out
+
+def delete_ns(parameters, ns_instance_id):
+    ns_delete_string = 'oclip vfc-nslcm-delete -m {} -c {}'.format(parameters["vfc-url"], ns_instance_id)
+    print ns_delete_string
+    ns_delete_out = (os.popen(ns_delete_string)).read()
+    return ns_delete_out
+
 def create_ns_package(parameters):
     ns = parameters["ns"]
     create_ns_string = 'oclip vfc-catalog-create-ns -m {} -c {} -e {}'.format(parameters["vfc-url"], \
@@ -517,3 +530,14 @@ ns_instance_id = create_ns(parameters, ns_out)
 print ns_instance_id
 instantiate_ns_output = instantiate_ns(parameters, ns_instance_id)
 print instantiate_ns_output
+
+#terminate and delete ns;
+#option args add the end of json file 
+
+if sys.argv[3] == "terminate":
+    terminate_ns_output = terminate_ns(parameters, ns_instance_id)
+    print terminate_ns_output
+
+elif sys.argv[3] == "delete":
+    delete_ns_output = delete_ns(parameters, ns_instance_id)
+    print delete_ns_output
