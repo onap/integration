@@ -16,6 +16,24 @@
       "revId": "abc29b8f019c9d15e2df7e994fc3c31b2d8aef65",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05172e54_6713c7bf",
+        "filename": "deployment/aks/configure_nfs_pod.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 3013
+      },
+      "writtenOn": "2019-09-24T23:44:33Z",
+      "side": 1,
+      "message": "Yeah it should probably be enhanced to a job in the future so that it\u0027s easier to check the status.",
+      "parentUuid": "700fa9a3_8a29b609",
+      "revId": "abc29b8f019c9d15e2df7e994fc3c31b2d8aef65",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
