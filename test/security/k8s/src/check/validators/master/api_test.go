@@ -367,6 +367,17 @@ var _ = Describe("Api", func() {
 			Entry("Is absent on Dublin cluster", kubeApiServerDublin, false),
 			Entry("Should be set appropriately on CIS-compliant cluster", kubeApiServerCISCompliant, true),
 		)
+
+		DescribeTable("Request timeout",
+			func(params []string, expected bool) {
+				Expect(IsRequestTimeoutValid(params)).To(Equal(expected))
+			},
+			Entry("Is empty on insecure cluster", []string{"--request-timeout="}, false),
+			Entry("Is too high on insecure cluster", []string{"--request-timeout=600"}, false),
+			Entry("Should be set only if needed on CIS-compliant cluster", kubeApiServerCISCompliant, true),
+			Entry("Should be set only if needed on Casablanca cluster", kubeApiServerCasablanca, true),
+			Entry("Should be set only if needed on Dublin cluster", kubeApiServerDublin, true),
+		)
 	})
 
 	Describe("Argument list flags", func() {
