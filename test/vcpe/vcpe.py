@@ -159,6 +159,11 @@ def closed_loop(lossrate=0):
     nodes = ['brg', 'mux']
     logger = logging.getLogger('__name__')
     vcpecommon = VcpeCommon(nodes)
+
+    logger.info('Setting up closed loop policy')
+    policy_template_file = vcpecommon.find_file('operational.vcpe', 'json', 'preload_templates')
+    vcpecommon.set_closed_loop_policy(policy_template_file)
+
     logger.info('Cleaning up vGMUX data reporting settings')
     vcpecommon.del_vgmux_ves_mode()
     time.sleep(2)
