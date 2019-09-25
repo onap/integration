@@ -23,7 +23,7 @@ var _ = Describe("Api", func() {
 				"PersistentVolumeClaimResize,MutatingAdmissionWebhook,ValidatingAdmissionWebhook," +
 				"ResourceQuota,AlwaysPullImages,DenyEscalatingExec,SecurityContextDeny," +
 				"PodSecurityPolicy,NodeRestriction,EventRateLimit",
-			"--authorization-mode=RBAC",
+			"--authorization-mode=Node,RBAC",
 			"--audit-log-path=/var/log/apiserver/audit.log",
 			"--audit-log-maxage=30",
 			"--audit-log-maxbackup=10",
@@ -477,6 +477,17 @@ var _ = Describe("Api", func() {
 			Entry("Is not explicitly disabled on Casablanca cluster", kubeApiServerCasablanca, false),
 			Entry("Should be absent on CIS-compliant cluster", kubeApiServerCISCompliant, true),
 			Entry("Should be absent on Dublin cluster", kubeApiServerDublin, true),
+		)
+
+		DescribeTable("Node authorization mode",
+			func(params []string, expected bool) {
+				Expect(IsNodeAuthorizationModeIncluded(params)).To(Equal(expected))
+			},
+			Entry("Is not explicitly enabled on insecure cluster", []string{}, false),
+			Entry("Is not present on insecure cluster", []string{"--authorization-mode=Foo,Bar"}, false),
+			Entry("Is not explicitly enabled on Casablanca cluster", kubeApiServerCasablanca, false),
+			Entry("Should present on CIS-compliant cluster", kubeApiServerCISCompliant, true),
+			Entry("Should present on Dublin cluster", kubeApiServerDublin, true),
 		)
 	})
 

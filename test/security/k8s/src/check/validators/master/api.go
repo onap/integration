@@ -262,10 +262,15 @@ func hasFlagArgumentIncluded(flag string, argument string, params []string) bool
 	return false
 }
 
-// IsAlwaysAllowAuthorizationModeExcluded validates AlwaysAllow is excluded from admission control plugins.
+// IsAlwaysAllowAuthorizationModeExcluded validates AlwaysAllow is excluded from authorization modes.
 func IsAlwaysAllowAuthorizationModeExcluded(params []string) bool {
 	return isSingleFlagPresent("--authorization-mode=", params) &&
 		!hasFlagArgumentIncluded("--authorization-mode=", "AlwaysAllow", params)
+}
+
+// IsNodeAuthorizationModeIncluded validates Node is included in authorization modes.
+func IsNodeAuthorizationModeIncluded(params []string) bool {
+	return hasFlagArgumentIncluded("--authorization-mode=", "Node", params)
 }
 
 // IsAuditLogPathSet validates there is single "--audit-log-path" flag and has non-empty argument.

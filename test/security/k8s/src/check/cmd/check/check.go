@@ -65,6 +65,7 @@ func main() {
 	log.Printf("IsNamespaceLifecycleAdmissionControlPluginNotExcluded: %t\n", master.IsNamespaceLifecycleAdmissionControlPluginNotExcluded(k8sParams))
 
 	log.Printf("IsAlwaysAllowAuthorizationModeExcluded: %t\n", master.IsAlwaysAllowAuthorizationModeExcluded(k8sParams))
+	log.Printf("IsNodeAuthorizationModeIncluded: %t\n", master.IsNodeAuthorizationModeIncluded(k8sParams))
 
 	log.Printf("IsAuditLogPathSet: %t\n", master.IsAuditLogPathSet(k8sParams))
 	log.Printf("IsAuditLogMaxAgeValid: %t\n", master.IsAuditLogPathSet(k8sParams))
