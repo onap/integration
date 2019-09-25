@@ -1,8 +1,7 @@
-#! /usr/bin/python
+#!/usr/bin/env python
 
 import logging
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s %(name)s.%(funcName)s(): %(message)s')
-#logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(name)s.%(funcName)s(): %(message)s')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(name)s.%(funcName)s(): %(message)s')
 
 import sys
 from vcpecommon import *
