@@ -3,7 +3,7 @@ package raw
 
 import (
 	"bytes"
-	"errors"
+	"fmt"
 	"io/ioutil"
 	"os/user"
 	"path/filepath"
@@ -11,6 +11,7 @@ import (
 	"golang.org/x/crypto/ssh"
 	kh "golang.org/x/crypto/ssh/knownhosts"
 
+	"check"
 	"check/config"
 )
 
@@ -19,15 +20,21 @@ const (
 	etcd         = "etcd"
 	worker       = "worker"
 
-	k8sProcess       = "kube-apiserver"
-	dockerInspectCmd = "docker inspect " + k8sProcess + " --format {{.Args}}"
-
 	knownHostsFile = "~/.ssh/known_hosts"
 )
 
-// GetK8sParams returns parameters of running Kubernetes API servers.
+// Raw implements Informer interface.
+type Raw struct {
+	check.Informer
+}
+
+// GetAPIParams returns parameters of running Kubernetes API servers.
 // It queries only cluster nodes with "controlplane" role.
-func GetK8sParams() ([]string, error) {
+func (r *Raw) GetAPIParams() ([]string, error) {
+	return getProcessParams(check.APIProcess)
+}
+
+func getProcessParams(process check.Command) ([]string, error) {
 	nodes, err := config.GetNodesInfo()
 	if err != nil {
 		return []string{}, err
@@ -35,17 +42,17 @@ func GetK8sParams() ([]string, error) {
 
 	for _, node := range nodes {
 		if isControlplaneNode(node.Role) {
-			cmd, err := getK8sCmd(node)
+			cmd, err := getInspectCmdOutput(node, process)
 			if err != nil {
 				return []string{}, err
 			}
 
 			if len(cmd) > 0 {
-				i := bytes.Index(cmd, []byte(k8sProcess))
+				i := bytes.Index(cmd, []byte(process.String()))
 				if i == -1 {
-					return []string{}, errors.New("missing " + k8sProcess + " command")
+					return []string{}, fmt.Errorf("missing %s command", process)
 				}
-				return btos(cmd[i+len(k8sProcess):]), nil
+				return btos(cmd[i+len(process.String()):]), nil
 			}
 		}
 	}
@@ -62,7 +69,7 @@ func isControlplaneNode(roles []string) bool {
 	return false
 }
 
-func getK8sCmd(node config.NodeInfo) ([]byte, error) {
+func getInspectCmdOutput(node config.NodeInfo, cmd check.Command) ([]byte, error) {
 	path, err := expandPath(node.SSHKeyPath)
 	if err != nil {
 		return nil, err
@@ -95,7 +102,7 @@ func getK8sCmd(node config.NodeInfo) ([]byte, error) {
 	}
 	defer conn.Close()
 
-	out, err := runCommand(dockerInspectCmd, conn)
+	out, err := runCommand(fmt.Sprintf("docker inspect %s --format {{.Args}}", cmd), conn)
 	if err != nil {
 		return nil, err
 	}

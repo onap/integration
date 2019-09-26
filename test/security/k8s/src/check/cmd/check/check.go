@@ -4,6 +4,7 @@ import (
 	"flag"
 	"log"
 
+	"check"
 	"check/rancher"
 	"check/raw"
 	"check/validators/master"
@@ -25,23 +26,20 @@ func main() {
 		*rke = true
 	}
 
-	var (
-		k8sParams []string
-		err       error
-	)
+	var info check.Informer
 
 	switch {
 	case *ranchercli:
-		k8sParams, err = rancher.GetK8sParams()
+		info = &rancher.Rancher{}
 	case *rke:
-		k8sParams, err = raw.GetK8sParams()
+		info = &raw.Raw{}
 	default:
 		log.Fatal("Missing cluster access method.")
 	}
 
+	apiParams, err := info.GetAPIParams()
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	master.Check(k8sParams)
+	master.CheckAPI(apiParams)
 }
