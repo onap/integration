@@ -3,8 +3,10 @@ package rancher
 
 import (
 	"bytes"
-	"errors"
+	"fmt"
 	"os/exec"
+
+	"check"
 )
 
 const (
@@ -16,32 +18,40 @@ const (
 	cmdDockerCmdPs           = "ps"
 	cmdDockerCmdPsParams     = "--no-trunc"
 	cmdDockerCmdPsFilter     = "--filter"
-	cmdDockerCmdPsFilterArgs = "label=io.rancher.stack_service.name=kubernetes/kubernetes"
+	cmdDockerCmdPsFilterArgs = "label=io.rancher.stack_service.name="
 	cmdDockerCmdPsFormat     = "--format"
 	cmdDockerCmdPsFormatArgs = "{{.Command}}"
-	k8sProcess               = "kube-apiserver"
 )
 
-// GetK8sParams returns parameters of running Kubernetes API server.
+// Rancher implements Informer interface.
+type Rancher struct {
+	check.Informer
+}
+
+// GetAPIParams returns parameters of running Kubernetes API server.
 // It queries default environment set in configuration file.
-func GetK8sParams() ([]string, error) {
+func (r *Rancher) GetAPIParams() ([]string, error) {
+	return getProcessParams(check.APIProcess, check.APIService)
+}
+
+func getProcessParams(process check.Command, service check.Service) ([]string, error) {
 	hosts, err := listHosts()
 	if err != nil {
 		return []string{}, err
 	}
 
 	for _, host := range hosts {
-		cmd, err := getK8sCmd(host)
+		cmd, err := getPsCmdOutput(host, service)
 		if err != nil {
 			return []string{}, err
 		}
 
 		if len(cmd) > 0 {
-			i := bytes.Index(cmd, []byte(k8sProcess))
+			i := bytes.Index(cmd, []byte(process.String()))
 			if i == -1 {
-				return []string{}, errors.New("missing " + k8sProcess + " command")
+				return []string{}, fmt.Errorf("missing %s command", process)
 			}
-			return btos(cmd[i+len(k8sProcess):]), nil
+			return btos(cmd[i+len(process.String()):]), nil
 		}
 	}
 	return []string{}, nil
@@ -58,17 +68,17 @@ func listHosts() ([]string, error) {
 	return btos(out), nil
 }
 
-// getK8sCmd returns running Kubernetes API server command with its parameters.
+// getPsCmdOutput returns running Kubernetes service command with its parameters.
 // It queries default environment set in configuration file.
-func getK8sCmd(host string) ([]byte, error) {
+func getPsCmdOutput(host string, service check.Service) ([]byte, error) {
 	// Following is equivalent to:
 	// $ rancher --host $HOST \
 	//   docker ps --no-trunc \
-	//   --filter "label=io.rancher.stack_service.name=kubernetes/kubernetes" \
+	//   --filter "label=io.rancher.stack_service.name=$SERVICE" \
 	//   --format "{{.Command}}"
 	cmd := exec.Command(bin, paramHost, host,
 		cmdDocker, cmdDockerCmdPs, cmdDockerCmdPsParams,
-		cmdDockerCmdPsFilter, cmdDockerCmdPsFilterArgs,
+		cmdDockerCmdPsFilter, cmdDockerCmdPsFilterArgs+service.String(),
 		cmdDockerCmdPsFormat, cmdDockerCmdPsFormatArgs)
 	out, err := cmd.Output()
 	if err != nil {
