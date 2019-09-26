@@ -1,7 +1,7 @@
-package master_test
+package api_test
 
 import (
-	. "check/validators/master"
+	. "check/validators/master/api"
 
 	. "github.com/onsi/ginkgo/extensions/table"
 
