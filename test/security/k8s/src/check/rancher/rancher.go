@@ -40,6 +40,12 @@ func (r *Rancher) GetSchedulerParams() ([]string, error) {
 	return getProcessParams(check.SchedulerProcess, check.SchedulerService)
 }
 
+// GetControllerManagerParams returns parameters of running Kubernetes scheduler.
+// It queries default environment set in configuration file.
+func (r *Rancher) GetControllerManagerParams() ([]string, error) {
+	return getProcessParams(check.ControllerManagerProcess, check.ControllerManagerService)
+}
+
 func getProcessParams(process check.Command, service check.Service) ([]string, error) {
 	hosts, err := listHosts()
 	if err != nil {

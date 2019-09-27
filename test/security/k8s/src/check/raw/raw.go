@@ -40,6 +40,12 @@ func (r *Raw) GetSchedulerParams() ([]string, error) {
 	return getProcessParams(check.SchedulerProcess)
 }
 
+// GetControllerManagerParams returns parameters of running Kubernetes scheduler.
+// It queries only cluster nodes with "controlplane" role.
+func (r *Raw) GetControllerManagerParams() ([]string, error) {
+	return getProcessParams(check.ControllerManagerProcess)
+}
+
 func getProcessParams(process check.Command) ([]string, error) {
 	nodes, err := config.GetNodesInfo()
 	if err != nil {
