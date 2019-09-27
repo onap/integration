@@ -34,6 +34,12 @@ func (r *Rancher) GetAPIParams() ([]string, error) {
 	return getProcessParams(check.APIProcess, check.APIService)
 }
 
+// GetSchedulerParams returns parameters of running Kubernetes scheduler.
+// It queries default environment set in configuration file.
+func (r *Rancher) GetSchedulerParams() ([]string, error) {
+	return getProcessParams(check.SchedulerProcess, check.SchedulerService)
+}
+
 func getProcessParams(process check.Command, service check.Service) ([]string, error) {
 	hosts, err := listHosts()
 	if err != nil {

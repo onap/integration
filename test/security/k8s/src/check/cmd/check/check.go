@@ -42,4 +42,9 @@ func main() {
 		log.Fatal(err)
 	}
 	master.CheckAPI(apiParams)
+
+	_, err = info.GetSchedulerParams()
+	if err != nil {
+		log.Fatal(err)
+	}
 }
