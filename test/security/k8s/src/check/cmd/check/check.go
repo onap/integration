@@ -43,8 +43,9 @@ func main() {
 	}
 	master.CheckAPI(apiParams)
 
-	_, err = info.GetSchedulerParams()
+	schedulerParams, err := info.GetSchedulerParams()
 	if err != nil {
 		log.Fatal(err)
 	}
+	master.CheckScheduler(schedulerParams)
 }

@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"check/validators/master/api"
+	"check/validators/master/scheduler"
 )
 
 // CheckAPI validates API server complies with CIS guideliness.
@@ -55,4 +56,11 @@ func CheckAPI(params []string) {
 	log.Printf("IsTLSCertificateAndKeySet: %t\n", api.IsTLSCertificateAndKeySet(params))
 
 	log.Printf("IsStrongCryptoCipherInUse: %t\n", api.IsStrongCryptoCipherInUse(params))
+}
+
+// CheckScheduler validates scheduler complies with CIS guideliness.
+func CheckScheduler(params []string) {
+	log.Println("==> Scheduler:")
+	log.Printf("IsProfilingDisabled: %t\n", scheduler.IsProfilingDisabled(params))
+	log.Printf("IsInsecureBindAddressAbsentOrLoopback: %t\n", scheduler.IsInsecureBindAddressAbsentOrLoopback(params))
 }
