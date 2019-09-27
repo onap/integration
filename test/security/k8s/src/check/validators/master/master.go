@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"check/validators/master/api"
+	"check/validators/master/controllermanager"
 	"check/validators/master/scheduler"
 )
 
@@ -63,4 +64,10 @@ func CheckScheduler(params []string) {
 	log.Println("==> Scheduler:")
 	log.Printf("IsProfilingDisabled: %t\n", scheduler.IsProfilingDisabled(params))
 	log.Printf("IsInsecureBindAddressAbsentOrLoopback: %t\n", scheduler.IsInsecureBindAddressAbsentOrLoopback(params))
+}
+
+// CheckControllerManager validates controller manager complies with CIS guideliness.
+func CheckControllerManager(params []string) {
+	log.Println("==> Controller Manager:")
+	log.Printf("IsInsecureBindAddressAbsentOrLoopback: %t\n", controllermanager.IsInsecureBindAddressAbsentOrLoopback(params))
 }

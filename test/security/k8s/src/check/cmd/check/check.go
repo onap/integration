@@ -49,8 +49,9 @@ func main() {
 	}
 	master.CheckScheduler(schedulerParams)
 
-	_, err = info.GetControllerManagerParams()
+	controllerManagerParams, err := info.GetControllerManagerParams()
 	if err != nil {
 		log.Fatal(err)
 	}
+	master.CheckControllerManager(controllerManagerParams)
 }
