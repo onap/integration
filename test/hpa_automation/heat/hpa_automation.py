@@ -33,14 +33,13 @@ def create_complex(parameters):
 
 def register_cloud_helper(cloud_region, values, parameters):
     #Create Cloud
-    cloud_create_string = 'oclip cloud-create -e {} -b {} -I {{\\\\\\"openstack-region-id\\\\\\":\\\\\\"{}\\\\\\"}} \
-    -x {} -y {} -j {} -w {} -l {} -url {} -n {} -q {} -r {} -Q {} -i {} -g {} -z {} -k {} -c {} -m {} -u {} -p {}'.format(
-      values.get("esr-system-info-id"), values.get("user-name"), cloud_region, parameters["cloud-owner"], \
-      cloud_region, values.get("password"), values.get("cloud-region-version"), values.get("default-tenant"), \
-      values.get("service-url"), parameters["complex_name"], values.get("cloud-type"), parameters["owner-defined-type"], \
-      values.get("system-type"), values.get("identity-url"), parameters["cloud-zone"], values.get("ssl-insecure"), \
-      values.get("system-status"), values.get("cloud-domain"), parameters["aai_url"], parameters["aai_username"], \
-      parameters["aai_password"])
+    cloud_create_string = 'oclip cloud-create -e {} -b {} -x {} -y {} -j {} -w {} -l {} -url {} -n {} -q {} \
+    -r {} -Q {} -i {} -g {} -z {} -k {} -c {} -m {} -u {} -p {}'.format( values.get("esr-system-info-id"), \
+    values.get("user-name"), parameters["cloud-owner"], cloud_region, values.get("password"), \
+    values.get("cloud-region-version"), values.get("default-tenant"), values.get("service-url"), \
+    parameters["complex_name"], values.get("cloud-type"), parameters["owner-defined-type"], values.get("system-type"),\
+    values.get("identity-url"), parameters["cloud-zone"], values.get("ssl-insecure"), values.get("system-status"), \
+    values.get("cloud-domain"), parameters["aai_url"], parameters["aai_username"], parameters["aai_password"])
 
 
     os.system(cloud_create_string)
@@ -102,13 +101,12 @@ def create_vlm(parameters):
     vlm_id = out_list[3]
     vlm_version = out_list[5]
 
-    entitlement_string = "oclip vlm-entitlement-pool-create -x {} -y {} -e {} -z {} -k {} -g {} -l {} -u {} -p {} -m {}".format( \
-      parameters["entitlement-pool-name"], vlm_id, vlm_version, parameters["entitlement-description"], parameters["vendor-name"], \
-      parameters["expiry-date"], parameters["start-date"],  parameters["sdc_creator"], parameters["sdc_password"], \
-      parameters["sdc_onboarding_url"])
+ 
+    entitlement_string = "oclip vlm-entitlement-pool-create -x {} -y {} -e {} -k {} -g {} -l {} -u {} -p {} -m {}".format( \
+      parameters["entitlement-pool-name"], vlm_id, vlm_version, parameters["vendor-name"], parameters["expiry-date"], \
+      parameters["start-date"],  parameters["sdc_creator"], parameters["sdc_password"], parameters["sdc_onboarding_url"])
     command_out = (os.popen(entitlement_string)).read()
     entitlement_id = (get_out_helper(command_out))[3]
-
 
     key_group_string = "oclip vlm-key-group-create -c {} -e {} -x {} -y {} -u {} -p {} -m {}".format(vlm_id, vlm_version, \
       parameters["key-group-name"], parameters["key-group-type"],  parameters["sdc_creator"], parameters["sdc_password"], \
@@ -116,23 +114,25 @@ def create_vlm(parameters):
     command_out = (os.popen(key_group_string)).read()
     key_group_id = (get_out_helper(command_out))[3]
 
-    feature_group_string = "oclip vlm-feature-group-create -x {} -y {} -e {} -z {} -g {} -b {} -c {} -u {} -p {} -m {}".format(
-      parameters["feature-grp-name"], vlm_id, vlm_version, parameters["feature-grp-desc"], key_group_id, entitlement_id, \
+    feature_group_string = "oclip vlm-feature-group-create -x {} -y {} -e {} -g {} -b {} -c {} -u {} -p {} -m {}".format(
+      parameters["feature-grp-name"], vlm_id, vlm_version, key_group_id, entitlement_id, \
       parameters["part-no"], parameters["sdc_creator"], parameters["sdc_password"], parameters["sdc_onboarding_url"])
     command_out = (os.popen(feature_group_string)).read()
     feature_group_id = (get_out_helper(command_out))[3]
 
-    agreement_string = "oclip vlm-aggreement-create -x {} -y {} -e {} -z {} -g {} -u {} -p {} -m {}".format(parameters["agreement-name"], \
-      vlm_id, vlm_version, parameters["agreement-desc"], feature_group_id, parameters["sdc_creator"], parameters["sdc_password"], \
+    agreement_string = "oclip vlm-aggreement-create -x {} -y {} -e {} -g {} -u {} -p {} -m {}".format(parameters["agreement-name"], \
+      vlm_id, vlm_version, feature_group_id, parameters["sdc_creator"], parameters["sdc_password"], \
       parameters["sdc_onboarding_url"])
     command_out = (os.popen(agreement_string)).read()
     agreement_id = (get_out_helper(command_out))[3]
+
 
     submit_string = "oclip vlm-submit -x {} -y {} -u {} -p {} -m {}".format(vlm_id, vlm_version, parameters["sdc_creator"], \
       parameters["sdc_password"], parameters["sdc_onboarding_url"])
     os.system(submit_string)
 
     output = [feature_group_id, agreement_id, vlm_version, vlm_id ]
+ 
     return output
 
 def create_vsp(parameters, in_list):
@@ -142,8 +142,8 @@ def create_vsp(parameters, in_list):
     command_out = (os.popen(create_string)).read()
     out_list = get_out_helper(command_out)
     vsp_id = out_list[3]
-    vsp_version = out_list[5]
-
+    vsp_version = out_list[7]
+ 
     os.system("oclip vsp-add-artifact -x {} -y {} -z {} -u {} -p {} -m {}".format(vsp_id, vsp_version, parameters["csar-file-path"], \
       parameters["sdc_creator"], parameters["sdc_password"], parameters["sdc_onboarding_url"]))
 
@@ -155,6 +155,7 @@ def create_vsp(parameters, in_list):
 
     os.system("oclip vsp-package -x {} -y {} -u {} -p {} -m {}".format(vsp_id, vsp_version, parameters["sdc_creator"], \
       parameters["sdc_password"], parameters["sdc_onboarding_url"]))
+
 
     return vsp_id
 
@@ -194,7 +195,7 @@ def create_vf_model(parameters, vsp_id):
 
 
 def create_service_model(parameters, vf_unique_id):
-    create_string = "oclip service-model-create -z {} -y {} -e {} -x {} -c {} -b {} -u {} -p {} -m {} |grep ID".format(parameters["project-code"], \
+    create_string = "oclip service-model-create -z {} -y {} -e {} -x {} -c {} -b {} -u {} -p {} -m {} |grep -i ID".format(parameters["project-code"], \
     parameters["service-model-desc"], parameters["icon-id"], parameters["service-model-name"], parameters["category-display"], \
     parameters["category"],parameters["sdc_creator"], parameters["sdc_password"], parameters["sdc_catalog_url"])
 
@@ -299,7 +300,7 @@ def query_db(parameters, service_model_uuid, vf_model_uuid):
 
     out_dictionary = {}
     #Query DB Certain parameters required
-    mariadb_connection = mariadb.connect(user='{}'.format(parameters["so_mariadb_user"]), host='{}'.format(parameters["so_mariadb_host"]),
+    mariadb_connection = mariadb.connect(user='{}'.format(parameters["so_mariadb_user"]), host='{}'.format(parameters["mariadb_host"]),
                          password='{}'.format(parameters["so_mariadb_password"]), database='{}'.format(parameters["so_mariadb_db"]))
     values = mariadb_connection.cursor()
 
@@ -445,7 +446,7 @@ def create_vf_module(parameters, service_dict, vnf_dict, db_dict):
 
 #Run Functions
 
-config_file_path = "/root/automation_stuff/hpa_automation_config.json"
+config_file_path = "/root/integration/test/hpa_automation/heat/hpa_automation_config.json"
 config_file = open(config_file_path)
 
 #Get required parameters from hpa config file
@@ -453,7 +454,6 @@ parameters = get_parameters(config_file)
 
 #Set CLI env variables
 set_open_cli_env(parameters)
-
 create_complex(parameters)
 register_all_clouds(parameters)
 
@@ -503,5 +503,4 @@ while True:
 #Preload VF module and create VF module
 sdnc_preload(parameters, db_dict, service_dict)
 create_vf_module(parameters, service_dict, vnf_dict, db_dict)
-
 print "Deployment complete!!!, check cloud to confirm that vf module has been created"
