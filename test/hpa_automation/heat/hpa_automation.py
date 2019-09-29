@@ -116,9 +116,9 @@ def create_vlm(parameters):
     command_out = (os.popen(key_group_string)).read()
     key_group_id = (get_out_helper(command_out))[3]
 
-    feature_group_string = "oclip vlm-feature-group-create -x {} -y {} -e {} -z {} -g {} -b {} -c {} -u {} -p {} -m {}".format(
-      parameters["feature-grp-name"], vlm_id, vlm_version, parameters["feature-grp-desc"], key_group_id, entitlement_id, \
-      parameters["part-no"], parameters["sdc_creator"], parameters["sdc_password"], parameters["sdc_onboarding_url"])
+    feature_group_string = "oclip vlm-feature-group-create -x {} -y {} -e {} -g {} -b {} -c {} -u {} -p {} -m {}".format(
+      parameters["feature-grp-name"], vlm_id, vlm_version, key_group_id, entitlement_id, parameters["part-no"], \
+      parameters["sdc_creator"], parameters["sdc_password"], parameters["sdc_onboarding_url"])
     command_out = (os.popen(feature_group_string)).read()
     feature_group_id = (get_out_helper(command_out))[3]
 
