@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b88bbc54_8e7817f1",
+        "filename": "test/vcpe/bin/setup.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2019-09-30T13:28:47Z",
+      "side": 1,
+      "message": "do we need a copyright banner ?",
+      "range": {
+        "startLine": 3,
+        "startChar": 2,
+        "endLine": 3,
+        "endChar": 45
+      },
+      "revId": "d0ad78f758c9f81b02708460bc840f8bed36dd96",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
