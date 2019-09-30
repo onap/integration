@@ -1,7 +1,7 @@
 # An example of a Kubernetes cluster for ONAP
 ssh_key_path: &ssh_key_path "~/.ssh/onap-key"
 nodes:
-- address: 172.17.0.100
+- address: 172.17.4.100
   port: "22"
   role:
   - controlplane
@@ -9,7 +9,7 @@ nodes:
   hostname_override: "onap-control-1"
   user: vagrant
   ssh_key_path: *ssh_key_path
-- address: 172.17.0.101
+- address: 172.17.4.101
   port: "22"
   role:
   - worker

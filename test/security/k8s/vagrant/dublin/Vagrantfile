@@ -15,10 +15,10 @@ vm_memory = 2 * 1024
 vm_cpus = 1
 vm_box = "generic/ubuntu1804"
 
-operation = { name: 'operator', hostname: 'operator', ip: '172.17.0.254' }
+operation = { name: 'operator', hostname: 'operator', ip: '172.17.4.254' }
 cluster = [
-  { name: 'control', hostname: 'control', ip: '172.17.0.100' },
-  { name: 'worker', hostname: 'worker', ip: '172.17.0.101' }
+  { name: 'control', hostname: 'control', ip: '172.17.4.100' },
+  { name: 'worker', hostname: 'worker', ip: '172.17.4.101' }
 ]
 
 all = cluster.dup << operation

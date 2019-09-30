@@ -10,8 +10,8 @@ vm_cpus = 1
 vm_box = "generic/ubuntu1604"
 
 cluster = [
-  { name: 'master', hostname: 'master', ip: '172.17.0.100' },
-  { name: 'worker', hostname: 'worker', ip: '172.17.0.101' }
+  { name: 'master', hostname: 'master', ip: '172.17.3.100' },
+  { name: 'worker', hostname: 'worker', ip: '172.17.3.101' }
 ]
 
 Vagrant.configure('2') do |config|
