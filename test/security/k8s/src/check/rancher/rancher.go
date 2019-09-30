@@ -58,6 +58,7 @@ func getProcessParams(process check.Command, service check.Service) ([]string, e
 			return []string{}, err
 		}
 
+		cmd = trimOutput(cmd) // TODO: improve `docker ps` query format.
 		if len(cmd) > 0 {
 			i := bytes.Index(cmd, []byte(process.String()))
 			if i == -1 {
@@ -97,6 +98,14 @@ func getPsCmdOutput(host string, service check.Service) ([]byte, error) {
 		return nil, err
 	}
 	return out, nil
+}
+
+// trimOutput removes trailing new line and brackets from output.
+func trimOutput(b []byte) []byte {
+	b = bytes.TrimSpace(b)
+	b = bytes.TrimPrefix(b, []byte("["))
+	b = bytes.TrimSuffix(b, []byte("]"))
+	return b
 }
 
 // btos converts slice of bytes to slice of strings split by white space characters.
