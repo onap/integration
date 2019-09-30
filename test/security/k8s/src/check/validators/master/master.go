@@ -69,5 +69,8 @@ func CheckScheduler(params []string) {
 // CheckControllerManager validates controller manager complies with CIS guideliness.
 func CheckControllerManager(params []string) {
 	log.Println("==> Controller Manager:")
+	log.Printf("IsProfilingDisabled: %t\n", controllermanager.IsProfilingDisabled(params))
+	log.Printf("IsUseServiceAccountCredentialsEnabled: %t\n", controllermanager.IsUseServiceAccountCredentialsEnabled(params))
+	log.Printf("IsRotateKubeletServerCertificateIncluded: %t\n", controllermanager.IsRotateKubeletServerCertificateIncluded(params))
 	log.Printf("IsInsecureBindAddressAbsentOrLoopback: %t\n", controllermanager.IsInsecureBindAddressAbsentOrLoopback(params))
 }
