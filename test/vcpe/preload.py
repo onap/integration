@@ -106,7 +106,7 @@ class Preload:
     def preload(self, template_file, replace_dict, url):
         json_data = self.generate_json(template_file, replace_dict)
         self.logger.debug(json.dumps(json_data, indent=4, sort_keys=True))
-        r = requests.post(url, headers=self.vcpecommon.sdnc_headers, auth=self.vcpecommon.sdnc_userpass, json=json_data)
+        r = requests.post(url, headers=self.vcpecommon.sdnc_headers, auth=self.vcpecommon.sdnc_userpass, json=json_data, verify=False)
         response = r.json()
         if int(response.get('output', {}).get('response-code', 0)) != 200:
             self.logger.debug(json.dumps(response, indent=4, sort_keys=True))
