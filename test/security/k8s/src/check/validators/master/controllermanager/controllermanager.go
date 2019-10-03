@@ -25,3 +25,18 @@ func IsInsecureBindAddressAbsentOrLoopback(params []string) bool {
 	return boolean.IsFlagAbsent("--address=", params) ||
 		args.HasSingleFlagArgument("--address=", "127.0.0.1", params)
 }
+
+// IsTerminatedPodGcThresholdValid validates terminated pod garbage collector threshold is set and it has non-empty argument.
+func IsTerminatedPodGcThresholdValid(params []string) bool {
+	return args.HasSingleFlagNonemptyArgument("--terminated-pod-gc-threshold", params)
+}
+
+// IsServiceAccountPrivateKeyFileSet validates service account private key is set and it has non-empty argument.
+func IsServiceAccountPrivateKeyFileSet(params []string) bool {
+	return args.HasSingleFlagNonemptyArgument("--service-account-private-key-file", params)
+}
+
+// IsRootCertificateAuthoritySet validates root certificate authority is set and it has non-empty argument.
+func IsRootCertificateAuthoritySet(params []string) bool {
+	return args.HasSingleFlagNonemptyArgument("--root-ca-file", params)
+}

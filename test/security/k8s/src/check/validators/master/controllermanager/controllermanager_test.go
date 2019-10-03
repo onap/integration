@@ -16,6 +16,9 @@ var _ = Describe("Controllermanager", func() {
 			"--profiling=false",
 			"--use-service-account-credentials=true",
 			"--feature-gates=RotateKubeletServerCertificate=true",
+			"--terminated-pod-gc-threshold=10",
+			"--service-account-private-key-file=/etc/kubernetes/ssl/kube-service-account-token-key.pem",
+			"--root-ca-file=/etc/kubernetes/ssl/kube-ca.pem",
 		}
 
 		// kubeControllerManagerCasablanca was obtained from virtual environment for testing
@@ -78,6 +81,30 @@ var _ = Describe("Controllermanager", func() {
 		)
 	})
 
+	Describe("File path flags", func() {
+		DescribeTable("Service account private key",
+			func(params []string, expected bool) {
+				Expect(IsServiceAccountPrivateKeyFileSet(params)).To(Equal(expected))
+			},
+			Entry("Is absent on insecure cluster", []string{""}, false),
+			Entry("Is empty on insecure cluster", []string{"--service-account-private-key-file="}, false),
+			Entry("Should be explicitly set on CIS-compliant cluster", kubeControllerManagerCISCompliant, true),
+			Entry("Should be explicitly set on Casablanca cluster", kubeControllerManagerCasablanca, true),
+			Entry("Should be explicitly set on Dublin cluster", kubeControllerManagerDublin, true),
+		)
+
+		DescribeTable("Root certificate authority",
+			func(params []string, expected bool) {
+				Expect(IsRootCertificateAuthoritySet(params)).To(Equal(expected))
+			},
+			Entry("Is absent on insecure cluster", []string{""}, false),
+			Entry("Is empty on insecure cluster", []string{"--root-ca-file="}, false),
+			Entry("Should be explicitly set on CIS-compliant cluster", kubeControllerManagerCISCompliant, true),
+			Entry("Should be explicitly set on Casablanca cluster", kubeControllerManagerCasablanca, true),
+			Entry("Should be explicitly set on Dublin cluster", kubeControllerManagerDublin, true),
+		)
+	})
+
 	Describe("Address flag", func() {
 		DescribeTable("Bind address",
 			func(params []string, expected bool) {
@@ -87,6 +114,19 @@ var _ = Describe("Controllermanager", func() {
 			Entry("Is not absent nor set to loopback on Casablanca cluster", kubeControllerManagerCasablanca, false),
 			Entry("Is not absent nor set to loopback on Dublin cluster", kubeControllerManagerDublin, false),
 			Entry("Should be absent or set to loopback on CIS-compliant cluster", kubeControllerManagerCISCompliant, true),
+		)
+	})
+
+	Describe("Numeric flags", func() {
+		DescribeTable("Terminated pod garbage collector threshold",
+			func(params []string, expected bool) {
+				Expect(IsTerminatedPodGcThresholdValid(params)).To(Equal(expected))
+			},
+			Entry("Is absent on insecure cluster", []string{""}, false),
+			Entry("Is empty on insecure cluster", []string{"--terminated-pod-gc-threshold="}, false),
+			Entry("Is absent on Casablanca cluster", kubeControllerManagerCasablanca, false),
+			Entry("Should be explicitly set on CIS-compliant cluster", kubeControllerManagerCISCompliant, true),
+			Entry("Should be explicitly set on Dublin cluster", kubeControllerManagerDublin, true),
 		)
 	})
 
