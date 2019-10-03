@@ -70,7 +70,10 @@ func CheckScheduler(params []string) {
 func CheckControllerManager(params []string) {
 	log.Println("==> Controller Manager:")
 	log.Printf("IsProfilingDisabled: %t\n", controllermanager.IsProfilingDisabled(params))
+	log.Printf("IsTerminatedPodGcThresholdValid: %t\n", controllermanager.IsTerminatedPodGcThresholdValid(params))
 	log.Printf("IsUseServiceAccountCredentialsEnabled: %t\n", controllermanager.IsUseServiceAccountCredentialsEnabled(params))
 	log.Printf("IsRotateKubeletServerCertificateIncluded: %t\n", controllermanager.IsRotateKubeletServerCertificateIncluded(params))
+	log.Printf("IsServiceAccountPrivateKeyFileSet: %t\n", controllermanager.IsServiceAccountPrivateKeyFileSet(params))
+	log.Printf("IsRootCertificateAuthoritySet: %t\n", controllermanager.IsRootCertificateAuthoritySet(params))
 	log.Printf("IsInsecureBindAddressAbsentOrLoopback: %t\n", controllermanager.IsInsecureBindAddressAbsentOrLoopback(params))
 }
