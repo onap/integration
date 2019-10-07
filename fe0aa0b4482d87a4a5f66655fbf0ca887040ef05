@@ -49,6 +49,46 @@
     },
     {
       "key": {
+        "uuid": "e008c2ef_da16e29b",
+        "filename": "deployment/aks/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2019-10-07T18:23:20Z",
+      "side": 1,
+      "message": "how would you do a helm delete /helm deploy in this environment ?\n\nhelm deploy onap-tklk-sdnc local/onap  -f /home/username/ONAP-Tklk/oom/kubernetes/onap/resources/overrides/onap-all.yaml -f /home/username/ONAP-Tklk/oom/kubernetes/onap/resources/overrides/openstack.yaml --timeout 900 --dry-run\n\nthat seems to re-install all of onap luckily it was a dry-run\n\nonap-tklk-sdnc instead of onap-tklk as the release name prefix for all components\n\nwonder if the problem is the \"-\" in onap-tklk. Deploy.sh plugin does strange stuff",
+      "range": {
+        "startLine": 171,
+        "startChar": 0,
+        "endLine": 171,
+        "endChar": 35
+      },
+      "revId": "fe0aa0b4482d87a4a5f66655fbf0ca887040ef05",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "98850762_a333fa08",
+        "filename": "deployment/aks/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2019-10-07T18:23:20Z",
+      "side": 1,
+      "message": "# determine if upgrading individual subchart or entire parent + subcharts\n  SUBCHART_RELEASE\u003d\"$(cut -d\u0027-\u0027 -f2 \u003c\u003c\u003c\"$RELEASE\")\"\n  if [[ ! -d \"$CACHE_SUBCHART_DIR/$SUBCHART_RELEASE\" ]]; then\n    SUBCHART_RELEASE\u003d\n  else\n    # update specified subchart without parent\n    RELEASE\u003d\"$(cut -d\u0027-\u0027 -f1 \u003c\u003c\u003c\"$RELEASE\")\"\n  fi",
+      "revId": "fe0aa0b4482d87a4a5f66655fbf0ca887040ef05",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d4134502_5a416019",
         "filename": "deployment/aks/README.md",
         "patchSetId": 1
