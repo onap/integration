@@ -3,7 +3,7 @@
 import argparse
 import json
 import logging
-from subprocess import Popen,PIPE
+from subprocess import Popen,PIPE,STDOUT,check_output,CalledProcessError
 import sys
 
 def parse_args():
@@ -28,13 +28,27 @@ namespace = args.namespace
 environment = args.environment
 
 # config section
-kube_cmd = 'kubectl -n {0} exec {1}-sdnc-sdnc-0 -- bash -c '.format(namespace, environment)
+kube_cmd = 'kubectl -n {0} exec {1}-sdnc-sdnc-0 -c sdnc -- bash -c '.format(namespace, environment)
+curl_check_cmd = 'apk info -e curl'
+curl_install_cmd = 'sudo apk add curl'
 curl_cmd = 'curl -s -u admin:admin -X GET http://{0}:8183/restconf/config/ietf-interfaces:interfaces'
 endpoints = {
     "vGMUX": '10.0.101.21',
     "vBRG": '10.3.0.2'
 }
 # end of config section
+
+# Install curl command in SDNC container
+try:
+    check_output(kube_cmd.split() + [curl_check_cmd], stderr=STDOUT)
+except CalledProcessError:
+    try:
+        check_output(kube_cmd.split() + [curl_install_cmd], stderr=STDOUT)
+    except CalledProcessError:
+        print('Curl package installation failed, exiting.')
+        sys.exit(1)
+    else:
+        print("Curl package was installed in SDNC container")
 
 for ename,eip in endpoints.items():
     print('Checking {0} REST API from SDNC'.format(ename))

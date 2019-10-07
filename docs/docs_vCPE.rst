@@ -136,33 +136,27 @@ Here are the main steps to run the use case in Integration lab environment, wher
 
     vcpe.py infra
 
-13. Install curl command on sdnc container inside sdnc-sdnc-0 pod
-
-::
-
-    sudo apk add curl
-
-14. From Rancher node run vcpe healthcheck command to check connectivity from sdnc to brg and gmux, and vpp configuration of brg and gmux. Write down BRG MAC address printed out at the last line
+13. From Rancher node run vcpe healthcheck command to check connectivity from sdnc to brg and gmux, and vpp configuration of brg and gmux. Write down BRG MAC address printed out at the last line
 
 ::
 
     healthcheck-k8s.py --namespace <namespace name> --environment <env name>
 
-15. Instantiate vCPE customer service. Input the BRG MAC when prompt
+14. Instantiate vCPE customer service. Input the BRG MAC when prompt
 
 ::
 
     vcpe.py customer
 
-16. Update libevel.so in vGMUX VM and restart the VM. This allows vGMUX to send events to VES collector in close loop test. See tutorial wiki for details
+15. Update libevel.so in vGMUX VM and restart the VM. This allows vGMUX to send events to VES collector in close loop test. See tutorial wiki for details
 
-17. Run heatbridge. The heatbridge command usage: demo-k8s.sh <namespace> heatbridge <stack_name> <service_instance_id> <service> <oam-ip-address>, please refer to vCPE tutorial page on how to fill in those paraemters. See an example as following:
+16. Run heatbridge. The heatbridge command usage: demo-k8s.sh <namespace> heatbridge <stack_name> <service_instance_id> <service> <oam-ip-address>, please refer to vCPE tutorial page on how to fill in those paraemters. See an example as following:
 
 ::
 
     ~/integration/test/vcpe# ~/oom/kubernetes/robot/demo-k8s.sh onap heatbridge vcpe_vfmodule_e2744f48729e4072b20b_201811262136 d8914ef3-3fdb-4401-adfe-823ee75dc604 vCPEvGMUX 10.0.101.21
 
-18. Start closed loop test by triggering packet drop VES event, and monitor if vGMUX is restarting. You may need to run the command twice if the first run fails
+17. Start closed loop test by triggering packet drop VES event, and monitor if vGMUX is restarting. You may need to run the command twice if the first run fails
 
 :: 
 
