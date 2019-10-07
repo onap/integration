@@ -8,6 +8,8 @@ type Informer interface {
 	GetSchedulerParams() ([]string, error)
 	// GetControllerManagerParams returns controller manager parameters.
 	GetControllerManagerParams() ([]string, error)
+	// GetEtcdParams returns etcd parameters.
+	GetEtcdParams() ([]string, error)
 }
 
 // Command represents commands run on cluster.
@@ -20,6 +22,8 @@ const (
 	SchedulerProcess
 	// ControllerManagerProcess represents controller manager command ("kube-controller-manager").
 	ControllerManagerProcess
+	// EtcdProcess represents controller manager service ("etcd").
+	EtcdProcess
 )
 
 func (c Command) String() string {
@@ -27,9 +31,10 @@ func (c Command) String() string {
 		"kube-apiserver",
 		"kube-scheduler",
 		"kube-controller-manager",
+		"etcd",
 	}
 
-	if c < APIProcess || c > ControllerManagerProcess {
+	if c < APIProcess || c > EtcdProcess {
 		return "exit"
 	}
 	return names[c]
@@ -45,6 +50,8 @@ const (
 	SchedulerService
 	// ControllerManagerService represents controller manager service ("kubernetes/controller-manager").
 	ControllerManagerService
+	// EtcdService represents etcd service ("kubernetes/etcd").
+	EtcdService
 )
 
 func (s Service) String() string {
@@ -52,9 +59,10 @@ func (s Service) String() string {
 		"kubernetes/kubernetes",
 		"kubernetes/scheduler",
 		"kubernetes/controller-manager",
+		"kubernetes/etcd",
 	}
 
-	if s < APIService || s > ControllerManagerService {
+	if s < APIService || s > EtcdService {
 		return ""
 	}
 	return names[s]

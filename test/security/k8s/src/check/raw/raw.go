@@ -46,6 +46,12 @@ func (r *Raw) GetControllerManagerParams() ([]string, error) {
 	return getProcessParams(check.ControllerManagerProcess)
 }
 
+// GetEtcdParams returns parameters of running etcd.
+// It queries only cluster nodes with "controlplane" role.
+func (r *Raw) GetEtcdParams() ([]string, error) {
+	return []string{}, check.ErrNotImplemented
+}
+
 func getProcessParams(process check.Command) ([]string, error) {
 	nodes, err := config.GetNodesInfo()
 	if err != nil {

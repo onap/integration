@@ -46,6 +46,12 @@ func (r *Rancher) GetControllerManagerParams() ([]string, error) {
 	return getProcessParams(check.ControllerManagerProcess, check.ControllerManagerService)
 }
 
+// GetEtcdParams returns parameters of running etcd.
+// It queries only cluster nodes with "controlplane" role.
+func (r *Rancher) GetEtcdParams() ([]string, error) {
+	return []string{}, check.ErrNotImplemented
+}
+
 func getProcessParams(process check.Command, service check.Service) ([]string, error) {
 	hosts, err := listHosts()
 	if err != nil {

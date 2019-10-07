@@ -54,4 +54,14 @@ func main() {
 		log.Fatal(err)
 	}
 	master.CheckControllerManager(controllerManagerParams)
+
+	_, err = info.GetEtcdParams()
+	if err != nil {
+		switch err {
+		case check.ErrNotImplemented:
+			log.Print(err) // Fail softly.
+		default:
+			log.Fatal(err)
+		}
+	}
 }
