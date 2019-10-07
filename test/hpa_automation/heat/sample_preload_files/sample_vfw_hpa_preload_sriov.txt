@@ -1,0 +1,175 @@
+{
+    "input": {
+        "request-information": {
+            "notification-url": "openecomp.org",
+            "order-number": "1",
+            "order-version": "1",
+            "request-action": "PreloadVNFRequest",
+            "request-id": "test"
+        },
+        "sdnc-request-header": {
+            "svc-action": "reserve",
+            "svc-notification-url": "http://openecomp.org:8080/adapters/rest/SDNCNotify",
+            "svc-request-id": "test"
+        },
+        "vnf-topology-information": {
+            "vnf-assignments": {
+                "availability-zones": [],
+                "vnf-networks": [],
+                "vnf-vms": []
+            },
+			
+
+            "vnf-parameters": [     
+			    {
+                    "vnf-parameter-name": "vfw_image_name",
+                    "vnf-parameter-value": "ubuntu-16.04"
+                },
+				{
+                    "vnf-parameter-name": "firewall_flavor_name",
+                    "vnf-parameter-value": "a"
+                },
+				 {
+                    "vnf-parameter-name": "sink_flavor_name",
+                    "vnf-parameter-value": "b"
+                },
+				 {
+                    "vnf-parameter-name": "packetgen_flavor_name",
+                    "vnf-parameter-value": "c"
+                },
+                {
+                    "vnf-parameter-name": "public_net_id",
+                    "vnf-parameter-value": "external"
+                },
+				 {
+                    "vnf-parameter-name": "unprotected_private_net_id",
+                    "vnf-parameter-value": "unprotected_private_net_11"
+                },
+				{
+                    "vnf-parameter-name": "protected_private_net_id",
+                    "vnf-parameter-value": "protected_private_net_11"
+                },
+                {
+                    "vnf-parameter-name": "onap_private_net_id",
+                    "vnf-parameter-value": "oam_onap_vnf_test"
+                },
+                {
+                    "vnf-parameter-name": "protected_private_provider_net",
+                    "vnf-parameter-value": "a"
+                },
+                {
+                    "vnf-parameter-name": "unprotected_private_provider_net",
+                    "vnf-parameter-value": "b"
+                },
+
+                {
+                    "vnf-parameter-name": "onap_private_subnet_id",
+                    "vnf-parameter-value": "oam_onap_vnf_test"
+                },
+				{
+                    "vnf-parameter-name": "unprotected_private_net_cidr",
+                    "vnf-parameter-value": "192.168.10.0/24"
+                },
+				{
+                    "vnf-parameter-name": "protected_private_net_cidr",
+                    "vnf-parameter-value": "192.168.20.0/24"
+                },
+				{
+                    "vnf-parameter-name": "onap_private_net_cidr",
+                    "vnf-parameter-value": "10.0.0.0/16"
+                },
+				{
+                    "vnf-parameter-name": "vfw_private_ip_0",
+                    "vnf-parameter-value": "192.168.10.100"
+                },
+				{
+                    "vnf-parameter-name": "vfw_private_ip_1",
+                    "vnf-parameter-value": "192.168.20.100"
+                },
+				{
+                    "vnf-parameter-name": "vfw_private_ip_2",
+                    "vnf-parameter-value": "10.0.100.11"
+                },
+				{
+                    "vnf-parameter-name": "vpg_private_ip_0",
+                    "vnf-parameter-value": "192.168.10.200"
+                },
+				{
+                    "vnf-parameter-name": "vpg_private_ip_1",
+                    "vnf-parameter-value": "10.0.100.12"
+                },
+				{
+                    "vnf-parameter-name": "vsn_private_ip_0",
+                    "vnf-parameter-value": "192.168.20.250"
+                },
+				{
+                    "vnf-parameter-name": "vsn_private_ip_1",
+                    "vnf-parameter-value": "10.0.100.13"
+                },
+				
+				{
+                    "vnf-parameter-name": "vfw_name_0",
+                    "vnf-parameter-value": "vfw"
+                },
+				{
+                    "vnf-parameter-name": "vpg_name_0",
+                    "vnf-parameter-value": "vpktgen"
+                },
+				{
+                    "vnf-parameter-name": "vsn_name_0",
+                    "vnf-parameter-value": "vsink"
+                },
+				{
+                    "vnf-parameter-name": "vfw_private_0_port_vnic_type",
+                    "vnf-parameter-value": "normal"
+                },
+				{
+                    "vnf-parameter-name": "vfw_private_1_port_vnic_type",
+                    "vnf-parameter-value": "normal"
+                },
+				{
+                    "vnf-parameter-name": "vfw_private_2_port_vnic_type",
+                    "vnf-parameter-value": "normal"
+                },
+				{
+                    "vnf-parameter-name": "vpg_private_0_port_vnic_type",
+                    "vnf-parameter-value": "normal"
+                },
+				{
+                    "vnf-parameter-name": "vpg_private_1_port_vnic_type",
+                    "vnf-parameter-value": "normal"
+                },
+				{
+                    "vnf-parameter-name": "vsn_private_0_port_vnic_type",
+                    "vnf-parameter-value": "normal"
+                },
+				{
+                    "vnf-parameter-name": "vsn_private_1_port_vnic_type",
+                    "vnf-parameter-value": "normal"
+                },
+                {
+                    "vnf-parameter-name": "vf_module_id",
+       "vnf-parameter-value": "HpaVf0..base_vfw..module-0"
+                },
+                {
+                    "vnf-parameter-name": "sec_group",
+                    "vnf-parameter-value": "default"
+                },
+ 
+                {
+                    "vnf-parameter-name": "template_type",
+                    "vnf-parameter-value": "heat"
+                }
+			
+               
+            ],
+            "vnf-topology-identifier": {
+           "generic-vnf-name": "vfw-hpa-vnf",
+           "generic-vnf-type": "hpa-vf-0 0",
+         "service-type": "9545d48f-03da-467e-8994-ae0716e7372d",
+           "vnf-name": "vfw-sriov-cli",
+           "vnf-type": "HpaVf0..base_vfw..module-0"
+                				
+            }
+        }
+    }}
