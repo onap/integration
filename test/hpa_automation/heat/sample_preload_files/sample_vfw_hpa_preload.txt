@@ -159,8 +159,8 @@
             "vnf-topology-identifier": {
            "generic-vnf-name": "vfw-hpa-vnf",
            "generic-vnf-type": "hpa-vf-0 0",
-         "service-type": "e34efe67-b461-4978-8462-2e1217da48c7",
-           "vnf-name": "vfw-cli-stack",
+         "service-type": "9545d48f-03da-467e-8994-ae0716e7372d",
+           "vnf-name": "vfw-sriov-cli",
            "vnf-type": "HpaVf0..base_vfw..module-0"
                 				
             }

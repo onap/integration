@@ -483,6 +483,7 @@ add_policies(parameters)
 service_dict = create_service_instance(parameters, service_model_list)
 print "service instance parameters={}".format(service_dict)
 service_model_uuid = service_dict["service_uuid"]
+time.sleep(2)
 db_dict = query_db(parameters, service_model_uuid, vf_id)
 
 #Wait for Service instance to be created then create VNF Instance
