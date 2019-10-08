@@ -25,6 +25,8 @@ DOCKER_INSPECT = 'docker inspect --format=\'{{index .RepoTags 0}}{{\\\\\\" \\\\\
 KUBECTL_VERSION = 'kubectl version'
 DOCKER_VERSION = 'docker --version'
 
+local_registry = ""
+
 logging.basicConfig(level=logging.DEBUG, format='%(message)s')
 file_log = logging.FileHandler(filename='onap-probe-report.txt', mode='w')
 file_log.setLevel(logging.INFO)
@@ -87,8 +89,8 @@ class OpenStackK8sCluster(object):
     def get_identity_file(self):
         return self.identity_file
 
-    def get_rancher_ip_address(self):
-        return self.servers['rancher']
+    def get_nfs_ip_address(self):
+        return self.servers['nfs']
 
     def get_worker_nodes(self):
         return [value for key, value in self.servers.items() if 'k8s-' in key.lower()]
@@ -105,6 +107,8 @@ class OpenStackK8sCluster(object):
                 name_tag, name_digest = inspect_line.split(' ')
                 name, tag = name_tag.rsplit(':', 1)
                 digest = name_digest.split('sha256:')[1]
+                if local_registry:
+                    name = name.replace(local_registry + "/", "")
                 self.vm_docker_images.add((name, tag, digest))
 
     def get_docker_images_on_vms(self):
@@ -114,8 +118,8 @@ class OpenStackK8sCluster(object):
         return len(self.vm_docker_images)
 
     def determine_kubectl_version(self):
-        command = SSH_CMD_TEMPLATE % (self.get_identity_file(), self.get_rancher_ip_address(), KUBECTL_VERSION)
-        self.kubectl_version = run_command_or_exit(command, "Examine rancher vm to determine kubectl version").stdout
+        command = SSH_CMD_TEMPLATE % (self.get_identity_file(), self.get_nfs_ip_address(), KUBECTL_VERSION)
+        self.kubectl_version = run_command_or_exit(command, "Examine nfs vm to determine kubectl version").stdout
 
     def get_kubectl_version(self):
         return self.kubectl_version
@@ -136,7 +140,7 @@ class OnapDeployment(object):
         self.unique_images = set()
 
     def dig(self):
-        command = SSH_CMD_TEMPLATE % (self.stack.get_identity_file(), self.stack.get_rancher_ip_address(),
+        command = SSH_CMD_TEMPLATE % (self.stack.get_identity_file(), self.stack.get_nfs_ip_address(),
                                       KUBECTL_GET_ALL_POD_IMAGES_AND_SHAS)
         self.raw = run_command_or_exit(command, "Use kubectl to retrieve all pods and pod images in K8S cluster").stdout
 
@@ -176,6 +180,8 @@ class Pod(object):
         self.shas_images = {}
         for item in images.split(" "):
             image_raw, sha_raw = item.split("___")
+            if local_registry:
+                image_raw = image_raw.replace(local_registry + "/", "")
             if "sha256:" in images:
                 self.shas_images[sha_raw.split("sha256:")[1]] = image_raw
 
@@ -207,7 +213,14 @@ def main():
     parser.add_argument("-i", "--identity_file", dest="identity_file",
                         help="OpenStack identity file to be used by ssh to access servers",
                         metavar="IDENTITY-FILE", required=True)
+    parser.add_argument("-r", "--registry", dest="registry",
+                        help="Local registry used to serve docker images which should be " +
+                             " stripped from any image names in the script output",
+                        metavar="REGISTRY", required=False)
     args = parser.parse_args()
+    if args.registry:
+        global local_registry
+        local_registry = args.registry
 
     openstack_k8s = OpenStackK8sCluster(args.stack_name, args.identity_file)
     openstack_k8s.determine_kubectl_version()
