@@ -49,7 +49,7 @@ func (r *Raw) GetControllerManagerParams() ([]string, error) {
 // GetEtcdParams returns parameters of running etcd.
 // It queries only cluster nodes with "controlplane" role.
 func (r *Raw) GetEtcdParams() ([]string, error) {
-	return []string{}, check.ErrNotImplemented
+	return getProcessParams(check.EtcdProcess)
 }
 
 func getProcessParams(process check.Command) ([]string, error) {
@@ -67,6 +67,10 @@ func getProcessParams(process check.Command) ([]string, error) {
 
 			cmd = trimOutput(cmd) // TODO: improve `docker inspect` query format.
 			if len(cmd) > 0 {
+				if process == check.EtcdProcess { // etcd process name is not included in its argument list.
+					return btos(cmd), nil
+				}
+
 				i := bytes.Index(cmd, []byte(process.String()))
 				if i == -1 {
 					return []string{}, fmt.Errorf("missing %s command", process)
