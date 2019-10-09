@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4732fbfe_fb0995f3",
+        "filename": "docs/onap-oom-heat.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2019-10-09T12:22:28Z",
+      "side": 1,
+      "message": "I think this is old before we switched to the oom:master approach with staging override. Not sure this is still appropriate",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 139,
+        "endChar": 36
+      },
+      "revId": "f1eb2ce71ef990a0140e64b88b0bf0ef43ca41c0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
