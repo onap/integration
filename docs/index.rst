@@ -2,10 +2,10 @@
 
 INTEGRATION
 ===========
-The Integration project provides the followning artifacts:
+The Integration project provides the following artifacts:
 
-- Heat template to deploy ONAP instance
-- Test suites to check the various ONAP components based on Robot Framework
-- Artifacts for the use-case deployments
+- Heat template to deploy the virtual ressources needed for the ONAP deployment
+- Test suites and tools to check the various ONAP components based on Robot Framework
+- Artifacts and documentation for the use-case deployments
 
 .. include:: onap-oom-heat.rst

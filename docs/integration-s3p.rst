@@ -3,7 +3,7 @@
 ONAP Maturity Testing Notes
 ---------------------------
 
-For the Dublin release, ONAP continues to improve in multiple
+For the El Alto release, ONAP continues to improve in multiple
 areas of Scalability, Security, Stability and Performance (S3P)
 metrics.
 
@@ -11,15 +11,20 @@ metrics.
 
 Stability
 =========
-Integration Stability Testing verifies that the ONAP platform remains fully functional after running for an extended amounts of time.  This is done by repeated running tests against an ONAP instance for a period of 72 hours.
+Integration Stability Testing verifies that the ONAP platform remains fully
+functional after running for an extended amounts of time.
+This is done by repeated running tests against an ONAP instance for a period of
+72 hours.
 
 Methodology
 ~~~~~~~~~~~
 
 The Stability Test has two main components:
 
-- Running "ete stability72hr" Robot suite periodically.  This test suite verifies that ONAP can instantiate vDNS, vFWCL, and VVG.
-- Set up vFW Closed Loop to remain running, then check periodically that the closed loop functionality is still working.
+- Running "ete stability72hr" Robot suite periodically.  This test suite
+  verifies that ONAP can instantiate vDNS, vFWCL, and VVG.
+- Set up vFW Closed Loop to remain running, then check periodically that the
+  closed loop functionality is still working.
 
 
 Results: 100% PASS
@@ -48,11 +53,18 @@ Detailed results can be found at https://wiki.onap.org/display/DW/Dublin+Release
 Resilience
 ==========
 
-Integration Resilience Testing verifies that ONAP can automatically recover from failures of any of its components.  This is done by deleting the ONAP pods that are involved in each particular Use Case flow and then checking that the Use Case flow can again be executed successfully after ONAP recovers.
+Integration Resilience Testing verifies that ONAP can automatically recover
+from failures of any of its components.
+This is done by deleting the ONAP pods that are involved in each particular Use
+Case flow and then checking that the Use Case flow can again be executed
+successfully after ONAP recovers.
 
 Methodology
 ~~~~~~~~~~~
-For each Use Case, a list of the ONAP components involved is identified.  The pods of each of those components are systematically deleted one-by-one; after each pod deletion, we wait for the pods to recover, then execute the Use Case again to verify successful ONAP platform recovery.
+For each Use Case, a list of the ONAP components involved is identified.
+The pods of each of those components are systematically deleted one-by-one;
+after each pod deletion, we wait for the pods to recover, then execute the Use
+Case again to verify successful ONAP platform recovery.
 
 
 Results: 99.4% PASS
