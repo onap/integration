@@ -1,20 +1,35 @@
 .. _onap-oom-heat:
 
-ONAP OOM HEAT Template
-----------------------
+Integration Environement Installation
+-------------------------------------
 
+ONAP is deployed on top of kubernetes through the OOM installer.
+Kubernetes can be installed on bare metal or on different environments such as
+OpenStack (private or public cloud), Azure, AWS,..
+
+The integration team maintains a heat template to install ONAP on OpenStack.
+This template creates the needed resources (VMs, networks, security groups,
+...) in order to support a HA Kubernetes then a full ONAP installation.
+
+Sample OpenStack RC (credential) files environment files or deployment scripts
+are provided, they correspond to files used on windriver environment.
+This environment is used by the integration team to validate the installation,
+perform tests and troubleshoot.
+
+If you intend to deploy your own environement, they can be used as reference but
+must be adapted according to your context.
 
 Source files
 ~~~~~~~~~~~~
 
-- HEAT template files: https://git.onap.org/integration/tree/deployment/heat/onap-rke?h=dublin
-- Sample OpenStack RC file: https://git.onap.org/integration/tree/deployment/heat/onap-rke/env/windriver/Integration-SB-00-openrc?h=dublin
-- Sample environment file: https://git.onap.org/integration/tree/deployment/heat/onap-rke/env/windriver/onap-oom.env?h=dublin
-- Deployment script: https://git.onap.org/integration/tree/deployment/heat/onap-rke/scripts/deploy.sh?h=dublin
+- HEAT template files: https://git.onap.org/integration/tree/deployment/heat/onap-rke?h=elalto
+- Sample OpenStack RC file: https://git.onap.org/integration/tree/deployment/heat/onap-rke/env/windriver/Integration-SB-00-openrc?h=elalto
+- Sample environment file: https://git.onap.org/integration/tree/deployment/heat/onap-rke/env/windriver/onap-oom.env?h=elatlo
+- Deployment script: https://git.onap.org/integration/tree/deployment/heat/onap-rke/scripts/deploy.sh?h=elalto
 
 
-Description
-~~~~~~~~~~~
+Heat Template Description
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The ONAP Integration Project provides a sample HEAT template that
 fully automates the deployment of ONAP using OOM as described in
@@ -27,6 +42,8 @@ this cluster.
 - 1 Shared NFS server (called Rancher VM for legacy reasons)
 - 3 orch VMs for Kubernetes HA controller and etcd roles
 - 12 k8s VMs for Kubernetes HA worker roles
+
+See OOM documentation for details.
 
 
 Quick Start
@@ -51,11 +68,22 @@ customize the environment and RC files.  You should make a copy of the
 sample RC and environment files shown above and customize the values
 for your specific OpenStack environments.
 
-The environment file contains a block called
-integration_override_yaml.  The content of this block will be created
-as the file integration_override.yaml in the deployed Rancher VM, and
-used as the helm override files during the OOM deployment.  Be sure to
-customize the necessary values within this block to match your
+The environment file contains a block called integration_override_yaml.
+
+The content of this block will be used by OOM to overwrite some parts of its
+installation parameters used in the helm charts.
+
+This file may deal with:
+
+* Cloud adaptation (use the defined flavors, available images)
+* Proxies (apt, docker,..)
+* Pre-defined resources for use cases (networks, tenant references)
+* performance tuning (initialization timers)
+
+Performance tuning reflects the adaptation to the hardware at a given time.
+The lab may evolve and the timers shall follow.
+
+Be sure to customize the necessary values within this block to match your
 OpenStack environment as well.
 
 **Notes on select parameters**
@@ -79,9 +107,8 @@ local to your lab.  If you do not wish to use such proxies, you can
 set the apt_proxy and docker_proxy parameters to the empty string "".
 
 rancher_vm_flavor needs to have 8 GB of RAM.
-k8s_vm_flavor needs to have 16 GB of RAM.
+k8s_vm_flavor needs to have at least 16 GB of RAM.
 orch_vm_flavor needs to have 4 GB of RAM.
-
 By default the template assumes that you have already imported a
 keypair named "onap_key" into your OpenStack environment.  If the
 desired keypair has a different name, change the key_name parameter.
@@ -99,48 +126,9 @@ Exploring the Rancher VM
 
 The Rancher VM that is spun up by this HEAT template serves the
 following key roles:
-- Hosts the /dockerdata-nfs/ NFS export shared by all the k8s VMs for persistent volumes
+- Hosts the /dockerdata-nfs/ NFS export shared by all the k8s VMs for persistent
+  volumes
 - git clones the oom repo into /root/oom
 - git clones the integration repo into /root/integration
 - Creates the helm override file at /root/integration-override.yaml
 - Deploys ONAP using helm and OOM
-
-
-
-.. _deploy-updated-manifest:
-
-Deploying an Updated Docker Manifest
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Some late changes in the ONAP docker images did not make it in time
-for the Dublin release.  Depending on the Use Case you are trying
-deploy, you may need to update the docker image manifest with certain
-newer docker image versions than what was shipped with ONAP Dublin
-release.
-
-The ONAP integration repo contains a script that will apply the docker
-versions specified in a given manifest into the OOM helm chart
-definitions.
-
-To apply an updated manifest (on the Rancher VM):
-
-::
-
-   cd /root/integration/version-manifest/src/main/resources
-   cp docker-manifest.csv docker-manifest-custom.csv
-
-   # customize docker-manifest-custom.csv per your requirements
-
-   ../scripts/update-oom-image-versions.sh ./docker-manifest-custom.csv /root/oom/
-
-   cd /root/oom/kubernetes/
-   git diff # verify that the desired docker image changes are applied successfully
-   make all # recompile the helm charts
-
-After that you can update or redeploy ONAP OOM as described here:
-
-.. toctree::
-   :maxdepth: 1
-   :titlesonly:
-
-   ../../../../submodules/oom.git/docs/oom_quickstart_guide.rst
