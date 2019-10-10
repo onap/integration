@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "868289cd_b7af6268",
+        "filename": "test/vcpe/vcpecommon.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2019-10-10T13:04:52Z",
+      "side": 1,
+      "message": "For those variables i used naming convention already present in test/vcpe/healthcheck-k8s.py:\n\n\n $ test/vcpe/healthcheck-k8s.py --help\n   usage: healthcheck-k8s.py [-h] [--namespace \u003cnamespace_name\u003e]\n                          [--environment \u003cenvironment_name\u003e]",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 69
+      },
+      "revId": "1ee85dfee285612fa6bf7cc5a2b28b733f52e06a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
