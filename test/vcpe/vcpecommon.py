@@ -60,8 +60,9 @@ class VcpeCommon:
     #############################################################################
     # Set name of Onap's k8s namespace and sdnc controller pod
     # CHANGEME part
-    onap_namespace = 'dev'
-    sdnc_controller_pod = '-'.join([onap_namespace,'sdnc-sdnc-0'])
+    onap_namespace = 'onap'
+    onap_environment = 'dev'
+    sdnc_controller_pod = '-'.join([onap_environment, 'sdnc-sdnc-0'])
 
     template_variable_symbol = '${'
     cpe_vm_prefix = 'zdcpe'
