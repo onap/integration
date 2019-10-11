@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "83ab6b1f_3070df48",
+        "filename": "test/hpa_automation/heat/hpa_automation_config.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2019-10-11T13:29:54Z",
+      "side": 1,
+      "message": "which component is that ?",
+      "range": {
+        "startLine": 16,
+        "startChar": 33,
+        "endLine": 16,
+        "endChar": 38
+      },
+      "revId": "4a58a25d3b23353d15de9588b6aa045203c768ca",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
