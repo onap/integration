@@ -22,6 +22,29 @@
       "revId": "4a58a25d3b23353d15de9588b6aa045203c768ca",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc93ea61_d5270812",
+        "filename": "test/hpa_automation/heat/sample_preload_files/sample_vfw_hpa_preload.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2019-10-11T13:30:44Z",
+      "side": 1,
+      "message": "is this a variable that changes for each environment ?",
+      "range": {
+        "startLine": 162,
+        "startChar": 26,
+        "endLine": 162,
+        "endChar": 62
+      },
+      "revId": "4a58a25d3b23353d15de9588b6aa045203c768ca",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
