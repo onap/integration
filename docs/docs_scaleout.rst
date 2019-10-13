@@ -1167,11 +1167,11 @@ Module-1 Preload
                         },
                         {
                             "name": "demo_artifacts_version",
-                            "value": "1.5.0-SNAPSHOT"
+                            "value": "1.5.0"
                         },
                         {
                             "name": "install_script_version",
-                            "value": "1.5.0-SNAPSHOT"
+                            "value": "1.5.0"
                         },
                         {
                             "name": "nb_api_version",
@@ -1325,11 +1325,11 @@ Module-2 Preload
                         },
                         {
                             "name": "demo_artifacts_version",
-                            "value": "1.5.0-SNAPSHOT"
+                            "value": "1.5.0"
                         },
                         {
                             "name": "install_script_version",
-                            "value": "1.5.0-SNAPSHOT"
+                            "value": "1.5.0"
                         },
                         {
                             "name": "nb_api_version",
@@ -1479,7 +1479,7 @@ Module-3 Preload
                         },
                         {
                             "name": "install_script_version",
-                            "value": "1.5.0-SNAPSHOT"
+                            "value": "1.5.0"
                         },
                         {
                             "name": "nb_api_version",
