@@ -1,9 +1,10 @@
-.. contents::
-   :depth: 3
-..
+.. This work is licensed under a Creative Commons Attribution 4.0
+   International License. http://creativecommons.org/licenses/by/4.0
+
+.. _docs_CM_flexible_designer_orchestrator:
 
 Dublin Workflow Designer Release Notes
-======================================
+-------------------------------------------------------------
 
 The Workflow Editor was developed in the Beijing release by Amdocs and
 is available in SDC for users to create workflows.
@@ -13,8 +14,8 @@ InMaint Flags Building Blocks were tested. Testing for the other
 Building Blocks for an InPlaceSWUpdate will be tested in the El Alto
 release.
 
-Building Blocks Available 
---------------------------
+Building Blocks Available
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The following building blocks will be visible in the SDC Workflow
 Designer Editor. Those that were tested are marked with an “\*”. Those
@@ -69,7 +70,7 @@ that are unmarked were not tested.
 -  DistributeTrafficCheckActivity   Check Release Notes for this BB
 
 Pre-Workflow Execution
-----------------------
+~~~~~~~~~~~~~~~~~~~~~~
 
 1. Users must ensure that the required Ansible scripts are available and
    loaded the appropriate Ansible server prior to attempting to execute
@@ -204,7 +205,7 @@ Pre-Workflow Execution
       4>);
 
 Workflow Initiation
--------------------
+~~~~~~~~~~~~~~~~~~~
 
 After creating a workflow, attaching it to the vNF model and
 distributing the model, the workflow can now be initiated at the VID
@@ -255,7 +256,7 @@ instantiated)
    window.
 
 Workflow Status
----------------
+~~~~~~~~~~~~~~~
 
 Once the workflow is initiated, the user can view status of the workflow
 by Selecting the Active and Completed TABS.
@@ -271,12 +272,12 @@ by Selecting the Active and Completed TABS.
    b. Green icon indicates in Progress or successful completion.
 
 Pause for Manual Task Building Block Handling
----------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Descoped from Dublin. To be tested in El Alto.
 
 Native (Hard Coded) SO Workflows
---------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The user will also see Native (Hard Coded) workflows along with
 workflows they create for the selected vNF type in the dropdown menu on
