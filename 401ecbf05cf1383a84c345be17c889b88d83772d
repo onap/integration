@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f9355bb_1c72659c",
+        "filename": "docs/docs_CM_flexible_designer_orchestrator.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2019-10-14T19:36:29Z",
+      "side": 1,
+      "message": "Dublin to be removed",
+      "revId": "401ecbf05cf1383a84c345be17c889b88d83772d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "317ee05d_23706b05",
+        "filename": "docs/docs_CM_flexible_designer_orchestrator.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2019-10-14T19:36:29Z",
+      "side": 1,
+      "message": "trailing whitespaces",
+      "revId": "401ecbf05cf1383a84c345be17c889b88d83772d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f85f047_e5ea8c9d",
+        "filename": "docs/docs_CM_flexible_designer_orchestrator.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2019-10-14T19:36:29Z",
+      "side": 1,
+      "message": "trailing whitespaces",
+      "revId": "401ecbf05cf1383a84c345be17c889b88d83772d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66aec185_efeffafa",
+        "filename": "docs/docs_CM_flexible_designer_orchestrator.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2019-10-14T19:36:29Z",
+      "side": 1,
+      "message": "trailing whitespace",
+      "revId": "401ecbf05cf1383a84c345be17c889b88d83772d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
