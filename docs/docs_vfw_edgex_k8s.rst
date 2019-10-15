@@ -8,33 +8,44 @@ vFW/Edgex with Multicloud Kubernetes Plugin: Setting Up and Configuration
 -------------------------------------------------------------------------
 
 Description
-~~~~~~~~~~~
-This use case covers the deployment of vFW and Edgex HELM Charts in a Kubernetes based cloud region via the multicloud-k8s plugin.
-The multicloud-k8s plugin provides APIs to upload self-contained HELM Charts that can be customized via the profile API and later installed in a particular cloud region.
+-----------
 
-When the installation is complete (all the pods are either in running or completed state)
+This use case covers the deployment of vFW and Edgex HELM Charts in a Kubernetes
+based cloud region via the multicloud-k8s plugin.
+The multicloud-k8s plugin provides APIs to upload self-contained HELM Charts
+that can be customized via the profile API and later installed in a particular
+cloud region.
+
+When the installation is complete (all the pods are either in running or
+completed state)
 
 vFW Helm Chart link:
---------------------
+~~~~~~~~~~~~~~~~~~~~
 
 https://github.com/onap/multicloud-k8s/tree/master/kud/demo/firewall
 
 EdgeXFoundry Helm Chart link:
------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 https://github.com/onap/multicloud-k8s/tree/master/kud/tests/vnfs/edgex/helm/edgex
 
 
-**Create CSAR with Helm chart as an artifact**
-----------------------------------------------
+Create CSAR with Helm chart as an artifact
+------------------------------------------
 
 The CSAR is a heat template package with Helm chart in it. The basic package
-consists of an **environment file**, **base_dummy.yaml file** (example),
-**MANIFEST.json** and the **tar.gz** file (of Helm chart).
-We need to zip all of these files before onboarding.
-One thing to pay much attention to is the naming convention which must
+consists of:
+
+* an **environment file**
+* a **base_dummy.yaml file** (example)
+* a **MANIFEST.json**
+* a **tar.gz** file (of Helm chart)
+
+These files must be zipped before onboarding.
+One thing to pay much attention to is the naming convention which MUST
 be followed while making the tgz.
-**NOTE: The Naming convention is for the helm chart tgz file.**
+
+**NOTE**: The Naming convention is for the helm chart tgz file.
 
 **Naming convention follows the format:**
 
@@ -46,9 +57,10 @@ be followed while making the tgz.
 3. *Subtype*: charts, day0, config template
 4. *Extension*: zip, tgz, csar
 
-NOTE: The .tgz file must be a tgz created from the top level helm chart
+**NOTE**: The .tgz file must be a tgz created from the top level helm chart
 folder. I.e. a folder that contains a Chart.yaml file in it.
-For vFW use case the content of tgz file must be following
+For vFW use case the content of tgz file must look as follows:
+
 ::
 
     $ helm package firewall
@@ -77,9 +89,8 @@ For vFW use case the content of tgz file must be following
     firewall/charts/packetgen/values.yaml
 
 
+An example of the contents inside a heat template package can be found hereafter.
 
-Listed below is an example of the contents inside a heat template
-package
 ::
 
      $ vfw-k8s/package$ ls
@@ -87,12 +98,11 @@ package
       vfw_cloudtech_k8s_charts.tgz vfw_k8s_demo.zip
 
 
-
-
-**MANIFEST.json**
-~~~~~~~~~~~~~~~~~
+MANIFEST.json
+~~~~~~~~~~~~~
 
 Key thing is note the addition of cloud artifact
+
 ::
 
   type: "CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACTS"
@@ -119,9 +129,10 @@ Key thing is note the addition of cloud artifact
 	]
   }
 
-**base\_dummy.yaml**
-~~~~~~~~~~~~~~~~~~~~~
-Designed to be minimal HEAT template
+base\_dummy.yaml
+~~~~~~~~~~~~~~~~
+
+It is an example of the minimal HEAT template.
 
 ::
 
@@ -175,10 +186,6 @@ Designed to be minimal HEAT template
         flavor: { get_param: dummy_flavor_name } metadata: { vnf_name: { get_param: vnf_name }, vnf_id: { get_param: vnf_id }, vf_module_id: { get_param: vf_module_id }}
 
 
-
-
-
-
 **base\_dummy.env**
 
 ::
@@ -191,94 +198,96 @@ Designed to be minimal HEAT template
     dummy_image_name: dummy
     dummy_flavor_name: dummy.default
 
-**Onboard the CSAR**
---------------------
+Onboard the CSAR
+----------------
 
 For onboarding instructions please refer to steps 4-9 from the document
 `here <https://wiki.onap.org/display/DW/vFWCL+instantiation%2C+testing%2C+and+debuging>`__.
 
-**Steps for installing KUD Cloud**
-----------------------------------
+Steps for installing KUD Cloud
+------------------------------
 
-Follow the link to install KUD Kubernetes Deployment. KUD contains all
-the packages required for running vfw use case.
+Follow the link to install KUD Kubernetes Deployment. KUD contains all the
+packages required for running vfw use case.
 
-Kubernetes Baremetal deployment instructions here_
+Kubernetes Baremetal deployment instructions can be found here_
 
 .. _here: https://wiki.onap.org/display/DW/Kubernetes+Baremetal+deployment+setup+instructions/
 
-**REGISTER KUD CLOUD REGION with K8s-Plugin**
----------------------------------------------
+REGISTER KUD CLOUD REGION with K8s-Plugin
+-----------------------------------------
 
-API to support Reachability for Kubernetes Cloud
+You must declare the KUD as a new cloud region in ONAP thanks to ONAP multicloud
+API.
 
-**The command to POST connectivity info**
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+POST connectivity info
+~~~~~~~~~~~~~~~~~~~~~~
+
+Create a the post.json file as follows:
+
 ::
 
   {
-    "cloud-region" : "<name>",   // Must be unique across
+    "cloud-region" : "<name>",   // Must be unique
     "cloud-owner" :  "<owner>",
     "other-connectivity-list" : {
            }
 
-This is a multipart upload and here is how you do the POST for this.
+Then send the POST HTTP request as described below:
 
-#Using a json file (eg: post.json) containing content as above
 ::
 
  curl -i -F "metadata=<post.json;type=application/json" -F file=@
   /home/ad_kkkamine/.kube/config -X POST http://MSB_NODE_IP:30280/api/multicloud-k8s/v1/v1/connectivity-info
 
-**Command to GET Connectivity Info**
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+GET Connectivity Info
+~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
   curl -i -X GET http://MSB_NODE_IP:30280/api/multicloud-k8s/v1/v1/connectivity-info/{name}
 
 
-**Command to DELETE Connectivity Info**
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+DELETE Connectivity Info
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
   curl -i -X GET http://MSB_NODE_IP:30280/api/multicloud-k8s/v1/v1/connectivity-info/{name}
 
 
-**Command to UPDATE/PUT Connectivity Info**
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+UPDATE/PUT Connectivity Info
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
   curl -i -X GET http://MSB_NODE_IP:30280/api/multicloud-k8s/v1/v1/connectivity-info/{name}
 
-**Register KUD Cloud region with AAI**
---------------------------------------
+Register KUD Cloud region with AAI
+----------------------------------
 
-With k8s cloud region, we need to add a tenant to the k8s cloud region.
+A tenant must be added to the k8s cloud region.
 The 'easy' way is to have the ESR information (in step 1 of cloud
-registration) point to a real OpenStack tenant (e.g. the OOF tenant in
+registration) pointing to a real OpenStack tenant (e.g. the OOF tenant in
 the lab where we tested).
 
 This will cause multicloud to add the tenant to the k8s cloud region and
-then, similar to #10 in the documentation
+then, similarly to #10 in the documentation
 `here <https://onap.readthedocs.io/en/casablanca/submodules/integration.git/docs/docs_vfwHPA.html#docs-vfw-hpa>`__,
 the service-subscription can be added to that object.
 
-NOTE: use same name cloud-region and cloud-owner name
+**NOTE:** use same name cloud-region and cloud-owner name
 
 An example is shown below for K8s cloud but following the steps 1,2,3
 from
 `here <https://onap.readthedocs.io/en/latest/submodules/multicloud/framework.git/docs/multicloud-plugin-windriver/UserGuide-MultiCloud-WindRiver-TitaniumCloud.html#tutorial-onboard-instance-of-wind-river-titanium-cloud>`__.
 The sample input below is for k8s cloud type.
 
-**Step 1 - Cloud Registration/ Create a cloud region to represent the instance.**
+**Step 1**: Cloud Registration/ Create a cloud region to represent the instance
 
-
-Note: highlighted part of the body refers to an existing OpenStack
-tenant (OOF in this case). Has nothing to do with the K8s cloud region
-we are adding.
+Note: the highlighted part of the body refers to an existing OpenStack
+tenant (OOF in this case). It is provided as an illustration and must be adapted
+according to your configuration.
 
 ::
 
@@ -311,9 +320,9 @@ we are adding.
 	}
   }
 
-**Step 2  add a complex to the cloud**
+**Step 2:**  Add a complex to the cloud
 
-Note: just adding one that exists already
+Adding an already existing complex is enough. You do not need to create new ones.
 
 ::
 
@@ -329,27 +338,24 @@ Note: just adding one that exists already
   ]
   }
 
-**Step 3 - Trigger the Multicloud plugin registration process**
-
+**Step 3:** Trigger the Multicloud plugin registration process
 
 ::
 
   POST http://{{MSB_IP}}:{{MSB_PORT}}/api/multicloud-titaniumcloud/v1/k8scloudowner4/k8sregionfour/registry
 
 
-This registers the K8S cloud with Multicloud  it also reaches out and
-adds tenant information to the cloud (see example below  you'll see all
-kinds of flavor, image information that is associated with the OOF
+This step allws the registration of the K8S cloud with Multicloud. It also
+reaches out and adds tenant information to the cloud (see example below, you
+will see all kinds of flavor, image information that are associated with the OOF
 tenant).
 
-If we had not done it this way, then wed have to go in to AAI at this
-point and manually add a tenant to the cloud region. The first time I
-tried this (k8s region one), I just made up some random tenant id and
-put it in.)
+If you did not follow the procedure described above then you will have to connect
+on AAI point and manually add a tenant to the cloud region.
 
-The tenant is there so you can add the service-subscription to it:
+Once the tenant declared, you can add the service-subscription to it:
 
-**Making a Service Type:**
+**Step 4:** Create a Service Type
 
 ::
 
@@ -359,8 +365,7 @@ The tenant is there so you can add the service-subscription to it:
               "service-id": "vfw-k8s"
   }
 
-Add subscription to service type to the customer (Demonstration in this
-case  which was already created by running the robot demo scripts)
+Add subscription service info to the service type of the customer.
 
 ::
 
@@ -369,8 +374,8 @@ case  which was already created by running the robot demo scripts)
            "service-type": "vfw-k8s"
   }
 
-Add Service-Subscription to the tenant (resource-version changes based
-on actual value at the time):
+Add Service-Subscription to the tenant. The parameter resource-version is a
+timestamp.
 
 ::
 
@@ -400,42 +405,38 @@ on actual value at the time):
   }
   }
 
-**Distribute the CSAR**
------------------------
-Onboard a service it gets stored in SDC final action is distributed. SO
-and other services are notified sdc listener in the multicloud sidecar.
-When distribution happens it takes tar.gz file and uploads to k8s
-plugin.
+Distribute the CSAR
+-------------------
 
-**Create Profile Manually**
----------------------------
+Once the cloud region is properly declared, it is possible to onboard the service
+in the SDC and triggers a distribution from the SDC to the main ONAP components.
+SO and other services are notified. A sdc listener is also getting the
+distribution information in the multicloud sidecar.
+When distribution happens it takes tar.gz file and uploads it to k8s plugin.
+
+Create Profile Manually
+-----------------------
 
 K8s-plugin artifacts start in the form of Definitions. These are nothing
 but Helm Charts wrapped with some metadata about the chart itself. Once
-the Definitions are created, we are ready to create some profiles so
-that we can customize that definition and instantiate it in Kubernetes.
+the Definitions are created, some profiles can be created. Finally it is
+possible to customize the definition and instantiate it in the targeted
+Kubernetes.
 
-NOTE: Refer this link_ for complete API lists and
-documentation:
+**NOTE:** Refer this link_ for complete API lists and documentation:
 
 .. _link : https://wiki.onap.org/display/DW/MultiCloud+K8s-Plugin-service+API
 
-A profile consists of the following:
+The profile consists in:
 
-**manifest.yaml**
+* the **manifest.yaml**. It contains the details for the profile
+* a **HELM** values override yaml file: It can have any name as long as it matches
+  the corresponding entry in the **manifest.yaml**
+* Additional files organized in a folder structure: all these files should have
+  a corresponding entry in **manifest.yaml** file
 
-- Contains the details for the profile and everything contained within
-
-A **HELM** values override yaml file.
-
-- It can have any name as long as it matches the corresponding entry in the **manifest.yaml**
-
-Any number of files organized in a folder structure
-
-- All these files should have a corresponding entry in **manifest.yaml** file
-
-**Creating a Profile Artifact**
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Create a Profile Artifact
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
@@ -447,13 +448,13 @@ Any number of files organized in a folder structure
   testfol/subdir
   testfol/subdir/deployment.yaml
 
-  #Create profile tar.gz
+  # Create profile tar.gz
   > cd profile
   > tar -cf profile.tar *
   > gzip profile.tar
   > mv profile.tar.gz ../
 
-The manifest file contains the following
+The manifest file contains the following parameters:
 
 ::
 
@@ -465,10 +466,10 @@ The manifest file contains the following
    - filepath: testfol/subdir/deployment.yaml
      chartpath: vault-consul-dev/templates/deployment.yaml
 
-Note: values: "values\_override.yaml" can **be** empty **file** **if**
+**Note:** values: "values\_override.yaml" can **be** empty **file** **if**
 you are creating **a** dummy **profile**
 
-Note: A dummy profile does not need any customization. The following is
+**Note:** A dummy profile does not need any customization. The following is
 optional in the manifest file.
 
 ::
@@ -477,25 +478,29 @@ optional in the manifest file.
    - filepath: testfol/subdir/deployment.yaml
      chartpath: vault-consul-dev/templates/deployment.yaml
 
-We need to read the name of the Definition which was created while distribution of the service from SDC.
+The name of the Definition is retrived from SDC service distribution stage.
 
-**Command to read the Definition name and its version**
-On the ONAP K8s Rancher host execute following statement
+Retrieve the definition name
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Execute the following command on the ONAP K8s Rancher host to read the definition
+name and its version:
 
 ::
 
  kubectl logs -n onap `kubectl get pods -o go-template --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}' | grep multicloud-k8s | head -1` -c multicloud-k8s
 
-From the output read the name of the definition which is "rb-name" and "rb-version" respectively
+From the output read the name of the definition which is "rb-name" and
+"rb-version" respectively
 
 ::
 
  127.0.0.1 - - [15/Jul/2019:07:56:21 +0000] "POST /v1/rb/definition/test-rbdef/1/content HTTP/1.1"
 
-**Command to read (GET) Definition**
+Get definition
+^^^^^^^^^^^^^^
 
-With this information, we are ready to upload the profile with the
-following JSON data
+With this information, it is possible to upload the profile with the following JSON data
 
 ::
 
@@ -509,24 +514,24 @@ following JSON data
  }
 
 
-**Command to create (POST) Profile**
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
+Create Profile
+^^^^^^^^^^^^^^
 ::
 
  curl -i -d @create_rbprofile.json -X POST http://MSB_NODE_IP:30280/api/multicloud-k8s/v1/v1/rb/definition/test-rbdef/1/profile
 
 
 
-**Command to UPLOAD artifact for Profile**
+UPLOAD artifact for Profile
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ::
 
  curl -i --data-binary @profile.tar.gz -X POST http://MSB_NODE_IP:30280/api/multicloud-k8s/v1/v1/rb/definition/test-rbdef/1/profile/p1/content
 
 
-
-**Command to GET Profiles**
+GET Profiles
+^^^^^^^^^^^^
 
 ::
 
@@ -535,23 +540,25 @@ following JSON data
   curl -i http://MSB_NODE_IP:30280/api/multicloud-k8s/v1/v1/rb/definition/test-rbdef/1/profile/p1
 
 
+DELETE Profile
+^^^^^^^^^^^^^^
 
-**Command to DELETE Profile**
 ::
 
  curl -i -X DELETE http://MSB_NODE_IP:30280/api/multicloud-k8s/v1/v1/rb/definition/test-rbdef/1/profile/p1
 
 
-**Instantiation**
------------------
+Instantiation
+-------------
 
 Instantiation is done by SO. SO then talks to Multi Cloud-broker via MSB
 and that in turn looks up the cloud region in AAI to find the endpoint.
-If k8sregion one is registered with AAI and SO makes a call with that,
+If k8sregion one is properly registered in AAI (SO check),
 then the broker will know that it needs to talk to k8s-plugin based on
 the type of the registration.
 
-**Instantiate the created Profile via the following REST API**
+Instantiate the created Profile via the following REST API
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
@@ -565,19 +572,19 @@ the type of the registration.
    }
   }
 
-**NOTE**: Make sure that the namespace is already created before
-instantiation.
+**NOTE**: Make sure that the namespace is already created before instantiation.
 
 Instantiate the profile with the ID provided above
 
-**Command to Instantiate a Profile**
+Instantiate a Profile
+~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
  curl -d @create_rbinstance.json http://MSB_NODE_IP:30280/api/multicloud-k8s/v1/v1/instance
 
 
-The command returns the following JSON
+The command shall return the following JSON
 
 ::
 
@@ -616,7 +623,8 @@ The command returns the following JSON
  ]
  }
 
-**Delete Instantiated Kubernetes resources**
+Delete Instantiated Kubernetes resources
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The **id** field from the returned JSON can be used to **DELETE** the
 resources created in the previous step. This executes a Delete operation
@@ -627,10 +635,10 @@ using the Kubernetes API.
  curl -X DELETE http://MSB_NODE_IP:30280/api/multicloud-k8s/v1/v1/instance/ZKMTSaxv
 
 
-**GET Instantiated Kubernetes resources**
+GET Instantiated Kubernetes resources
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
-The **id field** from the returned JSON can be used to **GET** the
+The **id** field from the returned JSON can be used to **GET** the
 resources created in the previous step. This executes a get operation
 using the Kubernetes API.
 
@@ -641,7 +649,8 @@ using the Kubernetes API.
 
 `*\ https://github.com/onap/oom/blob/master/kubernetes/multicloud/resources/config/provider-plugin.json <https://github.com/onap/oom/blob/master/kubernetes/multicloud/resources/config/provider-plugin.json>`__
 
-**Create User parameters**
+Create User parameters
+~~~~~~~~~~~~~~~~~~~~~~
 
 We need to create parameters that ultimately get translated as:
 
