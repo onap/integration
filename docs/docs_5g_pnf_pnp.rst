@@ -9,7 +9,7 @@
 Source files
 ~~~~~~~~~~~~
 
-- Base PnP PNF Simulator heat template file: https://git.onap.org/integration/tree/test/mocks/pnfsimulator/deployment/PnP_PNF_sim_heat_template_Ubuntu_16_04.yml
+- Base PnP PNF Simulator heat template file: https://gerrit.onap.org/r/gitweb?p=integration.git;a=tree;f=test/mocks/pnfsimulator/deployment/src
 
 Description
 ~~~~~~~~~~~
@@ -20,8 +20,8 @@ The PNF Plug and Play is a procedure that is executed between a PNF and ONAP. In
 
 - `5G - PNF Plug and Play use case documentation <https://wiki.onap.org/display/DW/5G+-+PNF+Plug+and+Play>`_
 - `5G - PNF Plug and Play - Integration Test Cases <https://wiki.onap.org/display/DW/5G+-+PNF+PnP+-+Integration+Test+Cases>`_
-- `5G - PNF Plug and Play test cases status for Casablanca release <https://wiki.onap.org/display/DW/5G+-+PNF+PnP+-+Test+Status>`_
-- `Instruction how to setup PnP PNF Simulator <https://wiki.onap.org/display/DW/PnP+PNF+Simulator>`_
+- `Instruction how to setup PnP PNF Simulator <https://wikgit i.onap.org/display/DW/PnP+PNF+Simulator>`_
+- `Instruction how to use PnP PNF Simulator <https://gerrit.onap.org/r/gitweb?p=integration.git;a=blob_plain;f=test/mocks/pnfsimulator/pnfsimulator/README.md>`_
 
 How to Use
 ~~~~~~~~~~
@@ -30,31 +30,5 @@ How to Use
 2) `Create service for PNF and wait for PNF Ready message in DmaaP topic <https://wiki.onap.org/display/DW/5G+-+PNF+PnP+-+Integration+Test+Cases#id-5G-PNFPnP-IntegrationTestCases-PNFReady>`_
 3) `Send PNF Registartion request from PnP PNF Simualtor and finish registration <https://wiki.onap.org/display/DW/5G+-+PNF+PnP+-+Integration+Test+Cases#id-5G-PNFPnP-IntegrationTestCases-PNFregistrationacceptingwhenAAIentrycreatedinadvance>`_
 
-
-Known Issues and Resolutions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-In SO BPMN in mechanism making re-subscription to /events/unauthenticated.PNF_READY topic there is an issue `SO-1253 <https://jira.onap.org/projects/SO/issues/SO-1253>`_.
-By default after ONAP and PRH deploy DMaaP topic /events/unauthenticated.PNF_READY is not present.
-It is created by PRH after first expected PNF registration event arrival to ONAP system.
-If service for PNF will be created before topic /events/unauthenticated.PNF_READY will be present then service will not be able to read from the topic.
-
-
-**Workaround**
-
-- Before starting any PNF service verify if unauthenticated.PNF_READY topic exists using command:
-
-::
-
-   curl --header "Content-type: application/json" --request GET http://<kubernetes slave IP>:30227/topics/listAll
-
-- If it doesn't exists send following curl in order to create topic:
-
-::
-
-   curl --header "Content-type: application/json" --request POST --data '[{"correlationId": "test"}]' http://<kubernetes slave IP>:30227/events/unauthenticated.PNF_READY
-
-- Once again verify if topic exists
-- If the PNF service will be started before unauthenticated.PNF_READY topic creation, then there will be a need to restart SO-BPMN docker container
 
 
