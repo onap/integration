@@ -5,7 +5,7 @@ VF Module Scale Out Use Case
 
 Source files
 ~~~~~~~~~~~~
-- Heat templates directory: https://git.onap.org/demo/tree/heat/vLB_CDS?h=dublin
+- Heat templates directory: https://git.onap.org/demo/tree/heat/vLB_CDS?h=elalto
 
 Additional files
 ~~~~~~~~~~~~~~~~
@@ -62,7 +62,7 @@ The output below means that the vLB has been set up correctly, has forwarded the
 
 The Scale Out Use Case
 ~~~~~~~~~~~~~~~~~~~~~~
-The Scale Out use case shows how users/network operators can add Virtual Network Function Components (VNFCs) as part of a VF Module that has been instantiated in the Service model, in order to increase capacity of the network. ONAP Dublin release supports scale out with manual trigger by directly calling SO APIs and closed-loop-enabled automation from Policy. For Dublin, the APPC controller is used to demonstrate accepting request from SO to execute the Scale Out operation. APPC can be used to scale different VNF types, not only the VNF described in this document.
+The Scale Out use case shows how users/network operators can add Virtual Network Function Components (VNFCs) as part of a VF Module that has been instantiated in the Service model, in order to increase capacity of the network. ONAP El Alto release supports scale out with manual trigger by directly calling SO APIs and closed-loop-enabled automation from Policy. For El Alto, the APPC controller is used to demonstrate post-scaling VNF reconfiguration operations. APPC can handle different VNF types, not only the VNF described in this document.
 
 The figure below shows all the interactions that take place during scale out operations.
 
@@ -70,14 +70,14 @@ The figure below shows all the interactions that take place during scale out ope
    :align: center
 
 There are four different message flows:
-  - Gray: This is communication that happens internally to the VNF and it is described in the section above.
+  - Gray: This communication happens internally to the VNF and it is described in the section above.
   - Green: Scale out with manual trigger.
   - Red: Closed-loop enabled scale out.
   - Black: Orchestration and VNF lifecycle management (LCM) operations.
 
 The numbers in the figure represent the sequence of steps within a given flow. Note that interactions between the components in the picture and AAI, SDNC, and DMaaP are not shown for clarity's sake.
 
-Scale out with manual trigger (green flow) and closed-loop enabled scale out (red flow) are mutually exclusive. When the manual trigger is used, VID directly triggers the appropriate workflow in SO (step 1 of the green flow in the figure above). See Section 4 for more details. 
+Scale out with manual trigger (green flow) and closed-loop-enabled scale out (red flow) are mutually exclusive. When the manual trigger is used, VID directly triggers the appropriate workflow in SO (step 1 of the green flow in the figure above). See Section 4 for more details. 
 
 When closed-loop enabled scale out is used, Policy triggers the SO workflow. The closed loop starts with the vLB periodically reporting telemetry about traffic patterns to the VES collector in DCAE (step 1 of the red flow). When the amount of traffic exceeds a given threshold (which the user defines during closed loop creation in CLAMP - see Section 1-4), DCAE notifies Policy (step 2), which in turn triggers the appropriate action. For this use case, the action is contacting SO to augment resource capacity in the network (step 3).
 
@@ -88,23 +88,24 @@ At deeper level, the SO workflow works as depicted below:
 .. figure:: files/scaleout/so-blocks.png
    :align: center
 
-SO first contacts APPC to run VNF health check and proceeds on to the next block only if the vLB is healthy (not shown in the previous figure for simplicity's sake). Then, SO assigns resources, instantiates, and activates the new VF module. Finally, SO calls APPC again for configuration scale out and VNF health check. The VNF health check at the end of the workflow validates that the vLB health status hasn't been negatively affected by the scale out operation.
-
+SO first contacts APPC to run VNF health check and proceeds on to the next block of the workflow only if the vLB is healthy (not shown in the previous figure for simplicity's sake). Then, SO assigns resources, instantiates, and activates the new VF module. Finally, SO calls APPC again for configuration scale out and VNF health check. The VNF health check at the end of the workflow validates that the vLB health status hasn't been negatively affected by the scale out operation.
 
 PART 1 - Service Definition and Onboarding
 ------------------------------------------
 This use-case requires operations on several ONAP components to perform service definition and onboarding.
 
 
-1-1 Using CDS : VNF Configuration Modeling and Upload
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-For Dublin, the scale out use case integrates with the Controller Design Studio (CDS) ONAP component to automate the generation of cloud configuration at VNF instantiation time. Users can model this configuration at VNF design time and onboard the blueprint to CDS via the CDS GUI. The blueprint includes naming policies and network configuration details (e.g. IP address families, network names, etc.) that CDS will use during VNF instantiation to generate resource names and assign network configuration to VMs through the cloud orchestrator.
+1-1 VNF Configuration Modeling and Upload with CDS
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Since Dublin, the scale out use case integrates with the Controller Design Studio (CDS) ONAP component to automate the generation of cloud configuration at VNF instantiation time. The user interested in running the use case only with manual preload can skip this section and start from Section 1-2. The description of the use case with manual preload is provided in Section5. 
+
+Users can model this configuration at VNF design time and onboard the blueprint to CDS via the CDS GUI. The blueprint includes naming policies and network configuration details (e.g. IP address families, network names, etc.) that CDS will use during VNF instantiation to generate resource names and assign network configuration to VMs through the cloud orchestrator.
 
 Please look at the CDS documentation for details about how to create configuration models, blueprints, and use the CDS tool: https://wiki.onap.org/display/DW/Modeling+Concepts. For running the use case, users can use the standard model package that CDS provides out of the box, which can be found here: https://wiki.onap.org/pages/viewpage.action?pageId=64007442
 
 
-1-2 Using SDC : VNF Onboarding and Service Creation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1-2 VNF Onboarding and Service Creation with SDC
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Once the configuration blueprint is uploaded to CDS, users can define and onboard a service using SDC. SDC requires users to onboard a VNF descriptor that contains the definition of all the resources (private networks, compute nodes, keys, etc.) with their parameters that compose a VNF. The VNF used to demonstrate the scale out use case supports Heat templates as VNF descriptor, and hence requires OpenStack as cloud layer. Users can use the Heat templates linked at the top of the page to create a zip file that can be uploaded to SDC during service creation. To create a zip file, the user must be in the same folder that contains the Heat templates and the Manifest file that describes the content of the package. To create a zip file from command line, type:
 ::
 
@@ -132,7 +133,9 @@ For CDS parameters, users can search for names starting with "sdnc". These param
    :align: center
 
 
-After importing the VSP, users need to onboard the DCAE blueprint and the Policy Model used to design closed loops in CLAMP. From the "Composition" tab in the service menu, select the artifact icon on the right, as shown below:
+After importing the VSP, users need to onboard the DCAE blueprint and the Policy Model used to design closed loops in CLAMP. This step is only required for users that want to run closed loop; users interested in manual scale out only can skip the remainder of the section.
+
+From the "Composition" tab in the service menu, select the artifact icon on the right, as shown below:
 
 .. figure:: files/scaleout/1.png
    :align: center
@@ -176,8 +179,10 @@ At this point, users can complete the service creation in SDC by testing, accept
 
 
 
-1-3 Using a Shell Script : Deploy Naming Policy
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1-3 Deploy Naming Policy
+~~~~~~~~~~~~~~~~~~~~~~~~
+This step is only required if CDS is used.
+
 In order to instantiate the VNF using CDS features, users need to deploy the naming policy that CDS uses for resource name generation to the Policy Engine. User can copy and run the script at the top of the page from any ONAP pod, for example Robot or Drools. The script uses the Policy endpoint defined in the Kubernetes domain, so the execution has to be triggered from some pod in the Kubernetes space.
 
 ::
@@ -186,9 +191,11 @@ In order to instantiate the VNF using CDS features, users need to deploy the nam
     ./push_naming_policy.sh
 
 
-1-4 Using CLAMP : Closed Loop Design
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Once the service model is distributed, users can design the closed loop from CLAMP, using the GUI at https://clamp.api.simpledemo.onap.org:30258/designer/index.html
+1-4 Closed Loop Design with CLAMP
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This step is only required if closed loop is used.
+
+Once the service model is distributed, users can design the closed loop from CLAMP, using the GUI at https://clamp.api.simpledemo.onap.org:30258/designer/index.html In El Alto, CLAMP doesn't authenticate with AAF, so users have to login using "admin" and "password" as username and password, respectively.
 
 Use the "Closed Loop" link to open a distributed model.
 
@@ -222,27 +229,30 @@ After the configuration policy is created, users need to create the operational 
 .. figure:: files/scaleout/17.png
    :align: center
 
-Select "VF Module Create" recipe and "SO" actor. The payload section is:
+Since El Alto, CLAMP adds the "Policy Decision Entry" parameter, which has to contain the name of the root operational policy in the decision tree. For this use case, there is only one operational policy, called "vlbpolicy2" in the example above ("Policy ID" parameter). As such, "Policy Decision Entry" has to be set to "vlbpolicy2" as well. During creation of the operational policy, the user should select "VF Module Create" recipe and "SO" actor. The payload section is:
 
 ::
 
     requestParameters: '{"usePreload":false,"userParams":[]}'
-    configurationParameters: '[{"ip-addr":"$.vf-module-topology.vf-module-parameters.param[17].value","oam-ip-addr":"$.vf-module-topology.vf-module-parameters.param[31].value"}]'
+    configurationParameters: '[{"ip-addr":"$.vf-module-topology.vf-module-parameters.param[16].value","oam-ip-addr":"$.vf-module-topology.vf-module-parameters.param[30].value"}]'
 
 Policy Engine passes the payload to SO, which will then use it during VF module instantiation to resolve configuration parameters. The JSON path
 
 ::
 
-    "ip-addr":"$.vf-module-topology.vf-module-parameters.param[17].value"
+    "ip-addr":"$.vf-module-topology.vf-module-parameters.param[16].value"
 
-indicates that resolution for parameter "ip-addr" is available at "$.vf-module-topology.vf-module-parameters.param[17].value" in the JSON object linked by the VF module self-link in AAI. For the vPacketGen/vLB/vDNS VNF, use the JSON paths provided in the example above.
+indicates that resolution for parameter "ip-addr" is available at "$.vf-module-topology.vf-module-parameters.param[16].value" in the JSON object linked by the VF module self-link in AAI. See section 1-7 for an example of how to determine the right path to configuration parameters.
 
-The target type to select is VF module, as we are scaling a VF module. Please select the vDNS module as target resource ID.
+The target tab allows users to select the target type for the closed loop. For this use case, the user should select VF module as target type, as we are scaling a VF module. Please select the vDNS module as target resource ID.
 
 .. figure:: files/scaleout/18.png
    :align: center
 
-For what regards guard policies, either "Frequency Limiter", or "MinMax", or both can be used for the scale out use case. The example below shows the definition of a "Frequency Limiter" guard policy. Irrespective of the guard policy type, the policy name should be x.y.scaleout.
+For what regards guard policies, either "Frequency Limiter", or "MinMax", or both can be used for the scale out use case. The example below shows the definition of a "Frequency Limiter" guard policy. The policy name should be guard.frequency.<policy ID> for Frequency Limiter and guard.minmax.<policy ID> for MinMax, where <policy ID> is vlbpolicy2 in the example above.
+
+.. figure:: files/scaleout/19.png
+   :align: center
 
 Once the operational policy design is completed, users can submit and then deploy the closed loop clicking the "Submit" and "Deploy" buttons, respectively, as shown below.
 
@@ -252,8 +262,8 @@ Once the operational policy design is completed, users can submit and then deplo
 At this point, the closed loop is deployed to Policy Engine and DCAE, and a new microservice will be deployed to the DCAE platform.
 
 
-1-5 Using CDT : Creating a VNF Template
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1-5 Creating a VNF Template with CDT
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Before running scale out use case, the users need to create a VNF template using the Controller Design Tool (CDT), a design-time tool that allows users to create and on-board VNF templates into APPC. The template describes which control operation can be executed against the VNF (e.g. scale out, health check, modify configuration, etc.), the protocols that the VNF supports, port numbers, VNF APIs, and credentials for authentication. Being VNF agnostic, APPC uses these templates to "learn" about specific VNFs and the supported operations.
 CDT requires two input:
 
@@ -335,8 +345,8 @@ At this time, CDT doesn't allow users to provide VNF password from the GUI. To u
   VNF_TYPE='vLoadBalancerMS/vLoadBalancerMS 0'; (use your VNF type)
 
 
-1-6 Using SO : Setting the Controller Type in SO Database
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1-6 Setting the Controller Type in SO Database
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Users need to specify which controller to use for the scale out use case. For Dublin, the supported controller is APPC. Users need to create an association between the controller and the VNF type in the SO database.
 
 To do so:
@@ -364,10 +374,510 @@ To do so:
 SO has a default entry for VNF type "vLoadBalancerMS/vLoadBalancerMS 0"
 
 
+1-7 Determining VNF reconfiguration parameters
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The post scale out VNF reconfiguration is VNF-independent but the parameters used for VNF reconfiguration depend on the specific use case. For example, the vLB-vDNS-vPacketGenerator VNF described in this documentation use the vLB as "anchor" point. The vLB maintains the state of the VNF, which, for this use case is the list of active vDNS instances. After creating a new vDNS instance, the vLB needs to know the IP addresses (of the internal private network and management network) of the new vDNS. The reconfiguration action is executed by APPC, which receives those IP addresses from SO during the scale out workflow execution. Note that different VNFs may have different reconfiguration actions. A parameter resolution is expressed as JSON path to the SDNC VF module topology parameter array. For each reconfiguration parameter, the user has to specify the array location that contains the corresponding value (IP address in the specific case). For example, the "configurationParameters" section of the input request to SO during scale out with manual trigger (see Section 4) contains the resolution path to "ip-addr" and "oam-ip-addr" parameters used by the VNF.
+
+::
+
+    "configurationParameters": [
+            {
+                "ip-addr": "$.vf-module-topology.vf-module-parameters.param[16].value",
+                "oam-ip-addr": "$.vf-module-topology.vf-module-parameters.param[30].value"
+            }
+    ]
+
+The same resolution path needs to be provided for the closed-loop enabled use case during the closed loop design phase in CLAMP (see Section 1-4). The reconfiguration parameters and their resolution path will be pushed to the Policy Engine during closed loop deployment. Policy will eventually push them to SO during closed loop execution.
+
+Users can determine the correct location by querying the SDNC topology object. The URL can be obtained from AAI following these steps:
+
+1) Retrieve the list of VNF instances in AAI using the following link:
+
+::
+
+    curl -k -X GET \
+  https://<Any_K8S_Node_IP_Address>:30233/aai/v16/network/generic-vnfs \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Basic QUFJOkFBSQ==' \
+  -H 'Content-Type: application/json' \
+  -H 'X-FromAppId: AAI' \
+  -H 'X-TransactionId: get_aai_subscr'
+
+2) From the returned JSON object, search for the generic VNF object related to the VNF of interest (for example by using the VNF name defined during VNF instantiation). Then, select the "vnf-id" value to build a request to AAI to list all the VF modules of that VNF:
+
+::
+
+    curl -k -X GET \
+  https://<Any_K8S_Node_IP_Address>:30233/aai/v16/network/generic-vnfs/generic-vnf/0e905228-c719-489a-9bcc-4470f3254e87/vf-modules \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Basic QUFJOkFBSQ==' \
+  -H 'Content-Type: application/json' \
+  -H 'X-FromAppId: AAI' \
+  -H 'X-TransactionId: get_aai_subscr'
+
+3) From the returned list of VF modules, select the "selflink" URL of the VF module type that is target of the scaling action. This object refers to an existing instance of that VF module type, which could have been created either as part of regular VNF instantiation process or scaling action. The selflink points to the topology of that VF module instance in SDNC. A new instance of this VF module type will have a topology of the same form, just different parameter values. As such, the existing topology pointed by the selflink in AAI can be used to determine the resolution path to configuration parameters for future instantiation of that VF module type.
+
+The selflink has the following structure:
+
+::
+
+    restconf/config/GENERIC-RESOURCE-API:services/service/4545562a-cbe3-409a-8227-0b863f5bc34e/service-data/vnfs/vnf/0e905228-c719-489a-9bcc-4470f3254e87/vnf-data/vf-modules/vf-module/793df714-106e-40a6-a28a-746b65f9e247/vf-module-data/vf-module-topology/
+
+The complete URL to access the VF module topology in SDNC becomes:
+
+::
+
+    http://<Any_K8S_Node_IP_Address>:30202/restconf/config/GENERIC-RESOURCE-API:services/service/4545562a-cbe3-409a-8227-0b863f5bc34e/service-data/vnfs/vnf/0e905228-c719-489a-9bcc-4470f3254e87/vnf-data/vf-modules/vf-module/793df714-106e-40a6-a28a-746b65f9e247/vf-module-data/vf-module-topology/
+
+See below an example of VF module topology. It can be stored in SDNC either using CDS (see Section 2) or manual preload (see Section 5).
+
+::
+
+    {
+    "vf-module-topology": {
+        "onap-model-information": {
+            "model-name": "VlbCds..vdns..module-3",
+            "model-invariant-uuid": "b985f371-4c59-45f7-b53e-36f970946469",
+            "model-version": "1",
+            "model-customization-uuid": "613b6877-0231-4ca4-90e4-4aa3374674ef",
+            "model-uuid": "739e4a32-f744-47be-9208-5dcf15772306"
+        },
+        "vf-module-parameters": {
+            "param": [
+                {
+                    "name": "vfc_customization_uuid",
+                    "value": "770af15f-564d-438c-ba3e-6df318c2b1fe",
+                    "resource-resolution-data": {
+                        "capability-name": "RA Resolved",
+                        "status": "SUCCESS"
+                    }
+                },
+                {
+                    "name": "key_name",
+                    "value": "${key_name}",
+                    "resource-resolution-data": {
+                        "capability-name": "RA Resolved",
+                        "status": "SUCCESS"
+                    }
+                },
+                {
+                    "name": "vdns_flavor_name",
+                    "value": "m1.medium",
+                    "resource-resolution-data": {
+                        "capability-name": "RA Resolved",
+                        "status": "SUCCESS"
+                    }
+                },
+                {
+                    "name": "cloud_env",
+                    "value": "openstack",
+                    "resource-resolution-data": {
+                        "capability-name": "RA Resolved",
+                        "status": "SUCCESS"
+                    }
+                },
+                {
+                    "name": "vnfc-model-customization-uuid",
+                    "value": "770af15f-564d-438c-ba3e-6df318c2b1fe",
+                    "resource-resolution-data": {
+                        "capability-name": "RA Resolved",
+                        "status": "SUCCESS"
+                    }
+                },
+                {
+                    "name": "vf-module-name",
+                    "value": "RegionOne_ONAP-NF_20191010T013003141Z_vdns_Expansion_003",
+                    "resource-resolution-data": {
+                        "capability-name": "generate-name",
+                        "resource-key": [
+                            {
+                                "name": "VF_MODULE_LABEL",
+                                "value": "vdns"
+                            },
+                            {
+                                "name": "resource-name",
+                                "value": "vf-module-name"
+                            },
+                            {
+                                "name": "resource-value",
+                                "value": "${vf-module-name}"
+                            },
+                            {
+                                "name": "naming-type",
+                                "value": "VF-MODULE"
+                            },
+                            {
+                                "name": "VNF_NAME",
+                                "value": "RegionOne_ONAP-NF_20191010T013003141Z"
+                            },
+                            {
+                                "name": "external-key",
+                                "value": "793df714-106e-40a6-a28a-746b65f9e247_vf-module-name"
+                            },
+                            {
+                                "name": "policy-instance-name",
+                                "value": "SDNC_Policy.Config_MS_ONAP_VNF_NAMING_TIMESTAMP"
+                            },
+                            {
+                                "name": "VF_MODULE_TYPE",
+                                "value": "Expansion"
+                            }
+                        ],
+                        "status": "SUCCESS"
+                    }
+                },
+                {
+                    "name": "vnfc-model-version",
+                    "value": "1.0",
+                    "resource-resolution-data": {
+                        "capability-name": "RA Resolved",
+                        "status": "SUCCESS"
+                    }
+                },
+                {
+                    "name": "pktgen_private_net_cidr",
+                    "value": "${pktgen_private_net_cidr}",
+                    "resource-resolution-data": {
+                        "capability-name": "RA Resolved",
+                        "status": "SUCCESS"
+                    }
+                },
+                {
+                    "name": "vnf_model_customization_uuid",
+                    "value": "c7be2fca-9a5c-4364-8c32-801e64f90ccd",
+                    "resource-resolution-data": {
+                        "capability-name": "RA Resolved",
+                        "status": "SUCCESS"
+                    }
+                },
+                {
+                    "name": "service-instance-id",
+                    "value": "4545562a-cbe3-409a-8227-0b863f5bc34e",
+                    "resource-resolution-data": {
+                        "capability-name": "RA Resolved",
+                        "status": "SUCCESS"
+                    }
+                },
+                {
+                    "name": "vlb_private_net_cidr",
+                    "value": "192.168.10.0/24",
+                    "resource-resolution-data": {
+                        "capability-name": "RA Resolved",
+                        "status": "SUCCESS"
+                    }
+                },
+                {
+                    "name": "install_script_version",
+                    "value": "1.5.0-SNAPSHOT",
+                    "resource-resolution-data": {
+                        "capability-name": "RA Resolved",
+                        "status": "SUCCESS"
+                    }
+                },
+                {
+                    "name": "vlb_int_private_ip_0",
+                    "value": "192.168.10.50",
+                    "resource-resolution-data": {
+                        "capability-name": "RA Resolved",
+                        "status": "SUCCESS"
+                    }
+                },
+                {
+                    "name": "vnfc-model-invariant-uuid",
+                    "value": "49e70b6f-87e7-4f68-b1ec-958e68c7cbf5",
+                    "resource-resolution-data": {
+                        "capability-name": "RA Resolved",
+                        "status": "SUCCESS"
+                    }
+                },
+                {
+                    "name": "pub_key",
+                    "value": "${pub_key}",
+                    "resource-resolution-data": {
+                        "capability-name": "RA Resolved",
+                        "status": "SUCCESS"
+                    }
+                },
+                {
+                    "name": "onap_private_net_cidr",
+                    "value": "10.0.0.0/8",
+                    "resource-resolution-data": {
+                        "capability-name": "RA Resolved",
+                        "status": "SUCCESS"
+                    }
+                },
+                {
+                    "name": "vdns_int_private_ip_0",
+                    "value": "192.168.10.54",
+                    "resource-resolution-data": {
+                        "capability-name": "netbox-ip-assign",
+                        "resource-key": [
+                            {
+                                "name": "external_key",
+                                "value": "0e905228-c719-489a-9bcc-4470f3254e87-vdns_int_private_ip_0"
+                            },
+                            {
+                                "name": "vnf-id",
+                                "value": "0e905228-c719-489a-9bcc-4470f3254e87"
+                            },
+                            {
+                                "name": "service-instance-id",
+                                "value": "4545562a-cbe3-409a-8227-0b863f5bc34e"
+                            },
+                            {
+                                "name": "prefix-id",
+                                "value": "2"
+                            }
+                        ],
+                        "status": "SUCCESS"
+                    }
+                },
+                {
+                    "name": "vnf_id",
+                    "value": "0e905228-c719-489a-9bcc-4470f3254e87",
+                    "resource-resolution-data": {
+                        "capability-name": "RA Resolved",
+                        "status": "SUCCESS"
+                    }
+                },
+                {
+                    "name": "nfc-naming-code",
+                    "value": "vdns",
+                    "resource-resolution-data": {
+                        "capability-name": "RA Resolved",
+                        "status": "SUCCESS"
+                    }
+                },
+                {
+                    "name": "onap_private_subnet_id",
+                    "value": "oam_network_qXyY",
+                    "resource-resolution-data": {
+                        "capability-name": "RA Resolved",
+                        "status": "SUCCESS"
+                    }
+                },
+                {
+                    "name": "vf_module_customization_uuid",
+                    "value": "613b6877-0231-4ca4-90e4-4aa3374674ef",
+                    "resource-resolution-data": {
+                        "capability-name": "RA Resolved",
+                        "status": "SUCCESS"
+                    }
+                },
+                {
+                    "name": "vf_module_type",
+                    "value": "Expansion",
+                    "resource-resolution-data": {
+                        "capability-name": "RA Resolved",
+                        "status": "SUCCESS"
+                    }
+                },
+                {
+                    "name": "vlb_onap_private_ip_0",
+                    "value": "10.0.101.32",
+                    "resource-resolution-data": {
+                        "capability-name": "RA Resolved",
+                        "status": "SUCCESS"
+                    }
+                },
+                {
+                    "name": "vf_module_id",
+                    "value": "793df714-106e-40a6-a28a-746b65f9e247",
+                    "resource-resolution-data": {
+                        "capability-name": "RA Resolved",
+                        "status": "SUCCESS"
+                    }
+                },
+                {
+                    "name": "vdns_name_0",
+                    "value": "RegionOne_ONAP-NF_20191010T013003141Z_vdns_003",
+                    "resource-resolution-data": {
+                        "capability-name": "generate-name",
+                        "resource-key": [
+                            {
+                                "name": "resource-name",
+                                "value": "vdns_name_0"
+                            },
+                            {
+                                "name": "resource-value",
+                                "value": "${vdns_name_0}"
+                            },
+                            {
+                                "name": "naming-type",
+                                "value": "VNFC"
+                            },
+                            {
+                                "name": "VNF_NAME",
+                                "value": "RegionOne_ONAP-NF_20191010T013003141Z"
+                            },
+                            {
+                                "name": "external-key",
+                                "value": "793df714-106e-40a6-a28a-746b65f9e247_vdns_name_0"
+                            },
+                            {
+                                "name": "policy-instance-name",
+                                "value": "SDNC_Policy.Config_MS_ONAP_VNF_NAMING_TIMESTAMP"
+                            },
+                            {
+                                "name": "NFC_NAMING_CODE",
+                                "value": "vdns"
+                            }
+                        ],
+                        "status": "SUCCESS"
+                    }
+                },
+                {
+                    "name": "vm-type",
+                    "value": "vdns",
+                    "resource-resolution-data": {
+                        "capability-name": "RA Resolved",
+                        "status": "SUCCESS"
+                    }
+                },
+                {
+                    "name": "vlb_int_pktgen_private_ip_0",
+                    "value": "192.168.20.35",
+                    "resource-resolution-data": {
+                        "capability-name": "RA Resolved",
+                        "status": "SUCCESS"
+                    }
+                },
+                {
+                    "name": "onap_private_net_id",
+                    "value": "oam_network_qXyY",
+                    "resource-resolution-data": {
+                        "capability-name": "RA Resolved",
+                        "status": "SUCCESS"
+                    }
+                },
+                {
+                    "name": "nb_api_version",
+                    "value": "1.2.0",
+                    "resource-resolution-data": {
+                        "capability-name": "RA Resolved",
+                        "status": "SUCCESS"
+                    }
+                },
+                {
+                    "name": "vdns_image_name",
+                    "value": "${image_name}",
+                    "resource-resolution-data": {
+                        "capability-name": "RA Resolved",
+                        "status": "SUCCESS"
+                    }
+                },
+                {
+                    "name": "vdns_onap_private_ip_0",
+                    "value": "10.0.101.35",
+                    "resource-resolution-data": {
+                        "capability-name": "netbox-ip-assign",
+                        "resource-key": [
+                            {
+                                "name": "external_key",
+                                "value": "0e905228-c719-489a-9bcc-4470f3254e87-vdns_onap_private_ip_0"
+                            },
+                            {
+                                "name": "vnf-id",
+                                "value": "0e905228-c719-489a-9bcc-4470f3254e87"
+                            },
+                            {
+                                "name": "service-instance-id",
+                                "value": "4545562a-cbe3-409a-8227-0b863f5bc34e"
+                            },
+                            {
+                                "name": "prefix-id",
+                                "value": "3"
+                            }
+                        ],
+                        "status": "SUCCESS"
+                    }
+                },
+                {
+                    "name": "aai-vf-module-put",
+                    "value": "SUCCESS",
+                    "resource-resolution-data": {
+                        "capability-name": "aai-vf-module-put",
+                        "resource-key": [
+                            {
+                                "name": "vf-module",
+                                "value": "vf-module"
+                            }
+                        ],
+                        "status": "SUCCESS"
+                    }
+                },
+                {
+                    "name": "aic-cloud-region",
+                    "value": "${aic-cloud-region}",
+                    "resource-resolution-data": {
+                        "capability-name": "RA Resolved",
+                        "status": "SUCCESS"
+                    }
+                },
+                {
+                    "name": "nfc-function",
+                    "value": "${nf-role}",
+                    "resource-resolution-data": {
+                        "capability-name": "RA Resolved",
+                        "status": "SUCCESS"
+                    }
+                },
+                {
+                    "name": "sec_group",
+                    "value": "onap_sg_qXyY",
+                    "resource-resolution-data": {
+                        "capability-name": "RA Resolved",
+                        "status": "SUCCESS"
+                    }
+                },
+                {
+                    "name": "vnf_name",
+                    "value": "RegionOne_ONAP-NF_20191010T013003141Z",
+                    "resource-resolution-data": {
+                        "capability-name": "RA Resolved",
+                        "status": "SUCCESS"
+                    }
+                },
+                {
+                    "name": "nexus_artifact_repo",
+                    "value": "https://nexus.onap.org",
+                    "resource-resolution-data": {
+                        "capability-name": "RA Resolved",
+                        "status": "SUCCESS"
+                    }
+                },
+                {
+                    "name": "public_net_id",
+                    "value": "external",
+                    "resource-resolution-data": {
+                        "capability-name": "RA Resolved",
+                        "status": "SUCCESS"
+                    }
+                }
+            ]
+        },
+        "tenant": "41d6d38489bd40b09ea8a6b6b852dcbd",
+        "sdnc-generated-cloud-resources": true,
+        "vf-module-topology-identifier": {
+            "vf-module-id": "793df714-106e-40a6-a28a-746b65f9e247",
+            "vf-module-name": "vfModuleName",
+            "vf-module-type": "VlbCds..vdns..module-3"
+        },
+        "aic-cloud-region": "RegionOne"
+    }}
+
+Search for the reconfiguration parameters in the vf-module-topology.vf-module-parameters.param array. The user should count (starting from 0, as in most programming languages) the number of array elements to determine the exact location of the parameters of interest. For the VNF described in this documentation, the parameters of interest are "vdns_int_private_ip_0" and "vdns_onap_private_ip_0", which correspond to "ip-addr" and "onap-ip-addr" in the scale out request, respectively. As the user can see by counting the number of array locations (starting from 0), "vdns_int_private_ip_0" and "vdns_onap_private_ip_0" are stored at locations 16 and 30, respectively. As such, the complete resolution path to reconfiguration parameters for the VNF described in this documentation is:
+
+::
+
+    [{"ip-addr":"$.vf-module-topology.vf-module-parameters.param[16].value","oam-ip-addr":"$.vf-module-topology.vf-module-parameters.param[30].value"}]
+
+In future releases, we plan to leverage CDS to model post scaling VNF reconfiguration, so as to remove the dependency from JSON paths and simplify the overall process.
 
 
 PART 2 - Scale Out Use Case Instantiation
 -----------------------------------------
+This step is only required if CDS is used.
 
 GET information from SDC catalogdb
 
@@ -387,7 +897,7 @@ In the response you should find values for:
 * service-name
 
 
-GET informations from SO catalogdb
+GET informations from SO catalogdb.
 
 ::
 
@@ -442,7 +952,7 @@ We supposed here that we are using some already declared informations:
 * platformName named "test"
 * lineOfBusinessName named "someValue"
 
-Having all those information, you are now able to build the SO request
+Having all those information, you are now able to build the SO Macro request
 that will instantiate Service, VNF, VF modules and Heat stacks:
 
 ::
@@ -452,167 +962,171 @@ that will instantiate Service, VNF, VF modules and Heat stacks:
   -H 'Content-Type: application/json' \
   -H 'cache-control: no-cache' \
   -d '{
-  "requestDetails": {
-    "subscriberInfo": {
-      "globalSubscriberId": "Demonstration"
-    },
-    "requestInfo": {
-      "suppressRollback": false,
-      "productFamilyId": "a9a77d5a-123e-4ca2-9eb9-0b015d2ee0fb",
-      "requestorId": "VID",
-      "instanceName": "{{service-instance-name}}",
-      "source": "VID"
-    },
-    "cloudConfiguration": {
-      "lcpCloudRegionId": "{{cloud-region}}",
-      "tenantId": "{{tenantId}}"
-    },
-    "requestParameters": {
-      "subscriptionServiceType": "vLB",
-      "userParams": [
-        {
-          "Homing_Solution": "none"
-        },
-        {
-          "service": {
-            "instanceParams": [
-
-            ],
-            "instanceName": "{{service-instance-name}}",
-            "resources": {
-              "vnfs": [
-                {
-                  "modelInfo": {
-                    "modelName": "{{vnf-modelinfo-modelname}}",
-                    "modelVersionId": "{{vnf-modelinfo-modeluuid}}",
-                    "modelInvariantUuid": "{{vnf-modelinfo-modelinvariantuuid}}",
-                    "modelVersion": "1.0",
-                    "modelCustomizationId": "{{vnf-modelinfo-modelcustomizationuuid}}",
-                    "modelInstanceName": "{{vnf-modelinfo-modelinstancename}}"
-                  },
-                  "cloudConfiguration": {
-                    "lcpCloudRegionId": "{{CloudSite-name}}",
-                    "tenantId": "{{tenantId}}"
-                  },
-                  "platform": {
-                    "platformName": "test"
-                  },
-                  "lineOfBusiness": {
-                    "lineOfBusinessName": "someValue"
-                  },
-                  "productFamilyId": "a9a77d5a-123e-4ca2-9eb9-0b015d2ee0fb",
-                  "instanceName": "{{vnf-modelinfo-modelinstancename}}",
-                  "instanceParams": [
-                    {
-                      "onap_private_net_id": "olc-private",
-                      "onap_private_subnet_id": "olc-private",
-                      "pub_key": "{{Your SSH public key value}}",
-                      "image_name": "{{my_image_name}}",
-                      "flavor_name":"{{my_VM_flavor_name}}"
-                    }
-                  ],
-                  "vfModules": [
-                    {
-                      "modelInfo": {
-                        "modelName": "{{vnf-vfmodule-0-modelinfo-modelname}}",
-                        "modelVersionId": "{{vnf-vfmodule-0-modelinfo-modeluuid}}",
-                        "modelInvariantUuid": "{{vnf-vfmodule-0-modelinfo-modelinvariantuuid}}",
-                        "modelVersion": "1",
-                        "modelCustomizationId": "{{vnf-vfmodule-0-modelinfo-modelcustomizationuuid}}"
-                       },
-                      "instanceName": "{{vnf-vfmodule-0-modelinfo-modelname}}",
-                      "instanceParams": [
-                                                 {
-                          "sec_group": "{{your_security_group_name}}",
-                          "public_net_id": "{{your_public_network_name}}"
-                        }
-                      ]
-                    },
-                    {
-                      "modelInfo": {
-                        "modelName": "{{vnf-vfmodule-1-modelinfo-modelname}}",
-                        "modelVersionId": "{{vnf-vfmodule-1-modelinfo-modeluuid}}",
-                        "modelInvariantUuid": "{{vnf-vfmodule-1-modelinfo-modelinvariantuuid}}",
-                        "modelVersion": "1",
-                        "modelCustomizationId": "{{vnf-vfmodule-1-modelinfo-modelcustomizationuuid}}"
-                       },
-                      "instanceName": "{{vnf-vfmodule-1-modelinfo-modelname}}",
-                      "instanceParams": [
-                        {
-                          "sec_group": "{{your_security_group_name}}",
-                          "public_net_id": "{{your_public_network_name}}"
-                        }
-                      ]
-                    },
-                    {
-                      "modelInfo": {
-                        "modelName": "{{vnf-vfmodule-2-modelinfo-modelname}}",
-                        "modelVersionId": "{{vnf-vfmodule-2-modelinfo-modeluuid}}",
-                        "modelInvariantUuid": "{{vnf-vfmodule-2-modelinfo-modelinvariantuuid}}",
-                        "modelVersion": "1",
-                        "modelCustomizationId": "{{vnf-vfmodule-2-modelinfo-modelcustomizationuuid}}"
-                       },
-                      "instanceName": "{{vnf-vfmodule-2-modelinfo-modelname}}",
-                      "instanceParams": [
-                        {
-                          "sec_group": "{{your_security_group_name}}",
-                          "public_net_id": "{{your_public_network_name}}"
-                        }
-                      ]
-                    },
-                    {
-                      "modelInfo": {
-                        "modelName": "{{vnf-vfmodule-3-modelinfo-modelname}}",
-                        "modelVersionId": "{{vnf-vfmodule-3-modelinfo-modeluuid}}",
-                        "modelInvariantUuid": "{{vnf-vfmodule-3-modelinfo-modelinvariantuuid}}",
-                        "modelVersion": "1",
-                        "modelCustomizationId": "{{vnf-vfmodule-3-modelinfo-modelcustomizationuuid}}"
-                      },
-                      "instanceName": "{{vnf-vfmodule-3-modelinfo-modelname}}",
-                      "instanceParams": [
-                        {
-                          "sec_group": "{{your_security_group_name}}",
-                          "public_net_id": "{{your_public_network_name}}"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
+   "requestDetails":{
+      "subscriberInfo":{
+         "globalSubscriberId":"Demonstration"
+      },
+      "requestInfo":{
+         "suppressRollback":false,
+         "productFamilyId":"a9a77d5a-123e-4ca2-9eb9-0b015d2ee0fb",
+         "requestorId":"adt",
+         "instanceName":"{{cds-instance-name}}",
+         "source":"VID"
+      },
+      "cloudConfiguration":{
+         "lcpCloudRegionId":"RegionOne",
+         "tenantId":"41d6d38489bd40b09ea8a6b6b852dcbd",
+         "cloudOwner":"CloudOwner"
+      },
+      "requestParameters":{
+         "subscriptionServiceType":"vLB",
+         "userParams":[
+            {
+               "Homing_Solution":"none"
             },
-            "modelInfo": {
-              "modelVersion": "1.0",
-              "modelVersionId": "{{service-uuid}}",
-              "modelInvariantId": "{{service-invariantUUID}}",
-              "modelName": "{{service-name}}",
-              "modelType": "service"
+            {
+               "service":{
+                  "instanceParams":[
+
+                  ],
+                  "instanceName":"{{cds-instance-name}}",
+                  "resources":{
+                     "vnfs":[
+                        {
+                           "modelInfo":{
+                              "modelName":"{{vnf-modelinfo-modelname}}",
+                              "modelVersionId":"{{vnf-modelinfo-modeluuid}}",
+                              "modelInvariantUuid":"{{vnf-modelinfo-modelinvariantuuid}}",
+                              "modelVersion":"1.0",
+                              "modelCustomizationId":"{{vnf-modelinfo-modelcustomizationuuid}}",
+                              "modelInstanceName":"{{vnf-modelinfo-modelinstancename}}"
+                           },
+                           "cloudConfiguration":{
+                              "lcpCloudRegionId":"RegionOne",
+                              "tenantId":"41d6d38489bd40b09ea8a6b6b852dcbd"
+                           },
+                           "platform":{
+                              "platformName":"test"
+                           },
+                           "lineOfBusiness":{
+                              "lineOfBusinessName":"LOB-Demonstration"
+                           },
+                           "productFamilyId":"a9a77d5a-123e-4ca2-9eb9-0b015d2ee0fb",
+                           "instanceName":"{{vnf-modelinfo-modelinstancename}}",
+                           "instanceParams":[
+                              {
+                                 "onap_private_net_id":"oam_network_qXyY",
+                                 "dcae_collector_ip":"10.12.5.214",
+                                 "onap_private_subnet_id":"oam_network_qXyY",
+                                 "pub_key":"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDKXDgoo3+WOqcUG8/5uUbk81+yczgwC4Y8ywTmuQqbNxlY1oQ0YxdMUqUnhitSXs5S/yRuAVOYHwGg2mCs20oAINrP+mxBI544AMIb9itPjCtgqtE2EWo6MmnFGbHB4Sx3XioE7F4VPsh7japsIwzOjbrQe+Mua1TGQ5d4nfEOQaaglXLLPFfuc7WbhbJbK6Q7rHqZfRcOwAMXgDoBqlyqKeiKwnumddo2RyNT8ljYmvB6buz7KnMinzo7qB0uktVT05FH9Rg0CTWH5norlG5qXgP2aukL0gk1ph8iAt7uYLf1ktp+LJI2gaF6L0/qli9EmVCSLr1uJ38Q8CBflhkh",
+                                 "sec_group":"onap_sg_qXyY",
+                                 "install_script_version":"1.5.0",
+                                 "demo_artifacts_version":"1.5.0",
+                                 "cloud_env":"openstack",
+                                 "flavor_name":"m1.medium",
+                                 "public_net_id":"external",
+                                 "image_name":"ubuntu-16-04-cloud-amd64"
+                              }
+                           ],
+                           "vfModules":[
+                              {
+                                 "modelInfo":{
+                                    "modelName":"{{vnf-vfmodule-0-modelinfo-modelname}}",
+                                    "modelVersionId":"{{vnf-vfmodule-0-modelinfo-modeluuid}}",
+                                    "modelInvariantUuid":"{{vnf-vfmodule-0-modelinfo-modelinvariantuuid}}",
+                                    "modelVersion":"1",
+                                    "modelCustomizationId":"{{vnf-vfmodule-0-modelinfo-modelcustomizationuuid}}"
+                                 },
+                                 "instanceName":"{{vnf-vfmodule-0-modelinfo-modelname}}",
+                                 "instanceParams":[
+                                    {
+                                       "sec_group":"onap_sg_imAd",
+                                       "public_net_id":"external"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "modelInfo":{
+                                    "modelName":"{{vnf-vfmodule-1-modelinfo-modelname}}",
+                                    "modelVersionId":"{{vnf-vfmodule-1-modelinfo-modeluuid}}",
+                                    "modelInvariantUuid":"{{vnf-vfmodule-1-modelinfo-modelinvariantuuid}}",
+                                    "modelVersion":"1",
+                                    "modelCustomizationId":"{{vnf-vfmodule-1-modelinfo-modelcustomizationuuid}}"
+                                 },
+                                 "instanceName":"{{vnf-vfmodule-1-modelinfo-modelname}}",
+                                 "instanceParams":[
+                                    {
+                                       "sec_group":"onap_sg_imAd",
+                                       "public_net_id":"external"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "modelInfo":{
+                                    "modelName":"{{vnf-vfmodule-2-modelinfo-modelname}}",
+                                    "modelVersionId":"{{vnf-vfmodule-2-modelinfo-modeluuid}}",
+                                    "modelInvariantUuid":"{{vnf-vfmodule-2-modelinfo-modelinvariantuuid}}",
+                                    "modelVersion":"1",
+                                    "modelCustomizationId":"{{vnf-vfmodule-2-modelinfo-modelcustomizationuuid}}"
+                                 },
+                                 "instanceName":"{{vnf-vfmodule-2-modelinfo-modelname}}",
+                                 "instanceParams":[
+                                    {
+                                       "sec_group":"onap_sg_imAd",
+                                       "public_net_id":"external"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "modelInfo":{
+                                    "modelName":"{{vnf-vfmodule-3-modelinfo-modelname}}",
+                                    "modelVersionId":"{{vnf-vfmodule-3-modelinfo-modeluuid}}",
+                                    "modelInvariantUuid":"{{vnf-vfmodule-3-modelinfo-modelinvariantuuid}}",
+                                    "modelVersion":"1",
+                                    "modelCustomizationId":"{{vnf-vfmodule-3-modelinfo-modelcustomizationuuid}}"
+                                 },
+                                 "instanceName":"{{vnf-vfmodule-3-modelinfo-modelname}}",
+                                 "instanceParams":[
+                                    {
+                                       "sec_group":"onap_sg_imAd",
+                                       "public_net_id":"external"
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  "modelInfo":{
+                     "modelVersion":"1.0",
+                     "modelVersionId":"{{service-uuid}}",
+                     "modelInvariantId":"{{service-invariantUUID}}",
+                     "modelName":"{{service-name}}",
+                     "modelType":"service"
+                  }
+               }
             }
-          }
-        }
-      ],
-      "aLaCarte": false
-    },
-    "project": {
-      "projectName": "Project-Demonstration"
-    },
-    "owningEntity": {
-      "owningEntityId": "24ef5425-bec4-4fa3-ab03-c0ecf4eaac96",
-      "owningEntityName": "OE-Demonstration"
-    },
-    "modelInfo": {
-      "modelVersion": "1.0",
-      "modelVersionId": "{{service-uuid}}",
-      "modelInvariantId": "{{service-invariantUUID}}",
-      "modelName": "{{service-name}}",
-      "modelType": "service"
-    }
-  }
- }'
+         ],
+         "aLaCarte":false
+      },
+      "project":{
+         "projectName":"Project-Demonstration"
+      },
+      "owningEntity":{
+         "owningEntityId":"6f6c49d0-8a8c-4704-9174-321bcc526cc0",
+         "owningEntityName":"OE-Demonstration"
+      },
+      "modelInfo":{
+         "modelVersion":"1.0",
+         "modelVersionId":"{{service-uuid}}",
+         "modelInvariantId":"{{service-invariantUUID}}",
+         "modelName":"{{service-name}}",
+         "modelType":"service"
+      }
+   }
+}'
 
-
-In the response, you will obtain a requestId that will be usefull
-to follow the instantiation request status in the ONAP SO:
-
+Note that the "dcae_collector_ip" parameter has to contain the IP address of one of the Kubernetes cluster nodes, 10.12.5.214 in the example above. In the response to the Macro request, the user will obtain a requestId that will be usefulto follow the instantiation request status in the ONAP SO:
 
 ::
 
@@ -627,9 +1141,11 @@ to follow the instantiation request status in the ONAP SO:
 PART 3 - Post Instantiation Operations
 --------------------------------------
 
-3-1 Using the VNF : vLB Manual Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-After the VNF has been instantiated using the CDS configuration blueprint, user should manually configure the vLB to open a connection towards the vDNS. At this time, the use case doesn't support automated post-instantiation configuration with CDS. Note that this step is NOT required during scale out operations, as VNF reconfiguration will be triggered by SO and executed by APPC. To change the state of the vLB, the users can run the following REST call, replacing the IP addresses in the VNF endpoint and JSON object to match the private IP addresses of their vDNS instance:
+3-1 Post Instantiation VNF configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+CDS executes post-instantiation VNF configuration if the "skip-post-instantiation" flag in the SDC service model is set to false, which is the default behavior. Manual post-instantiation configuration is necessary if the "skip-post-instantiation" flag in the service model is set to true or if the VNF is instantiated using the preload approach, which doesn't include CDS. Regardless, this step is NOT required during scale out operations, as VNF reconfiguration will be triggered by SO and executed by APPC. 
+
+If VNF post instantiation is executed manually, in order to change the state of the vLB the users should run the following REST call, replacing the IP addresses in the VNF endpoint and JSON object to match the private IP addresses of their vDNS instance:
 
 ::
 
@@ -660,7 +1176,7 @@ To allow automated scale out via closed loop, the users need to inventory the VN
 
     ./demo-k8s.sh onap heatbridge <vLB stack_name in OpenStack> <service_instance_id> vLB vlb_onap_private_ip_0
 
-Heatbridge is needed for control loops because DCAE and Policy runs queries against AAI using vServer names as key.
+Note that "vlb_onap_private_ip_0" used in the heatbridge call is the actual parameter name, not its value (e.g. the actual IP address). Heatbridge is needed for control loops because DCAE and Policy runs queries against AAI using vServer names as key.
 
 
 PART 4 - Triggering Scale Out Manually
@@ -885,37 +1401,22 @@ These IDs are also used in the URL request to SO:
     http://<Any_K8S_Node_IP_Address>:30277/onap/so/infra/serviceInstantiation/v7/serviceInstances/7d3ca782-c486-44b3-9fe5-39f322d8ee80/vnfs/9d33cf2d-d6aa-4b9e-a311-460a6be5a7de/vfModules/scaleOut 
 
 
-Finally, the "configurationParameters" section in the JSON request to SO contains the parameters that will be used to reconfigure the VNF after scaling. This is use-case specific and depends on the VNF in use. For example, the vLB-vDNS-vPacketGenerator VNF described in this documentation use the vLB as "anchor" point. The vLB maintains the state of the VNF, which, for this use case is the list of active vDNS instances. After creating a new vDNS instance, the vLB needs to know the IP addresses (of the internal private network and management network) of the new vDNS. The reconfiguration action is executed by APPC, which receives those IP addresses from SO during the scale out workflow execution. Note that different VNFs may have different reconfiguration actions. The "configurationParameters" section describes how to resolve the parameters used for VNF reconfiguration. A parameter resolution is expressed as JSON path to the SDNC VF module topology parameter array. For each reconfiguration parameter, the user has to specify the array location that contains the corresponding value (IP address in the specific case).
+Finally, the "configurationParameters" section in the JSON request to SO contains the parameters that will be used to reconfigure the VNF after scaling. Please see Section 1-7 for an in-depth description of how to set the parameters correctly.
 
 ::
 
     "configurationParameters": [
             {
-                "ip-addr": "$.vf-module-topology.vf-module-parameters.param[17].value",
-                "oam-ip-addr": "$.vf-module-topology.vf-module-parameters.param[31].value"
+                "ip-addr": "$.vf-module-topology.vf-module-parameters.param[16].value",
+                "oam-ip-addr": "$.vf-module-topology.vf-module-parameters.param[30].value"
             }
     ]
-
-Users can determine the correct location by querying the SDNC topology object. The URL can be obtained from the generic AAI object shown above ("selflink"), plus the path to the specific VF module object:
-
-::
-
-    vf-modules/vf-module/6c24d10b-ece8-4d02-ab98-be283b17cdd3/vf-module-data/vf-module-topology/
-
-The complete URL becomes:
-
-::
-
-    http://<Any_K8S_Node_IP_Address>:30202/restconf/config/GENERIC-RESOURCE-API:services/service/eb6defa7-d679-4e03-a348-5f78ac9464e9/service-data/vnfs/vnf/0dd8658a-3791-454e-a35a-691f227faa86/vnf-data/vnf-topology/vf-modules/vf-module/6c24d10b-ece8-4d02-ab98-be283b17cdd3/vf-module-data/vf-module-topology/
-
-
-In future releases, we plan to leverage CDS for reconfiguration actions, so as to remove the dependency from JSON paths and simplify the process.
 
 
 PART 5 - Running the Scale Out Use Case with Configuration Preload
 ------------------------------------------------------------------
 
-While Dublin release introduces CDS to model and automate the generation of cloud configuration for VNF instantiation, the manual preload approach is still supported for scale out with manual trigger (no closed loop).
+While CDS can be used to model and automate the generation of cloud configuration for VNF instantiation, the manual preload approach is still supported for scale out with manual trigger (no closed loop). Note that preload operations must be executed before VF modules are created or scaled, as the instantiation process will use the preload to determine the VF module configuration.
 
 The procedure is similar to one described above, with some minor changes:
 
@@ -927,7 +1428,12 @@ The procedure is similar to one described above, with some minor changes:
 
 4) **Controller type selection** in SO works as described in Section 1-6.
 
-5) **VNF instantiation from VID**: users can use VID to create the service, the VNF, and instantiate the VF modules. Based on the Heat template structure, there are four VF modules:
+5) **VNF instantiation from VID**: users can use VID to create the service, the VNF, and instantiate the VF modules. In the VID main page, users should select GR API (this should be the default option). 
+
+.. figure:: files/scaleout/vid.png
+   :align: center
+
+Based on the Heat template structure, there are four VF modules:
 
   * module-0: base module that contains resources, such as internal private networks and public key, shared across the VNF elements
   * module-1: vLB resource descriptor
@@ -1544,12 +2050,7 @@ To instantiate VF modules, please refer to this wiki page: https://wiki.onap.org
 7) **Triggering Scale Out Manually**: Please refer to Section 4 to trigger scale out manually with direct API call to SO.
 
 
-PART 6 - Test Status and Plans
-------------------------------
-Dublin Scale Out test cases can be found here: https://wiki.onap.org/pages/viewpage.action?pageId=59966105
-
-
-PART 7 - Known Issues and Resolutions
+PART 6 - Known Issues and Resolutions
 -------------------------------------
 1) When running closed loop-enabled scale out, the closed loop designed in CLAMP conflicts with the default closed loop defined for the old vLB/vDNS use case
 
