@@ -81,3 +81,16 @@ def insert_customer_service_to_so(vcpecommon):
             'Please manually run the following sql command in SO catalogdb database to insert customer service recipe')
         logger.info('\n'.join(cmds))
         #vcpecommon.execute_cmds_so_db(cmds)
+
+def insert_sdnc_ip_pool(vcpecommon):
+    logger = logging.getLogger(__name__)
+    logger.info('Inserting SDNC ip pool to SDNC DB')
+    cmds = []
+    # Get the VGWs network address
+    vgw_net = '.'.join(vcpecommon.preload_network_config['mux_gw'][0].split('.')[:3])
+    row_values = []
+    # Prepare single INSERT statement with all IP values
+    for ip in range(22,250):
+        row_values.append("('', 'VGW', 'AVAILABLE','{0}.{1}')".format(vgw_net,ip))
+    cmds.append("INSERT INTO IPV4_ADDRESS_POOL VALUES" + ', '.join(row_values) + ';')
+    vcpecommon.execute_cmds_mariadb(cmds)

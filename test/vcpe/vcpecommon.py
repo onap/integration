@@ -211,6 +211,11 @@ class VcpeCommon:
         self.policy_api_service_name = 'policy-api'
         self.policy_pap_service_name = 'policy-pap'
 
+        #############################################################################################
+        # MARIADB-GALERA settings
+        self.mariadb_galera_endpoint_ip = self.get_k8s_service_endpoint_info('mariadb-galera','ip')
+        self.mariadb_galera_endpoint_port = self.get_k8s_service_endpoint_info('mariadb-galera','port')
+
     def heatbridge(self, openstack_stack_name, svc_instance_uuid):
         """
         Add vserver information to AAI
@@ -252,6 +257,11 @@ class VcpeCommon:
 
         assert mac_recent
         return mac_recent
+
+    def execute_cmds_mariadb(self, cmds):
+        self.execute_cmds_db(cmds, self.sdnc_db_user, self.sdnc_db_pass,
+                             self.sdnc_db_name, self.mariadb_galera_endpoint_ip,
+                             self.mariadb_galera_endpoint_port)
 
     def execute_cmds_sdnc_db(self, cmds):
         self.execute_cmds_db(cmds, self.sdnc_db_user, self.sdnc_db_pass, self.sdnc_db_name,
@@ -563,6 +573,32 @@ class VcpeCommon:
             sys.exit()
 
         return resp.spec.cluster_ip
+
+    def get_k8s_service_endpoint_info(self, service, subset):
+        """
+        Returns endpoint data for a given service and subset. If there
+        is more than one endpoint returns data for the first one from
+        the list that API returned.
+        :param service: name of the service
+        :param subset: subset name, one of "ip","port"
+        :return: endpoint ip
+        """
+        config.load_kube_config()
+        api = client.CoreV1Api()
+        kslogger = logging.getLogger('kubernetes')
+        kslogger.setLevel(logging.INFO)
+        try:
+            resp = api.read_namespaced_endpoints(service, self.onap_namespace)
+        except client.rest.ApiException as e:
+            self.logger.error('Error while making k8s API request: ' + e.body)
+            sys.exit()
+
+        if subset == "ip":
+            return resp.subsets[0].addresses[0].ip
+        elif subset == "port":
+            return resp.subsets[0].ports[0].port
+        else:
+            self.logger.error("Unsupported subset type")
 
     def extract_vm_ip_as_dict(self, novalist_results, net_addr, net_addr_len):
         vm_ip_dict = {}
