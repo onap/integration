@@ -14,14 +14,14 @@ Source files
 Description
 ~~~~~~~~~~~
 
-The Real-Time Performance measurements support allows for a PNF to send streaming performance measurements to ONAP. It develops the capability for the PNF/VNF to send a subset of the typical performance measurement data to ONAP. The data can be sent to ONAP more rapidly than for bulk PM, on the order of seconds. This is valuable to the service provider and operators to debug problems and assess the impact of configuration changes. It uses an VES event driven system for high volume data delivery from xNF to ONAP/DCAE.  A new VES-HV (High Volume) Collector supports GPB over TLS/TCP. The xNF generates hvMeas events containing real time PM data.  These events will be GPB encoded and transmitted over TLS/TCP. Collected events are published to DMaaP and sent directly to the Kafka Cluster (bypassing the DMaaP-MR).
+The Real-Time Performance Measurements support allows for a PNF to send streaming performance measurements to ONAP. It develops the capability for the PNF/VNF to send a subset of the typical performance measurement data to ONAP. The data can be sent to ONAP more rapidly than for bulk PM, on the order of seconds. This is valuable to the service provider and operators to debug problems and assess the impact of configuration changes. It uses an VES event driven system for high volume data delivery from xNF to ONAP/DCAE.  A new VES-HV (High Volume) Collector supports GPB over TLS/TCP. The xNF generates hvMeas events containing real time PM data.  These events will be GPB encoded and transmitted over TLS/TCP. Collected events are published to DMaaP and sent directly to the Kafka Cluster (bypassing the DMaaP-MR layer).
 
 Component and API descriptions can be found under:
 
 - `High Volume VNF Event Streaming (HV-VES) Collector <https://onap.readthedocs.io/en/latest/submodules/dcaegen2.git/docs/sections/services/ves-hv/index.html>`_
 - `HV-VES (High Volume VES) <https://onap.readthedocs.io/en/latest/submodules/dcaegen2.git/docs/sections/apis/ves-hv/index.html#hv-ves-high-volume-ves>`_
 
-How to verif
+How to verify
 ~~~~~~~~~~~~~
 
 Follow instructions in the links below to send data to HV-VES collector and verify messages published on Kafka topic:
