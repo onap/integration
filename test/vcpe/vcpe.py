@@ -229,7 +229,8 @@ if __name__ == '__main__':
     print(' vcpe.py infra:      Deploy infrastructure, including DHCP, AAA, DNS, Web Server, vBNG, vGMUX, vBRG.')
     print(' vcpe.py brg:        Deploy brg only (for testing after infra succeeds).')
     print(' vcpe.py customer:   Deploy customer service, including vGW and VxLANs')
-    print(' vcpe.py loop:       Test closed loop control')
+    print(' vcpe.py loop:       Test closed loop control (packet loss set to 22)')
+    print(' vcpe.py noloss:     Set vGMUX packet loss to 0')
     print('----------------------------------------------------------------------------------------------------')
 
     if len(sys.argv) != 2:
