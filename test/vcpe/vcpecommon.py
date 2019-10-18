@@ -30,7 +30,7 @@ class VcpeCommon:
 
     #############################################################################################
     # set the openstack cloud access credentials here
-    oom_mode = True
+    oom_mode = False
 
     ###########################
     # set Openstack credentials
