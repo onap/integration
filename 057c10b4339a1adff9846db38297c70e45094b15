@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b0a6ec0_67a208cf",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4857
+      },
+      "writtenOn": "2019-10-21T08:42:40Z",
+      "side": 1,
+      "message": "5.0.1",
+      "revId": "057c10b4339a1adff9846db38297c70e45094b15",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d180082_7355591f",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 4857
+      },
+      "writtenOn": "2019-10-21T08:42:40Z",
+      "side": 1,
+      "message": "2019-10-24",
+      "revId": "057c10b4339a1adff9846db38297c70e45094b15",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
