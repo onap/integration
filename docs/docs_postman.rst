@@ -53,8 +53,8 @@ on various ONAP components (SDC, NBI, SO, AAI, SDNC)
 A collection is also provided to delete objects
 (reminder: it is not possible to delete object in SDC)
 
-They have been tested with Onap Dublin (they are not all compatible with
-Casablanca, and there is not guaranty about ONAP "master" as API definition
+They have been tested with Onap ElAlto (they are not all compatible with
+Dublin, and there is not guaranty about ONAP "master" as API definition
 can change)
 
 
@@ -153,7 +153,6 @@ and tenant_id to fit with the place where you will instantiate the VNF.
   tenant_id:234a9a2dc4b643be9812915b214cdbbb
   externalId:integration_test_BSS-order-001
   service_instance_name:integration_test_freeradius_instance_001
-  listener_url:http://10.4.2.65:8080/externalapi/listener/v1/listener
 
 
 Using Newman
@@ -173,15 +172,15 @@ On a linux server, with Docker installed on it, run those lines:
   TAB=$'\t\t\t\t\t\t\t'
   sed -i -e "s/.*src.*/$TAB\"src\": \"$USECASE.zip\"/" 03_Onboard_VSP_part2.postman_collection.json
   docker pull postman/newman:alpine
-  docker run --network="host" --volume="/home/debian/rene/onap-tests/postman:/etc/newman" postman/newman:alpine run 01_Onboard_Vendor.postman_collection.json --environment integration_test_urls.postman_environment.json --globals globals.postman_globals.json --export-globals globals.postman_globals.json --reporters cli,json --reporter-cli-no-assertions --reporter-cli-no-console
-  docker run --network="host" --volume="/home/debian/rene/onap-tests/postman:/etc/newman" postman/newman:alpine run 02_Onboard_VSP_part1.postman_collection.json --environment integration_test_urls.postman_environment.json --globals globals.postman_globals.json --export-globals globals.postman_globals.json
-  docker run --network="host" --volume="/home/debian/rene/onap-tests/postman:/etc/newman" postman/newman:alpine run 03_Onboard_VSP_part2.postman_collection.json --environment integration_test_urls.postman_environment.json --globals globals.postman_globals.json --export-globals globals.postman_globals.json
-  docker run --network="host" --volume="/home/debian/rene/onap-tests/postman:/etc/newman" postman/newman:alpine run 04_Onboard_VSP_part3.postman_collection.json --environment integration_test_urls.postman_environment.json --globals globals.postman_globals.json --export-globals globals.postman_globals.json
-  docker run --network="host" --volume="/home/debian/rene/onap-tests/postman:/etc/newman" postman/newman:alpine run 05_Onboard_VF.postman_collection.json --environment integration_test_urls.postman_environment.json --globals globals.postman_globals.json --export-globals globals.postman_globals.json
-  docker run --network="host" --volume="/home/debian/rene/onap-tests/postman:/etc/newman" postman/newman:alpine run 06_Onboard_Service.postman_collection.json --environment integration_test_urls.postman_environment.json --globals globals.postman_globals.json --export-globals globals.postman_globals.json
-  docker run --network="host" --volume="/home/debian/rene/onap-tests/postman:/etc/newman" postman/newman:alpine run 07_Declare_owningEntity_LineOfBusiness_project_platform.postman_collection.json --environment integration_test_urls.postman_environment.json --globals globals.postman_globals.json --export-globals globals.postman_globals.json
-  docker run --network="host" --volume="/home/debian/rene/onap-tests/postman:/etc/newman" postman/newman:alpine run 08_Declare_Customer_Service_Subscription_Cloud.postman_collection.json --insecure --environment integration_test_urls.postman_environment.json --globals globals.postman_globals.json --export-globals globals.postman_globals.json
-  docker run --network="host" --volume="/home/debian/rene/onap-tests/postman:/etc/newman" postman/newman:alpine run 10_instantiate_service_vnf_vfmodule.postman_collection.json --environment integration_test_urls.postman_environment.json --globals globals.postman_globals.json --export-globals globals.postman_globals.json --reporters cli,json --reporter-cli-no-assertions --reporter-cli-no-console
+  docker run --network="host" --volume="/home/debian/rene/onap-tests/postman:/etc/newman" postman/newman:alpine run 01_Onboard_Vendor.postman_collection.json --environment integration_test_urls.postman_environment.json --globals globals.postman_globals.json --export-environment integration_test_urls.postman_environment.json --reporters cli,json --reporter-cli-no-assertions --reporter-cli-no-console
+  docker run --network="host" --volume="/home/debian/rene/onap-tests/postman:/etc/newman" postman/newman:alpine run 02_Onboard_VSP_part1.postman_collection.json --environment integration_test_urls.postman_environment.json --globals globals.postman_globals.json --export-environment integration_test_urls.postman_environment.json
+  docker run --network="host" --volume="/home/debian/rene/onap-tests/postman:/etc/newman" postman/newman:alpine run 03_Onboard_VSP_part2.postman_collection.json --environment integration_test_urls.postman_environment.json --globals globals.postman_globals.json --export-environment integration_test_urls.postman_environment.json
+  docker run --network="host" --volume="/home/debian/rene/onap-tests/postman:/etc/newman" postman/newman:alpine run 04_Onboard_VSP_part3.postman_collection.json --environment integration_test_urls.postman_environment.json --globals globals.postman_globals.json --export-environment integration_test_urls.postman_environment.json
+  docker run --network="host" --volume="/home/debian/rene/onap-tests/postman:/etc/newman" postman/newman:alpine run 05_Onboard_VF.postman_collection.json --environment integration_test_urls.postman_environment.json --globals globals.postman_globals.json --export-environment integration_test_urls.postman_environment.json
+  docker run --network="host" --volume="/home/debian/rene/onap-tests/postman:/etc/newman" postman/newman:alpine run 06_Onboard_Service.postman_collection.json --environment integration_test_urls.postman_environment.json --globals globals.postman_globals.json --export-environment integration_test_urls.postman_environment.json
+  docker run --network="host" --volume="/home/debian/rene/onap-tests/postman:/etc/newman" postman/newman:alpine run 07_Declare_owningEntity_LineOfBusiness_project_platform.postman_collection.json --environment integration_test_urls.postman_environment.json --globals globals.postman_globals.json --export-environment integration_test_urls.postman_environment.json
+  docker run --network="host" --volume="/home/debian/rene/onap-tests/postman:/etc/newman" postman/newman:alpine run 08_Declare_Customer_Service_Subscription_Cloud.postman_collection.json --insecure --environment integration_test_urls.postman_environment.json --globals globals.postman_globals.json --export-environment integration_test_urls.postman_environment.json
+  docker run --network="host" --volume="/home/debian/rene/onap-tests/postman:/etc/newman" postman/newman:alpine run 10_instantiate_service_vnf_vfmodule.postman_collection.json --environment integration_test_urls.postman_environment.json --globals globals.postman_globals.json --export-environment integration_test_urls.postman_environment.json --reporters cli,json --reporter-cli-no-assertions --reporter-cli-no-console
 
 All collections are processed, then you can see results and you will
 also obtain result json files in the onap-tests/postamn/newman directory
