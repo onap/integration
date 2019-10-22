@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "e89df100-56db-4922-9a58-c92465f0cb9e",
+		"_postman_id": "200601a1-b07a-4a07-ba56-a3fc357e9f55",
 		"name": "10_instantiate_service_vnf_vfmodule",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -65,12 +65,12 @@
 							"var jsonData = pm.response.json();",
 							"var service_found = false;",
 							"for (var i = 0; i < jsonData.length; i++) { ",
-							"   if (jsonData[i].name === pm.globals.get(\"service\")) {",
+							"   if (jsonData[i].name === pm.environment.get(\"service\")) {",
 							"       service_found = true;",
-							"       pm.globals.set(\"auto_service_id\", \"\"+jsonData[i].id+\"\");",
+							"       pm.environment.set(\"auto_service_id\", \"\"+jsonData[i].id+\"\");",
 							"   }",
 							"}",
-							"tests[\"Service : \"+pm.globals.get(\"service\")+\" exists\"] = service_found === true;",
+							"tests[\"Service : \"+pm.environment.get(\"service\")+\" exists\"] = service_found === true;",
 							""
 						],
 						"type": "text/javascript"
@@ -113,11 +113,11 @@
 							"var jsonData = pm.response.json();",
 							"var service_instance_found = false;",
 							"for (var i = 0; i < jsonData.length; i++) { ",
-							"   if (jsonData[i].name === pm.globals.get(\"service_instance_name\")) {",
+							"   if (jsonData[i].name === pm.environment.get(\"service_instance_name\")) {",
 							"       service_instance_found = true;",
 							"   }",
 							"}",
-							"tests[\"Service instance : \"+pm.globals.get(\"service_instance_name\")+\" does not exist\"] = service_instance_found === false;"
+							"tests[\"Service instance : \"+pm.environment.get(\"service_instance_name\")+\" does not exist\"] = service_instance_found === false;"
 						],
 						"type": "text/javascript"
 					}
@@ -164,9 +164,9 @@
 							"});",
 							"",
 							"var jsonData = pm.response.json();",
-							"tests[pm.globals.get(\"externalId\")+\" exists\"] = jsonData.externalId === pm.globals.get(\"externalId\");",
+							"tests[pm.environment.get(\"externalId\")+\" exists\"] = jsonData.externalId === pm.environment.get(\"externalId\");",
 							"",
-							"pm.globals.set(\"auto_service_order_id\", jsonData.id);",
+							"pm.environment.set(\"auto_service_order_id\", jsonData.id);",
 							"    "
 						],
 						"type": "text/javascript"
@@ -218,18 +218,18 @@
 							"",
 							"var jsonData = pm.response.json();",
 							"",
-							"tests[pm.globals.get(\"externalId\")+\" exists\"] = jsonData.externalId === pm.globals.get(\"externalId\");",
-							"tests[\"service_order_id exists\"] = jsonData.id === pm.globals.get(\"auto_service_order_id\");",
+							"tests[pm.environment.get(\"externalId\")+\" exists\"] = jsonData.externalId === pm.environment.get(\"externalId\");",
+							"tests[\"service_order_id exists\"] = jsonData.id === pm.environment.get(\"auto_service_order_id\");",
 							"tests[\"service Order state is : \"+jsonData.state] = jsonData.state === \"completed\";",
 							"tests[\"Service Instance state is : \"+jsonData.orderItem[0].service.serviceState] = jsonData.orderItem[0].service.serviceState === \"active\";",
 							"",
 							"",
 							"if(jsonData.state == \"completed\"){",
-							"    pm.globals.set(\"auto_service_instance_id\", \"\"+jsonData.orderItem[0].service.id+\"\");",
+							"    pm.environment.set(\"auto_service_instance_id\", \"\"+jsonData.orderItem[0].service.id+\"\");",
 							"}",
 							"if (jsonData.orderMessage !== null){",
 							"    tests[\"order message is : \" +jsonData.orderMessage[0].messageInformation] = jsonData.orderMessage[0].messageInformation === \"\";",
-							"    pm.globals.set(\"auto_service_messageInformation\", \"\"+jsonData.orderMessage[0].messageInformation+\"\");",
+							"    pm.environment.set(\"auto_service_messageInformation\", \"\"+jsonData.orderMessage[0].messageInformation+\"\");",
 							"    }",
 							""
 						],
@@ -367,7 +367,7 @@
 					"script": {
 						"id": "f1cbf2f1-1ed2-4d21-9483-46602241705d",
 						"exec": [
-							"tests[\"Service Instance : \"+ pm.globals.get(\"service_instance_name\") +\" exists in AAI inventory\"] = pm.response.code === 200;",
+							"tests[\"Service Instance : \"+ pm.environment.get(\"service_instance_name\") +\" exists in AAI inventory\"] = pm.response.code === 200;",
 							""
 						],
 						"type": "text/javascript"
@@ -421,8 +421,8 @@
 							"",
 							"var jsonData = pm.response.json();",
 							"",
-							"pm.globals.set(\"auto_so_request_id\", \"\"+jsonData.requestReferences.requestId+\"\");",
-							"pm.globals.set(\"auto_vnf_instance_id\", \"\"+jsonData.requestReferences.instanceId+\"\");",
+							"pm.environment.set(\"auto_so_request_id\", \"\"+jsonData.requestReferences.requestId+\"\");",
+							"pm.environment.set(\"auto_vnf_instance_id\", \"\"+jsonData.requestReferences.instanceId+\"\");",
 							""
 						],
 						"type": "text/javascript"
@@ -434,31 +434,31 @@
 				"header": [
 					{
 						"key": "Accept",
-						"value": "application/json"
+						"value": "application/json",
+						"type": "text"
 					},
 					{
 						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "get_aai_subscr"
+						"value": "application/json",
+						"type": "text"
 					},
 					{
 						"key": "Authorization",
-						"value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA=="
+						"value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==",
+						"type": "text"
+					},
+					{
+						"key": "X-ONAP-PartnerName",
+						"value": "NBI",
+						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"requestDetails\": {\n    \"requestInfo\": {\n      \"productFamilyId\": \"{{auto_service_uuid}}\",\n      \"instanceName\": \"{{vnf_instance_name}}\",\n      \"source\": \"VID\",\n      \"suppressRollback\": false,\n      \"requestorId\": \"test\"\n    },\n\t\"modelInfo\": {\n\t\t\"modelType\": \"vnf\",\n\t\t\"modelInvariantId\": \"{{auto_vf_invariant_uuid}}\",\n\t\t\t\"modelVersionId\": \"{{auto_vf_uuid}}\",\n\t\t\t\"modelName\": \"{{vf_name}}\",\n\t\t\t\"modelVersion\": \"1.0\",\n\t\t\t\"modelCustomizationId\": \"{{auto_vf_customization_uuid}}\",\n\t\t\t\"modelCustomizationName\": \"{{auto_vf_name_for_model}}\"\n\t\t},\n    \"requestParameters\": {\n      \"userParams\": [],\n      \"aLaCarte\": true,\n\t  \"testApi\": \"VNF_API\"\n    },\n    \"cloudConfiguration\": {\n      \"lcpCloudRegionId\": \"{{onap_cloud_region_id}}\",\n      \"tenantId\": \"{{tenant_id}}\"\n    },\n\t\t\"lineOfBusiness\": {\n\t\t\t\"lineOfBusinessName\": \"{{lineofbusiness}}\"\n\t\t},\n\t\t\"platform\": {\n\t\t\t\"platformName\": \"{{platform}}\"\n\t\t},\n\t\t\"relatedInstanceList\": [{\n\t\t\t\"relatedInstance\": {\n\t\t\t\t\"instanceId\": \"{{auto_service_instance_id}}\",\n\t\t\t\t\"modelInfo\": {\n\t\t\t\t\t\"modelType\": \"service\",\n\t\t\t\t\t\"modelName\": \"{{service}}\",\n\t\t\t\t\t\"modelInvariantId\": \"{{auto_service_invariant_uuid}}\",\n\t\t\t\t\t\"modelVersion\": \"1.0\",\n\t\t\t\t\t\"modelVersionId\": \"{{auto_service_uuid}}\"\n\t\t\t\t}\n\t\t\t}\n\t\t}]\n  }\n}\n\n"
+					"raw": "{\n  \"requestDetails\": {\n    \"requestInfo\": {\n      \"instanceName\": \"{{vnf_instance_name}}\",\n      \"source\": \"VID\",\n      \"suppressRollback\": false,\n      \"requestorId\": \"test\",\n\t  \"productFamilyId\": \"1234\"\n    },\n\t\"modelInfo\": {\n\t\t\"modelType\": \"vnf\",\n\t\t\"modelInvariantId\": \"{{auto_vf_invariant_uuid}}\",\n\t\t\t\"modelVersionId\": \"{{auto_vf_uuid}}\",\n\t\t\t\"modelName\": \"{{vf_name}}\",\n\t\t\t\"modelVersion\": \"1.0\",\n\t\t\t\"modelCustomizationId\": \"{{auto_vf_customization_uuid}}\",\n\t\t\t\"modelCustomizationName\": \"{{auto_vf_name_for_model}}\"\n\t\t},\n    \"requestParameters\": {\n      \"userParams\": [],\n      \"aLaCarte\": true,\n\t  \"testApi\": \"VNF_API\"\n    },\n    \"cloudConfiguration\": {\n      \"lcpCloudRegionId\": \"{{onap_cloud_region_id}}\",\n      \"cloudOwner\": \"{{cloud_owner_name}}\",\n      \"tenantId\": \"{{tenant_id}}\"\n    },\n\t\t\"lineOfBusiness\": {\n\t\t\t\"lineOfBusinessName\": \"{{lineofbusiness}}\"\n\t\t},\n\t\t\"platform\": {\n\t\t\t\"platformName\": \"{{platform}}\"\n\t\t},\n\t\t\"relatedInstanceList\": [{\n\t\t\t\"relatedInstance\": {\n\t\t\t\t\"instanceId\": \"{{auto_service_instance_id}}\",\n\t\t\t\t\"modelInfo\": {\n\t\t\t\t\t\"modelType\": \"service\",\n\t\t\t\t\t\"modelName\": \"{{service}}\",\n\t\t\t\t\t\"modelInvariantId\": \"{{auto_service_invariant_uuid}}\",\n\t\t\t\t\t\"modelVersion\": \"1.0\",\n\t\t\t\t\t\"modelVersionId\": \"{{auto_service_uuid}}\"\n\t\t\t\t}\n\t\t\t}\n\t\t}]\n  }\n}\n\n"
 				},
 				"url": {
-					"raw": "{{url-so}}/onap/so/infra/serviceInstances/v7/{{auto_service_instance_id}}/vnfs",
+					"raw": "{{url-so}}/onap/so/infra/serviceInstantiation/v7/serviceInstances/{{auto_service_instance_id}}/vnfs",
 					"host": [
 						"{{url-so}}"
 					],
@@ -466,8 +466,9 @@
 						"onap",
 						"so",
 						"infra",
-						"serviceInstances",
+						"serviceInstantiation",
 						"v7",
+						"serviceInstances",
 						"{{auto_service_instance_id}}",
 						"vnfs"
 					]
@@ -488,7 +489,7 @@
 							"});",
 							"var jsonData = pm.response.json();",
 							"",
-							"pm.globals.set(\"auto_vnf_instance_id\", \"\"+jsonData.request.instanceReferences.vnfInstanceId+\"\");",
+							"pm.environment.set(\"auto_vnf_instance_id\", \"\"+jsonData.request.instanceReferences.vnfInstanceId+\"\");",
 							"tests[\"requestState is : \"+jsonData.request.requestStatus.requestState] = jsonData.request.requestStatus.requestState === \"COMPLETE\";",
 							"tests[\"statusMessage is : \"+jsonData.request.requestStatus.statusMessage] = jsonData.request.requestStatus.statusMessage === \"Vnf has been created successfully.\";",
 							""
@@ -571,11 +572,11 @@
 							"var jsonData = pm.response.json();",
 							"var vnf_instance_found = false;",
 							"for (var i = 0; i < jsonData[\"generic-vnf\"].length; i++) { ",
-							"   if (jsonData[\"generic-vnf\"][i][\"vnf-name\"] === pm.globals.get(\"vnf_instance_name\")) {",
+							"   if (jsonData[\"generic-vnf\"][i][\"vnf-name\"] === pm.environment.get(\"vnf_instance_name\")) {",
 							"       vnf_instance_found = true;",
 							"   }",
 							"}",
-							"tests[\"VNF Instance : \"+ pm.globals.get(\"vnf_instance_name\") +\" exists in AAI inventory\"] = vnf_instance_found === true;"
+							"tests[\"VNF Instance : \"+ pm.environment.get(\"vnf_instance_name\") +\" exists in AAI inventory\"] = vnf_instance_found === true;"
 						],
 						"type": "text/javascript"
 					}
@@ -696,8 +697,8 @@
 							"",
 							"var jsonData = pm.response.json();",
 							"if (responseCode.code === 202){",
-							"    pm.globals.set(\"auto_so_request_id\", \"\"+jsonData.requestReferences.requestId+\"\");",
-							"    pm.globals.set(\"auto_vfmodule_instance_id\", \"\"+jsonData.requestReferences.instanceId+\"\");",
+							"    pm.environment.set(\"auto_so_request_id\", \"\"+jsonData.requestReferences.requestId+\"\");",
+							"    pm.environment.set(\"auto_vfmodule_instance_id\", \"\"+jsonData.requestReferences.instanceId+\"\");",
 							"}"
 						],
 						"type": "text/javascript"
@@ -709,31 +710,31 @@
 				"header": [
 					{
 						"key": "Accept",
-						"value": "application/json"
+						"value": "application/json",
+						"type": "text"
 					},
 					{
 						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "get_aai_subscr"
+						"value": "application/json",
+						"type": "text"
 					},
 					{
 						"key": "Authorization",
-						"value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA=="
+						"value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==",
+						"type": "text"
+					},
+					{
+						"key": "X-ONAP-PartnerName",
+						"value": "NBI",
+						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"requestDetails\": {\n    \"requestInfo\": {\n      \"instanceName\": \"{{vfmodule_instance_name}}\",\n      \"source\": \"VID\",\n      \"suppressRollback\": false,\n      \"requestorId\": \"test\"\n    },\n\t\"modelInfo\": {\n\t\t\"modelType\": \"vfModule\",\n\t\t\"modelInvariantId\": \"{{auto_vf_module_model_invariant_uuid}}\",\n\t\t\"modelVersionId\": \"{{auto_vf_module_model_uuid}}\",\n\t\t\"modelName\": \"{{auto_vf_module_model_name}}\",\n\t\t\"modelVersion\": \"1\",\n\t\t\"modelCustomizationId\": \"{{auto_vf_module_model_customization_uuid}}\",\n\t\t\"modelCustomizationName\": \"{{auto_vf_module_model_name}}\"\n\t},\n \t\"requestParameters\": {\n \t\t\"userParams\": [],\n \t\t\"testApi\": \"VNF_API\",\n \t\t\"usePreload\": true\n \t},\n    \"cloudConfiguration\": {\n      \"lcpCloudRegionId\": \"{{onap_cloud_region_id}}\",\n      \"tenantId\": \"{{tenant_id}}\"\n    },\n\t\t\"relatedInstanceList\": [{\n\t\t\t\"relatedInstance\": {\n\t\t\t\t\"instanceId\": \"{{auto_service_instance_id}}\",\n\t\t\t\t\"modelInfo\": {\n\t\t\t\t\t\"modelType\": \"service\",\n\t\t\t\t\t\"modelName\": \"{{service}}\",\n\t\t\t\t\t\"modelInvariantId\": \"{{auto_service_invariant_uuid}}\",\n\t\t\t\t\t\"modelVersion\": \"1.0\",\n\t\t\t\t\t\"modelVersionId\": \"{{auto_service_uuid}}\"\n\t\t\t\t}\n\t\t\t}\n\t\t},\n\t\t{\n\t\t\t\"relatedInstance\": {\n\t\t\t\t\"instanceId\": \"{{auto_vnf_instance_id}}\",\n\t\t\t\t\"modelInfo\": {\n\t\t\t\t\t\"modelType\": \"vnf\",\n\t\t\t\t\t\"modelName\": \"{{vf_name}}\",\n\t\t\t\t\t\"modelInvariantId\": \"{{auto_vf_invariant_uuid}}\",\n\t\t\t\t\t\"modelVersion\": \"1.0\",\n\t\t\t\t\t\"modelVersionId\": \"{{auto_vf_uuid}}\",\n\t\t\t\t\t\"modelCustomizationId\": \"{{auto_vf_customization_uuid}}\",\n\t\t\t\t\t\"modelCustomizationName\": \"{{auto_vf_name_for_model}}\"\n\t\t\t\t}\n\t\t\t}\n\t\t}]\n  }\n}\n\n"
+					"raw": "{\n  \"requestDetails\": {\n    \"requestInfo\": {\n      \"instanceName\": \"{{vfmodule_instance_name}}\",\n      \"source\": \"VID\",\n      \"suppressRollback\": false,\n      \"requestorId\": \"test\"\n    },\n\t\"modelInfo\": {\n\t\t\"modelType\": \"vfModule\",\n\t\t\"modelInvariantId\": \"{{auto_vf_module_model_invariant_uuid}}\",\n\t\t\"modelVersionId\": \"{{auto_vf_module_model_uuid}}\",\n\t\t\"modelName\": \"{{auto_vf_module_model_name}}\",\n\t\t\"modelVersion\": \"1\",\n\t\t\"modelCustomizationId\": \"{{auto_vf_module_model_customization_uuid}}\",\n\t\t\"modelCustomizationName\": \"{{auto_vf_module_model_name}}\"\n\t},\n \t\"requestParameters\": {\n \t\t\"userParams\": [],\n \t\t\"testApi\": \"VNF_API\",\n \t\t\"usePreload\": true\n \t},\n    \"cloudConfiguration\": {\n      \"lcpCloudRegionId\": \"{{onap_cloud_region_id}}\",\n      \"cloudOwner\": \"{{cloud_owner_name}}\",\n      \"tenantId\": \"{{tenant_id}}\"\n    },\n\t\t\"relatedInstanceList\": [{\n\t\t\t\"relatedInstance\": {\n\t\t\t\t\"instanceId\": \"{{auto_service_instance_id}}\",\n\t\t\t\t\"modelInfo\": {\n\t\t\t\t\t\"modelType\": \"service\",\n\t\t\t\t\t\"modelName\": \"{{service}}\",\n\t\t\t\t\t\"modelInvariantId\": \"{{auto_service_invariant_uuid}}\",\n\t\t\t\t\t\"modelVersion\": \"1.0\",\n\t\t\t\t\t\"modelVersionId\": \"{{auto_service_uuid}}\"\n\t\t\t\t}\n\t\t\t}\n\t\t},\n\t\t{\n\t\t\t\"relatedInstance\": {\n\t\t\t\t\"instanceId\": \"{{auto_vnf_instance_id}}\",\n\t\t\t\t\"modelInfo\": {\n\t\t\t\t\t\"modelType\": \"vnf\",\n\t\t\t\t\t\"modelName\": \"{{vf_name}}\",\n\t\t\t\t\t\"modelInvariantId\": \"{{auto_vf_invariant_uuid}}\",\n\t\t\t\t\t\"modelVersion\": \"1.0\",\n\t\t\t\t\t\"modelVersionId\": \"{{auto_vf_uuid}}\",\n\t\t\t\t\t\"modelCustomizationId\": \"{{auto_vf_customization_uuid}}\",\n\t\t\t\t\t\"modelCustomizationName\": \"{{auto_vf_name_for_model}}\"\n\t\t\t\t}\n\t\t\t}\n\t\t}]\n  }\n}\n\n"
 				},
 				"url": {
-					"raw": "{{url-so}}/onap/so/infra/serviceInstances/v7/{{auto_service_instance_id}}/vnfs/{{auto_vnf_instance_id}}/vfModules",
+					"raw": "{{url-so}}/onap/so/infra/serviceInstantiation/v7/serviceInstances/{{auto_service_instance_id}}/vnfs/{{auto_vnf_instance_id}}/vfModules",
 					"host": [
 						"{{url-so}}"
 					],
@@ -741,8 +742,9 @@
 						"onap",
 						"so",
 						"infra",
-						"serviceInstances",
+						"serviceInstantiation",
 						"v7",
+						"serviceInstances",
 						"{{auto_service_instance_id}}",
 						"vnfs",
 						"{{auto_vnf_instance_id}}",
@@ -765,7 +767,7 @@
 							"});",
 							"var jsonData = pm.response.json();",
 							"",
-							"pm.globals.set(\"auto_vfmodule_instance_id\", \"\"+jsonData.request.instanceReferences.vfModuleInstanceId+\"\");",
+							"pm.environment.set(\"auto_vfmodule_instance_id\", \"\"+jsonData.request.instanceReferences.vfModuleInstanceId+\"\");",
 							"tests[\"requestState is : \"+jsonData.request.requestStatus.requestState] = jsonData.request.requestStatus.requestState === \"COMPLETE\";",
 							"tests[\"statusMessage is : \"+jsonData.request.requestStatus.statusMessage] = jsonData.request.requestStatus.statusMessage === \"Vf Module has been created successfully.\";"
 						],
@@ -847,11 +849,11 @@
 							"var jsonData = pm.response.json();",
 							"var vfmodule_instance_found = false;",
 							"for (var i = 0; i < jsonData[\"vf-module\"].length; i++) { ",
-							"   if (jsonData[\"vf-module\"][i][\"vf-module-name\"] === pm.globals.get(\"vfmodule_instance_name\")) {",
+							"   if (jsonData[\"vf-module\"][i][\"vf-module-name\"] === pm.environment.get(\"vfmodule_instance_name\")) {",
 							"       vfmodule_instance_found = true;",
 							"   }",
 							"}",
-							"tests[\"vfmodule Instance : \"+ pm.globals.get(\"vfmodule_instance_name\") +\" exists in AAI inventory\"] = vfmodule_instance_found === true;"
+							"tests[\"vfmodule Instance : \"+ pm.environment.get(\"vfmodule_instance_name\") +\" exists in AAI inventory\"] = vfmodule_instance_found === true;"
 						],
 						"type": "text/javascript"
 					}
@@ -975,8 +977,8 @@
 							"",
 							"var jsonData = pm.response.json();",
 							"",
-							"pm.globals.set(\"auto_so_request_id\", \"\"+jsonData.requestReferences.requestId+\"\");",
-							"pm.globals.set(\"auto_virtual_link_instance_id\", \"\"+jsonData.requestReferences.instanceId+\"\");",
+							"pm.environment.set(\"auto_so_request_id\", \"\"+jsonData.requestReferences.requestId+\"\");",
+							"pm.environment.set(\"auto_virtual_link_instance_id\", \"\"+jsonData.requestReferences.instanceId+\"\");",
 							""
 						],
 						"type": "text/javascript"
@@ -988,31 +990,31 @@
 				"header": [
 					{
 						"key": "Accept",
-						"value": "application/json"
+						"value": "application/json",
+						"type": "text"
 					},
 					{
 						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "get_aai_subscr"
+						"value": "application/json",
+						"type": "text"
 					},
 					{
 						"key": "Authorization",
-						"value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA=="
+						"value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==",
+						"type": "text"
+					},
+					{
+						"key": "X-ONAP-PartnerName",
+						"value": "NBI",
+						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"requestDetails\": {\n\t\t\"requestInfo\": {\n\t\t\t\"instanceName\": \"{{virtual_link_instance_name}}\",\n\t\t\t\"source\": \"VID\",\n\t\t\t\"suppressRollback\": false,\n\t\t\t\"requestorId\": \"demo\",\n \t\t\t\"productFamilyId\": \"b9ac88f7-0e1b-462d-84ac-74c3c533217c\"\n\t\t},\n \t\t\"modelInfo\": {\n \t\t\t\"modelType\": \"network\",\n \t\t\t\"modelInvariantId\": \"{{auto_virtual_link_invariant_uuid}}\",\n \t\t\t\"modelVersionId\": \"{{auto_virtual_link_uuid}}\",\n \t\t\t\"modelName\": \"Generic NeutronNet\",\n \t\t\t\"modelVersion\": \"1.0\",\n \t\t\t\"modelCustomizationId\": \"{{auto_virtual_link_customization_uuid}}\",\n \t\t\t\"modelCustomizationName\": \"Generic NeutronNet 0\"\n \t\t},\n    \"requestParameters\": {\n      \"userParams\": [],\n      \"aLaCarte\": true,\n\t  \"testApi\": \"VNF_API\"\n    },\n    \"cloudConfiguration\": {\n      \"cloudOwner\": \"{{cloud_owner_name}}\",\n      \"lcpCloudRegionId\": \"{{onap_cloud_region_id}}\",\n      \"tenantId\": \"{{tenant_id}}\"\n    },\n\t\t\"lineOfBusiness\": {\n\t\t\t\"lineOfBusinessName\": \"{{lineofbusiness}}\"\n\t\t},\n\t\t\"platform\": {\n\t\t\t\"platformName\": \"{{platform}}\"\n\t\t},\n \t\t\"relatedInstanceList\": [{\n \t\t\t\"relatedInstance\": {\n \t\t\t\t\"instanceId\": \"{{auto_service_instance_id}}\",\n \t\t\t\t\"modelInfo\": {\n \t\t\t\t\t\"modelType\": \"service\",\n \t\t\t\t\t\"modelName\": \"{{service}}\",\n \t\t\t\t\t\"modelInvariantId\": \"{{auto_service_invariant_uuid}}\",\n \t\t\t\t\t\"modelVersion\": \"1.0\",\n \t\t\t\t\t\"modelVersionId\": \"{{auto_service_uuid}}\"\n \t\t\t\t}\n \t\t\t}\n \t\t}]\n  }\n}\n\n"
+					"raw": "{\n\t\"requestDetails\": {\n\t\t\"requestInfo\": {\n\t\t\t\"instanceName\": \"{{virtual_link_instance_name}}\",\n\t\t\t\"source\": \"VID\",\n\t\t\t\"suppressRollback\": false,\n\t\t\t\"requestorId\": \"demo\"\n\t\t},\n \t\t\"modelInfo\": {\n \t\t\t\"modelType\": \"network\",\n \t\t\t\"modelInvariantId\": \"{{auto_virtual_link_invariant_uuid}}\",\n \t\t\t\"modelVersionId\": \"{{auto_virtual_link_uuid}}\",\n \t\t\t\"modelName\": \"Generic NeutronNet\",\n \t\t\t\"modelVersion\": \"1.0\",\n \t\t\t\"modelCustomizationId\": \"{{auto_virtual_link_customization_uuid}}\",\n \t\t\t\"modelCustomizationName\": \"Generic NeutronNet 0\"\n \t\t},\n    \"requestParameters\": {\n      \"userParams\": [],\n      \"aLaCarte\": true,\n\t  \"testApi\": \"VNF_API\"\n    },\n    \"cloudConfiguration\": {\n      \"cloudOwner\": \"{{cloud_owner_name}}\",\n      \"lcpCloudRegionId\": \"{{onap_cloud_region_id}}\",\n      \"tenantId\": \"{{tenant_id}}\"\n    },\n\t\t\"lineOfBusiness\": {\n\t\t\t\"lineOfBusinessName\": \"{{lineofbusiness}}\"\n\t\t},\n\t\t\"platform\": {\n\t\t\t\"platformName\": \"{{platform}}\"\n\t\t},\n \t\t\"relatedInstanceList\": [{\n \t\t\t\"relatedInstance\": {\n \t\t\t\t\"instanceId\": \"{{auto_service_instance_id}}\",\n \t\t\t\t\"modelInfo\": {\n \t\t\t\t\t\"modelType\": \"service\",\n \t\t\t\t\t\"modelName\": \"{{service}}\",\n \t\t\t\t\t\"modelInvariantId\": \"{{auto_service_invariant_uuid}}\",\n \t\t\t\t\t\"modelVersion\": \"1.0\",\n \t\t\t\t\t\"modelVersionId\": \"{{auto_service_uuid}}\"\n \t\t\t\t}\n \t\t\t}\n \t\t}]\n  }\n}\n\n"
 				},
 				"url": {
-					"raw": "{{url-so}}/onap/so/infra/serviceInstances/v7/{{auto_service_instance_id}}/networks",
+					"raw": "{{url-so}}/onap/so/infra/serviceInstantiation/v7/serviceInstances/{{auto_service_instance_id}}/networks",
 					"host": [
 						"{{url-so}}"
 					],
@@ -1020,8 +1022,9 @@
 						"onap",
 						"so",
 						"infra",
-						"serviceInstances",
+						"serviceInstantiation",
 						"v7",
+						"serviceInstances",
 						"{{auto_service_instance_id}}",
 						"networks"
 					]
@@ -1042,7 +1045,7 @@
 							"});",
 							"var jsonData = pm.response.json();",
 							"",
-							"pm.globals.set(\"auto_virtual_link_instance_id\", \"\"+jsonData.request.instanceReferences.networkInstanceId+\"\");",
+							"pm.environment.set(\"auto_virtual_link_instance_id\", \"\"+jsonData.request.instanceReferences.networkInstanceId+\"\");",
 							"tests[\"requestState is : \"+jsonData.request.requestStatus.requestState] = jsonData.request.requestStatus.requestState === \"COMPLETE\";",
 							"tests[\"statusMessage is : \"+jsonData.request.requestStatus.statusMessage] = jsonData.request.requestStatus.statusMessage === \"Network has been created successfully.\";"
 						],
@@ -1219,8 +1222,8 @@
 							"",
 							"var jsonData = pm.response.json();",
 							"",
-							"pm.globals.set(\"auto_so_request_id\", \"\"+jsonData.requestReferences.requestId+\"\");",
-							"pm.globals.set(\"auto_service_instance_id\", \"\"+jsonData.requestReferences.instanceId+\"\");",
+							"pm.environment.set(\"auto_so_request_id\", \"\"+jsonData.requestReferences.requestId+\"\");",
+							"pm.environment.set(\"auto_service_instance_id\", \"\"+jsonData.requestReferences.instanceId+\"\");",
 							""
 						],
 						"type": "text/javascript"
@@ -1232,31 +1235,31 @@
 				"header": [
 					{
 						"key": "Accept",
-						"value": "application/json"
+						"value": "application/json",
+						"type": "text"
 					},
 					{
 						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "get_aai_subscr"
+						"value": "application/json",
+						"type": "text"
 					},
 					{
 						"key": "Authorization",
-						"value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA=="
+						"value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==",
+						"type": "text"
+					},
+					{
+						"key": "X-ONAP-PartnerName",
+						"value": "NBI",
+						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"requestDetails\": {\n\t\t\"requestInfo\": {\n\t\t\t\"instanceName\": \"{{service_instance_name}}\",\n\t\t\t\"source\": \"VID\",\n\t\t\t\"suppressRollback\": false,\n\t\t\t\"requestorId\": \"demo\"\n\t\t},\n\t\t\"modelInfo\": {\n\t\t\t\"modelType\": \"service\",\n\t\t\t\"modelInvariantId\": \"{{auto_service_invariant_uuid}}\",\n\t\t\t\"modelVersionId\": \"{{auto_service_uuid}}\",\n\t\t\t\"modelName\": \"{{service}}\",\n\t\t\t\"modelVersion\": \"1.0\"\n\t\t},\n        \"cloudConfiguration\": {\n            \"tenantId\": \"3e3b55ca4c9948d1a9fa68715831c6bd\",\n            \"cloudOwner\": \"OPNFV\",\n            \"lcpCloudRegionId\": \"RegionOne\"\n        },\n\t\t\"requestParameters\": {\n\t\t\t\"userParams\": [],\n\t\t\t\"testApi\": \"VNF_API\",\n\t\t\t\"subscriptionServiceType\": \"{{service}}\",\n\t\t\t\"aLaCarte\": true\n\t\t},\n\t\t\"subscriberInfo\": {\n\t\t\t\"globalSubscriberId\": \"{{customer_name}}\"\n\t\t},\n\t\t\"project\": {\n\t\t\t\"projectName\": \"{{project}}\"\n\t\t},\n\t\t\"owningEntity\": {\n\t\t\t\"owningEntityId\": \"6b5b6b70-4e9a-4f6f-8b7b-cbd7cf990c6e\",\n\t\t\t\"owningEntityName\": \"{{owning_entity}}\"\n\t\t}\n\t}\n}"
+					"raw": "{\n\t\"requestDetails\": {\n\t\t\"requestInfo\": {\n\t\t\t\"instanceName\": \"{{service_instance_name}}\",\n\t\t\t\"source\": \"VID\",\n\t\t\t\"suppressRollback\": false,\n\t\t\t\"requestorId\": \"demo\"\n\t\t},\n\t\t\"modelInfo\": {\n\t\t\t\"modelType\": \"service\",\n\t\t\t\"modelInvariantId\": \"{{auto_service_invariant_uuid}}\",\n\t\t\t\"modelVersionId\": \"{{auto_service_uuid}}\",\n\t\t\t\"modelName\": \"{{service}}\",\n\t\t\t\"modelVersion\": \"1.0\"\n\t\t},\n        \"cloudConfiguration\": {\n            \"tenantId\": \"{{tenant_id}}\",\n            \"cloudOwner\": \"{{cloud_owner_name}}\",\n            \"lcpCloudRegionId\": \"{{onap_cloud_region_id}}\"\n        },\n\t\t\"requestParameters\": {\n\t\t\t\"userParams\": [],\n\t\t\t\"testApi\": \"VNF_API\",\n\t\t\t\"subscriptionServiceType\": \"{{service}}\",\n\t\t\t\"aLaCarte\": true\n\t\t},\n\t\t\"subscriberInfo\": {\n\t\t\t\"globalSubscriberId\": \"{{customer_name}}\"\n\t\t},\n\t\t\"project\": {\n\t\t\t\"projectName\": \"{{project}}\"\n\t\t},\n\t\t\"owningEntity\": {\n\t\t\t\"owningEntityId\": \"{{auto_owning_entity_id}}\",\n\t\t\t\"owningEntityName\": \"{{owning_entity}}\"\n\t\t}\n\t}\n}"
 				},
 				"url": {
-					"raw": "{{url-so}}/onap/so/infra/serviceInstances/v7/serviceInstances",
+					"raw": "{{url-so}}/onap/so/infra/serviceInstantiation/v7/serviceInstances",
 					"host": [
 						"{{url-so}}"
 					],
@@ -1264,7 +1267,7 @@
 						"onap",
 						"so",
 						"infra",
-						"serviceInstances",
+						"serviceInstantiation",
 						"v7",
 						"serviceInstances"
 					]
@@ -1285,7 +1288,7 @@
 							"});",
 							"var jsonData = pm.response.json();",
 							"",
-							"pm.globals.set(\"auto_virtual_link_instance_id\", \"\"+jsonData.request.instanceReferences.networkInstanceId+\"\");",
+							"pm.environment.set(\"auto_virtual_link_instance_id\", \"\"+jsonData.request.instanceReferences.networkInstanceId+\"\");",
 							"tests[\"requestState is : \"+jsonData.request.requestStatus.requestState] = jsonData.request.requestStatus.requestState === \"COMPLETE\";",
 							"tests[\"statusMessage is : \"+jsonData.request.requestStatus.statusMessage] = jsonData.request.requestStatus.statusMessage === \"Network has been created successfully.\";"
 						],
