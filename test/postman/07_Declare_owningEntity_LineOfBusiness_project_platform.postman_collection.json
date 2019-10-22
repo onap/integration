@@ -1,12 +1,12 @@
 {
 	"info": {
-		"_postman_id": "ba79b08d-2a04-4a00-8f30-e805efc2e636",
+		"_postman_id": "4d04e8e7-d495-4dcc-a800-1cf4ab643403",
 		"name": "07_Declare_owningEntity_LineOfBusiness_project_platform",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "Declare owningEntity",
+			"name": "Declare owningEntity in VID",
 			"event": [
 				{
 					"listen": "test",
@@ -36,7 +36,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"options\": [\"{{owning_entity}}\"]\n}"
+					"raw": "{\n    \"options\": [\"{{owning_entity_name}}\"]\n}"
 				},
 				"url": {
 					"raw": "{{url-vid}}/vid/maintenance/category_parameter/owningEntity",
@@ -48,6 +48,122 @@
 						"maintenance",
 						"category_parameter",
 						"owningEntity"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "declare Owning-Entity in AAI",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic QUFJOkFBSQ=="
+					},
+					{
+						"key": "X-FromAppId",
+						"value": "AAI"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "X-TransactionId",
+						"value": "get_aai_subscr"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"owning-entity-name\": \"{{owning_entity_name}}\",\n    \"owning-entity-id\": \"{{owning_entity_id}}\"\n}"
+				},
+				"url": {
+					"raw": "{{url-aai}}/aai/v13/business/owning-entities/owning-entity/{{owning_entity_id}}",
+					"host": [
+						"{{url-aai}}"
+					],
+					"path": [
+						"aai",
+						"v13",
+						"business",
+						"owning-entities",
+						"owning-entity",
+						"{{owning_entity_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get owning-entities",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "294b8cb1-67a3-435d-817f-7fd5497183db",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"var oe_found = false;",
+							"for (var i = 0; i < jsonData[\"owning-entity\"].length; i++) { ",
+							"   if (jsonData[\"owning-entity\"][i][\"owning-entity-name\"] === pm.environment.get(\"owning_entity\")) {",
+							"       oe_found = true;",
+							"       pm.environment.set(\"auto_owning_entity_id\", \"\"+jsonData[\"owning-entity\"][i][\"owning-entity-id\"]+\"\");",
+							"   }",
+							"}",
+							"tests[\"Owning-Entity \"+pm.environment.get(\"owning_entity\")+\" found and id saved\"] = oe_found === true;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic QUFJOkFBSQ=="
+					},
+					{
+						"key": "X-FromAppId",
+						"value": "AAI"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "X-TransactionId",
+						"value": "get_aai_subscr"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url-aai}}/aai/v16/business/owning-entities",
+					"host": [
+						"{{url-aai}}"
+					],
+					"path": [
+						"aai",
+						"v16",
+						"business",
+						"owning-entities"
 					]
 				}
 			},

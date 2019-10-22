@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "45694934-9bf1-485a-8b98-53f3da0b5bb8",
+		"_postman_id": "7e53b9c4-273b-4012-81f3-0634173626c2",
 		"name": "11_delete_instances",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -19,7 +19,7 @@
 							"",
 							"var jsonData = pm.response.json();",
 							"",
-							"pm.globals.set(\"auto_so_request_id\", \"\"+jsonData.requestReferences.requestId+\"\");",
+							"pm.environment.set(\"auto_so_request_id\", \"\"+jsonData.requestReferences.requestId+\"\");",
 							""
 						],
 						"type": "text/javascript"
@@ -31,31 +31,31 @@
 				"header": [
 					{
 						"key": "Accept",
-						"value": "application/json"
+						"value": "application/json",
+						"type": "text"
 					},
 					{
 						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "get_aai_subscr"
+						"value": "application/json",
+						"type": "text"
 					},
 					{
 						"key": "Authorization",
-						"value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA=="
+						"value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==",
+						"type": "text"
+					},
+					{
+						"key": "X-ONAP-PartnerName",
+						"value": "NBI",
+						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"requestDetails\": {\n\t\t\"requestInfo\": {\n\t\t\t\"source\": \"VID\",\n\t\t\t\"requestorId\": \"test\"\n\t\t},\n\t\t\"modelInfo\": {\n\t\t\"modelType\": \"vfModule\",\n\t\t\"modelInvariantId\": \"{{auto_vf_module_model_invariant_uuid}}\",\n\t\t\"modelVersionId\": \"{{auto_vf_module_model_uuid}}\",\n\t\t\"modelName\": \"{{auto_vf_module_model_name}}\",\n\t\t\"modelVersion\": \"1\",\n\t\t\"modelCustomizationId\": \"{{auto_vf_module_model_customization_uuid}}\",\n\t\t\"modelCustomizationName\": \"{{auto_vf_module_model_name}}\"\n\t\t},\n\t\t\"requestParameters\": {\n\t\t\t\"testApi\": \"VNF_API\"\n\t\t},\n\t\t\"cloudConfiguration\": {\n\t\t\t\"lcpCloudRegionId\": \"{{onap_cloud_region_id}}\",\n\t\t\t\"tenantId\": \"{{tenant_id}}\"\n\t\t}\n\t}\n}\n\n"
+					"raw": "{\n    \"requestDetails\": {\n        \"requestInfo\": {\n            \"source\": \"VID\",\n            \"requestorId\": \"test\"\n        },\n        \"modelInfo\": {\n            \"modelType\": \"vfModule\",\n            \"modelInvariantId\": \"{{auto_vf_module_model_invariant_uuid}}\",\n            \"modelVersionId\": \"{{auto_vf_module_model_uuid}}\",\n            \"modelName\": \"{{auto_vf_module_model_name}}\",\n            \"modelVersion\": \"1\",\n            \"modelCustomizationId\": \"{{auto_vf_module_model_customization_uuid}}\",\n            \"modelCustomizationName\": \"{{auto_vf_module_model_name}}\"\n        },\n        \"requestParameters\": {\n            \"testApi\": \"VNF_API\"\n        },\n        \"cloudConfiguration\": {\n            \"cloudOwner\": \"{{cloud_owner_name}}\",\n            \"lcpCloudRegionId\": \"{{onap_cloud_region_id}}\",\n            \"tenantId\": \"{{tenant_id}}\"\n        }\n    }\n}"
 				},
 				"url": {
-					"raw": "{{url-so}}/onap/so/infra/serviceInstances/v7/{{auto_service_instance_id}}/vnfs/{{auto_vnf_instance_id}}/vfModules/{{auto_vfmodule_instance_id}}",
+					"raw": "{{url-so}}/onap/so/infra/serviceInstantiation/v7/serviceInstances/{{auto_service_instance_id}}/vnfs/{{auto_vnf_instance_id}}/vfModules/{{auto_vfmodule_instance_id}}",
 					"host": [
 						"{{url-so}}"
 					],
@@ -63,8 +63,9 @@
 						"onap",
 						"so",
 						"infra",
-						"serviceInstances",
+						"serviceInstantiation",
 						"v7",
+						"serviceInstances",
 						"{{auto_service_instance_id}}",
 						"vnfs",
 						"{{auto_vnf_instance_id}}",
@@ -173,14 +174,14 @@
 							"",
 							"if (pm.response.code === 200){",
 							"    for (var i = 0; i < jsonData[\"vf-module\"].length; i++) { ",
-							"        if (jsonData[\"vf-module\"][i][\"vf-module-name\"] === pm.globals.get(\"vfmodule_instance_name\")) {",
+							"        if (jsonData[\"vf-module\"][i][\"vf-module-name\"] === pm.environment.get(\"vfmodule_instance_name\")) {",
 							"            vfmodule_instance_found = true;",
 							"        }",
 							"    }",
 							"}",
 							"",
 							"",
-							"tests[\"vfmodule Instance : \"+ pm.globals.get(\"vfmodule_instance_name\") +\" no longer exists in AAI inventory\"] = vfmodule_instance_found === false;"
+							"tests[\"vfmodule Instance : \"+ pm.environment.get(\"vfmodule_instance_name\") +\" no longer exists in AAI inventory\"] = vfmodule_instance_found === false;"
 						],
 						"type": "text/javascript"
 					}
@@ -245,7 +246,7 @@
 							"});",
 							"var jsonData = pm.response.json();",
 							"",
-							"pm.globals.set(\"auto_so_request_id\", \"\"+jsonData.requestReferences.requestId+\"\");",
+							"pm.environment.set(\"auto_so_request_id\", \"\"+jsonData.requestReferences.requestId+\"\");",
 							""
 						],
 						"type": "text/javascript"
@@ -257,31 +258,31 @@
 				"header": [
 					{
 						"key": "Accept",
-						"value": "application/json"
+						"value": "application/json",
+						"type": "text"
 					},
 					{
 						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "get_aai_subscr"
+						"value": "application/json",
+						"type": "text"
 					},
 					{
 						"key": "Authorization",
-						"value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA=="
+						"value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==",
+						"type": "text"
+					},
+					{
+						"key": "X-ONAP-PartnerName",
+						"value": "NBI",
+						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"requestDetails\": {\n\t\t\"requestInfo\": {\n\t\t\t\"source\": \"VID\",\n\t\t\t\"requestorId\": \"test\"\n\t\t},\n\t\t\"modelInfo\": {\n\t\t\t\"modelType\": \"vnf\",\n\t\t\t\"modelInvariantId\": \"{{auto_vf_invariant_uuid}}\",\n\t\t\t\"modelVersionId\": \"{{auto_vf_uuid}}\",\n\t\t\t\"modelName\": \"{{vf_name}}\",\n\t\t\t\"modelVersion\": \"1.0\",\n\t\t\t\"modelCustomizationId\": \"{{auto_vf_customization_id}}\",\n\t\t\t\"modelCustomizationName\": \"{{vf_name}} 0\"\n\t\t},\n\t\t\"requestParameters\": {\n\t\t\t\"testApi\": \"VNF_API\"\n\t\t},\n\t\t\"cloudConfiguration\": {\n\t\t\t\"lcpCloudRegionId\": \"{{onap_cloud_region_id}}\",\n\t\t\t\"tenantId\": \"{{tenant_id}}\"\n\t\t}\n\t}\n}\n\n"
+					"raw": "{\n\t\"requestDetails\": {\n\t\t\"requestInfo\": {\n\t\t\t\"source\": \"VID\",\n\t\t\t\"requestorId\": \"test\"\n\t\t},\n\t\t\"modelInfo\": {\n\t\t\t\"modelType\": \"vnf\",\n\t\t\t\"modelInvariantId\": \"{{auto_vf_invariant_uuid}}\",\n\t\t\t\"modelVersionId\": \"{{auto_vf_uuid}}\",\n\t\t\t\"modelName\": \"{{vf_name}}\",\n\t\t\t\"modelVersion\": \"1.0\",\n\t\t\t\"modelCustomizationId\": \"{{auto_vf_customization_id}}\",\n\t\t\t\"modelCustomizationName\": \"{{vf_name}} 0\"\n\t\t},\n\t\t\"requestParameters\": {\n\t\t\t\"testApi\": \"VNF_API\"\n\t\t},\n        \"cloudConfiguration\": {\n            \"cloudOwner\": \"{{cloud_owner_name}}\",\n            \"lcpCloudRegionId\": \"{{onap_cloud_region_id}}\",\n            \"tenantId\": \"{{tenant_id}}\"\n        }\n\t}\n}\n\n"
 				},
 				"url": {
-					"raw": "{{url-so}}/onap/so/infra/serviceInstances/v7/{{auto_service_instance_id}}/vnfs/{{auto_vnf_instance_id}}",
+					"raw": "{{url-so}}/onap/so/infra/serviceInstantiation/v7/serviceInstances/{{auto_service_instance_id}}/vnfs/{{auto_vnf_instance_id}}",
 					"host": [
 						"{{url-so}}"
 					],
@@ -289,8 +290,9 @@
 						"onap",
 						"so",
 						"infra",
-						"serviceInstances",
+						"serviceInstantiation",
 						"v7",
+						"serviceInstances",
 						"{{auto_service_instance_id}}",
 						"vnfs",
 						"{{auto_vnf_instance_id}}"
@@ -318,31 +320,31 @@
 				"header": [
 					{
 						"key": "Accept",
-						"value": "application/json"
+						"value": "application/json",
+						"type": "text"
 					},
 					{
 						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "get_aai_subscr"
+						"value": "application/json",
+						"type": "text"
 					},
 					{
 						"key": "Authorization",
-						"value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA=="
+						"value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==",
+						"type": "text"
+					},
+					{
+						"key": "X-ONAP-PartnerName",
+						"value": "NBI",
+						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "   {\n \t\"requestDetails\": {\n \t\t\"modelInfo\": {\n \t\t\t\"modelType\": \"network\"\n \t\t},\n \t\t\"requestInfo\": {\n \t\t\t\"source\": \"VID\",\n \t\t\t\"requestorId\": \"demo\"\n \t\t},\n \t\t\"requestParameters\": {\n \t\t\t\"testApi\": \"VNF_API\"\n \t\t},\n\t\t\"cloudConfiguration\": {\n\t\t\t\"lcpCloudRegionId\": \"{{onap_cloud_region_id}}\",\n\t\t\t\"tenantId\": \"{{tenant_id}}\"\n\t\t}\n\t}\n}\n\n"
+					"raw": "   {\n \t\"requestDetails\": {\n \t\t\"modelInfo\": {\n \t\t\t\"modelType\": \"network\"\n \t\t},\n \t\t\"requestInfo\": {\n \t\t\t\"source\": \"VID\",\n \t\t\t\"requestorId\": \"demo\"\n \t\t},\n \t\t\"requestParameters\": {\n \t\t\t\"testApi\": \"VNF_API\"\n \t\t},\n        \"cloudConfiguration\": {\n            \"cloudOwner\": \"{{cloud_owner_name}}\",\n            \"lcpCloudRegionId\": \"{{onap_cloud_region_id}}\",\n            \"tenantId\": \"{{tenant_id}}\"\n        }\n\t}\n}\n\n"
 				},
 				"url": {
-					"raw": "{{url-so}}/onap/so/infra/serviceInstances/v7/{{auto_service_instance_id}}/networks/{{auto_virtual_link_instance_id}}",
+					"raw": "{{url-so}}/onap/so/infra/serviceInstantiation/v7/serviceInstances/{{auto_service_instance_id}}/networks/{{auto_virtual_link_instance_id}}",
 					"host": [
 						"{{url-so}}"
 					],
@@ -350,8 +352,9 @@
 						"onap",
 						"so",
 						"infra",
-						"serviceInstances",
+						"serviceInstantiation",
 						"v7",
+						"serviceInstances",
 						"{{auto_service_instance_id}}",
 						"networks",
 						"{{auto_virtual_link_instance_id}}"
@@ -457,12 +460,12 @@
 							"",
 							"if (pm.response.code === 200){",
 							"for (var i = 0; i < jsonData[\"generic-vnf\"].length; i++) { ",
-							"   if (jsonData[\"generic-vnf\"][i][\"vnf-name\"] === pm.globals.get(\"vnf_instance_name\")) {",
+							"   if (jsonData[\"generic-vnf\"][i][\"vnf-name\"] === pm.environment.get(\"vnf_instance_name\")) {",
 							"       vnf_instance_found = true;",
 							"   }",
 							"}",
 							"}",
-							"tests[\"VNF Instance : \"+ pm.globals.get(\"vnf_instance_name\") +\" no longer exists in AAI inventory\"] = vnf_instance_found === false;"
+							"tests[\"VNF Instance : \"+ pm.environment.get(\"vnf_instance_name\") +\" no longer exists in AAI inventory\"] = vnf_instance_found === false;"
 						],
 						"type": "text/javascript"
 					}
@@ -524,7 +527,7 @@
 							"});",
 							"",
 							"var jsonData = pm.response.json();",
-							"pm.globals.set(\"auto_service_order_id\", jsonData.id);",
+							"pm.environment.set(\"auto_service_order_id\", jsonData.id);",
 							"",
 							"",
 							"",
@@ -579,18 +582,18 @@
 							"",
 							"var jsonData = pm.response.json();",
 							"",
-							"tests[pm.globals.get(\"externalId\")+\" exists\"] = jsonData.externalId === pm.globals.get(\"externalId\");",
-							"tests[\"service_order_id exists\"] = jsonData.id === pm.globals.get(\"auto_service_order_id\");",
+							"tests[pm.environment.get(\"externalId\")+\" exists\"] = jsonData.externalId === pm.environment.get(\"externalId\");",
+							"tests[\"service_order_id exists\"] = jsonData.id === pm.environment.get(\"auto_service_order_id\");",
 							"tests[\"service Order state is : \"+jsonData.state] = jsonData.state === \"completed\";",
 							"tests[\"Service Instance state is : \"+jsonData.orderItem[0].service.serviceState] = jsonData.orderItem[0].service.serviceState === \"active\";",
 							"",
 							"",
 							"if(jsonData.state == \"completed\"){",
-							"    pm.globals.set(\"auto_service_instance_id\", \"\"+jsonData.orderItem[0].service.id+\"\");",
+							"    pm.environment.set(\"auto_service_instance_id\", \"\"+jsonData.orderItem[0].service.id+\"\");",
 							"}",
 							"if (jsonData.orderMessage !== null){",
 							"    tests[\"order message is : \" +jsonData.orderMessage[0].messageInformation] = jsonData.orderMessage[0].messageInformation === \"\";",
-							"    pm.globals.set(\"auto_service_messageInformation\", \"\"+jsonData.orderMessage[0].messageInformation+\"\");",
+							"    pm.environment.set(\"auto_service_messageInformation\", \"\"+jsonData.orderMessage[0].messageInformation+\"\");",
 							"    }",
 							"",
 							""
@@ -660,12 +663,12 @@
 							"",
 							"if (pm.response.code === 200){",
 							"for (var i = 0; i < jsonData.length; i++) { ",
-							"   if (jsonData[i].name === pm.globals.get(\"service_instance_name\")) {",
+							"   if (jsonData[i].name === pm.environment.get(\"service_instance_name\")) {",
 							"       service_instance_found = true;",
 							"   }",
 							"}",
 							"}",
-							"tests[pm.globals.get(\"service_instance_name\")+\" no longer in list\"] = service_instance_found === false;"
+							"tests[pm.environment.get(\"service_instance_name\")+\" no longer in list\"] = service_instance_found === false;"
 						],
 						"type": "text/javascript"
 					}
