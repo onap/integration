@@ -92,5 +92,5 @@ def insert_sdnc_ip_pool(vcpecommon):
     # Prepare single INSERT statement with all IP values
     for ip in range(22,250):
         row_values.append("('', 'VGW', 'AVAILABLE','{0}.{1}')".format(vgw_net,ip))
-    cmds.append("INSERT INTO IPV4_ADDRESS_POOL VALUES" + ', '.join(row_values) + ';')
+    cmds.append("INSERT IGNORE INTO IPV4_ADDRESS_POOL VALUES" + ', '.join(row_values) + ';')
     vcpecommon.execute_cmds_mariadb(cmds)
