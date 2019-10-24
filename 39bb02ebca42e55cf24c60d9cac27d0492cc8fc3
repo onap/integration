@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "53cf3613_0dc7e0aa",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2019-10-24T13:03:32Z",
+      "side": 1,
+      "message": "did we forget to update the version.properties in the repo. repo is still 4.0.0 in elalto branch",
+      "range": {
+        "startLine": 13,
+        "startChar": 9,
+        "endLine": 13,
+        "endChar": 14
+      },
+      "revId": "39bb02ebca42e55cf24c60d9cac27d0492cc8fc3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f59833ea_2d142caf",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2019-10-24T13:03:32Z",
+      "side": 1,
+      "message": "this is going to be 1.5.4 by COB today",
+      "range": {
+        "startLine": 181,
+        "startChar": 9,
+        "endLine": 181,
+        "endChar": 14
+      },
+      "revId": "39bb02ebca42e55cf24c60d9cac27d0492cc8fc3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
