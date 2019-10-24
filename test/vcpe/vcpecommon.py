@@ -550,9 +550,8 @@ class VcpeCommon:
 
     def get_oom_onap_vm_ip(self, keywords):
         vm_ip = {}
-        onap_vm_list = set(['sdc', 'so', 'sdnc', 'aai-inst1', 'robot', self.dcae_ves_collector_name])
         for vm in keywords:
-            if vm in onap_vm_list:
+            if vm in self.host_names:
                 vm_ip[vm] = self.oom_so_sdnc_aai_ip
         return vm_ip
 
