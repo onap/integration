@@ -9,10 +9,10 @@ Integration Release Notes
 
 
 Integration Repo
-================
+----------------
 
 Version: 5.0.0
---------------
+..............
 
 :Release Date: 2019-10-21
 
@@ -29,14 +29,14 @@ Version: 5.0.0
 * Update Postman collection for test
 
 Quick Links:
- 	- `Integration project page <https://wiki.onap.org/display/DW/Integration+Project>`_
+  - `Integration project page <https://wiki.onap.org/display/DW/Integration+Project>`_
   - ` El Alto use testing status page <https://wiki.onap.org/display/DW/2%3A+El+Alto+Release+Integration+Testing+Status>`
 
 ONAP Maturity Testing Notes
-===========================
+---------------------------
 
-For El Alto release, ONAP continues to improve in multiple areas of Scalability,
-Security, Stability and Performance (S3P) metrics.
+For El Alto release, ONAP continues to improve in multiple areas of
+Scalability, Security, Stability and Performance (S3P) metrics.
 
 In addition of the windriver lab, Master and El Alto use cases have been tested
 on Ericcson (Daily Master CI chain), Orange (Daily Master chain, Gating) and
@@ -53,25 +53,26 @@ and stable).
 The results of the tests for the OOM gating can be found ` here
 <https://orange-opensource.gitlab.io/lfn/onap/xtesting-onap-view/index.html>`
 
-Tests dealing with more than 25 test cases are executed on Windriver environment.
+Tests dealing with more than 25 test cases are executed on Windriver
+environment.
 
-** TODO **
 The Integration team ran the 72 hours stability testing (xx% passing rate) and
 full resilience testing (xx% passing rate) at ONAP OpenLabs.
 More details in :ref:`ONAP Maturity Testing Notes <integration-s3p>`.
 
 
 Verified Use Cases and Functional Requirements
-==============================================
+----------------------------------------------
 
 The Integration team verified 22 use cases and functional requirements.
-The details can be found at :ref:`Verified Use Cases and Functional Requirements <docs_usecases>` session.
+The details can be found at
+:ref:`Verified Use Cases and Functional Requirements <docs_usecases>` session.
 
 O-Parent
-========
+--------
 
 Version: 2.2.0
---------------
+..............
 
 :Release Date: 2019-09-03
 
@@ -84,7 +85,7 @@ Version: 2.2.0
 
 
 Version: 2.0.0
---------------
+..............
 
 :Release Date: 2019-03-08
 
@@ -93,7 +94,7 @@ Version: 2.0.0
 * Updated oparent POM files to support LF's new global job template.
 
 Version: 1.2.3
---------------
+..............
 
 :Release Date: 2019-02-11
 
@@ -104,7 +105,7 @@ Version: 1.2.3
 
 
 Version: 1.2.2
---------------
+..............
 
 :Release Date: 2018-11-11
 
@@ -115,7 +116,7 @@ Version: 1.2.2
 
 
 Version: 1.2.1
---------------
+..............
 
 :Release Date: 2018-09-14
 
@@ -126,7 +127,7 @@ Version: 1.2.1
 * Standardize 3rd party library versions
 
 Version: 1.2.0
---------------
+..............
 
 :Release Date: 2018-08-24
 
@@ -136,10 +137,10 @@ Version: 1.2.0
 
 
 Demo Artifacts (HEAT Templates)
-===============================
+-------------------------------
 
 Version: 1.5.0
---------------
+..............
 
 :Release Date: 2019-10-11
 
@@ -152,7 +153,7 @@ Version: 1.5.0
 
 
 Version: 1.4.0
---------------
+..............
 
 :Release Date: 2019-06-13
 
@@ -164,7 +165,7 @@ and TOSCA templates.
 
 
 Version: 1.3.0
---------------
+..............
 
 :Release Date: 2018-11-15
 
@@ -176,7 +177,7 @@ and TOSCA templates.
 
 
 Robot Test Suites
-=================
+-----------------
 
 Version: 1.5.3
 
@@ -215,7 +216,7 @@ Version: 1.4.0
 * Enhance existing use cases test script
 
 Version: 1.3.2
---------------
+..............
 
 :Release Date: 2018-11-20
 
@@ -226,7 +227,7 @@ Version: 1.3.2
 
 
 Version: 1.3.1
---------------
+..............
 
 :Release Date: 2018-11-14
 
