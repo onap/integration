@@ -4,11 +4,11 @@ project_creation_date: '2017-02-10'
 lifecycle_state: 'Incubation'
 project_category: ''
 project_lead: &onap_releng_ptl
-    name: 'Brian Freeman'
-    email: 'bf1936@att.com'
-    id: 'bdfreeman1421'
-    company: 'AT&T'
-    timezone: 'America/New_York'
+    name: 'Morgan Richomme'
+    email: 'morgan.richomme@orange.com'
+    id: 'mrichomme'
+    company: 'Orange'
+    timezone: 'France/Paris'
 primary_contact: *onap_releng_ptl
 issue_tracking:
     type: 'jira'
@@ -28,7 +28,6 @@ meetings:
       repeats: 'weekly'
       time: '14:00 UTC'
 repositories:
-    - 'integration-devtool'
     - 'integration'
 committers:
     - <<: *onap_releng_ptl
@@ -67,11 +66,6 @@ committers:
       company: 'Huawei'
       id: 'gwu'
       timezone: 'America/Santa_Clara'
-    - name: 'Hector Anapan-Lavalle'
-      email: 'ha076r@att.com'
-      company: 'ATT'
-      id: 'ha076r'
-      timezone: 'America/New_York'
     - name: 'Helen Chen'
       email: 'helen.chen@huawei.com'
       company: 'Huawei'
@@ -142,9 +136,17 @@ committers:
       company: 'Nokia'
       id: 'mwagner9'
       timezone: 'Poland/Wroclaw'
+    - name: 'Morgan Richomme'
+      email: 'morgan.richomme@orange.com'
+      company: 'orange'
+      id: 'mrichomme'
+      timezone: 'France/Paris'
 tsc:
     approval: 'https://lists.onap.org/pipermail/onap-tsc'
     changes:
         - type: 'Addition'
           name: 'Brian Freeman, Mariusz Wagner'
           link: 'https://wiki.onap.org/display/DW/TSC+2019-02-21'
+        - type: 'Addition'
+          name: 'Morgan Richomme'
+          link: 'https://wiki.onap.org/display/DW/TSC+2019-10-17'
