@@ -1,0 +1,11 @@
+{
+  "cloud-owner": "CloudOwner",
+  "cloud-region-id": "${region_name}",
+  "cloud-type": "SharedNode",
+  "owner-defined-type": "OwnerType",
+  "cloud-region-version": "v1",
+  "identity-url": "${identity-url}/v${identity_api_version}",
+  "cloud-zone": "CloudZone",
+  "resource-version": "${resource_version}",
+  "relationship-list": ""
+}
