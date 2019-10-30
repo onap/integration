@@ -22,6 +22,30 @@
       "revId": "96dd558a2bf27f561a60c69c6ef5757911e3278c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f224ea3_d9dd1573",
+        "filename": "deployment/heat/onap-rke/staging-image-override.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 4379
+      },
+      "writtenOn": "2019-10-30T12:49:39Z",
+      "side": 1,
+      "message": "Good catch, IMO.\nTabs are illegal indentations as of yaml spec.",
+      "parentUuid": "c7b75503_6992e1a4",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 4
+      },
+      "revId": "96dd558a2bf27f561a60c69c6ef5757911e3278c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
