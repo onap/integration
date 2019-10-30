@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7b75503_6992e1a4",
+        "filename": "deployment/heat/onap-rke/staging-image-override.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-10-30T11:50:45Z",
+      "side": 1,
+      "message": "Are you sure you want these tabs?",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 4
+      },
+      "revId": "96dd558a2bf27f561a60c69c6ef5757911e3278c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
