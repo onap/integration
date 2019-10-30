@@ -180,6 +180,86 @@ class Preload:
                 return None
         return common_dict
 
+    def aai_region_query(self, req_method, json=None, verify=False):
+        """
+        Perform actual AAI API request for region
+        :param req_method: request method ({'get','put'})
+        :param json: Json payload
+        :param verify: SSL verify mode
+        :return:
+        """
+        url, headers, auth = (self.vcpecommon.aai_region_query_url,
+                              self.vcpecommon.aai_headers,
+                              self.vcpecommon.aai_userpass)
+        try:
+            if req_method == 'get':
+                request = requests.get(url, headers=headers, auth=auth,
+                                       verify=verify)
+            elif req_method == 'put':
+                request = requests.put(url, headers=headers, auth=auth,
+                                        verify=verify, json=json)
+            else:
+                raise requests.exceptions.RequestException
+        except requests.exceptions.RequestException as e:
+            self.logger.error("Error connecting to AAI API. Error details: " + str(e.message))
+            return False
+        try:
+            assert request.status_code == 200
+        except AssertionError:
+            self.logger.error('AAI request failed. API returned http code ' + str(request.status_code))
+            return False
+        try:
+            return request.json()
+        except ValueError as e:
+            if req_method == 'get':
+                self.logger.error('Unable to parse AAI response: ' + e.message)
+                return False
+            elif req_method == 'put':
+                return request.ok
+            else:
+                return False
+
+    def preload_aai_data(self, template_aai_region_data):
+        """
+        Update aai region data with identity-url
+        :param template_aai_region_data: path to region data template
+        :return:
+        """
+        request = self.aai_region_query('get')
+        if request:
+            # Check if identity-url already updated (for idempotency)
+            self.logger.debug("Regiond data acquired from AAI:\n" + json.dumps(request,indent=4))
+            try:
+                assert request['identity-url']
+            except KeyError:
+                pass
+            else:
+                self.logger.info('Identity-url already present in {0} data, not updating'.format(self.vcpecommon.cloud['--os-region-name']))
+                return
+
+            # Get resource_version and relationship_list from region data
+            resource_version = request['resource-version']
+            relationship_list = request['relationship-list']
+
+            replace_dict = {'${identity-url}': self.vcpecommon.cloud['--os-auth-url'],
+                            '${identity_api_version}': self.vcpecommon.cloud['--os-identity-api-version'],
+                            '${region_name}': self.vcpecommon.cloud['--os-region-name'],
+                            '${resource_version}': resource_version
+                           }
+            json_data = self.generate_json(template_aai_region_data, replace_dict)
+            json_data['relationship-list'] = relationship_list
+            self.logger.debug('Region update payload:\n' + json.dumps(json_data,indent=4))
+        else:
+            sys.exit(1)
+
+        # Update region data
+        request = self.aai_region_query('put', json_data)
+        if request:
+            self.logger.info('Successully updated identity-url in {0} '
+                    'region'.format(self.vcpecommon.cloud['--os-region-name']))
+        else:
+            sys.exit(1)
+
     def test(self):
         # this is for testing purpose
         name_suffix = datetime.now().strftime('%Y%m%d%H%M')

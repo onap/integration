@@ -223,6 +223,16 @@ class VcpeCommon:
         self.mariadb_galera_endpoint_ip = self.get_k8s_service_endpoint_info('mariadb-galera','ip')
         self.mariadb_galera_endpoint_port = self.get_k8s_service_endpoint_info('mariadb-galera','port')
 
+        #############################################################################################
+        # AAI urls
+        self.aai_region_query_url = 'https://' + self.oom_so_sdnc_aai_ip + ':' +\
+                                    self.aai_query_port +\
+                                    '/aai/v14/cloud-infrastructure/cloud-regions/cloud-region/CloudOwner/' +\
+                                    self.cloud['--os-region-name']
+        self.aai_headers = {'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                            'X-FromAppId': 'postman', 'X-TransactionId': '9999'}
+
     def heatbridge(self, openstack_stack_name, svc_instance_uuid):
         """
         Add vserver information to AAI
