@@ -218,6 +218,9 @@ def init():
     vcpecommon = VcpeCommon()
     init_sdc(vcpecommon)
     download_vcpe_service_templates(vcpecommon)
+    preloader = preload.Preload(vcpecommon)
+    template_aai_region_data = vcpecommon.find_file('aai_region_data', 'json', 'preload_templates')
+    preloader.preload_aai_data(template_aai_region_data)
 
 
 def init_sdc(vcpecommon):
