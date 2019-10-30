@@ -23,7 +23,7 @@ class SoUtils:
         self.vcpecommon = vcpecommon
         if api_version not in self.vcpecommon.so_req_api_url:
             self.logger.error('Incorrect SO API version: %s', api_version)
-            sys.exit()
+            sys.exit(1)
         self.service_req_api_url = self.vcpecommon.so_req_api_url[api_version]
 
     def submit_create_req(self, req_json, req_type, service_instance_id=None, vnf_instance_id=None):
@@ -240,7 +240,7 @@ class SoUtils:
 
         self.logger.error("AAI traversal didn't finish in 30 seconds. Something is wrong. Type {0}, UUID {1}".format(
             node_type, uuid))
-        sys.exit()
+        sys.exit(1)
 
     def create_entire_service(self, csar_file, vnf_template_file, preload_dict, name_suffix, heatbridge=False):
         """
@@ -319,7 +319,7 @@ class SoUtils:
             # wait for AAI to complete traversal
             if not vnf_instance_id:
                 self.logger.error('No VNF instance ID returned!')
-                sys.exit()
+                sys.exit(1)
             self.wait_for_aai('vnf', vnf_instance_id)
 
         preloader = preload.Preload(self.vcpecommon)
@@ -329,7 +329,7 @@ class SoUtils:
         if len(parser.vfmodule_models) == 1:
             if not vnf_instance_id or not vnf_model:
                 self.logger.error('Invalid VNF instance ID or VNF model!')
-                sys.exit()
+                sys.exit(1)
 
             model = parser.vfmodule_models[0]
             vfmodule_instance_name = '_'.join([self.vcpecommon.instance_name_prefix['vfmodule'],

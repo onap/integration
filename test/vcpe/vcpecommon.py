@@ -301,14 +301,14 @@ class VcpeCommon:
                 if filenamepath:
                     self.logger.error('Multiple files found for *{0}*.{1} in '
                                       'directory {2}'.format(file_name_keyword, file_ext, search_dir))
-                    sys.exit()
+                    sys.exit(1)
                 filenamepath = os.path.abspath(os.path.join(search_dir, file_name))
 
         if filenamepath:
             return filenamepath
         else:
             self.logger.error("Cannot find *{0}*{1} in directory {2}".format(file_name_keyword, file_ext, search_dir))
-            sys.exit()
+            sys.exit(1)
 
     @staticmethod
     def network_name_to_subnet_name(network_name):
@@ -359,7 +359,7 @@ class VcpeCommon:
                 policy_json = json.load(f)
             except ValueError:
                 self.logger.error(policy_template_file + " doesn't seem to contain valid JSON data")
-                sys.exit()
+                sys.exit(1)
 
         # Check policy already applied
         requests.packages.urllib3.disable_warnings()
@@ -370,13 +370,13 @@ class VcpeCommon:
             self.logger.error('Failure in checking CL policy existence. '
                                'Policy-pap responded with HTTP code {0}'.format(
                                policy_exists_req.status_code))
-            sys.exit()
+            sys.exit(1)
 
         try:
             policy_exists_json = policy_exists_req.json()
         except ValueError as e:
             self.logger.error('Policy-pap request failed: ' + e.message)
-            sys.exit()
+            sys.exit(1)
 
         try:
             assert policy_exists_json['groups'][0]['pdpSubgroups'] \
@@ -396,7 +396,7 @@ class VcpeCommon:
         if policy_create_req.status_code != 200:
             self.logger.error('Failed creating policy. Policy-api responded'
                               ' with HTTP code {0}'.format(policy_create_req.status_code))
-            sys.exit()
+            sys.exit(1)
 
         try:
             policy_version = json.loads(policy_create_req.text)['policy-version']
@@ -413,7 +413,7 @@ class VcpeCommon:
         if policy_insert_req.status_code != 200:
             self.logger.error('Policy PAP request failed with HTTP code'
                               '{0}'.format(policy_insert_req.status_code))
-            sys.exit()
+            sys.exit(1)
         self.logger.info('Successully pushed closed loop Policy')
 
     def is_node_in_aai(self, node_type, node_uuid):
@@ -427,7 +427,7 @@ class VcpeCommon:
             key = 'vnf-id'
         else:
             logging.error('Invalid node_type: ' + node_type)
-            sys.exit()
+            sys.exit(1)
 
         url = 'https://{0}:{1}/aai/v11/search/nodes-query?search-node-type={2}&filter={3}:EQUALS:{4}'.format(
             self.hosts['aai-inst1'], self.aai_query_port, search_node_type, key, node_uuid)
@@ -545,7 +545,7 @@ class VcpeCommon:
             self.logger.error('Cannot find all desired IP addresses for %s.', keywords)
             self.logger.error(json.dumps(ip_dict, indent=4, sort_keys=True))
             self.logger.error('Temporarily continue.. remember to check back vcpecommon.py line: 396')
-#            sys.exit()
+#            sys.exit(1)
         return ip_dict
 
     def get_oom_onap_vm_ip(self, keywords):
@@ -569,7 +569,7 @@ class VcpeCommon:
             resp = api.read_namespaced_service(service, self.onap_namespace)
         except client.rest.ApiException as e:
             self.logger.error('Error while making k8s API request: ' + e.body)
-            sys.exit()
+            sys.exit(1)
 
         return resp.spec.cluster_ip
 
@@ -590,7 +590,7 @@ class VcpeCommon:
             resp = api.read_namespaced_endpoints(service, self.onap_namespace)
         except client.rest.ApiException as e:
             self.logger.error('Error while making k8s API request: ' + e.body)
-            sys.exit()
+            sys.exit(1)
 
         if subset == "ip":
             return resp.subsets[0].addresses[0].ip

@@ -45,7 +45,7 @@ def config_sniro(vcpecommon, vgmux_svc_instance_uuid, vbrg_svc_instance_uuid):
 
     if not (tunnelxconn_ar_name and brg_ar_name and vgw_name):
         logger.error('Cannot find all names from %s.', vcperescust_csar)
-        sys.exit()
+        sys.exit(1)
 
     preloader.preload_sniro(template_sniro_data, template_sniro_request, tunnelxconn_ar_name, vgw_name, brg_ar_name,
                             vgmux_svc_instance_uuid, vbrg_svc_instance_uuid)
@@ -77,7 +77,7 @@ def deploy_brg_only():
         svc_instance_uuid[keyword] = create_one_service(vcpecommon, csar_file, vnf_template_file, preload_dict,
                                                         name_suffix, heatbridge)
         if not svc_instance_uuid[keyword]:
-            sys.exit()
+            sys.exit(1)
 
     # Setting up SNIRO
     config_sniro(vcpecommon, svc_instance_uuid['gmux'], svc_instance_uuid['brg'])
@@ -97,7 +97,7 @@ def deploy_infra():
     logger.debug(json.dumps(preload_dict, indent=4, sort_keys=True))
     if not preload_dict:
         logger.error("Failed to preload networks.")
-        sys.exit()
+        sys.exit(1)
     vcpecommon.save_preload_data(preload_dict)
 
     # create multiple services based on the pre-determined order
@@ -109,7 +109,7 @@ def deploy_infra():
         svc_instance_uuid[keyword] = create_one_service(vcpecommon, csar_file, vnf_template_file, preload_dict,
                                                         name_suffix, heatbridge)
         if not svc_instance_uuid[keyword]:
-            sys.exit()
+            sys.exit(1)
 
     vcpecommon.save_object(svc_instance_uuid, vcpecommon.svc_instance_uuid_file)
     # Setting up SNIRO
@@ -141,7 +141,7 @@ def deploy_custom_service():
     host_dic = {k: vcpecommon.hosts[k] for k in nodes}
     if False:
         if not vcpecommon.delete_vxlan_interfaces(host_dic):
-            sys.exit()
+            sys.exit(1)
         custom_service.del_all_vgw_stacks(vcpecommon.vgw_name_keyword)
 
     #custom_service.clean_up_sdnc()

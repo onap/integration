@@ -47,7 +47,7 @@ class Preload:
         if 2 != r.status_code / 100:
             self.logger.debug(r.content)
             self.logger.error('Clearing SNIRO date failed.')
-            sys.exit()
+            sys.exit(1)
 
     def preload_sniro(self, template_sniro_data, template_sniro_request, tunnelxconn_ar_name, vgw_name, vbrg_ar_name,
                       vgmux_svc_instance_uuid, vbrg_svc_instance_uuid):
@@ -76,7 +76,7 @@ class Preload:
             response = r.json()
             self.logger.debug(json.dumps(response, indent=4, sort_keys=True))
             self.logger.error('SNIRO preloading failed.')
-            sys.exit()
+            sys.exit(1)
 
         return True
 
@@ -220,7 +220,7 @@ class Preload:
 
         if not (tunnelxconn_ar_name and brg_ar_name and vgw_name):
             self.logger.error('Cannot find all names from %s.', vcperescust_csar)
-            sys.exit()
+            sys.exit(1)
 
         vgmux_svc_instance_uuid = '88888888888888'
         vbrg_svc_instance_uuid = '999999999999999'
