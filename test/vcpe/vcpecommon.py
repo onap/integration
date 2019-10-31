@@ -362,7 +362,6 @@ class VcpeCommon:
                 sys.exit(1)
 
         # Check policy already applied
-        requests.packages.urllib3.disable_warnings()
         policy_exists_req = requests.get(self.policy_pap_get_url.format(
                             p_pap_cluster_ip), auth=self.policy_userpass,
                             verify=False, headers=self.policy_headers)
@@ -433,7 +432,6 @@ class VcpeCommon:
             self.hosts['aai-inst1'], self.aai_query_port, search_node_type, key, node_uuid)
 
         headers = {'Content-Type': 'application/json', 'Accept': 'application/json', 'X-FromAppID': 'vCPE-Robot', 'X-TransactionId': 'get_aai_subscr'}
-        requests.packages.urllib3.disable_warnings()
         r = requests.get(url, headers=headers, auth=self.aai_userpass, verify=False)
         response = r.json()
         self.logger.debug('aai query: ' + url)
