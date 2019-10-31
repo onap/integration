@@ -225,7 +225,12 @@ if [ ! -z "__helm_deploy_delay__" ]; then
 fi
 
 # Deploy ONAP
-helm deploy dev local/onap -f ~/oom/kubernetes/onap/resources/environments/public-cloud.yaml -f ~/integration-override.yaml --namespace $NAMESPACE --verbose
+if [ ! -z "__additional_override__" ]; then
+     helm deploy dev local/onap -f ~/oom/kubernetes/onap/resources/environments/public-cloud.yaml -f ~/integration-override.yaml -f __additional_override__ --namespace $NAMESPACE –verbose
+else
+     helm deploy dev local/onap -f ~/oom/kubernetes/onap/resources/environments/public-cloud.yaml -f ~/integration-override.yaml  --namespace $NAMESPACE –verbose
+fi
+
 
 # re-install original helm deploy plugin
 rsync -avt ~/oom/kubernetes/helm/plugins ~/.helm/

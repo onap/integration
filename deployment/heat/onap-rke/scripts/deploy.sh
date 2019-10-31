@@ -25,8 +25,9 @@ fi
 
 
 usage() {
-    echo "Usage: $0 [ -n <number of VMs {2-15}> ][ -s <stack name> ][ -d <domain> ][ -i <integration_branch> ][ -o <oom_branch> ][ -r ][ -q ] <env>" 1>&2;
+    echo "Usage: $0 [-b staging] [ -n <number of VMs {2-15}> ][ -s <stack name> ][ -d <domain> ][ -i <integration_branch> ][ -o <oom_branch> ][ -r ][ -q ] <env>" 1>&2;
 
+    echo "b:    branch for staging image override This must be staging to trigger staging image override." 1>&2;
     echo "n:    Number of worker VMs to deploy. This number must be between 2 and 15." 1>&2;
     echo "s:    Stack name. This name will be used for naming of resources." 1>&2;
     echo "d:    Base domain name to be used in portal UI URLs." 1>&2;
@@ -39,8 +40,15 @@ usage() {
 }
 
 
-while getopts ":n:s:d:i:o:rq" o; do
+while getopts ":b:n:s:d:i:o:rq" o; do
     case "${o}" in
+        b)
+            if [[ ! ${OPTARG} =~ ^[0-9]+$ ]];then
+                branch=${OPTARG}
+            else
+                branch=master
+            fi
+            ;;
         n)
             if [[ ${OPTARG} =~ ^[0-9]+$ ]];then
                 if [ ${OPTARG} -ge 2 -a ${OPTARG} -le 15 ]; then
@@ -147,8 +155,12 @@ for n in $(seq 1 5); do
         ./scripts/gen-onap-oom-yaml.sh $vm_num > onap-oom.yaml~
     fi
 
-    if ! openstack stack create -t ./onap-oom.yaml~ -e $ENV_FILE~ $stack_name --parameter integration_gerrit_branch=$integration_gerrit_branch --parameter oom_gerrit_branch=$oom_gerrit_branch --parameter portal_hostname=$portal_hostname; then
-        break
+    if [ "$branch" == "staging" ]  ; then
+          if ! openstack stack create -t ./onap-oom.yaml~ -e $ENV_FILE~ $stack_name --parameter integration_gerrit_branch=$integration_gerrit_branch --parameter oom_gerrit_branch=$oom_gerrit_branch --parameter portal_hostname=$portal_hostname --parameter additional_override="~/integration/deployment/heat/onap-rke/staging-image-override.yaml" ; then
+          break
+    else
+          if ! openstack stack create -t ./onap-oom.yaml~ -e $ENV_FILE~ $stack_name --parameter integration_gerrit_branch=$integration_gerrit_branch --parameter oom_gerrit_branch=$oom_gerrit_branch --parameter portal_hostname=$portal_hostname; then
+          break
     fi
 
     while [ "CREATE_IN_PROGRESS" == "$(openstack stack show -c stack_status -f value $stack_name)" ]; do
