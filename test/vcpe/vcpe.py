@@ -13,7 +13,13 @@ import vcpe_custom_service
 import csar_parser
 import config_sdnc_so
 import json
+import urllib3
 
+# disable InsecureRequestWarning warning in requests < 2.16.0
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+# disable InsecureRequestWarning warning in requests >= 2.16.0
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 def config_sniro(vcpecommon, vgmux_svc_instance_uuid, vbrg_svc_instance_uuid):
     logger = logging.getLogger(__name__)
