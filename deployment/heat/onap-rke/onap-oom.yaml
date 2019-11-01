@@ -11,6 +11,10 @@ parameters:
   apt_proxy:
     type: string
 
+  additional_override:
+    type: string
+    default: "master"
+
   public_net_id:
     type: string
     description: The ID of the Public network for floating IP address allocation
