@@ -156,11 +156,13 @@ for n in $(seq 1 5); do
     fi
 
     if [ "$branch" == "staging" ]  ; then
-          if ! openstack stack create -t ./onap-oom.yaml~ -e $ENV_FILE~ $stack_name --parameter integration_gerrit_branch=$integration_gerrit_branch --parameter oom_gerrit_branch=$oom_gerrit_branch --parameter portal_hostname=$portal_hostname --parameter additional_override="~/integration/deployment/heat/onap-rke/staging-image-override.yaml" ; then
+          if ! openstack stack create -t ./onap-oom.yaml~ -e $ENV_FILE~ $stack_name --parameter integration_gerrit_branch=$integration_gerrit_branch --parameter oom_gerrit_branch=$oom_gerrit_branch --parameter portal_hostname=$portal_hostname --parameter additional_override='~/integration/deployment/heat/onap-rke/staging-image-override.yaml' ; then
           break
+	  fi
     else
           if ! openstack stack create -t ./onap-oom.yaml~ -e $ENV_FILE~ $stack_name --parameter integration_gerrit_branch=$integration_gerrit_branch --parameter oom_gerrit_branch=$oom_gerrit_branch --parameter portal_hostname=$portal_hostname; then
           break
+          fi
     fi
 
     while [ "CREATE_IN_PROGRESS" == "$(openstack stack show -c stack_status -f value $stack_name)" ]; do
@@ -184,6 +186,7 @@ for n in $(seq 1 5); do
 
     echo Error: OpenStack infrastructure issue: unable to reach NFS server "$NFS_IP"
     sleep 10
+
 done
 
 if ! timeout 1 ping -c 1 "$NFS_IP"; then
