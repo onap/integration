@@ -112,46 +112,33 @@ Here are the main steps to run the use case in Integration lab environment, wher
 
    ete-k8s.sh onap distributevCPEResCust
 
-10. Manually copy vCPE customer service csar (starting with service-Vcperescust) under Robot container /tmp/csar directory to Rancher vcpe/csar directory, now you should have these files:
-
-::
-
-    root@sb00-nfs:~/integration/test/vcpe/csar# ls -l
-    total 528
-    -rw-r--r-- 1 root root 126545 Jun 26 11:28 service-Demovcpeinfra-csar.csar
-    -rw-r--r-- 1 root root  82053 Jun 26 11:28 service-Demovcpevbng-csar.csar
-    -rw-r--r-- 1 root root  74179 Jun 26 11:28 service-Demovcpevbrgemu-csar.csar
-    -rw-r--r-- 1 root root  79626 Jun 26 11:28 service-Demovcpevgmux-csar.csar
-    -rw-r--r-- 1 root root  78156 Jun 26 11:28 service-Demovcpevgw-csar.csar
-    -rw-r--r-- 1 root root  83892 Jun 26 11:28 service-Vcperescust20190625D996-csar.csar
-
-11. Instantiate vCPE infra services
+10. Instantiate vCPE infra services
 
 ::
 
     vcpe.py infra
 
-12. From Rancher node run vcpe healthcheck command to check connectivity from sdnc to brg and gmux, and vpp configuration of brg and gmux. Write down BRG MAC address printed out at the last line
+11. From Rancher node run vcpe healthcheck command to check connectivity from sdnc to brg and gmux, and vpp configuration of brg and gmux. Write down BRG MAC address printed out at the last line
 
 ::
 
     healthcheck-k8s.py --namespace <namespace name> --environment <env name>
 
-13. Instantiate vCPE customer service. Input the BRG MAC when prompt
+12. Instantiate vCPE customer service. Input the BRG MAC when prompt
 
 ::
 
     vcpe.py customer
 
-14. Update libevel.so in vGMUX VM and restart the VM. This allows vGMUX to send events to VES collector in close loop test. See tutorial wiki for details
+13. Update libevel.so in vGMUX VM and restart the VM. This allows vGMUX to send events to VES collector in close loop test. See tutorial wiki for details
 
-15. Run heatbridge. The heatbridge command usage: demo-k8s.sh <namespace> heatbridge <stack_name> <service_instance_id> <service> <oam-ip-address>, please refer to vCPE tutorial page on how to fill in those paraemters. See an example as following:
+14. Run heatbridge. The heatbridge command usage: demo-k8s.sh <namespace> heatbridge <stack_name> <service_instance_id> <service> <oam-ip-address>, please refer to vCPE tutorial page on how to fill in those paraemters. See an example as following:
 
 ::
 
     ~/integration/test/vcpe# ~/oom/kubernetes/robot/demo-k8s.sh onap heatbridge vcpe_vfmodule_e2744f48729e4072b20b_201811262136 d8914ef3-3fdb-4401-adfe-823ee75dc604 vCPEvGMUX 10.0.101.21
 
-16. Start closed loop test by triggering packet drop VES event, and monitor if vGMUX is restarting. You may need to run the command twice if the first run fails
+15. Start closed loop test by triggering packet drop VES event, and monitor if vGMUX is restarting. You may need to run the command twice if the first run fails
 
 :: 
 
