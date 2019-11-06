@@ -25,6 +25,7 @@ class SoUtils:
             self.logger.error('Incorrect SO API version: %s', api_version)
             sys.exit(1)
         self.service_req_api_url = self.vcpecommon.so_req_api_url[api_version]
+        self.testApi = 'VNF_API'
 
     def submit_create_req(self, req_json, req_type, service_instance_id=None, vnf_instance_id=None):
         """
@@ -119,11 +120,16 @@ class SoUtils:
 
     def generate_vnf_or_network_request(self, req_type, instance_name, vnf_or_network_model, service_instance_id,
                                         service_model):
+        if self.vcpecommon.gra_api_flag:
+		self.testApi = 'GR_API'
         req_details = {
             'modelInfo':  vnf_or_network_model,
             'cloudConfiguration': {"lcpCloudRegionId": self.vcpecommon.os_region_name,
                                    "tenantId": self.vcpecommon.os_tenant_id},
-            'requestParameters':  {"userParams": []},
+            'requestParameters':  {
+                "userParams": [],
+                "testApi": self.testApi
+                },
             'platform': {"platformName": "Platform-Demonstration"}
         }
         self.add_req_info(req_details, instance_name, self.vcpecommon.product_family_id)
@@ -132,11 +138,16 @@ class SoUtils:
 
     def generate_vfmodule_request(self, instance_name, vfmodule_model, service_instance_id,
                                         service_model, vnf_instance_id, vnf_model):
+        if self.vcpecommon.gra_api_flag:
+		self.testApi = 'GR_API'
         req_details = {
             'modelInfo':  vfmodule_model,
             'cloudConfiguration': {"lcpCloudRegionId": self.vcpecommon.os_region_name,
                                    "tenantId": self.vcpecommon.os_tenant_id},
-            'requestParameters': {"usePreload": 'true'}
+            'requestParameters': {
+                "usePreload": 'true',
+                "testApi": self.testApi
+                }
         }
         self.add_req_info(req_details, instance_name, self.vcpecommon.product_family_id)
         self.add_related_instance(req_details, service_instance_id, service_model)
@@ -144,18 +155,25 @@ class SoUtils:
         return {'requestDetails': req_details}
 
     def generate_service_request(self, instance_name, model):
+        if self.vcpecommon.gra_api_flag:
+		self.testApi = 'GR_API'
+
+        self.logger.info('testApi' + self.testApi)
+
         req_details = {
             'modelInfo':  model,
             'subscriberInfo':  {'globalSubscriberId': self.vcpecommon.global_subscriber_id},
             'requestParameters': {
                 "userParams": [],
                 "subscriptionServiceType": "vCPE",
-                "aLaCarte": 'true'
+                "aLaCarte": 'true',
+                "testApi": self.testApi
             }
         }
         self.add_req_info(req_details, instance_name)
         self.add_project_info(req_details)
         self.add_owning_entity(req_details)
+        self.logger.info(json.dumps(req_details, indent=2, sort_keys=True))
         return {'requestDetails': req_details}
 
     def add_project_info(self, req_details):
@@ -323,8 +341,12 @@ class SoUtils:
             self.wait_for_aai('vnf', vnf_instance_id)
 
         preloader = preload.Preload(self.vcpecommon)
-        preloader.preload_vfmodule(vnf_template_file, svc_instance_id, parser.vnf_models[0], parser.vfmodule_models[0],
-                                   preload_dict, name_suffix)
+        if self.vcpecommon.gra_api_flag:
+                preloader.preload_vfmodule(vnf_template_file, svc_instance_id, parser.vnf_models[0], parser.vfmodule_models[0],
+                                   preload_dict, name_suffix, True)
+        else:
+                preloader.preload_vfmodule(vnf_template_file, svc_instance_id, parser.vnf_models[0], parser.vfmodule_models[0],
+                                   preload_dict, name_suffix, False)
         # create VF Module
         if len(parser.vfmodule_models) == 1:
             if not vnf_instance_id or not vnf_model:

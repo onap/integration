@@ -80,7 +80,7 @@ def deploy_brg_only():
             sys.exit(1)
 
     # Setting up SNIRO
-    config_sniro(vcpecommon, svc_instance_uuid['gmux'], svc_instance_uuid['brg'])
+    config_sniro(vcpecommon, svc_instance_uuid['gmux'], svc_instance_uuid['brgemu'])
 
 
 def deploy_infra():
@@ -88,8 +88,8 @@ def deploy_infra():
 
     vcpecommon = VcpeCommon()
 
-    # preload all networks
-    network_template = vcpecommon.find_file('network', 'json', 'preload_templates')
+    # preload all VNF-API networks
+    network_template = vcpecommon.find_file('network.', 'json', 'preload_templates')
     name_suffix = datetime.now().strftime('%Y%m%d%H%M')
     preloader = preload.Preload(vcpecommon)
     preload_dict = preloader.preload_all_networks(network_template, name_suffix)
@@ -100,20 +100,39 @@ def deploy_infra():
         sys.exit(1)
     vcpecommon.save_preload_data(preload_dict)
 
+    # preload all GRA-API networks
+    network_template_gra = vcpecommon.find_file('networkgra.', 'json', 'preload_templates')
+    preloader = preload.Preload(vcpecommon)
+    preload_dict_gra = preloader.preload_all_networks(network_template_gra, name_suffix)
+    logger.debug('Initial preload dictionary:')
+    logger.debug(json.dumps(preload_dict, indent=4, sort_keys=True))
+    if not preload_dict_gra:
+        logger.error("Failed to preload networks.")
+        sys.exit(1)
+    vcpecommon.save_preload_data(preload_dict_gra)
+
     # create multiple services based on the pre-determined order
     svc_instance_uuid = {}
-    for keyword in ['infra', 'bng', 'gmux', 'brg']:
+    for keyword in ['infra', 'bng', 'gmux', 'brgemu']:
+        keyword_vnf=keyword + "_"
+        keyword_gra=keyword + "gra_"
         heatbridge = 'gmux' == keyword
         csar_file = vcpecommon.find_file(keyword, 'csar', 'csar')
-        vnf_template_file = vcpecommon.find_file(keyword, 'json', 'preload_templates')
-        svc_instance_uuid[keyword] = create_one_service(vcpecommon, csar_file, vnf_template_file, preload_dict,
+        vnf_template_file = vcpecommon.find_file(keyword_vnf, 'json', 'preload_templates')
+        gra_template_file = vcpecommon.find_file(keyword_gra, 'json', 'preload_templates')
+        if vcpecommon.gra_api_flag:
+             svc_instance_uuid[keyword] = create_one_service(vcpecommon, csar_file, gra_template_file, preload_dict,
+                                                        name_suffix, heatbridge)
+        else:
+             svc_instance_uuid[keyword] = create_one_service(vcpecommon, csar_file, vnf_template_file, preload_dict,
                                                         name_suffix, heatbridge)
         if not svc_instance_uuid[keyword]:
             sys.exit(1)
 
     vcpecommon.save_object(svc_instance_uuid, vcpecommon.svc_instance_uuid_file)
+
     # Setting up SNIRO
-    config_sniro(vcpecommon, svc_instance_uuid['gmux'], svc_instance_uuid['brg'])
+    config_sniro(vcpecommon, svc_instance_uuid['gmux'], svc_instance_uuid['brgemu'])
 
     print('----------------------------------------------------------------------------------------------------')
     print('Congratulations! The following have been completed correctly:')
@@ -182,7 +201,7 @@ def closed_loop(lossrate=0):
 def init_so_sdnc():
     logger = logging.getLogger('__name__')
     vcpecommon = VcpeCommon()
-    config_sdnc_so.insert_sdnc_ip_pool(vcpecommon)
+    #config_sdnc_so.insert_sdnc_ip_pool(vcpecommon)
     config_sdnc_so.insert_customer_service_to_so(vcpecommon)
     #config_sdnc_so.insert_customer_service_to_sdnc(vcpecommon)
     vgw_vfmod_name_index=  0
@@ -213,7 +232,7 @@ def tmp_sniro():
 
     svc_instance_uuid = vcpecommon.load_object(vcpecommon.svc_instance_uuid_file)
     # Setting up SNIRO
-    config_sniro(vcpecommon, svc_instance_uuid['gmux'], svc_instance_uuid['brg'])
+    config_sniro(vcpecommon, svc_instance_uuid['gmux'], svc_instance_uuid['brgemu'])
 
 
 def test(): 
@@ -242,7 +261,7 @@ if __name__ == '__main__':
             init()
             init_so_sdnc()
     elif sys.argv[1] == 'infra':
-        if 'y' == raw_input('Ready to deploy infrastructure? y/n: ').lower():
+        #if 'y' == raw_input('Ready to deploy infrastructure? y/n: ').lower():
             deploy_infra()
     elif sys.argv[1] == 'customer':
         if 'y' == raw_input('Ready to deploy customer service? y/n: ').lower():

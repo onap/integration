@@ -30,7 +30,12 @@ class VcpeCommon:
 
     #############################################################################################
     # set the openstack cloud access credentials here
-    oom_mode = False
+    oom_mode = True
+
+    #############################################################################################
+    # set the gra_api flag
+    #gra_api_flag= False
+    gra_api_flag= True
 
     ###########################
     # set Openstack credentials
@@ -40,10 +45,10 @@ class VcpeCommon:
         '--os-username': 'kxi',
         '--os-user-domain-id': 'default',
         '--os-project-domain-id': 'default',
-        '--os-tenant-id': 'bc43d50ffcb84750bac0c1707a9a765b' if oom_mode else '1e097c6713e74fd7ac8e4295e605ee1e',
+        '--os-tenant-id': '712b6016580e410b9abfec9ca34953ce' if oom_mode else '1e097c6713e74fd7ac8e4295e605ee1e',
         '--os-region-name': 'RegionOne',
         '--os-password': 'n3JhGMGuDzD8',
-        '--os-project-domain-name': 'Integration-SB-03' if oom_mode else 'Integration-SB-07',
+        '--os-project-domain-name': 'Integration-Release-Daily' if oom_mode else 'Integration-SB-07',
         '--os-identity-api-version': '3'
     }
 
@@ -51,8 +56,8 @@ class VcpeCommon:
     # set oam and public network which must exist in openstack before deployment
     # CHANGEME part
     common_preload_config = {
-        'oam_onap_net': 'oam_network_2No2' if oom_mode else 'oam_onap_lAky',
-        'oam_onap_subnet': 'oam_network_2No2' if oom_mode else 'oam_onap_lAky',
+        'oam_onap_net': 'oam_network_exxC' if oom_mode else 'oam_onap_lAky',
+        'oam_onap_subnet': 'oam_network_exxC' if oom_mode else 'oam_onap_lAky',
         'public_net': 'external',
         'public_net_id': '971040b2-7059-49dc-b220-4fab50cb2ad4'
     }
@@ -176,6 +181,8 @@ class VcpeCommon:
         self.sdnc_headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
         self.sdnc_preload_network_url = 'https://' + self.hosts['sdnc'] + \
                                         ':' + self.sdnc_preloading_port + '/restconf/operations/VNF-API:preload-network-topology-operation'
+        self.sdnc_preload_network_gra_url = 'https://' + self.hosts['sdnc'] + \
+                                        ':' + self.sdnc_preloading_port + '/restconf/operations/GENERIC-RESOURCE-API:preload-network-topology-operation'
         self.sdnc_preload_vnf_url = 'https://' + self.hosts['sdnc'] + \
                                     ':' + self.sdnc_preloading_port + '/restconf/operations/VNF-API:preload-vnf-topology-operation'
         self.sdnc_preload_gra_url = 'https://' + self.hosts['sdnc'] + \
