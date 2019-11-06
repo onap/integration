@@ -131,7 +131,7 @@ class Preload:
         self.logger.info('Preloading vGW-GRA')
         return self.preload(template_file, replace_dict, self.vcpecommon.sdnc_preload_gra_url)
 
-    def preload_vfmodule(self, template_file, service_instance_id, vnf_model, vfmodule_model, common_dict, name_suffix):
+    def preload_vfmodule(self, template_file, service_instance_id, vnf_model, vfmodule_model, common_dict, name_suffix , gra_api_flag):
         """
         :param template_file:
         :param service_instance_id:
@@ -161,7 +161,10 @@ class Preload:
                         '${suffix}': name_suffix}
         replace_dict.update(common_dict)
         self.logger.info('Preloading VF Module ' + vfmodule_name)
-        return self.preload(template_file, replace_dict, self.vcpecommon.sdnc_preload_vnf_url)
+	if  gra_api_flag:
+             return self.preload(template_file, replace_dict, self.vcpecommon.sdnc_preload_gra_url)
+        else:
+             return self.preload(template_file, replace_dict, self.vcpecommon.sdnc_preload_vnf_url)
 
     def preload_all_networks(self, template_file, name_suffix):
         common_dict = {'${' + k + '}': v for k, v in self.vcpecommon.common_preload_config.items()}
@@ -191,14 +194,21 @@ class Preload:
 
         keys = ['infra', 'bng', 'gmux', 'brg']
         for key in keys:
+            key_vnf= key + "_"
+            key_gra = key + "gra_"
             csar_file = self.vcpecommon.find_file(key, 'csar', 'csar')
-            template_file = self.vcpecommon.find_file(key, 'json', 'preload_templates')
-            if csar_file and template_file:
+            template_file = self.vcpecommon.find_file(key_vnf, 'json', 'preload_templates')
+            template_file_gra = self.vcpecommon.find_file(key_gra, 'json', 'preload_templates')
+            if csar_file and template_file and template_file_gra:
                 parser = csar_parser.CsarParser()
                 parser.parse_csar(csar_file)
                 service_instance_id = 'test112233'
+ 		# preload both VNF-API and GRA-API
                 preloader.preload_vfmodule(template_file, service_instance_id, parser.vnf_models[0],
-                                           parser.vfmodule_models[0], network_dict, name_suffix)
+                                           parser.vfmodule_models[0], network_dict, name_suffix, False)
+                preloader.preload_vfmodule(template_file_gra, service_instance_id, parser.vnf_models[0],
+                                           parser.vfmodule_models[0], network_dict, name_suffix, True)
+
 
     def test_sniro(self):
         template_sniro_data = self.vcpecommon.find_file('sniro_data', 'json', 'preload_templates')

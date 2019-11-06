@@ -25,6 +25,7 @@ class SoUtils:
             self.logger.error('Incorrect SO API version: %s', api_version)
             sys.exit(1)
         self.service_req_api_url = self.vcpecommon.so_req_api_url[api_version]
+        self.testApi = 'VNF_API'
 
     def submit_create_req(self, req_json, req_type, service_instance_id=None, vnf_instance_id=None):
         """
@@ -144,13 +145,17 @@ class SoUtils:
         return {'requestDetails': req_details}
 
     def generate_service_request(self, instance_name, model):
+        if self.vcpecommon.gra_api_flag:
+		self.testApi = 'GR_API'
+
         req_details = {
             'modelInfo':  model,
             'subscriberInfo':  {'globalSubscriberId': self.vcpecommon.global_subscriber_id},
             'requestParameters': {
                 "userParams": [],
                 "subscriptionServiceType": "vCPE",
-                "aLaCarte": 'true'
+                "aLaCarte": 'true',
+                "testApi": self.testApi
             }
         }
         self.add_req_info(req_details, instance_name)

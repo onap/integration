@@ -32,6 +32,10 @@ class VcpeCommon:
     # set the openstack cloud access credentials here
     oom_mode = False
 
+    #############################################################################################
+    # set the gra_api flag
+    gra_api_flag= False
+
     ###########################
     # set Openstack credentials
     # CHANGEME part
