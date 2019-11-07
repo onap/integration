@@ -118,13 +118,13 @@ Here are the main steps to run the use case in Integration lab environment, wher
 
     vcpe.py infra
 
-11. From Rancher node run vcpe healthcheck command to check connectivity from sdnc to brg and gmux, and vpp configuration of brg and gmux. Write down BRG MAC address printed out at the last line
+11. From Rancher node run vcpe healthcheck command to check connectivity from sdnc to brg and gmux, and vpp configuration of brg and gmux.
 
 ::
 
     healthcheck-k8s.py --namespace <namespace name> --environment <env name>
 
-12. Instantiate vCPE customer service. Input the BRG MAC when prompt
+12. Instantiate vCPE customer service.
 
 ::
 

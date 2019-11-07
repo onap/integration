@@ -116,7 +116,7 @@ class VcpeCommon:
         self.aai_query_port = '30233' if self.oom_mode else '8443'
         self.sniro_port = '30288' if self.oom_mode else '8080'
 
-        self.host_names = ['sdc', 'so', 'sdnc', 'robot', 'aai-inst1', self.dcae_ves_collector_name]
+        self.host_names = ['sdc', 'so', 'sdnc', 'robot', 'aai-inst1', self.dcae_ves_collector_name, 'mariadb-galera']
         if extra_host_names:
             self.host_names.extend(extra_host_names)
         # get IP addresses
@@ -177,7 +177,7 @@ class VcpeCommon:
         self.sdnc_db_name = 'sdnctl'
         self.sdnc_db_user = 'sdnctl'
         self.sdnc_db_pass = 'gamma'
-        self.sdnc_db_port = '32774'
+        self.sdnc_db_port = self.get_k8s_service_endpoint_info('mariadb-galera','port') if self.oom_mode else '3306'
         self.sdnc_headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
         self.sdnc_preload_network_url = 'https://' + self.hosts['sdnc'] + \
                                         ':' + self.sdnc_preloading_port + '/restconf/operations/VNF-API:preload-network-topology-operation'
@@ -244,8 +244,16 @@ class VcpeCommon:
         Check table DHCP_MAP in the SDNC DB. Find the newly instantiated BRG MAC address.
         Note that there might be multiple BRGs, the most recently instantiated BRG always has the largest IP address.
         """
-        cnx = mysql.connector.connect(user=self.sdnc_db_user, password=self.sdnc_db_pass, database=self.sdnc_db_name,
-                                      host=self.hosts['sdnc'], port=self.sdnc_db_port)
+        if self.oom_mode:
+            db_host=self.mariadb_galera_endpoint_ip
+        else:
+            db_host=self.hosts['mariadb-galera']
+
+        cnx = mysql.connector.connect(user=self.sdnc_db_user,
+                                      password=self.sdnc_db_pass,
+                                      database=self.sdnc_db_name,
+                                      host=db_host,
+                                      port=self.sdnc_db_port)
         cursor = cnx.cursor()
         query = "SELECT * from DHCP_MAP"
         cursor.execute(query)
@@ -254,7 +262,7 @@ class VcpeCommon:
         mac_recent = None
         host = -1
         for mac, ip in cursor:
-            self.logger.debug(mac + ':' + ip)
+            self.logger.debug(mac + ' - ' + ip)
             this_host = int(ip.split('.')[-1])
             if host < this_host:
                 host = this_host
@@ -262,7 +270,12 @@ class VcpeCommon:
 
         cnx.close()
 
-        assert mac_recent
+        try:
+            assert mac_recent
+        except AssertionError:
+            self.logger.error('Failed to obtain BRG MAC address from database')
+            sys.exit(1)
+
         return mac_recent
 
     def execute_cmds_mariadb(self, cmds):
