@@ -39,7 +39,7 @@ services:
     - netopeer
 
   netopeer:
-    image: sysrepo/sysrepo-netopeer2:latest
+    image: sysrepo/sysrepo-netopeer2:devel
     ports:
     - "830:830"
     - "5002:5002"
