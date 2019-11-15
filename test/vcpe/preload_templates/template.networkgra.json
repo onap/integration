@@ -1,0 +1,33 @@
+{
+  "input": {
+     "sdnc-request-header": {
+			"svc-request-id": "robotgra-1234",
+			"svc-action": "reserve"
+     },
+    "preload-network-topology-information": {
+      "network-topology-identifier-structure": {
+        "network-name": "${network_name}",
+        "network-role": "${network_role}",
+        "network-type": "${network_type}",
+        "network-technology": "neutron"
+      },
+      "subnets": [
+        {
+          "start-address": "${subnet_start_ip}",
+          "cidr-mask": "24",
+          "ip-version": "4",
+          "dhcp-enabled": "N",
+          "gateway-address": "${subnet_gateway}",
+	  "subnet-name": "${network_name}"
+        }
+      ],
+      "physical-network-name": "Not Aplicable",
+      "is-provider-network": "FALSE",
+      "is-shared-network": "FALSE",
+      "is-external-network": "FALSE",
+      "vpn-bindings": [],
+      "network-policy": [],
+      "route-table-reference": []
+    }
+  }
+}
