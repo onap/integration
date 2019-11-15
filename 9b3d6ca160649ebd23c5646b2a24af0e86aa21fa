@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4bdfb605_6c09dd8e",
+        "filename": "test/vcpe/vcpe.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2019-11-15T12:57:55Z",
+      "side": 1,
+      "message": "Why is this commented out? It was introduced here https://gerrit.onap.org/r/c/integration/+/97197\nHow commenting this out is related to this changeset?",
+      "revId": "9b3d6ca160649ebd23c5646b2a24af0e86aa21fa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
