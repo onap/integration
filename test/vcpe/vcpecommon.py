@@ -34,8 +34,8 @@ class VcpeCommon:
 
     #############################################################################################
     # set the gra_api flag
-    #gra_api_flag= False
-    gra_api_flag= True
+    # Mustn't be set to True until Frankfurt DGs are updated for GRA-API infrastructure
+    gra_api_flag= False
 
     ###########################
     # set Openstack credentials
