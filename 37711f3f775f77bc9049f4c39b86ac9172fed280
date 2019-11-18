@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca63b3db_69b34ad5",
+        "filename": "deployment/heat/onap-rke/scripts/redeploy-module.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2019-11-18T11:12:05Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "37711f3f775f77bc9049f4c39b86ac9172fed280",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
