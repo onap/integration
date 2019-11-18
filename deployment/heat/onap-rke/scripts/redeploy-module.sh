@@ -22,7 +22,7 @@ helm delete $deploy --purge
 echo "Wait for 5 seconds before cleaning up deployment resource ..."
 sleep 5
 echo "Cleaning up deployment resource ..."
-/root/integration/deployment/heat/onap-rke/scripts/cleanup.sh $module
+/root/integration/deployment/heat/onap-rke/scripts/cleanup.sh $module onap dev
 echo "Wait for 5 seconds before cleaning up deployment file system ..."
 sleep 5
 echo "Cleaning up deployment file system ..."
@@ -31,7 +31,7 @@ echo "Wait for 5 seconds before make $module and make onap ..."
 sleep 5
 echo "making $module and making onap ..."
 make $module
-make onap 
+make onap
 echo "Wait for 5 seconds before deploying $deploy ..."
 sleep 5
 echo "Deploying $deploy ..."
