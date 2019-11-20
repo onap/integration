@@ -75,13 +75,21 @@ def deploy_brg_only():
 
     # create multiple services based on the pre-determined order
     svc_instance_uuid = vcpecommon.load_object(vcpecommon.svc_instance_uuid_file)
-    for keyword in ['brg']:
+    for keyword in ['brgemu']:
+        keyword_vnf=keyword + "_"
+        keyword_gra=keyword + "gra_"
         heatbridge = 'gmux' == keyword
         csar_file = vcpecommon.find_file(keyword, 'csar', 'csar')
-        vnf_template_file = vcpecommon.find_file(keyword, 'json', 'preload_templates')
-        vcpecommon.increase_ip_address_or_vni_in_template(vnf_template_file, ['vbrgemu_private_ip_0'])
-        svc_instance_uuid[keyword] = create_one_service(vcpecommon, csar_file, vnf_template_file, preload_dict,
-                                                        name_suffix, heatbridge)
+        vnf_template_file = vcpecommon.find_file(keyword_vnf, 'json', 'preload_templates')
+        gra_template_file = vcpecommon.find_file(keyword_gra, 'json', 'preload_templates')
+        if vcpecommon.gra_api_flag:
+            vcpecommon.increase_ip_address_or_vni_in_template(gra_template_file, ['vbrgemu_private_ip_0'])
+            svc_instance_uuid[keyword] = create_one_service(vcpecommon, csar_file, gra_template_file, preload_dict,
+                                                            name_suffix, heatbridge)
+        else:
+            vcpecommon.increase_ip_address_or_vni_in_template(vnf_template_file, ['vbrgemu_private_ip_0'])
+            svc_instance_uuid[keyword] = create_one_service(vcpecommon, csar_file, vnf_template_file, preload_dict,
+                                                            name_suffix, heatbridge)
         if not svc_instance_uuid[keyword]:
             sys.exit(1)
 
