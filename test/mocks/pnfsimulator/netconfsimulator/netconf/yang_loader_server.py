@@ -31,7 +31,7 @@ app = Flask(__name__)
 api = Api(app)
 logger = logging.getLogger("yang-loader")
 logger.addHandler(logging.StreamHandler())
-KAFKA_BROKER_NAME="kafka1"
+KAFKA_BROKER_NAME="kafka1:9092"
 KAFKA_TOPIC_NAME="config"
 
 
@@ -68,7 +68,7 @@ class YangLoaderHelper(object):
     @classmethod
     def start_change_listener_for_model(cls, module_name: str):
         logger.info("Starting listener for model: %s", module_name)
-        command = "/opt/dev/netopeer-change-saver/bin/netopeer-change-saver {} {} {}" \
+        command = "python /netconf/netopeer_change_saver.py {} {} {}" \
             .format(module_name, KAFKA_BROKER_NAME, KAFKA_TOPIC_NAME)
         try:
             check_output(["pgrep", "-f" , command], stderr=subprocess.STDOUT, universal_newlines=True)
