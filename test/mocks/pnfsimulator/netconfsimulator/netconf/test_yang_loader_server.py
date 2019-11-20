@@ -78,7 +78,7 @@ class TestYangLoaderHelper(unittest.TestCase):
         helper.start_change_listener_for_model("sampleModule")
 
         mocked_output.assert_called_with(
-            ['pgrep', '-f', '/opt/dev/netopeer-change-saver/bin/netopeer-change-saver sampleModule kafka1 config'],
+            ['pgrep', '-f', 'python /netconf/netopeer_change_saver.py sampleModule kafka1:9092 config'],
             stderr=-2, universal_newlines=True)
 
     @mock.patch('yang_loader_server.check_output')
