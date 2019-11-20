@@ -1,0 +1,9 @@
+FROM sysrepo/sysrepo-netopeer2:latest
+ARG PROXY
+ADD apt.conf /etc/apt/apt.conf
+ENV http_proxy=${PROXY}
+ENV https_proxy=${PROXY}
+RUN apt-get update &&  apt-get install -y python3 python3-pip python-pip && pip3 install flask flask_restful kafka-python && pip install kafka-python
+RUN cd /opt/dev/sysrepo && cmake -DGEN_PYTHON_VERSION=2 -DREPOSITORY_LOC:PATH=/etc/sysrepo . && make install
+
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
