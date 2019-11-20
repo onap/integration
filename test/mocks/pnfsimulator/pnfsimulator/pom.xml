@@ -308,30 +308,27 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>com.spotify</groupId>
+                <groupId>io.fabric8</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
-                <version>1.0.0</version>
+                <version>0.31.0</version>
+                <executions>
+                    <execution>
+                        <id>build-image</id>
+                        <goals>
+                            <goal>push</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
-                    <registryUrl>${onap.nexus.dockerregistry.daily}</registryUrl>
-                    <imageName>${onap.nexus.dockerregistry.daily}/${docker.image.name}</imageName>
-                    <dockerDirectory>${project.basedir}/docker</dockerDirectory>
-                    <forceTags>true</forceTags>
-                    <imageTags>
-                        <imageTag>latest</imageTag>
-                    </imageTags>
-
-                    <resources>
-                        <resource>
-                            <targetPath>${dependency.directory.name}</targetPath>
-                            <directory>${dependency.directory.location}</directory>
-                        </resource>
-                        <resource>
-                            <targetPath>/</targetPath>
-                            <directory>${project.build.directory}</directory>
-                            <include>${project.build.finalName}.jar</include>
-                        </resource>
-                    </resources>
-                    <forceTags>true</forceTags>
+                    <images>
+                        <image>
+                            <name>${onap.nexus.dockerregistry.daily}/${docker.image.name}</name>
+                            <build>
+                                <contextDir>${project.basedir}</contextDir>
+                                <dockerFile>${project.basedir}/Dockerfile</dockerFile>
+                            </build>
+                        </image>
+                    </images>
                 </configuration>
             </plugin>
             <plugin>

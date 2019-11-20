@@ -20,16 +20,6 @@
 # ============LICENSE_END=========================================================
 ###
 
-cat > /etc/apt/apt.conf << EOF
-Acquire::http {
-	No-Cache "true";
-	No-Store "true";
-	Pipeline-Depth "0";
-};
-EOF
-
-NETOPEER_CHANGE_SAVER=netopeer-change-saver
-
 cp /tls/* /usr/local/etc/keystored/keys/
 cp /netconf/*.xml /tmp/
 
@@ -42,18 +32,6 @@ sysrepocfg --import=/netconf/pnf-simulator.data.xml --datastore=startup --format
 sysrepocfg --merge=/tmp/load_server_certs.xml --format=xml --datastore=startup ietf-keystore
 sysrepocfg --merge=/tmp/tls_listen.xml --format=xml --datastore=startup ietf-netconf-server
 
-apt-get update
-apt-get install -y python3 python3-pip librdkafka-dev
-pip3 install flask flask_restful
 nohup python3 /netconf/yang_loader_server.py &
 
-cd /opt/dev/sysrepo && cmake .
-cd /opt/dev/sysrepo && make -j2
-
-/bin/cp -R /$NETOPEER_CHANGE_SAVER /opt/dev/
-cp /opt/dev/sysrepo/swig/libSysrepo-cpp.so /opt/dev/$NETOPEER_CHANGE_SAVER/
-ln -s /opt/dev/sysrepo/build/src/libsysrepo.so /opt/dev/$NETOPEER_CHANGE_SAVER/libsysrepo.so
-
-cd  /opt/dev/$NETOPEER_CHANGE_SAVER && cmake .
-cd  /opt/dev/$NETOPEER_CHANGE_SAVER && make
-/opt/dev/$NETOPEER_CHANGE_SAVER/bin/netopeer-change-saver pnf-simulator kafka1 config
+python /netconf/netopeer_change_saver.py pnf-simulator kafka1:9092 config
