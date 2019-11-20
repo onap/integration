@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9acd6c0d_ba5116ac",
+        "filename": "test/vcpe/vcpe.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2019-11-20T15:30:52Z",
+      "side": 1,
+      "message": "I guess this is ok, right? I assumed it also should happen for gra_api.",
+      "range": {
+        "startLine": 86,
+        "startChar": 12,
+        "endLine": 86,
+        "endChar": 106
+      },
+      "revId": "dc3a1e8bbbc485e282bf5b5d46e4f58be78609f1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
