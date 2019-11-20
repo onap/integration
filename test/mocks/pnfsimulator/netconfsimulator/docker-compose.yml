@@ -39,7 +39,7 @@ services:
     - netopeer
 
   netopeer:
-    image: sysrepo/sysrepo-netopeer2:devel
+    image: nexus3.onap.org:10003/netopeer
     ports:
     - "830:830"
     - "5002:5002"
@@ -56,9 +56,6 @@ services:
     depends_on:
     - sftp-server
     - ftpes-server
-    environment:
-      http_proxy: ${http_proxy}
-      https_proxy: ${https_proxy}
     command:
     - /netconf/initialize_netopeer.sh
 

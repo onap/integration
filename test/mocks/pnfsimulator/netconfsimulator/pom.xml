@@ -52,6 +52,7 @@
     <netopeer-saver-build-dir>${project.build.directory}/cmake</netopeer-saver-build-dir>
     <netopeer-saver-executable-dir>${netopeer-saver-build-dir}/bin</netopeer-saver-executable-dir>
     <skipITs>true</skipITs>
+    <proxy>""</proxy>
   </properties>
 
   <dependencies>
@@ -240,30 +241,38 @@
           </executions>
       </plugin>
       <plugin>
-        <groupId>com.spotify</groupId>
-        <artifactId>docker-maven-plugin</artifactId>
-        <version>1.0.0</version>
-        <configuration>
-          <imageName>${docker.registry}/${docker.image.name}</imageName>
-          <dockerDirectory>${project.basedir}/docker</dockerDirectory>
-          <forceTags>true</forceTags>
-          <registryUrl>${docker.registry}</registryUrl>
-          <imageTags>
-            <imageTag>latest</imageTag>
-          </imageTags>
-          <resources>
-            <resource>
-              <targetPath>${dependency.directory.name}</targetPath>
-              <directory>${dependency.directory.location}</directory>
-            </resource>
-            <resource>
-              <targetPath>/</targetPath>
-              <directory>${project.build.directory}</directory>
-              <include>${project.build.finalName}.jar</include>
-            </resource>
-          </resources>
-          <forceTags>true</forceTags>
-        </configuration>
+      <groupId>io.fabric8</groupId>
+      <artifactId>docker-maven-plugin</artifactId>
+      <version>0.31.0</version>
+      <executions>
+        <execution>
+          <id>build-images</id>
+          <goals>
+            <goal>push</goal>
+          </goals>
+        </execution>
+      </executions>
+      <configuration>
+        <images>
+          <image>
+            <name>${docker.registry}/${docker.image.name}</name>
+            <build>
+              <contextDir>${project.basedir}</contextDir>
+              <dockerFile>${project.basedir}/Dockerfile_app</dockerFile>
+            </build>
+          </image>
+          <image>
+            <name>${docker.registry}/netopeer</name>
+            <build>
+              <contextDir>${project.basedir}</contextDir>
+              <dockerFile>${project.basedir}/Dockerfile_netopeer</dockerFile>
+              <args>
+                <PROXY>${proxy}</PROXY>
+              </args>
+            </build>
+          </image>
+        </images>
+      </configuration>
       </plugin>
     </plugins>
   </build>
