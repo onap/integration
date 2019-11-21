@@ -29,23 +29,21 @@ Here are the main steps to run the use case in Integration lab environment, wher
 
    demo-k8s.sh onap init
  
-2. Add customer SDN-ETHERNET-INTERNET (see the use case tutorial wiki page for detail)
-
-3. Add route on sdnc cluster VM node, which is the cluster VM node where pod sdnc-sdnc-0 is running on. This will allow ONAP SDNC to configure BRG later on. 
+2. Add route on sdnc cluster VM node, which is the cluster VM node where pod sdnc-sdnc-0 is running on. This will allow ONAP SDNC to configure BRG later on. 
  
 ::
 
    ip route add 10.3.0.0/24 via 10.0.101.10 dev ens3
 
 
-4. Install Python and other Python libraries
+3. Install Python and other Python libraries
 
 ::
  
    integration/test/vcpe/bin/setup.sh
 
 
-5. Change the Openstack env parameters and one customer service related parameter in vcpecommon.py
+4. Change the Openstack env parameters and one customer service related parameter in vcpecommon.py
 
 :: 
 
@@ -73,51 +71,51 @@ Here are the main steps to run the use case in Integration lab environment, wher
     # CHANGEME: vgw_VfModuleModelInvariantUuid is in rescust service csar, open service template with filename like service-VcpesvcRescust1118-template.yml and look for vfModuleModelInvariantUUID under groups vgw module metadata. 
     self.vgw_VfModuleModelInvariantUuid = 'xxxxxxxxxxxxxxx'
 
-6. Initialize vcpe
+5. Initialize vcpe
 
 ::
    
    vcpe.py init
 
-7. Run a command from Rancher node to insert vcpe customer service workflow entry in SO catalogdb. You should be able to see a sql command printed out from the above step output at the end, and use that sql command to replace the sample sql command below (inside the double quote) and run it from Rancher node:
+6. Run a command from Rancher node to insert vcpe customer service workflow entry in SO catalogdb. You should be able to see a sql command printed out from the above step output at the end, and use that sql command to replace the sample sql command below (inside the double quote) and run it from Rancher node:
 
 ::
 
    kubectl exec dev-mariadb-galera-mariadb-galera-0 -- mysql -uroot -psecretpassword catalogdb -e "INSERT INTO service_recipe (ACTION, VERSION_STR, DESCRIPTION, ORCHESTRATION_URI, SERVICE_PARAM_XSD, RECIPE_TIMEOUT, SERVICE_TIMEOUT_INTERIM, CREATION_TIMESTAMP, SERVICE_MODEL_UUID) VALUES ('createInstance','1','vCPEResCust 2019-06-03 _04ba','/mso/async/services/CreateVcpeResCustService',NULL,181,NULL, NOW(),'6c4a469d-ca2c-4b02-8cf1-bd02e9c5a7ce')"
 
-8. Run Robot to create and distribute for vCPE customer service. This step assumes step 1 has successfully distributed all vcpe models except customer service model
+7. Run Robot to create and distribute for vCPE customer service. This step assumes step 1 has successfully distributed all vcpe models except customer service model
 
 ::
 
    ete-k8s.sh onap distributevCPEResCust
 
-10. Instantiate vCPE infra services
+8. Instantiate vCPE infra services
 
 ::
 
     vcpe.py infra
 
-11. From Rancher node run vcpe healthcheck command to check connectivity from sdnc to brg and gmux, and vpp configuration of brg and gmux.
+9. From Rancher node run vcpe healthcheck command to check connectivity from sdnc to brg and gmux, and vpp configuration of brg and gmux.
 
 ::
 
     healthcheck-k8s.py --namespace <namespace name> --environment <env name>
 
-12. Instantiate vCPE customer service.
+10. Instantiate vCPE customer service.
 
 ::
 
     vcpe.py customer
 
-13. Update libevel.so in vGMUX VM and restart the VM. This allows vGMUX to send events to VES collector in close loop test. See tutorial wiki for details
+11. Update libevel.so in vGMUX VM and restart the VM. This allows vGMUX to send events to VES collector in close loop test. See tutorial wiki for details
 
-14. Run heatbridge. The heatbridge command usage: demo-k8s.sh <namespace> heatbridge <stack_name> <service_instance_id> <service> <oam-ip-address>, please refer to vCPE tutorial page on how to fill in those paraemters. See an example as following:
+12. Run heatbridge. The heatbridge command usage: demo-k8s.sh <namespace> heatbridge <stack_name> <service_instance_id> <service> <oam-ip-address>, please refer to vCPE tutorial page on how to fill in those paraemters. See an example as following:
 
 ::
 
     ~/integration/test/vcpe# ~/oom/kubernetes/robot/demo-k8s.sh onap heatbridge vcpe_vfmodule_e2744f48729e4072b20b_201811262136 d8914ef3-3fdb-4401-adfe-823ee75dc604 vCPEvGMUX 10.0.101.21
 
-15. Start closed loop test by triggering packet drop VES event, and monitor if vGMUX is restarting. You may need to run the command twice if the first run fails
+13. Start closed loop test by triggering packet drop VES event, and monitor if vGMUX is restarting. You may need to run the command twice if the first run fails
 
 :: 
 
