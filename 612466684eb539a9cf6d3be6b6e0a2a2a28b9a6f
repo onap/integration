@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff2d541e_b3a3f536",
+        "filename": "test/mocks/pnfsimulator/pnfsimulator/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 3663
+      },
+      "writtenOn": "2019-11-21T11:34:09Z",
+      "side": 1,
+      "message": "Simulator can cooperate with VES server in different security types in particular ```auth.method\u003dcertBasicAuth``` which means that it can authenticate using client private certificate.",
+      "revId": "612466684eb539a9cf6d3be6b6e0a2a2a28b9a6f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
