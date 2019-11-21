@@ -45,6 +45,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.io.IOException;
 import java.net.URL;
+import java.security.GeneralSecurityException;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -85,7 +86,7 @@ class SimulatorControllerTest {
     }
 
     @BeforeEach
-    void setup() throws IOException, SchedulerException {
+    void setup() throws IOException, SchedulerException, GeneralSecurityException {
         MockitoAnnotations.initMocks(this);
         when(simulatorService.triggerEvent(any())).thenReturn("jobName");
         mockMvc = MockMvcBuilders
