@@ -25,13 +25,16 @@ import com.google.gson.JsonObject;
 import org.onap.pnfsimulator.simulator.KeywordsHandler;
 import org.onap.pnfsimulator.simulator.client.HttpClientAdapter;
 import org.onap.pnfsimulator.simulator.client.HttpClientAdapterImpl;
+import org.onap.pnfsimulator.simulator.client.utils.ssl.SSLAuthenticationHelper;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.security.GeneralSecurityException;
 import java.util.Optional;
 
 public class EventJob implements Job {
@@ -69,10 +72,12 @@ public class EventJob implements Job {
     private Optional<HttpClientAdapter> getHttpClientAdapter(JobDataMap jobDataMap, String vesUrl) {
         HttpClientAdapter adapter = null;
         try {
-            adapter = (HttpClientAdapter) jobDataMap
-                    .getOrDefault(CLIENT_ADAPTER, new HttpClientAdapterImpl(vesUrl));
+            adapter = (HttpClientAdapter) (jobDataMap.containsKey(CLIENT_ADAPTER) ? jobDataMap.get(CLIENT_ADAPTER) :
+                     new HttpClientAdapterImpl(vesUrl, new SSLAuthenticationHelper()));
         } catch (MalformedURLException e) {
             LOGGER.error("Invalid format of vesServerUr: {}", vesUrl);
+        } catch (IOException | GeneralSecurityException e){
+            LOGGER.error("Invalid configuration of client certificate");
         }
         return Optional.ofNullable(adapter);
     }

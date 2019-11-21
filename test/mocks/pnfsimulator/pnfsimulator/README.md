@@ -297,3 +297,37 @@ To test your local changes before running integration tests please build project
 then go to 'integration' folder and run: 
 
     'mvn test'
+    
+### Client certificate authentication
+Simulator can cooperate with VES server in different security types in particular ```auth.method=certBasicAuth``` which means that it needs to authenticate using client private certificate. 
+
+Warning: according to VES implementation which uses certificate with Common Name set to DCAELOCAL we decided not to use strict hostname verification, so at least this parameter is skipped during checking of the client certificate.
+
+#### How to generate client correct keystore for pnf-simulator
+ The Root CA cert is available in certs folder in VES repository. The password for rootCA.key is collector.
+ 
+ The procedure of generating client's certificate:
+ 1. Generate a private key for the SSL client: ```openssl genrsa -out client.key 2048```
+ 2. Use the client’s private key to generate a cert request: ```openssl req -new -key client.key -out client.csr```
+ 3. Issue the client certificate using the cert request and the CA cert/key: ```openssl x509 -req -in client.csr -CA rootCA.crt -CAkey rootCA.key -CAcreateserial -out client.crt -days 500 -sha256```
+ 4. Convert the client certificate and private key to pkcs#12 format: openssl pkcs12 -export -inkey client.key -in client.cer -out client.p12
+ 5. Copy pkcs file into pnf simulators folder: ```/app/store/```
+ 
+#### How to generate correct truststore for pnf-simulator
+ Create truststore with rootCA.crt: 
+ 1. ```keytool -import -file rootCA.crt -alias firstCA -keystore trustStore```
+ 2. Copy truststore to ```/app/store/```
+
+#### How to refresh configuration of app
+Depends your needs, you are able to change client certificate, replace trustStore to accept new server certificate change keystore and truststore passwords or completely disable client cert authentication.
+
+For this purpose:
+1. Go to the pnf simulator container into the /app folder.
+2. If you want to replace keystore or truststore put them into the /app/store folder.
+3. Edit /app/application.properties file as follow:
+- ssl.clientCertificateEnabled=true (to disable/enable client authentication)
+- ssl.clientCertificateDir=/app/store/client.p12 (to replace keystore file)
+- ssl.clientCertificatePassword=collector (to replace password for keystore)
+- ssl.trustStoreDir=/app/store/trustStore (to replace truststore file)
+- ssl.trustStorePassword=collector (to replace password for truststore)
+4. Refresh configuration sending simple POST request to correct actuator endpoint at: ```curl http://localhost:5001/refresh -H 'Content-type: application/json' -X POST --data '{}'```
