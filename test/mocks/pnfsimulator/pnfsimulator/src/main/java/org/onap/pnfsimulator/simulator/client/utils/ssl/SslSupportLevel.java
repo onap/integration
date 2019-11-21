@@ -24,24 +24,32 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.TrustAllStrategy;
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContextBuilder;
+import org.apache.http.ssl.SSLContexts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.SSLContext;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.GeneralSecurityException;
 import java.security.KeyManagementException;
+import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Optional;
 
 public enum SslSupportLevel {
 
     NONE {
-        public HttpClient getClient(RequestConfig requestConfig) {
+        public HttpClient getClient(RequestConfig requestConfig, SSLAuthenticationHelper sslAuthenticationHelper) {
             LOGGER.info("<!-----IN SslSupportLevel.NONE, Creating BasicHttpClient for http protocol----!>");
             return HttpClientBuilder
                     .create()
@@ -50,7 +58,8 @@ public enum SslSupportLevel {
         }
     },
     ALWAYS_TRUST {
-        public HttpClient getClient(RequestConfig requestConfig) {
+        public HttpClient getClient(RequestConfig requestConfig, SSLAuthenticationHelper sslAuthenticationHelper)
+                throws GeneralSecurityException, IOException {
             LoggerFactory.getLogger(SslSupportLevel.class).info("<!-----IN SslSupportLevel.ALWAYS_TRUST, Creating client with SSL support for https protocol----!>");
             HttpClient client;
             try {
@@ -61,11 +70,40 @@ public enum SslSupportLevel {
                         .setDefaultRequestConfig(requestConfig)
                         .build();
 
-            } catch (NoSuchAlgorithmException | KeyStoreException | KeyManagementException e) {
+            } catch (GeneralSecurityException e) {
                 LOGGER.error("Could not initialize client due to SSL exception: {}. Default client without SSL support will be used instead.\nCause: {}", e.getMessage(), e.getCause());
-                client = NONE.getClient(requestConfig);
+                client = NONE.getClient(requestConfig, sslAuthenticationHelper);
             }
             return client;
+        }
+    },
+    CLIENT_CERT_AUTH {
+        @Override
+        public HttpClient getClient(RequestConfig requestConfig, SSLAuthenticationHelper sslAuthenticationHelper)
+                throws GeneralSecurityException, IOException {
+
+            SSLContext sslContext = SSLContexts.custom()
+                    .loadKeyMaterial(readCertificate(sslAuthenticationHelper.getClientCertificateDir(), sslAuthenticationHelper.getClientCertificatePassword(), "PKCS12"), getPasswordAsCharArray(sslAuthenticationHelper.getClientCertificatePassword()))
+                    .loadTrustMaterial(readCertificate(sslAuthenticationHelper.getTrustStoreDir(), sslAuthenticationHelper.getTrustStorePassword(), "JKS"), new TrustSelfSignedStrategy())
+                    .build();
+
+            return HttpClients.custom()
+                    .setSSLContext(sslContext)
+                    .setSSLHostnameVerifier(new NoopHostnameVerifier())
+                    .setDefaultRequestConfig(requestConfig)
+                    .build();
+        }
+
+        private KeyStore readCertificate(String certificate, String password, String type) throws GeneralSecurityException, IOException {
+            try (InputStream keyStoreStream = new FileInputStream(certificate)) {
+                KeyStore keyStore = KeyStore.getInstance(type);
+                keyStore.load(keyStoreStream, getPasswordAsCharArray(password));
+                return keyStore;
+            }
+        }
+
+        private char[] getPasswordAsCharArray(String clientCertificatePassword) {
+            return Optional.ofNullable(clientCertificatePassword).map(String::toCharArray).orElse(null);
         }
     };
 
@@ -73,9 +111,10 @@ public enum SslSupportLevel {
     private static final TrustStrategy TRUST_STRATEGY_ALWAYS = new TrustAllStrategy();
 
     public static SslSupportLevel getSupportLevelBasedOnProtocol(String url) throws MalformedURLException {
-            return "https".equals(new URL(url).getProtocol()) ? SslSupportLevel.ALWAYS_TRUST : SslSupportLevel.NONE;
+        return "https".equals(new URL(url).getProtocol()) ? SslSupportLevel.ALWAYS_TRUST : SslSupportLevel.NONE;
     }
 
-    public abstract HttpClient getClient(RequestConfig requestConfig);
+    public abstract HttpClient getClient(RequestConfig config, SSLAuthenticationHelper sslAuthenticationHelper)
+            throws GeneralSecurityException, IOException;
 
 }

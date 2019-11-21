@@ -27,7 +27,9 @@ import static org.mockito.Mockito.when;
 
 import com.google.gson.JsonObject;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -59,7 +61,7 @@ class EventSchedulerTest {
     }
 
     @Test
-    void shouldTriggerEventWithGivenConfiguration() throws SchedulerException, MalformedURLException {
+    void shouldTriggerEventWithGivenConfiguration() throws SchedulerException, IOException, GeneralSecurityException {
         //given
         ArgumentCaptor<JobDetail> jobDetailCaptor = ArgumentCaptor.forClass(JobDetail.class);
         ArgumentCaptor<SimpleTrigger> triggerCaptor = ArgumentCaptor.forClass(SimpleTrigger.class);
