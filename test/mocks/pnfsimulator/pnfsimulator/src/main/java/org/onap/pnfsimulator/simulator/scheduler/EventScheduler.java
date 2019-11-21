@@ -30,12 +30,15 @@ import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
 
 import com.google.gson.JsonObject;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.onap.pnfsimulator.simulator.KeywordsHandler;
 import org.onap.pnfsimulator.simulator.client.HttpClientAdapterImpl;
+import org.onap.pnfsimulator.simulator.client.utils.ssl.SSLAuthenticationHelper;
 import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
@@ -54,16 +57,18 @@ public class EventScheduler {
 
     private final Scheduler scheduler;
     private final KeywordsHandler keywordsHandler;
+    private final SSLAuthenticationHelper SSLAuthenticationHelper;
 
     @Autowired
-    public EventScheduler(Scheduler scheduler, KeywordsHandler keywordsHandler) {
+    public EventScheduler(Scheduler scheduler, KeywordsHandler keywordsHandler, SSLAuthenticationHelper SSLAuthenticationHelper) {
         this.scheduler = scheduler;
         this.keywordsHandler = keywordsHandler;
+        this.SSLAuthenticationHelper = SSLAuthenticationHelper;
     }
 
     public String scheduleEvent(String vesUrl, Integer repeatInterval, Integer repeatCount,
         String templateName, String eventId, JsonObject body)
-            throws SchedulerException, MalformedURLException {
+            throws SchedulerException, IOException, GeneralSecurityException {
 
         JobDetail jobDetail = createJobDetail(vesUrl, templateName, eventId, body);
         SimpleTrigger trigger = createTrigger(repeatInterval, repeatCount);
@@ -90,14 +95,14 @@ public class EventScheduler {
             .build();
     }
 
-    private JobDetail createJobDetail(String vesUrl, String templateName, String eventId, JsonObject body) throws MalformedURLException {
+    private JobDetail createJobDetail(String vesUrl, String templateName, String eventId, JsonObject body) throws IOException, GeneralSecurityException {
         JobDataMap jobDataMap = new JobDataMap();
         jobDataMap.put(TEMPLATE_NAME, templateName);
         jobDataMap.put(VES_URL, vesUrl);
         jobDataMap.put(EVENT_ID, eventId);
         jobDataMap.put(KEYWORDS_HANDLER, keywordsHandler);
         jobDataMap.put(BODY, body);
-        jobDataMap.put(CLIENT_ADAPTER, new HttpClientAdapterImpl(vesUrl));
+        jobDataMap.put(CLIENT_ADAPTER, new HttpClientAdapterImpl(vesUrl, SSLAuthenticationHelper));
 
         return JobBuilder
             .newJob(EventJob.class)

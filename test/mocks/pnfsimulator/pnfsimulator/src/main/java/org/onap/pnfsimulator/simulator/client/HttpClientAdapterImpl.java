@@ -26,7 +26,7 @@ import static org.onap.pnfsimulator.logging.MDCVariables.X_ONAP_REQUEST_ID;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
+import java.security.GeneralSecurityException;
 import java.util.UUID;
 
 import org.apache.http.HttpResponse;
@@ -35,6 +35,7 @@ import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
+import org.onap.pnfsimulator.simulator.client.utils.ssl.SSLAuthenticationHelper;
 import org.onap.pnfsimulator.simulator.client.utils.ssl.SslSupportLevel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +45,7 @@ import org.slf4j.MarkerFactory;
 
 public class HttpClientAdapterImpl implements HttpClientAdapter {
 
-    public static final int CONNECTION_TIMEOUT = 1000;
+    private static final int CONNECTION_TIMEOUT = 1000;
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpClientAdapterImpl.class);
     private static final String CONTENT_TYPE = "Content-Type";
     private static final String APPLICATION_JSON = "application/json";
@@ -54,11 +55,15 @@ public class HttpClientAdapterImpl implements HttpClientAdapter {
             .setSocketTimeout(CONNECTION_TIMEOUT)
             .build();
     private static final Marker INVOKE = MarkerFactory.getMarker("INVOKE");
+    private  SslSupportLevel sslSupportLevel;
     private HttpClient client;
     private final String targetUrl;
 
-    public HttpClientAdapterImpl(String targetUrl) throws MalformedURLException {
-        this.client = SslSupportLevel.getSupportLevelBasedOnProtocol(targetUrl).getClient(CONFIG);
+    public HttpClientAdapterImpl(String targetUrl, SSLAuthenticationHelper sslAuthenticationHelper)
+            throws IOException, GeneralSecurityException {
+        this.sslSupportLevel = sslAuthenticationHelper.isClientCertificateEnabled() ?
+                SslSupportLevel.CLIENT_CERT_AUTH : SslSupportLevel.getSupportLevelBasedOnProtocol(targetUrl);
+        this.client = sslSupportLevel.getClient(CONFIG, sslAuthenticationHelper);
         this.targetUrl = targetUrl;
     }
 
@@ -79,6 +84,10 @@ public class HttpClientAdapterImpl implements HttpClientAdapter {
         } catch (IOException e) {
             LOGGER.warn("Error sending message to ves: " + e.getMessage(), e.getCause());
         }
+    }
+
+    public SslSupportLevel getSslSupportLevel(){
+        return sslSupportLevel;
     }
 
     private HttpPost createRequest(String content) throws UnsupportedEncodingException {

@@ -24,6 +24,7 @@ import com.google.common.base.Strings;
 import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.security.GeneralSecurityException;
 import java.util.Optional;
 import org.onap.pnfsimulator.event.EventData;
 import org.onap.pnfsimulator.event.EventDataService;
@@ -32,6 +33,7 @@ import org.onap.pnfsimulator.rest.model.SimulatorParams;
 import org.onap.pnfsimulator.rest.model.SimulatorRequest;
 import org.onap.pnfsimulator.simulator.client.HttpClientAdapter;
 import org.onap.pnfsimulator.simulator.client.HttpClientAdapterImpl;
+import org.onap.pnfsimulator.simulator.client.utils.ssl.SSLAuthenticationHelper;
 import org.onap.pnfsimulator.simulator.scheduler.EventScheduler;
 import org.onap.pnfsimulator.simulatorconfig.SimulatorConfig;
 import org.onap.pnfsimulator.simulatorconfig.SimulatorConfigService;
@@ -46,21 +48,23 @@ public class SimulatorService {
     private final TemplateReader templateReader;
     private final EventDataService eventDataService;
     private final EventScheduler eventScheduler;
+    private final SSLAuthenticationHelper sslAuthenticationHelper;
     private SimulatorConfigService simulatorConfigService;
     private static final JsonObject EMPTY_JSON_OBJECT = new JsonObject();
 
     @Autowired
     public SimulatorService(TemplatePatcher templatePatcher, TemplateReader templateReader,
                             EventScheduler eventScheduler, EventDataService eventDataService,
-                            SimulatorConfigService simulatorConfigService) {
+                            SimulatorConfigService simulatorConfigService, SSLAuthenticationHelper sslAuthenticationHelper) {
         this.templatePatcher = templatePatcher;
         this.templateReader = templateReader;
         this.eventDataService = eventDataService;
         this.eventScheduler = eventScheduler;
         this.simulatorConfigService = simulatorConfigService;
+        this.sslAuthenticationHelper = sslAuthenticationHelper;
     }
 
-    public String triggerEvent(SimulatorRequest simulatorRequest) throws IOException, SchedulerException {
+    public String triggerEvent(SimulatorRequest simulatorRequest) throws IOException, SchedulerException, GeneralSecurityException {
         String templateName = simulatorRequest.getTemplateName();
         SimulatorParams simulatorParams = simulatorRequest.getSimulatorParams();
         JsonObject template = templateReader.readTemplate(templateName);
@@ -79,7 +83,7 @@ public class SimulatorService {
                 patchedJson);
     }
 
-    public void triggerOneTimeEvent(FullEvent event) throws MalformedURLException {
+    public void triggerOneTimeEvent(FullEvent event) throws IOException, GeneralSecurityException {
         KeywordsHandler keywordsHandler = new KeywordsHandler(new KeywordsExtractor(), id -> 1);
         JsonObject withKeywordsSubstituted = keywordsHandler.substituteKeywords(event.getEvent(), "").getAsJsonObject();
 
@@ -105,9 +109,9 @@ public class SimulatorService {
         return eventScheduler.cancelEvent(jobName);
     }
 
-    HttpClientAdapter createHttpClientAdapter(String vesServerUrl) throws MalformedURLException {
+    HttpClientAdapter createHttpClientAdapter(String vesServerUrl) throws IOException, GeneralSecurityException {
         String targetVesUrl = getDefaultUrlIfNotProvided(vesServerUrl);
-        return new HttpClientAdapterImpl(targetVesUrl);
+        return new HttpClientAdapterImpl(targetVesUrl, sslAuthenticationHelper);
     }
 
     private String getDefaultUrlIfNotProvided(String vesUrlSimulatorParam) {

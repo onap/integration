@@ -5,4 +5,4 @@ CMD apk update
 CMD apk add ca-certificates
 ADD certificates  /usr/local/share/ca-certificates/
 RUN update-ca-certificates
-CMD java -cp /app/libs/*:/app/pnf-simulator.jar org.onap.pnfsimulator.Main
+CMD java -Dspring.config.location=file:/app/application.properties  -cp /app/libs/*:/app/pnf-simulator.jar org.onap.pnfsimulator.Main

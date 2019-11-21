@@ -33,6 +33,7 @@ import org.onap.pnfsimulator.rest.model.FullEvent;
 import org.onap.pnfsimulator.rest.model.SimulatorParams;
 import org.onap.pnfsimulator.rest.model.SimulatorRequest;
 import org.onap.pnfsimulator.simulator.client.HttpClientAdapter;
+import org.onap.pnfsimulator.simulator.client.utils.ssl.SSLAuthenticationHelper;
 import org.onap.pnfsimulator.simulator.scheduler.EventScheduler;
 import org.onap.pnfsimulator.simulatorconfig.SimulatorConfig;
 import org.onap.pnfsimulator.simulatorconfig.SimulatorConfigService;
@@ -41,6 +42,7 @@ import org.quartz.SchedulerException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.GeneralSecurityException;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -102,11 +104,11 @@ class SimulatorServiceTest {
         simulatorConfigService = mock(SimulatorConfigService.class);
 
         simulatorService = new SimulatorService(templatePatcher, templateReader,
-                eventScheduler, eventDataService, simulatorConfigService);
+                eventScheduler, eventDataService, simulatorConfigService, new SSLAuthenticationHelper());
     }
 
     @Test
-    void shouldTriggerEventWithGivenParams() throws IOException, SchedulerException {
+    void shouldTriggerEventWithGivenParams() throws IOException, SchedulerException, GeneralSecurityException {
         String templateName = "validExampleMeasurementEvent.json";
         SimulatorParams simulatorParams = new SimulatorParams(VES_URL, 1, 1);
         SimulatorRequest simulatorRequest = new SimulatorRequest(simulatorParams,
@@ -120,7 +122,7 @@ class SimulatorServiceTest {
     }
 
     @Test
-    void shouldTriggerEventWithDefaultVesUrlWhenNotProvidedInRequest() throws IOException, SchedulerException {
+    void shouldTriggerEventWithDefaultVesUrlWhenNotProvidedInRequest() throws IOException, SchedulerException, GeneralSecurityException {
         String templateName = "validExampleMeasurementEvent.json";
         SimulatorRequest simulatorRequest = new SimulatorRequest(
                 new SimulatorParams("", 1, 1),
@@ -158,12 +160,11 @@ class SimulatorServiceTest {
     }
 
     @Test
-    void shouldHandleNonExistingPatchSection() throws IOException, SchedulerException {
+    void shouldHandleNonExistingPatchSection() throws IOException, SchedulerException, GeneralSecurityException {
         String templateName = "validExampleMeasurementEvent.json";
-        JsonObject nullPatch = null;
         SimulatorRequest simulatorRequest = new SimulatorRequest(
             new SimulatorParams("", 1, 1),
-            templateName, nullPatch);
+            templateName, null);
 
         URL inDbVesUrl = new URL("http://0.0.0.0:8080/eventListener/v6");
         doReturn(SAMPLE_EVENT).when(eventDataService).persistEventData(any(JsonObject.class), any(JsonObject.class), any(JsonObject.class), any(JsonObject.class));
@@ -175,8 +176,8 @@ class SimulatorServiceTest {
     }
 
     @Test
-    void shouldSuccessfullySendOneTimeEventWithVesUrlWhenPassed() throws MalformedURLException {
-        SimulatorService spiedTestedService = spy(new SimulatorService(templatePatcher,templateReader, eventScheduler, eventDataService, simulatorConfigService));
+    void shouldSuccessfullySendOneTimeEventWithVesUrlWhenPassed() throws IOException, GeneralSecurityException {
+        SimulatorService spiedTestedService = spy(new SimulatorService(templatePatcher,templateReader, eventScheduler, eventDataService, simulatorConfigService, new SSLAuthenticationHelper()));
 
         HttpClientAdapter adapterMock = mock(HttpClientAdapter.class);
         doNothing().when(adapterMock).send(eventContentCaptor.capture());
@@ -191,8 +192,8 @@ class SimulatorServiceTest {
     }
 
     @Test
-    void shouldSubstituteKeywordsAndSuccessfullySendOneTimeEvent() throws MalformedURLException {
-        SimulatorService spiedTestedService = spy(new SimulatorService(templatePatcher,templateReader, eventScheduler, eventDataService, simulatorConfigService));
+    void shouldSubstituteKeywordsAndSuccessfullySendOneTimeEvent() throws IOException, GeneralSecurityException {
+        SimulatorService spiedTestedService = spy(new SimulatorService(templatePatcher,templateReader, eventScheduler, eventDataService, simulatorConfigService, new SSLAuthenticationHelper()));
 
         HttpClientAdapter adapterMock = mock(HttpClientAdapter.class);
         doNothing().when(adapterMock).send(eventContentCaptor.capture());
@@ -207,7 +208,7 @@ class SimulatorServiceTest {
     }
 
 
-    private void assertEventHasExpectedStructure(String expectedVesUrl, String templateName, String sourceNameString) throws SchedulerException, MalformedURLException {
+    private void assertEventHasExpectedStructure(String expectedVesUrl, String templateName, String sourceNameString) throws SchedulerException, IOException, GeneralSecurityException {
         verify(eventScheduler, times(1)).scheduleEvent(vesUrlCaptor.capture(), intervalCaptor.capture(),
                 repeatCountCaptor.capture(), templateNameCaptor.capture(), eventIdCaptor.capture(), bodyCaptor.capture());
         assertThat(vesUrlCaptor.getValue()).isEqualTo(expectedVesUrl);
