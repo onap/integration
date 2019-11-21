@@ -30,6 +30,7 @@ services:
     volumes:
       - ./logs:/var/log
       - ./templates:/app/templates
+      - ./store:/app/store
     restart: on-failure
     depends_on:
       - mongo
