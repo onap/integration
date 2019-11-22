@@ -191,6 +191,11 @@ class VcpeCommon:
                                    '/restconf/config/GENERIC-RESOURCE-API:'
 
         #############################################################################################
+        # MARIADB-GALERA settings
+        self.mariadb_galera_endpoint_ip = self.get_k8s_service_endpoint_info('mariadb-galera','ip')
+        self.mariadb_galera_endpoint_port = self.get_k8s_service_endpoint_info('mariadb-galera','port')
+
+        #############################################################################################
         # SO urls, note: do NOT add a '/' at the end of the url
         self.so_req_api_url = {'v4': 'http://' + self.hosts['so'] + ':' + self.so_nbi_port + '/onap/so/infra/serviceInstantiation/v7/serviceInstances',
                            'v5': 'http://' + self.hosts['so'] + ':' + self.so_nbi_port + '/onap/so/infra/serviceInstantiation/v7/serviceInstances'}
@@ -200,7 +205,8 @@ class VcpeCommon:
         self.so_db_name = 'catalogdb'
         self.so_db_user = 'root'
         self.so_db_pass = 'secretpassword'
-        self.so_db_port = '30252' if self.oom_mode else '32769'
+        self.so_db_host = self.mariadb_galera_endpoint_ip if self.oom_mode else self.hosts['so']
+        self.so_db_port = self.mariadb_galera_endpoint_port if self.oom_mode else '3306'
 
         self.vpp_inf_url = 'http://{0}:8183/restconf/config/ietf-interfaces:interfaces'
         self.vpp_api_headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
@@ -217,11 +223,6 @@ class VcpeCommon:
         self.policy_pap_post_url = self.policy_pap_get_url + '/policies'
         self.policy_api_service_name = 'policy-api'
         self.policy_pap_service_name = 'policy-pap'
-
-        #############################################################################################
-        # MARIADB-GALERA settings
-        self.mariadb_galera_endpoint_ip = self.get_k8s_service_endpoint_info('mariadb-galera','ip')
-        self.mariadb_galera_endpoint_port = self.get_k8s_service_endpoint_info('mariadb-galera','port')
 
         #############################################################################################
         # AAI urls
@@ -299,7 +300,7 @@ class VcpeCommon:
 
     def execute_cmds_so_db(self, cmds):
         self.execute_cmds_db(cmds, self.so_db_user, self.so_db_pass, self.so_db_name,
-                             self.hosts['so'], self.so_db_port)
+                             self.so_db_host, self.so_db_port)
 
     def execute_cmds_db(self, cmds, dbuser, dbpass, dbname, host, port):
         cnx = mysql.connector.connect(user=dbuser, password=dbpass, database=dbname, host=host, port=port)

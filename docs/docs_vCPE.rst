@@ -77,11 +77,7 @@ Here are the main steps to run the use case in Integration lab environment, wher
    
    vcpe.py init
 
-6. Run a command from Rancher node to insert vcpe customer service workflow entry in SO catalogdb. You should be able to see a sql command printed out from the above step output at the end, and use that sql command to replace the sample sql command below (inside the double quote) and run it from Rancher node:
-
-::
-
-   kubectl exec dev-mariadb-galera-mariadb-galera-0 -- mysql -uroot -psecretpassword catalogdb -e "INSERT INTO service_recipe (ACTION, VERSION_STR, DESCRIPTION, ORCHESTRATION_URI, SERVICE_PARAM_XSD, RECIPE_TIMEOUT, SERVICE_TIMEOUT_INTERIM, CREATION_TIMESTAMP, SERVICE_MODEL_UUID) VALUES ('createInstance','1','vCPEResCust 2019-06-03 _04ba','/mso/async/services/CreateVcpeResCustService',NULL,181,NULL, NOW(),'6c4a469d-ca2c-4b02-8cf1-bd02e9c5a7ce')"
+6. If running with oom_mode=False run a command printed at the end of the above step from k8s control node to insert vcpe customer service workflow entry in SO catalogdb. It will be done automatically otherwise.
 
 7. Run Robot to create and distribute for vCPE customer service. This step assumes step 1 has successfully distributed all vcpe models except customer service model
 
