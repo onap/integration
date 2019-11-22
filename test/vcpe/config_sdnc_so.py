@@ -68,19 +68,24 @@ def insert_customer_service_to_sdnc(vcpecommon):
 def insert_customer_service_to_so(vcpecommon):
     logger = logging.getLogger(__name__)
     cmds = []
-    if True:
-        csar_file = vcpecommon.find_file('rescust', 'csar', 'csar')
-        parser = csar_parser.CsarParser()
-        parser.parse_csar(csar_file)
-        cmds.append("INSERT INTO service_recipe (ACTION, VERSION_STR, DESCRIPTION, ORCHESTRATION_URI, " \
-                    "SERVICE_PARAM_XSD, RECIPE_TIMEOUT, SERVICE_TIMEOUT_INTERIM, CREATION_TIMESTAMP, " \
-                    "SERVICE_MODEL_UUID) VALUES ('createInstance','1','{0}'," \
-                    "'/mso/async/services/CreateVcpeResCustService',NULL,181,NULL, NOW()," \
-                    "'{1}');".format(parser.svc_model['modelName'], parser.svc_model['modelVersionId']))
-        logger.info(
-            'Please manually run the following sql command in SO catalogdb database to insert customer service recipe')
-        logger.info('\n'.join(cmds))
-        #vcpecommon.execute_cmds_so_db(cmds)
+    csar_file = vcpecommon.find_file('rescust', 'csar', 'csar')
+    parser = csar_parser.CsarParser()
+    parser.parse_csar(csar_file)
+    cmds.append("INSERT IGNORE INTO service_recipe (ACTION, VERSION_STR, DESCRIPTION, ORCHESTRATION_URI, " \
+                "SERVICE_PARAM_XSD, RECIPE_TIMEOUT, SERVICE_TIMEOUT_INTERIM, CREATION_TIMESTAMP, " \
+                "SERVICE_MODEL_UUID) VALUES ('createInstance','1','{0}'," \
+                "'/mso/async/services/CreateVcpeResCustService',NULL,181,NULL, NOW()," \
+                "'{1}');".format(parser.svc_model['modelName'], parser.svc_model['modelVersionId']))
+    if vcpecommon.oom_mode:
+        logger.info('Inserting vcpe customer service workflow entry into SO catalogdb')
+        vcpecommon.execute_cmds_so_db(cmds)
+    else:
+        logger.info('\n\nManually run a command from Rancher node to insert vcpe'
+                    'customer service workflow entry in SO catalogdb:\n'
+                    '\nkubectl -n {0} exec {1}-mariadb-galera-mariadb-galera-0'
+                    ' -- mysql -uroot -psecretpassword catalogdb -e '
+                    '"'.format(vcpecommon.onap_namespace,
+                    vcpecommon.onap_environment) + '\n'.join(cmds) + '"')
 
 def insert_sdnc_ip_pool(vcpecommon):
     logger = logging.getLogger(__name__)
