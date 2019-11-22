@@ -215,7 +215,7 @@ def closed_loop(lossrate=0):
 def init_so_sdnc():
     logger = logging.getLogger('__name__')
     vcpecommon = VcpeCommon()
-    #config_sdnc_so.insert_sdnc_ip_pool(vcpecommon)
+    config_sdnc_so.insert_sdnc_ip_pool(vcpecommon)
     config_sdnc_so.insert_customer_service_to_so(vcpecommon)
     #config_sdnc_so.insert_customer_service_to_sdnc(vcpecommon)
     vgw_vfmod_name_index=  0
