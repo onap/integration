@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51c5a00c_9a659607",
+        "filename": "test/vcpe/vcpe.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2019-11-22T14:24:07Z",
+      "side": 1,
+      "message": "agree with uncommenting - does the setup/init test connectivity an error to the user if they arent running vcpe.py from a location that is part of the k8 cluster ?",
+      "range": {
+        "startLine": 218,
+        "startChar": 4,
+        "endLine": 218,
+        "endChar": 50
+      },
+      "revId": "ebdf846d6e9b62c0e6b1ac7fea1157708dac0701",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
