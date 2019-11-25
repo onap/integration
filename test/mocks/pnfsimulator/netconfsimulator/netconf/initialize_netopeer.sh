@@ -34,7 +34,7 @@ cp /tls/* /usr/local/etc/keystored/keys/
 cp /netconf/*.xml /tmp/
 
 chmod +x /netconf/set-up-xmls.py
-/netconf/set-up-xmls.py /tls ca.crt server_cert.crt server_key.pem /tmp/load_server_certs.xml /tmp/tls_listen.xml
+/netconf/set-up-xmls.py /tls ca.crt server_cert.crt server_key.pem /tmp/load_server_certs.xml /tmp/tls_listen.xml client.crt
 
 /usr/bin/supervisord -c /etc/supervisord.conf &
 sysrepoctl --install --yang=/netconf/pnf-simulator.yang --owner=netconf:nogroup --permissions=777

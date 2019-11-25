@@ -35,9 +35,10 @@ SERVER_KEY_NAME = "SERVER_KEY_NAME"
 SERVER_CERT_NAME = "SERVER_CERT_NAME"
 SERVER_CERTIFICATE_HERE = "SERVER_CERTIFICATE_HERE"
 CA_CERT_NAME = "CA_CERT_NAME"
+CLIENT_CERT_NAME = "CLIENT_CERT_NAME"
+CLIENT_CERTIFICATE_HERE="CLIENT_CERTIFICATE_HERE"
 CA_CERTIFICATE_HERE = "CA_CERTIFICATE_HERE"
-CA_FINGERPRINT_HERE = "CA_FINGERPRINT_HERE"
-CA_FINGERPRINT_ENV = "CA_FINGERPRINT"
+CLIENT_FINGERPRINT_HERE = "CLIENT_FINGERPRINT_HERE"
 SERVER_CERTIFICATE_ENV = "SERVER_CERTIFICATE_ENV"
 CA_CERTIFICATE_ENV = "CA_CERTIFICATE_ENV"
 
@@ -64,7 +65,7 @@ class CertHelper(object):
     @classmethod
     def get_cert_fingerprint(cls, directory, cert_filename):
         cmd = "openssl x509 -fingerprint -noout -in {}/{} | sed -e " \
-            "'s/SHA1 Fingerprint//; s/=//; s/=//p'" \
+              "'s/SHA1 Fingerprint//; s/=//; s/=//p'" \
             .format(directory, cert_filename)
         fingerprint = CertHelper.system(cmd)
         return fingerprint
@@ -84,19 +85,21 @@ class App(object):
     @classmethod
     def patch_server_certs(cls, data, server_key_filename_noext,
                            server_cert_filename_noext, ca_cert_filename_noext,
-                           server_cert, ca_cert):
+                           server_cert, ca_cert, client_cert_filename_noext, client_cert):
         data = data.replace(SERVER_KEY_NAME, server_key_filename_noext)
         data = data.replace(SERVER_CERT_NAME, server_cert_filename_noext)
         data = data.replace(CA_CERT_NAME, ca_cert_filename_noext)
+        data = data.replace(CLIENT_CERT_NAME, client_cert_filename_noext)
+        data = data.replace(CLIENT_CERTIFICATE_HERE, client_cert)
         data = data.replace(SERVER_CERTIFICATE_HERE, server_cert)
         data = data.replace(CA_CERTIFICATE_HERE, ca_cert)
         return data
 
     @classmethod
-    def patch_tls_listen(cls, data, server_cert_filename_noext, ca_fingerprint,
+    def patch_tls_listen(cls, data, server_cert_filename_noext, client_fingerprint,
                          server_cert, ca_cert):
         data = data.replace(SERVER_CERT_NAME, server_cert_filename_noext)
-        data = data.replace(CA_FINGERPRINT_HERE, ca_fingerprint)
+        data = data.replace(CLIENT_FINGERPRINT_HERE, client_fingerprint)
         data = data.replace(SERVER_CERTIFICATE_HERE, server_cert)
         data = data.replace(CA_CERTIFICATE_HERE, ca_cert)
         return data
@@ -110,40 +113,46 @@ class App(object):
         server_key_filename = sys.argv[4]
         load_server_certs_xml_file = sys.argv[5]
         tls_listen_xml_file = sys.argv[6]
+        client_cert_filename = sys.argv[7]
+
 
         # strip extensions
         ca_cert_filename_noext = ca_cert_filename.replace(".crt", "")
         server_cert_filename_noext = server_cert_filename.replace(".crt", "")
         server_key_filename_noext = server_key_filename.replace(".pem", "")
+        client_cert_filename_noext = client_cert_filename.replace(".crt", "")
 
         # get certificates from files
         server_cert = CertHelper.get_pem_content_stripped(cert_dir,
                                                           server_cert_filename)
         ca_cert = CertHelper.get_pem_content_stripped(cert_dir,
                                                       ca_cert_filename)
-        ca_fingerprint = CertHelper.get_cert_fingerprint(cert_dir,
-                                                         ca_cert_filename)
-        CertHelper.print_certs_info(ca_cert, ca_fingerprint, server_cert)
+        client_fingerprint = CertHelper.get_cert_fingerprint(cert_dir,
+                                                             client_cert_filename)
+        CertHelper.print_certs_info(ca_cert, client_fingerprint, server_cert)
 
+        client_cert = CertHelper.get_pem_content_stripped(cert_dir,
+                                                          client_cert_filename)
         # patch TLS configuration files
         data_srv = FileHelper.get_file_contents(load_server_certs_xml_file)
         patched_srv = App.patch_server_certs(data_srv, server_key_filename_noext,
                                              server_cert_filename_noext,
                                              ca_cert_filename_noext,
-                                             server_cert, ca_cert)
+                                             server_cert, ca_cert,
+                                             client_cert_filename_noext, client_cert)
         FileHelper.write_file_contents(load_server_certs_xml_file, patched_srv)
 
         data_tls = FileHelper.get_file_contents(tls_listen_xml_file)
         patched_tls = App.patch_tls_listen(data_tls, server_cert_filename_noext,
-                                           ca_fingerprint, server_cert, ca_cert)
+                                           client_fingerprint, server_cert, ca_cert)
         FileHelper.write_file_contents(tls_listen_xml_file, patched_tls)
 
 
 def main():
-    if len(sys.argv) is not 7:
+    if len(sys.argv) is not 8:
         print("Usage: {1} <cert_dir> <ca_cert_filename> <server_cert_filename> "
               "<server_key_filename> <load_server_certs_xml_full_path> "
-              "<tls_listen_full_path>", sys.argv[0])
+              "<tls_listen_full_path> <client_cert_filename>", sys.argv[0])
         return 1
     App.run()
     logger.info("XML files patched successfully")

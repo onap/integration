@@ -26,14 +26,17 @@ The command *docker-compose down* can be used to shut the simulator down.
 ## Usage of simulator
 
 ### Netconf TLS support
-Embedded netconf server supports connections over TLS on port 6513. Default server and CA certificate have been taken from Netopeer2 repository: https://github.com/CESNET/Netopeer2/tree/master/server/configuration/tls
+Embedded netconf server supports connections over TLS on port 6513. Default server and CA certificate have been generated using method described below. Please proceed with these steps to recreate own certificates. Important is to fulfill all needed data during certificate preparation because Netconf verifies certs description pretty strictly. 
 
 Mentioned Github repository contains sample client certificate, which works out of the box. 
+
 #### Replacing server certificates
 In order to replace TLS certificates with third-party ones, the following naming schema must be followed:
 * CA certificate file should be named 'ca.crt'
 * Netconf server certificate file should be named 'server_cert.crt'
 * Netconf server keyfile file should be named 'server_key.pem'
+* Client certificate file should be named 'client.crt'
+* Client keyfile should be named 'client.key'
 
 Certificates and keys should follow PEM formatting guidelines.
 Prepared files should be placed under _tls/_ directory (existing files must be overwritten). 
@@ -41,7 +44,25 @@ After copying, it is necessary to restart the Netconf Simulator (please refer to
 
 This is a sample curl command to test client connection (the example assumes that Netconf Simulator runs on 127.0.0.1):
 ```
-curl -k -v https://127.0.0.1:6513 --cacert ca.crt --key client.key --cert client.crt
+curl --cacert ca.crt  --cert client.crt --key client.key https://127.0.0.1:6513 -kv --http0.9
+```
+or using openssl:
+```
+openssl s_client -connect 127.0.0.1:6513 -cert client.crt -key client.key -CAfile ca.crt
+```
+
+To regenerate all required certificates follow steps:
+1. Generate your private key and public certificate: ```openssl req -newkey rsa:4096 -keyform PEM -keyout ca.key -x509 -days 3650 -outform PEM -out ca.crt```
+2. Create a private client key:```openssl genrsa -out client.key 4096```
+3. Generate certificate signing request:```openssl req -new -key client.key -out client.req```
+4. Generating signed client certificate: ```openssl x509 -req -in client.req -CA ca.crt -CAkey ca.key -set_serial 101 -extensions client -days 365 -outform PEM -out client.crt```
+5. Create a private server key:```openssl genrsa -out server_key.pem 4096```
+6. Generate certificate signing request:```openssl req -new -key server_key.pem -out server.req -sha256```
+7. Generating signed server certificate: ```openssl x509 -req -in server.req -CA ca.crt -CAkey ca.key -set_serial 100 -extensions server -days 1460 -outform PEM -out server_cert.crt -sha256```
+
+Client authenticates using described TLS configuration, their username will resolve to test (more information in tls_listen.xml under the cert-to-name section). It is required that this username exists on the local system (just like for SSH), so you will need to (temporarily) create this user. The simplest way is executing # useradd -MN test, which creates the user without a home directory and user group.
+
+Currently by default there is only a possibility to substitute existing certificates for single user. 
 ```
 
 
