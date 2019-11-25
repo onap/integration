@@ -36,5 +36,9 @@
       <name>CA_CERT_NAME</name>
       <certificate>CA_CERTIFICATE_HERE</certificate>
     </trusted-certificate>
+    <trusted-certificate>
+      <name>CLIENT_CERT_NAME</name>
+      <certificate>CLIENT_CERTIFICATE_HERE</certificate>
+    </trusted-certificate>
   </trusted-certificates>
 </keystore>
