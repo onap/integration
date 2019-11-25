@@ -22,6 +22,30 @@
       "revId": "ebdf846d6e9b62c0e6b1ac7fea1157708dac0701",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "152c68b4_b35084fa",
+        "filename": "test/vcpe/vcpe.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2019-11-25T10:46:11Z",
+      "side": 1,
+      "message": "https://gerrit.onap.org/r/c/integration/+/98806/ addresses that scenario.",
+      "parentUuid": "51c5a00c_9a659607",
+      "range": {
+        "startLine": 218,
+        "startChar": 4,
+        "endLine": 218,
+        "endChar": 50
+      },
+      "revId": "ebdf846d6e9b62c0e6b1ac7fea1157708dac0701",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
