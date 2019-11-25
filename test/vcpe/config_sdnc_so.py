@@ -88,14 +88,18 @@ def insert_customer_service_to_so(vcpecommon):
                     vcpecommon.onap_environment) + '\n'.join(cmds) + '"')
 
 def insert_sdnc_ip_pool(vcpecommon):
-    logger = logging.getLogger(__name__)
-    logger.info('Inserting SDNC ip pool to SDNC DB')
-    cmds = []
-    # Get the VGWs network address
-    vgw_net = '.'.join(vcpecommon.preload_network_config['mux_gw'][0].split('.')[:3])
-    row_values = []
-    # Prepare single INSERT statement with all IP values
-    for ip in range(22,250):
-        row_values.append("('', 'VGW', 'AVAILABLE','{0}.{1}')".format(vgw_net,ip))
-    cmds.append("INSERT IGNORE INTO IPV4_ADDRESS_POOL VALUES" + ', '.join(row_values) + ';')
-    vcpecommon.execute_cmds_mariadb(cmds)
+    if vcpecommon.oom_mode:
+        logger = logging.getLogger(__name__)
+        logger.info('Inserting SDNC ip pool to SDNC DB')
+        cmds = []
+        # Get the VGWs network address
+        vgw_net = '.'.join(vcpecommon.preload_network_config['mux_gw'][0].split('.')[:3])
+        row_values = []
+        # Prepare single INSERT statement with all IP values
+        for ip in range(22,250):
+            row_values.append("('', 'VGW', 'AVAILABLE','{0}.{1}')".format(vgw_net,ip))
+        cmds.append("INSERT IGNORE INTO IPV4_ADDRESS_POOL VALUES" + ', '.join(row_values) + ';')
+        vcpecommon.execute_cmds_mariadb(cmds)
+    else:
+        # Ip pool should have been inserted manually according to the documentation
+        pass
