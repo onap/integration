@@ -71,47 +71,53 @@ Here are the main steps to run the use case in Integration lab environment, wher
     # CHANGEME: vgw_VfModuleModelInvariantUuid is in rescust service csar, open service template with filename like service-VcpesvcRescust1118-template.yml and look for vfModuleModelInvariantUUID under groups vgw module metadata. 
     self.vgw_VfModuleModelInvariantUuid = 'xxxxxxxxxxxxxxx'
 
-5. Initialize vcpe
+5. If running with oom_mode=False initialize SDNC ip pool by running below command from Rancher node. It will be done automatically otherwise.
+
+::
+
+    kubectl -n onap exec -it dev-sdnc-sdnc-0 -- /opt/sdnc/bin/addIpAddresses.sh VGW 10.5.0 22 250
+
+6. Initialize vcpe
 
 ::
    
    vcpe.py init
 
-6. If running with oom_mode=False run a command printed at the end of the above step from Rancher node to insert vcpe customer service workflow entry in SO catalogdb. It will be done automatically otherwise.
+7. If running with oom_mode=False run a command printed at the end of the above step from Rancher node to insert vcpe customer service workflow entry in SO catalogdb. It will be done automatically otherwise.
 
-7. Run Robot to create and distribute for vCPE customer service. This step assumes step 1 has successfully distributed all vcpe models except customer service model
+8. Run Robot to create and distribute for vCPE customer service. This step assumes step 1 has successfully distributed all vcpe models except customer service model
 
 ::
 
    ete-k8s.sh onap distributevCPEResCust
 
-8. Instantiate vCPE infra services
+9. Instantiate vCPE infra services
 
 ::
 
     vcpe.py infra
 
-9. From Rancher node run vcpe healthcheck command to check connectivity from sdnc to brg and gmux, and vpp configuration of brg and gmux.
+10. From Rancher node run vcpe healthcheck command to check connectivity from sdnc to brg and gmux, and vpp configuration of brg and gmux.
 
 ::
 
     healthcheck-k8s.py --namespace <namespace name> --environment <env name>
 
-10. Instantiate vCPE customer service.
+11. Instantiate vCPE customer service.
 
 ::
 
     vcpe.py customer
 
-11. Update libevel.so in vGMUX VM and restart the VM. This allows vGMUX to send events to VES collector in close loop test. See tutorial wiki for details
+12. Update libevel.so in vGMUX VM and restart the VM. This allows vGMUX to send events to VES collector in close loop test. See tutorial wiki for details
 
-12. Run heatbridge. The heatbridge command usage: demo-k8s.sh <namespace> heatbridge <stack_name> <service_instance_id> <service> <oam-ip-address>, please refer to vCPE tutorial page on how to fill in those paraemters. See an example as following:
+13. Run heatbridge. The heatbridge command usage: demo-k8s.sh <namespace> heatbridge <stack_name> <service_instance_id> <service> <oam-ip-address>, please refer to vCPE tutorial page on how to fill in those paraemters. See an example as following:
 
 ::
 
     ~/integration/test/vcpe# ~/oom/kubernetes/robot/demo-k8s.sh onap heatbridge vcpe_vfmodule_e2744f48729e4072b20b_201811262136 d8914ef3-3fdb-4401-adfe-823ee75dc604 vCPEvGMUX 10.0.101.21
 
-13. Start closed loop test by triggering packet drop VES event, and monitor if vGMUX is restarting. You may need to run the command twice if the first run fails
+14. Start closed loop test by triggering packet drop VES event, and monitor if vGMUX is restarting. You may need to run the command twice if the first run fails
 
 :: 
 
