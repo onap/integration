@@ -95,13 +95,6 @@ class VcpeCommon:
         self.logger.setLevel(logging.DEBUG)
         self.logger.info('Initializing configuration')
 
-        ##################################################################################################################################
-        # following param must be updated e.g. from csar file (grep for VfModuleModelInvariantUuid string) before vcpe.py customer call !!
-        # vgw_VfModuleModelInvariantUuid is in rescust service csar,
-        # look in service-VcpesvcRescust1118-template.yml for groups vgw module metadata. TODO: read this value automatically
-        # CHANGEME part
-        self.vgw_VfModuleModelInvariantUuid = '26d6a718-17b2-4ba8-8691-c44343b2ecd2'
-
         # OOM: this is the address that the brg and bng will nat for sdnc access - 10.0.0.x address of k8 host for sdnc-0 container
         self.sdnc_oam_ip = self.get_pod_node_oam_ip(self.sdnc_controller_pod)
         # OOM: this is a k8s host external IP, e.g. oom-k8s-01 IP
