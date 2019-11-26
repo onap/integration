@@ -183,10 +183,11 @@ class SoUtils:
         req_details['owningEntity'] = {'owningEntityId': self.vcpecommon.owning_entity_id,
                                        'owningEntityName': self.vcpecommon.owning_entity_name}
 
-    def generate_custom_service_request(self, instance_name, model, brg_mac):
+    def generate_custom_service_request(self, instance_name, svc_model,
+                                        vfmodule_models, brg_mac):
         brg_mac_enc = brg_mac.replace(':', '-')
         req_details = {
-            'modelInfo':  model,
+            'modelInfo':  svc_model,
             'subscriberInfo':  {'subscriberName': 'Kaneohe',
                                 'globalSubscriberId': self.vcpecommon.global_subscriber_id},
             'cloudConfiguration': {"lcpCloudRegionId": 'RegionOne', #self.vcpecommon.os_region_name,
@@ -201,7 +202,7 @@ class SoUtils:
                        'name': 'VfModuleNames',
                        'value': [
                             {
-                                'VfModuleModelInvariantUuid': self.vcpecommon.vgw_VfModuleModelInvariantUuid,
+                                'VfModuleModelInvariantUuid': vfmodule_models[0]['modelInvariantId'],
                                 'VfModuleName': 'VGW2BRG-{0}'.format(brg_mac_enc)
                             }
                        ]
@@ -237,7 +238,8 @@ class SoUtils:
         instance_name = '_'.join([self.vcpecommon.instance_name_prefix['service'],
                                   parser.svc_model['modelName'][0:10], name_suffix])
         instance_name = instance_name.lower()
-        req = self.generate_custom_service_request(instance_name, parser.svc_model, brg_mac)
+        req = self.generate_custom_service_request(instance_name, parser.svc_model,
+                                                   parser.vfmodule_models, brg_mac)
         self.logger.info(json.dumps(req, indent=2, sort_keys=True))
         self.logger.info('Creating custom service {0}.'.format(instance_name))
         req_id, svc_instance_id = self.submit_create_req(req, 'service')

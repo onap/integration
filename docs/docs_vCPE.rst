@@ -66,10 +66,6 @@ Here are the main steps to run the use case in Integration lab environment, wher
         'public_net_id': 'xxxxxxxxxxxxx'
     }
 
-::
-
-    # CHANGEME: vgw_VfModuleModelInvariantUuid is in rescust service csar, open service template with filename like service-VcpesvcRescust1118-template.yml and look for vfModuleModelInvariantUUID under groups vgw module metadata.
-    self.vgw_VfModuleModelInvariantUuid = 'xxxxxxxxxxxxxxx'
 
 5. If running with oom_mode=False initialize SDNC ip pool by running below command from k8s control node. It will be done automatically otherwise.
 
