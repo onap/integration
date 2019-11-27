@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d675c18_b935beaa",
+        "filename": "docs/docs_vCPE.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2019-11-27T07:13:37Z",
+      "side": 1,
+      "message": "I am surprised to see a reference to rancher. on our side the kubernetes is deployed with kubespray. Shall we have a dependency between a testcase and the way to install kubernetes?\nIf so it shall be clearly indicated",
+      "revId": "d69bef82d8785f7302347dfa40a44688a352d976",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
