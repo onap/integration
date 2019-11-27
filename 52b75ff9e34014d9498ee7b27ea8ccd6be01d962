@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac3a649b_7027bc13",
+        "filename": "docs/docs_vCPE.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2019-11-27T07:10:41Z",
+      "side": 1,
+      "message": "trailing spaces",
+      "range": {
+        "startLine": 67,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 8
+      },
+      "revId": "52b75ff9e34014d9498ee7b27ea8ccd6be01d962",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6147bc27_5086901c",
+        "filename": "test/vcpe/config_sdnc_so.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2019-11-27T07:10:41Z",
+      "side": 1,
+      "message": "I assume there is no way to do it through API yet..patching the DB sounds always a bit weird for me",
+      "revId": "52b75ff9e34014d9498ee7b27ea8ccd6be01d962",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
