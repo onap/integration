@@ -16,6 +16,24 @@
       "revId": "d69bef82d8785f7302347dfa40a44688a352d976",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "828441b5_01306363",
+        "filename": "docs/docs_vCPE.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2019-11-27T07:38:31Z",
+      "side": 1,
+      "message": "Actually no, i just followed the convention of this manual initially. Just clarified that it should be a host that\u0027s part of the cluster.",
+      "parentUuid": "4d675c18_b935beaa",
+      "revId": "d69bef82d8785f7302347dfa40a44688a352d976",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
