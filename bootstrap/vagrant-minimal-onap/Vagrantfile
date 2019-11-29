@@ -1,0 +1,174 @@
+# -*- mode: ruby -*-
+# -*- coding: utf-8 -*-
+
+host_ip = "192.168.121.1"
+operator_key = "${HOME}/.ssh/onap-key"
+vagrant_user = "vagrant"
+vagrant_password = "vagrant"
+synced_folder_main = "/vagrant"
+synced_folder_config = "#{synced_folder_main}/config"
+cluster_yml = "cluster.yml"
+apt_prefs_dir = "/etc/apt/apt.conf.d"
+apt_prefs = "95silent-approval"
+
+vm_memory = 2 * 1024
+vm_cpus = 1
+vm_box = "generic/ubuntu1804"
+
+operation = { name: 'operator', hostname: 'operator', ip: '172.17.4.254' }
+cluster = [
+  { name: 'control', hostname: 'control', ip: '172.17.4.100' },
+  { name: 'worker', hostname: 'worker', ip: '172.17.4.101' }
+]
+
+all = cluster.dup << operation
+
+operation_post_msg = "Run: \"vagrant provision #{operation[:name]} --provision-with=rke_up,setup_kubectl\" to complete cluster creation"
+
+$replace_dns = <<-SCRIPT
+  HOST_IP="$1"
+  rm -f /etc/resolv.conf # drop its dynamic management by systemd-resolved
+  echo nameserver "$HOST_IP" | tee /etc/resolv.conf
+SCRIPT
+
+$add_to_docker_group = <<-SCRIPT
+  USER="$1"
+  echo "Adding ${USER} to 'docker' group"
+  usermod -aG docker "$USER"
+SCRIPT
+
+$setup_debconf = <<-SCRIPT
+  echo "Setting debconf frontend to noninteractive"
+  sed -i'.orig' '/^Config:/a Frontend: noninteractive' /etc/debconf.conf
+SCRIPT
+
+$install_sshpass = <<-SCRIPT
+  apt-get update
+  echo "Installing 'sshpass'"
+  apt-get install sshpass
+SCRIPT
+
+$generate_key = <<-SCRIPT
+  KEY_FILE="$1"
+  echo "Generating SSH key (${KEY_FILE})"
+  ssh-keygen -q -b 4096 -t rsa -f "$KEY_FILE" -N ""
+SCRIPT
+
+$deploy_key = <<-SCRIPT
+  KEY="$1"
+  USER="$2"
+  PASS="$PASSWORD"
+  IPS="$3"
+  echo "Deploying ${KEY} for ${USER}"
+  for ip in $IPS; do
+    echo "on ${ip}"
+    sshpass -p "$PASS" ssh-copy-id -o StrictHostKeyChecking=no -i "$KEY" "${USER}@${ip}"
+  done
+SCRIPT
+
+$link_dotfiles = <<-SCRIPT
+  SYNC_DIR="$1"
+  for rc in ${SYNC_DIR}/dot_*; do
+    src="$rc"
+    dst="${HOME}/.${rc##*dot_}"
+    echo "Symlinking ${src} to ${dst}"
+    ln -sf "$src" "$dst"
+  done
+SCRIPT
+
+$link_file = <<-SCRIPT
+  SYNC_DIR="$1"
+  FILE="$2"
+  src="${SYNC_DIR}/${FILE}"
+  dst="$3"
+  echo "Symlinking ${src} to ${dst}"
+  ln -sf "$src" "$dst"
+SCRIPT
+
+$rke_up = "rke up"
+$rke_down = "rke remove --force"
+
+Vagrant.configure('2') do |config|
+  all.each do |machine|
+    config.vm.define machine[:name] do |config|
+      config.vm.box = vm_box
+      config.vm.hostname = machine[:hostname]
+
+      config.vm.provider :virtualbox do |v|
+        v.name = machine[:name]
+        v.memory = vm_memory
+        v.cpus = vm_cpus
+      end
+
+      config.vm.provider :libvirt do |v|
+        v.memory = vm_memory
+        v.cpus = vm_cpus
+      end
+
+      config.vm.network :private_network, ip: machine[:ip]
+      config.vm.provision "replace_dns", type: :shell, run: "always", inline: $replace_dns, args: host_ip
+
+      if machine[:name] == 'control'
+        config.vm.provision "customize_control", type: :shell, path: "../../tools/dublin/imported/openstack-k8s-controlnode.sh"
+        config.vm.provision "fix_groups_control", type: :shell, inline: $add_to_docker_group, args: vagrant_user
+      end
+
+      if machine[:name] == 'worker'
+        config.vm.provision "customize_worker", type: :shell, path: "../../tools/dublin/imported/openstack-k8s-workernode.sh"
+        config.vm.provision "fix_group_worker", type: :shell, inline: $add_to_docker_group, args: vagrant_user
+      end
+
+      if machine[:name] == 'operator'
+        config.vm.synced_folder ".", synced_folder_main, type: "rsync", rsync__exclude: "Vagrantfile"
+        config.vm.synced_folder "../../tools/config", synced_folder_config, type: "rsync"
+
+        config.vm.provision "setup_debconf", type: :shell, inline: $setup_debconf
+        config.vm.provision "link_apt_prefs", type: :shell, run: "always" do |s|
+          s.inline = $link_file
+          s.args = [synced_folder_config, apt_prefs, apt_prefs_dir]
+        end
+        config.vm.provision "link_dotfiles_root", type: :shell, run: "always" do |s|
+          s.inline = $link_dotfiles
+          s.args = synced_folder_config
+        end
+        config.vm.provision "link_dotfiles_user", type: :shell, run: "always" do |s|
+          s.privileged = false
+          s.inline = $link_dotfiles
+          s.args = synced_folder_config
+        end
+
+        config.vm.provision "install_sshpass", type: :shell, inline: $install_sshpass
+        config.vm.provision "generate_key", type: :shell, privileged: false, inline: $generate_key, args: operator_key
+
+        ips = ""
+        cluster.each { |node| ips << node[:ip] << " " }
+        config.vm.provision "deploy_key", type: :shell do |s|
+          s.privileged = false
+          s.inline = $deploy_key
+          s.args = [operator_key, vagrant_user, ips]
+          s.env = {'PASSWORD': vagrant_password}
+        end
+
+        config.vm.provision "get_rke", type: :shell, path: "../../tools/dublin/get_rke.sh"
+        config.vm.provision "link_cluster_yml", type: :shell, run: "always" do |s|
+          s.privileged = false
+          s.inline = $link_file
+          s.args = [synced_folder_main, cluster_yml, "$HOME"]
+        end
+
+        config.vm.post_up_message = operation_post_msg
+        config.vm.provision "rke_up", type: :shell, run: "never", privileged: false, inline: $rke_up
+        config.trigger.before :destroy do |trigger|
+          trigger.warn = "Removing cluster"
+          trigger.run_remote = {privileged: false, inline: $rke_down}
+        end
+
+        config.vm.provision "get_kubectl", type: :shell, path: "../../tools/dublin/get_kubectl.sh"
+        config.vm.provision "setup_kubectl", type: :shell, run: "never" do |s|
+          s.privileged = false
+          s.path = "../../tools/dublin/setup_kubectl.sh"
+        end
+      end
+    end
+  end
+end
