@@ -1,0 +1,49 @@
+# An example of a Kubernetes cluster for ONAP
+ssh_key_path: &ssh_key_path "~/.ssh/onap-key"
+nodes:
+- address: 172.17.4.100
+  port: "22"
+  role:
+  - controlplane
+  - etcd
+  hostname_override: "onap-control-1"
+  user: vagrant
+  ssh_key_path: *ssh_key_path
+- address: 172.17.4.101
+  port: "22"
+  role:
+  - worker
+  hostname_override: "onap-k8s-1"
+  user: vagrant
+  ssh_key_path: *ssh_key_path
+services:
+  kube-api:
+    service_cluster_ip_range: 10.43.0.0/16
+    pod_security_policy: false
+    always_pull_images: false
+  kube-controller:
+    cluster_cidr: 10.42.0.0/16
+    service_cluster_ip_range: 10.43.0.0/16
+  kubelet:
+    cluster_domain: cluster.local
+    cluster_dns_server: 10.43.0.10
+    fail_swap_on: false
+network:
+  plugin: canal
+authentication:
+  strategy: x509
+ssh_key_path: *ssh_key_path
+ssh_agent_auth: false
+authorization:
+  mode: rbac
+ignore_docker_version: false
+kubernetes_version: "v1.13.5-rancher1-2"
+private_registries:
+- url: nexus3.onap.org:10001
+  user: docker
+  password: docker
+  is_default: true
+cluster_name: "onap"
+restore:
+  restore: false
+  snapshot_name: ""

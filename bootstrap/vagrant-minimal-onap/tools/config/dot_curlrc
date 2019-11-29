@@ -1,0 +1,8 @@
+# Disable progress meter
+--silent
+# Show error messages
+--show-error
+# Fail silently on server errors
+--fail
+# Follow redirections
+--location
