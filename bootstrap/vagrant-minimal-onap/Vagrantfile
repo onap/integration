@@ -7,6 +7,7 @@ vagrant_user = "vagrant"
 vagrant_password = "vagrant"
 synced_folder_main = "/vagrant"
 synced_folder_config = "#{synced_folder_main}/config"
+synced_folder_tools_config = "#{synced_folder_main}/tools/config"
 cluster_yml = "cluster.yml"
 apt_prefs_dir = "/etc/apt/apt.conf.d"
 apt_prefs = "95silent-approval"
@@ -109,32 +110,31 @@ Vagrant.configure('2') do |config|
       config.vm.provision "replace_dns", type: :shell, run: "always", inline: $replace_dns, args: host_ip
 
       if machine[:name] == 'control'
-        config.vm.provision "customize_control", type: :shell, path: "../../tools/dublin/imported/openstack-k8s-controlnode.sh"
+        config.vm.provision "customize_control", type: :shell, path: "tools/imported/openstack-k8s-controlnode.sh"
         config.vm.provision "fix_groups_control", type: :shell, inline: $add_to_docker_group, args: vagrant_user
       end
 
       if machine[:name] == 'worker'
-        config.vm.provision "customize_worker", type: :shell, path: "../../tools/dublin/imported/openstack-k8s-workernode.sh"
+        config.vm.provision "customize_worker", type: :shell, path: "tools/imported/openstack-k8s-workernode.sh"
         config.vm.provision "fix_group_worker", type: :shell, inline: $add_to_docker_group, args: vagrant_user
       end
 
       if machine[:name] == 'operator'
         config.vm.synced_folder ".", synced_folder_main, type: "rsync", rsync__exclude: "Vagrantfile"
-        config.vm.synced_folder "../../tools/config", synced_folder_config, type: "rsync"
 
         config.vm.provision "setup_debconf", type: :shell, inline: $setup_debconf
         config.vm.provision "link_apt_prefs", type: :shell, run: "always" do |s|
           s.inline = $link_file
-          s.args = [synced_folder_config, apt_prefs, apt_prefs_dir]
+          s.args = [synced_folder_tools_config, apt_prefs, apt_prefs_dir]
         end
         config.vm.provision "link_dotfiles_root", type: :shell, run: "always" do |s|
           s.inline = $link_dotfiles
-          s.args = synced_folder_config
+          s.args = synced_folder_tools_config
         end
         config.vm.provision "link_dotfiles_user", type: :shell, run: "always" do |s|
           s.privileged = false
           s.inline = $link_dotfiles
-          s.args = synced_folder_config
+          s.args = synced_folder_tools_config
         end
 
         config.vm.provision "install_sshpass", type: :shell, inline: $install_sshpass
@@ -149,11 +149,11 @@ Vagrant.configure('2') do |config|
           s.env = {'PASSWORD': vagrant_password}
         end
 
-        config.vm.provision "get_rke", type: :shell, path: "../../tools/dublin/get_rke.sh"
+        config.vm.provision "get_rke", type: :shell, path: "tools/get_rke.sh"
         config.vm.provision "link_cluster_yml", type: :shell, run: "always" do |s|
           s.privileged = false
           s.inline = $link_file
-          s.args = [synced_folder_main, cluster_yml, "$HOME"]
+          s.args = [synced_folder_config, cluster_yml, "$HOME"]
         end
 
         config.vm.post_up_message = operation_post_msg
@@ -163,10 +163,10 @@ Vagrant.configure('2') do |config|
           trigger.run_remote = {privileged: false, inline: $rke_down}
         end
 
-        config.vm.provision "get_kubectl", type: :shell, path: "../../tools/dublin/get_kubectl.sh"
+        config.vm.provision "get_kubectl", type: :shell, path: "tools/get_kubectl.sh"
         config.vm.provision "setup_kubectl", type: :shell, run: "never" do |s|
           s.privileged = false
-          s.path = "../../tools/dublin/setup_kubectl.sh"
+          s.path = "tools/setup_kubectl.sh"
         end
       end
     end
