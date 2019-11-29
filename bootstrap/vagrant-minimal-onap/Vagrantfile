@@ -8,21 +8,25 @@ vagrant_password = "vagrant"
 synced_folder_main = "/vagrant"
 synced_folder_config = "#{synced_folder_main}/config"
 synced_folder_tools_config = "#{synced_folder_main}/tools/config"
+os_config = "#{synced_folder_config}/local.conf"
 cluster_yml = "cluster.yml"
 apt_prefs_dir = "/etc/apt/apt.conf.d"
 apt_prefs = "95silent-approval"
 
 vm_memory = 2 * 1024
+vm_memory_os = 8 * 1024
 vm_cpus = 1
+vm_cpus_os = 2
 vm_box = "generic/ubuntu1804"
 
 operation = { name: 'operator', hostname: 'operator', ip: '172.17.4.254' }
+devstack = { name: 'devstack', hostname: 'devstack', ip: '172.17.4.200' }
 cluster = [
   { name: 'control', hostname: 'control', ip: '172.17.4.100' },
   { name: 'worker', hostname: 'worker', ip: '172.17.4.101' }
 ]
 
-all = cluster.dup << operation
+all = cluster.dup << operation << devstack
 
 operation_post_msg = "Run: \"vagrant provision #{operation[:name]} --provision-with=rke_up,setup_kubectl\" to complete cluster creation"
 
@@ -30,6 +34,19 @@ $replace_dns = <<-SCRIPT
   HOST_IP="$1"
   rm -f /etc/resolv.conf # drop its dynamic management by systemd-resolved
   echo nameserver "$HOST_IP" | tee /etc/resolv.conf
+SCRIPT
+
+$enable_ipv6 = <<-SCRIPT
+  sed -i'' 's/net.ipv6.conf.all.disable_ipv6.*$/net.ipv6.conf.all.disable_ipv6 = 0/' /etc/sysctl.conf
+  sysctl -p
+SCRIPT
+
+$setup_devstack = <<-SCRIPT
+  CONFIG="$1"
+  git clone https://opendev.org/openstack/devstack
+  cd devstack
+  cp "$CONFIG" .
+  ./stack.sh
 SCRIPT
 
 $add_to_docker_group = <<-SCRIPT
@@ -97,17 +114,24 @@ Vagrant.configure('2') do |config|
 
       config.vm.provider :virtualbox do |v|
         v.name = machine[:name]
-        v.memory = vm_memory
-        v.cpus = vm_cpus
+        v.memory = machine[:name] != 'devstack' ? vm_memory : vm_memory_os
+        v.cpus = machine[:name] != 'devstack' ? vm_cpus : vm_cpus_os
       end
 
       config.vm.provider :libvirt do |v|
-        v.memory = vm_memory
-        v.cpus = vm_cpus
+        v.memory = machine[:name] != 'devstack' ? vm_memory : vm_memory_os
+        v.cpus = machine[:name] != 'devstack' ? vm_cpus : vm_cpus_os
       end
 
       config.vm.network :private_network, ip: machine[:ip]
       config.vm.provision "replace_dns", type: :shell, run: "always", inline: $replace_dns, args: host_ip
+
+      if machine[:name] == 'devstack'
+        config.vm.synced_folder ".", synced_folder_main, type: "rsync", rsync__exclude: "Vagrantfile"
+
+        config.vm.provision "enable_ipv6", type: :shell, run: "always", inline: $enable_ipv6
+        config.vm.provision "setup_devstack", type: :shell, privileged: false, inline: $setup_devstack, args: os_config
+      end
 
       if machine[:name] == 'control'
         config.vm.provision "customize_control", type: :shell, path: "tools/imported/openstack-k8s-controlnode.sh"
