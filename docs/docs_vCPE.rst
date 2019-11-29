@@ -66,26 +66,26 @@ Here are the main steps to run the use case in Integration lab environment, wher
         'public_net_id': 'xxxxxxxxxxxxx'
     }
 
+5. Run Robot to create and distribute for vCPE customer service. This step assumes step 1 has successfully distributed all vcpe models except customer service model
 
-5. If running with oom_mode=False initialize SDNC ip pool by running below command from k8s control node. It will be done automatically otherwise.
+::
+
+   ete-k8s.sh onap distributevCPEResCust
+
+6. If running with oom_mode=False initialize SDNC ip pool by running below command from k8s control node. It will be done automatically otherwise.
 
 ::
 
     kubectl -n onap exec -it dev-sdnc-sdnc-0 -- /opt/sdnc/bin/addIpAddresses.sh VGW 10.5.0 22 250
 
-6. Initialize vcpe
+7. Initialize vcpe
 
 ::
 
    vcpe.py init
 
-7. If running with oom_mode=False run a command printed at the end of the above step from k8s control node to insert vcpe customer service workflow entry in SO catalogdb. It will be done automatically otherwise.
+8. If running with oom_mode=False run a command printed at the end of the above step from k8s control node to insert vcpe customer service workflow entry in SO catalogdb. It will be done automatically otherwise.
 
-8. Run Robot to create and distribute for vCPE customer service. This step assumes step 1 has successfully distributed all vcpe models except customer service model
-
-::
-
-   ete-k8s.sh onap distributevCPEResCust
 
 9. Instantiate vCPE infra services
 
