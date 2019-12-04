@@ -6,9 +6,9 @@ cds:
     cds-command-executor:
       image: onap/ccsdk-commandexecutor:0.7.0-STAGING-latest
     cds-blueprints-processor:
-      image: onap/ccsdk-blueprintsprocessor:0.7.0-SNAPSHOT-latest
+      image: onap/ccsdk-blueprintsprocessor:0.7.0-STAGING-latest
     cds-ui:
-      image: onap/ccsdk-cds-ui-server:0.7.0-SNAPSHOT-latest
+      image: onap/ccsdk-cds-ui-server:0.7.0-STAGING-latest
     cds-sdc-listener:
       image: onap/ccsdk-sdclistener:0.7.0-STAGING-latest
 common:
