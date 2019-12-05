@@ -54,6 +54,8 @@ options:
 -f, --no-prompt           executes with no prompt for confirmation
 -n, --no-install          don't install ONAP
 -o, --override            create integration override for robot configuration
+-d, --no-validate         dont validate pre-reqs before executing deployment
+-p, --post-install        execute post-install scripts
 -h, --help                provide brief overview of script
  
 This script deploys a cloud environment in Azure.
@@ -171,6 +173,45 @@ The template used to create the override file is ``./util/integration-override.t
 ### OOM Overrides
 
 In ``cloud.conf``, there's a parameter ``OOM_OVERRIDES`` available that's used to provide command line overrides to ``helm deploy``. This uses the standard helm syntax, so if you're using it the value should look like ``OOM_OVERRIDES="--set vid.enabled=false,so.image=abc"``. If you don't want to override anything, just set this value to an empty string.
+
+
+### Pre Install
+
+When you run ``cloud.sh`` it will execute ``pre_install.sh`` first, which checks a few things:
+
+- It checks you have the correct pre-reqs installed. So, it'll make sure you have kubectl, azure cli, helm, etc...
+- It checks that the version of kubernetes in ``cloud.conf`` is available in Azure.
+- It checks the version of azure cli is >= to the baselined version (you can check this version by looking at the top of ``pre_install.sh``). The Azure cli is introduced changes in minor versions that aren't backwards compatible.
+- It checks that the version of kubectl installed is at **MOST** 1 minor version different than the version of kubernetes in ``cloud.conf``.
+
+If you would like to skip ``pre_install.sh`` and run the deployment anyways, pass the flag ``--no-validate`` to ``cloud.sh``, like this:
+
+```
+$ ./cloud.sh --no-validate
+
+```
+
+
+### Post Install
+
+After ONAP is deployed, you have the option of executing an arbitrary set of post-install scripts. This is enabled by passing the ``--post-install`` flag to ``cloud.sh``, like this:
+
+```
+$ ./cloud.sh --post-install
+
+```
+
+These post-install scripts need to be executable from the command line, and will be provided two parameters that they can use to perform their function:
+
+- /path/to/onap.conf : This is created during the deployment, and has various ONAP and OpenStack parameters.
+- /path/to/cloud.conf : this is the same ``cloud.conf`` that's used during the original deployment.
+
+
+Your post-install scripts can disregard these parameters, or source them and use the parameters as-needed.
+
+Included with this repo is one post-install script (``000_bootstrap_onap.sh``)that bootstraps AAI, VID, and SO with cloud and customer details so that ONAP is ready to model and instantiate a VNF.
+
+In order to include other custom post-install scripts, simply put them in the ``post-install`` directory, and make sure to set its mode to executable. They are executed in alphabetical order. 
 
 
 ## Post Deployment

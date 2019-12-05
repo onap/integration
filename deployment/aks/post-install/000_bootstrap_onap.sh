@@ -24,7 +24,7 @@ fi
 
 . $CONF
 
-kubectl create configmap onap-bootstrap --from-file=$DIR/post-install/ --from-file=kubeconfig=$KUBECONFIG --from-file=onap.conf=$CONF
+kubectl create configmap onap-bootstrap --from-file=$DIR/bootstrap/ --from-file=kubeconfig=$KUBECONFIG --from-file=onap.conf=$CONF
 
 cat  <<EOF | kubectl apply -f -
 apiVersion: v1

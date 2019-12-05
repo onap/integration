@@ -17,6 +17,8 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 NO_PROMPT=0
 NO_INSTALL=0
+NO_VALIDATE=0
+POST_INSTALL=0
 OVERRIDE=0
 
 OPENSTACK_CLI_POD="os-cli-0"
@@ -38,6 +40,8 @@ while test $# -gt 0; do
       echo "-f, --no-prompt           executes with no prompt for confirmation"
       echo "-n, --no-install          don't install ONAP"
       echo "-o, --override            create integration override for robot configuration"
+      echo "-d, --no-validate         dont validate pre-reqs before executing deployment"
+      echo "-p, --post-install        execute post-install scripts"
       echo "-h, --help                provide brief overview of script"
       echo " "
       echo "This script deploys a cloud environment in Azure."
@@ -62,12 +66,27 @@ while test $# -gt 0; do
       shift
       OVERRIDE=1
       ;;
+    -d|--no-validate)
+      shift
+      NO_VALIDATE=1
+      ;;
+    -p|--post-install)
+      shift
+      POST_INSTALL=1
+      ;;
     *)
       echo "Unknown Argument. Try running with --help ."
       exit 0
       ;;
   esac
 done
+
+if [ $NO_VALIDATE = 0 ]; then
+  $DIR/pre_install.sh "$AKS_K8_VERSION" "$LOCATION"
+  if [ $? -ne 0 ]; then
+    exit 1
+  fi
+fi
 
 cat <<EOF
 
@@ -317,6 +336,7 @@ $DIR/util/create_openstack_cli.sh "$BUILD_DIR/kubeconfig" \
                                   "$BUILD_DIR/openstack_rc" \
                                   "$OPENSTACK_CLI_POD"
 
+
 if [ $OVERRIDE = 1 ]; then
 
 $DIR/util/create_integration_override.sh "$BUILD_DIR" \
@@ -329,47 +349,20 @@ $DIR/util/create_integration_override.sh "$BUILD_DIR" \
 
 fi
 
+
 if [ $NO_INSTALL = 0 ]; then
 
 ### Starting OOM install ###
 echo "Installing ONAP..."
 $DIR/create_onap.sh "$BUILD" \
                     "$BUILD_DIR/kubeconfig" \
-                    "$NFS_PRIVATE_IP" \
                     "$OOM_BRANCH" \
                     "$BUILD_DIR" \
                     "$CHART_VERSION" \
                     "$OOM_OVERRIDES"
 
-### Starting OOM install ###
-echo "Configuring ONAP..."
-
-cat > "$BUILD_DIR/onap.conf" <<EOF
-export CLLI=$CLLI
-export CLOUD_OWNER=$CLOUD_OWNER
-export CLOUD_REGION=$CLOUD_REGION
-export OPENSTACK_IP=$DEVSTACK_PRIVATE_IP
-export OPENSTACK_USER=$OPENSTACK_USER
-export OPENSTACK_PASS=$OPENSTACK_PASS
-export OPENSTACK_TENANT=$OPENSTACK_TENANT
-export OPENSTACK_REGION=$OPENSTACK_REGION
-export CUSTOMER=$CUSTOMER
-export SUBSCRIBER=$SUBSCRIBER
-export SERVICE_TYPE=$SERVICE_TYPE
-export AZ=$AZ
-export OE=$OE
-export LOB=$LOB
-export PLATFORM=$PLATFORM
-export PROJECT=$PROJECT
-export OS_ID=$OS_ID
-export OS_TENANT_ROLE=$OS_TENANT_ROLE
-export OS_KEYSTONE=$OS_KEYSTONE
-export KUBECONFIG=$BUILD_DIR/kubeconfig
-EOF
-
-$DIR/bootstrap_onap.sh "$BUILD_DIR/onap.conf"
-
 fi
+
 
 set +x
 
@@ -422,3 +415,40 @@ $AKS_PUBLIC_IP_ADDRESS policy.api.simpledemo.onap.org
 EOF
 
 cat "$BUILD_DIR/deployment.notes"
+
+
+if [ $POST_INSTALL = 1 ]; then
+
+echo "Executing post installation scripts..."
+sleep 3
+
+cat > "$BUILD_DIR/onap.conf" <<EOF
+export CLLI=$CLLI
+export CLOUD_OWNER=$CLOUD_OWNER
+export CLOUD_REGION=$CLOUD_REGION
+export OPENSTACK_IP=$DEVSTACK_PRIVATE_IP
+export OPENSTACK_USER=$OPENSTACK_USER
+export OPENSTACK_PASS=$OPENSTACK_PASS
+export OPENSTACK_TENANT=$OPENSTACK_TENANT
+export OPENSTACK_REGION=$OPENSTACK_REGION
+export CUSTOMER=$CUSTOMER
+export SUBSCRIBER=$SUBSCRIBER
+export SERVICE_TYPE=$SERVICE_TYPE
+export AZ=$AZ
+export OE=$OE
+export LOB=$LOB
+export PLATFORM=$PLATFORM
+export PROJECT=$PROJECT
+export OS_ID=$OS_ID
+export OS_TENANT_ROLE=$OS_TENANT_ROLE
+export OS_KEYSTONE=$OS_KEYSTONE
+export KUBECONFIG=$BUILD_DIR/kubeconfig
+export NFS_PRIVATE_IP=$NFS_PRIVATE_IP
+export DEVSTACK_PRIVATE_IP=$DEVSTACK_PRIVATE_IP
+export PRIVATE_KEY=$PRIVATE_KEY
+EOF
+
+$DIR/post_install.sh "$BUILD_DIR/onap.conf" "$DIR/cloud.conf"
+
+fi
+

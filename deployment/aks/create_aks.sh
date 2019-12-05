@@ -216,7 +216,9 @@ az aks create --name "$AKS_NAME" \
               --dns-service-ip "$AKS_DNS_IP" \
               --admin-username "$AKS_ADMIN_USER" \
               --ssh-key-value "$PUBLIC_KEY" \
-              --vnet-subnet-id "$AKS_SUBNET_ID"
+              --vnet-subnet-id "$AKS_SUBNET_ID" \
+              --vm-set-type "AvailabilitySet" \
+              --load-balancer-sku "basic"
 echo ""
 
 AKS_MANAGEMENT_RESOURCE_GROUP_NAME=`az group list --query "[?starts_with(name, 'MC_${AKS_RESOURCE_GROUP_NAME}')].name | [0]" --output tsv`
