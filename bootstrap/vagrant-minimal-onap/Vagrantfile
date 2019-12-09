@@ -13,19 +13,19 @@ cluster_yml = "cluster.yml"
 apt_prefs_dir = "/etc/apt/apt.conf.d"
 apt_prefs = "95silent-approval"
 
-vm_memory = 2 * 1024
-vm_memory_os = 8 * 1024
-vm_cpus = 1
-vm_cpus_os = 2
+vm_memory = 1 * 1024
+vm_memory_os = 6 * 1024
+vm_memory_onap = 12 * 1024
+vm_cpu = 1
+vm_cpus = 2
 vm_box = "generic/ubuntu1804"
 
-operation = { name: 'operator', hostname: 'operator', ip: '172.17.4.254' }
-devstack = { name: 'devstack', hostname: 'devstack', ip: '172.17.4.200' }
-cluster = [
-  { name: 'control', hostname: 'control', ip: '172.17.4.100' },
-  { name: 'worker', hostname: 'worker', ip: '172.17.4.101' }
-]
+operation = { name: 'operator', hostname: 'operator', ip: '172.17.4.254', cpus: vm_cpu, memory: vm_memory }
+devstack = { name: 'devstack', hostname: 'devstack', ip: '172.17.4.200', cpus: vm_cpus, memory: vm_memory_os }
+control = { name: 'control', hostname: 'control', ip: '172.17.4.100', cpus: vm_cpu, memory: vm_memory }
+worker = { name: 'worker', hostname: 'worker', ip: '172.17.4.101', cpus: vm_cpus, memory: vm_memory_onap }
 
+cluster = [] << control << worker
 all = cluster.dup << operation << devstack
 
 operation_post_msg = "Run: \"vagrant provision #{operation[:name]} --provision-with=rke_up,setup_kubectl\" to complete cluster creation"
@@ -121,13 +121,13 @@ Vagrant.configure('2') do |config|
 
       config.vm.provider :virtualbox do |v|
         v.name = machine[:name]
-        v.memory = machine[:name] != 'devstack' ? vm_memory : vm_memory_os
-        v.cpus = machine[:name] != 'devstack' ? vm_cpus : vm_cpus_os
+        v.memory = machine[:memory]
+        v.cpus = machine[:cpus]
       end
 
       config.vm.provider :libvirt do |v|
-        v.memory = machine[:name] != 'devstack' ? vm_memory : vm_memory_os
-        v.cpus = machine[:name] != 'devstack' ? vm_cpus : vm_cpus_os
+        v.memory = machine[:memory]
+        v.cpus = machine[:cpus]
       end
 
       config.vm.network :private_network, ip: machine[:ip]
