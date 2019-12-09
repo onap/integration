@@ -66,6 +66,12 @@ $install_sshpass = <<-SCRIPT
   apt-get install sshpass
 SCRIPT
 
+$install_make = <<-SCRIPT
+  apt-get update
+  echo "Installing 'make'"
+  apt-get install make
+SCRIPT
+
 $generate_key = <<-SCRIPT
   KEY_FILE="$1"
   echo "Generating SSH key (${KEY_FILE})"
@@ -112,6 +118,24 @@ $get_oom = <<-SCRIPT
 SCRIPT
 
 $get_helm_plugins = "cp -R ${HOME}/oom/kubernetes/helm/plugins/ ${HOME}/.helm"
+
+$setup_helm_cluster = <<-SCRIPT
+  export KUBECONFIG="${HOME}/.kube/config.onap"
+  kubectl config use-context onap
+  kubectl -n kube-system create serviceaccount tiller
+  kubectl create clusterrolebinding tiller --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+  helm init --service-account tiller
+  kubectl -n kube-system rollout status deploy/tiller-deploy
+SCRIPT
+
+# FIXME: replace sleep command with helm repo readiness probe
+$setup_helm_repo = <<-SCRIPT
+  helm serve &
+  sleep 3
+  helm repo add local http://127.0.0.1:8879
+  make -C ${HOME}/oom/kubernetes all
+  make -C ${HOME}/oom/kubernetes onap
+SCRIPT
 
 Vagrant.configure('2') do |config|
   all.each do |machine|
@@ -202,6 +226,9 @@ Vagrant.configure('2') do |config|
         config.vm.provision "get_helm", type: :shell, path: "tools/get_helm.sh"
         config.vm.provision "get_oom", type: :shell, privileged: false, inline: $get_oom
         config.vm.provision "get_helm_plugins", type: :shell, privileged: false, inline: $get_helm_plugins
+        config.vm.provision "install_make", type: :shell, inline: $install_make
+        config.vm.provision "setup_helm_cluster", type: :shell, run: "never", privileged: false, inline: $setup_helm_cluster
+        config.vm.provision "setup_helm_repo", type: :shell, run: "never", privileged: false, inline: $setup_helm_repo
       end
     end
   end
