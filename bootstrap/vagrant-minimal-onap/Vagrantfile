@@ -9,6 +9,7 @@ synced_folder_main = "/vagrant"
 synced_folder_config = "#{synced_folder_main}/config"
 synced_folder_tools_config = "#{synced_folder_main}/tools/config"
 os_config = "#{synced_folder_config}/local.conf"
+os_env = "#{synced_folder_config}/dot_env"
 cluster_yml = "cluster.yml"
 apt_prefs_dir = "/etc/apt/apt.conf.d"
 apt_prefs = "95silent-approval"
@@ -28,7 +29,7 @@ worker = { name: 'worker', hostname: 'worker', ip: '172.17.4.101', cpus: vm_cpus
 cluster = [] << control << worker
 all = cluster.dup << operation << devstack
 
-operation_post_msg = "Run: \"vagrant provision #{operation[:name]} --provision-with=rke_up,setup_kubectl\" to complete cluster creation"
+operation_post_msg = "Run: \"vagrant provision #{operation[:name]} --provision-with=rke_up,setup_kubectl,setup_helm_cluster,setup_helm_repo,deploy_onap\" to complete ONAP deployment"
 
 $replace_dns = <<-SCRIPT
   HOST_IP="$1"
@@ -137,6 +138,25 @@ $setup_helm_repo = <<-SCRIPT
   make -C ${HOME}/oom/kubernetes onap
 SCRIPT
 
+$deploy_onap = <<-SCRIPT
+  ENV="$1"
+  export $(cat "$ENV" | xargs)
+
+  encrypt () {
+    KEY="${HOME}/oom/kubernetes/so/resources/config/mso/encryption.key"
+    echo -n "$1" \
+    | openssl aes-128-ecb -e -K `cat "$KEY"` -nosalt \
+    | xxd -c 256 -p
+  }
+
+  export OPENSTACK_ENCRYPTED_PASSWORD="$(encrypt $OPENSTACK_PASSWORD)"
+
+  export KUBECONFIG="${HOME}/.kube/config.onap"
+
+  OVERRIDE="${HOME}/oom/kubernetes/onap/resources/environments/minimal-onap.yaml"
+  helm deploy minimal local/onap --namespace onap -f "$OVERRIDE" --verbose --timeout 900
+SCRIPT
+
 Vagrant.configure('2') do |config|
   all.each do |machine|
     config.vm.define machine[:name] do |config|
@@ -229,6 +249,11 @@ Vagrant.configure('2') do |config|
         config.vm.provision "install_make", type: :shell, inline: $install_make
         config.vm.provision "setup_helm_cluster", type: :shell, run: "never", privileged: false, inline: $setup_helm_cluster
         config.vm.provision "setup_helm_repo", type: :shell, run: "never", privileged: false, inline: $setup_helm_repo
+        config.vm.provision "deploy_onap", type: :shell, run: "never" do |s|
+          s.privileged = false
+          s.inline = $deploy_onap
+          s.args = os_env
+        end
       end
     end
   end
