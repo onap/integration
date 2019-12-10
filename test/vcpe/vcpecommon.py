@@ -12,6 +12,7 @@ import mysql.connector
 import requests
 import commands
 import time
+import yaml
 from novaclient import client as openstackclient
 from kubernetes import client, config
 from netaddr import IPAddress, IPNetwork
@@ -94,6 +95,9 @@ class VcpeCommon:
         self.logger = logging.getLogger(__name__)
         self.logger.setLevel(logging.DEBUG)
         self.logger.info('Initializing configuration')
+
+        # Read configuration from config file
+        self._load_config()
 
         # OOM: this is the address that the brg and bng will nat for sdnc access - 10.0.0.x address of k8 host for sdnc-0 container
         self.sdnc_oam_ip = self.get_pod_node_oam_ip(self.sdnc_controller_pod)
@@ -226,6 +230,32 @@ class VcpeCommon:
         self.aai_headers = {'Accept': 'application/json',
                             'Content-Type': 'application/json',
                             'X-FromAppId': 'postman', 'X-TransactionId': '9999'}
+
+    def _load_config(self, cfg_file='vcpeconfig.yaml'):
+        """
+        Reads vcpe config file and injects settings as object's attributes
+        :param cfg_file: Configuration file path
+        """
+
+        try:
+            with open(cfg_file, 'r') as cfg:
+                cfg_yml = yaml.full_load(cfg)
+        except Exception as e:
+            self.logger.error('Error loading configuration: ' + str(e))
+            sys.exit(1)
+
+        self.logger.debug('\n' + yaml.dump(cfg_yml))
+
+        # Use setattr to load config file keys as VcpeCommon class' object
+        # attributes
+        try:
+            # Check config isn't empty
+            if cfg_yml is not None:
+                for cfg_key in cfg_yml:
+                    setattr(self, cfg_key, cfg_yml[cfg_key])
+        except TypeError as e:
+            self.logger.error('Unable to parse config file: ' + str(e))
+            sys.exit(1)
 
     def heatbridge(self, openstack_stack_name, svc_instance_uuid):
         """
