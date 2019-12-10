@@ -21,3 +21,45 @@ NOTE: the Devstack instance is NOT SECURED, with default credentials:
 +-------+----------------+
 | demo  | default123456! |
 +-------+----------------+
+
+
+Requirements
+------------
+
++-------------+-----+-------+
+| Machine     | CPU |  RAM  |
++-------------+-----+-------+
+| Operator    |  1  | 1GiB  |
++-------------+-----+-------+
+| Devstack    |  2  | 6GiB  |
++-------------+-----+-------+
+| K8s Control |  1  | 1GiB  |
++-------------+-----+-------+
+| K8s Worker  |  2  | 12GiB |
++-------------+-----+-------+
+| TOTAL       |  6  | 20GiB |
++-------------+-----+-------+
+
+Table above is based on current experience and may be subject to change.
+
+
+Prerequisites
+-------------
+
+- Virtualisation provider, e.g. VirtualBox_ or libvirt_ (with vagrant-libvirt_ plugin)
+- Virtual machine manager: Vagrant_
+
+.. _VirtualBox: https://www.virtualbox.org
+.. _libvirt: https://libvirt.org/
+.. _vagrant-libvirt: https://github.com/vagrant-libvirt/vagrant-libvirt
+.. _Vagrant: https://www.vagrantup.com
+
+
+Running
+-------
+
+Environment has been test with `libvirt` provider. Additional flag might be useful in case there are
+multiple providers available.
+
+.. code-block:: sh
+   vagrant up # --provider=libvirt
