@@ -17,79 +17,7 @@ from novaclient import client as openstackclient
 from kubernetes import client, config
 from netaddr import IPAddress, IPNetwork
 
-######################################################################
-# Parts which must be updated / cross-checked during each deployment #
-# are marked as CHANGEME                                             #
-######################################################################
-
 class VcpeCommon:
-    #############################################################################################
-    # Set network prefix of k8s host external address; it's used for pod public IP autodetection
-    # but can be overriden from user in case of autodetection failure
-    external_net_addr = '10.12.0.0'
-    external_net_prefix_len = 16
-
-    #############################################################################################
-    # set the openstack cloud access credentials here
-    oom_mode = True
-
-    #############################################################################################
-    # set the gra_api flag
-    # Mustn't be set to True until Frankfurt DGs are updated for GRA-API infrastructure
-    gra_api_flag= False
-
-    ###########################
-    # set Openstack credentials
-    # CHANGEME part
-    cloud = {
-        '--os-auth-url': 'http://10.12.25.2:5000',
-        '--os-username': 'kxi',
-        '--os-user-domain-id': 'default',
-        '--os-project-domain-id': 'default',
-        '--os-tenant-id': '712b6016580e410b9abfec9ca34953ce' if oom_mode else '1e097c6713e74fd7ac8e4295e605ee1e',
-        '--os-region-name': 'RegionOne',
-        '--os-password': 'n3JhGMGuDzD8',
-        '--os-project-domain-name': 'Integration-Release-Daily' if oom_mode else 'Integration-SB-07',
-        '--os-identity-api-version': '3'
-    }
-
-    ############################################################################
-    # set oam and public network which must exist in openstack before deployment
-    # CHANGEME part
-    common_preload_config = {
-        'oam_onap_net': 'oam_network_exxC' if oom_mode else 'oam_onap_lAky',
-        'oam_onap_subnet': 'oam_network_exxC' if oom_mode else 'oam_onap_lAky',
-        'public_net': 'external',
-        'public_net_id': '971040b2-7059-49dc-b220-4fab50cb2ad4'
-    }
-
-    #############################################################################
-    # Set name of Onap's k8s namespace and sdnc controller pod
-    # CHANGEME part
-    onap_namespace = 'onap'
-    onap_environment = 'dev'
-    sdnc_controller_pod = '-'.join([onap_environment, 'sdnc-sdnc-0'])
-
-    template_variable_symbol = '${'
-    cpe_vm_prefix = 'zdcpe'
-
-    #############################################################################################
-    # preloading network config
-    #  key=network role
-    #  value = [subnet_start_ip, subnet_gateway_ip]
-    preload_network_config = {
-        'cpe_public': ['10.2.0.2', '10.2.0.1'],
-        'cpe_signal': ['10.4.0.2', '10.4.0.1'],
-        'brg_bng': ['10.3.0.2', '10.3.0.1'],
-        'bng_mux': ['10.1.0.10', '10.1.0.1'],
-        'mux_gw': ['10.5.0.10', '10.5.0.1']
-    }
-
-    dcae_ves_collector_name = 'dcae-bootstrap'
-    global_subscriber_id = 'SDN-ETHERNET-INTERNET'
-    project_name = 'Project-Demonstration'
-    owning_entity_id = '520cc603-a3c4-4ec2-9ef4-ca70facd79c0'
-    owning_entity_name = 'OE-Demonstration1'
 
     def __init__(self, extra_host_names=None):
         self.logger = logging.getLogger(__name__)
@@ -99,6 +27,7 @@ class VcpeCommon:
         # Read configuration from config file
         self._load_config()
 
+        self.sdnc_controller_pod = '-'.join([self.onap_environment, 'sdnc-sdnc-0'])
         # OOM: this is the address that the brg and bng will nat for sdnc access - 10.0.0.x address of k8 host for sdnc-0 container
         self.sdnc_oam_ip = self.get_pod_node_oam_ip(self.sdnc_controller_pod)
         # OOM: this is a k8s host external IP, e.g. oom-k8s-01 IP
@@ -134,12 +63,6 @@ class VcpeCommon:
             'vfmodule': 'vcpe_vfmodule'
         }
         self.aai_userpass = 'AAI', 'AAI'
-
-        ############################################################################################################
-        # following key is overriding public key from vCPE heat templates, it's important to use correct one in here
-        # CHANGEME part
-        self.pub_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDKXDgoo3+WOqcUG8/5uUbk81+yczgwC4Y8ywTmuQqbNxlY1oQ0YxdMUqUnhitSXs5S/yRuAVOYHwGg2mCs20oAINrP+mxBI544AMIb9itPjCtgqtE2EWo6MmnFGbHB4Sx3XioE7F4VPsh7japsIwzOjbrQe+Mua1TGQ5d4nfEOQaaglXLLPFfuc7WbhbJbK6Q7rHqZfRcOwAMXgDoBqlyqKeiKwnumddo2RyNT8ljYmvB6buz7KnMinzo7qB0uktVT05FH9Rg0CTWH5norlG5qXgP2aukL0gk1ph8iAt7uYLf1ktp+LJI2gaF6L0/qli9EmVCSLr1uJ38Q8CBflhkh'
-
         self.os_tenant_id = self.cloud['--os-tenant-id']
         self.os_region_name = self.cloud['--os-region-name']
         self.common_preload_config['pub_key'] = self.pub_key
