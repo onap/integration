@@ -23,7 +23,7 @@ dcaegen2:
 nbi:
     image: onap/externalapi/nbi:5.0.1-latest
 policy:
-    image: onap/policy-pe:1.6.0-SNAPSHOT
+    image: onap/policy-pe:1.6-STAGING-latest
     policy-pap:
       image: onap/policy-pap:2.2.0-SNAPSHOT
     brmsgw:
