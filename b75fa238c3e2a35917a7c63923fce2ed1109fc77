@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b8afd09_6bc50233",
+        "filename": "test/security/check_for_ingress_and_nodeports.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 4965
+      },
+      "writtenOn": "2019-12-11T07:04:45Z",
+      "side": 1,
+      "message": "Would be good to get some comment about usage of this script. On which node it should run, what should be configured etc",
+      "revId": "b75fa238c3e2a35917a7c63923fce2ed1109fc77",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
