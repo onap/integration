@@ -1,3 +1,22 @@
+aai:
+  aai-babel:
+    image: onap/babel:1.6-STAGING-latest
+  aai-data-router:
+    image: onap/data-router:1.6-STAGING-latest
+  aai-graphadmin:
+    image: onap/aai-graphadmin:1.6-STAGING-latest
+  aai-modelloader:
+    image: onap/model-loader:1.6-STAGING-latest
+  aai-resources:
+    image: onap/aai-resources:1.6-STAGING-latest
+  aai-schema-service:
+    image: onap/aai-schema-service:1.6-STAGING-latest
+  aai-search-data:
+    image: onap/search-data-service:1.6-STAGING-latest
+  aai-sparky-be:
+    image: onap/sparky-be:1.6-STAGING-latest
+  aai-traversal:
+    image: onap/aai-traversal:1.6-STAGING-latest
 appc:
   image: onap/appc-image:1.7.0-SNAPSHOT-latest
   appc-cdt:
