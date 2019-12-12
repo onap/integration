@@ -1,0 +1,234 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26902cf1_d0561be8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2019-12-12T14:55:25Z",
+      "side": 1,
+      "message": "typo: reads",
+      "range": {
+        "startLine": 9,
+        "startChar": 10,
+        "endLine": 9,
+        "endChar": 14
+      },
+      "revId": "4459796d13b404a9692f9e829518e1cbd6f87094",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "709a1a12_fca98ef2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2019-12-12T14:55:25Z",
+      "side": 1,
+      "message": "typo: scans",
+      "range": {
+        "startLine": 10,
+        "startChar": 8,
+        "endLine": 10,
+        "endChar": 13
+      },
+      "revId": "4459796d13b404a9692f9e829518e1cbd6f87094",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5c7998d_64fdeb90",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2019-12-12T14:55:25Z",
+      "side": 1,
+      "message": "doubled",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 53
+      },
+      "revId": "4459796d13b404a9692f9e829518e1cbd6f87094",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07651574_f9b6abc9",
+        "filename": "test/security/check_for_ingress_and_nodeports.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2019-12-12T14:55:25Z",
+      "side": 1,
+      "message": "typo: alive",
+      "range": {
+        "startLine": 23,
+        "startChar": 60,
+        "endLine": 23,
+        "endChar": 66
+      },
+      "revId": "4459796d13b404a9692f9e829518e1cbd6f87094",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9da425b_552b47d1",
+        "filename": "test/security/check_for_ingress_and_nodeports.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2019-12-12T14:55:25Z",
+      "side": 1,
+      "message": "typo: prints",
+      "range": {
+        "startLine": 26,
+        "startChar": 42,
+        "endLine": 26,
+        "endChar": 47
+      },
+      "revId": "4459796d13b404a9692f9e829518e1cbd6f87094",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54d904dd_eb8d75bd",
+        "filename": "test/security/check_for_ingress_and_nodeports.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2019-12-12T14:55:25Z",
+      "side": 1,
+      "message": "redblock",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 2
+      },
+      "revId": "4459796d13b404a9692f9e829518e1cbd6f87094",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2717b298_0e69f5f2",
+        "filename": "test/security/check_for_ingress_and_nodeports.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2019-12-12T14:55:25Z",
+      "side": 1,
+      "message": "typo: requires",
+      "range": {
+        "startLine": 35,
+        "startChar": 7,
+        "endLine": 35,
+        "endChar": 14
+      },
+      "revId": "4459796d13b404a9692f9e829518e1cbd6f87094",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a462122_5991fcc1",
+        "filename": "test/security/check_for_ingress_and_nodeports.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2019-12-12T14:55:25Z",
+      "side": 1,
+      "message": "Let me know what you think about making these comments docstrings (i.e. \"\"\"Comment\"\"\" on the first line of function body)? This way it would be also available when used during interactive session.",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 19
+      },
+      "revId": "4459796d13b404a9692f9e829518e1cbd6f87094",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0d7dd0f_9f150b1b",
+        "filename": "test/security/check_for_ingress_and_nodeports.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2019-12-12T14:55:25Z",
+      "side": 1,
+      "message": "This could be more concise if list comprehension was used (https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions), e.g.\n\n ports \u003d [j.node_port for j in i.spec.ports if j.node_port]",
+      "range": {
+        "startLine": 62,
+        "startChar": 12,
+        "endLine": 64,
+        "endChar": 55
+      },
+      "revId": "4459796d13b404a9692f9e829518e1cbd6f87094",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17eeffab_f423740e",
+        "filename": "test/security/check_for_ingress_and_nodeports.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2019-12-12T14:55:25Z",
+      "side": 1,
+      "message": "This construction can be tricky (https://docs.python-guide.org/writing/gotchas/#what-you-wrote)",
+      "range": {
+        "startLine": 176,
+        "startChar": 71,
+        "endLine": 176,
+        "endChar": 85
+      },
+      "revId": "4459796d13b404a9692f9e829518e1cbd6f87094",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
