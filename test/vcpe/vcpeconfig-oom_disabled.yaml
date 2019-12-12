@@ -6,7 +6,7 @@ external_net_prefix_len: 16
 
 #############################################################################################
 # set the openstack cloud access credentials here
-oom_mode: True
+oom_mode: False
 
 #############################################################################################
 # set the gra_api flag
@@ -20,17 +20,17 @@ cloud:
   '--os-username': 'kxi'
   '--os-user-domain-id': 'default'
   '--os-project-domain-id': 'default'
-  '--os-tenant-id': '712b6016580e410b9abfec9ca34953ce'
+  '--os-tenant-id': '1e097c6713e74fd7ac8e4295e605ee1e'
   '--os-region-name': 'RegionOne'
   '--os-password': 'n3JhGMGuDzD8'
-  '--os-project-domain-name': 'Integration-Release-Daily'
+  '--os-project-domain-name': 'Integration-SB-07'
   '--os-identity-api-version': '3'
 
 ############################################################################
 # set oam and public network which must exist in openstack before deployment
 common_preload_config:
-  'oam_onap_net': 'oam_network_exxC'
-  'oam_onap_subnet': 'oam_network_exxC'
+  'oam_onap_net': 'oam_onap_lAky'
+  'oam_onap_subnet': 'oam_onap_lAky'
   'public_net': 'external'
   'public_net_id': '971040b2-7059-49dc-b220-4fab50cb2ad4'
 
