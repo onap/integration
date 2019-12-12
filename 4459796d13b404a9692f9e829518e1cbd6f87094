@@ -163,6 +163,29 @@
     },
     {
       "key": {
+        "uuid": "7da976f8_9c604d8c",
+        "filename": "test/security/check_for_ingress_and_nodeports.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2019-12-12T17:05:19Z",
+      "side": 1,
+      "message": "Personally i\u0027d skip \"--conf ~/.kube/config.onap\" here for readability + pls see comment for line 245.",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 84
+      },
+      "revId": "4459796d13b404a9692f9e829518e1cbd6f87094",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8a462122_5991fcc1",
         "filename": "test/security/check_for_ingress_and_nodeports.py",
         "patchSetId": 5
@@ -225,6 +248,52 @@
         "startChar": 71,
         "endLine": 176,
         "endChar": 85
+      },
+      "revId": "4459796d13b404a9692f9e829518e1cbd6f87094",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afbce163_dc278628",
+        "filename": "test/security/check_for_ingress_and_nodeports.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2019-12-12T17:05:19Z",
+      "side": 1,
+      "message": "Shouldn\u0027t it be \u0027~/.kube/config\u0027 by default?? \u0027config.onap\u0027 is your site specific file i guess. In any case this should rather be absolute path, not relative (you\u0027re by default assuming script is run in context of ~/.kube directory)",
+      "range": {
+        "startLine": 245,
+        "startChar": 17,
+        "endLine": 245,
+        "endChar": 28
+      },
+      "revId": "4459796d13b404a9692f9e829518e1cbd6f87094",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cda82129_f55fba52",
+        "filename": "test/security/check_for_ingress_and_nodeports.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2019-12-12T17:05:19Z",
+      "side": 1,
+      "message": "I suppose this could be done with some more Pythonic construct like i.e.:\n\ntry:\n  assert os.path.exists(args.conf)\nexcept AssertionError:\n  print(\u0027Fatal! K8S config\u0027,args.conf, \u0027does not exist\u0027,file\u003dsys.stderr) \n  sys.exit(-1)",
+      "range": {
+        "startLine": 256,
+        "startChar": 0,
+        "endLine": 258,
+        "endChar": 20
       },
       "revId": "4459796d13b404a9692f9e829518e1cbd6f87094",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
