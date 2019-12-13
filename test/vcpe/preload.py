@@ -4,7 +4,6 @@ import requests
 import json
 import sys
 from datetime import datetime
-from vcpecommon import *
 import csar_parser
 import logging
 import base64
@@ -263,8 +262,7 @@ class Preload:
     def test(self):
         # this is for testing purpose
         name_suffix = datetime.now().strftime('%Y%m%d%H%M')
-        vcpecommon = VcpeCommon()
-        preloader = Preload(vcpecommon)
+        preloader = Preload(self.vcpecommon)
 
         network_dict = {'${' + k + '}': v for k, v in self.vcpecommon.common_preload_config.items()}
         template_file = 'preload_templates/template.network.json'
