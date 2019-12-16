@@ -1,0 +1,47 @@
+module pnf-subscriptions {
+    namespace "http://onap.org/pnf-subscriptions";
+    prefix subscriptions;
+
+    revision "2019-11-22" {
+        description
+          "initial version";
+    }
+    container subscriptions {
+        list configuration{
+            key "subscriptionName";
+            leaf subscriptionName {
+                type string;
+            }
+            leaf administrativeState {
+                type string;
+            }
+            leaf fileBasedGP {
+                type string;
+            }
+            leaf fileLocation {
+                type string;
+            }
+            list measurementGroups {
+                key "id";
+                leaf id{
+                    type string;
+                }
+                container measurementGroup {
+                                    list measurementTypes {
+                                        key "measurementType";
+                                        leaf measurementType {
+                                            type string;
+                                        }
+                                    }
+                                    list managedObjectDNsBasic {
+                                        key "DN";
+                                        leaf DN {
+                                            type string;
+                                        }
+                                    }
+                }
+
+            }
+        }
+    }
+}
