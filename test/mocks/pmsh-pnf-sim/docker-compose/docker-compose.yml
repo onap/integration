@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  netopeer2:
+    image: registry.gitlab.com/blue-onap/docker/sysrepo-netopeer2:v0.7-r2-5
+    container_name: netopeer2
+    restart: always
+    ports:
+      - "830:830"
+      - "6513:6513"
+    volumes:
+      - ./:/config/models/pnf-subscriptions
+  sftp:
+    container_name: sftpserver
+    image: atmoz/sftp
+    ports:
+      - "2222:22"
+    volumes:
+      - /host/upload:/home/admin
+    command: admin:admin:1001
