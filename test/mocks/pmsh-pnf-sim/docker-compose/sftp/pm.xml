@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<measCollecFile xmlns="http://www.3gpp.org/ftp/specs/archive/32_series/32.435#measCollec" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.3gpp.org/ftp/specs/archive/32_series/32.435#measCollec http://www.3gpp.org/ftp/specs/archive/32_series/32.435#measCollec">
+    <fileHeader fileFormatVersion="32.435 V7.0" vendorName="Company NN" dnPrefix="DC=a1.companyNN.com,SubNetwork=1,IRPAgent=1">
+        <fileSender localDn="SubNetwork=CountryNN,MeContext=MEC-Gbg-1,ManagedElement=RNC-Gbg-1" elementType="RNC" />
+        <measCollec beginTime="2000-03-01T14:00:00+02:00" />
+    </fileHeader>
+    <measData>
+        <managedElement localDn="SubNetwork=CountryNN,MeContext=MEC-Gbg-1,ManagedElement=RNC-Gbg-1" userLabel="RNC Telecomville" />
+        <measInfo>
+            <job jobId="sub0" />
+            <granPeriod duration="PT900S" endTime="2000-03-01T14:14:30+02:00" />
+            <repPeriod duration="PT1800S" />
+            <measType p="1">attTCHSeizures</measType>
+            <measType p="2">succTCHSeizures</measType>
+            <measType p="3">attImmediateAssignProcs</measType>
+            <measType p="4">succImmediateAssignProcs</measType>
+            <measValue measObjLdn="RncFunction=RF-1,UtranCell=Gbg-997">
+                <r p="1">234</r>
+                <r p="2">345</r>
+                <r p="3">567</r>
+                <r p="4">789</r>
+            </measValue>
+            <measValue measObjLdn="RncFunction=RF-1,UtranCell=Gbg-998">
+                <r p="1">890</r>
+                <r p="2">901</r>
+                <r p="3">123</r>
+                <r p="4">234</r>
+            </measValue>
+            <measValue measObjLdn="RncFunction=RF-1,UtranCell=Gbg-999">
+                <r p="1">456</r>
+                <r p="2">567</r>
+                <r p="3">678</r>
+                <r p="4">789</r>
+                <suspect>true</suspect>
+            </measValue>
+        </measInfo>
+    </measData>
+    <fileFooter>
+        <measCollec endTime="2000-03-01T14:15:00+02:00" />
+    </fileFooter>
+</measCollecFile>
