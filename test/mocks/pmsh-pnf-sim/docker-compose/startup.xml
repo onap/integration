@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<subscriptions xmlns="http://onap.org/pnf-subscriptions">
+  <configuration>
+    <subscriptionName>sub0</subscriptionName>
+    <administrativeState>UNLOCKED</administrativeState>
+    <fileBasedGP>15</fileBasedGP>
+    <fileLocation>c://PM</fileLocation>
+    <measurementGroups>
+      <id>1</id>
+      <measurementGroup>
+        <measurementTypes>
+          <measurementType>EutranCellRelation.pmCounter1</measurementType>
+        </measurementTypes>
+        <measurementTypes>
+          <measurementType>EutranCellRelation.pmCounter2</measurementType>
+        </measurementTypes>
+        <managedObjectDNsBasic>
+          <DN>ManagedElement=1,ENodeBFunction=1,EUtranCell=CityCenter1</DN>
+        </managedObjectDNsBasic>
+        <managedObjectDNsBasic>
+          <DN>ManagedElement=1,ENodeBFunction=1,EUtranCell=CityCenter1, EUtranCellRelation=CityCenter2</DN>
+        </managedObjectDNsBasic>
+      </measurementGroup>
+    </measurementGroups>
+  </configuration>
+</subscriptions>
