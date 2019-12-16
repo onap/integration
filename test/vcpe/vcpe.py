@@ -14,6 +14,8 @@ import csar_parser
 import config_sdnc_so
 import json
 import urllib3
+import argparse
+from collections import OrderedDict
 
 # disable InsecureRequestWarning warning in requests < 2.16.0
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -257,40 +259,67 @@ def test():
     print("oom-k8s-04 public ip: %s" % (vcpecommon.get_vm_public_ip_by_nova('oom-k8s-04')))
 
 
+def get_arg_parser(modes):
+    """
+    Parse cmd line options and return ArgumentParser object
+    :param modes: map of supported script modes
+    :return: ArgumentParser object
+    """
+    # Build usage synopsis string
+    usage = "\n"*2
+    for k,v in modes.items():
+        usage += 'vcpe.py {0:12} {1}\n'.format(k + ':',v)
+
+    parser = argparse.ArgumentParser(usage=usage, formatter_class=
+                                     argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument('mode',metavar='MODE',
+                        help='Script mode: {0}'.format('|'.join(modes.keys())),
+                        choices=modes.keys())
+
+    return parser
+
 if __name__ == '__main__':
-    print('----------------------------------------------------------------------------------------------------')
-    print(' vcpe.py:            Brief info about this program')
-#    print(' vcpe.py sdc:        Onboard VNFs, design and distribute vCPE services (under development)')
-    print(' vcpe.py init:       Add customer service data to SDNC and SO DBs.')
-    print(' vcpe.py infra:      Deploy infrastructure, including DHCP, AAA, DNS, Web Server, vBNG, vGMUX, vBRG.')
-    print(' vcpe.py brg:        Deploy brg only (for testing after infra succeeds).')
-    print(' vcpe.py customer:   Deploy customer service, including vGW and VxLANs')
-    print(' vcpe.py loop:       Test closed loop control (packet loss set to 22)')
-    print(' vcpe.py noloss:     Set vGMUX packet loss to 0')
-    print('----------------------------------------------------------------------------------------------------')
+    # Supported modes matrix
+    # OrderedDict object has to be used to preserve desired modes
+    # order in synopsis text
+    modes = OrderedDict()
+#    modes["sdc"]      = "Onboard VNFs, design and distribute vCPE services (under development)"
+    modes["init"]     = "Add customer service data to SDNC and SO DBs"
+    modes["infra"]    = "Deploy infrastructure, including DHCP, AAA, DNS, Web Server, vBNG, vGMUX, vBRG"
+    modes["brg"]      = "Deploy brg only (for testing after infra succeeds)"
+    modes["customer"] = "Deploy customer service, including vGW and VxLANs"
+    modes["loop"]     = "Test closed loop control (packet loss set to 22)"
+    modes["noloss"]   = "Set vGMUX packet loss to 0"
+    modes["test"]     = ""
+    modes["sniro"]    = "Config SNIRO homing emulator"
 
-    if len(sys.argv) != 2:
-        sys.exit()
+    parser = get_arg_parser(modes)
 
-    if sys.argv[1] == 'sdc':
-        print('Under development')
-    elif sys.argv[1] == 'init':
-            init()
-            init_so_sdnc()
-    elif sys.argv[1] == 'infra':
+    try:
+        assert len(sys.argv) != 1
+    except AssertionError:
+        # No cmd line opts given, print help
+        parser.print_help()
+        sys.exit(1)
+    else:
+        args = parser.parse_args()
+
+    if args.mode == 'init':
+        init()
+        init_so_sdnc()
+    elif args.mode == 'infra':
         #if 'y' == raw_input('Ready to deploy infrastructure? y/n: ').lower():
-            deploy_infra()
-    elif sys.argv[1] == 'customer':
+         deploy_infra()
+    elif args.mode == 'customer':
         if 'y' == raw_input('Ready to deploy customer service? y/n: ').lower():
             deploy_custom_service()
-    elif sys.argv[1] == 'loop':
+    elif args.mode == 'loop':
         closed_loop(22)
-    elif sys.argv[1] == 'noloss':
+    elif args.mode == 'noloss':
         closed_loop(0)
-    elif sys.argv[1] == 'brg':
+    elif args.mode == 'brg':
         deploy_brg_only()
-    elif sys.argv[1] == 'sniro':
+    elif args.mode == 'sniro':
         tmp_sniro()
-    elif sys.argv[1] == 'test':
+    elif args.mode == 'test':
         test()
-
