@@ -3,6 +3,8 @@
 
 host_ip = "192.168.121.1"
 synced_folder = "/vagrant"
+houndd_bin = "${HOME}/go/bin/houndd"
+houndd_config = "${HOME}/config.json"
 
 $replace_dns = <<-SCRIPT
   HOST_IP="$1"
@@ -13,17 +15,21 @@ SCRIPT
 Vagrant.configure("2") do |config|
   config.vm.box = "generic/ubuntu1804"
   config.vm.synced_folder ".", synced_folder, type: "rsync", rsync__exclude: "Vagrantfile"
+  config.vm.network "forwarded_port", guest: 6080, host: 6080
   config.vm.provision "replace_dns", type: :shell, run: "always", inline: $replace_dns, args: host_ip
   config.vm.provision "dependencies", type: :shell, inline: <<-SHELL
     export DEBIAN_FRONTEND=noninteractive
     apt-get update
-    apt-get install --assume-yes --quiet golang
+    apt-get install --assume-yes --quiet golang tmux
   SHELL
   config.vm.provision "binaries", type: :shell, privileged: false, inline: <<-SHELL
     export GOPATH="${HOME}/go"
     go get -u github.com/hound-search/hound/cmds/...
   SHELL
   config.vm.provision "generate_config", type: :shell, privileged: false, inline: <<-SHELL
-    python3 #{synced_folder}/create_config.py
+    python3 #{synced_folder}/create_config.py > #{houndd_config}
+  SHELL
+  config.vm.provision "run_codesearch", type: :shell, privileged: false, inline: <<-SHELL
+    tmux new -d -s codesearch #{houndd_bin} -conf #{houndd_config}
   SHELL
 end
