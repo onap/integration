@@ -70,7 +70,7 @@ def create_one_service(vcpecommon, csar_file, vnf_template_file, preload_dict, s
 def deploy_brg_only():
     logger = logging.getLogger(__name__)
 
-    vcpecommon = VcpeCommon()
+    vcpecommon = VcpeCommon(cfg_file=args.config)
     preload_dict = vcpecommon.load_preload_data()
 #    name_suffix = preload_dict['${brg_bng_net}'].split('_')[-1]
     name_suffix = datetime.now().strftime('%Y%m%d%H%M')
@@ -102,7 +102,7 @@ def deploy_brg_only():
 def deploy_infra():
     logger = logging.getLogger(__name__)
 
-    vcpecommon = VcpeCommon()
+    vcpecommon = VcpeCommon(cfg_file=args.config)
 
     # preload all VNF-API networks
     network_template = vcpecommon.find_file('network.', 'json', 'preload_templates')
@@ -169,7 +169,7 @@ def deploy_infra():
 
 def deploy_custom_service():
     nodes = ['brg', 'mux']
-    vcpecommon = VcpeCommon(nodes)
+    vcpecommon = VcpeCommon(nodes, cfg_file=args.config)
     custom_service = vcpe_custom_service.CustomService(vcpecommon)
 
     # clean up
@@ -192,7 +192,7 @@ def deploy_custom_service():
 def closed_loop(lossrate=0):
     nodes = ['brg', 'mux']
     logger = logging.getLogger('__name__')
-    vcpecommon = VcpeCommon(nodes)
+    vcpecommon = VcpeCommon(nodes, cfg_file=args.config)
 
     logger.info('Setting up closed loop policy')
     policy_template_file = vcpecommon.find_file('operational.vcpe', 'json', 'preload_templates')
@@ -216,7 +216,7 @@ def closed_loop(lossrate=0):
 
 def init_so_sdnc():
     logger = logging.getLogger('__name__')
-    vcpecommon = VcpeCommon()
+    vcpecommon = VcpeCommon(cfg_file=args.config)
     config_sdnc_so.insert_sdnc_ip_pool(vcpecommon)
     config_sdnc_so.insert_customer_service_to_so(vcpecommon)
     #config_sdnc_so.insert_customer_service_to_sdnc(vcpecommon)
@@ -225,7 +225,7 @@ def init_so_sdnc():
 
 
 def init():
-    vcpecommon = VcpeCommon()
+    vcpecommon = VcpeCommon(cfg_file=args.config)
     init_sdc(vcpecommon)
     download_vcpe_service_templates(vcpecommon)
     preloader = preload.Preload(vcpecommon)
@@ -247,7 +247,7 @@ def download_vcpe_service_templates(vcpecommon):
 def tmp_sniro():
     logger = logging.getLogger(__name__)
 
-    vcpecommon = VcpeCommon()
+    vcpecommon = VcpeCommon(cfg_file=args.config)
 
     svc_instance_uuid = vcpecommon.load_object(vcpecommon.svc_instance_uuid_file)
     # Setting up SNIRO
@@ -255,7 +255,7 @@ def tmp_sniro():
 
 
 def test(): 
-    vcpecommon = VcpeCommon()
+    vcpecommon = VcpeCommon(cfg_file=args.config)
     print("oom-k8s-04 public ip: %s" % (vcpecommon.get_vm_public_ip_by_nova('oom-k8s-04')))
 
 
@@ -275,6 +275,7 @@ def get_arg_parser(modes):
     parser.add_argument('mode',metavar='MODE',
                         help='Script mode: {0}'.format('|'.join(modes.keys())),
                         choices=modes.keys())
+    parser.add_argument('--config',help='Configuration file path',default=None)
 
     return parser
 
