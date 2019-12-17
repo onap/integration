@@ -1,0 +1,24 @@
+# -*- mode: ruby -*-
+# -*- coding: utf-8 -*-
+
+host_ip = "192.168.121.1"
+
+$replace_dns = <<-SCRIPT
+  HOST_IP="$1"
+  rm -f /etc/resolv.conf # drop its dynamic management by systemd-resolved
+  echo nameserver "$HOST_IP" | tee /etc/resolv.conf
+SCRIPT
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "generic/ubuntu1804"
+  config.vm.provision "replace_dns", type: :shell, run: "always", inline: $replace_dns, args: host_ip
+  config.vm.provision "dependencies", type: :shell, inline: <<-SHELL
+    export DEBIAN_FRONTEND=noninteractive
+    apt-get update
+    apt-get install --assume-yes --quiet golang
+  SHELL
+  config.vm.provision "binaries", type: :shell, privileged: false, inline: <<-SHELL
+    export GOPATH="${HOME}/go"
+    go get -u github.com/hound-search/hound/cmds/...
+  SHELL
+end
