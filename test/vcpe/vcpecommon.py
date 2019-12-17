@@ -19,13 +19,14 @@ from netaddr import IPAddress, IPNetwork
 
 class VcpeCommon:
 
-    def __init__(self, extra_host_names=None):
+    def __init__(self, extra_host_names=None, cfg_file=None):
         self.logger = logging.getLogger(__name__)
         self.logger.setLevel(logging.DEBUG)
         self.logger.info('Initializing configuration')
+        self.default_config = 'vcpeconfig.yaml'
 
         # Read configuration from config file
-        self._load_config()
+        self._load_config(cfg_file)
 
         self.sdnc_controller_pod = '-'.join([self.onap_environment, 'sdnc-sdnc-0'])
         # OOM: this is the address that the brg and bng will nat for sdnc access - 10.0.0.x address of k8 host for sdnc-0 container
@@ -154,11 +155,14 @@ class VcpeCommon:
                             'Content-Type': 'application/json',
                             'X-FromAppId': 'postman', 'X-TransactionId': '9999'}
 
-    def _load_config(self, cfg_file='vcpeconfig.yaml'):
+    def _load_config(self, cfg_file):
         """
         Reads vcpe config file and injects settings as object's attributes
         :param cfg_file: Configuration file path
         """
+
+        if cfg_file is None:
+            cfg_file = self.default_config
 
         try:
             with open(cfg_file, 'r') as cfg:
