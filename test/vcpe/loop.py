@@ -12,11 +12,18 @@ from vcpecommon import *
 import preload
 import commands
 import vcpe_custom_service
+import argparse
 
+# Run the script with [-h|--help] to get usage info
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 
-cpecommon = VcpeCommon()
+parser = argparse.ArgumentParser(formatter_class=
+                                 argparse.ArgumentDefaultsHelpFormatter)
+parser.add_argument('--config',help='Configuration file path',default=None)
+args = parser.parse_args()
+
+cpecommon = VcpeCommon(cfg_file=args.config)
 custom = vcpe_custom_service.CustomService(cpecommon)
 
 nodes=['mux']
