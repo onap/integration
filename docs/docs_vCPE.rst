@@ -43,28 +43,27 @@ Here are the main steps to run the use case in Integration lab environment, wher
    integration/test/vcpe/bin/setup.sh
 
 
-4. Change the Openstack env parameters and one customer service related parameter in vcpecommon.py
+4. Setup vcpe scripts by adjusting relevant parts of provided vcpeconfig.yaml config file. Most importantly adjust the Openstack env parameters shown below. Please issue 'vcpe.py --help' for detailed usage info.
 
 ::
 
-    cloud = {
-        '--os-auth-url': 'http://10.12.25.2:5000',
-        '--os-username': 'xxxxxxxxxx',
-        '--os-user-domain-id': 'default',
-        '--os-project-domain-id': 'default',
-        '--os-tenant-id': 'xxxxxxxxxxxxxxxx' if oom_mode else '1e097c6713e74fd7ac8e4295e605ee1e',
-        '--os-region-name': 'RegionOne',
-        '--os-password': 'xxxxxxxxxxx',
-        '--os-project-domain-name': 'xxxxxxxxx' if oom_mode else 'Integration-SB-07',
+    cloud:
+        '--os-auth-url': 'http://10.12.25.2:5000'
+        '--os-username': 'xxxxxxxxxx'
+        '--os-user-domain-id': 'default'
+        '--os-project-domain-id': 'default'
+        '--os-tenant-id': 'xxxxxxxxxxxxxxxx'
+        '--os-region-name': 'RegionOne'
+        '--os-password': 'xxxxxxxxxxx'
+        '--os-project-domain-name': 'xxxxxxxxx'
         '--os-identity-api-version': '3'
-    }
 
-    common_preload_config = {
-        'oam_onap_net': 'xxxxxxxx' if oom_mode else 'oam_onap_lAky',
-        'oam_onap_subnet': 'xxxxxxxxxx' if oom_mode else 'oam_onap_lAky',
-        'public_net': 'xxxxxxxxx',
+    common_preload_config:
+        'oam_onap_net': 'xxxxxxxx'
+        'oam_onap_subnet': 'xxxxxxxxxx'
+        'public_net': 'xxxxxxxxx'
         'public_net_id': 'xxxxxxxxxxxxx'
-    }
+
 
 5. Run Robot to create and distribute for vCPE customer service. This step assumes step 1 has successfully distributed all vcpe models except customer service model
 
