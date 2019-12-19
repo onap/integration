@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ca60879_f8d3adfc",
+        "filename": "bootstrap/codesearch/Vagrantfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1603
+      },
+      "writtenOn": "2019-12-19T19:39:07Z",
+      "side": 1,
+      "message": "just a question - will this prevent systemd-resolved from overwriting the changes made too /etc/resolv.conf.  (I found in my own notes for a recent ubuntu18-04 setup, I changed my dns configuration method from modifying /etc/resolve.conf to /etc/systemd/resolve.conf - due to that concern - i.e. there was a warning message in /etc/resolv.conf about not making changes in it)",
+      "revId": "de98f2ea75fbaaba7423e41814cb07f83830eeb9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
