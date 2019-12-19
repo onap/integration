@@ -5,6 +5,12 @@ host_ip = "192.168.121.1"
 synced_folder = "/vagrant"
 houndd_bin = "${HOME}/go/bin/houndd"
 houndd_config = "${HOME}/config.json"
+key_file = "${HOME}/.ssh/id_rsa"
+api_base = "https://gerrit.onap.org/r"
+api_user = ENV.fetch('API_USER') { |user| abort("missing env: #{user}") }
+api_key = ENV.fetch('API_KEY') { |key| abort("missing env: #{key}") }
+onap_git = "git.onap.org"
+gerrit_port = "29418"
 
 $replace_dns = <<-SCRIPT
   HOST_IP="$1"
@@ -12,11 +18,35 @@ $replace_dns = <<-SCRIPT
   echo nameserver "$HOST_IP" | tee /etc/resolv.conf
 SCRIPT
 
+$generate_key = <<-SCRIPT
+  KEY_FILE="$1"
+  echo "Generating SSH key (${KEY_FILE})"
+  ssh-keygen -q -b 4096 -t rsa -f "$KEY_FILE" -N ""
+SCRIPT
+
+$upload_key = <<-SCRIPT
+  KEY_FILE="$1"
+  API_BASE="$2"
+  echo "Uploading SSH pubkey (${KEY_FILE}.pub) for user: ${API_USER}"
+  curl -sS \
+       -u "${API_USER}:${API_KEY}" \
+       -d "@${KEY_FILE}.pub" \
+       -H "Content-Type: text/plain" \
+       -X POST "${API_BASE}/a/accounts/${API_USER}/sshkeys"
+SCRIPT
+
 Vagrant.configure("2") do |config|
   config.vm.box = "generic/ubuntu1804"
   config.vm.synced_folder ".", synced_folder, type: "rsync", rsync__exclude: "Vagrantfile"
   config.vm.network "forwarded_port", guest: 6080, host: 6080
   config.vm.provision "replace_dns", type: :shell, run: "always", inline: $replace_dns, args: host_ip
+  config.vm.provision "generate_key", type: :shell, privileged: false, inline: $generate_key, args: key_file
+  config.vm.provision "upload_key", type: :shell do |s|
+    s.privileged = false
+    s.inline = $upload_key
+    s.args = [key_file, api_base]
+    s.env = {'API_USER': api_user, 'API_KEY': api_key}
+  end
   config.vm.provision "dependencies", type: :shell, inline: <<-SHELL
     export DEBIAN_FRONTEND=noninteractive
     apt-get update
@@ -26,9 +56,11 @@ Vagrant.configure("2") do |config|
     export GOPATH="${HOME}/go"
     go get -u github.com/hound-search/hound/cmds/...
   SHELL
-  config.vm.provision "generate_config", type: :shell, privileged: false, inline: <<-SHELL
-    python3 #{synced_folder}/create_config.py > #{houndd_config}
-  SHELL
+  config.vm.provision "generate_config", type: :shell do |s|
+    s.privileged = false
+    s.inline = "python3 #{synced_folder}/create_config.py --ssh ${1} ${2} --git ${3} > #{houndd_config}"
+    s.args = [api_user, gerrit_port, onap_git]
+  end
   config.vm.provision "run_codesearch", type: :shell, privileged: false, inline: <<-SHELL
     tmux new -d -s codesearch #{houndd_bin} -conf #{houndd_config}
   SHELL
