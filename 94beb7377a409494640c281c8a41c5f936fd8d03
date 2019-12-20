@@ -22,6 +22,30 @@
       "revId": "94beb7377a409494640c281c8a41c5f936fd8d03",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1837bcd_f6bb6a30",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2019-12-20T10:03:41Z",
+      "side": 1,
+      "message": "\u003e All commits in this relation chain point to this Jira ticket but i can\u0027t seem to get the relation between Hound and the topic of that ticket. Could you please explain?\n\nPorting existing ONAP components to ServiceMesh requires deep understanding of their needs, purposes and capabilities. Code search service helps getting up to speed quickly and allows easier navigation among various repositories for both newcomers and experienced committers.\n\n\u003e I think it should have it\u0027s own ticket or if it\u0027s really related then a specific subtask.\n\nI\u0027ll update Issue-IDs to https://jira.onap.org/browse/ONAPARC-540 in the next patch set push.",
+      "parentUuid": "009a41de_21e4e619",
+      "range": {
+        "startLine": 9,
+        "startChar": 10,
+        "endLine": 9,
+        "endChar": 21
+      },
+      "revId": "94beb7377a409494640c281c8a41c5f936fd8d03",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
