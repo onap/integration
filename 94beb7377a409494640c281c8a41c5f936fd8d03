@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "009a41de_21e4e619",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2019-12-20T08:23:38Z",
+      "side": 1,
+      "message": "All commits in this relation chain point to this Jira ticket but i can\u0027t seem to get the relation between Hound and the topic of that ticket. Could you please explain? I think it should have it\u0027s own ticket or if it\u0027s really related then a specific subtask.",
+      "range": {
+        "startLine": 9,
+        "startChar": 10,
+        "endLine": 9,
+        "endChar": 21
+      },
+      "revId": "94beb7377a409494640c281c8a41c5f936fd8d03",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
