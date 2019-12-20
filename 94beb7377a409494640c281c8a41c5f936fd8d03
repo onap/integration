@@ -46,6 +46,30 @@
       "revId": "94beb7377a409494640c281c8a41c5f936fd8d03",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bff88079_5dc2fd6f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2019-12-20T10:06:40Z",
+      "side": 1,
+      "message": "Ok great, please update issue-id in all commits in chain, thanks.",
+      "parentUuid": "b1837bcd_f6bb6a30",
+      "range": {
+        "startLine": 9,
+        "startChar": 10,
+        "endLine": 9,
+        "endChar": 21
+      },
+      "revId": "94beb7377a409494640c281c8a41c5f936fd8d03",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
