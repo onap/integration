@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2150a285_8ca9afc8",
+        "filename": "test/vcpe/vcpeconfig.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-01-07T08:35:10Z",
+      "side": 1,
+      "message": "when I use onap-tests for my end to end tests, I assume that the clouds.yaml will be provided as an input for my testcases. I do not duplicate the opnestack config and rely on shade to play with these parameters.\n\nsee https://gitlab.com/Orange-OpenSource/lfn/onap/onap-tests/blob/master/onap_tests/xtesting/freeradius_nbi.py",
+      "revId": "acac47cedcdf6543b1a19ee31126fa4da24ae91a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
