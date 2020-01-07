@@ -34,6 +34,24 @@
       "revId": "acac47cedcdf6543b1a19ee31126fa4da24ae91a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ffabe6e_c1473073",
+        "filename": "test/vcpe/vcpeconfig.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-01-07T14:59:44Z",
+      "side": 1,
+      "message": "I just wonder if you need to put such configuration here as it should be already available in a clouds.yaml file that should be able to get. So an \"official\" yaml could be used as a complement to your config.\nIt would avoid data duplcation (I do not like config duplication.. :)).\nBut it means that in the rest of the code you need to retrieve the data from this clouds.yaml (e.g. with shade) and from this config\nIt is up to you.",
+      "parentUuid": "d611dc1c_667ec321",
+      "revId": "acac47cedcdf6543b1a19ee31126fa4da24ae91a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
