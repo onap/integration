@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "ffbca7d9_6d466a0c",
+        "filename": "bootstrap/codesearch/Vagrantfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-01-07T12:36:44Z",
+      "side": 1,
+      "message": "I seem to have missed the fact it\u0027s for libvirt driver, i was considering it in scope of virtualbox which i use for default. Thank you for precise explanation.\n\nI\u0027m also for (3), would be good to document the properties of working env in case someone has some uncommon setup.",
+      "parentUuid": "3a5cc553_8e14c21a",
+      "revId": "de98f2ea75fbaaba7423e41814cb07f83830eeb9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ca60879_f8d3adfc",
         "filename": "bootstrap/codesearch/Vagrantfile",
         "patchSetId": 1
@@ -87,6 +105,24 @@
       "revId": "de98f2ea75fbaaba7423e41814cb07f83830eeb9",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c4dd159_338ecc1e",
+        "filename": "bootstrap/codesearch/Vagrantfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-01-07T12:36:44Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ed09294f_e33b0ffe",
+      "revId": "de98f2ea75fbaaba7423e41814cb07f83830eeb9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
