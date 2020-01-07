@@ -3,20 +3,21 @@
 
 """Create configuration for code search."""
 
+import argparse
 import json
 import urllib.request
 import sys
 
-ONAP_GERRIT = "https://gerrit.onap.org/r"
-ONAP_CGIT = "https://git.onap.org"
+DEFAULT_GERRIT = "https://gerrit.onap.org/r"
+DEFAULT_CGIT = "https://git.onap.org"
 API_PROJECTS = "/projects/"
 
 MAGIC_PREFIX = ")]}'"
 
 
-def get_projects_list():
+def get_projects_list(gerrit):
     """Request list of all available projects from ONAP Gerrit."""
-    resp = urllib.request.urlopen(ONAP_GERRIT + API_PROJECTS)
+    resp = urllib.request.urlopen(gerrit + API_PROJECTS)
     resp_body = resp.read()
 
     no_magic = resp_body[len(MAGIC_PREFIX):]
@@ -26,12 +27,12 @@ def get_projects_list():
     return projects.keys()
 
 
-def create_repos_list(projects):
+def create_repos_list(projects, cgit):
     """Create a map of all projects to their repositories' URLs."""
     repos_list = {}
     for project in projects:
         repos_list[project] = {
-            "url": "{}/{}".format(ONAP_CGIT, project),
+            "url": "{}/{}".format(cgit, project),
             "url-pattern": {
                 "base-url": "{url}/tree/{path}{anchor}",
                 "anchor": "#n{line}"
@@ -41,9 +42,20 @@ def create_repos_list(projects):
     return repos_list
 
 
+def parse_arguments():
+    """Return parsed command-line arguments."""
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--gerrit', help='Gerrit address', default=DEFAULT_GERRIT)
+    parser.add_argument('--cgit', help='cgit address', default=DEFAULT_CGIT)
+
+    return parser.parse_args()
+
+
 def main():
     """Main entry point for the script."""
-    repos = create_repos_list(get_projects_list())
+    arguments = parse_arguments()
+
+    repos = create_repos_list(get_projects_list(arguments.gerrit), arguments.cgit)
     config = {
         "max-concurrent-indexers": 2,
         "dbpath": "data",
