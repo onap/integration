@@ -9,3 +9,5 @@ The Integration project provides the following artifacts:
 - Artifacts and documentation for the use-case deployments
 
 .. include:: onap-oom-heat.rst
+
+.. include:: onap-integration-ci.rst
