@@ -52,6 +52,24 @@
       "revId": "acac47cedcdf6543b1a19ee31126fa4da24ae91a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10620824_625665eb",
+        "filename": "test/vcpe/vcpeconfig.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-01-07T15:15:44Z",
+      "side": 1,
+      "message": "Ok i see your point. Considering shade to be looking for clouds.yaml first in local dir and only then in ~/.config/openstack I can change the scripts to be using shade library for the OS credentials gathering but will need to elaborate whether search order can be reversed.\n\nWill raise a separate ticket for that matter, let\u0027s please accept this one and merge whole topic, will work on top of it.",
+      "parentUuid": "6ffabe6e_c1473073",
+      "revId": "acac47cedcdf6543b1a19ee31126fa4da24ae91a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
