@@ -118,7 +118,7 @@ $get_oom = <<-SCRIPT
   git clone -b "$BRANCH" https://git.onap.org/oom --recurse-submodules
 SCRIPT
 
-$get_helm_plugins = "cp -R ${HOME}/oom/kubernetes/helm/plugins/ ${HOME}/.helm"
+$get_helm_plugins = "mkdir -p ${HOME}/.helm && cp -R ${HOME}/oom/kubernetes/helm/plugins/ ${HOME}/.helm"
 
 $setup_helm_cluster = <<-SCRIPT
   export KUBECONFIG="${HOME}/.kube/config.onap"
