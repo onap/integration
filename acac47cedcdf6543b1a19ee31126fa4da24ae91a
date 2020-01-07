@@ -16,6 +16,24 @@
       "revId": "acac47cedcdf6543b1a19ee31126fa4da24ae91a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d611dc1c_667ec321",
+        "filename": "test/vcpe/vcpeconfig.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-01-07T10:55:09Z",
+      "side": 1,
+      "message": "Is putting below cloud settings into shade library format compatible \"clouds.yaml\" file what you\u0027re suggesting? I.e. put below settings into clouds.yaml in vcpe file tree scope so it can be consumed as input for testcase?",
+      "parentUuid": "2150a285_8ca9afc8",
+      "revId": "acac47cedcdf6543b1a19ee31126fa4da24ae91a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
