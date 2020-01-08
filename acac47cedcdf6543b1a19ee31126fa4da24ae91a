@@ -70,6 +70,24 @@
       "revId": "acac47cedcdf6543b1a19ee31126fa4da24ae91a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85f9fac5_68f7bfcb",
+        "filename": "test/vcpe/vcpeconfig.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-01-08T07:23:42Z",
+      "side": 1,
+      "message": "https://jira.onap.org/browse/INT-1409",
+      "parentUuid": "10620824_625665eb",
+      "revId": "acac47cedcdf6543b1a19ee31126fa4da24ae91a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
