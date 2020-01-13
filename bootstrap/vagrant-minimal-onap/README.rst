@@ -5,7 +5,7 @@
 This directory contains a set of Vagrant scripts that will automatically set up:
 
 - Devstack,
-- RKE-based Kubernetes cluster,
+- RKE-based Kubernetes cluster (single control plane node and single worker plane node),
 - Operator's machine with configured tools (kubectl, helm).
 
 This is intended to show a beginning ONAP operator how to set up and configure an environment that
@@ -82,3 +82,16 @@ useful in case there are multiple providers available.
 
 .. code-block:: sh
    vagrant up --provider=libvirt
+
+
+Usage
+-----
+
+Once ready (bringing up machines might initially take some time), tools for cluster management will
+be available on Operator's machine. It can be accessed by executing:
+
+.. code-block:: sh
+   vagrant ssh operator
+
+Although appropriate context is set for `kubectl` on login, when interacting with the cluster the
+`onap` namespace has to be explicitly specified.
