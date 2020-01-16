@@ -18,9 +18,9 @@ aai:
   aai-traversal:
     image: onap/aai-traversal:1.6-STAGING-latest
 appc:
-  image: onap/appc-image:1.7.0-SNAPSHOT-latest
+  image: onap/appc-image:1.7.0-SNAPSHOT-20200115T235602Z
   appc-cdt:
-    image: onap/appc-cdt-image:1.7.0-SNAPSHOT-latest
+    image: onap/appc-cdt-image:1.7.0-SNAPSHOT-20200115T235602Z
 cds:
     cds-command-executor:
       image: onap/ccsdk-commandexecutor:0.7.0-STAGING-latest
@@ -36,29 +36,29 @@ common:
 
 dcaegen2:
     dcae-bootstrap:
-        image: onap/org.onap.dcaegen2.deployments.k8s-bootstrap-container:1.6.5-STAGING-latest 
+        image: onap/org.onap.dcaegen2.deployments.k8s-bootstrap-container:1.7.0-STAGING-latest
         componentImages:
-            prh: onap/org.onap.dcaegen2.services.prh.prh-app-server:1.4.0
+            prh: onap/org.onap.dcaegen2.services.prh.prh-app-server:1.5.0
 nbi:
     image: onap/externalapi/nbi:5.0.1-latest
 policy:
     image: onap/policy-pe:1.6-SNAPSHOT-latest
-    policy-pap:
-      image: onap/policy-pap:2.2.0-SNAPSHOT
-    brmsgw:
-      image: onap/policy-pe:1.6.0-SNAPSHOT
-    policy-xacml-pdp:
-      image: onap/policy-xacml-pdp:2.2.0-SNAPSHOT
-    drools:
-      image: onap/policy-pdpd-cl:1.6.0-SNAPSHOT
-    pdp:
-      image: onap/policy-pe:1.6.0-SNAPSHOT
-    policy-apex-pdp:
-      image: onap/policy-apex-pdp:2.3.0-SNAPSHOT
-    policy-api:
-      image: onap/policy-api:2.2.0-SNAPSHOT
-    policy-distribution:
-      image: onap/policy-distribution:2.3.0-SNAPSHOT
+    policy-pap:
+      image: onap/policy-pap:2.2-SNAPSHOT-latest
+    brmsgw:
+      image: onap/policy-pe:1.6-SNAPSHOT-latest
+    policy-xacml-pdp:
+      image: onap/policy-xacml-pdp:2.2-SNAPSHOT-latest
+    drools:
+      image: onap/policy-pdpd-cl:1.6-SNAPSHOT-latest
+    pdp:
+      image: onap/policy-pe:1.6-SNAPSHOT-latest
+    policy-apex-pdp:
+      image: onap/policy-apex-pdp:2.3-SNAPSHOT-latest
+    policy-api:
+      image: onap/policy-api:2.2-SNAPSHOT-latest
+    policy-distribution:
+      image: onap/policy-distribution:2.3-SNAPSHOT-latest
 sdc:
     sdc-onboarding-be:
       image: onap/sdc-onboard-backend:1.6-STAGING-latest
@@ -111,7 +111,7 @@ so:
     so-request-db-adapter:
       image: onap/so/request-db-adapter:1.5.3-STAGING-latest
 vid:
-    image: onap/vid:6.0.0-latest
+    image: onap/vid:6.0.2-latest
 portal:
     portal-app:
       image: onap/portal-app:2.6.0-STAGING-latest
