@@ -196,6 +196,7 @@ Vagrant.configure('2') do |config|
 
       if machine[:name] == 'operator'
         config.vm.synced_folder ".", synced_folder_main, type: "rsync", rsync__exclude: "Vagrantfile"
+        config.vm.synced_folder "./operator", "/home/#{vagrant_user}", type: "sshfs", reverse: true, sshfs_opts_append: "-o nonempty"
 
         config.vm.provision "setup_debconf", type: :shell, inline: $setup_debconf
         config.vm.provision "link_apt_prefs", type: :shell, run: "always" do |s|
