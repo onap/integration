@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b457e836_69747822",
+        "filename": "test/mocks/pmsh-pnf-sim/docker-compose/subscriber.py",
+        "patchSetId": 20
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4023
+      },
+      "writtenOn": "2020-01-17T14:56:20Z",
+      "side": 1,
+      "message": "Docstrings are a good idea\nhttps://www.python.org/dev/peps/pep-0257/",
+      "revId": "52443f3b32c1cd3ec0e85af97f2a196f9b82db8f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "847003d8_e8a7eff4",
+        "filename": "test/mocks/pmsh-pnf-sim/docker-compose/subscriber.py",
+        "patchSetId": 20
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4023
+      },
+      "writtenOn": "2020-01-17T14:56:20Z",
+      "side": 1,
+      "message": "Functional strings can make this sort of activity a lot more enjoyable to write.\n\nwould be something like\nf\u0027/{module_name}:*\u0027",
+      "range": {
+        "startLine": 10,
+        "startChar": 22,
+        "endLine": 10,
+        "endChar": 46
+      },
+      "revId": "52443f3b32c1cd3ec0e85af97f2a196f9b82db8f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
