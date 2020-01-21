@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1ab4002c_cbc3e5df",
+        "filename": "test/mocks/pmsh-pnf-sim/docker-compose/subscriber.py",
+        "patchSetId": 20
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4719
+      },
+      "writtenOn": "2020-01-21T10:54:43Z",
+      "side": 1,
+      "message": "fix in latest patch.",
+      "parentUuid": "b457e836_69747822",
+      "revId": "52443f3b32c1cd3ec0e85af97f2a196f9b82db8f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "847003d8_e8a7eff4",
         "filename": "test/mocks/pmsh-pnf-sim/docker-compose/subscriber.py",
         "patchSetId": 20
@@ -30,6 +48,30 @@
       "writtenOn": "2020-01-17T14:56:20Z",
       "side": 1,
       "message": "Functional strings can make this sort of activity a lot more enjoyable to write.\n\nwould be something like\nf\u0027/{module_name}:*\u0027",
+      "range": {
+        "startLine": 10,
+        "startChar": 22,
+        "endLine": 10,
+        "endChar": 46
+      },
+      "revId": "52443f3b32c1cd3ec0e85af97f2a196f9b82db8f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4408e659_87906afb",
+        "filename": "test/mocks/pmsh-pnf-sim/docker-compose/subscriber.py",
+        "patchSetId": 20
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4719
+      },
+      "writtenOn": "2020-01-21T10:54:43Z",
+      "side": 1,
+      "message": "functional string has support only on python 3.. i will update later when netopeer is moved to python 3.",
+      "parentUuid": "847003d8_e8a7eff4",
       "range": {
         "startLine": 10,
         "startChar": 22,
