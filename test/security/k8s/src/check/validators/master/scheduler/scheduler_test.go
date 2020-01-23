@@ -16,14 +16,7 @@ var _ = Describe("Scheduler", func() {
 			"--profiling=false",
 		}
 
-		// kubeSchedulerCasablanca was obtained from virtual environment for testing
-		// (introduced in Change-Id: I57f9f3caac0e8b391e9ed480f6bebba98e006882).
-		kubeSchedulerCasablanca = []string{
-			"--kubeconfig=/etc/kubernetes/ssl/kubeconfig",
-			"--address=0.0.0.0",
-		}
-
-		// kubeSchedulerCasablanca was obtained from virtual environment for testing
+		// kubeSchedulerDublin was obtained from virtual environment for testing
 		// (introduced in Change-Id: I54ada5fade3b984dedd1715f20579e3ce901faa3).
 		kubeSchedulerDublin = []string{
 			"--kubeconfig=/etc/kubernetes/ssl/kubecfg-kube-scheduler.yaml",
@@ -41,7 +34,6 @@ var _ = Describe("Scheduler", func() {
 			},
 			Entry("Is not set on insecure cluster", []string{}, false),
 			Entry("Is explicitly enabled on insecure cluster", []string{"--profiling=true"}, false),
-			Entry("Is not set on Casablanca cluster", kubeSchedulerCasablanca, false),
 			Entry("Should be set to false on CIS-compliant cluster", kubeSchedulerCISCompliant, true),
 			Entry("Should be set to false on Dublin cluster", kubeSchedulerDublin, true),
 		)
@@ -53,7 +45,6 @@ var _ = Describe("Scheduler", func() {
 				Expect(IsInsecureBindAddressAbsentOrLoopback(params)).To(Equal(expected))
 			},
 			Entry("Is not absent on insecure cluster", []string{"--address=1.2.3.4"}, false),
-			Entry("Is not absent nor set to loopback on Casablanca cluster", kubeSchedulerCasablanca, false),
 			Entry("Is not absent nor set to loopback on Dublin cluster", kubeSchedulerDublin, false),
 			Entry("Should be absent or set to loopback on CIS-compliant cluster", kubeSchedulerCISCompliant, true),
 		)

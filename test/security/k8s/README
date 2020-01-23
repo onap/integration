@@ -19,17 +19,6 @@ Build
 
 .. _go: https://golang.org/doc/install
 
-Run
----
-
-.. note:: Below applies to Rancher-based clusters (e.g. Casablanca)
-
-- `Rancher CLI`_
-- Docker_ (required to perform selected Rancher CLI calls)
-
-.. _`Rancher CLI`: https://rancher.com/docs/rancher/v1.6/en/cli
-.. _Docker: https://docs.docker.com/install
-
 Test
 ----
 
