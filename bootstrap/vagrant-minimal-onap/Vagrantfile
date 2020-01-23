@@ -115,7 +115,8 @@ $rke_down = "rke remove --force"
 
 $get_oom = <<-SCRIPT
   BRANCH="${1:-5.0.1-ONAP}"
-  git clone -b "$BRANCH" https://git.onap.org/oom --recurse-submodules
+  REPO="${2:-https://git.onap.org/oom}"
+  git clone -b "$BRANCH" "$REPO" --recurse-submodules
 SCRIPT
 
 $get_helm_plugins = "mkdir -p ${HOME}/.helm && cp -R ${HOME}/oom/kubernetes/helm/plugins/ ${HOME}/.helm"
@@ -139,7 +140,9 @@ $setup_helm_repo = <<-SCRIPT
 SCRIPT
 
 $deploy_onap = <<-SCRIPT
-  ENV="$1"
+  OVERRIDE="${1:-${HOME}/oom/kubernetes/onap/resources/environments/minimal-onap.yaml}"
+
+  ENV="${2:-#{os_env}"}"
   export $(cat "$ENV" | xargs)
 
   encrypt () {
@@ -153,7 +156,6 @@ $deploy_onap = <<-SCRIPT
 
   export KUBECONFIG="${HOME}/.kube/config.onap"
 
-  OVERRIDE="${HOME}/oom/kubernetes/onap/resources/environments/minimal-onap.yaml"
   helm deploy minimal local/onap --namespace onap -f "$OVERRIDE" --verbose --timeout 900
 SCRIPT
 
@@ -245,7 +247,10 @@ Vagrant.configure('2') do |config|
           s.path = "tools/setup_kubectl.sh"
         end
         config.vm.provision "get_helm", type: :shell, path: "tools/get_helm.sh"
-        config.vm.provision "get_oom", type: :shell, privileged: false, inline: $get_oom
+        config.vm.provision "get_oom", type: :shell do |s|
+          s.privileged = false
+          s.inline = $get_oom
+        end
         config.vm.provision "get_helm_plugins", type: :shell, privileged: false, inline: $get_helm_plugins
         config.vm.provision "install_make", type: :shell, inline: $install_make
         config.vm.provision "setup_helm_cluster", type: :shell, run: "never", privileged: false, inline: $setup_helm_cluster
@@ -253,7 +258,6 @@ Vagrant.configure('2') do |config|
         config.vm.provision "deploy_onap", type: :shell, run: "never" do |s|
           s.privileged = false
           s.inline = $deploy_onap
-          s.args = os_env
         end
       end
     end
