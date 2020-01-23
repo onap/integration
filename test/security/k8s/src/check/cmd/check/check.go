@@ -5,32 +5,23 @@ import (
 	"log"
 
 	"check"
-	"check/rancher"
 	"check/raw"
 	"check/validators/master"
 )
 
 var (
-	ranchercli = flag.Bool("ranchercli", false, "use rancher utility for accessing cluster nodes")
-	rke        = flag.Bool("rke", false, "use RKE cluster definition and ssh for accessing cluster nodes (default)")
+	rke = flag.Bool("rke", true, "use RKE cluster definition and ssh for accessing cluster nodes (default)")
 )
 
 func main() {
 	flag.Parse()
-	if *ranchercli && *rke {
+	if !(*rke) {
 		log.Fatal("Not supported.")
-	}
-
-	// Use default cluster access method if none was declared explicitly.
-	if !(*ranchercli || *rke) {
-		*rke = true
 	}
 
 	var info check.Informer
 
 	switch {
-	case *ranchercli:
-		info = &rancher.Rancher{}
 	case *rke:
 		info = &raw.Raw{}
 	default:

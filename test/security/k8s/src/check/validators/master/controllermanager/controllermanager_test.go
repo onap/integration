@@ -21,19 +21,7 @@ var _ = Describe("Controllermanager", func() {
 			"--root-ca-file=/etc/kubernetes/ssl/kube-ca.pem",
 		}
 
-		// kubeControllerManagerCasablanca was obtained from virtual environment for testing
-		// (introduced in Change-Id: I57f9f3caac0e8b391e9ed480f6bebba98e006882).
-		kubeControllerManagerCasablanca = []string{
-			"--kubeconfig=/etc/kubernetes/ssl/kubeconfig",
-			"--address=0.0.0.0",
-			"--root-ca-file=/etc/kubernetes/ssl/ca.pem",
-			"--service-account-private-key-file=/etc/kubernetes/ssl/key.pem",
-			"--allow-untagged-cloud",
-			"--cloud-provider=rancher",
-			"--horizontal-pod-autoscaler-use-rest-clients=false",
-		}
-
-		// kubeControllerManagerCasablanca was obtained from virtual environment for testing
+		// kubeControllerManagerDublin was obtained from virtual environment for testing
 		// (introduced in Change-Id: I54ada5fade3b984dedd1715f20579e3ce901faa3).
 		kubeControllerManagerDublin = []string{
 			"--kubeconfig=/etc/kubernetes/ssl/kubecfg-kube-controller-manager.yaml",
@@ -64,7 +52,6 @@ var _ = Describe("Controllermanager", func() {
 			},
 			Entry("Is not set on insecure cluster", []string{}, false),
 			Entry("Is explicitly enabled on insecure cluster", []string{"--profiling=true"}, false),
-			Entry("Is not set on Casablanca cluster", kubeControllerManagerCasablanca, false),
 			Entry("Should be set to false on CIS-compliant cluster", kubeControllerManagerCISCompliant, true),
 			Entry("Should be set to false on Dublin cluster", kubeControllerManagerDublin, true),
 		)
@@ -75,7 +62,6 @@ var _ = Describe("Controllermanager", func() {
 			},
 			Entry("Is not set on insecure cluster", []string{}, false),
 			Entry("Is explicitly disabled on insecure cluster", []string{"--use-service-account-credentials=false"}, false),
-			Entry("Is not set on Casablanca cluster", kubeControllerManagerCasablanca, false),
 			Entry("Should be set to true on CIS-compliant cluster", kubeControllerManagerCISCompliant, true),
 			Entry("Should be set to true on Dublin cluster", kubeControllerManagerDublin, true),
 		)
@@ -89,7 +75,6 @@ var _ = Describe("Controllermanager", func() {
 			Entry("Is absent on insecure cluster", []string{""}, false),
 			Entry("Is empty on insecure cluster", []string{"--service-account-private-key-file="}, false),
 			Entry("Should be explicitly set on CIS-compliant cluster", kubeControllerManagerCISCompliant, true),
-			Entry("Should be explicitly set on Casablanca cluster", kubeControllerManagerCasablanca, true),
 			Entry("Should be explicitly set on Dublin cluster", kubeControllerManagerDublin, true),
 		)
 
@@ -100,7 +85,6 @@ var _ = Describe("Controllermanager", func() {
 			Entry("Is absent on insecure cluster", []string{""}, false),
 			Entry("Is empty on insecure cluster", []string{"--root-ca-file="}, false),
 			Entry("Should be explicitly set on CIS-compliant cluster", kubeControllerManagerCISCompliant, true),
-			Entry("Should be explicitly set on Casablanca cluster", kubeControllerManagerCasablanca, true),
 			Entry("Should be explicitly set on Dublin cluster", kubeControllerManagerDublin, true),
 		)
 	})
@@ -111,7 +95,6 @@ var _ = Describe("Controllermanager", func() {
 				Expect(IsInsecureBindAddressAbsentOrLoopback(params)).To(Equal(expected))
 			},
 			Entry("Is not absent on insecure cluster", []string{"--address=1.2.3.4"}, false),
-			Entry("Is not absent nor set to loopback on Casablanca cluster", kubeControllerManagerCasablanca, false),
 			Entry("Is not absent nor set to loopback on Dublin cluster", kubeControllerManagerDublin, false),
 			Entry("Should be absent or set to loopback on CIS-compliant cluster", kubeControllerManagerCISCompliant, true),
 		)
@@ -124,7 +107,6 @@ var _ = Describe("Controllermanager", func() {
 			},
 			Entry("Is absent on insecure cluster", []string{""}, false),
 			Entry("Is empty on insecure cluster", []string{"--terminated-pod-gc-threshold="}, false),
-			Entry("Is absent on Casablanca cluster", kubeControllerManagerCasablanca, false),
 			Entry("Should be explicitly set on CIS-compliant cluster", kubeControllerManagerCISCompliant, true),
 			Entry("Should be explicitly set on Dublin cluster", kubeControllerManagerDublin, true),
 		)
@@ -137,7 +119,6 @@ var _ = Describe("Controllermanager", func() {
 			},
 			Entry("Is not enabled on insecure cluster", []string{"--feature-gates=Foo=Bar,Baz=Quuz"}, false),
 			Entry("Is explicitly disabled on insecure cluster", []string{"--feature-gates=Foo=Bar,RotateKubeletServerCertificate=false,Baz=Quuz"}, false),
-			Entry("Is not enabled on Casablanca cluster", kubeControllerManagerCasablanca, false),
 			Entry("Is not enabled on Dublin cluster", kubeControllerManagerDublin, false),
 			Entry("Should be enabled on CIS-compliant cluster", kubeControllerManagerCISCompliant, true),
 		)

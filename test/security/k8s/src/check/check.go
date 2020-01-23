@@ -39,31 +39,3 @@ func (c Command) String() string {
 	}
 	return names[c]
 }
-
-// Service represents services run on Rancher-based cluster.
-type Service int
-
-const (
-	// APIService represents API server service ("kubernetes/kubernetes").
-	APIService Service = iota
-	// SchedulerService represents scheduler service ("kubernetes/scheduler").
-	SchedulerService
-	// ControllerManagerService represents controller manager service ("kubernetes/controller-manager").
-	ControllerManagerService
-	// EtcdService represents etcd service ("kubernetes/etcd").
-	EtcdService
-)
-
-func (s Service) String() string {
-	names := [...]string{
-		"kubernetes/kubernetes",
-		"kubernetes/scheduler",
-		"kubernetes/controller-manager",
-		"kubernetes/etcd",
-	}
-
-	if s < APIService || s > EtcdService {
-		return ""
-	}
-	return names[s]
-}
