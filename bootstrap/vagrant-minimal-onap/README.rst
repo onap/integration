@@ -69,6 +69,14 @@ features (e.g. triggers_) might not be supported on older versions.
 .. _`v2.2.6`: https://github.com/hashicorp/vagrant/blob/v2.2.6/CHANGELOG.md#226-october-14-2019
 .. _triggers: https://www.vagrantup.com/docs/triggers/
 
+Synced Folders
+~~~~~~~~~~~~~~
+
+Environment has uses reverse-SSHFS-based file synchronization for applying non-upstream changes.
+This requires installing vagrant-sshfs_ plugin and presence of `sshfs` package on the host system.
+
+.. _vagrant-sshfs: https://github.com/dustymabe/vagrant-sshfs#install-plugin
+
 
 Running
 -------
