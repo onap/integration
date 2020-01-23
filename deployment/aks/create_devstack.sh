@@ -238,6 +238,7 @@ cat > $DATA_FILE <<EOF
 package_upgrade: true
 packages:
   - resolvconf
+  - python3-dev
 users:
   - default
   - name: stack
@@ -292,7 +293,9 @@ write_files:
       PUBLIC_BRIDGE=br-ex
       OVS_BRIDGE_MAPPINGS=public:br-ex
 
-      [[post-config|\$NOVA_CONF]]
+      USE_PYTHON3=True
+
+      [[post-config|/etc/nova/nova.conf]]
 
       [libvirt]
       cpu_mode = host-passthrough
