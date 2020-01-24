@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8306507e_f85387b4",
+        "filename": "bootstrap/vagrant-minimal-onap/README.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-01-24T10:52:26Z",
+      "side": 1,
+      "message": "Typo i believe.",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 20
+      },
+      "revId": "959ed868406840b68b61ed046012368bd6603741",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
