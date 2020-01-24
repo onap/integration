@@ -20,11 +20,41 @@ vm_memory_onap = 20 * 1024
 vm_cpu = 1
 vm_cpus = 4
 vm_box = "generic/ubuntu1804"
+vm_disk = 32
+vm_disk_onap = 64
 
-operation = { name: 'operator', hostname: 'operator', ip: '172.17.4.254', cpus: vm_cpu, memory: vm_memory }
-devstack = { name: 'devstack', hostname: 'devstack', ip: '172.17.4.200', cpus: vm_cpu, memory: vm_memory_os }
-control = { name: 'control', hostname: 'control', ip: '172.17.4.100', cpus: vm_cpu, memory: vm_memory }
-worker = { name: 'worker', hostname: 'worker', ip: '172.17.4.101', cpus: vm_cpus, memory: vm_memory_onap }
+operation = {
+  name: 'operator',
+  hostname: 'operator',
+  ip: '172.17.4.254',
+  cpus: vm_cpu,
+  memory: vm_memory,
+  disk: vm_disk
+}
+devstack = {
+  name: 'devstack',
+  hostname: 'devstack',
+  ip: '172.17.4.200',
+  cpus: vm_cpu,
+  memory: vm_memory_os,
+  disk: vm_disk
+}
+control = {
+  name: 'control',
+  hostname: 'control',
+  ip: '172.17.4.100',
+  cpus: vm_cpu,
+  memory: vm_memory,
+  disk: vm_disk
+}
+worker = {
+  name: 'worker',
+  hostname: 'worker',
+  ip: '172.17.4.101',
+  cpus: vm_cpus,
+  memory: vm_memory_onap,
+  disk: vm_disk_onap
+}
 
 cluster = [] << control << worker
 all = cluster.dup << operation << devstack
@@ -71,6 +101,14 @@ $install_make = <<-SCRIPT
   apt-get update
   echo "Installing 'make'"
   apt-get install make
+SCRIPT
+
+$resize_disk = <<-SCRIPT
+  DEV=${1:-sda}
+  PART=${2:-3}
+  echo ", +" | sfdisk -N "$PART" "/dev/$DEV" --no-reread
+  partprobe
+  resize2fs "/dev/${DEV}${PART}"
 SCRIPT
 
 $generate_key = <<-SCRIPT
@@ -174,6 +212,7 @@ Vagrant.configure('2') do |config|
       config.vm.provider :libvirt do |v|
         v.memory = machine[:memory]
         v.cpus = machine[:cpus]
+        v.machine_virtual_size = machine[:disk] # set at VM creation
       end
 
       config.vm.network :private_network, ip: machine[:ip]
@@ -194,6 +233,7 @@ Vagrant.configure('2') do |config|
       if machine[:name] == 'worker'
         config.vm.provision "customize_worker", type: :shell, path: "tools/imported/openstack-k8s-workernode.sh"
         config.vm.provision "fix_group_worker", type: :shell, inline: $add_to_docker_group, args: vagrant_user
+        config.vm.provision "resize_disk", type: :shell, inline: $resize_disk
       end
 
       if machine[:name] == 'operator'
