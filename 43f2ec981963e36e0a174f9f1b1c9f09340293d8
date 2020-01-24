@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ca89f66_58a0b6aa",
+        "filename": "bootstrap/vagrant-minimal-onap/Vagrantfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2020-01-24T14:30:46Z",
+      "side": 1,
+      "message": "Unmatched quotation mark",
+      "range": {
+        "startLine": 145,
+        "startChar": 21,
+        "endLine": 145,
+        "endChar": 22
+      },
+      "revId": "43f2ec981963e36e0a174f9f1b1c9f09340293d8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
