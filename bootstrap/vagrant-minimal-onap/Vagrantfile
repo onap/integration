@@ -15,14 +15,14 @@ apt_prefs_dir = "/etc/apt/apt.conf.d"
 apt_prefs = "95silent-approval"
 
 vm_memory = 1 * 1024
-vm_memory_os = 6 * 1024
-vm_memory_onap = 12 * 1024
+vm_memory_os = 4 * 1024
+vm_memory_onap = 20 * 1024
 vm_cpu = 1
-vm_cpus = 2
+vm_cpus = 4
 vm_box = "generic/ubuntu1804"
 
 operation = { name: 'operator', hostname: 'operator', ip: '172.17.4.254', cpus: vm_cpu, memory: vm_memory }
-devstack = { name: 'devstack', hostname: 'devstack', ip: '172.17.4.200', cpus: vm_cpus, memory: vm_memory_os }
+devstack = { name: 'devstack', hostname: 'devstack', ip: '172.17.4.200', cpus: vm_cpu, memory: vm_memory_os }
 control = { name: 'control', hostname: 'control', ip: '172.17.4.100', cpus: vm_cpu, memory: vm_memory }
 worker = { name: 'worker', hostname: 'worker', ip: '172.17.4.101', cpus: vm_cpus, memory: vm_memory_onap }
 

@@ -31,13 +31,13 @@ Requirements
 +-------------+-----+-------+
 | Operator    |  1  | 1GiB  |
 +-------------+-----+-------+
-| Devstack    |  2  | 6GiB  |
+| Devstack    |  1  | 4GiB  |
 +-------------+-----+-------+
 | K8s Control |  1  | 1GiB  |
 +-------------+-----+-------+
-| K8s Worker  |  2  | 12GiB |
+| K8s Worker  |  4  | 20GiB |
 +-------------+-----+-------+
-| TOTAL       |  6  | 20GiB |
+| TOTAL       |  7  | 26GiB |
 +-------------+-----+-------+
 
 Table above is based on current experience and may be subject to change.
