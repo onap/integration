@@ -18,9 +18,9 @@ aai:
   aai-traversal:
     image: onap/aai-traversal:1.6-STAGING-latest
 appc:
-  image: onap/appc-image:1.7.0-SNAPSHOT-20200115T235602Z
+  image: onap/appc-image:1.7.0-SNAPSHOT-latest
   appc-cdt:
-    image: onap/appc-cdt-image:1.7.0-SNAPSHOT-20200115T235602Z
+    image: onap/appc-cdt-image:1.7.0-SNAPSHOT-latest
 cds:
     cds-command-executor:
       image: onap/ccsdk-commandexecutor:0.7.0-STAGING-latest
