@@ -149,7 +149,7 @@ $link_file = <<-SCRIPT
 SCRIPT
 
 $rke_up = "rke up"
-$rke_down = "rke remove --force"
+$rke_down = "rke remove --force || true" # best effort
 
 $get_oom = <<-SCRIPT
   BRANCH="${1:-5.0.1-ONAP}"
