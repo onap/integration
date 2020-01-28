@@ -57,8 +57,8 @@ SVCS=`awk '{print $2}' <<<"$PORTS_SVCS"`
 # Create a list in nmap-compatible format
 PORT_LIST=`tr "\\n" "," <<<"$PORTS" | sed 's/,$//'; echo ''`
 
-# Get IP addres of some cluster node
-K8S_NODE=`kubectl describe nodes \`kubectl get nodes | grep -v NAME | head -n 1 | awk '{print $1}'\` | grep external-ip | awk '{print $2}'`
+# Get IP address of some cluster node (both "external-ip" and "ExternalIP" labels are matched)
+K8S_NODE=`kubectl describe nodes \`kubectl get nodes | grep -v NAME | head -n 1 | awk '{print $1}'\` | grep "external-ip\|ExternalIP" | awk '{print $2}'`
 
 # perform scan
 SCAN_RESULT=`nmap $K8S_NODE -sV -p $PORT_LIST 2>/dev/null | grep \tcp`
