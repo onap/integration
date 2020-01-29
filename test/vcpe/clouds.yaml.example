@@ -1,0 +1,23 @@
+clouds:
+  integration-release-daily:
+    auth:
+      auth_url: 'http://10.12.25.2:5000'
+      username: 'kxi'
+      user_domain_id: 'default'
+      project_domain_id: 'default'
+      tenant_id: '712b6016580e410b9abfec9ca34953ce'
+      password: 'n3JhGMGuDzD8'
+      project_domain_name: 'Integration-Release-Daily'
+    region_name: 'RegionOne'
+    identity_api_version: '3'
+  integration-sb-07:
+    auth:
+      auth_url: 'http://10.12.25.2:5000'
+      username: 'kxi'
+      user_domain_id: 'default'
+      project_domain_id: 'default'
+      tenant_id: '1e097c6713e74fd7ac8e4295e605ee1e'
+      password: 'n3JhGMGuDzD8'
+      project_domain_name: 'Integration-SB-07'
+    region_name: 'RegionOne'
+    identity_api_version: '3'

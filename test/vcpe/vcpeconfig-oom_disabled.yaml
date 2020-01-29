@@ -14,17 +14,8 @@ oom_mode: False
 gra_api_flag: False
 
 ###########################
-# set Openstack credentials
-cloud:
-  '--os-auth-url': 'http://10.12.25.2:5000'
-  '--os-username': 'kxi'
-  '--os-user-domain-id': 'default'
-  '--os-project-domain-id': 'default'
-  '--os-tenant-id': '1e097c6713e74fd7ac8e4295e605ee1e'
-  '--os-region-name': 'RegionOne'
-  '--os-password': 'n3JhGMGuDzD8'
-  '--os-project-domain-name': 'Integration-SB-07'
-  '--os-identity-api-version': '3'
+# set Openstack cloud name
+cloud_name: 'integration-sb-07'
 
 ############################################################################
 # set oam and public network which must exist in openstack before deployment
