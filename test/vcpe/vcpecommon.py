@@ -14,6 +14,7 @@ import commands
 import time
 import yaml
 from novaclient import client as openstackclient
+from openstack.config import loader
 from kubernetes import client, config
 from netaddr import IPAddress, IPNetwork
 
@@ -27,6 +28,8 @@ class VcpeCommon:
 
         # Read configuration from config file
         self._load_config(cfg_file)
+        # Load OpenStack settings
+        self._load_os_config()
 
         self.sdnc_controller_pod = '-'.join([self.onap_environment, 'sdnc-sdnc-0'])
         # OOM: this is the address that the brg and bng will nat for sdnc access - 10.0.0.x address of k8 host for sdnc-0 container
@@ -183,6 +186,34 @@ class VcpeCommon:
         except TypeError as e:
             self.logger.error('Unable to parse config file: ' + str(e))
             sys.exit(1)
+
+    def _load_os_config(self):
+        """
+        Reads cloud settings and sets them as object's 'cloud' attribute
+        """
+        # Create OpenStackConfig config instance
+        os_config = loader.OpenStackConfig()
+        # Try reading cloud settings for self.cloud_name
+        try:
+            os_cloud = os_config.cloud_config['clouds'][self.cloud_name]
+        except KeyError:
+            self.logger.error('Error fetching cloud settings for cloud "{0}"'
+                              .format(self.cloud_name))
+            sys.exit(1)
+        self.logger.debug('Cloud config:\n {0}'.format(json.dumps(
+                          os_cloud,indent=4)))
+
+        # Extract all OS settings keys and alter their names
+        # to conform to openstack cli client
+        self.cloud = {}
+        for k in os_cloud:
+             if isinstance(os_cloud[k],dict):
+                 for sub_k in os_cloud[k]:
+                     os_setting_name = '--os-' + sub_k.replace('_','-')
+                     self.cloud[os_setting_name] = os_cloud[k][sub_k]
+             else:
+                 os_setting_name = '--os-' + k.replace('_','-')
+                 self.cloud[os_setting_name] = os_cloud[k]
 
     def heatbridge(self, openstack_stack_name, svc_instance_uuid):
         """
