@@ -47,16 +47,7 @@ Here are the main steps to run the use case in Integration lab environment, wher
 
 ::
 
-    cloud:
-        '--os-auth-url': 'http://10.12.25.2:5000'
-        '--os-username': 'xxxxxxxxxx'
-        '--os-user-domain-id': 'default'
-        '--os-project-domain-id': 'default'
-        '--os-tenant-id': 'xxxxxxxxxxxxxxxx'
-        '--os-region-name': 'RegionOne'
-        '--os-password': 'xxxxxxxxxxx'
-        '--os-project-domain-name': 'xxxxxxxxx'
-        '--os-identity-api-version': '3'
+    cloud_name: 'xxxxxxxx'
 
     common_preload_config:
         'oam_onap_net': 'xxxxxxxx'
@@ -64,6 +55,7 @@ Here are the main steps to run the use case in Integration lab environment, wher
         'public_net': 'xxxxxxxxx'
         'public_net_id': 'xxxxxxxxxxxxx'
 
+"cloud_name" should be set to Openstack cloud name from clouds.yaml. By default this file is at ~/.config/openstack directory; if it's located in scripts directory it will have precedence over the beforementoined one. Example clouds.yaml.example file is provided.
 
 5. Run Robot to create and distribute for vCPE customer service. This step assumes step 1 has successfully distributed all vcpe models except customer service model
 
