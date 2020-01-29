@@ -23,6 +23,30 @@ NOTE: the Devstack instance is NOT SECURED, with default credentials:
 +-------+----------------+
 
 
+Quickstart
+----------
+
+Following set of commands can be used to prepare a machine running Ubuntu 18.04 for this setup:
+
+.. code-block:: sh
+   sudo sed -i'.bak' 's/^#.*deb-src/deb-src/' /etc/apt/sources.list
+   sudo apt-get update
+   sudo apt-get build-dep vagrant ruby-libvirt
+   sudo apt-get install qemu libvirt-bin ebtables dnsmasq-base
+   sudo apt-get install libxslt-dev libxml2-dev libvirt-dev zlib1g-dev ruby-dev
+
+   sudo apt-get install sshfs
+
+   wget https://releases.hashicorp.com/vagrant/2.2.7/vagrant_2.2.7_x86_64.deb
+   sudo dpkg -i vagrant_2.2.7_x86_64.deb
+
+   vagrant plugin install vagrant-libvirt
+   vagrant plugin install vagrant-sshfs
+
+   sudo mv /etc/apt/sources.list{.bak,}
+   rm vagrant_2.2.7_x86_64.deb
+
+
 Requirements
 ------------
 
