@@ -22,6 +22,30 @@
       "revId": "e98ccff3172507d3b47f2b541c81991a7ed76cb2",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d118e652_1980d423",
+        "filename": "deployment/aks/create_onap.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 3013
+      },
+      "writtenOn": "2020-01-30T15:37:04Z",
+      "side": 1,
+      "message": "The old logic was to delete the default storage class, then apply a new dummy storage class, but on occasion Azure would still re-create the default storage class in between those two actions, and that would cause the ONAP install to fail (because the default Azure class uses azure disk).\n\nI\u0027m hoping using replace will solve that. I tried originally using apply, but it was throwing an error like seen here https://github.com/kubernetes/kubernetes/issues/80472.",
+      "parentUuid": "a91e094f_c7a66ff4",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 51
+      },
+      "revId": "e98ccff3172507d3b47f2b541c81991a7ed76cb2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
