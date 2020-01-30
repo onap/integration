@@ -29,13 +29,10 @@ cd $BUILD_DIR
 export KUBECONFIG="$KUBECONFIG"
 kubectl get nodes
 
-COUNTER=0
-until [ $COUNTER -ge 10 ]; do
-
 echo "overriding default storage class for AKS"
 kubectl delete sc default
 sleep 1
-cat  <<EOF | kubectl apply -f -
+cat > "$BUILD_DIR/tmp-sc.yaml" <<EOF
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
@@ -49,14 +46,7 @@ reclaimPolicy: Delete
 volumeBindingMode: Immediate
 EOF
 
-if [ $? -eq 0 ]; then
-  COUNTER=10
-else
-  COUNTER=$((COUNTER +1))
-fi
-
-sleep 5
-done
+kubectl replace -f "$BUILD_DIR/tmp-sc.yaml" --force
 
 git clone -b "$OOM_BRANCH" http://gerrit.onap.org/r/oom --recurse-submodules
 

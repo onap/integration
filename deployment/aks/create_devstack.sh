@@ -35,6 +35,7 @@ OPENSTACK_USER=
 OPENSTACK_PASS=
 OS_PROJECT_NAME=
 IMAGE_LIST=
+DEVSTACK_BRANCH=
 
 function check_required_parameter() {
   # arg1 = parameter
@@ -84,6 +85,7 @@ while test $# -gt 0; do
       echo "--openstack-username        default user name for openstack [optional]"
       echo "--openstack-password        default password for openstack [optional]"
       echo "--openstack-tenant          default tenant name for openstack [optional]"
+      echo "--devstack-branch           branch to use for devstack install [optional]"
       echo ""
       exit 0
       ;;
@@ -176,6 +178,11 @@ while test $# -gt 0; do
       OS_PROJECT_NAME=$1
       shift
       ;;
+    --devstack-branch)
+      shift
+      DEVSTACK_BRANCH=$1
+      shift
+      ;;
     *)
       echo "Unknown Argument $1. Try running with --help."
       exit 0
@@ -201,7 +208,7 @@ OPENSTACK_USER=$(check_optional_paramater "$OPENSTACK_USER" "admin")
 OPENSTACK_PASS=$(check_optional_paramater "$OPENSTACK_PASS" "secret")
 OS_PROJECT_NAME=$(check_optional_paramater "$OS_PROJECT_NAME" "admin")
 IMAGE_LIST=$(check_optional_paramater "$IMAGE_LIST" "")
-
+DEVSTACK_BRANCH=$(check_optional_paramater "$DEVSTACK_BRANCH" "master")
 
 if [ $NO_PROMPT = 0 ]; then
   read -p "Would you like to proceed? [y/n]" -n 1 -r
@@ -254,7 +261,7 @@ write_files:
       DEBIAN_FRONTEND=noninteractive sudo apt-get install -qqy git || sudo yum install -qy git
       sudo chown stack:stack /home/stack
       cd /home/stack
-      git clone https://git.openstack.org/openstack-dev/devstack
+      git clone -b $DEVSTACK_BRANCH https://git.openstack.org/openstack-dev/devstack
       cd devstack
       cat > local.conf <<EOF
       [[local|localrc]]
@@ -272,8 +279,8 @@ write_files:
       enable_service h-eng h-api h-api-cfn h-api-cw
       disable_service tempest
 
-      enable_plugin heat https://git.openstack.org/openstack/heat
-      enable_plugin heat-dashboard https://opendev.org/openstack/heat-dashboard
+      enable_plugin heat https://git.openstack.org/openstack/heat $DEVSTACK_BRANCH
+      enable_plugin heat-dashboard https://opendev.org/openstack/heat-dashboard $DEVSTACK_BRANCH
 
       ## Neutron options
       Q_USE_SECGROUP=True
@@ -367,4 +374,3 @@ DEVSTACK_NIC_ID=`az vm nic list --resource-group ${DEVSTACK_RG} --vm-name ${DEVS
 
 ### Enabling IP Forwarding on DEVSTACK vnic ###
 az network nic update --ids "$DEVSTACK_NIC_ID" --ip-forwarding
-
