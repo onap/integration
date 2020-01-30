@@ -133,6 +133,7 @@ DEVSTACK_ADMIN_USER     = "$DEVSTACK_ADMIN_USER"
 DEVSTACK_VNET_NAME      = "$DEVSTACK_VNET_NAME"
 DEVSTACK_SUBNET_NAME    = "$DEVSTACK_SUBNET_NAME"
 DEVSTACK_DISK_SIZE      = "$DEVSTACK_DISK_SIZE"
+DEVSTACK_BRANCH         = "$DEVSTACK_BRANCH"
 OPENSTACK_USER          = "$OPENSTACK_USER"
 OPENSTACK_PASS          = "$OPENSTACK_PASS"
 OPENSTACK_TENANT        = "$OPENSTACK_TENANT"
@@ -209,6 +210,7 @@ $DIR/create_devstack.sh --name "$DEVSTACK_NAME" \
                         --openstack-password "$OPENSTACK_PASS" \
                         --openstack-tenant "$OPENSTACK_TENANT" \
                         --image-list "$IMAGE_LIST" \
+                        --devstack-branch "$DEVSTACK_BRANCH" \
                         --no-prompt
 
 
@@ -451,4 +453,3 @@ EOF
 $DIR/post_install.sh "$BUILD_DIR/onap.conf" "$DIR/cloud.conf"
 
 fi
-

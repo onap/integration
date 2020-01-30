@@ -135,6 +135,7 @@ DEVSTACK_ADMIN_USER=       User name that will be created on DevStack VM. Use th
 DEVSTACK_VNET_NAME=        Name of VNET that DevStack VM will attach to. 
 DEVSTACK_SUBNET_NAME=      Name of SUBNET attached to DEVSTACK_VNET_NAME.
 DEVSTACK_DISK_SIZE=        Size of OS Disk for DevStack VM.
+DEVSTACK_BRANCH=           Branch to use when installing devstack.
 OPENSTACK_USER=            User name that will be added to OpenStack after devstack has finished installing. This is also the username that will be used to create a cloud site in ONAP SO.
 OPENSTACK_PASS=            Password to use for OPENSTACK_USER.
 OPENSTACK_TENANT=          Tenant name that will be added to OpenStack after devstack has finished installing. This is also the username that will be used to create a cloud site in ONAP SO.
