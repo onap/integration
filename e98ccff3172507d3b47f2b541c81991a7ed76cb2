@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a91e094f_c7a66ff4",
+        "filename": "deployment/aks/create_onap.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2020-01-30T14:00:50Z",
+      "side": 1,
+      "message": "I dont know the kubectl syntax - why replace instead of apply ?",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 51
+      },
+      "revId": "e98ccff3172507d3b47f2b541c81991a7ed76cb2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
