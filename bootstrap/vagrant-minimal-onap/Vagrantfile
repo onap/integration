@@ -178,7 +178,7 @@ $setup_helm_repo = <<-SCRIPT
 SCRIPT
 
 $deploy_onap = <<-SCRIPT
-  OVERRIDE="${1:-${HOME}/oom/kubernetes/onap/resources/environments/minimal-onap.yaml}"
+  OVERRIDE="${1:-${HOME}/oom/kubernetes/onap/resources/environments/core-onap.yaml}"
 
   ENV="${2:-#{os_env}}"
   export $(cat "$ENV" | xargs)
@@ -194,7 +194,7 @@ $deploy_onap = <<-SCRIPT
 
   export KUBECONFIG="${HOME}/.kube/config.onap"
 
-  helm deploy minimal local/onap --namespace onap -f "$OVERRIDE" --verbose --timeout 900
+  helm deploy core local/onap --namespace onap -f "$OVERRIDE" --verbose --timeout 900
 SCRIPT
 
 Vagrant.configure('2') do |config|
