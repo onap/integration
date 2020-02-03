@@ -50,19 +50,19 @@ Following set of commands can be used to prepare a machine running Ubuntu 18.04 
 Requirements
 ------------
 
-+-------------+-----+-------+
-| Machine     | CPU |  RAM  |
-+-------------+-----+-------+
-| Operator    |  1  | 1GiB  |
-+-------------+-----+-------+
-| Devstack    |  1  | 4GiB  |
-+-------------+-----+-------+
-| K8s Control |  1  | 1GiB  |
-+-------------+-----+-------+
-| K8s Worker  |  4  | 20GiB |
-+-------------+-----+-------+
-| TOTAL       |  7  | 26GiB |
-+-------------+-----+-------+
++-------------+-----+-------+---------+
+| Machine     | CPU |  RAM  | Storage |
++-------------+-----+-------+---------+
+| Operator    |  1  | 1GiB  |  32GiB  |
++-------------+-----+-------+---------+
+| Devstack    |  1  | 4GiB  |  32GiB  |
++-------------+-----+-------+---------+
+| K8s Control |  1  | 1GiB  |  32GiB  |
++-------------+-----+-------+---------+
+| K8s Worker  |  8  | 64GiB |  64GiB  |
++-------------+-----+-------+---------+
+| TOTAL       | 11  | 70GiB |  160GiB |
++-------------+-----+-------+---------+
 
 Table above is based on current experience and may be subject to change.
 
@@ -126,4 +126,8 @@ be available on Operator's machine. It can be accessed by executing:
    vagrant ssh operator
 
 Although appropriate context is set for `kubectl` on login, when interacting with the cluster the
-`onap` namespace has to be explicitly specified.
+`onap` namespace has to be explicitly specified. Example:
+
+.. code-block:: sh
+   # Operator's machine shell
+   kubectl -nonap get pods

@@ -16,9 +16,9 @@ apt_prefs = "95silent-approval"
 
 vm_memory = 1 * 1024
 vm_memory_os = 4 * 1024
-vm_memory_onap = 20 * 1024
+vm_memory_onap = 64 * 1024
 vm_cpu = 1
-vm_cpus = 4
+vm_cpus = 8
 vm_box = "generic/ubuntu1804"
 vm_disk = 32
 vm_disk_onap = 64
@@ -178,7 +178,7 @@ $setup_helm_repo = <<-SCRIPT
 SCRIPT
 
 $deploy_onap = <<-SCRIPT
-  OVERRIDE="${1:-${HOME}/oom/kubernetes/onap/resources/environments/minimal-onap.yaml}"
+  OVERRIDE="${1:-${HOME}/oom/kubernetes/onap/resources/environments/core-onap.yaml}"
 
   ENV="${2:-#{os_env}}"
   export $(cat "$ENV" | xargs)
@@ -194,7 +194,7 @@ $deploy_onap = <<-SCRIPT
 
   export KUBECONFIG="${HOME}/.kube/config.onap"
 
-  helm deploy minimal local/onap --namespace onap -f "$OVERRIDE" --verbose --timeout 900
+  helm deploy core local/onap --namespace onap -f "$OVERRIDE" --verbose --timeout 900
 SCRIPT
 
 Vagrant.configure('2') do |config|
