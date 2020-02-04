@@ -30,3 +30,4 @@ csit/
 *.class
 *.csar
 benchmark/
+.tox/
