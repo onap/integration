@@ -70,6 +70,30 @@
       "revId": "e98ccff3172507d3b47f2b541c81991a7ed76cb2",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88211c3e_4a7ae8e0",
+        "filename": "deployment/aks/create_onap.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 3013
+      },
+      "writtenOn": "2020-02-05T16:24:00Z",
+      "side": 1,
+      "message": "Yeah I\u0027d be interested - is that in a repo you can point to? \n\nCan you clarify what you mean that it won\u0027t solve it? The other logic worked the majority of the time. I\u0027m trying to improve it so it works every time.",
+      "parentUuid": "1bc6111f_281311ca",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 51
+      },
+      "revId": "e98ccff3172507d3b47f2b541c81991a7ed76cb2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
