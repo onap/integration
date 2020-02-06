@@ -31,7 +31,7 @@ services:
 
   tls-init-container:
     container_name: dfc_tls-init-container
-    image: nexus3.onap.org:10001/onap/org.onap.dcaegen2.deployments.tls-init-container
+    image: nexus3.onap.org:10001/onap/org.onap.dcaegen2.deployments.tls-init-container:1.0.0
     networks:
       - dfcnet
     volumes:
