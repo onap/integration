@@ -1,0 +1,44 @@
+=====================
+ SSL endpoints check
+=====================
+
+Utility for checking if all of the ports exposed outside of Kubernetes cluster
+use SSL tunnels.
+
+Prerequisites
+-------------
+
+Configuration
+~~~~~~~~~~~~~
+
+Mandatory
++++++++++
+
+Optional
+++++++++
+
+Build (local)
+~~~~~~~~~~~~~
+
+Build (Docker)
+~~~~~~~~~~~~~~
+
+Test
+~~~~
+
+
+Running
+-------
+
+Command (local)
+~~~~~~~~~~~~~~~
+
+Command (Docker)
+~~~~~~~~~~~~~~~~
+
+Output
+~~~~~~
+
+
+Testing
+-------
