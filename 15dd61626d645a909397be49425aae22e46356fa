@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47449d22_d26ee598",
+        "filename": "test/vcpe/tox.ini",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-02-07T16:36:01Z",
+      "side": 1,
+      "message": "python2? Python2 is not supported since end 2019. I am not sure that the LF runner will be able to deal with python2.7 properly",
+      "revId": "15dd61626d645a909397be49425aae22e46356fa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
