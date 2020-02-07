@@ -1,0 +1,44 @@
+============================
+ Plain HTTP endpoints check
+============================
+
+Utility for checking if any of the ports exposed outside of Kubernetes cluster
+uses plain HTTP.
+
+Prerequisites
+-------------
+
+Configuration
+~~~~~~~~~~~~~
+
+Mandatory
++++++++++
+
+Optional
+++++++++
+
+Build (local)
+~~~~~~~~~~~~~
+
+Build (Docker)
+~~~~~~~~~~~~~~
+
+Test
+~~~~
+
+
+Running
+-------
+
+Command (local)
+~~~~~~~~~~~~~~~
+
+Command (Docker)
+~~~~~~~~~~~~~~~~
+
+Output
+~~~~~~
+
+
+Testing
+-------
