@@ -16,6 +16,24 @@
       "revId": "15dd61626d645a909397be49425aae22e46356fa",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8f64b41_58144077",
+        "filename": "test/vcpe/tox.ini",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-02-10T06:56:36Z",
+      "side": 1,
+      "message": "yes, vcpe scripts were written for python2",
+      "parentUuid": "47449d22_d26ee598",
+      "revId": "15dd61626d645a909397be49425aae22e46356fa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
