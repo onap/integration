@@ -1,0 +1,3 @@
+onap-dcae-redis 6379
+onap-msb-eag 6379
+onap-msb-iag 6379
