@@ -36,9 +36,10 @@ fi
 
 K8S_NAMESPACE=$1
 LOCAL_PORT=12543
+WHITE_LIST=(redis dcaegen2-dcae msb-eag msb-iag)
 
 list_pods() {
-	kubectl get po --namespace=$K8S_NAMESPACE | grep Running | awk '{print $1}' | grep -v NAME
+	kubectl get po --namespace=$K8S_NAMESPACE | grep Running | awk '{print $1}' | grep -v NAME | grep -v -f <(printf '%s\n' "${WHITE_LIST[@]}")
 }
 
 do_jdwp_handshake() {
