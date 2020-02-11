@@ -28,17 +28,49 @@
 # Return value: Number of discovered JDWP ports
 # Output: List of pods and exposing JDWP interface
 #
+usage() {
+  cat <<EOF
+Usage: $(basename $0) <k8s-namespace> [-l <white list file>]
+    -l: jdpw white list ports file
+EOF
+  exit ${1:-0}
+}
 
 if [ "$#" -lt 1 ]; then
-    echo "Usage: $0 <k8s-namespace>"
+    usage
     exit 1
 fi
 
 K8S_NAMESPACE=$1
 LOCAL_PORT=12543
+FILTERED_PORTS_LIST=/tmp/jdpw_ports.log
+WL_RAW_FILE_PATH=/tmp/raw_filtered_ports.txt
+
+manage_white_list() {
+  # init filtered port list file
+  if [ -f $FILTERED_PORTS_LIST ];then
+    rm $FILTERED_PORTS_LIST
+  fi
+  if [ ! -f $WL_FILE_PATH ];then
+   echo "File not found"
+   usage
+  fi
+  grep -o '^[^#]*' $WL_FILE_PATH > $WL_RAW_FILE_PATH
+}
+
+### getopts
+while :
+do
+    case $2 in
+        -h|--help|help) usage;;
+         -l) WL_FILE_PATH=$3;manage_white_list;shift;;
+        -*) usage 1 ;;
+         *) break ;;
+    esac
+done
 
 list_pods() {
-	kubectl get po --namespace=$K8S_NAMESPACE | grep Running | awk '{print $1}' | grep -v NAME
+  kubectl get po --namespace=$K8S_NAMESPACE | grep Running | awk '{print $1}' | grep -v NAME
 }
 
 do_jdwp_handshake() {
@@ -84,7 +116,7 @@ for pod in `list_pods`; do
 
 		do_jdwp_handshake $LOCAL_PORT
 		if [ $? -eq 0 ]; then
-			echo $pod $port
+			echo $pod $port | tee $FILTERED_PORTS_LIST
 			((++N_PORTS))
 		fi
 		kill $proxy_pid 2>/dev/null
@@ -92,4 +124,17 @@ for pod in `list_pods`; do
 	done
 done
 
-exit $N_PORTS
+while IFS= read -r line; do
+  # for each line we test if it is in the white list with a regular expression
+  while IFS= read -r wl_line; do
+   wl_name=$(echo $wl_line | awk {'print $1'})
+   wl_port=$(echo $wl_line | awk {'print $2'})
+   if grep -e $wl_name.*$wl_port <<< "$line";then
+       # Found in white list, exclude it
+       sed -i "/$line/d" $FILTERED_PORTS_LIST
+   fi
+  done < $WL_RAW_FILE_PATH
+done < $FILTERED_PORTS_LIST
+
+N_FILTERED_PORTS_LIST=$(cat $FILTERED_PORTS_LIST |wc -l)
+exit $N_FILTERED_PORTS_LIST
