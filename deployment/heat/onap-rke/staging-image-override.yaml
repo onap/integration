@@ -1,3 +1,4 @@
+---
 aai:
   aai-babel:
     image: onap/babel:1.6-STAGING-latest
@@ -22,102 +23,102 @@ appc:
   appc-cdt:
     image: onap/appc-cdt-image:1.7.0-SNAPSHOT-latest
 cds:
-    cds-command-executor:
-      image: onap/ccsdk-commandexecutor:0.7.0-STAGING-latest
-    cds-blueprints-processor:
-      image: onap/ccsdk-blueprintsprocessor:0.7.0-STAGING-latest
-    cds-ui:
-      image: onap/ccsdk-cds-ui-server:0.7.0-STAGING-latest
-    cds-sdc-listener:
-      image: onap/ccsdk-sdclistener:0.7.0-STAGING-latest
+  cds-command-executor:
+    image: onap/ccsdk-commandexecutor:0.7.0-STAGING-latest
+  cds-blueprints-processor:
+    image: onap/ccsdk-blueprintsprocessor:0.7.0-STAGING-latest
+  cds-ui:
+    image: onap/ccsdk-cds-ui-server:0.7.0-STAGING-latest
+  cds-sdc-listener:
+    image: onap/ccsdk-sdclistener:0.7.0-STAGING-latest
 common:
-    dgbuilder:
-      image: onap/ccsdk-dgbuilder-image:0.7.0-STAGING-latest
+  dgbuilder:
+    image: onap/ccsdk-dgbuilder-image:0.7.0-STAGING-latest
 
 dcaegen2:
-    dcae-bootstrap:
-        image: onap/org.onap.dcaegen2.deployments.k8s-bootstrap-container:1.7.0-STAGING-latest
-        componentImages:
-            prh: onap/org.onap.dcaegen2.services.prh.prh-app-server:1.5.0
+  dcae-bootstrap:
+    image: onap/org.onap.dcaegen2.deployments.k8s-bootstrap-container:1.7.0-STAGING-latest
+  componentImages:
+    prh: onap/org.onap.dcaegen2.services.prh.prh-app-server:1.5.0
 nbi:
-    image: onap/externalapi/nbi:5.0.1-latest
+  image: onap/externalapi/nbi:5.0.1-latest
 policy:
+  image: onap/policy-pe:1.6-SNAPSHOT-latest
+  policy-pap:
+    image: onap/policy-pap:2.2-SNAPSHOT-latest
+  brmsgw:
     image: onap/policy-pe:1.6-SNAPSHOT-latest
-    policy-pap:
-      image: onap/policy-pap:2.2-SNAPSHOT-latest
-    brmsgw:
-      image: onap/policy-pe:1.6-SNAPSHOT-latest
-    policy-xacml-pdp:
-      image: onap/policy-xacml-pdp:2.2-SNAPSHOT-latest
-    drools:
-      image: onap/policy-pdpd-cl:1.6-SNAPSHOT-latest
-    pdp:
-      image: onap/policy-pe:1.6-SNAPSHOT-latest
-    policy-apex-pdp:
-      image: onap/policy-apex-pdp:2.3-SNAPSHOT-latest
-    policy-api:
-      image: onap/policy-api:2.2-SNAPSHOT-latest
-    policy-distribution:
-      image: onap/policy-distribution:2.3-SNAPSHOT-latest
+  policy-xacml-pdp:
+    image: onap/policy-xacml-pdp:2.2-SNAPSHOT-latest
+  drools:
+    image: onap/policy-pdpd-cl:1.6-SNAPSHOT-latest
+  pdp:
+    image: onap/policy-pe:1.6-SNAPSHOT-latest
+  policy-apex-pdp:
+    image: onap/policy-apex-pdp:2.3-SNAPSHOT-latest
+  policy-api:
+    image: onap/policy-api:2.2-SNAPSHOT-latest
+  policy-distribution:
+    image: onap/policy-distribution:2.3-SNAPSHOT-latest
 sdc:
-    sdc-onboarding-be:
-      image: onap/sdc-onboard-backend:1.6-STAGING-latest
-      onboardingInitImage: onap/sdc-onboard-cassandra-init:1.6-STAGING-latest
-    sdc-es:
-      image: onap/sdc-elasticsearch:1.6-STAGING-latest
-      elasticInitImage: onap/sdc-init-elasticsearch:1.6-STAGING-latest
-    sdc-fe:
-      image: onap/sdc-frontend:1.6-STAGING-latest
-    sdc-be:
-      image: onap/sdc-backend:1.6-STAGING-latest
-      backendInitImage: onap/sdc-backend-init:1.6-STAGING-latest
-    sdc-kb:
-      image: onap/sdc-kibana:1.6-STAGING-latest
-    sdc-cs:
-      image: onap/sdc-cassandra:1.6-STAGING-latest
-      cassandraInitImage: onap/sdc-cassandra-init:1.6-STAGING-latest
+  sdc-onboarding-be:
+    image: onap/sdc-onboard-backend:1.6-STAGING-latest
+    onboardingInitImage: onap/sdc-onboard-cassandra-init:1.6-STAGING-latest
+  sdc-es:
+    image: onap/sdc-elasticsearch:1.6-STAGING-latest
+    elasticInitImage: onap/sdc-init-elasticsearch:1.6-STAGING-latest
+  sdc-fe:
+    image: onap/sdc-frontend:1.6-STAGING-latest
+  sdc-be:
+    image: onap/sdc-backend:1.6-STAGING-latest
+    backendInitImage: onap/sdc-backend-init:1.6-STAGING-latest
+  sdc-kb:
+    image: onap/sdc-kibana:1.6-STAGING-latest
+  sdc-cs:
+    image: onap/sdc-cassandra:1.6-STAGING-latest
+    cassandraInitImage: onap/sdc-cassandra-init:1.6-STAGING-latest
 robot:
   image: onap/testsuite:1.6.0-STAGING-latest
 
 sdnc:
-    image: onap/sdnc-image:1.8.0-STAGING-latest
-    sdnc-ansible-server:
-      image: onap/sdnc-ansible-server-image:1.8.0-STAGING-latest
-    dmaap-listener:
-      image: onap/sdnc-dmaap-listener-image:1.8.0-STAGING-latest
-    sdnc-portal:
-      image: onap/admportal-sdnc-image:1.8.0-STAGING-latest
-    ueb-listener:
-      image: onap/sdnc-ueb-listener-image:1.8.0-STAGING-latest
+  image: onap/sdnc-image:1.8.0-STAGING-latest
+  sdnc-ansible-server:
+    image: onap/sdnc-ansible-server-image:1.8.0-STAGING-latest
+  dmaap-listener:
+    image: onap/sdnc-dmaap-listener-image:1.8.0-STAGING-latest
+  sdnc-portal:
+    image: onap/admportal-sdnc-image:1.8.0-STAGING-latest
+  ueb-listener:
+    image: onap/sdnc-ueb-listener-image:1.8.0-STAGING-latest
 
 so:
-    image: onap/so/api-handler-infra:1.5.3-STAGING-latest
-    so-monitoring:
-      image: onap/so/so-monitoring:1.5.3-STAGING-latest
-    so-bpmn-infra:
-      image: onap/so/bpmn-infra:1.5.3-STAGING-latest
-    so-openstack-adapter:
-      image: onap/so/openstack-adapter:1.5.3-STAGING-latest
-    so-catalog-db-adapter:
-      image: onap/so/catalog-db-adapter:1.5.3-STAGING-latest
-    so-vnfm-adapter:
-      image: onap/so/vnfm-adapter:1.5.3-STAGING-latest
-    so-sdnc-adapter:
-      image: onap/so/sdnc-adapter:1.5.3-STAGING-latest
-    so-vfc-adapter:
-      image: onap/so/vfc-adapter:1.5.3-STAGING-latest
-    so-sdc-controller:
-      image: onap/so/sdc-controller:1.5.3-STAGING-latest
-    so-request-db-adapter:
-      image: onap/so/request-db-adapter:1.5.3-STAGING-latest
+  image: onap/so/api-handler-infra:1.5.3-STAGING-latest
+  so-monitoring:
+    image: onap/so/so-monitoring:1.5.3-STAGING-latest
+  so-bpmn-infra:
+    image: onap/so/bpmn-infra:1.5.3-STAGING-latest
+  so-openstack-adapter:
+    image: onap/so/openstack-adapter:1.5.3-STAGING-latest
+  so-catalog-db-adapter:
+    image: onap/so/catalog-db-adapter:1.5.3-STAGING-latest
+  so-vnfm-adapter:
+    image: onap/so/vnfm-adapter:1.5.3-STAGING-latest
+  so-sdnc-adapter:
+    image: onap/so/sdnc-adapter:1.5.3-STAGING-latest
+  so-vfc-adapter:
+    image: onap/so/vfc-adapter:1.5.3-STAGING-latest
+  so-sdc-controller:
+    image: onap/so/sdc-controller:1.5.3-STAGING-latest
+  so-request-db-adapter:
+    image: onap/so/request-db-adapter:1.5.3-STAGING-latest
 vid:
-    image: onap/vid:6.0.2-latest
+  image: onap/vid:6.0.2-latest
 portal:
-    portal-app:
-      image: onap/portal-app:2.6.0-STAGING-latest
-    portal-mariadb:
-      image: onap/portal-db:2.6.0-STAGING-latest
-    portal-sdk:
-      image: onap/portal-sdk:2.6.0-STAGING-latest
-    portal-widget:
-      image: onap/portal-wms:2.6.0-STAGING-latest
+  portal-app:
+    image: onap/portal-app:2.6.0-STAGING-latest
+  portal-mariadb:
+    image: onap/portal-db:2.6.0-STAGING-latest
+  portal-sdk:
+    image: onap/portal-sdk:2.6.0-STAGING-latest
+  portal-widget:
+    image: onap/portal-wms:2.6.0-STAGING-latest
