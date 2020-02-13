@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c89345e_e29bb1d3",
+        "filename": "test/security/check_for_jdwp.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 4965
+      },
+      "writtenOn": "2020-02-13T18:52:32Z",
+      "side": 1,
+      "message": "personally I\u0027d prefer this to be a separated file with one entry per line so that we can easily trace the history of changes.\n\nAdditionally I believe that we should keep not only the component name on the list but also the port that is whitelisted otherwise we may not catch if someone opens a jdwp port in any of those pods",
+      "revId": "842c21b5548ca25ffb93cad2f507224d561270b2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
