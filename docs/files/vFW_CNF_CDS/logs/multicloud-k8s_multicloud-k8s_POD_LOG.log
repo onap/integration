@@ -1,0 +1,11 @@
+Execute kubectl logs for onap-multicloud-multicloud-k8s-6fcb47f56d-zzrf8 POD's multicloud-k8s container
+10.42.3.53 - - [23/Feb/2020:11:02:57 +0100] "GET /v1/rb/definition/750b39d0-7f99-4b7f-9a22-c15c7348221d/8bb9fa50-3e82-4664-bd1c-a29267be726a HTTP/1.1" 200 224
+10.42.3.53 - - [23/Feb/2020:11:02:57 +0100] "GET /v1/rb/definition/750b39d0-7f99-4b7f-9a22-c15c7348221d/8bb9fa50-3e82-4664-bd1c-a29267be726a/profile/vfw-cnf-cds-base-profile HTTP/1.1" 200 247
+10.42.3.53 - - [23/Feb/2020:11:02:57 +0100] "GET /v1/rb/definition/750b39d0-7f99-4b7f-9a22-c15c7348221d/8bb9fa50-3e82-4664-bd1c-a29267be726a/profile/vfw-cnf-cds-base-profile HTTP/1.1" 200 247
+10.42.3.53 - - [23/Feb/2020:11:03:04 +0100] "GET /v1/rb/definition/2e3b182d-7ee3-4a8d-9c2b-056188b6eb53/027696a5-a605-44ea-9362-391a6b217de0 HTTP/1.1" 200 214
+10.42.3.53 - - [23/Feb/2020:11:03:04 +0100] "GET /v1/rb/definition/2e3b182d-7ee3-4a8d-9c2b-056188b6eb53/027696a5-a605-44ea-9362-391a6b217de0/profile/vfw-cnf-cds-base-profile HTTP/1.1" 200 247
+10.42.3.53 - - [23/Feb/2020:11:03:04 +0100] "GET /v1/rb/definition/2e3b182d-7ee3-4a8d-9c2b-056188b6eb53/027696a5-a605-44ea-9362-391a6b217de0/profile/vfw-cnf-cds-base-profile HTTP/1.1" 200 247
+10.42.3.53 - - [23/Feb/2020:11:03:12 +0100] "GET /v1/rb/definition/5c9f3097-26ba-41fb-928b-f7ddc31f6f52/64af8ad0-cb81-42a2-a069-7d246d8bff5d HTTP/1.1" 200 215
+10.42.3.53 - - [23/Feb/2020:11:03:13 +0100] "GET /v1/rb/definition/5c9f3097-26ba-41fb-928b-f7ddc31f6f52/64af8ad0-cb81-42a2-a069-7d246d8bff5d/profile/vfw-cnf-cds-base-profile HTTP/1.1" 200 247
+10.42.3.53 - - [23/Feb/2020:11:03:13 +0100] "GET /v1/rb/definition/5c9f3097-26ba-41fb-928b-f7ddc31f6f52/64af8ad0-cb81-42a2-a069-7d246d8bff5d/profile/vfw-cnf-cds-base-profile HTTP/1.1" 200 247
+10.42.1.159 - - [23/Feb/2020:11:03:38 +0100] "GET /v1/healthcheck HTTP/1.1" 200 0

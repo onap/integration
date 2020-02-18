@@ -1,0 +1,1 @@
+Execute cmd tail -n +194636 /var/log/onap/sdnc/karaf.log inside onap-sdnc-sdnc-0 POD's sdnc container
