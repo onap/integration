@@ -36,6 +36,8 @@ Use Cases
 
 :ref:`vFirewall/edgex with multicloud kubernetes plugin <docs_vfw_edgex_multicloud_k8s>`
 
+:ref:`vFirewall CNF (Container Network Function) With CDS Use Case <docs_vFW_CNF_CDS>`
+
 Functional Requirements
 ~~~~~~~~~~~~~~~~~~~~~~~
 :ref:`5G - Real Time PM and High Volume Stream Data Collection <docs_realtime_pm>`
