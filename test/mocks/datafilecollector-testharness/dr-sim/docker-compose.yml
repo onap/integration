@@ -3,15 +3,15 @@ services:
   drsim:
     image: drsim_common:latest
     ports:
-     - "3906:3906"
-     - "3907:3907"
+      - "3906:3906"
+      - "3907:3907"
     container_name: drsim
     command: node dmaapDR.js
 
   drsim_redir:
     image: drsim_common:latest
     ports:
-     - "3908:3908"
-     - "3909:3909"
+      - "3908:3908"
+      - "3909:3909"
     container_name: drsim_redir
     command: node dmaapDR_redir.js

@@ -1,9 +1,9 @@
 version: '2'
 
 networks:
-   dfcnet:
-      external:
-         name: dfcnet
+  dfcnet:
+    external:
+      name: dfcnet
 
 services:
 
@@ -41,12 +41,12 @@ services:
     networks:
       - dfcnet
     environment:
-        DRR_SIM_IP: ${DR_REDIR_SIM}
-        DR_FEEDS: ${DR_FEEDS}
+      DRR_SIM_IP: ${DR_REDIR_SIM}
+      DR_FEEDS: ${DR_FEEDS}
     image: drsim_common:latest
     ports:
-     - "3906:3906"
-     - "3907:3907"
+      - "3906:3906"
+      - "3907:3907"
     container_name: dfc_dr-sim
     command: node dmaapDR.js ${DR_TC}
     volumes:
@@ -58,12 +58,12 @@ services:
     networks:
       - dfcnet
     environment:
-        DR_SIM_IP: drsim
-        DR_REDIR_FEEDS: ${DR_REDIR_FEEDS}
+      DR_SIM_IP: drsim
+      DR_REDIR_FEEDS: ${DR_REDIR_FEEDS}
     image: drsim_common:latest
     ports:
-     - "3908:3908"
-     - "3909:3909"
+      - "3908:3908"
+      - "3909:3909"
     container_name: dfc_dr-redir-sim
     command: node dmaapDR_redir.js ${DR_REDIR_TC}
     volumes:
@@ -75,11 +75,11 @@ services:
     networks:
       - dfcnet
     environment:
-        SFTP_SIMS: ${SFTP_SIMS}
-        FTPS_SIMS: ${FTPS_SIMS}
-        NUM_FTP_SERVERS: ${NUM_FTP_SERVERS}
-        MR_GROUPS: ${MR_GROUPS}
-        MR_FILE_PREFIX_MAPPING: ${MR_FILE_PREFIX_MAPPING}
+      SFTP_SIMS: ${SFTP_SIMS}
+      FTPS_SIMS: ${FTPS_SIMS}
+      NUM_FTP_SERVERS: ${NUM_FTP_SERVERS}
+      MR_GROUPS: ${MR_GROUPS}
+      MR_FILE_PREFIX_MAPPING: ${MR_FILE_PREFIX_MAPPING}
     image: mrsim:latest
     ports:
       - "2222:2222"

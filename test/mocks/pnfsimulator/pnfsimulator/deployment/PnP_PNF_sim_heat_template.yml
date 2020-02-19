@@ -2,12 +2,12 @@ description: Heat template that deploys PnP PNF simulator
 heat_template_version: '2013-05-23'
 parameters:
   flavor_name: {description: Type of instance (flavor) to be used, label: Flavor,
-    type: string}
+                type: string}
   image_name: {description: Image to be used for compute instance, label: Image name
-      or ID, type: string}
+               or ID, type: string}
   key_name: {description: Public/Private key pair name, label: Key pair name, type: string}
   public_net_id: {description: Public network that enables remote connection to VNF,
-    label: Public network name or ID, type: string}
+                  label: Public network name or ID, type: string}
   private_net_id: {type: string, description: Private network id, label: Private network name or ID}
   private_subnet_id: {type: string, description: Private subnet id, label: Private subnetwork name or ID}
   proxy: {type: string, description: Proxy, label: Proxy, default: ""}
