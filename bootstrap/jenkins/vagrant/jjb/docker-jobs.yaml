@@ -1,76 +1,76 @@
 - project:
     name: onap-docker-with-pom
     jobs:
-     - 'docker-with-pom'
+      - 'docker-with-pom'
     project:
-     - 'aai_aai-service_ajsc-aai':
-         repo: 'aai/aai-service'
-         pom: 'ajsc-aai/pom.xml'
-         mvn-options: 'docker:build'
-     - 'aai_data-router':
-         repo: 'aai/data-router'
-         pom: 'pom.xml'
-         mvn-options: 'docker:build'
-     - 'aai_model-loader':
-         repo: 'aai/model-loader'
-         pom: 'pom.xml'
-         mvn-options: 'docker:build'
-     - 'aai_resources_aai-resources':
-         repo: 'aai/resources'
-         pom: 'aai-resources/pom.xml'
-         mvn-options: 'docker:build'
-     - 'aai_search-data-service':
-         repo: 'aai/search-data-service'
-         mvn-options: 'docker:build'
-     - 'aai_sparky-be':
-         repo: 'aai/sparky-be'
-         mvn-options: 'docker:build'
-     - 'aai_traversal_aai-traversal':
-         repo: 'aai/traversal'
-         pom: 'aai-traversal/pom.xml'
-         mvn-options: 'docker:build'
-     - 'appc':
-         repo: 'appc/deployment'
-         mvn-options: '-P docker'
-     - 'dcae_dcae-controller':
-         repo: 'dcae/demo'
-         shell-cmd: 'bash dcae-demo-controller/src/main/docker-build/build.sh'
-     - 'dcae_dcae-dmaapbc':
-         repo: 'dcae/dmaapbc'
-         shell-cmd: 'docker build -f ./Dockerfile .'
-     - 'dcae_dcae-inventory':
-         repo: 'dcae/dcae-inventory'
-         mvn-options: 'docker:build'
-     - 'mso':
-         repo: 'mso'
-         pom: 'packages/docker/pom.xml'
-         mvn-options: '-P docker'
-     - 'policy':
-         repo: 'policy/docker'
-         shell-cmd: './docker_build.sh'
-     - 'portal_ecomp-portal-widget-ms':
-         repo: 'portal'
-         pom: 'ecomp-portal-widget-ms/pom.xml'
-         mvn-options: 'docker:build'
-     - 'sdc':
-         repo: 'sdc'
-         pom: 'pom.xml'
-         mvn-options: '-P docker'
-     - 'sdnc':
-         repo: 'sdnc/oam'
-         mvn-options: '-P docker'
-     - 'vid':
-         repo: 'vid'
-         mvn-options: '-P docker'
+      - 'aai_aai-service_ajsc-aai':
+          repo: 'aai/aai-service'
+          pom: 'ajsc-aai/pom.xml'
+          mvn-options: 'docker:build'
+      - 'aai_data-router':
+          repo: 'aai/data-router'
+          pom: 'pom.xml'
+          mvn-options: 'docker:build'
+      - 'aai_model-loader':
+          repo: 'aai/model-loader'
+          pom: 'pom.xml'
+          mvn-options: 'docker:build'
+      - 'aai_resources_aai-resources':
+          repo: 'aai/resources'
+          pom: 'aai-resources/pom.xml'
+          mvn-options: 'docker:build'
+      - 'aai_search-data-service':
+          repo: 'aai/search-data-service'
+          mvn-options: 'docker:build'
+      - 'aai_sparky-be':
+          repo: 'aai/sparky-be'
+          mvn-options: 'docker:build'
+      - 'aai_traversal_aai-traversal':
+          repo: 'aai/traversal'
+          pom: 'aai-traversal/pom.xml'
+          mvn-options: 'docker:build'
+      - 'appc':
+          repo: 'appc/deployment'
+          mvn-options: '-P docker'
+      - 'dcae_dcae-controller':
+          repo: 'dcae/demo'
+          shell-cmd: 'bash dcae-demo-controller/src/main/docker-build/build.sh'
+      - 'dcae_dcae-dmaapbc':
+          repo: 'dcae/dmaapbc'
+          shell-cmd: 'docker build -f ./Dockerfile .'
+      - 'dcae_dcae-inventory':
+          repo: 'dcae/dcae-inventory'
+          mvn-options: 'docker:build'
+      - 'mso':
+          repo: 'mso'
+          pom: 'packages/docker/pom.xml'
+          mvn-options: '-P docker'
+      - 'policy':
+          repo: 'policy/docker'
+          shell-cmd: './docker_build.sh'
+      - 'portal_ecomp-portal-widget-ms':
+          repo: 'portal'
+          pom: 'ecomp-portal-widget-ms/pom.xml'
+          mvn-options: 'docker:build'
+      - 'sdc':
+          repo: 'sdc'
+          pom: 'pom.xml'
+          mvn-options: '-P docker'
+      - 'sdnc':
+          repo: 'sdnc/oam'
+          mvn-options: '-P docker'
+      - 'vid':
+          repo: 'vid'
+          mvn-options: '-P docker'
 
 - project:
     name: onap-docker-without-pom
     jobs:
-     - 'docker-without-pom'
+      - 'docker-without-pom'
     project:
-     - 'dcae_dcae-orch-dispatcher':
-         repo: 'dcae/orch-dispatcher'
-         shell-cmd: 'docker build -f ./Dockerfile .'
-     - 'portal':
-         repo: 'portal'
-         shell-cmd: 'git -C ecompsdkos pull || git clone $GIT_NO_PROJECT/ecompsdkos; git -C dmaapbc pull || git clone $GIT_NO_PROJECT/ui/dmaapbc dmaapbc; cd deliveries; chmod +x *.sh; ./run.sh'
+      - 'dcae_dcae-orch-dispatcher':
+          repo: 'dcae/orch-dispatcher'
+          shell-cmd: 'docker build -f ./Dockerfile .'
+      - 'portal':
+          repo: 'portal'
+          shell-cmd: 'git -C ecompsdkos pull || git clone $GIT_NO_PROJECT/ecompsdkos; git -C dmaapbc pull || git clone $GIT_NO_PROJECT/ui/dmaapbc dmaapbc; cd deliveries; chmod +x *.sh; ./run.sh'

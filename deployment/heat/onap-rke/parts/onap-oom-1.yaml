@@ -25,12 +25,12 @@ parameters:
   oam_ext_network_host_route:
     type: json
     description: >
-        host routes
-        "destination": '10.12.0.0/16'
-        "nexthop": '10.100.0.1'
+      host routes
+      "destination": '10.12.0.0/16'
+      "nexthop": '10.100.0.1'
     default:
-        "destination": '10.12.0.0/16'
-        "nexthop": '10.100.0.1'
+      "destination": '10.12.0.0/16'
+      "nexthop": '10.100.0.1'
 
   ubuntu_1804_image:
     type: string

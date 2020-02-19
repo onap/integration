@@ -1,142 +1,142 @@
 - project:
     name: staging
     jobs:
-     - '{env}-staging-{frequency}'
+      - '{env}-staging-{frequency}'
     integration-branch: 'master'
     oom-branch: 'staging'
     env:
-     - 'windriver':
-         lab-name: 'windriver'
-         tenant-name: 'Integration-Staging-Daily'
-         stack-name: 'staging'
-         frequency: 'daily'
-         disabled_var: false
-         triggers_var:
-          - timed: 'H 4 * * *'
-     - 'windriver-sb00':
-         lab-name: 'windriver'
-         tenant-name: 'Integration-SB-00'
-         stack-name: 'sb00'
-         frequency: 'manual'
-         disabled_var: false
-     - 'windriver-sb01':
-         lab-name: 'windriver'
-         tenant-name: 'Integration-SB-01'
-         stack-name: 'sb01'
-         frequency: 'manual'
-         disabled_var: false
-     - 'windriver-sb02':
-         lab-name: 'windriver'
-         tenant-name: 'Integration-SB-02'
-         stack-name: 'sb02'
-         frequency: 'manual'
-         disabled_var: false
-     - 'windriver-sb03':
-         lab-name: 'windriver'
-         tenant-name: 'Integration-SB-03'
-         stack-name: 'sb03'
-         frequency: 'manual'
-         disabled_var: false
-     - 'windriver-sb04':
-         lab-name: 'windriver'
-         tenant-name: 'Integration-SB-04'
-         stack-name: 'sb04'
-         frequency: 'manual'
-         disabled_var: false
-     - 'windriver-integration-design':
-         lab-name: 'windriver'
-         tenant-name: 'Integration-Design'
-         stack-name: 'design'
-         frequency: 'manual'
-         disabled_var: false
-     - 'windriver-integration-instantiation':
-         lab-name: 'windriver'
-         tenant-name: 'Integration-Instantiation'
-         stack-name: 'instantiation'
-         frequency: 'manual'
-         disabled_var: false
-     - 'windriver-integration-closedloop':
-         lab-name: 'windriver'
-         tenant-name: 'Integration-ClosedLoop'
-         stack-name: 'closedloop'
-         frequency: 'manual'
-         disabled_var: false
+      - 'windriver':
+          lab-name: 'windriver'
+          tenant-name: 'Integration-Staging-Daily'
+          stack-name: 'staging'
+          frequency: 'daily'
+          disabled_var: false
+          triggers_var:
+            - timed: 'H 4 * * *'
+      - 'windriver-sb00':
+          lab-name: 'windriver'
+          tenant-name: 'Integration-SB-00'
+          stack-name: 'sb00'
+          frequency: 'manual'
+          disabled_var: false
+      - 'windriver-sb01':
+          lab-name: 'windriver'
+          tenant-name: 'Integration-SB-01'
+          stack-name: 'sb01'
+          frequency: 'manual'
+          disabled_var: false
+      - 'windriver-sb02':
+          lab-name: 'windriver'
+          tenant-name: 'Integration-SB-02'
+          stack-name: 'sb02'
+          frequency: 'manual'
+          disabled_var: false
+      - 'windriver-sb03':
+          lab-name: 'windriver'
+          tenant-name: 'Integration-SB-03'
+          stack-name: 'sb03'
+          frequency: 'manual'
+          disabled_var: false
+      - 'windriver-sb04':
+          lab-name: 'windriver'
+          tenant-name: 'Integration-SB-04'
+          stack-name: 'sb04'
+          frequency: 'manual'
+          disabled_var: false
+      - 'windriver-integration-design':
+          lab-name: 'windriver'
+          tenant-name: 'Integration-Design'
+          stack-name: 'design'
+          frequency: 'manual'
+          disabled_var: false
+      - 'windriver-integration-instantiation':
+          lab-name: 'windriver'
+          tenant-name: 'Integration-Instantiation'
+          stack-name: 'instantiation'
+          frequency: 'manual'
+          disabled_var: false
+      - 'windriver-integration-closedloop':
+          lab-name: 'windriver'
+          tenant-name: 'Integration-ClosedLoop'
+          stack-name: 'closedloop'
+          frequency: 'manual'
+          disabled_var: false
 
 - project:
     name: release
     jobs:
-     - '{env}-release-{frequency}'
+      - '{env}-release-{frequency}'
     integration-branch: 'master'
     oom-branch: 'master'
     env:
-     - 'windriver':
-         lab-name: 'windriver'
-         tenant-name: 'Integration-Release-Daily'
-         stack-name: 'release'
-         frequency: 'daily'
-         disabled_var: false
-         triggers_var:
-          - timed: 'H 6 * * *'
-     - 'windriver-longevity':
-         lab-name: 'windriver'
-         tenant-name: 'Integration-Longevity'
-         stack-name: 'long'
-         frequency: 'manual'
-         disabled_var: false
-     - 'windriver-sb00':
-         lab-name: 'windriver'
-         tenant-name: 'Integration-SB-00'
-         stack-name: 'sb00'
-         frequency: 'manual'
-         disabled_var: false
-     - 'windriver-sb01':
-         lab-name: 'windriver'
-         tenant-name: 'Integration-SB-01'
-         stack-name: 'sb01'
-         frequency: 'manual'
-         disabled_var: false
-     - 'windriver-sb02':
-         lab-name: 'windriver'
-         tenant-name: 'Integration-SB-02'
-         stack-name: 'sb02'
-         frequency: 'manual'
-         disabled_var: false
-     - 'windriver-sb03':
-         lab-name: 'windriver'
-         tenant-name: 'Integration-SB-03'
-         stack-name: 'sb03'
-         frequency: 'manual'
-         disabled_var: false
-     - 'windriver-sb04':
-         lab-name: 'windriver'
-         tenant-name: 'Integration-SB-04'
-         stack-name: 'sb04'
-         frequency: 'manual'
-         disabled_var: false
+      - 'windriver':
+          lab-name: 'windriver'
+          tenant-name: 'Integration-Release-Daily'
+          stack-name: 'release'
+          frequency: 'daily'
+          disabled_var: false
+          triggers_var:
+            - timed: 'H 6 * * *'
+      - 'windriver-longevity':
+          lab-name: 'windriver'
+          tenant-name: 'Integration-Longevity'
+          stack-name: 'long'
+          frequency: 'manual'
+          disabled_var: false
+      - 'windriver-sb00':
+          lab-name: 'windriver'
+          tenant-name: 'Integration-SB-00'
+          stack-name: 'sb00'
+          frequency: 'manual'
+          disabled_var: false
+      - 'windriver-sb01':
+          lab-name: 'windriver'
+          tenant-name: 'Integration-SB-01'
+          stack-name: 'sb01'
+          frequency: 'manual'
+          disabled_var: false
+      - 'windriver-sb02':
+          lab-name: 'windriver'
+          tenant-name: 'Integration-SB-02'
+          stack-name: 'sb02'
+          frequency: 'manual'
+          disabled_var: false
+      - 'windriver-sb03':
+          lab-name: 'windriver'
+          tenant-name: 'Integration-SB-03'
+          stack-name: 'sb03'
+          frequency: 'manual'
+          disabled_var: false
+      - 'windriver-sb04':
+          lab-name: 'windriver'
+          tenant-name: 'Integration-SB-04'
+          stack-name: 'sb04'
+          frequency: 'manual'
+          disabled_var: false
 
 - project:
     name: dublin
     jobs:
-     - '{env}-release-{frequency}'
+      - '{env}-release-{frequency}'
     integration-branch: 'master'
     oom-branch: 'dublin'
     env:
-     - 'windriver-dublin-sb04':
-         lab-name: 'windriver'
-         tenant-name: 'Integration-SB-04'
-         stack-name: 'dublin'
-         frequency: 'manual'
-         disabled_var: false
+      - 'windriver-dublin-sb04':
+          lab-name: 'windriver'
+          tenant-name: 'Integration-SB-04'
+          stack-name: 'dublin'
+          frequency: 'manual'
+          disabled_var: false
 
 - project:
     name: stability
     jobs:
-     - '{env}-stability72hr'
-     - '{env}-vfwclosedloop'
+      - '{env}-stability72hr'
+      - '{env}-vfwclosedloop'
     integration-branch: 'master'
     env:
-     - 'windriver-longevity':
-         lab-name: 'windriver'
-         tenant-name: 'Integration-Longevity'
-         stack-name: 'long'
-         disabled_var: false
+      - 'windriver-longevity':
+          lab-name: 'windriver'
+          tenant-name: 'Integration-Longevity'
+          stack-name: 'long'
+          disabled_var: false

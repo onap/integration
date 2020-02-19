@@ -80,95 +80,95 @@ node_templates:
       - target: tca_policy
         type: cloudify.relationships.depends_on
     properties:
-        service_component_type: 'dcaegen2-analytics-tca'
-        docker_config: {}
-        image:
-          get_input: tag_version
-        log_info:
-          log_directory: "/opt/app/TCAnalytics/logs"
-        application_config:
-            app_config:
-                appDescription: DCAE Analytics Threshold Crossing Alert Application
-                appName: dcae-tca
-                tcaAlertsAbatementTableName: TCAAlertsAbatementTable
-                tcaAlertsAbatementTableTTLSeconds: '1728000'
-                tcaSubscriberOutputStreamName: TCASubscriberOutputStream
-                tcaVESAlertsTableName: TCAVESAlertsTable
-                tcaVESAlertsTableTTLSeconds: '1728000'
-                tcaVESMessageStatusTableName: TCAVESMessageStatusTable
-                tcaVESMessageStatusTableTTLSeconds: '86400'
-                thresholdCalculatorFlowletInstances: '2'
-            app_preferences:
-                aaiEnrichmentHost:
-                    get_input: aaiEnrichmentHost
-                aaiEnrichmentIgnoreSSLCertificateErrors: 'true'
-                aaiEnrichmentPortNumber: '8443'
-                aaiEnrichmentProtocol: https
-                aaiEnrichmentUserName: dcae@dcae.onap.org
-                aaiEnrichmentUserPassword: demo123456!
-                aaiVMEnrichmentAPIPath: /aai/v11/search/nodes-query
-                aaiVNFEnrichmentAPIPath: /aai/v11/network/generic-vnfs/generic-vnf
-                enableAAIEnrichment:
-                    get_input: enableAAIEnrichment
-                enableRedisCaching:
-                    get_input: enableRedisCaching
-                redisHosts:
-                    get_input: redisHosts
-                enableAlertCEFFormat: 'false'
-                publisherContentType: application/json
-                publisherHostName:
-                    get_input: dmaap_host
-                publisherHostPort:
-                    get_input: dmaap_port
-                publisherMaxBatchSize: '1'
-                publisherMaxRecoveryQueueSize: '100000'
-                publisherPollingInterval: '20000'
-                publisherProtocol: http
-                publisherTopicName: unauthenticated.DCAE_CL_OUTPUT
-                subscriberConsumerGroup: OpenDCAE-clamp
-                subscriberConsumerId: c12
-                subscriberContentType: application/json
-                subscriberHostName:
-                    get_input: dmaap_host
-                subscriberHostPort:
-                    get_input: dmaap_port
-                subscriberMessageLimit: '-1'
-                subscriberPollingInterval: '30000'
-                subscriberProtocol: http
-                subscriberTimeoutMS: '-1'
-                subscriberTopicName: unauthenticated.VES_MEASUREMENT_OUTPUT
-                tca_policy: ''
+      service_component_type: 'dcaegen2-analytics-tca'
+      docker_config: {}
+      image:
+        get_input: tag_version
+      log_info:
+        log_directory: "/opt/app/TCAnalytics/logs"
+      application_config:
+        app_config:
+          appDescription: DCAE Analytics Threshold Crossing Alert Application
+          appName: dcae-tca
+          tcaAlertsAbatementTableName: TCAAlertsAbatementTable
+          tcaAlertsAbatementTableTTLSeconds: '1728000'
+          tcaSubscriberOutputStreamName: TCASubscriberOutputStream
+          tcaVESAlertsTableName: TCAVESAlertsTable
+          tcaVESAlertsTableTTLSeconds: '1728000'
+          tcaVESMessageStatusTableName: TCAVESMessageStatusTable
+          tcaVESMessageStatusTableTTLSeconds: '86400'
+          thresholdCalculatorFlowletInstances: '2'
+        app_preferences:
+          aaiEnrichmentHost:
+            get_input: aaiEnrichmentHost
+          aaiEnrichmentIgnoreSSLCertificateErrors: 'true'
+          aaiEnrichmentPortNumber: '8443'
+          aaiEnrichmentProtocol: https
+          aaiEnrichmentUserName: dcae@dcae.onap.org
+          aaiEnrichmentUserPassword: demo123456!
+          aaiVMEnrichmentAPIPath: /aai/v11/search/nodes-query
+          aaiVNFEnrichmentAPIPath: /aai/v11/network/generic-vnfs/generic-vnf
+          enableAAIEnrichment:
+            get_input: enableAAIEnrichment
+          enableRedisCaching:
+            get_input: enableRedisCaching
+          redisHosts:
+            get_input: redisHosts
+          enableAlertCEFFormat: 'false'
+          publisherContentType: application/json
+          publisherHostName:
+            get_input: dmaap_host
+          publisherHostPort:
+            get_input: dmaap_port
+          publisherMaxBatchSize: '1'
+          publisherMaxRecoveryQueueSize: '100000'
+          publisherPollingInterval: '20000'
+          publisherProtocol: http
+          publisherTopicName: unauthenticated.DCAE_CL_OUTPUT
+          subscriberConsumerGroup: OpenDCAE-clamp
+          subscriberConsumerId: c12
+          subscriberContentType: application/json
+          subscriberHostName:
+            get_input: dmaap_host
+          subscriberHostPort:
+            get_input: dmaap_port
+          subscriberMessageLimit: '-1'
+          subscriberPollingInterval: '30000'
+          subscriberProtocol: http
+          subscriberTimeoutMS: '-1'
+          subscriberTopicName: unauthenticated.VES_MEASUREMENT_OUTPUT
+          tca_policy: ''
         service_component_type: dcaegen2-analytics_tca
     interfaces:
       cloudify.interfaces.lifecycle:
         start:
           inputs:
             envs:
-                DMAAPHOST:
-                    { get_input: dmaap_host }
-                DMAAPPORT:
-                    { get_input: dmaap_port }
-                DMAAPPUBTOPIC: "unauthenticated.DCAE_CL_OUTPUT"
-                DMAAPSUBTOPIC: "unauthenticated.VES_MEASUREMENT_OUTPUT"
-                AAIHOST:
-                    { get_input: aaiEnrichmentHost }
-                AAIPORT:
-                    { get_input: aaiEnrichmentPort }
-                CONSUL_HOST:
-                    { get_input: consul_host }
-                CONSUL_PORT:
-                    { get_input: consul_port }
-                CBS_HOST:
-                    { get_input: cbs_host }
-                CBS_PORT:
-                    { get_input: cbs_port }
-                CONFIG_BINDING_SERVICE: "config_binding_service"
+              MAAPHOST:
+                { get_input: dmaap_host }
+              DMAAPPORT:
+                { get_input: dmaap_port }
+              DMAAPPUBTOPIC: "unauthenticated.DCAE_CL_OUTPUT"
+              DMAAPSUBTOPIC: "unauthenticated.VES_MEASUREMENT_OUTPUT"
+              AAIHOST:
+                { get_input: aaiEnrichmentHost }
+              AAIPORT:
+                { get_input: aaiEnrichmentPort }
+              CONSUL_HOST:
+                { get_input: consul_host }
+              CONSUL_PORT:
+                { get_input: consul_port }
+              CBS_HOST:
+                { get_input: cbs_host }
+              CBS_PORT:
+                { get_input: cbs_port }
+              CONFIG_BINDING_SERVICE: "config_binding_service"
             ports:
               - concat: ["11011:", { get_input: external_port }]
   tca_policy:
     type: clamp.nodes.policy
     properties:
       policy_id:
-           get_input: policy_id
+        get_input: policy_id
       policy_model_id:
-           get_input: policy_model_id
+        get_input: policy_model_id

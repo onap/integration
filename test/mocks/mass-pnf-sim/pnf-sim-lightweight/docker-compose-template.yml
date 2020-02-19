@@ -45,8 +45,8 @@ services:
       front-${I}:
         ipv4_address: "${IPFTPS}"
     ports:
-       - "${PORTFTPS}:21"
-       - "${FTPS_PASV_MIN}-${FTPS_PASV_MAX}:${FTPS_PASV_MIN}-${FTPS_PASV_MAX}"
+      - "${PORTFTPS}:21"
+      - "${FTPS_PASV_MIN}-${FTPS_PASV_MAX}:${FTPS_PASV_MIN}-${FTPS_PASV_MAX}"
     environment:
       FTP_USER: onap
       FTP_PASSWORD: pano
