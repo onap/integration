@@ -3,7 +3,7 @@ description: Heat template for HV-VES simulator deployment
 heat_template_version: 2013-05-23
 
 parameters:
-  name: { description: Instance name, label: Name, type: string, default: hvves-sim  }
+  name: { description: Instance name, label: Name, type: string, default: hvves-sim }
   flavor_name: { description: Instance flavor to be used, label: Flavor Name, type: string }
   image_name: { description: Ubuntu 16.04 image to be used, label: Image Name, type: string }
   private_net_id: { description: Private network id, label: Private Network ID, type: string }
@@ -222,4 +222,3 @@ outputs:
   hvves-sim_public_ip:
     description: HV-VES simualtor floating IP
     value: { get_attr: [ hvves-sim_public, floating_ip_address ] }
-
