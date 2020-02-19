@@ -237,7 +237,7 @@ resources:
           template:
             get_file: nfs_vm_entrypoint.sh
           params:
-            __additional_override__ : { get_param: additional_override}
+            __additional_override__: { get_param: additional_override}
             __nfs_volume_id__: { get_resource: nfs_volume }
             __docker_proxy__: { get_param: docker_proxy }
             __apt_proxy__: { get_param: apt_proxy }
@@ -1217,4 +1217,3 @@ outputs:
   orch_3_vm_private_ip:
     description: The private IP address of the orch_3 instance
     value: { get_attr: [orch_3_floating_ip, fixed_ip_address] }
-

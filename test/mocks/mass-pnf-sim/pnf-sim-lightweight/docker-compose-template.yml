@@ -61,4 +61,3 @@ services:
       - ./files/onap/:/srv/
     restart: on-failure
     command: vsftpd /etc/vsftpd_ssl.conf
-

@@ -9,4 +9,3 @@ outputs:
   nfs_vm_private_ip:
     description: The private IP address of the nfs instance
     value: { get_attr: [nfs_floating_ip, fixed_ip_address] }
-
