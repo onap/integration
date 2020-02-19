@@ -81,7 +81,6 @@ node_templates:
         type: cloudify.relationships.depends_on
     properties:
         service_component_type: 'dcaegen2-analytics-tca'
-        application_config: {}
         docker_config: {}
         image:
           get_input: tag_version
