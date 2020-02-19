@@ -415,7 +415,7 @@ data_types:
         description: Configuration parameters for the OperateVnf operation
         required: false
       change_ext_connectivity:
-        type:   tosca.datatypes.nfv.VnfChangeExtConnectivityOperationConfiguration
+        type: tosca.datatypes.nfv.VnfChangeExtConnectivityOperationConfiguration
         description: Configuration parameters for the changeExtVnfConnectivityOpConfig operation
         required: false
 
@@ -644,7 +644,7 @@ data_types:
         required: true
       checksum:
         type: string
-        description:  Checksum of the software image file
+        description: Checksum of the software image file
         required: true
       container_format:
         type: string
@@ -660,7 +660,7 @@ data_types:
           - valid_values: [ aki, ami, ari, iso, qcow2, raw, vdi, vhd, vhdx, vmdk ]
       min_disk:
         type: scalar-unit.size # Number
-        description:  The minimal disk size requirement for this software image
+        description: The minimal disk size requirement for this software image
         required: true
       min_ram:
         type: scalar-unit.size # Number
@@ -1195,7 +1195,7 @@ node_types:
 
   tosca.nodes.nfv.Vdu.Compute:
     derived_from: tosca.nodes.Root
-    description:  Describes the virtual compute part of a VDU which is a construct   supporting the description of the deployment and operational behavior of a VNFC
+    description: Describes the virtual compute part of a VDU which is a construct   supporting the description of the deployment and operational behavior of a VNFC
     properties:
       name:
         type: string
@@ -1304,7 +1304,7 @@ node_types:
 
   tosca.nodes.nfv.Cp:
     derived_from: tosca.nodes.Root
-    description:  Provides information regarding the purpose of the connection point
+    description: Provides information regarding the purpose of the connection point
     properties:
       layer_protocols:
         type: list
@@ -1435,7 +1435,7 @@ policy_types:
 
   tosca.policies.nfv.VduInstantiationLevels:
     derived_from: tosca.policies.Root
-    description:  The VduInstantiationLevels type is a policy type representing all the instantiation levels of resources to be instantiated within a deployment flavour in term of the number of VNFC instances to be created from each vdu.Compute. as defined in ETSI GS NFV-IFA 011 [1]
+    description: The VduInstantiationLevels type is a policy type representing all the instantiation levels of resources to be instantiated within a deployment flavour in term of the number of VNFC instances to be created from each vdu.Compute. as defined in ETSI GS NFV-IFA 011 [1]
     properties:
       levels:
         type: map # key: levelId
@@ -1447,7 +1447,7 @@ policy_types:
 
   tosca.policies.nfv.VirtualLinkInstantiationLevels:
     derived_from: tosca.policies.Root
-    description:  The VirtualLinkInstantiationLevels type is a policy type representing all the instantiation levels of virtual link resources to be instantiated within a deployment flavour as defined in ETSI GS NFV-IFA 011 [1].
+    description: The VirtualLinkInstantiationLevels type is a policy type representing all the instantiation levels of virtual link resources to be instantiated within a deployment flavour as defined in ETSI GS NFV-IFA 011 [1].
     properties:
       levels:
         type: map # key: levelId
@@ -1593,7 +1593,7 @@ policy_types:
 
   tosca.policies.nfv.SupportedVnfInterface:
     derived_from: tosca.policies.Root
-    description:  this policy type represents interfaces produced by a VNF, the details to access them and the applicable connection points to use to access these interfaces
+    description: this policy type represents interfaces produced by a VNF, the details to access them and the applicable connection points to use to access these interfaces
     properties:
       interface_name:
         type: string
@@ -1606,4 +1606,3 @@ policy_types:
         description: Provide additional data to access the interface endpoint
         required: false
     targets: [ tosca.nodes.nfv.VnfExtCp, tosca.nodes.nfv.VduCp ]
-

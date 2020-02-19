@@ -205,9 +205,9 @@ event:
                 eventSeverity: {presence: required}
                 vfStatus: {presence: required, value: Active}
                 alarmAdditionalInformation: {presence: required, structure: {
-                    keyValuePair: {presence: required, structure: {key: {presence: required, value: source},value: {presence: required}}},
-                    keyValuePair: {presence: required, structure: {key: {presence: required, value: probableCause},value: {presence: required, value: 'FileError'}}},
-                    keyValuePair: {presence: required, structure: {key: {presence: required, value: additionalText},value: {presence: optional}}},
-                    keyValuePair: {presence: required, structure: {key: {presence: required, value: additionalInfo},value: {presence: optional}}}}
+                    keyValuePair: {presence: required, structure: {key: {presence: required, value: source}, value: {presence: required}}},
+                    keyValuePair: {presence: required, structure: {key: {presence: required, value: probableCause}, value: {presence: required, value: 'FileError'}}},
+                    keyValuePair: {presence: required, structure: {key: {presence: required, value: additionalText}, value: {presence: optional}}},
+                    keyValuePair: {presence: required, structure: {key: {presence: required, value: additionalInfo}, value: {presence: optional}}}}
                 }
 ...

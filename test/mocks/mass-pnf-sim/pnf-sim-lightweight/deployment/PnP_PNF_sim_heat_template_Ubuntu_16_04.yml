@@ -162,4 +162,3 @@ resources:
       port_id:
         get_resource: PNF_PnP_simualtor_port0
     type: OS::Neutron::FloatingIP
-
