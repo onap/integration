@@ -171,5 +171,5 @@ node_templates:
     properties:
       policy_id:
            get_input: policy_id
-      policy_model_id: 
+      policy_model_id:
            get_input: policy_model_id

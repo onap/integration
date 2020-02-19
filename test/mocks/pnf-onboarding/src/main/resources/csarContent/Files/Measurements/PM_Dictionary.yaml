@@ -57,8 +57,8 @@ pmDictionary:
             "acmeParameter1": 0,
             "acmeParameter2": true,
             "acmeParameter3": "acmeParameterValue3"}
-            
-    -   measType: VS.ifInDiscards    
+
+    -   measType: VS.ifInDiscards
         measDescription: The number of inbound packets which were chosen to be discarded
         measCondition: The number of inbound packets which were chosen to be
             discarded even though no errors had been detected to prevent

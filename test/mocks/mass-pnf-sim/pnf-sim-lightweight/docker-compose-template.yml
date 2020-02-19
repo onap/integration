@@ -51,7 +51,7 @@ services:
       FTP_USER: onap
       FTP_PASSWORD: pano
       PASV_ADDRESS: localhost
-      PASV_MIN_PORT: ${FTPS_PASV_MIN} 
+      PASV_MIN_PORT: ${FTPS_PASV_MIN}
       PASV_MAX_PORT: ${FTPS_PASV_MAX}
     volumes:
       - ./tls/ftp.crt:/etc/ssl/private/ftp.crt:ro
