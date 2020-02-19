@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d78fce6b_f8bcef11",
+        "filename": "bootstrap/vagrant-minimal-onap/config/cluster.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-02-19T11:21:48Z",
+      "side": 0,
+      "message": "Already defined in line 2",
+      "revId": "6b4a75652fb39002317883335d7e1c216af0aa12",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de050760_bc6fbc25",
+        "filename": "docs/files/scaleout/k8s-tca-clamp-policy-05162019.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-02-19T11:21:48Z",
+      "side": 0,
+      "message": "Defined in line 90.",
+      "revId": "6b4a75652fb39002317883335d7e1c216af0aa12",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c4201c6_d5017723",
+        "filename": "test/security/k8s/vagrant/dublin/cluster.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-02-19T11:21:48Z",
+      "side": 0,
+      "message": "Already defined in line 2",
+      "revId": "6b4a75652fb39002317883335d7e1c216af0aa12",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
