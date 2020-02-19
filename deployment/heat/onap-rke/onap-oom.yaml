@@ -237,7 +237,7 @@ resources:
           template:
             get_file: nfs_vm_entrypoint.sh
           params:
-            __additional_override__ : { get_param: additional_override} 
+            __additional_override__ : { get_param: additional_override}
             __nfs_volume_id__: { get_resource: nfs_volume }
             __docker_proxy__: { get_param: docker_proxy }
             __apt_proxy__: { get_param: apt_proxy }
