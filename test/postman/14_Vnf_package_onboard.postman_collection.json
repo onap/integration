@@ -175,7 +175,7 @@
 								"package_content"
 							]
 						},
-						"description": "msb_download:\nget The acquired data needs to be written to the CSAR file, and there is no write operation here; \ nthe vnf package tested here does not exist.\n"
+						"description": "msb_download:\nget The acquired data needs to be written to the CSAR file, and there is no write operation here; \nthe vnf package tested here does not exist.\n"
 					},
 					"response": []
 				}
