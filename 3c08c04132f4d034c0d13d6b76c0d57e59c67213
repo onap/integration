@@ -16,6 +16,24 @@
       "revId": "3c08c04132f4d034c0d13d6b76c0d57e59c67213",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcde59b3_834ad627",
+        "filename": "test/postman/14_Vnf_package_onboard.postman_collection.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-02-20T13:07:38Z",
+      "side": 1,
+      "message": "Nope I don\u0027t, it\u0027s just Gerrit...\n\nintegration$ tail -1 test/postman/14_Vnf_package_onboard.postman_collection.json\n}\nintegration$ git show test/postman/14_Vnf_package_onboard.postman_collection.json\n-}\n\\ No newline at end of file\n+}\n\nI.e. gerrit fools us that there is an empty line at the end while there isn\u0027t, check any other file in any commit.",
+      "parentUuid": "5a554378_99d64aa7",
+      "revId": "3c08c04132f4d034c0d13d6b76c0d57e59c67213",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
