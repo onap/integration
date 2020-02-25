@@ -1,0 +1,5 @@
+.git*
+.dockerignore
+Dockerfile
+Makefile
+bin/
