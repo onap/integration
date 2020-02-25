@@ -11,20 +11,55 @@ Prerequisites
 Configuration
 ~~~~~~~~~~~~~
 
-Mandatory
-+++++++++
-
-Optional
-++++++++
+``-kubeconfig``
+  Optional unless ``$HOME`` is not set. Defaults to ``$HOME/.kube/config``.
 
 Build (local)
 ~~~~~~~~~~~~~
 
+- go_ (1.11+, tested on 1.13)
+
+.. _go: https://golang.org/doc/install
+
 Build (Docker)
 ~~~~~~~~~~~~~~
 
+- Docker_ engine
+- make (optional)
+
+.. _Docker: https://docs.docker.com/install
+
 Test
 ~~~~
+
+- Ginkgo_
+- GolangCI-Lint_ (optional)
+
+.. _Ginkgo: https://onsi.github.io/ginkgo/#getting-ginkgo
+.. _GolangCI-Lint: https://github.com/golangci/golangci-lint#install
+
+Building
+--------
+
+Command (local)
+~~~~~~~~~~~~~~~
+
+.. code-block:: shell
+
+    $ mkdir bin
+    $ go build -o bin/sslendpoints
+
+Additional ``bin`` directory and specifying ``go build`` output are used to
+declutter project and maintain compatibility with Docker-based process. Running
+``go build`` without parameters will create ``sslendpoints`` binary in current
+directory.
+
+Command (Docker)
+~~~~~~~~~~~~~~~~
+
+.. code-block:: shell
+
+    $ make # or commands from corresponding "make" targets
 
 
 Running
@@ -33,8 +68,20 @@ Running
 Command (local)
 ~~~~~~~~~~~~~~~
 
+.. code-block:: shell
+
+    $ bin/sslendpoints [-kubeconfig KUBECONFIG]
+
 Command (Docker)
 ~~~~~~~~~~~~~~~~
+
+.. code-block:: shell
+
+    $ docker run --rm --volume $KUBECONFIG:/.kube/config \
+        sslendpoints-build-img /bin/sslendpoints
+
+    $ docker run --rm --volume $KUBECONFIG:/opt/config \
+        sslendpoints-build-img /bin/sslendpoints -kubeconfig /opt/config
 
 Output
 ~~~~~~
@@ -42,3 +89,9 @@ Output
 
 Testing
 -------
+
+.. code-block:: shell
+
+    $ go test ./...     # basic
+    $ ginkgo -r         # pretty
+    $ golangci-lint run # linters
