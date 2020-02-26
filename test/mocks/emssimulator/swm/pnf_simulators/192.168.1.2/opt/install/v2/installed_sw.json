@@ -1,12 +1,12 @@
 {
   "ran_du_pkg1-v2": {
-    "installedLocation": "/home/ubuntu/swm/pnf_simulators/192.168.1.2/opt/install/v2/ran_du_pkg1", 
-    "version": "v2", 
+    "installedLocation": "/home/ubuntu/swm/pnf_simulators/192.168.1.2/opt/install/v2/ran_du_pkg1",
+    "version": "v2",
     "name": "ran_du_pkg1"
-  }, 
+  },
   "ran_du_pkg2-v2": {
-    "installedLocation": "/home/ubuntu/swm/pnf_simulators/192.168.1.2/opt/install/v2/ran_du_pkg2", 
-    "version": "v2", 
+    "installedLocation": "/home/ubuntu/swm/pnf_simulators/192.168.1.2/opt/install/v2/ran_du_pkg2",
+    "version": "v2",
     "name": "ran_du_pkg2"
   }
 }
