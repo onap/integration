@@ -1,424 +1,424 @@
 {
-	"info": {
-		"_postman_id": "7f61efa5-8b7f-4593-9d57-26da61bb8604",
-		"name": "02_Onboard_VSP_part1",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "check VSP exists",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "dc866867-2909-4844-9072-01c9e2e4e856",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"var jsonData = pm.response.json();",
-							"var vsp_found = false;",
-							"for (var i = 0; i < jsonData.results.length; i++) { ",
-							"   if (jsonData.results[i].name === pm.environment.get(\"vsp_name\")) {",
-							"       vsp_found = true;",
-							"   }",
-							"}",
-							"",
-							"if (vsp_found === false) {",
-							"    tests[pm.environment.get(\"vsp_name\")+\" does not yet exist, we continue\"] = true;",
-							"}",
-							"",
-							"else {",
-							"    tests[pm.environment.get(\"vsp_name\")+\" already exists, we stop the run\"] = false;",
-							"    postman.setNextRequest(null);",
-							"}"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a"
-					},
-					{
-						"key": "USER_ID",
-						"value": "cs0008"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "robot-ete"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/vendor-software-products",
-					"host": [
-						"{{url-sdc2}}"
-					],
-					"path": [
-						"sdc1",
-						"feProxy",
-						"onboarding-api",
-						"v1.0",
-						"vendor-software-products"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Vendor infos",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "dbd0ea7f-5f66-4431-8a51-2e5d757647a0",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"",
-							"var jsonData = pm.response.json();",
-							"var vendor_found = false;",
-							"for (var i = 0; i < jsonData.results.length; i++) { ",
-							"   if (jsonData.results[i].name === pm.environment.get(\"vendor_name\")) {",
-							"       vendor_found = true;",
-							"       pm.environment.set(\"auto_vendor_id\", \"\"+jsonData.results[i].id+\"\");",
-							"   }",
-							"}",
-							"if (vendor_found === false) {",
-							"    tests[pm.environment.get(\"vendor_name\")+\" does not exists : we stop the run\"] = false;",
-							"    postman.setNextRequest(null);",
-							"}",
-							"",
-							"else {",
-							"    tests[pm.environment.get(\"vendor_name\")+\" exists\"] = true;",
-							"}",
-							"",
-							"",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a"
-					},
-					{
-						"key": "USER_ID",
-						"value": "cs0008"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "robot-ete"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/vendor-license-models",
-					"host": [
-						"{{url-sdc2}}"
-					],
-					"path": [
-						"sdc1",
-						"feProxy",
-						"onboarding-api",
-						"v1.0",
-						"vendor-license-models"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Create VSP",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "739f040c-f4b1-4790-bfce-4f5dae60b637",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"var jsonData = pm.response.json();",
-							"pm.environment.set(\"auto_vsp_id\", \"\"+jsonData.itemId+\"\");",
-							"pm.environment.set(\"auto_vsp_version_id\", \"\"+jsonData.version.id+\"\");",
-							"pm.environment.set(\"auto_vsp_version_name\", \"\"+jsonData.version.name+\"\");",
-							"",
-							"tests[\"VSP version is : \"+jsonData.version.status] = jsonData.version.status === \"Draft\";"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a"
-					},
-					{
-						"key": "USER_ID",
-						"value": "cs0008"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "robot-ete"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"name\": \"{{vsp_name}}\",\r\n  \"description\": \"vendor software product\",\r\n  \"icon\": \"icon\",\r\n  \"category\": \"resourceNewCategory.generic\",\r\n  \"subCategory\": \"resourceNewCategory.generic.abstract\",\r\n  \"vendorName\": \"{{vendor_name}}\",\r\n  \"vendorId\": \"{{auto_vendor_id}}\",\r\n  \"licensingData\": {},\r\n  \"onboardingMethod\": \"NetworkPackage\"\r\n}"
-				},
-				"url": {
-					"raw": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/vendor-software-products",
-					"host": [
-						"{{url-sdc2}}"
-					],
-					"path": [
-						"sdc1",
-						"feProxy",
-						"onboarding-api",
-						"v1.0",
-						"vendor-software-products"
-					]
-				}
-			},
-			"response": [
-				{
-					"name": "Create Vendor Software Product",
-					"originalRequest": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": ""
-						}
-					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "access-control-allow-credentials",
-							"value": "true",
-							"name": "access-control-allow-credentials",
-							"description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials."
-						},
-						{
-							"key": "access-control-allow-origin",
-							"value": "chrome-extension://fhbjgbiflinjbdggehcddcbncdddomop",
-							"name": "access-control-allow-origin",
-							"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
-						},
-						{
-							"key": "access-control-expose-headers",
-							"value": "",
-							"name": "access-control-expose-headers",
-							"description": "Lets a server whitelist headers that browsers are allowed to access."
-						},
-						{
-							"key": "content-type",
-							"value": "application/json",
-							"name": "content-type",
-							"description": "The mime type of this content"
-						},
-						{
-							"key": "date",
-							"value": "Wed, 06 Jun 2018 15:02:46 GMT",
-							"name": "date",
-							"description": "The date and time that the message was sent"
-						},
-						{
-							"key": "server",
-							"value": "Jetty(9.3.21.v20170918)",
-							"name": "server",
-							"description": "A name for the server"
-						},
-						{
-							"key": "transfer-encoding",
-							"value": "chunked",
-							"name": "transfer-encoding",
-							"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
-						}
-					],
-					"cookie": [],
-					"body": "{\"vspId\":\"b3267b0aefbd4e2ea52be0e414139b1c\"}"
-				}
-			]
-		},
-		{
-			"name": "Get VSP versions",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "5e55115d-c797-4b34-bfaf-d2af24d62c01",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a"
-					},
-					{
-						"key": "USER_ID",
-						"value": "cs0008"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "robot-ete"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/items/{{auto_vsp_id}}/versions",
-					"host": [
-						"{{url-sdc2}}"
-					],
-					"path": [
-						"sdc1",
-						"feProxy",
-						"onboarding-api",
-						"v1.0",
-						"items",
-						"{{auto_vsp_id}}",
-						"versions"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get VSP status",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "2492d06b-4b31-4d93-aaf2-3417419c6e14",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a"
-					},
-					{
-						"key": "USER_ID",
-						"value": "cs0008"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "robot-ete"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/items/{{auto_vsp_id}}/versions/{{auto_vsp_version_id}}",
-					"host": [
-						"{{url-sdc2}}"
-					],
-					"path": [
-						"sdc1",
-						"feProxy",
-						"onboarding-api",
-						"v1.0",
-						"items",
-						"{{auto_vsp_id}}",
-						"versions",
-						"{{auto_vsp_version_id}}"
-					]
-				}
-			},
-			"response": []
-		}
-	]
+  "info": {
+    "_postman_id": "7f61efa5-8b7f-4593-9d57-26da61bb8604",
+    "name": "02_Onboard_VSP_part1",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "check VSP exists",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "dc866867-2909-4844-9072-01c9e2e4e856",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "var vsp_found = false;",
+              "for (var i = 0; i < jsonData.results.length; i++) { ",
+              "   if (jsonData.results[i].name === pm.environment.get(\"vsp_name\")) {",
+              "       vsp_found = true;",
+              "   }",
+              "}",
+              "",
+              "if (vsp_found === false) {",
+              "    tests[pm.environment.get(\"vsp_name\")+\" does not yet exist, we continue\"] = true;",
+              "}",
+              "",
+              "else {",
+              "    tests[pm.environment.get(\"vsp_name\")+\" already exists, we stop the run\"] = false;",
+              "    postman.setNextRequest(null);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a"
+          },
+          {
+            "key": "USER_ID",
+            "value": "cs0008"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "robot-ete"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/vendor-software-products",
+          "host": [
+            "{{url-sdc2}}"
+          ],
+          "path": [
+            "sdc1",
+            "feProxy",
+            "onboarding-api",
+            "v1.0",
+            "vendor-software-products"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Vendor infos",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "dbd0ea7f-5f66-4431-8a51-2e5d757647a0",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "",
+              "var jsonData = pm.response.json();",
+              "var vendor_found = false;",
+              "for (var i = 0; i < jsonData.results.length; i++) { ",
+              "   if (jsonData.results[i].name === pm.environment.get(\"vendor_name\")) {",
+              "       vendor_found = true;",
+              "       pm.environment.set(\"auto_vendor_id\", \"\"+jsonData.results[i].id+\"\");",
+              "   }",
+              "}",
+              "if (vendor_found === false) {",
+              "    tests[pm.environment.get(\"vendor_name\")+\" does not exists : we stop the run\"] = false;",
+              "    postman.setNextRequest(null);",
+              "}",
+              "",
+              "else {",
+              "    tests[pm.environment.get(\"vendor_name\")+\" exists\"] = true;",
+              "}",
+              "",
+              "",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a"
+          },
+          {
+            "key": "USER_ID",
+            "value": "cs0008"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "robot-ete"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/vendor-license-models",
+          "host": [
+            "{{url-sdc2}}"
+          ],
+          "path": [
+            "sdc1",
+            "feProxy",
+            "onboarding-api",
+            "v1.0",
+            "vendor-license-models"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create VSP",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "739f040c-f4b1-4790-bfce-4f5dae60b637",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "pm.environment.set(\"auto_vsp_id\", \"\"+jsonData.itemId+\"\");",
+              "pm.environment.set(\"auto_vsp_version_id\", \"\"+jsonData.version.id+\"\");",
+              "pm.environment.set(\"auto_vsp_version_name\", \"\"+jsonData.version.name+\"\");",
+              "",
+              "tests[\"VSP version is : \"+jsonData.version.status] = jsonData.version.status === \"Draft\";"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a"
+          },
+          {
+            "key": "USER_ID",
+            "value": "cs0008"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "robot-ete"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"name\": \"{{vsp_name}}\",\r\n  \"description\": \"vendor software product\",\r\n  \"icon\": \"icon\",\r\n  \"category\": \"resourceNewCategory.generic\",\r\n  \"subCategory\": \"resourceNewCategory.generic.abstract\",\r\n  \"vendorName\": \"{{vendor_name}}\",\r\n  \"vendorId\": \"{{auto_vendor_id}}\",\r\n  \"licensingData\": {},\r\n  \"onboardingMethod\": \"NetworkPackage\"\r\n}"
+        },
+        "url": {
+          "raw": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/vendor-software-products",
+          "host": [
+            "{{url-sdc2}}"
+          ],
+          "path": [
+            "sdc1",
+            "feProxy",
+            "onboarding-api",
+            "v1.0",
+            "vendor-software-products"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Create Vendor Software Product",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": ""
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "access-control-allow-credentials",
+              "value": "true",
+              "name": "access-control-allow-credentials",
+              "description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials."
+            },
+            {
+              "key": "access-control-allow-origin",
+              "value": "chrome-extension://fhbjgbiflinjbdggehcddcbncdddomop",
+              "name": "access-control-allow-origin",
+              "description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+            },
+            {
+              "key": "access-control-expose-headers",
+              "value": "",
+              "name": "access-control-expose-headers",
+              "description": "Lets a server whitelist headers that browsers are allowed to access."
+            },
+            {
+              "key": "content-type",
+              "value": "application/json",
+              "name": "content-type",
+              "description": "The mime type of this content"
+            },
+            {
+              "key": "date",
+              "value": "Wed, 06 Jun 2018 15:02:46 GMT",
+              "name": "date",
+              "description": "The date and time that the message was sent"
+            },
+            {
+              "key": "server",
+              "value": "Jetty(9.3.21.v20170918)",
+              "name": "server",
+              "description": "A name for the server"
+            },
+            {
+              "key": "transfer-encoding",
+              "value": "chunked",
+              "name": "transfer-encoding",
+              "description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+            }
+          ],
+          "cookie": [],
+          "body": "{\"vspId\":\"b3267b0aefbd4e2ea52be0e414139b1c\"}"
+        }
+      ]
+    },
+    {
+      "name": "Get VSP versions",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "5e55115d-c797-4b34-bfaf-d2af24d62c01",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a"
+          },
+          {
+            "key": "USER_ID",
+            "value": "cs0008"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "robot-ete"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/items/{{auto_vsp_id}}/versions",
+          "host": [
+            "{{url-sdc2}}"
+          ],
+          "path": [
+            "sdc1",
+            "feProxy",
+            "onboarding-api",
+            "v1.0",
+            "items",
+            "{{auto_vsp_id}}",
+            "versions"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get VSP status",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "2492d06b-4b31-4d93-aaf2-3417419c6e14",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a"
+          },
+          {
+            "key": "USER_ID",
+            "value": "cs0008"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "robot-ete"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/items/{{auto_vsp_id}}/versions/{{auto_vsp_version_id}}",
+          "host": [
+            "{{url-sdc2}}"
+          ],
+          "path": [
+            "sdc1",
+            "feProxy",
+            "onboarding-api",
+            "v1.0",
+            "items",
+            "{{auto_vsp_id}}",
+            "versions",
+            "{{auto_vsp_version_id}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
 }
