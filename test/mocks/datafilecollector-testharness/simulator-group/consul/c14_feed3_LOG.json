@@ -8,7 +8,7 @@
   "dmaap.security.keyStorePath": "/opt/app/datafile/etc/cert/cert.jks",
   "dmaap.security.keyStorePasswordPath": "/opt/app/datafile/etc/cert/jks.pass",
   "dmaap.security.enableDmaapCertAuth": "false",
-    "streams_publishes": {
+  "streams_publishes": {
     "LOG_FILES": {
       "type": "data_router",
       "dmaap_info": {
