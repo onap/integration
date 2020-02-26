@@ -1,1647 +1,1647 @@
 {
-	"info": {
-		"_postman_id": "4e86ffd4-736b-441d-8ff2-56a584a96573",
-		"name": "08_Declare_Customer_Service_Subscription_Cloud",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "List Customers",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "5c0ee107-621b-4b01-9506-cd8628b01179",
-						"exec": [
-							"var customer_found = false;",
-							"if (pm.response.code === 404) {",
-							"    tests[pm.environment.get(\"customer_name\")+\" does not exists\"] = true;",
-							"}",
-							"else {",
-							"    if (pm.response.code === 200) {",
-							"        tests[\"Status code is 200\"] = pm.response.code === 200;",
-							"        }",
-							"    var jsonData = pm.response.json();",
-							"    for (var i = 0; i < jsonData.customer.length; i++) { ",
-							"       if (jsonData.customer[i][\"global-customer-id\"] === pm.environment.get(\"customer_name\")) {",
-							"           customer_found = true;",
-							"           pm.environment.set(\"auto_customer_id\", \"\"+jsonData.customer[i][\"global-customer-id\"]+\"\");",
-							"       }",
-							"    }",
-							"    if (customer_found === false) {",
-							"        tests[pm.environment.get(\"customer_name\")+\" does not exists\"] = true;",
-							"    }",
-							"    ",
-							"    else {",
-							"        tests[pm.environment.get(\"customer_name\")+\" already exists, we skip creation\"] = true;",
-							"        postman.setNextRequest(\"List Services from SDC catalog\");",
-							"    }",
-							"}"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic QUFJOkFBSQ=="
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-aai}}/aai/v16/business/customers",
-					"host": [
-						"{{url-aai}}"
-					],
-					"path": [
-						"aai",
-						"v16",
-						"business",
-						"customers"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Declare a Customer",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "3f8fbd67-36f6-4ae2-a2ab-d23f1f690133",
-						"exec": [
-							"pm.test(\"Status code is 201\", function () {",
-							"    pm.response.to.have.status(201);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic QUFJOkFBSQ=="
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"global-customer-id\": \"{{customer_name}}\",\n    \"subscriber-name\": \"{{customer_name}}\",\n    \"subscriber-type\": \"INFRA\"\n}"
-				},
-				"url": {
-					"raw": "{{url-aai}}/aai/v16/business/customers/customer/{{customer_name}}",
-					"host": [
-						"{{url-aai}}"
-					],
-					"path": [
-						"aai",
-						"v16",
-						"business",
-						"customers",
-						"customer",
-						"{{customer_name}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Check customer creation",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "e459dbcf-bf32-4aef-a9b1-5d1adfb525fc",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"var jsonData = pm.response.json();",
-							"var customer_found = false;",
-							"for (var i = 0; i < jsonData.customer.length; i++) { ",
-							"   if (jsonData.customer[i][\"global-customer-id\"] === pm.environment.get(\"customer_name\")) {",
-							"       customer_found = true;",
-							"       pm.environment.set(\"auto_customer_id\", \"\"+jsonData.customer[i][\"global-customer-id\"]+\"\");",
-							"   }",
-							"}",
-							"tests[pm.environment.get(\"customer_name\")+\" found\"] = customer_found === true;"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic QUFJOkFBSQ=="
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-aai}}/aai/v16/business/customers",
-					"host": [
-						"{{url-aai}}"
-					],
-					"path": [
-						"aai",
-						"v16",
-						"business",
-						"customers"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "List Services from SDC catalog",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "a496d4dc-e343-42d4-8377-6d18d3570c82",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"var jsonData = pm.response.json();",
-							"var service_found = false;",
-							"for (var i = 0; i < jsonData.length; i++) { ",
-							"   if (jsonData[i].name === pm.environment.get(\"service\")) {",
-							"       service_found = true;",
-							"       pm.environment.set(\"auto_service_invariantUUID\", \"\"+jsonData[i].invariantUUID+\"\");",
-							"   }",
-							"}",
-							"",
-							"if (service_found === false) {",
-							"    tests[\"Service : \"+pm.environment.get(\"service\")+\" does not exist in SDC catalog, we stop the run\"] = true;",
-							"    postman.setNextRequest(null);",
-							"}",
-							"",
-							"else {",
-							"    tests[\"Service : \"+pm.environment.get(\"service\")+\" exists in SDC catalog, we can continue the run\"] = true;",
-							"}"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "USER_ID",
-						"value": "cs0008"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
-					},
-					{
-						"key": "x-ecomp-instanceid",
-						"value": "ONAP-Test"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-sdc}}/sdc/v1/catalog/services",
-					"host": [
-						"{{url-sdc}}"
-					],
-					"path": [
-						"sdc",
-						"v1",
-						"catalog",
-						"services"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Check Subscription in AAI",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "654cc91a-920b-4b79-9177-15b622749cb4",
-						"exec": [
-							"var service_found = false;",
-							"if (pm.response.code === 404) {",
-							"    tests[pm.environment.get(\"service\")+\" does not exists in AAI\"] = true;",
-							"}",
-							"else {",
-							"    if (pm.response.code === 200) {",
-							"        tests[\"Status code is 200\"] = pm.response.code === 200;",
-							"        }",
-							"    var jsonData = pm.response.json();",
-							"    for (var i = 0; i < jsonData.service.length; i++) { ",
-							"       if (jsonData.service[i][\"service-description\"] === pm.environment.get(\"service\")) {",
-							"           service_found = true;",
-							"       }",
-							"    }",
-							"    ",
-							"    if (service_found === false) {",
-							"        tests[\"Service subscription : \"+pm.environment.get(\"service\")+\" does not exists in AAI\"] = true;",
-							"    }",
-							"    ",
-							"    else {",
-							"        tests[\"Service subscription : \"+pm.environment.get(\"service\")+\" already exists in AAI, we skip creation\"] = true;",
-							"        postman.setNextRequest(\"check cloud-region exists\");",
-							"    }",
-							"}"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "get_aai_subscr"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic QUFJOkFBSQ=="
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-aai}}/aai/v16/service-design-and-creation/services",
-					"host": [
-						"{{url-aai}}"
-					],
-					"path": [
-						"aai",
-						"v16",
-						"service-design-and-creation",
-						"services"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Declare subscription in AAI",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "c82062d1-c394-47d8-ab3d-14f777c32971",
-						"exec": [
-							"pm.test(\"Status code is 201\", function () {",
-							"    pm.response.to.have.status(201);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic QUFJOkFBSQ=="
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n\"service-id\": \"{{auto_service_invariantUUID}}\",\r\n\"service-description\": \"{{service}}\"\r\n}"
-				},
-				"url": {
-					"raw": "{{url-aai}}/aai/v16/service-design-and-creation/services/service/{{auto_service_invariantUUID}}",
-					"host": [
-						"{{url-aai}}"
-					],
-					"path": [
-						"aai",
-						"v16",
-						"service-design-and-creation",
-						"services",
-						"service",
-						"{{auto_service_invariantUUID}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Check Subscription creation in AAI",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "ddb1ab24-cbf4-4d50-a237-614143e66a66",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"var jsonData = pm.response.json();",
-							"var service_found = false;",
-							"for (var i = 0; i < jsonData.service.length; i++) { ",
-							"   if (jsonData.service[i][\"service-description\"] === pm.environment.get(\"service\")) {",
-							"       service_found = true;",
-							"       pm.environment.set(\"auto_service_resource_version\", \"\"+jsonData.service[i][\"resource-version\"]+\"\");",
-							"   }",
-							"}",
-							"tests[\"Service subscription : \"+pm.environment.get(\"service\")+\" found in AAI\"] = service_found === true;"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "get_aai_subscr"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic QUFJOkFBSQ=="
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-aai}}/aai/v16/service-design-and-creation/services",
-					"host": [
-						"{{url-aai}}"
-					],
-					"path": [
-						"aai",
-						"v16",
-						"service-design-and-creation",
-						"services"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "check complex exists",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "12df16bd-e361-45ec-8663-b8a404bb13ce",
-						"exec": [
-							"var complex_found = false;",
-							"if (pm.response.code === 404) {",
-							"    tests[pm.environment.get(\"complex_name\")+\" does not exists in AAI\"] = true;",
-							"}",
-							"else {",
-							"    if (pm.response.code === 200) {",
-							"        tests[\"Status code is 200\"] = pm.response.code === 200;",
-							"        }",
-							"var jsonData = pm.response.json();",
-							"for (var i = 0; i < jsonData[\"complex\"].length; i++) { ",
-							"   if (jsonData[\"complex\"][i][\"complex-name\"] === pm.environment.get(\"complex_name\")) {",
-							"       complex_found = true;",
-							"   }",
-							"}",
-							"",
-							"if (complex_found === false) {",
-							"    tests[pm.environment.get(\"complex_name\")+\" does not exist yet\"] = true;",
-							"}",
-							"else {",
-							"    tests[pm.environment.get(\"complex_name\")+\" already exists, we skip creation\"] = true;",
-							"    postman.setNextRequest(\"check cloud-region exists\");",
-							"}",
-							"}"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic QUFJOkFBSQ=="
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-aai}}/aai/v16/cloud-infrastructure/complexes",
-					"host": [
-						"{{url-aai}}"
-					],
-					"path": [
-						"aai",
-						"v16",
-						"cloud-infrastructure",
-						"complexes"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "create Complex",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "c6021ddb-13b1-472b-acdd-55c4f550461f",
-						"exec": [
-							"pm.test(\"Status code is 201\", function () {",
-							"    pm.response.to.have.status(201);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic QUFJOkFBSQ=="
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"physical-location-id\": \"{{complex_name}}\",\n    \"data-center-code\": \"\",\n    \"complex-name\": \"{{complex_name}}\",\n    \"identity-url\": \"\",\n    \"physical-location-type\": \"\",\n    \"street1\": \"\",\n    \"street2\": \"\",\n    \"city\": \"\",\n    \"state\": \"\",\n    \"postal-code\": \"\",\n    \"country\": \"\",\n    \"region\": \"\",\n    \"latitude\": \"\",\n    \"longitude\": \"\",\n    \"elevation\": \"\",\n    \"lata\": \"\"\n}"
-				},
-				"url": {
-					"raw": "{{url-aai}}/aai/v16/cloud-infrastructure/complexes/complex/{{complex_name}}",
-					"host": [
-						"{{url-aai}}"
-					],
-					"path": [
-						"aai",
-						"v16",
-						"cloud-infrastructure",
-						"complexes",
-						"complex",
-						"{{complex_name}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Check complex creation",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "eed67b4e-d3b5-4ba7-a254-6e8d44e10be0",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"var jsonData = pm.response.json();",
-							"var complex_found = false;",
-							"for (var i = 0; i < jsonData[\"complex\"].length; i++) { ",
-							"   if (jsonData[\"complex\"][i][\"complex-name\"] === pm.environment.get(\"complex_name\")) {",
-							"       complex_found = true;",
-							"   }",
-							"}",
-							"tests[\"Complex : \"+pm.environment.get(\"complex_name\")+\" found\"] = complex_found === true;",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic QUFJOkFBSQ=="
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-aai}}/aai/v16/cloud-infrastructure/complexes",
-					"host": [
-						"{{url-aai}}"
-					],
-					"path": [
-						"aai",
-						"v16",
-						"cloud-infrastructure",
-						"complexes"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "check cloud-region exists",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "705695aa-21b8-4b3f-9e00-4f46178f37d0",
-						"exec": [
-							"var region_found = false;",
-							"if (pm.response.code === 404) {",
-							"    tests[pm.environment.get(\"onap_cloud_region_id\")+\" does not exists in AAI\"] = true;",
-							"}",
-							"else {",
-							"    if (pm.response.code === 200) {",
-							"        tests[\"Status code is 200\"] = pm.response.code === 200;",
-							"        }",
-							"var jsonData = pm.response.json();",
-							"for (var i = 0; i < jsonData[\"cloud-region\"].length; i++) { ",
-							"   if ((jsonData[\"cloud-region\"][i][\"cloud-region-id\"] === pm.environment.get(\"onap_cloud_region_id\")) && (jsonData[\"cloud-region\"][i][\"cloud-owner\"] === pm.environment.get(\"cloud_owner_name\"))) {",
-							"       region_found = true;",
-							"   }",
-							"}",
-							"",
-							"if (region_found === false) {",
-							"    tests[pm.environment.get(\"onap_cloud_region_id\")+\" does not exist yet for cloudOwner \"+pm.environment.get(\"cloud_owner_name\")] = true;",
-							"}",
-							"else {",
-							"    tests[pm.environment.get(\"onap_cloud_region_id\")+\" already exists, we skip creation\"] = true;",
-							"    postman.setNextRequest(\"check tenant in cloud region\");",
-							"}",
-							"}"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic QUFJOkFBSQ=="
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-aai}}/aai/v16/cloud-infrastructure/cloud-regions",
-					"host": [
-						"{{url-aai}}"
-					],
-					"path": [
-						"aai",
-						"v16",
-						"cloud-infrastructure",
-						"cloud-regions"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "create cloud-region",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "41f77bea-f6cd-4bd9-961d-b02f42751db0",
-						"exec": [
-							"pm.test(\"Status code is 201\", function () {",
-							"    pm.response.to.have.status(201);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic QUFJOkFBSQ=="
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"cloud-owner\": \"{{cloud_owner_name}}\",\r\n    \"cloud-region-id\": \"{{onap_cloud_region_id}}\",\r\n    \"cloud-type\": \"{{cloud_type}}\",\r\n    \"owner-defined-type\": \"\",\r\n    \"cloud-region-version\": \"{{cloud_region_version}}\",\r\n    \"cloud-zone\": \"\",\r\n    \"complex-name\": \"{{complex_name}}\",\r\n    \"identity-url\": \"WillBeUpdatedByMultiCloud\",\r\n    \"sriov-automation\": false,\r\n    \"cloud-extra-info\": \"{\\\"openstack-region-id\\\":\\\"{{openstack_region_id}}\\\"}\",\r\n    \"esr-system-info-list\": {\r\n    \t\"esr-system-info\": [\r\n            {\r\n            \"esr-system-info-id\": \"{{random_uuid}}\",\r\n            \"service-url\": \"{{keystone_url}}\",\r\n            \"user-name\": \"{{user_name}}\",\r\n            \"password\": \"{{keystone_password}}\",\r\n            \"system-type\": \"VIM\",\r\n            \"ssl-insecure\": true,\r\n            \"cloud-domain\": \"Default\",\r\n            \"default-tenant\": \"{{tenant_name}}\",\r\n            \"system-status\": \"active\"\r\n            }\r\n        ]\r\n    }\r\n}"
-				},
-				"url": {
-					"raw": "{{url-aai}}/aai/v16/cloud-infrastructure/cloud-regions/cloud-region/{{cloud_owner_name}}/{{onap_cloud_region_id}}",
-					"host": [
-						"{{url-aai}}"
-					],
-					"path": [
-						"aai",
-						"v16",
-						"cloud-infrastructure",
-						"cloud-regions",
-						"cloud-region",
-						"{{cloud_owner_name}}",
-						"{{onap_cloud_region_id}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Check Cloud-region creation",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "a386bb95-c0fa-49b2-9837-efcdc6b40a86",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"var jsonData = pm.response.json();",
-							"var region_found = false;",
-							"for (var i = 0; i < jsonData[\"cloud-region\"].length; i++) { ",
-							"   if (jsonData[\"cloud-region\"][i][\"cloud-region-id\"] === pm.environment.get(\"onap_cloud_region_id\")) {",
-							"       region_found = true;",
-							"   }",
-							"}",
-							"tests[\"Cloud-Region : \"+pm.environment.get(\"onap_cloud_region_id\")+\" found\"] = region_found === true;",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic QUFJOkFBSQ=="
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-aai}}/aai/v16/cloud-infrastructure/cloud-regions",
-					"host": [
-						"{{url-aai}}"
-					],
-					"path": [
-						"aai",
-						"v16",
-						"cloud-infrastructure",
-						"cloud-regions"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "associate Cloud-region to a complex",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "ad16fc86-7954-434f-bc45-25710ebeee57",
-						"exec": [
-							"tests[\"Status code is 200 : cloud-region associated to complex\"] = pm.response.code === 200;",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic QUFJOkFBSQ=="
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"related-to\": \"complex\",\n    \"related-link\": \"/aai/v16/cloud-infrastructure/complexes/complex/{{complex_name}}\",\n    \"relationship-data\": [\n        {\n        \"relationship-key\": \"complex.physical-location-id\",\n        \"relationship-value\": \"{{complex_name}}\"\n        }\n        ]\n    }"
-				},
-				"url": {
-					"raw": "{{url-aai}}/aai/v16/cloud-infrastructure/cloud-regions/cloud-region/{{cloud_owner_name}}/{{onap_cloud_region_id}}/relationship-list/relationship",
-					"host": [
-						"{{url-aai}}"
-					],
-					"path": [
-						"aai",
-						"v16",
-						"cloud-infrastructure",
-						"cloud-regions",
-						"cloud-region",
-						"{{cloud_owner_name}}",
-						"{{onap_cloud_region_id}}",
-						"relationship-list",
-						"relationship"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "check availability-zone in cloud region",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "4367f5c4-0bf0-4e09-bc58-9a8bd6578685",
-						"exec": [
-							"var availability_zone_found = false;",
-							"if (pm.response.code === 404) {",
-							"    tests[pm.environment.get(\"availability_zone_name\")+\" does not exists\"] = true;",
-							"}",
-							"else {",
-							"    if (pm.response.code === 200) {",
-							"        tests[\"Status code is 200\"] = pm.response.code === 200;",
-							"        }",
-							"    var jsonData = pm.response.json();",
-							"    for (var i = 0; i < jsonData[\"availability-zone\"].length; i++) { ",
-							"        if (jsonData[\"availability-zone\"][i][\"availability-zone-name\"] === pm.environment.get(\"availability_zone_name\")) {",
-							"            availability_zone_found = true;",
-							"        }",
-							"    }   ",
-							"    tests[\"Availability Zone : \"+pm.environment.get(\"availability_zone_name\")+\" found\"] = availability_zone_found === true;",
-							"}",
-							"",
-							"",
-							"",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic QUFJOkFBSQ=="
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-aai}}/aai/v16/cloud-infrastructure/cloud-regions/cloud-region/{{cloud_owner_name}}/{{onap_cloud_region_id}}/availability-zones",
-					"host": [
-						"{{url-aai}}"
-					],
-					"path": [
-						"aai",
-						"v16",
-						"cloud-infrastructure",
-						"cloud-regions",
-						"cloud-region",
-						"{{cloud_owner_name}}",
-						"{{onap_cloud_region_id}}",
-						"availability-zones"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Add availability-zone in cloud region",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "4d1eee0e-6afd-44e8-b1cc-269a1249232d",
-						"exec": [
-							"pm.test(\"Status code is 201\", function () {",
-							"    pm.response.to.have.status(201);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic QUFJOkFBSQ=="
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "get_aai_subscr"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"availability-zone-name\": \"{{availability_zone_name}}\",\n    \"hypervisor-type\": \"{{hypervisor_type}}\"\n}"
-				},
-				"url": {
-					"raw": "{{url-aai}}/aai/v16/cloud-infrastructure/cloud-regions/cloud-region/{{cloud_owner_name}}/{{onap_cloud_region_id}}/availability-zones/availability-zone/{{availability_zone_name}}",
-					"host": [
-						"{{url-aai}}"
-					],
-					"path": [
-						"aai",
-						"v16",
-						"cloud-infrastructure",
-						"cloud-regions",
-						"cloud-region",
-						"{{cloud_owner_name}}",
-						"{{onap_cloud_region_id}}",
-						"availability-zones",
-						"availability-zone",
-						"{{availability_zone_name}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "check tenant in cloud region",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "4367f5c4-0bf0-4e09-bc58-9a8bd6578685",
-						"exec": [
-							"var tenant_found = false;",
-							"if (pm.response.code === 404) {",
-							"    tests[pm.environment.get(\"tenant_name\")+\" does not exists in AAI\"] = true;",
-							"}",
-							"else {",
-							"    if (pm.response.code === 200) {",
-							"        tests[\"Status code is 200\"] = pm.response.code === 200;",
-							"        }",
-							"var jsonData = pm.response.json();",
-							"",
-							"if(jsonData.hasOwnProperty('tenant'))",
-							"    {",
-							"    for (var i = 0; i < jsonData.tenant.length; i++) ",
-							"        { ",
-							"        if (jsonData.tenant[i]['tenant-id'] === pm.environment.get(\"tenant_id\")) ",
-							"            {",
-							"            tenant_found = true;",
-							"            }",
-							"        }",
-							"    if (tenant_found === true) ",
-							"        {",
-							"        tests[pm.environment.get(\"tenant_name\")+\" already exists, we skip creation\"] = true;",
-							"        postman.setNextRequest(\"check customer-service-tenant relations\");",
-							"        }",
-							"",
-							"if (tenant_found === false)",
-							"    {",
-							"    tests[pm.environment.get(\"tenant_name\")+\" does not exists\"] = true;",
-							"    }",
-							"}",
-							"}"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic QUFJOkFBSQ=="
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-aai}}/aai/v16/cloud-infrastructure/cloud-regions/cloud-region/{{cloud_owner_name}}/{{onap_cloud_region_id}}/tenants",
-					"host": [
-						"{{url-aai}}"
-					],
-					"path": [
-						"aai",
-						"v16",
-						"cloud-infrastructure",
-						"cloud-regions",
-						"cloud-region",
-						"{{cloud_owner_name}}",
-						"{{onap_cloud_region_id}}",
-						"tenants"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "add tenant to region",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "4d1eee0e-6afd-44e8-b1cc-269a1249232d",
-						"exec": [
-							"pm.test(\"Status code is 201\", function () {",
-							"    pm.response.to.have.status(201);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic QUFJOkFBSQ=="
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "get_aai_subscr"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"tenant-id\": \"{{tenant_id}}\",\n    \"tenant-name\": \"{{tenant_name}}\"\n}"
-				},
-				"url": {
-					"raw": "{{url-aai}}/aai/v16/cloud-infrastructure/cloud-regions/cloud-region/{{cloud_owner_name}}/{{onap_cloud_region_id}}/tenants/tenant/{{tenant_id}}",
-					"host": [
-						"{{url-aai}}"
-					],
-					"path": [
-						"aai",
-						"v16",
-						"cloud-infrastructure",
-						"cloud-regions",
-						"cloud-region",
-						"{{cloud_owner_name}}",
-						"{{onap_cloud_region_id}}",
-						"tenants",
-						"tenant",
-						"{{tenant_id}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "check tenant creation",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "716f0a8a-37b3-412f-8d7b-acef34597bee",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"var jsonData = pm.response.json();",
-							"var tenant_found = false;",
-							"for (var i = 0; i < jsonData.tenant.length; i++) { ",
-							"   if (jsonData.tenant[i][\"tenant-id\"] === pm.environment.get(\"tenant_id\")) {",
-							"       tenant_found = true;",
-							"   }",
-							"}",
-							"tests[pm.environment.get(\"tenant_name\")+\" found\"] = tenant_found === true;",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic QUFJOkFBSQ=="
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-aai}}/aai/v16/cloud-infrastructure/cloud-regions/cloud-region/{{cloud_owner_name}}/{{onap_cloud_region_id}}/tenants",
-					"host": [
-						"{{url-aai}}"
-					],
-					"path": [
-						"aai",
-						"v16",
-						"cloud-infrastructure",
-						"cloud-regions",
-						"cloud-region",
-						"{{cloud_owner_name}}",
-						"{{onap_cloud_region_id}}",
-						"tenants"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "check customer-service-tenant relations",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "587ed4e3-e181-49c1-9f21-08d366a52587",
-						"exec": [
-							"var relation_found = false;",
-							"if (pm.response.code === 404) {",
-							"    tests[pm.environment.get(\"tenant_name\")+\" / \"+pm.environment.get(\"service\")+ \" relation does not exists\"] = true;",
-							"}",
-							"else {",
-							"    if (pm.response.code === 200) {",
-							"        tests[\"Status code is 200\"] = pm.response.code === 200;",
-							"        }",
-							"",
-							"var jsonData = pm.response.json();",
-							"for (var i = 0; i < jsonData[\"service-subscription\"].length; i++) { ",
-							"   if (jsonData[\"service-subscription\"][i][\"service-type\"] === pm.environment.get(\"service\")) {",
-							"       relation_found = true;",
-							"   }",
-							"}",
-							"",
-							"if (relation_found === false) {",
-							"    tests[pm.environment.get(\"tenant_name\")+\" / \"+pm.environment.get(\"service\")+ \" relation does not exists\"] = true;",
-							"}",
-							"",
-							"else {",
-							"    tests[pm.environment.get(\"tenant_name\")+\" / \"+pm.environment.get(\"service\")+ \" already exists, we skip relation creation\"] = true;",
-							"    postman.setNextRequest(\"check customer-service-tenant relation creation\");",
-							"}",
-							"}"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic QUFJOkFBSQ=="
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-aai}}/aai/v16/business/customers/customer/{{customer_name}}/service-subscriptions?depth=all",
-					"host": [
-						"{{url-aai}}"
-					],
-					"path": [
-						"aai",
-						"v16",
-						"business",
-						"customers",
-						"customer",
-						"{{customer_name}}",
-						"service-subscriptions"
-					],
-					"query": [
-						{
-							"key": "depth",
-							"value": "all"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Add service to customer",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "9a9da50d-49ce-4f9e-ae18-6131dce516eb",
-						"exec": [
-							"pm.test(\"Status code is 201\", function () {",
-							"    pm.response.to.have.status(201);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic QUFJOkFBSQ=="
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"service-id\": \"{{auto_service_id}}\"\n}"
-				},
-				"url": {
-					"raw": "{{url-aai}}/aai/v16/business/customers/customer/{{customer_name}}/service-subscriptions/service-subscription/{{service}}",
-					"host": [
-						"{{url-aai}}"
-					],
-					"path": [
-						"aai",
-						"v16",
-						"business",
-						"customers",
-						"customer",
-						"{{customer_name}}",
-						"service-subscriptions",
-						"service-subscription",
-						"{{service}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Add tenant to service-customer",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "9a9da50d-49ce-4f9e-ae18-6131dce516eb",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(201);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic QUFJOkFBSQ=="
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"related-to\": \"tenant\",\n    \"related-link\": \"/aai/v16/cloud-infrastructure/cloud-regions/cloud-region/{{cloud_owner_name}}/{{onap_cloud_region_id}}/tenants/tenant/{{tenant_id}}\",\n    \"relationship-data\": [\n        {\n            \"relationship-key\": \"cloud-region.cloud-owner\",\n            \"relationship-value\": \"{{cloud_owner_name}}\"\n        },\n        {\n            \"relationship-key\": \"cloud-region.cloud-region-id\",\n            \"relationship-value\": \"{{onap_cloud_region_id}}\"\n        },\n        {\n            \"relationship-key\": \"tenant.tenant-id\",\n            \"relationship-value\": \"{{tenant_id}}\"\n        }\n    ],\n    \"related-to-property\": [\n        {\n            \"property-key\": \"tenant.tenant-name\",\n            \"property-value\": \"{{tenant_name}}\"\n        }\n    ]\n}"
-				},
-				"url": {
-					"raw": "{{url-aai}}/aai/v16/business/customers/customer/{{customer_name}}/service-subscriptions/service-subscription/{{service}}/relationship-list/relationship",
-					"host": [
-						"{{url-aai}}"
-					],
-					"path": [
-						"aai",
-						"v16",
-						"business",
-						"customers",
-						"customer",
-						"{{customer_name}}",
-						"service-subscriptions",
-						"service-subscription",
-						"{{service}}",
-						"relationship-list",
-						"relationship"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "check customer-service-tenant relation creation",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "10e61ec5-243b-4ce6-b9b8-a29054df2504",
-						"exec": [
-							"tests[\"Status code is 200\"] = responseCode.code === 200;",
-							"",
-							"var jsonData = pm.response.json();",
-							"var service_found = false;",
-							"for (var i = 0; i < jsonData[\"service-subscription\"].length; i++) { ",
-							"   if (jsonData[\"service-subscription\"][i][\"service-type\"] === pm.environment.get(\"service\")) {",
-							"       service_found = true;",
-							"   }",
-							"}",
-							"tests[\"Service subscription : \"+pm.environment.get(\"service\")+\" found for customer : \"+pm.environment.get(\"customer_name\")] = service_found === true;",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic QUFJOkFBSQ=="
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-aai}}/aai/v16/business/customers/customer/{{customer_name}}/service-subscriptions?depth=all",
-					"host": [
-						"{{url-aai}}"
-					],
-					"path": [
-						"aai",
-						"v16",
-						"business",
-						"customers",
-						"customer",
-						"{{customer_name}}",
-						"service-subscriptions"
-					],
-					"query": [
-						{
-							"key": "depth",
-							"value": "all"
-						}
-					]
-				}
-			},
-			"response": []
-		}
-	]
+  "info": {
+    "_postman_id": "4e86ffd4-736b-441d-8ff2-56a584a96573",
+    "name": "08_Declare_Customer_Service_Subscription_Cloud",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "List Customers",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "5c0ee107-621b-4b01-9506-cd8628b01179",
+            "exec": [
+              "var customer_found = false;",
+              "if (pm.response.code === 404) {",
+              "    tests[pm.environment.get(\"customer_name\")+\" does not exists\"] = true;",
+              "}",
+              "else {",
+              "    if (pm.response.code === 200) {",
+              "        tests[\"Status code is 200\"] = pm.response.code === 200;",
+              "        }",
+              "    var jsonData = pm.response.json();",
+              "    for (var i = 0; i < jsonData.customer.length; i++) { ",
+              "       if (jsonData.customer[i][\"global-customer-id\"] === pm.environment.get(\"customer_name\")) {",
+              "           customer_found = true;",
+              "           pm.environment.set(\"auto_customer_id\", \"\"+jsonData.customer[i][\"global-customer-id\"]+\"\");",
+              "       }",
+              "    }",
+              "    if (customer_found === false) {",
+              "        tests[pm.environment.get(\"customer_name\")+\" does not exists\"] = true;",
+              "    }",
+              "    ",
+              "    else {",
+              "        tests[pm.environment.get(\"customer_name\")+\" already exists, we skip creation\"] = true;",
+              "        postman.setNextRequest(\"List Services from SDC catalog\");",
+              "    }",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Basic QUFJOkFBSQ=="
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "AAI"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-aai}}/aai/v16/business/customers",
+          "host": [
+            "{{url-aai}}"
+          ],
+          "path": [
+            "aai",
+            "v16",
+            "business",
+            "customers"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Declare a Customer",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "3f8fbd67-36f6-4ae2-a2ab-d23f1f690133",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Basic QUFJOkFBSQ=="
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "AAI"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"global-customer-id\": \"{{customer_name}}\",\n    \"subscriber-name\": \"{{customer_name}}\",\n    \"subscriber-type\": \"INFRA\"\n}"
+        },
+        "url": {
+          "raw": "{{url-aai}}/aai/v16/business/customers/customer/{{customer_name}}",
+          "host": [
+            "{{url-aai}}"
+          ],
+          "path": [
+            "aai",
+            "v16",
+            "business",
+            "customers",
+            "customer",
+            "{{customer_name}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Check customer creation",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "e459dbcf-bf32-4aef-a9b1-5d1adfb525fc",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "var customer_found = false;",
+              "for (var i = 0; i < jsonData.customer.length; i++) { ",
+              "   if (jsonData.customer[i][\"global-customer-id\"] === pm.environment.get(\"customer_name\")) {",
+              "       customer_found = true;",
+              "       pm.environment.set(\"auto_customer_id\", \"\"+jsonData.customer[i][\"global-customer-id\"]+\"\");",
+              "   }",
+              "}",
+              "tests[pm.environment.get(\"customer_name\")+\" found\"] = customer_found === true;"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Basic QUFJOkFBSQ=="
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "AAI"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-aai}}/aai/v16/business/customers",
+          "host": [
+            "{{url-aai}}"
+          ],
+          "path": [
+            "aai",
+            "v16",
+            "business",
+            "customers"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "List Services from SDC catalog",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "a496d4dc-e343-42d4-8377-6d18d3570c82",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "var service_found = false;",
+              "for (var i = 0; i < jsonData.length; i++) { ",
+              "   if (jsonData[i].name === pm.environment.get(\"service\")) {",
+              "       service_found = true;",
+              "       pm.environment.set(\"auto_service_invariantUUID\", \"\"+jsonData[i].invariantUUID+\"\");",
+              "   }",
+              "}",
+              "",
+              "if (service_found === false) {",
+              "    tests[\"Service : \"+pm.environment.get(\"service\")+\" does not exist in SDC catalog, we stop the run\"] = true;",
+              "    postman.setNextRequest(null);",
+              "}",
+              "",
+              "else {",
+              "    tests[\"Service : \"+pm.environment.get(\"service\")+\" exists in SDC catalog, we can continue the run\"] = true;",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "USER_ID",
+            "value": "cs0008"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
+          },
+          {
+            "key": "x-ecomp-instanceid",
+            "value": "ONAP-Test"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-sdc}}/sdc/v1/catalog/services",
+          "host": [
+            "{{url-sdc}}"
+          ],
+          "path": [
+            "sdc",
+            "v1",
+            "catalog",
+            "services"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Check Subscription in AAI",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "654cc91a-920b-4b79-9177-15b622749cb4",
+            "exec": [
+              "var service_found = false;",
+              "if (pm.response.code === 404) {",
+              "    tests[pm.environment.get(\"service\")+\" does not exists in AAI\"] = true;",
+              "}",
+              "else {",
+              "    if (pm.response.code === 200) {",
+              "        tests[\"Status code is 200\"] = pm.response.code === 200;",
+              "        }",
+              "    var jsonData = pm.response.json();",
+              "    for (var i = 0; i < jsonData.service.length; i++) { ",
+              "       if (jsonData.service[i][\"service-description\"] === pm.environment.get(\"service\")) {",
+              "           service_found = true;",
+              "       }",
+              "    }",
+              "    ",
+              "    if (service_found === false) {",
+              "        tests[\"Service subscription : \"+pm.environment.get(\"service\")+\" does not exists in AAI\"] = true;",
+              "    }",
+              "    ",
+              "    else {",
+              "        tests[\"Service subscription : \"+pm.environment.get(\"service\")+\" already exists in AAI, we skip creation\"] = true;",
+              "        postman.setNextRequest(\"check cloud-region exists\");",
+              "    }",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "AAI"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "get_aai_subscr"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic QUFJOkFBSQ=="
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-aai}}/aai/v16/service-design-and-creation/services",
+          "host": [
+            "{{url-aai}}"
+          ],
+          "path": [
+            "aai",
+            "v16",
+            "service-design-and-creation",
+            "services"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Declare subscription in AAI",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "c82062d1-c394-47d8-ab3d-14f777c32971",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Basic QUFJOkFBSQ=="
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "AAI"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\"service-id\": \"{{auto_service_invariantUUID}}\",\r\n\"service-description\": \"{{service}}\"\r\n}"
+        },
+        "url": {
+          "raw": "{{url-aai}}/aai/v16/service-design-and-creation/services/service/{{auto_service_invariantUUID}}",
+          "host": [
+            "{{url-aai}}"
+          ],
+          "path": [
+            "aai",
+            "v16",
+            "service-design-and-creation",
+            "services",
+            "service",
+            "{{auto_service_invariantUUID}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Check Subscription creation in AAI",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "ddb1ab24-cbf4-4d50-a237-614143e66a66",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "var jsonData = pm.response.json();",
+              "var service_found = false;",
+              "for (var i = 0; i < jsonData.service.length; i++) { ",
+              "   if (jsonData.service[i][\"service-description\"] === pm.environment.get(\"service\")) {",
+              "       service_found = true;",
+              "       pm.environment.set(\"auto_service_resource_version\", \"\"+jsonData.service[i][\"resource-version\"]+\"\");",
+              "   }",
+              "}",
+              "tests[\"Service subscription : \"+pm.environment.get(\"service\")+\" found in AAI\"] = service_found === true;"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "AAI"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "get_aai_subscr"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic QUFJOkFBSQ=="
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-aai}}/aai/v16/service-design-and-creation/services",
+          "host": [
+            "{{url-aai}}"
+          ],
+          "path": [
+            "aai",
+            "v16",
+            "service-design-and-creation",
+            "services"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "check complex exists",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "12df16bd-e361-45ec-8663-b8a404bb13ce",
+            "exec": [
+              "var complex_found = false;",
+              "if (pm.response.code === 404) {",
+              "    tests[pm.environment.get(\"complex_name\")+\" does not exists in AAI\"] = true;",
+              "}",
+              "else {",
+              "    if (pm.response.code === 200) {",
+              "        tests[\"Status code is 200\"] = pm.response.code === 200;",
+              "        }",
+              "var jsonData = pm.response.json();",
+              "for (var i = 0; i < jsonData[\"complex\"].length; i++) { ",
+              "   if (jsonData[\"complex\"][i][\"complex-name\"] === pm.environment.get(\"complex_name\")) {",
+              "       complex_found = true;",
+              "   }",
+              "}",
+              "",
+              "if (complex_found === false) {",
+              "    tests[pm.environment.get(\"complex_name\")+\" does not exist yet\"] = true;",
+              "}",
+              "else {",
+              "    tests[pm.environment.get(\"complex_name\")+\" already exists, we skip creation\"] = true;",
+              "    postman.setNextRequest(\"check cloud-region exists\");",
+              "}",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Basic QUFJOkFBSQ=="
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "AAI"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-aai}}/aai/v16/cloud-infrastructure/complexes",
+          "host": [
+            "{{url-aai}}"
+          ],
+          "path": [
+            "aai",
+            "v16",
+            "cloud-infrastructure",
+            "complexes"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "create Complex",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "c6021ddb-13b1-472b-acdd-55c4f550461f",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Basic QUFJOkFBSQ=="
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "AAI"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"physical-location-id\": \"{{complex_name}}\",\n    \"data-center-code\": \"\",\n    \"complex-name\": \"{{complex_name}}\",\n    \"identity-url\": \"\",\n    \"physical-location-type\": \"\",\n    \"street1\": \"\",\n    \"street2\": \"\",\n    \"city\": \"\",\n    \"state\": \"\",\n    \"postal-code\": \"\",\n    \"country\": \"\",\n    \"region\": \"\",\n    \"latitude\": \"\",\n    \"longitude\": \"\",\n    \"elevation\": \"\",\n    \"lata\": \"\"\n}"
+        },
+        "url": {
+          "raw": "{{url-aai}}/aai/v16/cloud-infrastructure/complexes/complex/{{complex_name}}",
+          "host": [
+            "{{url-aai}}"
+          ],
+          "path": [
+            "aai",
+            "v16",
+            "cloud-infrastructure",
+            "complexes",
+            "complex",
+            "{{complex_name}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Check complex creation",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "eed67b4e-d3b5-4ba7-a254-6e8d44e10be0",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "var complex_found = false;",
+              "for (var i = 0; i < jsonData[\"complex\"].length; i++) { ",
+              "   if (jsonData[\"complex\"][i][\"complex-name\"] === pm.environment.get(\"complex_name\")) {",
+              "       complex_found = true;",
+              "   }",
+              "}",
+              "tests[\"Complex : \"+pm.environment.get(\"complex_name\")+\" found\"] = complex_found === true;",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Basic QUFJOkFBSQ=="
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "AAI"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-aai}}/aai/v16/cloud-infrastructure/complexes",
+          "host": [
+            "{{url-aai}}"
+          ],
+          "path": [
+            "aai",
+            "v16",
+            "cloud-infrastructure",
+            "complexes"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "check cloud-region exists",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "705695aa-21b8-4b3f-9e00-4f46178f37d0",
+            "exec": [
+              "var region_found = false;",
+              "if (pm.response.code === 404) {",
+              "    tests[pm.environment.get(\"onap_cloud_region_id\")+\" does not exists in AAI\"] = true;",
+              "}",
+              "else {",
+              "    if (pm.response.code === 200) {",
+              "        tests[\"Status code is 200\"] = pm.response.code === 200;",
+              "        }",
+              "var jsonData = pm.response.json();",
+              "for (var i = 0; i < jsonData[\"cloud-region\"].length; i++) { ",
+              "   if ((jsonData[\"cloud-region\"][i][\"cloud-region-id\"] === pm.environment.get(\"onap_cloud_region_id\")) && (jsonData[\"cloud-region\"][i][\"cloud-owner\"] === pm.environment.get(\"cloud_owner_name\"))) {",
+              "       region_found = true;",
+              "   }",
+              "}",
+              "",
+              "if (region_found === false) {",
+              "    tests[pm.environment.get(\"onap_cloud_region_id\")+\" does not exist yet for cloudOwner \"+pm.environment.get(\"cloud_owner_name\")] = true;",
+              "}",
+              "else {",
+              "    tests[pm.environment.get(\"onap_cloud_region_id\")+\" already exists, we skip creation\"] = true;",
+              "    postman.setNextRequest(\"check tenant in cloud region\");",
+              "}",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Basic QUFJOkFBSQ=="
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "AAI"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-aai}}/aai/v16/cloud-infrastructure/cloud-regions",
+          "host": [
+            "{{url-aai}}"
+          ],
+          "path": [
+            "aai",
+            "v16",
+            "cloud-infrastructure",
+            "cloud-regions"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "create cloud-region",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "41f77bea-f6cd-4bd9-961d-b02f42751db0",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Basic QUFJOkFBSQ=="
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "AAI"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"cloud-owner\": \"{{cloud_owner_name}}\",\r\n    \"cloud-region-id\": \"{{onap_cloud_region_id}}\",\r\n    \"cloud-type\": \"{{cloud_type}}\",\r\n    \"owner-defined-type\": \"\",\r\n    \"cloud-region-version\": \"{{cloud_region_version}}\",\r\n    \"cloud-zone\": \"\",\r\n    \"complex-name\": \"{{complex_name}}\",\r\n    \"identity-url\": \"WillBeUpdatedByMultiCloud\",\r\n    \"sriov-automation\": false,\r\n    \"cloud-extra-info\": \"{\\\"openstack-region-id\\\":\\\"{{openstack_region_id}}\\\"}\",\r\n    \"esr-system-info-list\": {\r\n    \t\"esr-system-info\": [\r\n            {\r\n            \"esr-system-info-id\": \"{{random_uuid}}\",\r\n            \"service-url\": \"{{keystone_url}}\",\r\n            \"user-name\": \"{{user_name}}\",\r\n            \"password\": \"{{keystone_password}}\",\r\n            \"system-type\": \"VIM\",\r\n            \"ssl-insecure\": true,\r\n            \"cloud-domain\": \"Default\",\r\n            \"default-tenant\": \"{{tenant_name}}\",\r\n            \"system-status\": \"active\"\r\n            }\r\n        ]\r\n    }\r\n}"
+        },
+        "url": {
+          "raw": "{{url-aai}}/aai/v16/cloud-infrastructure/cloud-regions/cloud-region/{{cloud_owner_name}}/{{onap_cloud_region_id}}",
+          "host": [
+            "{{url-aai}}"
+          ],
+          "path": [
+            "aai",
+            "v16",
+            "cloud-infrastructure",
+            "cloud-regions",
+            "cloud-region",
+            "{{cloud_owner_name}}",
+            "{{onap_cloud_region_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Check Cloud-region creation",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "a386bb95-c0fa-49b2-9837-efcdc6b40a86",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "var jsonData = pm.response.json();",
+              "var region_found = false;",
+              "for (var i = 0; i < jsonData[\"cloud-region\"].length; i++) { ",
+              "   if (jsonData[\"cloud-region\"][i][\"cloud-region-id\"] === pm.environment.get(\"onap_cloud_region_id\")) {",
+              "       region_found = true;",
+              "   }",
+              "}",
+              "tests[\"Cloud-Region : \"+pm.environment.get(\"onap_cloud_region_id\")+\" found\"] = region_found === true;",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Basic QUFJOkFBSQ=="
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "AAI"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-aai}}/aai/v16/cloud-infrastructure/cloud-regions",
+          "host": [
+            "{{url-aai}}"
+          ],
+          "path": [
+            "aai",
+            "v16",
+            "cloud-infrastructure",
+            "cloud-regions"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "associate Cloud-region to a complex",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "ad16fc86-7954-434f-bc45-25710ebeee57",
+            "exec": [
+              "tests[\"Status code is 200 : cloud-region associated to complex\"] = pm.response.code === 200;",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Basic QUFJOkFBSQ=="
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "AAI"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"related-to\": \"complex\",\n    \"related-link\": \"/aai/v16/cloud-infrastructure/complexes/complex/{{complex_name}}\",\n    \"relationship-data\": [\n        {\n        \"relationship-key\": \"complex.physical-location-id\",\n        \"relationship-value\": \"{{complex_name}}\"\n        }\n        ]\n    }"
+        },
+        "url": {
+          "raw": "{{url-aai}}/aai/v16/cloud-infrastructure/cloud-regions/cloud-region/{{cloud_owner_name}}/{{onap_cloud_region_id}}/relationship-list/relationship",
+          "host": [
+            "{{url-aai}}"
+          ],
+          "path": [
+            "aai",
+            "v16",
+            "cloud-infrastructure",
+            "cloud-regions",
+            "cloud-region",
+            "{{cloud_owner_name}}",
+            "{{onap_cloud_region_id}}",
+            "relationship-list",
+            "relationship"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "check availability-zone in cloud region",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "4367f5c4-0bf0-4e09-bc58-9a8bd6578685",
+            "exec": [
+              "var availability_zone_found = false;",
+              "if (pm.response.code === 404) {",
+              "    tests[pm.environment.get(\"availability_zone_name\")+\" does not exists\"] = true;",
+              "}",
+              "else {",
+              "    if (pm.response.code === 200) {",
+              "        tests[\"Status code is 200\"] = pm.response.code === 200;",
+              "        }",
+              "    var jsonData = pm.response.json();",
+              "    for (var i = 0; i < jsonData[\"availability-zone\"].length; i++) { ",
+              "        if (jsonData[\"availability-zone\"][i][\"availability-zone-name\"] === pm.environment.get(\"availability_zone_name\")) {",
+              "            availability_zone_found = true;",
+              "        }",
+              "    }   ",
+              "    tests[\"Availability Zone : \"+pm.environment.get(\"availability_zone_name\")+\" found\"] = availability_zone_found === true;",
+              "}",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Basic QUFJOkFBSQ=="
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "AAI"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-aai}}/aai/v16/cloud-infrastructure/cloud-regions/cloud-region/{{cloud_owner_name}}/{{onap_cloud_region_id}}/availability-zones",
+          "host": [
+            "{{url-aai}}"
+          ],
+          "path": [
+            "aai",
+            "v16",
+            "cloud-infrastructure",
+            "cloud-regions",
+            "cloud-region",
+            "{{cloud_owner_name}}",
+            "{{onap_cloud_region_id}}",
+            "availability-zones"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Add availability-zone in cloud region",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "4d1eee0e-6afd-44e8-b1cc-269a1249232d",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Basic QUFJOkFBSQ=="
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "AAI"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "get_aai_subscr"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"availability-zone-name\": \"{{availability_zone_name}}\",\n    \"hypervisor-type\": \"{{hypervisor_type}}\"\n}"
+        },
+        "url": {
+          "raw": "{{url-aai}}/aai/v16/cloud-infrastructure/cloud-regions/cloud-region/{{cloud_owner_name}}/{{onap_cloud_region_id}}/availability-zones/availability-zone/{{availability_zone_name}}",
+          "host": [
+            "{{url-aai}}"
+          ],
+          "path": [
+            "aai",
+            "v16",
+            "cloud-infrastructure",
+            "cloud-regions",
+            "cloud-region",
+            "{{cloud_owner_name}}",
+            "{{onap_cloud_region_id}}",
+            "availability-zones",
+            "availability-zone",
+            "{{availability_zone_name}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "check tenant in cloud region",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "4367f5c4-0bf0-4e09-bc58-9a8bd6578685",
+            "exec": [
+              "var tenant_found = false;",
+              "if (pm.response.code === 404) {",
+              "    tests[pm.environment.get(\"tenant_name\")+\" does not exists in AAI\"] = true;",
+              "}",
+              "else {",
+              "    if (pm.response.code === 200) {",
+              "        tests[\"Status code is 200\"] = pm.response.code === 200;",
+              "        }",
+              "var jsonData = pm.response.json();",
+              "",
+              "if(jsonData.hasOwnProperty('tenant'))",
+              "    {",
+              "    for (var i = 0; i < jsonData.tenant.length; i++) ",
+              "        { ",
+              "        if (jsonData.tenant[i]['tenant-id'] === pm.environment.get(\"tenant_id\")) ",
+              "            {",
+              "            tenant_found = true;",
+              "            }",
+              "        }",
+              "    if (tenant_found === true) ",
+              "        {",
+              "        tests[pm.environment.get(\"tenant_name\")+\" already exists, we skip creation\"] = true;",
+              "        postman.setNextRequest(\"check customer-service-tenant relations\");",
+              "        }",
+              "",
+              "if (tenant_found === false)",
+              "    {",
+              "    tests[pm.environment.get(\"tenant_name\")+\" does not exists\"] = true;",
+              "    }",
+              "}",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Basic QUFJOkFBSQ=="
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "AAI"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-aai}}/aai/v16/cloud-infrastructure/cloud-regions/cloud-region/{{cloud_owner_name}}/{{onap_cloud_region_id}}/tenants",
+          "host": [
+            "{{url-aai}}"
+          ],
+          "path": [
+            "aai",
+            "v16",
+            "cloud-infrastructure",
+            "cloud-regions",
+            "cloud-region",
+            "{{cloud_owner_name}}",
+            "{{onap_cloud_region_id}}",
+            "tenants"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "add tenant to region",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "4d1eee0e-6afd-44e8-b1cc-269a1249232d",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Basic QUFJOkFBSQ=="
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "AAI"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "get_aai_subscr"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"tenant-id\": \"{{tenant_id}}\",\n    \"tenant-name\": \"{{tenant_name}}\"\n}"
+        },
+        "url": {
+          "raw": "{{url-aai}}/aai/v16/cloud-infrastructure/cloud-regions/cloud-region/{{cloud_owner_name}}/{{onap_cloud_region_id}}/tenants/tenant/{{tenant_id}}",
+          "host": [
+            "{{url-aai}}"
+          ],
+          "path": [
+            "aai",
+            "v16",
+            "cloud-infrastructure",
+            "cloud-regions",
+            "cloud-region",
+            "{{cloud_owner_name}}",
+            "{{onap_cloud_region_id}}",
+            "tenants",
+            "tenant",
+            "{{tenant_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "check tenant creation",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "716f0a8a-37b3-412f-8d7b-acef34597bee",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "var jsonData = pm.response.json();",
+              "var tenant_found = false;",
+              "for (var i = 0; i < jsonData.tenant.length; i++) { ",
+              "   if (jsonData.tenant[i][\"tenant-id\"] === pm.environment.get(\"tenant_id\")) {",
+              "       tenant_found = true;",
+              "   }",
+              "}",
+              "tests[pm.environment.get(\"tenant_name\")+\" found\"] = tenant_found === true;",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Basic QUFJOkFBSQ=="
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "AAI"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-aai}}/aai/v16/cloud-infrastructure/cloud-regions/cloud-region/{{cloud_owner_name}}/{{onap_cloud_region_id}}/tenants",
+          "host": [
+            "{{url-aai}}"
+          ],
+          "path": [
+            "aai",
+            "v16",
+            "cloud-infrastructure",
+            "cloud-regions",
+            "cloud-region",
+            "{{cloud_owner_name}}",
+            "{{onap_cloud_region_id}}",
+            "tenants"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "check customer-service-tenant relations",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "587ed4e3-e181-49c1-9f21-08d366a52587",
+            "exec": [
+              "var relation_found = false;",
+              "if (pm.response.code === 404) {",
+              "    tests[pm.environment.get(\"tenant_name\")+\" / \"+pm.environment.get(\"service\")+ \" relation does not exists\"] = true;",
+              "}",
+              "else {",
+              "    if (pm.response.code === 200) {",
+              "        tests[\"Status code is 200\"] = pm.response.code === 200;",
+              "        }",
+              "",
+              "var jsonData = pm.response.json();",
+              "for (var i = 0; i < jsonData[\"service-subscription\"].length; i++) { ",
+              "   if (jsonData[\"service-subscription\"][i][\"service-type\"] === pm.environment.get(\"service\")) {",
+              "       relation_found = true;",
+              "   }",
+              "}",
+              "",
+              "if (relation_found === false) {",
+              "    tests[pm.environment.get(\"tenant_name\")+\" / \"+pm.environment.get(\"service\")+ \" relation does not exists\"] = true;",
+              "}",
+              "",
+              "else {",
+              "    tests[pm.environment.get(\"tenant_name\")+\" / \"+pm.environment.get(\"service\")+ \" already exists, we skip relation creation\"] = true;",
+              "    postman.setNextRequest(\"check customer-service-tenant relation creation\");",
+              "}",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Basic QUFJOkFBSQ=="
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "AAI"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-aai}}/aai/v16/business/customers/customer/{{customer_name}}/service-subscriptions?depth=all",
+          "host": [
+            "{{url-aai}}"
+          ],
+          "path": [
+            "aai",
+            "v16",
+            "business",
+            "customers",
+            "customer",
+            "{{customer_name}}",
+            "service-subscriptions"
+          ],
+          "query": [
+            {
+              "key": "depth",
+              "value": "all"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Add service to customer",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "9a9da50d-49ce-4f9e-ae18-6131dce516eb",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Basic QUFJOkFBSQ=="
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "AAI"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"service-id\": \"{{auto_service_id}}\"\n}"
+        },
+        "url": {
+          "raw": "{{url-aai}}/aai/v16/business/customers/customer/{{customer_name}}/service-subscriptions/service-subscription/{{service}}",
+          "host": [
+            "{{url-aai}}"
+          ],
+          "path": [
+            "aai",
+            "v16",
+            "business",
+            "customers",
+            "customer",
+            "{{customer_name}}",
+            "service-subscriptions",
+            "service-subscription",
+            "{{service}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Add tenant to service-customer",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "9a9da50d-49ce-4f9e-ae18-6131dce516eb",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Basic QUFJOkFBSQ=="
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "AAI"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"related-to\": \"tenant\",\n    \"related-link\": \"/aai/v16/cloud-infrastructure/cloud-regions/cloud-region/{{cloud_owner_name}}/{{onap_cloud_region_id}}/tenants/tenant/{{tenant_id}}\",\n    \"relationship-data\": [\n        {\n            \"relationship-key\": \"cloud-region.cloud-owner\",\n            \"relationship-value\": \"{{cloud_owner_name}}\"\n        },\n        {\n            \"relationship-key\": \"cloud-region.cloud-region-id\",\n            \"relationship-value\": \"{{onap_cloud_region_id}}\"\n        },\n        {\n            \"relationship-key\": \"tenant.tenant-id\",\n            \"relationship-value\": \"{{tenant_id}}\"\n        }\n    ],\n    \"related-to-property\": [\n        {\n            \"property-key\": \"tenant.tenant-name\",\n            \"property-value\": \"{{tenant_name}}\"\n        }\n    ]\n}"
+        },
+        "url": {
+          "raw": "{{url-aai}}/aai/v16/business/customers/customer/{{customer_name}}/service-subscriptions/service-subscription/{{service}}/relationship-list/relationship",
+          "host": [
+            "{{url-aai}}"
+          ],
+          "path": [
+            "aai",
+            "v16",
+            "business",
+            "customers",
+            "customer",
+            "{{customer_name}}",
+            "service-subscriptions",
+            "service-subscription",
+            "{{service}}",
+            "relationship-list",
+            "relationship"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "check customer-service-tenant relation creation",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "10e61ec5-243b-4ce6-b9b8-a29054df2504",
+            "exec": [
+              "tests[\"Status code is 200\"] = responseCode.code === 200;",
+              "",
+              "var jsonData = pm.response.json();",
+              "var service_found = false;",
+              "for (var i = 0; i < jsonData[\"service-subscription\"].length; i++) { ",
+              "   if (jsonData[\"service-subscription\"][i][\"service-type\"] === pm.environment.get(\"service\")) {",
+              "       service_found = true;",
+              "   }",
+              "}",
+              "tests[\"Service subscription : \"+pm.environment.get(\"service\")+\" found for customer : \"+pm.environment.get(\"customer_name\")] = service_found === true;",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Basic QUFJOkFBSQ=="
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "AAI"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "808b54e3-e563-4144-a1b9-e24e2ed93d4f"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-aai}}/aai/v16/business/customers/customer/{{customer_name}}/service-subscriptions?depth=all",
+          "host": [
+            "{{url-aai}}"
+          ],
+          "path": [
+            "aai",
+            "v16",
+            "business",
+            "customers",
+            "customer",
+            "{{customer_name}}",
+            "service-subscriptions"
+          ],
+          "query": [
+            {
+              "key": "depth",
+              "value": "all"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
 }
