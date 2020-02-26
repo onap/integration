@@ -1,632 +1,632 @@
 {
-	"info": {
-		"_postman_id": "8f0c4ff0-c762-4289-8547-daa0def307c1",
-		"name": "05_Onboard_VF",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "check vf exists and get id",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "a7d64193-edcb-4540-bcac-dde0f33a637f",
-						"exec": [
-							"",
-							"var vf_found = false;",
-							"if (pm.response.code === 404) {",
-							"    tests[pm.environment.get(\"vf_name\")+\" does not exists\"] = true;",
-							"}",
-							"else {",
-							"    if (pm.response.code === 200) {",
-							"        tests[\"Status code is 200\"] = responseCode.code === 200;",
-							"        }",
-							"    var jsonData = pm.response.json();",
-							"    for (var i = 0; i < jsonData.length; i++) { ",
-							"       if (jsonData[i].name === pm.environment.get(\"vf_name\")) {",
-							"           vf_found = true;",
-							"           pm.environment.set(\"auto_vf_uuid\", \"\"+jsonData[i].uuid+\"\");",
-							"           pm.environment.set(\"auto_vf_invariant_uuid\", \"\"+jsonData[i].invariantUUID+\"\");",
-							"       }",
-							"    }",
-							"    if (vf_found === false) {",
-							"        tests[pm.environment.get(\"vf_name\")+\" does not yet exists, we continue the run\"] = true;",
-							"    }",
-							"    ",
-							"    else {",
-							"        tests[pm.environment.get(\"vf_name\")+\" already exists, stop the run\"] = false;",
-							"        postman.setNextRequest(null);",
-							"    }",
-							"}"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "USER_ID",
-						"value": "cs0008"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
-					},
-					{
-						"key": "x-ecomp-instanceid",
-						"value": "ONAP-Test"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-sdc}}/sdc/v1/catalog/resources?resourceType=VF",
-					"host": [
-						"{{url-sdc}}"
-					],
-					"path": [
-						"sdc",
-						"v1",
-						"catalog",
-						"resources"
-					],
-					"query": [
-						{
-							"key": "resourceType",
-							"value": "VF"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "check VSP exists and get infos",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "ff2f00ca-80fc-40d6-b6ec-aac08eb91759",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"var jsonData = pm.response.json();",
-							"var vsp_found = false;",
-							"for (var i = 0; i < jsonData.results.length; i++) { ",
-							"   if (jsonData.results[i].name === pm.environment.get(\"vsp_name\")) {",
-							"       vsp_found = true;",
-							"       pm.environment.set(\"auto_vsp_id\", \"\"+jsonData.results[i].id+\"\");",
-							"",
-							"   }",
-							"}",
-							"if (vsp_found === false) {",
-							"    tests[\"VSP \"+pm.environment.get(\"vsp_name\")+\" does not exists, we stop the run\"] = false;",
-							"    postman.setNextRequest(null);    ",
-							"}",
-							"",
-							"else {",
-							"    tests[\"VSP \"+pm.environment.get(\"vsp_name\")+\" exists, we can continue\"] = true;",
-							"}"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a"
-					},
-					{
-						"key": "USER_ID",
-						"value": "cs0008"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "robot-ete"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/vendor-software-products",
-					"host": [
-						"{{url-sdc2}}"
-					],
-					"path": [
-						"sdc1",
-						"feProxy",
-						"onboarding-api",
-						"v1.0",
-						"vendor-software-products"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get VSP versions",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "f16c158f-aceb-490c-924d-3ea83c2b9431",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"var jsonData = pm.response.json();",
-							"var vsp_found = false;",
-							"for (var i = 0; i < jsonData.results.length; i++) { ",
-							"   if (jsonData.results[i].name === pm.environment.get(\"vsp_name\")) {",
-							"       vsp_found = true;",
-							"       pm.environment.set(\"auto_vsp_version_id\", \"\"+jsonData.results[i].id+\"\");",
-							"       pm.environment.set(\"auto_vsp_version_name\", \"\"+jsonData.results[i].name+\"\");",
-							"   }",
-							"}"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a"
-					},
-					{
-						"key": "USER_ID",
-						"value": "cs0008"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "robot-ete"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/items/{{auto_vsp_id}}/versions",
-					"host": [
-						"{{url-sdc2}}"
-					],
-					"path": [
-						"sdc1",
-						"feProxy",
-						"onboarding-api",
-						"v1.0",
-						"items",
-						"{{auto_vsp_id}}",
-						"versions"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Vendor infos",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "ed512660-e7af-450f-aa7e-b503c7e21a72",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"var jsonData = pm.response.json();",
-							"var vendor_found = false;",
-							"for (var i = 0; i < jsonData.results.length; i++) { ",
-							"   if (jsonData.results[i][\"name\"] === pm.environment.get(\"vendor_name\")) {",
-							"       vendor_found = true;",
-							"       pm.environment.set(\"auto_vendor_id\", \"\"+jsonData.results[i][\"id\"]+\"\");",
-							"   }",
-							"}",
-							"if (vendor_found === false) {",
-							"    tests[pm.environment.get(\"vendor_name\")+\" does not exists : we stop the run\"] = false;",
-							"    postman.setNextRequest(null);",
-							"}",
-							"",
-							"else {",
-							"    tests[pm.environment.get(\"vendor_name\")+\" exists\"] = true;",
-							"}",
-							"",
-							"",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a"
-					},
-					{
-						"key": "USER_ID",
-						"value": "cs0008"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "robot-ete"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/vendor-license-models",
-					"host": [
-						"{{url-sdc2}}"
-					],
-					"path": [
-						"sdc1",
-						"feProxy",
-						"onboarding-api",
-						"v1.0",
-						"vendor-license-models"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Create VF resource",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "78a4913a-db8c-4c41-8fae-28e5bf6d90b4",
-						"exec": [
-							"pm.test(\"Status code is 201\", function () {",
-							"    pm.response.to.have.status(201);",
-							"});",
-							"",
-							"var jsonData = pm.response.json();",
-							"pm.environment.set(\"auto_vf_invariant_uuid\", \"\"+jsonData.invariantUUID+\"\");",
-							"pm.environment.set(\"auto_vf_uuid\", \"\"+jsonData.uuid+\"\");",
-							"pm.environment.set(\"auto_vf_unique_id\", \"\"+jsonData.uniqueId+\"\");",
-							"",
-							"tests[\"VF status is : \"+jsonData.lifecycleState] = jsonData.lifecycleState === \"NOT_CERTIFIED_CHECKOUT\";"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "USER_ID",
-						"value": "cs0008"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
-					},
-					{
-						"key": "x-ecomp-instanceid",
-						"value": "ONAP-Test"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n\t\"artifacts\": {},\r\n\t\"toscaArtifacts\": {},\r\n\t\"contactId\": \"cs0008\",\r\n\t\"categories\": [{\r\n\t\t\"name\": \"Generic\",\r\n\t\t\"normalizedName\": \"generic\",\r\n\t\t\"uniqueId\": \"resourceNewCategory.generic\",\r\n\t\t\"icons\": null,\r\n\t\t\"subcategories\": [{\r\n\t\t\t\"name\": \"Abstract\",\r\n\t\t\t\"normalizedName\": \"abstract\",\r\n\t\t\t\"uniqueId\": \"resourceNewCategory.generic.abstract\",\r\n\t\t\t\"icons\": [\"objectStorage\", \"compute\"],\r\n\t\t\t\"groupings\": null,\r\n\t\t\t\"ownerId\": null,\r\n\t\t\t\"empty\": false\r\n\t\t}],\r\n\t\t\"ownerId\": null,\r\n\t\t\"empty\": false\r\n\t}],\r\n\t\"description\": \"VF named {{vf_name}}\",\r\n\t\"icon\": \"defaulticon\",\r\n\t\"componentInstancesProperties\": {},\r\n\t\"componentInstancesAttributes\": {},\r\n\t\"name\": \"{{vf_name}}\",\r\n\t\"tags\": [\"{{vf_name}}\"],\r\n\t\"capabilities\": {},\r\n\t\"requirements\": {},\r\n\t\"deploymentArtifacts\": {},\r\n\t\"componentType\": \"RESOURCE\",\r\n\t\"vendorName\": \"{{vendor_name}}\",\r\n\t\"vendorRelease\": \"1.0\",\r\n\t\"componentInstances\": [],\r\n\t\"properties\": [],\r\n\t\"attributes\": [],\r\n\t\"groups\": [],\r\n\t\"resourceType\": \"VF\",\r\n\t\"csarUUID\": \"{{auto_vsp_id}}\",\r\n\t\"csarVersion\": \"{{auto_vsp_version_name}}\"\r\n}"
-				},
-				"url": {
-					"raw": "{{url-sdc2}}/sdc1/feProxy/rest/v1/catalog/resources",
-					"host": [
-						"{{url-sdc2}}"
-					],
-					"path": [
-						"sdc1",
-						"feProxy",
-						"rest",
-						"v1",
-						"catalog",
-						"resources"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Checkin VF resource",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"var jsonData = pm.response.json();",
-							"",
-							"tests[\"VF status is : \"+jsonData.lifecycleState] = jsonData.lifecycleState === \"NOT_CERTIFIED_CHECKIN\";"
-						]
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "USER_ID",
-						"value": "cs0008"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "X-ECOMP-InstanceID",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"userRemarks\": \"ONAP-Test checkin\"}"
-				},
-				"url": {
-					"raw": "{{url-sdc}}/sdc/v1/catalog/resources/{{auto_vf_uuid}}/lifecycleState/checkin",
-					"host": [
-						"{{url-sdc}}"
-					],
-					"path": [
-						"sdc",
-						"v1",
-						"catalog",
-						"resources",
-						"{{auto_vf_uuid}}",
-						"lifecycleState",
-						"checkin"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Certify VF resource",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"var jsonData = pm.response.json();",
-							"",
-							"tests[\"VF status is : \"+jsonData.lifecycleState] = jsonData.lifecycleState === \"CERTIFIED\";"
-						]
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "USER_ID",
-						"value": "cs0008"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
-					},
-					{
-						"key": "X-ECOMP-InstanceID",
-						"value": "ONAP-Test"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"userRemarks\": \"certify\"}"
-				},
-				"url": {
-					"raw": "{{url-sdc2}}/sdc1/feProxy/rest/v1/catalog/resources/{{auto_vf_unique_id}}/lifecycleState/certify",
-					"host": [
-						"{{url-sdc2}}"
-					],
-					"path": [
-						"sdc1",
-						"feProxy",
-						"rest",
-						"v1",
-						"catalog",
-						"resources",
-						"{{auto_vf_unique_id}}",
-						"lifecycleState",
-						"certify"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get VF infos by uniqueId to get new vf_unique_Id (=new version id)",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "8d831aa8-7760-44b4-aab4-da4724e8dfc9",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"var jsonData = pm.response.json();",
-							"pm.environment.set(\"auto_vf_new_unique_id\", \"\"+jsonData[\"metadata\"][\"allVersions\"][\"1.0\"]+\"\");",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "USER_ID",
-						"value": "cs0008"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
-					},
-					{
-						"key": "x-ecomp-instanceid",
-						"value": "ONAP-Test"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-sdc2}}/sdc1/feProxy/rest/v1/catalog/resources/{{auto_vf_unique_id}}/filteredDataByParams?include=metadata",
-					"host": [
-						"{{url-sdc2}}"
-					],
-					"path": [
-						"sdc1",
-						"feProxy",
-						"rest",
-						"v1",
-						"catalog",
-						"resources",
-						"{{auto_vf_unique_id}}",
-						"filteredDataByParams"
-					],
-					"query": [
-						{
-							"key": "include",
-							"value": "metadata"
-						}
-					]
-				}
-			},
-			"response": []
-		}
-	]
+  "info": {
+    "_postman_id": "8f0c4ff0-c762-4289-8547-daa0def307c1",
+    "name": "05_Onboard_VF",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "check vf exists and get id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "a7d64193-edcb-4540-bcac-dde0f33a637f",
+            "exec": [
+              "",
+              "var vf_found = false;",
+              "if (pm.response.code === 404) {",
+              "    tests[pm.environment.get(\"vf_name\")+\" does not exists\"] = true;",
+              "}",
+              "else {",
+              "    if (pm.response.code === 200) {",
+              "        tests[\"Status code is 200\"] = responseCode.code === 200;",
+              "        }",
+              "    var jsonData = pm.response.json();",
+              "    for (var i = 0; i < jsonData.length; i++) { ",
+              "       if (jsonData[i].name === pm.environment.get(\"vf_name\")) {",
+              "           vf_found = true;",
+              "           pm.environment.set(\"auto_vf_uuid\", \"\"+jsonData[i].uuid+\"\");",
+              "           pm.environment.set(\"auto_vf_invariant_uuid\", \"\"+jsonData[i].invariantUUID+\"\");",
+              "       }",
+              "    }",
+              "    if (vf_found === false) {",
+              "        tests[pm.environment.get(\"vf_name\")+\" does not yet exists, we continue the run\"] = true;",
+              "    }",
+              "    ",
+              "    else {",
+              "        tests[pm.environment.get(\"vf_name\")+\" already exists, stop the run\"] = false;",
+              "        postman.setNextRequest(null);",
+              "    }",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "USER_ID",
+            "value": "cs0008"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
+          },
+          {
+            "key": "x-ecomp-instanceid",
+            "value": "ONAP-Test"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-sdc}}/sdc/v1/catalog/resources?resourceType=VF",
+          "host": [
+            "{{url-sdc}}"
+          ],
+          "path": [
+            "sdc",
+            "v1",
+            "catalog",
+            "resources"
+          ],
+          "query": [
+            {
+              "key": "resourceType",
+              "value": "VF"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "check VSP exists and get infos",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "ff2f00ca-80fc-40d6-b6ec-aac08eb91759",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "var vsp_found = false;",
+              "for (var i = 0; i < jsonData.results.length; i++) { ",
+              "   if (jsonData.results[i].name === pm.environment.get(\"vsp_name\")) {",
+              "       vsp_found = true;",
+              "       pm.environment.set(\"auto_vsp_id\", \"\"+jsonData.results[i].id+\"\");",
+              "",
+              "   }",
+              "}",
+              "if (vsp_found === false) {",
+              "    tests[\"VSP \"+pm.environment.get(\"vsp_name\")+\" does not exists, we stop the run\"] = false;",
+              "    postman.setNextRequest(null);    ",
+              "}",
+              "",
+              "else {",
+              "    tests[\"VSP \"+pm.environment.get(\"vsp_name\")+\" exists, we can continue\"] = true;",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a"
+          },
+          {
+            "key": "USER_ID",
+            "value": "cs0008"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "robot-ete"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/vendor-software-products",
+          "host": [
+            "{{url-sdc2}}"
+          ],
+          "path": [
+            "sdc1",
+            "feProxy",
+            "onboarding-api",
+            "v1.0",
+            "vendor-software-products"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get VSP versions",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "f16c158f-aceb-490c-924d-3ea83c2b9431",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "var vsp_found = false;",
+              "for (var i = 0; i < jsonData.results.length; i++) { ",
+              "   if (jsonData.results[i].name === pm.environment.get(\"vsp_name\")) {",
+              "       vsp_found = true;",
+              "       pm.environment.set(\"auto_vsp_version_id\", \"\"+jsonData.results[i].id+\"\");",
+              "       pm.environment.set(\"auto_vsp_version_name\", \"\"+jsonData.results[i].name+\"\");",
+              "   }",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a"
+          },
+          {
+            "key": "USER_ID",
+            "value": "cs0008"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "robot-ete"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/items/{{auto_vsp_id}}/versions",
+          "host": [
+            "{{url-sdc2}}"
+          ],
+          "path": [
+            "sdc1",
+            "feProxy",
+            "onboarding-api",
+            "v1.0",
+            "items",
+            "{{auto_vsp_id}}",
+            "versions"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Vendor infos",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "ed512660-e7af-450f-aa7e-b503c7e21a72",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "var vendor_found = false;",
+              "for (var i = 0; i < jsonData.results.length; i++) { ",
+              "   if (jsonData.results[i][\"name\"] === pm.environment.get(\"vendor_name\")) {",
+              "       vendor_found = true;",
+              "       pm.environment.set(\"auto_vendor_id\", \"\"+jsonData.results[i][\"id\"]+\"\");",
+              "   }",
+              "}",
+              "if (vendor_found === false) {",
+              "    tests[pm.environment.get(\"vendor_name\")+\" does not exists : we stop the run\"] = false;",
+              "    postman.setNextRequest(null);",
+              "}",
+              "",
+              "else {",
+              "    tests[pm.environment.get(\"vendor_name\")+\" exists\"] = true;",
+              "}",
+              "",
+              "",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a"
+          },
+          {
+            "key": "USER_ID",
+            "value": "cs0008"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "robot-ete"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/vendor-license-models",
+          "host": [
+            "{{url-sdc2}}"
+          ],
+          "path": [
+            "sdc1",
+            "feProxy",
+            "onboarding-api",
+            "v1.0",
+            "vendor-license-models"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create VF resource",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "78a4913a-db8c-4c41-8fae-28e5bf6d90b4",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "pm.environment.set(\"auto_vf_invariant_uuid\", \"\"+jsonData.invariantUUID+\"\");",
+              "pm.environment.set(\"auto_vf_uuid\", \"\"+jsonData.uuid+\"\");",
+              "pm.environment.set(\"auto_vf_unique_id\", \"\"+jsonData.uniqueId+\"\");",
+              "",
+              "tests[\"VF status is : \"+jsonData.lifecycleState] = jsonData.lifecycleState === \"NOT_CERTIFIED_CHECKOUT\";"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "USER_ID",
+            "value": "cs0008"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
+          },
+          {
+            "key": "x-ecomp-instanceid",
+            "value": "ONAP-Test"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\t\"artifacts\": {},\r\n\t\"toscaArtifacts\": {},\r\n\t\"contactId\": \"cs0008\",\r\n\t\"categories\": [{\r\n\t\t\"name\": \"Generic\",\r\n\t\t\"normalizedName\": \"generic\",\r\n\t\t\"uniqueId\": \"resourceNewCategory.generic\",\r\n\t\t\"icons\": null,\r\n\t\t\"subcategories\": [{\r\n\t\t\t\"name\": \"Abstract\",\r\n\t\t\t\"normalizedName\": \"abstract\",\r\n\t\t\t\"uniqueId\": \"resourceNewCategory.generic.abstract\",\r\n\t\t\t\"icons\": [\"objectStorage\", \"compute\"],\r\n\t\t\t\"groupings\": null,\r\n\t\t\t\"ownerId\": null,\r\n\t\t\t\"empty\": false\r\n\t\t}],\r\n\t\t\"ownerId\": null,\r\n\t\t\"empty\": false\r\n\t}],\r\n\t\"description\": \"VF named {{vf_name}}\",\r\n\t\"icon\": \"defaulticon\",\r\n\t\"componentInstancesProperties\": {},\r\n\t\"componentInstancesAttributes\": {},\r\n\t\"name\": \"{{vf_name}}\",\r\n\t\"tags\": [\"{{vf_name}}\"],\r\n\t\"capabilities\": {},\r\n\t\"requirements\": {},\r\n\t\"deploymentArtifacts\": {},\r\n\t\"componentType\": \"RESOURCE\",\r\n\t\"vendorName\": \"{{vendor_name}}\",\r\n\t\"vendorRelease\": \"1.0\",\r\n\t\"componentInstances\": [],\r\n\t\"properties\": [],\r\n\t\"attributes\": [],\r\n\t\"groups\": [],\r\n\t\"resourceType\": \"VF\",\r\n\t\"csarUUID\": \"{{auto_vsp_id}}\",\r\n\t\"csarVersion\": \"{{auto_vsp_version_name}}\"\r\n}"
+        },
+        "url": {
+          "raw": "{{url-sdc2}}/sdc1/feProxy/rest/v1/catalog/resources",
+          "host": [
+            "{{url-sdc2}}"
+          ],
+          "path": [
+            "sdc1",
+            "feProxy",
+            "rest",
+            "v1",
+            "catalog",
+            "resources"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Checkin VF resource",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var jsonData = pm.response.json();",
+              "",
+              "tests[\"VF status is : \"+jsonData.lifecycleState] = jsonData.lifecycleState === \"NOT_CERTIFIED_CHECKIN\";"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "USER_ID",
+            "value": "cs0008"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "X-ECOMP-InstanceID",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"userRemarks\": \"ONAP-Test checkin\"}"
+        },
+        "url": {
+          "raw": "{{url-sdc}}/sdc/v1/catalog/resources/{{auto_vf_uuid}}/lifecycleState/checkin",
+          "host": [
+            "{{url-sdc}}"
+          ],
+          "path": [
+            "sdc",
+            "v1",
+            "catalog",
+            "resources",
+            "{{auto_vf_uuid}}",
+            "lifecycleState",
+            "checkin"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Certify VF resource",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var jsonData = pm.response.json();",
+              "",
+              "tests[\"VF status is : \"+jsonData.lifecycleState] = jsonData.lifecycleState === \"CERTIFIED\";"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "USER_ID",
+            "value": "cs0008"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
+          },
+          {
+            "key": "X-ECOMP-InstanceID",
+            "value": "ONAP-Test"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"userRemarks\": \"certify\"}"
+        },
+        "url": {
+          "raw": "{{url-sdc2}}/sdc1/feProxy/rest/v1/catalog/resources/{{auto_vf_unique_id}}/lifecycleState/certify",
+          "host": [
+            "{{url-sdc2}}"
+          ],
+          "path": [
+            "sdc1",
+            "feProxy",
+            "rest",
+            "v1",
+            "catalog",
+            "resources",
+            "{{auto_vf_unique_id}}",
+            "lifecycleState",
+            "certify"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get VF infos by uniqueId to get new vf_unique_Id (=new version id)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "8d831aa8-7760-44b4-aab4-da4724e8dfc9",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "pm.environment.set(\"auto_vf_new_unique_id\", \"\"+jsonData[\"metadata\"][\"allVersions\"][\"1.0\"]+\"\");",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "USER_ID",
+            "value": "cs0008"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
+          },
+          {
+            "key": "x-ecomp-instanceid",
+            "value": "ONAP-Test"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-sdc2}}/sdc1/feProxy/rest/v1/catalog/resources/{{auto_vf_unique_id}}/filteredDataByParams?include=metadata",
+          "host": [
+            "{{url-sdc2}}"
+          ],
+          "path": [
+            "sdc1",
+            "feProxy",
+            "rest",
+            "v1",
+            "catalog",
+            "resources",
+            "{{auto_vf_unique_id}}",
+            "filteredDataByParams"
+          ],
+          "query": [
+            {
+              "key": "include",
+              "value": "metadata"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
 }
