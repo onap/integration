@@ -1,214 +1,214 @@
 {
-	"info": {
-		"_postman_id": "a2db5e8d-6c15-4db1-9a62-9346a414b0be",
-		"name": "ONAP-AAI-Test",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "VServersByName",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "X-FromAppId",
-						"value": "AAI",
-						"type": "text"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "get_aai_subscr",
-						"type": "text"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "https://10.12.5.63:30233/aai/v14/cloud-infrastructure/cloud-regions/cloud-region/CloudOwner/RegionOne/tenants/tenant/087050388b204c73a3e418dd2c1fe30b/vservers/?vserver-name=vofwl01vfw4407",
-					"protocol": "https",
-					"host": [
-						"10",
-						"12",
-						"5",
-						"63"
-					],
-					"port": "30233",
-					"path": [
-						"aai",
-						"v14",
-						"cloud-infrastructure",
-						"cloud-regions",
-						"cloud-region",
-						"CloudOwner",
-						"RegionOne",
-						"tenants",
-						"tenant",
-						"087050388b204c73a3e418dd2c1fe30b",
-						"vservers",
-						""
-					],
-					"query": [
-						{
-							"key": "vserver-name",
-							"value": "vofwl01vfw4407"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Tenants",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "X-FromAppId",
-						"value": "AAI",
-						"type": "text"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "get_aai_subscr",
-						"type": "text"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "https://10.12.5.63:30233/aai/v14/cloud-infrastructure/cloud-regions/cloud-region/CloudOwner/RegionOne/tenants/tenant/087050388b204c73a3e418dd2c1fe30b/vservers/?vserver-name=vofwl01vfw4407",
-					"protocol": "https",
-					"host": [
-						"10",
-						"12",
-						"5",
-						"63"
-					],
-					"port": "30233",
-					"path": [
-						"aai",
-						"v14",
-						"cloud-infrastructure",
-						"cloud-regions",
-						"cloud-region",
-						"CloudOwner",
-						"RegionOne",
-						"tenants",
-						"tenant",
-						"087050388b204c73a3e418dd2c1fe30b",
-						"vservers",
-						""
-					],
-					"query": [
-						{
-							"key": "vserver-name",
-							"value": "vofwl01vfw4407"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GenericVNFById",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "X-FromAppId",
-						"value": "AAI",
-						"type": "text"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "get_aai_subscr",
-						"type": "text"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "https://10.12.5.63:30233/aai/v14/network/generic-vnfs/generic-vnf/2d125b4d-e120-4815-a0c7-4c4bec6c89f9",
-					"protocol": "https",
-					"host": [
-						"10",
-						"12",
-						"5",
-						"63"
-					],
-					"port": "30233",
-					"path": [
-						"aai",
-						"v14",
-						"network",
-						"generic-vnfs",
-						"generic-vnf",
-						"2d125b4d-e120-4815-a0c7-4c4bec6c89f9"
-					]
-				}
-			},
-			"response": []
-		}
-	],
-	"auth": {
-		"type": "basic",
-		"basic": [
-			{
-				"key": "password",
-				"value": "AAI",
-				"type": "string"
-			},
-			{
-				"key": "username",
-				"value": "AAI",
-				"type": "string"
-			}
-		]
-	},
-	"event": [
-		{
-			"listen": "prerequest",
-			"script": {
-				"id": "e35b8a0f-24b0-4990-88f2-4c83421cb4a4",
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		},
-		{
-			"listen": "test",
-			"script": {
-				"id": "74b3d3ac-e313-4570-93b0-bd6d64beebfa",
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		}
-	]
+  "info": {
+    "_postman_id": "a2db5e8d-6c15-4db1-9a62-9346a414b0be",
+    "name": "ONAP-AAI-Test",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "VServersByName",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-FromAppId",
+            "value": "AAI",
+            "type": "text"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "get_aai_subscr",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://10.12.5.63:30233/aai/v14/cloud-infrastructure/cloud-regions/cloud-region/CloudOwner/RegionOne/tenants/tenant/087050388b204c73a3e418dd2c1fe30b/vservers/?vserver-name=vofwl01vfw4407",
+          "protocol": "https",
+          "host": [
+            "10",
+            "12",
+            "5",
+            "63"
+          ],
+          "port": "30233",
+          "path": [
+            "aai",
+            "v14",
+            "cloud-infrastructure",
+            "cloud-regions",
+            "cloud-region",
+            "CloudOwner",
+            "RegionOne",
+            "tenants",
+            "tenant",
+            "087050388b204c73a3e418dd2c1fe30b",
+            "vservers",
+            ""
+          ],
+          "query": [
+            {
+              "key": "vserver-name",
+              "value": "vofwl01vfw4407"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Tenants",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-FromAppId",
+            "value": "AAI",
+            "type": "text"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "get_aai_subscr",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://10.12.5.63:30233/aai/v14/cloud-infrastructure/cloud-regions/cloud-region/CloudOwner/RegionOne/tenants/tenant/087050388b204c73a3e418dd2c1fe30b/vservers/?vserver-name=vofwl01vfw4407",
+          "protocol": "https",
+          "host": [
+            "10",
+            "12",
+            "5",
+            "63"
+          ],
+          "port": "30233",
+          "path": [
+            "aai",
+            "v14",
+            "cloud-infrastructure",
+            "cloud-regions",
+            "cloud-region",
+            "CloudOwner",
+            "RegionOne",
+            "tenants",
+            "tenant",
+            "087050388b204c73a3e418dd2c1fe30b",
+            "vservers",
+            ""
+          ],
+          "query": [
+            {
+              "key": "vserver-name",
+              "value": "vofwl01vfw4407"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GenericVNFById",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-FromAppId",
+            "value": "AAI",
+            "type": "text"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "get_aai_subscr",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://10.12.5.63:30233/aai/v14/network/generic-vnfs/generic-vnf/2d125b4d-e120-4815-a0c7-4c4bec6c89f9",
+          "protocol": "https",
+          "host": [
+            "10",
+            "12",
+            "5",
+            "63"
+          ],
+          "port": "30233",
+          "path": [
+            "aai",
+            "v14",
+            "network",
+            "generic-vnfs",
+            "generic-vnf",
+            "2d125b4d-e120-4815-a0c7-4c4bec6c89f9"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "password",
+        "value": "AAI",
+        "type": "string"
+      },
+      {
+        "key": "username",
+        "value": "AAI",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "id": "e35b8a0f-24b0-4990-88f2-4c83421cb4a4",
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "id": "74b3d3ac-e313-4570-93b0-bd6d64beebfa",
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ]
 }
