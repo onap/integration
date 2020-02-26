@@ -1,20 +1,20 @@
 {
-  "request" : {
-    "urlPath" : "/sniro/api/v2/placement",
-    "method" : "POST"
+  "request": {
+    "urlPath": "/sniro/api/v2/placement",
+    "method": "POST"
   },
-  "response" : {
-    "status" : "202",
+  "response": {
+    "status": "202",
     "body": "{\"requestId\": \"1111-111-11\"}"
   },
-  "postServeActions" : {
-    "webhook" : {
-      "headers" : {
-        "Content-Type" : "application/json"
+  "postServeActions": {
+    "webhook": {
+      "headers": {
+        "Content-Type": "application/json"
       },
-      "method" : "POST",
-      "base64Body" : "${base64_sniro_data}",
-      "url" : " http://so-bpmn-infra.onap:8081/mso/WorkflowMessage/SNIROResponse"
+      "method": "POST",
+      "base64Body": "${base64_sniro_data}",
+      "url": " http://so-bpmn-infra.onap:8081/mso/WorkflowMessage/SNIROResponse"
     }
   }
 }

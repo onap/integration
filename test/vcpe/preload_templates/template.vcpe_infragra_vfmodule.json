@@ -1,182 +1,182 @@
 {
-	"GENERIC-RESOURCE-API:input": {
-		"GENERIC-RESOURCE-API:request-information": {
-			"GENERIC-RESOURCE-API:notification-url": "https://so.onap.org",
-			"GENERIC-RESOURCE-API:order-number": "robot12",
-			"GENERIC-RESOURCE-API:order-version": "1.0",
-			"GENERIC-RESOURCE-API:request-action": "PreloadVfModuleRequest",
-			"GENERIC-RESOURCE-API:request-id": "robot12",
-			"GENERIC-RESOURCE-API:source": "VID"
-		},
-		"GENERIC-RESOURCE-API:sdnc-request-header": {
-			"GENERIC-RESOURCE-API:svc-action": "reserve",
-			"GENERIC-RESOURCE-API:svc-notification-url": "https://son.onap.org",
-			"GENERIC-RESOURCE-API:svc-request-id": "robot12"
-		},
-		"preload-vf-module-topology-information": {
-			"vf-module-topology": {
-				"vf-module-parameters":  {
-            				"param": [
-					{
-					"name": "vcpe_image_name",
-					"value": "ubuntu-16-04-cloud-amd64"
-					},
-					{
-					"name": "vcpe_flavor_name",
-					"value": "m1.medium"
-					},
-					{
-					"name": "public_net_id",
-					"value": "${public_net_id}"
-					},
-					{
-					"name": "cpe_signal_net_id",
-					"value": "${cpe_signal_net}"
-					},
-					{
-					"name": "cpe_signal_subnet_id",
-					"value": "${cpe_signal_subnet}" 
-					},
-					{
-					"name": "cpe_public_net_id",
-					"value": "${cpe_public_net}"
-					},
-					{
-					"name": "cpe_public_subnet_id",
-					"value": "${cpe_public_subnet}"
-					},
-					{
-					"name": "onap_private_net_id",
-					"value": "${oam_onap_net}"
-					},
-					{
-					"name": "onap_private_subnet_id",
-					"value": "${oam_onap_subnet}"
-					},
-					{
-					"name": "onap_private_net_cidr",
-					"value": "10.0.0.0/16"
-					},
-					{
-					"name": "cpe_signal_net_cidr",
-					"value": "10.4.0.0/24"
-					},
-					{
-					"name": "cpe_public_net_cidr",
-					"value": "10.2.0.0/24"
-					},
-					{
-					"name": "vdhcp_private_ip_0",
-					"value": "10.4.0.1"
-					},
-					{
-					"name": "vdhcp_private_ip_1",
-					"value": "10.0.101.1"
-					},
-					{
-					"name": "vaaa_private_ip_0",
-					"value": "10.4.0.2"
-					},
-					{
-					"name": "vaaa_private_ip_1",
-					"value": "10.0.101.2"
-					},
-					{
-					"name": "vdns_private_ip_0",
-					"value": "10.2.0.1"
-					},
-					{
-					"name": "vdns_private_ip_1",
-					"value": "10.0.101.3"
-					},
-					{
-					"name": "vweb_private_ip_0",
-					"value": "10.2.0.10"
-					},
-					{
-					"name": "vweb_private_ip_1",
-					"value": "10.0.101.40"
-					},
-					{
-					"name": "mr_ip_addr",
-					"value": "${mr_ip_addr}"
-					},
-					{
-					"name": "mr_ip_port",
-					"value": "${mr_ip_port}"
-					},
-					{
-					"name": "vaaa_name_0",
-					"value": "zdcpe1cpe01aaa01_${suffix}"
-					},
-					{
-					"name": "vdns_name_0",
-					"value": "zdcpe1cpe01dns01_${suffix}"
-					},
-					{
-					"name": "vdhcp_name_0",
-					"value": "zdcpe1cpe01dhcp01_${suffix}"
-					},
-					{
-					"name": "vweb_name_0",
-					"value": "zdcpe1cpe01web01_${suffix}"
-					},
-					{
-					"name": "vnf_id",
-					"value": "vCPE_Infrastructure_demo_app_${suffix}"
-					},
-					{
-					"name": "vf_module_id",
-					"value": "vCPE_Intrastructure_${suffix}"
-					},
-					{
-					"name": "dcae_collector_ip",
-					"value": "10.0.4.102"
-					},
-					{
-					"name": "dcae_collector_port",
-					"value": "8080"
-					},
-					{
-					"name": "repo_url_blob",
-					"value": "https://nexus.onap.org/content/sites/raw"
-					},
-					{
-					"name": "repo_url_artifacts",
-					"value": "https://nexus.onap.org/content/repositories/releases"
-					},
-					{
-					"name": "demo_artifacts_version",
-					"value": "1.3.0"
-					},
-					{
-					"name": "install_script_version",
-					"value": "1.3.0"
-					},
-					{
-					"name": "key_name",
-					"value": "vaaa_key"
-					},
-					{
-					"name": "pub_key",
-					"value": "${pub_key}"
-					},
-					{
-					"name": "cloud_env",
-					"value": "openstack"
-					}
-
-				] },
-		               "vf-module-assignments":  {},
-                               "vf-module-topology-identifier": {
-                                        "vf-module-name": "${vnf_name}"
-                                      }
-			 },
-			 "vnf-resource-assignments": {},
-			 "vnf-topology-identifier-structure": {
-					"nf-type": "${vnf_type}",
-					"vnf-id": "${vnf_name}"
-				}
-                         }
+  "GENERIC-RESOURCE-API:input": {
+    "GENERIC-RESOURCE-API:request-information": {
+      "GENERIC-RESOURCE-API:notification-url": "https://so.onap.org",
+      "GENERIC-RESOURCE-API:order-number": "robot12",
+      "GENERIC-RESOURCE-API:order-version": "1.0",
+      "GENERIC-RESOURCE-API:request-action": "PreloadVfModuleRequest",
+      "GENERIC-RESOURCE-API:request-id": "robot12",
+      "GENERIC-RESOURCE-API:source": "VID"
+    },
+    "GENERIC-RESOURCE-API:sdnc-request-header": {
+      "GENERIC-RESOURCE-API:svc-action": "reserve",
+      "GENERIC-RESOURCE-API:svc-notification-url": "https://son.onap.org",
+      "GENERIC-RESOURCE-API:svc-request-id": "robot12"
+    },
+    "preload-vf-module-topology-information": {
+      "vf-module-topology": {
+        "vf-module-parameters": {
+          "param": [
+            {
+              "name": "vcpe_image_name",
+              "value": "ubuntu-16-04-cloud-amd64"
+            },
+            {
+              "name": "vcpe_flavor_name",
+              "value": "m1.medium"
+            },
+            {
+              "name": "public_net_id",
+              "value": "${public_net_id}"
+            },
+            {
+              "name": "cpe_signal_net_id",
+              "value": "${cpe_signal_net}"
+            },
+            {
+              "name": "cpe_signal_subnet_id",
+              "value": "${cpe_signal_subnet}"
+            },
+            {
+              "name": "cpe_public_net_id",
+              "value": "${cpe_public_net}"
+            },
+            {
+              "name": "cpe_public_subnet_id",
+              "value": "${cpe_public_subnet}"
+            },
+            {
+              "name": "onap_private_net_id",
+              "value": "${oam_onap_net}"
+            },
+            {
+              "name": "onap_private_subnet_id",
+              "value": "${oam_onap_subnet}"
+            },
+            {
+              "name": "onap_private_net_cidr",
+              "value": "10.0.0.0/16"
+            },
+            {
+              "name": "cpe_signal_net_cidr",
+              "value": "10.4.0.0/24"
+            },
+            {
+              "name": "cpe_public_net_cidr",
+              "value": "10.2.0.0/24"
+            },
+            {
+              "name": "vdhcp_private_ip_0",
+              "value": "10.4.0.1"
+            },
+            {
+              "name": "vdhcp_private_ip_1",
+              "value": "10.0.101.1"
+            },
+            {
+              "name": "vaaa_private_ip_0",
+              "value": "10.4.0.2"
+            },
+            {
+              "name": "vaaa_private_ip_1",
+              "value": "10.0.101.2"
+            },
+            {
+              "name": "vdns_private_ip_0",
+              "value": "10.2.0.1"
+            },
+            {
+              "name": "vdns_private_ip_1",
+              "value": "10.0.101.3"
+            },
+            {
+              "name": "vweb_private_ip_0",
+              "value": "10.2.0.10"
+            },
+            {
+              "name": "vweb_private_ip_1",
+              "value": "10.0.101.40"
+            },
+            {
+              "name": "mr_ip_addr",
+              "value": "${mr_ip_addr}"
+            },
+            {
+              "name": "mr_ip_port",
+              "value": "${mr_ip_port}"
+            },
+            {
+              "name": "vaaa_name_0",
+              "value": "zdcpe1cpe01aaa01_${suffix}"
+            },
+            {
+              "name": "vdns_name_0",
+              "value": "zdcpe1cpe01dns01_${suffix}"
+            },
+            {
+              "name": "vdhcp_name_0",
+              "value": "zdcpe1cpe01dhcp01_${suffix}"
+            },
+            {
+              "name": "vweb_name_0",
+              "value": "zdcpe1cpe01web01_${suffix}"
+            },
+            {
+              "name": "vnf_id",
+              "value": "vCPE_Infrastructure_demo_app_${suffix}"
+            },
+            {
+              "name": "vf_module_id",
+              "value": "vCPE_Intrastructure_${suffix}"
+            },
+            {
+              "name": "dcae_collector_ip",
+              "value": "10.0.4.102"
+            },
+            {
+              "name": "dcae_collector_port",
+              "value": "8080"
+            },
+            {
+              "name": "repo_url_blob",
+              "value": "https://nexus.onap.org/content/sites/raw"
+            },
+            {
+              "name": "repo_url_artifacts",
+              "value": "https://nexus.onap.org/content/repositories/releases"
+            },
+            {
+              "name": "demo_artifacts_version",
+              "value": "1.3.0"
+            },
+            {
+              "name": "install_script_version",
+              "value": "1.3.0"
+            },
+            {
+              "name": "key_name",
+              "value": "vaaa_key"
+            },
+            {
+              "name": "pub_key",
+              "value": "${pub_key}"
+            },
+            {
+              "name": "cloud_env",
+              "value": "openstack"
+            }
+          ]
+        },
+        "vf-module-assignments": {},
+        "vf-module-topology-identifier": {
+          "vf-module-name": "${vnf_name}"
+        }
+      },
+      "vnf-resource-assignments": {},
+      "vnf-topology-identifier-structure": {
+        "nf-type": "${vnf_type}",
+        "vnf-id": "${vnf_name}"
       }
+    }
+  }
 }

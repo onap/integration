@@ -1,160 +1,158 @@
 {
-   "VNF-API:input": {
-     "VNF-API:request-information": {
-       "VNF-API:request-id": "robot12",
-       "VNF-API:notification-url": "https://so.onap.org",
-       "VNF-API:order-number": "robot12",
-       "VNF-API:request-sub-action": "SUPP",
-       "VNF-API:request-action": "PreloadVNFRequest",
-       "VNF-API:source": "VID",
-       "VNF-API:order-version": "1.0"
-     },
-     "VNF-API:sdnc-request-header": {
-       "VNF-API:svc-action": "reserve",
-       "VNF-API:svc-notification-url": "https://son.onap.org",
-       "VNF-API:svc-request-id": "robot12"
-     },
-     "VNF-API:vnf-topology-information": {
-             "vnf-topology-identifier": {
-               "service-type": "${service_type}",
-               "vnf-type": "${vnf_type}",
-               "generic-vnf-name": "${generic_vnf_name}",
-               "generic-vnf-type": "${generic_vnf_type}",
-               "vnf-name": "${vnf_name}"
-       },
-       "VNF-API:vnf-parameters": [
-		{
-		"vnf-parameter-name": "vcpe_image_name",
-		"vnf-parameter-value": "vgmux-casa-base-ubuntu-16-04"
-		},
-		{
-		"vnf-parameter-name": "vcpe_flavor_name",
-		"vnf-parameter-value": "m1.medium"
-		},
-		{
-		"vnf-parameter-name": "public_net_id",
-		"vnf-parameter-value": "${public_net_id}"
-		},
-		{
-		"vnf-parameter-name": "bng_gmux_private_net_id",
-		"vnf-parameter-value": "${bng_mux_net}"
-		},
-		{
-		"vnf-parameter-name": "bng_gmux_private_subnet_id",
-		"vnf-parameter-value": "${bng_mux_subnet}"
-		},
-		{
-		"vnf-parameter-name": "mux_gw_private_net_id",
-		"vnf-parameter-value": "${mux_gw_net}"
-		},
-		{
-		"vnf-parameter-name": "mux_gw_private_subnet_id",
-		"vnf-parameter-value": "${mux_gw_subnet}"
-		},
-		{
-		"vnf-parameter-name": "onap_private_net_id",
-		"vnf-parameter-value": "${oam_onap_net}"
-		},
-		{
-		"vnf-parameter-name": "onap_private_subnet_id",
-		"vnf-parameter-value": "${oam_onap_subnet}"
-		},
-		{
-		"vnf-parameter-name": "onap_private_net_cidr",
-		"vnf-parameter-value": "10.0.0.0/16"
-		},
-		{
-		"vnf-parameter-name": "mux_gw_private_net_cidr",
-		"vnf-parameter-value": "10.5.0.0/24"
-		},
-		{
-		"vnf-parameter-name": "bng_gmux_private_net_cidr",
-		"vnf-parameter-value": "10.1.0.0/24"
-		},
-		{
-		"vnf-parameter-name": "vgmux_private_ip_0",
-		"vnf-parameter-value": "10.1.0.21"
-		},
-		{
-		"vnf-parameter-name": "vgmux_private_ip_1",
-		"vnf-parameter-value": "10.0.101.21"
-		},
-		{
-		"vnf-parameter-name": "vgmux_private_ip_2",
-		"vnf-parameter-value": "10.5.0.21"
-		},
-		{
-		"vnf-parameter-name": "vgmux_name_0",
-		"vnf-parameter-value": "zdcpe1cpe01mux01_${suffix}"
-		},
-		{
-		"vnf-parameter-name": "vnf_id",
-		"vnf-parameter-value": "vCPE_Infrastructure_Metro_vGMUX_demo_app"
-		},
-		{
-		"vnf-parameter-name": "vf_module_id",
-		"vnf-parameter-value": "vCPE_Intrastructure_Metro_vGMUX"
-		},
-		{
-		"vnf-parameter-name": "dcae_collector_ip",
-		"vnf-parameter-value": "10.0.4.102"
-		},
-		{
-		"vnf-parameter-name": "dcae_collector_port",
-		"vnf-parameter-value": "8080"
-		},
-		{
-		"vnf-parameter-name": "repo_url_blob",
-		"vnf-parameter-value": "https://nexus.onap.org/content/sites/raw"
-		},
-		{
-		"vnf-parameter-name": "repo_url_artifacts",
-		"vnf-parameter-value": "https://nexus.onap.org/content/repositories/releases"
-		},
-		{
-		"vnf-parameter-name": "demo_artifacts_version",
-		"vnf-parameter-value": "1.1.1"
-		},
-		{
-		"vnf-parameter-name": "script_version",
-		"vnf-parameter-value": "1.3.0"
-		},
-		{
-		"vnf-parameter-name": "key_name",
-		"vnf-parameter-value": "vgmux_key"
-		},
-		{
-		"vnf-parameter-name": "pub_key",
-		"vnf-parameter-value": "${pub_key}"
-		},
-		{
-		"vnf-parameter-name": "cloud_env",
-		"vnf-parameter-value": "openstack"
-		},
-		{
-		"vnf-parameter-name": "vpp_source_repo_url",
-		"vnf-parameter-value": "https://gerrit.fd.io/r/vpp"
-		},
-		{
-		"vnf-parameter-name": "vpp_source_repo_branch",
-		"vnf-parameter-value": "stable/1704"
-		},
-		{
-		"vnf-parameter-name": "vpp_patch_url",
-		"vnf-parameter-value": "https://git.onap.org/demo/plain/vnfs/vCPE/vpp-ves-agent-for-vgmux/src/patches/Vpp-Add-VES-agent-for-vG-MUX.patch"
-		},
-		{
-		"vnf-parameter-name": "hc2vpp_patch_url",
-		"vnf-parameter-value": "https://git.onap.org/demo/plain/vnfs/vCPE/vpp-ves-agent-for-vgmux/src/patches/Hc2vpp-Add-VES-agent-for-vG-MUX.patch"
-		},
-		{
-		"vnf-parameter-name": "libevel_patch_url",
-		"vnf-parameter-value": "https://git.onap.org/demo/plain/vnfs/vCPE/vpp-ves-agent-for-vgmux/src/patches/vCPE-vG-MUX-libevel-fixup.patch"
-		}
-       ],
-       "VNF-API:vnf-assignments": {
-         }
-       }
-     }
+  "VNF-API:input": {
+    "VNF-API:request-information": {
+      "VNF-API:request-id": "robot12",
+      "VNF-API:notification-url": "https://so.onap.org",
+      "VNF-API:order-number": "robot12",
+      "VNF-API:request-sub-action": "SUPP",
+      "VNF-API:request-action": "PreloadVNFRequest",
+      "VNF-API:source": "VID",
+      "VNF-API:order-version": "1.0"
+    },
+    "VNF-API:sdnc-request-header": {
+      "VNF-API:svc-action": "reserve",
+      "VNF-API:svc-notification-url": "https://son.onap.org",
+      "VNF-API:svc-request-id": "robot12"
+    },
+    "VNF-API:vnf-topology-information": {
+      "vnf-topology-identifier": {
+        "service-type": "${service_type}",
+        "vnf-type": "${vnf_type}",
+        "generic-vnf-name": "${generic_vnf_name}",
+        "generic-vnf-type": "${generic_vnf_type}",
+        "vnf-name": "${vnf_name}"
+      },
+      "VNF-API:vnf-parameters": [
+        {
+          "vnf-parameter-name": "vcpe_image_name",
+          "vnf-parameter-value": "vgmux-casa-base-ubuntu-16-04"
+        },
+        {
+          "vnf-parameter-name": "vcpe_flavor_name",
+          "vnf-parameter-value": "m1.medium"
+        },
+        {
+          "vnf-parameter-name": "public_net_id",
+          "vnf-parameter-value": "${public_net_id}"
+        },
+        {
+          "vnf-parameter-name": "bng_gmux_private_net_id",
+          "vnf-parameter-value": "${bng_mux_net}"
+        },
+        {
+          "vnf-parameter-name": "bng_gmux_private_subnet_id",
+          "vnf-parameter-value": "${bng_mux_subnet}"
+        },
+        {
+          "vnf-parameter-name": "mux_gw_private_net_id",
+          "vnf-parameter-value": "${mux_gw_net}"
+        },
+        {
+          "vnf-parameter-name": "mux_gw_private_subnet_id",
+          "vnf-parameter-value": "${mux_gw_subnet}"
+        },
+        {
+          "vnf-parameter-name": "onap_private_net_id",
+          "vnf-parameter-value": "${oam_onap_net}"
+        },
+        {
+          "vnf-parameter-name": "onap_private_subnet_id",
+          "vnf-parameter-value": "${oam_onap_subnet}"
+        },
+        {
+          "vnf-parameter-name": "onap_private_net_cidr",
+          "vnf-parameter-value": "10.0.0.0/16"
+        },
+        {
+          "vnf-parameter-name": "mux_gw_private_net_cidr",
+          "vnf-parameter-value": "10.5.0.0/24"
+        },
+        {
+          "vnf-parameter-name": "bng_gmux_private_net_cidr",
+          "vnf-parameter-value": "10.1.0.0/24"
+        },
+        {
+          "vnf-parameter-name": "vgmux_private_ip_0",
+          "vnf-parameter-value": "10.1.0.21"
+        },
+        {
+          "vnf-parameter-name": "vgmux_private_ip_1",
+          "vnf-parameter-value": "10.0.101.21"
+        },
+        {
+          "vnf-parameter-name": "vgmux_private_ip_2",
+          "vnf-parameter-value": "10.5.0.21"
+        },
+        {
+          "vnf-parameter-name": "vgmux_name_0",
+          "vnf-parameter-value": "zdcpe1cpe01mux01_${suffix}"
+        },
+        {
+          "vnf-parameter-name": "vnf_id",
+          "vnf-parameter-value": "vCPE_Infrastructure_Metro_vGMUX_demo_app"
+        },
+        {
+          "vnf-parameter-name": "vf_module_id",
+          "vnf-parameter-value": "vCPE_Intrastructure_Metro_vGMUX"
+        },
+        {
+          "vnf-parameter-name": "dcae_collector_ip",
+          "vnf-parameter-value": "10.0.4.102"
+        },
+        {
+          "vnf-parameter-name": "dcae_collector_port",
+          "vnf-parameter-value": "8080"
+        },
+        {
+          "vnf-parameter-name": "repo_url_blob",
+          "vnf-parameter-value": "https://nexus.onap.org/content/sites/raw"
+        },
+        {
+          "vnf-parameter-name": "repo_url_artifacts",
+          "vnf-parameter-value": "https://nexus.onap.org/content/repositories/releases"
+        },
+        {
+          "vnf-parameter-name": "demo_artifacts_version",
+          "vnf-parameter-value": "1.1.1"
+        },
+        {
+          "vnf-parameter-name": "script_version",
+          "vnf-parameter-value": "1.3.0"
+        },
+        {
+          "vnf-parameter-name": "key_name",
+          "vnf-parameter-value": "vgmux_key"
+        },
+        {
+          "vnf-parameter-name": "pub_key",
+          "vnf-parameter-value": "${pub_key}"
+        },
+        {
+          "vnf-parameter-name": "cloud_env",
+          "vnf-parameter-value": "openstack"
+        },
+        {
+          "vnf-parameter-name": "vpp_source_repo_url",
+          "vnf-parameter-value": "https://gerrit.fd.io/r/vpp"
+        },
+        {
+          "vnf-parameter-name": "vpp_source_repo_branch",
+          "vnf-parameter-value": "stable/1704"
+        },
+        {
+          "vnf-parameter-name": "vpp_patch_url",
+          "vnf-parameter-value": "https://git.onap.org/demo/plain/vnfs/vCPE/vpp-ves-agent-for-vgmux/src/patches/Vpp-Add-VES-agent-for-vG-MUX.patch"
+        },
+        {
+          "vnf-parameter-name": "hc2vpp_patch_url",
+          "vnf-parameter-value": "https://git.onap.org/demo/plain/vnfs/vCPE/vpp-ves-agent-for-vgmux/src/patches/Hc2vpp-Add-VES-agent-for-vG-MUX.patch"
+        },
+        {
+          "vnf-parameter-name": "libevel_patch_url",
+          "vnf-parameter-value": "https://git.onap.org/demo/plain/vnfs/vCPE/vpp-ves-agent-for-vgmux/src/patches/vCPE-vG-MUX-libevel-fixup.patch"
+        }
+      ],
+      "VNF-API:vnf-assignments": {}
+    }
+  }
 }
-
