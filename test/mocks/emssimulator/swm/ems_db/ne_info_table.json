@@ -1,39 +1,39 @@
 [
   {
-    "status": "Activated", 
-    "nEIdentification": "5gDU0001", 
-    "updateTime": "Tue Apr 23 13:08:43 2019", 
-    "omIP": "192.168.1.1", 
-    "currentSwVersion": "v1", 
+    "status": "Activated",
+    "nEIdentification": "5gDU0001",
+    "updateTime": "Tue Apr 23 13:08:43 2019",
+    "omIP": "192.168.1.1",
+    "currentSwVersion": "v1",
     "installedSw": {
       "ran_du_pkg2-v1": {
-        "installedLocation": "/home/ubuntu/swm/pnf_simulators/192.168.1.1/opt/install/v1/ran_du_pkg2", 
-        "version": "v1", 
+        "installedLocation": "/home/ubuntu/swm/pnf_simulators/192.168.1.1/opt/install/v1/ran_du_pkg2",
+        "version": "v1",
         "name": "ran_du_pkg2"
-      }, 
+      },
       "ran_du_pkg1-v1": {
-        "installedLocation": "/home/ubuntu/swm/pnf_simulators/192.168.1.1/opt/install/v1/ran_du_pkg1", 
-        "version": "v1", 
+        "installedLocation": "/home/ubuntu/swm/pnf_simulators/192.168.1.1/opt/install/v1/ran_du_pkg1",
+        "version": "v1",
         "name": "ran_du_pkg1"
       }
     }
-  }, 
+  },
   {
-    "status": "Activated", 
-    "nEIdentification": "5gDU0002", 
-    "updateTime": "Tue Apr 23 11:06:36 2019", 
-    "omIP": "192.168.1.2", 
-    "oldSwVersion": "v1", 
-    "currentSwVersion": "v2", 
+    "status": "Activated",
+    "nEIdentification": "5gDU0002",
+    "updateTime": "Tue Apr 23 11:06:36 2019",
+    "omIP": "192.168.1.2",
+    "oldSwVersion": "v1",
+    "currentSwVersion": "v2",
     "installedSw": {
       "ran_du_pkg1-v2": {
-        "installedLocation": "/home/ubuntu/swm/pnf_simulators/192.168.1.2/opt/install/v2/ran_du_pkg1", 
-        "version": "v2", 
+        "installedLocation": "/home/ubuntu/swm/pnf_simulators/192.168.1.2/opt/install/v2/ran_du_pkg1",
+        "version": "v2",
         "name": "ran_du_pkg1"
-      }, 
+      },
       "ran_du_pkg2-v2": {
-        "installedLocation": "/home/ubuntu/swm/pnf_simulators/192.168.1.2/opt/install/v2/ran_du_pkg2", 
-        "version": "v2", 
+        "installedLocation": "/home/ubuntu/swm/pnf_simulators/192.168.1.2/opt/install/v2/ran_du_pkg2",
+        "version": "v2",
         "name": "ran_du_pkg2"
       }
     }
