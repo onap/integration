@@ -31,7 +31,7 @@
           "VNF-API:dhcp-enabled": "N",
           "VNF-API:gateway-address": "${subnet_gateway}"
         }
-	]
+      ]
     },
     "VNF-API:sdnc-request-header": {
       "VNF-API:svc-action": "reserve",

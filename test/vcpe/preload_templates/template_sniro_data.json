@@ -1,37 +1,64 @@
 {
-   "solutionInfo" : {
-      "placementInfo" : [
-         {
-            "cloudRegionId" : "RegionOne",
-            "inventoryType" : "service",
-            "resourceModuleName" : "${tunnelxconn_ar_name}",
-            "serviceInstanceId" : "${vgmux_svc_instance_uuid}",
-            "serviceResourceId" : "TUNNEL-RESOURCE-ID-REPLACE",
-            "isRehome" : "False",
-			"assignmentInfo": [ { "variableName": "cloudOwner", "variableValue": "CloudOwner"}, {"variableName": "vnfHostName", "variableValue": "vnfHostName" }] 
-         },
-         {
-            "cloudRegionId" : "RegionOne",
-            "inventoryType" : "cloud",
-            "resourceModuleName" : "${vgw_name}",
-            "serviceInstanceId" : "vG-service-instance-id",
-            "serviceResourceId" : "VGW-RESOURCE-ID-REPLACE",
-            "isRehome" : "False",
-			"assignmentInfo": [ { "variableName": "cloudOwner", "variableValue": "CloudOwner"}, {"variableName": "vnfHostName", "variableValue": "vnfHostName" }] 
-         },
-         {
-            "cloudRegionId" : "RegionOne",
-            "inventoryType" : "service",
-            "resourceModuleName" : "${brg_ar_name}",
-            "serviceInstanceId" : "${vbrg_svc_instance_uuid}",
-            "serviceResourceId" : "BRG-RESOURCE-ID-REPLACE",
-            "isRehome" : "False",
-			"assignmentInfo": [ { "variableName": "cloudOwner", "variableValue": "CloudOwner"}, {"variableName": "vnfHostName", "variableValue": "vnfHostName" }] 
-         }
-      ]
-   },
-   "requestId" : "111-111-1111",
-   "statusMessage" : "",
-   "transactionId" : "111-111-1111",
-   "requestState" : "complete"
+  "solutionInfo": {
+    "placementInfo": [
+      {
+        "cloudRegionId": "RegionOne",
+        "inventoryType": "service",
+        "resourceModuleName": "${tunnelxconn_ar_name}",
+        "serviceInstanceId": "${vgmux_svc_instance_uuid}",
+        "serviceResourceId": "TUNNEL-RESOURCE-ID-REPLACE",
+        "isRehome": "False",
+        "assignmentInfo": [
+          {
+            "variableName": "cloudOwner",
+            "variableValue": "CloudOwner"
+          },
+          {
+            "variableName": "vnfHostName",
+            "variableValue": "vnfHostName"
+          }
+        ]
+      },
+      {
+        "cloudRegionId": "RegionOne",
+        "inventoryType": "cloud",
+        "resourceModuleName": "${vgw_name}",
+        "serviceInstanceId": "vG-service-instance-id",
+        "serviceResourceId": "VGW-RESOURCE-ID-REPLACE",
+        "isRehome": "False",
+        "assignmentInfo": [
+          {
+            "variableName": "cloudOwner",
+            "variableValue": "CloudOwner"
+          },
+          {
+            "variableName": "vnfHostName",
+            "variableValue": "vnfHostName"
+          }
+        ]
+      },
+      {
+        "cloudRegionId": "RegionOne",
+        "inventoryType": "service",
+        "resourceModuleName": "${brg_ar_name}",
+        "serviceInstanceId": "${vbrg_svc_instance_uuid}",
+        "serviceResourceId": "BRG-RESOURCE-ID-REPLACE",
+        "isRehome": "False",
+        "assignmentInfo": [
+          {
+            "variableName": "cloudOwner",
+            "variableValue": "CloudOwner"
+          },
+          {
+            "variableName": "vnfHostName",
+            "variableValue": "vnfHostName"
+          }
+        ]
+      }
+    ]
+  },
+  "requestId": "111-111-1111",
+  "statusMessage": "",
+  "transactionId": "111-111-1111",
+  "requestState": "complete"
 }
