@@ -1,185 +1,185 @@
 {
-	"info": {
-		"_postman_id": "ce6ead69-bd22-4d59-b711-d5acf1afd243",
-		"name": "Vnf_package_onboard",
-		"description": "The VFC VNF package onboard",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "VNF",
-			"item": [
-				{
-					"name": "msb_create",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "content-type",
-								"value": " application/json ",
-								"type": "text"
-							},
-							{
-								"key": "accept",
-								"value": " application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "userDefinedData",
-									"value": " \"key2\": \"value2\"",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "http://172.30.3.104:30280/api/vnfpkgm/v1/vnf_packages",
-							"protocol": "http",
-							"host": [
-								"172",
-								"30",
-								"3",
-								"104"
-							],
-							"port": "30280",
-							"path": [
-								"api",
-								"vnfpkgm",
-								"v1",
-								"vnf_packages"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "msb_get",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://172.30.3.104:30280/api/vnfpkgm/v1/vnf_packages",
-							"protocol": "http",
-							"host": [
-								"172",
-								"30",
-								"3",
-								"104"
-							],
-							"port": "30280",
-							"path": [
-								"api",
-								"vnfpkgm",
-								"v1",
-								"vnf_packages"
-							]
-						},
-						"description": "pick up information：\n[\n    {\n        \"id\": \"1109773b-0cab-4f11-a11e-0cc22b1a29a3\",\n        \"vnfdId\": \"b1bb0ce7-2222-4fa7-95ed-4840d70a1101\",\n        \"vnfProductName\": \"vcpe_vbng\",\n        \"vnfSoftwareVersion\": \"1.0.0\",\n        \"vnfdVersion\": \"1.0\",\n        \"softwareImages\": null,\n        \"additionalArtifacts\": null,\n        \"onboardingState\": \"ONBOARDED\",\n        \"operationalState\": \"ENABLED\",\n        \"usageState\": \"NOT_IN_USE\",\n        \"_links\": null\n    },\n    {\n        \"id\": \"386d6fb2-e1d9-4152-9bd6-606e33594ade\",\n        \"vnfdId\": \"b1bb0ce7-2222-4fa7-95ed-4840d70a1100\",\n        \"vnfProductName\": \"vcpe_infra\",\n        \"vnfSoftwareVersion\": \"1.0.0\",\n        \"vnfdVersion\": \"1.0\",\n        \"softwareImages\": null,\n        \"additionalArtifacts\": null,\n        \"onboardingState\": \"ONBOARDED\",\n        \"operationalState\": \"ENABLED\",\n        \"usageState\": \"NOT_IN_USE\",\n        \"_links\": null\n    },\n    {\n        \"id\": \"39eb297c-4988-4902-9c37-55e4fd5f1c38\",\n        \"vnfdId\": \"0408f076-e6c0-4c82-9940-272fddbb82de\",\n        \"vnfProductName\": \"vcpe_vgmux\",\n        \"vnfSoftwareVersion\": \"1.0.0\",\n        \"vnfdVersion\": \"1.0\",\n        \"softwareImages\": null,\n        \"additionalArtifacts\": null,\n        \"onboardingState\": \"ONBOARDED\",\n        \"operationalState\": \"ENABLED\",\n        \"usageState\": \"NOT_IN_USE\",\n        \"_links\": null\n    },\n    {\n        \"id\": \"511fb4ff-6a10-4699-864f-f3e7ad9b34b3\",\n        \"vnfdId\": \"3fca3543-07f5-492f-812c-ed462e4f94f4\",\n        \"vnfProductName\": \"vcpe_vgw\",\n        \"vnfSoftwareVersion\": \"1.0.0\",\n        \"vnfdVersion\": \"1.0\",\n        \"softwareImages\": null,\n        \"additionalArtifacts\": null,\n        \"onboardingState\": \"ONBOARDED\",\n        \"operationalState\": \"ENABLED\",\n        \"usageState\": \"NOT_IN_USE\",\n        \"_links\": null\n    },\n    {\n        \"id\": \"e924a06e-2550-4700-9e72-3a2db75925ac\",\n        \"vnfdId\": null,\n        \"vnfProductName\": null,\n        \"vnfSoftwareVersion\": null,\n        \"vnfdVersion\": null,\n        \"softwareImages\": null,\n        \"additionalArtifacts\": null,\n        \"onboardingState\": \"CREATED\",\n        \"operationalState\": \"DISABLED\",\n        \"usageState\": \"NOT_IN_USE\",\n        \"userDefinedData\": {},\n        \"_links\": null\n    },\n    {\n        \"id\": \"f660da08-cc7c-4a1f-8196-05d4db415e1d\",\n        \"vnfdId\": \"b1bb0ce7-2222-4fa7-95ed-4840d70a1102\",\n        \"vnfProductName\": \"vcpe_vbrgemu\",\n        \"vnfSoftwareVersion\": \"1.0.0\",\n        \"vnfdVersion\": \"1.0\",\n        \"softwareImages\": null,\n        \"additionalArtifacts\": null,\n        \"onboardingState\": \"ONBOARDED\",\n        \"operationalState\": \"ENABLED\",\n        \"usageState\": \"NOT_IN_USE\",\n        \"_links\": null\n    }\n]"
-					},
-					"response": []
-				},
-				{
-					"name": "msb_get_one",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://172.30.3.104:30280/api/nsd/v1/ns_descriptors/03c8e541-77a5-4594-b6a1-f955f6460dca",
-							"protocol": "http",
-							"host": [
-								"172",
-								"30",
-								"3",
-								"104"
-							],
-							"port": "30280",
-							"path": [
-								"api",
-								"nsd",
-								"v1",
-								"ns_descriptors",
-								"03c8e541-77a5-4594-b6a1-f955f6460dca"
-							]
-						},
-						"description": "Id:03c8e541-77a5-4594-b6a1-f955f6460dca\nAccording to obtaining different vnfinstid"
-					},
-					"response": []
-				},
-				{
-					"name": "msb_delete",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://172.30.3.104:30280/api/vnfpkgm/v1/vnf_packages/396b889f-529f-426a-97ab-65b00720b308",
-							"protocol": "http",
-							"host": [
-								"172",
-								"30",
-								"3",
-								"104"
-							],
-							"port": "30280",
-							"path": [
-								"api",
-								"vnfpkgm",
-								"v1",
-								"vnf_packages",
-								"396b889f-529f-426a-97ab-65b00720b308"
-							]
-						},
-						"description": "Different deletion, different filling of vnfinstid"
-					},
-					"response": []
-				},
-				{
-					"name": "msb_download",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {},
-						"url": {
-							"raw": "http://172.30.3.104:30280/api/vnfpkgm/v1/vnf_packages/396b889f-529f-426a-97ab-65b00720b308/package_content",
-							"protocol": "http",
-							"host": [
-								"172",
-								"30",
-								"3",
-								"104"
-							],
-							"port": "30280",
-							"path": [
-								"api",
-								"vnfpkgm",
-								"v1",
-								"vnf_packages",
-								"396b889f-529f-426a-97ab-65b00720b308",
-								"package_content"
-							]
-						},
-						"description": "msb_download:\nget The acquired data needs to be written to the CSAR file, and there is no write operation here; \nthe vnf package tested here does not exist.\n"
-					},
-					"response": []
-				}
-			]
-		}
-	]
+  "info": {
+    "_postman_id": "ce6ead69-bd22-4d59-b711-d5acf1afd243",
+    "name": "Vnf_package_onboard",
+    "description": "The VFC VNF package onboard",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "VNF",
+      "item": [
+        {
+          "name": "msb_create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "content-type",
+                "value": " application/json ",
+                "type": "text"
+              },
+              {
+                "key": "accept",
+                "value": " application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "userDefinedData",
+                  "value": " \"key2\": \"value2\"",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://172.30.3.104:30280/api/vnfpkgm/v1/vnf_packages",
+              "protocol": "http",
+              "host": [
+                "172",
+                "30",
+                "3",
+                "104"
+              ],
+              "port": "30280",
+              "path": [
+                "api",
+                "vnfpkgm",
+                "v1",
+                "vnf_packages"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "msb_get",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://172.30.3.104:30280/api/vnfpkgm/v1/vnf_packages",
+              "protocol": "http",
+              "host": [
+                "172",
+                "30",
+                "3",
+                "104"
+              ],
+              "port": "30280",
+              "path": [
+                "api",
+                "vnfpkgm",
+                "v1",
+                "vnf_packages"
+              ]
+            },
+            "description": "pick up information：\n[\n    {\n        \"id\": \"1109773b-0cab-4f11-a11e-0cc22b1a29a3\",\n        \"vnfdId\": \"b1bb0ce7-2222-4fa7-95ed-4840d70a1101\",\n        \"vnfProductName\": \"vcpe_vbng\",\n        \"vnfSoftwareVersion\": \"1.0.0\",\n        \"vnfdVersion\": \"1.0\",\n        \"softwareImages\": null,\n        \"additionalArtifacts\": null,\n        \"onboardingState\": \"ONBOARDED\",\n        \"operationalState\": \"ENABLED\",\n        \"usageState\": \"NOT_IN_USE\",\n        \"_links\": null\n    },\n    {\n        \"id\": \"386d6fb2-e1d9-4152-9bd6-606e33594ade\",\n        \"vnfdId\": \"b1bb0ce7-2222-4fa7-95ed-4840d70a1100\",\n        \"vnfProductName\": \"vcpe_infra\",\n        \"vnfSoftwareVersion\": \"1.0.0\",\n        \"vnfdVersion\": \"1.0\",\n        \"softwareImages\": null,\n        \"additionalArtifacts\": null,\n        \"onboardingState\": \"ONBOARDED\",\n        \"operationalState\": \"ENABLED\",\n        \"usageState\": \"NOT_IN_USE\",\n        \"_links\": null\n    },\n    {\n        \"id\": \"39eb297c-4988-4902-9c37-55e4fd5f1c38\",\n        \"vnfdId\": \"0408f076-e6c0-4c82-9940-272fddbb82de\",\n        \"vnfProductName\": \"vcpe_vgmux\",\n        \"vnfSoftwareVersion\": \"1.0.0\",\n        \"vnfdVersion\": \"1.0\",\n        \"softwareImages\": null,\n        \"additionalArtifacts\": null,\n        \"onboardingState\": \"ONBOARDED\",\n        \"operationalState\": \"ENABLED\",\n        \"usageState\": \"NOT_IN_USE\",\n        \"_links\": null\n    },\n    {\n        \"id\": \"511fb4ff-6a10-4699-864f-f3e7ad9b34b3\",\n        \"vnfdId\": \"3fca3543-07f5-492f-812c-ed462e4f94f4\",\n        \"vnfProductName\": \"vcpe_vgw\",\n        \"vnfSoftwareVersion\": \"1.0.0\",\n        \"vnfdVersion\": \"1.0\",\n        \"softwareImages\": null,\n        \"additionalArtifacts\": null,\n        \"onboardingState\": \"ONBOARDED\",\n        \"operationalState\": \"ENABLED\",\n        \"usageState\": \"NOT_IN_USE\",\n        \"_links\": null\n    },\n    {\n        \"id\": \"e924a06e-2550-4700-9e72-3a2db75925ac\",\n        \"vnfdId\": null,\n        \"vnfProductName\": null,\n        \"vnfSoftwareVersion\": null,\n        \"vnfdVersion\": null,\n        \"softwareImages\": null,\n        \"additionalArtifacts\": null,\n        \"onboardingState\": \"CREATED\",\n        \"operationalState\": \"DISABLED\",\n        \"usageState\": \"NOT_IN_USE\",\n        \"userDefinedData\": {},\n        \"_links\": null\n    },\n    {\n        \"id\": \"f660da08-cc7c-4a1f-8196-05d4db415e1d\",\n        \"vnfdId\": \"b1bb0ce7-2222-4fa7-95ed-4840d70a1102\",\n        \"vnfProductName\": \"vcpe_vbrgemu\",\n        \"vnfSoftwareVersion\": \"1.0.0\",\n        \"vnfdVersion\": \"1.0\",\n        \"softwareImages\": null,\n        \"additionalArtifacts\": null,\n        \"onboardingState\": \"ONBOARDED\",\n        \"operationalState\": \"ENABLED\",\n        \"usageState\": \"NOT_IN_USE\",\n        \"_links\": null\n    }\n]"
+          },
+          "response": []
+        },
+        {
+          "name": "msb_get_one",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://172.30.3.104:30280/api/nsd/v1/ns_descriptors/03c8e541-77a5-4594-b6a1-f955f6460dca",
+              "protocol": "http",
+              "host": [
+                "172",
+                "30",
+                "3",
+                "104"
+              ],
+              "port": "30280",
+              "path": [
+                "api",
+                "nsd",
+                "v1",
+                "ns_descriptors",
+                "03c8e541-77a5-4594-b6a1-f955f6460dca"
+              ]
+            },
+            "description": "Id:03c8e541-77a5-4594-b6a1-f955f6460dca\nAccording to obtaining different vnfinstid"
+          },
+          "response": []
+        },
+        {
+          "name": "msb_delete",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://172.30.3.104:30280/api/vnfpkgm/v1/vnf_packages/396b889f-529f-426a-97ab-65b00720b308",
+              "protocol": "http",
+              "host": [
+                "172",
+                "30",
+                "3",
+                "104"
+              ],
+              "port": "30280",
+              "path": [
+                "api",
+                "vnfpkgm",
+                "v1",
+                "vnf_packages",
+                "396b889f-529f-426a-97ab-65b00720b308"
+              ]
+            },
+            "description": "Different deletion, different filling of vnfinstid"
+          },
+          "response": []
+        },
+        {
+          "name": "msb_download",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {},
+            "url": {
+              "raw": "http://172.30.3.104:30280/api/vnfpkgm/v1/vnf_packages/396b889f-529f-426a-97ab-65b00720b308/package_content",
+              "protocol": "http",
+              "host": [
+                "172",
+                "30",
+                "3",
+                "104"
+              ],
+              "port": "30280",
+              "path": [
+                "api",
+                "vnfpkgm",
+                "v1",
+                "vnf_packages",
+                "396b889f-529f-426a-97ab-65b00720b308",
+                "package_content"
+              ]
+            },
+            "description": "msb_download:\nget The acquired data needs to be written to the CSAR file, and there is no write operation here; \nthe vnf package tested here does not exist.\n"
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
 }

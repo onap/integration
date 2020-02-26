@@ -1,8 +1,8 @@
 {
-	"id": "146e52f0-fd32-4814-8e58-8a3c0f4d5eb7",
-	"values": [],
-	"name": "My Workspace Globals",
-	"_postman_variable_scope": "globals",
-	"_postman_exported_at": "2019-10-22T09:09:26.620Z",
-	"_postman_exported_using": "Postman/6.7.5"
+  "id": "146e52f0-fd32-4814-8e58-8a3c0f4d5eb7",
+  "values": [],
+  "name": "My Workspace Globals",
+  "_postman_variable_scope": "globals",
+  "_postman_exported_at": "2019-10-22T09:09:26.620Z",
+  "_postman_exported_using": "Postman/6.7.5"
 }

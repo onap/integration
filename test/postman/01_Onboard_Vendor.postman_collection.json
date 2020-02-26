@@ -1,363 +1,363 @@
 {
-	"info": {
-		"_postman_id": "338c7225-c4d5-40c8-8619-ae904f41a83d",
-		"name": "01_Onboard_Vendor",
-		"description": "onboard new vendor",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "Get Vendor before create",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "2249b072-2689-45f3-87ea-a75da5802752",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"var jsonData = pm.response.json();",
-							"",
-							"var vendor_found = false;",
-							"for (var i = 0; i < jsonData.results.length; i++) { ",
-							"   if (jsonData.results[i].name === pm.environment.get(\"vendor_name\")) {",
-							"       vendor_found = true;",
-							"       pm.environment.set(\"auto_vendor_id\", \"\"+jsonData.results[i].id+\"\");",
-							"   }",
-							"}",
-							"if (vendor_found === false) {",
-							"    tests[pm.environment.get(\"vendor_name\")+\" not yet declared\"] = true;",
-							"}",
-							"",
-							"else {",
-							"    tests[pm.environment.get(\"vendor_name\")+\" already exists, we stop the run\"] = false;",
-							"    postman.setNextRequest(null);",
-							"}",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a"
-					},
-					{
-						"key": "USER_ID",
-						"value": "cs0008"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "robot-ete"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/vendor-license-models",
-					"host": [
-						"{{url-sdc2}}"
-					],
-					"path": [
-						"sdc1",
-						"feProxy",
-						"onboarding-api",
-						"v1.0",
-						"vendor-license-models"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Create Vendor",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "80c1d190-d480-4150-ae91-8ce4111c0f9d",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"var jsonData = pm.response.json();",
-							"",
-							"pm.environment.set(\"auto_vendor_id\", \"\"+jsonData.itemId+\"\");",
-							"pm.environment.set(\"auto_vendor_version_id\", \"\"+jsonData.version.id+\"\");",
-							"",
-							"tests[\"Vendor status is : \"+jsonData.version.status] = jsonData.version.status === \"Draft\";"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a"
-					},
-					{
-						"key": "USER_ID",
-						"value": "cs0008"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "robot-ete"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"iconRef\": \"icon\",\r\n  \"vendorName\": \"{{vendor_name}}\",\r\n  \"description\": \"Vendor\"\r\n}"
-				},
-				"url": {
-					"raw": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/vendor-license-models",
-					"host": [
-						"{{url-sdc2}}"
-					],
-					"path": [
-						"sdc1",
-						"feProxy",
-						"onboarding-api",
-						"v1.0",
-						"vendor-license-models"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Vendor after create",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "aa6fd7c5-c941-43ce-8300-a492c2d62a6c",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"var jsonData = pm.response.json();",
-							"",
-							"var vendor_found = false;",
-							"for (var i = 0; i < jsonData.results.length; i++) { ",
-							"   if (jsonData.results[i].name === pm.environment.get(\"vendor_name\")) {",
-							"       vendor_found = true;",
-							"       pm.environment.set(\"auto_vendor_id\", \"\"+jsonData.results[i].id+\"\");",
-							"   }",
-							"}",
-							"tests[pm.environment.get(\"vendor_name\")+\" found\"] = vendor_found === vendor_found;",
-							"",
-							"",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a"
-					},
-					{
-						"key": "USER_ID",
-						"value": "cs0008"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "robot-ete"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/vendor-license-models",
-					"host": [
-						"{{url-sdc2}}"
-					],
-					"path": [
-						"sdc1",
-						"feProxy",
-						"onboarding-api",
-						"v1.0",
-						"vendor-license-models"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Submit Vendor",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "db905800-2754-491a-9d78-1ffebc12fb18",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a"
-					},
-					{
-						"key": "USER_ID",
-						"value": "cs0008"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "robot-ete"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"action\":\"Submit\"}"
-				},
-				"url": {
-					"raw": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/vendor-license-models/{{auto_vendor_id}}/versions/{{auto_vendor_version_id}}/actions",
-					"host": [
-						"{{url-sdc2}}"
-					],
-					"path": [
-						"sdc1",
-						"feProxy",
-						"onboarding-api",
-						"v1.0",
-						"vendor-license-models",
-						"{{auto_vendor_id}}",
-						"versions",
-						"{{auto_vendor_version_id}}",
-						"actions"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Vendor additional info after Submit",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "f9003c80-add1-4581-9a9d-661972f7d6d5",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"var jsonData = pm.response.json();",
-							"",
-							"tests[\"Vendor is : \"+jsonData.status] = jsonData.status === \"Certified\";",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a"
-					},
-					{
-						"key": "USER_ID",
-						"value": "cs0008"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "robot-ete"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/items/{{auto_vendor_id}}/versions/{{auto_vendor_version_id}}",
-					"host": [
-						"{{url-sdc2}}"
-					],
-					"path": [
-						"sdc1",
-						"feProxy",
-						"onboarding-api",
-						"v1.0",
-						"items",
-						"{{auto_vendor_id}}",
-						"versions",
-						"{{auto_vendor_version_id}}"
-					]
-				}
-			},
-			"response": []
-		}
-	]
+  "info": {
+    "_postman_id": "338c7225-c4d5-40c8-8619-ae904f41a83d",
+    "name": "01_Onboard_Vendor",
+    "description": "onboard new vendor",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Vendor before create",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "2249b072-2689-45f3-87ea-a75da5802752",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "",
+              "var vendor_found = false;",
+              "for (var i = 0; i < jsonData.results.length; i++) { ",
+              "   if (jsonData.results[i].name === pm.environment.get(\"vendor_name\")) {",
+              "       vendor_found = true;",
+              "       pm.environment.set(\"auto_vendor_id\", \"\"+jsonData.results[i].id+\"\");",
+              "   }",
+              "}",
+              "if (vendor_found === false) {",
+              "    tests[pm.environment.get(\"vendor_name\")+\" not yet declared\"] = true;",
+              "}",
+              "",
+              "else {",
+              "    tests[pm.environment.get(\"vendor_name\")+\" already exists, we stop the run\"] = false;",
+              "    postman.setNextRequest(null);",
+              "}",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a"
+          },
+          {
+            "key": "USER_ID",
+            "value": "cs0008"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "robot-ete"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/vendor-license-models",
+          "host": [
+            "{{url-sdc2}}"
+          ],
+          "path": [
+            "sdc1",
+            "feProxy",
+            "onboarding-api",
+            "v1.0",
+            "vendor-license-models"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Vendor",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "80c1d190-d480-4150-ae91-8ce4111c0f9d",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "",
+              "pm.environment.set(\"auto_vendor_id\", \"\"+jsonData.itemId+\"\");",
+              "pm.environment.set(\"auto_vendor_version_id\", \"\"+jsonData.version.id+\"\");",
+              "",
+              "tests[\"Vendor status is : \"+jsonData.version.status] = jsonData.version.status === \"Draft\";"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a"
+          },
+          {
+            "key": "USER_ID",
+            "value": "cs0008"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "robot-ete"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"iconRef\": \"icon\",\r\n  \"vendorName\": \"{{vendor_name}}\",\r\n  \"description\": \"Vendor\"\r\n}"
+        },
+        "url": {
+          "raw": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/vendor-license-models",
+          "host": [
+            "{{url-sdc2}}"
+          ],
+          "path": [
+            "sdc1",
+            "feProxy",
+            "onboarding-api",
+            "v1.0",
+            "vendor-license-models"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Vendor after create",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "aa6fd7c5-c941-43ce-8300-a492c2d62a6c",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "",
+              "var vendor_found = false;",
+              "for (var i = 0; i < jsonData.results.length; i++) { ",
+              "   if (jsonData.results[i].name === pm.environment.get(\"vendor_name\")) {",
+              "       vendor_found = true;",
+              "       pm.environment.set(\"auto_vendor_id\", \"\"+jsonData.results[i].id+\"\");",
+              "   }",
+              "}",
+              "tests[pm.environment.get(\"vendor_name\")+\" found\"] = vendor_found === vendor_found;",
+              "",
+              "",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a"
+          },
+          {
+            "key": "USER_ID",
+            "value": "cs0008"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "robot-ete"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/vendor-license-models",
+          "host": [
+            "{{url-sdc2}}"
+          ],
+          "path": [
+            "sdc1",
+            "feProxy",
+            "onboarding-api",
+            "v1.0",
+            "vendor-license-models"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Submit Vendor",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "db905800-2754-491a-9d78-1ffebc12fb18",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a"
+          },
+          {
+            "key": "USER_ID",
+            "value": "cs0008"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "robot-ete"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"action\":\"Submit\"}"
+        },
+        "url": {
+          "raw": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/vendor-license-models/{{auto_vendor_id}}/versions/{{auto_vendor_version_id}}/actions",
+          "host": [
+            "{{url-sdc2}}"
+          ],
+          "path": [
+            "sdc1",
+            "feProxy",
+            "onboarding-api",
+            "v1.0",
+            "vendor-license-models",
+            "{{auto_vendor_id}}",
+            "versions",
+            "{{auto_vendor_version_id}}",
+            "actions"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Vendor additional info after Submit",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "f9003c80-add1-4581-9a9d-661972f7d6d5",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "",
+              "tests[\"Vendor is : \"+jsonData.status] = jsonData.status === \"Certified\";",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a"
+          },
+          {
+            "key": "USER_ID",
+            "value": "cs0008"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "robot-ete"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/items/{{auto_vendor_id}}/versions/{{auto_vendor_version_id}}",
+          "host": [
+            "{{url-sdc2}}"
+          ],
+          "path": [
+            "sdc1",
+            "feProxy",
+            "onboarding-api",
+            "v1.0",
+            "items",
+            "{{auto_vendor_id}}",
+            "versions",
+            "{{auto_vendor_version_id}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
 }
