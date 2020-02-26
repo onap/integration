@@ -1,234 +1,234 @@
 {
-	"info": {
-		"_postman_id": "305afb68-6632-49a7-8a6d-9d9d57699f6e",
-		"name": "Ns_Instance",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "ns_instance",
-			"item": [
-				{
-					"name": "ns_create",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "content-type",
-								"value": " application/json",
-								"type": "text"
-							},
-							{
-								"key": "accept",
-								"value": " application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"context\": {\r\n        \"globalCustomerId\": \"global-customer-id-test1\",\r\n        \"serviceType\": \"service-type-test1\"\r\n    },\r\n    \"csarId\": \"d5d678dc-80ef-461e-8630-d105f43b0a18\",\r\n    \"nsName\": \"ns_vsn\",\r\n    \"description\": \"description\"\r\n}"
-						},
-						"url": {
-							"raw": "http://172.30.3.104:30280/api/nslcm/v1/ns",
-							"protocol": "http",
-							"host": [
-								"172",
-								"30",
-								"3",
-								"104"
-							],
-							"port": "30280",
-							"path": [
-								"api",
-								"nslcm",
-								"v1",
-								"ns"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "ns_inst",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "content-type",
-								"value": " application/json",
-								"type": "text"
-							},
-							{
-								"key": "accept",
-								"value": " application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"additionalParamForNs\": {\r\n        \"sdnControllerId\": \"2\"\r\n    },\r\n    \"locationConstraints\": [{\r\n        \"vnfProfileId\": \"45711f40-3f43-415b-bb45-46e5c6940735\",\r\n        \"locationConstraints\": {\r\n            \"vimId\": \"CPE-DC_RegionOne\"\r\n        }\r\n    }]\r\n}\r\n"
-						},
-						"url": {
-							"raw": "http://172.30.3.104:30280/api/nslcm/v1/ns/f0b4c09f-c653-438a-b091-5218b0f806ec/instantiate",
-							"protocol": "http",
-							"host": [
-								"172",
-								"30",
-								"3",
-								"104"
-							],
-							"port": "30280",
-							"path": [
-								"api",
-								"nslcm",
-								"v1",
-								"ns",
-								"f0b4c09f-c653-438a-b091-5218b0f806ec",
-								"instantiate"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "ns_terminate",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "content-type",
-								"value": " application/json",
-								"type": "text"
-							},
-							{
-								"key": "accept",
-								"value": " application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n   \"gracefulTerminationTimeout\": 600, \r\n   \"terminationType\": \"FORCEFUL\"\r\n}"
-						},
-						"url": {
-							"raw": "http://172.30.3.104:30280/api/nslcm/v1/ns/f0b4c09f-c653-438a-b091-5218b0f806ec/terminate",
-							"protocol": "http",
-							"host": [
-								"172",
-								"30",
-								"3",
-								"104"
-							],
-							"port": "30280",
-							"path": [
-								"api",
-								"nslcm",
-								"v1",
-								"ns",
-								"f0b4c09f-c653-438a-b091-5218b0f806ec",
-								"terminate"
-							]
-						},
-						"description": "generate：\"jobId\": \"NS-terminate_ns-f0b4c09f-c653-438a-b091-5218b0f806ec-6f12ca34-f7a2-11e8-8c7e-02bf457e51f9\"\n\ninstid：f0b4c09f-c653-438a-b091-5218b0f806ec"
-					},
-					"response": []
-				},
-				{
-					"name": "ns_delete",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://172.30.3.104:30280/api/nslcm/v1/ns/f0b4c09f-c653-438a-b091-5218b0f806ec",
-							"protocol": "http",
-							"host": [
-								"172",
-								"30",
-								"3",
-								"104"
-							],
-							"port": "30280",
-							"path": [
-								"api",
-								"nslcm",
-								"v1",
-								"ns",
-								"f0b4c09f-c653-438a-b091-5218b0f806ec"
-							]
-						},
-						"description": "ns/instid:f0b4c09f-c653-438a-b091-5218b0f806ec\nInstid after ns, fill in according to the actual situation"
-					},
-					"response": []
-				},
-				{
-					"name": "ns_heal",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "content-type",
-								"value": " application/json",
-								"type": "text"
-							},
-							{
-								"key": "accept",
-								"value": " application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"vnfInstanceId\": \"044b705c-e44d-4733-ab64-987f46d9b567\",\r\n    \"cause\": \"restartvm\",\r\n    \"additionalParams\": {\r\n      \"action\": \"restartvm\",\r\n      \"actionvminfo\": {\r\n        \"vmid\": \"1623cd25-ae6f-4880-8132-15914367e47b\",\r\n        \"vduid\": \"\",\r\n        \"vmname\": \"1623cd25-ae6f-4880-8132-15914367e47b\"\r\n      }\r\n    }"
-						},
-						"url": {
-							"raw": "http://172.30.3.104:30280/api/nslcm/v1/ns/5443e9f8-7993-479d-8d7a-34e422eabc8f/heal",
-							"protocol": "http",
-							"host": [
-								"172",
-								"30",
-								"3",
-								"104"
-							],
-							"port": "30280",
-							"path": [
-								"api",
-								"nslcm",
-								"v1",
-								"ns",
-								"5443e9f8-7993-479d-8d7a-34e422eabc8f",
-								"heal"
-							]
-						}
-					},
-					"response": []
-				}
-			],
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "debc308f-9109-41b1-adf3-9d288b2061e6",
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "0a37542a-0a02-4e84-970a-f8f32b0bf713",
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
-			]
-		}
-	]
+  "info": {
+    "_postman_id": "305afb68-6632-49a7-8a6d-9d9d57699f6e",
+    "name": "Ns_Instance",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "ns_instance",
+      "item": [
+        {
+          "name": "ns_create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "content-type",
+                "value": " application/json",
+                "type": "text"
+              },
+              {
+                "key": "accept",
+                "value": " application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"context\": {\r\n        \"globalCustomerId\": \"global-customer-id-test1\",\r\n        \"serviceType\": \"service-type-test1\"\r\n    },\r\n    \"csarId\": \"d5d678dc-80ef-461e-8630-d105f43b0a18\",\r\n    \"nsName\": \"ns_vsn\",\r\n    \"description\": \"description\"\r\n}"
+            },
+            "url": {
+              "raw": "http://172.30.3.104:30280/api/nslcm/v1/ns",
+              "protocol": "http",
+              "host": [
+                "172",
+                "30",
+                "3",
+                "104"
+              ],
+              "port": "30280",
+              "path": [
+                "api",
+                "nslcm",
+                "v1",
+                "ns"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ns_inst",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "content-type",
+                "value": " application/json",
+                "type": "text"
+              },
+              {
+                "key": "accept",
+                "value": " application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"additionalParamForNs\": {\r\n        \"sdnControllerId\": \"2\"\r\n    },\r\n    \"locationConstraints\": [{\r\n        \"vnfProfileId\": \"45711f40-3f43-415b-bb45-46e5c6940735\",\r\n        \"locationConstraints\": {\r\n            \"vimId\": \"CPE-DC_RegionOne\"\r\n        }\r\n    }]\r\n}\r\n"
+            },
+            "url": {
+              "raw": "http://172.30.3.104:30280/api/nslcm/v1/ns/f0b4c09f-c653-438a-b091-5218b0f806ec/instantiate",
+              "protocol": "http",
+              "host": [
+                "172",
+                "30",
+                "3",
+                "104"
+              ],
+              "port": "30280",
+              "path": [
+                "api",
+                "nslcm",
+                "v1",
+                "ns",
+                "f0b4c09f-c653-438a-b091-5218b0f806ec",
+                "instantiate"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ns_terminate",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "content-type",
+                "value": " application/json",
+                "type": "text"
+              },
+              {
+                "key": "accept",
+                "value": " application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n   \"gracefulTerminationTimeout\": 600, \r\n   \"terminationType\": \"FORCEFUL\"\r\n}"
+            },
+            "url": {
+              "raw": "http://172.30.3.104:30280/api/nslcm/v1/ns/f0b4c09f-c653-438a-b091-5218b0f806ec/terminate",
+              "protocol": "http",
+              "host": [
+                "172",
+                "30",
+                "3",
+                "104"
+              ],
+              "port": "30280",
+              "path": [
+                "api",
+                "nslcm",
+                "v1",
+                "ns",
+                "f0b4c09f-c653-438a-b091-5218b0f806ec",
+                "terminate"
+              ]
+            },
+            "description": "generate：\"jobId\": \"NS-terminate_ns-f0b4c09f-c653-438a-b091-5218b0f806ec-6f12ca34-f7a2-11e8-8c7e-02bf457e51f9\"\n\ninstid\uff1af0b4c09f-c653-438a-b091-5218b0f806ec"
+          },
+          "response": []
+        },
+        {
+          "name": "ns_delete",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://172.30.3.104:30280/api/nslcm/v1/ns/f0b4c09f-c653-438a-b091-5218b0f806ec",
+              "protocol": "http",
+              "host": [
+                "172",
+                "30",
+                "3",
+                "104"
+              ],
+              "port": "30280",
+              "path": [
+                "api",
+                "nslcm",
+                "v1",
+                "ns",
+                "f0b4c09f-c653-438a-b091-5218b0f806ec"
+              ]
+            },
+            "description": "ns/instid:f0b4c09f-c653-438a-b091-5218b0f806ec\nInstid after ns, fill in according to the actual situation"
+          },
+          "response": []
+        },
+        {
+          "name": "ns_heal",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "content-type",
+                "value": " application/json",
+                "type": "text"
+              },
+              {
+                "key": "accept",
+                "value": " application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"vnfInstanceId\": \"044b705c-e44d-4733-ab64-987f46d9b567\",\r\n    \"cause\": \"restartvm\",\r\n    \"additionalParams\": {\r\n      \"action\": \"restartvm\",\r\n      \"actionvminfo\": {\r\n        \"vmid\": \"1623cd25-ae6f-4880-8132-15914367e47b\",\r\n        \"vduid\": \"\",\r\n        \"vmname\": \"1623cd25-ae6f-4880-8132-15914367e47b\"\r\n      }\r\n    }"
+            },
+            "url": {
+              "raw": "http://172.30.3.104:30280/api/nslcm/v1/ns/5443e9f8-7993-479d-8d7a-34e422eabc8f/heal",
+              "protocol": "http",
+              "host": [
+                "172",
+                "30",
+                "3",
+                "104"
+              ],
+              "port": "30280",
+              "path": [
+                "api",
+                "nslcm",
+                "v1",
+                "ns",
+                "5443e9f8-7993-479d-8d7a-34e422eabc8f",
+                "heal"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "debc308f-9109-41b1-adf3-9d288b2061e6",
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "id": "0a37542a-0a02-4e84-970a-f8f32b0bf713",
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    }
+  ]
 }
