@@ -6,7 +6,10 @@
       "type": "string",
       "defaultValue": "16.04.0-LTS",
       "allowedValues": [
-        "12.04.5-LTS","14.04.5-LTS","15.10","16.04.0-LTS"
+        "12.04.5-LTS",
+        "14.04.5-LTS",
+        "15.10",
+        "16.04.0-LTS"
       ],
       "metadata": {
         "description": "The OS"
@@ -23,7 +26,7 @@
     },
     "privateIPAddress": {
       "type": "string",
-	  "defaultValue": "10.0.0.2",
+      "defaultValue": "10.0.0.2",
       "metadata": {
         "description": "Static Private IP will be assigned to the machine"
       }
@@ -47,7 +50,7 @@
         "Standard_E8_v3",
         "Standard_E2_v3",
         "Standard_D1",
-	    "Standard_D16s_v3",
+        "Standard_D16s_v3",
         "Standard_D4_v2",
         "Standard_D32s_v3",
         "Standard_E16_v3",
@@ -65,11 +68,12 @@
         "description": "Unique DNS label to assign DNS name"
       }
     }
-
   },
   "variables": {
     "dnsLabelPrefix": "[concat('dns-',uniquestring(resourceGroup().id))]",
-    "customData": [ "userdata.txt" ], 
+    "customData": [
+      "userdata.txt"
+    ],
     "vmName": "[concat('k8s-host-', substring(uniquestring(resourceGroup().id),0,4))]",
     "adminUsername": "[concat('ubuntu')]",
     "adminPassword": "Qwertyuiop@@1",
@@ -84,7 +88,7 @@
     "subnetPrefix": "10.0.0.0/24",
     "storageAccountType": "Standard_LRS",
     "publicIPAddressType": "Dynamic",
-	  "publicIPAddressName": "nicLoop100",
+    "publicIPAddressName": "nicLoop100",
     "virtualNetworkName": "[concat('VNET-',variables('vmName'))]",
     "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets/', variables('virtualNetworkName'), variables('subnetName'))]",
     "networkSecurityGroupName": "[concat(variables('vmName'), '_obrien_local_nsg')]",
@@ -125,7 +129,7 @@
       },
       "properties": {
         "securityRules": [
-         {
+          {
             "name": "SSHAllowAny",
             "properties": {
               "description": "SSHAllowAny",
@@ -181,7 +185,6 @@
               "direction": "Inbound"
             }
           },
-
           {
             "name": "port_10249-10255_172",
             "properties": {
@@ -306,7 +309,7 @@
       "location": "[resourceGroup().location]",
       "copy": {
         "name": "nicLoop",
-        "count": "[parameters('numberOfVms')]" 
+        "count": "[parameters('numberOfVms')]"
       },
       "properties": {
         "publicIPAllocationMethod": "Dynamic",
@@ -378,45 +381,51 @@
         }
       }
     },
-	{
-    "apiVersion": "2015-06-15",
-    "type": "Microsoft.Compute/virtualMachines/extensions",
-    "name": "[concat(variables('vmName'), '0','/onap')]",
-    "location": "[resourceGroup().location]",
-    "dependsOn": ["virtualMachineLoop"],
-    "properties": {
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('vmName'), '0','/onap')]",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "virtualMachineLoop"
+      ],
+      "properties": {
         "publisher": "Microsoft.Azure.Extensions",
         "type": "CustomScript",
         "typeHandlerVersion": "2.0",
         "autoUpgradeMinorVersion": true,
         "settings": {
-            "fileUris": [ "https://git.onap.org/integration/plain/deployment/Azure_ARM_Template/scripts/azure-rancher-server.sh" ],
-            "commandToExecute": "[concat('./' , parameters('masterScriptName'),' ',reference(variables('publicIPAddressName')).dnsSettings.fqdn,' ',parameters('privateIPAddress'),' ',parameters('numberOfVms'))]"
-           }
+          "fileUris": [
+            "https://git.onap.org/integration/plain/deployment/Azure_ARM_Template/scripts/azure-rancher-server.sh"
+          ],
+          "commandToExecute": "[concat('./' , parameters('masterScriptName'),' ',reference(variables('publicIPAddressName')).dnsSettings.fqdn,' ',parameters('privateIPAddress'),' ',parameters('numberOfVms'))]"
         }
-     },
-	{
-    "apiVersion": "2015-06-15",
-    "type": "Microsoft.Compute/virtualMachines/extensions",
-    "name": "[concat(variables('vmName'), copyindex(1),'/onap')]",
-	"copy": {
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('vmName'), copyindex(1),'/onap')]",
+      "copy": {
         "name": "virtualMachineExtnLoop",
-        "count": "[sub(parameters('numberOfVms'),1)]" 
+        "count": "[sub(parameters('numberOfVms'),1)]"
       },
-    "location": "[resourceGroup().location]",
-    "dependsOn": [
-      "virtualMachineLoop"
-    ],
-    "properties": {
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "virtualMachineLoop"
+      ],
+      "properties": {
         "publisher": "Microsoft.Azure.Extensions",
         "type": "CustomScript",
         "typeHandlerVersion": "2.0",
         "autoUpgradeMinorVersion": true,
         "settings": {
-            "fileUris": [ "https://git.onap.org/integration/plain/deployment/Azure_ARM_Template/scripts/azure-k8s-node.sh" ],
-            "commandToExecute": "[concat('./' , parameters('nodeScriptName'),' ',concat(parameters('privateIPAddress'),'0'))]"
-           }
+          "fileUris": [
+            "https://git.onap.org/integration/plain/deployment/Azure_ARM_Template/scripts/azure-k8s-node.sh"
+          ],
+          "commandToExecute": "[concat('./' , parameters('nodeScriptName'),' ',concat(parameters('privateIPAddress'),'0'))]"
         }
-     }
+      }
+    }
   ]
 }

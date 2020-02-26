@@ -2,10 +2,20 @@
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-      "numberOfVms": { "value": 12 },
-      "vmSize": { "value": "Standard_D4_v2" },
-      "masterScriptName": { "value": "azure-rancher-server.sh" },
-      "nodeScriptName": { "value": "azure-k8s-node.sh" },
-      "dnslabel": { "value": "ranchercluster" }
+    "numberOfVms": {
+      "value": 12
+    },
+    "vmSize": {
+      "value": "Standard_D4_v2"
+    },
+    "masterScriptName": {
+      "value": "azure-rancher-server.sh"
+    },
+    "nodeScriptName": {
+      "value": "azure-k8s-node.sh"
+    },
+    "dnslabel": {
+      "value": "ranchercluster"
+    }
   }
 }
