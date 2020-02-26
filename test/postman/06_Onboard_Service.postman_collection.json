@@ -1,1410 +1,1410 @@
 {
-	"info": {
-		"_postman_id": "dcfc4671-1cb4-453a-8fef-97a0ba533daa",
-		"name": "06_Onboard_Service",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "check  service exists and get infos",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "4f27b99e-23ac-4e7c-a1dc-c42ad63d6f65",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"var jsonData = pm.response.json();",
-							"var service_found = false;",
-							"for (var i = 0; i < jsonData.length; i++) { ",
-							"   if (jsonData[i].name === pm.environment.get(\"service\")) {",
-							"       service_found = true;",
-							"       pm.environment.set(\"auto_service_uuid\", \"\"+jsonData[i].uuid+\"\");",
-							"       pm.environment.set(\"auto_service_invariant_uuid\", \"\"+jsonData[i].invariantUUID+\"\");",
-							"   }",
-							"}",
-							"if (service_found === false) {",
-							"    tests[pm.environment.get(\"service\")+\" does not exist yet, we continue the run\"] = true;",
-							"}",
-							"",
-							"else {",
-							"    tests[pm.environment.get(\"service\")+\" already exists, stop the run\"] = false;",
-							"    postman.setNextRequest(null);",
-							"}"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "USER_ID",
-						"value": "cs0008"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
-					},
-					{
-						"key": "x-ecomp-instanceid",
-						"value": "ONAP-Test"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-sdc}}/sdc/v1/catalog/services",
-					"host": [
-						"{{url-sdc}}"
-					],
-					"path": [
-						"sdc",
-						"v1",
-						"catalog",
-						"services"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Declare an aLaCarte Service",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "e6118e78-e476-4049-8e81-f81b53ba625a",
-						"exec": [
-							"pm.test(\"Status code is 201\", function () {",
-							"    pm.response.to.have.status(201);",
-							"});",
-							"",
-							"var jsonData = pm.response.json();",
-							"pm.environment.set(\"auto_service_invariant_uuid\", \"\"+jsonData[\"invariantUUID\"]+\"\");",
-							"pm.environment.set(\"auto_service_uuid\", \"\"+jsonData[\"uuid\"]+\"\");",
-							"pm.environment.set(\"auto_service_unique_id\", \"\"+jsonData[\"uniqueId\"]+\"\");",
-							"",
-							"tests[\"Service status is : \"+jsonData.lifecycleState] = jsonData.lifecycleState === \"NOT_CERTIFIED_CHECKOUT\";"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "USER_ID",
-						"value": "cs0008"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
-					},
-					{
-						"key": "x-ecomp-instanceid",
-						"value": "ONAP-Test"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n\t\"artifacts\": {},\r\n\t\"toscaArtifacts\": {},\r\n\t\"contactId\": \"cs0008\",\r\n\t\"categories\": [{\r\n\t\t\"name\": \"Network Service\",\r\n\t\t\"normalizedName\": \"network service\",\r\n\t\t\"uniqueId\": \"serviceNewCategory.network service\",\r\n\t\t\"icons\": [\"network_l_1-3\"],\r\n\t\t\"subcategories\": null,\r\n\t\t\"version\": null,\r\n\t\t\"ownerId\": null,\r\n\t\t\"empty\": false,\r\n\t\t\"type\": null\r\n\t}],\r\n\t\"description\": \"Service {{service}}\",\r\n\t\"icon\": \"defaulticon\",\r\n\t\"componentInstancesProperties\": {},\r\n\t\"componentInstancesAttributes\": {},\r\n\t\"name\": \"{{service}}\",\r\n\t\"tags\": [\"{{service}}\"],\r\n\t\"capabilities\": {},\r\n\t\"requirements\": {},\r\n\t\"deploymentArtifacts\": {},\r\n\t\"componentType\": \"SERVICE\",\r\n\t\"projectCode\": \"123456\",\r\n\t\"componentInstances\": [],\r\n\t\"properties\": [],\r\n\t\"attributes\": [],\r\n\t\"forwardingPaths\": {},\r\n\t\"ecompGeneratedNaming\": true,\r\n\t\"serviceApiArtifacts\": {},\r\n\t\"instantiationType\": \"A-la-carte\",\r\n\t\"environmentContext\": \"General_Revenue-Bearing\"\r\n}"
-				},
-				"url": {
-					"raw": "{{url-sdc2}}/sdc1/feProxy/rest/v1/catalog/services",
-					"host": [
-						"{{url-sdc2}}"
-					],
-					"path": [
-						"sdc1",
-						"feProxy",
-						"rest",
-						"v1",
-						"catalog",
-						"services"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "check VF exists and get uuid",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "87b90661-aefb-4ec9-94fc-fb5277f8c283",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"var jsonData = pm.response.json();",
-							"var vf_found = false;",
-							"if (jsonData.name === pm.environment.get(\"vf_name\")) {",
-							"    vf_found = true;",
-							"    pm.environment.set(\"auto_vf_uuid\", \"\"+jsonData.uuid+\"\");",
-							"    pm.environment.set(\"auto_vf_invariant_uuid\", \"\"+jsonData.invariantUUID+\"\");",
-							"    ",
-							"}",
-							"",
-							"if (vf_found === false) {",
-							"    tests[\"VF \"+pm.environment.get(\"vf_name\")+\" does not exists, we stop the run\"] = false;",
-							"    postman.setNextRequest(null);",
-							"",
-							"}",
-							"",
-							"else {",
-							"    tests[\"VF \"+pm.environment.get(\"vf_name\")+\" exists, we continue the run\"] = true;",
-							"}"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "USER_ID",
-						"value": "cs0008"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
-					},
-					{
-						"key": "x-ecomp-instanceid",
-						"value": "ONAP-Test"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-sdc}}/sdc/v1/catalog/resources/{{auto_vf_uuid}}/metadata",
-					"host": [
-						"{{url-sdc}}"
-					],
-					"path": [
-						"sdc",
-						"v1",
-						"catalog",
-						"resources",
-						"{{auto_vf_uuid}}",
-						"metadata"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get  VF uniqueId",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "16c73747-c973-40d9-ba3f-6061199386ec",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"var jsonData = pm.response.json();",
-							"var vf_found = false;",
-							"for (var i = 0; i < jsonData.resources.length; i++) { ",
-							"   if (jsonData.resources[i].name === pm.environment.get(\"vf_name\")) {",
-							"       vf_found = true;",
-							"       pm.environment.set(\"auto_vf_unique_id\", \"\"+jsonData.resources[i].uniqueId+\"\");",
-							"   }",
-							"}",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "USER_ID",
-						"value": "cs0008"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
-					},
-					{
-						"key": "x-ecomp-instanceid",
-						"value": "ONAP-Test"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-sdc2}}/sdc1/feProxy/rest/v1/screen?excludeTypes=VFCMT&excludeTypes=Configuration",
-					"host": [
-						"{{url-sdc2}}"
-					],
-					"path": [
-						"sdc1",
-						"feProxy",
-						"rest",
-						"v1",
-						"screen"
-					],
-					"query": [
-						{
-							"key": "excludeTypes",
-							"value": "VFCMT"
-						},
-						{
-							"key": "excludeTypes",
-							"value": "Configuration"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Add VF to Service",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "897b4588-b2e6-4af6-b469-09ae6ea3b797",
-						"exec": [
-							"pm.test(\"Status code is 201\", function () {",
-							"    pm.response.to.have.status(201);",
-							"});",
-							"var jsonData = pm.response.json();",
-							"pm.environment.set(\"auto_vf_customization_uuid\", \"\"+jsonData.customizationUUID+\"\");",
-							"pm.environment.set(\"auto_vf_name_for_model\", \"\"+jsonData.name+\"\");",
-							"",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "USER_ID",
-						"value": "cs0008"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
-					},
-					{
-						"key": "x-ecomp-instanceid",
-						"value": "ONAP-Test"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n\t\"name\": \"{{vf_name}}\",\r\n\t\"componentVersion\": \"1.0\",\r\n\t\"posY\": 100,\r\n\t\"posX\": 200,\r\n\t\"uniqueId\": \"{{auto_vf_unique_id}}\",\r\n\t\"originType\": \"VF\",\r\n\t\"componentUid\": \"{{auto_vf_unique_id}}\",\r\n\t\"icon\": \"defaulticon\"\r\n}\r\n"
-				},
-				"url": {
-					"raw": "{{url-sdc2}}/sdc1/feProxy/rest/v1/catalog/services/{{auto_service_unique_id}}/resourceInstance",
-					"host": [
-						"{{url-sdc2}}"
-					],
-					"path": [
-						"sdc1",
-						"feProxy",
-						"rest",
-						"v1",
-						"catalog",
-						"services",
-						"{{auto_service_unique_id}}",
-						"resourceInstance"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Generic Neutron Virtual Link infos",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "8bc90be4-f039-44cb-af75-7f3addd63bdd",
-						"exec": [
-							"var vl_found = false;",
-							"if (pm.response.code === 404) {",
-							"    tests[pm.environment.get(\"virtual_link_type\")+\" does not exists\"] = true;",
-							"}",
-							"else {",
-							"    if (pm.response.code === 200) {",
-							"        tests[\"Status code is 200\"] = pm.response.code === 200;",
-							"        }",
-							"    var jsonData = pm.response.json();",
-							"    for (var i = 0; i < jsonData.length; i++) { ",
-							"       if (jsonData[i].name === pm.environment.get(\"virtual_link_type\")) {",
-							"           vl_found = true;",
-							"           pm.environment.set(\"auto_virtual_link_uuid\", \"\"+jsonData[i].uuid+\"\");",
-							"           pm.environment.set(\"auto_virtual_link_invariant_uuid\", \"\"+jsonData[i].invariantUUID+\"\");",
-							"       }",
-							"    }",
-							"    if (vl_found === false) {",
-							"        tests[pm.environment.get(\"virtual_link_type\")+\" does not exists, we stop the run\"] = false;",
-							"        postman.setNextRequest(null);",
-							"    }",
-							"    ",
-							"    else {",
-							"        tests[pm.environment.get(\"virtual_link_type\")+\" exists, we continue the run\"] = true;",
-							"    }",
-							"}"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "USER_ID",
-						"value": "cs0008"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
-					},
-					{
-						"key": "x-ecomp-instanceid",
-						"value": "ONAP-Test"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-sdc}}/sdc/v1/catalog/resources?resourceType=VL",
-					"host": [
-						"{{url-sdc}}"
-					],
-					"path": [
-						"sdc",
-						"v1",
-						"catalog",
-						"resources"
-					],
-					"query": [
-						{
-							"key": "resourceType",
-							"value": "VL"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Generic Neutron Virtual Link uniqueId",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "d906fb7e-04f9-445e-be5a-9644520171e1",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"var jsonData = pm.response.json();",
-							"var vl_found = false;",
-							"for (var i = 0; i < jsonData.resources.length; i++) { ",
-							"   if (jsonData.resources[i].name === pm.environment.get(\"virtual_link_type\")) {",
-							"       vl_found = true;",
-							"       pm.environment.set(\"auto_virtual_link_unique_id\", \"\"+jsonData.resources[i].uniqueId+\"\");",
-							"       tests[\"Virtual Link : \"+pm.environment.get(\"virtual_link_type\")+\" found in SDC catalog with uniqueId = \"+pm.environment.get(\"auto_virtual_link_unique_id\")] = true;",
-							"   }",
-							"}",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "USER_ID",
-						"value": "cs0008"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
-					},
-					{
-						"key": "x-ecomp-instanceid",
-						"value": "ONAP-Test"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-sdc2}}/sdc1/feProxy/rest/v1/screen?excludeTypes=VFCMT&excludeTypes=Configuration",
-					"host": [
-						"{{url-sdc2}}"
-					],
-					"path": [
-						"sdc1",
-						"feProxy",
-						"rest",
-						"v1",
-						"screen"
-					],
-					"query": [
-						{
-							"key": "excludeTypes",
-							"value": "VFCMT"
-						},
-						{
-							"key": "excludeTypes",
-							"value": "Configuration"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Add a Generic Neutron VirtualLink to Service",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "0f07c2d5-49a1-4bf8-a3b5-6502674821af",
-						"exec": [
-							"pm.test(\"Status code is 201\", function () {",
-							"    pm.response.to.have.status(201);",
-							"});",
-							"",
-							"var jsonData = pm.response.json();",
-							"pm.environment.set(\"auto_virtual_link_customization_uuid\", \"\"+jsonData.customizationUUID+\"\");",
-							"pm.environment.set(\"auto_virtual_link_name_for_model\", \"\"+jsonData.name+\"\");",
-							"",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "USER_ID",
-						"value": "cs0008"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
-					},
-					{
-						"key": "x-ecomp-instanceid",
-						"value": "ONAP-Test"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n\t\"name\": \"{{virtual_link_type}}\",\r\n\t\"componentVersion\": \"1.0\",\r\n\t\"posY\": 200,\r\n\t\"posX\": 300,\r\n\t\"uniqueId\": \"{{auto_virtual_link_unique_id}}\",\r\n\t\"originType\": \"VL\",\r\n\t\"componentUid\": \"{{auto_virtual_link_unique_id}}\",\r\n\t\"icon\": \"defaulticon\"\r\n}\r\n"
-				},
-				"url": {
-					"raw": "{{url-sdc2}}/sdc1/feProxy/rest/v1/catalog/services/{{auto_service_unique_id}}/resourceInstance",
-					"host": [
-						"{{url-sdc2}}"
-					],
-					"path": [
-						"sdc1",
-						"feProxy",
-						"rest",
-						"v1",
-						"catalog",
-						"services",
-						"{{auto_service_unique_id}}",
-						"resourceInstance"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Submit for testing",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "f3215da0-5a6c-474c-9cc2-6733b36f1347",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"var jsonData = pm.response.json();",
-							"",
-							"tests[\"Service status is : \"+jsonData.lifecycleState] = jsonData.lifecycleState === \"READY_FOR_CERTIFICATION\";",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "USER_ID",
-						"value": "cs0008"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
-					},
-					{
-						"key": "x-ecomp-instanceid",
-						"value": "ONAP-Test"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"userRemarks\":\"please test\"}"
-				},
-				"url": {
-					"raw": "{{url-sdc2}}/sdc1/feProxy/rest/v1/catalog/services/{{auto_service_unique_id}}/lifecycleState/certificationRequest",
-					"host": [
-						"{{url-sdc2}}"
-					],
-					"path": [
-						"sdc1",
-						"feProxy",
-						"rest",
-						"v1",
-						"catalog",
-						"services",
-						"{{auto_service_unique_id}}",
-						"lifecycleState",
-						"certificationRequest"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Start Certification",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "e9143951-e32e-4d93-b970-20b54ea64fd4",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"var jsonData = pm.response.json();",
-							"tests[\"Service status is : \"+jsonData.lifecycleState] = jsonData.lifecycleState === \"CERTIFICATION_IN_PROGRESS\";"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "USER_ID",
-						"value": "jm0007"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
-					},
-					{
-						"key": "x-ecomp-instanceid",
-						"value": "ONAP-Test"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{}"
-				},
-				"url": {
-					"raw": "{{url-sdc2}}/sdc1/feProxy/rest/v1/catalog/services/{{auto_service_unique_id}}/lifecycleState/startCertification",
-					"host": [
-						"{{url-sdc2}}"
-					],
-					"path": [
-						"sdc1",
-						"feProxy",
-						"rest",
-						"v1",
-						"catalog",
-						"services",
-						"{{auto_service_unique_id}}",
-						"lifecycleState",
-						"startCertification"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Certify",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "2ca11efa-040f-4927-b30f-e58912f0db83",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"var jsonData = pm.response.json();",
-							"",
-							"tests[\"Service status is : \"+jsonData.lifecycleState] = jsonData.lifecycleState === \"CERTIFIED\";",
-							"",
-							"pm.environment.set(\"auto_service_new_unique_id\", \"\"+jsonData.uniqueId+\"\");",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "USER_ID",
-						"value": "jm0007"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
-					},
-					{
-						"key": "x-ecomp-instanceid",
-						"value": "ONAP-Test"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"userRemarks\":\"ok\"}"
-				},
-				"url": {
-					"raw": "{{url-sdc2}}/sdc1/feProxy/rest/v1/catalog/services/{{auto_service_unique_id}}/lifecycleState/certify",
-					"host": [
-						"{{url-sdc2}}"
-					],
-					"path": [
-						"sdc1",
-						"feProxy",
-						"rest",
-						"v1",
-						"catalog",
-						"services",
-						"{{auto_service_unique_id}}",
-						"lifecycleState",
-						"certify"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Service infos by uniqueID to get new_service_unique_id",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "cecdbf68-2176-4dc1-8321-6285d57a2e8f",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"var jsonData = pm.response.json();",
-							"pm.environment.set(\"auto_service_new_unique_id\", \"\"+jsonData[\"metadata\"][\"allVersions\"][\"1.0\"]+\"\");",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "USER_ID",
-						"value": "cs0008"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
-					},
-					{
-						"key": "x-ecomp-instanceid",
-						"value": "ONAP-Test"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-sdc2}}/sdc1/feProxy/rest/v1/catalog/services/{{auto_service_unique_id}}/filteredDataByParams?include=metadata",
-					"host": [
-						"{{url-sdc2}}"
-					],
-					"path": [
-						"sdc1",
-						"feProxy",
-						"rest",
-						"v1",
-						"catalog",
-						"services",
-						"{{auto_service_unique_id}}",
-						"filteredDataByParams"
-					],
-					"query": [
-						{
-							"key": "include",
-							"value": "metadata"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Approve distribution",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "ef5105ec-e9ea-454a-954a-3398364ecb89",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"var jsonData = pm.response.json();",
-							"",
-							"tests[\"Distribution status is : \"+jsonData.distributionStatus] = jsonData.distributionStatus === \"DISTRIBUTION_APPROVED\";",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "USER_ID",
-						"value": "gv0001"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
-					},
-					{
-						"key": "x-ecomp-instanceid",
-						"value": "ONAP-Test"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"userRemarks\":\"ok\"}"
-				},
-				"url": {
-					"raw": "{{url-sdc2}}/sdc1/feProxy/rest/v1/catalog/services/{{auto_service_new_unique_id}}/distribution-state/approve",
-					"host": [
-						"{{url-sdc2}}"
-					],
-					"path": [
-						"sdc1",
-						"feProxy",
-						"rest",
-						"v1",
-						"catalog",
-						"services",
-						"{{auto_service_new_unique_id}}",
-						"distribution-state",
-						"approve"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Distribute service",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "cf7fe737-3858-4235-88b8-73640775d871",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"var jsonData = pm.response.json();",
-							"",
-							"tests[\"Distribution status is : \"+jsonData.distributionStatus] = jsonData.distributionStatus === \"DISTRIBUTED\";",
-							"",
-							"pm.environment.set(\"auto_vf_module_model_name\", \"\"+jsonData.componentInstances[0].groupInstances[0].groupName+\"\");",
-							"pm.environment.set(\"auto_vf_module_model_customization_name\", \"\"+jsonData.componentInstances[0].groupInstances[0].groupName+\"\");",
-							"pm.environment.set(\"auto_vf_module_model_uuid\", \"\"+jsonData.componentInstances[0].groupInstances[0].groupUUID+\"\");",
-							"pm.environment.set(\"auto_vf_module_model_invariant_uuid\", \"\"+jsonData.componentInstances[0].groupInstances[0].invariantUUID+\"\");",
-							"pm.environment.set(\"auto_vf_module_model_customization_uuid\", \"\"+jsonData.componentInstances[0].groupInstances[0].customizationUUID+\"\");",
-							"pm.environment.set(\"auto_virtual_link_model_customization_uuid\", \"\"+jsonData.componentInstances[1].customizationUUID+\"\");"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "USER_ID",
-						"value": "op0001"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
-					},
-					{
-						"key": "x-ecomp-instanceid",
-						"value": "ONAP-Test"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{}"
-				},
-				"url": {
-					"raw": "{{url-sdc2}}/sdc1/feProxy/rest/v1/catalog/services/{{auto_service_new_unique_id}}/distribution/PROD/activate",
-					"host": [
-						"{{url-sdc2}}"
-					],
-					"path": [
-						"sdc1",
-						"feProxy",
-						"rest",
-						"v1",
-						"catalog",
-						"services",
-						"{{auto_service_new_unique_id}}",
-						"distribution",
-						"PROD",
-						"activate"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "check distribution",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "401f90b3-649f-4f3f-a2bd-ef996a54e47b",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"var jsonData = pm.response.json();",
-							"var distrib_done = false;",
-							"for (var i = 0; i < jsonData.distributionStatusOfServiceList.length; i++) { ",
-							"   if (jsonData.distributionStatusOfServiceList[i].deployementStatus === \"Distributed\") {",
-							"       distrib_done = true;",
-							"       pm.environment.set(\"auto_distribution_id\", \"\"+jsonData.distributionStatusOfServiceList[i].distributionID+\"\");",
-							"",
-							"   }",
-							"}",
-							"if (distrib_done === false) {",
-							"    tests[pm.environment.get(\"service\")+\" not distributed, we stop the run\"] = false;",
-							"    postman.setNextRequest(null);",
-							"}",
-							"",
-							"else {",
-							"    tests[pm.environment.get(\"service\")+\" distributed\"] = true;",
-							"}"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "USER_ID",
-						"value": "op0001"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic YmVlcDpib29w"
-					},
-					{
-						"key": "x-ecomp-instanceid",
-						"value": "ONAP-Test"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-sdc2}}/sdc1/feProxy/rest/v1/catalog/services/{{auto_service_uuid}}/distribution",
-					"host": [
-						"{{url-sdc2}}"
-					],
-					"path": [
-						"sdc1",
-						"feProxy",
-						"rest",
-						"v1",
-						"catalog",
-						"services",
-						"{{auto_service_uuid}}",
-						"distribution"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "check distribution fully completed after 60s",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "86932912-3b35-409d-bdbf-003550969f10",
-						"exec": [
-							"tests[\"Status code is 200\"] = responseCode.code === 200;",
-							"",
-							"var jsonData = pm.response.json();",
-							"var distrib_SO = false;",
-							"var distrib_AAI = false;",
-							"var distrib_SDNC = false;",
-							"var distrib_MultiCloud = false;",
-							"var distrib_CDS = false;",
-							"var distrib_policy = false;",
-							"",
-							"for (var i = 0; i < jsonData.distributionStatusList.length; i++) { ",
-							"   if ((jsonData.distributionStatusList[i].omfComponentID === \"SO-COpenSource-Env11\") && (jsonData.distributionStatusList[i].status === \"DOWNLOAD_OK\"))",
-							"   {",
-							"       distrib_SO = true;",
-							"   }",
-							"   if ((jsonData.distributionStatusList[i].omfComponentID === \"aai-ml\") && (jsonData.distributionStatusList[i].status === \"DOWNLOAD_OK\"))",
-							"   {",
-							"       distrib_AAI = true;",
-							"   }",
-							"   if ((jsonData.distributionStatusList[i].omfComponentID === \"sdc-COpenSource-Env11-sdnc-dockero\") && (jsonData.distributionStatusList[i].status === \"DOWNLOAD_OK\"))",
-							"   {",
-							"       distrib_SDNC = true;",
-							"   }",
-							"   if ((jsonData.distributionStatusList[i].omfComponentID === \"multicloud-k8s-id\") && (jsonData.distributionStatusList[i].status === \"DOWNLOAD_OK\"))",
-							"   {",
-							"       distrib_MultiCloud = true;",
-							"   }",
-							"    if ((jsonData.distributionStatusList[i].omfComponentID === \"cds\") && (jsonData.distributionStatusList[i].status === \"DOWNLOAD_OK\"))",
-							"   {",
-							"       distrib_CDS = true;",
-							"   }",
-							"    if ((jsonData.distributionStatusList[i].omfComponentID === \"policy-id\") && (jsonData.distributionStatusList[i].status === \"DOWNLOAD_OK\"))",
-							"   {",
-							"       distrib_policy = true;",
-							"   } ",
-							"}",
-							"",
-							"",
-							"if (distrib_SO === false) {",
-							"    tests[pm.globals.get(\"service\")+\" not distributed to SO\"] = false;",
-							"}",
-							"",
-							"else {",
-							"    tests[pm.environment.get(\"service\")+\" distributed to SO\"] = true;",
-							"}",
-							"",
-							"if (distrib_AAI === false) {",
-							"    tests[pm.environment.get(\"service\")+\" not distributed to AAI\"] = false;",
-							"}",
-							"",
-							"else {",
-							"    tests[pm.environment.get(\"service\")+\" distributed to AAI\"] = true;",
-							"}",
-							"",
-							"if (distrib_SDNC === false) {",
-							"    tests[pm.environment.get(\"service\")+\" not distributed to SDNC\"] = false;",
-							"}",
-							"",
-							"else {",
-							"    tests[pm.environment.get(\"service\")+\" distributed to SDNC\"] = true;",
-							"}",
-							"if (distrib_MultiCloud === false) {",
-							"    tests[pm.environment.get(\"service\")+\" not distributed to MultiCloud\"] = false;",
-							"}",
-							"",
-							"else {",
-							"    tests[pm.environment.get(\"service\")+\" distributed to MultiCloud\"] = true;",
-							"}",
-							"if (distrib_CDS === false) {",
-							"    tests[pm.environment.get(\"service\")+\" not distributed to CDS\"] = false;",
-							"}",
-							"",
-							"else {",
-							"    tests[pm.environment.get(\"service\")+\" distributed to CDS\"] = true;",
-							"}",
-							"if (distrib_policy === false) {",
-							"    tests[pm.environment.get(\"service\")+\" not distributed to Policy\"] = false;",
-							"}",
-							"",
-							"else {",
-							"    tests[pm.environment.get(\"service\")+\" distributed to Policy\"] = true;",
-							"}",
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "9a1093c2-5c2d-47f6-892e-1a049cff8931",
-						"exec": [
-							"  var date = new Date();",
-							"  var curDate = null;",
-							"  do {",
-							"    curDate = new Date();",
-							"  }",
-							"  while (curDate - date < 10000);"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "USER_ID",
-						"value": "op0001"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "ONAP-Test"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic YmVlcDpib29w"
-					},
-					{
-						"key": "x-ecomp-instanceid",
-						"value": "ONAP-Test"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-sdc2}}/sdc1/feProxy/rest/v1/catalog/services/distribution/{{auto_distribution_id}}",
-					"host": [
-						"{{url-sdc2}}"
-					],
-					"path": [
-						"sdc1",
-						"feProxy",
-						"rest",
-						"v1",
-						"catalog",
-						"services",
-						"distribution",
-						"{{auto_distribution_id}}"
-					]
-				}
-			},
-			"response": []
-		}
-	]
+  "info": {
+    "_postman_id": "dcfc4671-1cb4-453a-8fef-97a0ba533daa",
+    "name": "06_Onboard_Service",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "check  service exists and get infos",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "4f27b99e-23ac-4e7c-a1dc-c42ad63d6f65",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "var service_found = false;",
+              "for (var i = 0; i < jsonData.length; i++) { ",
+              "   if (jsonData[i].name === pm.environment.get(\"service\")) {",
+              "       service_found = true;",
+              "       pm.environment.set(\"auto_service_uuid\", \"\"+jsonData[i].uuid+\"\");",
+              "       pm.environment.set(\"auto_service_invariant_uuid\", \"\"+jsonData[i].invariantUUID+\"\");",
+              "   }",
+              "}",
+              "if (service_found === false) {",
+              "    tests[pm.environment.get(\"service\")+\" does not exist yet, we continue the run\"] = true;",
+              "}",
+              "",
+              "else {",
+              "    tests[pm.environment.get(\"service\")+\" already exists, stop the run\"] = false;",
+              "    postman.setNextRequest(null);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "USER_ID",
+            "value": "cs0008"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
+          },
+          {
+            "key": "x-ecomp-instanceid",
+            "value": "ONAP-Test"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-sdc}}/sdc/v1/catalog/services",
+          "host": [
+            "{{url-sdc}}"
+          ],
+          "path": [
+            "sdc",
+            "v1",
+            "catalog",
+            "services"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Declare an aLaCarte Service",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "e6118e78-e476-4049-8e81-f81b53ba625a",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "pm.environment.set(\"auto_service_invariant_uuid\", \"\"+jsonData[\"invariantUUID\"]+\"\");",
+              "pm.environment.set(\"auto_service_uuid\", \"\"+jsonData[\"uuid\"]+\"\");",
+              "pm.environment.set(\"auto_service_unique_id\", \"\"+jsonData[\"uniqueId\"]+\"\");",
+              "",
+              "tests[\"Service status is : \"+jsonData.lifecycleState] = jsonData.lifecycleState === \"NOT_CERTIFIED_CHECKOUT\";"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "USER_ID",
+            "value": "cs0008"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
+          },
+          {
+            "key": "x-ecomp-instanceid",
+            "value": "ONAP-Test"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\t\"artifacts\": {},\r\n\t\"toscaArtifacts\": {},\r\n\t\"contactId\": \"cs0008\",\r\n\t\"categories\": [{\r\n\t\t\"name\": \"Network Service\",\r\n\t\t\"normalizedName\": \"network service\",\r\n\t\t\"uniqueId\": \"serviceNewCategory.network service\",\r\n\t\t\"icons\": [\"network_l_1-3\"],\r\n\t\t\"subcategories\": null,\r\n\t\t\"version\": null,\r\n\t\t\"ownerId\": null,\r\n\t\t\"empty\": false,\r\n\t\t\"type\": null\r\n\t}],\r\n\t\"description\": \"Service {{service}}\",\r\n\t\"icon\": \"defaulticon\",\r\n\t\"componentInstancesProperties\": {},\r\n\t\"componentInstancesAttributes\": {},\r\n\t\"name\": \"{{service}}\",\r\n\t\"tags\": [\"{{service}}\"],\r\n\t\"capabilities\": {},\r\n\t\"requirements\": {},\r\n\t\"deploymentArtifacts\": {},\r\n\t\"componentType\": \"SERVICE\",\r\n\t\"projectCode\": \"123456\",\r\n\t\"componentInstances\": [],\r\n\t\"properties\": [],\r\n\t\"attributes\": [],\r\n\t\"forwardingPaths\": {},\r\n\t\"ecompGeneratedNaming\": true,\r\n\t\"serviceApiArtifacts\": {},\r\n\t\"instantiationType\": \"A-la-carte\",\r\n\t\"environmentContext\": \"General_Revenue-Bearing\"\r\n}"
+        },
+        "url": {
+          "raw": "{{url-sdc2}}/sdc1/feProxy/rest/v1/catalog/services",
+          "host": [
+            "{{url-sdc2}}"
+          ],
+          "path": [
+            "sdc1",
+            "feProxy",
+            "rest",
+            "v1",
+            "catalog",
+            "services"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "check VF exists and get uuid",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "87b90661-aefb-4ec9-94fc-fb5277f8c283",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "var vf_found = false;",
+              "if (jsonData.name === pm.environment.get(\"vf_name\")) {",
+              "    vf_found = true;",
+              "    pm.environment.set(\"auto_vf_uuid\", \"\"+jsonData.uuid+\"\");",
+              "    pm.environment.set(\"auto_vf_invariant_uuid\", \"\"+jsonData.invariantUUID+\"\");",
+              "    ",
+              "}",
+              "",
+              "if (vf_found === false) {",
+              "    tests[\"VF \"+pm.environment.get(\"vf_name\")+\" does not exists, we stop the run\"] = false;",
+              "    postman.setNextRequest(null);",
+              "",
+              "}",
+              "",
+              "else {",
+              "    tests[\"VF \"+pm.environment.get(\"vf_name\")+\" exists, we continue the run\"] = true;",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "USER_ID",
+            "value": "cs0008"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
+          },
+          {
+            "key": "x-ecomp-instanceid",
+            "value": "ONAP-Test"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-sdc}}/sdc/v1/catalog/resources/{{auto_vf_uuid}}/metadata",
+          "host": [
+            "{{url-sdc}}"
+          ],
+          "path": [
+            "sdc",
+            "v1",
+            "catalog",
+            "resources",
+            "{{auto_vf_uuid}}",
+            "metadata"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get  VF uniqueId",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "16c73747-c973-40d9-ba3f-6061199386ec",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "var jsonData = pm.response.json();",
+              "var vf_found = false;",
+              "for (var i = 0; i < jsonData.resources.length; i++) { ",
+              "   if (jsonData.resources[i].name === pm.environment.get(\"vf_name\")) {",
+              "       vf_found = true;",
+              "       pm.environment.set(\"auto_vf_unique_id\", \"\"+jsonData.resources[i].uniqueId+\"\");",
+              "   }",
+              "}",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "USER_ID",
+            "value": "cs0008"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
+          },
+          {
+            "key": "x-ecomp-instanceid",
+            "value": "ONAP-Test"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-sdc2}}/sdc1/feProxy/rest/v1/screen?excludeTypes=VFCMT&excludeTypes=Configuration",
+          "host": [
+            "{{url-sdc2}}"
+          ],
+          "path": [
+            "sdc1",
+            "feProxy",
+            "rest",
+            "v1",
+            "screen"
+          ],
+          "query": [
+            {
+              "key": "excludeTypes",
+              "value": "VFCMT"
+            },
+            {
+              "key": "excludeTypes",
+              "value": "Configuration"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Add VF to Service",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "897b4588-b2e6-4af6-b469-09ae6ea3b797",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "var jsonData = pm.response.json();",
+              "pm.environment.set(\"auto_vf_customization_uuid\", \"\"+jsonData.customizationUUID+\"\");",
+              "pm.environment.set(\"auto_vf_name_for_model\", \"\"+jsonData.name+\"\");",
+              "",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "USER_ID",
+            "value": "cs0008"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
+          },
+          {
+            "key": "x-ecomp-instanceid",
+            "value": "ONAP-Test"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\t\"name\": \"{{vf_name}}\",\r\n\t\"componentVersion\": \"1.0\",\r\n\t\"posY\": 100,\r\n\t\"posX\": 200,\r\n\t\"uniqueId\": \"{{auto_vf_unique_id}}\",\r\n\t\"originType\": \"VF\",\r\n\t\"componentUid\": \"{{auto_vf_unique_id}}\",\r\n\t\"icon\": \"defaulticon\"\r\n}\r\n"
+        },
+        "url": {
+          "raw": "{{url-sdc2}}/sdc1/feProxy/rest/v1/catalog/services/{{auto_service_unique_id}}/resourceInstance",
+          "host": [
+            "{{url-sdc2}}"
+          ],
+          "path": [
+            "sdc1",
+            "feProxy",
+            "rest",
+            "v1",
+            "catalog",
+            "services",
+            "{{auto_service_unique_id}}",
+            "resourceInstance"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Generic Neutron Virtual Link infos",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "8bc90be4-f039-44cb-af75-7f3addd63bdd",
+            "exec": [
+              "var vl_found = false;",
+              "if (pm.response.code === 404) {",
+              "    tests[pm.environment.get(\"virtual_link_type\")+\" does not exists\"] = true;",
+              "}",
+              "else {",
+              "    if (pm.response.code === 200) {",
+              "        tests[\"Status code is 200\"] = pm.response.code === 200;",
+              "        }",
+              "    var jsonData = pm.response.json();",
+              "    for (var i = 0; i < jsonData.length; i++) { ",
+              "       if (jsonData[i].name === pm.environment.get(\"virtual_link_type\")) {",
+              "           vl_found = true;",
+              "           pm.environment.set(\"auto_virtual_link_uuid\", \"\"+jsonData[i].uuid+\"\");",
+              "           pm.environment.set(\"auto_virtual_link_invariant_uuid\", \"\"+jsonData[i].invariantUUID+\"\");",
+              "       }",
+              "    }",
+              "    if (vl_found === false) {",
+              "        tests[pm.environment.get(\"virtual_link_type\")+\" does not exists, we stop the run\"] = false;",
+              "        postman.setNextRequest(null);",
+              "    }",
+              "    ",
+              "    else {",
+              "        tests[pm.environment.get(\"virtual_link_type\")+\" exists, we continue the run\"] = true;",
+              "    }",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "USER_ID",
+            "value": "cs0008"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
+          },
+          {
+            "key": "x-ecomp-instanceid",
+            "value": "ONAP-Test"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-sdc}}/sdc/v1/catalog/resources?resourceType=VL",
+          "host": [
+            "{{url-sdc}}"
+          ],
+          "path": [
+            "sdc",
+            "v1",
+            "catalog",
+            "resources"
+          ],
+          "query": [
+            {
+              "key": "resourceType",
+              "value": "VL"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Generic Neutron Virtual Link uniqueId",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "d906fb7e-04f9-445e-be5a-9644520171e1",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "var vl_found = false;",
+              "for (var i = 0; i < jsonData.resources.length; i++) { ",
+              "   if (jsonData.resources[i].name === pm.environment.get(\"virtual_link_type\")) {",
+              "       vl_found = true;",
+              "       pm.environment.set(\"auto_virtual_link_unique_id\", \"\"+jsonData.resources[i].uniqueId+\"\");",
+              "       tests[\"Virtual Link : \"+pm.environment.get(\"virtual_link_type\")+\" found in SDC catalog with uniqueId = \"+pm.environment.get(\"auto_virtual_link_unique_id\")] = true;",
+              "   }",
+              "}",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "USER_ID",
+            "value": "cs0008"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
+          },
+          {
+            "key": "x-ecomp-instanceid",
+            "value": "ONAP-Test"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-sdc2}}/sdc1/feProxy/rest/v1/screen?excludeTypes=VFCMT&excludeTypes=Configuration",
+          "host": [
+            "{{url-sdc2}}"
+          ],
+          "path": [
+            "sdc1",
+            "feProxy",
+            "rest",
+            "v1",
+            "screen"
+          ],
+          "query": [
+            {
+              "key": "excludeTypes",
+              "value": "VFCMT"
+            },
+            {
+              "key": "excludeTypes",
+              "value": "Configuration"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Add a Generic Neutron VirtualLink to Service",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "0f07c2d5-49a1-4bf8-a3b5-6502674821af",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "pm.environment.set(\"auto_virtual_link_customization_uuid\", \"\"+jsonData.customizationUUID+\"\");",
+              "pm.environment.set(\"auto_virtual_link_name_for_model\", \"\"+jsonData.name+\"\");",
+              "",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "USER_ID",
+            "value": "cs0008"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
+          },
+          {
+            "key": "x-ecomp-instanceid",
+            "value": "ONAP-Test"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\t\"name\": \"{{virtual_link_type}}\",\r\n\t\"componentVersion\": \"1.0\",\r\n\t\"posY\": 200,\r\n\t\"posX\": 300,\r\n\t\"uniqueId\": \"{{auto_virtual_link_unique_id}}\",\r\n\t\"originType\": \"VL\",\r\n\t\"componentUid\": \"{{auto_virtual_link_unique_id}}\",\r\n\t\"icon\": \"defaulticon\"\r\n}\r\n"
+        },
+        "url": {
+          "raw": "{{url-sdc2}}/sdc1/feProxy/rest/v1/catalog/services/{{auto_service_unique_id}}/resourceInstance",
+          "host": [
+            "{{url-sdc2}}"
+          ],
+          "path": [
+            "sdc1",
+            "feProxy",
+            "rest",
+            "v1",
+            "catalog",
+            "services",
+            "{{auto_service_unique_id}}",
+            "resourceInstance"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Submit for testing",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "f3215da0-5a6c-474c-9cc2-6733b36f1347",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "",
+              "tests[\"Service status is : \"+jsonData.lifecycleState] = jsonData.lifecycleState === \"READY_FOR_CERTIFICATION\";",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "USER_ID",
+            "value": "cs0008"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
+          },
+          {
+            "key": "x-ecomp-instanceid",
+            "value": "ONAP-Test"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"userRemarks\":\"please test\"}"
+        },
+        "url": {
+          "raw": "{{url-sdc2}}/sdc1/feProxy/rest/v1/catalog/services/{{auto_service_unique_id}}/lifecycleState/certificationRequest",
+          "host": [
+            "{{url-sdc2}}"
+          ],
+          "path": [
+            "sdc1",
+            "feProxy",
+            "rest",
+            "v1",
+            "catalog",
+            "services",
+            "{{auto_service_unique_id}}",
+            "lifecycleState",
+            "certificationRequest"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Start Certification",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "e9143951-e32e-4d93-b970-20b54ea64fd4",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "tests[\"Service status is : \"+jsonData.lifecycleState] = jsonData.lifecycleState === \"CERTIFICATION_IN_PROGRESS\";"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "USER_ID",
+            "value": "jm0007"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
+          },
+          {
+            "key": "x-ecomp-instanceid",
+            "value": "ONAP-Test"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}"
+        },
+        "url": {
+          "raw": "{{url-sdc2}}/sdc1/feProxy/rest/v1/catalog/services/{{auto_service_unique_id}}/lifecycleState/startCertification",
+          "host": [
+            "{{url-sdc2}}"
+          ],
+          "path": [
+            "sdc1",
+            "feProxy",
+            "rest",
+            "v1",
+            "catalog",
+            "services",
+            "{{auto_service_unique_id}}",
+            "lifecycleState",
+            "startCertification"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Certify",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "2ca11efa-040f-4927-b30f-e58912f0db83",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "",
+              "tests[\"Service status is : \"+jsonData.lifecycleState] = jsonData.lifecycleState === \"CERTIFIED\";",
+              "",
+              "pm.environment.set(\"auto_service_new_unique_id\", \"\"+jsonData.uniqueId+\"\");",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "USER_ID",
+            "value": "jm0007"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
+          },
+          {
+            "key": "x-ecomp-instanceid",
+            "value": "ONAP-Test"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"userRemarks\":\"ok\"}"
+        },
+        "url": {
+          "raw": "{{url-sdc2}}/sdc1/feProxy/rest/v1/catalog/services/{{auto_service_unique_id}}/lifecycleState/certify",
+          "host": [
+            "{{url-sdc2}}"
+          ],
+          "path": [
+            "sdc1",
+            "feProxy",
+            "rest",
+            "v1",
+            "catalog",
+            "services",
+            "{{auto_service_unique_id}}",
+            "lifecycleState",
+            "certify"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Service infos by uniqueID to get new_service_unique_id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "cecdbf68-2176-4dc1-8321-6285d57a2e8f",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "pm.environment.set(\"auto_service_new_unique_id\", \"\"+jsonData[\"metadata\"][\"allVersions\"][\"1.0\"]+\"\");",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "USER_ID",
+            "value": "cs0008"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
+          },
+          {
+            "key": "x-ecomp-instanceid",
+            "value": "ONAP-Test"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-sdc2}}/sdc1/feProxy/rest/v1/catalog/services/{{auto_service_unique_id}}/filteredDataByParams?include=metadata",
+          "host": [
+            "{{url-sdc2}}"
+          ],
+          "path": [
+            "sdc1",
+            "feProxy",
+            "rest",
+            "v1",
+            "catalog",
+            "services",
+            "{{auto_service_unique_id}}",
+            "filteredDataByParams"
+          ],
+          "query": [
+            {
+              "key": "include",
+              "value": "metadata"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Approve distribution",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "ef5105ec-e9ea-454a-954a-3398364ecb89",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "",
+              "tests[\"Distribution status is : \"+jsonData.distributionStatus] = jsonData.distributionStatus === \"DISTRIBUTION_APPROVED\";",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "USER_ID",
+            "value": "gv0001"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
+          },
+          {
+            "key": "x-ecomp-instanceid",
+            "value": "ONAP-Test"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"userRemarks\":\"ok\"}"
+        },
+        "url": {
+          "raw": "{{url-sdc2}}/sdc1/feProxy/rest/v1/catalog/services/{{auto_service_new_unique_id}}/distribution-state/approve",
+          "host": [
+            "{{url-sdc2}}"
+          ],
+          "path": [
+            "sdc1",
+            "feProxy",
+            "rest",
+            "v1",
+            "catalog",
+            "services",
+            "{{auto_service_new_unique_id}}",
+            "distribution-state",
+            "approve"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Distribute service",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "cf7fe737-3858-4235-88b8-73640775d871",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "",
+              "tests[\"Distribution status is : \"+jsonData.distributionStatus] = jsonData.distributionStatus === \"DISTRIBUTED\";",
+              "",
+              "pm.environment.set(\"auto_vf_module_model_name\", \"\"+jsonData.componentInstances[0].groupInstances[0].groupName+\"\");",
+              "pm.environment.set(\"auto_vf_module_model_customization_name\", \"\"+jsonData.componentInstances[0].groupInstances[0].groupName+\"\");",
+              "pm.environment.set(\"auto_vf_module_model_uuid\", \"\"+jsonData.componentInstances[0].groupInstances[0].groupUUID+\"\");",
+              "pm.environment.set(\"auto_vf_module_model_invariant_uuid\", \"\"+jsonData.componentInstances[0].groupInstances[0].invariantUUID+\"\");",
+              "pm.environment.set(\"auto_vf_module_model_customization_uuid\", \"\"+jsonData.componentInstances[0].groupInstances[0].customizationUUID+\"\");",
+              "pm.environment.set(\"auto_virtual_link_model_customization_uuid\", \"\"+jsonData.componentInstances[1].customizationUUID+\"\");"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "USER_ID",
+            "value": "op0001"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU="
+          },
+          {
+            "key": "x-ecomp-instanceid",
+            "value": "ONAP-Test"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}"
+        },
+        "url": {
+          "raw": "{{url-sdc2}}/sdc1/feProxy/rest/v1/catalog/services/{{auto_service_new_unique_id}}/distribution/PROD/activate",
+          "host": [
+            "{{url-sdc2}}"
+          ],
+          "path": [
+            "sdc1",
+            "feProxy",
+            "rest",
+            "v1",
+            "catalog",
+            "services",
+            "{{auto_service_new_unique_id}}",
+            "distribution",
+            "PROD",
+            "activate"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "check distribution",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "401f90b3-649f-4f3f-a2bd-ef996a54e47b",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "var distrib_done = false;",
+              "for (var i = 0; i < jsonData.distributionStatusOfServiceList.length; i++) { ",
+              "   if (jsonData.distributionStatusOfServiceList[i].deployementStatus === \"Distributed\") {",
+              "       distrib_done = true;",
+              "       pm.environment.set(\"auto_distribution_id\", \"\"+jsonData.distributionStatusOfServiceList[i].distributionID+\"\");",
+              "",
+              "   }",
+              "}",
+              "if (distrib_done === false) {",
+              "    tests[pm.environment.get(\"service\")+\" not distributed, we stop the run\"] = false;",
+              "    postman.setNextRequest(null);",
+              "}",
+              "",
+              "else {",
+              "    tests[pm.environment.get(\"service\")+\" distributed\"] = true;",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "USER_ID",
+            "value": "op0001"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic YmVlcDpib29w"
+          },
+          {
+            "key": "x-ecomp-instanceid",
+            "value": "ONAP-Test"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-sdc2}}/sdc1/feProxy/rest/v1/catalog/services/{{auto_service_uuid}}/distribution",
+          "host": [
+            "{{url-sdc2}}"
+          ],
+          "path": [
+            "sdc1",
+            "feProxy",
+            "rest",
+            "v1",
+            "catalog",
+            "services",
+            "{{auto_service_uuid}}",
+            "distribution"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "check distribution fully completed after 60s",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "86932912-3b35-409d-bdbf-003550969f10",
+            "exec": [
+              "tests[\"Status code is 200\"] = responseCode.code === 200;",
+              "",
+              "var jsonData = pm.response.json();",
+              "var distrib_SO = false;",
+              "var distrib_AAI = false;",
+              "var distrib_SDNC = false;",
+              "var distrib_MultiCloud = false;",
+              "var distrib_CDS = false;",
+              "var distrib_policy = false;",
+              "",
+              "for (var i = 0; i < jsonData.distributionStatusList.length; i++) { ",
+              "   if ((jsonData.distributionStatusList[i].omfComponentID === \"SO-COpenSource-Env11\") && (jsonData.distributionStatusList[i].status === \"DOWNLOAD_OK\"))",
+              "   {",
+              "       distrib_SO = true;",
+              "   }",
+              "   if ((jsonData.distributionStatusList[i].omfComponentID === \"aai-ml\") && (jsonData.distributionStatusList[i].status === \"DOWNLOAD_OK\"))",
+              "   {",
+              "       distrib_AAI = true;",
+              "   }",
+              "   if ((jsonData.distributionStatusList[i].omfComponentID === \"sdc-COpenSource-Env11-sdnc-dockero\") && (jsonData.distributionStatusList[i].status === \"DOWNLOAD_OK\"))",
+              "   {",
+              "       distrib_SDNC = true;",
+              "   }",
+              "   if ((jsonData.distributionStatusList[i].omfComponentID === \"multicloud-k8s-id\") && (jsonData.distributionStatusList[i].status === \"DOWNLOAD_OK\"))",
+              "   {",
+              "       distrib_MultiCloud = true;",
+              "   }",
+              "    if ((jsonData.distributionStatusList[i].omfComponentID === \"cds\") && (jsonData.distributionStatusList[i].status === \"DOWNLOAD_OK\"))",
+              "   {",
+              "       distrib_CDS = true;",
+              "   }",
+              "    if ((jsonData.distributionStatusList[i].omfComponentID === \"policy-id\") && (jsonData.distributionStatusList[i].status === \"DOWNLOAD_OK\"))",
+              "   {",
+              "       distrib_policy = true;",
+              "   } ",
+              "}",
+              "",
+              "",
+              "if (distrib_SO === false) {",
+              "    tests[pm.globals.get(\"service\")+\" not distributed to SO\"] = false;",
+              "}",
+              "",
+              "else {",
+              "    tests[pm.environment.get(\"service\")+\" distributed to SO\"] = true;",
+              "}",
+              "",
+              "if (distrib_AAI === false) {",
+              "    tests[pm.environment.get(\"service\")+\" not distributed to AAI\"] = false;",
+              "}",
+              "",
+              "else {",
+              "    tests[pm.environment.get(\"service\")+\" distributed to AAI\"] = true;",
+              "}",
+              "",
+              "if (distrib_SDNC === false) {",
+              "    tests[pm.environment.get(\"service\")+\" not distributed to SDNC\"] = false;",
+              "}",
+              "",
+              "else {",
+              "    tests[pm.environment.get(\"service\")+\" distributed to SDNC\"] = true;",
+              "}",
+              "if (distrib_MultiCloud === false) {",
+              "    tests[pm.environment.get(\"service\")+\" not distributed to MultiCloud\"] = false;",
+              "}",
+              "",
+              "else {",
+              "    tests[pm.environment.get(\"service\")+\" distributed to MultiCloud\"] = true;",
+              "}",
+              "if (distrib_CDS === false) {",
+              "    tests[pm.environment.get(\"service\")+\" not distributed to CDS\"] = false;",
+              "}",
+              "",
+              "else {",
+              "    tests[pm.environment.get(\"service\")+\" distributed to CDS\"] = true;",
+              "}",
+              "if (distrib_policy === false) {",
+              "    tests[pm.environment.get(\"service\")+\" not distributed to Policy\"] = false;",
+              "}",
+              "",
+              "else {",
+              "    tests[pm.environment.get(\"service\")+\" distributed to Policy\"] = true;",
+              "}",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "9a1093c2-5c2d-47f6-892e-1a049cff8931",
+            "exec": [
+              "  var date = new Date();",
+              "  var curDate = null;",
+              "  do {",
+              "    curDate = new Date();",
+              "  }",
+              "  while (curDate - date < 10000);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "USER_ID",
+            "value": "op0001"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "ONAP-Test"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic YmVlcDpib29w"
+          },
+          {
+            "key": "x-ecomp-instanceid",
+            "value": "ONAP-Test"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-sdc2}}/sdc1/feProxy/rest/v1/catalog/services/distribution/{{auto_distribution_id}}",
+          "host": [
+            "{{url-sdc2}}"
+          ],
+          "path": [
+            "sdc1",
+            "feProxy",
+            "rest",
+            "v1",
+            "catalog",
+            "services",
+            "distribution",
+            "{{auto_distribution_id}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
 }

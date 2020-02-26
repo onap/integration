@@ -1,759 +1,759 @@
 {
-	"info": {
-		"_postman_id": "7e53b9c4-273b-4012-81f3-0634173626c2",
-		"name": "11_delete_instances",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "SO Delete vf-module",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "2c20c606-a034-47e0-8a66-fc4f1b8ed1c8",
-						"exec": [
-							"pm.test(\"Status code is 202\", function () {",
-							"    pm.response.to.have.status(202);",
-							"});",
-							"",
-							"var jsonData = pm.response.json();",
-							"",
-							"pm.environment.set(\"auto_so_request_id\", \"\"+jsonData.requestReferences.requestId+\"\");",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==",
-						"type": "text"
-					},
-					{
-						"key": "X-ONAP-PartnerName",
-						"value": "NBI",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"requestDetails\": {\n        \"requestInfo\": {\n            \"source\": \"VID\",\n            \"requestorId\": \"test\"\n        },\n        \"modelInfo\": {\n            \"modelType\": \"vfModule\",\n            \"modelInvariantId\": \"{{auto_vf_module_model_invariant_uuid}}\",\n            \"modelVersionId\": \"{{auto_vf_module_model_uuid}}\",\n            \"modelName\": \"{{auto_vf_module_model_name}}\",\n            \"modelVersion\": \"1\",\n            \"modelCustomizationId\": \"{{auto_vf_module_model_customization_uuid}}\",\n            \"modelCustomizationName\": \"{{auto_vf_module_model_name}}\"\n        },\n        \"requestParameters\": {\n            \"testApi\": \"VNF_API\"\n        },\n        \"cloudConfiguration\": {\n            \"cloudOwner\": \"{{cloud_owner_name}}\",\n            \"lcpCloudRegionId\": \"{{onap_cloud_region_id}}\",\n            \"tenantId\": \"{{tenant_id}}\"\n        }\n    }\n}"
-				},
-				"url": {
-					"raw": "{{url-so}}/onap/so/infra/serviceInstantiation/v7/serviceInstances/{{auto_service_instance_id}}/vnfs/{{auto_vnf_instance_id}}/vfModules/{{auto_vfmodule_instance_id}}",
-					"host": [
-						"{{url-so}}"
-					],
-					"path": [
-						"onap",
-						"so",
-						"infra",
-						"serviceInstantiation",
-						"v7",
-						"serviceInstances",
-						"{{auto_service_instance_id}}",
-						"vnfs",
-						"{{auto_vnf_instance_id}}",
-						"vfModules",
-						"{{auto_vfmodule_instance_id}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "SO orchestrationRequests after 30s",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "2ca20cdd-fbb0-46a3-b6af-eb36d388448c",
-						"exec": [
-							"",
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"var jsonData = pm.response.json();",
-							"",
-							"tests[\"requestState is : \"+jsonData.request.requestStatus.requestState] = jsonData.request.requestStatus.requestState === \"COMPLETE\";",
-							"",
-							"tests[\"statusMessage is : \"+jsonData.request.requestStatus.statusMessage] = jsonData.request.requestStatus.statusMessage === \"Vf Module has been deleted successfully.\";"
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "0fc6bd97-ca45-4caa-bdc5-346d661a5409",
-						"exec": [
-							"  var date = new Date();",
-							"  var curDate = null;",
-							"  do {",
-							"    curDate = new Date();",
-							"  }",
-							"  while (curDate - date < 10000);"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "get_aai_subscr"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA=="
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-so}}/onap/so/infra/orchestrationRequests/v7/{{auto_so_request_id}}",
-					"host": [
-						"{{url-so}}"
-					],
-					"path": [
-						"onap",
-						"so",
-						"infra",
-						"orchestrationRequests",
-						"v7",
-						"{{auto_so_request_id}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "check vfmodule instance in inventory via AAI request",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "6244395e-23bd-4d4b-9f31-cd9b1e4102f6",
-						"exec": [
-							"",
-							"var jsonData = pm.response.json();",
-							"",
-							"",
-							"var vfmodule_instance_found = false;",
-							"",
-							"if (pm.response.code === 200){",
-							"    for (var i = 0; i < jsonData[\"vf-module\"].length; i++) { ",
-							"        if (jsonData[\"vf-module\"][i][\"vf-module-name\"] === pm.environment.get(\"vfmodule_instance_name\")) {",
-							"            vfmodule_instance_found = true;",
-							"        }",
-							"    }",
-							"}",
-							"",
-							"",
-							"tests[\"vfmodule Instance : \"+ pm.environment.get(\"vfmodule_instance_name\") +\" no longer exists in AAI inventory\"] = vfmodule_instance_found === false;"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic QUFJOkFBSQ=="
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "get_aai_subscr"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-aai}}/aai/v16/network/generic-vnfs/generic-vnf/{{auto_vnf_instance_id}}/vf-modules",
-					"host": [
-						"{{url-aai}}"
-					],
-					"path": [
-						"aai",
-						"v16",
-						"network",
-						"generic-vnfs",
-						"generic-vnf",
-						"{{auto_vnf_instance_id}}",
-						"vf-modules"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "SO Delete vnf_instance",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "eab54e34-7898-452e-ad8e-6ac68c3efd36",
-						"exec": [
-							"pm.test(\"Status code is 202\", function () {",
-							"    pm.response.to.have.status(202);",
-							"});",
-							"var jsonData = pm.response.json();",
-							"",
-							"pm.environment.set(\"auto_so_request_id\", \"\"+jsonData.requestReferences.requestId+\"\");",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==",
-						"type": "text"
-					},
-					{
-						"key": "X-ONAP-PartnerName",
-						"value": "NBI",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"requestDetails\": {\n\t\t\"requestInfo\": {\n\t\t\t\"source\": \"VID\",\n\t\t\t\"requestorId\": \"test\"\n\t\t},\n\t\t\"modelInfo\": {\n\t\t\t\"modelType\": \"vnf\",\n\t\t\t\"modelInvariantId\": \"{{auto_vf_invariant_uuid}}\",\n\t\t\t\"modelVersionId\": \"{{auto_vf_uuid}}\",\n\t\t\t\"modelName\": \"{{vf_name}}\",\n\t\t\t\"modelVersion\": \"1.0\",\n\t\t\t\"modelCustomizationId\": \"{{auto_vf_customization_id}}\",\n\t\t\t\"modelCustomizationName\": \"{{vf_name}} 0\"\n\t\t},\n\t\t\"requestParameters\": {\n\t\t\t\"testApi\": \"VNF_API\"\n\t\t},\n        \"cloudConfiguration\": {\n            \"cloudOwner\": \"{{cloud_owner_name}}\",\n            \"lcpCloudRegionId\": \"{{onap_cloud_region_id}}\",\n            \"tenantId\": \"{{tenant_id}}\"\n        }\n\t}\n}\n\n"
-				},
-				"url": {
-					"raw": "{{url-so}}/onap/so/infra/serviceInstantiation/v7/serviceInstances/{{auto_service_instance_id}}/vnfs/{{auto_vnf_instance_id}}",
-					"host": [
-						"{{url-so}}"
-					],
-					"path": [
-						"onap",
-						"so",
-						"infra",
-						"serviceInstantiation",
-						"v7",
-						"serviceInstances",
-						"{{auto_service_instance_id}}",
-						"vnfs",
-						"{{auto_vnf_instance_id}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "SO Delete network",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "eab54e34-7898-452e-ad8e-6ac68c3efd36",
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==",
-						"type": "text"
-					},
-					{
-						"key": "X-ONAP-PartnerName",
-						"value": "NBI",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "   {\n \t\"requestDetails\": {\n \t\t\"modelInfo\": {\n \t\t\t\"modelType\": \"network\"\n \t\t},\n \t\t\"requestInfo\": {\n \t\t\t\"source\": \"VID\",\n \t\t\t\"requestorId\": \"demo\"\n \t\t},\n \t\t\"requestParameters\": {\n \t\t\t\"testApi\": \"VNF_API\"\n \t\t},\n        \"cloudConfiguration\": {\n            \"cloudOwner\": \"{{cloud_owner_name}}\",\n            \"lcpCloudRegionId\": \"{{onap_cloud_region_id}}\",\n            \"tenantId\": \"{{tenant_id}}\"\n        }\n\t}\n}\n\n"
-				},
-				"url": {
-					"raw": "{{url-so}}/onap/so/infra/serviceInstantiation/v7/serviceInstances/{{auto_service_instance_id}}/networks/{{auto_virtual_link_instance_id}}",
-					"host": [
-						"{{url-so}}"
-					],
-					"path": [
-						"onap",
-						"so",
-						"infra",
-						"serviceInstantiation",
-						"v7",
-						"serviceInstances",
-						"{{auto_service_instance_id}}",
-						"networks",
-						"{{auto_virtual_link_instance_id}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "SO orchestrationRequests after 10s",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "68a5392d-2904-416b-9cf0-a89c971aa341",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"var jsonData = pm.response.json();",
-							"",
-							"tests[\"requestState is : \"+jsonData.request.requestStatus.requestState] = jsonData.request.requestStatus.requestState === \"COMPLETE\";",
-							"",
-							"tests[\"statusMessage is : \"+jsonData.request.requestStatus.statusMessage] = jsonData.request.requestStatus.statusMessage === \"Vnf has been deleted successfully.\";"
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "0f9f067e-d8d4-4b69-a7eb-71f1e73b8196",
-						"exec": [
-							"  var date = new Date();",
-							"  var curDate = null;",
-							"  do {",
-							"    curDate = new Date();",
-							"  }",
-							"  while (curDate - date < 10000);"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "get_aai_subscr"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA=="
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-so}}/onap/so/infra/orchestrationRequests/v7/{{auto_so_request_id}}",
-					"host": [
-						"{{url-so}}"
-					],
-					"path": [
-						"onap",
-						"so",
-						"infra",
-						"orchestrationRequests",
-						"v7",
-						"{{auto_so_request_id}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "check vnf instance in inventory via AAI request",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "851c2dff-10fb-4f6a-a346-4bab48868d3a",
-						"exec": [
-							"",
-							"var jsonData = pm.response.json();",
-							"",
-							"var vnf_instance_found = false;",
-							"",
-							"if (pm.response.code === 200){",
-							"for (var i = 0; i < jsonData[\"generic-vnf\"].length; i++) { ",
-							"   if (jsonData[\"generic-vnf\"][i][\"vnf-name\"] === pm.environment.get(\"vnf_instance_name\")) {",
-							"       vnf_instance_found = true;",
-							"   }",
-							"}",
-							"}",
-							"tests[\"VNF Instance : \"+ pm.environment.get(\"vnf_instance_name\") +\" no longer exists in AAI inventory\"] = vnf_instance_found === false;"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic QUFJOkFBSQ=="
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "get_aai_subscr"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-aai}}/aai/v16/network/generic-vnfs",
-					"host": [
-						"{{url-aai}}"
-					],
-					"path": [
-						"aai",
-						"v16",
-						"network",
-						"generic-vnfs"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Delete service Instance via ServiceOrder API",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "764a92a8-efb5-48f8-999a-2cf34d9364b2",
-						"exec": [
-							"pm.test(\"Status code is 201\", function () {",
-							"    pm.response.to.have.status(201);",
-							"});",
-							"",
-							"var jsonData = pm.response.json();",
-							"pm.environment.set(\"auto_service_order_id\", jsonData.id);",
-							"",
-							"",
-							"",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"externalId\": \"{{externalId}}\",\n  \"priority\": \"1\",\n  \"description\": \"{{service}} ordering on generic customer via Postman\",\n  \"category\": \"Consumer\",\n  \"requestedStartDate\": \"2018-04-26T08:33:37.299Z\",\n  \"requestedCompletionDate\": \"2018-04-26T08:33:37.299Z\",\n  \"relatedParty\": [\n    {\n      \"id\": \"{{customer_name}}\",\n      \"role\": \"ONAPcustomer\",\n      \"name\": \"{{customer_name}}\"\n    }\n  ],\n  \"orderItem\": [\n    {\n      \"id\": \"1\",\n      \"action\": \"delete\",\n      \"service\": {\n        \"id\": \"{{auto_service_instance_id}}\",\n        \"serviceState\": \"active\",\n        \"serviceSpecification\": {\n          \"id\": \"{{auto_service_id}}\"\n        }\n      }\n    }\n  ]\n}"
-				},
-				"url": {
-					"raw": "{{url-nbi}}/nbi/api/v4/serviceOrder",
-					"host": [
-						"{{url-nbi}}"
-					],
-					"path": [
-						"nbi",
-						"api",
-						"v4",
-						"serviceOrder"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GET previous serviceOrder after 10s",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "de2c349d-b58d-42ae-8454-3afc1084cef1",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"var jsonData = pm.response.json();",
-							"",
-							"tests[pm.environment.get(\"externalId\")+\" exists\"] = jsonData.externalId === pm.environment.get(\"externalId\");",
-							"tests[\"service_order_id exists\"] = jsonData.id === pm.environment.get(\"auto_service_order_id\");",
-							"tests[\"service Order state is : \"+jsonData.state] = jsonData.state === \"completed\";",
-							"tests[\"Service Instance state is : \"+jsonData.orderItem[0].service.serviceState] = jsonData.orderItem[0].service.serviceState === \"active\";",
-							"",
-							"",
-							"if(jsonData.state == \"completed\"){",
-							"    pm.environment.set(\"auto_service_instance_id\", \"\"+jsonData.orderItem[0].service.id+\"\");",
-							"}",
-							"if (jsonData.orderMessage !== null){",
-							"    tests[\"order message is : \" +jsonData.orderMessage[0].messageInformation] = jsonData.orderMessage[0].messageInformation === \"\";",
-							"    pm.environment.set(\"auto_service_messageInformation\", \"\"+jsonData.orderMessage[0].messageInformation+\"\");",
-							"    }",
-							"",
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "b9cdde4f-bf25-4922-a8c0-b378bb0b9535",
-						"exec": [
-							"  var date = new Date();",
-							"  var curDate = null;",
-							"  do {",
-							"    curDate = new Date();",
-							"  }",
-							"  while (curDate - date < 10000);"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-nbi}}/nbi/api/v4/serviceOrder/{{auto_service_order_id}}",
-					"host": [
-						"{{url-nbi}}"
-					],
-					"path": [
-						"nbi",
-						"api",
-						"v4",
-						"serviceOrder",
-						"{{auto_service_order_id}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GET all service instance via ServiceInventory API",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "c7353dda-5afc-4c1c-a9d2-06036a9c984c",
-						"exec": [
-							"var jsonData = pm.response.json();",
-							"",
-							"var service_instance_found = false;",
-							"",
-							"if (pm.response.code === 200){",
-							"for (var i = 0; i < jsonData.length; i++) { ",
-							"   if (jsonData[i].name === pm.environment.get(\"service_instance_name\")) {",
-							"       service_instance_found = true;",
-							"   }",
-							"}",
-							"}",
-							"tests[pm.environment.get(\"service_instance_name\")+\" no longer in list\"] = service_instance_found === false;"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-nbi}}/nbi/api/v4/service?relatedParty.id={{customer_name}}",
-					"host": [
-						"{{url-nbi}}"
-					],
-					"path": [
-						"nbi",
-						"api",
-						"v4",
-						"service"
-					],
-					"query": [
-						{
-							"key": "relatedParty.id",
-							"value": "{{customer_name}}"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "DELETE Virtual Link",
-			"request": {
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "get_aai_subscr"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic QUFJOkFBSQ=="
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-aai}}/aai/v16/network/l3-networks/l3-network/{{auto_virtual_link_instance_id}}?resource-version=1564496333018",
-					"host": [
-						"{{url-aai}}"
-					],
-					"path": [
-						"aai",
-						"v16",
-						"network",
-						"l3-networks",
-						"l3-network",
-						"{{auto_virtual_link_instance_id}}"
-					],
-					"query": [
-						{
-							"key": "resource-version",
-							"value": "1564496333018"
-						}
-					]
-				}
-			},
-			"response": []
-		}
-	]
+  "info": {
+    "_postman_id": "7e53b9c4-273b-4012-81f3-0634173626c2",
+    "name": "11_delete_instances",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "SO Delete vf-module",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "2c20c606-a034-47e0-8a66-fc4f1b8ed1c8",
+            "exec": [
+              "pm.test(\"Status code is 202\", function () {",
+              "    pm.response.to.have.status(202);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "",
+              "pm.environment.set(\"auto_so_request_id\", \"\"+jsonData.requestReferences.requestId+\"\");",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==",
+            "type": "text"
+          },
+          {
+            "key": "X-ONAP-PartnerName",
+            "value": "NBI",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"requestDetails\": {\n        \"requestInfo\": {\n            \"source\": \"VID\",\n            \"requestorId\": \"test\"\n        },\n        \"modelInfo\": {\n            \"modelType\": \"vfModule\",\n            \"modelInvariantId\": \"{{auto_vf_module_model_invariant_uuid}}\",\n            \"modelVersionId\": \"{{auto_vf_module_model_uuid}}\",\n            \"modelName\": \"{{auto_vf_module_model_name}}\",\n            \"modelVersion\": \"1\",\n            \"modelCustomizationId\": \"{{auto_vf_module_model_customization_uuid}}\",\n            \"modelCustomizationName\": \"{{auto_vf_module_model_name}}\"\n        },\n        \"requestParameters\": {\n            \"testApi\": \"VNF_API\"\n        },\n        \"cloudConfiguration\": {\n            \"cloudOwner\": \"{{cloud_owner_name}}\",\n            \"lcpCloudRegionId\": \"{{onap_cloud_region_id}}\",\n            \"tenantId\": \"{{tenant_id}}\"\n        }\n    }\n}"
+        },
+        "url": {
+          "raw": "{{url-so}}/onap/so/infra/serviceInstantiation/v7/serviceInstances/{{auto_service_instance_id}}/vnfs/{{auto_vnf_instance_id}}/vfModules/{{auto_vfmodule_instance_id}}",
+          "host": [
+            "{{url-so}}"
+          ],
+          "path": [
+            "onap",
+            "so",
+            "infra",
+            "serviceInstantiation",
+            "v7",
+            "serviceInstances",
+            "{{auto_service_instance_id}}",
+            "vnfs",
+            "{{auto_vnf_instance_id}}",
+            "vfModules",
+            "{{auto_vfmodule_instance_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "SO orchestrationRequests after 30s",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "2ca20cdd-fbb0-46a3-b6af-eb36d388448c",
+            "exec": [
+              "",
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "var jsonData = pm.response.json();",
+              "",
+              "tests[\"requestState is : \"+jsonData.request.requestStatus.requestState] = jsonData.request.requestStatus.requestState === \"COMPLETE\";",
+              "",
+              "tests[\"statusMessage is : \"+jsonData.request.requestStatus.statusMessage] = jsonData.request.requestStatus.statusMessage === \"Vf Module has been deleted successfully.\";"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "0fc6bd97-ca45-4caa-bdc5-346d661a5409",
+            "exec": [
+              "  var date = new Date();",
+              "  var curDate = null;",
+              "  do {",
+              "    curDate = new Date();",
+              "  }",
+              "  while (curDate - date < 10000);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "AAI"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "get_aai_subscr"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA=="
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-so}}/onap/so/infra/orchestrationRequests/v7/{{auto_so_request_id}}",
+          "host": [
+            "{{url-so}}"
+          ],
+          "path": [
+            "onap",
+            "so",
+            "infra",
+            "orchestrationRequests",
+            "v7",
+            "{{auto_so_request_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "check vfmodule instance in inventory via AAI request",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "6244395e-23bd-4d4b-9f31-cd9b1e4102f6",
+            "exec": [
+              "",
+              "var jsonData = pm.response.json();",
+              "",
+              "",
+              "var vfmodule_instance_found = false;",
+              "",
+              "if (pm.response.code === 200){",
+              "    for (var i = 0; i < jsonData[\"vf-module\"].length; i++) { ",
+              "        if (jsonData[\"vf-module\"][i][\"vf-module-name\"] === pm.environment.get(\"vfmodule_instance_name\")) {",
+              "            vfmodule_instance_found = true;",
+              "        }",
+              "    }",
+              "}",
+              "",
+              "",
+              "tests[\"vfmodule Instance : \"+ pm.environment.get(\"vfmodule_instance_name\") +\" no longer exists in AAI inventory\"] = vfmodule_instance_found === false;"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Basic QUFJOkFBSQ=="
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "AAI"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "get_aai_subscr"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-aai}}/aai/v16/network/generic-vnfs/generic-vnf/{{auto_vnf_instance_id}}/vf-modules",
+          "host": [
+            "{{url-aai}}"
+          ],
+          "path": [
+            "aai",
+            "v16",
+            "network",
+            "generic-vnfs",
+            "generic-vnf",
+            "{{auto_vnf_instance_id}}",
+            "vf-modules"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "SO Delete vnf_instance",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "eab54e34-7898-452e-ad8e-6ac68c3efd36",
+            "exec": [
+              "pm.test(\"Status code is 202\", function () {",
+              "    pm.response.to.have.status(202);",
+              "});",
+              "var jsonData = pm.response.json();",
+              "",
+              "pm.environment.set(\"auto_so_request_id\", \"\"+jsonData.requestReferences.requestId+\"\");",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==",
+            "type": "text"
+          },
+          {
+            "key": "X-ONAP-PartnerName",
+            "value": "NBI",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n\t\"requestDetails\": {\n\t\t\"requestInfo\": {\n\t\t\t\"source\": \"VID\",\n\t\t\t\"requestorId\": \"test\"\n\t\t},\n\t\t\"modelInfo\": {\n\t\t\t\"modelType\": \"vnf\",\n\t\t\t\"modelInvariantId\": \"{{auto_vf_invariant_uuid}}\",\n\t\t\t\"modelVersionId\": \"{{auto_vf_uuid}}\",\n\t\t\t\"modelName\": \"{{vf_name}}\",\n\t\t\t\"modelVersion\": \"1.0\",\n\t\t\t\"modelCustomizationId\": \"{{auto_vf_customization_id}}\",\n\t\t\t\"modelCustomizationName\": \"{{vf_name}} 0\"\n\t\t},\n\t\t\"requestParameters\": {\n\t\t\t\"testApi\": \"VNF_API\"\n\t\t},\n        \"cloudConfiguration\": {\n            \"cloudOwner\": \"{{cloud_owner_name}}\",\n            \"lcpCloudRegionId\": \"{{onap_cloud_region_id}}\",\n            \"tenantId\": \"{{tenant_id}}\"\n        }\n\t}\n}\n\n"
+        },
+        "url": {
+          "raw": "{{url-so}}/onap/so/infra/serviceInstantiation/v7/serviceInstances/{{auto_service_instance_id}}/vnfs/{{auto_vnf_instance_id}}",
+          "host": [
+            "{{url-so}}"
+          ],
+          "path": [
+            "onap",
+            "so",
+            "infra",
+            "serviceInstantiation",
+            "v7",
+            "serviceInstances",
+            "{{auto_service_instance_id}}",
+            "vnfs",
+            "{{auto_vnf_instance_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "SO Delete network",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "eab54e34-7898-452e-ad8e-6ac68c3efd36",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==",
+            "type": "text"
+          },
+          {
+            "key": "X-ONAP-PartnerName",
+            "value": "NBI",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "   {\n \t\"requestDetails\": {\n \t\t\"modelInfo\": {\n \t\t\t\"modelType\": \"network\"\n \t\t},\n \t\t\"requestInfo\": {\n \t\t\t\"source\": \"VID\",\n \t\t\t\"requestorId\": \"demo\"\n \t\t},\n \t\t\"requestParameters\": {\n \t\t\t\"testApi\": \"VNF_API\"\n \t\t},\n        \"cloudConfiguration\": {\n            \"cloudOwner\": \"{{cloud_owner_name}}\",\n            \"lcpCloudRegionId\": \"{{onap_cloud_region_id}}\",\n            \"tenantId\": \"{{tenant_id}}\"\n        }\n\t}\n}\n\n"
+        },
+        "url": {
+          "raw": "{{url-so}}/onap/so/infra/serviceInstantiation/v7/serviceInstances/{{auto_service_instance_id}}/networks/{{auto_virtual_link_instance_id}}",
+          "host": [
+            "{{url-so}}"
+          ],
+          "path": [
+            "onap",
+            "so",
+            "infra",
+            "serviceInstantiation",
+            "v7",
+            "serviceInstances",
+            "{{auto_service_instance_id}}",
+            "networks",
+            "{{auto_virtual_link_instance_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "SO orchestrationRequests after 10s",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "68a5392d-2904-416b-9cf0-a89c971aa341",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "",
+              "tests[\"requestState is : \"+jsonData.request.requestStatus.requestState] = jsonData.request.requestStatus.requestState === \"COMPLETE\";",
+              "",
+              "tests[\"statusMessage is : \"+jsonData.request.requestStatus.statusMessage] = jsonData.request.requestStatus.statusMessage === \"Vnf has been deleted successfully.\";"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "0f9f067e-d8d4-4b69-a7eb-71f1e73b8196",
+            "exec": [
+              "  var date = new Date();",
+              "  var curDate = null;",
+              "  do {",
+              "    curDate = new Date();",
+              "  }",
+              "  while (curDate - date < 10000);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "AAI"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "get_aai_subscr"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA=="
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-so}}/onap/so/infra/orchestrationRequests/v7/{{auto_so_request_id}}",
+          "host": [
+            "{{url-so}}"
+          ],
+          "path": [
+            "onap",
+            "so",
+            "infra",
+            "orchestrationRequests",
+            "v7",
+            "{{auto_so_request_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "check vnf instance in inventory via AAI request",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "851c2dff-10fb-4f6a-a346-4bab48868d3a",
+            "exec": [
+              "",
+              "var jsonData = pm.response.json();",
+              "",
+              "var vnf_instance_found = false;",
+              "",
+              "if (pm.response.code === 200){",
+              "for (var i = 0; i < jsonData[\"generic-vnf\"].length; i++) { ",
+              "   if (jsonData[\"generic-vnf\"][i][\"vnf-name\"] === pm.environment.get(\"vnf_instance_name\")) {",
+              "       vnf_instance_found = true;",
+              "   }",
+              "}",
+              "}",
+              "tests[\"VNF Instance : \"+ pm.environment.get(\"vnf_instance_name\") +\" no longer exists in AAI inventory\"] = vnf_instance_found === false;"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Basic QUFJOkFBSQ=="
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "AAI"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "get_aai_subscr"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-aai}}/aai/v16/network/generic-vnfs",
+          "host": [
+            "{{url-aai}}"
+          ],
+          "path": [
+            "aai",
+            "v16",
+            "network",
+            "generic-vnfs"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete service Instance via ServiceOrder API",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "764a92a8-efb5-48f8-999a-2cf34d9364b2",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "pm.environment.set(\"auto_service_order_id\", jsonData.id);",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"externalId\": \"{{externalId}}\",\n  \"priority\": \"1\",\n  \"description\": \"{{service}} ordering on generic customer via Postman\",\n  \"category\": \"Consumer\",\n  \"requestedStartDate\": \"2018-04-26T08:33:37.299Z\",\n  \"requestedCompletionDate\": \"2018-04-26T08:33:37.299Z\",\n  \"relatedParty\": [\n    {\n      \"id\": \"{{customer_name}}\",\n      \"role\": \"ONAPcustomer\",\n      \"name\": \"{{customer_name}}\"\n    }\n  ],\n  \"orderItem\": [\n    {\n      \"id\": \"1\",\n      \"action\": \"delete\",\n      \"service\": {\n        \"id\": \"{{auto_service_instance_id}}\",\n        \"serviceState\": \"active\",\n        \"serviceSpecification\": {\n          \"id\": \"{{auto_service_id}}\"\n        }\n      }\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{url-nbi}}/nbi/api/v4/serviceOrder",
+          "host": [
+            "{{url-nbi}}"
+          ],
+          "path": [
+            "nbi",
+            "api",
+            "v4",
+            "serviceOrder"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET previous serviceOrder after 10s",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "de2c349d-b58d-42ae-8454-3afc1084cef1",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "",
+              "tests[pm.environment.get(\"externalId\")+\" exists\"] = jsonData.externalId === pm.environment.get(\"externalId\");",
+              "tests[\"service_order_id exists\"] = jsonData.id === pm.environment.get(\"auto_service_order_id\");",
+              "tests[\"service Order state is : \"+jsonData.state] = jsonData.state === \"completed\";",
+              "tests[\"Service Instance state is : \"+jsonData.orderItem[0].service.serviceState] = jsonData.orderItem[0].service.serviceState === \"active\";",
+              "",
+              "",
+              "if(jsonData.state == \"completed\"){",
+              "    pm.environment.set(\"auto_service_instance_id\", \"\"+jsonData.orderItem[0].service.id+\"\");",
+              "}",
+              "if (jsonData.orderMessage !== null){",
+              "    tests[\"order message is : \" +jsonData.orderMessage[0].messageInformation] = jsonData.orderMessage[0].messageInformation === \"\";",
+              "    pm.environment.set(\"auto_service_messageInformation\", \"\"+jsonData.orderMessage[0].messageInformation+\"\");",
+              "    }",
+              "",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "b9cdde4f-bf25-4922-a8c0-b378bb0b9535",
+            "exec": [
+              "  var date = new Date();",
+              "  var curDate = null;",
+              "  do {",
+              "    curDate = new Date();",
+              "  }",
+              "  while (curDate - date < 10000);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-nbi}}/nbi/api/v4/serviceOrder/{{auto_service_order_id}}",
+          "host": [
+            "{{url-nbi}}"
+          ],
+          "path": [
+            "nbi",
+            "api",
+            "v4",
+            "serviceOrder",
+            "{{auto_service_order_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET all service instance via ServiceInventory API",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "c7353dda-5afc-4c1c-a9d2-06036a9c984c",
+            "exec": [
+              "var jsonData = pm.response.json();",
+              "",
+              "var service_instance_found = false;",
+              "",
+              "if (pm.response.code === 200){",
+              "for (var i = 0; i < jsonData.length; i++) { ",
+              "   if (jsonData[i].name === pm.environment.get(\"service_instance_name\")) {",
+              "       service_instance_found = true;",
+              "   }",
+              "}",
+              "}",
+              "tests[pm.environment.get(\"service_instance_name\")+\" no longer in list\"] = service_instance_found === false;"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-nbi}}/nbi/api/v4/service?relatedParty.id={{customer_name}}",
+          "host": [
+            "{{url-nbi}}"
+          ],
+          "path": [
+            "nbi",
+            "api",
+            "v4",
+            "service"
+          ],
+          "query": [
+            {
+              "key": "relatedParty.id",
+              "value": "{{customer_name}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DELETE Virtual Link",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "AAI"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "get_aai_subscr"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic QUFJOkFBSQ=="
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-aai}}/aai/v16/network/l3-networks/l3-network/{{auto_virtual_link_instance_id}}?resource-version=1564496333018",
+          "host": [
+            "{{url-aai}}"
+          ],
+          "path": [
+            "aai",
+            "v16",
+            "network",
+            "l3-networks",
+            "l3-network",
+            "{{auto_virtual_link_instance_id}}"
+          ],
+          "query": [
+            {
+              "key": "resource-version",
+              "value": "1564496333018"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
 }

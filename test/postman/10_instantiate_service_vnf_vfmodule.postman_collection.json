@@ -1,1360 +1,1360 @@
 {
-	"info": {
-		"_postman_id": "200601a1-b07a-4a07-ba56-a3fc357e9f55",
-		"name": "10_instantiate_service_vnf_vfmodule",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "GET ExternalAPI-NBI component Status (HealthCheck)",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "ddeb2e4b-2ef6-4b58-8e5c-cc202fbb232a",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"var NBI_status = false;",
-							"var jsonData = pm.response.json();",
-							"",
-							"if (jsonData.status === \"ok\") {",
-							"       NBI_status = true;",
-							"}",
-							"tests[\"NBI status OK\"] = NBI_status === true;",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-nbi}}/nbi/api/v4/status",
-					"host": [
-						"{{url-nbi}}"
-					],
-					"path": [
-						"nbi",
-						"api",
-						"v4",
-						"status"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GET all service models from Service Catalog API",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "d020751d-1ca5-4c47-af33-40faea633e62",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"var jsonData = pm.response.json();",
-							"var service_found = false;",
-							"for (var i = 0; i < jsonData.length; i++) { ",
-							"   if (jsonData[i].name === pm.environment.get(\"service\")) {",
-							"       service_found = true;",
-							"       pm.environment.set(\"auto_service_id\", \"\"+jsonData[i].id+\"\");",
-							"   }",
-							"}",
-							"tests[\"Service : \"+pm.environment.get(\"service\")+\" exists\"] = service_found === true;",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-nbi}}/nbi/api/v4/serviceSpecification",
-					"host": [
-						"{{url-nbi}}"
-					],
-					"path": [
-						"nbi",
-						"api",
-						"v4",
-						"serviceSpecification"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GET all service instances via ServiceInventory API",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "79e173a3-297e-467f-8c9b-be90035a91aa",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"var jsonData = pm.response.json();",
-							"var service_instance_found = false;",
-							"for (var i = 0; i < jsonData.length; i++) { ",
-							"   if (jsonData[i].name === pm.environment.get(\"service_instance_name\")) {",
-							"       service_instance_found = true;",
-							"   }",
-							"}",
-							"tests[\"Service instance : \"+pm.environment.get(\"service_instance_name\")+\" does not exist\"] = service_instance_found === false;"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-nbi}}/nbi/api/v4/service?relatedParty.id={{customer_name}}",
-					"host": [
-						"{{url-nbi}}"
-					],
-					"path": [
-						"nbi",
-						"api",
-						"v4",
-						"service"
-					],
-					"query": [
-						{
-							"key": "relatedParty.id",
-							"value": "{{customer_name}}"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Add service instance via ServiceOrder API",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "9e3790c5-456a-44aa-9579-de3e9be2b61a",
-						"exec": [
-							"pm.test(\"Status code is 201\", function () {",
-							"    pm.response.to.have.status(201);",
-							"});",
-							"",
-							"var jsonData = pm.response.json();",
-							"tests[pm.environment.get(\"externalId\")+\" exists\"] = jsonData.externalId === pm.environment.get(\"externalId\");",
-							"",
-							"pm.environment.set(\"auto_service_order_id\", jsonData.id);",
-							"    "
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"externalId\": \"{{externalId}}\",\n  \"priority\": \"1\",\n  \"description\": \"{{service}} order for generic customer via Postman\",\n  \"category\": \"Consumer\",\n  \"requestedStartDate\": \"2018-04-26T08:33:37.299Z\",\n  \"requestedCompletionDate\": \"2018-04-26T08:33:37.299Z\",\n  \"relatedParty\": [\n    {\n      \"id\": \"{{customer_name}}\",\n      \"role\": \"ONAPcustomer\",\n      \"name\": \"{{customer_name}}\"\n    }\n  ],\n  \"orderItem\": [\n    {\n      \"id\": \"1\",\n      \"action\": \"add\",\n      \"service\": {\n        \"name\": \"{{service_instance_name}}\",\n        \"serviceState\": \"active\",\n        \"serviceSpecification\": {\n          \"id\": \"{{auto_service_id}}\"\n        }\n      }\n    }\n  ]\n}"
-				},
-				"url": {
-					"raw": "{{url-nbi}}/nbi/api/v4/serviceOrder",
-					"host": [
-						"{{url-nbi}}"
-					],
-					"path": [
-						"nbi",
-						"api",
-						"v4",
-						"serviceOrder"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GET previous serviceOrder after 10s",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "dc4fc1f9-cd6a-41c8-a972-06694d869384",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"var jsonData = pm.response.json();",
-							"",
-							"tests[pm.environment.get(\"externalId\")+\" exists\"] = jsonData.externalId === pm.environment.get(\"externalId\");",
-							"tests[\"service_order_id exists\"] = jsonData.id === pm.environment.get(\"auto_service_order_id\");",
-							"tests[\"service Order state is : \"+jsonData.state] = jsonData.state === \"completed\";",
-							"tests[\"Service Instance state is : \"+jsonData.orderItem[0].service.serviceState] = jsonData.orderItem[0].service.serviceState === \"active\";",
-							"",
-							"",
-							"if(jsonData.state == \"completed\"){",
-							"    pm.environment.set(\"auto_service_instance_id\", \"\"+jsonData.orderItem[0].service.id+\"\");",
-							"}",
-							"if (jsonData.orderMessage !== null){",
-							"    tests[\"order message is : \" +jsonData.orderMessage[0].messageInformation] = jsonData.orderMessage[0].messageInformation === \"\";",
-							"    pm.environment.set(\"auto_service_messageInformation\", \"\"+jsonData.orderMessage[0].messageInformation+\"\");",
-							"    }",
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "b2473649-e045-465e-84cc-0725d83d57ed",
-						"exec": [
-							"  var date = new Date();",
-							"  var curDate = null;",
-							"  do {",
-							"    curDate = new Date();",
-							"  }",
-							"  while (curDate - date < 10000);"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-nbi}}/nbi/api/v4/serviceOrder/{{auto_service_order_id}}",
-					"host": [
-						"{{url-nbi}}"
-					],
-					"path": [
-						"nbi",
-						"api",
-						"v4",
-						"serviceOrder",
-						"{{auto_service_order_id}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "SO orchestrationRequests",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "1536607a-13f7-4c9a-97a6-af7f5dbc0593",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"var jsonData = pm.response.json();",
-							"",
-							"if (jsonData.requestList.length > 0){",
-							"    tests[\"requestState is : \"+jsonData.requestList[0].request.requestStatus.requestState] = jsonData.requestList[0].request.requestStatus.requestState === \"COMPLETE\";",
-							"    tests[\"statusMessage is : \"+jsonData.requestList[0].request.requestStatus.statusMessage] = jsonData.requestList[0].request.requestStatus.statusMessage === \"Service Instance was created successfully.\";",
-							"}",
-							"else {",
-							"    tests[\"no order for that service instance\"] = true === false;",
-							"}"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "get_aai_subscr"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA=="
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-so}}/onap/so/infra/orchestrationRequests/v7?filter=serviceInstanceName:EQUALS:{{service_instance_name}}",
-					"host": [
-						"{{url-so}}"
-					],
-					"path": [
-						"onap",
-						"so",
-						"infra",
-						"orchestrationRequests",
-						"v7"
-					],
-					"query": [
-						{
-							"key": "filter",
-							"value": "serviceInstanceName:EQUALS:{{service_instance_name}}"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Check service instance in inventory via NBI request",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "f1cbf2f1-1ed2-4d21-9483-46602241705d",
-						"exec": [
-							"tests[\"Service Instance : \"+ pm.environment.get(\"service_instance_name\") +\" exists in AAI inventory\"] = pm.response.code === 200;",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-nbi}}/nbi/api/v4/service/{{auto_service_instance_id}}?relatedParty.id={{customer_name}}&serviceSpecification.name={{service}}",
-					"host": [
-						"{{url-nbi}}"
-					],
-					"path": [
-						"nbi",
-						"api",
-						"v4",
-						"service",
-						"{{auto_service_instance_id}}"
-					],
-					"query": [
-						{
-							"key": "relatedParty.id",
-							"value": "{{customer_name}}"
-						},
-						{
-							"key": "serviceSpecification.name",
-							"value": "{{service}}"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Instantiate vnf",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "e779f618-dd36-474f-802d-a36abdf69708",
-						"exec": [
-							"pm.test(\"Status code is 202\", function () {",
-							"    pm.response.to.have.status(202);",
-							"});",
-							"",
-							"var jsonData = pm.response.json();",
-							"",
-							"pm.environment.set(\"auto_so_request_id\", \"\"+jsonData.requestReferences.requestId+\"\");",
-							"pm.environment.set(\"auto_vnf_instance_id\", \"\"+jsonData.requestReferences.instanceId+\"\");",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==",
-						"type": "text"
-					},
-					{
-						"key": "X-ONAP-PartnerName",
-						"value": "NBI",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"requestDetails\": {\n    \"requestInfo\": {\n      \"instanceName\": \"{{vnf_instance_name}}\",\n      \"source\": \"VID\",\n      \"suppressRollback\": false,\n      \"requestorId\": \"test\",\n\t  \"productFamilyId\": \"1234\"\n    },\n\t\"modelInfo\": {\n\t\t\"modelType\": \"vnf\",\n\t\t\"modelInvariantId\": \"{{auto_vf_invariant_uuid}}\",\n\t\t\t\"modelVersionId\": \"{{auto_vf_uuid}}\",\n\t\t\t\"modelName\": \"{{vf_name}}\",\n\t\t\t\"modelVersion\": \"1.0\",\n\t\t\t\"modelCustomizationId\": \"{{auto_vf_customization_uuid}}\",\n\t\t\t\"modelCustomizationName\": \"{{auto_vf_name_for_model}}\"\n\t\t},\n    \"requestParameters\": {\n      \"userParams\": [],\n      \"aLaCarte\": true,\n\t  \"testApi\": \"VNF_API\"\n    },\n    \"cloudConfiguration\": {\n      \"lcpCloudRegionId\": \"{{onap_cloud_region_id}}\",\n      \"cloudOwner\": \"{{cloud_owner_name}}\",\n      \"tenantId\": \"{{tenant_id}}\"\n    },\n\t\t\"lineOfBusiness\": {\n\t\t\t\"lineOfBusinessName\": \"{{lineofbusiness}}\"\n\t\t},\n\t\t\"platform\": {\n\t\t\t\"platformName\": \"{{platform}}\"\n\t\t},\n\t\t\"relatedInstanceList\": [{\n\t\t\t\"relatedInstance\": {\n\t\t\t\t\"instanceId\": \"{{auto_service_instance_id}}\",\n\t\t\t\t\"modelInfo\": {\n\t\t\t\t\t\"modelType\": \"service\",\n\t\t\t\t\t\"modelName\": \"{{service}}\",\n\t\t\t\t\t\"modelInvariantId\": \"{{auto_service_invariant_uuid}}\",\n\t\t\t\t\t\"modelVersion\": \"1.0\",\n\t\t\t\t\t\"modelVersionId\": \"{{auto_service_uuid}}\"\n\t\t\t\t}\n\t\t\t}\n\t\t}]\n  }\n}\n\n"
-				},
-				"url": {
-					"raw": "{{url-so}}/onap/so/infra/serviceInstantiation/v7/serviceInstances/{{auto_service_instance_id}}/vnfs",
-					"host": [
-						"{{url-so}}"
-					],
-					"path": [
-						"onap",
-						"so",
-						"infra",
-						"serviceInstantiation",
-						"v7",
-						"serviceInstances",
-						"{{auto_service_instance_id}}",
-						"vnfs"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "SO orchestrationRequests after 10s",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "750de5df-76ee-42c6-8f04-bfb9e1a9ea33",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"var jsonData = pm.response.json();",
-							"",
-							"pm.environment.set(\"auto_vnf_instance_id\", \"\"+jsonData.request.instanceReferences.vnfInstanceId+\"\");",
-							"tests[\"requestState is : \"+jsonData.request.requestStatus.requestState] = jsonData.request.requestStatus.requestState === \"COMPLETE\";",
-							"tests[\"statusMessage is : \"+jsonData.request.requestStatus.statusMessage] = jsonData.request.requestStatus.statusMessage === \"Vnf has been created successfully.\";",
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "15a5b018-1d8a-4326-9810-cf94a1f4d80f",
-						"exec": [
-							"  var date = new Date();",
-							"  var curDate = null;",
-							"  do {",
-							"    curDate = new Date();",
-							"  }",
-							"  while (curDate - date < 10000);"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "get_aai_subscr"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA=="
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-so}}/onap/so/infra/orchestrationRequests/v7/{{auto_so_request_id}}",
-					"host": [
-						"{{url-so}}"
-					],
-					"path": [
-						"onap",
-						"so",
-						"infra",
-						"orchestrationRequests",
-						"v7",
-						"{{auto_so_request_id}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "check vnf instance in inventory via AAI request",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "a08edc1f-6b8c-4a7e-91ce-6d774d0dfb1e",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"var jsonData = pm.response.json();",
-							"var vnf_instance_found = false;",
-							"for (var i = 0; i < jsonData[\"generic-vnf\"].length; i++) { ",
-							"   if (jsonData[\"generic-vnf\"][i][\"vnf-name\"] === pm.environment.get(\"vnf_instance_name\")) {",
-							"       vnf_instance_found = true;",
-							"   }",
-							"}",
-							"tests[\"VNF Instance : \"+ pm.environment.get(\"vnf_instance_name\") +\" exists in AAI inventory\"] = vnf_instance_found === true;"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic QUFJOkFBSQ=="
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "get_aai_subscr"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-aai}}/aai/v16/network/generic-vnfs",
-					"host": [
-						"{{url-aai}}"
-					],
-					"path": [
-						"aai",
-						"v16",
-						"network",
-						"generic-vnfs"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "preload for VFmodule",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "62a8ef7f-7fde-423c-8b70-5f74bb6bc00b",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "0a3f6713-ba96-4971-a6f8-c2da85a3176e"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "API client"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWRtaW46S3A4Yko0U1hzek0wV1hsaGFrM2VIbGNzZTJnQXc4NHZhb0dHbUp2VXkyVQ=="
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"input\": {\n        \"request-information\": {\n            \"notification-url\": \"onap.org\",\n            \"order-number\": \"1\",\n            \"order-version\": \"1\",\n            \"request-action\": \"PreloadVNFRequest\",\n            \"request-id\": \"test\"\n        },\n        \"sdnc-request-header\": {\n            \"svc-action\": \"reserve\",\n            \"svc-notification-url\": \"http:\\/\\/onap.org:8080\\/adapters\\/rest\\/SDNCNotify\",\n            \"svc-request-id\": \"test\"\n        },\n        \"vnf-topology-information\": {\n            \"vnf-assignments\": {\n                \"availability-zones\": [],\n                \"vnf-networks\": [],\n                \"vnf-vms\": []\n            },\n            \"vnf-parameters\": [],\n            \"vnf-topology-identifier\": {\n                \"generic-vnf-name\": \"{{vnf_instance_name}}\",\n                \"generic-vnf-type\": \"{{auto_vf_name_for_model}}\",\n                \"service-type\": \"{{auto_service_instance_id}}\",\n                \"vnf-name\": \"{{vfmodule_instance_name}}\",\n                \"vnf-type\": \"{{auto_vf_module_model_name}}\"\n            }\n        }\n    }\n}\n\n"
-				},
-				"url": {
-					"raw": "{{url-sdnc}}/restconf/operations/VNF-API:preload-vnf-topology-operation",
-					"host": [
-						"{{url-sdnc}}"
-					],
-					"path": [
-						"restconf",
-						"operations",
-						"VNF-API:preload-vnf-topology-operation"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Instantiate vf-module",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "61781baf-f6d4-4229-95d0-32e85cde3e82",
-						"exec": [
-							"pm.test(\"Status code is 202\", function () {",
-							"    pm.response.to.have.status(202);",
-							"});",
-							"",
-							"var jsonData = pm.response.json();",
-							"if (responseCode.code === 202){",
-							"    pm.environment.set(\"auto_so_request_id\", \"\"+jsonData.requestReferences.requestId+\"\");",
-							"    pm.environment.set(\"auto_vfmodule_instance_id\", \"\"+jsonData.requestReferences.instanceId+\"\");",
-							"}"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==",
-						"type": "text"
-					},
-					{
-						"key": "X-ONAP-PartnerName",
-						"value": "NBI",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"requestDetails\": {\n    \"requestInfo\": {\n      \"instanceName\": \"{{vfmodule_instance_name}}\",\n      \"source\": \"VID\",\n      \"suppressRollback\": false,\n      \"requestorId\": \"test\"\n    },\n\t\"modelInfo\": {\n\t\t\"modelType\": \"vfModule\",\n\t\t\"modelInvariantId\": \"{{auto_vf_module_model_invariant_uuid}}\",\n\t\t\"modelVersionId\": \"{{auto_vf_module_model_uuid}}\",\n\t\t\"modelName\": \"{{auto_vf_module_model_name}}\",\n\t\t\"modelVersion\": \"1\",\n\t\t\"modelCustomizationId\": \"{{auto_vf_module_model_customization_uuid}}\",\n\t\t\"modelCustomizationName\": \"{{auto_vf_module_model_name}}\"\n\t},\n \t\"requestParameters\": {\n \t\t\"userParams\": [],\n \t\t\"testApi\": \"VNF_API\",\n \t\t\"usePreload\": true\n \t},\n    \"cloudConfiguration\": {\n      \"lcpCloudRegionId\": \"{{onap_cloud_region_id}}\",\n      \"cloudOwner\": \"{{cloud_owner_name}}\",\n      \"tenantId\": \"{{tenant_id}}\"\n    },\n\t\t\"relatedInstanceList\": [{\n\t\t\t\"relatedInstance\": {\n\t\t\t\t\"instanceId\": \"{{auto_service_instance_id}}\",\n\t\t\t\t\"modelInfo\": {\n\t\t\t\t\t\"modelType\": \"service\",\n\t\t\t\t\t\"modelName\": \"{{service}}\",\n\t\t\t\t\t\"modelInvariantId\": \"{{auto_service_invariant_uuid}}\",\n\t\t\t\t\t\"modelVersion\": \"1.0\",\n\t\t\t\t\t\"modelVersionId\": \"{{auto_service_uuid}}\"\n\t\t\t\t}\n\t\t\t}\n\t\t},\n\t\t{\n\t\t\t\"relatedInstance\": {\n\t\t\t\t\"instanceId\": \"{{auto_vnf_instance_id}}\",\n\t\t\t\t\"modelInfo\": {\n\t\t\t\t\t\"modelType\": \"vnf\",\n\t\t\t\t\t\"modelName\": \"{{vf_name}}\",\n\t\t\t\t\t\"modelInvariantId\": \"{{auto_vf_invariant_uuid}}\",\n\t\t\t\t\t\"modelVersion\": \"1.0\",\n\t\t\t\t\t\"modelVersionId\": \"{{auto_vf_uuid}}\",\n\t\t\t\t\t\"modelCustomizationId\": \"{{auto_vf_customization_uuid}}\",\n\t\t\t\t\t\"modelCustomizationName\": \"{{auto_vf_name_for_model}}\"\n\t\t\t\t}\n\t\t\t}\n\t\t}]\n  }\n}\n\n"
-				},
-				"url": {
-					"raw": "{{url-so}}/onap/so/infra/serviceInstantiation/v7/serviceInstances/{{auto_service_instance_id}}/vnfs/{{auto_vnf_instance_id}}/vfModules",
-					"host": [
-						"{{url-so}}"
-					],
-					"path": [
-						"onap",
-						"so",
-						"infra",
-						"serviceInstantiation",
-						"v7",
-						"serviceInstances",
-						"{{auto_service_instance_id}}",
-						"vnfs",
-						"{{auto_vnf_instance_id}}",
-						"vfModules"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "SO orchestrationRequests after 120s",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "ef3be415-7453-4d2d-91ce-de6e2df05dbe",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"var jsonData = pm.response.json();",
-							"",
-							"pm.environment.set(\"auto_vfmodule_instance_id\", \"\"+jsonData.request.instanceReferences.vfModuleInstanceId+\"\");",
-							"tests[\"requestState is : \"+jsonData.request.requestStatus.requestState] = jsonData.request.requestStatus.requestState === \"COMPLETE\";",
-							"tests[\"statusMessage is : \"+jsonData.request.requestStatus.statusMessage] = jsonData.request.requestStatus.statusMessage === \"Vf Module has been created successfully.\";"
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "8f7cbf38-cb21-45af-9648-1915c92bcb12",
-						"exec": [
-							"  var date = new Date();",
-							"  var curDate = null;",
-							"  do {",
-							"    curDate = new Date();",
-							"  }",
-							"  while (curDate - date < 10000);"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "get_aai_subscr"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA=="
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-so}}/onap/so/infra/orchestrationRequests/v7/{{auto_so_request_id}}",
-					"host": [
-						"{{url-so}}"
-					],
-					"path": [
-						"onap",
-						"so",
-						"infra",
-						"orchestrationRequests",
-						"v7",
-						"{{auto_so_request_id}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "check vfmodule instance in inventory via AAI request",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "81203009-3d68-426d-9491-1276983693e5",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"var jsonData = pm.response.json();",
-							"var vfmodule_instance_found = false;",
-							"for (var i = 0; i < jsonData[\"vf-module\"].length; i++) { ",
-							"   if (jsonData[\"vf-module\"][i][\"vf-module-name\"] === pm.environment.get(\"vfmodule_instance_name\")) {",
-							"       vfmodule_instance_found = true;",
-							"   }",
-							"}",
-							"tests[\"vfmodule Instance : \"+ pm.environment.get(\"vfmodule_instance_name\") +\" exists in AAI inventory\"] = vfmodule_instance_found === true;"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic QUFJOkFBSQ=="
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "get_aai_subscr"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-aai}}/aai/v16/network/generic-vnfs/generic-vnf/{{auto_vnf_instance_id}}/vf-modules",
-					"host": [
-						"{{url-aai}}"
-					],
-					"path": [
-						"aai",
-						"v16",
-						"network",
-						"generic-vnfs",
-						"generic-vnf",
-						"{{auto_vnf_instance_id}}",
-						"vf-modules"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "preload for Virtual Link",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "62a8ef7f-7fde-423c-8b70-5f74bb6bc00b",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "0a3f6713-ba96-4971-a6f8-c2da85a3176e"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "API client"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic YWRtaW46S3A4Yko0U1hzek0wV1hsaGFrM2VIbGNzZTJnQXc4NHZhb0dHbUp2VXkyVQ=="
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"input\": {\n    \"request-information\": {\n      \"request-id\": \"postman001\",\n      \"notification-url\": \"http://so.onap.org\",\n      \"order-number\": \"postman001\",\n      \"request-sub-action\": \"SUPP\",\n      \"request-action\": \"PreloadNetworkRequest\",\n      \"source\": \"postman\",\n      \"order-version\": \"1.0\"\n    },\n    \"network-topology-information\": {\n      \"network-policy\": [],\n      \"route-table-reference\": [],\n      \"vpn-bindings\": [],\n      \"network-topology-identifier\": {\n        \"network-role\": \"integration_test_net\",\n        \"network-technology\": \"neutron\",\n        \"service-type\": \"{{service}}\",\n        \"network-name\": \"rr01\",\n        \"network-type\": \"Generic NeutronNet\"\n      },\n      \"provider-network-information\": {\n        \"is-external-network\": \"false\",\n        \"is-provider-network\": \"false\",\n        \"is-shared-network\": \"false\"\n      },\n      \"subnets\": [\n        {\n\t\t  \"subnet-name\": \"rr01\",\n\t\t  \"subnet-role\": \"OAM\",\n          \"start-address\": \"192.168.90.0\",\n          \"cidr-mask\": \"24\",\n          \"ip-version\": \"4\",\n          \"dhcp-enabled\": \"Y\",\n\t\t  \"dhcp-start-address\": \"\",\n\t\t  \"dhcp-end-address\": \"\",\n          \"gateway-address\": \"192.168.90.1\",\n\t\t  \"host-routes\":[]\n        }\n              ]\n    },\n    \"sdnc-request-header\": {\n      \"svc-action\": \"reserve\",\n      \"svc-notification-url\": \"http://so.onap.org\",\n      \"svc-request-id\": \"postman001\"\n    }\n  }\n}\n\n"
-				},
-				"url": {
-					"raw": "{{url-sdnc}}/restconf/operations/VNF-API:preload-network-topology-operation",
-					"host": [
-						"{{url-sdnc}}"
-					],
-					"path": [
-						"restconf",
-						"operations",
-						"VNF-API:preload-network-topology-operation"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Instantiate Generic Neutron Virtual Link",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "030a6341-9ba8-4dc4-bbe4-9818c34d5f1c",
-						"exec": [
-							"pm.test(\"Status code is 202\", function () {",
-							"    pm.response.to.have.status(202);",
-							"});",
-							"",
-							"var jsonData = pm.response.json();",
-							"",
-							"pm.environment.set(\"auto_so_request_id\", \"\"+jsonData.requestReferences.requestId+\"\");",
-							"pm.environment.set(\"auto_virtual_link_instance_id\", \"\"+jsonData.requestReferences.instanceId+\"\");",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==",
-						"type": "text"
-					},
-					{
-						"key": "X-ONAP-PartnerName",
-						"value": "NBI",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"requestDetails\": {\n\t\t\"requestInfo\": {\n\t\t\t\"instanceName\": \"{{virtual_link_instance_name}}\",\n\t\t\t\"source\": \"VID\",\n\t\t\t\"suppressRollback\": false,\n\t\t\t\"requestorId\": \"demo\"\n\t\t},\n \t\t\"modelInfo\": {\n \t\t\t\"modelType\": \"network\",\n \t\t\t\"modelInvariantId\": \"{{auto_virtual_link_invariant_uuid}}\",\n \t\t\t\"modelVersionId\": \"{{auto_virtual_link_uuid}}\",\n \t\t\t\"modelName\": \"Generic NeutronNet\",\n \t\t\t\"modelVersion\": \"1.0\",\n \t\t\t\"modelCustomizationId\": \"{{auto_virtual_link_customization_uuid}}\",\n \t\t\t\"modelCustomizationName\": \"Generic NeutronNet 0\"\n \t\t},\n    \"requestParameters\": {\n      \"userParams\": [],\n      \"aLaCarte\": true,\n\t  \"testApi\": \"VNF_API\"\n    },\n    \"cloudConfiguration\": {\n      \"cloudOwner\": \"{{cloud_owner_name}}\",\n      \"lcpCloudRegionId\": \"{{onap_cloud_region_id}}\",\n      \"tenantId\": \"{{tenant_id}}\"\n    },\n\t\t\"lineOfBusiness\": {\n\t\t\t\"lineOfBusinessName\": \"{{lineofbusiness}}\"\n\t\t},\n\t\t\"platform\": {\n\t\t\t\"platformName\": \"{{platform}}\"\n\t\t},\n \t\t\"relatedInstanceList\": [{\n \t\t\t\"relatedInstance\": {\n \t\t\t\t\"instanceId\": \"{{auto_service_instance_id}}\",\n \t\t\t\t\"modelInfo\": {\n \t\t\t\t\t\"modelType\": \"service\",\n \t\t\t\t\t\"modelName\": \"{{service}}\",\n \t\t\t\t\t\"modelInvariantId\": \"{{auto_service_invariant_uuid}}\",\n \t\t\t\t\t\"modelVersion\": \"1.0\",\n \t\t\t\t\t\"modelVersionId\": \"{{auto_service_uuid}}\"\n \t\t\t\t}\n \t\t\t}\n \t\t}]\n  }\n}\n\n"
-				},
-				"url": {
-					"raw": "{{url-so}}/onap/so/infra/serviceInstantiation/v7/serviceInstances/{{auto_service_instance_id}}/networks",
-					"host": [
-						"{{url-so}}"
-					],
-					"path": [
-						"onap",
-						"so",
-						"infra",
-						"serviceInstantiation",
-						"v7",
-						"serviceInstances",
-						"{{auto_service_instance_id}}",
-						"networks"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "SO orchestrationRequests after 10s",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "ef3be415-7453-4d2d-91ce-de6e2df05dbe",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"var jsonData = pm.response.json();",
-							"",
-							"pm.environment.set(\"auto_virtual_link_instance_id\", \"\"+jsonData.request.instanceReferences.networkInstanceId+\"\");",
-							"tests[\"requestState is : \"+jsonData.request.requestStatus.requestState] = jsonData.request.requestStatus.requestState === \"COMPLETE\";",
-							"tests[\"statusMessage is : \"+jsonData.request.requestStatus.statusMessage] = jsonData.request.requestStatus.statusMessage === \"Network has been created successfully.\";"
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "8f7cbf38-cb21-45af-9648-1915c92bcb12",
-						"exec": [
-							"  var date = new Date();",
-							"  var curDate = null;",
-							"  do {",
-							"    curDate = new Date();",
-							"  }",
-							"  while (curDate - date < 10000);"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "get_aai_subscr"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA=="
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-so}}/onap/so/infra/orchestrationRequests/v7/{{auto_so_request_id}}",
-					"host": [
-						"{{url-so}}"
-					],
-					"path": [
-						"onap",
-						"so",
-						"infra",
-						"orchestrationRequests",
-						"v7",
-						"{{auto_so_request_id}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GET virtual link in AAI by id",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "get_aai_subscr"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic QUFJOkFBSQ=="
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-aai}}/aai/v16/network/l3-networks/l3-network/{{auto_virtual_link_instance_id}}",
-					"host": [
-						"{{url-aai}}"
-					],
-					"path": [
-						"aai",
-						"v16",
-						"network",
-						"l3-networks",
-						"l3-network",
-						"{{auto_virtual_link_instance_id}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GET subnets of network AAI by id",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "get_aai_subscr"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic QUFJOkFBSQ=="
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-aai}}/aai/v16/network/l3-networks/l3-network/{{auto_virtual_link_instance_id}}/subnets",
-					"host": [
-						"{{url-aai}}"
-					],
-					"path": [
-						"aai",
-						"v16",
-						"network",
-						"l3-networks",
-						"l3-network",
-						"{{auto_virtual_link_instance_id}}",
-						"subnets"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "SO Instantiate service",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "e779f618-dd36-474f-802d-a36abdf69708",
-						"exec": [
-							"pm.test(\"Status code is 202\", function () {",
-							"    pm.response.to.have.status(202);",
-							"});",
-							"",
-							"var jsonData = pm.response.json();",
-							"",
-							"pm.environment.set(\"auto_so_request_id\", \"\"+jsonData.requestReferences.requestId+\"\");",
-							"pm.environment.set(\"auto_service_instance_id\", \"\"+jsonData.requestReferences.instanceId+\"\");",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==",
-						"type": "text"
-					},
-					{
-						"key": "X-ONAP-PartnerName",
-						"value": "NBI",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"requestDetails\": {\n\t\t\"requestInfo\": {\n\t\t\t\"instanceName\": \"{{service_instance_name}}\",\n\t\t\t\"source\": \"VID\",\n\t\t\t\"suppressRollback\": false,\n\t\t\t\"requestorId\": \"demo\"\n\t\t},\n\t\t\"modelInfo\": {\n\t\t\t\"modelType\": \"service\",\n\t\t\t\"modelInvariantId\": \"{{auto_service_invariant_uuid}}\",\n\t\t\t\"modelVersionId\": \"{{auto_service_uuid}}\",\n\t\t\t\"modelName\": \"{{service}}\",\n\t\t\t\"modelVersion\": \"1.0\"\n\t\t},\n        \"cloudConfiguration\": {\n            \"tenantId\": \"{{tenant_id}}\",\n            \"cloudOwner\": \"{{cloud_owner_name}}\",\n            \"lcpCloudRegionId\": \"{{onap_cloud_region_id}}\"\n        },\n\t\t\"requestParameters\": {\n\t\t\t\"userParams\": [],\n\t\t\t\"testApi\": \"VNF_API\",\n\t\t\t\"subscriptionServiceType\": \"{{service}}\",\n\t\t\t\"aLaCarte\": true\n\t\t},\n\t\t\"subscriberInfo\": {\n\t\t\t\"globalSubscriberId\": \"{{customer_name}}\"\n\t\t},\n\t\t\"project\": {\n\t\t\t\"projectName\": \"{{project}}\"\n\t\t},\n\t\t\"owningEntity\": {\n\t\t\t\"owningEntityId\": \"{{auto_owning_entity_id}}\",\n\t\t\t\"owningEntityName\": \"{{owning_entity}}\"\n\t\t}\n\t}\n}"
-				},
-				"url": {
-					"raw": "{{url-so}}/onap/so/infra/serviceInstantiation/v7/serviceInstances",
-					"host": [
-						"{{url-so}}"
-					],
-					"path": [
-						"onap",
-						"so",
-						"infra",
-						"serviceInstantiation",
-						"v7",
-						"serviceInstances"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "SO orchestrationRequests after 10s",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "ef3be415-7453-4d2d-91ce-de6e2df05dbe",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"var jsonData = pm.response.json();",
-							"",
-							"pm.environment.set(\"auto_virtual_link_instance_id\", \"\"+jsonData.request.instanceReferences.networkInstanceId+\"\");",
-							"tests[\"requestState is : \"+jsonData.request.requestStatus.requestState] = jsonData.request.requestStatus.requestState === \"COMPLETE\";",
-							"tests[\"statusMessage is : \"+jsonData.request.requestStatus.statusMessage] = jsonData.request.requestStatus.statusMessage === \"Network has been created successfully.\";"
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "8f7cbf38-cb21-45af-9648-1915c92bcb12",
-						"exec": [
-							"  var date = new Date();",
-							"  var curDate = null;",
-							"  do {",
-							"    curDate = new Date();",
-							"  }",
-							"  while (curDate - date < 10000);"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "AAI"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "get_aai_subscr"
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA=="
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{url-so}}/onap/so/infra/orchestrationRequests/v7/{{auto_so_request_id}}",
-					"host": [
-						"{{url-so}}"
-					],
-					"path": [
-						"onap",
-						"so",
-						"infra",
-						"orchestrationRequests",
-						"v7",
-						"{{auto_so_request_id}}"
-					]
-				}
-			},
-			"response": []
-		}
-	]
+  "info": {
+    "_postman_id": "200601a1-b07a-4a07-ba56-a3fc357e9f55",
+    "name": "10_instantiate_service_vnf_vfmodule",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GET ExternalAPI-NBI component Status (HealthCheck)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "ddeb2e4b-2ef6-4b58-8e5c-cc202fbb232a",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "var NBI_status = false;",
+              "var jsonData = pm.response.json();",
+              "",
+              "if (jsonData.status === \"ok\") {",
+              "       NBI_status = true;",
+              "}",
+              "tests[\"NBI status OK\"] = NBI_status === true;",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-nbi}}/nbi/api/v4/status",
+          "host": [
+            "{{url-nbi}}"
+          ],
+          "path": [
+            "nbi",
+            "api",
+            "v4",
+            "status"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET all service models from Service Catalog API",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "d020751d-1ca5-4c47-af33-40faea633e62",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "var jsonData = pm.response.json();",
+              "var service_found = false;",
+              "for (var i = 0; i < jsonData.length; i++) { ",
+              "   if (jsonData[i].name === pm.environment.get(\"service\")) {",
+              "       service_found = true;",
+              "       pm.environment.set(\"auto_service_id\", \"\"+jsonData[i].id+\"\");",
+              "   }",
+              "}",
+              "tests[\"Service : \"+pm.environment.get(\"service\")+\" exists\"] = service_found === true;",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-nbi}}/nbi/api/v4/serviceSpecification",
+          "host": [
+            "{{url-nbi}}"
+          ],
+          "path": [
+            "nbi",
+            "api",
+            "v4",
+            "serviceSpecification"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET all service instances via ServiceInventory API",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "79e173a3-297e-467f-8c9b-be90035a91aa",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "var jsonData = pm.response.json();",
+              "var service_instance_found = false;",
+              "for (var i = 0; i < jsonData.length; i++) { ",
+              "   if (jsonData[i].name === pm.environment.get(\"service_instance_name\")) {",
+              "       service_instance_found = true;",
+              "   }",
+              "}",
+              "tests[\"Service instance : \"+pm.environment.get(\"service_instance_name\")+\" does not exist\"] = service_instance_found === false;"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-nbi}}/nbi/api/v4/service?relatedParty.id={{customer_name}}",
+          "host": [
+            "{{url-nbi}}"
+          ],
+          "path": [
+            "nbi",
+            "api",
+            "v4",
+            "service"
+          ],
+          "query": [
+            {
+              "key": "relatedParty.id",
+              "value": "{{customer_name}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Add service instance via ServiceOrder API",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "9e3790c5-456a-44aa-9579-de3e9be2b61a",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "tests[pm.environment.get(\"externalId\")+\" exists\"] = jsonData.externalId === pm.environment.get(\"externalId\");",
+              "",
+              "pm.environment.set(\"auto_service_order_id\", jsonData.id);",
+              "    "
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"externalId\": \"{{externalId}}\",\n  \"priority\": \"1\",\n  \"description\": \"{{service}} order for generic customer via Postman\",\n  \"category\": \"Consumer\",\n  \"requestedStartDate\": \"2018-04-26T08:33:37.299Z\",\n  \"requestedCompletionDate\": \"2018-04-26T08:33:37.299Z\",\n  \"relatedParty\": [\n    {\n      \"id\": \"{{customer_name}}\",\n      \"role\": \"ONAPcustomer\",\n      \"name\": \"{{customer_name}}\"\n    }\n  ],\n  \"orderItem\": [\n    {\n      \"id\": \"1\",\n      \"action\": \"add\",\n      \"service\": {\n        \"name\": \"{{service_instance_name}}\",\n        \"serviceState\": \"active\",\n        \"serviceSpecification\": {\n          \"id\": \"{{auto_service_id}}\"\n        }\n      }\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{url-nbi}}/nbi/api/v4/serviceOrder",
+          "host": [
+            "{{url-nbi}}"
+          ],
+          "path": [
+            "nbi",
+            "api",
+            "v4",
+            "serviceOrder"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET previous serviceOrder after 10s",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "dc4fc1f9-cd6a-41c8-a972-06694d869384",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "",
+              "tests[pm.environment.get(\"externalId\")+\" exists\"] = jsonData.externalId === pm.environment.get(\"externalId\");",
+              "tests[\"service_order_id exists\"] = jsonData.id === pm.environment.get(\"auto_service_order_id\");",
+              "tests[\"service Order state is : \"+jsonData.state] = jsonData.state === \"completed\";",
+              "tests[\"Service Instance state is : \"+jsonData.orderItem[0].service.serviceState] = jsonData.orderItem[0].service.serviceState === \"active\";",
+              "",
+              "",
+              "if(jsonData.state == \"completed\"){",
+              "    pm.environment.set(\"auto_service_instance_id\", \"\"+jsonData.orderItem[0].service.id+\"\");",
+              "}",
+              "if (jsonData.orderMessage !== null){",
+              "    tests[\"order message is : \" +jsonData.orderMessage[0].messageInformation] = jsonData.orderMessage[0].messageInformation === \"\";",
+              "    pm.environment.set(\"auto_service_messageInformation\", \"\"+jsonData.orderMessage[0].messageInformation+\"\");",
+              "    }",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "b2473649-e045-465e-84cc-0725d83d57ed",
+            "exec": [
+              "  var date = new Date();",
+              "  var curDate = null;",
+              "  do {",
+              "    curDate = new Date();",
+              "  }",
+              "  while (curDate - date < 10000);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-nbi}}/nbi/api/v4/serviceOrder/{{auto_service_order_id}}",
+          "host": [
+            "{{url-nbi}}"
+          ],
+          "path": [
+            "nbi",
+            "api",
+            "v4",
+            "serviceOrder",
+            "{{auto_service_order_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "SO orchestrationRequests",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "1536607a-13f7-4c9a-97a6-af7f5dbc0593",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "var jsonData = pm.response.json();",
+              "",
+              "if (jsonData.requestList.length > 0){",
+              "    tests[\"requestState is : \"+jsonData.requestList[0].request.requestStatus.requestState] = jsonData.requestList[0].request.requestStatus.requestState === \"COMPLETE\";",
+              "    tests[\"statusMessage is : \"+jsonData.requestList[0].request.requestStatus.statusMessage] = jsonData.requestList[0].request.requestStatus.statusMessage === \"Service Instance was created successfully.\";",
+              "}",
+              "else {",
+              "    tests[\"no order for that service instance\"] = true === false;",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "AAI"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "get_aai_subscr"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA=="
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-so}}/onap/so/infra/orchestrationRequests/v7?filter=serviceInstanceName:EQUALS:{{service_instance_name}}",
+          "host": [
+            "{{url-so}}"
+          ],
+          "path": [
+            "onap",
+            "so",
+            "infra",
+            "orchestrationRequests",
+            "v7"
+          ],
+          "query": [
+            {
+              "key": "filter",
+              "value": "serviceInstanceName:EQUALS:{{service_instance_name}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Check service instance in inventory via NBI request",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "f1cbf2f1-1ed2-4d21-9483-46602241705d",
+            "exec": [
+              "tests[\"Service Instance : \"+ pm.environment.get(\"service_instance_name\") +\" exists in AAI inventory\"] = pm.response.code === 200;",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-nbi}}/nbi/api/v4/service/{{auto_service_instance_id}}?relatedParty.id={{customer_name}}&serviceSpecification.name={{service}}",
+          "host": [
+            "{{url-nbi}}"
+          ],
+          "path": [
+            "nbi",
+            "api",
+            "v4",
+            "service",
+            "{{auto_service_instance_id}}"
+          ],
+          "query": [
+            {
+              "key": "relatedParty.id",
+              "value": "{{customer_name}}"
+            },
+            {
+              "key": "serviceSpecification.name",
+              "value": "{{service}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Instantiate vnf",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "e779f618-dd36-474f-802d-a36abdf69708",
+            "exec": [
+              "pm.test(\"Status code is 202\", function () {",
+              "    pm.response.to.have.status(202);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "",
+              "pm.environment.set(\"auto_so_request_id\", \"\"+jsonData.requestReferences.requestId+\"\");",
+              "pm.environment.set(\"auto_vnf_instance_id\", \"\"+jsonData.requestReferences.instanceId+\"\");",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==",
+            "type": "text"
+          },
+          {
+            "key": "X-ONAP-PartnerName",
+            "value": "NBI",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"requestDetails\": {\n    \"requestInfo\": {\n      \"instanceName\": \"{{vnf_instance_name}}\",\n      \"source\": \"VID\",\n      \"suppressRollback\": false,\n      \"requestorId\": \"test\",\n\t  \"productFamilyId\": \"1234\"\n    },\n\t\"modelInfo\": {\n\t\t\"modelType\": \"vnf\",\n\t\t\"modelInvariantId\": \"{{auto_vf_invariant_uuid}}\",\n\t\t\t\"modelVersionId\": \"{{auto_vf_uuid}}\",\n\t\t\t\"modelName\": \"{{vf_name}}\",\n\t\t\t\"modelVersion\": \"1.0\",\n\t\t\t\"modelCustomizationId\": \"{{auto_vf_customization_uuid}}\",\n\t\t\t\"modelCustomizationName\": \"{{auto_vf_name_for_model}}\"\n\t\t},\n    \"requestParameters\": {\n      \"userParams\": [],\n      \"aLaCarte\": true,\n\t  \"testApi\": \"VNF_API\"\n    },\n    \"cloudConfiguration\": {\n      \"lcpCloudRegionId\": \"{{onap_cloud_region_id}}\",\n      \"cloudOwner\": \"{{cloud_owner_name}}\",\n      \"tenantId\": \"{{tenant_id}}\"\n    },\n\t\t\"lineOfBusiness\": {\n\t\t\t\"lineOfBusinessName\": \"{{lineofbusiness}}\"\n\t\t},\n\t\t\"platform\": {\n\t\t\t\"platformName\": \"{{platform}}\"\n\t\t},\n\t\t\"relatedInstanceList\": [{\n\t\t\t\"relatedInstance\": {\n\t\t\t\t\"instanceId\": \"{{auto_service_instance_id}}\",\n\t\t\t\t\"modelInfo\": {\n\t\t\t\t\t\"modelType\": \"service\",\n\t\t\t\t\t\"modelName\": \"{{service}}\",\n\t\t\t\t\t\"modelInvariantId\": \"{{auto_service_invariant_uuid}}\",\n\t\t\t\t\t\"modelVersion\": \"1.0\",\n\t\t\t\t\t\"modelVersionId\": \"{{auto_service_uuid}}\"\n\t\t\t\t}\n\t\t\t}\n\t\t}]\n  }\n}\n\n"
+        },
+        "url": {
+          "raw": "{{url-so}}/onap/so/infra/serviceInstantiation/v7/serviceInstances/{{auto_service_instance_id}}/vnfs",
+          "host": [
+            "{{url-so}}"
+          ],
+          "path": [
+            "onap",
+            "so",
+            "infra",
+            "serviceInstantiation",
+            "v7",
+            "serviceInstances",
+            "{{auto_service_instance_id}}",
+            "vnfs"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "SO orchestrationRequests after 10s",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "750de5df-76ee-42c6-8f04-bfb9e1a9ea33",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "var jsonData = pm.response.json();",
+              "",
+              "pm.environment.set(\"auto_vnf_instance_id\", \"\"+jsonData.request.instanceReferences.vnfInstanceId+\"\");",
+              "tests[\"requestState is : \"+jsonData.request.requestStatus.requestState] = jsonData.request.requestStatus.requestState === \"COMPLETE\";",
+              "tests[\"statusMessage is : \"+jsonData.request.requestStatus.statusMessage] = jsonData.request.requestStatus.statusMessage === \"Vnf has been created successfully.\";",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "15a5b018-1d8a-4326-9810-cf94a1f4d80f",
+            "exec": [
+              "  var date = new Date();",
+              "  var curDate = null;",
+              "  do {",
+              "    curDate = new Date();",
+              "  }",
+              "  while (curDate - date < 10000);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "AAI"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "get_aai_subscr"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA=="
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-so}}/onap/so/infra/orchestrationRequests/v7/{{auto_so_request_id}}",
+          "host": [
+            "{{url-so}}"
+          ],
+          "path": [
+            "onap",
+            "so",
+            "infra",
+            "orchestrationRequests",
+            "v7",
+            "{{auto_so_request_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "check vnf instance in inventory via AAI request",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "a08edc1f-6b8c-4a7e-91ce-6d774d0dfb1e",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "var jsonData = pm.response.json();",
+              "var vnf_instance_found = false;",
+              "for (var i = 0; i < jsonData[\"generic-vnf\"].length; i++) { ",
+              "   if (jsonData[\"generic-vnf\"][i][\"vnf-name\"] === pm.environment.get(\"vnf_instance_name\")) {",
+              "       vnf_instance_found = true;",
+              "   }",
+              "}",
+              "tests[\"VNF Instance : \"+ pm.environment.get(\"vnf_instance_name\") +\" exists in AAI inventory\"] = vnf_instance_found === true;"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Basic QUFJOkFBSQ=="
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "AAI"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "get_aai_subscr"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-aai}}/aai/v16/network/generic-vnfs",
+          "host": [
+            "{{url-aai}}"
+          ],
+          "path": [
+            "aai",
+            "v16",
+            "network",
+            "generic-vnfs"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "preload for VFmodule",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "62a8ef7f-7fde-423c-8b70-5f74bb6bc00b",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "0a3f6713-ba96-4971-a6f8-c2da85a3176e"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "API client"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic YWRtaW46S3A4Yko0U1hzek0wV1hsaGFrM2VIbGNzZTJnQXc4NHZhb0dHbUp2VXkyVQ=="
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"input\": {\n        \"request-information\": {\n            \"notification-url\": \"onap.org\",\n            \"order-number\": \"1\",\n            \"order-version\": \"1\",\n            \"request-action\": \"PreloadVNFRequest\",\n            \"request-id\": \"test\"\n        },\n        \"sdnc-request-header\": {\n            \"svc-action\": \"reserve\",\n            \"svc-notification-url\": \"http:\\/\\/onap.org:8080\\/adapters\\/rest\\/SDNCNotify\",\n            \"svc-request-id\": \"test\"\n        },\n        \"vnf-topology-information\": {\n            \"vnf-assignments\": {\n                \"availability-zones\": [],\n                \"vnf-networks\": [],\n                \"vnf-vms\": []\n            },\n            \"vnf-parameters\": [],\n            \"vnf-topology-identifier\": {\n                \"generic-vnf-name\": \"{{vnf_instance_name}}\",\n                \"generic-vnf-type\": \"{{auto_vf_name_for_model}}\",\n                \"service-type\": \"{{auto_service_instance_id}}\",\n                \"vnf-name\": \"{{vfmodule_instance_name}}\",\n                \"vnf-type\": \"{{auto_vf_module_model_name}}\"\n            }\n        }\n    }\n}\n\n"
+        },
+        "url": {
+          "raw": "{{url-sdnc}}/restconf/operations/VNF-API:preload-vnf-topology-operation",
+          "host": [
+            "{{url-sdnc}}"
+          ],
+          "path": [
+            "restconf",
+            "operations",
+            "VNF-API:preload-vnf-topology-operation"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Instantiate vf-module",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "61781baf-f6d4-4229-95d0-32e85cde3e82",
+            "exec": [
+              "pm.test(\"Status code is 202\", function () {",
+              "    pm.response.to.have.status(202);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "if (responseCode.code === 202){",
+              "    pm.environment.set(\"auto_so_request_id\", \"\"+jsonData.requestReferences.requestId+\"\");",
+              "    pm.environment.set(\"auto_vfmodule_instance_id\", \"\"+jsonData.requestReferences.instanceId+\"\");",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==",
+            "type": "text"
+          },
+          {
+            "key": "X-ONAP-PartnerName",
+            "value": "NBI",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"requestDetails\": {\n    \"requestInfo\": {\n      \"instanceName\": \"{{vfmodule_instance_name}}\",\n      \"source\": \"VID\",\n      \"suppressRollback\": false,\n      \"requestorId\": \"test\"\n    },\n\t\"modelInfo\": {\n\t\t\"modelType\": \"vfModule\",\n\t\t\"modelInvariantId\": \"{{auto_vf_module_model_invariant_uuid}}\",\n\t\t\"modelVersionId\": \"{{auto_vf_module_model_uuid}}\",\n\t\t\"modelName\": \"{{auto_vf_module_model_name}}\",\n\t\t\"modelVersion\": \"1\",\n\t\t\"modelCustomizationId\": \"{{auto_vf_module_model_customization_uuid}}\",\n\t\t\"modelCustomizationName\": \"{{auto_vf_module_model_name}}\"\n\t},\n \t\"requestParameters\": {\n \t\t\"userParams\": [],\n \t\t\"testApi\": \"VNF_API\",\n \t\t\"usePreload\": true\n \t},\n    \"cloudConfiguration\": {\n      \"lcpCloudRegionId\": \"{{onap_cloud_region_id}}\",\n      \"cloudOwner\": \"{{cloud_owner_name}}\",\n      \"tenantId\": \"{{tenant_id}}\"\n    },\n\t\t\"relatedInstanceList\": [{\n\t\t\t\"relatedInstance\": {\n\t\t\t\t\"instanceId\": \"{{auto_service_instance_id}}\",\n\t\t\t\t\"modelInfo\": {\n\t\t\t\t\t\"modelType\": \"service\",\n\t\t\t\t\t\"modelName\": \"{{service}}\",\n\t\t\t\t\t\"modelInvariantId\": \"{{auto_service_invariant_uuid}}\",\n\t\t\t\t\t\"modelVersion\": \"1.0\",\n\t\t\t\t\t\"modelVersionId\": \"{{auto_service_uuid}}\"\n\t\t\t\t}\n\t\t\t}\n\t\t},\n\t\t{\n\t\t\t\"relatedInstance\": {\n\t\t\t\t\"instanceId\": \"{{auto_vnf_instance_id}}\",\n\t\t\t\t\"modelInfo\": {\n\t\t\t\t\t\"modelType\": \"vnf\",\n\t\t\t\t\t\"modelName\": \"{{vf_name}}\",\n\t\t\t\t\t\"modelInvariantId\": \"{{auto_vf_invariant_uuid}}\",\n\t\t\t\t\t\"modelVersion\": \"1.0\",\n\t\t\t\t\t\"modelVersionId\": \"{{auto_vf_uuid}}\",\n\t\t\t\t\t\"modelCustomizationId\": \"{{auto_vf_customization_uuid}}\",\n\t\t\t\t\t\"modelCustomizationName\": \"{{auto_vf_name_for_model}}\"\n\t\t\t\t}\n\t\t\t}\n\t\t}]\n  }\n}\n\n"
+        },
+        "url": {
+          "raw": "{{url-so}}/onap/so/infra/serviceInstantiation/v7/serviceInstances/{{auto_service_instance_id}}/vnfs/{{auto_vnf_instance_id}}/vfModules",
+          "host": [
+            "{{url-so}}"
+          ],
+          "path": [
+            "onap",
+            "so",
+            "infra",
+            "serviceInstantiation",
+            "v7",
+            "serviceInstances",
+            "{{auto_service_instance_id}}",
+            "vnfs",
+            "{{auto_vnf_instance_id}}",
+            "vfModules"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "SO orchestrationRequests after 120s",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "ef3be415-7453-4d2d-91ce-de6e2df05dbe",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "var jsonData = pm.response.json();",
+              "",
+              "pm.environment.set(\"auto_vfmodule_instance_id\", \"\"+jsonData.request.instanceReferences.vfModuleInstanceId+\"\");",
+              "tests[\"requestState is : \"+jsonData.request.requestStatus.requestState] = jsonData.request.requestStatus.requestState === \"COMPLETE\";",
+              "tests[\"statusMessage is : \"+jsonData.request.requestStatus.statusMessage] = jsonData.request.requestStatus.statusMessage === \"Vf Module has been created successfully.\";"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "8f7cbf38-cb21-45af-9648-1915c92bcb12",
+            "exec": [
+              "  var date = new Date();",
+              "  var curDate = null;",
+              "  do {",
+              "    curDate = new Date();",
+              "  }",
+              "  while (curDate - date < 10000);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "AAI"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "get_aai_subscr"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA=="
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-so}}/onap/so/infra/orchestrationRequests/v7/{{auto_so_request_id}}",
+          "host": [
+            "{{url-so}}"
+          ],
+          "path": [
+            "onap",
+            "so",
+            "infra",
+            "orchestrationRequests",
+            "v7",
+            "{{auto_so_request_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "check vfmodule instance in inventory via AAI request",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "81203009-3d68-426d-9491-1276983693e5",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "var jsonData = pm.response.json();",
+              "var vfmodule_instance_found = false;",
+              "for (var i = 0; i < jsonData[\"vf-module\"].length; i++) { ",
+              "   if (jsonData[\"vf-module\"][i][\"vf-module-name\"] === pm.environment.get(\"vfmodule_instance_name\")) {",
+              "       vfmodule_instance_found = true;",
+              "   }",
+              "}",
+              "tests[\"vfmodule Instance : \"+ pm.environment.get(\"vfmodule_instance_name\") +\" exists in AAI inventory\"] = vfmodule_instance_found === true;"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Basic QUFJOkFBSQ=="
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "AAI"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "get_aai_subscr"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-aai}}/aai/v16/network/generic-vnfs/generic-vnf/{{auto_vnf_instance_id}}/vf-modules",
+          "host": [
+            "{{url-aai}}"
+          ],
+          "path": [
+            "aai",
+            "v16",
+            "network",
+            "generic-vnfs",
+            "generic-vnf",
+            "{{auto_vnf_instance_id}}",
+            "vf-modules"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "preload for Virtual Link",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "62a8ef7f-7fde-423c-8b70-5f74bb6bc00b",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "0a3f6713-ba96-4971-a6f8-c2da85a3176e"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "API client"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic YWRtaW46S3A4Yko0U1hzek0wV1hsaGFrM2VIbGNzZTJnQXc4NHZhb0dHbUp2VXkyVQ=="
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"input\": {\n    \"request-information\": {\n      \"request-id\": \"postman001\",\n      \"notification-url\": \"http://so.onap.org\",\n      \"order-number\": \"postman001\",\n      \"request-sub-action\": \"SUPP\",\n      \"request-action\": \"PreloadNetworkRequest\",\n      \"source\": \"postman\",\n      \"order-version\": \"1.0\"\n    },\n    \"network-topology-information\": {\n      \"network-policy\": [],\n      \"route-table-reference\": [],\n      \"vpn-bindings\": [],\n      \"network-topology-identifier\": {\n        \"network-role\": \"integration_test_net\",\n        \"network-technology\": \"neutron\",\n        \"service-type\": \"{{service}}\",\n        \"network-name\": \"rr01\",\n        \"network-type\": \"Generic NeutronNet\"\n      },\n      \"provider-network-information\": {\n        \"is-external-network\": \"false\",\n        \"is-provider-network\": \"false\",\n        \"is-shared-network\": \"false\"\n      },\n      \"subnets\": [\n        {\n\t\t  \"subnet-name\": \"rr01\",\n\t\t  \"subnet-role\": \"OAM\",\n          \"start-address\": \"192.168.90.0\",\n          \"cidr-mask\": \"24\",\n          \"ip-version\": \"4\",\n          \"dhcp-enabled\": \"Y\",\n\t\t  \"dhcp-start-address\": \"\",\n\t\t  \"dhcp-end-address\": \"\",\n          \"gateway-address\": \"192.168.90.1\",\n\t\t  \"host-routes\":[]\n        }\n              ]\n    },\n    \"sdnc-request-header\": {\n      \"svc-action\": \"reserve\",\n      \"svc-notification-url\": \"http://so.onap.org\",\n      \"svc-request-id\": \"postman001\"\n    }\n  }\n}\n\n"
+        },
+        "url": {
+          "raw": "{{url-sdnc}}/restconf/operations/VNF-API:preload-network-topology-operation",
+          "host": [
+            "{{url-sdnc}}"
+          ],
+          "path": [
+            "restconf",
+            "operations",
+            "VNF-API:preload-network-topology-operation"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Instantiate Generic Neutron Virtual Link",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "030a6341-9ba8-4dc4-bbe4-9818c34d5f1c",
+            "exec": [
+              "pm.test(\"Status code is 202\", function () {",
+              "    pm.response.to.have.status(202);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "",
+              "pm.environment.set(\"auto_so_request_id\", \"\"+jsonData.requestReferences.requestId+\"\");",
+              "pm.environment.set(\"auto_virtual_link_instance_id\", \"\"+jsonData.requestReferences.instanceId+\"\");",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==",
+            "type": "text"
+          },
+          {
+            "key": "X-ONAP-PartnerName",
+            "value": "NBI",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n\t\"requestDetails\": {\n\t\t\"requestInfo\": {\n\t\t\t\"instanceName\": \"{{virtual_link_instance_name}}\",\n\t\t\t\"source\": \"VID\",\n\t\t\t\"suppressRollback\": false,\n\t\t\t\"requestorId\": \"demo\"\n\t\t},\n \t\t\"modelInfo\": {\n \t\t\t\"modelType\": \"network\",\n \t\t\t\"modelInvariantId\": \"{{auto_virtual_link_invariant_uuid}}\",\n \t\t\t\"modelVersionId\": \"{{auto_virtual_link_uuid}}\",\n \t\t\t\"modelName\": \"Generic NeutronNet\",\n \t\t\t\"modelVersion\": \"1.0\",\n \t\t\t\"modelCustomizationId\": \"{{auto_virtual_link_customization_uuid}}\",\n \t\t\t\"modelCustomizationName\": \"Generic NeutronNet 0\"\n \t\t},\n    \"requestParameters\": {\n      \"userParams\": [],\n      \"aLaCarte\": true,\n\t  \"testApi\": \"VNF_API\"\n    },\n    \"cloudConfiguration\": {\n      \"cloudOwner\": \"{{cloud_owner_name}}\",\n      \"lcpCloudRegionId\": \"{{onap_cloud_region_id}}\",\n      \"tenantId\": \"{{tenant_id}}\"\n    },\n\t\t\"lineOfBusiness\": {\n\t\t\t\"lineOfBusinessName\": \"{{lineofbusiness}}\"\n\t\t},\n\t\t\"platform\": {\n\t\t\t\"platformName\": \"{{platform}}\"\n\t\t},\n \t\t\"relatedInstanceList\": [{\n \t\t\t\"relatedInstance\": {\n \t\t\t\t\"instanceId\": \"{{auto_service_instance_id}}\",\n \t\t\t\t\"modelInfo\": {\n \t\t\t\t\t\"modelType\": \"service\",\n \t\t\t\t\t\"modelName\": \"{{service}}\",\n \t\t\t\t\t\"modelInvariantId\": \"{{auto_service_invariant_uuid}}\",\n \t\t\t\t\t\"modelVersion\": \"1.0\",\n \t\t\t\t\t\"modelVersionId\": \"{{auto_service_uuid}}\"\n \t\t\t\t}\n \t\t\t}\n \t\t}]\n  }\n}\n\n"
+        },
+        "url": {
+          "raw": "{{url-so}}/onap/so/infra/serviceInstantiation/v7/serviceInstances/{{auto_service_instance_id}}/networks",
+          "host": [
+            "{{url-so}}"
+          ],
+          "path": [
+            "onap",
+            "so",
+            "infra",
+            "serviceInstantiation",
+            "v7",
+            "serviceInstances",
+            "{{auto_service_instance_id}}",
+            "networks"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "SO orchestrationRequests after 10s",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "ef3be415-7453-4d2d-91ce-de6e2df05dbe",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "var jsonData = pm.response.json();",
+              "",
+              "pm.environment.set(\"auto_virtual_link_instance_id\", \"\"+jsonData.request.instanceReferences.networkInstanceId+\"\");",
+              "tests[\"requestState is : \"+jsonData.request.requestStatus.requestState] = jsonData.request.requestStatus.requestState === \"COMPLETE\";",
+              "tests[\"statusMessage is : \"+jsonData.request.requestStatus.statusMessage] = jsonData.request.requestStatus.statusMessage === \"Network has been created successfully.\";"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "8f7cbf38-cb21-45af-9648-1915c92bcb12",
+            "exec": [
+              "  var date = new Date();",
+              "  var curDate = null;",
+              "  do {",
+              "    curDate = new Date();",
+              "  }",
+              "  while (curDate - date < 10000);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "AAI"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "get_aai_subscr"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA=="
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-so}}/onap/so/infra/orchestrationRequests/v7/{{auto_so_request_id}}",
+          "host": [
+            "{{url-so}}"
+          ],
+          "path": [
+            "onap",
+            "so",
+            "infra",
+            "orchestrationRequests",
+            "v7",
+            "{{auto_so_request_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET virtual link in AAI by id",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "AAI"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "get_aai_subscr"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic QUFJOkFBSQ=="
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-aai}}/aai/v16/network/l3-networks/l3-network/{{auto_virtual_link_instance_id}}",
+          "host": [
+            "{{url-aai}}"
+          ],
+          "path": [
+            "aai",
+            "v16",
+            "network",
+            "l3-networks",
+            "l3-network",
+            "{{auto_virtual_link_instance_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET subnets of network AAI by id",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "AAI"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "get_aai_subscr"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic QUFJOkFBSQ=="
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-aai}}/aai/v16/network/l3-networks/l3-network/{{auto_virtual_link_instance_id}}/subnets",
+          "host": [
+            "{{url-aai}}"
+          ],
+          "path": [
+            "aai",
+            "v16",
+            "network",
+            "l3-networks",
+            "l3-network",
+            "{{auto_virtual_link_instance_id}}",
+            "subnets"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "SO Instantiate service",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "e779f618-dd36-474f-802d-a36abdf69708",
+            "exec": [
+              "pm.test(\"Status code is 202\", function () {",
+              "    pm.response.to.have.status(202);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "",
+              "pm.environment.set(\"auto_so_request_id\", \"\"+jsonData.requestReferences.requestId+\"\");",
+              "pm.environment.set(\"auto_service_instance_id\", \"\"+jsonData.requestReferences.instanceId+\"\");",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA==",
+            "type": "text"
+          },
+          {
+            "key": "X-ONAP-PartnerName",
+            "value": "NBI",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n\t\"requestDetails\": {\n\t\t\"requestInfo\": {\n\t\t\t\"instanceName\": \"{{service_instance_name}}\",\n\t\t\t\"source\": \"VID\",\n\t\t\t\"suppressRollback\": false,\n\t\t\t\"requestorId\": \"demo\"\n\t\t},\n\t\t\"modelInfo\": {\n\t\t\t\"modelType\": \"service\",\n\t\t\t\"modelInvariantId\": \"{{auto_service_invariant_uuid}}\",\n\t\t\t\"modelVersionId\": \"{{auto_service_uuid}}\",\n\t\t\t\"modelName\": \"{{service}}\",\n\t\t\t\"modelVersion\": \"1.0\"\n\t\t},\n        \"cloudConfiguration\": {\n            \"tenantId\": \"{{tenant_id}}\",\n            \"cloudOwner\": \"{{cloud_owner_name}}\",\n            \"lcpCloudRegionId\": \"{{onap_cloud_region_id}}\"\n        },\n\t\t\"requestParameters\": {\n\t\t\t\"userParams\": [],\n\t\t\t\"testApi\": \"VNF_API\",\n\t\t\t\"subscriptionServiceType\": \"{{service}}\",\n\t\t\t\"aLaCarte\": true\n\t\t},\n\t\t\"subscriberInfo\": {\n\t\t\t\"globalSubscriberId\": \"{{customer_name}}\"\n\t\t},\n\t\t\"project\": {\n\t\t\t\"projectName\": \"{{project}}\"\n\t\t},\n\t\t\"owningEntity\": {\n\t\t\t\"owningEntityId\": \"{{auto_owning_entity_id}}\",\n\t\t\t\"owningEntityName\": \"{{owning_entity}}\"\n\t\t}\n\t}\n}"
+        },
+        "url": {
+          "raw": "{{url-so}}/onap/so/infra/serviceInstantiation/v7/serviceInstances",
+          "host": [
+            "{{url-so}}"
+          ],
+          "path": [
+            "onap",
+            "so",
+            "infra",
+            "serviceInstantiation",
+            "v7",
+            "serviceInstances"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "SO orchestrationRequests after 10s",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "ef3be415-7453-4d2d-91ce-de6e2df05dbe",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "var jsonData = pm.response.json();",
+              "",
+              "pm.environment.set(\"auto_virtual_link_instance_id\", \"\"+jsonData.request.instanceReferences.networkInstanceId+\"\");",
+              "tests[\"requestState is : \"+jsonData.request.requestStatus.requestState] = jsonData.request.requestStatus.requestState === \"COMPLETE\";",
+              "tests[\"statusMessage is : \"+jsonData.request.requestStatus.statusMessage] = jsonData.request.requestStatus.statusMessage === \"Network has been created successfully.\";"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "8f7cbf38-cb21-45af-9648-1915c92bcb12",
+            "exec": [
+              "  var date = new Date();",
+              "  var curDate = null;",
+              "  do {",
+              "    curDate = new Date();",
+              "  }",
+              "  while (curDate - date < 10000);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "AAI"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "get_aai_subscr"
+          },
+          {
+            "key": "Authorization",
+            "value": "Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA=="
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{url-so}}/onap/so/infra/orchestrationRequests/v7/{{auto_so_request_id}}",
+          "host": [
+            "{{url-so}}"
+          ],
+          "path": [
+            "onap",
+            "so",
+            "infra",
+            "orchestrationRequests",
+            "v7",
+            "{{auto_so_request_id}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
 }
