@@ -1,398 +1,398 @@
 {
-	"info": {
-		"_postman_id": "458aefd8-1c13-4d22-859b-38757f935cca",
-		"name": "04_Onboard_VSP_part3",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "Process VSP zip file",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "1dceb509-a7e0-426f-b6fc-c50e9e9376e3",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a"
-					},
-					{
-						"key": "USER_ID",
-						"value": "cs0008"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "robot-ete"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{}"
-				},
-				"url": {
-					"raw": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/vendor-software-products/{{auto_vsp_id}}/versions/{{auto_vsp_version_id}}/orchestration-template-candidate/process",
-					"host": [
-						"{{url-sdc2}}"
-					],
-					"path": [
-						"sdc1",
-						"feProxy",
-						"onboarding-api",
-						"v1.0",
-						"vendor-software-products",
-						"{{auto_vsp_id}}",
-						"versions",
-						"{{auto_vsp_version_id}}",
-						"orchestration-template-candidate",
-						"process"
-					]
-				}
-			},
-			"response": [
-				{
-					"name": "Checkin VSP",
-					"originalRequest": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": ""
-						}
-					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "access-control-allow-credentials",
-							"value": "true",
-							"name": "access-control-allow-credentials",
-							"description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials."
-						},
-						{
-							"key": "access-control-allow-origin",
-							"value": "chrome-extension://fhbjgbiflinjbdggehcddcbncdddomop",
-							"name": "access-control-allow-origin",
-							"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
-						},
-						{
-							"key": "access-control-expose-headers",
-							"value": "",
-							"name": "access-control-expose-headers",
-							"description": "Lets a server whitelist headers that browsers are allowed to access."
-						},
-						{
-							"key": "content-type",
-							"value": "application/json",
-							"name": "content-type",
-							"description": "The mime type of this content"
-						},
-						{
-							"key": "date",
-							"value": "Wed, 06 Jun 2018 16:14:24 GMT",
-							"name": "date",
-							"description": "The date and time that the message was sent"
-						},
-						{
-							"key": "server",
-							"value": "Jetty(9.3.21.v20170918)",
-							"name": "server",
-							"description": "A name for the server"
-						},
-						{
-							"key": "transfer-encoding",
-							"value": "chunked",
-							"name": "transfer-encoding",
-							"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
-						}
-					],
-					"cookie": [],
-					"body": "{}"
-				}
-			]
-		},
-		{
-			"name": "Commit VSP",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "0f0417e6-2b03-44a4-9416-9f709077a525",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a"
-					},
-					{
-						"key": "USER_ID",
-						"value": "cs0008"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "robot-ete"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"action\":\"Commit\",\"commitRequest\":{\"message\":\"ok\"}}"
-				},
-				"url": {
-					"raw": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/items/{{auto_vsp_id}}/versions/{{auto_vsp_version_id}}/actions",
-					"host": [
-						"{{url-sdc2}}"
-					],
-					"path": [
-						"sdc1",
-						"feProxy",
-						"onboarding-api",
-						"v1.0",
-						"items",
-						"{{auto_vsp_id}}",
-						"versions",
-						"{{auto_vsp_version_id}}",
-						"actions"
-					]
-				}
-			},
-			"response": [
-				{
-					"name": "Checkin VSP",
-					"originalRequest": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": ""
-						}
-					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "access-control-allow-credentials",
-							"value": "true",
-							"name": "access-control-allow-credentials",
-							"description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials."
-						},
-						{
-							"key": "access-control-allow-origin",
-							"value": "chrome-extension://fhbjgbiflinjbdggehcddcbncdddomop",
-							"name": "access-control-allow-origin",
-							"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
-						},
-						{
-							"key": "access-control-expose-headers",
-							"value": "",
-							"name": "access-control-expose-headers",
-							"description": "Lets a server whitelist headers that browsers are allowed to access."
-						},
-						{
-							"key": "content-type",
-							"value": "application/json",
-							"name": "content-type",
-							"description": "The mime type of this content"
-						},
-						{
-							"key": "date",
-							"value": "Wed, 06 Jun 2018 16:14:24 GMT",
-							"name": "date",
-							"description": "The date and time that the message was sent"
-						},
-						{
-							"key": "server",
-							"value": "Jetty(9.3.21.v20170918)",
-							"name": "server",
-							"description": "A name for the server"
-						},
-						{
-							"key": "transfer-encoding",
-							"value": "chunked",
-							"name": "transfer-encoding",
-							"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
-						}
-					],
-					"cookie": [],
-					"body": "{}"
-				}
-			]
-		},
-		{
-			"name": "Submit VSP",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "78d1f69f-e8aa-47aa-a456-45496847ace4",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a"
-					},
-					{
-						"key": "USER_ID",
-						"value": "cs0008"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "robot-ete"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"action\": \"Submit\"}"
-				},
-				"url": {
-					"raw": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/vendor-software-products/{{auto_vsp_id}}/versions/{{auto_vsp_version_id}}/actions",
-					"host": [
-						"{{url-sdc2}}"
-					],
-					"path": [
-						"sdc1",
-						"feProxy",
-						"onboarding-api",
-						"v1.0",
-						"vendor-software-products",
-						"{{auto_vsp_id}}",
-						"versions",
-						"{{auto_vsp_version_id}}",
-						"actions"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "CSAR VSP",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "5900576b-42d4-4b68-ae67-770e76e6ba97",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a"
-					},
-					{
-						"key": "USER_ID",
-						"value": "cs0008"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "robot-ete"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"action\": \"Create_Package\"}"
-				},
-				"url": {
-					"raw": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/vendor-software-products/{{auto_vsp_id}}/versions/{{auto_vsp_version_id}}/actions",
-					"host": [
-						"{{url-sdc2}}"
-					],
-					"path": [
-						"sdc1",
-						"feProxy",
-						"onboarding-api",
-						"v1.0",
-						"vendor-software-products",
-						"{{auto_vsp_id}}",
-						"versions",
-						"{{auto_vsp_version_id}}",
-						"actions"
-					]
-				}
-			},
-			"response": []
-		}
-	]
+  "info": {
+    "_postman_id": "458aefd8-1c13-4d22-859b-38757f935cca",
+    "name": "04_Onboard_VSP_part3",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Process VSP zip file",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "1dceb509-a7e0-426f-b6fc-c50e9e9376e3",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a"
+          },
+          {
+            "key": "USER_ID",
+            "value": "cs0008"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "robot-ete"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}"
+        },
+        "url": {
+          "raw": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/vendor-software-products/{{auto_vsp_id}}/versions/{{auto_vsp_version_id}}/orchestration-template-candidate/process",
+          "host": [
+            "{{url-sdc2}}"
+          ],
+          "path": [
+            "sdc1",
+            "feProxy",
+            "onboarding-api",
+            "v1.0",
+            "vendor-software-products",
+            "{{auto_vsp_id}}",
+            "versions",
+            "{{auto_vsp_version_id}}",
+            "orchestration-template-candidate",
+            "process"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Checkin VSP",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": ""
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "access-control-allow-credentials",
+              "value": "true",
+              "name": "access-control-allow-credentials",
+              "description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials."
+            },
+            {
+              "key": "access-control-allow-origin",
+              "value": "chrome-extension://fhbjgbiflinjbdggehcddcbncdddomop",
+              "name": "access-control-allow-origin",
+              "description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+            },
+            {
+              "key": "access-control-expose-headers",
+              "value": "",
+              "name": "access-control-expose-headers",
+              "description": "Lets a server whitelist headers that browsers are allowed to access."
+            },
+            {
+              "key": "content-type",
+              "value": "application/json",
+              "name": "content-type",
+              "description": "The mime type of this content"
+            },
+            {
+              "key": "date",
+              "value": "Wed, 06 Jun 2018 16:14:24 GMT",
+              "name": "date",
+              "description": "The date and time that the message was sent"
+            },
+            {
+              "key": "server",
+              "value": "Jetty(9.3.21.v20170918)",
+              "name": "server",
+              "description": "A name for the server"
+            },
+            {
+              "key": "transfer-encoding",
+              "value": "chunked",
+              "name": "transfer-encoding",
+              "description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+            }
+          ],
+          "cookie": [],
+          "body": "{}"
+        }
+      ]
+    },
+    {
+      "name": "Commit VSP",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "0f0417e6-2b03-44a4-9416-9f709077a525",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a"
+          },
+          {
+            "key": "USER_ID",
+            "value": "cs0008"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "robot-ete"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"action\":\"Commit\",\"commitRequest\":{\"message\":\"ok\"}}"
+        },
+        "url": {
+          "raw": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/items/{{auto_vsp_id}}/versions/{{auto_vsp_version_id}}/actions",
+          "host": [
+            "{{url-sdc2}}"
+          ],
+          "path": [
+            "sdc1",
+            "feProxy",
+            "onboarding-api",
+            "v1.0",
+            "items",
+            "{{auto_vsp_id}}",
+            "versions",
+            "{{auto_vsp_version_id}}",
+            "actions"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Checkin VSP",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": ""
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "access-control-allow-credentials",
+              "value": "true",
+              "name": "access-control-allow-credentials",
+              "description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials."
+            },
+            {
+              "key": "access-control-allow-origin",
+              "value": "chrome-extension://fhbjgbiflinjbdggehcddcbncdddomop",
+              "name": "access-control-allow-origin",
+              "description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+            },
+            {
+              "key": "access-control-expose-headers",
+              "value": "",
+              "name": "access-control-expose-headers",
+              "description": "Lets a server whitelist headers that browsers are allowed to access."
+            },
+            {
+              "key": "content-type",
+              "value": "application/json",
+              "name": "content-type",
+              "description": "The mime type of this content"
+            },
+            {
+              "key": "date",
+              "value": "Wed, 06 Jun 2018 16:14:24 GMT",
+              "name": "date",
+              "description": "The date and time that the message was sent"
+            },
+            {
+              "key": "server",
+              "value": "Jetty(9.3.21.v20170918)",
+              "name": "server",
+              "description": "A name for the server"
+            },
+            {
+              "key": "transfer-encoding",
+              "value": "chunked",
+              "name": "transfer-encoding",
+              "description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+            }
+          ],
+          "cookie": [],
+          "body": "{}"
+        }
+      ]
+    },
+    {
+      "name": "Submit VSP",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "78d1f69f-e8aa-47aa-a456-45496847ace4",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a"
+          },
+          {
+            "key": "USER_ID",
+            "value": "cs0008"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "robot-ete"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"action\": \"Submit\"}"
+        },
+        "url": {
+          "raw": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/vendor-software-products/{{auto_vsp_id}}/versions/{{auto_vsp_version_id}}/actions",
+          "host": [
+            "{{url-sdc2}}"
+          ],
+          "path": [
+            "sdc1",
+            "feProxy",
+            "onboarding-api",
+            "v1.0",
+            "vendor-software-products",
+            "{{auto_vsp_id}}",
+            "versions",
+            "{{auto_vsp_version_id}}",
+            "actions"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CSAR VSP",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "5900576b-42d4-4b68-ae67-770e76e6ba97",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a"
+          },
+          {
+            "key": "USER_ID",
+            "value": "cs0008"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "robot-ete"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"action\": \"Create_Package\"}"
+        },
+        "url": {
+          "raw": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/vendor-software-products/{{auto_vsp_id}}/versions/{{auto_vsp_version_id}}/actions",
+          "host": [
+            "{{url-sdc2}}"
+          ],
+          "path": [
+            "sdc1",
+            "feProxy",
+            "onboarding-api",
+            "v1.0",
+            "vendor-software-products",
+            "{{auto_vsp_id}}",
+            "versions",
+            "{{auto_vsp_version_id}}",
+            "actions"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
 }

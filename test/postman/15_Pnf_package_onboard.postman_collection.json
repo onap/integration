@@ -1,244 +1,244 @@
 {
-	"info": {
-		"_postman_id": "ce6ead69-bd22-4d59-b711-d5acf1afd243",
-		"name": "Pnf_package_onboard",
-		"description": "The VFC pnf package onboard",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "PNF",
-			"item": [
-				{
-					"name": "msb_create",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "content-type",
-								"value": " application/json",
-								"type": "text"
-							},
-							{
-								"key": "accept",
-								"value": " application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "userDefinedData",
-									"value": " \"key3\": \"value3\"",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "http://172.30.3.104:30280/api/nsd/v1/pnf_descriptors",
-							"protocol": "http",
-							"host": [
-								"172",
-								"30",
-								"3",
-								"104"
-							],
-							"port": "30280",
-							"path": [
-								"api",
-								"nsd",
-								"v1",
-								"pnf_descriptors"
-							]
-						},
-						"description": "get data：\n{\n    \"id\": \"844d254e-5dc8-4a28-82a8-694b6a60bee3\",\n    \"pnfdOnboardingState\": \"CREATED\",\n    \"pnfdUsageState\": \"NOT_IN_USE\",\n    \"userDefinedData\": {},\n    \"_links\": null\n}"
-					},
-					"response": []
-				},
-				{
-					"name": "msb_get_one",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://172.30.3.104:30280/api/nsd/v1/pnf_descriptors/5478150b-493c-4a66-a808-05387ebab874",
-							"protocol": "http",
-							"host": [
-								"172",
-								"30",
-								"3",
-								"104"
-							],
-							"port": "30280",
-							"path": [
-								"api",
-								"nsd",
-								"v1",
-								"pnf_descriptors",
-								"5478150b-493c-4a66-a808-05387ebab874"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "msb_get",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://172.30.3.104:30280/api/nsd/v1/pnf_descriptors",
-							"protocol": "http",
-							"host": [
-								"172",
-								"30",
-								"3",
-								"104"
-							],
-							"port": "30280",
-							"path": [
-								"api",
-								"nsd",
-								"v1",
-								"pnf_descriptors"
-							]
-						},
-						"description": "get data：\n[\n    {\n        \"id\": \"844d254e-5dc8-4a28-82a8-694b6a60bee3\",\n        \"pnfdId\": null,\n        \"pnfdName\": null,\n        \"pnfdVersion\": null,\n        \"pnfdProvider\": null,\n        \"pnfdInvariantId\": null,\n        \"pnfdOnboardingState\": \"CREATED\",\n        \"onboardingFailureDetails\": null,\n        \"pnfdUsageState\": \"NOT_IN_USE\",\n        \"userDefinedData\": {},\n        \"_links\": null\n    }\n]"
-					},
-					"response": []
-				},
-				{
-					"name": "msb_delete",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://172.30.3.104:30280/api/nsd/v1/pnf_descriptors/03c39754-46e7-44bd-ad4a-9a6de771d8bd",
-							"protocol": "http",
-							"host": [
-								"172",
-								"30",
-								"3",
-								"104"
-							],
-							"port": "30280",
-							"path": [
-								"api",
-								"nsd",
-								"v1",
-								"pnf_descriptors",
-								"03c39754-46e7-44bd-ad4a-9a6de771d8bd"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "msb_upload",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "",
-									"type": "file",
-									"src": ""
-								}
-							]
-						},
-						"url": {
-							"raw": "http://172.30.3.104:30280/api/vnfpkgm/v1/vnf_packages/38037a12-a0d4-4aa4-ac50-cd6b05ce0b24/package_content",
-							"protocol": "http",
-							"host": [
-								"172",
-								"30",
-								"3",
-								"104"
-							],
-							"port": "30280",
-							"path": [
-								"api",
-								"vnfpkgm",
-								"v1",
-								"vnf_packages",
-								"38037a12-a0d4-4aa4-ac50-cd6b05ce0b24",
-								"package_content"
-							]
-						},
-						"description": "Invalid vnf package, need to change"
-					},
-					"response": []
-				},
-				{
-					"name": "msb_download",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://172.30.3.104:30280/api/vnfpkgm/v1/vnf_packages/396b889f-529f-426a-97ab-65b00720b308/package_content",
-							"protocol": "http",
-							"host": [
-								"172",
-								"30",
-								"3",
-								"104"
-							],
-							"port": "30280",
-							"path": [
-								"api",
-								"vnfpkgm",
-								"v1",
-								"vnf_packages",
-								"396b889f-529f-426a-97ab-65b00720b308",
-								"package_content"
-							]
-						},
-						"description": "The acquired data needs to be written to the CSAR file. Not added here. Get data only"
-					},
-					"response": []
-				}
-			],
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "7ed5956a-ebaa-4de8-b2d2-a18027de85f7",
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "d9830571-314d-49ee-a2a8-8be045a51469",
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
-			]
-		}
-	]
+  "info": {
+    "_postman_id": "ce6ead69-bd22-4d59-b711-d5acf1afd243",
+    "name": "Pnf_package_onboard",
+    "description": "The VFC pnf package onboard",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "PNF",
+      "item": [
+        {
+          "name": "msb_create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "content-type",
+                "value": " application/json",
+                "type": "text"
+              },
+              {
+                "key": "accept",
+                "value": " application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "userDefinedData",
+                  "value": " \"key3\": \"value3\"",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://172.30.3.104:30280/api/nsd/v1/pnf_descriptors",
+              "protocol": "http",
+              "host": [
+                "172",
+                "30",
+                "3",
+                "104"
+              ],
+              "port": "30280",
+              "path": [
+                "api",
+                "nsd",
+                "v1",
+                "pnf_descriptors"
+              ]
+            },
+            "description": "get data\uff1a\n{\n    \"id\": \"844d254e-5dc8-4a28-82a8-694b6a60bee3\",\n    \"pnfdOnboardingState\": \"CREATED\",\n    \"pnfdUsageState\": \"NOT_IN_USE\",\n    \"userDefinedData\": {},\n    \"_links\": null\n}"
+          },
+          "response": []
+        },
+        {
+          "name": "msb_get_one",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://172.30.3.104:30280/api/nsd/v1/pnf_descriptors/5478150b-493c-4a66-a808-05387ebab874",
+              "protocol": "http",
+              "host": [
+                "172",
+                "30",
+                "3",
+                "104"
+              ],
+              "port": "30280",
+              "path": [
+                "api",
+                "nsd",
+                "v1",
+                "pnf_descriptors",
+                "5478150b-493c-4a66-a808-05387ebab874"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "msb_get",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://172.30.3.104:30280/api/nsd/v1/pnf_descriptors",
+              "protocol": "http",
+              "host": [
+                "172",
+                "30",
+                "3",
+                "104"
+              ],
+              "port": "30280",
+              "path": [
+                "api",
+                "nsd",
+                "v1",
+                "pnf_descriptors"
+              ]
+            },
+            "description": "get data\uff1a\n[\n    {\n        \"id\": \"844d254e-5dc8-4a28-82a8-694b6a60bee3\",\n        \"pnfdId\": null,\n        \"pnfdName\": null,\n        \"pnfdVersion\": null,\n        \"pnfdProvider\": null,\n        \"pnfdInvariantId\": null,\n        \"pnfdOnboardingState\": \"CREATED\",\n        \"onboardingFailureDetails\": null,\n        \"pnfdUsageState\": \"NOT_IN_USE\",\n        \"userDefinedData\": {},\n        \"_links\": null\n    }\n]"
+          },
+          "response": []
+        },
+        {
+          "name": "msb_delete",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://172.30.3.104:30280/api/nsd/v1/pnf_descriptors/03c39754-46e7-44bd-ad4a-9a6de771d8bd",
+              "protocol": "http",
+              "host": [
+                "172",
+                "30",
+                "3",
+                "104"
+              ],
+              "port": "30280",
+              "path": [
+                "api",
+                "nsd",
+                "v1",
+                "pnf_descriptors",
+                "03c39754-46e7-44bd-ad4a-9a6de771d8bd"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "msb_upload",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "",
+                  "type": "file",
+                  "src": ""
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://172.30.3.104:30280/api/vnfpkgm/v1/vnf_packages/38037a12-a0d4-4aa4-ac50-cd6b05ce0b24/package_content",
+              "protocol": "http",
+              "host": [
+                "172",
+                "30",
+                "3",
+                "104"
+              ],
+              "port": "30280",
+              "path": [
+                "api",
+                "vnfpkgm",
+                "v1",
+                "vnf_packages",
+                "38037a12-a0d4-4aa4-ac50-cd6b05ce0b24",
+                "package_content"
+              ]
+            },
+            "description": "Invalid vnf package, need to change"
+          },
+          "response": []
+        },
+        {
+          "name": "msb_download",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://172.30.3.104:30280/api/vnfpkgm/v1/vnf_packages/396b889f-529f-426a-97ab-65b00720b308/package_content",
+              "protocol": "http",
+              "host": [
+                "172",
+                "30",
+                "3",
+                "104"
+              ],
+              "port": "30280",
+              "path": [
+                "api",
+                "vnfpkgm",
+                "v1",
+                "vnf_packages",
+                "396b889f-529f-426a-97ab-65b00720b308",
+                "package_content"
+              ]
+            },
+            "description": "The acquired data needs to be written to the CSAR file. Not added here. Get data only"
+          },
+          "response": []
+        }
+      ],
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "7ed5956a-ebaa-4de8-b2d2-a18027de85f7",
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "id": "d9830571-314d-49ee-a2a8-8be045a51469",
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    }
+  ]
 }

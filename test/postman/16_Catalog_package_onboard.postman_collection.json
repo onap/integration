@@ -1,163 +1,163 @@
 {
-	"info": {
-		"_postman_id": "ce6ead69-bd22-4d59-b711-d5acf1afd243",
-		"name": "Catalog_package_onboard",
-		"description": "The VFC CATALOG package onboard",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "catalog",
-			"item": [
-				{
-					"name": "nspackage_rc_get",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://172.30.3.104:30280/api/catalog/v1/nspackages",
-							"protocol": "http",
-							"host": [
-								"172",
-								"30",
-								"3",
-								"104"
-							],
-							"port": "30280",
-							"path": [
-								"api",
-								"catalog",
-								"v1",
-								"nspackages"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "nspackage_rc_post",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "content-type",
-								"value": " application/json ",
-								"type": "text"
-							},
-							{
-								"key": "accept",
-								"value": " application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://172.30.3.104:30280/api/catalog/v1/nspackages/4a43c1d7-29e9-4b67-968d-aa62c4562286",
-							"protocol": "http",
-							"host": [
-								"172",
-								"30",
-								"3",
-								"104"
-							],
-							"port": "30280",
-							"path": [
-								"api",
-								"catalog",
-								"v1",
-								"nspackages",
-								"4a43c1d7-29e9-4b67-968d-aa62c4562286"
-							]
-						},
-						"description": "Data is csarid. This test failed due to environmental problems. Casrid is just looking for it. Need to be replaced during actual test"
-					},
-					"response": []
-				},
-				{
-					"name": "nfpackages_rc_get",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://172.30.3.104:30280/api/catalog/v1/api/catalog/v1/vnfpackages",
-							"protocol": "http",
-							"host": [
-								"172",
-								"30",
-								"3",
-								"104"
-							],
-							"port": "30280",
-							"path": [
-								"api",
-								"catalog",
-								"v1",
-								"api",
-								"catalog",
-								"v1",
-								"vnfpackages"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "nfpackages_rc_post",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "content-type",
-								"value": " application/json ",
-								"type": "text"
-							},
-							{
-								"key": "accept",
-								"value": " application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://172.30.3.104:30280/api/catalog/v1/api/catalog/v1/vnfpackages/4a43c1d7-29e9-4b67-968d-aa62c4562286",
-							"protocol": "http",
-							"host": [
-								"172",
-								"30",
-								"3",
-								"104"
-							],
-							"port": "30280",
-							"path": [
-								"api",
-								"catalog",
-								"v1",
-								"api",
-								"catalog",
-								"v1",
-								"vnfpackages",
-								"4a43c1d7-29e9-4b67-968d-aa62c4562286"
-							]
-						},
-						"description": "The environment failed the test, and casrid was replaced according to the actual situation. Data is csarid"
-					},
-					"response": []
-				}
-			]
-		}
-	]
+  "info": {
+    "_postman_id": "ce6ead69-bd22-4d59-b711-d5acf1afd243",
+    "name": "Catalog_package_onboard",
+    "description": "The VFC CATALOG package onboard",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "catalog",
+      "item": [
+        {
+          "name": "nspackage_rc_get",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://172.30.3.104:30280/api/catalog/v1/nspackages",
+              "protocol": "http",
+              "host": [
+                "172",
+                "30",
+                "3",
+                "104"
+              ],
+              "port": "30280",
+              "path": [
+                "api",
+                "catalog",
+                "v1",
+                "nspackages"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "nspackage_rc_post",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "content-type",
+                "value": " application/json ",
+                "type": "text"
+              },
+              {
+                "key": "accept",
+                "value": " application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://172.30.3.104:30280/api/catalog/v1/nspackages/4a43c1d7-29e9-4b67-968d-aa62c4562286",
+              "protocol": "http",
+              "host": [
+                "172",
+                "30",
+                "3",
+                "104"
+              ],
+              "port": "30280",
+              "path": [
+                "api",
+                "catalog",
+                "v1",
+                "nspackages",
+                "4a43c1d7-29e9-4b67-968d-aa62c4562286"
+              ]
+            },
+            "description": "Data is csarid. This test failed due to environmental problems. Casrid is just looking for it. Need to be replaced during actual test"
+          },
+          "response": []
+        },
+        {
+          "name": "nfpackages_rc_get",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://172.30.3.104:30280/api/catalog/v1/api/catalog/v1/vnfpackages",
+              "protocol": "http",
+              "host": [
+                "172",
+                "30",
+                "3",
+                "104"
+              ],
+              "port": "30280",
+              "path": [
+                "api",
+                "catalog",
+                "v1",
+                "api",
+                "catalog",
+                "v1",
+                "vnfpackages"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "nfpackages_rc_post",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "content-type",
+                "value": " application/json ",
+                "type": "text"
+              },
+              {
+                "key": "accept",
+                "value": " application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://172.30.3.104:30280/api/catalog/v1/api/catalog/v1/vnfpackages/4a43c1d7-29e9-4b67-968d-aa62c4562286",
+              "protocol": "http",
+              "host": [
+                "172",
+                "30",
+                "3",
+                "104"
+              ],
+              "port": "30280",
+              "path": [
+                "api",
+                "catalog",
+                "v1",
+                "api",
+                "catalog",
+                "v1",
+                "vnfpackages",
+                "4a43c1d7-29e9-4b67-968d-aa62c4562286"
+              ]
+            },
+            "description": "The environment failed the test, and casrid was replaced according to the actual situation. Data is csarid"
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
 }
