@@ -8,10 +8,10 @@
   "dmaap.security.keyStorePath": "/opt/app/datafile/etc/cert/cert.jks",
   "dmaap.security.keyStorePasswordPath": "/opt/app/datafile/etc/cert/jks.pass",
   "dmaap.security.enableDmaapCertAuth": "false",
-  "streams_publishes":{
-    "PM_MEAS_FILES":{
-      "type":"data_router",
-      "dmaap_info":{
+  "streams_publishes": {
+    "PM_MEAS_FILES": {
+      "type": "data_router",
+      "dmaap_info": {
         "username": "user",
         "log_url": "https://drsim:3907/feedlog/3",
         "publish_url": "https://drsim:3907/publish/3",
@@ -20,9 +20,9 @@
         "publisher_id": "972.360gm"
       }
     },
-    "CTR_MEAS_FILES":{
-      "type":"data_router",
-      "dmaap_info":{
+    "CTR_MEAS_FILES": {
+      "type": "data_router",
+      "dmaap_info": {
         "username": "user",
         "log_url": "https://drsim:3907/feedlog/3",
         "publish_url": "https://drsim:3907/publish/3",
