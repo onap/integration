@@ -19,7 +19,7 @@
       "lastEpochMicrosec": 1539239592379
     },
     "pnfRegistrationFields": {
-      "pnfRegistrationFieldsVersion":"2.0",
+      "pnfRegistrationFieldsVersion": "2.0",
       "serialNumber": "6061ZW3",
       "vendorName": "Nokia",
       "oamV4IpAddress": "val3",
