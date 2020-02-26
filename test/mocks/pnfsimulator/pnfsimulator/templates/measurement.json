@@ -19,7 +19,7 @@
       "measurementInterval": 180,
       "concurrentSessions": 2,
       "requestRate": "#RandomPrimitiveInteger(50,100)",
-      "meanRequestLatency":  "#RandomPrimitiveInteger(1,1000)",
+      "meanRequestLatency": "#RandomPrimitiveInteger(1,1000)",
       "cpuUsageArray": [
         {
           "cpuIdentifier": "INTEL_CORE_I7_1",
@@ -38,8 +38,7 @@
         }
       ],
       "numberOfMediaPortsInUse": 100,
-      "additionalMeasurements": [
-      ]
+      "additionalMeasurements": []
     }
   }
 }
