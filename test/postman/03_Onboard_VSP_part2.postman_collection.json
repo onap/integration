@@ -1,87 +1,87 @@
 {
-	"info": {
-		"_postman_id": "4779261e-f678-4383-b3a9-dfe63f080371",
-		"name": "03_Onboard_VSP_part2",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "Upload zip file containing Heat files",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "033f8cad-de66-4de9-8858-f3c72629c838",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"var jsonData = pm.response.json();",
-							"",
-							"if (jsonData.status === \"Success\") {",
-							"    tests[\"Upload Success\"] = true;   ",
-							"}",
-							"",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "multipart/form-data"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json"
-					},
-					{
-						"key": "X-TransactionId",
-						"value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a"
-					},
-					{
-						"key": "USER_ID",
-						"value": "cs0008"
-					},
-					{
-						"key": "X-FromAppId",
-						"value": "robot-ete"
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "upload",
-							"type": "file",
-							"src": ""
-						}
-					]
-				},
-				"url": {
-					"raw": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/vendor-software-products/{{auto_vsp_id}}/versions/{{auto_vsp_version_id}}/orchestration-template-candidate",
-					"host": [
-						"{{url-sdc2}}"
-					],
-					"path": [
-						"sdc1",
-						"feProxy",
-						"onboarding-api",
-						"v1.0",
-						"vendor-software-products",
-						"{{auto_vsp_id}}",
-						"versions",
-						"{{auto_vsp_version_id}}",
-						"orchestration-template-candidate"
-					]
-				}
-			},
-			"response": []
-		}
-	]
+  "info": {
+    "_postman_id": "4779261e-f678-4383-b3a9-dfe63f080371",
+    "name": "03_Onboard_VSP_part2",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Upload zip file containing Heat files",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "033f8cad-de66-4de9-8858-f3c72629c838",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "",
+              "if (jsonData.status === \"Success\") {",
+              "    tests[\"Upload Success\"] = true;   ",
+              "}",
+              "",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "multipart/form-data"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-TransactionId",
+            "value": "robot-ete-ba84612d-c1c6-4c53-9967-7b1dff276c7a"
+          },
+          {
+            "key": "USER_ID",
+            "value": "cs0008"
+          },
+          {
+            "key": "X-FromAppId",
+            "value": "robot-ete"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "upload",
+              "type": "file",
+              "src": ""
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{url-sdc2}}/sdc1/feProxy/onboarding-api/v1.0/vendor-software-products/{{auto_vsp_id}}/versions/{{auto_vsp_version_id}}/orchestration-template-candidate",
+          "host": [
+            "{{url-sdc2}}"
+          ],
+          "path": [
+            "sdc1",
+            "feProxy",
+            "onboarding-api",
+            "v1.0",
+            "vendor-software-products",
+            "{{auto_vsp_id}}",
+            "versions",
+            "{{auto_vsp_version_id}}",
+            "orchestration-template-candidate"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
 }
