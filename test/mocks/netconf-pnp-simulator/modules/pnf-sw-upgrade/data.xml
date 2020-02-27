@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<software-upgrade xmlns="http://onap.org/pnf-sw-upgrade">
+  <upgrade-package>
+    <id>sw-id-1</id>
+    <current-status>CREATED</current-status>
+    <software-version>test_software_1</software-version>
+    <uri>sftp://127.0.0.1/test_software_1.img</uri>
+    <user>test_user</user>
+    <password>test_password</password>
+    <user-label>trial software update</user-label>
+  </upgrade-package>
+</software-upgrade>
