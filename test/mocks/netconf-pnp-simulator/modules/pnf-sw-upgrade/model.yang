@@ -1,0 +1,78 @@
+module pnf-sw-upgrade {
+    namespace "http://onap.org/pnf-sw-upgrade";
+    prefix upgrade;
+
+    import ietf-yang-types {
+        prefix yang;
+    }
+
+    revision "2019-12-03" {
+        description
+          "initial version";
+    }
+
+    container software-upgrade {
+        config true;
+        list upgrade-package {
+            key "id";
+            leaf id {
+                type string;
+            }
+            leaf current-status {
+                type enumeration {
+                    enum CREATED;
+                    enum INITIALIZED;
+                    enum DOWNLOAD_IN_PROGRESS;
+                    enum DOWNLOAD_COMPLETED;
+                    enum ACTIVATION_IN_PROGRESS;
+                    enum ACTIVATION_COMPLETED;
+                }
+                description
+                  "List of possible states of the upgrade";
+            }
+            leaf state-change-time {
+                mandatory false;
+                description
+                  "Date and time of the last state change.";
+                type yang:date-and-time;
+            }
+            leaf action {
+                mandatory false;
+                type enumeration {
+                    enum NONE;
+                    enum PRE_CHECK;
+                    enum DOWNLOAD_NE_SW;
+                    enum ACTIVATE_NE_SW;
+                    enum CANCEL;
+                }
+                description
+                  "List of possible actions for the upgrade";
+            }
+            leaf software-version {
+                type string;
+                description
+                  "Possible name or release version of the UP";
+            }
+            leaf uri {
+                type string;
+                description
+                  "A URI that points to the directory where the UP can be found.";
+            }
+            leaf user {
+                type string;
+                description
+                  "Indicates the user.";
+            }
+            leaf password {
+                type string;
+                description
+                  "Indicates the password.";
+            }
+            leaf user-label {
+                type string;
+                description
+                  "Free-text description of the UP.";
+            }
+        }
+    }
+}
