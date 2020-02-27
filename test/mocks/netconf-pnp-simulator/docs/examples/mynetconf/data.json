@@ -1,0 +1,10 @@
+{
+  "mynetconf:netconflist": {
+    "netconf": [
+      {
+        "netconf-id": 3,
+        "netconf-param": 3
+      }
+    ]
+  }
+}

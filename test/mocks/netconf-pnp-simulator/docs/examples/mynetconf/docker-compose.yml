@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  netopeer2:
+    image: nexus3.onap.org:10001/onap/integration/simulators/netconf-pnp-simulator:2.6.0
+    container_name: mynetconf
+    restart: always
+    ports:
+      - "830:830"
+      - "6513:6513"
+    volumes:
+      - ./:/config/modules/mynetconf

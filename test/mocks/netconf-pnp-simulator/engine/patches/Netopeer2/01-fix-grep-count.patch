@@ -1,0 +1,35 @@
+diff --git a/keystored/scripts/model-install.sh b/keystored/scripts/model-install.sh
+index a350950..671dd16 100755
+--- a/keystored/scripts/model-install.sh
++++ b/keystored/scripts/model-install.sh
+@@ -13,7 +13,7 @@ local_path=$(dirname $0)
+ is_yang_module_installed() {
+     module=$1
+ 
+-    $SYSREPOCTL -l | grep --count "^$module [^|]*|[^|]*| Installed .*$" > /dev/null
++    $SYSREPOCTL -l | grep -c "^$module [^|]*|[^|]*| Installed .*$" > /dev/null
+ }
+ 
+ install_yang_module() {
+diff --git a/server/scripts/model-install.sh.in b/server/scripts/model-install.sh.in
+index 589d639..760ce42 100755
+--- a/server/scripts/model-install.sh.in
++++ b/server/scripts/model-install.sh.in
+@@ -13,7 +13,7 @@ shopt -s failglob
+ is_yang_module_installed() {
+     module=$1
+ 
+-    $SYSREPOCTL -l | grep --count "^$module [^|]*|[^|]*| Installed .*$" > /dev/null
++    $SYSREPOCTL -l | grep -c "^$module [^|]*|[^|]*| Installed .*$" > /dev/null
+ }
+ 
+ install_yang_module() {
+@@ -31,7 +31,7 @@ enable_yang_module_feature() {
+     module=$1
+     feature=$2
+ 
+-    if ! $SYSREPOCTL -l | grep --count "^$module [^|]*|[^|]*|[^|]*|[^|]*|[^|]*|[^|]*|.* $feature.*$" > /dev/null; then
++    if ! $SYSREPOCTL -l | grep -c "^$module [^|]*|[^|]*|[^|]*|[^|]*|[^|]*|[^|]*|.* $feature.*$" > /dev/null; then
+         echo "- Enabling feature $feature in $module..."
+         $SYSREPOCTL -m $module -e $feature
+     else
