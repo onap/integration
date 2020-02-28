@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b563e54_6fb414cf",
+        "filename": "deployment/heat/onap-rke/env/windriver/onap-oom.env",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2020-02-28T15:36:35Z",
+      "side": 1,
+      "message": "I think this needs to move up to the global section above, where pullRepository is defined",
+      "range": {
+        "startLine": 80,
+        "startChar": 8,
+        "endLine": 80,
+        "endChar": 38
+      },
+      "revId": "df93d0866a0f5032d10339492b6bd5ce64c20e2d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
