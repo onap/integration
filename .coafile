@@ -1,0 +1,18 @@
+[yaml]
+bears = YAMLLintBear
+yamllint_config = .yamllint
+ignore =
+  .tox/**,
+  # Doesn't look like a valid YAML although it pretends one
+  deployment/heat/onap-rke/parts/onap-oom-2.yaml
+
+[json]
+bears = JSONFormatBear
+json_sort = False
+indent_size = 2
+ignore =
+  .tox/**,
+  # This one ought to be broken
+  test/mocks/pnfsimulator/pnfsimulator/src/test/resources/org/onap/pnfsimulator/simulator/invalidJsonStructureEvent.json,
+  # This one is empty
+  test/mocks/datafilecollector-testharness/simulator-group/consul/consul_config.json
