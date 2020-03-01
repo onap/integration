@@ -142,7 +142,6 @@ RUN set -eux \
       && apk add \
          libcurl \
          libev \
-         openssh-keygen \
          pcre \
          protobuf-c \
       # v0.9.3 has somes bugs as warned in libnetconf2/CMakeLists.txt:237
@@ -161,13 +160,6 @@ RUN adduser --system --disabled-password --gecos 'Netconf User' netconf
 
 ENV HOME=/home/netconf
 VOLUME $HOME/.local/share/virtualenvs
-
-# generate ssh keys for netconf user
-RUN set -eux \
-      && mkdir -p $HOME/.cache \
-      && mkdir -p $HOME/.ssh \
-      && ssh-keygen -t dsa -P '' -f $HOME/.ssh/id_dsa \
-      && cat $HOME/.ssh/id_dsa.pub > $HOME/.ssh/authorized_keys
 
 EXPOSE 830
 
