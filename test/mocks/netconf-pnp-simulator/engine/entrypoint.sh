@@ -28,6 +28,7 @@ set -o xtrace
 export PATH=/opt/bin:/usr/local/bin:/usr/bin:/bin
 
 CONFIG=/config
+SSH_CONFIG=$CONFIG/ssh
 TLS_CONFIG=$CONFIG/tls
 MODELS_CONFIG=$CONFIG/modules
 KEY_PATH=/opt/etc/keystored/keys
@@ -53,6 +54,11 @@ find_executable() {
       break
     fi
   done
+}
+
+configure_ssh()
+{
+  sysrepocfg --datastore=startup --format=xml ietf-system --import=$SSH_CONFIG/load_auth_pubkey.xml
 }
 
 configure_tls()
@@ -126,6 +132,7 @@ create_python_venv()
   echo $env_dir
 }
 
+configure_ssh
 configure_tls
 configure_modules
 
