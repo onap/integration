@@ -1,0 +1,5 @@
+{
+	"ipAddress": "0.0.0.0",
+	"portNumber": 8000,
+	"prefix": "/ProvisioningMnS/v1500"
+}
