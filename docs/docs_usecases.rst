@@ -1,6 +1,5 @@
 .. This work is licensed under a Creative Commons Attribution 4.0
    International License. http://creativecommons.org/licenses/by/4.0
-   Copyright 2018 Huawei Technologies Co., Ltd.  All rights reserved.
 
 .. _docs_usecases:
 
@@ -9,12 +8,12 @@ Verified Use Cases and Functional Requirements
 
 Description
 ~~~~~~~~~~~
-This session includes use cases and functional requirements which have been verified in Dublin release by the Integration team:
+This session includes use cases and functional requirements which have been verified in Frankfurt release by the Integration team:
     1. What has been implemented
     2. Step by step instruction on how to deploy them, including the links to download the related assets and resources
     3. Known issues and workaround
 
-The final testing status can be found at `Dublin Release Integration Testing Status Summary <https://wiki.onap.org/display/DW/Dublin+Release+Integration+Testing+Status>`_
+The final testing status can be found at `Frankfurt Release Integration Testing Status <2: Frankfurt Release Integration Testing Status>`_
 
 Use Cases
 ~~~~~~~~~
@@ -45,6 +44,8 @@ Functional Requirements
 :ref:`5G - Configuration over NETCONF <docs_5G_Configuration_over_NETCONF>`
 
 :ref:`5G - OOF and PCI <docs_5G_oof_pci>`
+
+:ref:`5G - E2E Network Slicing <docs_E2E_network_slicing>`
 
 :ref:`PNF Support - PNF Plug and Play <docs_5g_pnf_pnp>`
 
