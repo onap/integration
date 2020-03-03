@@ -1,134 +1,29 @@
-#!/usr/bin/python
+#!/usr/bin/python3
+#  ============LICENSE_START=======================================================
+#  ONAP - SO
+#  ================================================================================
+#  Copyright (C) 2020 Huawei Technologies Co., Ltd. All rights reserved.
+#  ================================================================================
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+#  ============LICENSE_END=========================================================
 
 import sys
 import argparse
 import json
-import os
-import shutil
-import random
-import time
-import tempfile
 
 import conf
-import ems_util
-
-
-def do_download_sw(sw_info, sw_download_dir):
-    """
-    return err, reason, file_location_in_nes
-    """
-
-    sw_location = sw_info['swLocation']
-
-    # Use copy file from SW_SERVER_SIMULATOR to simulate download file
-    sw_file_name = sw_location.split('/')[-1]
-
-    file_location_in_server = conf.SW_SERVER_SIMULATOR + '/' + sw_file_name
-    file_location_in_ne = sw_download_dir + '/' + sw_file_name
-
-    try:
-        shutil.copy(file_location_in_server, sw_download_dir)
-    except IOError as e:
-        return True, "Download %s to %s error: %s" % (sw_file_name, sw_download_dir, str(e)), file_location_in_ne
-
-    return False, None, file_location_in_ne
-
-
-def generate_notification(download_process_id, download_status, downloaded_ne_sw_info, failed_sw_info):
-    notification = {
-        "objectClass": "EMSClass",
-        "objectInstance": "EMSInstance",
-        "notificationId": random.randint(1, conf.MAX_INT),
-        "eventTime": time.asctime(),
-        "systemDN": "emssimulator",
-        "notificationType": "notifyDownloadNESwStatusChanged",
-        "downloadProcessId": download_process_id,
-        "downloadOperationStatus": download_status
-    }
-
-    if downloaded_ne_sw_info:
-        notification["downloadedNESwInfo"] = downloaded_ne_sw_info
-
-    if failed_sw_info:
-        notification["failedSwInfo"] = failed_sw_info
-
-    return notification
-
-
-def download_ne_sw(sw_to_be_downloaded, ne_id):
-    ne_info = ems_util.get_ne_info_from_db_by_id(ne_id)
-
-    download_process_id = random.randint(1, conf.MAX_INT)
-    result = conf.REQ_SUCCESS
-    ret_value = {
-        "downloadProcessId": download_process_id,
-        "result": result
-    }
-
-    if not ne_info:
-        ret_value["result"] = conf.REQ_FAILURE
-        ret_value["reason"] = "Can not find NE %s" % ne_id
-        return ret_value
-
-    ne_info["status"] = conf.STATUS_DOWNLOADING
-    ems_util.update_ne_info(ne_info)
-
-    num_sw_to_be_downloaded = len(sw_to_be_downloaded)
-
-    downloaded_ne_sw_info = []
-    failed_sw_info = []
-
-    sw_download_parent_dir = conf.PNF_SIMULATORS_DIR + '/' + ne_info['omIP'] + conf.PNF_SW_DOWNLOAD_DIR
-    sw_download_dir = ne_info.get("downloadedSwLocation", "")
-    try:
-        if not os.path.isdir(sw_download_parent_dir):
-            os.makedirs(sw_download_parent_dir)
-
-        if sw_download_dir and not os.path.isdir(sw_download_dir):
-            os.makedirs(sw_download_dir)
-    except OSError as e:
-        ret_value["result"] = conf.REQ_FAILURE
-        ret_value["reason"] = str(e)
-        return ret_value
-
-    if not sw_download_dir:
-        sw_download_dir = tempfile.mkdtemp(dir=sw_download_parent_dir)
-
-    for sw_info in sw_to_be_downloaded:
-        err, reason, file_location = do_download_sw(sw_info, sw_download_dir)
-        if not err:
-            downloaded_ne_sw_info.append(file_location)
-        else:
-            result = conf.REQ_FAILURE
-            failed_sw_entry = {
-                "failedSw": file_location,
-                "failureReason": reason
-            }
-            failed_sw_info.append(failed_sw_entry)
-
-    num_downloaded_ne_sw = len(downloaded_ne_sw_info)
-
-    if num_downloaded_ne_sw == num_sw_to_be_downloaded:
-        download_status = "NE_SWDOWNLOAD_SUCCESSFUL"
-    elif num_downloaded_ne_sw == 0:
-        download_status = "NE_SWDOWNLOAD_FAILED"
-    else:
-        download_status = "NE_SWDOWNLOAD_PARTIALLY_SUCCESSFUL"
-
-    notification = generate_notification(download_process_id, download_status, downloaded_ne_sw_info, failed_sw_info)
-    ems_util.send_notification(notification, download_process_id)
-
-    if result == conf.REQ_SUCCESS:
-        ne_info["downloadedSwLocation"] = sw_download_dir
-        ems_util.update_ne_info(ne_info)
-    else:
-        shutil.rmtree(sw_download_dir, ignore_errors=True)
-
-        ret_value["result"] = result
-        ret_value["reason"] = json.dumps(failed_sw_info)
-
-    # for automated software management, there is no listOfStepNumbersAndDurations
-    return ret_value
+import download_n_e_sw
+import install_n_e_sw
 
 
 def main():
@@ -141,10 +36,35 @@ def main():
 
     sw_to_be_downloaded = json.loads(args.swToBeDownloaded)
 
-    ret_value = download_ne_sw(sw_to_be_downloaded, args.neIdentifier)
-    print json.dumps(ret_value)
+    all_installed_ne_sw_list = []
+    all_failed_sw_info = []
 
-    if ret_value["result"] == conf.REQ_SUCCESS:
+    download_notification, download_ret_value = download_n_e_sw.download(sw_to_be_downloaded, args.neIdentifier)
+
+    downloaded_ne_sw_list = download_notification.get("downloadedNESwInfo", [])
+    failed_downloaded_sw_list = download_notification.get("failedSwInfo", [])
+    all_failed_sw_info.extend(failed_downloaded_sw_list)
+
+    for downloaded_ne_sw in downloaded_ne_sw_list:
+        install_notification, _ = install_n_e_sw.install(downloaded_ne_sw, args.neIdentifier)
+        installed_ne_sw_list = install_notification.get("installedNESwInfo", [])
+        failed_installed_sw_list = install_notification.get("failedSwInfo", [])
+
+        all_installed_ne_sw_list.extend(installed_ne_sw_list)
+        all_failed_sw_info.extend(failed_installed_sw_list)
+
+    num_all_installed_ne_sw_list = len(all_installed_ne_sw_list)
+    num_sw_to_be_downloaded = len(sw_to_be_downloaded)
+
+    if num_all_installed_ne_sw_list == num_sw_to_be_downloaded:
+        download_ret_value["result"] = conf.REQ_SUCCESS
+    else:
+        download_ret_value["result"] = conf.REQ_FAILURE
+        download_ret_value["reason"] = "Failed downloaded or installed SW: %s" % json.dumps(all_failed_sw_info)
+
+    print(json.dumps(download_ret_value))
+
+    if download_ret_value["result"] == conf.REQ_SUCCESS:
         sys.exit(conf.RET_CODE_SUCCESS)
     else:
         sys.exit(conf.RET_CODE_FAILURE)
