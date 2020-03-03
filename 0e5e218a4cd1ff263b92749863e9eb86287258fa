@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b648937a_1cc23bc1",
+        "filename": "docs/docs_E2E_network_slicing.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-03T12:51:39Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "0e5e218a4cd1ff263b92749863e9eb86287258fa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12a1937e_683cd2eb",
+        "filename": "docs/docs_E2E_network_slicing.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-03T12:51:39Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "0e5e218a4cd1ff263b92749863e9eb86287258fa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c0730e5_5c30e0d5",
+        "filename": "docs/docs_E2E_network_slicing.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-03T12:51:39Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "0e5e218a4cd1ff263b92749863e9eb86287258fa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "679344f4_d5e6b4f2",
+        "filename": "docs/docs_E2E_network_slicing.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-03T12:51:39Z",
+      "side": 1,
+      "message": "there is a risk that the wiki links evolved and become sooner or later deprecated, as far as I know it is possible to force the version of the page on the wiki",
+      "revId": "0e5e218a4cd1ff263b92749863e9eb86287258fa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdad4877_a0263b7b",
+        "filename": "docs/docs_E2E_network_slicing.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-03T12:51:39Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "0e5e218a4cd1ff263b92749863e9eb86287258fa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09cb7aea_6b9fdb6d",
+        "filename": "docs/docs_E2E_network_slicing.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-03T12:51:39Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "0e5e218a4cd1ff263b92749863e9eb86287258fa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56e8cf00_e9722437",
+        "filename": "docs/docs_E2E_network_slicing.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-03T12:51:39Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "0e5e218a4cd1ff263b92749863e9eb86287258fa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
