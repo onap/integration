@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "86f04e07_f0afa7c6",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-03T12:58:24Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "6e9647f3777d25f92e9fc0447963d15119a7a6f9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d141155d_b30eb4fa",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-03T12:58:24Z",
+      "side": 1,
+      "message": "line too long.",
+      "revId": "6e9647f3777d25f92e9fc0447963d15119a7a6f9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be60dd28_baa608d2",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-03T12:58:24Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "6e9647f3777d25f92e9fc0447963d15119a7a6f9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "101ac394_69a02c5b",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-03T12:58:24Z",
+      "side": 1,
+      "message": "trailing space\n+ line length \u003e 100 ? \u003d\u003e could generate warning in doc linter as far as I remember",
+      "revId": "6e9647f3777d25f92e9fc0447963d15119a7a6f9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81a1ab3f_1528a027",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-03T12:58:24Z",
+      "side": 1,
+      "message": "I would prefer to get an official section rather than a link to the wiki.\nIf you use a wiki reference, it shall be possible to specify the page version\nAs wiki can be edited by anybody, there are cases where the link becomes obsolete and not correct regarding the official documentation",
+      "revId": "6e9647f3777d25f92e9fc0447963d15119a7a6f9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10046310_b5a2daca",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-03T12:58:24Z",
+      "side": 1,
+      "message": "For Frankfurt, it is acceptable to reference a test plan in the wiki, but as mentioned earlier wiki pages are working workspaces and could evolve, which will decrease the overall quality of the documentation",
+      "revId": "6e9647f3777d25f92e9fc0447963d15119a7a6f9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
