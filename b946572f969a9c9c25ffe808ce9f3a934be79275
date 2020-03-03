@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85c38ae4_9eabadff",
+        "filename": "docs/docs_vFWDT.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-03T13:28:33Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "b946572f969a9c9c25ffe808ce9f3a934be79275",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3eea4935_f06edddc",
+        "filename": "docs/docs_vFWDT.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-03T13:28:33Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "b946572f969a9c9c25ffe808ce9f3a934be79275",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3420bce_60281853",
+        "filename": "docs/docs_vFWDT.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-03T13:28:33Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "b946572f969a9c9c25ffe808ce9f3a934be79275",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75c185e9_9e0412d0",
+        "filename": "docs/docs_vFWDT.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-03T13:28:33Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "b946572f969a9c9c25ffe808ce9f3a934be79275",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6988ffad_a009a5ea",
+        "filename": "docs/docs_vFWDT.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-03T13:28:33Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "b946572f969a9c9c25ffe808ce9f3a934be79275",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb281675_ab62d565",
+        "filename": "docs/docs_vFWDT.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-03T13:28:33Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "b946572f969a9c9c25ffe808ce9f3a934be79275",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c13f107_7ac8aeb0",
+        "filename": "docs/docs_vFWDT.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-03T13:28:33Z",
+      "side": 1,
+      "message": "missing the : at the end of the sentence",
+      "revId": "b946572f969a9c9c25ffe808ce9f3a934be79275",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e2d20e0_22556496",
+        "filename": "docs/docs_vFWDT.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-03T13:28:33Z",
+      "side": 1,
+      "message": "same remark than for other use case\nI understand that it is easy to reference wiki page but the wiki page can be changed by anybody so it is not very secured\nit shall be possible to precise the version of the page\nand if the content is not to big, I would just encourage to put the text in the rst to clearly split working and official documents (for Frankfurt only)\neven if a Table showing the evolution of the use case according to the release will be nive in such document.",
+      "revId": "b946572f969a9c9c25ffe808ce9f3a934be79275",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
