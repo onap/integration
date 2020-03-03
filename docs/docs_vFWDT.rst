@@ -7,12 +7,13 @@
    :depth: 3
 ..
 
-vFW Traffic Distribution Use Case
----------------------------------
+vFW In-Place Software Upgrade with Traffic Distribution Use Case
+----------------------------------------------------------------
 Description
 ~~~~~~~~~~~
 
-The purpose of this work is to show Traffic Distribiution functionality implemented in Casablanca and Dublin releases for vFW Use Case.
+The purpose of this work is to show In-Place Software Upgrade Traffic Distribiution functionality implemented in El Alto release for vFW Use Case.
+The use case is an evolution of vFW Traffic Distribution Use Case whicjh was developed for Casablanca and Dublin releases.
 The orchstration workflow triggers a change to traffic distribution (redistribution) done by a traffic balancing/distribution entity (aka anchor point). 
 The DistributeTraffic action targets the traffic balancing/distribution entity, in some cases DNS, other cases a load balancer external to the VNF instance, as examples. 
 Traffic distribution (weight) changes intended to take a VNF instance out of service are completed only when all in-flight traffic/transactions have been completed. 
@@ -23,9 +24,11 @@ QuiesceTraffic/ResumeTraffic command may need to follow traffic distribution cha
 
 Traffic Distribution functionality is an outcome of Change Management project. Further details can be found on following pages
 
-https://wiki.onap.org/display/DW/Change+Management+Extensions (DistributeTraffic LCM and Use Case)
+- Frankfurt: https://wiki.onap.org/display/DW/Change+Management+Frankfurt+Extensions (Traffic Distribution workflow enhancements)
 
-https://wiki.onap.org/display/DW/Change+Management+Dublin+Extensions (Distribute Traffic Workflow with Optimization Framework)
+- Dublin: https://wiki.onap.org/display/DW/Change+Management+Extensions (DistributeTraffic LCM and Use Case)
+
+- Casablanca https://wiki.onap.org/display/DW/Change+Management+Dublin+Extensions (Distribute Traffic Workflow with Optimization Framework)
 
 Test Scenario
 ~~~~~~~~~~~~~
