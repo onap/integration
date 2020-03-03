@@ -1,10 +1,39 @@
-#!/usr/bin/python
+#  ============LICENSE_START=======================================================
+#  ONAP - SO
+#  ================================================================================
+#  Copyright (C) 2020 Huawei Technologies Co., Ltd. All rights reserved.
+#  ================================================================================
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+#  ============LICENSE_END=========================================================
 
+import os
 import time
 import json
 import jsonpath
 
 import conf
+
+
+def get_log_file(operation):
+    return os.path.join(conf.LOGGER_FILE_DIR, "%s.txt" % operation)
+
+
+def get_download_dir(om_ip):
+    return os.path.join(conf.PNF_SIMULATORS_DIR, om_ip, conf.COMMON_PATH, conf.PNF_SW_DOWNLOAD_DIR)
+
+
+def get_install_dir(om_ip):
+    return os.path.join(conf.PNF_SIMULATORS_DIR, om_ip, conf.COMMON_PATH, conf.PNF_SW_INSTALL_DIR)
 
 
 def get_ne_info_list_from_db(ne_filter):
@@ -47,7 +76,7 @@ def update_ne_info(ne_info):
 
 
 def send_notification(notification, process_id):
-    notification_file = conf.NOTIFICATION_DIR + '/%s-%d' % (notification['notificationType'], process_id)
+    notification_file = os.path.join(conf.NOTIFICATION_DIR, '%s-%d' % (notification['notificationType'], process_id))
 
     with open(notification_file, 'w') as f_notification:
         f_notification.write(json.dumps(notification))

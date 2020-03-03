@@ -1,74 +1,52 @@
-#!/usr/bin/python
+#!/usr/bin/python3
+#  ============LICENSE_START=======================================================
+#  ONAP - SO
+#  ================================================================================
+#  Copyright (C) 2020 Huawei Technologies Co., Ltd. All rights reserved.
+#  ================================================================================
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+#  ============LICENSE_END=========================================================
 
 import sys
 import json
 
 import conf
-import ems_util
-
-
-def upgrade_postcheck(pnf_id, old_sw_version, target_sw_version, rule_name, tmp_file=None):
-    ne_info = ems_util.get_ne_info_from_db_by_id(pnf_id)
-
-    if not ne_info:
-        ret_value = {
-            "result": conf.RESULT_FAILURE,
-            "reason": "Can not find NE %s" % pnf_id
-        }
-        return ret_value
-
-    old_sw_version_in_db = ne_info.get("oldSwVersion", "")
-    current_sw_version_in_db = ne_info.get("currentSwVersion", "")
-
-    if old_sw_version != old_sw_version_in_db:
-        ret_value = {
-            "result": conf.RESULT_FAILURE,
-            "reason": "Old SW version %s in PNF is not matched with oldSwVersion %s" %
-                      (old_sw_version_in_db, old_sw_version)
-        }
-        return ret_value
-
-    if target_sw_version != current_sw_version_in_db:
-        ret_value = {
-            "result": conf.RESULT_FAILURE,
-            "reason": "Current SW version %s in PNF is not matched with targetSwVersion %s" %
-                      (current_sw_version_in_db, target_sw_version)
-        }
-        return ret_value
-
-    ne_info["checkStatus"] = conf.STATUS_POSTCHECKED
-    ems_util.update_ne_info(ne_info)
-
-    ret_value = {
-         "result": conf.RESULT_SUCCESS
-    }
-
-    return ret_value
+import upgrade_post_check
 
 
 def main():
-    #  {{pnfId}} {{oldSwVersion}} {{targetSwVersion}} {{ruleName}} /tmp/tmp-{{Id}}
+    # {{pnfName}} {{oldSwVersion}} {{targetSwVersion}} {{ruleName}} {{additionalDataFile}}
 
     if len(sys.argv) < 5:
         ret_value = {
             "result": conf.RESULT_FAILURE,
             "reason": "Missing parameters"
         }
-        print json.dumps(ret_value)
+        print(json.dumps(ret_value))
         sys.exit(conf.RET_CODE_FAILURE)
-
-    if len(sys.argv) >= 5:
-        pnf_id = sys.argv[1]
+    else:
+        pnf_name = sys.argv[1]
         old_sw_version = sys.argv[2]
         target_sw_version = sys.argv[3]
         rule_name = sys.argv[4]
-        tmp_file = None
+        additional_data_file = None
 
     if len(sys.argv) >= 6:
-        tmp_file = sys.argv[5]
+        additional_data_file = sys.argv[5]
 
-    ret_value = upgrade_postcheck(pnf_id, old_sw_version, target_sw_version, rule_name, tmp_file)
-    print json.dumps(ret_value)
+    ret_value = upgrade_post_check.post_check(
+        pnf_name, old_sw_version, target_sw_version, rule_name, additional_data_file)
+    print(json.dumps(ret_value))
 
     if ret_value["result"] == conf.RESULT_SUCCESS:
         sys.exit(conf.RET_CODE_SUCCESS)
