@@ -1,0 +1,18 @@
+{
+	"preSetMOI":[
+        {
+        "attributes": {
+                "gNBCUName": "gnb-01",
+                "gNBId": "1",
+                "gNBIdLength": "5",
+                "pLMNId": {
+                    "mcc": "001",
+                    "mnc": "01"
+                }
+        },
+        "class": "GNBCUCPFunction",
+        "href": "/GNBCUCPFunction/e65d3f05-9558-4e58-aeb0-3a1eae1db742",
+        "id": "e65d3f05-9558-4e58-aeb0-3a1eae1db742"
+     }
+ ]
+}
