@@ -118,6 +118,23 @@
       "revId": "0e5e218a4cd1ff263b92749863e9eb86287258fa",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b6178c5_6275ffce",
+        "filename": "docs/docs_E2E_network_slicing.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-03-03T14:22:02Z",
+      "side": 1,
+      "message": "Wiki link is empty. Please use readthedocs to capture such information",
+      "revId": "0e5e218a4cd1ff263b92749863e9eb86287258fa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
