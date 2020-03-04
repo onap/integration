@@ -34,6 +34,24 @@
       "revId": "34ae4a3deb1c7c91d2d173dd3834f6e83a1aa800",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bf52ed2_e2f96354",
+        "filename": "test/security/check_for_jdwp.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 4965
+      },
+      "writtenOn": "2020-03-04T20:28:00Z",
+      "side": 1,
+      "message": "I mean jdwp_whitelist.txt\nExample:\n#This is a comment for line below\nonap-dcae-redis 6379 \nonap-msb-eag 6379 #This is a comment for current line\nonap-msb-iag 6379",
+      "parentUuid": "e06e2c93_de699f90",
+      "revId": "34ae4a3deb1c7c91d2d173dd3834f6e83a1aa800",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
