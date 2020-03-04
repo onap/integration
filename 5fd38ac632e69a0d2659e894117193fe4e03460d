@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5327887c_c50c4c9a",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-04T08:13:42Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "5fd38ac632e69a0d2659e894117193fe4e03460d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e76b31b_ee92582f",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-04T08:13:42Z",
+      "side": 1,
+      "message": "s/extension/extensions/",
+      "revId": "5fd38ac632e69a0d2659e894117193fe4e03460d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73a32ebb_f63b878f",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-04T08:13:42Z",
+      "side": 1,
+      "message": "I would have removed \"with each\"\nmultiple domains with multi vendors solutions.",
+      "revId": "5fd38ac632e69a0d2659e894117193fe4e03460d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66a2cabe_38cd48bc",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-04T08:13:42Z",
+      "side": 1,
+      "message": "- IETF ref to be included\n- rephrasing suggestion\nIt is also important to define and use standards (e.g. IETF ACTN-based transport YANG models [1]) and open interface (southbound interface defined in ONAP) to ensure interoperability.",
+      "revId": "5fd38ac632e69a0d2659e894117193fe4e03460d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7471e8f0_077659be",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-04T08:13:42Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "5fd38ac632e69a0d2659e894117193fe4e03460d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae93a7e2_1e98b7a1",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-04T08:13:42Z",
+      "side": 1,
+      "message": "SOTN? or OTN\ndefine SOTN",
+      "revId": "5fd38ac632e69a0d2659e894117193fe4e03460d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1250463d_cd6d4c9a",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-04T08:13:42Z",
+      "side": 1,
+      "message": "As I said to other doc, I am not confortable with link to wiki..as anybody can modify the wiki page.\nwhen it is possible I recommend to re-integrate the \"official\" doc in the rst. Wiki pages are working documents not official ones.",
+      "revId": "5fd38ac632e69a0d2659e894117193fe4e03460d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d465cc3_5a0d82b5",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-04T08:13:42Z",
+      "side": 1,
+      "message": "- rephrasing suggestion\nThe ONAP components involved in this use case are: SDC, .....",
+      "revId": "5fd38ac632e69a0d2659e894117193fe4e03460d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5704bfa_3a689d7f",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-04T08:13:42Z",
+      "side": 1,
+      "message": "- trailing space\n- s/master branch/master branches\n- shall we precise that in the official doc as in Frankfurt it shall not be in master anymore..but in the official release\nWe may indicate\n\"Specific developments have been realized in SO, AAI, OOF, SDNC and UUI components.\"",
+      "revId": "5fd38ac632e69a0d2659e894117193fe4e03460d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d76fd290_b7d9448f",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-04T08:13:42Z",
+      "side": 1,
+      "message": "trailing space\nstatement not very clear...Is it a Robot tag?\nto be completed",
+      "revId": "5fd38ac632e69a0d2659e894117193fe4e03460d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "334b62ef_e15599d7",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-04T08:13:42Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "5fd38ac632e69a0d2659e894117193fe4e03460d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76e52c1e_f6ec669e",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-04T08:13:42Z",
+      "side": 1,
+      "message": "transport API?  is it hte transport PCE API from ODL?\nreferences will be also apprciated in such documentation\n- http://openroadm.org/\n....",
+      "revId": "5fd38ac632e69a0d2659e894117193fe4e03460d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "efa44297_ff45d5ec",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-04T08:13:42Z",
+      "side": 1,
+      "message": "will? if it is the target doc I would say incoprorates\n- rephrasing proposal\nMDONS implementation for the Frankfurt release incorporates the following items:",
+      "revId": "5fd38ac632e69a0d2659e894117193fe4e03460d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
