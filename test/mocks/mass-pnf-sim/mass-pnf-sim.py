@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 import argparse
 import sys
-from subprocess import *
-from subprocess import STDOUT
 import subprocess
 import ipaddress
 import time
