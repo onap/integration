@@ -1,10 +1,57 @@
 .. This work is licensed under a Creative Commons Attribution 4.0
    International License. http://creativecommons.org/licenses/by/4.0
-   
+
 .. _docs_ccvpn:
 
 CCVPN (Cross Domain and Cross Layer VPN)
 ----------------------------------------
+
+Update for Frankfurt release
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In Frankfurt, we introduced two extensions in CCVPN use case. One is E-LINE service over OTN NNI handover, another is the
+multi domain optical service which aims to provide end to end layer 1 service.
+
+E-LINE over OTN NNI
+~~~~~~~~~~~~~~~~~~~
+Description
+~~~~~~~~~~~
+It is considered a typical scenario for operators to use OTN to interconnect its multiple transport network domains. Hence
+the capabilities of orchestrating end-to-end E-LINE services across the domains over OTN is important for ONAP.  When operating
+with multiple domains with multi vendor solutions, it is also important to define and use standard and open
+interfaces, such as the IETF ACTN-based transport YANG models(https://tools.ietf.org/html/rfc8345), as the southbound interface
+of ONAP, in order to ensure interoperability. The SOTN NNI use-case aims to automate the design, service provision by independent
+operational entities within a service provider network by delivering E-Line over OTN orchestration capabilities into ONAP. SOTN NNI
+extends upon the CCVPN use-case by incorporating support for L1/L2 network management capabilities leveraging open standards & common
+data models.
+
+Frankfurt Scope and Impacted modules
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The Frankfurt demonstration includes L1(OTN) and L2(ETH) Topology discovery from multiple domains controllers with in an operator
+and provide VPN service provision in OTN and ETH network.
+
+The ONAP components involved in this use case are: SDC, A&AI, UUI, SO, SDNC, OOF, MSB.
+
+Functional Test Cases
+~~~~~~~~~~~~~~~~~~~~~
+Usecase specific developments have been realized in SO, OOF, AAI, SDNC and UUI ONAP components..
+
+All test case covered by this use case:
+https://wiki.onap.org/display/DW/E-LINE+over+OTN+Inter+Domain+Test+Cases
+
+Testing Procedure
+~~~~~~~~~~~~~~~~~
+Design time
+SOTNVPNInfraService service design in SDC and distribute to AAI and SO.
+
+Run Time:
+All operation will be triggered by UUI, including service creation and termination, link management and topology network display.
+
+More details can be found here:
+https://wiki.onap.org/display/DW/E-LINE+over+OTN+Inter+Domain+Test+Cases
+
+Test status can be found here:
+https://wiki.onap.org/display/DW/2%3A+Frankfurt+Release+Integration+Testing+Status
+
 
 Update for Dublin release
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -30,11 +77,11 @@ and the test case in Dublin can be found:https://wiki.onap.org/display/DW/CCVPN+
 And test status:https://wiki.onap.org/display/DW/CCVPN+Test+Status
 
 Note: CCVPN integration testing coversed service design, service creation and closed-loop bandwidth adjustments in Dublin release.
-The service termination and service change will continue to be tested in E release. 
-During the integration testing, SDC, SO, SDC master branch are used which include the enhanced features for CCVPN use case. 
+The service termination and service change will continue to be tested in E release.
+During the integration testing, SDC, SO, SDC master branch are used which include the enhanced features for CCVPN use case.
 
 
-Sevice used for CCVPN 
+Service used for CCVPN
 ~~~~~~~~~~~~~~~~~~~~~
 
 - SOTNVPNInfraService, SDWANVPNInfraService and SIteService: https://wiki.onap.org/display/DW/CCVPN+Service+Design
