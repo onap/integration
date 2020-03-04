@@ -2,7 +2,6 @@
 
 import argparse
 import json
-import logging
 from subprocess import Popen,PIPE,STDOUT,check_output,CalledProcessError
 import sys
 

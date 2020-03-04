@@ -2,14 +2,7 @@
 
 import time
 import logging
-import json
-import mysql.connector
-import ipaddress
-import re
-import sys
-import base64
-from vcpecommon import *
-import preload
+from vcpecommon import * # pylint: disable=W0614
 import commands
 import vcpe_custom_service
 import argparse

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import logging
-from vcpecommon import *
+from vcpecommon import * # pylint: disable=W0614
 import csar_parser
 
 

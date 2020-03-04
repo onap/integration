@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 
-import sys
 import logging
 import requests
 import json
-from vcpecommon import *
+from vcpecommon import * # pylint: disable=W0614
 
 
 class SdcUtils:

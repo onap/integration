@@ -2,8 +2,7 @@
 
 import os
 import requests
-import time
-from vcpecommon import *
+from vcpecommon import * # pylint: disable=W0614
 from datetime import datetime
 import soutils
 import logging
