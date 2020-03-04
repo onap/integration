@@ -16,6 +16,24 @@
       "revId": "34ae4a3deb1c7c91d2d173dd3834f6e83a1aa800",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e06e2c93_de699f90",
+        "filename": "test/security/check_for_jdwp.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-04T17:38:31Z",
+      "side": 1,
+      "message": "not sure to get your point, what do you call list file here?\nthe white list or the scan result list...just give an example\nI reached my bash limits..but I could redo it in python if needed.. :)",
+      "parentUuid": "b4fda755_cd9eb0f7",
+      "revId": "34ae4a3deb1c7c91d2d173dd3834f6e83a1aa800",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
