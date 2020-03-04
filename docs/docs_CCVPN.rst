@@ -6,6 +6,71 @@
 CCVPN (Cross Domain and Cross Layer VPN)
 ----------------------------------------
 
+Update for Frankfurt release
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In Frankfurt, we introduced two extension in CCVPN use case. One is E-LINE service over OTN NNI handover, another is the
+multi domain optical service which aims to provide end to end layer 1 service.
+
+E-LINE over OTN NNI
+~~~~~~~~~~~~~~~~~~~
+Description
+~~~~~~~~~~~
+It is considered a typical scenario for operators to use OTN to interconnect its multiple transport network domains. Hence
+the capabilities of orchestrating end-to-end E-LINE services across the domains over OTN is important for ONAP.  When operating
+with multiple domains with each potentially from different vendors, it is also important to define and use standard and open
+interfaces, such as the IETF ACTN-based transport YANG models, as the southbound interface of ONAP, in order to ensure interoperability.
+The SOTN NNI use-case aims to automate the design, service provision by independent operational entities within a service provider 
+network by delivering E2E orchestration capabilities into ONAP. SOTN NNI extends upon the CCVPN use-case by incorporating support for
+L1/L2 network management capabilities leveraging open standards & common data models.
+
+More information is available at:
+https://wiki.onap.org/display/DW/E-LINE+over+OTN+Inter-Domain+Links+-+Proposal
+
+Frankfurt Scope and Impacted modules
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The Frankfurt demonstration includes L1(OTN) and L2(ETH) Topology discovery from multiple domains controllers with in an operator
+and provide VPN service provision in OTN and ETH network.
+
+The projects covered by this use case include: SDC, A&AI, UUI, SO, SDNC, OOF, MSB.
+
+Functional Test Cases
+~~~~~~~~~~~~~~~~~~~~~
+During the integration testing SO, OOF, AAI, SDNC and UUI master branch are used which include the enhanced features for CCVPN use case. 
+
+All test case covered by this use case:
+https://wiki.onap.org/display/DW/E-LINE+over+OTN+Inter+Domain+Test+Cases
+
+Testing Procedure
+~~~~~~~~~~~~~~~~~
+Design time
+SOTNVPNInfraService service design. 
+
+Run Time:
+All operation will be triggered by UUI, including service creation and termination, link management and topology network display.
+
+More details can be found here: 
+https://wiki.onap.org/display/DW/E-LINE+over+OTN+Inter+Domain+Test+Cases
+
+
+
+MDONS (Multi-Domain Optical Network Services)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Description
+~~~~~~~~~~~
+The MDONS use-case aims to automate the design, activation & operations resulting from an optical transport (L0/L1) service request
+exchange between service providers and/or independent operational entities within a service provider network by delivering E2E optical
+orchestration capabilities into ONAP. MDONS extends upon the CCVPN use-case by incorporating support for L0/L1 network management capabilities
+leveraging open standards & common data models defined by OpenROADM, Transport-API & MEF
+
+Frankfurt Scope and Impacted modules
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+MDONS implementation for the Frankfurt release will incorporate the following:
+-	Design & modelling of optical services based on MEF L1 subscriber & operator properties
+-	E2E optical service workflow definitions for service activation & deletion
+-	UI portal with L1 service instantiation templates
+-	Optical Transport domain management (topology, resource onboarding) through standard models / APIs – OpenROADM, Transport API
+Impacted ONAP modules include: A&AI, SDC, SDN-C, SO, UUI
+
 Update for Dublin release
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
