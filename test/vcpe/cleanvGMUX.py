@@ -4,8 +4,6 @@ import sys
 import logging
 import requests
 import json
-from datetime import datetime
-import time
 
 gmux_ip = ''
 logging.basicConfig(level=logging.DEBUG, format='%(message)s')

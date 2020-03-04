@@ -1,6 +1,7 @@
 import sys
 sys.path.append('./')
 
+# pylint: disable=W0611
 import vcpecommon
 import config_sdnc_so
 import csar_parser

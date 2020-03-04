@@ -4,7 +4,7 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(name)s.%(funcName)s(): %(message)s')
 
 import sys
-from vcpecommon import *
+from vcpecommon import * # pylint: disable=W0614
 import sdcutils
 import soutils
 from datetime import datetime
