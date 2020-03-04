@@ -468,7 +468,7 @@ class VcpeCommon:
 
     def get_pod_node_oam_ip(self, pod):
         """
-        :Assuming kubectl is available and configured by default config (~/.kube/config) 
+        :Assuming kubectl is available and configured by default config (~/.kube/config)
         :param pod: pod name substring, e.g. 'sdnc-sdnc-0'
         :return pod's cluster node oam ip (10.0.0.0/16)
         """
@@ -490,7 +490,7 @@ class VcpeCommon:
 
     def get_pod_node_public_ip(self, pod):
         """
-        :Assuming kubectl is available and configured by default config (~/.kube/config) 
+        :Assuming kubectl is available and configured by default config (~/.kube/config)
         :param pod: pod name substring, e.g. 'sdnc-sdnc-0'
         :return pod's cluster node public ip (i.e. 10.12.0.0/16)
         """
@@ -517,7 +517,7 @@ class VcpeCommon:
         :return vm public ip
         """
         subnet = IPNetwork('{0}/{1}'.format(self.external_net_addr, self.external_net_prefix_len))
-        nova = openstackclient.Client(2, self.cloud['--os-username'], self.cloud['--os-password'], self.cloud['--os-tenant-id'], self.cloud['--os-auth-url']) 
+        nova = openstackclient.Client(2, self.cloud['--os-username'], self.cloud['--os-password'], self.cloud['--os-tenant-id'], self.cloud['--os-auth-url'])
         for i in nova.servers.list():
             if i.name == vm:
                 for k, v in i.networks.items():
@@ -766,4 +766,3 @@ class VcpeCommon:
 
     def load_vgmux_vnf_name(self):
         return self.load_object(self.vgmux_vnf_name_file)
-

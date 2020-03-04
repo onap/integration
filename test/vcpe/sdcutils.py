@@ -17,7 +17,7 @@ class SdcUtils:
 
     def download_vcpe_service_template(self):
         """
-        :return: 
+        :return:
         """
 
         url = self.vcpecommon.sdc_service_list_url
@@ -83,6 +83,3 @@ class SdcUtils:
                     self.logger.debug('------- Creation subcategory request submitted to SDC, got response --------')
                     self.logger.debug('response code = %s' % resp.status_code )
                     self.logger.debug('---------------------------------------------------------------')
-
-
-

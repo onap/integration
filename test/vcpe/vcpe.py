@@ -254,7 +254,7 @@ def tmp_sniro():
     config_sniro(vcpecommon, svc_instance_uuid['gmux'], svc_instance_uuid['brgemu'])
 
 
-def test(): 
+def test():
     vcpecommon = VcpeCommon(cfg_file=args.config)
     print("oom-k8s-04 public ip: %s" % (vcpecommon.get_vm_public_ip_by_nova('oom-k8s-04')))
 

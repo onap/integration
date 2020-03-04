@@ -18,8 +18,3 @@ vcpecommon = VcpeCommon(cfg_file=args.config)
 nodes=['brg', 'bng', 'mux', 'dhcp']
 hosts = vcpecommon.get_vm_ip(nodes)
 print(json.dumps(hosts, indent=4, sort_keys=True))
-
-
-
-
-
