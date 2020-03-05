@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84972445_17ef3f2c",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2020-03-05T07:02:41Z",
+      "side": 1,
+      "message": "Previously names were basing on VF-Module\u0027s \"model-name\"/\"model-version\" like \"VfwLetsHopeLastOne..vfw..module-3\" and \"1\"",
+      "range": {
+        "startLine": 181,
+        "startChar": 121,
+        "endLine": 181,
+        "endChar": 180
+      },
+      "revId": "3560775bdc39e987aa3b1964139f81c47ebeec47",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
