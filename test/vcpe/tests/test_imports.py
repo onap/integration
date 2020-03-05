@@ -15,4 +15,4 @@ import vcpecommon
 # are included in setuptools configuration
 
 def test_imports():
-  pass
+    pass

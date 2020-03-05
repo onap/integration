@@ -79,7 +79,7 @@ def find_ingress_ports(v1):
     https_port = 0
     for item in svc.items:
         if item.metadata.name == K8S_INGRESS_NS:
-           for pinfo in item.spec.ports:
+            for pinfo in item.spec.ports:
                 if pinfo and pinfo.name == 'http':
                     http_port = pinfo.node_port
                 elif pinfo and pinfo.name == 'https':

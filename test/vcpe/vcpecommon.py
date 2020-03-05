@@ -207,13 +207,13 @@ class VcpeCommon:
         # to conform to openstack cli client
         self.cloud = {}
         for k in os_cloud:
-             if isinstance(os_cloud[k],dict):
-                 for sub_k in os_cloud[k]:
-                     os_setting_name = '--os-' + sub_k.replace('_','-')
-                     self.cloud[os_setting_name] = os_cloud[k][sub_k]
-             else:
-                 os_setting_name = '--os-' + k.replace('_','-')
-                 self.cloud[os_setting_name] = os_cloud[k]
+            if isinstance(os_cloud[k],dict):
+                for sub_k in os_cloud[k]:
+                    os_setting_name = '--os-' + sub_k.replace('_','-')
+                    self.cloud[os_setting_name] = os_cloud[k][sub_k]
+            else:
+                os_setting_name = '--os-' + k.replace('_','-')
+                self.cloud[os_setting_name] = os_cloud[k]
 
     def heatbridge(self, openstack_stack_name, svc_instance_uuid):
         """

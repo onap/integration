@@ -34,4 +34,3 @@ RET_CODE_FAILURE = 1
 RESULT_SUCCESS = "Success"
 RESULT_FAILURE = "Failure"
 RESULT_PARTLY = "Partly successful"
-

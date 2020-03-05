@@ -137,11 +137,11 @@ def deploy_infra():
         vnf_template_file = vcpecommon.find_file(keyword_vnf, 'json', 'preload_templates')
         gra_template_file = vcpecommon.find_file(keyword_gra, 'json', 'preload_templates')
         if vcpecommon.gra_api_flag:
-             svc_instance_uuid[keyword] = create_one_service(vcpecommon, csar_file, gra_template_file, preload_dict,
-                                                        name_suffix, heatbridge)
+            svc_instance_uuid[keyword] = create_one_service(vcpecommon, csar_file, gra_template_file, preload_dict,
+                                                            name_suffix, heatbridge)
         else:
-             svc_instance_uuid[keyword] = create_one_service(vcpecommon, csar_file, vnf_template_file, preload_dict,
-                                                        name_suffix, heatbridge)
+            svc_instance_uuid[keyword] = create_one_service(vcpecommon, csar_file, vnf_template_file, preload_dict,
+                                                            name_suffix, heatbridge)
         if not svc_instance_uuid[keyword]:
             sys.exit(1)
 
@@ -310,7 +310,7 @@ if __name__ == '__main__':
         init_so_sdnc()
     elif args.mode == 'infra':
         #if 'y' == raw_input('Ready to deploy infrastructure? y/n: ').lower():
-         deploy_infra()
+        deploy_infra()
     elif args.mode == 'customer':
         if 'y' == raw_input('Ready to deploy customer service? y/n: ').lower():
             deploy_custom_service()

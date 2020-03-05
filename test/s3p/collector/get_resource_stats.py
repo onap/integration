@@ -20,7 +20,7 @@ AAI2_IP = "10.0.1.2"
 SO_IP = "10.0.5.1"
 SDNC_IP = "10.0.7.1"
 
-def aai1(): 
+def aai1():
     containers = docker_util.get_container_list(AAI1_IP)
     run(AAI1_NAME, AAI1_IP, containers)
 
@@ -39,7 +39,7 @@ def sdnc():
 def run(component, ip, containers):
     cmd = ["ssh", "-i", "onap_dev"]
     cmd.append("ubuntu@" + ip)
-    cmd.append("sudo docker stats --no-stream") 
+    cmd.append("sudo docker stats --no-stream")
     for c in containers:
         cmd.append(c)
     ssh = subprocess.Popen(cmd, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -80,7 +80,7 @@ def get_memory_number(s):
     return f
 
 file = open("resource.log", "w+")
-while True: 
+while True:
     so()
     sdnc()
     aai1()

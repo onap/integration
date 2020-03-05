@@ -1,13 +1,13 @@
 import mysql.connector
 import sys
-  
+
 mydb = mysql.connector.connect(
   host= sys.argv[1],
   user= sys.argv[2],
   passwd= sys.argv[3],
   database="onap_sdk",
 )
-  
+
 mycursor = mydb.cursor()
 
 sql = "INSERT INTO microservicemodels (modelname, description, dependency, imported_by, attributes, ref_attributes, sub_attributes, version, annotation, enumValues, dataOrderInfo) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
@@ -22,9 +22,9 @@ val = [
   ('pciPolicy', 'Pci policy model', '[]', 'demo', 'identity=string:defaultValue-null:required-true:MANY-false:description-null', 'policyScope=MANY-true,policyType=POLICYTYPE:MANY-false,resources=MANY-true,pciProperties=pciProperties_properties:MANY-true:description-null', '{"pciProperties_properties":{"pciOptimizationTimeConstraint":"string:defaultValue-null:required-false:MANY-false:description-null","pciOptimizationNwConstraint":"string:defaultValue-null:required-false:MANY-false:description-null","algoCategory":"string:defaultValue-null:required-false:MANY-false:description-null","pciOptmizationAlgoName":"string:defaultValue-null:required-false:MANY-false:description-null","pciOptimizationPriority":"string:defaultValue-null:required-false:MANY-false:description-null"}}', 'test1', 'olicyScope=matching-true, policyType=matching-true ', ' POLICYTYPE=[pciPolicy,]', '""'),
   ('subscriberPolicy', 'Subscriber Policy Model', '[]', 'demo', 'identity=string:defaultValue-null:required-true:MANY-false:description-null', 'policyScope=MANY-true,policyType=POLICYTYPE:MANY-false,properties=properties_properties:MANY-false:description-type of a policy', '{"properties_properties":{"provStatus":"PROVSTATUS:defaultValue-null:required-true:MANY-false:description-null","subscriberName":"SUBSCRIBERNAME:defaultValue-null:required-true:MANY-false:description-null","subscriberRole":"SUBSCRIBERROLE:defaultValue-null:required-true:MANY-false:description-null"}}', 'test1', 'policyScope=matching-true, policyType=matching-true, properties=matching-true ', ' SUBSCRIBERNAME=[], SUBSCRIBERROLE=[], POLICYTYPE=[subscriberPolicy,], PROVSTATUS=[]', '""')
 ]
-  
+
 mycursor.executemany(sql, val)
-  
+
 mydb.commit()
-  
+
 print(mycursor.rowcount, "was inserted.")
