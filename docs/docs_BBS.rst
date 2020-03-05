@@ -12,28 +12,20 @@ technology.
 
 In Frankfurt release, BBS enables ONAP to
 
-1. Establish a subscriber's HSIA (High Speed Internet Access) service from an
-ONT (Optical Network Termination unit) to the Internet drain
+1. Establish a subscriber's HSIA (High Speed Internet Access) service from an ONT (Optical Network Termination unit) to the Internet drain
 
-   - The HSIA service is designed and deployed using ONAP's design and
-   deployment capabilities
-   - The HSIA service activation is initiated via ONAP's External APIs and
-   orchestrated and controlled using ONAP orchestration and control
-   capabilities. The control capabilities leverage a 3rd party controller to
-   implement the requested action within the technology domain/location
-   represented by the domain specific SDN management and control function.
+   - The HSIA service is designed and deployed using ONAP's design and deployment capabilities
+   - The HSIA service activation is initiated via ONAP's External APIs and orchestrated and controlled using ONAP orchestration and control capabilities. The control capabilities leverage a 3rd party controller to implement the requested actions within the technology domain/location represented by the domain specific SDN management and control function.
 
 2. Detect the change of location for ONT devices (Nomadic ONT devices)
 
    - PNF (Re-)Registration for an ONT
 
      - Subscriber association to an ONT via ONAP's External APIs
-     - ONT association with a expected Access UNI (PON port) when a HSIA service
-      is created/deployed for a subscriber
+     - ONT association with a expected Access UNI (PON port) when a HSIA service is created/deployed for a subscriber
      - PNF (Re-)Registration using ONAP's PNF registration capabilities
 
-   - Service location modification that is detected by ONAP's analytic and
-   initiated via the closed loop capabilities
+   - Service location modification that is detected by ONAP's analytic and initiated via the closed loop capabilities
 
      - The closed loop capabilities invoke a HSIA location change service that
      is orchestrated and controlled using ONAP capabilities and 3rd party controllers
@@ -172,7 +164,7 @@ Create the required topics in DMaaP
 DCAE: BBS Event Processor (BBS-ep)
 ==================================
 
-Description: `BBS-ep <https://wiki.onap.org/pages/viewpage.action?pageId=60891185>`_
+Description: :doc:`BBS-ep <../../dcaegen2.git/docs/sections/services/bbs-event-processor/index.rst>`_
 
 The following BBS event processor blueprints will be used:
 - `k8s-bbs-event-processor.yaml <https://git.onap.org/dcaegen2/services/plain/components/bbs-event-processor/dpo/blueprints/k8s-bbs-event-processor.yaml-template?h=frankfurt>`_
@@ -228,7 +220,7 @@ IMPORTANT: Make sure that the configuration of BBS-ep in Consul contains the fol
 DCAE: RESTCONF Collector
 ========================
 
-Description: `RESTCONF Collector <https://wiki.onap.org/pages/viewpage.action?pageId=60891182>`_
+Description: :doc:`RESTCONF Collector <../../dcaegen2.git/docs/sections/services/restconf/index.rst>`_
 
 The following RESTCONF collector blueprints will be used:
 - `k8s-rcc-policy.yaml <https://git.onap.org/dcaegen2/collectors/restconf/plain/dpo/blueprints/k8s-rcc-policy.yaml-template?h=frankfurt>`_
@@ -266,7 +258,7 @@ RESTCONF Collector deployment procedure:
   2020-01-13 15:12:58.275  LOG <restconfcollector> [rcc_k8s_8qm5me.start] INFO: Passing k8sconfig: {'tls': {u'cert_path': u'/opt/tls/shared', u'image': u'nexus3.onap.org:10001/onap/org.onap.dcaegen2.deployments.tls-init-container:1.0.3', u'ca_cert_configmap': u'dev-dcaegen2-dcae-bootstrap-dcae-cacert', u'component_ca_cert_path': u'/opt/dcae/cacert/cacert.pem'}, 'filebeat': {u'config_map': u'dcae-filebeat-configmap', u'config_path': u'/usr/share/filebeat/filebeat.yml', u'log_path': u'/var/log/onap', u'image': u'docker.elastic.co/beats/filebeat:5.5.0', u'data_path': u'/usr/share/filebeat/data', u'config_subpath': u'filebeat.yml'}, 'consul_dns_name': u'consul-server.onap', 'image_pull_secrets': [u'onap-docker-registry-key'], 'namespace': u'onap', 'consul_host': 'consul-server:8500', 'default_k8s_location': u'central'}
   2020-01-13 15:12:58.275  LOG <restconfcollector> [rcc_k8s_8qm5me.start] INFO: k8s deployment initiated successfully for dcaegen2-collectors-rcc: {'services': ['dcaegen2-collectors-rcc', 'xdcaegen2-collectors-rcc'], 'namespace': u'onap', 'location': u'central', 'deployment': 'dep-dcaegen2-collectors-rcc'}
   2020-01-13 15:12:58.275  LOG <restconfcollector> [rcc_k8s_8qm5me.start] INFO: Waiting up to 1800 secs for dcaegen2-collectors-rcc to become ready
-  ^A2020-01-13 15:13:29.970  LOG <restconfcollector> [rcc_k8s_8qm5me.start] INFO: k8s deployment is ready for: dcaegen2-collectors-rcc
+  2020-01-13 15:13:29.970  LOG <restconfcollector> [rcc_k8s_8qm5me.start] INFO: k8s deployment is ready for: dcaegen2-collectors-rcc
   2020-01-13 15:13:30.550  CFY <restconfcollector> [rcc_k8s_8qm5me.start] Task succeeded 'k8splugin.create_and_start_container_for_platforms'
   2020-01-13 15:13:30.550  CFY <restconfcollector> [rcc_k8s_8qm5me] Node instance started
   2020-01-13 15:13:31.265  CFY <restconfcollector> 'install' workflow execution succeeded
@@ -276,7 +268,7 @@ RESTCONF Collector deployment procedure:
 DCAE: VES mapper
 ================
 
-Installation instructions: `VES Mapper <https://wiki.onap.org/pages/viewpage.action?pageId=60891188>`_
+Installation instructions: :doc:`VES Mapper <../../dcaegen2.git/docs/sections/services/mapper/index.rst>`_
 
 The following VES mapper blueprints will be used:
 - `k8s-vesmapper.yaml <https://gerrit.onap.org/r/gitweb?p=dcaegen2/services/mapper.git;a=blob_plain;f=UniversalVesAdapter/dpo/blueprints/k8s-vesmapper.yaml-template.yaml>`_
@@ -346,7 +338,7 @@ Configure Edge SDN M&C IP address in SDNC DG using dgbuilder. For instance:
 DGBuilder URL: `<https://sdnc.api.simpledemo.onap.org:30203>`_
 
 Add SSL certificate of the 3rd party controller into the SDNC trust store
--------------------------------------------------------------------------
+=========================================================================
 
 ::
 
@@ -356,6 +348,7 @@ Add SSL certificate of the 3rd party controller into the SDNC trust store
   # copy server certificate and paste in /tmp/<CA_CERT_NAME>.crt
   sudo keytool -importcert -file /tmp/<CA_CERT_NAME>.crt -alias <CA_CERT_NAME>_key -keystore truststore.onap.client.jks -storepass adminadmin
   keytool -list -keystore truststore.onap.client.jks -storepass adminadmin | grep <CA_CERT_NAME>
+
 
 Policy: BBS APEX policy
 =======================
