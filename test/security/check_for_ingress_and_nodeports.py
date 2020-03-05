@@ -49,13 +49,13 @@ import socket
 from enum import Enum
 import argparse
 import sys
-from colorama import Fore, Back, Style
+from colorama import Fore
 import urllib.parse
 from os import path
 
 """ List all nodeports """
 def list_nodeports(v1):
-    ret = {};
+    ret = {}
     svc = v1.list_namespaced_service(K8S_NAMESPACE)
     for i in svc.items:
         if i.spec.ports:
@@ -116,7 +116,7 @@ def scan_single_port(host,port,scanmode):
     retstatus = False
     try:
         conn.request("GET","/")
-        outstr = conn.getresponse();
+        outstr = conn.getresponse()
     except http.client.BadStatusLine as exc:
         outstr = "Non HTTP proto" +  str(exc)
         retstatus = exc
@@ -172,9 +172,9 @@ def scan_port(host, http, https, mode):
 
 # Visualise scan result
 def console_visualisation(cname, name, retstatus, httpcode, out, mode, httpcodes = None):
-    if httpcodes==None: httpcodes=[]
-    print(Fore.YELLOW,end='');
-    print( cname,name, end='\t',sep='\t');
+    if httpcodes is None: httpcodes=[]
+    print(Fore.YELLOW,end='')
+    print( cname,name, end='\t',sep='\t')
     if isinstance(retstatus,ScanMode):
         if httpcode in httpcodes: estr = Fore.RED + '[ERROR '
         else:  estr = Fore.GREEN + '[OK '
