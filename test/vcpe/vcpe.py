@@ -312,7 +312,7 @@ if __name__ == '__main__':
         #if 'y' == raw_input('Ready to deploy infrastructure? y/n: ').lower():
         deploy_infra()
     elif args.mode == 'customer':
-        if 'y' == raw_input('Ready to deploy customer service? y/n: ').lower():
+        if 'y' == raw_input('Ready to deploy customer service? y/n: ').lower(): # pylint: disable=E0602
             deploy_custom_service()
     elif args.mode == 'loop':
         closed_loop(22)

@@ -199,7 +199,7 @@ class CsarParser:
         self.vnf_models = []    # this version only support a single VNF in the service template
         self.vfmodule_models = []   # this version only support a single VF module in the service template
 
-        svc_template = yaml.load(file(filename, 'r'))
+        svc_template = yaml.load(file(filename, 'r')) # pylint: disable=E0602
         self.get_service_model_info(svc_template)
         self.get_vnf_and_network_model_info(svc_template)
         self.get_vfmodule_model_info(svc_template)

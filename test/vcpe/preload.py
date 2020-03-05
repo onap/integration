@@ -33,7 +33,7 @@ class Preload:
                         stk.append(v)
                     elif type(v) is list:
                         stk.extend(v)
-                    elif type(v) is str or type(v) is unicode:
+                    elif type(v) is str or type(v) is unicode: # pylint: disable=E0602
                         if self.vcpecommon.template_variable_symbol in v:
                             data[k] = self.replace(v, replace_dict)
                     else:
