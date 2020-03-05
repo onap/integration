@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "00d618db_2d67eee5",
+        "filename": "bootstrap/jenkins/scripts/gen-java-jobs.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-05T20:45:34Z",
+      "side": 1,
+      "message": "whaat does the 3 \"\"\" means, I do not know that..",
+      "revId": "8a727a87c097721bc7f500a3230d0e006030e5ca",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
