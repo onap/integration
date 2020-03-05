@@ -121,7 +121,7 @@ class SoUtils:
     def generate_vnf_or_network_request(self, req_type, instance_name, vnf_or_network_model, service_instance_id,
                                         service_model):
         if self.vcpecommon.gra_api_flag:
-		self.testApi = 'GR_API'
+            self.testApi = 'GR_API'
         req_details = {
             'modelInfo':  vnf_or_network_model,
             'cloudConfiguration': {"lcpCloudRegionId": self.vcpecommon.os_region_name,
@@ -139,7 +139,7 @@ class SoUtils:
     def generate_vfmodule_request(self, instance_name, vfmodule_model, service_instance_id,
                                         service_model, vnf_instance_id, vnf_model):
         if self.vcpecommon.gra_api_flag:
-		self.testApi = 'GR_API'
+            self.testApi = 'GR_API'
         req_details = {
             'modelInfo':  vfmodule_model,
             'cloudConfiguration': {"lcpCloudRegionId": self.vcpecommon.os_region_name,

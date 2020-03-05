@@ -102,9 +102,9 @@ class Preload:
         self.logger.info('Preloading network ' + network_role)
         self.logger.info('template_file:' + template_file)
         if 'networkgra' in template_file:
-              return self.preload(template_file, replace_dict, self.vcpecommon.sdnc_preload_network_gra_url)
+            return self.preload(template_file, replace_dict, self.vcpecommon.sdnc_preload_network_gra_url)
         else:
-              return self.preload(template_file, replace_dict, self.vcpecommon.sdnc_preload_network_url)
+            return self.preload(template_file, replace_dict, self.vcpecommon.sdnc_preload_network_url)
 
     def preload(self, template_file, replace_dict, url):
         self.logger.debug('tempalte_file:'+ template_file)
@@ -165,10 +165,10 @@ class Preload:
                         '${suffix}': name_suffix}
         replace_dict.update(common_dict)
         self.logger.info('Preloading VF Module ' + vfmodule_name)
-	if  gra_api_flag:
-             return self.preload(template_file, replace_dict, self.vcpecommon.sdnc_preload_gra_url)
+        if gra_api_flag:
+            return self.preload(template_file, replace_dict, self.vcpecommon.sdnc_preload_gra_url)
         else:
-             return self.preload(template_file, replace_dict, self.vcpecommon.sdnc_preload_vnf_url)
+            return self.preload(template_file, replace_dict, self.vcpecommon.sdnc_preload_vnf_url)
 
     def preload_all_networks(self, template_file, name_suffix):
         common_dict = {'${' + k + '}': v for k, v in self.vcpecommon.common_preload_config.items()}

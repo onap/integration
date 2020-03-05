@@ -26,7 +26,7 @@ class UserBehavior(TaskSet):
         self.init()
 
     def init(self):
-	pass
+        pass
 
     def myconverter(self, o):
         if isinstance(o, datetime.datetime):
@@ -36,7 +36,7 @@ class UserBehavior(TaskSet):
     def create_service(self):
 	# Post a E2E service instantiation request to SO
         method = "POST"
-	url = self.base
+        url = self.base
 	service_instance_name = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10))
 	data = self.service_creation_body % service_instance_name
 
