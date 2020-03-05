@@ -52,6 +52,38 @@ https://wiki.onap.org/display/DW/E-LINE+over+OTN+Inter+Domain+Test+Cases
 Test status can be found here:
 https://wiki.onap.org/display/DW/2%3A+Frankfurt+Release+Integration+Testing+Status
 
+MDONS (Multi-Domain Optical Network Services)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Overall Description
+~~~~~~~~~~~~~~~~~~~
+The MDONS use-case aims to automate the design, activation & operations resulting from an optical transport (L0/L1) service request exchange between service providers and/or independent operational entities within a service provider network by delivering E2E optical orchestration capabilities into ONAP. MDONS extends upon the CCVPN use-case by incorporating support for L0/L1 network management capabilities leveraging open standards & common data models defined by OpenROADM, Transport-API & MEF.
+
+Frankfurt Scope and Impacted modules
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+MDONS implementation for the Frankfurt release will incorporate the following:
+- Design & modelling of optical services based on MEF L1 subscriber & operator properties
+- E2E optical service workflow definitions for service instantiation & deletion
+- UI portal with L1 service instantiation templates
+- Optical Transport domain management (topology, resource onboarding) through standard models / APIs - OpenROADM, T-API
+Impacted ONAP modules include: A&AI, SDC, SDN-C, SO, UUI
+
+OpenROADM reference: https://github.com/OpenROADM/OpenROADM_MSA_Public
+ONF Transport-API (TAPI): https://github.com/OpenNetworkingFoundation/TAPI
+MEF: https://wiki.mef.net/display/CESG/MEF+63+-+Subscriber+Layer+1+Service+Attributes
+
+Functional/Integration Test Cases
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+For integration test case and description, refer to this following wiki-page:
+https://wiki.onap.org/display/DW/MDONS+Integration+Test+Case
+
+Installation Procedure
+~~~~~~~~~~~~~~~~~~~~~~
+The integration test environment is established to have ONAP instance with Frankfurt release interfacing to 3rd party transport domain controllers. One controller instance manages OpenROADM OTN topology and the other 2 instances manage TAPI OTN topology. L0 infrastructure and WDM services are pre-provisioned to support L1 topology discovery and OTN service orchestration from ONAP.
+
+Testing Procedure
+~~~~~~~~~~~~~~~~~
+Test environment is described in Installation Procedure section and test procedure is described in https://wiki.onap.org/display/DW/MDONS+Integration+Test+Case. 
+
 
 Update for Dublin release
 ~~~~~~~~~~~~~~~~~~~~~~~~~
