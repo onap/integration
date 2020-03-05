@@ -22,7 +22,7 @@ def insert_customer_service_to_sdnc(vcpecommon):
     parser.parse_csar(csar_file)
     cmds = []
 
-    if False:
+    if False: # pylint: disable=W0125
         cmds.append("INSERT INTO SERVICE_MODEL (`service_uuid`, `model_yaml`,`invariant_uuid`,`version`,`name`," \
                 "`description`,`type`,`category`,`ecomp_naming`,`service_instance_name_prefix`,`filename`," \
                 "`naming_policy`) values ('{0}', null, '{1}',null,'{2}', 'vCPEService', 'Service','Network L1-3'," \
@@ -34,7 +34,7 @@ def insert_customer_service_to_sdnc(vcpecommon):
 
     for model in parser.vnf_models:
         if 'tunnel' in model['modelCustomizationName'].lower() or 'brg' in model['modelCustomizationName'].lower():
-            if False:
+            if False: # pylint: disable=W0125
                 cmds.append("INSERT INTO ALLOTTED_RESOURCE_MODEL (`customization_uuid`,`model_yaml`,`invariant_uuid`," \
                         "`uuid`,`version`,`naming_policy`,`ecomp_generated_naming`,`depending_service`,`role`,`type`," \
                         "`service_dependency`,`allotted_resource_type`) VALUES ('{0}',NULL,'{1}','{2}','1.0'," \
@@ -44,7 +44,7 @@ def insert_customer_service_to_sdnc(vcpecommon):
             cmds.append("UPDATE ALLOTTED_RESOURCE_MODEL SET `ecomp_generated_naming`='Y' " \
                     "WHERE `customization_uuid`='{0}'".format(model['modelCustomizationId']))
         else:
-            if False:
+            if False: # pylint: disable=W0125
                 cmds.append("INSERT INTO VF_MODEL (`customization_uuid`,`model_yaml`,`invariant_uuid`,`uuid`,`version`," \
                         "`name`,`naming_policy`,`ecomp_generated_naming`,`avail_zone_max_count`,`nf_function`," \
                         "`nf_code`,`nf_type`,`nf_role`,`vendor`,`vendor_version`) VALUES ('{0}',NULL,'{1}','{2}'," \
@@ -54,7 +54,7 @@ def insert_customer_service_to_sdnc(vcpecommon):
             cmds.append("UPDATE VF_MODEL SET `ecomp_generated_naming`='Y' " \
                         "WHERE `customization_uuid`='{0}'".format(model['modelCustomizationId']))
 
-    if False:
+    if False: # pylint: disable=W0125
         model = parser.vfmodule_models[0]
         cmds.append("INSERT INTO VF_MODULE_MODEL (`customization_uuid`,`model_yaml`,`invariant_uuid`,`uuid`,`version`," \
                     "`vf_module_type`,`availability_zone_count`,`ecomp_generated_vm_assignments`) VALUES ('{0}', NULL," \

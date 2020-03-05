@@ -26,7 +26,7 @@ class Preload:
         with open(template_file) as json_input:
             json_data = json.load(json_input)
             stk = [json_data]
-            while len(stk) > 0:
+            while stk:
                 data = stk.pop()
                 for k, v in data.items():
                     if type(v) is dict:

@@ -9,7 +9,6 @@ import preload
 import sdcutils
 import soutils
 import vcpe_custom_service
-import vcpecommon
 
 # This will test whether all modules that vcpe scripts leverage
 # are included in setuptools configuration

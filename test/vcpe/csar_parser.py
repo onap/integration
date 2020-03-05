@@ -178,7 +178,7 @@ class CsarParser:
             },
         """
         node_dic = svc_template['topology_template']['groups']
-        for node_name, v in node_dic.items():
+        for node_name, v in node_dic.items(): # pylint: disable=W0612
             if v['type'].startswith('org.openecomp.groups.VfModule'):
                 model = {
                     'modelType': 'vfModule',

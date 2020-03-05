@@ -112,7 +112,7 @@ class TestNetconfSimulatorClient(unittest.TestCase):
         client = NetconfSimulatorClient('localhost')
         client.logger = logging.getLogger()
 
-        with self.assertRaises(AttributeError) as context:
+        with self.assertRaises(AttributeError) as context: # pylint: disable=W0612
             client.get_config(module_name="test")
 
     @patch('cli.netconf_simulator.NetconfSimulatorClient._configure_logger')
@@ -120,7 +120,7 @@ class TestNetconfSimulatorClient(unittest.TestCase):
         client = NetconfSimulatorClient('localhost')
         client.logger = logging.getLogger()
 
-        with self.assertRaises(AttributeError) as context:
+        with self.assertRaises(AttributeError) as context: # pylint: disable=W0612
             client.get_config(container="test")
 
     @patch('cli.netconf_simulator.requests')
