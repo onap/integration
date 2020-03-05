@@ -16,6 +16,24 @@
       "revId": "793c020195d095fdead8756aa9de4c756a48731a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cdf09f1_581f9545",
+        "filename": "test/security/check_for_jdwp.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-05T20:38:43Z",
+      "side": 1,
+      "message": "yep you are right\nin my case it cannot happen :) as I am launching the script through xtesting (within a docker) with an entry point that does not allow // runs (you need to run // dockers) but in case of standalone script you are fully right, I will use mktemp",
+      "parentUuid": "fe85f4a2_2fad38cf",
+      "revId": "793c020195d095fdead8756aa9de4c756a48731a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
