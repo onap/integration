@@ -458,10 +458,10 @@ class VcpeCommon:
         :param sz: a string
         :return: the first IP address matching the network, e.g. 10.5.12.3
         """
-        network = ipaddress.ip_network(unicode('{0}/{1}'.format(net_addr, net_addr_len)), strict=False)
+        network = ipaddress.ip_network(unicode('{0}/{1}'.format(net_addr, net_addr_len)), strict=False) # pylint: disable=E0602
         ip_list = re.findall(r'[0-9]+(?:\.[0-9]+){3}', sz)
         for ip in ip_list:
-            this_net = ipaddress.ip_network(unicode('{0}/{1}'.format(ip, net_addr_len)), strict=False)
+            this_net = ipaddress.ip_network(unicode('{0}/{1}'.format(ip, net_addr_len)), strict=False) # pylint: disable=E0602
             if this_net == network:
                 return str(ip)
         return None
@@ -485,7 +485,7 @@ class VcpeCommon:
                 break
 
         if ret is None:
-            ret = raw_input("Enter " + self.sdnc_controller_pod + " pod cluster node OAM IP address(10.0.0.0/16): ")
+            ret = raw_input("Enter " + self.sdnc_controller_pod + " pod cluster node OAM IP address(10.0.0.0/16): ") # pylint: disable=E0602
         return ret
 
     def get_pod_node_public_ip(self, pod):
@@ -507,7 +507,7 @@ class VcpeCommon:
                 break
 
         if ret is None:
-            ret = raw_input("Enter " + self.sdnc_controller_pod + " pod cluster node public IP address(i.e. " + self.external_net_addr + "): ")
+            ret = raw_input("Enter " + self.sdnc_controller_pod + " pod cluster node public IP address(i.e. " + self.external_net_addr + "): ") # pylint: disable=E0602
         return ret
 
     def get_vm_public_ip_by_nova(self, vm):

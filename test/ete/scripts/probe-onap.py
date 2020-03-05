@@ -189,7 +189,7 @@ class Pod(object):
         return self.shas_images.values()
 
     def __cmp__(self, other):
-        return cmp(self.name, other.name)
+        return cmp(self.name, other.name) # pylint: disable=E0602
 
     def __str__(self):
         desc = self.name + "\n"
