@@ -520,7 +520,7 @@ class VcpeCommon:
         nova = openstackclient.Client(2, self.cloud['--os-username'], self.cloud['--os-password'], self.cloud['--os-tenant-id'], self.cloud['--os-auth-url'])
         for i in nova.servers.list():
             if i.name == vm:
-                for k, v in i.networks.items():
+                for k, v in i.networks.items(): # pylint: disable=W0612
                     for ip in v:
                         if IPAddress(ip) in subnet:
                             return ip
@@ -717,7 +717,7 @@ class VcpeCommon:
                 url = self.vpp_inf_url.format(ip) + '/interface/' + inf
                 requests.delete(url, headers=self.vpp_api_headers, auth=self.vpp_api_userpass)
 
-            if len(self.get_vxlan_interfaces(ip)) > 0:
+            if self.get_vxlan_interfaces(ip):
                 self.logger.error("Error deleting VxLAN from {0}, try to restart the VM, IP is {1}.".format(host, ip))
                 return False
 

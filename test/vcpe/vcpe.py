@@ -68,7 +68,7 @@ def create_one_service(vcpecommon, csar_file, vnf_template_file, preload_dict, s
 
 
 def deploy_brg_only():
-    logger = logging.getLogger(__name__)
+    logger = logging.getLogger(__name__) # pylint: disable=W0612
 
     vcpecommon = VcpeCommon(cfg_file=args.config)
     preload_dict = vcpecommon.load_preload_data()
@@ -174,7 +174,7 @@ def deploy_custom_service():
 
     # clean up
     host_dic = {k: vcpecommon.hosts[k] for k in nodes}
-    if False:
+    if False: # pylint: disable=W0125
         if not vcpecommon.delete_vxlan_interfaces(host_dic):
             sys.exit(1)
         custom_service.del_all_vgw_stacks(vcpecommon.vgw_name_keyword)
@@ -215,7 +215,7 @@ def closed_loop(lossrate=0):
 
 
 def init_so_sdnc():
-    logger = logging.getLogger('__name__')
+    logger = logging.getLogger('__name__') # pylint: disable=W0612
     vcpecommon = VcpeCommon(cfg_file=args.config)
     config_sdnc_so.insert_sdnc_ip_pool(vcpecommon)
     config_sdnc_so.insert_customer_service_to_so(vcpecommon)
@@ -234,7 +234,7 @@ def init():
 
 
 def init_sdc(vcpecommon):
-    sdc = sdcutils.SdcUtils(vcpecommon)
+    sdc = sdcutils.SdcUtils(vcpecommon) # pylint: disable=W0612
     # default SDC creates BRG - remove this in frankfurt
     #sdc.create_allotted_resource_subcategory('BRG')
 
@@ -245,7 +245,7 @@ def download_vcpe_service_templates(vcpecommon):
 
 
 def tmp_sniro():
-    logger = logging.getLogger(__name__)
+    logger = logging.getLogger(__name__) # pylint: disable=W0612
 
     vcpecommon = VcpeCommon(cfg_file=args.config)
 

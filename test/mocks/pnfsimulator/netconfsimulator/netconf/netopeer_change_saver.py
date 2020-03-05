@@ -71,7 +71,7 @@ def send_message(message):
 
 
 def create_producer(server):
-    for i in range(10):
+    for i in range(10): # pylint: disable=W0612
         try:
             return KafkaProducer(bootstrap_servers=server, value_serializer=lambda v: json.dumps(v).encode('utf-8'))
         except Exception:
