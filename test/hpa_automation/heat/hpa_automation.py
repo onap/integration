@@ -463,25 +463,25 @@ create_customer(parameters)
 add_customer_subscription(parameters)
 
 vlm_output = create_vlm(parameters)
-print "vlm parameters={}".format(vlm_output)
+print("vlm parameters={}".format(vlm_output))
 
 vsp_id = create_vsp(parameters, vlm_output)
-print "vsp id={}".format(vsp_id)
+print("vsp id={}".format(vsp_id))
 
 vf_model_dict = create_vf_model(parameters, vsp_id)
-print "vf model parameters={}".format(vf_model_dict)
+print("vf model parameters={}".format(vf_model_dict))
 vf_id = vf_model_dict["vf_id"]
 vf_unique_id = vf_model_dict["vf_unique_id"]
 
 service_model_list = create_service_model(parameters, vf_unique_id)
-print "service model parameters={}".format(service_model_list)
+print("service model parameters={}".format(service_model_list))
 
 upload_policy_models(parameters)
 add_policies(parameters)
 
 #Create Service Instance
 service_dict = create_service_instance(parameters, service_model_list)
-print "service instance parameters={}".format(service_dict)
+print("service instance parameters={}".format(service_dict))
 service_model_uuid = service_dict["service_uuid"]
 time.sleep(2)
 db_dict = query_db(parameters, service_model_uuid, vf_id)
@@ -492,16 +492,16 @@ while True:
     check_service_instance = os.popen("oclip service-instance-list -u {} -p {} -m {} |grep {}-{}".format(parameters["aai_username"], \
             parameters["aai_password"], parameters["aai_url"], parameters["instance-name"], parameters["service_name"])).read()
     if check_service_instance:
-        print "service instance created successfully"
+        print("service instance created successfully")
         #Create VNF Instance
         vnf_dict = create_vnf(parameters, service_dict, db_dict, vf_model_dict)
         time.sleep(10)
-        print "vnf instance parameters={}".format(vnf_dict)
+        print("vnf instance parameters={}".format(vnf_dict))
         break
-    print "service instance create in progress"
+    print("service instance create in progress")
     time.sleep(30)
 
 #Preload VF module and create VF module
 sdnc_preload(parameters, db_dict, service_dict)
 create_vf_module(parameters, service_dict, vnf_dict, db_dict)
-print "Deployment complete!!!, check cloud to confirm that vf module has been created"
+print("Deployment complete!!!, check cloud to confirm that vf module has been created")

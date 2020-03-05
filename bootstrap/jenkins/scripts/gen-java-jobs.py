@@ -12,11 +12,11 @@ import fileinput
 import os
 import subprocess
 
-print """- project:
+print("""- project:
     name: onap-java
     jobs:
      - 'java-{project}'
-    project:"""
+    project:""")
 
 for line in fileinput.input():
     repo = line.strip()
@@ -28,9 +28,9 @@ for line in fileinput.input():
             project = repo.replace("/", "_")
             if pompath:
                 project += "_" + pompath.replace("/", "_")
-            print "     - '{}':".format(project)
-            print "         repo: '{}'".format(repo)
-            if pompath:                
-                print "         pom: '{}/pom.xml'".format(pompath)
+            print("     - '{}':".format(project))
+            print("         repo: '{}'".format(repo))
+            if pompath:
+                print("         pom: '{}/pom.xml'".format(pompath))
             else:
-                print "         pom: 'pom.xml'"
+                print("         pom: 'pom.xml'")

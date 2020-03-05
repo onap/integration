@@ -14,7 +14,6 @@
 
 import json
 import os
-import time
 import argparse
 import sys
 import requests
@@ -287,7 +286,7 @@ def add_policy_models(parameters):
          'OPERATOR=[<,<equal-sign,>,>equal-sign,equal-sign,!equal-sign,any,all,subset,], POLICYTYPE=[hpa,]', '""')
 
     mycursor.execute(hpa_sql, hpa_val)
-    
+
     sql = "INSERT INTO microservicemodels (modelname, description, dependency, imported_by, \
           attributes, ref_attributes, sub_attributes, version, annotation, enumValues, \
           dataOrderInfo) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
@@ -358,7 +357,7 @@ def add_policy_models(parameters):
     mycursor.executemany(sql, val)
     mydb.commit()
     print(mycursor.rowcount, "was inserted.")
-    
+
 def add_policies(parameters):
     #Loop through policy, put in resource_model_name and create policies
     for policy in os.listdir(parameters["policy_directory"]):
@@ -394,30 +393,30 @@ def create_ns(parameters, csar_id):
     ns = parameters["ns"]
     ns_create_string = 'oclip vfc-nslcm-create -m {} -c {} -n {} -q {} -S {}'.format(parameters["vfc-url"], \
        csar_id, ns.get("name"), parameters["customer_name"], parameters["service_name"])
-    print ns_create_string
+    print(ns_create_string)
     ns_create_out = (os.popen(ns_create_string)).read()
-    print ns_create_out
+    print(ns_create_out)
     ns_instance_id = (get_out_helper_2(ns_create_out))[4]
     return ns_instance_id
 
 def instantiate_ns(parameters, ns_instance_id):
     ns_instantiate_string = 'oclip vfc-nslcm-instantiate -m {} -i {} -c {} -n {}'.format(parameters["vfc-url"], \
         ns_instance_id, parameters["location"], parameters["sdc-controller-id"])
-    print ns_instantiate_string
+    print(ns_instantiate_string)
 
     ns_instantiate_out = (os.popen(ns_instantiate_string)).read()
     return ns_instantiate_out
 
 def terminate_ns(parameters, ns_instance_id):
     ns_terminate_string = 'oclip vfc-nslcm-terminate -m {} -i {}'.format(parameters["vfc-url"], ns_instance_id)
-    print ns_terminate_string
+    print(ns_terminate_string)
     ns_terminate_out = (os.popen(ns_terminate_string)).read()
-    print ns_terminate_out
+    print(ns_terminate_out)
     return ns_terminate_out
 
 def delete_ns(parameters, ns_instance_id):
     ns_delete_string = 'oclip vfc-nslcm-delete -m {} -c {}'.format(parameters["vfc-url"], ns_instance_id)
-    print ns_delete_string
+    print(ns_delete_string)
     ns_delete_out = (os.popen(ns_delete_string)).read()
     return ns_delete_out
 
@@ -426,7 +425,7 @@ def create_ns_package(parameters):
     create_ns_string = 'oclip vfc-catalog-create-ns -m {} -c {} -e {}'.format(parameters["vfc-url"], \
       ns.get("key"), ns.get("value"))
     cmd_out = (os.popen(create_ns_string)).read()
-    out_list =  get_out_helper_2(cmd_out) 
+    out_list =  get_out_helper_2(cmd_out)
     return out_list[4]
 
 def create_vnf_package(parameters):
@@ -437,7 +436,7 @@ def create_vnf_package(parameters):
         create_vnf_string = 'oclip vfc-catalog-create-vnf -m {} -c {} -e {}'.format(parameters["vfc-url"], \
           vnf_values.get("key"), vnf_values.get("value"))
         cmd_out = (os.popen(create_vnf_string)).read()
-        out_list =  get_out_helper_2(cmd_out) 
+        out_list =  get_out_helper_2(cmd_out)
         outputs[vnf_key] = out_list[4]
 
     return outputs
@@ -445,8 +444,8 @@ def create_vnf_package(parameters):
 def upload_ns_package(parameters, ns_package_output):
     ns = parameters["ns"]
     ns_upload_string = '{}/api/nsd/v1/ns_descriptors/{}/nsd_content'.format(parameters["vfc-url"], ns_package_output)
-    print ns_upload_string
-    print ns.get("path")
+    print(ns_upload_string)
+    print(ns.get("path"))
     resp = requests.put(ns_upload_string, files={'file': open(ns.get("path"), 'rb')})
     return resp
 
@@ -496,30 +495,30 @@ register_vnfm(parameters)
 # 5.1 upload csar file to catalog
 # 5.2 FIXME:Because SDC internal API will change without notice, so I will maually design VNF and Service.
 # SDC output data model is not align with VFC, we use an workaround method
-# We just do run time automation 
+# We just do run time automation
 ns_package_output = ""
 
 if model == "sdc":
-    print "use csar file is distributed by sdc"
+    print("use csar file is distributed by sdc")
     # output = create_vlm(parameters)
     # vsp_dict = create_vsp(parameters, output)
     # vf_dict = create_vf_model(parameters, vsp_dict)
     # service_model_list = create_service_model(parameters, vf_dict)
-   
+
     vnf_onboard_output = onboard_vnf(parameters)
-    print vnf_onboard_output
+    print(vnf_onboard_output)
     ns_out = onboard_ns(parameters)
-    print ns_out
+    print(ns_out)
 else:
-    print "use csar file is uploaded by local"
+    print("use csar file is uploaded by local")
     vnf_package_output = create_vnf_package(parameters)
-    print vnf_package_output
+    print(vnf_package_output)
     ns_package_output = create_ns_package(parameters)
-    print ns_package_output
+    print(ns_package_output)
     upload_vnf_out = upload_vnf_package(parameters, vnf_package_output)
-    print upload_vnf_out
+    print(upload_vnf_out)
     ns_out = upload_ns_package(parameters, ns_package_output)
-    print ns_out
+    print(ns_out)
 
 # 6.add_policies function not currently working, using curl commands
 add_policy_models(parameters)
@@ -527,17 +526,17 @@ add_policies(parameters)
 
 # 7. VFC part
 ns_instance_id = create_ns(parameters, ns_out)
-print ns_instance_id
+print(ns_instance_id)
 instantiate_ns_output = instantiate_ns(parameters, ns_instance_id)
-print instantiate_ns_output
+print(instantiate_ns_output)
 
 #terminate and delete ns;
-#option args add the end of json file 
+#option args add the end of json file
 
 if sys.argv[3] == "terminate":
     terminate_ns_output = terminate_ns(parameters, ns_instance_id)
-    print terminate_ns_output
+    print(terminate_ns_output)
 
 elif sys.argv[3] == "delete":
     delete_ns_output = delete_ns(parameters, ns_instance_id)
-    print delete_ns_output
+    print(delete_ns_output)

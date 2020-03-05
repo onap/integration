@@ -22,7 +22,7 @@ def get_container_list(ip):
     Args:
         param1 (str): host ip
 
-    Returns: 
+    Returns:
         list of containers in string
     """
 
@@ -35,7 +35,7 @@ def get_container_list(ip):
     containers = []
     if result == []:
         error = ssh.stderr.readlines()
-        print error
+        print(error)
     else:
         for line in result:
             token = line.decode('ascii').strip()
@@ -47,12 +47,12 @@ def get_container_list(ip):
 def get_container_volume_size(ip, container):
     """
     Get container total volume usage
-    Args: 
+    Args:
         param1 (str): host ip
         param2 (str): container name
-    
+
     Returns:
-        float number in GB if the container has volume(s), None otherwise 
+        float number in GB if the container has volume(s), None otherwise
     """
 
     cmd = ['ssh', '-i', 'onap_dev']
@@ -65,7 +65,7 @@ def get_container_volume_size(ip, container):
     total = None
     if result == []:
         error = ssh.stderr.readlines()
-        print error
+        print(error)
     else:
         data = json.loads(result[0])
         for entry in data:
@@ -83,10 +83,10 @@ def get_container_volume_size(ip, container):
 def get_volume_size(ip, volume):
     """
     Get a volume size
-    Args: 
+    Args:
         param1 (str): host ip
         param2 (str): volume name
-    
+
     Returns:
         float number in GB
     """
@@ -98,7 +98,7 @@ def get_volume_size(ip, volume):
     p2 = subprocess.Popen(['grep', volume], stdin=p1.stdout,
                           stdout=subprocess.PIPE)
     p1.stdout.close()
-    (output, err) = p2.communicate()
+    (output, err) = p2.communicate() # pylint: disable=W0612
     size = output.split()[2]
     return convert_to_GB(size)
 
@@ -109,7 +109,7 @@ def convert_to_GB(s):
     Args:
         param1 (str): volume size with unit
 
-    Returns: 
+    Returns:
         float number representing volume size in GB
     """
 
@@ -122,5 +122,3 @@ def convert_to_GB(s):
         d = round(Decimal(float(re.sub('[^0-9\\.]', '', s))
                   / 1000000.0), 1)
     return d
-
-

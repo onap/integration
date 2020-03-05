@@ -6,7 +6,6 @@ import datetime
 import collections
 import re
 import tzlocal
-from decimal import Decimal
 
 sys.path.append('../util')
 import docker_util
