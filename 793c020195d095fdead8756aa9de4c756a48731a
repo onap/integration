@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe85f4a2_2fad38cf",
+        "filename": "test/security/check_for_jdwp.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 4965
+      },
+      "writtenOn": "2020-03-05T18:49:46Z",
+      "side": 1,
+      "message": "oh no please don\u0027t. Use mktemp -d to store your temporary file otherwise if ever someones runs two such scripts in parallel he may get a very unexpected results",
+      "revId": "793c020195d095fdead8756aa9de4c756a48731a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
