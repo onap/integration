@@ -9,7 +9,7 @@ import progressbar
 import time
 import csar_parser
 import preload
-from vcpecommon import *
+from vcpecommon import * # pylint: disable=W0614
 
 
 class SoUtils:
@@ -156,7 +156,7 @@ class SoUtils:
 
     def generate_service_request(self, instance_name, model):
         if self.vcpecommon.gra_api_flag:
-		self.testApi = 'GR_API'
+            self.testApi = 'GR_API'
 
         self.logger.info('testApi' + self.testApi)
 
@@ -242,7 +242,7 @@ class SoUtils:
                                                    parser.vfmodule_models, brg_mac)
         self.logger.info(json.dumps(req, indent=2, sort_keys=True))
         self.logger.info('Creating custom service {0}.'.format(instance_name))
-        req_id, svc_instance_id = self.submit_create_req(req, 'service')
+        req_id, svc_instance_id = self.submit_create_req(req, 'service') # pylint: disable=W0612
         if not self.check_progress(req_id, 140):
             return False
         return True
@@ -301,14 +301,14 @@ class SoUtils:
             req = self.generate_vnf_or_network_request('network', network_name, model, svc_instance_id,
                                                        parser.svc_model)
             self.logger.debug(json.dumps(req, indent=2, sort_keys=True))
-            req_id, net_instance_id = self.submit_create_req(req, 'network', svc_instance_id)
+            req_id, net_instance_id = self.submit_create_req(req, 'network', svc_instance_id) # pylint: disable=W0612
             if not self.check_progress(req_id, eta=20):
                 return None
 
             self.logger.info('Changing subnet name to ' + self.vcpecommon.network_name_to_subnet_name(network_name))
             self.vcpecommon.set_network_name(network_name)
             subnet_name_changed = False
-            for i in range(20):
+            for i in range(20): # pylint: disable=W0612
                 time.sleep(3)
                 if self.vcpecommon.set_subnet_name(network_name):
                     subnet_name_changed = True
@@ -344,11 +344,11 @@ class SoUtils:
 
         preloader = preload.Preload(self.vcpecommon)
         if self.vcpecommon.gra_api_flag:
-                preloader.preload_vfmodule(vnf_template_file, svc_instance_id, parser.vnf_models[0], parser.vfmodule_models[0],
-                                   preload_dict, name_suffix, True)
+            preloader.preload_vfmodule(vnf_template_file, svc_instance_id, parser.vnf_models[0], parser.vfmodule_models[0],
+                                       preload_dict, name_suffix, True)
         else:
-                preloader.preload_vfmodule(vnf_template_file, svc_instance_id, parser.vnf_models[0], parser.vfmodule_models[0],
-                                   preload_dict, name_suffix, False)
+            preloader.preload_vfmodule(vnf_template_file, svc_instance_id, parser.vnf_models[0], parser.vfmodule_models[0],
+                                       preload_dict, name_suffix, False)
         # create VF Module
         if len(parser.vfmodule_models) == 1:
             if not vnf_instance_id or not vnf_model:
@@ -363,7 +363,7 @@ class SoUtils:
             req = self.generate_vfmodule_request(vfmodule_instance_name, model, svc_instance_id, parser.svc_model,
                                                  vnf_instance_id, vnf_model)
             self.logger.debug(json.dumps(req, indent=2, sort_keys=True))
-            req_id, vfmodule_instance_id = self.submit_create_req(req, 'vfmodule', svc_instance_id, vnf_instance_id)
+            req_id, vfmodule_instance_id = self.submit_create_req(req, 'vfmodule', svc_instance_id, vnf_instance_id) # pylint: disable=W0612
             if not self.check_progress(req_id, eta=70, interval=50):
                 self.logger.error('Failed to create VF Module {0}.'.format(vfmodule_instance_name))
                 return None
