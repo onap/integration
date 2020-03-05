@@ -1,15 +1,15 @@
 import random
 import string
 from locust import HttpLocust, TaskSet, task
- 
+
 class UserBehavior(TaskSet):
     def on_start(self):
         """ on_start is called when a Locust start before any task is scheduled """
         self.init()
- 
+
     def init(self):
         pass
- 
+
     @task(1)
     def DCI(self):
         method = "POST"
@@ -20,7 +20,7 @@ class UserBehavior(TaskSet):
         print(data)
         response = self.client.request(method, url, headers=headers, data=data)
         print(response.json())
- 
+
 class WebsiteUser(HttpLocust):
     task_set = UserBehavior
     host = "http://10.0.5.1:8080"

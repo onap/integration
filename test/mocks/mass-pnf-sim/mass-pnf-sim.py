@@ -76,9 +76,9 @@ if args.bootstrap and args.ipstart and args.urlves:
     start_port=2000
     ftps_pasv_port_start=8000
     ftps_pasv_port_num_of_ports=10
-    
+
     ftps_pasv_port_end=ftps_pasv_port_start + ftps_pasv_port_num_of_ports
-    
+
 
     for i in range(int(args.bootstrap)):
         print("PNF simulator instance: " + str(i) + ".")
@@ -97,13 +97,13 @@ if args.bootstrap and args.ipstart and args.urlves:
         IpFileServer = args.ipfileserver
         TypeFileServer = args.typefileserver
 
-        
+
         PortSftp=start_port +1
-        PortFtps=start_port +2 
+        PortFtps=start_port +2
         start_port +=2
         UrlFtps = str(ipaddress.ip_address(args.ipstart) + int(3 + (i * 16)))
         print("\tUrl Ftps: " + str(UrlFtps))
- 
+
         UrlSftp = str(ipaddress.ip_address(args.ipstart) + int(4 + (i * 16)))
         print("\tUrl Sftp: " + str(UrlSftp))
 
@@ -138,7 +138,7 @@ if args.bootstrap and args.ipstart and args.urlves:
             composercmd,
             shell=True)
         print('Cloning:', completed.stdout)
-        
+
         ftps_pasv_port_start += ftps_pasv_port_num_of_ports + 1
         ftps_pasv_port_end += ftps_pasv_port_num_of_ports +1
 
@@ -202,23 +202,20 @@ if args.trigger:
             "; ./simulator.sh trigger-simulator",
             shell=True)
         print('Status:', completed.stdout)
-        
+
 if args.triggerstart and args.triggerend:
     print("Triggering VES sending by a range of simulators:")
-    
+
     for i in range(int(args.triggerstart), int(args.triggerend)+1):
         foldername = "pnf-sim-lw-" + str(i)
         print("Instance being processed:" + str(i))
-         
+
         completed = subprocess.run(
             'cd ' +
             foldername +
             "; ./simulator.sh trigger-simulator",
             shell=True)
         print('Status:', completed.stdout)
-         
-        
-
 else:
     print("No instruction was defined")
     sys.exit()
