@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2183dd89_c78a900e",
+        "filename": "docs/docs_BBS.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-05T10:10:26Z",
+      "side": 1,
+      "message": "hidden character? the section is cut, see display https://logs.onap.org/production/vex-yul-ecomp-jenkins-1/rtdv3-global-merge-master/125/docs/docs_BBS.html?highlight\u003dbbs",
+      "revId": "5da05c576855c0e9b0f7a3c5934da41b91615f33",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c477cc5_59409e0f",
+        "filename": "docs/docs_BBS.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-05T10:10:26Z",
+      "side": 1,
+      "message": "s/action/actions",
+      "revId": "5da05c576855c0e9b0f7a3c5934da41b91615f33",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e8b1e03_1aeb122c",
+        "filename": "docs/docs_BBS.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-05T10:10:26Z",
+      "side": 1,
+      "message": "in general I am not a big fan of wiki reference because everybody can modify the change.\nReference to other readthedoc pages is better",
+      "revId": "5da05c576855c0e9b0f7a3c5934da41b91615f33",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
