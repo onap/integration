@@ -16,6 +16,24 @@
       "revId": "8a727a87c097721bc7f500a3230d0e006030e5ca",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5df3a01_ab48a1c7",
+        "filename": "bootstrap/jenkins/scripts/gen-java-jobs.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-03-06T06:52:45Z",
+      "side": 1,
+      "message": "That\u0027s a standard multiline string in Python: https://www.python.org/dev/peps/pep-0295/\nIt\u0027s commonly used as e.g. docstring.",
+      "parentUuid": "00d618db_2d67eee5",
+      "revId": "8a727a87c097721bc7f500a3230d0e006030e5ca",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
