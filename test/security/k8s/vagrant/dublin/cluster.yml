@@ -46,3 +46,4 @@ cluster_name: "onap"
 restore:
   restore: false
   snapshot_name: ""
+
