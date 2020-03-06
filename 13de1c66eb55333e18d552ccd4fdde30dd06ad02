@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48c6e4b3_4d6e8a63",
+        "filename": "tox.ini",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-06T13:40:14Z",
+      "side": 1,
+      "message": "Python3 basepython target is fine for me, shall we precise the python version \nPython 3.7?\n\nI saw some old python code still in 2.7 in the repository, the linter will not be happy. Shall we remove such code from the repo (as it is not maintained) as deprecated code?",
+      "revId": "13de1c66eb55333e18d552ccd4fdde30dd06ad02",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
