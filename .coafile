@@ -16,3 +16,15 @@ ignore =
   test/mocks/pnfsimulator/pnfsimulator/src/test/resources/org/onap/pnfsimulator/simulator/invalidJsonStructureEvent.json,
   # This one is empty
   test/mocks/datafilecollector-testharness/simulator-group/consul/consul_config.json
+
+[py]
+bears = PyLintBear
+pylint_disable = all
+pylint_enable =
+  bad-indentation, trailing-whitespace, unused-wildcard-import, unused-import,
+  unnecessary-semicolon, unnecessary-semicolon, undefined-variable,
+  syntax-error, unused-variable, using-constant-test,unused-argument,
+  len-as-condition, trailing-newlines, missing-final-newline, reimported,
+  too-many-function-args, singleton-comparison
+ignore =
+  .tox/**
