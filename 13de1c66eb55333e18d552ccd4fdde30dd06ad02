@@ -16,6 +16,24 @@
       "revId": "13de1c66eb55333e18d552ccd4fdde30dd06ad02",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a96a07b_19d62de2",
+        "filename": "tox.ini",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-03-06T13:59:30Z",
+      "side": 1,
+      "message": "I don\u0027t think we can define python3.7 explicitly - CI minions are on Xenial with Python3.5 so tox would fail with a bang unfortunately.\n\nAs for python2.7 code - if I\u0027m not mistaken all vcpe scripts are Python2 so we don\u0027t want to remove that for sure. As for the rest - as you could see I did many fixes in scripts (actual fixes or added pylint check disable directives) recently to pass the validation. Now there\u0027s only a few scripts left with some  issues and i think once anyone makes a change to them and the CI verify job will fail on linter that\u0027ll be best impulse to refactor it to python3 to have it merged for the commit author:)",
+      "parentUuid": "48c6e4b3_4d6e8a63",
+      "revId": "13de1c66eb55333e18d552ccd4fdde30dd06ad02",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
