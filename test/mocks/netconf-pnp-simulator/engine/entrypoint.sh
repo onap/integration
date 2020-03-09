@@ -112,7 +112,7 @@ configure_subscriber_execution()
 command=$prog $model
 redirect_stderr=true
 autorestart=true
-environment=PATH=$PROG_PATH,PYTHONPATH=/opt/lib/python3.7/site-packages,PYTHONUNBUFFERED="1"
+environment=PATH=$PROG_PATH,PYTHONUNBUFFERED="1"
 EOF
 }
 
