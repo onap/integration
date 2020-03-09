@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8fb7d18d_8585ee1c",
+        "filename": "test/security/check_for_jdwp.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2020-03-09T15:43:50Z",
+      "side": 1,
+      "message": "Switch to $(mktemp ...) in PS5 makes it noop:\n\n1. Temporary file is created in L46\n2. Temporary file is removed in L52 called by L66\n\nIt doesn\u0027t affect test results, though, hence fine by me",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 4
+      },
+      "revId": "06b249d9b97e4c5dc6cee9fd9b5b4e624c28828c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
