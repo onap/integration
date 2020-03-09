@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7cb53650_f6c7961c",
+        "filename": "test/security/check_for_http_endpoints.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2020-03-09T15:47:33Z",
+      "side": 1,
+      "message": "I have no preference on indentation but I saw comments on unifying them in Morgan\u0027s patch hence PS2",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 11
+      },
+      "revId": "db608277ffaaea3e524adfebbd03fcc78043c9a2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
