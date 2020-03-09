@@ -1,0 +1,4 @@
+# White list for plain HTTP endpoints
+message-router 30227
+sniro-emulator 30288
+aaf-fs 31115
