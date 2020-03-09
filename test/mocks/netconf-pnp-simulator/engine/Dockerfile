@@ -151,6 +151,7 @@ RUN set -eux \
 COPY --from=build /opt/ /opt/
 
 ENV LD_LIBRARY_PATH=/opt/lib:/opt/lib64
+ENV PYTHONPATH=/opt/lib/python3.7/site-packages
 
 COPY config/ /config
 VOLUME /config
@@ -160,6 +161,9 @@ RUN adduser --system --disabled-password --gecos 'Netconf User' netconf
 
 ENV HOME=/home/netconf
 VOLUME $HOME/.local/share/virtualenvs
+# This is NOT a robust health check but it does help tox-docker to detect when
+# it can start the tests.
+HEALTHCHECK --interval=1s --start-period=2s --retries=10 CMD test -f /run/netopeer2-server.pid
 
 EXPOSE 830
 
