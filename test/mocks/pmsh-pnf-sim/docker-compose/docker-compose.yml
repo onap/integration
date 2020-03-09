@@ -2,14 +2,14 @@ version: '3'
 
 services:
   netopeer2:
-    image: registry.gitlab.com/blue-onap/docker/sysrepo-netopeer2:v0.7-r2-5
-    container_name: netopeer2
+    image: nexus3.onap.org:10001/onap/integration/simulators/netconf-pnp-simulator:2.6.1
+    container_name: netconf-pnp-pmsh
     restart: always
     ports:
       - "830:830"
       - "6513:6513"
     volumes:
-      - ./:/config/models/pnf-subscriptions
+      - ./:/config/modules/pnf-subscriptions
   sftp:
     container_name: sftpserver
     image: atmoz/sftp
