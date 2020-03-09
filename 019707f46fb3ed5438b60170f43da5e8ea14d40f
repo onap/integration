@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1bd24ec0_6cb737d2",
+        "filename": "test/security/http_whitelist.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-09T16:48:36Z",
+      "side": 1,
+      "message": "you can add robot 30209 in the white list\n\nbut see my mail on the open question if we are not missing some pods..",
+      "revId": "019707f46fb3ed5438b60170f43da5e8ea14d40f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
