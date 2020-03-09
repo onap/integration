@@ -29,8 +29,16 @@
 # Output: List of pods exposing http endpoints
 #
 
+usage() {
+	cat <<EOF
+Usage: $(basename $0) <k8s-namespace> [-l <HTTP endpoints white list file>]
+    -l: HTTP endpoints white list file
+EOF
+	exit ${1:-0}
+}
+
 #Prerequisities commands list
-REQ_APPS=(kubectl nmap awk column sort paste grep wc)
+REQ_APPS=(kubectl nmap awk column sort paste grep wc mktemp sed cat)
 
 # Check for prerequisites apps
 for cmd in "${REQ_APPS[@]}"; do
@@ -41,11 +49,31 @@ for cmd in "${REQ_APPS[@]}"; do
 done
 
 if [ "$#" -lt 1 ]; then
-    echo "Usage: $0 <k8s-namespace>"
-    exit 1
+	usage 1
 fi
 
 K8S_NAMESPACE=$1
+FILTERED_PORTS_LIST=$(mktemp http_endpoints_XXXXXX)
+WL_RAW_FILE_PATH=$(mktemp raw_filtered_http_endpoints_XXXXXX)
+
+strip_white_list() {
+	if [ ! -f $WL_FILE_PATH ]; then
+		echo "File not found"
+		usage 1
+	fi
+	grep -o '^[^#]*' $WL_FILE_PATH > $WL_RAW_FILE_PATH
+}
+
+### getopts
+while :
+do
+	case $2 in
+		-h|--help|help) usage ;;
+		-l) WL_FILE_PATH=$3; strip_white_list; shift ;;
+		-*) usage 1 ;;
+		*) break ;;
+	esac
+done
 
 # Get both values on single call as this may get slow
 PORTS_SVCS=`kubectl get svc --namespace=$K8S_NAMESPACE -o go-template='{{range $item := .items}}{{range $port := $item.spec.ports}}{{if .nodePort}}{{.nodePort}}{{"\t"}}{{$item.metadata.name}}{{"\n"}}{{end}}{{end}}{{end}}' | column -t | sort -n`
@@ -67,13 +95,24 @@ SCAN_RESULT=`nmap $K8S_NODE -sV -p $PORT_LIST 2>/dev/null | grep \tcp`
 RESULTS=`paste <(printf %s "$SVCS") <(printf %s "$SCAN_RESULT") | column -t`
 
 # Find all plain http ports
-HTTP_PORTS=`grep http <<< "$RESULTS" | grep -v ssl/http`
+HTTP_PORTS=`grep http <<< "$RESULTS" | grep -v ssl/http | tee "$FILTERED_PORTS_LIST"`
+
+# Filter out whitelisted endpoints
+while IFS= read -r line; do
+	# for each line we test if it is in the white list with a regular expression
+	while IFS= read -r wl_line; do
+		wl_name=$(echo $wl_line | awk {'print $1'})
+		wl_port=$(echo $wl_line | awk {'print $2'})
+		if grep -e $wl_name.*$wl_port <<< "$line"; then
+			# Found in white list, exclude it
+			sed -i "/$line/d" $FILTERED_PORTS_LIST
+		fi
+	done < $WL_RAW_FILE_PATH
+done < $FILTERED_PORTS_LIST
 
 # Count them
-N_HTTP=`wc -l <<<"$HTTP_PORTS"`
-
-if [ "$N_HTTP" -gt 0 ]; then
-	echo "$HTTP_PORTS"
-fi
-
-exit $N_HTTP
+N_FILTERED_PORTS_LIST=$(cat $FILTERED_PORTS_LIST | wc -l)
+echo "------------------------------------"
+echo "Nb error pod(s): $N_FILTERED_PORTS_LIST"
+cat $FILTERED_PORTS_LIST
+exit $N_FILTERED_PORTS_LIST
