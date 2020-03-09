@@ -1,0 +1,2 @@
+# White list for plain HTTP endpoints
+message-router 30227
