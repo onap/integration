@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aadec71e_bedc9a29",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-09T07:17:24Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "7bab84ac522e04aec3c2ba7cf4a19702f492ed6b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
