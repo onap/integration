@@ -1,0 +1,5 @@
+# Expected failure list for plain HTTP endpoints
+robot 30209
+message-router 30227
+sniro-emulator 30288
+aaf-fs 31115
