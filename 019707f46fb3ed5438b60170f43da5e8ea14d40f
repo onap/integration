@@ -51,6 +51,24 @@
       "revId": "019707f46fb3ed5438b60170f43da5e8ea14d40f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9401718b_2a8d1987",
+        "filename": "test/security/http_whitelist.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-09T17:04:17Z",
+      "side": 1,
+      "message": "as far as I remembered it was removed from the chart and somebody reintroduced it.\nIt used for a use case, but I can dig to know why we need to deploy such simulator when we deploy ONAP..",
+      "parentUuid": "33ddd238_6fa977c0",
+      "revId": "019707f46fb3ed5438b60170f43da5e8ea14d40f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
