@@ -1,4 +1,4 @@
-# White list for JDWP ports
+# Expected failure list for JDWP ports
 # JDWP = Java Debug Wire Protocol
 # The following list displays pods and their associated pod that could be
 # considered as False positive
