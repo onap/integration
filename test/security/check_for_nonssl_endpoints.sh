@@ -18,21 +18,21 @@
 #
 #   COPYRIGHT NOTICE ENDS HERE
 
-# Check all ports exposed outside of kubernetes cluster looking for plain http
+# Check all ports exposed outside of kubernetes cluster looking for non-SSL
 # endpoints.
 #
 # Dependencies:
 #     nmap
 #     kubectl + config
 #
-# Return value: Number of discovered http ports
-# Output: List of pods exposing http endpoints
+# Return value: Number of discovered non-SSL ports
+# Output: List of pods exposing non-SSL endpoints
 #
 
 usage() {
 	cat <<EOF
-Usage: $(basename $0) <k8s-namespace> [-l <list of HTTP endpoints expected to fail this test>]
-    -l: list of HTTP endpoints expected to fail this test
+Usage: $(basename $0) <k8s-namespace> [-l <list of non-SSL endpoints expected to fail this test>]
+    -l: list of non-SSL endpoints expected to fail this test
 EOF
 	exit ${1:-0}
 }
@@ -53,8 +53,8 @@ if [ "$#" -lt 1 ]; then
 fi
 
 K8S_NAMESPACE=$1
-FILTERED_PORTS_LIST=$(mktemp http_endpoints_XXXXXX)
-XF_RAW_FILE_PATH=$(mktemp raw_filtered_http_endpoints_XXXXXX)
+FILTERED_PORTS_LIST=$(mktemp nonssl_endpoints_XXXXXX)
+XF_RAW_FILE_PATH=$(mktemp raw_filtered_nonssl_endpoints_XXXXXX)
 
 strip_white_list() {
 	if [ ! -f $XF_FILE_PATH ]; then
@@ -94,8 +94,8 @@ SCAN_RESULT=`nmap $K8S_NODE -sV -p $PORT_LIST 2>/dev/null | grep \tcp`
 # Concatenate scan result with service name
 RESULTS=`paste <(printf %s "$SVCS") <(printf %s "$SCAN_RESULT") | column -t`
 
-# Find all plain http ports
-HTTP_PORTS=`grep http <<< "$RESULTS" | grep -v ssl/http | tee "$FILTERED_PORTS_LIST"`
+# Find all non-SSL ports
+HTTP_PORTS=`grep -v ssl <<< "$RESULTS" | tee "$FILTERED_PORTS_LIST"`
 
 # Filter out whitelisted endpoints
 while IFS= read -r line; do
