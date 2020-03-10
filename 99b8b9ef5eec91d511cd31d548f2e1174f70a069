@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "915ee558_f7711c83",
+        "filename": "test/security/check_for_jdwp.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 943
+      },
+      "writtenOn": "2020-03-10T12:11:23Z",
+      "side": 1,
+      "message": "This doesn\u0027t matter because you are consistent, but throughout the script you use the name jdpw instead of jdwp.",
+      "revId": "99b8b9ef5eec91d511cd31d548f2e1174f70a069",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfffd5e6_35198af7",
+        "filename": "test/security/check_for_jdwp.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 943
+      },
+      "writtenOn": "2020-03-10T12:11:23Z",
+      "side": 1,
+      "message": "although in this block, you use jdwp.",
+      "revId": "99b8b9ef5eec91d511cd31d548f2e1174f70a069",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
