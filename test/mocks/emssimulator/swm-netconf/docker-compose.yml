@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  ems-netconf-swm:
+    image: nexus3.onap.org:10001/onap/integration/simulators/netconf-pnp-simulator:2.6.1
+    #image: netconf-pnp-simulator:latest
+    container_name: ems-netconf-swm
+    restart: always
+    ports:
+      - "830:830"
+      - "6513:6513"
+    volumes:
+      - ./pnf-swm:/config/modules/pnf-swm/

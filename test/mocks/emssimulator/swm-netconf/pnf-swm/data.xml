@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<software-management xmlns="http://onap.org/pnf-swm">
+  <pnf-software-package>
+    <neIdentifier>5gDU0001</neIdentifier>
+    <current-status>CREATED</current-status>
+    <software-version>v1</software-version>
+  </pnf-software-package>
+  <pnf-software-package>
+    <neIdentifier>5gDU0002</neIdentifier>
+    <current-status>CREATED</current-status>
+    <software-version>v1</software-version>
+  </pnf-software-package>
+</software-management>
