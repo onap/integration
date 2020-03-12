@@ -1,0 +1,23 @@
+{
+  "ietf-restconf:yang-patch": {
+    "patch-id": "patch-1",
+    "edit": [
+      {
+        "edit-id": "edit1",
+        "operation": "merge",
+        "target": "/",
+        "value": {
+          "software-management": {
+            "pnf-software-package": [
+              {
+                "neIdentifier": "${pnf-id}",
+                "action": "%actionName%",
+                "swVersionToBeActivated": "${target-software-version}"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

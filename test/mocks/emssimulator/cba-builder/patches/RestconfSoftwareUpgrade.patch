@@ -1,0 +1,136 @@
+3a4
+> *  Modifications Copyright (C) 2020 Huawei Technologies Co., Ltd.
+20c21
+< package cba.pnf.swug
+---
+> package cba.pnf.swm
+41c42
+<     private val CONFIGLET_RESOURCE_PATH = "yang-ext:mount/pnf-sw-upgrade:software-upgrade"
+---
+>     private val CONFIGLET_RESOURCE_PATH = "yang-ext:mount/pnf-swm:software-management"
+43c44
+<     private val TARGET_SOFTWARE_PATH = "$CONFIGLET_RESOURCE_PATH/upgrade-package/"
+---
+>     private val TARGET_SOFTWARE_PATH = "$CONFIGLET_RESOURCE_PATH/pnf-software-package/"
+48c49
+<         val model= validatedPayload(executionRequest)
+---
+>         var model: SoftwareManagementModel = validatedPayload(executionRequest)
+51c52
+<             "${model.action} for sw version ${model.targetSwVersion} on pnf: ${model.deviceId}")
+---
+>             "${model.action} for sw version ${model.targetSwVersion} on pnf: ${model.neIdentifier}")
+54c55,62
+<             val mountPayload = contentFromResolvedArtifactNB("mount-node")
+---
+>             var mountPayload: String = contentFromResolvedArtifactNB("mount-node")
+> 
+>             val mountPayloadObject = JacksonUtils.jsonNode(mountPayload) as ObjectNode
+>             val emsIp = mountPayloadObject.get("node")?.get(0)?.get("netconf-node-topology:host")?.asText()
+> 
+>             model.deviceId = "ems-" + emsIp?.replace(".", "-")
+>             mountPayload = mountPayload.replace("%ems-id%", model.deviceId)
+> 
+73c81
+<     private fun validatedPayload(executionRequest: ExecutionServiceInput): SoftwareUpgradeModel {
+---
+>     private fun validatedPayload(executionRequest: ExecutionServiceInput): SoftwareManagementModel {
+77c85
+<             return SoftwareUpgradeModel(getDynamicProperties("resolution-key").asText(),
+---
+>             return SoftwareManagementModel(getDynamicProperties("resolution-key").asText(),
+79c87,89
+<                 properties.get("pnf-id").textValue(), properties.get("target-software-version").textValue(),
+---
+>                 "",
+>                 properties.get("pnf-id").textValue(),
+>                 properties.get("target-software-version").textValue(),
+86c96
+<     private suspend fun processPreCheck(model: SoftwareUpgradeModel) {
+---
+>     private suspend fun processPreCheck(model: SoftwareManagementModel) {
+90c100
+<         log.debug("Current sw version on pnf : ${payloadObject.get("software-upgrade")?.get("upgrade-package")?.get(0)?.get("software-version")?.asText()}")
+---
+>         log.debug("Current sw version on pnf : ${payloadObject.get("software-management")?.get("pnf-software-package")?.get(0)?.get("software-version")?.asText()}")
+94c104
+<     private suspend fun processDownloadNESw(model: SoftwareUpgradeModel) {
+---
+>     private suspend fun processDownloadNESw(model: SoftwareManagementModel) {
+96d105
+<         //Check if there is existing config for the targeted software version
+98,106c107,108
+<         var downloadConfigPayload: String
+<         if (checkIfSwReadyToPerformAction(Action.PRE_CHECK, model)) {
+<             downloadConfigPayload = contentFromResolvedArtifactNB("configure")
+<             downloadConfigPayload =downloadConfigPayload.replace("%id%", model.yangId)
+<         }
+<         else {
+<             downloadConfigPayload = contentFromResolvedArtifactNB("download-ne-sw")
+<             model.yangId=model.targetSwVersion
+<         }
+---
+>         var downloadConfigPayload: String = contentFromResolvedArtifactNB("download-ne-sw")
+>         model.yangId = model.neIdentifier
+118c120
+<     private suspend fun processActivateNESw(model: SoftwareUpgradeModel) {
+---
+>     private suspend fun processActivateNESw(model: SoftwareManagementModel) {
+119a122
+> 
+122c125
+<             var activateConfigPayload: String = contentFromResolvedArtifactNB("configure")
+---
+>             var activateConfigPayload: String = contentFromResolvedArtifactNB("activate-ne-sw")
+124d126
+<             activateConfigPayload = activateConfigPayload.replace("%id%", model.yangId)
+125a128
+> 
+137c140
+<     private suspend fun processPostCheck(model: SoftwareUpgradeModel) {
+---
+>     private suspend fun processPostCheck(model: SoftwareManagementModel) {
+145c148
+<     private fun processCancel(model :SoftwareUpgradeModel) {
+---
+>     private fun processCancel(model :SoftwareManagementModel) {
+150c153
+<     private suspend fun getCurrentConfig(model: SoftwareUpgradeModel) : ObjectNode{
+---
+>     private suspend fun getCurrentConfig(model: SoftwareManagementModel) : ObjectNode{
+154c157,158
+<     private suspend fun checkExecution(model: SoftwareUpgradeModel) {
+---
+> 
+>     private suspend fun checkExecution(model: SoftwareManagementModel) {
+161c165
+<                 throw BluePrintRetryException("Waiting for device(${model.deviceId}) to activate sw version ${model.targetSwVersion}")
+---
+>                 throw BluePrintRetryException("Waiting for device(${model.deviceId}) to complete ${model.action.name}")
+168c172
+<     private suspend fun checkIfSwReadyToPerformAction(action : Action, model: SoftwareUpgradeModel): Boolean {
+---
+>     private suspend fun checkIfSwReadyToPerformAction(action : Action, model: SoftwareManagementModel): Boolean {
+170c174
+<         configBody.get("software-upgrade")?.get("upgrade-package")?.iterator()?.forEach { item ->
+---
+>         configBody.get("software-management")?.get("pnf-software-package")?.iterator()?.forEach { item ->
+173c177
+<                 model.yangId= item.get("id").textValue()
+---
+>                 model.yangId= item.get("neIdentifier").textValue()
+204,205c208,216
+< data class SoftwareUpgradeModel(val resolutionKey: String, val client: BlueprintWebClientService, val deviceId: String,
+<                                 val targetSwVersion: String, val action: Action, var yangId: String = "")
+\ No newline at end of file
+---
+> data class SoftwareManagementModel(
+>         val resolutionKey: String,
+>         val client: BlueprintWebClientService,
+>         var deviceId: String,
+>         val neIdentifier: String,
+>         val targetSwVersion: String,
+>         val action: Action,
+>         var yangId: String = ""
+> )
+\ No newline at end of file
