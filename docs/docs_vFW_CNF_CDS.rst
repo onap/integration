@@ -11,6 +11,8 @@
 vFirewall CNF Use Case
 ----------------------
 
+#FIXME - update all pod names
+
 Source files
 ~~~~~~~~~~~~
 - Heat/Helm/CDS models: `vFW_CNF_CDS Model`_
@@ -61,7 +63,7 @@ Modeling CSAR/Helm
 
 The starting point for this demo was Helm package containing one Kubernetes application, see `vFW_Helm Model`_. In this demo we decided to follow SDC/SO vf-module concept same way as original vFW demo was splitted into multiple vf-modules instead of one (`vFW_NextGen`_). Same way we splitted Helm version of vFW into multiple Helm packages each matching one vf-module.
 
-Produced CSAR package has following MANIFEST file (csar/MANIFEST.json) having all Helm packages modeled as dummy Heat resources matching to vf-module concept (that is originated from Heat), so basically each Helm application is visible to ONAP as own vf-module. Actual Helm package is delivered as CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACTS package through SDC and SO.
+Produced CSAR package has following MANIFEST file (csar/MANIFEST.json) having all Helm packages modeled as dummy Heat resources matching to vf-module concept (that is originated from Heat), so basically each Helm application is visible to ONAP as own vf-module. Actual Helm package is delivered as CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT package through SDC and SO.
 
 CDS model (CBA package) is delivered as SDC supported own type CONTROLLER_BLUEPRINT_ARCHIVE.
 
@@ -88,7 +90,7 @@ CDS model (CBA package) is delivered as SDC supported own type CONTROLLER_BLUEPR
             },
             {
                 "file": "base_template_cloudtech_k8s_charts.tgz",
-                "type": "CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACTS"
+                "type": "CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT"
             },
             {
                 "file": "vfw.yaml",
@@ -103,7 +105,7 @@ CDS model (CBA package) is delivered as SDC supported own type CONTROLLER_BLUEPR
             },
             {
                 "file": "vfw_cloudtech_k8s_charts.tgz",
-                "type": "CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACTS"
+                "type": "CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT"
             },
             {
                 "file": "vpkg.yaml",
@@ -118,7 +120,7 @@ CDS model (CBA package) is delivered as SDC supported own type CONTROLLER_BLUEPR
             },
             {
                 "file": "vpkg_cloudtech_k8s_charts.tgz",
-                "type": "CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACTS"
+                "type": "CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT"
             },
             {
                 "file": "vsn.yaml",
@@ -133,7 +135,7 @@ CDS model (CBA package) is delivered as SDC supported own type CONTROLLER_BLUEPR
             },
             {
                 "file": "vsn_cloudtech_k8s_charts.tgz",
-                "type": "CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACTS"
+                "type": "CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT"
             }
         ]
     }
@@ -449,6 +451,7 @@ AAF                                                       Used for Authenticatio
 Portal                                                    Required to access SDC.
 MSB                                                       Exposes multicloud interfaces used by SO.
 Multicloud                                                K8S plugin part used to pass SO instanttion requests to external Kubernetes cloud region.
+Contrib                                                   Netbox utility #FIXME
 Robot                                                     Optional. Can be used for running automated tasks, like provisioning cloud customer, cloud region, service subscription, etc ..
 Shared Cassandra DB                                       Used as a shared storage for ONAP components that rely on Cassandra DB, like AAI
 Shared Maria DB                                           Used as a shared storage for ONAP components that rely on Maria DB, like SDNC, and SO
@@ -518,6 +521,8 @@ There are many instructions in ONAP wiki how to follow your deployment status an
 
 ::
 
+    {
+    failed=
     for comp in {aaf,aai,dmaap,msb,multicloud,policy,portal,sdc,sdnc,so}; do
         if ! ./ete-k8s.sh onap health-$comp; then
             failed=$failed,$comp
@@ -529,6 +534,7 @@ There are many instructions in ONAP wiki how to follow your deployment status an
     else
         echo "Healthcheck successful"
     fi
+    }
 
 And check status of pods, deployments, jobs etc.
 
@@ -611,22 +617,6 @@ Create all these entries into AAI in this order. Postman collection provided in 
 
 Corresponding GET operations in postman can be used to verify entries created. Postman collection also includes some code that tests/verifies some basic issues e.g. gives error if entry already exists.
 
-SO Cloud region configuration
-.............................
-
-SO database needs to (manually) modified for SO to know that this particular cloud region is to be handled by multicloud. Values we insert needs to obviously match to the ones we populated into AAI.
-
-The related code part in SO is here: `SO Cloud Region Selection`_
-It's possible improvement place in SO to rather get this information directly from AAI.
-
-::
-
-    kubectl -n onap exec onap-mariadb-galera-mariadb-galera-0 -it -- mysql -uroot -psecretpassword -D catalogdb
-        select * from cloud_sites;
-        insert into cloud_sites(ID, REGION_ID, IDENTITY_SERVICE_ID, CLOUD_VERSION, CLLI, ORCHESTRATOR) values("k8sregionfour", "k8sregionfour", "DEFAULT_KEYSTONE", "2.5", "clli2", "multicloud");
-        select * from cloud_sites;
-        exit
-
 SO BPMN endpoint fix for VNF adapter requests (v1 -> v2)
 ........................................................
 
@@ -634,10 +624,10 @@ SO Openstack adapter needs to be updated to use newer version. Here is also poss
 
 ::
 
-    kubectl -n onap edit configmap onap-so-so-bpmn-infra-app-configmap
+    kubectl -n onap edit configmap onap-so-bpmn-infra-app-configmap
       - .data."override.yaml".mso.adapters.vnf.rest.endpoint: http://so-openstack-adapter.onap:8087/services/rest/v1/vnfs
       + .data."override.yaml".mso.adapters.vnf.rest.endpoint: http://so-openstack-adapter.onap:8087/services/rest/v2/vnfs
-      kubectl -n onap delete pod -l app=so-bpmn-infra
+    kubectl -n onap delete pod -l app=so-bpmn-infra
 
 Naming Policy
 .............
@@ -648,53 +638,7 @@ The override.yaml file above has an option **"preload=true"**, that will tell th
 
 To check that the naming policy is created and pushed OK, we can run the commands below.
 
-::
-
-  # goto inside of a POD e.g. pap here
-  kubectl -n onap exec -it $(kubectl -n onap  get pods -l app=pap --no-headers | cut -d" " -f1) bash
-
-  bash-4.4$ curl -k --silent -X POST \
-  --header 'Content-Type: application/json' \
-  --header 'ClientAuth: cHl0aG9uOnRlc3Q=' \
-  --header 'Authoment: TEST' \
-  -d '{ "policyName": "SDNC_Policy.Config_MS_ONAP_VNF_NAMING_TIMESTAMP.1.xml"}' \
-  'https://pdp:8081/pdp/api/getConfig'
-
-  [{"policyConfigMessage":"Config Retrieved! ","policyConfigStatus":"CONFIG_RETRIEVED",
-  "type":"JSON",
-  "config":"{\"service\":\"SDNC-GenerateName\",\"version\":\"CSIT\",\"content\":{\"policy-instance-name\":\"ONAP_VNF_NAMING_TIMESTAMP\",\"naming-models\":[{\"naming-properties\":[{\"property-name\":\"AIC_CLOUD_REGION\"},{\"property-name\":\"CONSTANT\",\"property-value\":\"ONAP-NF\"},{\"property-name\":\"TIMESTAMP\"},{\"property-value\":\"_\",\"property-name\":\"DELIMITER\"}],\"naming-type\":\"VNF\",\"naming-recipe\":\"AIC_CLOUD_REGION|DELIMITER|CONSTANT|DELIMITER|TIMESTAMP\"},{\"naming-properties\":[{\"property-name\":\"VNF_NAME\"},{\"property-name\":\"SEQUENCE\",\"increment-sequence\":{\"max\":\"zzz\",\"scope\":\"ENTIRETY\",\"start-value\":\"001\",\"length\":\"3\",\"increment\":\"1\",\"sequence-type\":\"alpha-numeric\"}},{\"property-name\":\"NFC_NAMING_CODE\"},{\"property-value\":\"_\",\"property-name\":\"DELIMITER\"}],\"naming-type\":\"VNFC\",\"naming-recipe\":\"VNF_NAME|DELIMITER|NFC_NAMING_CODE|DELIMITER|SEQUENCE\"},{\"naming-properties\":[{\"property-name\":\"VNF_NAME\"},{\"property-value\":\"_\",\"property-name\":\"DELIMITER\"},{\"property-name\":\"VF_MODULE_LABEL\"},{\"property-name\":\"VF_MODULE_TYPE\"},{\"property-name\":\"SEQUENCE\",\"increment-sequence\":{\"max\":\"zzz\",\"scope\":\"PRECEEDING\",\"start-value\":\"01\",\"length\":\"3\",\"increment\":\"1\",\"sequence-type\":\"alpha-numeric\"}}],\"naming-type\":\"VF-MODULE\",\"naming-recipe\":\"VNF_NAME|DELIMITER|VF_MODULE_LABEL|DELIMITER|VF_MODULE_TYPE|DELIMITER|SEQUENCE\"}]}}",
-  "policyName":"SDNC_Policy.Config_MS_ONAP_VNF_NAMING_TIMESTAMP.1.xml",
-  "policyType":"MicroService",
-  "policyVersion":"1",
-  "matchingConditions":{"ECOMPName":"SDNC","ONAPName":"SDNC","service":"SDNC-GenerateName"},
-  "responseAttributes":{},
-  "property":null}]
-
-In case the policy is missing, we can manually create and push the SDNC Naming policy.
-
-::
-
-  # goto inside of a POD e.g. pap here
-  kubectl -n onap exec -it $(kubectl -n onap  get pods -l app=pap --no-headers | cut -d" " -f1) bash
-
-  curl -k -v --silent -X PUT --header 'Content-Type: application/json' --header 'Accept: text/plain' --header 'ClientAuth: cHl0aG9uOnRlc3Q=' --header 'Authorization: Basic dGVzdHBkcDphbHBoYTEyMw==' --header 'Environment: TEST' -d '{
-      "configBody": "{ \"service\": \"SDNC-GenerateName\", \"version\": \"CSIT\", \"content\": { \"policy-instance-name\": \"ONAP_VNF_NAMING_TIMESTAMP\", \"naming-models\": [ { \"naming-properties\": [ { \"property-name\": \"AIC_CLOUD_REGION\" }, { \"property-name\": \"CONSTANT\",\"property-value\": \"ONAP-NF\"}, { \"property-name\": \"TIMESTAMP\" }, { \"property-value\": \"_\", \"property-name\": \"DELIMITER\" } ], \"naming-type\": \"VNF\", \"naming-recipe\": \"AIC_CLOUD_REGION|DELIMITER|CONSTANT|DELIMITER|TIMESTAMP\" }, { \"naming-properties\": [ { \"property-name\": \"VNF_NAME\" }, { \"property-name\": \"SEQUENCE\", \"increment-sequence\": { \"max\": \"zzz\", \"scope\": \"ENTIRETY\", \"start-value\": \"001\", \"length\": \"3\", \"increment\": \"1\", \"sequence-type\": \"alpha-numeric\" } }, { \"property-name\": \"NFC_NAMING_CODE\" }, { \"property-value\": \"_\", \"property-name\": \"DELIMITER\" } ], \"naming-type\": \"VNFC\", \"naming-recipe\": \"VNF_NAME|DELIMITER|NFC_NAMING_CODE|DELIMITER|SEQUENCE\" }, { \"naming-properties\": [ { \"property-name\": \"VNF_NAME\" }, { \"property-value\": \"_\", \"property-name\": \"DELIMITER\" }, { \"property-name\": \"VF_MODULE_LABEL\" }, { \"property-name\": \"VF_MODULE_TYPE\" }, { \"property-name\": \"SEQUENCE\", \"increment-sequence\": { \"max\": \"zzz\", \"scope\": \"PRECEEDING\", \"start-value\": \"01\", \"length\": \"3\", \"increment\": \"1\", \"sequence-type\": \"alpha-numeric\" } } ], \"naming-type\": \"VF-MODULE\", \"naming-recipe\": \"VNF_NAME|DELIMITER|VF_MODULE_LABEL|DELIMITER|VF_MODULE_TYPE|DELIMITER|SEQUENCE\" } ] } }",
-      "policyName": "SDNC_Policy.ONAP_VNF_NAMING_TIMESTAMP",
-      "policyConfigType": "MicroService",
-      "onapName": "SDNC",
-      "riskLevel": "4",
-      "riskType": "test",
-      "guard": "false",
-      "priority": "4",
-      "description": "ONAP_VNF_NAMING_TIMESTAMP"
-  }' 'https://pdp:8081/pdp/api/createPolicy'
-
-  curl -k -v --silent -X PUT --header 'Content-Type: application/json' --header 'Accept: text/plain' --header 'ClientAuth: cHl0aG9uOnRlc3Q=' --header 'Authorization: Basic dGVzdHBkcDphbHBoYTEyMw==' --header 'Environment: TEST' -d '{
-    "pdpGroup": "default",
-    "policyName": "SDNC_Policy.ONAP_VNF_NAMING_TIMESTAMP",
-    "policyType": "MicroService"
-  }' 'https://pdp:8081/pdp/api/pushPolicy'
-
+FIXME - add instruction for uploading own naming policy !!!
 
 Network Naming mS
 +++++++++++++++++
@@ -703,11 +647,12 @@ There's a strange feature or bug in naming service still at ONAP Frankfurt and f
 
 ::
 
-  # Go into naming service database pod
-  kubectl -n onap exec -it $(kubectl -n onap get pods --no-headers | grep onap-sdnc-nengdb-0 | cut -d" " -f1) bash
-
-  # Delete entries from EXTERNAL_INTERFACE table
-  mysql -unenguser -pnenguser123 nengdb -e 'delete from EXTERNAL_INTERFACE;'
+  # Go into naming service database
+  kubectl -n onap exec onap-mariadb-galera-0 -it -- mysql -uroot -psecretpassword -D nengdb
+    select * from EXTERNAL_INTERFACE;
+    # Delete entries from EXTERNAL_INTERFACE table
+    delete from EXTERNAL_INTERFACE;
+    select * from EXTERNAL_INTERFACE;
 
 
 PART 2 - Installation of managed Kubernetes cluster
@@ -750,6 +695,22 @@ Postman collection have folder/entry for each step. Execute in this order.
 **Postman -> Multicloud**
 
 - Upload Connectivity Info  **TODO: where to get kubeconfig file?**
+
+
+**SO Cloud region configuration**
+
+SO database needs to be (manually) modified for SO to know that this particular cloud region is to be handled by multicloud. Values we insert needs to obviously match to the ones we populated into AAI.
+
+The related code part in SO is here: `SO Cloud Region Selection`_
+It's possible improvement place in SO to rather get this information directly from AAI.
+
+::
+
+    kubectl -n onap exec onap-mariadb-galera-0 -it -- mysql -uroot -psecretpassword -D catalogdb
+        select * from cloud_sites;
+        insert into cloud_sites(ID, REGION_ID, IDENTITY_SERVICE_ID, CLOUD_VERSION, CLLI, ORCHESTRATOR) values("k8sregionfour", "k8sregionfour", "DEFAULT_KEYSTONE", "2.5", "clli2", "multicloud");
+        select * from cloud_sites;
+        exit
 
 
 PART 3 - Execution of the Use Case
@@ -1307,3 +1268,9 @@ Multiple lower level bugs/issues were also found during use case development
 .. _SDC-2776: https://jira.onap.org/browse/SDC-2776
 .. _MULTICLOUD-941: https://jira.onap.org/browse/MULTICLOUD-941
 .. _CCSDK-2155: https://jira.onap.org/browse/CCSDK-2155
+.. _SDNC-1116: https://jira.onap.org/browse/SDNC-1116
+.. _SO-2727: https://jira.onap.org/browse/SO-2727
+.. _SDNC-1109: https://jira.onap.org/browse/SDNC-1109
+.. _SDC-2776: https://jira.onap.org/browse/SDC-2776
+.. _INT-1255: https://jira.onap.org/browse/INT-1255
+.. _SDNC-1130: https://jira.onap.org/browse/SDNC-1130
