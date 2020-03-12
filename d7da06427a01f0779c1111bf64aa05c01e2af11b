@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8bfdced_5406efd0",
+        "filename": "test/mocks/emssimulator/pnf-sw-upgrade-cba-builder/patches/RestconfSoftwareUpgrade.patch",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-03-12T13:00:58Z",
+      "side": 1,
+      "message": "Kindly please use unified diff format for better readability.",
+      "revId": "d7da06427a01f0779c1111bf64aa05c01e2af11b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
