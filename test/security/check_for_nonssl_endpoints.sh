@@ -105,7 +105,7 @@ while IFS= read -r line; do
 		wl_port=$(echo $wl_line | awk {'print $2'})
 		if grep -e $wl_name.*$wl_port <<< "$line"; then
 			# Found in white list, exclude it
-			sed -i "/$line/d" $FILTERED_PORTS_LIST
+			sed -i "/^$wl_name.*$wl_port/d" $FILTERED_PORTS_LIST
 		fi
 	done < $XF_RAW_FILE_PATH
 done < $FILTERED_PORTS_LIST
