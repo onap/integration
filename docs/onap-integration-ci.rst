@@ -24,7 +24,7 @@ Overview
 The global ecosystem can de described as follows:
 
 .. figure:: files/CI/ONAP_CI_10.png
-   :scale: 60 %
+   :scale: 100 %
    :align: center
 
 Several chains are run in ONAP.
@@ -66,7 +66,7 @@ The gating is triggered in 2 scenarios:
 The procedure to submit new feature in CI is done in 3 steps as described in the
 figure below:
 
-.. figure:: files/CI/3steps gating.png
+.. figure:: files/CI/ONAP_CI_0.png
    :scale: 100 %
    :align: center
 
@@ -80,7 +80,7 @@ can be used to visualize them.
 A web site has been created to centralize the links on http://testresults.opnfv.org/onap-integration/index.html
 
 .. figure:: files/CI/ONAP_CI_3.png
-   :scale: 60 %
+   :scale: 100 %
    :align: center
 
 For Gating and gitlab.com based CI chains, the pipelines consist in pipelines of
@@ -90,27 +90,27 @@ A visualization tool is available to list all your chains as described in the
 figure below:
 
 .. figure:: files/CI/ONAP_CI_1.png
-   :scale: 60 %
+   :scale: 100 %
    :align: center
 
 If you click on any element of the chain, you will open a new window:
 
 .. figure:: files/CI/ONAP_CI_2.png
-   :scale: 60 %
+   :scale: 100 %
    :align: center
 
 In order to provide the logs to the developer an additional web page has been
 created to summarize the tests and grant access to their associated logs:
 
 .. figure:: files/CI/ONAP_CI_8.png
-   :scale: 60 %
+   :scale: 100 %
    :align: center
 
 Additionnaly, for the daily chain, another page displays the results as time
 series, allowing to see the evolution of the tests over time.
 
 .. figure:: files/CI/ONAP_CI_9.png
-   :scale: 60 %
+   :scale: 100 %
    :align: center
 
 
