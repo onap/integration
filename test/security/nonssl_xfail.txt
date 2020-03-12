@@ -1,4 +1,4 @@
-# Expected failure list for plain HTTP endpoints
+# Expected failure list for non-SSL endpoints
 # ONAP:
 robot 30209
 message-router 30227
