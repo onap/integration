@@ -1,0 +1,16 @@
+--- PNF_CDS_RESTCONF/Templates/restconf-mount-template.vtl	2020-03-12 12:13:38.664851500 +0800
++++ PNF_SW_UPGRADE_WITH_EM/Templates/restconf-mount-template.vtl	2020-03-12 23:36:52.209773400 +0800
+@@ -1,11 +1,11 @@
+ {
+   "node": [
+     {
+-      "node-id": "${pnf-id}",
++      "node-id": "%ems-id%",
+       "netconf-node-topology:protocol": {
+         "name": "TLS"
+       },
+-      "netconf-node-topology:host": "${pnf-ipv4-address}",
++      "netconf-node-topology:host": "${ems-ipv4-address}",
+       "netconf-node-topology:key-based": {
+         "username": "netconf",
+         "key-id": "ODL_private_key_0"

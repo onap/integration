@@ -1,0 +1,34 @@
+--- PNF_CDS_RESTCONF/Templates/pnf-swug-download-ne-sw-template.vtl	2020-03-12 12:13:38.660945300 +0800
++++ PNF_SW_UPGRADE_WITH_EM/Templates/pnf-swug-download-ne-sw-template.vtl	2020-03-12 23:12:49.980281200 +0800
+@@ -7,17 +7,21 @@
+         "operation": "merge",
+         "target": "/",
+         "value": {
+-          "software-upgrade": {
+-            "upgrade-package": [
++          "software-management": {
++            "pnf-software-package": [
+               {
+-                  "id": "${target-software-version}",
+-                  "current-status": "INITIALIZED",
+-                  "action": "%actionName%",
+-                  "user-label": "trial software update",
+-                  "uri": "sftp://127.0.0.1/test_software_2.img",
+-                  "software-version": "${target-software-version}",
+-                  "user": "test_user",
+-                  "password": "test_password"
++                "neIdentifier": "${pnf-id}",
++                "current-status": "INITIALIZED",
++                "action": "%actionName%",
++                "software-version": "${target-software-version}",
++                "swToBeDownloaded": [
++                  {
++                    "swLocation": "http://192.168.35.96:10080/ran_du_pkg1-v2.zip",
++                    "swFileSize": "12345678",
++                    "swFileCompression": "ZIP",
++                    "swFileFormat": "binary"
++                  }
++                ]
+               }
+             ]
+           }

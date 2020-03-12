@@ -1,0 +1,13 @@
+--- PNF_CDS_RESTCONF/TOSCA-Metadata/TOSCA.meta	2020-03-12 12:13:38.654109400 +0800
++++ PNF_SW_UPGRADE_WITH_EM/TOSCA-Metadata/TOSCA.meta	2020-03-13 00:05:30.186335900 +0800
+@@ -1,7 +1,7 @@
+ TOSCA-Meta-File-Version: 1.0.0
+ CSAR-Version: 1.0
+ Created-By: Raj Gumma <raj.gumma@est.tech>
+-Entry-Definitions: Definitions/PNF_CDS_RESTCONF.json
+-Template-Name: PNF_CDS_RESTCONF
++Entry-Definitions: Definitions/PNF_SW_UPGRADE_WITH_EM.json
++Template-Name: PNF_SW_UPGRADE_WITH_EM
+ Template-Version: 1.0.0
+-Template-Tags: PNF_CDS_RESTCONF
++Template-Tags: PNF_SW_UPGRADE_WITH_EM

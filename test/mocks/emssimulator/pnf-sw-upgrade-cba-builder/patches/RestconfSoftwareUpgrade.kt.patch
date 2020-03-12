@@ -1,0 +1,192 @@
+--- PNF_CDS_RESTCONF/Scripts/kotlin/RestconfSoftwareUpgrade.kt	2020-03-12 15:16:34.617000000 +0800
++++ PNF_SW_UPGRADE_WITH_EM/Scripts/kotlin/RestconfSoftwareUpgrade.kt	2020-03-12 23:12:50.012507800 +0800
+@@ -1,6 +1,7 @@
+ /*
+ * ============LICENSE_START=======================================================
+ *  Copyright (C) 2020 Nordix Foundation.
++*  Modifications Copyright (C) 2020 Huawei Technologies Co., Ltd.
+ * ================================================================================
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+@@ -17,7 +18,7 @@
+  */
+ 
+ 
+-package cba.pnf.swug
++package cba.pnf.swm
+ 
+ import com.fasterxml.jackson.databind.node.ObjectNode
+ import org.onap.ccsdk.cds.blueprintsprocessor.core.api.data.ExecutionServiceInput
+@@ -38,20 +39,27 @@
+ class RestconfSoftwareUpgrade : AbstractScriptComponentFunction() {
+ 
+     private val RESTCONF_SERVER_IDENTIFIER = "sdnc"
+-    private val CONFIGLET_RESOURCE_PATH = "yang-ext:mount/pnf-sw-upgrade:software-upgrade"
++    private val CONFIGLET_RESOURCE_PATH = "yang-ext:mount/pnf-swm:software-management"
+     private val log = logger(AbstractScriptComponentFunction::class.java)
+-    private val TARGET_SOFTWARE_PATH = "$CONFIGLET_RESOURCE_PATH/upgrade-package/"
++    private val TARGET_SOFTWARE_PATH = "$CONFIGLET_RESOURCE_PATH/pnf-software-package/"
+ 
+     override suspend fun processNB(executionRequest: ExecutionServiceInput) {
+ 
+         // Extract request properties
+-        val model= validatedPayload(executionRequest)
++        var model: SoftwareManagementModel = validatedPayload(executionRequest)
+ 
+         log.info("Blueprint invoked for ${model.resolutionKey} for SW Upgrade : " +
+-            "${model.action} for sw version ${model.targetSwVersion} on pnf: ${model.deviceId}")
++            "${model.action} for sw version ${model.targetSwVersion} on pnf: ${model.neIdentifier}")
+ 
+         try {
+-            val mountPayload = contentFromResolvedArtifactNB("mount-node")
++            var mountPayload: String = contentFromResolvedArtifactNB("mount-node")
++
++            val mountPayloadObject = JacksonUtils.jsonNode(mountPayload) as ObjectNode
++            val emsIp = mountPayloadObject.get("node")?.get(0)?.get("netconf-node-topology:host")?.asText()
++
++            model.deviceId = "ems-" + emsIp?.replace(".", "-")
++            mountPayload = mountPayload.replace("%ems-id%", model.deviceId)
++
+             log.debug("Mount Payload : $mountPayload")
+             restconfMountDevice(model.client, model.deviceId, mountPayload, mutableMapOf("Content-Type" to "application/json"))
+ 
+@@ -70,40 +78,34 @@
+         }
+     }
+ 
+-    private fun validatedPayload(executionRequest: ExecutionServiceInput): SoftwareUpgradeModel {
++    private fun validatedPayload(executionRequest: ExecutionServiceInput): SoftwareManagementModel {
+         val properties = requestPayloadActionProperty(executionRequest.actionIdentifiers.actionName + "-properties")!!.get(0)
+         if(!properties?.get("pnf-id")?.textValue().isNullOrEmpty() &&
+             !properties?.get("target-software-version")?.textValue().isNullOrEmpty()) {
+-            return SoftwareUpgradeModel(getDynamicProperties("resolution-key").asText(),
++            return SoftwareManagementModel(getDynamicProperties("resolution-key").asText(),
+                 BluePrintDependencyService.restClientService(RESTCONF_SERVER_IDENTIFIER),
+-                properties.get("pnf-id").textValue(), properties.get("target-software-version").textValue(),
++                "",
++                properties.get("pnf-id").textValue(),
++                properties.get("target-software-version").textValue(),
+                 Action.getEnumFromActionName(executionRequest.actionIdentifiers.actionName))
+         }else{
+             throw BluePrintException("Invalid parameters sent to CDS. Request parameters pnf-id or target-software-version missing")
+         }
+     }
+ 
+-    private suspend fun processPreCheck(model: SoftwareUpgradeModel) {
++    private suspend fun processPreCheck(model: SoftwareManagementModel) {
+         log.debug("In PNF SW upgrade : processPreCheck")
+         //Log the current configuration for the subtree
+         val payloadObject = getCurrentConfig(model)
+-        log.debug("Current sw version on pnf : ${payloadObject.get("software-upgrade")?.get("upgrade-package")?.get(0)?.get("software-version")?.asText()}")
++        log.debug("Current sw version on pnf : ${payloadObject.get("software-management")?.get("pnf-software-package")?.get(0)?.get("software-version")?.asText()}")
+         log.info("PNF is Healthy!")
+     }
+ 
+-    private suspend fun processDownloadNESw(model: SoftwareUpgradeModel) {
++    private suspend fun processDownloadNESw(model: SoftwareManagementModel) {
+         log.debug("In PNF SW upgrade : processDownloadNESw")
+-        //Check if there is existing config for the targeted software version
+ 
+-        var downloadConfigPayload: String
+-        if (checkIfSwReadyToPerformAction(Action.PRE_CHECK, model)) {
+-            downloadConfigPayload = contentFromResolvedArtifactNB("configure")
+-            downloadConfigPayload =downloadConfigPayload.replace("%id%", model.yangId)
+-        }
+-        else {
+-            downloadConfigPayload = contentFromResolvedArtifactNB("download-ne-sw")
+-            model.yangId=model.targetSwVersion
+-        }
++        var downloadConfigPayload: String = contentFromResolvedArtifactNB("download-ne-sw")
++        model.yangId = model.neIdentifier
+         downloadConfigPayload = downloadConfigPayload.replace("%actionName%", Action.DOWNLOAD_NE_SW.name)
+         log.info("Config Payload to start download : $downloadConfigPayload")
+ 
+@@ -115,14 +117,15 @@
+         checkExecution(model)
+     }
+ 
+-    private suspend fun processActivateNESw(model: SoftwareUpgradeModel) {
++    private suspend fun processActivateNESw(model: SoftwareManagementModel) {
+         log.debug("In PNF SW upgrade : processActivateNESw")
++
+         //Check if the software is downloaded and ready to be activated
+         if (checkIfSwReadyToPerformAction(Action.DOWNLOAD_NE_SW, model)) {
+-            var activateConfigPayload: String = contentFromResolvedArtifactNB("configure")
++            var activateConfigPayload: String = contentFromResolvedArtifactNB("activate-ne-sw")
+             activateConfigPayload = activateConfigPayload.replace("%actionName%", Action.ACTIVATE_NE_SW.name)
+-            activateConfigPayload = activateConfigPayload.replace("%id%", model.yangId)
+             log.info("Config Payload to start activate : $activateConfigPayload")
++
+             //Apply configlet
+             restconfApplyDeviceConfig(model.client, model.deviceId, CONFIGLET_RESOURCE_PATH, activateConfigPayload,
+                 mutableMapOf("Content-Type" to "application/yang.patch+json"))
+@@ -134,7 +137,7 @@
+         }
+     }
+ 
+-    private suspend fun processPostCheck(model: SoftwareUpgradeModel) {
++    private suspend fun processPostCheck(model: SoftwareManagementModel) {
+         log.info("In PNF SW upgrade : processPostCheck")
+         //Log the current configuration for the subtree
+         if (checkIfSwReadyToPerformAction(Action.POST_CHECK, model)) {
+@@ -142,35 +145,36 @@
+         }
+     }
+ 
+-    private fun processCancel(model :SoftwareUpgradeModel) {
++    private fun processCancel(model :SoftwareManagementModel) {
+         //This is for future implementation of cancel step during software upgrade
+         log.info("In PNF SW upgrade : processCancel")
+     }
+ 
+-    private suspend fun getCurrentConfig(model: SoftwareUpgradeModel) : ObjectNode{
++    private suspend fun getCurrentConfig(model: SoftwareManagementModel) : ObjectNode{
+         val currentConfig: BlueprintWebClientService.WebClientResponse<String> = restconfDeviceConfig(model.client, model.deviceId, CONFIGLET_RESOURCE_PATH)
+         return JacksonUtils.jsonNode(currentConfig.body) as ObjectNode
+     }
+-    private suspend fun checkExecution(model: SoftwareUpgradeModel) {
++
++    private suspend fun checkExecution(model: SoftwareManagementModel) {
+         val checkExecutionBlock: suspend (Int) -> String = {
+             val result = restconfDeviceConfig(model.client, model.deviceId, TARGET_SOFTWARE_PATH.plus(model.yangId))
+             if (result.body.contains(model.action.completionStatus)) {
+                 log.info("${model.action.name} is complete")
+                 result.body
+             } else {
+-                throw BluePrintRetryException("Waiting for device(${model.deviceId}) to activate sw version ${model.targetSwVersion}")
++                throw BluePrintRetryException("Waiting for device(${model.deviceId}) to complete ${model.action.name}")
+             }
+         }
+         model.client.retry<String>(10, 0, 1000, checkExecutionBlock)
+ 
+     }
+ 
+-    private suspend fun checkIfSwReadyToPerformAction(action : Action, model: SoftwareUpgradeModel): Boolean {
++    private suspend fun checkIfSwReadyToPerformAction(action : Action, model: SoftwareManagementModel): Boolean {
+         val configBody = getCurrentConfig(model)
+-        configBody.get("software-upgrade")?.get("upgrade-package")?.iterator()?.forEach { item ->
++        configBody.get("software-management")?.get("pnf-software-package")?.iterator()?.forEach { item ->
+             if (model.targetSwVersion == item.get("software-version")?.asText() &&
+                 action.completionStatus == item?.get("current-status")?.asText()) {
+-                model.yangId= item.get("id").textValue()
++                model.yangId= item.get("neIdentifier").textValue()
+                 return true
+             }
+         }
+@@ -201,5 +205,12 @@
+     }
+ }
+ 
+-data class SoftwareUpgradeModel(val resolutionKey: String, val client: BlueprintWebClientService, val deviceId: String,
+-                                val targetSwVersion: String, val action: Action, var yangId: String = "")
+\ No newline at end of file
++data class SoftwareManagementModel(
++        val resolutionKey: String,
++        val client: BlueprintWebClientService,
++        var deviceId: String,
++        val neIdentifier: String,
++        val targetSwVersion: String,
++        val action: Action,
++        var yangId: String = ""
++)
+\ No newline at end of file
