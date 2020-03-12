@@ -34,6 +34,19 @@ func main() {
 		log.Panicf("Unable to build client: %v", err)
 	}
 
+	// get list of nodes to extract addresses for running scan
+	nodes, err := clientset.CoreV1().Nodes().List(metav1.ListOptions{})
+	if err != nil {
+		log.Panicf("Unable to get list of nodes: %v", err)
+	}
+
+	// filter out addresses for running scan
+	addresses, ok := ports.FilterIPAddresses(nodes)
+	if !ok {
+		log.Println("There are no IP addresses to run scan")
+		os.Exit(0)
+	}
+
 	// get list of services to extract nodeport information
 	services, err := clientset.CoreV1().Services("").List(metav1.ListOptions{})
 	if err != nil {
