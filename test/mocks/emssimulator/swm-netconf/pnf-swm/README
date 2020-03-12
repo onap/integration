@@ -1,0 +1,9 @@
+1. Introduction
+  The directory /pnf-swm shall be located in ems-netconf-swm container for integrtion test for PNF software upgrade with EM with Netconf.
+
+2. Directory structure
+  a. model.yang: YANG model for donwnloadNESw and activateNESw operations of software management.
+  b. data.xml: Initial data or device configuration info stored in ems-netconf-swm container.
+  c. subscribe.py: Inherited from /integration/test/mocks/netconf-pnp-simulator/modules/pnf-sw/upgrade/ and mofication for the model.yang
+  d. LICENSE: original license from /integration/test/mocks/netconf-pnp-simulator/modules/pnf-sw/upgrade/
+  e. LICENSE-2: new license info for enhancement
