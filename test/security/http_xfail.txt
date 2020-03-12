@@ -1,5 +1,9 @@
 # Expected failure list for plain HTTP endpoints
+# ONAP:
 robot 30209
 message-router 30227
 sniro-emulator 30288
 aaf-fs 31115
+# Upstream:
+awx-web 30478
+netbox-nginx 30420
