@@ -16,6 +16,24 @@
       "revId": "d7da06427a01f0779c1111bf64aa05c01e2af11b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05df7a26_c939da5d",
+        "filename": "test/mocks/emssimulator/pnf-sw-upgrade-cba-builder/patches/RestconfSoftwareUpgrade.patch",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5302
+      },
+      "writtenOn": "2020-03-12T13:08:58Z",
+      "side": 1,
+      "message": "Hi, could you tell me which command can generate the unified diff format?\nThanks very much.",
+      "parentUuid": "c8bfdced_5406efd0",
+      "revId": "d7da06427a01f0779c1111bf64aa05c01e2af11b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
