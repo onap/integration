@@ -19,49 +19,51 @@ Description
 ~~~~~~~~~~~
 This use case is a combination of `vFW CDS Dublin`_ and `vFW EDGEX K8S`_ use cases. The aim is to continue improving Kubernetes based Network Functions (a.k.a CNF) support in ONAP. Use case continues where `vFW EDGEX K8S`_ left and brings CDS support into picture like `vFW CDS Dublin`_ did for the old vFW Use case. Predecessor use case is also documented here `vFW EDGEX K8S In ONAP Wiki`_.
 
-In a higher level this use case brings only one improvement yet important one i.e. the ability to instantiate more than single CNF instance of same type (with same Helm package).
+In a higher level this use case brings only two improvements yet important ones i.e. the ability to instantiate more than single CNF instance of the same type (with same Helm package) and ability to embed into singular CSAR package more then one helm package what brings more service design options.
 
-Following improvements were made:
+Following improvements were made in the Use Case or related ONAP components:
 
-- Changed vFW Kubernetes Helm charts to support overrides (previously mostly hardcode values)
+- Changed vFW Kubernetes Helm charts to support overrides (previously mostly hardcoded values)
 - Combined all models (Heat, Helm, CBA) in to same git repo and a creating single CSAR package `vFW_CNF_CDS Model`_
-- Compared to `vFW EDGEX K8S`_ use case **MACRO** workflow in SO is used instead of VNF workflow. (this is general requirement to utilize CDS as part of flow)
-- CDS is used to resolve instantion time parameters (Helm override)
+- Compared to `vFW EDGEX K8S`_ use case **MACRO** workflow in SO is used instead of VNF a'la carte workflow. (this is general requirement to utilize CDS as part of instantiation flow)
+- SDC accepts CSAR with many helm packages what allows to keep the decomposition of service instance similar to `vFW CDS Dublin`
+- CDS is used to resolve instantiation time parameters (Helm override)
   - Ip addresses with IPAM
   - Unique names for resources with ONAP naming service
 - Multicloud/k8s plugin changed to support identifiers of vf-module concept
+- **multicloud/k8s profile** is not mandatory for instantiation of CNF
 - CDS is used to create **multicloud/k8s profile** as part of instantiation flow (previously manual step)
 
 Use case does not contain Closed Loop part of the vFW demo.
 
 The vFW CNF Use Case
 ~~~~~~~~~~~~~~~~~~~~
-The vFW CNF CDS use case shows how to instantiate multiple CNF instances similar way as VNFs bringing CNFs closer to first class citizens in ONAP.
+The vFW CNF CDS use case shows how to instantiate multiple CNF instances in similar way as VNFs bringing CNFs closer to first class citizens in ONAP.
 
-One of the biggest practical change compared to old demos (any onap demo) is that whole network function content (user provided content) is collected to one place and more importantly into git repository (`vFW_CNF_CDS Model`_) that provides version control (that is pretty important thing). That is very basic thing but unfortunately this is a common problem when running any ONAP demo and trying to find all content from many different git repos and even some files only in ONAP wiki.
+One of the biggest practical change compared to the old demos (any ONAP demo) is that whole network function content (user provided content) is collected to one place and more importantly into git repository (`vFW_CNF_CDS Model`_) that provides version control (that is pretty important thing). That is very basic thing but unfortunately this is a common problem when running any ONAP demo and trying to find all content from many different git repositories and even some files only in ONAP wiki.
 
 Demo git directory has also `Data Dictionary`_ file (CDS model time resource) included.
 
 Another founding idea from the start was to provide complete content in single CSAR available directly from that git repository. Not any revolutionary idea as that's the official package format ONAP supports and all content supposed to be in that same package for single service regardless of the models and closed loops and configurations etc.
 
-Following table describes all source models to which this demo is based on.
+Following table describes all the source models to which this demo is based on.
 
 ===============  =================       ===========
 Model            Git reference           Description
 ---------------  -----------------       -----------
-Heat             `vFW_NextGen`_          Heat templates used in original vFW demo but splitted into multiple vf-modules
+Heat             `vFW_NextGen`_          Heat templates used in original vFW demo but split into multiple vf-modules
 Helm             `vFW_Helm Model`_       Helm templates used in `vFW EDGEX K8S`_ demo
 CDS model        `vFW CBA Model`_        CDS CBA model used in `vFW CDS Dublin`_ demo
 ===============  =================       ===========
 
-All changes to related ONAP components during this use case can be found from this `Jira Epic`_ ticket.
+All changes to related ONAP components and Use Case can be found from this `Jira Epic`_ ticket.
 
 Modeling CSAR/Helm
 ..................
 
-The starting point for this demo was Helm package containing one Kubernetes application, see `vFW_Helm Model`_. In this demo we decided to follow SDC/SO vf-module concept same way as original vFW demo was splitted into multiple vf-modules instead of one (`vFW_NextGen`_). Same way we splitted Helm version of vFW into multiple Helm packages each matching one vf-module.
+The starting point for this demo was Helm package containing one Kubernetes application, see `vFW_Helm Model`_. In this demo we decided to follow SDC/SO vf-module concept the same same way as original vFW demo was split into multiple vf-modules instead of one (`vFW_NextGen`_). The same way we split Helm version of vFW into multiple Helm packages each matching one dedicated vf-module.
 
-Produced CSAR package has following MANIFEST file (csar/MANIFEST.json) having all Helm packages modeled as dummy Heat resources matching to vf-module concept (that is originated from Heat), so basically each Helm application is visible to ONAP as own vf-module. Actual Helm package is delivered as CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACTS package through SDC and SO.
+Produced CSAR package has following MANIFEST file (csar/MANIFEST.json) having all Helm packages modeled as dummy Heat resources matching to vf-module concept (that is originated from Heat), so basically each Helm application is visible to ONAP as own vf-module. Actual Helm package is delivered as CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACTS package through SDC and SO. Dummy heat templates are matched to helm packages by the same prefix of the file name.
 
 CDS model (CBA package) is delivered as SDC supported own type CONTROLLER_BLUEPRINT_ARCHIVE.
 
@@ -147,7 +149,11 @@ Changes done:
 
 - SDC distribution broker
 
-    **TODO: content here**
+  SDC distribution broker is responsible for transformation of the CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACTS into *Definition* object holding the helm package. 
+  The change for Frankfurt release considers that singular CSAR package can have many CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACTS, each one for dedicated vf-module 
+  associated with dummy heat template. The mapping between vf-module and CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACTS is done on file prefixes. In example, *vfw.yaml* 
+  Heat template will result with creation of *vfw* vf-module and its Definition will be created from CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACTS file of name 
+  vfw_cloudtech_k8s_charts.tgz. More examples can be found in `Modeling CSAR/Helm`_ section.
 
 - K8S plugin APIs changed to use VF Module Model Identifiers
 
@@ -184,9 +190,27 @@ Changes done:
 
           curl -i --data-binary @profile.tar.gz -X POST http://${K8S_NODE_IP}:30280/api/multicloud-k8s/v1/v1/rb/definition/{VF Module Model Invariant ID}/{VF Module Model Version ID}/profile/p1/content
 
-- Default override support was added to plugin
+- Instantiation broker
+
+  The broker implements `infra_workload`_ API used to handle vf-module instantiation request comming from the SO. User directives were changed by SDNC directives what impacts also the way how a'la carte instantiation method works from the VID. There is no need to specify the user directives delivered from the separate file. Instead SDNC directives are delivered through SDNC preloading (a'la carte instantiation) or through the resource assignment performed by the CDS (Macro flow instantiation).
+
+  For helm package instantiation following parameters have to be delivered in the SDNC directives:
+
+  ======================== ==============================================
+  Variable                 Description
+  ------------------------ ----------------------------------------------
+  k8s-rb-profile-name      Name of the override profile 
+  k8s-rb-profile-namespace Name of the namespace for created helm package
+  ======================== ==============================================
+
+- Default override support was added to the plugin
 
     **TODO: Some content here, maybe also picture**
+
+- Instantiation time override support was added to the plugin
+
+    **TODO: Some content here, maybe also picture**
+
 
 CDS Model (CBA)
 ...............
@@ -448,7 +472,7 @@ Policy                                                    Used to Store Naming P
 AAF                                                       Used for Authentication and Authorization of requests
 Portal                                                    Required to access SDC.
 MSB                                                       Exposes multicloud interfaces used by SO.
-Multicloud                                                K8S plugin part used to pass SO instanttion requests to external Kubernetes cloud region.
+Multicloud                                                K8S plugin part used to pass SO instantiation requests to external Kubernetes cloud region.
 Robot                                                     Optional. Can be used for running automated tasks, like provisioning cloud customer, cloud region, service subscription, etc ..
 Shared Cassandra DB                                       Used as a shared storage for ONAP components that rely on Cassandra DB, like AAI
 Shared Maria DB                                           Used as a shared storage for ONAP components that rely on Maria DB, like SDNC, and SO
@@ -545,6 +569,19 @@ After completing the first part above, we should have a functional ONAP deployme
 
 We will need to apply a few modifications to the deployed ONAP Frankfurt instance in order to run the use case.
 
+Retrieving logins and passwords of ONAP components
+..................................................
+
+Since Frankfurt release hardcoded passwords were mostly removed and it is possible to configure passwords of ONAP components in time of installation. In order to retrieve
+these passwords with associated logins it is required to get them with kubectl. Below is the procedure on mariadb-galera DB example.
+
+::
+
+    kubectl get secret `kubectl get secrets | grep mariadb-galera-db-root-password | awk {'print $1'}` -o jsonpath="{.data.login}" | base64 --decode
+    kubectl get secret `kubectl get secrets | grep mariadb-galera-db-root-password | awk {'print $1'}` -o jsonpath="{.data.password}" | base64 --decode
+
+In this case login is empty as the secret is dedicated to root user.
+
 Postman collection setup
 ........................
 
@@ -556,9 +593,9 @@ Following steps are needed to setup postman:
 
 - Import this postman collection zip
 
-  :download: `postman.zip`_
+  :download:`Postman collection <files/vFW_CNF_CDS/postman.zip>`
 
-- Extract the zip and import 2 postman cllection and environment files into Postman
+- Extract the zip and import 2 postman collection and environment files into Postman
     - `vFW_CNF_CDS.postman_collection.json`
     - `vFW_CNF_CDS.postman_environment.json`
 
@@ -614,6 +651,8 @@ Corresponding GET operations in postman can be used to verify entries created. P
 SO Cloud region configuration
 .............................
 
+FIXME Move to "Cloud registration" section
+
 SO database needs to (manually) modified for SO to know that this particular cloud region is to be handled by multicloud. Values we insert needs to obviously match to the ones we populated into AAI.
 
 The related code part in SO is here: `SO Cloud Region Selection`_
@@ -626,6 +665,8 @@ It's possible improvement place in SO to rather get this information directly fr
         insert into cloud_sites(ID, REGION_ID, IDENTITY_SERVICE_ID, CLOUD_VERSION, CLLI, ORCHESTRATOR) values("k8sregionfour", "k8sregionfour", "DEFAULT_KEYSTONE", "2.5", "clli2", "multicloud");
         select * from cloud_sites;
         exit
+
+.. note:: The required credentials can be retrieved with instruction `Retrieving logins and passwords of ONAP components`_
 
 SO BPMN endpoint fix for VNF adapter requests (v1 -> v2)
 ........................................................
@@ -648,53 +689,7 @@ The override.yaml file above has an option **"preload=true"**, that will tell th
 
 To check that the naming policy is created and pushed OK, we can run the commands below.
 
-::
-
-  # goto inside of a POD e.g. pap here
-  kubectl -n onap exec -it $(kubectl -n onap  get pods -l app=pap --no-headers | cut -d" " -f1) bash
-
-  bash-4.4$ curl -k --silent -X POST \
-  --header 'Content-Type: application/json' \
-  --header 'ClientAuth: cHl0aG9uOnRlc3Q=' \
-  --header 'Authoment: TEST' \
-  -d '{ "policyName": "SDNC_Policy.Config_MS_ONAP_VNF_NAMING_TIMESTAMP.1.xml"}' \
-  'https://pdp:8081/pdp/api/getConfig'
-
-  [{"policyConfigMessage":"Config Retrieved! ","policyConfigStatus":"CONFIG_RETRIEVED",
-  "type":"JSON",
-  "config":"{\"service\":\"SDNC-GenerateName\",\"version\":\"CSIT\",\"content\":{\"policy-instance-name\":\"ONAP_VNF_NAMING_TIMESTAMP\",\"naming-models\":[{\"naming-properties\":[{\"property-name\":\"AIC_CLOUD_REGION\"},{\"property-name\":\"CONSTANT\",\"property-value\":\"ONAP-NF\"},{\"property-name\":\"TIMESTAMP\"},{\"property-value\":\"_\",\"property-name\":\"DELIMITER\"}],\"naming-type\":\"VNF\",\"naming-recipe\":\"AIC_CLOUD_REGION|DELIMITER|CONSTANT|DELIMITER|TIMESTAMP\"},{\"naming-properties\":[{\"property-name\":\"VNF_NAME\"},{\"property-name\":\"SEQUENCE\",\"increment-sequence\":{\"max\":\"zzz\",\"scope\":\"ENTIRETY\",\"start-value\":\"001\",\"length\":\"3\",\"increment\":\"1\",\"sequence-type\":\"alpha-numeric\"}},{\"property-name\":\"NFC_NAMING_CODE\"},{\"property-value\":\"_\",\"property-name\":\"DELIMITER\"}],\"naming-type\":\"VNFC\",\"naming-recipe\":\"VNF_NAME|DELIMITER|NFC_NAMING_CODE|DELIMITER|SEQUENCE\"},{\"naming-properties\":[{\"property-name\":\"VNF_NAME\"},{\"property-value\":\"_\",\"property-name\":\"DELIMITER\"},{\"property-name\":\"VF_MODULE_LABEL\"},{\"property-name\":\"VF_MODULE_TYPE\"},{\"property-name\":\"SEQUENCE\",\"increment-sequence\":{\"max\":\"zzz\",\"scope\":\"PRECEEDING\",\"start-value\":\"01\",\"length\":\"3\",\"increment\":\"1\",\"sequence-type\":\"alpha-numeric\"}}],\"naming-type\":\"VF-MODULE\",\"naming-recipe\":\"VNF_NAME|DELIMITER|VF_MODULE_LABEL|DELIMITER|VF_MODULE_TYPE|DELIMITER|SEQUENCE\"}]}}",
-  "policyName":"SDNC_Policy.Config_MS_ONAP_VNF_NAMING_TIMESTAMP.1.xml",
-  "policyType":"MicroService",
-  "policyVersion":"1",
-  "matchingConditions":{"ECOMPName":"SDNC","ONAPName":"SDNC","service":"SDNC-GenerateName"},
-  "responseAttributes":{},
-  "property":null}]
-
-In case the policy is missing, we can manually create and push the SDNC Naming policy.
-
-::
-
-  # goto inside of a POD e.g. pap here
-  kubectl -n onap exec -it $(kubectl -n onap  get pods -l app=pap --no-headers | cut -d" " -f1) bash
-
-  curl -k -v --silent -X PUT --header 'Content-Type: application/json' --header 'Accept: text/plain' --header 'ClientAuth: cHl0aG9uOnRlc3Q=' --header 'Authorization: Basic dGVzdHBkcDphbHBoYTEyMw==' --header 'Environment: TEST' -d '{
-      "configBody": "{ \"service\": \"SDNC-GenerateName\", \"version\": \"CSIT\", \"content\": { \"policy-instance-name\": \"ONAP_VNF_NAMING_TIMESTAMP\", \"naming-models\": [ { \"naming-properties\": [ { \"property-name\": \"AIC_CLOUD_REGION\" }, { \"property-name\": \"CONSTANT\",\"property-value\": \"ONAP-NF\"}, { \"property-name\": \"TIMESTAMP\" }, { \"property-value\": \"_\", \"property-name\": \"DELIMITER\" } ], \"naming-type\": \"VNF\", \"naming-recipe\": \"AIC_CLOUD_REGION|DELIMITER|CONSTANT|DELIMITER|TIMESTAMP\" }, { \"naming-properties\": [ { \"property-name\": \"VNF_NAME\" }, { \"property-name\": \"SEQUENCE\", \"increment-sequence\": { \"max\": \"zzz\", \"scope\": \"ENTIRETY\", \"start-value\": \"001\", \"length\": \"3\", \"increment\": \"1\", \"sequence-type\": \"alpha-numeric\" } }, { \"property-name\": \"NFC_NAMING_CODE\" }, { \"property-value\": \"_\", \"property-name\": \"DELIMITER\" } ], \"naming-type\": \"VNFC\", \"naming-recipe\": \"VNF_NAME|DELIMITER|NFC_NAMING_CODE|DELIMITER|SEQUENCE\" }, { \"naming-properties\": [ { \"property-name\": \"VNF_NAME\" }, { \"property-value\": \"_\", \"property-name\": \"DELIMITER\" }, { \"property-name\": \"VF_MODULE_LABEL\" }, { \"property-name\": \"VF_MODULE_TYPE\" }, { \"property-name\": \"SEQUENCE\", \"increment-sequence\": { \"max\": \"zzz\", \"scope\": \"PRECEEDING\", \"start-value\": \"01\", \"length\": \"3\", \"increment\": \"1\", \"sequence-type\": \"alpha-numeric\" } } ], \"naming-type\": \"VF-MODULE\", \"naming-recipe\": \"VNF_NAME|DELIMITER|VF_MODULE_LABEL|DELIMITER|VF_MODULE_TYPE|DELIMITER|SEQUENCE\" } ] } }",
-      "policyName": "SDNC_Policy.ONAP_VNF_NAMING_TIMESTAMP",
-      "policyConfigType": "MicroService",
-      "onapName": "SDNC",
-      "riskLevel": "4",
-      "riskType": "test",
-      "guard": "false",
-      "priority": "4",
-      "description": "ONAP_VNF_NAMING_TIMESTAMP"
-  }' 'https://pdp:8081/pdp/api/createPolicy'
-
-  curl -k -v --silent -X PUT --header 'Content-Type: application/json' --header 'Accept: text/plain' --header 'ClientAuth: cHl0aG9uOnRlc3Q=' --header 'Authorization: Basic dGVzdHBkcDphbHBoYTEyMw==' --header 'Environment: TEST' -d '{
-    "pdpGroup": "default",
-    "policyName": "SDNC_Policy.ONAP_VNF_NAMING_TIMESTAMP",
-    "policyType": "MicroService"
-  }' 'https://pdp:8081/pdp/api/pushPolicy'
-
+FIXME !!!
 
 Network Naming mS
 +++++++++++++++++
@@ -704,11 +699,12 @@ There's a strange feature or bug in naming service still at ONAP Frankfurt and f
 ::
 
   # Go into naming service database pod
-  kubectl -n onap exec -it $(kubectl -n onap get pods --no-headers | grep onap-sdnc-nengdb-0 | cut -d" " -f1) bash
+  kubectl -n onap exec -it onap-sdnc-nengdb-0 bash
 
   # Delete entries from EXTERNAL_INTERFACE table
   mysql -unenguser -pnenguser123 nengdb -e 'delete from EXTERNAL_INTERFACE;'
 
+.. note:: The required credentials can be retrieved with instruction `Retrieving logins and passwords of ONAP components`_
 
 PART 2 - Installation of managed Kubernetes cluster
 ---------------------------------------------------
@@ -1017,6 +1013,8 @@ Verify distribution for:
 
         # Where customization_uuid is the modelCustomizationUuid of the VNf (serviceVnfs response in 2nd postman call from SO Catalog DB)
 
+.. note:: The required credentials can be retrieved with instruction `Retrieving logins and passwords of ONAP components`_
+
 - CDS:
 
     CDS should onboard CBA uploaded as part of VF.
@@ -1171,7 +1169,7 @@ Query also directly from VIM:
     #
     ubuntu@kud-host:~$ kubectl get pods,svc,networks,cm,network-attachment-definition,deployments
     NAME                                                            READY   STATUS    RESTARTS   AGE
-    pod/vfw-17f6f7d3-8424-4550-a188-cd777f0ab48f-7cfb9949d9-8b5vg   0/1     Pending   0          22s
+    pod/vfw-17f6f7d3-8424-4550-a188-cd777f0ab48f-7cfb9949d9-8b5vg   1/1     Running   0          22s
     pod/vfw-19571429-4af4-49b3-af65-2eb1f97bba43-75cd7c6f76-4gqtz   1/1     Running   0          11m
     pod/vpg-5ea0d3b0-9a0c-4e88-a2e2-ceb84810259e-f4485d485-pln8m    1/1     Running   0          11m
     pod/vpg-8581bc79-8eef-487e-8ed1-a18c0d638b26-6f8cff54d-dvw4j    1/1     Running   0          32s
@@ -1206,7 +1204,7 @@ Query also directly from VIM:
     networkattachmentdefinition.k8s.cni.cncf.io/567cecc3-9692-449e-877a-ff0b560736be-ovn-nat   11m
 
     NAME                                                             READY   UP-TO-DATE   AVAILABLE   AGE
-    deployment.extensions/vfw-17f6f7d3-8424-4550-a188-cd777f0ab48f   0/1     1            0           22s
+    deployment.extensions/vfw-17f6f7d3-8424-4550-a188-cd777f0ab48f   1/1     1            1           22s
     deployment.extensions/vfw-19571429-4af4-49b3-af65-2eb1f97bba43   1/1     1            1           11m
     deployment.extensions/vpg-5ea0d3b0-9a0c-4e88-a2e2-ceb84810259e   1/1     1            1           11m
     deployment.extensions/vpg-8581bc79-8eef-487e-8ed1-a18c0d638b26   1/1     1            1           33s
@@ -1219,7 +1217,7 @@ Component Logs From The Execution
 
 All logs from the use case execution are here:
 
-  :download: `logs.zip`_
+  :download:`logs <files/vFW_CNF_CDS/logs.zip>`
 
 - `so-bpmn-infra_so-bpmn-infra_debug.log`
 - SO openstack adapter
@@ -1276,6 +1274,8 @@ Future development areas for this use case and in general for CNF support could 
 - Sync CDS model with `vFW_CNF_CDS Model`_ use case i.e. try to keep only single model regardless of xNF being Openstack or Kubernetes based.
 - TOSCA based service and xNF models instead of dummy Heat wrapper. Won't work directly with current vf-module oriented SO workflows.
 - vFW service with Openstack VNF and Kubernetes CNF
+- Post instantiation configuration with Day 2 configuration APIs of multicloud/k8S API
+- Auto generation of instantiation specific helm resources in CDS and their population through profiles
 
 
 Multiple lower level bugs/issues were also found during use case development
@@ -1307,3 +1307,4 @@ Multiple lower level bugs/issues were also found during use case development
 .. _SDC-2776: https://jira.onap.org/browse/SDC-2776
 .. _MULTICLOUD-941: https://jira.onap.org/browse/MULTICLOUD-941
 .. _CCSDK-2155: https://jira.onap.org/browse/CCSDK-2155
+.. _infra_workload: https://docs.onap.org/en/latest/submodules/multicloud/framework.git/docs/specs/multicloud_infra_workload.html
