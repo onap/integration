@@ -1,0 +1,86 @@
+module pnf-swm {
+    namespace "http://onap.org/pnf-swm";
+    prefix swm;
+
+    import ietf-yang-types {
+        prefix yang;
+    }
+
+    revision "2020-03-10" {
+        description
+          "initial version, Ref. 3GPP 32.532-f00";
+    }
+
+    container software-management {
+        config true;
+        list pnf-software-package {
+            key "neIdentifier";
+            leaf neIdentifier {
+                type string;
+                description
+                  "NE identifier.";
+            }
+            leaf current-status {
+                type enumeration {
+                    enum CREATED;
+                    enum INITIALIZED;
+                    enum DOWNLOAD_IN_PROGRESS;
+                    enum DOWNLOAD_COMPLETED;
+                    enum ACTIVATION_IN_PROGRESS;
+                    enum ACTIVATION_COMPLETED;
+                }
+                description
+                  "List of possible states of the upgrade";
+            }
+            leaf state-change-time {
+                mandatory false;
+                description
+                  "Date and time of the last state change.";
+                type yang:date-and-time;
+            }
+            leaf action {
+                mandatory false;
+                type enumeration {
+                    enum NONE;
+                    enum PRE_CHECK;
+                    enum DOWNLOAD_NE_SW;
+                    enum ACTIVATE_NE_SW;
+                    enum POST_CHECK;
+                    enum CANCEL;
+                }
+                description
+                  "List of possible actions for the upgrade";
+            }
+            leaf software-version {
+                type string;
+                description
+                  "Possible name or release version of the UP";
+            }
+            list swToBeDownloaded {
+                key "swLocation";
+                leaf swLocation {
+                    type string;
+                    description
+                      "Software location to be downloaded.";
+                }
+                leaf swFileSize {
+                    type uint64;
+                    description "Software file size.";
+                }
+                leaf swFileCompression {
+                    type string;
+                    description "Software file compression algorithm.";
+                }
+                leaf swFileFormat {
+                    type string;
+                    description "Software file format.";
+                }
+            }
+            leaf swVersionToBeActivated {
+                type string;
+                description
+                  "Software version to be activated.";
+            }
+        }
+    }
+}
