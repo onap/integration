@@ -1,0 +1,148 @@
+--- PNF_CDS_RESTCONF/Definitions/PNF_CDS_RESTCONF.json	2020-03-14 20:54:46.677546900 +0800
++++ PNF_SW_UPGRADE_WITH_EM/Definitions/PNF_SW_UPGRADE_WITH_EM.json	2020-03-14 22:08:47.225398400 +0800
+@@ -4,7 +4,7 @@
+     "template_author" : "Raj Gumma",
+     "author-email" : "raj.gumma@est.tech",
+     "user-groups" : "ADMIN, OPERATION",
+-    "template_name" : "PNF_CDS_RESTCONF",
++    "template_name" : "PNF_SW_UPGRADE_WITH_EM",
+     "template_version" : "1.0.0",
+     "template_tags" : "PNF, Restconf, config, configuration, software upgrade"
+   },
+@@ -74,28 +74,6 @@
+           }
+         }
+       },
+-      "config-deploy" : {
+-        "steps" : {
+-          "activate-process" : {
+-            "description" : "Send a configlet to the pnf",
+-            "target" : "config-deploy",
+-            "activities" : [ {
+-              "call_operation" : ""
+-            } ]
+-          }
+-        },
+-        "inputs" : {
+-          "resolution-key" : {
+-            "required" : true,
+-            "type" : "string"
+-          },
+-          "config-deploy-properties" : {
+-            "description" : "Dynamic PropertyDefinition for workflow(config-deploy).",
+-            "required" : true,
+-            "type" : "dt-config-deploy-properties"
+-          }
+-        }
+-      },
+       "preCheck" : {
+         "steps" : {
+           "activate-process" : {
+@@ -220,41 +198,6 @@
+           }
+         }
+       },
+-      "config-deploy" : {
+-        "type" : "component-script-executor",
+-        "interfaces" : {
+-          "ComponentScriptExecutor" : {
+-            "operations" : {
+-              "process" : {
+-                "implementation" : {
+-                  "primary" : "component-script",
+-                  "timeout" : 180,
+-                  "operation_host" : "SELF"
+-                },
+-                "inputs" : {
+-                  "script-type" : "kotlin",
+-                  "script-class-reference" : "cba.pnf.config.aai.RestconfConfigDeploy",
+-                  "dynamic-properties" : "*config-deploy-properties"
+-                },
+-                "outputs" : {
+-                  "response-data" : "",
+-                  "status" : "success"
+-                }
+-              }
+-            }
+-          }
+-        },
+-        "artifacts" : {
+-          "config-deploy-template" : {
+-            "type" : "artifact-template-velocity",
+-            "file" : "Templates/restconf-mount-template.vtl"
+-          },
+-          "config-deploy-mapping" : {
+-            "type" : "artifact-mapping-resource",
+-            "file" : "Definitions/config-deploy-pnf-mapping.json"
+-          }
+-        }
+-      },
+       "preCheck" : {
+         "type" : "component-script-executor",
+         "interfaces" : {
+@@ -268,7 +211,7 @@
+                 },
+                 "inputs" : {
+                   "script-type" : "kotlin",
+-                  "script-class-reference" : "cba.pnf.swug.RestconfSoftwareUpgrade",
++                  "script-class-reference" : "cba.pnf.swm.RestconfSoftwareUpgrade",
+                   "dynamic-properties" : "*preCheck-properties"
+                 },
+                 "outputs" : {
+@@ -303,7 +246,7 @@
+                 },
+                 "inputs" : {
+                   "script-type" : "kotlin",
+-                  "script-class-reference" : "cba.pnf.swug.RestconfSoftwareUpgrade",
++                  "script-class-reference" : "cba.pnf.swm.RestconfSoftwareUpgrade",
+                   "dynamic-properties" : "*downloadNESw-properties"
+                 },
+                 "outputs" : {
+@@ -323,14 +266,6 @@
+             "type" : "artifact-mapping-resource",
+             "file" : "Definitions/pnf-software-upgrade-mapping.json"
+           },
+-          "configure-template" : {
+-            "type" : "artifact-template-velocity",
+-            "file" : "Templates/pnf-swug-config-template.vtl"
+-          },
+-          "configure-mapping" : {
+-            "type" : "artifact-mapping-resource",
+-            "file" : "Definitions/pnf-software-upgrade-mapping.json"
+-          },
+           "download-ne-sw-template" : {
+             "type" : "artifact-template-velocity",
+             "file" : "Templates/pnf-swug-download-ne-sw-template.vtl"
+@@ -354,7 +289,7 @@
+                 },
+                 "inputs" : {
+                   "script-type" : "kotlin",
+-                  "script-class-reference" : "cba.pnf.swug.RestconfSoftwareUpgrade",
++                  "script-class-reference" : "cba.pnf.swm.RestconfSoftwareUpgrade",
+                   "dynamic-properties" : "*activateNESw-properties"
+                 },
+                 "outputs" : {
+@@ -374,11 +309,11 @@
+             "type" : "artifact-mapping-resource",
+             "file" : "Definitions/pnf-software-upgrade-mapping.json"
+           },
+-          "configure-template" : {
++          "activate-ne-sw-template" : {
+             "type" : "artifact-template-velocity",
+-            "file" : "Templates/pnf-swug-config-template.vtl"
++            "file" : "Templates/pnf-swug-activate-ne-sw-template.vtl"
+           },
+-          "configure-mapping" : {
++          "activate-ne-sw-mapping" : {
+             "type" : "artifact-mapping-resource",
+             "file" : "Definitions/pnf-software-upgrade-mapping.json"
+           }
+@@ -397,7 +332,7 @@
+                 },
+                 "inputs" : {
+                   "script-type" : "kotlin",
+-                  "script-class-reference" : "cba.pnf.swug.RestconfSoftwareUpgrade",
++                  "script-class-reference" : "cba.pnf.swm.RestconfSoftwareUpgrade",
+                   "dynamic-properties" : "*postCheck-properties"
+                 },
+                 "outputs" : {

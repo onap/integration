@@ -1,0 +1,14 @@
+--- PNF_CDS_RESTCONF/Definitions/resources_definition_types.json	2020-03-12 12:13:38.643367200 +0800
++++ PNF_SW_UPGRADE_WITH_EM/Definitions/resources_definition_types.json	2020-03-12 23:55:20.636531200 +0800
+@@ -14,9 +14,9 @@
+       }
+     }
+   },
+-  "pnf-ipaddress-aai" : {
++  "ems-ipaddress-aai" : {
+     "tags" : "aai-get",
+-    "name" : "pnf-ipaddress-aai",
++    "name" : "ems-ipaddress-aai",
+     "property" : {
+       "description" : "primary aai data to get resource",
+       "type" : "string"

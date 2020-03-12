@@ -1,0 +1,19 @@
+--- PNF_CDS_RESTCONF/Templates/pnf-swug-config-template.vtl	2020-03-12 19:06:30.108210900 +0800
++++ PNF_SW_UPGRADE_WITH_EM/Templates/pnf-swug-activate-ne-sw-template.vtl	2020-03-12 23:29:51.565242200 +0800
+@@ -7,11 +7,12 @@
+         "operation": "merge",
+         "target": "/",
+         "value": {
+-          "software-upgrade": {
+-            "upgrade-package": [
++          "software-management": {
++            "pnf-software-package": [
+               {
+-                "id": "%id%",
+-                "action": "%actionName%"
++                "neIdentifier": "${pnf-id}",
++                "action": "%actionName%",
++                "swVersionToBeActivated": "${target-software-version}"
+               }
+             ]
+           }

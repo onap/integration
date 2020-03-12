@@ -1,0 +1,17 @@
+--- PNF_CDS_RESTCONF/Definitions/pnf-software-upgrade-mapping.json	2020-03-12 12:13:38.642390600 +0800
++++ PNF_SW_UPGRADE_WITH_EM/Definitions/pnf-software-upgrade-mapping.json	2020-03-12 23:59:44.111140600 +0800
+@@ -22,12 +22,12 @@
+     ]
+   },
+   {
+-    "name": "pnf-ipv4-address",
++    "name": "ems-ipv4-address",
+     "input-param": false,
+     "property": {
+       "type": "string"
+     },
+-    "dictionary-name": "pnf-ipaddress-aai",
++    "dictionary-name": "ems-ipaddress-aai",
+     "dictionary-source": "aai-data",
+     "dependencies": [
+       "pnf-id"
