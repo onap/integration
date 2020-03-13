@@ -1,0 +1,9 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Eric Debeau <eric.debeau@orange.com>
+Code-Review+1: Andreas Geissler <andreas-geissler@telekom.de>
+Code-Review+2: Bartek Grzybowski <b.grzybowski@partner.samsung.com>
+Submitted-by: Bartek Grzybowski <b.grzybowski@partner.samsung.com>
+Submitted-at: Fri, 13 Mar 2020 07:45:00 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/integration/+/103616
+Project: integration
+Branch: refs/heads/master
