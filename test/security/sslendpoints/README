@@ -86,6 +86,25 @@ Command (Docker)
 Output
 ~~~~~~
 
+.. code-block:: shell
+
+    $ ./sslendpoints -kubeconfig ~/.kube/config.onap
+    2020/03/17 10:40:29 Host 192.168.2.10
+    2020/03/17 10:40:29 PORT        SERVICE
+    2020/03/17 10:40:29 30203       sdnc-dgbuilder
+    2020/03/17 10:40:29 30204       sdc-be
+    2020/03/17 10:40:29 30207       sdc-fe
+    2020/03/17 10:40:29 30220       aai-sparky-be
+    2020/03/17 10:40:29 30226       message-router
+    2020/03/17 10:40:29 30233       aai
+    2020/03/17 10:40:29 30256       sdc-wfd-fe
+    2020/03/17 10:40:29 30257       sdc-wfd-be
+    2020/03/17 10:40:29 30264       sdc-dcae-fe
+    2020/03/17 10:40:29 30266       sdc-dcae-dt
+    2020/03/17 10:40:29 30279       aai-babel
+    2020/03/17 10:40:29 30406       so-vnfm-adapter
+    2020/03/17 10:40:29 There are 12 non-SSL NodePorts in the cluster
+
 
 Testing
 -------
