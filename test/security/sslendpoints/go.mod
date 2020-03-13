@@ -3,6 +3,7 @@ module onap.local/sslendpoints
 go 1.13
 
 require (
+	github.com/Ullaakut/nmap v2.0.0+incompatible
 	github.com/imdario/mergo v0.3.8 // indirect
 	github.com/onsi/ginkgo v1.10.1
 	github.com/onsi/gomega v1.7.0
