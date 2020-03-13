@@ -33,15 +33,17 @@ cds:
     image: onap/ccsdk-sdclistener:0.7.0-STAGING-latest
 common:
   dgbuilder:
-    image: onap/ccsdk-dgbuilder-image:0.7.1-STAGING-latest
+    image: onap/ccsdk-dgbuilder-image:0.7.2
 
 dcaegen2:
   dcae-bootstrap:
-    image: onap/org.onap.dcaegen2.deployments.k8s-bootstrap-container:1.9-STAGING-latest
+    image: onap/org.onap.dcaegen2.deployments.k8s-bootstrap-container:1.12.3-STAGING-latest
   componentImages:
-    prh: onap/org.onap.dcaegen2.services.prh.prh-app-server:1.5.1
+    prh: onap/org.onap.dcaegen2.services.prh.prh-app-server:1.5.2
+  dcae-dashboard:
+    image: onap/org.onap.ccsdk.dashboard.ccsdk-app-os:1.3.2
 nbi:
-  image: onap/externalapi/nbi:5.0.1-latest
+  image: onap/externalapi/nbi:6.0.0
 policy:
   image: onap/policy-pe:1.6-SNAPSHOT-latest
   policy-pap:
@@ -62,26 +64,23 @@ policy:
     image: onap/policy-distribution:2.3-SNAPSHOT-latest
 sdc:
   sdc-onboarding-be:
-    image: onap/sdc-onboard-backend:1.6.0
-    onboardingInitImage: onap/sdc-onboard-cassandra-init:1.6.0
-  sdc-es:
-    image: onap/sdc-elasticsearch:1.6.0
-    elasticInitImage: onap/sdc-init-elasticsearch:1.6.0
+    image: onap/sdc-onboard-backend:1.6.2
+    onboardingInitImage: onap/sdc-onboard-cassandra-init:1.6.2
   sdc-fe:
-    image: onap/sdc-frontend:1.6.0
+    image: onap/sdc-frontend:1.6.2
   sdc-be:
-    image: onap/sdc-backend:1.6.0
-    backendInitImage: onap/sdc-backend-init:1.6.0
+    image: onap/sdc-backend:1.6.2
+    backendInitImage: onap/sdc-backend-init:1.6.2
   sdc-kb:
-    image: onap/sdc-kibana:1.6.0
+    image: onap/sdc-kibana:1.6.2
   sdc-cs:
-    image: onap/sdc-cassandra:1.6.0
-    cassandraInitImage: onap/sdc-cassandra-init:1.6.0
+    image: onap/sdc-cassandra:1.6.2
+    cassandraInitImage: onap/sdc-cassandra-init:1.6.2
   sdc-wfd-be:
-    image: onap/workflow-backend:1.5.2
-    configInitImage: onap/workflow-init:1.5.2
+    image: onap/workflow-backend:1.6.1
+    configInitImage: onap/workflow-init:1.6.1
   sdc-wfd-fe:
-    image: onap/workflow-frontend:1.5.2
+    image: onap/workflow-frontend:1.6.1
 robot:
   image: onap/testsuite:1.6.0-STAGING-latest
 
