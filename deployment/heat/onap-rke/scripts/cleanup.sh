@@ -31,19 +31,19 @@ fi
 
 if [ $COMPONENT == "sdc" ]; then
         for keyspace in sdctitan sdcrepository sdcartifact sdccomponent sdcaudit workflow dox zusammen_dox zusammen_workflow ; do
-	        kubectl -n $NAMESPACE exec dev-cassandra-cassandra-0 -- cqlsh -u cassandra -p cassandra --request-timeout=30 -e "drop keyspace ${keyspace}"
+	        kubectl -n $NAMESPACE exec $DEPLOYMENT-cassandra-0 -- cqlsh -u cassandra -p cassandra --request-timeout=30 -e "drop keyspace ${keyspace}"
         done
 fi
 
 if [ $COMPONENT == "so" ]; then
         for database in camundabpmn catalogdb requestdb; do
-		kubectl -n $NAMESPACE exec dev-mariadb-galera-mariadb-galera-0 -- mysql -uroot -psecretpassword -e "drop database ${database}"
+		kubectl -n $NAMESPACE exec $DEPLOYMENT-mariadb-galera-0 -- mysql -uroot -psecretpassword -e "drop database ${database}"
         done
 fi
 
 if [ $COMPONENT == "sdnc" ]; then
         for database in sdnctl; do
-		kubectl -n $NAMESPACE exec dev-mariadb-galera-mariadb-galera-0 -- mysql -uroot -psecretpassword -e "drop database ${database}"
+		kubectl -n $NAMESPACE exec $DEPLOYMENT-mariadb-galera-0 -- mysql -uroot -psecretpassword -e "drop database ${database}"
         done
 fi
 
