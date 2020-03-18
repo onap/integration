@@ -1,8 +1,39 @@
 package ports
 
 import (
+	"log"
+	"strconv"
+
 	v1 "k8s.io/api/core/v1"
 )
+
+// ConvertNodePorts converts CSV data to NodePorts map.
+func ConvertNodePorts(data [][]string) (map[uint16]string, bool) {
+	result := make(map[uint16]string)
+	for _, record := range data {
+		port, err := strconv.Atoi(record[1])
+		if err != nil {
+			log.Printf("Unable to parse port field: %v", err)
+			continue
+		}
+		result[uint16(port)] = record[0]
+	}
+	return result, len(result) > 0
+}
+
+// FilterXFailNodePorts removes NodePorts expected to fail from map.
+func FilterXFailNodePorts(xfails, nodeports map[uint16]string) {
+	for port, xfailService := range xfails {
+		service, ok := nodeports[port]
+		if !ok {
+			continue
+		}
+		if service != xfailService {
+			continue
+		}
+		delete(nodeports, port)
+	}
+}
 
 // FilterNodePorts extracts NodePorts from ServiceList.
 func FilterNodePorts(services *v1.ServiceList) (map[uint16]string, bool) {

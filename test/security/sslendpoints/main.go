@@ -39,7 +39,7 @@ func main() {
 	xfailName = flag.String("xfail", "", "(optional) absolute path to the expected failures file")
 	flag.Parse()
 
-	var xfails [][]string
+	xfails := make(map[uint16]string)
 	if *xfailName != "" {
 		xfailFile, err := os.Open(*xfailName)
 		if err != nil {
@@ -53,9 +53,16 @@ func main() {
 		r.Comment = xfailComment
 		r.FieldsPerRecord = xfailFields
 
-		xfails, err = r.ReadAll()
+		xfailData, err := r.ReadAll()
 		if err != nil {
 			log.Printf("Unable to read expected failures file: %v", err)
+			log.Println("All non-SSL NodePorts will be reported")
+		}
+
+		var ok bool
+		xfails, ok = ports.ConvertNodePorts(xfailData)
+		if !ok {
+			log.Println("No usable data in expected failures file")
 			log.Println("All non-SSL NodePorts will be reported")
 		}
 	}
@@ -99,21 +106,7 @@ func main() {
 	}
 
 	// filter out expected failures here before running the scan
-	for _, xfail := range xfails {
-		port, err := strconv.Atoi(xfail[1])
-		if err != nil {
-			log.Printf("Unable to parse port expected to fail: %v", err)
-			continue
-		}
-		service, ok := nodeports[uint16(port)]
-		if !ok {
-			continue
-		}
-		if service != xfail[0] {
-			continue
-		}
-		delete(nodeports, uint16(port))
-	}
+	ports.FilterXFailNodePorts(xfails, nodeports)
 
 	// extract ports for running the scan
 	var ports []string
