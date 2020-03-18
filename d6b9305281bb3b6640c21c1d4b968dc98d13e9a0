@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "df9fb865_e92d0703",
+        "filename": "docs/docs_5G_PNF_Software_Upgrade.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5276
+      },
+      "writtenOn": "2020-03-18T14:39:23Z",
+      "side": 1,
+      "message": "the tab is just so that the link is tabbed in one part, can remove. Is the carrier return you are on about the \"_\" at the end of the link, this is needed for the link to work. \n\nWill change to just \"Useful Link\"",
+      "parentUuid": "7c9b15e4_a171312e",
+      "revId": "d6b9305281bb3b6640c21c1d4b968dc98d13e9a0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0d27e873_fdbe2f5d",
         "filename": "docs/docs_5G_PNF_Software_Upgrade.rst",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2020-03-18T13:35:00Z",
       "side": 1,
       "message": "I do not know if click the link to continue is needed, the hyperlink has a different color, no?",
+      "revId": "d6b9305281bb3b6640c21c1d4b968dc98d13e9a0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ff57f29_6918b59a",
+        "filename": "docs/docs_5G_PNF_Software_Upgrade.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5276
+      },
+      "writtenOn": "2020-03-18T14:39:23Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "0d27e873_fdbe2f5d",
       "revId": "d6b9305281bb3b6640c21c1d4b968dc98d13e9a0",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "e1bc7eb9_e9572f06",
+        "filename": "docs/docs_5G_PNF_Software_Upgrade.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5276
+      },
+      "writtenOn": "2020-03-18T14:39:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bad202e9_5de51379",
+      "revId": "d6b9305281bb3b6640c21c1d4b968dc98d13e9a0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cf738abc_e5f140b5",
         "filename": "docs/docs_5G_PNF_Software_Upgrade.rst",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2020-03-18T13:35:00Z",
       "side": 1,
       "message": "is or has been?\n\ns/it would like to/he/she would like to\n\ns/The choices are/The possible LCM APIs are/",
+      "revId": "d6b9305281bb3b6640c21c1d4b968dc98d13e9a0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "046fb680_d93f07ad",
+        "filename": "docs/docs_5G_PNF_Software_Upgrade.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5276
+      },
+      "writtenOn": "2020-03-18T14:39:23Z",
+      "side": 1,
+      "message": "instead of changing to he/she i changed to they as this doesnt presume a gender. \nThe rest have been changed",
+      "parentUuid": "cf738abc_e5f140b5",
       "revId": "d6b9305281bb3b6640c21c1d4b968dc98d13e9a0",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "2ea359a2_b7cdd38f",
+        "filename": "docs/docs_5G_PNF_Software_Upgrade_direct_netconf_yang.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5276
+      },
+      "writtenOn": "2020-03-18T14:39:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c902a3c7_5e17be8f",
+      "revId": "d6b9305281bb3b6640c21c1d4b968dc98d13e9a0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "57ac575b_c6887be0",
         "filename": "docs/docs_5G_PNF_Software_Upgrade_direct_netconf_yang.rst",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2020-03-18T13:35:00Z",
       "side": 1,
       "message": "is it not obvious? could we consider that as a precondition...",
+      "revId": "d6b9305281bb3b6640c21c1d4b968dc98d13e9a0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b7d0d78_fea79288",
+        "filename": "docs/docs_5G_PNF_Software_Upgrade_direct_netconf_yang.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5276
+      },
+      "writtenOn": "2020-03-18T14:39:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57ac575b_c6887be0",
       "revId": "d6b9305281bb3b6640c21c1d4b968dc98d13e9a0",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
@@ -127,6 +235,30 @@
     },
     {
       "key": {
+        "uuid": "fcc22902_401104ae",
+        "filename": "docs/docs_5G_PNF_Software_Upgrade_direct_netconf_yang.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5276
+      },
+      "writtenOn": "2020-03-18T14:39:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "227cb409_5228b073",
+      "range": {
+        "startLine": 15,
+        "startChar": 2,
+        "endLine": 15,
+        "endChar": 22
+      },
+      "revId": "d6b9305281bb3b6640c21c1d4b968dc98d13e9a0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7b8c018f_81560713",
         "filename": "docs/docs_5G_PNF_Software_Upgrade_direct_netconf_yang.rst",
         "patchSetId": 1
@@ -138,6 +270,24 @@
       "writtenOn": "2020-03-18T13:35:00Z",
       "side": 1,
       "message": "A SDC service template ...has been designed ...and has been distributed.\n\nA distribution operation always deal with runtime components, no",
+      "revId": "d6b9305281bb3b6640c21c1d4b968dc98d13e9a0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "137b66c9_969fe0f9",
+        "filename": "docs/docs_5G_PNF_Software_Upgrade_direct_netconf_yang.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5276
+      },
+      "writtenOn": "2020-03-18T14:39:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b8c018f_81560713",
       "revId": "d6b9305281bb3b6640c21c1d4b968dc98d13e9a0",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
@@ -184,6 +334,48 @@
     },
     {
       "key": {
+        "uuid": "399f42b0_9a440dce",
+        "filename": "docs/docs_5G_PNF_Software_Upgrade_direct_netconf_yang.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5276
+      },
+      "writtenOn": "2020-03-18T14:39:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19087c7c_ee17fc1c",
+      "range": {
+        "startLine": 18,
+        "startChar": 22,
+        "endLine": 18,
+        "endChar": 27
+      },
+      "revId": "d6b9305281bb3b6640c21c1d4b968dc98d13e9a0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fe5776e_98ab2975",
+        "filename": "docs/docs_5G_PNF_Software_Upgrade_direct_netconf_yang.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5276
+      },
+      "writtenOn": "2020-03-18T14:39:23Z",
+      "side": 1,
+      "message": "have changed to the above comment from Zu \"the CONTROLLER_ACTOR is set for CDS client for the API selection decision\"",
+      "parentUuid": "700c0899_844f817b",
+      "revId": "d6b9305281bb3b6640c21c1d4b968dc98d13e9a0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3fb6d8bc_4bb51d00",
         "filename": "docs/docs_5G_PNF_Software_Upgrade_direct_netconf_yang.rst",
         "patchSetId": 1
@@ -195,6 +387,30 @@
       "writtenOn": "2020-03-18T12:16:46Z",
       "side": 1,
       "message": "selected PNF software upgrade workflow",
+      "range": {
+        "startLine": 21,
+        "startChar": 101,
+        "endLine": 21,
+        "endChar": 126
+      },
+      "revId": "d6b9305281bb3b6640c21c1d4b968dc98d13e9a0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "395335bc_4d8dabb5",
+        "filename": "docs/docs_5G_PNF_Software_Upgrade_direct_netconf_yang.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5276
+      },
+      "writtenOn": "2020-03-18T14:39:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fb6d8bc_4bb51d00",
       "range": {
         "startLine": 21,
         "startChar": 101,
@@ -224,6 +440,24 @@
     },
     {
       "key": {
+        "uuid": "d21bcc77_e6dcf956",
+        "filename": "docs/docs_5G_PNF_Software_Upgrade_direct_netconf_yang.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5276
+      },
+      "writtenOn": "2020-03-18T14:39:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8c0114a_368dc8a5",
+      "revId": "d6b9305281bb3b6640c21c1d4b968dc98d13e9a0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4947f735_8d0b7045",
         "filename": "docs/docs_5G_PNF_Software_Upgrade_direct_netconf_yang.rst",
         "patchSetId": 1
@@ -241,6 +475,24 @@
     },
     {
       "key": {
+        "uuid": "9a989dec_158eb0e6",
+        "filename": "docs/docs_5G_PNF_Software_Upgrade_direct_netconf_yang.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5276
+      },
+      "writtenOn": "2020-03-18T14:39:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4947f735_8d0b7045",
+      "revId": "d6b9305281bb3b6640c21c1d4b968dc98d13e9a0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3b3352be_7b2fb238",
         "filename": "docs/docs_5G_PNF_Software_Upgrade_direct_netconf_yang.rst",
         "patchSetId": 1
@@ -252,6 +504,24 @@
       "writtenOn": "2020-03-18T13:35:00Z",
       "side": 1,
       "message": "Is it relevant to indicate a link to a status page in the official documentation\nthis docuemntation will remain a reference, what about the status page?",
+      "revId": "d6b9305281bb3b6640c21c1d4b968dc98d13e9a0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d1c5cb7_60934339",
+        "filename": "docs/docs_5G_PNF_Software_Upgrade_direct_netconf_yang.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5276
+      },
+      "writtenOn": "2020-03-18T14:39:23Z",
+      "side": 1,
+      "message": "We have this link to wiki onap as this is where the Test cases will be updated. This is to save on having testing status being updated on two different pages and the case of one of the pages being out of date.",
+      "parentUuid": "3b3352be_7b2fb238",
       "revId": "d6b9305281bb3b6640c21c1d4b968dc98d13e9a0",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
