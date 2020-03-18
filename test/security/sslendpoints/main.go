@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/csv"
 	"flag"
 	"log"
 	"os"
@@ -18,16 +19,46 @@ import (
 
 const (
 	ipv4AddrType = "ipv4"
+
+	xfailComma   = ' '
+	xfailComment = '#'
+	xfailFields  = 2
+)
+
+var (
+	kubeconfig *string
+	xfailName  *string
 )
 
 func main() {
-	var kubeconfig *string
 	if home := os.Getenv("HOME"); home != "" {
 		kubeconfig = flag.String("kubeconfig", filepath.Join(home, ".kube", "config"), "(optional) absolute path to the kubeconfig file")
 	} else {
 		kubeconfig = flag.String("kubeconfig", "", "absolute path to the kubeconfig file")
 	}
+	xfailName = flag.String("xfail", "", "(optional) absolute path to the expected failures file")
 	flag.Parse()
+
+	var xfails [][]string
+	if *xfailName != "" {
+		xfailFile, err := os.Open(*xfailName)
+		if err != nil {
+			log.Printf("Unable to open expected failures file: %v", err)
+			log.Println("All non-SSL NodePorts will be reported")
+		}
+		defer xfailFile.Close()
+
+		r := csv.NewReader(xfailFile)
+		r.Comma = xfailComma
+		r.Comment = xfailComment
+		r.FieldsPerRecord = xfailFields
+
+		xfails, err = r.ReadAll()
+		if err != nil {
+			log.Printf("Unable to read expected failures file: %v", err)
+			log.Println("All non-SSL NodePorts will be reported")
+		}
+	}
 
 	// use the current context in kubeconfig
 	config, err := clientcmd.BuildConfigFromFlags("", *kubeconfig)
@@ -67,7 +98,22 @@ func main() {
 		os.Exit(0)
 	}
 
-	// TODO: filter out expected failures here before running the scan
+	// filter out expected failures here before running the scan
+	for _, xfail := range xfails {
+		port, err := strconv.Atoi(xfail[1])
+		if err != nil {
+			log.Printf("Unable to parse port expected to fail: %v", err)
+			continue
+		}
+		service, ok := nodeports[uint16(port)]
+		if !ok {
+			continue
+		}
+		if service != xfail[0] {
+			continue
+		}
+		delete(nodeports, uint16(port))
+	}
 
 	// extract ports for running the scan
 	var ports []string
