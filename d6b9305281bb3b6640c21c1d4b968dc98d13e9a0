@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "227cb409_5228b073",
+        "filename": "docs/docs_5G_PNF_Software_Upgrade_direct_netconf_yang.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 3967
+      },
+      "writtenOn": "2020-03-18T12:16:46Z",
+      "side": 1,
+      "message": "SO PNF software upgrade workflows",
+      "range": {
+        "startLine": 15,
+        "startChar": 2,
+        "endLine": 15,
+        "endChar": 22
+      },
+      "revId": "d6b9305281bb3b6640c21c1d4b968dc98d13e9a0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19087c7c_ee17fc1c",
+        "filename": "docs/docs_5G_PNF_Software_Upgrade_direct_netconf_yang.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 3967
+      },
+      "writtenOn": "2020-03-18T12:16:46Z",
+      "side": 1,
+      "message": "At design time, the CONTROLLER_ACTOR is set to CDS for the API selection decision",
+      "range": {
+        "startLine": 18,
+        "startChar": 22,
+        "endLine": 18,
+        "endChar": 27
+      },
+      "revId": "d6b9305281bb3b6640c21c1d4b968dc98d13e9a0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fb6d8bc_4bb51d00",
+        "filename": "docs/docs_5G_PNF_Software_Upgrade_direct_netconf_yang.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 3967
+      },
+      "writtenOn": "2020-03-18T12:16:46Z",
+      "side": 1,
+      "message": "selected PNF software upgrade workflow",
+      "range": {
+        "startLine": 21,
+        "startChar": 101,
+        "endLine": 21,
+        "endChar": 126
+      },
+      "revId": "d6b9305281bb3b6640c21c1d4b968dc98d13e9a0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
