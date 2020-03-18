@@ -1,6 +1,8 @@
 package ports_test
 
 import (
+	"strconv"
+
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
@@ -21,6 +23,10 @@ var _ = Describe("Ports", func() {
 		serviceL    = "serviceL"
 		serviceZ    = "serviceZ"
 
+		notParsablePort1 = "3p1c"
+		notParsablePort2 = "0n4p"
+		notParsablePort3 = "5GxD"
+
 		externalIpControl = "1.2.3.4"
 		internalIpControl = "192.168.121.100"
 		internalIpWorker  = "192.168.121.200"
@@ -29,6 +35,9 @@ var _ = Describe("Ports", func() {
 	)
 
 	var (
+		csvSomeUnparsable [][]string
+		csvAllUnparsable  [][]string
+
 		servicesEmpty                       *v1.ServiceList
 		servicesSingleWithNodePort          *v1.ServiceList
 		servicesSingleWithMultipleNodePorts *v1.ServiceList
@@ -45,6 +54,17 @@ var _ = Describe("Ports", func() {
 	)
 
 	BeforeEach(func() {
+		csvSomeUnparsable = [][]string{
+			[]string{serviceR, strconv.Itoa(nodePortO)},
+			[]string{serviceL, strconv.Itoa(nodePortN)},
+			[]string{serviceZ, notParsablePort1},
+		}
+		csvAllUnparsable = [][]string{
+			[]string{serviceR, notParsablePort1},
+			[]string{serviceL, notParsablePort2},
+			[]string{serviceZ, notParsablePort3},
+		}
+
 		servicesEmpty = &v1.ServiceList{}
 		servicesSingleWithNodePort = &v1.ServiceList{
 			Items: []v1.Service{
@@ -226,6 +246,77 @@ var _ = Describe("Ports", func() {
 				},
 			},
 		}
+	})
+
+	Describe("CSV data to NodePorts conversion", func() {
+		Context("With no data", func() {
+			It("should return an empty map", func() {
+				cnp, ok := ConvertNodePorts([][]string{})
+				Expect(ok).To(BeFalse())
+				Expect(cnp).To(BeEmpty())
+			})
+		})
+		Context("With some ports unparsable", func() {
+			It("should return only parsable records", func() {
+				expected := map[uint16]string{nodePortO: serviceR, nodePortN: serviceL}
+				cnp, ok := ConvertNodePorts(csvSomeUnparsable)
+				Expect(ok).To(BeTrue())
+				Expect(cnp).To(Equal(expected))
+			})
+		})
+		Context("With all ports unparsable", func() {
+			It("should return an empty map", func() {
+				cnp, ok := ConvertNodePorts(csvAllUnparsable)
+				Expect(ok).To(BeFalse())
+				Expect(cnp).To(BeEmpty())
+			})
+		})
+	})
+
+	Describe("NodePorts expected to fail filtering", func() {
+		Context("With no data", func() {
+			It("should leave nodeports unchanged", func() {
+				nodeports := map[uint16]string{nodePortO: serviceR}
+				expected := make(map[uint16]string)
+				for k, v := range nodeports {
+					expected[k] = v
+				}
+				FilterXFailNodePorts(map[uint16]string{}, nodeports)
+				Expect(nodeports).To(Equal(expected))
+			})
+		})
+		Context("With port absent in NodePorts", func() {
+			It("should leave nodeports unchanged", func() {
+				xfail := map[uint16]string{nodePortP: serviceZ}
+				nodeports := map[uint16]string{nodePortO: serviceR}
+				expected := make(map[uint16]string)
+				for k, v := range nodeports {
+					expected[k] = v
+				}
+				FilterXFailNodePorts(xfail, nodeports)
+				Expect(nodeports).To(Equal(expected))
+			})
+		})
+		Context("With other service than in NodePorts", func() {
+			It("should leave nodeports unchanged", func() {
+				xfail := map[uint16]string{nodePortO: serviceZ}
+				nodeports := map[uint16]string{nodePortO: serviceR}
+				expected := make(map[uint16]string)
+				for k, v := range nodeports {
+					expected[k] = v
+				}
+				FilterXFailNodePorts(xfail, nodeports)
+				Expect(nodeports).To(Equal(expected))
+			})
+		})
+		Context("With all NodePorts expected to fail", func() {
+			It("should leave no nodeports", func() {
+				xfail := map[uint16]string{nodePortO: serviceR, nodePortN: serviceL}
+				nodeports := map[uint16]string{nodePortO: serviceR, nodePortN: serviceL}
+				FilterXFailNodePorts(xfail, nodeports)
+				Expect(nodeports).To(BeEmpty())
+			})
+		})
 	})
 
 	Describe("NodePorts extraction", func() {
