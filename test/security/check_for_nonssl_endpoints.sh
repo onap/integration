@@ -95,7 +95,7 @@ SCAN_RESULT=`nmap $K8S_NODE -sV -p $PORT_LIST 2>/dev/null | grep \tcp`
 RESULTS=`paste <(printf %s "$SVCS") <(printf %s "$SCAN_RESULT") | column -t`
 
 # Find all non-SSL ports
-HTTP_PORTS=`grep -v ssl <<< "$RESULTS" | tee "$FILTERED_PORTS_LIST"`
+HTTP_PORTS=`grep -v ssl <<< "$RESULTS" | grep open | tee "$FILTERED_PORTS_LIST"`
 
 # Filter out whitelisted endpoints
 while IFS= read -r line; do
