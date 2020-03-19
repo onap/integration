@@ -29,6 +29,7 @@ Quickstart
 Following set of commands can be used to prepare a machine running Ubuntu 18.04 for this setup:
 
 .. code-block:: sh
+
    sudo sed -i'.bak' 's/^#.*deb-src/deb-src/' /etc/apt/sources.list
    sudo apt-get update
    sudo apt-get build-dep vagrant ruby-libvirt
@@ -113,6 +114,7 @@ useful in case there are multiple providers available.
    (`integration/bootstrap/vagrant-minimal-onap`).
 
 .. code-block:: sh
+
    vagrant up --provider=libvirt
 
 
@@ -123,11 +125,13 @@ Once ready (bringing up machines might initially take some time), tools for clus
 be available on Operator's machine. It can be accessed by executing:
 
 .. code-block:: sh
+
    vagrant ssh operator
 
 Although appropriate context is set for `kubectl` on login, when interacting with the cluster the
 `onap` namespace has to be explicitly specified. Example:
 
 .. code-block:: sh
+
    # Operator's machine shell
    kubectl -nonap get pods
