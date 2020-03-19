@@ -4,6 +4,12 @@ robot 30209
 message-router 30227
 sniro-emulator 30288
 aaf-fs 31115
+# Frankfurt SECCOM waiver:
+log-kibana 30253
+log-es 30254
+log-ls 30255
+cli 30260
+cli 30271
 # Upstream:
 awx-web 30478
 netbox-nginx 30420
