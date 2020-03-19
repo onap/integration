@@ -46,7 +46,7 @@ nbi:
   image: onap/externalapi/nbi:6.0.0
 policy:
   image: onap/policy-pe:1.6-SNAPSHOT-latest
-  policy-pap:
+  pap:
     image: onap/policy-pap:2.2-SNAPSHOT-latest
   brmsgw:
     image: onap/policy-pe:1.6-SNAPSHOT-latest
