@@ -1,5 +1,3 @@
-.. _onap-integration-ci:
-
 Integration Continuous Integration Guide
 ----------------------------------------
 

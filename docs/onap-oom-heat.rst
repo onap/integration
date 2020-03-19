@@ -1,5 +1,3 @@
-.. _onap-oom-heat:
-
 Integration Environement Installation
 -------------------------------------
 
@@ -126,8 +124,7 @@ Exploring the Rancher VM
 
 The Rancher VM that is spun up by this HEAT template serves the
 following key roles:
-- Hosts the /dockerdata-nfs/ NFS export shared by all the k8s VMs for persistent
-  volumes
+- Hosts the /dockerdata-nfs/ NFS export shared by all the k8s VMs for persistent volumes
 - git clones the oom repo into /root/oom
 - git clones the integration repo into /root/integration
 - Creates the helm override file at /root/integration-override.yaml
