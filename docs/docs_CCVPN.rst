@@ -82,7 +82,7 @@ The integration test environment is established to have ONAP instance with Frank
 
 Testing Procedure
 ~~~~~~~~~~~~~~~~~
-Test environment is described in Installation Procedure section and test procedure is described in https://wiki.onap.org/display/DW/MDONS+Integration+Test+Case. 
+Test environment is described in Installation Procedure section and test procedure is described in https://wiki.onap.org/display/DW/MDONS+Integration+Test+Case.
 
 
 Update for Dublin release
@@ -114,7 +114,7 @@ During the integration testing, SDC, SO, SDC master branch are used which includ
 
 
 Service used for CCVPN
-~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
 
 - SOTNVPNInfraService, SDWANVPNInfraService and SIteService: https://wiki.onap.org/display/DW/CCVPN+Service+Design
 - WanConnectionService ( Another way to describe CCVPN in a single service form which based on ONF CIM ): https://wiki.onap.org/display/DW/CCVPN+Wan+Connection+Service+Design
@@ -149,7 +149,7 @@ And the test status can be found: https://wiki.onap.org/display/DW/CCVPN++-Test+
 
 Known Issues and Resolutions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-1) AAI-1923. Link Management, UUI can't delete the link to external onap otn domain. 
+1) AAI-1923. Link Management, UUI can't delete the link to external onap otn domain.
 
 For the manual steps provided by A&AI team, we should follow the steps as follow
 the only way to delete is using the forceDeleteTool shell script in the graphadmin container.
@@ -157,19 +157,19 @@ First we will need to find the vertex id, you should be able to get the id by ma
 
 GET /aai/v14/network/ext-aai-networks/ext-aai-network/createAndDelete/esr-system-info/test-esr-system-info-id-val-0?format=raw
 
-::
+.. code-block:: JSON
 
-{
-"results": [
-{
-"id": "20624",
-"node-type": "pserver",
-"url": "/aai/v13/cloud-infrastructure/pservers/pserver/pserverid14503-as988q",
-"properties": {
-}
-}
-]
-}
+  {
+
+    "results": [
+      {
+        "id": "20624",
+        "node-type": "pserver",
+        "url": "/aai/v13/cloud-infrastructure/pservers/pserver/pserverid14503-as988q",
+        "properties": {}
+      }
+    ]
+  }
 
 
 Same goes for the ext-aai-network:
@@ -182,7 +182,7 @@ Run the following command multiple times for both the esr-system-info and ext-aa
 
 ::
 
-kubectl exec -it $(kubectl get pods -lapp=aai-graphadmin -n onap --template 'range .items.metadata.name"\n"end' | head -1) -n onap gosu aaiadmin /opt/app/aai-graphadmin/scripts/forceDeleteTool.sh -action DELETE_NODE -userId YOUR_ID_ANY_VALUE -vertexId VERTEX_ID
+  kubectl exec -it $(kubectl get pods -lapp=aai-graphadmin -n onap --template 'range .items.metadata.name"\n"end' | head -1) -n onap gosu aaiadmin /opt/app/aai-graphadmin/scripts/forceDeleteTool.sh -action DELETE_NODE -userId YOUR_ID_ANY_VALUE -vertexId VERTEX_ID
 
 From the above, remove the YOUR_ID_ANY_VALUE and VERTEX_ID with your info.
 
@@ -192,16 +192,15 @@ To overcome the Service distribution, the SO catalog has to be populated with th
 a) Refering to the Csar that is generated in the SDC designed as per the detailes mentioned in the below link: https://wiki.onap.org/display/DW/CCVPN+Service+Design
 b) Download the Csar from SDC thus generated.
 c) copy the csar to SO sdc controller pod and bpmn pod
-  kubectl -n onap get pod|grep so
-  kubectl -n onap exec -it dev-so-so-sdc-controller-c949f5fbd-qhfbl  /bin/sh
-
-  mkdir null/ASDC
-  mkdir null/ASDC/1
-  kubectl -n onap cp service-Sdwanvpninfraservice-csar.csar  dev-so-so-bpmn-infra-58796498cf-6pzmz:null/ASDC/1/service-Sdwanvpninfraservice-csar.csar
-  kubectl -n onap cp service-Sdwanvpninfraservice-csar.csar  dev-so-so-bpmn-infra-58796498cf-6pzmz:ASDC/1/service-Sdwanvpninfraservice-csar.csar
-
-d) populate model information to SO db 
+   kubectl -n onap get pod|grep so
+   kubectl -n onap exec -it dev-so-so-sdc-controller-c949f5fbd-qhfbl  /bin/sh
+   mkdir null/ASDC
+   mkdir null/ASDC/1
+   kubectl -n onap cp service-Sdwanvpninfraservice-csar.csar  dev-so-so-bpmn-infra-58796498cf-6pzmz:null/ASDC/1/service-Sdwanvpninfraservice-csar.csar
+   kubectl -n onap cp service-Sdwanvpninfraservice-csar.csar  dev-so-so-bpmn-infra-58796498cf-6pzmz:ASDC/1/service-Sdwanvpninfraservice-csar.csar
+d) populate model information to SO db
   the db script example can be seen in https://wiki.onap.org/display/DW/Manual+steps+for+CCVPN+Integration+Testing
+
 
 The same would also be applicable for the integration of the client to create the service and get the details.
 Currently the testing has been performed using the postman calls to the corresponding APIs.
@@ -213,23 +212,27 @@ a) Make an available csar file for CCVPN use case.
 b) Replace uuid of available files with what existing in SDC.
 c) Put available csar files in UUI local path (/home/uui).
 
-4) SO docker branch 1.3.5 has fixes for the issues 1SO-1248.
+4) SO docker branch 1.3.5 has fixes for the issues 1SO-1248
 
 After SDC distribution success, copy all csar files from so-sdc-controller:
-    connect to so-sdc-controller( eg: kubectl.exe exec -it -n onap dev-so-so-sdc-controller-77df99bbc9-stqdz /bin/sh )
-    find out all csar files ( eg: find / -name '*.csar' )
-    the csar files should be in this path: /app/null/ASDC/ ( eg: /app/null/ASDC/1/service-Sotnvpninfraservice-csar.csar )
-    exit from the so-sdc-controller ( eg: exit )
-    copy all csar files to local derectory ( eg: kubectl.exe cp onap/dev-so-so-sdc-controller-6dfdbff76c-64nf9:/app/null/ASDC/tmp/service-DemoService-csar.csar service-DemoService-csar.csar -c so-sdc-controller )
-    
-Copy csar files, which got from so-sdc-controller, to so-bpmn-infra
-    connect to so-bpmn-infra ( eg: kubectl.exe -n onap exec -it dev-so-so-bpmn-infra-54db5cd955-h7f5s -c so-bpmn-infra /bin/sh )
-    check the /app/ASDC deretory, if doesn't exist, create it ( eg: mkdir /app/ASDC -p )
-    exit from the so-bpmn-infra ( eg: exit )
-    copy all csar files to so-bpmn-infra ( eg: kubectl.exe cp service-Siteservice-csar.csar onap/dev-so-so-bpmn-infra-54db5cd955-h7f5s:/app/ASDC/1/service-Siteservice-csar.csar )
 
-5) Manual steps in closed loop Scenario:
+  connect to so-sdc-controller( eg: kubectl.exe exec -it -n onap dev-so-so-sdc-controller-77df99bbc9-stqdz /bin/sh )
+  find out all csar files ( eg: find / -name '*.csar' )
+  the csar files should be in this path: /app/null/ASDC/ ( eg: /app/null/ASDC/1/service-Sotnvpninfraservice-csar.csar )
+  exit from the so-sdc-controller ( eg: exit )
+  copy all csar files to local derectory ( eg: kubectl.exe cp onap/dev-so-so-sdc-controller-6dfdbff76c-64nf9:/app/null/ASDC/tmp/service-DemoService-csar.csar service-DemoService-csar.csar -c so-sdc-controller )
+
+Copy csar files, which got from so-sdc-controller, to so-bpmn-infra:
+
+  connect to so-bpmn-infra ( eg: kubectl.exe -n onap exec -it dev-so-so-bpmn-infra-54db5cd955-h7f5s -c so-bpmn-infra /bin/sh )
+  check the /app/ASDC deretory, if doesn't exist, create it ( eg: mkdir /app/ASDC -p )
+  exit from the so-bpmn-infra ( eg: exit )
+  copy all csar files to so-bpmn-infra ( eg: kubectl.exe cp service-Siteservice-csar.csar onap/dev-so-so-bpmn-infra-54db5cd955-h7f5s:/app/ASDC/1/service-Siteservice-csar.csar )
+
+5) Manual steps in closed loop Scenario
+
 Following steps were undertaken for the closed loop testing.
+
 a. Give controller ip, username and password, trust store and key store file in restconf collector collector.properties
 b. Updated DMAAP ip in cambria.hosts in DmaapConfig.json in restconf collector and run restconf collector
 c. Followed the steps provided in this link(https://wiki.onap.org/display/DW/Holmes+User+Guide+-+Casablanca#HolmesUserGuide-Casablanca-Configurations) to push CCVPN rules to holmes

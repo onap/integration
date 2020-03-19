@@ -29,6 +29,7 @@ Quickstart
 Following set of commands can be used to prepare a machine running Ubuntu 18.04 for this setup:
 
 .. code-block:: sh
+
    sudo sed -i'.bak' 's/^#.*deb-src/deb-src/' /etc/apt/sources.list
    sudo apt-get update
    sudo apt-get build-dep vagrant ruby-libvirt
