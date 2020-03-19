@@ -2,6 +2,11 @@
 # ONAP:
 robot 30209
 message-router 30227
+log-kibana 30253
+log-es 30254
+log-ls 30255
+cli 30260
+cli 30271
 sniro-emulator 30288
 aaf-fs 31115
 # Upstream:
