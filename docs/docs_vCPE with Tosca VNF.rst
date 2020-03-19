@@ -3,7 +3,7 @@
 vCPE with Tosca VNF
 ----------------------------
 
-VNF Packages and NS Packages 
+VNF Packages and NS Packages
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 vCPE tosca file url: https://git.onap.org/demo/tree/tosca/vCPE
 
@@ -65,12 +65,12 @@ After the patch https://gerrit.onap.org/r/#/c/73502/ is merged. With the generat
 - The policy scope has to add a value “us” into it which is a configuration issue in OOF side. Policy side also need do improvement to deal with policy scope automatically append instead of replacement so such policy could be used by several services at the same time.
 
 Design Time:
-~~~~~~~~~~~
+~~~~~~~~~~~~
 1) Because SDC doesn't export ETSI aigned VNF package and NS package, so in this release, we put the real ETSI aligned package as package artifact.
 2) When design Network service in SDC, should assign "gvnfmdriver" as the value of nf_type in Properties Assignment. so that VF-C can know will use gvnfm to manage VNF life cycle.
 
 Run Time:
-~~~~~~~~
+~~~~~~~~~
 1) First onboard VNF/NS package from SDC to VF-C catalog in sequence.
 2) Trigger the NS operation via UUI
 
@@ -143,17 +143,17 @@ Known Issues and Resolutions
 - vnflcm notification error patch  https://gerrit.onap.org/r/#/c/73852/
 - grant error patch not merged into VF-C 1.2.2 image: https://gerrit.onap.org/r/#/c/73833/  and https://gerrit.onap.org/r/#/c/73770/
 - VF-C catalog config should be updated with the right SDC URL and user/pwd
-Resolution: Disable VFC catalog livenessprobe and update configuration
+  Resolution: Disable VFC catalog livenessprobe and update configuration
 
 a) edit dev-vfc-catalog deployment
 b) remove livenessprobe section
 c) enter into catalog pod and update configuration
+
 ::
 
-kubectl -n onap exec -it dev-vfc-catalog-6978b76c86-87722  /bin/bash
-config file location: service/vfc/nfvo/catalog/catalog/pub/config/config.py 
-Update the SDC configuration as follows:
-SDC_BASE_URL = "http://msb-iag:80/api"
-SDC_USER = "aai"
-SDC_PASSWD = "Kp8bJ4SXszM0WXlhak3eHlcse2gAw84vaoGGmJvUy2U"
-
+  kubectl -n onap exec -it dev-vfc-catalog-6978b76c86-87722  /bin/bash
+  config file location: service/vfc/nfvo/catalog/catalog/pub/config/config.py
+  Update the SDC configuration as follows:
+  SDC_BASE_URL = "http://msb-iag:80/api"
+  SDC_USER = "aai"
+  SDC_PASSWD = "Kp8bJ4SXszM0WXlhak3eHlcse2gAw84vaoGGmJvUy2U"

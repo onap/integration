@@ -1,19 +1,19 @@
 .. This work is licensed under a Creative Commons Attribution 4.0
    International License. http://creativecommons.org/licenses/by/4.0
-   
+
 .. _docs_5g_bulk_pm:
 
 5G Bulk PM
 ----------
 
 5G Bulk PM Package
-~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
 - 5G Bulk PM Package: https://wiki.onap.org/display/DW/5G+-+Bulk+PM+-+Integration+Test+Case
 
 Description
 ~~~~~~~~~~~
-The Bulk PM feature consists of an event-driven bulk transfer of monitoring data from an xNF to ONAP/DCAE. A micro-service will listen for 'FileReady' VES events sent from an xNF via the VES collector. Once files become available the collector micro-service will fetch them using protocol such as FTPES (committed) or SFTP. The collected data files are published internally on a DMaaP Data Router (DR) feed. 
-The ONAP 5G Bulk PM Use Case Wiki Page can be found here: 
+The Bulk PM feature consists of an event-driven bulk transfer of monitoring data from an xNF to ONAP/DCAE. A micro-service will listen for 'FileReady' VES events sent from an xNF via the VES collector. Once files become available the collector micro-service will fetch them using protocol such as FTPES (committed) or SFTP. The collected data files are published internally on a DMaaP Data Router (DR) feed.
+The ONAP 5G Bulk PM Use Case Wiki Page can be found here:
 https://wiki.onap.org/display/DW/5G+-+Bulk+PM
 
 How to Use
@@ -28,4 +28,3 @@ To see information on the status of the test see https://wiki.onap.org/display/D
 Known Issues and Resolutions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 none.
-

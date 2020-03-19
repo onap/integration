@@ -26,7 +26,7 @@ This tutorial covers enhancements 1 to 5 in Background of https://wiki.onap.org/
 
 
 Setting Up and Installation
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Some fixes for HPA support were made subsequent to the release of the Casablanca images.  Several updated docker images need to be used to utilize the fixes.  The details of the docker images that need to be used and the issues that are fixed are described at this link https://wiki.onap.org/display/DW/Docker+image+updates+for+HPA+vFW+testing
 
 Instructions for updating the manifest of ONAP docker images can be found here:  https://onap.readthedocs.io/en/casablanca/submodules/integration.git/docs/#deploying-an-updated-docker-manifest
@@ -35,7 +35,7 @@ Install OOM ONAP using the deploy script in the integration repo. Instructions f
 
 
 1. Check that all the required components were deployed;
-   
+
  ``oom-rancher# helm list``
 
 2. Check the state of the pods;
@@ -44,14 +44,14 @@ Install OOM ONAP using the deploy script in the integration repo. Instructions f
 
 3. Run robot health check
 
-   ``oom-rancher# cd oom/kubernetes/robot``   
+   ``oom-rancher# cd oom/kubernetes/robot``
 
    ``oom-rancher# ./ete-k8s.sh onap health``
 
    Ensure all the required components pass the health tests
 4. Modify the SO bpmn configmap to change the SO vnf adapter endpoint to v2
-  
-   ``oom-rancher#    kubectl -n onap edit configmap dev-so-so-bpmn-infra-app-configmap`` 
+
+   ``oom-rancher#    kubectl -n onap edit configmap dev-so-so-bpmn-infra-app-configmap``
 
 			``- vnf:``
 
@@ -74,7 +74,7 @@ Install OOM ONAP using the deploy script in the integration repo. Instructions f
    ``oom-rancher#  kubectl delete <pod-name> -n onap``
 
 
-5. Create HPA flavors in cloud regions to be registered with ONAP. All HPA flavor names must start with onap. During our tests, 3 cloud regions were registered and we created flavors in each cloud. The flavors match the flavors described in the test plan `here <https://wiki.onap.org/pages/viewpage.action?pageId=41421112>`_. 
+5. Create HPA flavors in cloud regions to be registered with ONAP. All HPA flavor names must start with onap. During our tests, 3 cloud regions were registered and we created flavors in each cloud. The flavors match the flavors described in the test plan `here <https://wiki.onap.org/pages/viewpage.action?pageId=41421112>`_.
 
 - **Cloud Region One**
 
@@ -82,7 +82,7 @@ Install OOM ONAP using the deploy script in the integration repo. Instructions f
      ``#nova flavor-create onap.hpa.flavor11 111 8 20 2``
 
      ``#nova flavor-key onap.hpa.flavor11 set hw:mem_page_size=2048``
-    
+
     **Flavor12**
      ``#nova flavor-create onap.hpa.flavor12 112 12 20 2``
 
@@ -91,9 +91,9 @@ Install OOM ONAP using the deploy script in the integration repo. Instructions f
      ``#openstack aggregate create --property aggregate_instance_extra_specs:sriov_nic=sriov-nic-intel-8086-154C-shared-1:3 aggr121``
 
      ``#openstack flavor set onap.hpa.flavor12 --property aggregate_instance_extra_specs:sriov_nic=sriov-nic-intel-8086-154C-shared-1:3``
-    
+
     **Flavor13**
-     ``#nova flavor-create onap.hpa.flavor13 113 12 20 2``  
+     ``#nova flavor-create onap.hpa.flavor13 113 12 20 2``
 
      ``#nova flavor-key onap.hpa.flavor13 set hw:mem_page_size=2048``
 
@@ -111,7 +111,7 @@ Install OOM ONAP using the deploy script in the integration repo. Instructions f
      ``#nova flavor-key onap.hpa.flavor21 set hw:cpu_policy=dedicated``
 
      ``#nova flavor-key onap.hpa.flavor21 set hw:cpu_thread_policy=isolate``
-    
+
     **Flavor22**
      ``#nova flavor-create onap.hpa.flavor22 222 12 20 2``
 
@@ -120,9 +120,9 @@ Install OOM ONAP using the deploy script in the integration repo. Instructions f
      ``#openstack aggregate create --property aggregate_instance_extra_specs:sriov_nic=sriov-nic-intel-8086-154C-shared-1:2 aggr221``
 
      ``#openstack flavor set onap.hpa.flavor22 --property aggregate_instance_extra_specs:sriov_nic=sriov-nic-intel-8086-154C-shared-1:2``
-    
+
     **Flavor23**
-     ``#nova flavor-create onap.hpa.flavor23 223 12 20 2``  
+     ``#nova flavor-create onap.hpa.flavor23 223 12 20 2``
 
      ``#nova flavor-key onap.hpa.flavor23 set hw:mem_page_size=2048``
 
@@ -140,20 +140,20 @@ Install OOM ONAP using the deploy script in the integration repo. Instructions f
      ``#nova flavor-key onap.hpa.flavor31 set hw:cpu_policy=dedicated``
 
      ``#nova flavor-key onap.hpa.flavor31 set hw:cpu_thread_policy=isolate``
-    
+
     **Flavor32**
      ``#nova flavor-create onap.hpa.flavor32 332 8192 20 2``
 
      ``#nova flavor-key onap.hpa.flavor32 set hw:mem_page_size=1048576``
- 
+
     **Flavor33**
-     ``#nova flavor-create onap.hpa.flavor33 333 12 20 2``  
+     ``#nova flavor-create onap.hpa.flavor33 333 12 20 2``
 
      ``#nova flavor-key onap.hpa.flavor33 set hw:mem_page_size=2048``
 
      ``#openstack aggregate create --property aggregate_instance_extra_specs:sriov_nic=sriov-nic-intel-8086-154C-shared-1:1 aggr331``
 
-     ``#openstack flavor set onap.hpa.flavor33 --property aggregate_instance_extra_specs:sriov_nic=sriov-nic-intel-8086-154C-shared-1:1`` 
+     ``#openstack flavor set onap.hpa.flavor33 --property aggregate_instance_extra_specs:sriov_nic=sriov-nic-intel-8086-154C-shared-1:1``
 
 **Note: Use case can be run manually or using automation script (recommended)**
 
@@ -229,7 +229,7 @@ If an update is needed, the update can be done via rest using curl or postman
 
   ``oom-rancher#  kubectl exec dev-oof-oof-6c848594c5-5khps -it -- bash``
 
-10. Put required subscription list into tenant for all the newly added cloud regions. An easy way to do this is to do a get on the default cloud region, copy the tenant information with the subscription. Then paste it in your put command and modify the region id, tenant-id, tenant-name and resource-version. 
+10. Put required subscription list into tenant for all the newly added cloud regions. An easy way to do this is to do a get on the default cloud region, copy the tenant information with the subscription. Then paste it in your put command and modify the region id, tenant-id, tenant-name and resource-version.
 
 **GET COMMAND**
 
@@ -374,122 +374,122 @@ If an update is needed, the update can be done via rest using curl or postman
                 }
             }'
 
-   
+
 11.  Onboard the vFW HPA template. The templates can be gotten from the `demo <https://github.com/onap/demo>`_ repo. The heat and env files used are located in demo/heat/vFW_HPA/vFW/. Create a zip file using the files. For onboarding instructions see steps 4 to 9 of `vFWCL instantiation, testing and debugging <https://wiki.onap.org/display/DW/vFWCL+instantiation%2C+testing%2C+and+debuging>`_. Note that in step 5, only one VSP is created. For the VSP the option to submit for testing in step 5cii was not shown. So you can check in and certify the VSP and proceed to step 6.
 
 12. Get the parameters (model info, model invarant id...etc) required to create a service instance via rest. This can be done by creating a service instance via VID as in step 10 of `vFWCL instantiation, testing and debugging <https://wiki.onap.org/display/DW/vFWCL+instantiation%2C+testing%2C+and+debuging>`_.  After creating the service instance, exec into the SO bpmn pod and look into the /app/logs/bpmn/debug.log file. Search for the service instance and look for its request details. Then populate the parameters required to create a service instance via rest in step 13 below.
 
 13. Create a service instance rest request but do not create service instance yet. Specify OOF as the homing solution and multicloud as the orchestrator. Be sure to use a service instance name that does not exist and populate the parameters with values gotten from step 12.
 
-:: 
+::
 
     curl -k -X POST \
     http://{{k8s}}:30277/onap/so/infra/serviceInstances/v6 \
     -H 'authorization: Basic SW5mcmFQb3J0YWxDbGllbnQ6cGFzc3dvcmQxJA== \
     -H 'content-type: application/json' \
-    
-    -d '{  
-    
-        "requestDetails":{  
-    
-            "modelInfo":{  
-    
+
+    -d '{
+
+        "requestDetails":{
+
+            "modelInfo":{
+
                 "modelInvariantId":"b7564cb9-4074-4c9b-95d6-39d4191e80d9",
-    
+
                 "modelType":"service",
-    
+
                 "modelName":"vfw_HPA",
-    
+
                 "modelVersion":"1.0",
-    
+
                 "modelVersionId":"35d184e8-1cba-46e3-9311-a17ace766eb0",
-    
+
                 "modelUuid":"35d184e8-1cba-46e3-9311-a17ace766eb0",
-    
+
                 "modelInvariantUuid":"b7564cb9-4074-4c9b-95d6-39d4191e80d9"
-    
+
             },
-    
-            "requestInfo":{  
-    
+
+            "requestInfo":{
+
                 "source":"VID",
-    
+
                 "instanceName":"oof-12-homing",
-    
+
                 "suppressRollback":false,
-    
+
                 "requestorId":"demo"
-    
+
             },
-    
-            "subscriberInfo":{  
-    
+
+            "subscriberInfo":{
+
                 "globalSubscriberId":"Demonstration"
-    
+
             },
-    
-            "requestParameters":{  
-    
+
+            "requestParameters":{
+
                 "subscriptionServiceType":"vFW",
-    
+
                 "aLaCarte":true,
-    
+
                 "testApi":"VNF_API",
-    
-                "userParams":[  
-    
-                    {  
-    
+
+                "userParams":[
+
+                    {
+
                         "name":"Customer_Location",
-    
-                        "value":{  
-    
+
+                        "value":{
+
                             "customerLatitude":"32.897480",
-    
+
                             "customerLongitude":"97.040443",
-    
+
                             "customerName":"some_company"
-    
+
                         }
-    
+
                     },
-    
-                    {  
-    
+
+                    {
+
                         "name":"Homing_Solution",
-    
+
                         "value":"oof"
-    
+
                     },
-    
-                    {  
-    
+
+                    {
+
                         "name":"orchestrator",
-    
+
                         "value":"multicloud"
-    
+
                     }
-    
+
                 ]
-    
+
             },
-    
-            "project":{  
-    
+
+            "project":{
+
                 "projectName":"Project-Demonstration"
-    
+
             },
-    
-            "owningEntity":{  
-    
+
+            "owningEntity":{
+
                 "owningEntityId":"e1564fc9-b9d0-44f9-b5af-953b4aad2f40",
-    
+
                 "owningEntityName":"OE-Demonstration"
-    
+
             }
-    
+
         }
-    
+
     }'
 
 14. Get the resourceModuleName to be used for creating policies. This can be gotten from the CSAR file of the service model created. However, an easy way to get the resourceModuleName is to send the service instance create request in step 13 above. This will fail as there are no policies but you can then go into the bpmn debug.log file and get its value by searching for resourcemodulename.
@@ -513,14 +513,14 @@ To Update a policy, use the following curl command. Modify the policy as require
         "onapName": "SampleDemo",
         "policyScope": "OSDF_CASABLANCA"
     }' 'https://pdp:8081/pdp/api/updatePolicy'
-    
+
 
 To delete a policy, use two commands below to delete from PDP and PAP
 
 **DELETE POLICY INSIDE PDP**
 
 ::
- 
+
     curl -k -v -H 'Content-Type: application/json' \
      -H 'Accept: application/json' \
      -H 'ClientAuth: cHl0aG9uOnRlc3Q=' \
@@ -533,14 +533,14 @@ To delete a policy, use two commands below to delete from PDP and PAP
 **DELETE POLICY INSIDE PAP**
 
 ::
-    
+
     curl -k -v -H 'Content-Type: application/json' \
     -H 'Accept: application/json' \
     -H 'ClientAuth: cHl0aG9uOnRlc3Q=' \
     -H 'Authorization: Basic dGVzdHBkcDphbHBoYTEyMw==' \
     -H 'Environment: TEST' \
     -X DELETE \
-    -d '{"policyName": "OSDF_CASABLANCA.Config_MS_vnfPolicy_vFWHPA.1.xml","policyComponent":"PAP","policyType":"Optimization","deleteCondition":"ALL"}' https://pdp:8081/pdp/api/deletePolicy 
+    -d '{"policyName": "OSDF_CASABLANCA.Config_MS_vnfPolicy_vFWHPA.1.xml","policyComponent":"PAP","policyType":"Optimization","deleteCondition":"ALL"}' https://pdp:8081/pdp/api/deletePolicy
 
 Below are the 3 HPA policies for test cases in the `test plan <https://wiki.onap.org/pages/viewpage.action?pageId=41421112>`_
 
@@ -559,7 +559,7 @@ Create Policy
     }' 'https://pdp:8081/pdp/api/createPolicy'
 
 
-Push Policy    
+Push Policy
 
 ::
 
@@ -587,7 +587,7 @@ Create Policy
     }' 'https://pdp:8081/pdp/api/createPolicy'
 
 
-Push Policy    
+Push Policy
 
 ::
 
@@ -611,8 +611,8 @@ Create Policy
         "onapName": "SampleDemo",
         "policyScope": "OSDF_CASABLANCA"
     }' 'https://pdp:8081/pdp/api/createPolicy'
-    
-Push Policy    
+
+Push Policy
 
 ::
 
@@ -621,7 +621,7 @@ Push Policy
     "policyName": "OSDF_CASABLANCA.hpa_policy_vFW_3",
     "policyType": "MicroService"
     }' 'https://pdp:8081/pdp/api/pushPolicy'
-    
+
 17. Create Service Instance using step 13 above
 
 18. Check bpmn logs to ensure that OOF sent homing response and flavor directives.
@@ -652,9 +652,9 @@ Push Policy
                     "vnf-networks": [],
                     "vnf-vms": []
                 },
-    			
-    
-                "vnf-parameters": [     
+
+
+                "vnf-parameters": [
     			    {
                         "vnf-parameter-name": "vfw_image_name",
                         "vnf-parameter-value": "ubuntu-16.04"
@@ -731,7 +731,7 @@ Push Policy
                         "vnf-parameter-name": "vsn_private_ip_1",
                         "vnf-parameter-value": "10.0.100.3"
                     },
-    				
+
     				{
                         "vnf-parameter-name": "vfw_name_0",
                         "vnf-parameter-value": "vfw"
@@ -774,7 +774,7 @@ Push Policy
                     },
                     {
                         "vnf-parameter-name": "vf_module_id",
-                        "vnf-parameter-value": "VfwHpa..base_vfw..module-0"  
+                        "vnf-parameter-value": "VfwHpa..base_vfw..module-0"
                     },
                     {
                         "vnf-parameter-name": "sec_group",
@@ -797,32 +797,32 @@ Push Policy
                         "vnf-parameter-name": "oof_directives",
                         "vnf-parameter-value": "{\"directives\": [{\"id\": \"vfw\", \"type\": \"vnfc\", \"directives\": [{\"attributes\": [{\"attribute_name\": \"firewall_flavor_name\", \"attribute_value\": \"onap.hpa.flavor31\"}, {\"attribute_name\": \"flavorId\", \"attribute_value\": \"2297339f-6a89-4808-a78f-68216091f904\"}, {\"attribute_name\": \"flavorId\", \"attribute_value\": \"2297339f-6a89-4808-a78f-68216091f904\"}, {\"attribute_name\": \"flavorId\", \"attribute_value\": \"2297339f-6a89-4808-a78f-68216091f904\"}], \"type\": \"flavor_directives\"}]}, {\"id\": \"vgenerator\", \"type\": \"vnfc\", \"directives\": [{\"attributes\": [{\"attribute_name\": \"packetgen_flavor_name\", \"attribute_value\": \"onap.hpa.flavor32\"}, {\"attribute_name\": \"flavorId\", \"attribute_value\": \"2297339f-6a89-4808-a78f-68216091f904\"}], \"type\": \"flavor_directives\"}]}, {\"id\": \"vsink\", \"type\": \"vnfc\", \"directives\": [{\"attributes\": [{\"attribute_name\": \"sink_flavor_name\", \"attribute_value\": \"onap.large\"}, {\"attribute_name\": \"flavorId\", \"attribute_value\": \"2297339f-6a89-4808-a78f-68216091f904\"}], \"type\": \"flavor_directives\"}]}]}"
                    },
-         
+
                    {
                         "vnf-parameter-name": "sdnc_directives",
                         "vnf-parameter-value": "{}"
-                    },     
-    
+                    },
+
                     {
                         "vnf-parameter-name": "template_type",
                         "vnf-parameter-value": "heat"
                     }
-    			
-                   
+
+
                 ],
                 "vnf-topology-identifier": {
                     "generic-vnf-name": "oof-12-vnf-3",
-                    "generic-vnf-type": "vfw_hpa 0",   
+                    "generic-vnf-type": "vfw_hpa 0",
                     "service-type": "6b17354c-0fae-4491-b62e-b41619929c54",
-                    "vnf-name": "vfwhpa_stack", 
+                    "vnf-name": "vfwhpa_stack",
                     "vnf-type": "VfwHpa..base_vfw..module-0"
-                    				
+
                 }
             }
         }}
-    
 
-Change parameters based on your environment. 
+
+Change parameters based on your environment.
 
 **Note**
 
@@ -833,5 +833,5 @@ Change parameters based on your environment.
     "service-type": "6b17354c-0fae-4491-b62e-b41619929c54",  <-- same as Service Instance ID
     "vnf-name": "vfwhpa_stack",  <-- name to be given to the vf module
     "vnf-type": "VfwHpa..base_vfw..module-0" <-- can be found on the VID - VF Module dialog screen - Model Name
-        
+
 21. Create vf module (11g of `vFWCL instantiation, testing and debugging <https://wiki.onap.org/display/DW/vFWCL+instantiation%2C+testing%2C+and+debuging>`_). If everything worked properly, you should see the stack created in your VIM(WR titanium cloud openstack in this case).

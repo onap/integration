@@ -77,7 +77,7 @@ There are four different message flows:
 
 The numbers in the figure represent the sequence of steps within a given flow. Note that interactions between the components in the picture and AAI, SDNC, and DMaaP are not shown for clarity's sake.
 
-Scale out with manual trigger (green flow) and closed-loop-enabled scale out (red flow) are mutually exclusive. When the manual trigger is used, VID directly triggers the appropriate workflow in SO (step 1 of the green flow in the figure above). See Section 4 for more details. 
+Scale out with manual trigger (green flow) and closed-loop-enabled scale out (red flow) are mutually exclusive. When the manual trigger is used, VID directly triggers the appropriate workflow in SO (step 1 of the green flow in the figure above). See Section 4 for more details.
 
 When closed-loop enabled scale out is used, Policy triggers the SO workflow. The closed loop starts with the vLB periodically reporting telemetry about traffic patterns to the VES collector in DCAE (step 1 of the red flow). When the amount of traffic exceeds a given threshold (which the user defines during closed loop creation in CLAMP - see Section 1-4), DCAE notifies Policy (step 2), which in turn triggers the appropriate action. For this use case, the action is contacting SO to augment resource capacity in the network (step 3).
 
@@ -97,7 +97,7 @@ This use-case requires operations on several ONAP components to perform service 
 
 1-1 VNF Configuration Modeling and Upload with CDS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Since Dublin, the scale out use case integrates with the Controller Design Studio (CDS) ONAP component to automate the generation of cloud configuration at VNF instantiation time. The user interested in running the use case only with manual preload can skip this section and start from Section 1-2. The description of the use case with manual preload is provided in Section5. 
+Since Dublin, the scale out use case integrates with the Controller Design Studio (CDS) ONAP component to automate the generation of cloud configuration at VNF instantiation time. The user interested in running the use case only with manual preload can skip this section and start from Section 1-2. The description of the use case with manual preload is provided in Section5.
 
 Users can model this configuration at VNF design time and onboard the blueprint to CDS via the CDS GUI. The blueprint includes naming policies and network configuration details (e.g. IP address families, network names, etc.) that CDS will use during VNF instantiation to generate resource names and assign network configuration to VMs through the cloud orchestrator.
 
@@ -1126,6 +1126,7 @@ that will instantiate Service, VNF, VF modules and Heat stacks:
    }
 }'
 
+
 Note that the "dcae_collector_ip" parameter has to contain the IP address of one of the Kubernetes cluster nodes, 10.12.5.214 in the example above. In the response to the Macro request, the user will obtain a requestId that will be usefulto follow the instantiation request status in the ONAP SO:
 
 ::
@@ -1143,7 +1144,7 @@ PART 3 - Post Instantiation Operations
 
 3-1 Post Instantiation VNF configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-CDS executes post-instantiation VNF configuration if the "skip-post-instantiation" flag in the SDC service model is set to false, which is the default behavior. Manual post-instantiation configuration is necessary if the "skip-post-instantiation" flag in the service model is set to true or if the VNF is instantiated using the preload approach, which doesn't include CDS. Regardless, this step is NOT required during scale out operations, as VNF reconfiguration will be triggered by SO and executed by APPC. 
+CDS executes post-instantiation VNF configuration if the "skip-post-instantiation" flag in the SDC service model is set to false, which is the default behavior. Manual post-instantiation configuration is necessary if the "skip-post-instantiation" flag in the service model is set to true or if the VNF is instantiated using the preload approach, which doesn't include CDS. Regardless, this step is NOT required during scale out operations, as VNF reconfiguration will be triggered by SO and executed by APPC.
 
 If VNF post instantiation is executed manually, in order to change the state of the vLB the users should run the following REST call, replacing the IP addresses in the VNF endpoint and JSON object to match the private IP addresses of their vDNS instance:
 
@@ -1398,7 +1399,7 @@ These IDs are also used in the URL request to SO:
 
 ::
 
-    http://<Any_K8S_Node_IP_Address>:30277/onap/so/infra/serviceInstantiation/v7/serviceInstances/7d3ca782-c486-44b3-9fe5-39f322d8ee80/vnfs/9d33cf2d-d6aa-4b9e-a311-460a6be5a7de/vfModules/scaleOut 
+    http://<Any_K8S_Node_IP_Address>:30277/onap/so/infra/serviceInstantiation/v7/serviceInstances/7d3ca782-c486-44b3-9fe5-39f322d8ee80/vnfs/9d33cf2d-d6aa-4b9e-a311-460a6be5a7de/vfModules/scaleOut
 
 
 Finally, the "configurationParameters" section in the JSON request to SO contains the parameters that will be used to reconfigure the VNF after scaling. Please see Section 1-7 for an in-depth description of how to set the parameters correctly.
@@ -1428,7 +1429,7 @@ The procedure is similar to one described above, with some minor changes:
 
 4) **Controller type selection** in SO works as described in Section 1-6.
 
-5) **VNF instantiation from VID**: users can use VID to create the service, the VNF, and instantiate the VF modules. In the VID main page, users should select GR API (this should be the default option). 
+5) **VNF instantiation from VID**: users can use VID to create the service, the VNF, and instantiate the VF modules. In the VID main page, users should select GR API (this should be the default option).
 
 .. figure:: files/scaleout/vid.png
    :align: center

@@ -1,6 +1,6 @@
 .. This work is licensed under a Creative Commons Attribution 4.0
    International License. http://creativecommons.org/licenses/by/4.0
-   
+
 .. _docs_5g_pnf_software_upgrade:
 
 5G PNF Software Upgrade
@@ -19,7 +19,7 @@ The 5G PNF Software upgrade use case shows how users/network operators can modif
 - LCM API (focus on controller only)
 - integration of basic 3GPP SwM interfaces (*)
 - ansible protocol only
-Note: In Dublin, Controller provided four related APIs (precheck, postcheck, upgrade and rollback), which were finally translated to invoke interfaces provided by EM. Rollback API  is to call swFallback operation, and Upgrade API is to call downloadNESw, installNESw and activateNESw operations (Ref. 3GPP TS 32.532[1]). 
+Note: In Dublin, Controller provided four related APIs (precheck, postcheck, upgrade and rollback), which were finally translated to invoke interfaces provided by EM. Rollback API  is to call swFallback operation, and Upgrade API is to call downloadNESw, installNESw and activateNESw operations (Ref. 3GPP TS 32.532[1]).
 
 **Future Plans**
 - E2E PNF Software upgrade both for design and runtime
@@ -31,9 +31,9 @@ Upgrading PNF (instance) software requires the user/network operator to trigger 
 
 Note that, both APPC and SDNC in R4 supported Ansible. Taking SDNC and Prechecking as an example, the steps are as follows:
 
-1) `In ansible server container, prepare the ssh connection conditions to the external controller, both ssh key file and ansible inventory configuration`_
+1) In ansible server container, prepare the ssh connection conditions to the external controller, both ssh key file and ansible inventory configuration
 
-2) `In sdnc controller container, update the dg configuration file: lcm-dg.properties.`_
+2) In sdnc controller container, update the dg configuration file: lcm-dg.properties.
 
 For example:
 ::
@@ -42,9 +42,9 @@ lcm.pnf.upgrade-post-check.playbookname=ansible_huawei_postcheck
 lcm.pnf.upgrade-software.playbookname=ansible_huawei_upgrade
 lcm.pnf.upgrade-rollback.playbookname=ansible_huawei_rollback
 
-3) `Login controller UI, access the pre-check LCM operation (or other operations) and send request, the detailed request parameters can be found in corresponding test case link.`_
+3) Login controller UI, access the pre-check LCM operation (or other operations) and send request, the detailed request parameters can be found in corresponding test case link.
 
-4) `The HTTP API response code 200 and LCM retured code 400 (See APPC return code design specification) indicate success, otherwise failed.`_
+4) The HTTP API response code 200 and LCM retured code 400 (See APPC return code design specification) indicate success, otherwise failed.
 
 Test Status and Plans
 ~~~~~~~~~~~~~~~~~~~~~
@@ -57,4 +57,3 @@ References
 Known Issues and Resolutions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 None
-

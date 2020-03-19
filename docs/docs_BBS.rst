@@ -28,7 +28,7 @@ In Frankfurt release, BBS enables ONAP to
    - Service location modification that is detected by ONAP's analytic and initiated via the closed loop capabilities
 
      - The closed loop capabilities invoke a HSIA location change service that
-     is orchestrated and controlled using ONAP capabilities and 3rd party controllers
+       is orchestrated and controlled using ONAP capabilities and 3rd party controllers
 
 |image1|
 
@@ -164,7 +164,7 @@ Create the required topics in DMaaP
 DCAE: BBS Event Processor (BBS-ep)
 ==================================
 
-Description: :doc:`BBS-ep <../../dcaegen2.git/docs/sections/services/bbs-event-processor/index.rst>`_
+Description: :doc:`BBS-ep <../../dcaegen2.git/docs/sections/services/bbs-event-processor/index.rst>`
 
 The following BBS event processor blueprints will be used:
 - `k8s-bbs-event-processor.yaml <https://git.onap.org/dcaegen2/services/plain/components/bbs-event-processor/dpo/blueprints/k8s-bbs-event-processor.yaml-template?h=frankfurt>`_
@@ -220,7 +220,7 @@ IMPORTANT: Make sure that the configuration of BBS-ep in Consul contains the fol
 DCAE: RESTCONF Collector
 ========================
 
-Description: :doc:`RESTCONF Collector <../../dcaegen2.git/docs/sections/services/restconf/index.rst>`_
+Description: :doc:`RESTCONF Collector <../../dcaegen2.git/docs/sections/services/restconf/index.rst>`
 
 The following RESTCONF collector blueprints will be used:
 - `k8s-rcc-policy.yaml <https://git.onap.org/dcaegen2/collectors/restconf/plain/dpo/blueprints/k8s-rcc-policy.yaml-template?h=frankfurt>`_
@@ -268,7 +268,7 @@ RESTCONF Collector deployment procedure:
 DCAE: VES mapper
 ================
 
-Installation instructions: :doc:`VES Mapper <../../dcaegen2.git/docs/sections/services/mapper/index.rst>`_
+Installation instructions: :doc:`VES Mapper <../../dcaegen2.git/docs/sections/services/mapper/index.rst>`
 
 The following VES mapper blueprints will be used:
 - `k8s-vesmapper.yaml <https://gerrit.onap.org/r/gitweb?p=dcaegen2/services/mapper.git;a=blob_plain;f=UniversalVesAdapter/dpo/blueprints/k8s-vesmapper.yaml-template.yaml>`_
@@ -280,7 +280,7 @@ DCAE: VES collector
 
 Configure the mapping of the VES event domain to the correct DMaaP topic in Consul: ves-statechange --> unauthenticated.CPE_AUTHENTICATION
 
-1. Access Consul UI: `<http://<consul_server_ui>:30270/ui/#/dc1/services>`_
+1. Access `Consul UI <http://<consul_server_ui>:30270/ui/#/dc1/services>`_
 
 2. Modify the dcae-ves-collector configuration by adding a new VES domain to DMaaP topic mapping
 
