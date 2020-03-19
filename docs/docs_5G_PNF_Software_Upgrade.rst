@@ -26,15 +26,15 @@ PNF Software Upgrade Scenarios
 
 There are 3 PNF software upgrade scenarios supported in Frankfurt release:
 
-* `Using direct Netconf/Yang interface with PNF <docs_5g_pnf_software_upgrade_direct_netconf_yang>`_
+* `Using direct Netconf/Yang interface with PNF <docs_5G_PNF_Software_Upgrade_direct_netconf_yang.html>`_
 
   - (https://wiki.onap.org/pages/viewpage.action?pageId=64007309)
 
-* `Using Ansible protocol with EM <docs_5g_pnf_software_upgrade_ansible_with_EM>`_
+* `Using Ansible protocol with EM <docs_5G_PNF_Software_Upgrade_ansible_with_EM.html>`_
 
   - (https://wiki.onap.org/pages/viewpage.action?pageId=64007357)
 
-* `Using Netconf/Yang interface with EM <docs_5g_pnf_software_upgrade_netconf_with_EM>`_
+* `Using Netconf/Yang interface with EM <docs_5G_PNF_Software_Upgrade_netconf_with_EM.html>`_
 
   - (https://wiki.onap.org/pages/viewpage.action?pageId=64008675)
 
