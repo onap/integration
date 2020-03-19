@@ -55,6 +55,7 @@ useful in case there are multiple providers available.
    (`integration/bootstrap/codesearch`).
 
 .. code-block:: sh
+
    vagrant up --provider=libvirt
 
 This will:

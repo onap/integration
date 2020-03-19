@@ -1,10 +1,10 @@
 .. This work is licensed under a Creative Commons Attribution 4.0
    International License. http://creativecommons.org/licenses/by/4.0
-   
+
 .. _docs_5G_Configuration_over_NETCONF:
 
 5G - Configuration over NETCONF
-----------------------
+-------------------------------
 
 
 Description
@@ -16,8 +16,8 @@ This use case is intended to be applicable for 5G base stations and other nodes 
 
 **Useful Links**
 
-- `5G - Configuration with NETCONF documentation <https://wiki.onap.org/display/DW/5G+-+Configuration+with+NETCONF>
-- `5G - Configuration with NETCONF - Integtion Test Cases <https://wiki.onap.org/pages/viewpage.action?pageId=58229781&src=contextnavipagetreemode>
+- `5G - Configuration with NETCONF documentation <https://wiki.onap.org/display/DW/5G+-+Configuration+with+NETCONF>`_
+- `5G - Configuration with NETCONF - Integtion Test Cases <https://wiki.onap.org/pages/viewpage.action?pageId=58229781&src=contextnavipagetreemode>`_
 
 How to Use
 ~~~~~~~~~~
