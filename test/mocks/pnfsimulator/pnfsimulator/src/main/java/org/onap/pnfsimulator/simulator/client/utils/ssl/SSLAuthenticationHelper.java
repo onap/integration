@@ -22,11 +22,13 @@ package org.onap.pnfsimulator.simulator.client.utils.ssl;
 import java.io.Serializable;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 @Component
 @ConfigurationProperties(prefix = "ssl")
 @RefreshScope
+@Primary
 public class SSLAuthenticationHelper implements Serializable {
 
     private boolean clientCertificateEnabled;
