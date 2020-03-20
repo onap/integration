@@ -31,6 +31,7 @@ services:
       - ./logs:/var/log
       - ./templates:/app/templates
       - ./store:/app/store
+      - ./src/main/resources/application.properties:/app/application.properties
     restart: on-failure
     depends_on:
       - mongo
