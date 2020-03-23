@@ -10,6 +10,10 @@ all: docker-build
 .PHONY: clean
 clean: clean-docker-build clean-build
 
+.PHONY: test
+test:
+	go test ./...
+
 .PHONY: docker-build
 docker-build: ${BINARIES}
 	docker rm "${BUILD_DOCKER_CONTAINER}"
