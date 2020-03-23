@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "22a6e1bd_1757d6db",
+        "filename": "test/mocks/prov-mns-provider/Dockerfile",
+        "patchSetId": 17
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-23T15:43:36Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "21c5aa94a36e4ed33ba153b0d6816a157125b61c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7725f9d_b625f979",
+        "filename": "test/mocks/prov-mns-provider/README.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-23T15:43:36Z",
+      "side": 1,
+      "message": "python 2.7 is officially no more supported.\nMigration to python3 is usually not very complex.\nWoudl it be an issue here to migrate to python3?",
+      "revId": "21c5aa94a36e4ed33ba153b0d6816a157125b61c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ee98074_d2b37a6a",
+        "filename": "test/mocks/prov-mns-provider/README.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-23T15:43:36Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "21c5aa94a36e4ed33ba153b0d6816a157125b61c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef4ce31d_ee499994",
+        "filename": "test/mocks/prov-mns-provider/README.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-23T15:43:36Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "21c5aa94a36e4ed33ba153b0d6816a157125b61c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64f95264_d29a8640",
+        "filename": "test/mocks/prov-mns-provider/README.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-23T15:43:36Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "21c5aa94a36e4ed33ba153b0d6816a157125b61c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "028223ef_f08a9edb",
+        "filename": "test/mocks/prov-mns-provider/README.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-23T15:43:36Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "21c5aa94a36e4ed33ba153b0d6816a157125b61c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f014c7e5_5dfc491d",
+        "filename": "test/mocks/prov-mns-provider/README.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-23T15:43:36Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "21c5aa94a36e4ed33ba153b0d6816a157125b61c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82f65a37_83a9699d",
+        "filename": "test/mocks/prov-mns-provider/README.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-23T15:43:36Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "21c5aa94a36e4ed33ba153b0d6816a157125b61c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
