@@ -213,7 +213,7 @@ sleep 10
 cd ~/oom/kubernetes/
 helm repo add local http://127.0.0.1:8879
 helm repo list
-make all
+SKIP_LINT=TRUE make all
 helm search -l | grep local
 
 # install helm deploy plugin
