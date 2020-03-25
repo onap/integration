@@ -4,8 +4,8 @@ BUILD_DOCKER_CONTAINER = sslendpoints-build
 BINARIES = sslendpoints
 BINARIES := $(addprefix ${BUILD_DIR}/, ${BINARIES})
 
-.PHONY: all
-all: docker-build
+.PHONY: all build
+all build: docker-build
 
 .PHONY: clean
 clean: clean-docker-build clean-build
