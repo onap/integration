@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5ba4417_6d392973",
+        "filename": "test/security/nonssl_xfail.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 93
+      },
+      "writtenOn": "2020-03-25T18:43:52Z",
+      "side": 1,
+      "message": "This is resolved with this change - https://gerrit.onap.org/r/c/oom/+/104157",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 28
+      },
+      "revId": "33365fe2d483784f85d865208a839096e1a5dfdb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
