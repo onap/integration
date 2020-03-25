@@ -10,6 +10,8 @@ log-es 30254
 log-ls 30255
 cli 30260
 cli 30271
+xdcae-hv-ves-collector 30222
+xdcae-ves-collector 30235
 # Upstream:
 awx-web 30478
 netbox-nginx 30420
