@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d292f63a_40d51ace",
+        "filename": "docs/docs_BBS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-03-30T06:39:50Z",
+      "side": 1,
+      "message": "Juste delete the \u0027_\u0027 at the end and remove \u0027.rst\u0027\nDescription: :doc:`BBS-ep \u003c../../dcaegen2.git/docs/sections/services/bbs-event-processor/index\u003e`",
+      "revId": "ddf1a62a711c0ea1dec989a76d56d2f6bdd9005b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
