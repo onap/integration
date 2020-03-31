@@ -10,6 +10,8 @@ log-es 30254
 log-ls 30255
 cli 30260
 cli 30271
+# Waiver for Frankfurt due to AAF impact
+so 30277
 # Upstream:
 awx-web 30478
 netbox-nginx 30420
