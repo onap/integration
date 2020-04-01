@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78537258_f4fae28b",
+        "filename": "docs/docs_5G_PNF_Software_Upgrade_ansible_with_EM.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 3967
+      },
+      "writtenOn": "2020-04-01T13:49:04Z",
+      "side": 1,
+      "message": "do you mean \"and\"?",
+      "range": {
+        "startLine": 19,
+        "startChar": 267,
+        "endLine": 19,
+        "endChar": 269
+      },
+      "revId": "9517d0e9370d838e5e994f0071ba6ead508f3707",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94991f9c_80c8f865",
+        "filename": "docs/docs_5G_PNF_Software_Upgrade_ansible_with_EM.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 3967
+      },
+      "writtenOn": "2020-04-01T13:49:04Z",
+      "side": 1,
+      "message": "SO sends request(s) to SDNC",
+      "range": {
+        "startLine": 23,
+        "startChar": 3,
+        "endLine": 23,
+        "endChar": 27
+      },
+      "revId": "9517d0e9370d838e5e994f0071ba6ead508f3707",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d859f335_ebef84cc",
+        "filename": "docs/docs_5G_PNF_Software_Upgrade_ansible_with_EM.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 3967
+      },
+      "writtenOn": "2020-04-01T13:49:04Z",
+      "side": 1,
+      "message": "SDNC API handler",
+      "range": {
+        "startLine": 24,
+        "startChar": 3,
+        "endLine": 24,
+        "endChar": 14
+      },
+      "revId": "9517d0e9370d838e5e994f0071ba6ead508f3707",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "250a297c_c8eab911",
+        "filename": "docs/docs_5G_PNF_Software_Upgrade_ansible_with_EM.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 3967
+      },
+      "writtenOn": "2020-04-01T13:49:04Z",
+      "side": 1,
+      "message": "selected",
+      "range": {
+        "startLine": 25,
+        "startChar": 116,
+        "endLine": 25,
+        "endChar": 125
+      },
+      "revId": "9517d0e9370d838e5e994f0071ba6ead508f3707",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5254c0d2_81e04a26",
+        "filename": "docs/docs_5G_PNF_Software_Upgrade_ansible_with_EM.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 3967
+      },
+      "writtenOn": "2020-04-01T13:49:04Z",
+      "side": 1,
+      "message": "upgrade procedure",
+      "range": {
+        "startLine": 25,
+        "startChar": 98,
+        "endLine": 25,
+        "endChar": 108
+      },
+      "revId": "9517d0e9370d838e5e994f0071ba6ead508f3707",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a005927_df4e0b29",
+        "filename": "docs/docs_5G_PNF_Software_Upgrade_netconf_with_EM.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 3967
+      },
+      "writtenOn": "2020-04-01T13:49:04Z",
+      "side": 1,
+      "message": "selected",
+      "range": {
+        "startLine": 25,
+        "startChar": 201,
+        "endLine": 25,
+        "endChar": 210
+      },
+      "revId": "9517d0e9370d838e5e994f0071ba6ead508f3707",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7c407bc_280e5bf7",
+        "filename": "docs/docs_5G_PNF_Software_Upgrade_netconf_with_EM.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 3967
+      },
+      "writtenOn": "2020-04-01T13:49:04Z",
+      "side": 1,
+      "message": "upgrade",
+      "range": {
+        "startLine": 25,
+        "startChar": 183,
+        "endLine": 25,
+        "endChar": 193
+      },
+      "revId": "9517d0e9370d838e5e994f0071ba6ead508f3707",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
