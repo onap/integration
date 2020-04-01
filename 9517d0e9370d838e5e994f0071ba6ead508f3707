@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a4f0d296_d1c31406",
+        "filename": "docs/docs_5G_PNF_Software_Upgrade_ansible_with_EM.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 4801
+      },
+      "writtenOn": "2020-04-01T14:05:11Z",
+      "side": 1,
+      "message": "i think \u0027and\u0027 is correct, since \u0027optional\u0027 is given.",
+      "parentUuid": "78537258_f4fae28b",
+      "range": {
+        "startLine": 19,
+        "startChar": 267,
+        "endLine": 19,
+        "endChar": 269
+      },
+      "revId": "9517d0e9370d838e5e994f0071ba6ead508f3707",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "94991f9c_80c8f865",
         "filename": "docs/docs_5G_PNF_Software_Upgrade_ansible_with_EM.rst",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "99d9457e_f6344af1",
+        "filename": "docs/docs_5G_PNF_Software_Upgrade_ansible_with_EM.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 4801
+      },
+      "writtenOn": "2020-04-01T14:05:11Z",
+      "side": 1,
+      "message": "Great. thanks.",
+      "parentUuid": "94991f9c_80c8f865",
+      "range": {
+        "startLine": 23,
+        "startChar": 3,
+        "endLine": 23,
+        "endChar": 27
+      },
+      "revId": "9517d0e9370d838e5e994f0071ba6ead508f3707",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d859f335_ebef84cc",
         "filename": "docs/docs_5G_PNF_Software_Upgrade_ansible_with_EM.rst",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2020-04-01T13:49:04Z",
       "side": 1,
       "message": "SDNC API handler",
+      "range": {
+        "startLine": 24,
+        "startChar": 3,
+        "endLine": 24,
+        "endChar": 14
+      },
+      "revId": "9517d0e9370d838e5e994f0071ba6ead508f3707",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3837d97_15f3869a",
+        "filename": "docs/docs_5G_PNF_Software_Upgrade_ansible_with_EM.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 4801
+      },
+      "writtenOn": "2020-04-01T14:05:11Z",
+      "side": 1,
+      "message": "Great, thanks",
+      "parentUuid": "d859f335_ebef84cc",
       "range": {
         "startLine": 24,
         "startChar": 3,
@@ -117,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "77924879_3fee06e1",
+        "filename": "docs/docs_5G_PNF_Software_Upgrade_ansible_with_EM.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 4801
+      },
+      "writtenOn": "2020-04-01T14:05:11Z",
+      "side": 1,
+      "message": "thanks",
+      "parentUuid": "250a297c_c8eab911",
+      "range": {
+        "startLine": 25,
+        "startChar": 116,
+        "endLine": 25,
+        "endChar": 125
+      },
+      "revId": "9517d0e9370d838e5e994f0071ba6ead508f3707",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5a005927_df4e0b29",
         "filename": "docs/docs_5G_PNF_Software_Upgrade_netconf_with_EM.rst",
         "patchSetId": 1
@@ -151,6 +247,30 @@
       "writtenOn": "2020-04-01T13:49:04Z",
       "side": 1,
       "message": "upgrade",
+      "range": {
+        "startLine": 25,
+        "startChar": 183,
+        "endLine": 25,
+        "endChar": 193
+      },
+      "revId": "9517d0e9370d838e5e994f0071ba6ead508f3707",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "beed612b_257acd50",
+        "filename": "docs/docs_5G_PNF_Software_Upgrade_netconf_with_EM.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 4801
+      },
+      "writtenOn": "2020-04-01T14:05:11Z",
+      "side": 1,
+      "message": "sometimes, \u0027upgrade\u0027 is one kind of action, mangement contains other actions. However, \u0027upgrade procedure\u0027 may be a good choice.",
+      "parentUuid": "b7c407bc_280e5bf7",
       "range": {
         "startLine": 25,
         "startChar": 183,
