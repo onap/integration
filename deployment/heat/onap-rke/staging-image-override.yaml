@@ -64,18 +64,18 @@ policy:
     image: onap/policy-distribution:2.3-SNAPSHOT-latest
 sdc:
   sdc-onboarding-be:
-    image: onap/sdc-onboard-backend:1.6.2
-    onboardingInitImage: onap/sdc-onboard-cassandra-init:1.6.2
+    image: onap/sdc-onboard-backend:1.6.3
+    onboardingInitImage: onap/sdc-onboard-cassandra-init:1.6.3
   sdc-fe:
-    image: onap/sdc-frontend:1.6.2
+    image: onap/sdc-frontend:1.6.3
   sdc-be:
-    image: onap/sdc-backend:1.6.2
-    backendInitImage: onap/sdc-backend-init:1.6.2
+    image: onap/sdc-backend:1.6.3
+    backendInitImage: onap/sdc-backend-init:1.6.3
   sdc-kb:
-    image: onap/sdc-kibana:1.6.2
+    image: onap/sdc-kibana:1.6.3
   sdc-cs:
-    image: onap/sdc-cassandra:1.6.2
-    cassandraInitImage: onap/sdc-cassandra-init:1.6.2
+    image: onap/sdc-cassandra:1.6.3
+    cassandraInitImage: onap/sdc-cassandra-init:1.6.3
   sdc-wfd-be:
     image: onap/workflow-backend:1.6.1
     configInitImage: onap/workflow-init:1.6.1
@@ -119,10 +119,10 @@ vid:
   image: onap/vid:6.0.3-latest
 portal:
   portal-app:
-    image: onap/portal-app:2.6.0-STAGING-latest
+    image: onap/portal-app:3.2.0-STAGING-latest
   portal-mariadb:
-    image: onap/portal-db:2.6.0-STAGING-latest
+    image: onap/portal-db:3.2.0-STAGING-latest
   portal-sdk:
-    image: onap/portal-sdk:2.6.0-STAGING-latest
+    image: onap/portal-sdk:3.2.0-STAGING-latest
   portal-widget:
-    image: onap/portal-wms:2.6.0-STAGING-latest
+    image: onap/portal-wms:3.2.0-STAGING-latest
