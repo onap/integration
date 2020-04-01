@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e0ef08b_dc5c690c",
+        "filename": "docs/docs_5G_PNF_Software_Upgrade_ansible_with_EM.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-04-01T17:20:50Z",
+      "side": 1,
+      "message": "rst format is correct but to be aligned with other use case, I would recommend\n\nTitle1\n------\n\nTitle2\n~~~~~~\n\nTitle3\n\u003d\u003d\u003d\u003d\u003d\u003d",
+      "revId": "448eb804843bbe93cddbd7e885e303f6653630bb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11232435_4e0985ab",
+        "filename": "docs/docs_5G_PNF_Software_Upgrade_ansible_with_EM.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-04-01T17:20:50Z",
+      "side": 1,
+      "message": "underline too long\n\u003d\u003e \nPNF Software Upgrade Scenario: Using Ansible protocol with EM\n-------------------------------------------------------------\n\nSoftware Upgrade Procedure\n~~~~~~~~~~~~~~~~~~~~~~~~~~",
+      "revId": "448eb804843bbe93cddbd7e885e303f6653630bb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3cdc015_7e6344e5",
+        "filename": "docs/docs_5G_PNF_Software_Upgrade_ansible_with_EM.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-04-01T17:20:50Z",
+      "side": 1,
+      "message": "corresponding",
+      "revId": "448eb804843bbe93cddbd7e885e303f6653630bb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73dfc6b7_8a2670e6",
+        "filename": "docs/docs_5G_PNF_Software_Upgrade_netconf_with_EM.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-04-01T17:20:50Z",
+      "side": 1,
+      "message": "----------- too long, it must fit the title",
+      "revId": "448eb804843bbe93cddbd7e885e303f6653630bb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3c12678_17c3007f",
+        "filename": "docs/docs_5G_PNF_Software_Upgrade_netconf_with_EM.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-04-01T17:20:50Z",
+      "side": 1,
+      "message": "corresponding",
+      "revId": "448eb804843bbe93cddbd7e885e303f6653630bb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d191110_ca85c4ce",
+        "filename": "docs/docs_5G_PNF_Software_Upgrade_netconf_with_EM.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-04-01T17:20:50Z",
+      "side": 1,
+      "message": "too long, it must fit the title",
+      "revId": "448eb804843bbe93cddbd7e885e303f6653630bb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
