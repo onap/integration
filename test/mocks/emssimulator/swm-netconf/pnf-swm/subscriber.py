@@ -19,7 +19,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # ============LICENSE_END=========================================================
-
+import foobarfoo
 __author__ = "Eliezio Oliveira <eliezio.oliveira@est.tech>"
 __copyright__ = "Copyright (C) 2020 Nordix Foundation, and Huawei"
 __license__ = "Apache 2.0"
