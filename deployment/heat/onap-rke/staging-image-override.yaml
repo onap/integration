@@ -96,27 +96,27 @@ sdnc:
     image: onap/sdnc-ueb-listener-image:1.8.0-STAGING-latest
 
 so:
-  image: onap/so/api-handler-infra:1.6.0-STAGING-latest
+  image: onap/so/api-handler-infra:1.6.1-STAGING-latest
   so-monitoring:
-    image: onap/so/so-monitoring:1.6.0-STAGING-latest
+    image: onap/so/so-monitoring:1.6.1-STAGING-latest
   so-bpmn-infra:
-    image: onap/so/bpmn-infra:1.6.0-STAGING-latest
+    image: onap/so/bpmn-infra:1.6.1-STAGING-latest
   so-openstack-adapter:
-    image: onap/so/openstack-adapter:1.6.0-STAGING-latest
+    image: onap/so/openstack-adapter:1.6.1-STAGING-latest
   so-catalog-db-adapter:
-    image: onap/so/catalog-db-adapter:1.6.0-STAGING-latest
+    image: onap/so/catalog-db-adapter:1.6.1-STAGING-latest
   so-vnfm-adapter:
-    image: onap/so/vnfm-adapter:1.6.0-STAGING-latest
+    image: onap/so/vnfm-adapter:1.6.1-STAGING-latest
   so-sdnc-adapter:
-    image: onap/so/sdnc-adapter:1.6.0-STAGING-latest
+    image: onap/so/sdnc-adapter:1.6.1-STAGING-latest
   so-vfc-adapter:
-    image: onap/so/vfc-adapter:1.6.0-STAGING-latest
+    image: onap/so/vfc-adapter:1.6.1-STAGING-latest
   so-sdc-controller:
-    image: onap/so/sdc-controller:1.6.0-STAGING-latest
+    image: onap/so/sdc-controller:1.6.1-STAGING-latest
   so-request-db-adapter:
-    image: onap/so/request-db-adapter:1.6.0-STAGING-latest
+    image: onap/so/request-db-adapter:1.6.1-STAGING-latest
 vid:
-  image: onap/vid:6.0.3-latest
+  image: onap/vid:6.0-STAGING-latest
 portal:
   portal-app:
     image: onap/portal-app:3.2.0-STAGING-latest
