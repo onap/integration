@@ -49,6 +49,8 @@ Functional Requirements
 
 :ref:`5G - E2E Network Slicing <docs_E2E_network_slicing>`
 
+:ref:`5G - NRM Configuration <docs_5G_NRM_Configuration>`
+
 :ref:`PNF Support - PNF Plug and Play <docs_5g_pnf_pnp>`
 
 :ref:`PNF Support - PNF Software Upgrade <docs_5g_pnf_software_upgrade>`
