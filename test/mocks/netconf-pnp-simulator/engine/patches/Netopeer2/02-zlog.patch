@@ -1,0 +1,105 @@
+diff --git a/server/CMakeLists.txt b/server/CMakeLists.txt
+index f0c82c1..99c6a3d 100755
+--- a/server/CMakeLists.txt
++++ b/server/CMakeLists.txt
+@@ -130,6 +130,13 @@ add_library(serverobj OBJECT ${srcs})
+ # netopeer2-server target
+ add_executable(netopeer2-server $<TARGET_OBJECTS:serverobj> main.c)
+
++# dependencies - zlog
++find_library(ZLOG zlog)
++if(NOT ZLOG)
++    message(FATAL_ERROR "Unable to find zlog library.")
++endif()
++target_link_libraries(netopeer2-server ${ZLOG})
++
+ # dependencies - pthread
+ set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
+ find_package(Threads REQUIRED)
+diff --git a/server/log.c b/server/log.c
+index e660635..6b8117b 100644
+--- a/server/log.c
++++ b/server/log.c
+@@ -27,6 +27,8 @@
+ #include <nc_server.h>
+ #include <sysrepo.h>
+
++#include <zlog.h>
++
+ volatile uint8_t np2_verbose_level;
+ uint8_t np2_libssh_verbose_level;
+ uint8_t np2_sr_verbose_level;
+@@ -102,44 +104,24 @@ np2_err_location(void)
+ static void
+ np2log(int priority, const char *fmt, ...)
+ {
+-    char *format;
+     va_list ap;
+
+     va_start(ap, fmt);
+-    vsyslog(priority, fmt, ap);
+-    va_end(ap);
+-
+-    if (np2_stderr_log) {
+-        format = malloc(11 + strlen(fmt) + 2);
+-        if (!format) {
+-            fprintf(stderr, "ERROR: Memory allocation failed (%s:%d)", __FILE__, __LINE__);
+-            return;
+-        }
+-
+-        switch (priority) {
+-        case LOG_ERR:
+-            sprintf(format, "[ERR]: %s\n", fmt);
++    switch (priority) {
++        case LOG_INFO:
++            vdzlog_info(fmt, ap);
+             break;
+         case LOG_WARNING:
+-            sprintf(format, "[WRN]: %s\n", fmt);
+-            break;
+-        case LOG_INFO:
+-            sprintf(format, "[INF]: %s\n", fmt);
++            vdzlog_warn(fmt, ap);
+             break;
+         case LOG_DEBUG:
+-            sprintf(format, "[DBG]: %s\n", fmt);
++            vdzlog_debug(fmt, ap);
+             break;
+         default:
+-            sprintf(format, "[UNKNOWN]: %s\n", fmt);
++            vdzlog_error(fmt, ap);
+             break;
+-        }
+-
+-        va_start(ap, fmt);
+-        vfprintf(stderr, format, ap);
+-        va_end(ap);
+-
+-        free(format);
+     }
++    va_end(ap);
+ }
+
+ /**
+diff --git a/server/main.c b/server/main.c
+index 601e8a8..9d28931 100644
+--- a/server/main.c
++++ b/server/main.c
+@@ -39,6 +39,8 @@
+ #include <nc_server.h>
+ #include <sysrepo.h>
+
++#include <zlog.h>
++
+ #include "common.h"
+ #include "operations.h"
+ #include "netconf_monitoring.h"
+@@ -1545,6 +1547,8 @@ main(int argc, char *argv[])
+     openlog("netopeer2-server", LOG_PID, LOG_DAEMON);
+     np2_stderr_log = 1;
+
++    dzlog_init("/opt/etc/zlog.conf", "netopeer2-server");
++
+     /* process command line options */
+     while ((c = getopt(argc, argv, OPTSTRING)) != -1) {
+         switch (c) {
