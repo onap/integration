@@ -1,0 +1,26 @@
+diff --git a/supervisor/loggers.py b/supervisor/loggers.py
+index 84d47ae..d23db3c 100644
+--- a/supervisor/loggers.py
++++ b/supervisor/loggers.py
+@@ -287,7 +287,7 @@ class LogRecord:
+             now = time.time()
+             msecs = (now - long(now)) * 1000
+             part1 = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(now))
+-            asctime = '%s,%03d' % (part1, msecs)
++            asctime = '%s.%03d' % (part1, msecs)
+             levelname = LOG_LEVELS_BY_NUM[self.level]
+             msg = as_string(self.msg)
+             if self.kw:
+diff --git a/supervisor/options.py b/supervisor/options.py
+index 4e98340..fc19300 100644
+--- a/supervisor/options.py
++++ b/supervisor/options.py
+@@ -1463,7 +1463,7 @@ class ServerOptions(Options):
+
+     def make_logger(self):
+         # must be called after realize() and after supervisor does setuid()
+-        format = '%(asctime)s %(levelname)s %(message)s\n'
++        format = '%(asctime)s %(levelname)-5s [supervisor] %(message)s\n'
+         self.logger = loggers.getLogger(self.loglevel)
+         if self.nodaemon:
+             loggers.handle_stdout(self.logger, format)

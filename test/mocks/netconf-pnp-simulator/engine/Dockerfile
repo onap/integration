@@ -17,8 +17,9 @@
 # SPDX-License-Identifier: Apache-2.0
 # ============LICENSE_END=========================================================
 
-FROM python:3.7.6-alpine3.11 as build
+FROM python:3.7.7-alpine3.11 as build
 
+ARG zlog_version=1.2.14
 ARG libyang_version=v1.0-r5
 ARG sysrepo_version=v0.7.9
 ARG libnetconf2_version=v0.12-r2
@@ -77,6 +78,13 @@ RUN set -eux \
       && make \
       && make install
 
+# zlog
+RUN set -eux \
+      && git clone --branch $zlog_version --depth 1 https://github.com/HardySimpson/zlog \
+      && cd zlog/src \
+      && make PREFIX=/opt \
+      && make install PREFIX=/opt
+
 # sysrepo
 COPY patches/sysrepo/ ./patches/sysrepo/
 RUN set -eux \
@@ -89,6 +97,7 @@ RUN set -eux \
          -DCMAKE_INSTALL_PREFIX:PATH=/opt \
          -DGEN_PYTHON_VERSION=3 \
          -DPYTHON_MODULE_PATH:PATH=/opt/lib/python3.7/site-packages \
+         -DBUILD_EXAMPLES=0 \
          .. \
       && make -j2 \
       && make install
@@ -132,18 +141,21 @@ RUN set -eux \
       && make -j2 \
       && make install
 
-FROM python:3.7.6-alpine3.11
+FROM python:3.7.7-alpine3.11
 LABEL authors="eliezio.oliveira@est.tech"
 
 RUN set -eux \
-      && pip install supervisor \
+      && pip install loguru supervisor virtualenv \
       && apk update \
       && apk upgrade -a \
       && apk add \
+         coreutils \
          libcurl \
          libev \
+         openssl \
          pcre \
          protobuf-c \
+         xmlstarlet \
       # v0.9.3 has somes bugs as warned in libnetconf2/CMakeLists.txt:237
       && apk add --repository http://dl-cdn.alpinelinux.org/alpine/v3.10/main libssh==0.8.8-r0 \
       && rm -rf /var/cache/apk/*
@@ -153,14 +165,19 @@ COPY --from=build /opt/ /opt/
 ENV LD_LIBRARY_PATH=/opt/lib:/opt/lib64
 ENV PYTHONPATH=/opt/lib/python3.7/site-packages
 
+COPY patches/supervisor/ /usr/src/patches/supervisor/
+
+RUN set -eux \
+      && cd /usr/local/lib/python3.7/site-packages \
+      && for p in /usr/src/patches/supervisor/*.patch; do patch -p1 -i $p; done
+
 COPY config/ /config
 VOLUME /config
+COPY templates/ /templates
 
 # finish setup and add netconf user
 RUN adduser --system --disabled-password --gecos 'Netconf User' netconf
 
-ENV HOME=/home/netconf
-VOLUME $HOME/.local/share/virtualenvs
 # This is NOT a robust health check but it does help tox-docker to detect when
 # it can start the tests.
 HEALTHCHECK --interval=1s --start-period=2s --retries=10 CMD test -f /run/netopeer2-server.pid
@@ -170,6 +187,12 @@ EXPOSE 830
 COPY supervisord.conf /etc/supervisord.conf
 RUN mkdir /etc/supervisord.d
 
-COPY entrypoint.sh /opt/bin/
+COPY zlog.conf /opt/etc/
+
+# Sensible defaults for loguru configuration
+ENV LOGURU_FORMAT="<green>{time:YYYY-DD-MM HH:mm:ss.SSS}</green> {level: <5} [mynetconf] <lvl>{message}</lvl>"
+ENV LOGURU_COLORIZE=True
+
+COPY entrypoint.sh common.sh configure-*.sh reconfigure-*.sh /opt/bin/
 
 CMD /opt/bin/entrypoint.sh

@@ -1,0 +1,12 @@
+<system xmlns="urn:ietf:params:xml:ns:yang:ietf-system">
+  <authentication>
+    <user>
+      <name>netconf</name>
+      <authorized-key>
+        <name></name>
+        <algorithm></algorithm>
+        <key-data></key-data>
+      </authorized-key>
+    </user>
+  </authentication>
+</system>

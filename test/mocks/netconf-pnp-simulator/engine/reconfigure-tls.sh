@@ -1,7 +1,6 @@
 #!/bin/ash
 # shellcheck disable=SC2086
 
-#-
 # ============LICENSE_START=======================================================
 #  Copyright (C) 2020 Nordix Foundation.
 # ================================================================================
@@ -25,9 +24,13 @@ set -eu
 HERE=${0%/*}
 source $HERE/common.sh
 
-configure_ssh startup merge $TEMPLATES
-configure_tls startup merge $TEMPLATES
+WORKDIR=$(mktemp -d)
+trap "rm -rf $WORKDIR" EXIT
 
-$HERE/configure-modules.sh
+sysrepocfg --format=xml --export=$WORKDIR/load_server_certs.xml ietf-keystore
+sysrepocfg --format=xml --export=$WORKDIR/tls_listen.xml ietf-netconf-server
+configure_tls running import $WORKDIR
 
-exec /usr/local/bin/supervisord -c /etc/supervisord.conf
+pid=$(cat /var/run/netopeer2-server.pid)
+log INFO Restart Netopeer2 pid=$pid
+kill $pid
