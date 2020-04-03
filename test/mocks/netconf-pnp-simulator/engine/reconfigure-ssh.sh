@@ -1,7 +1,6 @@
 #!/bin/ash
 # shellcheck disable=SC2086
 
-#-
 # ============LICENSE_START=======================================================
 #  Copyright (C) 2020 Nordix Foundation.
 # ================================================================================
@@ -25,9 +24,14 @@ set -eu
 HERE=${0%/*}
 source $HERE/common.sh
 
-configure_ssh startup merge $TEMPLATES
-configure_tls startup merge $TEMPLATES
+SSH_CONFIG=$CONFIG/ssh
 
-$HERE/configure-modules.sh
+WORKDIR=$(mktemp -d)
+trap "rm -rf $WORKDIR" EXIT
 
-exec /usr/local/bin/supervisord -c /etc/supervisord.conf
+sysrepocfg --format=xml --export=$WORKDIR/load_auth_pubkey.xml ietf-system
+configure_ssh running import $WORKDIR
+
+pid=$(cat /var/run/netopeer2-server.pid)
+log INFO Restart Netopeer2 pid=$pid
+kill $pid

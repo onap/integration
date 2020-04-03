@@ -1,0 +1,172 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 14c8467..5af087e 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -105,6 +105,11 @@ configure_file(${PROJECT_SOURCE_DIR}/inc/sysrepo/values.h.in ${PROJECT_BINARY_DI
+ configure_file(${PROJECT_SOURCE_DIR}/inc/sysrepo/xpath.h ${PROJECT_BINARY_DIR}/inc/sysrepo/xpath.h COPYONLY)
+
+ # find required libraries
++find_library(ZLOG zlog)
++if(NOT ZLOG)
++    message(FATAL_ERROR "zlog must be installed.")
++endif()
++
+ find_package(EV REQUIRED)
+ include_directories(${EV_INCLUDE_DIR})
+
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 342ad9d..d026a81 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -85,9 +85,9 @@ add_dependencies(SR_SRC COMMON)
+ add_dependencies(SR_ENGINE COMMON)
+
+ if(USE_AVL_LIB)
+-    set(LINK_LIBRARIES pthread ${AVL_LIBRARIES} ${EV_LIBRARIES} ${PROTOBUF-C_LIBRARIES} ${YANG_LIBRARIES})
++    set(LINK_LIBRARIES pthread ${AVL_LIBRARIES} ${EV_LIBRARIES} ${PROTOBUF-C_LIBRARIES} ${YANG_LIBRARIES} ${ZLOG})
+ else(USE_AVL_LIB)
+-    set(LINK_LIBRARIES pthread ${REDBLACK_LIBRARIES} ${EV_LIBRARIES} ${PROTOBUF-C_LIBRARIES} ${YANG_LIBRARIES})
++    set(LINK_LIBRARIES pthread ${REDBLACK_LIBRARIES} ${EV_LIBRARIES} ${PROTOBUF-C_LIBRARIES} ${YANG_LIBRARIES} ${ZLOG})
+ endif(USE_AVL_LIB)
+
+ #handle rt library that doesn't exist on OS X
+diff --git a/src/common/sr_logger.c b/src/common/sr_logger.c
+index 8dd6f31..ea94044 100644
+--- a/src/common/sr_logger.c
++++ b/src/common/sr_logger.c
+@@ -29,6 +29,8 @@
+ #include <stdarg.h>
+ #include <pthread.h>
+
++#include <zlog.h>
++
+ #include "sr_common.h"
+ #include "sr_logger.h"
+
+@@ -76,6 +78,7 @@ void
+ sr_logger_init(const char *app_name)
+ {
+ #if SR_LOGGING_ENABLED
++    dzlog_init("/opt/etc/zlog.conf", app_name);
+     if (NULL != sr_syslog_identifier) {
+         /* if some syslog identifier was already set, release it as we are going to set new one */
+         free((char*)sr_syslog_identifier);
+diff --git a/src/common/sr_logger.h b/src/common/sr_logger.h
+index 37c3487..c95a68d 100644
+--- a/src/common/sr_logger.h
++++ b/src/common/sr_logger.h
+@@ -31,6 +31,8 @@
+ #include <syslog.h>
+ #include <pthread.h>
+
++#include <zlog.h>
++
+ #include "sr_constants.h"
+
+ /**
+@@ -156,37 +158,31 @@ extern __thread char strerror_buf [SR_MAX_STRERROR_LEN]; /**< thread local buffe
+ /**
+  * Internal output macro
+  */
+-#define SR_LOG__INTERNAL(LL, MSG, ...) \
+-    do { \
+-        if (sr_ll_stderr >= LL) \
+-            SR_LOG__STDERR(LL, MSG, __VA_ARGS__) \
+-        if (sr_ll_syslog >= LL) \
+-            SR_LOG__SYSLOG(LL, MSG, __VA_ARGS__) \
+-        if (NULL != sr_log_callback) \
+-            SR_LOG__CALLBACK(LL, MSG, __VA_ARGS__) \
+-    } while(0)
+-
+ #if SR_LOGGING_ENABLED
+
+ /** Prints an error message (with format specifiers). */
+-#define SR_LOG_ERR(MSG, ...) SR_LOG__INTERNAL(SR_LL_ERR, MSG, __VA_ARGS__)
++#define SR_LOG_ERR(MSG, ...) dzlog(__FILE__, sizeof(__FILE__)-1, __func__, sizeof(__func__)-1, \
++        __LINE__, ZLOG_LEVEL_ERROR, MSG, __VA_ARGS__)
+ /** Prints an error message. */
+-#define SR_LOG_ERR_MSG(MSG) SR_LOG__INTERNAL(SR_LL_ERR, MSG "%s", "")
++#define SR_LOG_ERR_MSG(MSG) SR_LOG_ERR(MSG "%s", "")
+
+ /** Prints a warning message (with format specifiers). */
+-#define SR_LOG_WRN(MSG, ...) SR_LOG__INTERNAL(SR_LL_WRN, MSG, __VA_ARGS__)
++#define SR_LOG_WRN(MSG, ...) dzlog(__FILE__, sizeof(__FILE__)-1, __func__, sizeof(__func__)-1, \
++        __LINE__, ZLOG_LEVEL_WARN, MSG, __VA_ARGS__)
+ /** Prints a warning message. */
+-#define SR_LOG_WRN_MSG(MSG) SR_LOG__INTERNAL(SR_LL_WRN, MSG "%s", "")
++#define SR_LOG_WRN_MSG(MSG) SR_LOG_WRN(MSG "%s", "")
+
+ /** Prints an informational message (with format specifiers). */
+-#define SR_LOG_INF(MSG, ...) SR_LOG__INTERNAL(SR_LL_INF, MSG, __VA_ARGS__)
++#define SR_LOG_INF(MSG, ...) dzlog(__FILE__, sizeof(__FILE__)-1, __func__, sizeof(__func__)-1, \
++        __LINE__, ZLOG_LEVEL_INFO, MSG, __VA_ARGS__)
+ /** Prints an informational message. */
+-#define SR_LOG_INF_MSG(MSG) SR_LOG__INTERNAL(SR_LL_INF, MSG "%s", "")
++#define SR_LOG_INF_MSG(MSG) SR_LOG_INF(MSG "%s", "")
+
+ /** Prints a development debug message (with format specifiers). */
+-#define SR_LOG_DBG(MSG, ...) SR_LOG__INTERNAL(SR_LL_DBG, MSG, __VA_ARGS__)
++#define SR_LOG_DBG(MSG, ...) dzlog(__FILE__, sizeof(__FILE__)-1, __func__, sizeof(__func__)-1, \
++        __LINE__, ZLOG_LEVEL_DEBUG, MSG, __VA_ARGS__)
+ /** Prints a development debug message. */
+-#define SR_LOG_DBG_MSG(MSG) SR_LOG__INTERNAL(SR_LL_DBG, MSG "%s", "")
++#define SR_LOG_DBG_MSG(MSG) SR_LOG_DBG(MSG "%s", "")
+
+ #else
+ #define SR_LOG_ERR(...)
+diff --git a/src/executables/sysrepocfg.c b/src/executables/sysrepocfg.c
+index 0000951..f48ed5e 100644
+--- a/src/executables/sysrepocfg.c
++++ b/src/executables/sysrepocfg.c
+@@ -2000,6 +2000,9 @@ main(int argc, char* argv[])
+         }
+     }
+
++    /* init logger */
++    sr_logger_init("sysrepocfg");
++
+     /* set log levels */
+     sr_log_stderr(SR_LL_ERR);
+     sr_log_syslog(SR_LL_NONE);
+diff --git a/src/executables/sysrepoctl.c b/src/executables/sysrepoctl.c
+index 3b02e7d..60ffd7e 100644
+--- a/src/executables/sysrepoctl.c
++++ b/src/executables/sysrepoctl.c
+@@ -1311,6 +1311,9 @@ main(int argc, char* argv[])
+         search_dir_count = 1;
+     }
+
++    /* init logger */
++    sr_logger_init("sysrepoctl");
++
+     /* set log levels */
+     sr_log_stderr(SR_LL_ERR);
+     sr_log_syslog(SR_LL_NONE);
+diff --git a/src/clientlib/client_library.c b/src/clientlib/client_library.c
+index c3da2e5..b3beab7 100644
+--- a/src/clientlib/client_library.c
++++ b/src/clientlib/client_library.c
+@@ -377,6 +377,11 @@ sr_connect(const char *app_name, const sr_conn_options_t opts, sr_conn_ctx_t **c
+
+     CHECK_NULL_ARG2(app_name, conn_ctx_p);
+
++    if (0 == connections_cnt) {
++        /* this is the first connection - initialize logging */
++        sr_logger_init(app_name);
++    }
++
+     SR_LOG_DBG_MSG("Connecting to Sysrepo Engine.");
+
+     /* create the connection */
+@@ -385,11 +390,6 @@ sr_connect(const char *app_name, const sr_conn_options_t opts, sr_conn_ctx_t **c
+
+     pthread_mutex_lock(&global_lock);
+
+-    if (0 == connections_cnt) {
+-        /* this is the first connection - initialize logging */
+-        sr_logger_init(app_name);
+-    }
+-
+     /* attempt to connect to sysrepo daemon socket */
+     rc = cl_socket_connect(connection, SR_DAEMON_SOCKET);
+     if (SR_ERR_OK != rc) {

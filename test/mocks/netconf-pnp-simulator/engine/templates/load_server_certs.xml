@@ -1,0 +1,20 @@
+<keystore xmlns="urn:ietf:params:xml:ns:yang:ietf-keystore">
+  <private-keys>
+    <private-key>
+      <name>server_key</name>
+      <certificate-chains>
+        <certificate-chain>
+          <name>server_cert</name>
+          <certificate></certificate>
+        </certificate-chain>
+      </certificate-chains>
+    </private-key>
+  </private-keys>
+  <trusted-certificates>
+    <name>trusted_ca_list</name>
+    <trusted-certificate>
+      <name>ca</name>
+      <certificate></certificate>
+    </trusted-certificate>
+  </trusted-certificates>
+</keystore>
