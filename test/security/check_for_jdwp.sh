@@ -136,6 +136,5 @@ done < $FILTERED_PORTS_LIST
 N_FILTERED_PORTS_LIST=$(cat $FILTERED_PORTS_LIST |wc -l)
 echo "------------------------------------"
 echo "Nb error pod(s): $N_FILTERED_PORTS_LIST"
-cat $FILTERED_PORTS_LIST
 
 exit $N_FILTERED_PORTS_LIST
