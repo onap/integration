@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f4f89e6_4eda0bb1",
+        "filename": "test/security/check_for_jdwp.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-04-06T06:23:12Z",
+      "side": 1,
+      "message": "What issues did you encounter if this condition wasnt\u0027t there? Isn\u0027t it superfluous? If the file is empty then nothing will be printed anyway.",
+      "revId": "b50c5be9a1fed4bdce69a2a6c7e13dac7d1bacae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
