@@ -7,7 +7,7 @@ pip3 --version > /dev/null || { echo 'python3-pip package is not available, exit
 if [ -d ".env" ]; then
 	echo ".env is prepared"
 else
-	virtualenv --no-site-packages --distribute  -p python3 .env
+	virtualenv -p python3 .env
 fi
 
 source .env/bin/activate && pip3 install -r requirements.txt
