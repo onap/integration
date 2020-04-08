@@ -27,6 +27,7 @@ from concurrent.futures import ThreadPoolExecutor
 from threading import Timer
 
 import sysrepo as sr
+from loguru import logger
 
 YANG_MODULE_NAME = 'pnf-sw-upgrade'
 
@@ -117,13 +118,13 @@ def main():
         try:
             print_current_config(sess, YANG_MODULE_NAME)
         except Exception as e:
-            print(e)
+            logger.error(e)
 
         sr.global_loop()
 
-        print("Application exit requested, exiting.")
+        logger.info("Application exit requested, exiting.")
     except Exception as e:
-        print(e)
+        logger.error(e)
 
 
 # Function to be called for subscribed client of given session whenever configuration changes.
@@ -138,7 +139,7 @@ def module_change_cb(sess, module_name, event, private_ctx):
                 break
             handle_change(conn, change.oper(), change.old_val(), change.new_val())
     except Exception as e:
-        print(e)
+        logger.error(e)
     return sr.SR_ERR_OK
 
 
@@ -150,10 +151,10 @@ def print_current_config(session, module_name):
     values = session.get_items(select_xpath)
 
     if values is not None:
-        print("========== BEGIN CONFIG ==========")
+        logger.info("========== BEGIN CONFIG ==========")
         for i in range(values.val_cnt()):
-            print(values.val(i).to_string(), end='')
-        print("=========== END CONFIG ===========")
+            logger.info(values.val(i).to_string().strip())
+        logger.info("=========== END CONFIG ===========")
 
 
 def handle_change(conn, op, old_val, new_val):
@@ -161,7 +162,7 @@ def handle_change(conn, op, old_val, new_val):
     Handle individual changes on the model.
     """
     if op == sr.SR_OP_CREATED:
-        print("CREATED: %s" % new_val.to_string())
+        logger.info("CREATED: %s" % new_val.to_string())
         xpath = new_val.xpath()
         last_node = xpath_ctx.last_node(xpath)
         # Warning: 'key_value' modifies 'xpath'!
@@ -169,11 +170,11 @@ def handle_change(conn, op, old_val, new_val):
         if key_id and last_node == 'action':
             executor.submit(execute_action, conn, key_id, new_val.data().get_enum())
     elif op == sr.SR_OP_DELETED:
-        print("DELETED: %s" % old_val.to_string())
+        logger.info("DELETED: %s" % old_val.to_string())
     elif op == sr.SR_OP_MODIFIED:
-        print("MODIFIED: %s to %s" % (old_val.to_string(), new_val.to_string()))
+        logger.info("MODIFIED: %s to %s" % (old_val.to_string(), new_val.to_string()))
     elif op == sr.SR_OP_MOVED:
-        print("MOVED: %s after %s" % (new_val.xpath(), old_val.xpath()))
+        logger.info("MOVED: %s after %s" % (new_val.xpath(), old_val.xpath()))
 
 
 def execute_action(conn, key_id, action):
