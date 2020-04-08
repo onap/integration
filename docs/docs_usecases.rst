@@ -51,6 +51,8 @@ Functional Requirements
 
 :ref:`5G - NRM Configuration <docs_5G_NRM_Configuration>`
 
+:ref:`5G - A1 Adaptor <docs_5g_a1_adaptor>`
+
 :ref:`PNF Support - PNF Plug and Play <docs_5g_pnf_pnp>`
 
 :ref:`PNF Support - PNF Software Upgrade <docs_5g_pnf_software_upgrade>`
