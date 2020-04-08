@@ -1,9 +1,0 @@
-{
-  "simulatorParams": {
-    "vesServerUrl": "http://VES-HOST:VES-PORT/eventListener/v7",
-    "repeatInterval": 10,
-    "repeatCount": 2
-  },
-  "templateName": "notification.json",
-  "patch": {}
-}
