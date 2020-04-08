@@ -2,7 +2,7 @@ version: '3'
 
 services:
   netconf-pnp-simulator:
-    image: nexus3.onap.org:10001/onap/integration/simulators/netconf-pnp-simulator:2.6.2
+    image: nexus3.onap.org:10001/onap/integration/simulators/netconf-pnp-simulator:2.8.1
     container_name: netconf-pnp-simulator
     restart: always
     ports:
