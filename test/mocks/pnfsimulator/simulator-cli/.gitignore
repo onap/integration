@@ -1,7 +1,0 @@
-**/*.iml
-**/.idea
-**/target
-**/__pycache__
-build/**
-dist/**
-pnf_simulator_cli.egg-info/**

@@ -1,8 +1,0 @@
-module newyangmodel {
-  namespace "http://onap.org/newyangmodel";
-  prefix config2;
-  container config2 {
-    config true;
-    leaf item1 {type uint32;}
-  }
-}

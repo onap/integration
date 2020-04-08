@@ -1,9 +1,0 @@
-module newmodel {
-  namespace "http://onap.org/pnf-simulator2";
-  prefix config2;
-  container config2 {
-    config true;
-    leaf item1 {type uint32;}
-    leaf item2 {type uint32;}
-  }
-}

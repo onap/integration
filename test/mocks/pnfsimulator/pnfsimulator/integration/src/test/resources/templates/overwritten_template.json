@@ -1,6 +1,0 @@
-{
-  "id": "overwrite_template.json",
-  "content": {
-    "field1": "overwritten_field1"
-  }
-}
