@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68cfc0fb_7bdc8228",
+        "filename": "docs/docs_5g_a1_adaptor.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-04-09T09:08:46Z",
+      "side": 1,
+      "message": "trailing spaces",
+      "revId": "fa2ab4ca2ba20e154b7776fa799228542c5736cf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fdf4d536_9e646ef6",
+        "filename": "docs/docs_5g_a1_adaptor.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-04-09T09:08:46Z",
+      "side": 1,
+      "message": "5G - A1 Adaptor\n---------------\n\n- char must fit title lenght",
+      "revId": "fa2ab4ca2ba20e154b7776fa799228542c5736cf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4763bca6_5a55cd0d",
+        "filename": "docs/docs_5g_a1_adaptor.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-04-09T09:08:46Z",
+      "side": 1,
+      "message": "very long sentence.\ncarrier return after .\n\ns/mobilty/mobility",
+      "revId": "fa2ab4ca2ba20e154b7776fa799228542c5736cf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5e5aea8_9a702060",
+        "filename": "docs/docs_5g_a1_adaptor.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-04-09T09:08:46Z",
+      "side": 1,
+      "message": "I am not very fond of official documentation redirecting to non official documentation (wiki)\nas the wiki can be amended by anybody and is not versioned.\ndocumentation team created some scripts to transform wiki page into rst file for official documentation \u003d\u003e https://lists.onap.org/g/onap-discuss/message/20512\n\nI would suggest if possible to adopt that.",
+      "revId": "fa2ab4ca2ba20e154b7776fa799228542c5736cf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "481b5332_431850aa",
+        "filename": "docs/docs_5g_a1_adaptor.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-04-09T09:08:46Z",
+      "side": 1,
+      "message": "if the load to migrate the wiki into official documention is too high, I woul suggest to migrate the general procedure",
+      "revId": "fa2ab4ca2ba20e154b7776fa799228542c5736cf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72b580f6_199a6935",
+        "filename": "docs/docs_5g_a1_adaptor.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-04-09T09:08:46Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "fa2ab4ca2ba20e154b7776fa799228542c5736cf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6d41341_41ab6ec3",
+        "filename": "docs/docs_5g_a1_adaptor.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-04-09T09:08:46Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "fa2ab4ca2ba20e154b7776fa799228542c5736cf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "782b024c_b1f451c1",
+        "filename": "docs/docs_5g_a1_adaptor.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-04-09T09:08:46Z",
+      "side": 1,
+      "message": "maybe indicate more precisely what is expected\nit is in the sdnc pod?\nit is included in sdnc \tsdnc-dgbuilder \tnexus3.onap.org:10001/onap/ccsdk-dgbuilder-image \t0.7.2\nor is it somewhere else\nsee full list of the dockers in https://gating-results.onap.eu/results/onap_daily_pod4_master-503040688-04-08-2020_07-04/infrastructure-healthcheck/k8s/versions.html",
+      "revId": "fa2ab4ca2ba20e154b7776fa799228542c5736cf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8971499_209aab15",
+        "filename": "docs/docs_5g_a1_adaptor.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-04-09T09:08:46Z",
+      "side": 1,
+      "message": "title line too short \u003d\u003e must cover the title",
+      "revId": "fa2ab4ca2ba20e154b7776fa799228542c5736cf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
