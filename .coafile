@@ -12,8 +12,6 @@ json_sort = False
 indent_size = 2
 ignore =
   .tox/**,
-  # This one ought to be broken
-  test/mocks/pnfsimulator/pnfsimulator/src/test/resources/org/onap/pnfsimulator/simulator/invalidJsonStructureEvent.json,
   # This one is empty
   test/mocks/datafilecollector-testharness/simulator-group/consul/consul_config.json
 
