@@ -26,3 +26,14 @@ pylint_enable =
   too-many-function-args, singleton-comparison
 ignore =
   .tox/**
+
+[rst]
+bears = reSTLintBear
+ignore =
+  .tox/**
+
+[md]
+bears = MarkdownBear
+ignore =
+  .tox/**
+
