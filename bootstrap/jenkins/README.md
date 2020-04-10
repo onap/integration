@@ -1,4 +1,3 @@
-
 # ONAP Integration > Bootstrap > Jenkins
 
 This directory contains a set of vagrant scripts that will automatically set up a Jenkins instance
@@ -9,4 +8,3 @@ can successfully build ONAP code from scratch.  It is not intended to be used as
 Jenkins CI/CD environment.
 
 NOTE: the Jenkins instance is by default NOT SECURED, with the default admin user and password as "jenkins".
-

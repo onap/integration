@@ -6,13 +6,11 @@ Copyright 2019 AT&T Intellectual Property. All rights reserved.
 
 This file is licensed under the CREATIVE COMMONS ATTRIBUTION 4.0 INTERNATIONAL LICENSE
 
-Full license text at https://creativecommons.org/licenses/by/4.0/legalcode
-
+Full license text at <https://creativecommons.org/licenses/by/4.0/legalcode>
 
 ## About
 
 ONAP on AKS will orchestrate an Azure Kubernetes Service (AKS) deployment, a DevStack deployment, an ONAP + NFS deployment, as well as configuration to link the Azure resources together. After ONAP is installed, a cloud region will also be added to ONAP with the new DevStack details that can be used to instantiate a VNF. 
-
 
 ### Pre-Reqs
 
@@ -22,12 +20,11 @@ The following software is required to be installed:
 - [helm](https://helm.sh/docs/using_helm/)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 - [azure command line](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-apt?view=azure-cli-latest)
-- make, openjdk-8-jdk, openjdk-8-jre (``apt-get update && apt-get install make openjdk-8-jre openjdk-8-jdk``)
+- make, openjdk-8-jdk, openjdk-8-jre (`apt-get update && apt-get install make openjdk-8-jre openjdk-8-jdk`)
 
 Check the [OOM Cloud Setup Guide](https://docs.onap.org/en/latest/submodules/oom.git/docs/oom_cloud_setup_guide.html#cloud-setup-guide-label) for the versions of kubectl and helm to use. 
 
-After installing the above software, run ``az login`` and follow the instructions to finalize the azure command line installation. **You'll need to be either an owner or co-owner of the azure subscription, or some of the deployment steps may not complete successfully**. If you have multiple azure subscriptions, use ``az account set --subscription <subscription name>`` prior to running ``az login`` so that resources are deployed to the correct subscription. See [the azure docs](https://docs.microsoft.com/en-us/cli/azure/get-started-with-azure-cli?view=azure-cli-latest) for more details on using the azure command line.
-
+After installing the above software, run `az login` and follow the instructions to finalize the azure command line installation. **You'll need to be either an owner or co-owner of the azure subscription, or some of the deployment steps may not complete successfully**. If you have multiple azure subscriptions, use `az account set --subscription <subscription name>` prior to running `az login` so that resources are deployed to the correct subscription. See [the azure docs](https://docs.microsoft.com/en-us/cli/azure/get-started-with-azure-cli?view=azure-cli-latest) for more details on using the azure command line.
 
 ### The following resources will be created in Azure
 
@@ -35,14 +32,11 @@ After installing the above software, run ``az login`` and follow the instruction
 - VM running NFS server application
 - VM running latest DevStack version
 
-
 ## Usage
-
 
 ### cloud.sh
 
-
-``cloud.sh`` is the main driver script, and deploys a Kubernetes Cluster (AKS), DevStack, NFS, and bootstraps ONAP with configuration needed to instantiate a VNF. The script creates ONAP in "about" an hour. 
+`cloud.sh` is the main driver script, and deploys a Kubernetes Cluster (AKS), DevStack, NFS, and bootstraps ONAP with configuration needed to instantiate a VNF. The script creates ONAP in "about" an hour. 
 
 ```
 
@@ -76,16 +70,13 @@ It:
 $ ./cloud.sh --override
 ```
 
-
 ### cloud.conf
 
+This file contains the parameters that will be used when executing `cloud.sh`. The parameter `BUILD` will be generated at runtime.
 
-This file contains the parameters that will be used when executing ``cloud.sh``. The parameter ``BUILD`` will be generated at runtime.
-
-For an example with all of the parameters filled out, check [here](./cloud.conf.example). You can copy this and modify to suit your deployment. The parameters that MUST be modified from ``cloud.conf.example`` are ``USER_PUBLIC_IP_PREFIX`` and ``BUILD_DIR``.
+For an example with all of the parameters filled out, check [here](./cloud.conf.example). You can copy this and modify to suit your deployment. The parameters that MUST be modified from `cloud.conf.example` are `USER_PUBLIC_IP_PREFIX` and `BUILD_DIR`.
 
 All other parameters will work out of the box, however you can also customize them to suit your own deployment. See below for a description of the available parameters and how they're used.
-
 
 ```
 
@@ -166,36 +157,33 @@ DOCKER_REPOSITORY=         Image repository url to pull ONAP images to use for i
 
 ### Integration Override
 
-When you execute ``cloud.sh``, you have the option to create an ``integration-override.yaml`` file that will be used during ``helm deploy ...`` to install ONAP. This is done by passing the ``--override`` flag to cloud.sh. 
+When you execute `cloud.sh`, you have the option to create an `integration-override.yaml` file that will be used during `helm deploy ...` to install ONAP. This is done by passing the `--override` flag to cloud.sh. 
 
-The template used to create the override file is ``./util/integration-override.template``, and is invoked by ``./util/create_robot_config.sh``. It's very possible this isn't complete or sufficient for how you'd like to customize your deployment. You can update the template file and/or the script to provide additional customization for your ONAP install.
-
+The template used to create the override file is `./util/integration-override.template`, and is invoked by `./util/create_robot_config.sh`. It's very possible this isn't complete or sufficient for how you'd like to customize your deployment. You can update the template file and/or the script to provide additional customization for your ONAP install.
 
 ### OOM Overrides
 
-In ``cloud.conf``, there's a parameter ``OOM_OVERRIDES`` available that's used to provide command line overrides to ``helm deploy``. This uses the standard helm syntax, so if you're using it the value should look like ``OOM_OVERRIDES="--set vid.enabled=false,so.image=abc"``. If you don't want to override anything, just set this value to an empty string.
-
+In `cloud.conf`, there's a parameter `OOM_OVERRIDES` available that's used to provide command line overrides to `helm deploy`. This uses the standard helm syntax, so if you're using it the value should look like `OOM_OVERRIDES="--set vid.enabled=false,so.image=abc"`. If you don't want to override anything, just set this value to an empty string.
 
 ### Pre Install
 
-When you run ``cloud.sh`` it will execute ``pre_install.sh`` first, which checks a few things:
+When you run `cloud.sh` it will execute `pre_install.sh` first, which checks a few things:
 
 - It checks you have the correct pre-reqs installed. So, it'll make sure you have kubectl, azure cli, helm, etc...
-- It checks that the version of kubernetes in ``cloud.conf`` is available in Azure.
-- It checks the version of azure cli is >= to the baselined version (you can check this version by looking at the top of ``pre_install.sh``). The Azure cli is introduced changes in minor versions that aren't backwards compatible.
-- It checks that the version of kubectl installed is at **MOST** 1 minor version different than the version of kubernetes in ``cloud.conf``.
+- It checks that the version of kubernetes in `cloud.conf` is available in Azure.
+- It checks the version of azure cli is >= to the baselined version (you can check this version by looking at the top of `pre_install.sh`). The Azure cli is introduced changes in minor versions that aren't backwards compatible.
+- It checks that the version of kubectl installed is at **MOST** 1 minor version different than the version of kubernetes in `cloud.conf`.
 
-If you would like to skip ``pre_install.sh`` and run the deployment anyways, pass the flag ``--no-validate`` to ``cloud.sh``, like this:
+If you would like to skip `pre_install.sh` and run the deployment anyways, pass the flag `--no-validate` to `cloud.sh`, like this:
 
 ```
 $ ./cloud.sh --no-validate
 
 ```
 
-
 ### Post Install
 
-After ONAP is deployed, you have the option of executing an arbitrary set of post-install scripts. This is enabled by passing the ``--post-install`` flag to ``cloud.sh``, like this:
+After ONAP is deployed, you have the option of executing an arbitrary set of post-install scripts. This is enabled by passing the `--post-install` flag to `cloud.sh`, like this:
 
 ```
 $ ./cloud.sh --post-install
@@ -205,30 +193,28 @@ $ ./cloud.sh --post-install
 These post-install scripts need to be executable from the command line, and will be provided two parameters that they can use to perform their function:
 
 - /path/to/onap.conf : This is created during the deployment, and has various ONAP and OpenStack parameters.
-- /path/to/cloud.conf : this is the same ``cloud.conf`` that's used during the original deployment.
-
+- /path/to/cloud.conf : this is the same `cloud.conf` that's used during the original deployment.
 
 Your post-install scripts can disregard these parameters, or source them and use the parameters as-needed.
 
-Included with this repo is one post-install script (``000_bootstrap_onap.sh``)that bootstraps AAI, VID, and SO with cloud and customer details so that ONAP is ready to model and instantiate a VNF.
+Included with this repo is one post-install script (`000_bootstrap_onap.sh`)that bootstraps AAI, VID, and SO with cloud and customer details so that ONAP is ready to model and instantiate a VNF.
 
-In order to include other custom post-install scripts, simply put them in the ``post-install`` directory, and make sure to set its mode to executable. They are executed in alphabetical order. 
-
+In order to include other custom post-install scripts, simply put them in the `post-install` directory, and make sure to set its mode to executable. They are executed in alphabetical order. 
 
 ## Post Deployment
 
-After ONAP and DevStack are deployed, there will be a ``deployment.notes`` file with instructions on how to access the various components. The ``BUILD_DIR`` specified in ``cloud.conf`` will contain a new ssh key, kubeconfig, and other deployment artifacts as well. 
+After ONAP and DevStack are deployed, there will be a `deployment.notes` file with instructions on how to access the various components. The `BUILD_DIR` specified in `cloud.conf` will contain a new ssh key, kubeconfig, and other deployment artifacts as well.
 
-All of the access information below will be in ``deployment.notes``.
-
+All of the access information below will be in `deployment.notes`.
 
 ### Kubernetes Access
 
 To access the Kubernetes dashboard:
 
-``az aks browse --resource-group $AKS_RESOURCE_GROUP_NAME --name $AKS_NAME``
+`az aks browse --resource-group $AKS_RESOURCE_GROUP_NAME --name $AKS_NAME`
 
 To use kubectl:
+
 ```
 
 export KUBECONFIG=$BUILD_DIR/kubeconfig
@@ -241,35 +227,31 @@ kubectl ...
 To access Horizon:
 
 Find the public IP address via the Azure portal, and go to
-``http://$DEVSTACK_PUBLIC_IP``
+`http://$DEVSTACK_PUBLIC_IP`
 
 SSH access to DevStack node:
 
-``ssh -i $BUILD_DIR/id_rsa ${DEVSTACK_ADMIN_USER}@${DEVSTACK_PUBLIC_IP}``
+`ssh -i $BUILD_DIR/id_rsa ${DEVSTACK_ADMIN_USER}@${DEVSTACK_PUBLIC_IP}`
 
 OpenStack cli access:
 
 There's an openstack cli pod that's created in the default kubernetes default namespace. To use it, run:
 
-``kubectl exec $OPENSTACK_CLI_POD -- sh -lc "<openstack command>"``
-
+`kubectl exec $OPENSTACK_CLI_POD -- sh -lc "<openstack command>"`
 
 ### NFS Access
 
-``ssh -i $BUILD_DIR/id_rsa ${NFS_ADMIN_USER}@${NFS_PUBLIC_IP}``
-
+`ssh -i $BUILD_DIR/id_rsa ${NFS_ADMIN_USER}@${NFS_PUBLIC_IP}`
 
 ## Deleting the deployment
 
-After deployment, there will be a script named ``$BUILD_DIR/clean.sh`` that can be used to delete the resource groups that were created during deployment. This script is not required; you can always just navigate to the Azure portal to delete the resource groups manually.
-
+After deployment, there will be a script named `$BUILD_DIR/clean.sh` that can be used to delete the resource groups that were created during deployment. This script is not required; you can always just navigate to the Azure portal to delete the resource groups manually.
 
 ## Running the scripts separately
 
 Below are instructions for how to create DevStack, NFS, or AKS cluster separately if you don't want to create everything all at once.
 
 **NOTE: The configuration to link components together (network peering, route table modification, NFS setup, etc...) and the onap-bootstrap will not occur if you run the scripts separately**
-
 
 ### DevStack creation
 
@@ -304,7 +286,6 @@ additional options:
 
 ```
 
-
 ### NFS Creation
 
 ```
@@ -333,7 +314,6 @@ additional options:
 --nfs-disk-size             size of external disk to be mounted on NFS VM [optional]
 
 ```
-
 
 ### AKS Creation
 
