@@ -37,6 +37,7 @@ RUN set -eux \
          file \
          git \
          libev-dev \
+         libssh-dev \
          openssh-keygen \
          openssl \
          openssl-dev \
@@ -45,10 +46,9 @@ RUN set -eux \
          protobuf-c-dev \
          swig \
          # for troubleshooting
+         ctags \
          the_silver_searcher \
-         vim \
-      # v0.9.3 has somes bugs as warned in libnetconf2/CMakeLists.txt:237
-      && apk add --repository http://dl-cdn.alpinelinux.org/alpine/v3.10/main libssh-dev==0.8.8-r0
+         vim
 
 RUN git config --global advice.detachedHead false
 
@@ -152,12 +152,11 @@ RUN set -eux \
          coreutils \
          libcurl \
          libev \
+         libssh \
          openssl \
          pcre \
          protobuf-c \
          xmlstarlet \
-      # v0.9.3 has somes bugs as warned in libnetconf2/CMakeLists.txt:237
-      && apk add --repository http://dl-cdn.alpinelinux.org/alpine/v3.10/main libssh==0.8.8-r0 \
       && rm -rf /var/cache/apk/*
 
 COPY --from=build /opt/ /opt/
