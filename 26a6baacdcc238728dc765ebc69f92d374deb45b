@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "049d01f7_2bdd9047",
+        "filename": "tox.ini",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-04-10T12:41:32Z",
+      "side": 1,
+      "message": "rst",
+      "range": {
+        "startLine": 41,
+        "startChar": 80,
+        "endLine": 41,
+        "endChar": 82
+      },
+      "revId": "26a6baacdcc238728dc765ebc69f92d374deb45b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77949e9a_91c28587",
+        "filename": "tox.ini",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-04-10T12:41:32Z",
+      "side": 1,
+      "message": "md\n\neven after fixing it fails with:\n\nExecuting section md...\n[ERROR][14:40:05] The bear MarkdownBear does not fulfill all requirements. \u0027remark\u0027 is not installed.\n\nI guess you need to add relevant deps.",
+      "range": {
+        "startLine": 47,
+        "startChar": 80,
+        "endLine": 47,
+        "endChar": 82
+      },
+      "revId": "26a6baacdcc238728dc765ebc69f92d374deb45b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
