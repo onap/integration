@@ -8,8 +8,6 @@ aaf-fs 31115
 log-kibana 30253
 log-es 30254
 log-ls 30255
-cli 30260
-cli 30271
 # Waiver for Frankfurt due to AAF impact
 so 30277
 # Upstream:
