@@ -1,4 +1,4 @@
-##Common test scripts and env file for test
+## Common test scripts and env file for test
 
 **test_env.sh**</br>
 Common env variables for test in the auto-test dir. Used by the auto test cases/suites but could be used for other test script as well.
@@ -9,7 +9,7 @@ Common functions for auto test cases in the auto-test dir. A subset of the funct
 **testsuite_common.sh**</br>
 Common functions for auto test suites in the auto-test dir.
 
-##Descriptions of functions in testcase_common.sh
+## Descriptions of functions in testcase_common.sh
 
 The following is a list of the available functions in a test case file. Please see some of the defined test cases for examples.
 
@@ -90,97 +90,97 @@ Sleep for a number of seconds and prints dfc heartbeat output every 30 sec
 
 **mr_equal <variable-name> <target-value> [<timeout-in-sec>]**</br>
 Tests if a variable value in the MR simulator is equal to a target value and an optional timeout.
-</br>Arg: ``<variable-name> <target-value>`` - This test set pass or fail depending on if the variable is
+</br>Arg: `<variable-name> <target-value>` - This test set pass or fail depending on if the variable is
 equal to the targer or not.
-</br>Arg: ``<variable-name> <target-value> <timeout-in-sec>``  - This test waits up to the timeout seconds
+</br>Arg: `<variable-name> <target-value> <timeout-in-sec>`  - This test waits up to the timeout seconds
 before setting pass or fail depending on if the variable value becomes equal to the target
 value or not.
 
 **mr_greater <variable-name> <target-value> [<timeout-in-sec>]**</br>
 Tests if a variable value in the MR simulator is greater than a target value and an optional timeout.
-</br>Arg: ``<variable-name> <target-value>`` - This test set pass or fail depending on if the variable is
+</br>Arg: `<variable-name> <target-value>` - This test set pass or fail depending on if the variable is
 greater the target or not.
-</br>Arg: ``<variable-name> <target-value> <timeout-in-sec>``  - This test waits up to the timeout seconds
+</br>Arg: `<variable-name> <target-value> <timeout-in-sec>`  - This test waits up to the timeout seconds
 before setting pass or fail depending on if the variable value is greater than the target
 value or not.
 
 **mr_less <variable-name> <target-value> [<timeout-in-sec>]**</br>
 Tests if a variable value in the MR simulator is less than a target value and an optional timeout.
-</br>Arg: ``<variable-name> <target-value>`` - This test set pass or fail depending on if the variable is
+</br>Arg: `<variable-name> <target-value>` - This test set pass or fail depending on if the variable is
 less than the target or not.
-</br>Arg: ``<variable-name> <target-value> <timeout-in-sec>``  - This test waits up to the timeout seconds
+</br>Arg: `<variable-name> <target-value> <timeout-in-sec>`  - This test waits up to the timeout seconds
 before setting pass or fail depending on if the variable value is less than the target
 value or not.
 
 **mr_contain_str <variable-name> <target-value> [<timeout-in-sec>]**</br>
 Tests if a variable value in the MR simulator contains a substring target and an optional timeout.
-</br>Arg: ``<variable-name> <target-value>`` - This test set pass or fail depending on if the variable contains
+</br>Arg: `<variable-name> <target-value>` - This test set pass or fail depending on if the variable contains
 the target substring or not.
-</br>Arg: ``<variable-name> <target-value> <timeout-in-sec>``  - This test waits up to the timeout seconds
+</br>Arg: `<variable-name> <target-value> <timeout-in-sec>`  - This test waits up to the timeout seconds
 before setting pass or fail depending on if the variable value contains the target
 substring or not.
 
 **dr_equal <variable-name> <target-value> [<timeout-in-sec>]**</br>
 Tests if a variable value in the DR simulator is equal to a target value and an optional timeout.
-</br>Arg: ``<variable-name> <target-value>`` - This test set pass or fail depending on if the variable is
+</br>Arg: `<variable-name> <target-value>` - This test set pass or fail depending on if the variable is
 equal to the target or not.
-</br>Arg: ``<variable-name> <target-value> <timeout-in-sec>``  - This test waits up to the timeout seconds
+</br>Arg: `<variable-name> <target-value> <timeout-in-sec>`  - This test waits up to the timeout seconds
 before setting pass or fail depending on if the variable value becomes equal to the target
 value or not.
 
 **dr_greater <variable-name> <target-value> [<timeout-in-sec>]**</br>
 Tests if a variable value in the DR simulator is greater than a target value and an optional timeout.
-</br>Arg: ``<variable-name> <target-value>`` - This test set pass or fail depending on if the variable is
+</br>Arg: `<variable-name> <target-value>` - This test set pass or fail depending on if the variable is
 greater the target or not.
-</br>Arg: ``<variable-name> <target-value> <timeout-in-sec>``  - This test waits up to the timeout seconds
+</br>Arg: `<variable-name> <target-value> <timeout-in-sec>`  - This test waits up to the timeout seconds
 before setting pass or fail depending on if the variable value is greater than the target
 value or not.
 
 **dr_less <variable-name> <target-value> [<timeout-in-sec>]**</br>
 Tests if a variable value in the DR simulator is less than a target value and an optional timeout.
-</br>Arg: ``<variable-name> <target-value>`` - This test set pass or fail depending on if the variable is
+</br>Arg: `<variable-name> <target-value>` - This test set pass or fail depending on if the variable is
 less than the target or not.
-</br>Arg: ``<variable-name> <target-value> <timeout-in-sec>``  - This test waits up to the timeout seconds
+</br>Arg: `<variable-name> <target-value> <timeout-in-sec>`  - This test waits up to the timeout seconds
 before setting pass or fail depending on if the variable value is less than the target
 value or not.
 
 **dr_contain_str <variable-name> <target-value> [<timeout-in-sec>]**</br>
 Tests if a variable value in the DR simulator contains a substring target and an optional timeout.
-</br>Arg: ``<variable-name> <target-value>`` - This test set pass or fail depending on if the variable contains
+</br>Arg: `<variable-name> <target-value>` - This test set pass or fail depending on if the variable contains
 the target substring or not.
-</br>Arg: ``<variable-name> <target-value> <timeout-in-sec>``  - This test waits up to the timeout seconds
+</br>Arg: `<variable-name> <target-value> <timeout-in-sec>`  - This test waits up to the timeout seconds
 before setting pass or fail depending on if the variable value contains the target
 substring or not.
 
 **drr_equal <variable-name> <target-value> [<timeout-in-sec>]**</br>
 Tests if a variable value in the DR Redir simulator is equal to a target value and an optional timeout.
-</br>Arg: ``<variable-name> <target-value>`` - This test set pass or fail depending on if the variable is
+</br>Arg: `<variable-name> <target-value>` - This test set pass or fail depending on if the variable is
 equal to the target or not.
-</br>Arg: ``<variable-name> <target-value> <timeout-in-sec>``  - This test waits up to the timeout seconds
+</br>Arg: `<variable-name> <target-value> <timeout-in-sec>`  - This test waits up to the timeout seconds
 before setting pass or fail depending on if the variable value becomes equal to the target
 value or not.
 
 **drr_greater <variable-name> <target-value> [<timeout-in-sec>]**</br>
 Tests if a variable value in the DR Redir simulator is greater than a target value and an optional timeout.
-</br>Arg: ``<variable-name> <target-value>`` - This test set pass or fail depending on if the variable is
+</br>Arg: `<variable-name> <target-value>` - This test set pass or fail depending on if the variable is
 greater the target or not.
-</br>Arg: ``<variable-name> <target-value> <timeout-in-sec>``  - This test waits up to the timeout seconds
+</br>Arg: `<variable-name> <target-value> <timeout-in-sec>`  - This test waits up to the timeout seconds
 before setting pass or fail depending on if the variable value is greater than the target
 value or not.
 
 **drr_less <variable-name> <target-value> [<timeout-in-sec>]**</br>
 Tests if a variable value in the DR Redir simulator is less than a target value and an optional timeout.
-</br>Arg: ``<variable-name> <target-value>`` - This test set pass or fail depending on if the variable is
+</br>Arg: `<variable-name> <target-value>` - This test set pass or fail depending on if the variable is
 less than the target or not.
-</br>Arg: ``<variable-name> <target-value> <timeout-in-sec>``  - This test waits up to the timeout seconds
+</br>Arg: `<variable-name> <target-value> <timeout-in-sec>`  - This test waits up to the timeout seconds
 before setting pass or fail depending on if the variable value is less than the target
 value or not.
 
 **drr_contain_str <variable-name> <target-value> [<timeout-in-sec>]**</br>
 Tests if a variable value in the DR Redir simulator contains a substring target and an optional timeout.
-</br>Arg: ``<variable-name> <target-value>`` - This test set pass or fail depending on if the variable contains
+</br>Arg: `<variable-name> <target-value>` - This test set pass or fail depending on if the variable contains
 the target substring or not.
-</br>Arg: ``<variable-name> <target-value> <timeout-in-sec>``  - This test waits up to the timeout seconds
+</br>Arg: `<variable-name> <target-value> <timeout-in-sec>`  - This test waits up to the timeout seconds
 before setting pass or fail depending on if the variable value contains the target
 substring or not.
 
@@ -203,17 +203,16 @@ Print the test result. Only once at the very end of the script.
 Print all variables from the simulators and the dfc heartbeat.
 
 In addition, comment in the file can be added using the normal comment sign in bash '#'.
-Comments that shall be visible on the screen as well as in the test case log, use ``echo "<msg>"``.
+Comments that shall be visible on the screen as well as in the test case log, use `echo "<msg>"`.
 
-
-##Descriptions of functions in testsuite_common.sh
+## Descriptions of functions in testsuite_common.sh
 
 The following is a list of the available functions in a test suite file.  Please see a existing test suite for examples.
 
 **suite_setup**</br>
 Sets up the test suite and print out a heading.
 
-**run_tc <tc-script> <$1 from test suite script> <$2 from test suite script>**</br>
+**run_tc <tc-script> &lt;$1 from test suite script> &lt;$2 from test suite script>**</br>
 Execute a test case with arg from test suite script
 
 **suite_complete**</br>
