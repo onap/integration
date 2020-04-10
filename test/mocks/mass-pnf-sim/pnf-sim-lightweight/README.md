@@ -1,16 +1,26 @@
-##Local development shortcuts:
-####To start listening on port 10000 for test purposes
-`nc -l -k -p 10000`
-####Test the command above: 
-`echo "Hello World" | nc localhost  10000`
+## Local development shortcuts:
 
-####Trigger the pnf simulator locally:
+To start listening on port 10000 for test purposes:
+
+```
+nc -l -k -p 10000
+```
+
+Test the command above: 
+
+```
+echo "Hello World" | nc localhost  10000
+```
+
+Trigger the pnf simulator locally:
 
 ```
 ~/dev/git/integration/test/mocks/mass-pnf-sim/pnf-sim-lightweight$ curl -s -X POST -H "Content-Type: application/json" -H "X-ONAP-RequestID: 123" -H "X-InvocationID: 456" -d @config/config.json 
 http://localhost:5000/simulator/start
 ```
-#### VES event sending
+
+## VES event sending
+
 the default action is to send a VES Message every 15 minutes and the total duration of the VES FileReady Message sending is 1 day (these values can be changed in config/config.json)
 
 Message from the stdout of nc:
@@ -27,7 +37,8 @@ User-Agent: Apache-HttpClient/4.5.5 (Java/1.8.0_162)
 Accept-Encoding: gzip,deflate
 ```
 
-```javascript
+```i
+javascript
 {"event":{"commonEventHeader":{"startEpochMicrosec":"1551865758690","sourceId":"val13","eventId":"registration_51865758",
 "nfcNamingCode":"oam","internalHeaderFields":{},"priority":"Normal","version":"4.0.1","reportingEntityName":"NOK6061ZW3",
 "sequence":"0","domain":"notification","lastEpochMicrosec":"1551865758690","eventName":"pnfRegistration_Nokia_5gDu",

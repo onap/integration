@@ -1,77 +1,106 @@
-###Run DR simulators as docker container
-1. Build docker container with ```docker build -t drsim_common:latest .```
-2. Run the container ```docker-compose up```
+# Run DR simulators as docker container
+
+1. Build docker container with `docker build -t drsim_common:latest .`
+2. Run the container `docker-compose up`
 3. For specific behavior of of the simulators, add arguments to the `command` entries in the `docker-compose.yml`.
+
 For example `command: node dmaapDR.js --tc no_publish` . (No argument will assume '--tc normal'). Run `node dmaapDR.js --printtc`
 and `node dmaapDR-redir.js --printtc` for details or see further below for the list of possible arg to the simulator
 
-###Run DR simulators and all other simulators as one group
+# Run DR simulators and all other simulators as one group
+
 See the README in the 'simulator-group' dir.
 
-###Run DR simulators from cmd line
+# Run DR simulators from cmd line
+
 1. install nodejs
 2. install npm
+
 Make sure that you run these commands in the application directory "dr-sim"
+
 3. `npm install express`
 4. `npm install argparse`
 5. `node dmaapDR.js`   #keep it in the foreground, see below for a list for arg to the simulator
 6. `node dmaapDR_redir.js`  #keep it in the foreground, see below for a list for arg to the simulator
 
-###Arg to control the behavior of the simulators
+# Arg to control the behavior of the simulators
 
-**DR**
+## DR
 
-	--tc tc_normal                      Normal case, query response based on published files. Publish respond with ok/redirect depending on if file is published or not.</br>
-	--tc tc_none_published              Query respond 'ok'. Publish respond with redirect.</br>
-	--tc tc_all_published               Query respond with filename. Publish respond with 'ok'.</br>
-	--tc tc_10p_no_response             10% % no response for query and publish. Otherwise normal case.</br>
-	--tc tc_10first_no_response         10 first queries and requests gives no response for query and publish. Otherwise normal case.</br>
-	--tc tc_100first_no_response        100 first queries and requests gives no response for query and publish. Otherwise normal case.</br>
-	--tc tc_all_delay_1s                All responses delayed 1s (both query and publish).</br>
-	--tc tc_all_delay_10s               All responses delayed 10s (both query and publish).</br>
-	--tc tc_10p_delay_10s               10% of responses delayed 10s, (both query and publish).</br>
-	--tc tc_10p_error_response          10% error response for query and publish. Otherwise normal case.</br>
-	--tc tc_10first_error_response      10 first queries and requests gives no response for query and publish. Otherwise normal case.</br>
-	--tc tc_100first_error_response     100 first queries and requests gives no response for query and publish. Otherwise normal case.</br>
+\--tc tc_normal                      Normal case, query response based on published files. Publish respond with ok/redirect depending on if file is published or not.</br>
 
+\--tc tc_none_published              Query respond 'ok'. Publish respond with redirect.</br>
 
-**DR Redirect**
+\--tc tc_all_published               Query respond with filename. Publish respond with 'ok'.</br>
 
-	--tc_normal                         Normal case, all files publish and DR updated.</br>
-	--tc_no_publish                     Ok response but no files published.</br>
-	--tc_10p_no_response                10% % no response (file not published).</br>
-	--tc_10first_no_response            10 first requests give no response (files not published).</br>
-	--tc_100first_no_response           100 first requests give no response (files not published).</br>
-	--tc_all_delay_1s                   All responses delayed 1s, normal publish.</br>
-	--tc_all_delay_10s                  All responses delayed 10s, normal publish.</br>
-	--tc_10p_delay_10s                  10% of responses delayed 10s, normal publish.</br>
-	--tc_10p_error_response             10% error response (file not published).</br>
-	--tc_10first_error_response         10 first requests give error response (file not published).</br>
-	--tc_100first_error_response        100 first requests give error responses (file not published).</br>
+\--tc tc_10p_no_response             10% % no response for query and publish. Otherwise normal case.</br>
 
+\--tc tc_10first_no_response         10 first queries and requests gives no response for query and publish. Otherwise normal case.</br>
 
-###Needed environment
+\--tc tc_100first_no_response        100 first queries and requests gives no response for query and publish. Otherwise normal case.</br>
 
-DR
+\--tc tc_all_delay_1s                All responses delayed 1s (both query and publish).</br>
 
-	DRR_SIM_IP     Set to host name of the DR Redirect simulator "drsim_redir" if running the simulators in a docker private network. Otherwise to "localhost"
-	DR_FEEDS       A comma separated list of configured feednames and filetypes. Example "1:A,2:B:C" - Feed 1 for filenames beginning with A and feed2 for filenames beginning with B or C.
+\--tc tc_all_delay_10s               All responses delayed 10s (both query and publish).</br>
+
+\--tc tc_10p_delay_10s               10% of responses delayed 10s, (both query and publish).</br>
+
+\--tc tc_10p_error_response          10% error response for query and publish. Otherwise normal case.</br>
+
+\--tc tc_10first_error_response      10 first queries and requests gives no response for query and publish. Otherwise normal case.</br>
+
+\--tc tc_100first_error_response     100 first queries and requests gives no response for query and publish. Otherwise normal case.</br>
+
+## DR Redirect
+
+\--tc_normal                         Normal case, all files publish and DR updated.</br>
+
+\--tc_no_publish                     Ok response but no files published.</br>
+
+\--tc_10p_no_response                10% % no response (file not published).</br>
+
+\--tc_10first_no_response            10 first requests give no response (files not published).</br>
+
+\--tc_100first_no_response           100 first requests give no response (files not published).</br>
+
+\--tc_all_delay_1s                   All responses delayed 1s, normal publish.</br>
+
+\--tc_all_delay_10s                  All responses delayed 10s, normal publish.</br>
+
+\--tc_10p_delay_10s                  10% of responses delayed 10s, normal publish.</br>
+
+\--tc_10p_error_response             10% error response (file not published).</br>
+
+\--tc_10first_error_response         10 first requests give error response (file not published).</br>
+
+\--tc_100first_error_response        100 first requests give error responses (file not published).</br>
+
+# Needed environment
+
+## DR
+
+```
+DRR_SIM_IP     Set to host name of the DR Redirect simulator "drsim_redir" if running the simulators in a docker private network. Otherwise to "localhost"
+DR_FEEDS       A comma separated list of configured feednames and filetypes. Example "1:A,2:B:C" - Feed 1 for filenames beginning with A and feed2 for filenames beginning with B or C.
+```
 
 `DRR_SIM_IP` is needed for the redirected publish request to be redirected to the DR redirect server.
 
-DR Redirect (DRR for short)
+## DR Redirect (DRR for short)
 
-	DR_SIM_IP      Set to host name of the DR simulator "drsim" if running the simulators in a docker private network. Otherwise to "localhost"
-	DR_REDIR_FEEDS Same contentd as DR_FEEDS for DR.
+```
+DR_SIM_IP      Set to host name of the DR simulator "drsim" if running the simulators in a docker private network. Otherwise to "localhost"
+DR_REDIR_FEEDS Same contentd as DR_FEEDS for DR.
+```
 
 The DR Redirect server send callback to DR server to update the list of successfully published files.
 When running as container (using an ip address from the `dfc_net` docker network) the env shall be set to 'drsim'. . When running the servers from command line, set the env variable `DR_SIM_IP=localhost`
 
-###APIs for statistic readout
+# APIs for statistic readout
+
 The simulator can be queried for statistics (use curl from cmd line or open in browser, curl used below):
 
-DR
-
+## DR
 
 `curl localhost:3906/` - returns 'ok'
 
@@ -135,9 +164,7 @@ DR
 
 `curl localhost:3906/ctr_publish_query_bad_file_prefix/<feed>` -  returns  a list of the number of publish queries with bad file prefix for a feed
 
-
-DR Redirect
-
+## DR Redirect
 
 `curl localhost:3908/` - returns 'ok'
 
@@ -178,6 +205,3 @@ DR Redirect
 `curl localhost:3908/feeds/dwl_volume` - returns a list of the number of bytes of the published files for each feed
 
 `curl localhost:3908/dwl_volume/<feed>` - returns the number of bytes of the published files for a feed
-
-
-
