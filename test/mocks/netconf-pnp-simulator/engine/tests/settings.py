@@ -5,5 +5,3 @@ HOST = "127.0.0.1"
 PORT = int(os.environ["NETCONF_PNP_SIMULATOR_830_TCP_PORT"])
 USERNAME = "netconf"
 KEY_FILENAME = "../config/ssh/id_rsa"
-
-DEBUG = False

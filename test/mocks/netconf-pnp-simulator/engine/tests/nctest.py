@@ -1,11 +1,41 @@
-from ncclient import manager, operations
-import settings
-import unittest
+import logging.config
 
-class NCTestCase(unittest.TestCase):
+from ncclient import manager, operations
+
+import settings
+
+LOGGER = logging.getLogger(__name__)
+
+
+def check_reply_ok(reply):
+    assert reply is not None
+    _log_netconf_msg("Received", reply.xml)
+    assert reply.ok is True
+    assert reply.error is None
+
+
+def check_reply_err(reply):
+    assert reply is not None
+    _log_netconf_msg("Received", reply.xml)
+    assert reply.ok is False
+    assert reply.error is not None
+
+
+def check_reply_data(reply):
+    check_reply_ok(reply)
+
+
+def _log_netconf_msg(header: str, body: str):
+    """Log a message using a format inspired by NETCONF 1.1 """
+    LOGGER.info("%s:\n\n#%d\n%s\n##", header, len(body), body)
+
+
+class NCTestCase:
     """ Base class for NETCONF test cases. Provides a NETCONF connection and some helper methods. """
 
-    def setUp(self):
+    nc: manager.Manager
+
+    def setup(self):
         self.nc = manager.connect(
             host=settings.HOST,
             port=settings.PORT,
@@ -16,22 +46,5 @@ class NCTestCase(unittest.TestCase):
             hostkey_verify=False)
         self.nc.raise_mode = operations.RaiseMode.NONE
 
-    def tearDown(self):
+    def teardown(self):
         self.nc.close_session()
-
-    def check_reply_ok(self, reply):
-        self.assertIsNotNone(reply)
-        if settings.DEBUG:
-            print(reply.xml)
-        self.assertTrue(reply.ok)
-        self.assertIsNone(reply.error)
-
-    def check_reply_err(self, reply):
-        self.assertIsNotNone(reply)
-        if settings.DEBUG:
-            print(reply.xml)
-        self.assertFalse(reply.ok)
-        self.assertIsNotNone(reply.error)
-
-    def check_reply_data(self, reply):
-        self.check_reply_ok(reply)

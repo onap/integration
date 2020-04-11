@@ -32,6 +32,9 @@ TEMPLATES=/templates
 PROC_NAME=${0##*/}
 PROC_NAME=${PROC_NAME%.sh}
 
+WORKDIR=$(mktemp -d)
+trap "rm -rf $WORKDIR" EXIT
+
 function now_ms() {
     # Requires coreutils package
     date +"%Y-%m-%d %H:%M:%S.%3N"
@@ -57,10 +60,16 @@ find_file() {
 
 
 # Extracts the body of a PEM file by removing the dashed header and footer
-pem_body() {
-    grep -Fv -- ----- "$1"
-}
+alias pem_body='grep -Fv -- -----'
 
+
+kill_service() {
+    local service=$1
+
+    pid=$(cat /var/run/${service}.pid)
+    log INFO Killing $service pid=$pid
+    kill $pid
+}
 
 # ------------------------------------
 # SSH Common Definitions and Functions
@@ -83,7 +92,7 @@ configure_ssh() {
         --update '//_:name[text()="netconf"]/following-sibling::_:authorized-key/_:name' --value "$name" \
         --update '//_:name[text()="netconf"]/following-sibling::_:authorized-key/_:algorithm' --value "$1" \
         --update '//_:name[text()="netconf"]/following-sibling::_:authorized-key/_:key-data' --value "$2" \
-        $dir/load_auth_pubkey.xml | \
+        $dir/ietf-system.xml | \
     sysrepocfg --datastore=$datastore --permanent --format=xml ietf-system --${operation}=-
 }
 
@@ -109,13 +118,13 @@ configure_tls() {
     xmlstarlet ed --pf --omit-decl \
         --update '//_:name[text()="server_cert"]/following-sibling::_:certificate' --value "$server_cert" \
         --update '//_:name[text()="ca"]/following-sibling::_:certificate' --value "$ca_cert" \
-        $dir/load_server_certs.xml | \
+        $dir/ietf-keystore.xml | \
     sysrepocfg --datastore=$datastore --permanent --format=xml ietf-keystore --${operation}=-
 
     log INFO Configure TLS ingress service
     ca_fingerprint=$(openssl x509 -noout -fingerprint -in $TLS_CONFIG/ca.pem | cut -d= -f2)
     xmlstarlet ed --pf --omit-decl \
         --update '//_:name[text()="netconf"]/preceding-sibling::_:fingerprint' --value "02:$ca_fingerprint" \
-        $dir/tls_listen.xml | \
+        $dir/ietf-netconf-server.xml | \
     sysrepocfg --datastore=$datastore --permanent --format=xml ietf-netconf-server --${operation}=-
 }

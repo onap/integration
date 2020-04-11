@@ -1,0 +1,27 @@
+diff --git a/src/io.c b/src/io.c
+index 9c4fa9f..830fc9a 100644
+--- a/src/io.c
++++ b/src/io.c
+@@ -432,7 +432,7 @@ nc_read_msg_io(struct nc_session *session, int io_timeout, struct lyxml_elem **d
+     nc_session_io_unlock(session, __func__);
+     io_locked = 0;
+ 
+-    DBG("Session %u: received message:\n%s\n", session->id, msg);
++    VRB("Session %u: received message:\n%s", session->id, msg);
+ 
+     /* build XML tree */
+     *data = lyxml_parse_mem(session->ctx, msg, 0);
+@@ -718,7 +718,7 @@ nc_write(struct nc_session *session, const void *buf, size_t count)
+         return -1;
+     }
+ 
+-    DBG("Session %u: sending message:\n%.*s\n", session->id, count, buf);
++    VRB("Session %u: sending message:\n%.*s", session->id, count, buf);
+ 
+     do {
+         switch (session->ti_type) {
+@@ -1346,4 +1346,3 @@ nc_realloc(void *ptr, size_t size)
+ 
+     return ret;
+ }
+-
