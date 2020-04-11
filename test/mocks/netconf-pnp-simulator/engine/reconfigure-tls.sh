@@ -24,13 +24,8 @@ set -eu
 HERE=${0%/*}
 source $HERE/common.sh
 
-WORKDIR=$(mktemp -d)
-trap "rm -rf $WORKDIR" EXIT
-
-sysrepocfg --format=xml --export=$WORKDIR/load_server_certs.xml ietf-keystore
-sysrepocfg --format=xml --export=$WORKDIR/tls_listen.xml ietf-netconf-server
+sysrepocfg --format=xml --export=$WORKDIR/ietf-keystore.xml ietf-keystore
+sysrepocfg --format=xml --export=$WORKDIR/ietf-netconf-server.xml ietf-netconf-server
 configure_tls running import $WORKDIR
 
-pid=$(cat /var/run/netopeer2-server.pid)
-log INFO Restart Netopeer2 pid=$pid
-kill $pid
+kill_service netopeer2-server

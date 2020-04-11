@@ -3,9 +3,6 @@ NETCONF Plug-and-Play Simulator
 
 .. sectnum::
 
-.. _py-requirements: https://pip.pypa.io/en/stable/reference/pip_install/#requirements-file-format
-.. _yang-rfc: https://tools.ietf.org/html/rfc6020
-
 |ci-badge| |release-badge| |docker-badge|
 
 .. |ci-badge| image:: https://github.com/blue-onap/netconf-pnp-simulator/workflows/CI/badge.svg
@@ -42,13 +39,13 @@ A YANG module contains the following files:
    * - Filename
      - Purpose
    * - ``model.yang``
-     - The YANG model specified according to `RFC-6020 <yang-rfc_>`_ and named after the module's name, e.g., *mynetconf.yang*.
+     - The YANG model specified according to `RFC-6020 <https://tools.ietf.org/html/rfc6020>`_ and named after the module's name, e.g., *mynetconf.yang*.
    * - ``startup.json`` or ``startup.xml``
      - An optional data file with the initial values of the model. Both JSON and XML formats are supported.
    * - ``subscriber.py``
-     - The Python 3 application that implements the behavioral aspects of the YANG model.
+     - The Python 3 application that implements the behavioral aspects of the YANG model. If you don't supply one, a generic subscriber that logs all received events will be used.
    * - ``requirements.txt``
-     - [Optional] Lists the additional Python packages required by the application, specified in the `Requirements File Format <py-requirements_>`_.
+     - [Optional] Lists the additional Python packages required by the application, specified in the `Requirements File Format <https://pip.pypa.io/en/stable/reference/pip_install/#requirements-file-format>`_.
 
 Application
 -----------
