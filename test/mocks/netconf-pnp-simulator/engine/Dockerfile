@@ -189,9 +189,9 @@ RUN mkdir /etc/supervisord.d
 COPY zlog.conf /opt/etc/
 
 # Sensible defaults for loguru configuration
-ENV LOGURU_FORMAT="<green>{time:YYYY-DD-MM HH:mm:ss.SSS}</green> {level: <5} [mynetconf] <lvl>{message}</lvl>"
+ENV LOGURU_FORMAT="<green>{time:YYYY-DD-MM HH:mm:ss.SSS}</green> {level: <5} [{module}] <lvl>{message}</lvl>"
 ENV LOGURU_COLORIZE=True
 
-COPY entrypoint.sh common.sh configure-*.sh reconfigure-*.sh /opt/bin/
+COPY entrypoint.sh common.sh configure-*.sh reconfigure-*.sh generic_subscriber.py /opt/bin/
 
 CMD /opt/bin/entrypoint.sh

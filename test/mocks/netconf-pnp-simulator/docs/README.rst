@@ -46,7 +46,7 @@ A YANG module contains the following files:
    * - ``startup.json`` or ``startup.xml``
      - An optional data file with the initial values of the model. Both JSON and XML formats are supported.
    * - ``subscriber.py``
-     - The Python 3 application that implements the behavioral aspects of the YANG model.
+     - The Python 3 application that implements the behavioral aspects of the YANG model. If you don't supply one, a generic subscriber that logs all received events will be used.
    * - ``requirements.txt``
      - [Optional] Lists the additional Python packages required by the application, specified in the `Requirements File Format <py-requirements_>`_.
 
