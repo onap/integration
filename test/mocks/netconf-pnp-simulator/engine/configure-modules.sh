@@ -26,6 +26,7 @@ source $HERE/common.sh
 
 MODELS_CONFIG=$CONFIG/modules
 BASE_VIRTUALENVS=$HOME/.local/share/virtualenvs
+GENERIC_SUBSCRIBER=/opt/bin/generic_subscriber.py
 
 install_and_configure_yang_model()
 {
@@ -54,6 +55,8 @@ configure_subscriber_execution()
     APP_PATH=$env_dir/bin:$APP_PATH
   fi
   log INFO Preparing launching of module \"$model\" application
+  # shellcheck disable=SC2153
+  loguru_format="${LOGURU_FORMAT//\{module\}/$model}"
   cat > /etc/supervisord.d/$model.conf <<EOF
 [program:subs-$model]
 command=$app $model
@@ -61,7 +64,7 @@ stdout_logfile=/dev/stdout
 stdout_logfile_maxbytes=0
 redirect_stderr=true
 autorestart=true
-environment=PATH=$APP_PATH,PYTHONUNBUFFERED="1"
+environment=PATH=$APP_PATH,PYTHONUNBUFFERED="1",LOGURU_FORMAT="$loguru_format"
 EOF
 }
 
@@ -89,7 +92,11 @@ for dir in "$MODELS_CONFIG"/*; do
     install_and_configure_yang_model $dir $model
     app="$dir/subscriber.py"
     if [ -x "$app" ]; then
-      configure_subscriber_execution $dir $model $app
+      log INFO Module $model is using its own subscriber
+    else
+      log WARN Module $model is using the generic subscriber
+      app=$GENERIC_SUBSCRIBER
     fi
+    configure_subscriber_execution $dir $model $app
   fi
 done

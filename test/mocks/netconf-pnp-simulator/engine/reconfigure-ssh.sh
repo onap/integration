@@ -26,12 +26,7 @@ source $HERE/common.sh
 
 SSH_CONFIG=$CONFIG/ssh
 
-WORKDIR=$(mktemp -d)
-trap "rm -rf $WORKDIR" EXIT
-
-sysrepocfg --format=xml --export=$WORKDIR/load_auth_pubkey.xml ietf-system
+sysrepocfg --format=xml --export=$WORKDIR/ietf-system.xml ietf-system
 configure_ssh running import $WORKDIR
 
-pid=$(cat /var/run/netopeer2-server.pid)
-log INFO Restart Netopeer2 pid=$pid
-kill $pid
+kill_service netopeer2-server
