@@ -316,4 +316,4 @@ approach will help to install a minimum-scope version ONAP for 5G E2E
 Slicing use case.
 
 Further details of the installation steps are available at:
-https://wiki.onap.org/display/DW/How+to+install+5G+E2E+Slicing+Minimum+Scope
+https://wiki.onap.org/display/DW/Install+Minimum+Scope+ONAP+for+5G+Network+Slicing

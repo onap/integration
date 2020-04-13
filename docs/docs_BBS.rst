@@ -166,7 +166,7 @@ Create the required topics in DMaaP
 DCAE: BBS Event Processor (BBS-ep)
 ==================================
 
-Description: :doc:`BBS-ep <../../dcaegen2.git/docs/sections/services/bbs-event-processor/index>`
+Description: :doc:`BBS-ep <https://docs.onap.org/en/frankfurt/submodules/dcaegen2.git/docs/sections/services/bbs-event-processor/>`
 
 The following BBS event processor blueprint will be used:
 
@@ -191,7 +191,7 @@ IMPORTANT: Make sure that the configuration of BBS-ep in Consul contains the fol
 DCAE: RESTCONF Collector
 ========================
 
-Description: :doc:`RESTCONF Collector <../../dcaegen2.git/docs/sections/services/restconf/index>`
+Description: :doc:`RESTCONF Collector <https://docs.onap.org/en/frankfurt/submodules/dcaegen2.git/docs/sections/services/restconf/index.html>`
 
 The following RESTCONF collector blueprint will be used:
 
@@ -209,7 +209,7 @@ RESTCONF Collector deployment procedure:
 DCAE: VES mapper
 ================
 
-Description: :doc:`VES Mapper <../../dcaegen2.git/docs/sections/services/mapper/index>`
+Description: :doc:`VES Mapper <https://docs.onap.org/en/frankfurt/submodules/dcaegen2.git/docs/sections/services/mapper/>`
 
 The following VES mapper blueprint will be used:
 
@@ -229,7 +229,7 @@ DCAE: VES collector
 
 Configure the mapping of the VES event domain to the correct DMaaP topic in Consul: ves-statechange --> unauthenticated.CPE_AUTHENTICATION
 
-1. Access Consul UI http://CONSUL_SERVER_UI:30270/ui/#/dc1/services
+1. Access Consul UI <http://CONSUL_SERVER_UI:30270/ui/#/dc1/services>
 
 2. Modify the dcae-ves-collector configuration by adding a new VES domain to DMaaP topic mapping
 

@@ -28,7 +28,7 @@ These VFs run in three separate VMs. The packet generator sends packets to the
 packet sink through the firewall.
 The firewall reports the volume of traffic passing though to the ONAP DCAE
 collector. To check the traffic volume that lands at the sink VM, you can access
-the link http://sink_ip_address:667 through your browser and enable automatic page
+the link <http://SINK_IP_ADDRESS:667> through your browser and enable automatic page
 refresh by clicking the "Off" button. You can see the traffic volume in the charts.
 
 The packet generator includes a script that periodically generates different
@@ -60,7 +60,7 @@ operation policies that are currently enabled for the vFirewall use case:
   operational policy to request APPC to adjust the traffic volume to 500 packets
   per 10 seconds.
 - APPC sends a request to the packet generator to adjust the traffic volume.
-- Changes to the traffic volume can be observed through the link http://sink_ip_address:667.
+- Changes to the traffic volume can be observed through the link <http://SINK_IP_ADDRESS:667>.
 
 
 Adjust packet generator
@@ -130,7 +130,7 @@ expire. Monitoring the DMaaP topic for DCAE_CL_OUTPUT can be used to confirm
 that no TCA events are coming in from the VNF through VES/TCA.
 
 ::
-   http://<k8s-host>:30227/events/unauthenticated.DCAE_CL_OUTPUT/g1/c3?timeout=5000
+   http://K8S_HOST:30227/events/unauthenticated.DCAE_CL_OUTPUT/g1/c3?timeout=5000
 
 +-------------+------------+
 | JIRA ID     | Status     |

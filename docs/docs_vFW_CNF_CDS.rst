@@ -1293,7 +1293,7 @@ Multiple lower level bugs/issues were also found during use case development
 .. _vFW EDGEX K8S In ONAP Wiki: https://wiki.onap.org/display/DW/Deploying+vFw+and+EdgeXFoundry+Services+on+Kubernets+Cluster+with+ONAP
 .. _KUD readthedocs: https://docs.onap.org/en/frankfurt/submodules/multicloud/k8s.git/docs
 .. _KUD in Wiki: https://wiki.onap.org/display/DW/Kubernetes+Baremetal+deployment+setup+instructions
-.. _Multicloud k8s gerrit: https://gerrit.onap.org/r/#/q/status:open+project:+multicloud/k8s
+.. _Multicloud k8s gerrit: https://gerrit.onap.org/r/q/status:open+project:+multicloud/k8s
 .. _KUD subproject in github: https://github.com/onap/multicloud-k8s/tree/master/kud
 .. _KUD Jenkins ci/cd verification: https://jenkins.onap.org/job/multicloud-k8s-master-kud-deployment-verify-shell/
 .. _SO Cloud Region Selection: https://git.onap.org/so/tree/adapters/mso-openstack-adapters/src/main/java/org/onap/so/adapters/vnf/MsoVnfPluginAdapterImpl.java?h=elalto#n1149
@@ -1301,7 +1301,7 @@ Multiple lower level bugs/issues were also found during use case development
 .. _Jira Epic: https://jira.onap.org/browse/INT-1184
 .. _Data Dictionary: https://git.onap.org/demo/tree/heat/vFW_CNF_CDS/templates/cba-dd.json?h=frankfurt
 .. _Helm Healer: https://git.onap.org/oom/offline-installer/tree/tools/helm-healer.sh
-.. _CDS UAT Testing: https://wiki.onap.org/display/DW/Modeling+Concepts#Concepts-2603186
+.. _CDS UAT Testing: https://wiki.onap.org/display/DW/Modeling+Concepts
 .. _postman.zip: files/vFW_CNF_CDS/postman.zip
 .. _logs.zip: files/vFW_CNF_CDS/logs.zip
 .. _SDC-2776: https://jira.onap.org/browse/SDC-2776
