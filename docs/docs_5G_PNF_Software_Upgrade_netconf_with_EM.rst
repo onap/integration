@@ -30,4 +30,4 @@ Test Status and Plans
 
 To see information on the status of the test cases, please follow the link below:
 
-`PNF Software Upgrade with netconf/yang interface with EM Test Status <https://wiki.onap.org/pages/viewpage.action?pageId=64008675#PNFsoftwareupgradewithNetconf/YanginterfacewithhEM-TestStatus>`_
+`PNF Software Upgrade with netconf/yang interface with EM Test Status <https://wiki.onap.org/pages/viewpage.action?pageId=64008675>`_
