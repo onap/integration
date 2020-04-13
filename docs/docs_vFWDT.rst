@@ -1,6 +1,6 @@
 .. This work is licensed under a Creative Commons Attribution 4.0
    International License. http://creativecommons.org/licenses/by/4.0
-   
+
 .. _docs_vfw_traffic:
 
 .. contents::
@@ -13,11 +13,11 @@ Description
 ~~~~~~~~~~~
 
 The purpose of this work is to show Traffic Distribiution functionality implemented in Casablanca and Dublin releases for vFW Use Case.
-The orchstration workflow triggers a change to traffic distribution (redistribution) done by a traffic balancing/distribution entity (aka anchor point). 
-The DistributeTraffic action targets the traffic balancing/distribution entity, in some cases DNS, other cases a load balancer external to the VNF instance, as examples. 
-Traffic distribution (weight) changes intended to take a VNF instance out of service are completed only when all in-flight traffic/transactions have been completed. 
-DistributeTrafficCheck command may be used to verify initial conditions of redistribution or can be used to verify the state of VNFs and redistribution itself. 
-To complete the traffic redistribution process, gracefully taking a VNF instance out-of-service/into-service, without dropping in-flight calls or sessions, 
+The orchstration workflow triggers a change to traffic distribution (redistribution) done by a traffic balancing/distribution entity (aka anchor point).
+The DistributeTraffic action targets the traffic balancing/distribution entity, in some cases DNS, other cases a load balancer external to the VNF instance, as examples.
+Traffic distribution (weight) changes intended to take a VNF instance out of service are completed only when all in-flight traffic/transactions have been completed.
+DistributeTrafficCheck command may be used to verify initial conditions of redistribution or can be used to verify the state of VNFs and redistribution itself.
+To complete the traffic redistribution process, gracefully taking a VNF instance out-of-service/into-service, without dropping in-flight calls or sessions,
 QuiesceTraffic/ResumeTraffic command may need to follow traffic distribution changes. The VNF application remains in an active state.
 
 
@@ -55,8 +55,8 @@ The purpose of the work in the Dublin release was to built a Traffic Distributio
 
 The prepared Traffic Distribution Workflow has following steps:
 
-- Workflow sends placement request to Optimization Framework (**1**) specific information about the vPKG and vFW-SINK models and VNF-ID of vFW that we want to migrate traffic out from. 
-  Optimization Framework role is to find the vFW-SINK VNF/VF-module instance where traffic should be migrated to and vPKG which will be associated with this vFW. 
+- Workflow sends placement request to Optimization Framework (**1**) specific information about the vPKG and vFW-SINK models and VNF-ID of vFW that we want to migrate traffic out from.
+  Optimization Framework role is to find the vFW-SINK VNF/VF-module instance where traffic should be migrated to and vPKG which will be associated with this vFW.
   Although in our case the calculation is very simple, the mechanism is ready to work for instances of services with VNF having houndreds of VF-modules spread accross different cloud regions.
 
 - Optimization Framework takes from the Policy Framework policies (**2-3**) for VNFs and for relations between each other (in our case there is checked ACTIVE status of vFW-SINK and vPKG VF-modules and the Region to which they belong)
@@ -88,7 +88,7 @@ In order to setup the scenario and to test the DistributeTraffic LCM API in acti
 
 #. Configure Ansible Server to work with vPKG and vFW VMs
 
-#. Execute Traffic Distribution Workflow 
+#. Execute Traffic Distribution Workflow
 
 You will use the following ONAP K8s VMs or containers:
 
@@ -168,7 +168,7 @@ Go to the Rancher node and locate *demo-k8s.sh* script in *oom/kubernetes/robot*
     ./ete-k8s.sh onap instantiateVFWDT
 
 
-.. note:: You can verify the status of robot's service instantiation process by going to http://<K8S-NODE-IP>:30209/logs/ (login/password: test/test)
+.. note:: You can verify the status of robot's service instantiation process by going to http://K8S_NODE_IP:30209/logs/ (login/password: test/test)
 
 After successful instantiation of vFWDT service go to the OpenStack dashboard and project which is configured for VNFs deployment and locate vFWDT VMs. Choose one and try to ssh into one them to proove that further ansible configuration action will be possible
 
@@ -231,8 +231,8 @@ Gathering facts from VID Portal
 
 1. Enter the VID portal
 
-:: 
-    
+::
+
     https://<K8S-NODE-IP>:30200/vid/welcome.htm
 
 2. In the left hand menu enter **Search for Existing Service Instances**
@@ -388,7 +388,7 @@ The result can be verified in the Policy portal, in the *Editor* section, after 
 Testing Gathered Facts on Workflow Script
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Having collected *vnf-id* and *vnf-type* parameters we can execute Traffic Distribution Workflow Python script. It works in two modes. First one executes ony initial phase where AAI and OOF 
+Having collected *vnf-id* and *vnf-type* parameters we can execute Traffic Distribution Workflow Python script. It works in two modes. First one executes ony initial phase where AAI and OOF
 is used to collect neccessary information for configuration of APPC and for further execution phase. The second mode performs also second phase which executes APPC LCM actions.
 
 At this stage we will execute script in the initial mode to generate some configuration helpful in CDT and Ansible configuration.
@@ -409,7 +409,7 @@ For now and for further use workflow script has following input parameters:
 - if only configuration information will be collected (True for initial phase and False for full execution of workflow)
 - if APPC LCM action status should be verified and FAILURE should stop workflow (when False FAILED status of LCM action does not stop execution of further LCM actions)
 
-2. The script at this stage should give simmilar output 
+2. The script at this stage should give simmilar output
 
 ::
 
@@ -446,7 +446,7 @@ For now and for further use workflow script has following input parameters:
     vofwl01vfw4407 ansible_ssh_host=10.0.110.1 ansible_ssh_user=ubuntu
     vofwl02vfw4407 ansible_ssh_host=10.0.110.4 ansible_ssh_user=ubuntu
 
-The result should have almoast the same information for *vnf-id's* of both vFW VNFs. *vnf-type* for vPKG and vFW VNFs should be the same like those collected in previous steps. 
+The result should have almoast the same information for *vnf-id's* of both vFW VNFs. *vnf-type* for vPKG and vFW VNFs should be the same like those collected in previous steps.
 Ansible Inventory section contains information about the content Ansible Inventor file that will be configured later on `Configuration of Ansible Server`_
 
 Configuration of VNF in the APPC CDT tool
@@ -506,9 +506,9 @@ Following steps aim to configure DistributeTraffic LCM action for our vPKG and v
         "PlaybookName": "${()=(book_name)}",
         "NodeList": [{
             "vm-info": [{
-                "ne_id": "${()=(ne_id)}", 
+                "ne_id": "${()=(ne_id)}",
                 "fixed_ip_address": "${()=(fixed_ip_address)}"
-            }], 
+            }],
             "site": "site",
             "vnfc-type": "vpgn"
         }],
@@ -579,7 +579,7 @@ After an instantiation of the vFWDT service the Ansible server must be configure
     chmod 400 onap.pem
     chown ansible:ansible onap.pem
 
-4. Edit the :file:`/opt/ansible-server/Playbooks/Ansible\ \_\ inventory` file including all the hosts of vFWDT service instance used in this use case. 
+4. Edit the :file:`/opt/ansible-server/Playbooks/Ansible\ \_\ inventory` file including all the hosts of vFWDT service instance used in this use case.
    The content of the file is generated by workflow script `Testing Gathered Facts on Workflow Script`_
 
 ::
@@ -608,7 +608,7 @@ After an instantiation of the vFWDT service the Ansible server must be configure
 .. note:: This is the default privaye key file. In the `/opt/ansible-server/Playbooks/Ansible\ \_\ inventory` different key could be configured but APPC in time of execution of playbbok on Ansible server creates its own dedicated inventory file which does not have private key file specified. In consequence, this key file configured is mandatory for proper execution of playbooks by APPC
 
 
-6. Test that the Ansible server can access over ssh vFWDT hosts configured in the ansible inventory 
+6. Test that the Ansible server can access over ssh vFWDT hosts configured in the ansible inventory
 
 ::
 
@@ -704,8 +704,8 @@ Result should be simmilar to the following one:
 Testing Traffic Distribution Workflow
 -------------------------------------
 
-Since all the configuration of components of ONAP is already prepared it is possible to enter second phase of Traffic Distribution Workflow execution - 
-the execution of DistributeTraffic and DistributeTrafficCheck LCM actions with configuration resolved before by OptimizationFramework. 
+Since all the configuration of components of ONAP is already prepared it is possible to enter second phase of Traffic Distribution Workflow execution -
+the execution of DistributeTraffic and DistributeTrafficCheck LCM actions with configuration resolved before by OptimizationFramework.
 
 
 Workflow Execution
@@ -727,7 +727,7 @@ The order of executed LCM actions is following:
    change of the traffic should be observed on following dashboards (please turn on automatic reload of graphs)
 
     ::
-        
+
         http://<vSINK-1-IP>:667/
         http://<vSINK-2-IP>:667/
 
