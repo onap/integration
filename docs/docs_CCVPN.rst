@@ -238,7 +238,7 @@ Following steps were undertaken for the closed loop testing.
 
 a. Give controller ip, username and password, trust store and key store file in restconf collector collector.properties
 b. Updated DMAAP ip in cambria.hosts in DmaapConfig.json in restconf collector and run restconf collector
-c. Followed the steps provided in this link(https://wiki.onap.org/display/DW/Holmes+User+Guide+-+Casablanca#HolmesUserGuide-Casablanca-Configurations) to push CCVPN rules to holmes
+c. Followed the steps provided in this link(https://wiki.onap.org/display/DW/Holmes+User+Guide+-+Casablanca) to push CCVPN rules to holmes
 d. Followed the steps provided in this link(https://wiki.onap.org/display/DW/ONAP+Policy+Framework%3A+Installation+of+Amsterdam+Controller+and+vCPE+Policy) as reference to push CCVPN policies to policy module and updated sdnc.url, username and password in environment(/opt/app/policy/config/controlloop.properties.environment)
 
 As per wiki (Policy on OOM), push-policied.sh script is used to install policies. but I observed that CCVPN policy is not added in this script. So merged CCVPN policy using POLICY-1356 JIRA ticket. but policy is pushed by using push-policy_casablanca.sh script during integration test.
