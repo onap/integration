@@ -111,7 +111,7 @@ Once the configuration blueprint is uploaded to CDS, users can define and onboar
 
     zip ../vLB.zip *
 
-For a complete description of service design and creation, please refer to the SDC wiki page: https://wiki.onap.org/display/DW/Design
+For a complete description of service design and creation, please refer to the SDC documentation.
 
 During the creation of the service in SDC, there are a few extra steps that need to be executed to make the VNF ready for scale out. These require users to login to the SDC Portal as service designer user (username: cs0008, password: demo123456!).
 
@@ -319,7 +319,7 @@ Here is an example of API for the vLB VNF used for this use case. We name the fi
 
 To create the VNF template in CDT, the following steps are required:
 
-- Connect to the CDT GUI: http://ANY-K8S-IP:30289
+- Connect to the CDT GUI: http://ANY_K8S_IP:30289
 - Click "My VNF" Tab. Create your user ID, if necessary
 - Click "Create new VNF" entering the VNF type as reported in VID or AAI, e.g. vLoadBalancerMS/vLoadBalancerMS 0
 - Select "ConfigScaleOut" action
@@ -2053,7 +2053,7 @@ PART 6 - Known Issues and Resolutions
 
 Resolution: Change TCA configuration for the old vLB/vDNS use case
 
-- Connect to Consul: http://<ANY K8S VM IP ADDRESS>:30270 and click on "Key/Value" → "dcae-tca-analytics"
+- Connect to Consul: http://ANY_K8S_IP:30270 and click on "Key/Value" → "dcae-tca-analytics"
 - Change "eventName" in the vLB default policy to something different, for example "vLB" instead of the default value "vLoadBalancer"
 - Change "subscriberConsumerGroup" in the TCA configuration to something different, for example "OpenDCAE-c13" instead of the default value "OpenDCAE-c12"
 - Click "UPDATE" to upload the new TCA configuration

@@ -8,7 +8,7 @@
 
 5G Bulk PM Package
 ~~~~~~~~~~~~~~~~~~
-- 5G Bulk PM Package: https://wiki.onap.org/display/DW/5G+-+Bulk+PM+-+Integration+Test+Case
+- 5G Bulk PM Package: https://wiki.onap.org/pages/viewpage.action?pageId=38121543
 
 Description
 ~~~~~~~~~~~
@@ -18,8 +18,8 @@ https://wiki.onap.org/display/DW/5G+-+Bulk+PM
 
 How to Use
 ~~~~~~~~~~
-See the following instructions on how to manually test the feature. https://wiki.onap.org/display/DW/5G+Bulk+PM+Usecase+Testing+@+Ericsson+Lab+-+Casablanca
-The tests can also be executed using the Robot framework, information can be found https://wiki.onap.org/display/DW/5G+-+Bulk+PM+-+Integration+Test+Cases
+See the following instructions on how to manually test the feature. https://wiki.onap.org/display/DW/5G+Bulk+PM+Usecase+Testing+\@+Ericsson+Lab+-+Casablanca
+The tests can also be executed using the Robot framework, information can be found https://wiki.onap.org/pages/viewpage.action?pageId=38121543
 
 Test Status and Plans
 ~~~~~~~~~~~~~~~~~~~~~
