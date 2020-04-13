@@ -4,8 +4,10 @@ ONAP HEAT Template
 Source files
 ~~~~~~~~~~~~
 
-- Template file: https://git.onap.org/demo/plain/heat/ONAP/onap_openstack.yaml
-- Environment file: https://git.onap.org/demo/plain/heat/ONAP/onap_openstack.env
+- Template file: https://git.onap.org/integration/plain/deployment/heat/onap-rke/onap-oom.yaml
+- Environment file: https://git.onap.org/integration/plain/deployment/heat/onap-rke/env/windriver/onap-oom.env
+
+The files are based on the windriver environement used by the integration team.
 
 Description
 ~~~~~~~~~~~
@@ -233,4 +235,3 @@ or Command Line.
 
  heat stack-create STACK_NAME -f PATH_TO_HEAT_TEMPLATE(YAML FILE) -e PATH_TO_ENV_FILE       # Old HEAT client, OR
  openstack stack create -t PATH_TO_HEAT_TEMPLATE(YAML FILE) -e PATH_TO_ENV_FILE STACK_NAME  # New Openstack client
-

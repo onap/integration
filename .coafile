@@ -27,11 +27,6 @@ pylint_enable =
 ignore =
   .tox/**
 
-[rst]
-bears = reSTLintBear
-ignore =
-  .tox/**
-
 [md]
 bears = MarkdownBear
 ignore =
