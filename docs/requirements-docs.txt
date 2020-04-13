@@ -11,5 +11,7 @@ sphinxcontrib-nwdiag
 sphinxcontrib-seqdiag
 sphinxcontrib-swaggerdoc
 sphinxcontrib-plantuml
+sphinxcontrib-spelling
 sphinx_bootstrap_theme
 lfdocs-conf
+pyenchant

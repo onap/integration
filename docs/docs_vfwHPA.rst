@@ -18,7 +18,7 @@ This tutorial covers enhancements 1 to 5 in Background of https://wiki.onap.org/
 
 `HPA Enhancements Page <https://wiki.onap.org/pages/viewpage.action?pageId=34376310>`_
 
-`vFW with HPA Test Status Page <https://wiki.onap.org/display/DW/vFW+with+HPA+Integration+Test+-+Test+Status>`_
+`vFW with HPA Test Status Page <https://wiki.onap.org/pages/viewpage.action?pageId=45301960>`_
 
 
 `Hardware Platform Enablement in ONAP <https://wiki.onap.org/display/DW/Hardware+Platform+Enablement+In+ONAP>`_

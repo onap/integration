@@ -1,6 +1,6 @@
 .. This work is licensed under a Creative Commons Attribution 4.0
    International License. http://creativecommons.org/licenses/by/4.0
-   
+
 .. _docs_realtime_pm:
 
 5G - Real Time PM and High Stream Data Collection
@@ -26,8 +26,8 @@ How to verify
 
 Follow instructions in the links below to send data to HV-VES collector and verify messages published on Kafka topic:
 
-- `HV-VES xNF simulator integration to ONAP <https://wiki.onap.org/display/DW/HV-VES+simulator#HV-VESsimulator-HV-VESxNFsimulatorintegrationtoONAP>`_
-- `HV-VES xNF message simulation from shell <https://wiki.onap.org/display/DW/HV-VES+simulator#HV-VESsimulator-HV-VESxNFmessagesimulationfromshell>`_
+- `HV-VES xNF simulator integration to ONAP <https://wiki.onap.org/display/DW/HV-VES+simulator>`_ (HVVESsimulator-HV-VESxNFmessagesimulationfromshell)
+- `HV-VES xNF message simulation from shell <https://wiki.onap.org/display/DW/HV-VES+simulator>`_ (HV-VESsimulator-HV-VESxNFsimulatorintegrationtoONAP)
 
 Useful links
 ~~~~~~~~~~~~
