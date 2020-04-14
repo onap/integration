@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "adc7da43_ab6f378d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-04-14T14:20:12Z",
+      "side": 1,
+      "message": "Kindly please add WIP flag for this kind of purposes, including info about such dependencies in commit msg is irrelevant IMHO. You can add WIP flag and mark ready for review once all dependencies are merged - more Gerrit way to me.",
+      "revId": "a87be62415d55922161a2cc430af153d3243db78",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
