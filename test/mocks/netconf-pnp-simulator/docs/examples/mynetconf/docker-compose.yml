@@ -2,7 +2,7 @@ version: '3'
 
 services:
   netopeer2:
-    image: nexus3.onap.org:10001/onap/integration/simulators/netconf-pnp-simulator:2.6.2
+    image: nexus3.onap.org:10001/onap/integration/simulators/netconf-pnp-simulator:2.8.2
     container_name: mynetconf
     restart: always
     ports:
