@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "80feee5d_19327041",
+        "filename": "tox.ini",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-04-15T10:16:53Z",
+      "side": 1,
+      "message": "It\u0027s defined in line 8, still needed here?",
+      "revId": "1ee69488d677ceab2666ccfb0bc3ae7eedd8770a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "289ab969_de725bbb",
+        "filename": "tox.ini",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-04-15T10:16:53Z",
+      "side": 1,
+      "message": "trailing space",
+      "range": {
+        "startLine": 43,
+        "startChar": 10,
+        "endLine": 43,
+        "endChar": 11
+      },
+      "revId": "1ee69488d677ceab2666ccfb0bc3ae7eedd8770a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
