@@ -9,7 +9,7 @@ Source files
 
 Additional files
 ~~~~~~~~~~~~~~~~
-- DCAE blueprint: https://git.onap.org/integration/tree/docs/files/scaleout/k8s-tca-clamp-policy-05162019.yaml
+- DCAE blueprint: https://git.onap.org/integration/tree/docs/files/scaleout/dcae_blueprint.yaml
 - TOSCA model template: https://git.onap.org/integration/tree/docs/files/scaleout/service-Vloadbalancercds-template.yml
 - Naming policy script: https://git.onap.org/integration/tree/docs/files/scaleout/push_naming_policy.sh
 
@@ -62,7 +62,7 @@ The output below means that the vLB has been set up correctly, has forwarded the
 
 The Scale Out Use Case
 ~~~~~~~~~~~~~~~~~~~~~~
-The Scale Out use case shows how users/network operators can add Virtual Network Function Components (VNFCs) as part of a VF Module that has been instantiated in the Service model, in order to increase capacity of the network. ONAP El Alto release supports scale out with manual trigger by directly calling SO APIs and closed-loop-enabled automation from Policy. For El Alto, the APPC controller is used to demonstrate post-scaling VNF reconfiguration operations. APPC can handle different VNF types, not only the VNF described in this document.
+The Scale Out use case shows how users/network operators can add Virtual Network Function Components (VNFCs) as part of a VF Module that has been instantiated in the Service model, in order to increase capacity of the network. ONAP Frankfurt release supports scale out with manual trigger by directly calling SO APIs and closed-loop-enabled automation from Policy. For Frankfurt, the APPC controller is used to demonstrate post-scaling VNF reconfiguration operations. APPC can handle different VNF types, not only the VNF described in this document.
 
 The figure below shows all the interactions that take place during scale out operations.
 
@@ -133,9 +133,9 @@ For CDS parameters, users can search for names starting with "sdnc". These param
    :align: center
 
 
-After importing the VSP, users need to onboard the DCAE blueprint and the Policy Model used to design closed loops in CLAMP. This step is only required for users that want to run closed loop; users interested in manual scale out only can skip the remainder of the section.
+After importing the VSP, users need to onboard the DCAE blueprint used to design closed loops in CLAMP. This step is only required for users that want to run closed loop; users interested in manual scale out only can skip the remainder of the section. Note that since Frankfurt users are not required to upload a Policy model from SDC, as Policy models are now managed by the Policy Engine.
 
-From the "Composition" tab in the service menu, select the artifact icon on the right, as shown below:
+To upload a DCAE blueprint, from the "Composition" tab in the service menu, select the artifact icon on the right, as shown below:
 
 .. figure:: files/scaleout/1.png
    :align: center
@@ -148,21 +148,6 @@ Upload the DCAE blueprint linked at the top of the page using the pop-up window.
 The blueprint will appear in the artifacts section on the right.
 
 .. figure:: files/scaleout/3.png
-   :align: center
-
-To attach a Policy Model to the service, open the Policy drop-down list on left.
-
-.. figure:: files/scaleout/4.png
-   :align: center
-
-Then, add the TCA Policy.
-
-.. figure:: files/scaleout/5.png
-   :align: center
-
-The Policy will be attached to the service defined in SDC
-
-.. figure:: files/scaleout/6.png
    :align: center
 
 Finally, users need to provide the maximum number of VNF instances that ONAP is allowed to create as part of the scale out use case by setting up deployment properties.
@@ -195,48 +180,68 @@ In order to instantiate the VNF using CDS features, users need to deploy the nam
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This step is only required if closed loop is used.
 
-Once the service model is distributed, users can design the closed loop from CLAMP, using the GUI at https://clamp.api.simpledemo.onap.org:30258/designer/index.html In El Alto, CLAMP doesn't authenticate with AAF, so users have to login using "admin" and "password" as username and password, respectively.
+Once the service model is distributed, users can design the closed loop from CLAMP, using the GUI at https://clamp.api.simpledemo.onap.org:30258/designer/index.html 
 
-Use the "Closed Loop" link to open a distributed model.
+Use the "Loop Instance" link to create a closed loop using a distributed model.
 
-.. figure:: files/scaleout/12.png
+.. figure:: files/scaleout/clamp/1.png
    :align: center
 
-Select the closed loop associated to the distributed service model.
+Select the distributed service model.
 
-.. figure:: files/scaleout/13.png
+.. figure:: files/scaleout/clamp/2.png
    :align: center
 
 The closed loop main page for TCA microservices is shown below.
 
-.. figure:: files/scaleout/14.png
+.. figure:: files/scaleout/clamp/3.png
    :align: center
 
-Click on the TCA box to create a configuration policy. From the pop-up window, users need to click "Add item" to create a new policy and fill it in with specific information, as shown below.
+Click on the TCA box to create a configuration policy. From the pop-up window, users need to click "Add" to create a new policy and fill it in with specific information, as shown below.
 
-.. figure:: files/scaleout/15.png
+.. figure:: files/scaleout/clamp/4.png
    :align: center
 
 For this use case, the control loop schema type is "VM", while the event name has to match the event name reported in the VNF telemetry, which is "vLoadBalancer".
 
 Once the policy item has been created, users can define a threshold that will be used at runtime to evaluate telemetry reported by the vLB. When the specified threshold is crossed, DCAE generates an ONSET event that will tell Policy Engine which closed loop to activate.
 
-.. figure:: files/scaleout/16.png
+.. figure:: files/scaleout/clamp/5.png
    :align: center
 
-After the configuration policy is created, users need to create the operational policy, which the Policy Engine uses to determine which actions and parameters should be used during closed loop.
+Since Frankfurt, users are required to define the PDP group for the configuration policy, as shown in the figure below.
 
-.. figure:: files/scaleout/17.png
+.. figure:: files/scaleout/clamp/6.png
    :align: center
 
-Since El Alto, CLAMP adds the "Policy Decision Entry" parameter, which has to contain the name of the root operational policy in the decision tree. For this use case, there is only one operational policy, called "vlbpolicy2" in the example above ("Policy ID" parameter). As such, "Policy Decision Entry" has to be set to "vlbpolicy2" as well. During creation of the operational policy, the user should select "VF Module Create" recipe and "SO" actor. The payload section is:
+After the configuration policy is created, users need to create the operational policy, which the Policy Engine uses to determine which actions and parameters should be used during closed loop. From the "Loop Instance" tab, users can select "Modify" to add a new Policy Model of type Drools:
+
+.. figure:: files/scaleout/clamp/7.png
+   :align: center
+
+Users are required to provide basic closed loop information, like ID, timeout, and trigger, as shown in the example below. The trigger name, in particular, must match the name of the root operational policy created during the next step.
+
+.. figure:: files/scaleout/clamp/8.png
+   :align: center
+
+To create a new operational policy, users can use the "Add" button below, and fill up the fields in the CLAMP GUI as shown in the example below, making sure that the "id" matches the "trigger" field defined before:
+
+.. figure:: files/scaleout/clamp/9.png
+   :align: center
+
+During creation of the operational policy, the user should select "VF Module Create" recipe and "SO" actor. The payload section is a JSON object like below:
 
 ::
 
-    requestParameters: '{"usePreload":false,"userParams":[]}'
-    configurationParameters: '[{"ip-addr":"$.vf-module-topology.vf-module-parameters.param[16].value","oam-ip-addr":"$.vf-module-topology.vf-module-parameters.param[30].value"}]'
+    {"requestParameters":"{\"usePreload\":true,\"userParams\":[]}",
+   "configurationParameters":"[{\"ip-addr\":\"$.vf-module-topology.vf-module-parameters.param[16]\",\"oam-ip-addr\":\"$.vf-module-topology.vf-module-parameters.param[30]\"}]"}
 
-Policy Engine passes the payload to SO, which will then use it during VF module instantiation to resolve configuration parameters. The JSON path
+Users can use the "Edit JSON" button to upload the payload.
+
+.. figure:: files/scaleout/clamp/10.png
+   :align: center
+
+The Policy Engine passes the payload to SO, which will then use it during VF module instantiation to resolve configuration parameters. The JSON path
 
 ::
 
@@ -244,19 +249,34 @@ Policy Engine passes the payload to SO, which will then use it during VF module 
 
 indicates that resolution for parameter "ip-addr" is available at "$.vf-module-topology.vf-module-parameters.param[16].value" in the JSON object linked by the VF module self-link in AAI. See section 1-7 for an example of how to determine the right path to configuration parameters.
 
-The target tab allows users to select the target type for the closed loop. For this use case, the user should select VF module as target type, as we are scaling a VF module. Please select the vDNS module as target resource ID.
+The "targetType" tab allows users to select the target type for the closed loop. For this use case, the user should select VF module as target type, as we are scaling a VF module. Please select the vDNS module as target resource ID.
 
-.. figure:: files/scaleout/18.png
+.. figure:: files/scaleout/clamp/11.png
    :align: center
 
-For what regards guard policies, either "Frequency Limiter", or "MinMax", or both can be used for the scale out use case. The example below shows the definition of a "Frequency Limiter" guard policy. The policy name should be guard.frequency.<policy ID> for Frequency Limiter and guard.minmax.<policy ID> for MinMax, where <policy ID> is vlbpolicy2 in the example above.
+As with configuration policy, users need to assign the PDP group to the operational policy.
 
-.. figure:: files/scaleout/19.png
+.. figure:: files/scaleout/clamp/12.png
    :align: center
 
-Once the operational policy design is completed, users can submit and then deploy the closed loop clicking the "Submit" and "Deploy" buttons, respectively, as shown below.
+For what regards guard policies, either "Frequency Limiter", or "MinMax", or both can be used for the scale out use case. They can be added using the "Modify" item in the "Loop Instance" tab.
 
-.. figure:: files/scaleout/20.png
+.. figure:: files/scaleout/clamp/13.png
+   :align: center
+
+The example below shows the definition of a "Frequency Limiter" guard policy. Note that some optional fields, such as id and time interval, should be added to the policy using the "Object Properties" button:
+
+.. figure:: files/scaleout/clamp/14.png
+   :align: center
+
+The user needs to manually insert id, actor, and operation so as to match the same fields defined in the operational policy.
+
+.. figure:: files/scaleout/clamp/15.png
+   :align: center
+
+Once the operational policy design is completed, users can submit and then deploy the closed loop clicking the "Submit" and "Deploy" buttons from the "Loop Operations" tab, as shown below.
+
+.. figure:: files/scaleout/clamp/16.png
    :align: center
 
 At this point, the closed loop is deployed to Policy Engine and DCAE, and a new microservice will be deployed to the DCAE platform.
@@ -2051,9 +2071,9 @@ PART 6 - Known Issues and Resolutions
 -------------------------------------
 1) When running closed loop-enabled scale out, the closed loop designed in CLAMP conflicts with the default closed loop defined for the old vLB/vDNS use case
 
-Resolution: Change TCA configuration for the old vLB/vDNS use case
+Resolution: Change TCA configuration for the old vLB/vDNS use case
 
-- Connect to Consul: http://ANY_K8S_IP:30270 and click on "Key/Value" → "dcae-tca-analytics"
+- Connect to Consul: http://ANY_K8S_IP:30270 and click on "Key/Value" → "dcae-tca-analytics"
 - Change "eventName" in the vLB default policy to something different, for example "vLB" instead of the default value "vLoadBalancer"
-- Change "subscriberConsumerGroup" in the TCA configuration to something different, for example "OpenDCAE-c13" instead of the default value "OpenDCAE-c12"
+- Change "subscriberConsumerGroup" in the TCA configuration to something different, for example "OpenDCAE-c13" instead of the default value "OpenDCAE-c12"
 - Click "UPDATE" to upload the new TCA configuration
