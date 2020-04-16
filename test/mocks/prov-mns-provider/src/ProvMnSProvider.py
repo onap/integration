@@ -37,12 +37,14 @@ class ServerHTTP(BaseHTTPRequestHandler):
         request = urlparse(path)
         print("the PATH of the received GET request:" + request.path)
         pathlist = request.path.split('/')
-        if "/" + pathlist[1] + "/"+ pathlist[2] == prefix:
-            prefix_check = True
-        else:
+        prefix_check = True
+        try:
+            if "/" + pathlist[1] + "/"+ pathlist[2] != prefix:
+                prefix_check = False
+            className = pathlist[3]
+            idName = pathlist[4]
+        except IndexError:
             prefix_check = False
-        className = pathlist[3]
-        idName = pathlist[4]
         response = {}
         query_params = parse_qs(request.query)
         if self.headers['Authorization'] == authheader and prefix_check is True:
@@ -100,12 +102,14 @@ class ServerHTTP(BaseHTTPRequestHandler):
         request = urlparse(path)
         print("the PATH of the received GET request:" + request.path)
         pathlist = request.path.split('/')
-        if "/" + pathlist[1] + "/"+ pathlist[2] == prefix:
-            prefix_check = True
-        else:
+        prefix_check = True
+        try:
+            if "/" + pathlist[1] + "/"+ pathlist[2] != prefix:
+                prefix_check = False
+            className = pathlist[3]
+            idName = pathlist[4]
+        except IndexError:
             prefix_check = False
-        className = pathlist[3]
-        idName = pathlist[4]
         response = {}
         query_params = parse_qs(request.query)
         if self.headers['Authorization'] == authheader and prefix_check is True:
@@ -169,12 +173,14 @@ class ServerHTTP(BaseHTTPRequestHandler):
         request = urlparse(path)
         print("the PATH of the received DELETE request:" + request.path)
         pathlist = request.path.split('/')
-        if "/" + pathlist[1] + "/"+ pathlist[2] == prefix:
-            prefix_check = True
-        else:
+        prefix_check = True
+        try:
+            if "/" + pathlist[1] + "/"+ pathlist[2] != prefix:
+                prefix_check = False
+            className = pathlist[3]
+            idName = pathlist[4]
+        except IndexError:
             prefix_check = False
-        className = pathlist[3]
-        idName = pathlist[4]
         response = {}
         query_params = parse_qs(request.query)
         if self.headers['Authorization'] == authheader and prefix_check is True:
@@ -221,12 +227,14 @@ class ServerHTTP(BaseHTTPRequestHandler):
         print("\n**************************** NEW PUT REQUEST ********************************")
         print("the PATH of the received PUT request:" + path)
         pathlist = path.split('/')
-        if "/" + pathlist[1] + "/"+ pathlist[2] == prefix:
-            prefix_check = True
-        else:
+        prefix_check = True
+        try:
+            if "/" + pathlist[1] + "/"+ pathlist[2] != prefix:
+                prefix_check = False
+            className = pathlist[3]
+            idName = pathlist[4]
+        except IndexError:
             prefix_check = False
-        className = pathlist[3]
-        idName = pathlist[4]
         response = {}
         if self.headers['Authorization'] == authheader and prefix_check is True:
             if className in SupportingFunctionList:
