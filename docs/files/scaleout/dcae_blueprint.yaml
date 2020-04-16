@@ -144,7 +144,7 @@ node_templates:
         start:
           inputs:
             envs:
-              MAAPHOST:
+              DMAAPHOST:
                 { get_input: dmaap_host }
               DMAAPPORT:
                 { get_input: dmaap_port }
