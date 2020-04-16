@@ -83,10 +83,11 @@ class ServerHTTP(BaseHTTPRequestHandler):
                 print("Fail to get MOI object: "+'/' +className+'/'+idName)
                 self.send_response(406)
         else:
-            self.send_response(401)
             if prefix_check is True:
+                self.send_response(401)
                 response['error'] = {"errorInfo":"not Authorized"}
             else:
+                self.send_response(404)
                 response['error'] = {"errorInfo":"wrong prefix"}
         self.send_header("Content-type","application/json")
         self.end_headers()
@@ -151,10 +152,11 @@ class ServerHTTP(BaseHTTPRequestHandler):
                 print("Fail to modify MOI object: "+'/' +className+'/'+idName)
                 self.send_response(406)
         else:
-            self.send_response(401)
             if prefix_check is True:
+                self.send_response(401)
                 response['error'] = {"errorInfo":"not Authorized"}
             else:
+                self.send_response(404)
                 response['error'] = {"errorInfo":"wrong prefix"}
         self.send_header("Content-type","application/json")
         self.end_headers()
@@ -203,10 +205,11 @@ class ServerHTTP(BaseHTTPRequestHandler):
                 print("Fail to delete MOI object: "+'/' +className+'/'+idName)
                 self.send_response(406)
         else:
-            self.send_response(401)
             if prefix_check is True:
+                self.send_response(401)
                 response['error'] = {"errorInfo":"not Authorized"}
             else:
+                self.send_response(404)
                 response['error'] = {"errorInfo":"wrong prefix"}
         self.send_header("Content-type","application/json")
         self.end_headers()
@@ -252,10 +255,11 @@ class ServerHTTP(BaseHTTPRequestHandler):
                 print("Fail to create MOI object: "+'/' +className+'/'+idName)
                 self.send_response(406)
         else:
-            self.send_response(401)
             if prefix_check is True:
+                self.send_response(401)
                 response['error'] = {"errorInfo":"not Authorized"}
             else:
+                self.send_response(404)
                 response['error'] = {"errorInfo":"wrong prefix"}
         self.send_header("Content-type","application/json")
         self.end_headers()
