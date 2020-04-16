@@ -1,4 +1,4 @@
-from common import *
+from common import * # pylint: disable=W0614
 
 def test_put():
     '''Validate PUT request'''

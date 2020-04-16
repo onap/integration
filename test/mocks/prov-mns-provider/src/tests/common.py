@@ -13,6 +13,7 @@ MOI_DATA_TMPL = { 'data': ProvMnSProvider.Cretaed_MOIs_list[0] }
 MOI_DATA_PATCH = { "data": { "pLMNId": "xxx", "gNBId": "1234", "gNBIdLength": "4" }}
 URI_SCHEMA = 'http'
 AUTH_STRING = (ProvMnSProvider.username, ProvMnSProvider.password)
+INVALID_AUTH_STRING = (str(uuid4()).split('-')[0], str(uuid4()).split('-')[0])
 URI_BASE_STRING = URI_SCHEMA + '://' + ProvMnSProvider.ipAddress + ':' + \
              str(ProvMnSProvider.portNumber) + ProvMnSProvider.prefix + \
              '/' + MOI_CLASS + '/' + MOI_ID
@@ -21,3 +22,4 @@ URI_GET_STRING = URI_BASE_STRING + '?scope=BASE_ONLY&filter=' + MOI_CLASS + \
                  '&fields=gNBId&fields=gNBIdLength'
 URI_PATCH_STRING = URI_BASE_STRING + '?scope=BASE_ONLY&filter=' + MOI_CLASS
 URI_DELETE_STRING = URI_PATCH_STRING
+UNAUTHORIZED_MSG="not Authorized"
