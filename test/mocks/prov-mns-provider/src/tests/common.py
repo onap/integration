@@ -22,4 +22,9 @@ URI_GET_STRING = URI_BASE_STRING + '?scope=BASE_ONLY&filter=' + MOI_CLASS + \
                  '&fields=gNBId&fields=gNBIdLength'
 URI_PATCH_STRING = URI_BASE_STRING + '?scope=BASE_ONLY&filter=' + MOI_CLASS
 URI_DELETE_STRING = URI_PATCH_STRING
+BAD_CLASS_URI_BASE_STRING = URI_SCHEMA + '://' + ProvMnSProvider.ipAddress + \
+                            ':' + str(ProvMnSProvider.portNumber) + \
+                            ProvMnSProvider.prefix + '/' + 'invalidMoiClass' + \
+                            '/' + MOI_ID
 UNAUTHORIZED_MSG="not Authorized"
+INVALID_CLASS_MSG = "MOI class not support"

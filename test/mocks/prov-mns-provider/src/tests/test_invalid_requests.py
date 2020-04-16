@@ -22,3 +22,28 @@ def test_unauthorized():
                           auth=INVALID_AUTH_STRING)
     assert req.status_code == requests.codes.unauthorized
     assert UNAUTHORIZED_MSG in req.text
+
+def test_bad_moi_class():
+    '''Check service returns proper
+    http code and error msg if MOI class
+    is invalid'''
+
+    req = requests.get('{0}'.format(BAD_CLASS_URI_BASE_STRING),
+                       auth=AUTH_STRING)
+    assert req.status_code == requests.codes.not_acceptable
+    assert INVALID_CLASS_MSG in req.text
+
+    req = requests.put('{0}'.format(BAD_CLASS_URI_BASE_STRING),
+                       auth=AUTH_STRING, json=MOI_DATA_TMPL)
+    assert req.status_code == requests.codes.not_acceptable
+    assert INVALID_CLASS_MSG in req.text
+
+    req = requests.patch('{0}'.format(BAD_CLASS_URI_BASE_STRING),
+                         auth=AUTH_STRING, json=MOI_DATA_PATCH)
+    assert req.status_code == requests.codes.not_acceptable
+    assert INVALID_CLASS_MSG in req.text
+
+    req = requests.delete('{0}'.format(BAD_CLASS_URI_BASE_STRING),
+                          auth=AUTH_STRING)
+    assert req.status_code == requests.codes.not_acceptable
+    assert INVALID_CLASS_MSG in req.text
