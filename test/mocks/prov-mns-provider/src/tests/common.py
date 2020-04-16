@@ -26,5 +26,12 @@ BAD_CLASS_URI_BASE_STRING = URI_SCHEMA + '://' + ProvMnSProvider.ipAddress + \
                             ':' + str(ProvMnSProvider.portNumber) + \
                             ProvMnSProvider.prefix + '/' + 'invalidMoiClass' + \
                             '/' + MOI_ID
+BAD_PREFIX_URI_BASE_STRING = URI_SCHEMA + '://' + ProvMnSProvider.ipAddress + \
+                             ':' + str(ProvMnSProvider.portNumber) + \
+                             '/bad/prefix' + '/' + MOI_CLASS + '/' + MOI_ID
+BAD_PREFIX1_URI_BASE_STRING = URI_SCHEMA + '://' + ProvMnSProvider.ipAddress + \
+                             ':' + str(ProvMnSProvider.portNumber) + \
+                             '/badprefix' + '/' + MOI_CLASS + '/' + MOI_ID
 UNAUTHORIZED_MSG="not Authorized"
 INVALID_CLASS_MSG = "MOI class not support"
+INVALID_PREFIX_MSG = "wrong prefix"
