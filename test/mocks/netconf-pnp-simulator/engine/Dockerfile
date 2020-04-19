@@ -65,8 +65,7 @@ RUN set -eux \
       && mkdir build && cd build \
       && cmake -DCMAKE_BUILD_TYPE:String="Release" -DENABLE_BUILD_TESTS=OFF \
          -DCMAKE_INSTALL_PREFIX:PATH=/opt \
-         -DGEN_LANGUAGE_BINDINGS=ON \
-         -DPYTHON_MODULE_PATH:PATH=/opt/lib/python3.7/site-packages \
+         -DGEN_LANGUAGE_BINDINGS=OFF \
          .. \
       && make -j2 \
       && make install
@@ -98,6 +97,7 @@ RUN set -eux \
          -DGEN_PYTHON_VERSION=3 \
          -DPYTHON_MODULE_PATH:PATH=/opt/lib/python3.7/site-packages \
          -DBUILD_EXAMPLES=0 \
+         -DBUILD_CPP_EXAMPLES=0 \
          .. \
       && make -j2 \
       && make install
@@ -111,8 +111,7 @@ RUN set -eux \
       && mkdir build && cd build \
       && cmake -DCMAKE_BUILD_TYPE:String="Release" -DENABLE_BUILD_TESTS=OFF \
          -DCMAKE_INSTALL_PREFIX:PATH=/opt \
-         -DENABLE_PYTHON=ON \
-         -DPYTHON_MODULE_PATH:PATH=/opt/lib/python3.7/site-packages \
+         -DENABLE_PYTHON=OFF \
          .. \
       && make \
       && make install
@@ -127,6 +126,7 @@ RUN set -eux \
       && mkdir build && cd build \
       && cmake -DCMAKE_BUILD_TYPE:String="Release" \
          -DCMAKE_INSTALL_PREFIX:PATH=/opt \
+         -DMODEL_INSTALL=ON \
          .. \
       && make -j2 \
       && make install
@@ -141,14 +141,16 @@ RUN set -eux \
       && make -j2 \
       && make install
 
-FROM python:3.7.7-alpine3.11
+FROM python:3.7.7-alpine3.11 as stage0
+RUN apk upgrade --no-cache --available
+
+FROM scratch
 LABEL authors="eliezio.oliveira@est.tech"
 
+COPY --from=stage0 / /
+
 RUN set -eux \
-      && pip install loguru supervisor virtualenv \
-      && apk update \
-      && apk upgrade -a \
-      && apk add \
+      && apk add --no-cache \
          coreutils \
          libcurl \
          libev \
@@ -156,8 +158,7 @@ RUN set -eux \
          openssl \
          pcre \
          protobuf-c \
-         xmlstarlet \
-      && rm -rf /var/cache/apk/*
+         xmlstarlet
 
 COPY --from=build /opt/ /opt/
 
@@ -167,6 +168,7 @@ ENV PYTHONPATH=/opt/lib/python3.7/site-packages
 COPY patches/supervisor/ /usr/src/patches/supervisor/
 
 RUN set -eux \
+      && pip install loguru supervisor supervisor virtualenv \
       && cd /usr/local/lib/python3.7/site-packages \
       && for p in /usr/src/patches/supervisor/*.patch; do patch -p1 -i $p; done
 
@@ -181,7 +183,11 @@ RUN adduser --system --disabled-password --gecos 'Netconf User' netconf
 # it can start the tests.
 HEALTHCHECK --interval=1s --start-period=2s --retries=10 CMD test -f /run/netopeer2-server.pid
 
+# SSH
 EXPOSE 830
+
+# TLS
+EXPOSE 6513
 
 COPY supervisord.conf /etc/supervisord.conf
 RUN mkdir /etc/supervisord.d

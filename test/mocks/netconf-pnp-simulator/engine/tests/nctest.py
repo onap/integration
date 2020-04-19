@@ -1,4 +1,4 @@
-import logging.config
+import logging
 
 from ncclient import manager, operations
 
@@ -38,9 +38,9 @@ class NCTestCase:
     def setup(self):
         self.nc = manager.connect(
             host=settings.HOST,
-            port=settings.PORT,
+            port=settings.SSH_PORT,
             username=settings.USERNAME,
-            key_filename=settings.KEY_FILENAME,
+            key_filename=settings.SSH_KEY_FILENAME,
             allow_agent=False,
             look_for_keys=False,
             hostkey_verify=False)
