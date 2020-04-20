@@ -1,25 +1,18 @@
+import pytest
 from common import * # pylint: disable=W0614
 
-def test_unauthorized():
+@pytest.mark.parametrize(('req_method', 'url', 'req_params'), [
+    (getattr(requests, 'get'), URI_GET_STRING, {"auth": INVALID_AUTH_STRING}),
+    (getattr(requests, 'put'), URI_PUT_STRING, {"auth": INVALID_AUTH_STRING,
+                                                "json": MOI_DATA_TMPL}),
+    (getattr(requests, 'patch'), URI_PATCH_STRING, {"auth": INVALID_AUTH_STRING,
+                                                    "json": MOI_DATA_PATCH}),
+    (getattr(requests, 'delete'), URI_DELETE_STRING, {"auth": INVALID_AUTH_STRING})
+    ])
+def test_unauthorized(req_method, url, req_params):
     '''Check service denies access if
     invalid credentials provided'''
-
-    req = requests.get('{0}'.format(URI_GET_STRING), auth=INVALID_AUTH_STRING)
-    assert req.status_code == requests.codes.unauthorized
-    assert UNAUTHORIZED_MSG in req.text
-
-    req = requests.put('{0}'.format(URI_PUT_STRING), auth=INVALID_AUTH_STRING,
-                       json=MOI_DATA_TMPL)
-    assert req.status_code == requests.codes.unauthorized
-    assert UNAUTHORIZED_MSG in req.text
-
-    req = requests.patch('{0}'.format(URI_PATCH_STRING),
-                         auth=INVALID_AUTH_STRING, json=MOI_DATA_PATCH)
-    assert req.status_code == requests.codes.unauthorized
-    assert UNAUTHORIZED_MSG in req.text
-
-    req = requests.delete('{0}'.format(URI_DELETE_STRING),
-                          auth=INVALID_AUTH_STRING)
+    req = req_method(url, **req_params)
     assert req.status_code == requests.codes.unauthorized
     assert UNAUTHORIZED_MSG in req.text
 
