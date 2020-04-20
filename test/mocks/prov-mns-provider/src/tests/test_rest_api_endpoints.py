@@ -1,3 +1,4 @@
+import pytest
 from common import * # pylint: disable=W0614
 
 def test_put():
@@ -16,37 +17,19 @@ def test_put():
 
     assert req_put.status_code == requests.codes.created
 
-def test_get():
-    '''Validate GET request'''
+@pytest.mark.parametrize(('url', 'req_method', 'req_params'),[
+    (URI_GET_STRING, getattr(requests, 'get'), { "auth": AUTH_STRING }),
+    (URI_PATCH_STRING, getattr(requests, 'patch'), { "auth": AUTH_STRING,
+                                                     "json": MOI_DATA_PATCH}),
+    (URI_DELETE_STRING, getattr(requests, 'delete'), { "auth": AUTH_STRING })
+    ])
+def test_api_methods(url, req_method, req_params):
+    '''Valide request'''
+    req = req_method(url, **req_params)
 
-    req_get = requests.get('{0}'.format(URI_GET_STRING), auth=AUTH_STRING)
+    if req.status_code != requests.codes.ok:
+        logger.error('{0} request to {1} failed'.format(
+                      req_method.__name__.upper(), url))
+        logger.debug('Response content: {0}'.format(req.text))
 
-    if req_get.status_code != requests.codes.ok:
-        logger.error('GET request to {0} failed'.format(URI_GET_STRING))
-        logger.debug('Response content: {0}'.format(req_get.text))
-
-    assert req_get.status_code == requests.codes.ok
-
-def test_patch():
-    '''Validate PATCH request'''
-
-    req_patch = requests.patch('{0}'.format(URI_PATCH_STRING),
-                               auth=AUTH_STRING, json=MOI_DATA_PATCH)
-
-    if req_patch.status_code != requests.codes.ok:
-        logger.error('PATCH request to {0} failed'.format(URI_PATCH_STRING))
-        logger.debug('Response content: {0}'.format(req_patch.text))
-
-    assert req_patch.status_code == requests.codes.ok
-
-def test_delete():
-    '''Validate DELETE request'''
-
-    req_delete = requests.delete('{0}'.format(URI_DELETE_STRING),
-                                 auth=AUTH_STRING)
-
-    if req_delete.status_code != requests.codes.ok:
-        logger.error('DELETE request to {0} failed'.format(URI_DELETE_STRING))
-        logger.debug('Response content: {0}'.format(req_delete.text))
-
-    assert req_delete.status_code == requests.codes.ok
+    assert req.status_code == requests.codes.ok
