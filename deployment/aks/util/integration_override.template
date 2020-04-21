@@ -1,6 +1,7 @@
 global:
   repository: __docker_proxy__
   pullPolicy: IfNotPresent
+  masterPassword: "${MASTER_PASSWORD}"
 robot:
   enabled: true
   flavor: large

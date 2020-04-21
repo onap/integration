@@ -159,6 +159,7 @@ OOM_BRANCH              = "$OOM_BRANCH"
 CHART_VERSION           = "$CHART_VERSION"
 OOM_OVERRIDES           = "$OOM_OVERRIDES"
 DOCKER_REPOSITORY       = "$DOCKER_REPOSITORY"
+MASTER_PASSWORD         = "$MASTER_PASSWORD"
 
 EOF
 
@@ -347,7 +348,8 @@ $DIR/util/create_integration_override.sh "$BUILD_DIR" \
                                          "$DOCKER_REPOSITORY" \
                                          "$NFS_PRIVATE_IP" \
                                          "$AKS_PUBLIC_IP_ADDRESS" \
-                                         "$BUILD_DIR/kubeconfig"
+                                         "$BUILD_DIR/kubeconfig" \
+                                         "$MASTER_PASSWORD"
 
 fi
 
@@ -361,7 +363,8 @@ $DIR/create_onap.sh "$BUILD" \
                     "$OOM_BRANCH" \
                     "$BUILD_DIR" \
                     "$CHART_VERSION" \
-                    "$OOM_OVERRIDES"
+                    "$OOM_OVERRIDES" \
+                    "$MASTER_PASSWORD"
 
 fi
 

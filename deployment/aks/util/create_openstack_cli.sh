@@ -39,14 +39,14 @@ spec:
     args:
       - -c
       - apk update && \
-        apk add python && \
-        apk add py-pip && \
-        apk add python-dev && \
+        apk add python3 && \
+        apk add py3-pip && \
+        apk add python3-dev && \
         apk add gcc && \
         apk add musl-dev && \
         apk add libffi-dev && \
         apk add openssl-dev && \
-        pip install python-openstackclient && \
+        pip3 install python-openstackclient && \
         sh -c 'echo ". /openstack/openstack_rc" >> /root/.profile; while true; do sleep 60; done;'
   restartPolicy: Never
   volumes:

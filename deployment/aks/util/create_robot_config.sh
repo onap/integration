@@ -17,6 +17,7 @@ OPENSTACK_RC=$1
 OPENSTACK_PARAM=$2
 BUILD_DIR=$3
 INTEGRATION_TEMPLATE=$4
+MASTER_PASSWORD=$5
 
 if [ "$OPENSTACK_RC" == "" ] 
        then
@@ -70,6 +71,8 @@ sed -ir -e "s/__sec_group__/$OS_SEC_GROUP/"  $template
 
 sed -ir -e "s/\${OS_UBUNTU_14_IMAGE}/$OS_UBUNTU_14_IMAGE/"  $template
 sed -ir -e "s/\${OS_UBUNTU_16_IMAGE}/$OS_UBUNTU_16_IMAGE/"  $template
+
+sed -ir -e "s/\${MASTER_PASSWORD}/$MASTER_PASSWORD/"  $template
 
 sed -ir -e "s/__nfs_ip_addr__/$NFS_IP_ADDR/"  $template
 sed -ir -e "s/__k8s_01_vm_ip__/$K8S_01_VM_IP/"  $template

@@ -22,6 +22,7 @@ DOCKER_REPOSITORY=$4
 NFS_IP_ADDR=$5
 K8S_01_VM_IP=$6
 KUBECONFIG=$7
+MASTER_PASSWORD=$8
 
 . $OPENSTACK_RC
 
@@ -72,4 +73,4 @@ OS_PROJECT_ID=`kubectl exec $OPENSTACK_CLI_POD -- sh -lc "openstack project show
 
 echo "export OS_PROJECT_ID=$OS_PROJECT_ID" >> "$OPENSTACK_RC"
 
-$DIR/create_robot_config.sh "$OPENSTACK_RC" "$BUILD_DIR/openstack_params.conf" "$BUILD_DIR" "$DIR/integration_override.template"
+$DIR/create_robot_config.sh "$OPENSTACK_RC" "$BUILD_DIR/openstack_params.conf" "$BUILD_DIR" "$DIR/integration_override.template" "$MASTER_PASSWORD"
