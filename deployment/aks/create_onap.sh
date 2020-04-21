@@ -21,6 +21,7 @@ OOM_BRANCH=$3
 BUILD_DIR=$4
 CHART_VERSION=$5
 OOM_OVERRIDES=$6
+MASTER_PASSWORD=$7
 
 pushd .
 
@@ -73,13 +74,13 @@ helm repo add stable "https://kubernetes-charts.storage.googleapis.com/"
 
 cp -R helm/plugins/ ~/.helm
 
-make all
+make all -e SKIP_LINT=TRUE
 if [ $? -ne 0 ]; then
   echo "Failed building helm charts, exiting..."
   exit 1
 fi
 
-make onap
+make onap -e SKIP_LINT=TRUE
 if [ $? -ne 0 ]; then
   echo "Failed building helm charts, exiting..."
   exit 1
@@ -92,7 +93,7 @@ fi
 
 helm repo remove stable
 build_name=`echo "$BUILD_NAME" | tr '[:upper:]' '[:lower:]'`
-helm deploy "$build_name" local/onap --version v"$CHART_VERSION" "$OOM_OVERRIDES" --namespace onap "$TEMPLATE_OVERRIDES"
+helm deploy "$build_name" local/onap --version v"$CHART_VERSION" --set "global.masterPassword=$MASTER_PASSWORD" "$OOM_OVERRIDES" --namespace onap "$TEMPLATE_OVERRIDES"
 
 kubectl get pods --namespace onap
  

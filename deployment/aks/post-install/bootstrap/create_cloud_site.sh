@@ -31,7 +31,7 @@ popd
 
 echo $SO_ENCRYPTED_KEY
 
-MARIADBPOD_STATUS=`kubectl -n onap get pods | grep mariadb-galera-mariadb-galera | head -1 | awk '{print $3}'`
+MARIADBPOD_STATUS=`kubectl -n onap get pods | grep mariadb-galera | head -1 | awk '{print $3}'`
 COUNTER=0
 
 until [ "$MARIADBPOD_STATUS" = "Running" ] || [ $COUNTER -gt 120 ]; do
@@ -40,11 +40,13 @@ COUNTER=$((COUNTER +1))
 sleep 10
 done
 
-MARIADBPOD=`kubectl -n onap get pods | grep mariadb-galera-mariadb-galera | head -1 | awk '{print $1}'`
+MARIADBPOD=`kubectl -n onap get pods | grep mariadb-galera | head -1 | awk '{print $1}'`
+MARIADBSECRET=`kubectl -n onap get secrets | grep mariadb-galera-db-root-password | head -1 | awk '{print $1}'`
+MARIADBPASSWORD=`kubectl -n onap get secret $MARIADBSECRET -o jsonpath="{.data.password}" | base64 -d`
 
 COMMAND="INSERT INTO identity_services (id, identity_url, mso_id, mso_pass, admin_tenant, member_role, tenant_metadata, identity_server_type, identity_authentication_type, project_domain_name, user_domain_name) VALUES (\"$OS_ID\", \"http://$OPENSTACK_IP/identity/v3\", \"$OPENSTACK_USER\", \"$SO_ENCRYPTED_KEY\", \"$OPENSTACK_TENANT\", \"$OS_TENANT_ROLE\", 0, \"$OS_KEYSTONE\", \"USERNAME_PASSWORD\", \"default\", \"default\");"
-kubectl -n onap exec -it $MARIADBPOD -- bash -c "mysql -u root --password=secretpassword --database=catalogdb --execute='$COMMAND'"
+kubectl -n onap exec -it $MARIADBPOD -- bash -c "mysql -u root --password='$MARIADBPASSWORD' --database=catalogdb --execute='$COMMAND'"
 
 COMMAND="INSERT INTO cloud_sites (id, region_id, identity_service_id, cloud_version, clli) VALUES (\"$CLOUD_REGION\", \"$OPENSTACK_REGION\", \"$OS_ID\", \"2.5\", \"$CLOUD_REGION\");"
-kubectl -n onap exec -it $MARIADBPOD -- bash -c "mysql -u root --password=secretpassword --database=catalogdb --execute='$COMMAND'"
+kubectl -n onap exec -it $MARIADBPOD -- bash -c "mysql -u root --password='$MARIADBPASSWORD' --database=catalogdb --execute='$COMMAND'"
 
