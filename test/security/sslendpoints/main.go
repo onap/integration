@@ -7,6 +7,7 @@ import (
 	"os"
 	"path/filepath"
 	"strconv"
+	"strings"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
@@ -123,7 +124,16 @@ func main() {
 		nmap.WithServiceInfo(),
 		nmap.WithTimingTemplate(nmap.TimingAggressive),
 		nmap.WithFilterPort(func(p nmap.Port) bool {
-			return p.Service.Tunnel == "ssl"
+			if p.Service.Tunnel == "ssl" {
+				return false
+			}
+			if strings.HasPrefix(p.State.State, "closed") {
+				return false
+			}
+			if strings.HasPrefix(p.State.State, "filtered") {
+				return false
+			}
+			return true
 		}),
 	)
 	if err != nil {
