@@ -37,6 +37,8 @@ Use Cases
 
 :ref:`vFirewall CNF (Container Network Function) With CDS Use Case <docs_vFW_CNF_CDS>`
 
+:ref:`vCPE Tosca Local Mode Use Case <docs_vcpe_tosca_local>`
+
 Functional Requirements
 ~~~~~~~~~~~~~~~~~~~~~~~
 :ref:`5G - Real Time PM and High Volume Stream Data Collection <docs_realtime_pm>`

@@ -137,7 +137,7 @@ Known Issues and Resolutions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 - Some SDC NS data model is not aligned to VFC NS data model, VFC NS also according to ETSI SOL0001. we also can refer to https://jira.onap.org/browse/SDC-1897. we have a workaround for this issue, we put the service as artifact file and distribute to VFC.
-- NFV Tosca parser bug https://jira.opnfv.org/browse/PARSER-187. we also filed a bug in VFC https://jira.onap.org/browse/VFC-1196.
+- NFV Tosca parser bug. See bug in VFC https://jira.onap.org/browse/VFC-1196.
 - 'artifacts' definition is missing in the exported csar's VDU node, we also can refer to https://jira.onap.org/browse/SDC-1900. It’s a very hacky workaround in VFC’s GVFNM. Because currently the only use case will use GVFNM is vCPE, which only uses the ubuntu16.04 image, so GVFNM just makes the ubuntu16.04 image as the default if the "sw_image" artifact is missing in the SDC’s exported CSAR.
 - OOF patch https://gerrit.onap.org/r/73332/ is not accepted by 1.2.4 image. 1.2.5 is available in nexus3 repo. But not available in Casablanca release. If you want to use it, you can use 1.2.5-SNAPSHOT-latest. If you use 1.2.4 image, you also need to modify code according to the patch.
 - vnflcm notification error patch  https://gerrit.onap.org/r/73852/

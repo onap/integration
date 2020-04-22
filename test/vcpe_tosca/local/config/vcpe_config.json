@@ -1,0 +1,97 @@
+{
+  "open_cli_product": "onap-elalto",
+  "open_cli_home": "/opt/oclip",
+  "msb_url": "https://192.168.235.77:30283",
+  "aai_url": "https://192.168.235.77:30283",
+  "aai_username": "AAI",
+  "aai_password": "AAI",
+  "multicloud_url": "https://192.168.235.77:30283",
+  "//": "#Parameters to vfc",
+  "temp_resource_module_name": "resource_name",
+  "complex_name": "clli_liping",
+  "street1": "street1",
+  "street2": "street2",
+  "physical_location": "phy_type",
+  "data_center_code": "code1",
+  "latitude": "32.89948",
+  "longitude": "97.045443",
+  "lata": "example-lata-val-28399",
+  "elevation": "example-elevation-val-28399",
+  "region": "northwest",
+  "state": "oregon",
+  "city": "hillsboro",
+  "postal-code": "00000",
+  "country": "USA",
+  "identity_url": "example-identity-url-val-56898",
+  "service-model-name": "vcpe-hpa1",
+  "cloud_region_data": {
+    "RegionOne": {
+      "cloud-region-version": "titanium_cloud",
+      "esr-system-info-id": "1111ce1f-aa78-4ebf-8d6f-4b62773e9b01",
+      "service-url": "http://192.168.235.2:5000/v3",
+      "user-name": "vcpe_case",
+      "password": "vCPE@2019",
+      "system-type": "VIM",
+      "ssl-insecure": true,
+      "cloud-domain": "Default",
+      "default-tenant": "vcpe",
+      "cloud-type": "openstack",
+      "identity-url": "http://192.168.235.2:5000/v3",
+      "system-status": "active"
+    }
+  },
+  "cloud-owner": "vCPE009",
+  "owner-defined-type": "t1",
+  "cloud-zone": "CloudZone",
+  "service_name": "vCPE_liping",
+  "customer_name": "cust1_liping",
+  "subscriber_name": "cust1_liping",
+  "vfc-url": "https://192.168.235.77:30283",
+  "vnfs": {
+    "vgw": {
+      "path": "/csar/vgw.csar",
+      "key": "key2",
+      "value": "value2"
+    },
+    "infra": {
+      "path": "/csar/infra.csar",
+      "key": "key2",
+      "value": "value2"
+    },
+    "vbng": {
+      "path": "/csar/vbng.csar",
+      "key": "key2",
+      "value": "value2"
+    },
+    "vbrgemu": {
+      "path": "/csar/vbrgemu.csar",
+      "key": "key2",
+      "value": "value2"
+    },
+    "vgmux": {
+      "path": "/csar/vgmux.csar",
+      "key": "key2",
+      "value": "value2"
+    }
+  },
+  "ns": {
+    "key": "key1",
+    "value": "value1",
+    "path": "/csar/ns.csar",
+    "name": "vcpe11"
+  },
+  "location": "vCPE009_RegionOne",
+  "vnfm_params": {
+    "GVNFMDRIVER": {
+      "type": "gvnfmdriver",
+      "vendor": "vfc",
+      "version": "v1.0",
+      "url": "https://192.168.235.77:30283/",
+      "vim-id": "vCPE009_RegionOne",
+      "user-name": "admin",
+      "user-password": "admin",
+      "vnfm-version": "v1.0"
+    }
+  },
+  "sdc-controller-id": "2"
+}

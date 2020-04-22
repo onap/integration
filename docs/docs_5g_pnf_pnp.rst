@@ -26,8 +26,8 @@ The PNF Plug and Play is a procedure that is executed between a PNF and ONAP. In
 How to Use
 ~~~~~~~~~~
 
-1) `Create and distribute service model which contains PNF
-2) `Create service for PNF and wait for PNF Ready message in DmaaP topic
-3) `Send PNF Registartion request from PnP PNF Simualtor and finish registration
+1) Create and distribute service model which contains PNF
+2) Create service for PNF and wait for PNF Ready message in DmaaP topic
+3) Send PNF Registartion request from PnP PNF Simualtor and finish registration
 
 See <https://wiki.onap.org/display/DW/5G+-+PNF+PnP+-+Integration+Test+Cases>`_ for details.
