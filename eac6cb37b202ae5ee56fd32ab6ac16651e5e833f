@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a637f7dc_df52573e",
+        "filename": "deployment/aks/util/integration_override.template",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 2319
+      },
+      "writtenOn": "2020-04-23T06:44:54Z",
+      "side": 1,
+      "message": "Our security guys would say that putting the password in a file is not very secure (that\u0027s what I do personally for our daily deployments) ;)",
+      "revId": "eac6cb37b202ae5ee56fd32ab6ac16651e5e833f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
