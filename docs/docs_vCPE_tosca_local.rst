@@ -17,7 +17,7 @@ Local is the way how to distribute the network elements. Here we use local means
 
 Source Code
 ~~~~~~~~~~~
-vcpe tosca local test scripts: https://git.onap.org/integration/tree/test
+vcpe tosca local test scripts: https://git.onap.org/integration/tree/test/vcpe_tosca/local/vcpe_tosca_test.py
 
 How to Use
 ~~~~~~~~~~
@@ -55,15 +55,15 @@ The use case has been automated by vcpe_tosca_test scripts. The followings are t
       DISTRIB_DESCRIPTION="Ubuntu 16.04.3 LTS"
 
 
-    Download the related ubuntu image from https://cloud-images.ubuntu.com/
+   Download the related ubuntu image from https://cloud-images.ubuntu.com/
 
-    .. image:: files/vcpe_tosca/image.png
+   .. image:: files/vcpe_tosca/image.png
 
-    Openstack Horizon--Project--Compute--Images page, create an image named image, the name must be the same with image which is defined in vnf csar file.
+   Openstack Horizon--Project--Compute--Images page, create an image named image, the name must be the same with image which is defined in vnf csar file.
 
-    .. image:: files/vcpe_tosca/create_image.png
+   .. image:: files/vcpe_tosca/create_image.png
 
-3) Update the configuration file vcpe_config.json under https://git.onap.org/integration/tree/test
+3) Update the configuration file vcpe_config.json under https://git.onap.org/integration/tree/test/vcpe_tosca/local/config
 
    You should update the values if you want to run in your environment.
 
@@ -134,10 +134,10 @@ The use case has been automated by vcpe_tosca_test scripts. The followings are t
         }
 
 
-4) The vnf csar file include Infra, vGW, vBNG, vBRGEMU and vGMUX, and the ns csar file is ns. https://git.onap.org/integration/tree/test
+4) The vnf csar file include Infra, vGW, vBNG, vBRGEMU and vGMUX, and the ns csar file is ns. https://git.onap.org/integration/tree/test/vcpe_tosca/local/csar
 
 
-5) The key test script is vcpe_tosca_test.py which is under https://git.onap.org/integration/tree/test
+5) The key test script is vcpe_tosca_test.py which is under https://git.onap.org/integration/tree/test/vcpe_tosca/local
 
    Run command is
 
