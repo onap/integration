@@ -5,3 +5,4 @@
 onap-dcae-redis 6379 # Redis port
 onap-msb-eag 6379 # Redis port
 onap-msb-iag 6379 # Redis port
+onap-vfc-redis 6379 # Redis port
