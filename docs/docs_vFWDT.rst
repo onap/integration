@@ -392,84 +392,23 @@ This sections show the steps necessary to configure Policies, CDT and Ansible se
 
 Configuration of Policies for Optimization Framework
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-We need to enter the Policy editor in order to upload policy types and then the policy rules for the demo. The policies are required for the Optimization Framework and they guide OOF how to determine
+We need to upload neccessary optimization policy rules required for the demo. The policies are required for the Optimization Framework and they guide OOF how to determine
 vFW and vPGN instances used in the Traffic Distribution workflow.
 
-1. Enter the Policy portal
+1. Push the policies into the PDP
 
-Specify *demo*:*demo* as a login and password
-
-::
-
-    https://K8S_NODE_IP:30219/onap/login.htm
-
-From the left side menu enter *Dictionary* section and from the combo boxes select *MicroService Policy* and *MicroService Models* respectively. Below you can see the result.
-
-.. figure:: files/vfwdt-policy-type-list.png
-   :scale: 70 %
-   :align: center
-
-   Figure 15 List of MicroService policy types in the Policy portal
-
-2. Upload the policy types
-
-Before policy rules for Traffic Distribution can be uploaded we need to create policy types to store these rules. For that we need to create following three types:
-
-- VNF Policy - it used to filter vf-module instances i.e. base on their attributes from the AAI like *provStatus*, *cloudRegionId* etc.
-- Query Policy - it is used to declare extra input parameters for OOF placement request  - in our case we need to specify cloud region name
-- Affinity Policy - it is used to specify the placement rule used for selection vf-module candidate pairs of vFW vf-module instance (traffic destination) and vPGN vf-module instance (anchor point). In this case the match is done by belonging to the same cloud region
-
-Enter vFWDT tutorial directory on Rancher server (already created in `Preparation of Workflow Script Environment`_) and create policy types from the following files
-
-::
-
-    root@sb01-rancher:~/demo/tutorials/vFWDT# ls policies/types/
-    affinityPolicy-v20181031.yml  queryPolicy-v20181031.yml  vnfPolicy-v20181031.yml
-
-For each file press *Create* button, choose the policy type file, select the *Micro Service Option* (always one available) and enter the *Version* which must be the same like the one specified for policy instances. In this case pass value *OpenSource.version.1*
-
-.. figure:: files/vfwdt-add-micro-service-policy.png
-   :scale: 70 %
-   :align: center
-
-   Figure 16 Creation of new MicroService policy type for OOF
-
-In a result you should see in the dictionary all three new types of policies declared
-
-.. figure:: files/vfwdt-completed-policy-type-list.png
-   :scale: 70 %
-   :align: center
-
-   Figure 17 Completed list of MicroService policy types in the Policy portal
-
-3. Push the policies into the PDP
-
-In order to push policies into the PDP it is required to execute already prepared *uploadPolicies.sh* script that builds policy creation/update requests and automatically sends them to the Policy PDP pod
+In order to push policies into the PDP it is required to execute already prepared *uploadPolicies.sh* script that prepares policy upload requests and automatically sends them to the Policy PDP pod
 
 ::
 
     root@sb01-rancher:~/demo/tutorials/vFWDT# ls policies/rules/
-    QueryPolicy_vFW_TD.json  affinity_vFW_TD.json  uploadPolicies.sh  vnfPolicy_vFW_TD.json  vnfPolicy_vPGN_TD.json
+    QueryPolicy_vFW_TD.json  affinity_vFW_TD.json  uploadPolicies.sh  dt-policies.sh  vnfPolicy_vFW_TD.json  vnfPolicy_vPGN_TD.json
 
-When necessary, you can modify policy json files. Script will read these files and will build new PDP requests based on them. To create new policies execute script in the following way
+When necessary, you can modify policy json files. Script will read these files and will build new PDP requests based on them. To create or update policies execute the script in the following way
 
 ::
 
     ./policies/rules/uploadPolicies.sh
-
-To update existing policies execute script with an extra argument
-
-::
-
-    ./policies/rules/uploadPolicies.sh U
-
-The result can be verified in the Policy portal, in the *Editor* section, after entering *OSDF_DUBLIN* directory
-
-.. figure:: files/vfwdt-policy-editor-osdf-dublin.png
-   :scale: 70 %
-   :align: center
-
-   Figure 18 List of policies for OOF and vFW traffic distribution
 
 Testing Gathered Facts on Workflow Script
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -565,7 +504,7 @@ Following steps aim to configure DistributeTraffic LCM action for our vPKG and v
    :scale: 70 %
    :align: center
 
-   Figure 19 Creation of new VNF type in CDT
+   Figure 15 Creation of new VNF type in CDT
 
 4. Enter previously retrieved VNF Type for vPKG VNF and press the *NEXT* button
 
@@ -573,7 +512,7 @@ Following steps aim to configure DistributeTraffic LCM action for our vPKG and v
    :scale: 70 %
    :align: center
 
-   Figure 20 Creation of new VNF type in CDT
+   Figure 16 Creation of new VNF type in CDT
 
 5. For already created VNF Type (if the view does not open itself) click the *View/Edit* button. In the LCM action edit view in the first tab please choose:
 
@@ -592,7 +531,7 @@ Following steps aim to configure DistributeTraffic LCM action for our vPKG and v
    :scale: 70 %
    :align: center
 
-   Figure 21 DistributeTraffic LCM action editing
+   Figure 17 DistributeTraffic LCM action editing
 
 6. Go to the *Template* tab and in the editor paste the request template of LCM actions for vPKG VNF type
 
@@ -649,7 +588,7 @@ The meaning of selected template parameters is following:
    :scale: 70 %
    :align: center
 
-   Figure 22 LCM DistributeTraffic request template
+   Figure 18 LCM DistributeTraffic request template
 
 7. Afterwards press the *SYNCHRONIZE WITH TEMPLATE PARAMETERS* button. You will be moved to the *Parameter Definition* tab. The new parameters will be listed there.
 
@@ -657,7 +596,7 @@ The meaning of selected template parameters is following:
    :scale: 70 %
    :align: center
 
-   Figure 23 Summary of parameters specified for DistributeTraffic LCM action.
+   Figure 19 Summary of parameters specified for DistributeTraffic LCM action.
 
 .. note:: For each parameter you can define its: mandatory presence; default value; source (Manual/A&AI). For our case modification of this settings is not necessary
 
