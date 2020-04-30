@@ -5,10 +5,9 @@ vCPE with Tosca VNF
 
 VNF Packages and NS Packages
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-vCPE tosca file url: https://git.onap.org/demo/tree/tosca/
+vCPE tosca file url: https://git.onap.org/demo/tree/tosca/vCPE_F
 
-5 VNFs are here for the ONAP vCPE use case. This VNFD is transformed manually from vCPE heat template.
-The vnf csar file includes Infra, vGW, vBNG, vBRGEMU and vGMUX, and the ns csar file is ns.
+5 VNFs are here for the ONAP vCPE use case. The vnf csar file includes Infra, vGW, vBNG, vBRGEMU and vGMUX, and the ns csar file is ns.
 
 Description
 ~~~~~~~~~~~
@@ -48,7 +47,7 @@ Configuration:
 
 2) VNFM Configuration
 
-   Register vnfm using CLI command or ESR GUI
+   Register vnfm using CLI command or ESR GUI.
 
    .. image:: files/vcpe_tosca/vnfm.png
 
@@ -56,6 +55,8 @@ Design Time:
 ~~~~~~~~~~~~
 1) We put the real ETSI aligned package as package artifact.
 2) When design Network service in SDC, should assign "gvnfmdriver" as the value of nf_type in Properties Assignment. so that VF-C can know will use gvnfm to manage VNF life cycle.
+
+   .. image:: files/vcpe_tosca/sdc.png
 
 Run Time:
 ~~~~~~~~~
@@ -66,10 +67,10 @@ a) VNF/NS csar package on-boarded guide
 
    Note:
 
-   - VNF/NS csar package can be distributed from SDC.
-   - VNF csar package should be distributed first, then NS csar package can be distributed.
-   - The csar package list page shows both the on-boarded/distributed csar package and the package from SDC.
-   - When the package from SDC is on-boarded, it will be dropped from the list, and the on-boarded package will be displayed in the list.
+   * VNF/NS csar package can be distributed from SDC.
+   * VNF csar package should be distributed first, then NS csar package can be distributed.
+   * The csar package list page shows both the on-boarded/distributed csar package and the package from SDC.
+   * When the package from SDC is on-boarded, it will be dropped from the list, and the on-boarded package will be displayed in the list.
 
    The following shows the guide of on-boarded a NS csar package via UUI:
 
@@ -81,17 +82,20 @@ a) VNF/NS csar package on-boarded guide
 
    .. image:: files/vcpe_tosca/ns_package_onboard.png
 
-   You can also onboard a VNF csar package by click the VNF tab in the csar package list page, then follow the upper two steps.
+   You can also onboard a VNF csar package by click the VNF tab in the csar package list page, then follow the upper two steps. You should onboard vnfs before ns.
 
 b) NS Instantiate guide
 
    Note:
 
-   - When an NS package is on-boarded or distributed,  you can start NS Instantiating.
+   * When an NS package is on-boarded or distributed,  you can start NS Instantiating.
 
-   The following shows the guide of Instantiating NS:
+   The following steps show the guide of Instantiating NS:
 
    Step 1. Open the service list page, first select Customer and Service Type, then click Create button.
+
+   .. image:: files/vcpe_tosca/customer_service.png
+
    Step 2. First select the Service with Network Service, then select the TEMPLATE, then click OK button:
 
    .. image:: files/vcpe_tosca/ns_create.png
@@ -112,9 +116,10 @@ c) NS heal guide
 
    Note:
 
-   - VF-C R3 healing only suport restart a vm of an VNF.
+   * VF-C R3 healing only suport restart a vm of an VNF.
 
    The following shows the guide of healing an VNF of  an Instantiated NS:
+
    Step 1. Click + button of an  an Instantiated NS, the VNF list of the NS will be displayed:
 
    .. image:: files/vcpe_tosca/ns_vnf_list.png
@@ -134,6 +139,7 @@ c) NS heal guide
 d) NS delete guide
 
    The following shows the guide of deleting an VNF of an Instantiated NS:
+
    Step 1. Select an Instantiated NS record in the list page, then click the delete button:
 
    .. image:: files/vcpe_tosca/ns_active.png
