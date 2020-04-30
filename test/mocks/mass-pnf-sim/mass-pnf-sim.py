@@ -6,67 +6,18 @@ import ipaddress
 import time
 
 parser = argparse.ArgumentParser()
-parser.add_argument(
-    '--bootstrap',
-    help='Bootstrapping the system',
-)
-
-parser.add_argument(
-    '--trigger',
-    help='Trigger one single VES event from each simulator',
-)
-
-
-parser.add_argument(
-    '--triggerstart',
-    help='Trigger only a subset of the simulators (note --triggerend)',
-)
-
-parser.add_argument(
-    '--triggerend',
-    help='Last instance to trigger',
-)
-
-parser.add_argument(
-    '--urlves',
-    help='URL of the VES collector',
-)
-
-parser.add_argument(
-    '--ipfileserver',
-    help='Visible IP of the file server (SFTP/FTPS) to be included in the VES event',
-)
-
-parser.add_argument(
-    '--typefileserver',
-    help='Type of the file server (SFTP/FTPS) to be included in the VES event',
-)
-
-parser.add_argument(
-    '--ipstart',
-    help='IP address range beginning',
-)
-
-parser.add_argument(
-    '--clean',
-    action='store_true',
-    help='Cleaning work-dirs',
-)
-
-parser.add_argument(
-    '--start',
-    help='Starting instances',
-)
-
-parser.add_argument(
-    '--status',
-    help='Status',
-)
-
-parser.add_argument(
-    '--stop',
-    help='Stopping instances',
-)
+parser.add_argument('--bootstrap', help='Bootstrap the system')
+parser.add_argument('--trigger', help='Trigger one single VES event from each simulator')
+parser.add_argument('--triggerstart', help='Trigger only a subset of the simulators (note --triggerend)')
+parser.add_argument('--triggerend', help='Last instance to trigger')
+parser.add_argument('--urlves', help='URL of the VES collector')
+parser.add_argument('--ipfileserver', help='Visible IP of the file server (SFTP/FTPS) to be included in the VES event')
+parser.add_argument('--typefileserver', help='Type of the file server (SFTP/FTPS) to be included in the VES event')
+parser.add_argument('--ipstart', help='IP address range beginning')
+parser.add_argument('--clean', action='store_true', help='Clean work-dirs')
+parser.add_argument('--start', help='Start instances')
+parser.add_argument('--status', help='Status')
+parser.add_argument('--stop', help='Stop instances')
 
 args = parser.parse_args()
 
@@ -218,4 +169,5 @@ if args.triggerstart and args.triggerend:
         print('Status:', completed.stdout)
 else:
     print("No instruction was defined")
+    parser.print_usage()
     sys.exit()
