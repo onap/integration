@@ -14,6 +14,7 @@ API_PROJECTS = "/projects/"
 
 MAGIC_PREFIX = ")]}'"
 
+CODE_LOCATION = "{path}{anchor}"
 GITWEB_ANCHOR = "#l{line}"
 GIT_ANCHOR = "#n{line}"
 
@@ -33,20 +34,20 @@ def get_projects_list(gerrit):
 def create_repos_list(projects, gerrit, ssh, git):
     """Create a map of all projects to their repositories' URLs."""
     gerrit_url = "https://{}{}".format(gerrit, API_PREFIX)
-    gerrit_project_url = "{}/{{}}.git".format(gerrit_url)
-    gitweb_code_url = "{}/gitweb?p={{}}.git;hb=HEAD;a=blob;f={{path}}{{anchor}}".format(gerrit_url)
+    gerrit_project_url_base = "{}/{{}}.git".format(gerrit_url)
+    gitweb_code_url_base = "{}/gitweb?p={{}}.git;hb=HEAD;a=blob;f=".format(gerrit_url)
 
     repos_list = {}
     for project in projects:
-        project_url = gerrit_project_url.format(project)
-        code_url = gitweb_code_url.format(project)
+        project_url = gerrit_project_url_base.format(project)
+        code_url = gitweb_code_url_base.format(project) + CODE_LOCATION
         anchor = GITWEB_ANCHOR
 
         if ssh and len(ssh) == 2:
             user, port = ssh[0], ssh[1]
             project_url = "ssh://{}@{}:{}/{}.git".format(user, gerrit, port, project)
         if git:
-            code_url = "https://{}/{}/tree/{{path}}{{anchor}}".format(git, project)
+            code_url = "https://{}/{}/tree/".format(git, project) + CODE_LOCATION
             anchor = GIT_ANCHOR
 
         repos_list[project] = {
