@@ -27,20 +27,22 @@ def validate_ip(ip):
         return ip_valid
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--bootstrap', help='Bootstrap the system', type=int)
-parser.add_argument('--trigger', help='Trigger one single VES event from each simulator', type=int)
-parser.add_argument('--triggerstart', help='Trigger only a subset of the simulators (note --triggerend)', type=int)
-parser.add_argument('--triggerend', help='Last instance to trigger', type=int)
-parser.add_argument('--urlves', help='URL of the VES collector', type=validate_url)
+parser.add_argument('--bootstrap', help='Bootstrap the system', type=int, metavar='COUNT')
+parser.add_argument('--trigger', help='Trigger one single VES event from each simulator', type=int,
+                    metavar='COUNT')
+parser.add_argument('--triggerstart', help='Trigger only a subset of the simulators (note --triggerend)', type=int,
+                    metavar='COUNT_START')
+parser.add_argument('--triggerend', help='Last instance to trigger', type=int, metavar='COUNT_END')
+parser.add_argument('--urlves', help='URL of the VES collector', type=validate_url, metavar='URL')
 parser.add_argument('--ipfileserver', help='Visible IP of the file server (SFTP/FTPS) to be included in the VES event',
-                    type=validate_ip)
+                    type=validate_ip, metavar='IP')
 parser.add_argument('--typefileserver', help='Type of the file server (SFTP/FTPS) to be included in the VES event',
                     type=str, choices=['sftp', 'ftps'])
-parser.add_argument('--ipstart', help='IP address range beginning', type=validate_ip)
+parser.add_argument('--ipstart', help='IP address range beginning', type=validate_ip, metavar='IP')
 parser.add_argument('--clean', action='store_true', help='Clean work-dirs')
-parser.add_argument('--start', help='Start instances', type=int)
-parser.add_argument('--status', help='Status', type=int)
-parser.add_argument('--stop', help='Stop instances', type=int)
+parser.add_argument('--start', help='Start instances', type=int, metavar='COUNT')
+parser.add_argument('--status', help='Status', type=int, metavar='COUNT')
+parser.add_argument('--stop', help='Stop instances', type=int, metavar='COUNT')
 
 args = parser.parse_args()
 
