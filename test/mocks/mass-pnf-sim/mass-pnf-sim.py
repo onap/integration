@@ -27,18 +27,20 @@ def validate_ip(ip):
         return ip_valid
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--bootstrap', help='Bootstrap the system')
-parser.add_argument('--trigger', help='Trigger one single VES event from each simulator')
-parser.add_argument('--triggerstart', help='Trigger only a subset of the simulators (note --triggerend)')
-parser.add_argument('--triggerend', help='Last instance to trigger')
-parser.add_argument('--urlves', help='URL of the VES collector')
-parser.add_argument('--ipfileserver', help='Visible IP of the file server (SFTP/FTPS) to be included in the VES event')
-parser.add_argument('--typefileserver', help='Type of the file server (SFTP/FTPS) to be included in the VES event')
-parser.add_argument('--ipstart', help='IP address range beginning')
+parser.add_argument('--bootstrap', help='Bootstrap the system', type=int)
+parser.add_argument('--trigger', help='Trigger one single VES event from each simulator', type=int)
+parser.add_argument('--triggerstart', help='Trigger only a subset of the simulators (note --triggerend)', type=int)
+parser.add_argument('--triggerend', help='Last instance to trigger', type=int)
+parser.add_argument('--urlves', help='URL of the VES collector', type=validate_url)
+parser.add_argument('--ipfileserver', help='Visible IP of the file server (SFTP/FTPS) to be included in the VES event',
+                    type=validate_ip)
+parser.add_argument('--typefileserver', help='Type of the file server (SFTP/FTPS) to be included in the VES event',
+                    type=str, choices=['sftp', 'ftps'])
+parser.add_argument('--ipstart', help='IP address range beginning', type=validate_ip)
 parser.add_argument('--clean', action='store_true', help='Clean work-dirs')
-parser.add_argument('--start', help='Start instances')
-parser.add_argument('--status', help='Status')
-parser.add_argument('--stop', help='Stop instances')
+parser.add_argument('--start', help='Start instances', type=int)
+parser.add_argument('--status', help='Status', type=int)
+parser.add_argument('--stop', help='Stop instances', type=int)
 
 args = parser.parse_args()
 
@@ -52,31 +54,30 @@ if args.bootstrap and args.ipstart and args.urlves:
     ftps_pasv_port_end=ftps_pasv_port_start + ftps_pasv_port_num_of_ports
 
 
-    for i in range(int(args.bootstrap)):
+    for i in range(args.bootstrap):
         print("PNF simulator instance: " + str(i) + ".")
 
-        ip_subnet = ipaddress.ip_address(args.ipstart) + int(0 + (i * 16))
+        ip_subnet = args.ipstart + int(0 + (i * 16))
         print("\tIp Subnet:" + str(ip_subnet))
         # The IP ranges are in distance of 16 compared to each other.
         # This is matching the /28 subnet mask used in the dockerfile inside.
 
-        ip_gw = ipaddress.ip_address(args.ipstart) + int(1 + (i * 16))
+        ip_gw = args.ipstart + int(1 + (i * 16))
         print("\tIP Gateway:" + str(ip_gw))
 
-        IpPnfSim = ipaddress.ip_address(args.ipstart) + int(2 + (i * 16))
+        IpPnfSim = args.ipstart + int(2 + (i * 16))
         print("\tIp Pnf SIM:" + str(IpPnfSim))
 
-        IpFileServer = args.ipfileserver
+        IpFileServer = str(args.ipfileserver)
         TypeFileServer = args.typefileserver
-
 
         PortSftp=start_port +1
         PortFtps=start_port +2
         start_port +=2
-        UrlFtps = str(ipaddress.ip_address(args.ipstart) + int(3 + (i * 16)))
+        UrlFtps = str(args.ipstart + int(3 + (i * 16)))
         print("\tUrl Ftps: " + str(UrlFtps))
 
-        UrlSftp = str(ipaddress.ip_address(args.ipstart) + int(4 + (i * 16)))
+        UrlSftp = str(args.ipstart + int(4 + (i * 16)))
         print("\tUrl Sftp: " + str(UrlSftp))
 
         foldername = "pnf-sim-lw-" + str(i)
@@ -92,10 +93,10 @@ if args.bootstrap and args.ipstart and args.urlves:
             str(ip_gw) + " " + \
             str(ip_subnet) + " " + \
             str(i) + " " + \
-            str(args.urlves) + " " + \
+            args.urlves + " " + \
             str(IpPnfSim) + " " + \
-            str(IpFileServer) + " " + \
-            str(TypeFileServer) + " " + \
+            IpFileServer + " " + \
+            TypeFileServer + " " + \
             str(PortSftp) + " " + \
             str(PortFtps) + " " + \
             str(UrlFtps) + " " + \
@@ -126,7 +127,7 @@ if args.clean:
 
 if args.start:
 
-    for i in range(int(args.start)):
+    for i in range(args.start):
         foldername = "pnf-sim-lw-" + str(i)
 
         completed = subprocess.run(
@@ -140,7 +141,7 @@ if args.start:
 
 if args.status:
 
-    for i in range(int(args.status)):
+    for i in range(args.status):
         foldername = "pnf-sim-lw-" + str(i)
 
         completed = subprocess.run(
@@ -151,7 +152,7 @@ if args.status:
         print('Status:', completed.stdout)
 
 if args.stop:
-    for i in range(int(args.stop)):
+    for i in range(args.stop):
         foldername = "pnf-sim-lw-" + str(i)
 
         completed = subprocess.run(
@@ -165,7 +166,7 @@ if args.stop:
 if args.trigger:
     print("Triggering VES sending:")
 
-    for i in range(int(args.trigger)):
+    for i in range(args.trigger):
         foldername = "pnf-sim-lw-" + str(i)
 
         completed = subprocess.run(
@@ -178,7 +179,7 @@ if args.trigger:
 if args.triggerstart and args.triggerend:
     print("Triggering VES sending by a range of simulators:")
 
-    for i in range(int(args.triggerstart), int(args.triggerend)+1):
+    for i in range(args.triggerstart, args.triggerend+1):
         foldername = "pnf-sim-lw-" + str(i)
         print("Instance being processed:" + str(i))
 
