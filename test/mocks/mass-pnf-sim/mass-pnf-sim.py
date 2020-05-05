@@ -4,6 +4,27 @@ import sys
 import subprocess
 import ipaddress
 import time
+from requests import get
+from requests.exceptions import MissingSchema, InvalidSchema, InvalidURL, ConnectionError, ConnectTimeout
+
+def validate_url(url):
+    '''Helper function to perform --urlves input param validation'''
+    try:
+        get(url, timeout=0.001)
+    except (MissingSchema, InvalidSchema, InvalidURL):
+        raise argparse.ArgumentTypeError(f'{url} is not a valid URL')
+    except (ConnectionError, ConnectTimeout):
+        pass
+    return url
+
+def validate_ip(ip):
+    '''Helper function to validate input param is a vaild IP address'''
+    try:
+        ip_valid = ipaddress.ip_address(ip)
+    except ValueError:
+        raise argparse.ArgumentTypeError(f'{ip} is not a valid IP address')
+    else:
+        return ip_valid
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--bootstrap', help='Bootstrap the system')
