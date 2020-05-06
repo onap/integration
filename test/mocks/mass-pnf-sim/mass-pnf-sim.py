@@ -69,29 +69,32 @@ if args.bootstrap and args.ipstart and args.urlves:
     ftps_pasv_port_end = ftps_pasv_port_start + ftps_pasv_port_num_of_ports
 
     for i in range(args.bootstrap):
-        logger.info("PNF simulator instance: " + str(i) + ".")
+        logger.info(f"PNF simulator instance: {i}")
 
-        ip_subnet = args.ipstart + int(0 + (i * 16))
-        logger.debug("\tIp Subnet:" + str(ip_subnet))
         # The IP ranges are in distance of 16 compared to each other.
         # This is matching the /28 subnet mask used in the dockerfile inside.
+        ip_offset = i * 16
 
-        ip_gw = args.ipstart + int(1 + (i * 16))
-        logger.debug("\tIP Gateway:" + str(ip_gw))
+        ip_subnet = args.ipstart + ip_offset
+        logger.debug(f"\tIp Subnet: {ip_subnet}")
 
-        IpPnfSim = args.ipstart + int(2 + (i * 16))
-        logger.debug("\tIp Pnf SIM:" + str(IpPnfSim))
+        ip_gw = args.ipstart + 1 + ip_offset
+        logger.debug(f"\tIP Gateway: {ip_gw}")
+
+        ip_PnfSim = args.ipstart + 2 + ip_offset
+        logger.debug(f"\tIp Pnf SIM: {ip_PnfSim}")
 
         PortSftp = start_port + 1
         PortFtps = start_port + 2
         start_port += 2
-        UrlFtps = str(args.ipstart + int(3 + (i * 16)))
-        logger.debug("\tUrl Ftps: " + str(UrlFtps))
 
-        UrlSftp = str(args.ipstart + int(4 + (i * 16)))
-        logger.debug("\tUrl Sftp: " + str(UrlSftp))
+        ip_ftps = args.ipstart + 3 + ip_offset
+        logger.debug(f"\tUrl Ftps: {ip_ftps}")
 
-        foldername = "pnf-sim-lw-" + str(i)
+        ip_sftp = args.ipstart + 4 + ip_offset
+        logger.debug(f"\tUrl Sftp: {ip_sftp}")
+
+        foldername = f"pnf-sim-lw-{i}"
         completed = subprocess.run('mkdir ' + foldername, shell=True)
         logger.info(f'\tCreating folder: {completed.stdout}')
         completed = subprocess.run(
@@ -105,13 +108,13 @@ if args.bootstrap and args.ipstart and args.urlves:
             str(ip_subnet) + " " + \
             str(i) + " " + \
             args.urlves + " " + \
-            str(IpPnfSim) + " " + \
+            str(ip_PnfSim) + " " + \
             str(args.ipfileserver) + " " + \
             args.typefileserver + " " + \
             str(PortSftp) + " " + \
             str(PortFtps) + " " + \
-            str(UrlFtps) + " " + \
-            str(UrlSftp) + " " + \
+            str(ip_ftps) + " " + \
+            str(ip_sftp) + " " + \
             str(ftps_pasv_port_start) + " " + \
             str(ftps_pasv_port_end)
 
@@ -139,7 +142,7 @@ if args.clean:
 if args.start:
 
     for i in range(args.start):
-        foldername = "pnf-sim-lw-" + str(i)
+        foldername = f"pnf-sim-lw-{i}"
 
         completed = subprocess.run(
             'set -x ; cd ' +
@@ -153,7 +156,7 @@ if args.start:
 if args.status:
 
     for i in range(args.status):
-        foldername = "pnf-sim-lw-" + str(i)
+        foldername = f"pnf-sim-lw-{i}"
 
         completed = subprocess.run(
             'cd ' +
@@ -164,12 +167,12 @@ if args.status:
 
 if args.stop:
     for i in range(args.stop):
-        foldername = "pnf-sim-lw-" + str(i)
+        foldername = f"pnf-sim-lw-{i}"
 
         completed = subprocess.run(
             'cd ' +
             foldername +
-            "; ./simulator.sh stop " + str(i),
+            f"; ./simulator.sh stop {i}",
             shell=True)
         logger.info(f'Stopping: {completed.stdout}')
 
@@ -178,7 +181,7 @@ if args.trigger:
     logger.info("Triggering VES sending:")
 
     for i in range(args.trigger):
-        foldername = "pnf-sim-lw-" + str(i)
+        foldername = f"pnf-sim-lw-{i}"
 
         completed = subprocess.run(
             'cd ' +
@@ -191,8 +194,8 @@ if args.triggerstart and args.triggerend:
     logger.info("Triggering VES sending by a range of simulators:")
 
     for i in range(args.triggerstart, args.triggerend+1):
-        foldername = "pnf-sim-lw-" + str(i)
-        logger.info("Instance being processed:" + str(i))
+        foldername = f"pnf-sim-lw-{i}"
+        logger.info(f"Instance being processed: {i}")
 
         completed = subprocess.run(
             'cd ' +
