@@ -8,8 +8,6 @@ import logging
 from requests import get
 from requests.exceptions import MissingSchema, InvalidSchema, InvalidURL, ConnectionError, ConnectTimeout
 
-logging.basicConfig(level=logging.INFO, format='\033[92m[%(levelname)s]\033[0m %(message)s')
-
 def validate_url(url):
     '''Helper function to perform --urlves input param validation'''
     logger = logging.getLogger("urllib3")
@@ -30,6 +28,11 @@ def validate_ip(ip):
         raise argparse.ArgumentTypeError(f'{ip} is not a valid IP address')
     else:
         return ip_valid
+
+if sys.stdout.isatty():
+    logging.basicConfig(level=logging.INFO, format='\033[92m[%(levelname)s]\033[0m %(message)s')
+else:
+    logging.basicConfig(level=logging.INFO, format='[%(levelname)s] %(message)s')
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--bootstrap', help='Bootstrap the system', type=int, metavar='COUNT')
@@ -52,6 +55,7 @@ parser.add_argument('--verbose', help='Verbosity level', choices=['info', 'debug
                     type=str, default='debug')
 
 args = parser.parse_args()
+
 logger = logging.getLogger(__name__)
 logger.setLevel(getattr(logging, args.verbose.upper()))
 
