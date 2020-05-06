@@ -62,11 +62,11 @@ logger.setLevel(getattr(logging, args.verbose.upper()))
 if args.bootstrap and args.ipstart and args.urlves:
     logger.info("Bootstrap:")
 
-    start_port=2000
-    ftps_pasv_port_start=8000
-    ftps_pasv_port_num_of_ports=10
+    start_port = 2000
+    ftps_pasv_port_start = 8000
+    ftps_pasv_port_num_of_ports = 10
 
-    ftps_pasv_port_end=ftps_pasv_port_start + ftps_pasv_port_num_of_ports
+    ftps_pasv_port_end = ftps_pasv_port_start + ftps_pasv_port_num_of_ports
 
     for i in range(args.bootstrap):
         logger.info("PNF simulator instance: " + str(i) + ".")
@@ -82,12 +82,9 @@ if args.bootstrap and args.ipstart and args.urlves:
         IpPnfSim = args.ipstart + int(2 + (i * 16))
         logger.debug("\tIp Pnf SIM:" + str(IpPnfSim))
 
-        IpFileServer = str(args.ipfileserver)
-        TypeFileServer = args.typefileserver
-
-        PortSftp=start_port +1
-        PortFtps=start_port +2
-        start_port +=2
+        PortSftp = start_port + 1
+        PortFtps = start_port + 2
+        start_port += 2
         UrlFtps = str(args.ipstart + int(3 + (i * 16)))
         logger.debug("\tUrl Ftps: " + str(UrlFtps))
 
@@ -109,8 +106,8 @@ if args.bootstrap and args.ipstart and args.urlves:
             str(i) + " " + \
             args.urlves + " " + \
             str(IpPnfSim) + " " + \
-            IpFileServer + " " + \
-            TypeFileServer + " " + \
+            str(args.ipfileserver) + " " + \
+            args.typefileserver + " " + \
             str(PortSftp) + " " + \
             str(PortFtps) + " " + \
             str(UrlFtps) + " " + \
@@ -127,7 +124,7 @@ if args.bootstrap and args.ipstart and args.urlves:
         logger.info(f'Cloning: {completed.stdout}')
 
         ftps_pasv_port_start += ftps_pasv_port_num_of_ports + 1
-        ftps_pasv_port_end += ftps_pasv_port_num_of_ports +1
+        ftps_pasv_port_end += ftps_pasv_port_num_of_ports + 1
 
     completed = subprocess.run('set -x; cd pnf-sim-lightweight; ./simulator.sh build ', shell=True)
     logger.info(f"Build docker image: {completed.stdout}")
