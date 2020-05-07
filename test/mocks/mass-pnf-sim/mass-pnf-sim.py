@@ -6,6 +6,7 @@ import ipaddress
 import time
 import logging
 from requests import get
+from json import dumps
 from requests.exceptions import MissingSchema, InvalidSchema, InvalidURL, ConnectionError, ConnectTimeout
 
 def validate_url(url):
@@ -60,7 +61,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(getattr(logging, args.verbose.upper()))
 
 if args.bootstrap and args.ipstart and args.urlves:
-    logger.info("Bootstrap:")
+    logger.info("Bootstrapping PNF instances")
 
     start_port = 2000
     ftps_pasv_port_start = 8000
@@ -73,26 +74,26 @@ if args.bootstrap and args.ipstart and args.urlves:
 
         # The IP ranges are in distance of 16 compared to each other.
         # This is matching the /28 subnet mask used in the dockerfile inside.
-        ip_offset = i * 16
+        instance_ip_offset = i * 16
+        ip_properties = [
+                  'subnet',
+                  'gw',
+                  'PnfSim',
+                  'ftps',
+                  'sftp'
+                ]
 
-        ip_subnet = args.ipstart + ip_offset
-        logger.debug(f"\tIp Subnet: {ip_subnet}")
+        ip_offset = 0
+        ip = {}
+        for prop in ip_properties:
+            ip.update({prop: str(args.ipstart + ip_offset + instance_ip_offset)})
+            ip_offset += 1
 
-        ip_gw = args.ipstart + 1 + ip_offset
-        logger.debug(f"\tIP Gateway: {ip_gw}")
-
-        ip_PnfSim = args.ipstart + 2 + ip_offset
-        logger.debug(f"\tIp Pnf SIM: {ip_PnfSim}")
+        logger.debug(f'Instance #{i} properties:\n {dumps(ip, indent=4)}')
 
         PortSftp = start_port + 1
         PortFtps = start_port + 2
         start_port += 2
-
-        ip_ftps = args.ipstart + 3 + ip_offset
-        logger.debug(f"\tUrl Ftps: {ip_ftps}")
-
-        ip_sftp = args.ipstart + 4 + ip_offset
-        logger.debug(f"\tUrl Sftp: {ip_sftp}")
 
         foldername = f"pnf-sim-lw-{i}"
         completed = subprocess.run('mkdir ' + foldername, shell=True)
@@ -103,20 +104,23 @@ if args.bootstrap and args.ipstart and args.urlves:
             shell=True)
         logger.info(f'\tCloning folder: {completed.stdout}')
 
-        composercmd = "./simulator.sh compose " + \
-            str(ip_gw) + " " + \
-            str(ip_subnet) + " " + \
-            str(i) + " " + \
-            args.urlves + " " + \
-            str(ip_PnfSim) + " " + \
-            str(args.ipfileserver) + " " + \
-            args.typefileserver + " " + \
-            str(PortSftp) + " " + \
-            str(PortFtps) + " " + \
-            str(ip_ftps) + " " + \
-            str(ip_sftp) + " " + \
-            str(ftps_pasv_port_start) + " " + \
-            str(ftps_pasv_port_end)
+        composercmd = " ".join([
+                "./simulator.sh compose",
+                ip['gw'],
+                ip['subnet'],
+                str(i),
+                args.urlves,
+                ip['PnfSim'],
+                str(args.ipfileserver),
+                args.typefileserver,
+                str(PortSftp),
+                str(PortFtps),
+                ip['ftps'],
+                ip['sftp'],
+                str(ftps_pasv_port_start),
+                str(ftps_pasv_port_end)
+            ])
+        logger.debug(f"Script cmdline: {composercmd}")
 
         completed = subprocess.run(
             'set -x; cd ' +
@@ -128,6 +132,8 @@ if args.bootstrap and args.ipstart and args.urlves:
 
         ftps_pasv_port_start += ftps_pasv_port_num_of_ports + 1
         ftps_pasv_port_end += ftps_pasv_port_num_of_ports + 1
+
+        logger.info(f'Done setting up instance #{i}')
 
     completed = subprocess.run('set -x; cd pnf-sim-lightweight; ./simulator.sh build ', shell=True)
     logger.info(f"Build docker image: {completed.stdout}")
