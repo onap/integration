@@ -1,0 +1,19 @@
+---
+policy:
+  image: onap/policy-pe:1.6-SNAPSHOT-latest
+  pap:
+    image: onap/policy-pap:2.2-SNAPSHOT-latest
+  brmsgw:
+    image: onap/policy-pe:1.6-SNAPSHOT-latest
+  policy-xacml-pdp:
+    image: onap/policy-xacml-pdp:2.2-SNAPSHOT-latest
+  drools:
+    image: onap/policy-pdpd-cl:1.6-SNAPSHOT-latest
+  pdp:
+    image: onap/policy-pe:1.6-SNAPSHOT-latest
+  policy-apex-pdp:
+    image: onap/policy-apex-pdp:2.3-SNAPSHOT-latest
+  policy-api:
+    image: onap/policy-api:2.2-SNAPSHOT-latest
+  policy-distribution:
+    image: onap/policy-distribution:2.3-SNAPSHOT-latest

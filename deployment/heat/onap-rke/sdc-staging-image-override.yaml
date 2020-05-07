@@ -1,0 +1,13 @@
+---
+sdc:
+  sdc-onboarding-be:
+    image: onap/sdc-onboard-backend:1.6.5
+    onboardingInitImage: onap/sdc-onboard-cassandra-init:1.6.5
+  sdc-fe:
+    image: onap/sdc-frontend:1.6.5
+  sdc-be:
+    image: onap/sdc-backend:1.6.5
+    backendInitImage: onap/sdc-backend-init:1.6.5
+  sdc-cs:
+    image: onap/sdc-cassandra:1.6.5
+    cassandraInitImage: onap/sdc-cassandra-init:1.6.5
