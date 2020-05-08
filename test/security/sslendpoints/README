@@ -19,6 +19,13 @@ Configuration
   tunnels. These ports are known as "expected failures" and will not be
   checked.
 
+Dependencies
+~~~~~~~~~~~~
+
+- nmap_
+
+.. _nmap: https://nmap.org/book/install.html
+
 Build (local)
 ~~~~~~~~~~~~~
 
