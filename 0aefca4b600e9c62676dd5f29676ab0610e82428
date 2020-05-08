@@ -22,6 +22,30 @@
       "revId": "0aefca4b600e9c62676dd5f29676ab0610e82428",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e69aecde_0a6782a4",
+        "filename": "test/security/sslendpoints/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2020-05-08T14:01:39Z",
+      "side": 1,
+      "message": "I thought so at first and tried it:\n\n return p.Service.Tunnel !\u003d \"ssl\" \u0026\u0026 !strings.HasPrefix(p.State.State, \"closed\") \u0026\u0026 !strings.HasPrefix(p.State.State, \"filtered\")\n\nI also went through:\n\n1. condition inversion\n\n return !(p.Service.Tunnel \u003d\u003d \"ssl\" || strings.HasPrefix(p.State.State, \"closed\") || strings.HasPrefix(p.State.State, \"filtered\"))\n\n2. single condition statement\n\n if p.Service.Tunnel \u003d\u003d \"ssl\" || strings.HasPrefix(p.State.State, \"closed\") || strings.HasPrefix(p.State.State, \"filtered\") {\n \treturn false\n }\n return true\n\n3. switch statement\n\n switch {\n case p.Service.Tunnel \u003d\u003d \"ssl\":\n \treturn false\n case strings.HasPrefix(p.State.State, \"closed\"):\n \treturn false\n case strings.HasPrefix(p.State.State, \"filtered\"):\n \treturn false\n default:\n \treturn true\n }\n\nConditional chain seemed to be idiomatic Go: readable, returns early, easy to write tests (I\u0027m on it) and to check test coverage",
+      "parentUuid": "f3e751a6_32107397",
+      "range": {
+        "startLine": 127,
+        "startChar": 3,
+        "endLine": 135,
+        "endChar": 4
+      },
+      "revId": "0aefca4b600e9c62676dd5f29676ab0610e82428",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
