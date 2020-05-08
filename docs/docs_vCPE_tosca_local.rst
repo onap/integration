@@ -23,7 +23,7 @@ How to Use
 ~~~~~~~~~~
 The use case has been automated by vcpe_tosca_test scripts. The followings are the main steps to run the use case in Integration lab environment:
 
-1) Install ONAP CLI environment, open_cli_product is onap-elalto.
+1) Install ONAP CLI environment, open_cli_product is onap-dublin.
 
 
 2) Prepare openstack test environment.
@@ -157,14 +157,14 @@ The use case has been automated by vcpe_tosca_test scripts. The followings are t
       modeling-etsicatalog: 1.0.5
       multicloud-framework: 1.5.1
       multicloud-windriver: 1.5.5
-      cli: onap-elalto
+      cli: onap-dublin
 
 
 Note
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 1) You should create an image named image before running the test script, the name must be the same with image which is defined in vnf csar file.
 
-2) There are something wrong if you use the cli dublin, so please use elalto instead.
+2) You should install ONAP CLI before running the script.
 
 
 Known Issues and Workaround

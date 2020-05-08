@@ -92,8 +92,6 @@ class VcpeToscaTest(unittest.TestCase):
             print("Remove cloud %s" % self.config_params["cloud-owner"])
             self.delete_cloud_helper()
 
-        time.sleep(30)
-
         if self.complex_version:
             self.get_complex_resource_version()
             print("Remove complex %s" % self.config_params["complex_name"])
@@ -203,8 +201,23 @@ class VcpeToscaTest(unittest.TestCase):
         multicloud_url = self.base_url + "/api/multicloud-titaniumcloud/v1/{}/{}" \
             .format(self.config_params["cloud-owner"], cloud_region)
         requests.delete(url=multicloud_url, headers=header, verify=False)
+        cloud_url = self.base_url + "/aai/v11/cloud-infrastructure/cloud-regions"
+        n = 60
+        while n > 0:
+            cloud_flag = False
+            cloud_list_response = requests.get(url=cloud_url, headers=self.aai_header, verify=False)
+            n = n - 1
+            if cloud_list_response.status_code == 200:
+                for cloud in (cloud_list_response.json()).get("cloud-region"):
+                    if cloud['cloud-owner'] == self.config_params["cloud-owner"]:
+                        cloud_flag = True
+                        break
+                if not cloud_flag:
+                    break
+                else:
+                    time.sleep(1)
         print("Multicloud-cloud-delete----successful")
-        self.customer_version = None
+        self.cloud_version = None
 
     def create_service_type(self):
         self.service_type_version = None
@@ -485,12 +498,19 @@ class VcpeToscaTest(unittest.TestCase):
     def get_vnf_package(self):
         vnfdid_list = []
         for vnf_package_id in self.vnf_package_list:
-            vnf_package_url = self.base_url + '/api/vnfpkgm/v1/vnf_packages/%s' % vnf_package_id
-            vnf_resp = requests.get(vnf_package_url, verify=False)
-            if 200 == vnf_resp.status_code:
-                vnfdId = vnf_resp.json().get("vnfdId")
-                print("vnfdId is %s" % vnfdId)
-                vnfdid_list.append(vnfdId)
+            n = 60
+            while n > 0:
+                vnf_package_url = self.base_url + '/api/vnfpkgm/v1/vnf_packages/%s' % vnf_package_id
+                vnf_resp = requests.get(vnf_package_url, verify=False)
+                n = n - 1
+                if 200 == vnf_resp.status_code:
+                    vnfdId = vnf_resp.json().get("vnfdId")
+                    if vnfdId is None:
+                        time.sleep(1)
+                    else:
+                        print("vnfdId is %s" % vnfdId)
+                        vnfdid_list.append(vnfdId)
+                        break
         return vnfdid_list
 
     def getVnf(self, vnfs):
@@ -564,7 +584,6 @@ class VcpeToscaTest(unittest.TestCase):
         print("Use csar file is uploaded by local")
         self.vnf_package_list = self.create_upload_vnf_package()
         self.assertIsNotNone(self.vnf_package_list)
-        time.sleep(60)
 
         self.ns_package_id = self.create_ns_package()
         self.assertIsNotNone(self.ns_package_id)
