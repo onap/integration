@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f3e751a6_32107397",
+        "filename": "test/security/sslendpoints/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-05-08T12:25:06Z",
+      "side": 1,
+      "message": "Wouldn\u0027t look nicer if reduce those three conditionals into one with alternative operator?",
+      "range": {
+        "startLine": 127,
+        "startChar": 3,
+        "endLine": 135,
+        "endChar": 4
+      },
+      "revId": "0aefca4b600e9c62676dd5f29676ab0610e82428",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
