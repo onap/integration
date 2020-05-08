@@ -18,7 +18,7 @@ For debug purposes, you can use your own IP address as VES collector, use "ip" c
 Example:
 
 ```
-./mass-pnf-sim.py  --bootstrap 2 --urlves http://10.148.95.??:10000/eventListener/v7 --ipfileserver 10.148.95.??? --typefileserver sftp --ipstart 10.11.0.16
+./mass-pnf-sim.py bootstrap --count 2 --urlves http://10.148.95.??:10000/eventListener/v7 --ipfileserver 10.148.95.??? --typefileserver sftp --ipstart 10.11.0.16
 ```
 
 Note that the file creator is started at a time of the bootstrapping.
@@ -35,13 +35,13 @@ sudo nc -vv -l -k -p 10000
 Define the amount of simulators to be launched
 
 ```
-./mass-pnf-sim.py  --start 2
+./mass-pnf-sim.py start --count 2
 ```
 
 ### Trigger
 
 ```
-./mass-pnf-sim.py  --trigger 2
+./mass-pnf-sim.py trigger --count 2
 ```
 
 ### Trigger only a subset of the simulators
@@ -49,20 +49,20 @@ Define the amount of simulators to be launched
 The following command will trigger 0,1,2,3:
 
 ```
-./mass-pnf-sim.py  --triggerstart 0 --triggerend 3
+./mass-pnf-sim.py trigger-custom --triggerstart 0 --triggerend 3
 ```
 
 The following command will trigger 4 and 5:
 
 ```
-./mass-pnf-sim.py  --triggerstart 4 --triggerend 5
+./mass-pnf-sim.py trigger-custom --triggerstart 4 --triggerend 5
 ```
 
 ### Stop and clean
 
 ```
-./mass-pnf-sim.py  --stop 2
-./mass-pnf-sim.py  --clean
+./mass-pnf-sim.py stop --count 2
+./mass-pnf-sim.py clean
 ```
 
 ### Verbose printout from Python
