@@ -53,7 +53,7 @@ def get_parser():
     parser_trigger = subparsers.add_parser('trigger', help='Trigger one single VES event from each simulator')
     parser_trigger.add_argument('--count', help='Instance count to trigger', type=int, metavar='INT', default=1)
     # Trigger-custom command parser
-    parser_triggerstart = subparsers.add_parser('trigger-custom', help='Trigger one single VES event from specific simulators')
+    parser_triggerstart = subparsers.add_parser('trigger_custom', help='Trigger one single VES event from specific simulators')
     parser_triggerstart.add_argument('--triggerstart', help='First simulator id to trigger', type=int,
                                      metavar='INT', required=True)
     parser_triggerstart.add_argument('--triggerend', help='Last simulator id to trigger', type=int,

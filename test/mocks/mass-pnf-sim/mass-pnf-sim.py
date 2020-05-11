@@ -18,20 +18,7 @@ if __name__ == '__main__':
     MassPnfSim.log_lvl = log_lvl
 
     if args.subcommand is not None:
-        sim = MassPnfSim(args)
-        if args.subcommand == 'bootstrap' :
-            sim.bootstrap()
-        if args.subcommand == 'clean':
-            sim.clean()
-        if args.subcommand == 'start':
-            sim.start()
-        if args.subcommand == 'status':
-            sim.status()
-        if args.subcommand == 'stop':
-            sim.stop()
-        if args.subcommand == 'trigger':
-            sim.trigger()
-        if args.subcommand == 'trigger-custom':
-            sim.trigger_custom()
+        sim_routine = getattr(MassPnfSim(args), args.subcommand)
+        sim_routine()
     else:
         parser.print_usage()
