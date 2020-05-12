@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc288da2_d741ff7b",
+        "filename": "INFO.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 4677
+      },
+      "writtenOn": "2020-05-12T06:23:01Z",
+      "side": 1,
+      "message": "Add a yamllint command between TSC and APPROVAL\n    # yamllint disable rule:line-length",
+      "range": {
+        "startLine": 94,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 1
+      },
+      "revId": "dc5fb2cc942778dee5233077a4a2df681ff0bcab",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6f9bd9f_0a07dbed",
+        "filename": "INFO.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 4677
+      },
+      "writtenOn": "2020-05-12T06:23:01Z",
+      "side": 1,
+      "message": "Missing a link entry here.",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 4
+      },
+      "revId": "dc5fb2cc942778dee5233077a4a2df681ff0bcab",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
