@@ -141,8 +141,20 @@ function running_containers(){
 }
 
 function stop(){
-	get_pnfsim_ip
-    kill $(ps -ef | grep "[.]/ROP_file_creator.sh $1" | head -n 1 | awk '{print $2}')
+    get_pnfsim_ip
+
+    set +e # override global script setting
+    declare -a pids_to_kill
+    # get ROP_file_creator.sh instance pid
+    pids_to_kill[0]=$(pgrep -f "ROP_file_creator.sh ${1}$")
+    if [[ ! -z ${pids_to_kill[0]} ]];
+    then
+        # get ROP_file_creator.sh childs pids
+        pids_to_kill=(${pids_to_kill[@]} $(pgrep -P ${pids_to_kill[0]}))
+        kill ${pids_to_kill[@]}
+    else
+        echo "ROP_file_creator.sh already not running"
+    fi
 
     if [[ $(running_containers) ]]; then
         docker-compose -f $RUNNING_COMPOSE_CONFIG down
