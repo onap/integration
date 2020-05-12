@@ -45,6 +45,30 @@
       "revId": "dc5fb2cc942778dee5233077a4a2df681ff0bcab",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd1476d0_0e0ed2ba",
+        "filename": "INFO.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 4677
+      },
+      "writtenOn": "2020-05-12T06:30:13Z",
+      "side": 1,
+      "message": "And please only one (1) person per type section.\nEach type section should have type and name and link also.",
+      "parentUuid": "c6f9bd9f_0a07dbed",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 4
+      },
+      "revId": "dc5fb2cc942778dee5233077a4a2df681ff0bcab",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
