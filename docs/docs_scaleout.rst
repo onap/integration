@@ -179,7 +179,7 @@ In order to instantiate the VNF using CDS features, users need to deploy the nam
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This step is only required if closed loop is used.
 
-Once the service model is distributed, users can design the closed loop from CLAMP, using the GUI at https://clamp.api.simpledemo.onap.org:30258/designer/index.html 
+Once the service model is distributed, users can design the closed loop from CLAMP, using the GUI at https://clamp.api.simpledemo.onap.org:30258
 
 Use the "Loop Instance" link to create a closed loop using a distributed model.
 
