@@ -122,8 +122,7 @@ function write_config(){
 }
 
 function start(){
-
-	get_pnfsim_ip
+    get_pnfsim_ip
     if [[ $(running_containers) ]]; then
         echo "Simulator containers are already up"
     else
@@ -164,31 +163,31 @@ function stop(){
 }
 
 function trigger_simulator(){
-get_pnfsim_ip
-cat << EndOfMessage
+    get_pnfsim_ip
+    cat << EndOfMessage
 Simulator response:
 $(curl -s -X POST -H "Content-Type: application/json" -H "X-ONAP-RequestID: 123" -H "X-InvocationID: 456" -d @config/config.json $SIMULATOR_START_URL)
 EndOfMessage
 }
 
 function run_simulator(){
-get_pnfsim_ip
-cat << EndOfMessage
+    get_pnfsim_ip
+    cat << EndOfMessage
 Simulator response:
 $(curl -s -X POST -H "Content-Type: application/json" -H "X-ONAP-RequestID: 123" -H "X-InvocationID: 456" -d @config/$CONFIG_JSON $SIMULATOR_START_URL)
 EndOfMessage
 }
 
 function stop_simulator(){
-get_pnfsim_ip
-cat << EndOfMessage
+    get_pnfsim_ip
+    cat << EndOfMessage
 Simulator response:
 $(curl -s -X POST $SIMULATOR_STOP_URL)
 EndOfMessage
 }
 
 function get_status(){
-	get_pnfsim_ip
+    get_pnfsim_ip
     if [[ $(running_containers) ]]; then
         print_status
     else
@@ -197,8 +196,8 @@ function get_status(){
 }
 
 function print_status(){
-get_pnfsim_ip
-cat << EndOfMessage
+    get_pnfsim_ip
+    cat << EndOfMessage
 $(docker-compose -f $RUNNING_COMPOSE_CONFIG ps)
 
 Simulator response:
@@ -270,7 +269,7 @@ function clear_logs(){
 }
 
 function timestamp(){
-  date "+%Y-%m-%d_%T"
+    date "+%Y-%m-%d_%T"
 }
 
 main $@
