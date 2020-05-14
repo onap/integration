@@ -5,7 +5,8 @@ import time
 import argparse
 import ipaddress
 from sys import exit
-from os import chdir, getcwd
+from os import chdir, getcwd, mkdir
+from shutil import copytree
 from json import dumps
 from requests import get
 from requests.exceptions import MissingSchema, InvalidSchema, InvalidURL, ConnectionError, ConnectTimeout
@@ -128,14 +129,12 @@ class MassPnfSim():
             PortFtps = start_port + 2
             start_port += 2
 
-            foldername = f"pnf-sim-lw-{i}"
-            completed = subprocess.run('mkdir ' + foldername, shell=True)
-            self.logger.info(f'\tCreating folder: {completed.stdout}')
-            completed = subprocess.run(
-                'cp -r pnf-sim-lightweight/* ' +
-                foldername,
-                shell=True)
-            self.logger.info(f'\tCloning folder: {completed.stdout}')
+            self.logger.info(f'\tCreating {self.sim_dirname_pattern}{i}')
+            try:
+                copytree('pnf-sim-lightweight', f'{self.sim_dirname_pattern}{i}')
+            except FileExistsError:
+                self.logger.error(f'Directory {self.sim_dirname_pattern}{i} already exists, cannot overwrite.')
+                exit(1)
 
             composercmd = " ".join([
                     "./simulator.sh compose",
@@ -154,14 +153,8 @@ class MassPnfSim():
                     str(ftps_pasv_port_end)
                 ])
             self.logger.debug(f"Script cmdline: {composercmd}")
-
-            completed = subprocess.run(
-                'set -x; cd ' +
-                foldername +
-                '; ' +
-                composercmd,
-                shell=True)
-            self.logger.info(f'Cloning: {completed.stdout}')
+            self.logger.info(f"\tCreating instance #{i} configuration ")
+            self._run_cmd(composercmd, f"{self.sim_dirname_pattern}{i}")
 
             ftps_pasv_port_start += ftps_pasv_port_num_of_ports + 1
             ftps_pasv_port_end += ftps_pasv_port_num_of_ports + 1
