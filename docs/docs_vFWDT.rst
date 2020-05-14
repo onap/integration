@@ -292,7 +292,7 @@ what should show following folders
 ::
 
     root@sb01-rancher:~/demo/tutorials/vFWDT# ls
-    playbooks  preloads  workflow
+    get_secret.sh  playbooks  policies  preloads  workflow
 
 
 .. note:: Remember vFWDT tutorial directory `~/demo/tutorials/vFWDT` for the further use
@@ -740,19 +740,27 @@ Configuration of APPC DB for Ansible
 
 For each VNF that uses the Ansible protocol you need to configure *PASSWORD* and *URL* field in the *DEVICE_AUTHENTICATION* table. This step must be performed after configuration in CDT which populates data in *DEVICE_AUTHENTICATION* table.
 
-1. Enter the APPC DB container
+1. Read APPC DB password
+
+Enter vFWDT tutorial directory `Preparation of Workflow Script Environment`_ on Rancher server.
+
+::
+
+    ./get_secret.sh `kubectl get secrets | grep appc-db-root-pass`
+
+2. Enter the APPC DB container
 
 ::
 
     kubectl exec -it -n onap `kubectl get pods -o go-template --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}' | grep appc-db-0` -- sh
 
-2. Enter the APPC DB CLI (password is *gamma*)
+3. Enter the APPC DB CLI
 
 ::
 
-    mysql -u sdnctl -p
+    mysql -u root -p
 
-3. Execute the following SQL commands
+4. Execute the following SQL commands
 
 ::
 
