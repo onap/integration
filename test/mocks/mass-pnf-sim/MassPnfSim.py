@@ -4,6 +4,8 @@ import subprocess
 import time
 import argparse
 import ipaddress
+from sys import exit
+from os import chdir, getcwd
 from json import dumps
 from requests import get
 from requests.exceptions import MissingSchema, InvalidSchema, InvalidURL, ConnectionError, ConnectTimeout
@@ -65,7 +67,7 @@ def get_parser():
     subparsers.add_parser('clean', help='Clean work-dirs')
     # General options parser
     parser.add_argument('--verbose', help='Verbosity level', choices=['info', 'debug'],
-                        type=str, default='debug')
+                        type=str, default='info')
     return parser
 
 class MassPnfSim():
@@ -76,6 +78,20 @@ class MassPnfSim():
         self.args = args
         self.logger = logging.getLogger(__name__)
         self.logger.setLevel(self.log_lvl)
+        self.sim_dirname_pattern = "pnf-sim-lw-"
+
+    def _run_cmd(self, cmd, dir_context='.'):
+        if self.args.verbose == 'debug':
+            cmd='bash -x ' + cmd
+        old_pwd = getcwd()
+        try:
+            chdir(dir_context)
+            subprocess.run(cmd, check=True, shell=True)
+            chdir(old_pwd)
+        except FileNotFoundError:
+            self.logger.error(f"Directory {dir_context} not found")
+        except subprocess.CalledProcessError as e:
+            exit(e.returncode)
 
     def bootstrap(self):
         self.logger.info("Bootstrapping PNF instances")
@@ -156,66 +172,33 @@ class MassPnfSim():
         self.logger.info(f"Build docker image: {completed.stdout}")
 
     def clean(self):
-        completed = subprocess.run('rm -rf ./pnf-sim-lw-*', shell=True)
-        self.logger.info(f'Deleting: {completed.stdout}')
+        self.logger.info('Cleaning simulators workdirs')
+        self._run_cmd(f"rm -rf {self.sim_dirname_pattern}*")
 
     def start(self):
         for i in range(self.args.count):
-            foldername = f"pnf-sim-lw-{i}"
-
-            completed = subprocess.run(
-                'set -x ; cd ' +
-                foldername +
-                "; bash -x ./simulator.sh start",
-                shell=True)
-            self.logger.info(f'Starting: {completed.stdout}')
+            self.logger.info(f'Starting {self.sim_dirname_pattern}{i} instance:')
+            self._run_cmd('./simulator.sh start', f"{self.sim_dirname_pattern}{i}")
             time.sleep(5)
 
     def status(self):
         for i in range(self.args.count):
-            foldername = f"pnf-sim-lw-{i}"
-
-            completed = subprocess.run(
-                'cd ' +
-                foldername +
-                "; ./simulator.sh status",
-                shell=True)
-            self.logger.info(f'Status: {completed.stdout}')
+            self.logger.info(f'Getting {self.sim_dirname_pattern}{i} status:')
+            self._run_cmd('./simulator.sh status', f"{self.sim_dirname_pattern}{i}")
 
     def stop(self):
         for i in range(self.args.count):
-            foldername = f"pnf-sim-lw-{i}"
-
-            completed = subprocess.run(
-                'cd ' +
-                foldername +
-                f"; ./simulator.sh stop {i}",
-                shell=True)
-            self.logger.info(f'Stopping: {completed.stdout}')
+            self.logger.info(f'Stopping {self.sim_dirname_pattern}{i} instance:')
+            self._run_cmd(f'./simulator.sh stop {i}', f"{self.sim_dirname_pattern}{i}")
 
     def trigger(self):
         self.logger.info("Triggering VES sending:")
-
         for i in range(self.args.count):
-            foldername = f"pnf-sim-lw-{i}"
-
-            completed = subprocess.run(
-                'cd ' +
-                foldername +
-                "; ./simulator.sh trigger-simulator",
-                shell=True)
-            self.logger.info(f'Status: {completed.stdout}')
+            self.logger.info(f'Triggering {self.sim_dirname_pattern}{i} instance:')
+            self._run_cmd(f'./simulator.sh trigger-simulator', f"{self.sim_dirname_pattern}{i}")
 
     def trigger_custom(self):
         self.logger.info("Triggering VES sending by a range of simulators:")
-
         for i in range(self.args.triggerstart, self.args.triggerend+1):
-            foldername = f"pnf-sim-lw-{i}"
-            self.logger.info(f"Instance being processed: {i}")
-
-            completed = subprocess.run(
-                'cd ' +
-                foldername +
-                "; ./simulator.sh trigger-simulator",
-                shell=True)
-            self.logger.info(f'Status: {completed.stdout}')
+            self.logger.info(f'Triggering {self.sim_dirname_pattern}{i} instance:')
+            self._run_cmd(f'./simulator.sh trigger-simulator', f"{self.sim_dirname_pattern}{i}")
