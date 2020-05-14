@@ -91,9 +91,9 @@ function compose(){
 
 	write_config $URLVES $IPFILESERVER $TYPEFILESERVER $PORTSFTP $PORTFTPS $IPPNFSIM
 
-	cd config
-    envsubst < vsftpd_ssl-TEMPLATE.conf > vsftpd_ssl.conf
-	cd -
+	pushd config
+	envsubst < vsftpd_ssl-TEMPLATE.conf > vsftpd_ssl.conf
+	popd
 }
 
 function build_image(){
