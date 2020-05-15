@@ -94,9 +94,6 @@ function compose(){
 	cd config
     envsubst < vsftpd_ssl-TEMPLATE.conf > vsftpd_ssl.conf
 	cd -
-
-	set_vsftpd_file_owner
-
 }
 
 function build_image(){
@@ -109,6 +106,8 @@ function build_image(){
 }
 
 function set_vsftpd_file_owner() {
+    # This is to avoid "500 OOPS: cannot open config file"
+    # on vsftpd daemon start
     sudo chown root ./config/vsftpd_ssl.conf
 }
 

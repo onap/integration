@@ -35,6 +35,7 @@ services:
       - "${PORTSFTP}:22"
     volumes:
       - ./files/onap/:/home/onap/
+      - ./fix-sftp-perms.sh:/etc/sftp.d/fix-sftp-perms.sh
     restart: on-failure
     command: onap:pano:1001
 
