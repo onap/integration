@@ -5,7 +5,7 @@ import time
 import argparse
 import ipaddress
 from sys import exit
-from os import chdir, getcwd
+from os import chdir, getcwd, path
 from shutil import copytree
 from json import dumps
 from requests import get
@@ -82,6 +82,7 @@ class MassPnfSim():
         self.logger = logging.getLogger(__name__)
         self.logger.setLevel(self.log_lvl)
         self.sim_dirname_pattern = "pnf-sim-lw-"
+        self.mvn_build_cmd = 'mvn clean package docker:build -Dcheckstyle.skip'
 
     def _run_cmd(self, cmd, dir_context='.'):
         if self.args.verbose == 'debug':
@@ -165,8 +166,11 @@ class MassPnfSim():
 
     def build(self):
         self.logger.info("Building simulator image")
-        completed = subprocess.run('set -x; cd pnf-sim-lightweight; ./simulator.sh build ', shell=True)
-        self.logger.info(f"Build docker image: {completed.stdout}")
+        if path.isfile('pnf-sim-lightweight/pom.xml'):
+            self._run_cmd(self.mvn_build_cmd, 'pnf-sim-lightweight')
+        else:
+            self.logger.error('POM file was not found, Maven cannot run')
+            exit(1)
 
     def clean(self):
         self.logger.info('Cleaning simulators workdirs')
