@@ -34,6 +34,8 @@ def get_parser():
 
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(title='Subcommands', dest='subcommand')
+    # Build command parser
+    subparsers.add_parser('build', help='Build simulator image')
     # Bootstrap command parser
     parser_bootstrap = subparsers.add_parser('bootstrap', help='Bootstrap the system')
     parser_bootstrap.add_argument('--count', help='Instance count to bootstrap', type=int, metavar='INT', default=1)
@@ -152,6 +154,8 @@ class MassPnfSim():
 
             self.logger.info(f'Done setting up instance #{i}')
 
+    def build(self):
+        self.logger.info("Building simulator image")
         completed = subprocess.run('set -x; cd pnf-sim-lightweight; ./simulator.sh build ', shell=True)
         self.logger.info(f"Build docker image: {completed.stdout}")
 
