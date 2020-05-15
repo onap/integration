@@ -15,7 +15,13 @@ The ipstart should align to a /28 Ip address range start (e.g. 10.11.0.16, 10.11
 
 For debug purposes, you can use your own IP address as VES collector, use "ip" command to determine it.
 
-Example:
+### Build simulator image
+
+```
+./mass-pnf-sim.py build
+```
+
+### Bootstrap simulator instances
 
 ```
 ./mass-pnf-sim.py bootstrap --count 2 --urlves http://10.148.95.??:10000/eventListener/v7 --ipfileserver 10.148.95.??? --typefileserver sftp --ipstart 10.11.0.16
@@ -74,5 +80,5 @@ python3 -m trace --trace --count -C . ./mass-pnf-sim.py .....
 ### Cleaning and recovery after incorrect configuration
 
 ```
-docker stop $(docker ps -aq); docker rm $(docker ps -aq)
+./clean.sh
 ```
