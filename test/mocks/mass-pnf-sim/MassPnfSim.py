@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import logging
 import subprocess
-import time
 import argparse
 import ipaddress
 from sys import exit
@@ -72,6 +71,26 @@ def get_parser():
     parser.add_argument('--verbose', help='Verbosity level', choices=['info', 'debug'],
                         type=str, default='info')
     return parser
+
+# MassPnfSim class actions decorator
+def do_action(action_string, cmd):
+    def action_decorator(method):
+        def action_wrap(self):
+            cmd_local = cmd
+            # Append instance # if action is 'stop'
+            if method.__name__ == 'stop':
+                cmd_local += " {}"
+            # Alter looping range if action is 'tigger_custom'
+            if method.__name__ == 'trigger_custom':
+                iter_range = [self.args.triggerstart, self.args.triggerend+1]
+            else:
+                iter_range = [self.args.count]
+            method(self)
+            for i in range(*iter_range):
+                self.logger.info(f'{action_string} {self.sim_dirname_pattern}{i} instance:')
+                self._run_cmd(cmd_local.format(i), f"{self.sim_dirname_pattern}{i}")
+        return action_wrap
+    return action_decorator
 
 class MassPnfSim():
 
@@ -176,30 +195,22 @@ class MassPnfSim():
         self.logger.info('Cleaning simulators workdirs')
         self._run_cmd(f"rm -rf {self.sim_dirname_pattern}*")
 
+    @do_action('Starting', './simulator.sh start')
     def start(self):
-        for i in range(self.args.count):
-            self.logger.info(f'Starting {self.sim_dirname_pattern}{i} instance:')
-            self._run_cmd('./simulator.sh start', f"{self.sim_dirname_pattern}{i}")
-            time.sleep(5)
+        pass
 
+    @do_action('Getting', './simulator.sh status')
     def status(self):
-        for i in range(self.args.count):
-            self.logger.info(f'Getting {self.sim_dirname_pattern}{i} status:')
-            self._run_cmd('./simulator.sh status', f"{self.sim_dirname_pattern}{i}")
+        pass
 
+    @do_action('Stopping', './simulator.sh stop')
     def stop(self):
-        for i in range(self.args.count):
-            self.logger.info(f'Stopping {self.sim_dirname_pattern}{i} instance:')
-            self._run_cmd(f'./simulator.sh stop {i}', f"{self.sim_dirname_pattern}{i}")
+        pass
 
+    @do_action('Triggering', './simulator.sh trigger-simulator')
     def trigger(self):
         self.logger.info("Triggering VES sending:")
-        for i in range(self.args.count):
-            self.logger.info(f'Triggering {self.sim_dirname_pattern}{i} instance:')
-            self._run_cmd(f'./simulator.sh trigger-simulator', f"{self.sim_dirname_pattern}{i}")
 
+    @do_action('Triggering', './simulator.sh trigger-simulator')
     def trigger_custom(self):
         self.logger.info("Triggering VES sending by a range of simulators:")
-        for i in range(self.args.triggerstart, self.args.triggerend+1):
-            self.logger.info(f'Triggering {self.sim_dirname_pattern}{i} instance:')
-            self._run_cmd(f'./simulator.sh trigger-simulator', f"{self.sim_dirname_pattern}{i}")
