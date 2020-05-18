@@ -72,27 +72,30 @@ def get_parser():
                         type=str, default='info')
     return parser
 
-# MassPnfSim class actions decorator
-def do_action(action_string, cmd):
-    def action_decorator(method):
-        def action_wrap(self):
-            cmd_local = cmd
-            # Append instance # if action is 'stop'
-            if method.__name__ == 'stop':
-                cmd_local += " {}"
-            # Alter looping range if action is 'tigger_custom'
-            if method.__name__ == 'trigger_custom':
-                iter_range = [self.args.triggerstart, self.args.triggerend+1]
-            else:
-                iter_range = [self.args.count]
-            method(self)
-            for i in range(*iter_range):
-                self.logger.info(f'{action_string} {self.sim_dirname_pattern}{i} instance:')
-                self._run_cmd(cmd_local.format(i), f"{self.sim_dirname_pattern}{i}")
-        return action_wrap
-    return action_decorator
+class MassPnfSim:
 
-class MassPnfSim():
+    # MassPnfSim class actions decorator
+    class _MassPnfSim_Decorators:
+
+        @staticmethod
+        def do_action(action_string, cmd):
+            def action_decorator(method):
+                def action_wrap(self):
+                    cmd_local = cmd
+                    # Append instance # if action is 'stop'
+                    if method.__name__ == 'stop':
+                        cmd_local += " {}"
+                    # Alter looping range if action is 'tigger_custom'
+                    if method.__name__ == 'trigger_custom':
+                        iter_range = [self.args.triggerstart, self.args.triggerend+1]
+                    else:
+                        iter_range = [self.args.count]
+                    method(self)
+                    for i in range(*iter_range):
+                        self.logger.info(f'{action_string} {self.sim_dirname_pattern}{i} instance:')
+                        self._run_cmd(cmd_local.format(i), f"{self.sim_dirname_pattern}{i}")
+                return action_wrap
+            return action_decorator
 
     log_lvl = logging.INFO
 
@@ -195,22 +198,22 @@ class MassPnfSim():
         self.logger.info('Cleaning simulators workdirs')
         self._run_cmd(f"rm -rf {self.sim_dirname_pattern}*")
 
-    @do_action('Starting', './simulator.sh start')
+    @_MassPnfSim_Decorators.do_action('Starting', './simulator.sh start')
     def start(self):
         pass
 
-    @do_action('Getting', './simulator.sh status')
+    @_MassPnfSim_Decorators.do_action('Getting', './simulator.sh status')
     def status(self):
         pass
 
-    @do_action('Stopping', './simulator.sh stop')
+    @_MassPnfSim_Decorators.do_action('Stopping', './simulator.sh stop')
     def stop(self):
         pass
 
-    @do_action('Triggering', './simulator.sh trigger-simulator')
+    @_MassPnfSim_Decorators.do_action('Triggering', './simulator.sh trigger-simulator')
     def trigger(self):
         self.logger.info("Triggering VES sending:")
 
-    @do_action('Triggering', './simulator.sh trigger-simulator')
+    @_MassPnfSim_Decorators.do_action('Triggering', './simulator.sh trigger-simulator')
     def trigger_custom(self):
         self.logger.info("Triggering VES sending by a range of simulators:")
