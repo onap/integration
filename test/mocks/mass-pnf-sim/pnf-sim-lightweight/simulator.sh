@@ -30,7 +30,7 @@ function main(){
             if [[ -z ${2+x} ]]
             then
                echo "Error: action 'stop' requires the instance identifier"
-               exit
+               exit 1
             fi
             stop $2;;
         "run-simulator")
