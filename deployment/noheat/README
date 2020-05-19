@@ -16,6 +16,19 @@ Infrastructure
 
 - OpenStack cloud (no Heat support required)
 
+Configuration
+~~~~~~~~~~~~~
+
+- OpenStack ``clouds.yaml`` file
+
+Dependencies
+~~~~~~~~~~~~
+
+- Ansible
+- openstacksdk_
+
+.. _openstacksdk: https://pypi.org/project/openstacksdk
+
 
 Expected output
 ---------------
