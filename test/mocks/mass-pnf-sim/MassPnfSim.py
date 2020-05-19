@@ -7,6 +7,7 @@ from sys import exit
 from os import chdir, getcwd, path
 from shutil import copytree
 from json import dumps
+from glob import glob
 from requests import get
 from requests.exceptions import MissingSchema, InvalidSchema, InvalidURL, ConnectionError, ConnectTimeout
 
@@ -105,6 +106,7 @@ class MassPnfSim:
         self.logger.setLevel(self.log_lvl)
         self.sim_dirname_pattern = "pnf-sim-lw-"
         self.mvn_build_cmd = 'mvn clean package docker:build -Dcheckstyle.skip'
+        self.existing_sim_instances = self._enum_sim_instances()
 
     def _run_cmd(self, cmd, dir_context='.'):
         if self.args.verbose == 'debug':
@@ -118,6 +120,10 @@ class MassPnfSim:
             self.logger.error(f"Directory {dir_context} not found")
         except subprocess.CalledProcessError as e:
             exit(e.returncode)
+
+    def _enum_sim_instances(self):
+        '''Helper method that returns bootstraped simulator instances count'''
+        return len(glob(f"{self.sim_dirname_pattern}[0-9]*"))
 
     def bootstrap(self):
         self.logger.info("Bootstrapping PNF instances")
