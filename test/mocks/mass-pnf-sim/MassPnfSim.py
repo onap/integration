@@ -50,13 +50,13 @@ def get_parser():
     parser_bootstrap.add_argument('--ipstart', help='IP address range beginning', type=validate_ip, metavar='IP', required=True)
     # Start command parser
     parser_start = subparsers.add_parser('start', help='Start instances')
-    parser_start.add_argument('--count', help='Instance count to start', type=int, metavar='INT', default=1)
+    parser_start.add_argument('--count', help='Instance count to start', type=int, metavar='INT', default=0)
     # Stop command parser
     parser_stop = subparsers.add_parser('stop', help='Stop instances')
-    parser_stop.add_argument('--count', help='Instance count to stop', type=int, metavar='INT', default=1)
+    parser_stop.add_argument('--count', help='Instance count to stop', type=int, metavar='INT', default=0)
     # Trigger command parser
     parser_trigger = subparsers.add_parser('trigger', help='Trigger one single VES event from each simulator')
-    parser_trigger.add_argument('--count', help='Instance count to trigger', type=int, metavar='INT', default=1)
+    parser_trigger.add_argument('--count', help='Instance count to trigger', type=int, metavar='INT', default=0)
     # Trigger-custom command parser
     parser_triggerstart = subparsers.add_parser('trigger_custom', help='Trigger one single VES event from specific simulators')
     parser_triggerstart.add_argument('--triggerstart', help='First simulator id to trigger', type=int,
@@ -65,7 +65,7 @@ def get_parser():
                                      metavar='INT', required=True)
     # Status command parser
     parser_status = subparsers.add_parser('status', help='Status')
-    parser_status.add_argument('--count', help='Instance count to show status for', type=int, metavar='INT', default=1)
+    parser_status.add_argument('--count', help='Instance count to show status for', type=int, metavar='INT', default=0)
     # Clean command parser
     subparsers.add_parser('clean', help='Clean work-dirs')
     # General options parser
@@ -90,7 +90,12 @@ class MassPnfSim:
                     if method.__name__ == 'trigger_custom':
                         iter_range = [self.args.triggerstart, self.args.triggerend+1]
                     else:
-                        iter_range = [self.args.count]
+                        if not self.args.count:
+                            # If no instance count set explicitly via --count
+                            # option
+                            iter_range = [self.existing_sim_instances]
+                        else:
+                            iter_range = [self.args.count]
                     method(self)
                     for i in range(*iter_range):
                         self.logger.info(f'{action_string} {self.sim_dirname_pattern}{i} instance:')
@@ -107,6 +112,26 @@ class MassPnfSim:
         self.sim_dirname_pattern = "pnf-sim-lw-"
         self.mvn_build_cmd = 'mvn clean package docker:build -Dcheckstyle.skip'
         self.existing_sim_instances = self._enum_sim_instances()
+
+        # Validate 'trigger_custom' subcommand options
+        if self.args.subcommand == 'trigger_custom':
+            if (self.args.triggerend + 1) > self.existing_sim_instances:
+                self.logger.error('--triggerend value greater than existing instance count.')
+                exit(1)
+
+        # Validate --count option for subcommands that support it
+        if self.args.subcommand in ['start', 'stop', 'trigger', 'status']:
+            if self.args.count > self.existing_sim_instances:
+                self.logger.error('--count value greater that existing instance count')
+                exit(1)
+            if not self.existing_sim_instances:
+                self.logger.error('No bootstrapped instance found')
+                exit(1)
+
+        # Validate 'bootstrap' subcommand
+        if (self.args.subcommand == 'bootstrap') and self.existing_sim_instances:
+            self.logger.error('Bootstrapped instances detected, not overwiriting, clean first')
+            exit(1)
 
     def _run_cmd(self, cmd, dir_context='.'):
         if self.args.verbose == 'debug':
@@ -161,11 +186,7 @@ class MassPnfSim:
             start_port += 2
 
             self.logger.info(f'\tCreating {self.sim_dirname_pattern}{i}')
-            try:
-                copytree('pnf-sim-lightweight', f'{self.sim_dirname_pattern}{i}')
-            except FileExistsError:
-                self.logger.error(f'Directory {self.sim_dirname_pattern}{i} already exists, cannot overwrite.')
-                exit(1)
+            copytree('pnf-sim-lightweight', f'{self.sim_dirname_pattern}{i}')
 
             composercmd = " ".join([
                     "./simulator.sh compose",
