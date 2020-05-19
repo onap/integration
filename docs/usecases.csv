@@ -1,0 +1,13 @@
+Use Case,Link,Contacts
+vFirewall with closed loop,:ref:`official doc <docs_vfw>` ,M.Platania B.Freeman
+vFirewall/vDNS with HPA ,:ref:`official doc <docs_vfw_hpa>`,E.Multanen
+vFirewall In-Place Software Upgrade with Traffic Distribution,:ref:`official doc <docs_vfw_traffic>`,L.Rajewski
+vFirewall CNF With CDS,:ref:`official doc <docs_vFW_CNF_CDS>`,K.Bańka L.Rajewski
+Scale Out,:ref:`official doc <docs_scaleout>`,M.Platania S.Blandford
+CCVPN-E LINE over OTN NNI,:ref:`official doc <docs_ccvpn>`,G.Agrawal
+CCVPN - MDONS ,:ref:`official doc <docs_CCVPN>`,X.Miao
+BBS (Broadband Service),:ref:`official doc <docs_bbs>`,D.Perez Caparros D.Balsiger
+vFirewall CNF with multicloud k8s plugin,:ref:`official doc  <docs_vfw_edgex_multicloud_k8s>`,E.Multanen R.Sood
+EdgeXFoundry CNF with multicloud k8s plugin,:ref:`official doc <docs_vfw_edgex_multicloud_k8s>`,E.Multanen
+vCPE with Tosca,:ref:`official doc <docs_vcpe_tosca_local>`, H.Haibin L.Zhao
+E2E Automation vLB with CDS,`wiki page <https://wiki.onap.org/pages/viewpage.action?pageId=71838891>`__,A.Seaudi Y.Malakov

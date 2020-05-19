@@ -20,10 +20,10 @@ must be adapted according to your context.
 Source files
 ~~~~~~~~~~~~
 
-- HEAT template files: https://git.onap.org/integration/tree/deployment/heat/onap-rke?h=elalto
-- Sample OpenStack RC file: https://git.onap.org/integration/tree/deployment/heat/onap-rke/env/windriver/Integration-SB-00-openrc?h=elalto
-- Sample environment file: https://git.onap.org/integration/tree/deployment/heat/onap-rke/env/windriver/onap-oom.env?h=elalto
-- Deployment script: https://git.onap.org/integration/tree/deployment/heat/onap-rke/scripts/deploy.sh?h=elalto
+- HEAT template files: https://git.onap.org/integration/tree/deployment/heat/onap-rke?h=frankfurt
+- Sample OpenStack RC file: https://git.onap.org/integration/tree/deployment/heat/onap-rke/env/windriver/Integration-SB-00-openrc?h=frankfurt
+- Sample environment file: https://git.onap.org/integration/tree/deployment/heat/onap-rke/env/windriver/onap-oom.env?h=frankfurt
+- Deployment script: https://git.onap.org/integration/tree/deployment/heat/onap-rke/scripts/deploy.sh?h=frankfurt
 
 
 Heat Template Description
@@ -31,7 +31,7 @@ Heat Template Description
 
 The ONAP Integration Project provides a sample HEAT template that
 fully automates the deployment of ONAP using OOM as described in
-OOM documentation (https://docs.onap.org/en/elalto/guides/onap-developer/settingup/index.html#installing-onap).
+OOM documentation (https://docs.onap.org/en/frankfurt/guides/onap-developer/settingup/index.html#installing-onap).
 
 The ONAP OOM HEAT template deploys the entire ONAP platform.  It spins
 up an HA-enabled Kubernetes cluster, and deploys ONAP using OOM onto
