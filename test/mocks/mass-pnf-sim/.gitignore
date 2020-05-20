@@ -3,3 +3,4 @@ pnf-sim-lw-*
 pnf-sim-lightweight/logs/*
 files/onap/*
 __pycache__
+MassPnfSim.egg-info/

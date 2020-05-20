@@ -15,6 +15,8 @@ The ipstart should align to a /28 Ip address range start (e.g. 10.11.0.16, 10.11
 
 For debug purposes, you can use your own IP address as VES collector, use "ip" command to determine it.
 
+Run ./setup.sh to create pre-set Python virtualenv with all required dependencies for the scripts.
+
 ### Build simulator image
 
 ```
