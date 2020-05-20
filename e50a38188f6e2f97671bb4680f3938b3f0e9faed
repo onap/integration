@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9dcc0896_c576e351",
+        "filename": "docs/usecases.csv",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 2701
+      },
+      "writtenOn": "2020-05-20T13:57:29Z",
+      "side": 1,
+      "message": "Should be changed into \u0027vFirewall In-Place Software Upgrade with Traffic Distribution\u0027",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 69
+      },
+      "revId": "e50a38188f6e2f97671bb4680f3938b3f0e9faed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
