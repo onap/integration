@@ -1,0 +1,5 @@
+---
+uui:
+  image: onap/usecase-ui:3.0.3
+  uui-server:
+    image: onap/usecase-ui-server:3.0.3
