@@ -114,7 +114,7 @@ Impacted Modules for Frankfurt
 SO
 ~~
 
-CSMF and NSMF are implemented using SO BPMN workflows to support 5G
+CSMF and NSMF are implemented using SO BPMN workflows to support 5G
 network slicing use case. CSMF workflow will process the user input
 (service request) that comes from CSMF portal (UUI) and save the order
 information into a communication service instance in AAI. Then CSMF will
@@ -301,9 +301,11 @@ Further details can be obtained from:
 https://wiki.onap.org/display/DW/Functional+Test+Cases
 
 
-How to install 5G E2E Slicing Minimum Scope
--------------------------------------------
+Operation Guidance
+------------------
 
+How to install 5G E2E Slicing Minimum Scope
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 For 5G E2E Slicing use case, we support the minimum-scope installation
 of ONAP to reduce the resource requirements. From the module
 perspective, 5G E2E Slicing use case involves SDC, SO, A&AI, UUI,
@@ -317,3 +319,10 @@ Slicing use case.
 
 Further details of the installation steps are available at:
 https://wiki.onap.org/display/DW/Install+Minimum+Scope+ONAP+for+5G+Network+Slicing
+
+
+Configuration aspects
+~~~~~~~~~~~~~~~~~~~~~
+The template design, UI configuration, as well as manual configurations for some
+of the components are all described in the following wiki page and its sub-pages:
+https://wiki.onap.org/display/DW/Operation+Guidance+for+5G+Network+Slicing+Use+Case
