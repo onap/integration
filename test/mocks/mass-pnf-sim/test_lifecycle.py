@@ -58,3 +58,21 @@ def test_bootstrap(args_bootstrap, parser, caplog):
         assert str(ip_address(IPSTART) + ip_offset + instance_ip_offset) == yml['ippnfsim']
         start_port += 2
         print(yml['ippnfsim'])
+
+def test_start(args_start, caplog, capfd):
+    MassPnfSim(args_start).start()
+    msg = capfd.readouterr()
+    for instance in range(SIM_INSTANCES):
+        instance_ip_offset = instance * 16
+        ip_offset = 2
+        assert f'Starting pnf-sim-lw-{instance} instance:' in caplog.text
+        assert f'PNF-Sim IP:  {str(ip_address(IPSTART) + ip_offset + instance_ip_offset)}' in msg.out
+        assert 'Starting simulator containers' in msg.out
+    caplog.clear()
+
+def test_start_idempotence(args_start, capfd):
+    '''Verify start idempotence'''
+    MassPnfSim(args_start).start()
+    msg = capfd.readouterr()
+    assert 'Simulator containers are already up' in msg.out
+    assert 'Starting simulator containers' not in msg.out
