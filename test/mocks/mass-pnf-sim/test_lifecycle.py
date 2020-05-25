@@ -126,3 +126,9 @@ def test_stop_idempotence(args_stop, caplog, capfd):
         assert f'Stopping pnf-sim-lw-{instance} instance:' in caplog.text
         assert 'ROP_file_creator.sh already not running' in msg.out
         assert 'Simulator containers are already down' in msg.out
+    caplog.clear()
+
+def test_clean(args_clean):
+    m = MassPnfSim(args_clean)
+    m.clean()
+    assert not glob(f"{m.sim_dirname_pattern}*")

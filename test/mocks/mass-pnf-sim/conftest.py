@@ -32,3 +32,7 @@ def args_trigger(parser):
 @pytest.fixture(scope="module")
 def args_trigger_custom(parser):
     return parser.parse_args(['trigger_custom', '--triggerstart', '0', '--triggerend', str(SIM_INSTANCES-1)])
+
+@pytest.fixture
+def args_clean(parser):
+    return parser.parse_args(['clean'])
