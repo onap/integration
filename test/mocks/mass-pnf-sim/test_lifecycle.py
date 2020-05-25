@@ -5,6 +5,7 @@ from yaml import load, SafeLoader
 from ipaddress import ip_address
 from test_settings import *
 import pytest
+from time import sleep
 
 # These test routines perform functional testing in current file tree context
 # thus they require that no simulator instances are bootstrapped and running
@@ -76,3 +77,20 @@ def test_start_idempotence(args_start, capfd):
     msg = capfd.readouterr()
     assert 'Simulator containers are already up' in msg.out
     assert 'Starting simulator containers' not in msg.out
+
+def test_trigger(args_trigger, caplog, capfd):
+    sleep(5) # Wait for the simulator to settle
+    MassPnfSim(args_trigger).trigger()
+    msg = capfd.readouterr()
+    for instance in range(SIM_INSTANCES):
+        instance_ip_offset = instance * 16
+        ip_offset = 2
+        assert f'Triggering pnf-sim-lw-{instance} instance:' in caplog.text
+        assert f'PNF-Sim IP:  {str(ip_address(IPSTART) + ip_offset + instance_ip_offset)}' in msg.out
+        assert 'Simulator started' in msg.out
+
+def test_trigger_idempotence(args_trigger, capfd):
+    MassPnfSim(args_trigger).trigger()
+    msg = capfd.readouterr()
+    assert "Cannot start simulator since it's already running" in msg.out
+    assert 'Simulator started' not in msg.out
