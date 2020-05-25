@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 import logging
-import subprocess
+from subprocess import run, CalledProcessError
 import argparse
 import ipaddress
 from sys import exit
 from os import chdir, getcwd, path
-from shutil import copytree
+from shutil import copytree, rmtree
 from json import dumps
 from glob import glob
 from requests import get
@@ -139,11 +139,11 @@ class MassPnfSim:
         old_pwd = getcwd()
         try:
             chdir(dir_context)
-            subprocess.run(cmd, check=True, shell=True)
+            run(cmd, check=True, shell=True)
             chdir(old_pwd)
         except FileNotFoundError:
             self.logger.error(f"Directory {dir_context} not found")
-        except subprocess.CalledProcessError as e:
+        except CalledProcessError as e:
             exit(e.returncode)
 
     def _enum_sim_instances(self):
@@ -223,7 +223,8 @@ class MassPnfSim:
 
     def clean(self):
         self.logger.info('Cleaning simulators workdirs')
-        self._run_cmd(f"rm -rf {self.sim_dirname_pattern}*")
+        for sim_id in range(self.existing_sim_instances):
+            rmtree(f"{self.sim_dirname_pattern}{sim_id}")
 
     @_MassPnfSim_Decorators.do_action('Starting', './simulator.sh start')
     def start(self):
