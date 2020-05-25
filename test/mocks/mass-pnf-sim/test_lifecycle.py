@@ -88,6 +88,7 @@ def test_trigger(args_trigger, caplog, capfd):
         assert f'Triggering pnf-sim-lw-{instance} instance:' in caplog.text
         assert f'PNF-Sim IP:  {str(ip_address(IPSTART) + ip_offset + instance_ip_offset)}' in msg.out
         assert 'Simulator started' in msg.out
+    caplog.clear()
 
 def test_trigger_idempotence(args_trigger, capfd):
     MassPnfSim(args_trigger).trigger()
@@ -105,3 +106,23 @@ def test_trigger_custom(args_trigger_custom, caplog, capfd):
         assert f'PNF-Sim IP:  {str(ip_address(IPSTART) + ip_offset + instance_ip_offset)}' in msg.out
         assert 'Simulator started' not in msg.out
         assert "Cannot start simulator since it's already running" in msg.out
+    caplog.clear()
+
+def test_stop(args_stop, caplog, capfd):
+    MassPnfSim(args_stop).stop()
+    msg = capfd.readouterr()
+    for instance in range(SIM_INSTANCES):
+        instance_ip_offset = instance * 16
+        ip_offset = 2
+        assert f'Stopping pnf-sim-lw-{instance} instance:' in caplog.text
+        assert f'PNF-Sim IP:  {str(ip_address(IPSTART) + ip_offset + instance_ip_offset)}' in msg.out
+        assert f"ROP_file_creator.sh {instance}" not in popen('ps afx').read()
+    caplog.clear()
+
+def test_stop_idempotence(args_stop, caplog, capfd):
+    MassPnfSim(args_stop).stop()
+    msg = capfd.readouterr()
+    for instance in range(SIM_INSTANCES):
+        assert f'Stopping pnf-sim-lw-{instance} instance:' in caplog.text
+        assert 'ROP_file_creator.sh already not running' in msg.out
+        assert 'Simulator containers are already down' in msg.out
