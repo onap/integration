@@ -60,6 +60,13 @@ def test_bootstrap(args_bootstrap, parser, caplog):
         start_port += 2
         print(yml['ippnfsim'])
 
+def test_bootstrap_status(args_status, capfd):
+    MassPnfSim(args_status).status()
+    msg = capfd.readouterr()
+    for _ in range(SIM_INSTANCES):
+        assert 'Simulator containers are down' in msg.out
+        assert 'Simulator response' not in msg.out
+
 def test_start(args_start, caplog, capfd):
     MassPnfSim(args_start).start()
     msg = capfd.readouterr()
@@ -70,6 +77,14 @@ def test_start(args_start, caplog, capfd):
         assert f'PNF-Sim IP:  {str(ip_address(IPSTART) + ip_offset + instance_ip_offset)}' in msg.out
         assert 'Starting simulator containers' in msg.out
     caplog.clear()
+
+def test_start_status(args_status, docker_containers, capfd):
+    MassPnfSim(args_status).status()
+    msg = capfd.readouterr()
+    for instance in range(SIM_INSTANCES):
+        assert '"simulatorStatus":"NOT RUNNING"' in msg.out
+        assert '"simulatorStatus":"RUNNING"' not in msg.out
+        assert f"{PNF_SIM_CONTAINER_NAME}{instance}" in docker_containers
 
 def test_start_idempotence(args_start, capfd):
     '''Verify start idempotence'''
@@ -89,6 +104,15 @@ def test_trigger(args_trigger, caplog, capfd):
         assert f'PNF-Sim IP:  {str(ip_address(IPSTART) + ip_offset + instance_ip_offset)}' in msg.out
         assert 'Simulator started' in msg.out
     caplog.clear()
+
+def test_trigger_status(args_status, capfd):
+    MassPnfSim(args_status).status()
+    msg = capfd.readouterr()
+    for _ in range(SIM_INSTANCES):
+        assert '"simulatorStatus":"RUNNING"' in msg.out
+        assert '"simulatorStatus":"NOT RUNNING"' not in msg.out
+        assert 'Up' in msg.out
+        assert 'Exit' not in msg.out
 
 def test_trigger_idempotence(args_trigger, capfd):
     MassPnfSim(args_trigger).trigger()
