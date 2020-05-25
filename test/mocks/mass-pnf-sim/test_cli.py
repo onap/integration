@@ -1,4 +1,6 @@
 import pytest
+from MassPnfSim import MassPnfSim
+from test_settings import SIM_INSTANCES
 
 @pytest.mark.parametrize(('expect_string, cli_opts'), [
     ("bootstrap: error: the following arguments are required: --urlves, --ipfileserver, --typefileserver, --ipstart",
@@ -18,6 +20,16 @@ def test_subcommands(parser, capsys, expect_string, cli_opts):
     except SystemExit:
         pass
     assert expect_string in capsys.readouterr().err
+
+def test_validate_trigger_custom(parser, caplog):
+    args = parser.parse_args(['trigger_custom', '--triggerstart', '0',
+                             '--triggerend', str(SIM_INSTANCES)])
+    try:
+        MassPnfSim(args).trigger_custom()
+    except SystemExit as e:
+        assert e.code == 1
+    assert "--triggerend value greater than existing instance count" in caplog.text
+    caplog.clear()
 
 @pytest.mark.parametrize(("subcommand"), [
     'bootstrap',
