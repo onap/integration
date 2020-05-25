@@ -21,19 +21,19 @@ Description
 ~~~~~~~~~~~
 This use case is a combination of `vFW CDS Dublin`_ and `vFW EDGEX K8S`_ use cases. The aim is to continue improving Kubernetes based Network Functions (a.k.a CNF) support in ONAP. Use case continues where `vFW EDGEX K8S`_ left and brings CDS support into picture like `vFW CDS Dublin`_ did for the old vFW Use case. Predecessor use case is also documented here `vFW EDGEX K8S In ONAP Wiki`_.
 
-In a higher level this use case brings only two improvements yet important ones i.e. the ability to instantiate more than single CNF instance of same type (with same Helm package) and ability to embed into singular CSAR package more than one helm package what brings more service design options.
+In a higher level this use case brings only two improvements yet important ones i.e. the ability to instantiate more than single CNF instance of same type (with same Helm package) and ability to embed into singular onboarding package more than one helm package what brings more service design options.
 
 Following improvements were made in the Use Case or related ONAP components:
 
 - Changed vFW Kubernetes Helm charts to support overrides (previously mostly hardcoded values)
-- Combined all models (Heat, Helm, CBA) in to same git repo and a creating single CSAR package `vFW_CNF_CDS Model`_
+- Combined all models (Heat, Helm, CBA) in to same git repo and a creating single onboarding package `vFW_CNF_CDS Model`_
 - Compared to `vFW EDGEX K8S`_ use case **MACRO** workflow in SO is used instead of VNF a'la carte workflow. (this is general requirement to utilize CDS as part of instantiation flow)
 - SDC accepts Onboarding Package with many helm packages what allows to keep decomposition of service instance similar to `vFW CDS Dublin`
 - CDS is used to resolve instantiation time parameters (Helm override)
   - Ip addresses with IPAM
   - Unique names for resources with ONAP naming service
 - Multicloud/k8s plugin changed to support identifiers of vf-module concept
-- **multicloud/k8s profile** is not mandatory for instantiation of CNF
+- **multicloud/k8s** creates automatically default empty RB profile and profile upload becomes optional for instantiation of CNF
 - CDS is used to create **multicloud/k8s profile** as part of instantiation flow (previously manual step)
 
 Use case does not contain Closed Loop part of the vFW demo.
@@ -46,7 +46,7 @@ One of the biggest practical change compared to the old demos (any ONAP demo) is
 
 Demo git directory has also `Data Dictionary`_ file (CDS model time resource) included.
 
-Another founding idea from the start was to provide complete content in single CSAR available directly from that git repository. Not any revolutionary idea as that's the official package format ONAP supports and all content supposed to be in that same package for single service regardless of the models and closed loops and configurations etc.
+Another founding idea from the start was to provide complete content in single onboarding package available directly from that git repository. Not any revolutionary idea as that's the official package format ONAP supports and all content supposed to be in that same package for single service regardless of the models and closed loops and configurations etc.
 
 Following table describes all the source models to which this demo is based on.
 
@@ -60,12 +60,12 @@ CDS model        `vFW CBA Model`_        CDS CBA model used in `vFW CDS Dublin`_
 
 All changes to related ONAP components and Use Case can be found from this `Jira Epic`_ ticket.
 
-Modeling CSAR/Helm
-..................
+Modeling Onboarding Package/Helm
+................................
 
 The starting point for this demo was Helm package containing one Kubernetes application, see `vFW_Helm Model`_. In this demo we decided to follow SDC/SO vf-module concept the same way as original vFW demo was split into multiple vf-modules instead of one (`vFW_NextGen`_). The same way we splitted Helm version of vFW into multiple Helm packages each matching one dedicated vf-module.
 
-Produced CSAR package has following MANIFEST file (csar/MANIFEST.json) having all Helm packages modeled as dummy Heat resources matching to vf-module concept (that is originated from Heat), so basically each Helm application is visible to ONAP as own vf-module. Actual Helm package is delivered as CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT package through SDC and SO. Dummy heat templates are matched to helm packages by the same prefix of the file name.
+Produced onboarding package has following MANIFEST file (package/MANIFEST.json) having all Helm packages modeled as dummy Heat resources matching to vf-module concept (that is originated from Heat), so basically each Helm application is visible to ONAP as own vf-module. Actual Helm package is delivered as CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT package through SDC and SO. Dummy heat templates are matched to helm packages by the same prefix of the file name.
 
 CDS model (CBA package) is delivered as SDC supported own type CONTROLLER_BLUEPRINT_ARCHIVE.
 
@@ -151,7 +151,7 @@ Changes done:
 
 - SDC distribution broker
 
-    SDC distribution broker is responsible for transformation of the CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACTS into *Definition* object holding the helm package. The change for Frankfurt release considers that singular CSAR package can have many CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACTS, each one for dedicated vf-module associated with dummy heat template. The mapping between vf-module and CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACTS is done on file prefixes. In example, *vfw.yaml* Heat template will result with creation of *vfw* vf-module and its Definition will be created from CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACTS file of name vfw_cloudtech_k8s_charts.tgz. More examples can be found in `Modeling CSAR/Helm`_ section.
+    SDC distribution broker is responsible for transformation of the CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACTS into *Definition* object holding the helm package. The change for Frankfurt release considers that singular onboarding package can have many CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACTS, each one for dedicated vf-module associated with dummy heat template. The mapping between vf-module and CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACTS is done on file prefixes. In example, *vfw.yaml* Heat template will result with creation of *vfw* vf-module and its Definition will be created from CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACTS file of name vfw_cloudtech_k8s_charts.tgz. More examples can be found in `Modeling Onboarding Package/Helm`_ section.
 
 - K8S plugin APIs changed to use VF Module Model Identifiers
 
@@ -228,7 +228,7 @@ Creating CDS model was the core of the use case work and also the most difficult
 
 At first the target was to keep CDS model as close as possible to `vFW_CNF_CDS Model`_ use case model and only add smallest possible changes to enable also k8s usage. That is still the target but in practice model deviated from the original one already and time pressure pushed us to not care about sync. Basically the end result could be possible much streamlined if wanted to be smallest possible to working only for K8S based network functions.
 
-As K8S application was splitted into multiple Helm packages to match vf-modules, CBA modeling follows the same and for each vf-module there's own template in CBA package.
+As K8S application was split into multiple Helm packages to match vf-modules, CBA modeling follows the same and for each vf-module there's own template in CBA package.
 
 ::
 
@@ -277,32 +277,140 @@ As K8S application was splitted into multiple Helm packages to match vf-modules,
 
 Only **resource-assignment** workflow of the CBA model is utilized in this demo. If final CBA model contains also **config-deploy** workflow it's there just to keep parity with original vFW CBA (for VMs). Same applies for the related template *Templates/nf-params-template.vtl* and it's mapping file.
 
-The interesting part on CBA model is the **profile-upload** sub step of imperative workflow where Kotlin script is used to upload K8S profile into multicloud/k8s API.
+Another advance of the presented use case over solution presented in the Dublin release is possibility of the automatic generation and upload to multicloud/k8s plugin the RB profile content.
+RB profile can be used to enrich or to modify the content of the original helm package. Profile can be also used to add additional k8s helm templates for helm installation or can be used to
+modify existing k8s helm templates for each create CNF instance. It opens another level of CNF customization, much more than customization og helm package with override values.
 
 ::
 
-    "profile-upload" : {
-      "type" : "component-script-executor",
-      "interfaces" : {
-        "ComponentScriptExecutor" : {
-          "operations" : {
-            "process" : {
-              "inputs" : {
-                "script-type" : "kotlin",
-                "script-class-reference" : "org.onap.ccsdk.cds.blueprintsprocessor.services.execution.scripts.K8sProfileUpload",
-                "dynamic-properties" : "*profile-upload-properties"
-              }
+  ---
+  version: v1
+  type:
+    values: “override_values.yaml”
+    configresource:
+      - filepath: resources/deployment.yaml
+        chartpath: templates/deployment.yaml
+
+
+Above we have exemplary manifest file of the RB profile. Since Frankfurt *override_values.yaml* file does not need to be used as instantiation values are passed to the plugin over Instance API of k8s plugin. In the example profile contains additional k8s helm template which will be added on demand 
+to the helm package during its installation. In our case, depending on the SO instantiation request input parameters, vPGN helm package can be enriched with additional ssh service. Such service will be dynamically added to the profile by CDS and later on CDS will upload whole custom RB profile to multicloud/k8s plugin.
+
+In order to support generation and upload of profile, our vFW CBA model has enhanced **resource-assignment** workflow which contains additional steps, **profile-modification** and **profile-upload**. For the last step custom Kotlin script included in the CBA is used to upload K8S profile into multicloud/k8s plugin.
+
+::
+
+    "resource-assignment": {
+        "steps": {
+            "resource-assignment": {
+                "description": "Resource Assign Workflow",
+                "target": "resource-assignment",
+                "activities": [
+                    {
+                        "call_operation": "ResourceResolutionComponent.process"
+                    }
+                ],
+                "on_success": [
+                    "profile-modification"
+                ]
+            },
+            "profile-modification": {
+                "description": "Profile Modification Resources",
+                "target": "profile-modification",
+                "activities": [
+                    {
+                        "call_operation": "ResourceResolutionComponent.process"
+                    }
+                ],
+                "on_success": [
+                    "profile-upload"
+                ]
+            },
+            "profile-upload": {
+                "description": "Upload K8s Profile",
+                "target": "profile-upload",
+                "activities": [
+                    {
+                        "call_operation": "ComponentScriptExecutor.process"
+                    }
+                ]
             }
-          }
+        },
+
+Profile generation step uses embedded into CDS functionality of templates processing and on its basis ssh port number (specified in the SO request as vpg-management-port) is included in the ssh service helm template. 
+
+::
+
+  apiVersion: v1
+  kind: Service
+  metadata:
+    name: {{ .Values.vpg_name_0 }}-ssh-access
+    labels:
+      vnf-name: {{ .Values.vnf_name }}
+      vf-module-name: {{ .Values.vpg_name_0 }}
+      release: {{ .Release.Name }}
+      chart: {{ .Chart.Name }}
+  spec:
+    type: NodePort
+    ports:
+      - port: 22
+        nodePort: ${vpg-management-port}
+    selector:
+      vf-module-name: {{ .Values.vpg_name_0 }}
+      release: {{ .Release.Name }}
+      chart: {{ .Chart.Name }}
+
+To upload of the profile is conducted with the CDS capability to execute Kotlin scripts. It allows to define any required controller logic. In our case we use to implement decision point and mechanisms of profile generation and upload.
+During the generation CDS extracts the RB profile template included in the CBA, includes there generated ssh service helm template, modifies the manifest of RB template by adding there ssh service and after its archivisation sends the profile to 
+k8s plugin.
+
+::
+
+    "profile-modification": {
+        "type": "component-resource-resolution",
+        "interfaces": {
+            "ResourceResolutionComponent": {
+                "operations": {
+                    "process": {
+                        "inputs": {
+                            "artifact-prefix-names": [
+                                "ssh-service"
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "artifacts": {
+            "ssh-service-template": {
+                "type": "artifact-template-velocity",
+                "file": "Templates/k8s-profiles/ssh-service-template.vtl"
+            },
+            "ssh-service-mapping": {
+                "type": "artifact-mapping-resource",
+                "file": "Templates/k8s-profiles/ssh-service-mapping.json"
+            }
         }
-      }
+    },
+    "profile-upload": {
+        "type": "component-script-executor",
+        "interfaces": {
+            "ComponentScriptExecutor": {
+                "operations": {
+                    "process": {
+                        "inputs": {
+                            "script-type": "kotlin",
+                            "script-class-reference": "org.onap.ccsdk.cds.blueprintsprocessor.services.execution.scripts.K8sProfileUpload",
+                            "dynamic-properties": "*profile-upload-properties"
+                        }
+                    }
+                }
+            }
+        }
     }
 
-Kotlin script expects that K8S profile package named like "k8s-rb-profile-name".tar.gz is present in CBA "Templates/k8s-profiles directory" where "k8s-rb-profile-name" is one of the CDS resolved parameters (user provides as input parameter).
+Kotlin script expects that K8S profile template named like "k8s-rb-profile-name".tar.gz is present in CBA "Templates/k8s-profiles" directory where **k8s-rb-profile-name** is one of the CDS resolved parameters (user provides as input parameter) and in our case it has a value **vfw-cnf-cds-base-profile**.
 
-**TODO: something about the content and structure of profile package**
-
-As `Data Dictionary`_ is also included into demo git directory, re-modeling and making changes into model utilizing CDS model time / runtime is easier as used DD is also known.
+Finally, `Data Dictionary`_ is also included into demo git directory, re-modeling and making changes into model utilizing CDS model time / runtime is easier as used DD is also known.
 
 UAT
 +++
@@ -428,7 +536,7 @@ where my_cba.zip is the original cba model and input_uat.yml is following in thi
                 aic-cloud-region: *cloud-region
 
 
-**NOTE:** This call will run all the calls (given in input_uat.yml) towards CDS and records the functionality, so there needs to be working environment (SDNC, AAI, Naming, Netbox, etc.) to record valid final uat.yml.
+.. note::  This call will run all the calls (given in input_uat.yml) towards CDS and records the functionality, so there needs to be working environment (SDNC, AAI, Naming, Netbox, etc.) to record valid final uat.yml.
 As an output of this call final uat.yml content is received. Final uat.yml in this use case looks like this:
 
 ::
@@ -469,7 +577,7 @@ ONAP Component name                                       Describtion
 -------------------------------------------------------   -----------
 AAI                                                       Required for Inventory Cloud Owner, Customer, Owning Entity, Service, Generic VNF, VF Module
 SDC                                                       VSP, VF and Service Modeling of the CNF
-DMAAP                                                     Distribution of the CSAR including CBA to all ONAP components
+DMAAP                                                     Distribution of the onboarding package including CBA to all ONAP components
 SO                                                        Requires for Macro Orchestration using the generic building blocks
 CDS                                                       Resolution of cloud parameters including Helm override parameters for the CNF. Creation of the multicloud/k8s profile for CNF instantion.
 SDNC (needs to include netbox and Naming Generation mS)   Provides GENERIC-RESOURCE-API for cloud Instantiation orchestration via CDS.
@@ -581,7 +689,7 @@ We will need to apply a few modifications to the deployed ONAP Frankfurt instanc
 Retrieving logins and passwords of ONAP components
 ..................................................
 
-Since Frankfurt release hardcoded passwords were mostly removed and it is possible to configure passwords of ONAP components in time of installation. In order to retrieve these passwords with associated logins it is required to get them with kubectl. Below is the procedure on mariadb-galera DB example.
+Since Frankfurt release hardcoded passwords were mostly removed and it is possible to configure passwords of ONAP components in time of their installation. In order to retrieve these passwords with associated logins it is required to get them with kubectl. Below is the procedure on mariadb-galera DB component example.
 
 ::
 
@@ -595,19 +703,19 @@ Postman collection setup
 
 In this demo we have on purpose created all manual ONAP preparation steps (which in real life are automated) by using Postman so it will be clear what exactly is needed. Some of the steps like AAI population is automated by Robot scripts in other ONAP demos (**./demo-k8s.sh onap init**) and Robot script could be used for many parts also in this demo. Later when this demo is fully automated we probably update also Robot scripts to support this demo.
 
-Postman collection is used also to trigger instantion using SO APIs.
+Postman collection is used also to trigger instantiation using SO APIs.
 
-Following steps are needed to setup postman:
+Following steps are needed to setup Postman:
 
-- Import this postman collection zip
+- Import this Postman collection zip
 
-  :download: `Postman collection <files/vFW_CNF_CDS/postman.zip>`
+  :download:`Postman collection <files/vFW_CNF_CDS/postman.zip>`
 
 - Extract the zip and import 2 postman collection and environment files into Postman
     - `vFW_CNF_CDS.postman_collection.json`
     - `vFW_CNF_CDS.postman_environment.json`
 
-- For use case debugging purposes to get Kubernetes cluster external access to SO CatalogDB (GET operations only), modify SO CatalogDB service to NodePort instead of ClusterIP. You may also create separate own NodePort if you wish, but here we have just edited directly the service with kubectl. Note that the port number 30120 is used in postman collection.
+- For use case debugging purposes to get Kubernetes cluster external access to SO CatalogDB (GET operations only), modify SO CatalogDB service to NodePort instead of ClusterIP. You may also create separate own NodePort if you wish, but here we have just edited directly the service with kubectl.
 
 ::
 
@@ -616,9 +724,11 @@ Following steps are needed to setup postman:
          + .spec.type: NodePort
          + .spec.ports[0].nodePort: 30120
 
+.. note::  The port number 30120 is used in included Postman collection
+
 **Postman variables:**
 
-Most of the postman variables are automated by postman scripts and environment file provided, but there are few mandatory variables to fill by user.
+Most of the Postman variables are automated by Postman scripts and environment file provided, but there are few mandatory variables to fill by user.
 
 ===================  ===================
 Variable             Description
@@ -654,12 +764,12 @@ Create all these entries into AAI in this order. Postman collection provided in 
 - Create Project
 - Create Line Of Business
 
-Corresponding GET operations in postman can be used to verify entries created. Postman collection also includes some code that tests/verifies some basic issues e.g. gives error if entry already exists.
+Corresponding GET operations in Postman can be used to verify entries created. Postman collection also includes some code that tests/verifies some basic issues e.g. gives error if entry already exists.
 
 SO BPMN endpoint fix for VNF adapter requests (v1 -> v2)
 ........................................................
 
-SO Openstack adapter needs to be updated to use newer version. Here is also possible improvement area in SO. Openstack adapter is confusing in context of this use case as VIM is not Openstack but Kubernetes cloud region. In this use case we did not used Openstack at all.
+SO Openstack adapter needs to be updated to use newer version. Here is also possible improvement area in SO. OpenStack adapter is confusing in context of this use case as VIM is not Openstack but Kubernetes cloud region. In this use case we did not used Openstack at all.
 
 ::
 
@@ -684,6 +794,8 @@ Network Naming mS
 
 There's a strange feature or bug in naming service still at ONAP Frankfurt and following hack needs to be done to make it work.
 
+.. note:: Please change credentials respectively to your installation. The required credentials can be retrieved with instruction `Retrieving logins and passwords of ONAP components`_
+
 ::
 
   # Go into naming service database
@@ -692,8 +804,6 @@ There's a strange feature or bug in naming service still at ONAP Frankfurt and f
     # Delete entries from EXTERNAL_INTERFACE table
     delete from EXTERNAL_INTERFACE;
     select * from EXTERNAL_INTERFACE;
-
-.. note:: The required credentials can be retrieved with instruction `Retrieving logins and passwords of ONAP components`_
 
 PART 2 - Installation of managed Kubernetes cluster
 ---------------------------------------------------
@@ -744,6 +854,8 @@ SO database needs to be (manually) modified for SO to know that this particular 
 The related code part in SO is here: `SO Cloud Region Selection`_
 It's possible improvement place in SO to rather get this information directly from AAI.
 
+.. note:: Please change credentials respectively to your installation. The required credentials can be retrieved with instruction `Retrieving logins and passwords of ONAP components`_
+
 ::
 
     kubectl -n onap exec onap-mariadb-galera-0 -it -- mysql -uroot -psecretpassword -D catalogdb
@@ -751,8 +863,6 @@ It's possible improvement place in SO to rather get this information directly fr
         insert into cloud_sites(ID, REGION_ID, IDENTITY_SERVICE_ID, CLOUD_VERSION, CLLI, ORCHESTRATOR) values("k8sregionfour", "k8sregionfour", "DEFAULT_KEYSTONE", "2.5", "clli2", "multicloud");
         select * from cloud_sites;
         exit
-
-.. note:: The required credentials can be retrieved with instruction `Retrieving logins and passwords of ONAP components`_
 
 PART 3 - Execution of the Use Case
 ----------------------------------
@@ -769,13 +879,14 @@ Following picture describes the overall sequential flow of the use case.
 3-1 Onboarding
 ~~~~~~~~~~~~~~
 
-Creating CSAR
-.............
+Creating Onboarding Package
+...........................
 
-Whole content of this use case is stored into single git repository and ONAP user content package CSAR package can be created with provided Makefile.
+Whole content of this use case is stored into single git repository and ONAP user content package of onboarding package can be created with provided Makefile.
 
-Complete content can be packaged to single CSAR file in following way:
-(Note: requires Helm installed)
+Complete content can be packaged to single onboarding package file in the following way:
+
+.. note::  Requires Helm installed
 
 ::
 
@@ -786,7 +897,7 @@ Complete content can be packaged to single CSAR file in following way:
 The output looks like:
 ::
 
-  mkdir csar/
+  mkdir package/
   make -C helm
   make[1]: Entering directory '/home/samuli/onapCode/demo/heat/vFW_CNF_CDS/templates/helm'
   rm -f base_template-*.tgz
@@ -810,8 +921,8 @@ The output looks like:
   Successfully packaged chart and saved it to: /home/samuli/onapCode/demo/heat/vFW_CNF_CDS/templates/helm/vsn-0.2.0.tgz
   mv vsn-*.tgz vsn_cloudtech_k8s_charts.tgz
   make[1]: Leaving directory '/home/samuli/onapCode/demo/heat/vFW_CNF_CDS/templates/helm'
-  mv helm/*.tgz csar/
-  cp base/* csar/
+  mv helm/*.tgz package/
+  cp base/* package/
   cd cba/ && zip -r vFW_CDS_CNF.zip .
     adding: TOSCA-Metadata/ (stored 0%)
     adding: TOSCA-Metadata/TOSCA.meta (deflated 38%)
@@ -842,9 +953,9 @@ The output looks like:
     adding: Definitions/data_types.json (deflated 93%)
     adding: Definitions/resources_definition_types.json (deflated 95%)
     adding: Definitions/relationship_types.json (stored 0%)
-  mv cba/vFW_CDS_CNF.zip csar/
-  #Can't use .csar extension or SDC will panic
-  cd csar/ && zip -r vfw_k8s_demo.zip .
+  mv cba/vFW_CDS_CNF.zip package/
+  #Can't use .package extension or SDC will panic
+  cd package/ && zip -r vfw_k8s_demo.zip .
     adding: base_template_cloudtech_k8s_charts.tgz (stored 0%)
     adding: MANIFEST.json (deflated 83%)
     adding: base_template.yaml (deflated 63%)
@@ -859,7 +970,7 @@ The output looks like:
     adding: vsn.env (deflated 53%)
     adding: vpkg.env (deflated 55%)
     adding: vfw.env (deflated 58%)
-  mv csar/vfw_k8s_demo.zip .
+  mv package/vfw_k8s_demo.zip .
   $
 
 and package **vfw_k8s_demo.zip** file is created containing all sub-models.
@@ -874,7 +985,7 @@ Create VSP, VLM, VF, ..., Service in SDC
 
 **TODO: make better steps**
 
-On VF level, add CBA separately as it's not onboarded by default from CSAR correctly
+On VF level, add CBA separately as it's not onboarded by default from onboarding package correctly
 
 Service -> Properties Assignment -> Choose VF (at right box):
     - skip_post_instantiation_configuration - True
@@ -1005,6 +1116,8 @@ Verify distribution for:
 
     **TODO: verify below the customization_uuid where it is got**
 
+.. note:: Please change credentials respectively to your installation. The required credentials can be retrieved with instruction `Retrieving logins and passwords of ONAP components`_
+
     ::
 
         kubectl -n onap exec onap-mariadb-galera-mariadb-galera-0 -it -- sh
@@ -1017,9 +1130,7 @@ Verify distribution for:
         +-----------------+--------------------+--------------------+
         1 row in set (0.00 sec)
 
-        # Where customization_uuid is the modelCustomizationUuid of the VNf (serviceVnfs response in 2nd postman call from SO Catalog DB)
-
-.. note:: The required credentials can be retrieved with instruction `Retrieving logins and passwords of ONAP components`_
+        # Where customization_uuid is the modelCustomizationUuid of the VNf (serviceVnfs response in 2nd Postman call from SO Catalog DB)
 
 - CDS:
 
@@ -1131,7 +1242,10 @@ The successful reply payload in that query should start like this:
 
 **TODO: fix COMPLETED payload**
 
-Progress can be followed also with `SO Monitoring`_.
+Progress can be followed also with `SO Monitoring`_ dashboard.
+
+.. note::  In Frankfurt release *SO Monitoring* dashboard was removed from officail release and before it can be used it must be exposed and default user credentials must be configured
+
 
 Second instance Instantion
 ..........................
@@ -1223,7 +1337,7 @@ Component Logs From The Execution
 
 All logs from the use case execution are here:
 
-  :download: `logs <files/vFW_CNF_CDS/logs.zip>`
+  :download:`logs <files/vFW_CNF_CDS/logs.zip>`
 
 - `so-bpmn-infra_so-bpmn-infra_debug.log`
 - SO openstack adapter
@@ -1286,7 +1400,7 @@ Future development areas for this use case and in general for CNF support could 
 
 Multiple lower level bugs/issues were also found during use case development
 
-- Distribution of Helm package directly from CSAR package `SDC-2776`_
+- Distribution of Helm package directly from onboarding package `SDC-2776`_
 
 
 .. _ONAP Deployment Guide: https://docs.onap.org/en/frankfurt/submodules/oom.git/docs/oom_quickstart_guide.html#quick-start-label
@@ -1303,7 +1417,7 @@ Multiple lower level bugs/issues were also found during use case development
 .. _KUD subproject in github: https://github.com/onap/multicloud-k8s/tree/master/kud
 .. _KUD Jenkins ci/cd verification: https://jenkins.onap.org/job/multicloud-k8s-master-kud-deployment-verify-shell/
 .. _SO Cloud Region Selection: https://git.onap.org/so/tree/adapters/mso-openstack-adapters/src/main/java/org/onap/so/adapters/vnf/MsoVnfPluginAdapterImpl.java?h=elalto#n1149
-.. _SO Monitoring: http://so-monitoring:30224
+.. _SO Monitoring: https://wiki.onap.org/display/DW/SO+Monitoring+User+Guide
 .. _Jira Epic: https://jira.onap.org/browse/INT-1184
 .. _Data Dictionary: https://git.onap.org/demo/tree/heat/vFW_CNF_CDS/templates/cba-dd.json?h=frankfurt
 .. _Helm Healer: https://git.onap.org/oom/offline-installer/tree/tools/helm-healer.sh
