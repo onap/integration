@@ -1,9 +1,4 @@
-import MassPnfSim
 import pytest
-
-@pytest.fixture(scope="module")
-def parser():
-    return MassPnfSim.get_parser()
 
 @pytest.mark.parametrize(('expect_string, cli_opts'), [
     ("bootstrap: error: the following arguments are required: --urlves, --ipfileserver, --typefileserver, --ipstart",
