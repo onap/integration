@@ -28,3 +28,7 @@ def args_status(parser):
 @pytest.fixture(scope="module")
 def args_trigger(parser):
     return parser.parse_args(['trigger'])
+
+@pytest.fixture(scope="module")
+def args_trigger_custom(parser):
+    return parser.parse_args(['trigger_custom', '--triggerstart', '0', '--triggerend', str(SIM_INSTANCES-1)])
