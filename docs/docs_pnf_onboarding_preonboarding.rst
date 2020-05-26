@@ -25,3 +25,8 @@ How to Use
 - PNF onboarding (SDC Resource Onboarding)
   The onboarding step is mandatory in ONAP.
   A vendor-provided PNF onboarding package must be onboarded according to procedure: `SDC Resource Onboarding <https://docs.onap.org/en/frankfurt/guides/onap-user/design/resource-onboarding/index.html>`_
+<<<<<<< HEAD   (153404 Update helm and kubectl versions)
+=======
+
+
+>>>>>>> CHANGE (6294af Read the docs improvement for 5G - PNF Pre-Onboarding and On)
