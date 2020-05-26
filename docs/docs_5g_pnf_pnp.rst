@@ -9,7 +9,7 @@
 Source files
 ~~~~~~~~~~~~
 
-- Base PnP PNF Simulator heat template file: https://gerrit.onap.org/r/gitweb?p=integration/simulators/pnf-simulator.git;a=blob_plain;f=deployment/src/simulators_heat_template.yaml
+- Base PnP PNF Simulator docker compose file: https://gerrit.onap.org/r/gitweb?p=integration/simulators/pnf-simulator.git;a=blob_plain;f=pnfsimulator/docker-compose.yml;hb=refs/heads/master
 
 Description
 ~~~~~~~~~~~
@@ -20,9 +20,8 @@ The PNF Plug and Play is a procedure that is executed between a PNF and ONAP. In
 
 - `5G - PNF Plug and Play use case documentation <https://wiki.onap.org/display/DW/5G+-+PNF+Plug+and+Play>`_
 - `5G - PNF Plug and Play - Integration Test Cases <https://wiki.onap.org/display/DW/5G+-+PNF+PnP+-+Integration+Test+Cases>`_
-- `Instruction how to setup PnP PNF Simulator <https://wiki.onap.org/display/DW/PnP+PNF+Simulator>`_
-- `Instruction how to use PnP PNF Simulator <https://gerrit.onap.org/r/gitweb?p=integration%2Fsimulators%2Fpnf-simulator.git;a=blob_plain;f=pnfsimulator/README.md>`_
-
+- `Instruction how to setup and use PnP PNF Simulator <https://gerrit.onap.org/r/gitweb?p=integration/simulators/pnf-simulator.git;a=blob_plain;f=pnfsimulator/README.md;hb=refs/heads/master>`_
+- `PnP PNF Simulator git repository <https://gerrit.onap.org/r/gitweb?p=integration/simulators/pnf-simulator.git;a=summary>`_
 How to Use
 ~~~~~~~~~~
 
