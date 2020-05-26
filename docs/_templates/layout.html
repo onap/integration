@@ -1,0 +1,19 @@
+{# Import the theme's layout. #}
+{% extends "!layout.html" %}
+
+{# Custom CSS override for warning banner #}
+{% set css_files = css_files + ['_static/css/ribbon.css'] %}
+
+{# Ribbon #}
+{% block content %}
+  <div class="ribbon">
+    <a href="https://jira.onap.org/secure/CreateIssueDetails!init.jspa
+?pid=10111
+&issuetype=10004
+&priority=2
+&description=version:+{{version}}%0Apage:+{{pagename}}%0A%0A" target="_blank">
+      Report Issue
+    </a>
+  </div>
+  {{ super() }}
+{% endblock %}
