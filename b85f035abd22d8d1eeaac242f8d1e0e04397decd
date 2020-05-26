@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2fdbe39a_abd2bcb9",
+        "filename": "docs/docs_pnf_onboarding_preonboarding.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5597
+      },
+      "writtenOn": "2020-05-26T14:21:10Z",
+      "side": 1,
+      "message": "typo - should be: \"onboarding\"",
+      "range": {
+        "startLine": 15,
+        "startChar": 26,
+        "endLine": 15,
+        "endChar": 36
+      },
+      "revId": "b85f035abd22d8d1eeaac242f8d1e0e04397decd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cf52f98_4615e2f1",
+        "filename": "docs/docs_pnf_onboarding_preonboarding.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5597
+      },
+      "writtenOn": "2020-05-26T14:21:10Z",
+      "side": 1,
+      "message": "comma \",\" between SDC onboarding, PNF onboarding package",
+      "range": {
+        "startLine": 15,
+        "startChar": 7,
+        "endLine": 15,
+        "endChar": 25
+      },
+      "revId": "b85f035abd22d8d1eeaac242f8d1e0e04397decd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9665d32b_98a1bb46",
+        "filename": "docs/docs_pnf_onboarding_preonboarding.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5597
+      },
+      "writtenOn": "2020-05-26T14:21:10Z",
+      "side": 1,
+      "message": "typo: \"vendor-provided\"",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 27,
+        "endChar": 19
+      },
+      "revId": "b85f035abd22d8d1eeaac242f8d1e0e04397decd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
