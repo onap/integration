@@ -18,8 +18,9 @@ linkcheck_ignore = [
 
 intersphinx_mapping = {}
 
+html_theme = 'sphinx_rtd_theme'
 html_last_updated_fmt = '%d-%b-%y %H:%M'
 html_theme_options = {'body_max_width': '100%'}
 
 def setup(app):
-    app.add_stylesheet("css/ribbon_onap.css")
+    app.add_stylesheet("css/ribbon.css")
