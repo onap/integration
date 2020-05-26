@@ -90,7 +90,7 @@ The use case has been automated by vcpe_tosca_test scripts. The followings are t
 
       "cloud_region_data": {
            "RegionOne":(update to your Region name) {
-               "cloud-region-version": "titanium_cloud",
+               "cloud-region-version": the cloud region version of your Cloud region,
                 "esr-system-info-id": "1111ce1f-aa78-4ebf-8d6f-4b62773e9b01",
                 "service-url": the ip change to your openstack ip address,
                 "user-name": the user name you created on openstack,
