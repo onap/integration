@@ -1,0 +1,280 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "170e3712_b79e1d39",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 2701
+      },
+      "writtenOn": "2020-05-27T16:20:04Z",
+      "side": 1,
+      "message": "can we change it everywhere to CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT? (I know that this section was added by before..)",
+      "range": {
+        "startLine": 154,
+        "startChar": 246,
+        "endLine": 154,
+        "endChar": 281
+      },
+      "revId": "6bbab5214cb05681b546b1879991352990996a34",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90739038_1ece259d",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 2701
+      },
+      "writtenOn": "2020-05-27T16:20:04Z",
+      "side": 1,
+      "message": "version bump needed",
+      "range": {
+        "startLine": 459,
+        "startChar": 31,
+        "endLine": 459,
+        "endChar": 37
+      },
+      "revId": "6bbab5214cb05681b546b1879991352990996a34",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85b366e0_821141ad",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 2701
+      },
+      "writtenOn": "2020-05-27T16:20:04Z",
+      "side": 1,
+      "message": "capital letter",
+      "range": {
+        "startLine": 716,
+        "startChar": 29,
+        "endLine": 716,
+        "endChar": 30
+      },
+      "revId": "6bbab5214cb05681b546b1879991352990996a34",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2293b674_75a8789a",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 2701
+      },
+      "writtenOn": "2020-05-27T16:20:04Z",
+      "side": 1,
+      "message": "let copy paste note like in other sections with passwords used - we need to current password and user with kubectl secrets",
+      "range": {
+        "startLine": 791,
+        "startChar": 2,
+        "endLine": 793,
+        "endChar": 57
+      },
+      "revId": "6bbab5214cb05681b546b1879991352990996a34",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1256fb8d_1374ad57",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 2701
+      },
+      "writtenOn": "2020-05-27T16:20:04Z",
+      "side": 1,
+      "message": "K8s Cloud Region Registration",
+      "range": {
+        "startLine": 841,
+        "startChar": 13,
+        "endLine": 841,
+        "endChar": 18
+      },
+      "revId": "6bbab5214cb05681b546b1879991352990996a34",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "395f61a1_fa518dd5",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 1018,
+      "author": {
+        "id": 2701
+      },
+      "writtenOn": "2020-05-27T16:20:04Z",
+      "side": 1,
+      "message": "should not be 1.0?",
+      "range": {
+        "startLine": 1018,
+        "startChar": 23,
+        "endLine": 1018,
+        "endChar": 28
+      },
+      "revId": "6bbab5214cb05681b546b1879991352990996a34",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eaef744a_6e09e772",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 1054,
+      "author": {
+        "id": 2701
+      },
+      "writtenOn": "2020-05-27T16:20:04Z",
+      "side": 1,
+      "message": "this is not inline with current version of the model",
+      "range": {
+        "startLine": 1054,
+        "startChar": 2060,
+        "endLine": 1054,
+        "endChar": 2088
+      },
+      "revId": "6bbab5214cb05681b546b1879991352990996a34",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89f3e795_9971acfa",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 1130,
+      "author": {
+        "id": 2701
+      },
+      "writtenOn": "2020-05-27T16:20:04Z",
+      "side": 1,
+      "message": "change version here",
+      "range": {
+        "startLine": 1130,
+        "startChar": 27,
+        "endLine": 1130,
+        "endChar": 33
+      },
+      "revId": "6bbab5214cb05681b546b1879991352990996a34",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "413447b4_ed5496aa",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 1134,
+      "author": {
+        "id": 2701
+      },
+      "writtenOn": "2020-05-27T16:20:04Z",
+      "side": 1,
+      "message": "capital letter",
+      "range": {
+        "startLine": 1134,
+        "startChar": 74,
+        "endLine": 1134,
+        "endChar": 75
+      },
+      "revId": "6bbab5214cb05681b546b1879991352990996a34",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07483551_b0887771",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 1150,
+      "author": {
+        "id": 2701
+      },
+      "writtenOn": "2020-05-27T16:20:04Z",
+      "side": 1,
+      "message": "update model versions",
+      "range": {
+        "startLine": 1149,
+        "startChar": 19,
+        "endLine": 1150,
+        "endChar": 84
+      },
+      "revId": "6bbab5214cb05681b546b1879991352990996a34",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a72db5b3_f2ace3a7",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 1155,
+      "author": {
+        "id": 2701
+      },
+      "writtenOn": "2020-05-27T16:20:04Z",
+      "side": 1,
+      "message": "Samuli is not afraid of spam he can have if we keep original e-mail?",
+      "range": {
+        "startLine": 1155,
+        "startChar": 46,
+        "endLine": 1155,
+        "endChar": 76
+      },
+      "revId": "6bbab5214cb05681b546b1879991352990996a34",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4425085b_a84d9cc6",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 1309,
+      "author": {
+        "id": 2701
+      },
+      "writtenOn": "2020-05-27T16:20:04Z",
+      "side": 1,
+      "message": "vpgn ssh service missing here - needs to be updated",
+      "range": {
+        "startLine": 1309,
+        "startChar": 0,
+        "endLine": 1309,
+        "endChar": 132
+      },
+      "revId": "6bbab5214cb05681b546b1879991352990996a34",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
