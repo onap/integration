@@ -2,7 +2,6 @@
 5G Realtime PM and High Volume Stream Data Collection, :ref:`official doc <docs_realtime_pm>`,M.Przybysz
 5G PNF Plug and Play, :ref:`official doc <docs_5g_pnf_pnp>`, M.Przybysz K.Kuzmicki
 5G Bulk PM, :ref:`official doc <docs_5g_bulk_pm>`, J.Cuddy
-5G OOF and PCI,:ref:`official doc <docs_5G_oof_pci>`, Reshmasree c
 5G NRM Network Resource Model (Configuration management),:ref:`official doc <docs_5G_NRM_Configuration>`,Y.Wang C.Huang
 5G NETCONF configuration,:ref:`official doc <docs_5G_Configuration_over_NETCONF>`, A.D.Singh
 5G PNF Pre-Onboarding & Onboarding,,M.Przybysz K.Kuzmicki D.Melia A.Walshe
