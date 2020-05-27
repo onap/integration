@@ -8,10 +8,9 @@
    :depth: 4
 ..
 
+----------------------
 vFirewall CNF Use Case
 ----------------------
-
-#FIXME - update all pod names
 
 Source files
 ~~~~~~~~~~~~
@@ -28,7 +27,7 @@ Following improvements were made in the Use Case or related ONAP components:
 - Changed vFW Kubernetes Helm charts to support overrides (previously mostly hardcoded values)
 - Combined all models (Heat, Helm, CBA) in to same git repo and a creating single onboarding package `vFW_CNF_CDS Model`_
 - Compared to `vFW EDGEX K8S`_ use case **MACRO** workflow in SO is used instead of VNF a'la carte workflow. (this is general requirement to utilize CDS as part of instantiation flow)
-- SDC accepts Onboarding Package with many helm packages what allows to keep decomposition of service instance similar to `vFW CDS Dublin`
+- SDC accepts Onboarding Package with many helm packages what allows to keep decomposition of service instance similar to `vFW CDS Dublin`_
 - CDS is used to resolve instantiation time parameters (Helm override)
   - Ip addresses with IPAM
   - Unique names for resources with ONAP naming service
@@ -151,7 +150,7 @@ Changes done:
 
 - SDC distribution broker
 
-    SDC distribution broker is responsible for transformation of the CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACTS into *Definition* object holding the helm package. The change for Frankfurt release considers that singular onboarding package can have many CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACTS, each one for dedicated vf-module associated with dummy heat template. The mapping between vf-module and CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACTS is done on file prefixes. In example, *vfw.yaml* Heat template will result with creation of *vfw* vf-module and its Definition will be created from CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACTS file of name vfw_cloudtech_k8s_charts.tgz. More examples can be found in `Modeling Onboarding Package/Helm`_ section.
+    SDC distribution broker is responsible for transformation of the CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT into *Definition* object holding the helm package. The change for Frankfurt release considers that singular onboarding package can have many CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT, each one for dedicated vf-module associated with dummy heat template. The mapping between vf-module and CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT is done on file prefixes. In example, *vfw.yaml* Heat template will result with creation of *vfw* vf-module and its Definition will be created from CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT file of name vfw_cloudtech_k8s_charts.tgz. More examples can be found in `Modeling Onboarding Package/Helm`_ section.
 
 - K8S plugin APIs changed to use VF Module Model Identifiers
 
@@ -208,13 +207,13 @@ Changes done:
     
     ======================== ==============================================
 
-- Default override support was added to the plugin
+- Default profile support was added to the plugin
 
-    **TODO: Some content here, maybe also picture**
+    K8splugin now creates dummy "default" profile on each resource bundle registration. Such profile doesn't contain any content inside and allows instantiation of CNF without the need to define additional profile, however this is still possible. In this use-case, CBA has been defined in a way, that it can template some simple profile that can be later put by CDS during resource-assignment instantiation phase and later picked up for instantiation. This happens when using second prepared instantiation call for instantiation: **Postman -> LCM -> 6. [SO] Self-Serve Service Assign & Activate - Second**
 
 - Instantiation time override support was added to the plugin
 
-    **TODO: Some content here, maybe also picture**
+    K8splugin allows now specifying override parameters (similar to --set behavior of helm client) to instantiated resource bundles. This allows for providing dynamic parameters to instantiated resources without the need to create new profiles for this purpose.
 
 
 CDS Model (CBA)
@@ -225,6 +224,8 @@ Creating CDS model was the core of the use case work and also the most difficult
 - CDS documentation (even being new component) is inadequate or non-existent for service modeler user. One would need to be CDS developer to be able to do something with it.
 - CDS documentation what exists is non-versioned (in ONAP wiki when should be in git) so it's mostly impossible to know what features are for what release.
 - Our little experience of CDS (not CDS developers)
+
+Although initial development of template wasn't easy, current template used by use-case should be easily reusable for anyone. Once CDS GUI will be fully working, we think that CBA development should be much easier. For CBA structure reference, please visit it's documentation page `CDS Modeling Concepts`_.
 
 At first the target was to keep CDS model as close as possible to `vFW_CNF_CDS Model`_ use case model and only add smallest possible changes to enable also k8s usage. That is still the target but in practice model deviated from the original one already and time pressure pushed us to not care about sync. Basically the end result could be possible much streamlined if wanted to be smallest possible to working only for K8S based network functions.
 
@@ -427,7 +428,7 @@ To verify CBA with uat.yaml and CDS runtime do following:
 
   ::
 
-      kubectl -n onap edit deployment onap-cds-cds-blueprints-processor
+      kubectl -n onap edit deployment onap-cds-blueprints-processor
 
       # add env variable for cds-blueprints-processor container:
                 name: spring_profiles_active
@@ -565,6 +566,7 @@ The figure below shows all the interactions that take place during vFW CNF insta
 
    vFW CNF CDS Use Case Runtime interactions.
 
+--------------------------
 PART 1 - ONAP Installation
 --------------------------
 1-1 Deployment components
@@ -586,7 +588,7 @@ AAF                                                       Used for Authenticatio
 Portal                                                    Required to access SDC.
 MSB                                                       Exposes multicloud interfaces used by SO.
 Multicloud                                                K8S plugin part used to pass SO instantiation requests to external Kubernetes cloud region.
-Contrib                                                   Netbox utility #FIXME
+Contrib                                                   Chart containing multiple external components. Out of those, we only use Netbox utility in this use-case for IPAM
 Robot                                                     Optional. Can be used for running automated tasks, like provisioning cloud customer, cloud region, service subscription, etc ..
 Shared Cassandra DB                                       Used as a shared storage for ONAP components that rely on Cassandra DB, like AAI
 Shared Maria DB                                           Used as a shared storage for ONAP components that rely on Maria DB, like SDNC, and SO
@@ -711,7 +713,7 @@ Following steps are needed to setup Postman:
 
   :download:`Postman collection <files/vFW_CNF_CDS/postman.zip>`
 
-- Extract the zip and import 2 postman collection and environment files into Postman
+- Extract the zip and import Postman collection into Postman. Environment file is provided for reference, it's better to create own environment on your own providing variables as listed in next chapter.
     - `vFW_CNF_CDS.postman_collection.json`
     - `vFW_CNF_CDS.postman_environment.json`
 
@@ -726,27 +728,36 @@ Following steps are needed to setup Postman:
 
 .. note::  The port number 30120 is used in included Postman collection
 
+- You may also want to inspect after SDC distribution if CBA has been correctly delivered to CDS. In order to do it, there are created relevant calls later described in doc, however CDS since Frankfurt doesn't expose blueprints-processor's service as NodePort. This is OPTIONAL but if you'd like to use these calls later, you need to expose service in similar way as so-catalog-db-adapter above:
+
+::
+
+    kubectl edit -n onap svc cds-blueprints-processor-http
+          - .spec.type: ClusterIP
+          + .spec.type: NodePort
+          + .spec.ports[0].nodePort: 30499
+
+.. note::  The port number 30499 is used in included Postman collection
+
 **Postman variables:**
 
 Most of the Postman variables are automated by Postman scripts and environment file provided, but there are few mandatory variables to fill by user.
 
-===================  ===================
-Variable             Description
--------------------  -------------------
-k8s                  ONAP Kubernetes host
-sdnc_port            port of sdnc service for accessing MDSAL
-cds-service-name     name of service as defined in SDC
-cds-instance-name    name of instantiated service (if ending with -{num}, will be autoincremented for each instantiation request)
-===================  ===================
+=====================  ===================
+Variable               Description
+---------------------  -------------------
+k8s                    ONAP Kubernetes host
+sdnc_port              port of sdnc service for accessing MDSAL
+service-name           name of service as defined in SDC
+service-version        version of service defined in SDC (if service wasn't updated, it should be set to "1.0")
+service-instance-name  name of instantiated service (if ending with -{num}, will be autoincremented for each instantiation request)
+=====================  ===================
 
 You can get the sdnc_port value with
 
 ::
 
     kubectl -n onap get svc sdnc -o json | jq '.spec.ports[]|select(.port==8282).nodePort'
-
-
-**TODO: change variable names something else than cds-xxx**
 
 
 AAI
@@ -756,7 +767,7 @@ Some basic entries are needed in ONAP AAI. These entries are needed ones per ona
 
 Create all these entries into AAI in this order. Postman collection provided in this demo can be used for creating each entry.
 
-**Postman -> Robot Init Stuff**
+**Postman -> Initial ONAP setup -> Create**
 
 - Create Customer
 - Create Owning-entity
@@ -764,7 +775,7 @@ Create all these entries into AAI in this order. Postman collection provided in 
 - Create Project
 - Create Line Of Business
 
-Corresponding GET operations in Postman can be used to verify entries created. Postman collection also includes some code that tests/verifies some basic issues e.g. gives error if entry already exists.
+Corresponding GET operations in "Check" folder in Postman can be used to verify entries created. Postman collection also includes some code that tests/verifies some basic issues e.g. gives error if entry already exists.
 
 SO BPMN endpoint fix for VNF adapter requests (v1 -> v2)
 ........................................................
@@ -783,14 +794,19 @@ Naming Policy
 
 Naming policy is needed to generate unique names for all instance time resources that are wanted to be modeled in the way naming policy is used. Those are normally VNF, VNFC and VF-module names, network names etc. Naming is general ONAP feature and not limited to this use case.
 
-The override.yaml file above has an option **"preload=true"**, that will tell the POLICY component to run the push_policies.sh script as the POLICY PAP pod starts up, which will in turn create the Naming Policy and push it.
+This usecase leverages default ONAP naming policy - "SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP".
+To check that the naming policy is created and pushed OK, we can run the command below from inside any ONAP pod.
 
-To check that the naming policy is created and pushed OK, we can run the commands below.
+::
 
-FIXME - add instruction for uploading own naming policy !!!
+  curl --silent -k --user 'healthcheck:zb!XztG34' -X GET "https://policy-api:6969/policy/api/v1/policytypes/onap.policies.Naming/versions/1.0.0/policies/SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP/versions/1.0.0"
+
+.. note:: Please change credentials respectively to your installation. The required credentials can be retrieved with instruction `Retrieving logins and passwords of ONAP components`_
 
 Network Naming mS
 +++++++++++++++++
+
+FIXME - Verify if on RC2 this still needs to be performed
 
 There's a strange feature or bug in naming service still at ONAP Frankfurt and following hack needs to be done to make it work.
 
@@ -805,6 +821,7 @@ There's a strange feature or bug in naming service still at ONAP Frankfurt and f
     delete from EXTERNAL_INTERFACE;
     select * from EXTERNAL_INTERFACE;
 
+---------------------------------------------------
 PART 2 - Installation of managed Kubernetes cluster
 ---------------------------------------------------
 
@@ -832,7 +849,7 @@ Managed Kubernetes cluster is registered here into ONAP as one cloud region. Thi
 
 Postman collection have folder/entry for each step. Execute in this order.
 
-**Postman -> AAI -> Create**
+**Postman -> K8s Cloud Region Registration -> Create**
 
 - Create Complex
 - Create Cloud Region
@@ -841,11 +858,9 @@ Postman collection have folder/entry for each step. Execute in this order.
 - Create Service Subscription
 - Create Cloud Tenant
 - Create Availability Zone
+- Upload Connectivity Info
 
-**Postman -> Multicloud**
-
-- Upload Connectivity Info  **TODO: where to get kubeconfig file?**
-
+.. note:: For "Upload Connectivity Info" call you need to provide kubeconfig file of existing KUD cluster. You can find that kubeconfig on deployed KUD in directory `~/.kube/config` and can be easily retrieved e.g. via SCP. Please ensure that kubeconfig contains external IP of K8s cluster in kubeconfig and correct it, if it's not.
 
 **SO Cloud region configuration**
 
@@ -864,6 +879,7 @@ It's possible improvement place in SO to rather get this information directly fr
         select * from cloud_sites;
         exit
 
+----------------------------------
 PART 3 - Execution of the Use Case
 ----------------------------------
 
@@ -980,233 +996,235 @@ Import this package into SDC and follow onboarding steps.
 Service Creation with SDC
 .........................
 
-Create VSP, VLM, VF, ..., Service in SDC
+Service Creation in SDC is composed of the same steps that are performed by most other use-cases. For reference, you can relate to `vLB use-case`_
+
+Onboard VSP
     - Remember during VSP onboard to choose "Network Package" Onboarding procedure
 
-**TODO: make better steps**
-
-On VF level, add CBA separately as it's not onboarded by default from onboarding package correctly
-
+Create VF and Service
 Service -> Properties Assignment -> Choose VF (at right box):
     - skip_post_instantiation_configuration - True
     - sdnc_artifact_name - vnf
     - sdnc_model_name - vFW_CNF_CDS
-    - sdnc_model_version - 1.0.0
+    - sdnc_model_version - K8s 1.0.45
 
 Distribution Of Service
 .......................
 
-Distribute service. **TODO: add screenshot to distribution SDC UI**
+Distribute service.
 
-Verify distribution for:
+Verify in SDC UI if distribution was successful. In case of any errors (sometimes SO fails on accepting CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT), try redistribution. You can also verify distribution for few components manually:
 
 - SDC:
 
     SDC Catalog database should have our service now defined.
 
-    **Postman -> SDC/SO -> SDC Catalog Service**
+    **Postman -> LCM -> [SDC] Catalog Service**
 
     ::
+				{
+						"uuid": "64dd38f3-2307-4e0a-bc98-5c2cbfb260b6",
+						"invariantUUID": "cd1a5c2d-2d4e-4d62-ac10-a5fe05e32a22",
+						"name": "vfw_cnf_cds_svc",
+						"version": "1.0",
+						"toscaModelURL": "/sdc/v1/catalog/services/64dd38f3-2307-4e0a-bc98-5c2cbfb260b6/toscaModel",
+						"category": "Network L4+",
+						"lifecycleState": "CERTIFIED",
+						"lastUpdaterUserId": "cs0008",
+						"distributionStatus": "DISTRIBUTED"
+				}
 
-        {
-            "uuid": "40f4cca8-1025-4f2e-8435-dda898f0caab",
-            "invariantUUID": "b0ecfa3b-4394-4727-be20-c2c718002093",
-            "name": "TestvFWService",
-            "version": "3.0",
-            "toscaModelURL": "/sdc/v1/catalog/services/40f4cca8-1025-4f2e-8435-dda898f0caab/toscaModel",
-            "category": "Mobility",
-            "lifecycleState": "CERTIFIED",
-            "lastUpdaterUserId": "jm0007",
-            "distributionStatus": "DISTRIBUTED"
-        }
 
-    Listing should contain entry with our service name **TestvFWService** **TODO: Let's use service name different from other demos**
+    Listing should contain entry with our service name **vfw_cnf_cds_svc**.
+
+.. note:: Note that it's an example name, it depends on how your model is named during Service design in SDC and must be kept in sync with Postman variables.
 
 - SO:
 
     SO Catalog database should have our service NFs defined now.
 
-    **Postman -> SDC/SO -> SO Catalog DB Service xNFs**
+    **Postman -> LCM -> [SO] Catalog DB Service xNFs**
 
     ::
 
-        {
-           "serviceVnfs":[
-              {
-                 "modelInfo":{
-                    "modelName":"FixedVFW",
-                    "modelUuid":"a6c43cc8-677d-447d-afc2-795212182dc0",
-                    "modelInvariantUuid":"074555e3-21b9-47ba-9ad9-78028029a36d",
-                    "modelVersion":"1.0",
-                    "modelCustomizationUuid":"366c007e-7684-4a0b-a2f4-9815174bec55",
-                    "modelInstanceName":"FixedVFW 0"
-                 },
-                 "toscaNodeType":"org.openecomp.resource.vf.Fixedvfw",
-                 "nfFunction":null,
-                 "nfType":null,
-                 "nfRole":null,
-                 "nfNamingCode":null,
-                 "multiStageDesign":"false",
-                 "vnfcInstGroupOrder":null,
-                 "resourceInput":"{\"vf_module_id\":\"vFirewallCL\",\"skip_post_instantiation_configuration\":\"true\",\"vsn_flavor_name\":\"PUT THE VM FLAVOR NAME HERE (m1.medium suggested)\",\"vfw_int_private2_ip_0\":\"192.168.20.100\",\"int_private1_subnet_id\":\"zdfw1fwl01_unprotected_sub\",\"public_net_id\":\"PUT THE PUBLIC NETWORK ID HERE\",\"vnf_name\":\"vFW_NextGen\",\"onap_private_subnet_id\":\"PUT THE ONAP PRIVATE NETWORK NAME HERE\",\"vsn_int_private2_ip_0\":\"192.168.20.250\",\"sec_group\":\"PUT THE ONAP SECURITY GROUP HERE\",\"vfw_name_0\":\"zdfw1fwl01fwl01\",\"nexus_artifact_repo\":\"https://nexus.onap.org\",\"onap_private_net_cidr\":\"10.0.0.0/16\",\"vpg_onap_private_ip_0\":\"10.0.100.2\",\"dcae_collector_ip\":\"10.0.4.1\",\"vsn_image_name\":\"PUT THE VM IMAGE NAME HERE (UBUNTU 1404)\",\"vnf_id\":\"vSink_demo_app\",\"vpg_flavor_name\":\"PUT THE VM FLAVOR NAME HERE (m1.medium suggested)\",\"dcae_collector_port\":\"30235\",\"vfw_int_private2_floating_ip\":\"192.168.10.200\",\"vpg_name_0\":\"zdfw1fwl01pgn01\",\"int_private2_subnet_id\":\"zdfw1fwl01_protected_sub\",\"int_private2_net_cidr\":\"192.168.20.0/24\",\"nf_naming\":\"true\",\"vsn_name_0\":\"zdfw1fwl01snk01\",\"multi_stage_design\":\"false\",\"vpg_image_name\":\"PUT THE VM IMAGE NAME HERE (UBUNTU 1404)\",\"onap_private_net_id\":\"PUT THE ONAP PRIVATE NETWORK NAME HERE\",\"availability_zone_max_count\":\"1\",\"sdnc_artifact_name\":\"vnf\",\"vsn_onap_private_ip_0\":\"10.0.100.3\",\"vfw_flavor_name\":\"PUT THE VM FLAVOR NAME HERE (m1.medium suggested)\",\"demo_artifacts_version\":\"1.6.0-SNAPSHOT\",\"pub_key\":\"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDQXYJYYi3/OUZXUiCYWdtc7K0m5C0dJKVxPG0eI8EWZrEHYdfYe6WoTSDJCww+1qlBSpA5ac/Ba4Wn9vh+lR1vtUKkyIC/nrYb90ReUd385Glkgzrfh5HdR5y5S2cL/Frh86lAn9r6b3iWTJD8wBwXFyoe1S2nMTOIuG4RPNvfmyCTYVh8XTCCE8HPvh3xv2r4egawG1P4Q4UDwk+hDBXThY2KS8M5/8EMyxHV0ImpLbpYCTBA6KYDIRtqmgS6iKyy8v2D1aSY5mc9J0T5t9S2Gv+VZQNWQDDKNFnxqYaAo1uEoq/i1q63XC5AD3ckXb2VT6dp23BQMdDfbHyUWfJN\",\"key_name\":\"vfw_key\",\"vfw_int_private1_ip_0\":\"192.168.10.100\",\"sdnc_model_version\":\"1.0.0\",\"int_private1_net_cidr\":\"192.168.10.0/24\",\"install_script_version\":\"1.6.0-SNAPSHOT\",\"vfw_image_name\":\"PUT THE VM IMAGE NAME HERE (UBUNTU 1404)\",\"vfw_onap_private_ip_0\":\"10.0.100.1\",\"vpg_int_private1_ip_0\":\"192.168.10.200\",\"int_private2_net_id\":\"zdfw1fwl01_protected\",\"cloud_env\":\"PUT openstack OR rackspace HERE\",\"sdnc_model_name\":\"vFW_CNF_CDS\",\"int_private1_net_id\":\"zdfw1fwl01_unprotected\"}",
-                 "vfModules":[
-                    {
-                       "modelInfo":{
-                          "modelName":"Fixedvfw..base_template..module-0",
-                          "modelUuid":"8bb9fa50-3e82-4664-bd1c-a29267be726a",
-                          "modelInvariantUuid":"750b39d0-7f99-4b7f-9a22-c15c7348221d",
-                          "modelVersion":"1",
-                          "modelCustomizationUuid":"603eadfe-50d6-413a-853c-46f5a8e2ddc7"
-                       },
-                       "isBase":true,
-                       "vfModuleLabel":"base_template",
-                       "initialCount":1,
-                       "hasVolumeGroup":false
-                    },
-                    {
-                       "modelInfo":{
-                          "modelName":"Fixedvfw..vsn..module-1",
-                          "modelUuid":"027696a5-a605-44ea-9362-391a6b217de0",
-                          "modelInvariantUuid":"2e3b182d-7ee3-4a8d-9c2b-056188b6eb53",
-                          "modelVersion":"1",
-                          "modelCustomizationUuid":"f75c3628-12e9-4c70-be98-d347045a3f70"
-                       },
-                       "isBase":false,
-                       "vfModuleLabel":"vsn",
-                       "initialCount":0,
-                       "hasVolumeGroup":false
-                    },
-                    {
-                       "modelInfo":{
-                          "modelName":"Fixedvfw..vpkg..module-2",
-                          "modelUuid":"64af8ad0-cb81-42a2-a069-7d246d8bff5d",
-                          "modelInvariantUuid":"5c9f3097-26ba-41fb-928b-f7ddc31f6f52",
-                          "modelVersion":"1",
-                          "modelCustomizationUuid":"32ffad03-d38d-46d5-b4a6-a3b0b6112ffc"
-                       },
-                       "isBase":false,
-                       "vfModuleLabel":"vpkg",
-                       "initialCount":0,
-                       "hasVolumeGroup":false
-                    },
-                    {
-                       "modelInfo":{
-                          "modelName":"Fixedvfw..vfw..module-3",
-                          "modelUuid":"55d889e4-ff38-4ed0-a159-60392c968042",
-                          "modelInvariantUuid":"5c6a06e9-1168-4b01-bd2a-38d544c6d131",
-                          "modelVersion":"1",
-                          "modelCustomizationUuid":"f9afd9bb-7796-4aff-8f53-681513115742"
-                       },
-                       "isBase":false,
-                       "vfModuleLabel":"vfw",
-                       "initialCount":0,
-                       "hasVolumeGroup":false
-                    }
-                 ],
-                 "groups":[
-
-                 ]
-              }
-           ]
-        }
+				{
+					"serviceVnfs": [
+						{
+							"modelInfo": {
+								"modelName": "vfw_cnf_cds_vsp",
+								"modelUuid": "70edaca8-8c79-468a-aa76-8224cfe686d0",
+								"modelInvariantUuid": "7901fc89-a94d-434a-8454-1e27b99dc0e2",
+								"modelVersion": "1.0",
+								"modelCustomizationUuid": "86dc8af4-aa17-4fc7-9b20-f12160d99718",
+								"modelInstanceName": "vfw_cnf_cds_vsp 0"
+							},
+							"toscaNodeType": "org.openecomp.resource.vf.VfwCnfCdsVsp",
+							"nfFunction": null,
+							"nfType": null,
+							"nfRole": null,
+							"nfNamingCode": null,
+							"multiStageDesign": "false",
+							"vnfcInstGroupOrder": null,
+							"resourceInput": "TBD",
+							"vfModules": [
+								{
+									"modelInfo": {
+										"modelName": "VfwCnfCdsVsp..base_template..module-0",
+										"modelUuid": "274f4bc9-7679-4767-b34d-1df51cdf2496",
+										"modelInvariantUuid": "52842255-b7be-4a1c-ab3b-2bd3bd4a5423",
+										"modelVersion": "1",
+										"modelCustomizationUuid": "b27fad11-44da-4840-9256-7ed8a32fbe3e"
+									},
+									"isBase": true,
+									"vfModuleLabel": "base_template",
+									"initialCount": 1,
+									"hasVolumeGroup": false
+								},
+								{
+									"modelInfo": {
+										"modelName": "VfwCnfCdsVsp..vsn..module-1",
+										"modelUuid": "0cbf558f-5a96-4555-b476-7df8163521aa",
+										"modelInvariantUuid": "36f25e1b-199b-4de2-b656-c870d341cf0e",
+										"modelVersion": "1",
+										"modelCustomizationUuid": "4cac0584-c0d6-42a7-bdb3-29162792e07f"
+									},
+									"isBase": false,
+									"vfModuleLabel": "vsn",
+									"initialCount": 0,
+									"hasVolumeGroup": false
+								},
+								{
+									"modelInfo": {
+										"modelName": "VfwCnfCdsVsp..vpkg..module-2",
+										"modelUuid": "011b5f61-6524-4789-bd9a-44cfbf321463",
+										"modelInvariantUuid": "4e2b9975-5214-48b8-861a-5701c09eedfa",
+										"modelVersion": "1",
+										"modelCustomizationUuid": "4e7028a1-4c80-4d20-a7a2-a1fb3343d5cb"
+									},
+									"isBase": false,
+									"vfModuleLabel": "vpkg",
+									"initialCount": 0,
+									"hasVolumeGroup": false
+								},
+								{
+									"modelInfo": {
+										"modelName": "VfwCnfCdsVsp..vfw..module-3",
+										"modelUuid": "0de4ed56-8b4c-4a2d-8ce6-85d5e269204f",
+										"modelInvariantUuid": "9ffda670-3d77-4f6c-a4ad-fb7a09f19817",
+										"modelVersion": "1",
+										"modelCustomizationUuid": "1e123e43-ba40-4c93-90d7-b9f27407ec03"
+									},
+									"isBase": false,
+									"vfModuleLabel": "vfw",
+									"initialCount": 0,
+									"hasVolumeGroup": false
+								}
+							],
+							"groups": []
+						}
+					]
+				}
 
 - SDNC:
 
     SDNC should have it's database updated with sdnc_* properties that were set during service modeling.
 
-    **TODO: verify below the customization_uuid where it is got**
-
 .. note:: Please change credentials respectively to your installation. The required credentials can be retrieved with instruction `Retrieving logins and passwords of ONAP components`_
 
     ::
 
-        kubectl -n onap exec onap-mariadb-galera-mariadb-galera-0 -it -- sh
+        kubectl -n onap exec onap-mariadb-galera-0 -it -- sh
         mysql -uroot -psecretpassword -D sdnctl
-        MariaDB [sdnctl]> select sdnc_model_name, sdnc_model_version, sdnc_artifact_name from VF_MODEL WHERE customization_uuid = '88e0e9a7-5bd2-4689-ae9e-7fc167d685a2';
-        +-----------------+--------------------+--------------------+
-        | sdnc_model_name | sdnc_model_version | sdnc_artifact_name |
-        +-----------------+--------------------+--------------------+
-        | vFW_CNF_CDS     | 1.0.0              | vnf                |
-        +-----------------+--------------------+--------------------+
-        1 row in set (0.00 sec)
+				MariaDB [sdnctl]> select sdnc_model_name, sdnc_model_version, sdnc_artifact_name from VF_MODEL WHERE customization_uuid = '86dc8af4-aa17-4fc7-9b20-f12160d99718';
+				+-----------------+--------------------+--------------------+
+				| sdnc_model_name | sdnc_model_version | sdnc_artifact_name |
+				+-----------------+--------------------+--------------------+
+				| vFW_CNF_CDS     | 1.0.45             | vnf                |
+				+-----------------+--------------------+--------------------+
+				1 row in set (0.00 sec)
 
-        # Where customization_uuid is the modelCustomizationUuid of the VNf (serviceVnfs response in 2nd Postman call from SO Catalog DB)
+
+.. note:: customization_uuid value is the modelCustomizationUuid of the VNF (serviceVnfs response in 2nd Postman call from SO Catalog DB)
 
 - CDS:
 
     CDS should onboard CBA uploaded as part of VF.
 
-    **Postman -> CDS -> CDS Blueprint List CBAs**
+    **Postman -> Distribution Verification -> [CDS] List CBAs**
 
     ::
 
-        {
-            "blueprintModel": {
-                "id": "761bbe69-8357-454b-9f37-46d9da8ecad6",
-                "artifactUUId": null,
-                "artifactType": "SDNC_MODEL",
-                "artifactVersion": "1.0.0",
-                "artifactDescription": "Controller Blueprint for vFW_CNF_CDS:1.0.0",
-                "internalVersion": null,
-                "createdDate": "2020-02-21T12:57:43.000Z",
-                "artifactName": "vFW_CNF_CDS",
-                "published": "Y",
-                "updatedBy": "Samuli Silvius <s.silvius@partner.samsung.com>",
-                "tags": "Samuli Silvius, vFW_CNF_CDS"
-            }
-        }
+				[
+						{
+								"blueprintModel": {
+										"id": "c505e516-b35d-4181-b1e2-bcba361cfd0a",
+										"artifactUUId": null,
+										"artifactType": "SDNC_MODEL",
+										"artifactVersion": "1.0.45",
+										"artifactDescription": "Controller Blueprint for vFW_CNF_CDS:1.0.45",
+										"internalVersion": null,
+										"createdDate": "2020-05-29T06:02:20.000Z",
+										"artifactName": "vFW_CNF_CDS",
+										"published": "Y",
+										"updatedBy": "Samuli Silvius <s.silvius@partner.samsung.com>",
+										"tags": "Samuli Silvius, vFW_CNF_CDS"
+								}
+						}
+				]
 
     The list should have the matching entries with SDNC database:
 
     - sdnc_model_name == artifactName
     - sdnc_model_version == artifactVersion
 
+		You can also use **Postman -> Distribution Verification -> [CDS] CBA Download** to download CBA for further verification but it's fully optional.
+
 - K8splugin:
 
     K8splugin should onboard 4 resource bundles related to helm resources:
 
-    **Postman -> Multicloud -> List Resource Bundle Definitions**
+    **Postman -> Distribution Verification -> [K8splugin] List Resource Bundle Definitions**
 
     ::
 
-        [
-            {
-                "rb-name": "750b39d0-7f99-4b7f-9a22-c15c7348221d",
-                "rb-version": "8bb9fa50-3e82-4664-bd1c-a29267be726a",
-                "chart-name": "base_template",
-                "description": "",
-                "labels": {
-                    "vnf_customization_uuid": "603eadfe-50d6-413a-853c-46f5a8e2ddc7"
-                }
-            },
-            {
-                "rb-name": "2e3b182d-7ee3-4a8d-9c2b-056188b6eb53",
-                "rb-version": "027696a5-a605-44ea-9362-391a6b217de0",
-                "chart-name": "vsn",
-                "description": "",
-                "labels": {
-                    "vnf_customization_uuid": "f75c3628-12e9-4c70-be98-d347045a3f70"
-                }
-            },
-            {
-                "rb-name": "5c9f3097-26ba-41fb-928b-f7ddc31f6f52",
-                "rb-version": "64af8ad0-cb81-42a2-a069-7d246d8bff5d",
-                "chart-name": "vpkg",
-                "description": "",
-                "labels": {
-                    "vnf_customization_uuid": "32ffad03-d38d-46d5-b4a6-a3b0b6112ffc"
-                }
-            },
-            {
-                "rb-name": "5c6a06e9-1168-4b01-bd2a-38d544c6d131",
-                "rb-version": "55d889e4-ff38-4ed0-a159-60392c968042",
-                "chart-name": "vfw",
-                "description": "",
-                "labels": {
-                    "vnf_customization_uuid": "f9afd9bb-7796-4aff-8f53-681513115742"
-                }
-            }
-        ]
+				[
+						{
+								"rb-name": "52842255-b7be-4a1c-ab3b-2bd3bd4a5423",
+								"rb-version": "274f4bc9-7679-4767-b34d-1df51cdf2496",
+								"chart-name": "base_template",
+								"description": "",
+								"labels": {
+										"vnf_customization_uuid": "b27fad11-44da-4840-9256-7ed8a32fbe3e"
+								}
+						},
+						{
+								"rb-name": "36f25e1b-199b-4de2-b656-c870d341cf0e",
+								"rb-version": "0cbf558f-5a96-4555-b476-7df8163521aa",
+								"chart-name": "vsn",
+								"description": "",
+								"labels": {
+										"vnf_customization_uuid": "4cac0584-c0d6-42a7-bdb3-29162792e07f"
+								}
+						},
+						{
+								"rb-name": "4e2b9975-5214-48b8-861a-5701c09eedfa",
+								"rb-version": "011b5f61-6524-4789-bd9a-44cfbf321463",
+								"chart-name": "vpkg",
+								"description": "",
+								"labels": {
+										"vnf_customization_uuid": "4e7028a1-4c80-4d20-a7a2-a1fb3343d5cb"
+								}
+						},
+						{
+								"rb-name": "9ffda670-3d77-4f6c-a4ad-fb7a09f19817",
+								"rb-version": "0de4ed56-8b4c-4a2d-8ce6-85d5e269204f",
+								"chart-name": "vfw",
+								"description": "",
+								"labels": {
+										"vnf_customization_uuid": "1e123e43-ba40-4c93-90d7-b9f27407ec03"
+								}
+						}
+				]
 
 3-2 CNF Instantiation
 ~~~~~~~~~~~~~~~~~~~~~
@@ -1215,16 +1233,16 @@ This is the whole beef of the use case and furthermore the core of it is that we
 
 Use again Postman to trigger instantion from SO interface. Postman collection is automated to populate needed parameters when queries are run in correct order. If you did not already run following 2 queries after distribution (to verify distribution), run those now:
 
-- **Postman -> SDC/SO -> SDC Catalog Service**
-- **Postman -> SDC/SO -> SO Catalog DB Service xNFs**
+- **Postman -> LCM -> 1.[SDC] Catalog Service**
+- **Postman -> LCM -> 2. [SO] Catalog DB Service xNFs**
 
 Now actual instantiation can be triggered with:
 
-**Postman -> SDC/SO -> SO Self-Serve Service Assign & Activate**
+**Postman -> LCM -> 3. [SO] Self-Serve Service Assign & Activate**
 
 Follow progress with SO's GET request:
 
-**Postman -> SDC/SO -> SO Infra Active Requests**
+**Postman -> LCM -> 4. [SO] Infra Active Requests**
 
 The successful reply payload in that query should start like this:
 
@@ -1240,28 +1258,30 @@ The successful reply payload in that query should start like this:
       "retryStatusMessage": null,
     ...
 
-**TODO: fix COMPLETED payload**
+**FIXME: provide full COMPLETED payload**
 
 Progress can be followed also with `SO Monitoring`_ dashboard.
 
 .. note::  In Frankfurt release *SO Monitoring* dashboard was removed from officail release and before it can be used it must be exposed and default user credentials must be configured
 
 
+You can finally terminate this instance (now or later) with another call:
+
+**Postman -> LCM -> 5. [SO] Service Delete**
+
 Second instance Instantion
 ..........................
 
 To finally verify that all the work done within this demo, it should be possible to instantiate second vFW instance successfully.
 
-Trigger again:
+Trigger new instance createion. You can use previous call or a separate one that will utilize profile templating mechanism implemented in CBA:
 
-**Postman -> SDC/SO -> SO Self-Serve Service Assign & Activate**
-
-**TODO: update to seconf call in postman**
+**Postman -> LCM -> 6. [SO] Self-Serve Service Assign & Activate - Second**
 
 3-3 Results and Logs
 ~~~~~~~~~~~~~~~~~~~~
 
-Now Kubernetes version of vFW multiple instances are running in target VIM (KUD deployment).
+Now multiple instances of Kubernetes variant of vFW are running in target VIM (KUD deployment).
 
 .. figure:: files/vFW_CNF_CDS/vFW_Instance_In_Kubernetes.png
    :align: center
@@ -1270,19 +1290,24 @@ Now Kubernetes version of vFW multiple instances are running in target VIM (KUD 
 
 To review situation after instantiation from different ONAP components, most of the info can be found using Postman queries provided. For each query, example response payload(s) is/are saved and can be found from top right corner of the Postman window.
 
-Execute following Postman queries and check example section to see the valid results.
+**Postman -> Instantiation verification**
 
-========================    =================
-Verify Target               Postman query
-------------------------    -----------------
-Service Instances in AAI    **Postman -> AAI -> List Service Instances**
-Generic VNFs in AAI         **Postman -> AAI -> List VNF Instances**
-K8S Instances in KUD        **Postman -> Multicloud -> List Instances**
-========================    =================
+Execute example Postman queries and check example section to see the valid results.
+
+==========================    =================
+Verify Target                 Postman query
+--------------------------    -----------------
+Service Instances in AAI      **Postman -> Instantiation verification -> [AAI] List Service Instances**
+Service Instances in MDSAL    **Postman -> Instantiation verification -> [SDNC] GR-API MD-SAL Services**
+K8S Instances in KUD          **Postman -> Instantiation verification -> [K8splugin] List Instances**
+==========================    =================
+
+.. note:: "[AAI] List vServers <Empty>" Request won't return any vserver info from AAI, as currently such information are not provided during instantiation process.
+
 
 Query also directly from VIM:
 
-**TODO: label filters needed here. Namespace?**
+FIXME - needs updated output with newest naming policy
 
 ::
 
@@ -1297,7 +1322,6 @@ Query also directly from VIM:
     pod/vsn-fdc9b4ba-c0e9-4efc-8009-f9414ae7dd7b-5889b7455-96j9d    2/2     Running   0          30s
 
     NAME                                                              TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
-    service/kubernetes                                                ClusterIP   10.244.0.1      <none>        443/TCP          48d
     service/vpg-5ea0d3b0-9a0c-4e88-a2e2-ceb84810259e-management-api   NodePort    10.244.43.245   <none>        2831:30831/TCP   11m
     service/vpg-8581bc79-8eef-487e-8ed1-a18c0d638b26-management-api   NodePort    10.244.1.45     <none>        2831:31831/TCP   33s
     service/vsn-8e7ac4fc-2c31-4cf8-90c8-5074c5891c14-darkstat-ui      NodePort    10.244.16.187   <none>        667:30667/TCP    11m
@@ -1360,7 +1384,7 @@ In case more detailed logging is needed, here's instructions how to setup DEBUG 
 
   ::
 
-    kubectl -n onap exec -it onap-sdnc-sdnc-0 -c sdnc /opt/opendaylight/bin/client log:set DEBUG
+    kubectl -n onap exec -it onap-sdnc-0 -c sdnc /opt/opendaylight/bin/client log:set DEBUG
 
 
 - CDS Blueprint Processor
@@ -1368,16 +1392,17 @@ In case more detailed logging is needed, here's instructions how to setup DEBUG 
   ::
 
     # Edit configmap
-    kubectl -n onap edit configmap onap-cds-cds-blueprints-processor-configmap
+    kubectl -n onap edit configmap onap-cds-blueprints-processor-configmap
 
     # Edit logback.xml content change root logger level from info to debug.
     <root level="debug">
         <appender-ref ref="STDOUT"/>
     </root>
 
-    # Delete the POd to make changes effective
-    kubectl -n onap delete pod $(kubectl -n onap get pod -l app=cds-blueprints-processor --no-headers | cut -d" " -f1)
+    # Delete the Pods to make changes effective
+    kubectl -n onap delete pods -l app=cds-blueprints-processor
 
+-----------------------------------------------
 PART 4 - Summary and Future improvements needed
 -----------------------------------------------
 
@@ -1404,6 +1429,8 @@ Multiple lower level bugs/issues were also found during use case development
 
 
 .. _ONAP Deployment Guide: https://docs.onap.org/en/frankfurt/submodules/oom.git/docs/oom_quickstart_guide.html#quick-start-label
+.. _CDS Modeling Concepts: https://wiki.onap.org/display/DW/Modeling+Concepts
+.. _vLB use-case: https://wiki.onap.org/pages/viewpage.action?pageId=71838898#DesignTime-738939159
 .. _vFW_CNF_CDS Model: https://git.onap.org/demo/tree/heat/vFW_CNF_CDS?h=frankfurt
 .. _vFW CDS Dublin: https://wiki.onap.org/display/DW/vFW+CDS+Dublin
 .. _vFW CBA Model: https://git.onap.org/ccsdk/cds/tree/components/model-catalog/blueprint-model/service-blueprint/vFW?h=frankfurt
