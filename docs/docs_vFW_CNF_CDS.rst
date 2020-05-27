@@ -208,13 +208,13 @@ Changes done:
     
     ======================== ==============================================
 
-- Default override support was added to the plugin
+- Default profile support was added to the plugin
 
-    **TODO: Some content here, maybe also picture**
+    K8splugin now creates dummy "default" profile on each resource bundle registration. Such profile doesn't contain any content inside and allows instantiation of CNF without the need to define additional profile, however this is still possible. In this use-case, CBA has been defined in a way, that it can template some simple profile that can be later put by CDS during resource-assignment instantiation phase and later picked up for instantiation. This happens when using second prepared instantiation call for instantiation: **Postman -> LCM -> 6. [SO] Self-Serve Service Assign & Activate - Second**
 
 - Instantiation time override support was added to the plugin
 
-    **TODO: Some content here, maybe also picture**
+    K8splugin allows now specifying override parameters (similar to --set behavior of helm client) to instantiated resource bundles. This allows for providing dynamic parameters to instantiated resources without the need to create new profiles for this purpose.
 
 
 CDS Model (CBA)
@@ -225,6 +225,8 @@ Creating CDS model was the core of the use case work and also the most difficult
 - CDS documentation (even being new component) is inadequate or non-existent for service modeler user. One would need to be CDS developer to be able to do something with it.
 - CDS documentation what exists is non-versioned (in ONAP wiki when should be in git) so it's mostly impossible to know what features are for what release.
 - Our little experience of CDS (not CDS developers)
+
+Although initial development of template wasn't easy, current template used by use-case should be easily reusable for anyone. Once CDS GUI will be fully working, we think that CBA development should be much easier.
 
 At first the target was to keep CDS model as close as possible to `vFW_CNF_CDS Model`_ use case model and only add smallest possible changes to enable also k8s usage. That is still the target but in practice model deviated from the original one already and time pressure pushed us to not care about sync. Basically the end result could be possible much streamlined if wanted to be smallest possible to working only for K8S based network functions.
 
@@ -586,7 +588,7 @@ AAF                                                       Used for Authenticatio
 Portal                                                    Required to access SDC.
 MSB                                                       Exposes multicloud interfaces used by SO.
 Multicloud                                                K8S plugin part used to pass SO instantiation requests to external Kubernetes cloud region.
-Contrib                                                   Netbox utility #FIXME
+Contrib                                                   Netbox utility used for IP addresses management by SDNC
 Robot                                                     Optional. Can be used for running automated tasks, like provisioning cloud customer, cloud region, service subscription, etc ..
 Shared Cassandra DB                                       Used as a shared storage for ONAP components that rely on Cassandra DB, like AAI
 Shared Maria DB                                           Used as a shared storage for ONAP components that rely on Maria DB, like SDNC, and SO
@@ -711,7 +713,7 @@ Following steps are needed to setup Postman:
 
   :download:`Postman collection <files/vFW_CNF_CDS/postman.zip>`
 
-- Extract the zip and import 2 postman collection and environment files into Postman
+- Extract the zip and import Postman collection into Postman. Environment file is provided for reference, it's better to create own environment on your own providing variables as listed in next chapter.
     - `vFW_CNF_CDS.postman_collection.json`
     - `vFW_CNF_CDS.postman_environment.json`
 
@@ -726,6 +728,17 @@ Following steps are needed to setup Postman:
 
 .. note::  The port number 30120 is used in included Postman collection
 
+- You may also want to inspect after SDC distribution if CBA has been correctly delivered to CDS. In order to do it, there are created relevant calls later described in doc, however CDS since Frankfurt doesn't expose blueprints-processor's service as NodePort. This is OPTIONAL but if you'd like to use these calls later, you need to expose service in similar way as so-catalog-db-adapter above:
+
+::
+
+    kubectl edit -n onap svc cds-blueprints-processor-http
+          - .spec.type: ClusterIP
+          + .spec.type: NodePort
+          + .spec.ports[0].nodePort: 30499
+
+.. note::  The port number 30499 is used in included Postman collection
+
 **Postman variables:**
 
 Most of the Postman variables are automated by Postman scripts and environment file provided, but there are few mandatory variables to fill by user.
@@ -735,8 +748,9 @@ Variable             Description
 -------------------  -------------------
 k8s                  ONAP Kubernetes host
 sdnc_port            port of sdnc service for accessing MDSAL
-cds-service-name     name of service as defined in SDC
-cds-instance-name    name of instantiated service (if ending with -{num}, will be autoincremented for each instantiation request)
+service-name         name of service as defined in SDC
+service-version      version of service defined in SDC (if service wasn't updated, it should be set to "1.0")
+service-instance-name        name of instantiated service (if ending with -{num}, will be autoincremented for each instantiation request)
 ===================  ===================
 
 You can get the sdnc_port value with
@@ -746,9 +760,6 @@ You can get the sdnc_port value with
     kubectl -n onap get svc sdnc -o json | jq '.spec.ports[]|select(.port==8282).nodePort'
 
 
-**TODO: change variable names something else than cds-xxx**
-
-
 AAI
 ...
 
@@ -756,7 +767,7 @@ Some basic entries are needed in ONAP AAI. These entries are needed ones per ona
 
 Create all these entries into AAI in this order. Postman collection provided in this demo can be used for creating each entry.
 
-**Postman -> Robot Init Stuff**
+**Postman -> Initial ONAP setup -> Create**
 
 - Create Customer
 - Create Owning-entity
@@ -764,7 +775,7 @@ Create all these entries into AAI in this order. Postman collection provided in 
 - Create Project
 - Create Line Of Business
 
-Corresponding GET operations in Postman can be used to verify entries created. Postman collection also includes some code that tests/verifies some basic issues e.g. gives error if entry already exists.
+Corresponding GET operations in "Check" folder in Postman can be used to verify entries created. Postman collection also includes some code that tests/verifies some basic issues e.g. gives error if entry already exists.
 
 SO BPMN endpoint fix for VNF adapter requests (v1 -> v2)
 ........................................................
@@ -783,14 +794,20 @@ Naming Policy
 
 Naming policy is needed to generate unique names for all instance time resources that are wanted to be modeled in the way naming policy is used. Those are normally VNF, VNFC and VF-module names, network names etc. Naming is general ONAP feature and not limited to this use case.
 
-The override.yaml file above has an option **"preload=true"**, that will tell the POLICY component to run the push_policies.sh script as the POLICY PAP pod starts up, which will in turn create the Naming Policy and push it.
+This usecase leverages default ONAP naming policy - "SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP".
+To check that the naming policy is created and pushed OK, we can run the command below from inside any ONAP pod.
 
-To check that the naming policy is created and pushed OK, we can run the commands below.
+::
 
-FIXME - add instruction for uploading own naming policy !!!
+  curl -k --silent -X POST --header 'Content-Type: application/json' --user 'healthcheck:zb!XztG34' -d '{ "ONAPName": "SDNC", "ONAPComponent":"SNDC-component", "ONAPInstance": "SDNC-component-instance", "requestId": "unique-request-sdnc-1", "action": "naming", "resource": { "policy-id": "SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP"}}' 'https://policy-xacml-pdp:6969/policy/pdpx/v1/decision'
+
+FIXME - Verify if this command really works (copy-pasted)
+
 
 Network Naming mS
 +++++++++++++++++
+
+FIXME - Verify if on RC2 this still needs to be performed
 
 There's a strange feature or bug in naming service still at ONAP Frankfurt and following hack needs to be done to make it work.
 
@@ -832,7 +849,7 @@ Managed Kubernetes cluster is registered here into ONAP as one cloud region. Thi
 
 Postman collection have folder/entry for each step. Execute in this order.
 
-**Postman -> AAI -> Create**
+**Postman -> Cloud Region Registration -> Create**
 
 - Create Complex
 - Create Cloud Region
@@ -841,11 +858,9 @@ Postman collection have folder/entry for each step. Execute in this order.
 - Create Service Subscription
 - Create Cloud Tenant
 - Create Availability Zone
+- Upload Connectivity Info
 
-**Postman -> Multicloud**
-
-- Upload Connectivity Info  **TODO: where to get kubeconfig file?**
-
+.. note:: For "Upload Connectivity Info" call you need to provide kubeconfig file of existing KUD cluster. You can find that kubeconfig on deployed KUD in directory `~/.kube/config` and can be easily retrieved e.g. via SCP. Please ensure that kubeconfig contains external IP of K8s cluster in kubeconfig and correct it, if it's not.
 
 **SO Cloud region configuration**
 
@@ -980,31 +995,30 @@ Import this package into SDC and follow onboarding steps.
 Service Creation with SDC
 .........................
 
-Create VSP, VLM, VF, ..., Service in SDC
+Service Creation in SDC is composed of the same steps that are performed by most other use-cases. For reference, you can relate to vLB use-case FIXME - add link
+
+Onboard VSP
     - Remember during VSP onboard to choose "Network Package" Onboarding procedure
 
-**TODO: make better steps**
-
-On VF level, add CBA separately as it's not onboarded by default from onboarding package correctly
-
+Create VF and Service
 Service -> Properties Assignment -> Choose VF (at right box):
     - skip_post_instantiation_configuration - True
     - sdnc_artifact_name - vnf
     - sdnc_model_name - vFW_CNF_CDS
-    - sdnc_model_version - 1.0.0
+    - sdnc_model_version - 1.0.45
 
 Distribution Of Service
 .......................
 
-Distribute service. **TODO: add screenshot to distribution SDC UI**
+Distribute service.
 
-Verify distribution for:
+Verify in SDC UI if distribution was successful. In case of any errors (sometimes SO fails on accepting CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT), try redistribution. You can also verify distribution for few components manually:
 
 - SDC:
 
     SDC Catalog database should have our service now defined.
 
-    **Postman -> SDC/SO -> SDC Catalog Service**
+    **Postman -> LCM -> [SDC] Catalog Service**
 
     ::
 
@@ -1020,13 +1034,13 @@ Verify distribution for:
             "distributionStatus": "DISTRIBUTED"
         }
 
-    Listing should contain entry with our service name **TestvFWService** **TODO: Let's use service name different from other demos**
+    Listing should contain entry with our service name **TestvFWService** **FIXME update service name when updating requests results with latest ONAP**
 
 - SO:
 
     SO Catalog database should have our service NFs defined now.
 
-    **Postman -> SDC/SO -> SO Catalog DB Service xNFs**
+    **Postman -> LCM -> [SO] Catalog DB Service xNFs**
 
     ::
 
@@ -1114,13 +1128,11 @@ Verify distribution for:
 
     SDNC should have it's database updated with sdnc_* properties that were set during service modeling.
 
-    **TODO: verify below the customization_uuid where it is got**
-
 .. note:: Please change credentials respectively to your installation. The required credentials can be retrieved with instruction `Retrieving logins and passwords of ONAP components`_
 
     ::
 
-        kubectl -n onap exec onap-mariadb-galera-mariadb-galera-0 -it -- sh
+        kubectl -n onap exec onap-mariadb-galera-0 -it -- sh
         mysql -uroot -psecretpassword -D sdnctl
         MariaDB [sdnctl]> select sdnc_model_name, sdnc_model_version, sdnc_artifact_name from VF_MODEL WHERE customization_uuid = '88e0e9a7-5bd2-4689-ae9e-7fc167d685a2';
         +-----------------+--------------------+--------------------+
@@ -1130,13 +1142,13 @@ Verify distribution for:
         +-----------------+--------------------+--------------------+
         1 row in set (0.00 sec)
 
-        # Where customization_uuid is the modelCustomizationUuid of the VNf (serviceVnfs response in 2nd Postman call from SO Catalog DB)
+        # Where customization_uuid is the modelCustomizationUuid of the VNF (serviceVnfs response in 2nd Postman call from SO Catalog DB)
 
 - CDS:
 
     CDS should onboard CBA uploaded as part of VF.
 
-    **Postman -> CDS -> CDS Blueprint List CBAs**
+    **Postman -> Distribution Verification -> [CDS] List CBAs**
 
     ::
 
@@ -1165,7 +1177,7 @@ Verify distribution for:
 
     K8splugin should onboard 4 resource bundles related to helm resources:
 
-    **Postman -> Multicloud -> List Resource Bundle Definitions**
+    **Postman -> Distribution Verification -> [K8splugin] List Resource Bundle Definitions**
 
     ::
 
@@ -1215,16 +1227,16 @@ This is the whole beef of the use case and furthermore the core of it is that we
 
 Use again Postman to trigger instantion from SO interface. Postman collection is automated to populate needed parameters when queries are run in correct order. If you did not already run following 2 queries after distribution (to verify distribution), run those now:
 
-- **Postman -> SDC/SO -> SDC Catalog Service**
-- **Postman -> SDC/SO -> SO Catalog DB Service xNFs**
+- **Postman -> LCM -> 1.[SDC] Catalog Service**
+- **Postman -> LCM -> 2. [SO] Catalog DB Service xNFs**
 
 Now actual instantiation can be triggered with:
 
-**Postman -> SDC/SO -> SO Self-Serve Service Assign & Activate**
+**Postman -> LCM -> 3. [SO] Self-Serve Service Assign & Activate**
 
 Follow progress with SO's GET request:
 
-**Postman -> SDC/SO -> SO Infra Active Requests**
+**Postman -> LCM -> 4. [SO] Infra Active Requests**
 
 The successful reply payload in that query should start like this:
 
@@ -1240,28 +1252,30 @@ The successful reply payload in that query should start like this:
       "retryStatusMessage": null,
     ...
 
-**TODO: fix COMPLETED payload**
+**FIXME: provide full COMPLETED payload**
 
 Progress can be followed also with `SO Monitoring`_ dashboard.
 
 .. note::  In Frankfurt release *SO Monitoring* dashboard was removed from officail release and before it can be used it must be exposed and default user credentials must be configured
 
 
+You can finally terminate this instance (now or later) with another call:
+
+**Postman -> LCM -> 5. [SO] Service Delete**
+
 Second instance Instantion
 ..........................
 
 To finally verify that all the work done within this demo, it should be possible to instantiate second vFW instance successfully.
 
-Trigger again:
+Trigger new instance createion. You can use previous call or a separate one that will utilize profile templating mechanism implemented in CBA:
 
-**Postman -> SDC/SO -> SO Self-Serve Service Assign & Activate**
-
-**TODO: update to seconf call in postman**
+**Postman -> LCM -> 6. [SO] Self-Serve Service Assign & Activate - Second**
 
 3-3 Results and Logs
 ~~~~~~~~~~~~~~~~~~~~
 
-Now Kubernetes version of vFW multiple instances are running in target VIM (KUD deployment).
+Now multiple instances of Kubernetes variant of vFW are running in target VIM (KUD deployment).
 
 .. figure:: files/vFW_CNF_CDS/vFW_Instance_In_Kubernetes.png
    :align: center
@@ -1270,19 +1284,24 @@ Now Kubernetes version of vFW multiple instances are running in target VIM (KUD 
 
 To review situation after instantiation from different ONAP components, most of the info can be found using Postman queries provided. For each query, example response payload(s) is/are saved and can be found from top right corner of the Postman window.
 
-Execute following Postman queries and check example section to see the valid results.
+**Postman -> Instantiation verification**
 
-========================    =================
-Verify Target               Postman query
-------------------------    -----------------
-Service Instances in AAI    **Postman -> AAI -> List Service Instances**
-Generic VNFs in AAI         **Postman -> AAI -> List VNF Instances**
-K8S Instances in KUD        **Postman -> Multicloud -> List Instances**
-========================    =================
+Execute example Postman queries and check example section to see the valid results.
+
+==========================    =================
+Verify Target                 Postman query
+--------------------------    -----------------
+Service Instances in AAI      **Postman -> Instantiation verification -> [AAI] List Service Instances**
+Service Instances in MDSAL    **Postman -> Instantiation verification -> [SDNC] GR-API MD-SAL Services
+K8S Instances in KUD          **Postman -> Instantiation verification -> [K8splugin] List Instances**
+==========================    =================
+
+.. note:: "[AAI] List vServers <Empty>" Request won't return any vserver info from AAI, as currently such information are not provided during instantiation process.
+
 
 Query also directly from VIM:
 
-**TODO: label filters needed here. Namespace?**
+FIXME - needs updated output with newest naming policy
 
 ::
 
@@ -1297,7 +1316,6 @@ Query also directly from VIM:
     pod/vsn-fdc9b4ba-c0e9-4efc-8009-f9414ae7dd7b-5889b7455-96j9d    2/2     Running   0          30s
 
     NAME                                                              TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
-    service/kubernetes                                                ClusterIP   10.244.0.1      <none>        443/TCP          48d
     service/vpg-5ea0d3b0-9a0c-4e88-a2e2-ceb84810259e-management-api   NodePort    10.244.43.245   <none>        2831:30831/TCP   11m
     service/vpg-8581bc79-8eef-487e-8ed1-a18c0d638b26-management-api   NodePort    10.244.1.45     <none>        2831:31831/TCP   33s
     service/vsn-8e7ac4fc-2c31-4cf8-90c8-5074c5891c14-darkstat-ui      NodePort    10.244.16.187   <none>        667:30667/TCP    11m
@@ -1360,7 +1378,7 @@ In case more detailed logging is needed, here's instructions how to setup DEBUG 
 
   ::
 
-    kubectl -n onap exec -it onap-sdnc-sdnc-0 -c sdnc /opt/opendaylight/bin/client log:set DEBUG
+    kubectl -n onap exec -it onap-sdnc-0 -c sdnc /opt/opendaylight/bin/client log:set DEBUG
 
 
 - CDS Blueprint Processor
@@ -1368,15 +1386,15 @@ In case more detailed logging is needed, here's instructions how to setup DEBUG 
   ::
 
     # Edit configmap
-    kubectl -n onap edit configmap onap-cds-cds-blueprints-processor-configmap
+    kubectl -n onap edit configmap onap-cds-blueprints-processor-configmap
 
     # Edit logback.xml content change root logger level from info to debug.
     <root level="debug">
         <appender-ref ref="STDOUT"/>
     </root>
 
-    # Delete the POd to make changes effective
-    kubectl -n onap delete pod $(kubectl -n onap get pod -l app=cds-blueprints-processor --no-headers | cut -d" " -f1)
+    # Delete the Pods to make changes effective
+    kubectl -n onap delete pods -l app=cds-blueprints-processor
 
 PART 4 - Summary and Future improvements needed
 -----------------------------------------------
