@@ -31,6 +31,7 @@ setuptools.setup(
     install_requires=[
         'argparse',
         'ipaddress',
-        'requests'
+        'requests',
+        'pyyaml'
     ]
 )
