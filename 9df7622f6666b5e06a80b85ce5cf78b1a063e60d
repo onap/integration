@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f23b313_4c718d5f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-05-28T10:35:29Z",
+      "side": 1,
+      "message": "Please notice the commit msg format in other reviews: Issue-ID should be mentioned only once at the bottom and no need to paste link to jira - Issue-ID will be made a link automagically.",
+      "revId": "9df7622f6666b5e06a80b85ce5cf78b1a063e60d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9eb272aa_5ae42818",
+        "filename": "docs/docs_postman.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-05-28T10:35:29Z",
+      "side": 1,
+      "message": "Looks like you have used sed recursively in the scope of all repo, please only change where relevant, this here doesn\u0027t make sense.",
+      "revId": "9df7622f6666b5e06a80b85ce5cf78b1a063e60d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c4579d0_23cc8521",
+        "filename": "test/mocks/netconf-pnp-simulator/engine/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-05-28T10:35:29Z",
+      "side": 1,
+      "message": "No change required here, already there.",
+      "revId": "9df7622f6666b5e06a80b85ce5cf78b1a063e60d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
