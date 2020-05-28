@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "73c9d44f_a47b0f32",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2020-05-28T17:40:05Z",
+      "side": 1,
+      "message": "Locally generated (with tox) documentation has correct indentation, but in readthedocs it\u0027s not. I don\u0027t know how to fix it, I\u0027ve found correct TOC only in documents that generated it over files like https://docs.onap.org/en/latest/guides/onap-developer/architecture/index.html",
+      "parentUuid": "eec574e8_54609ba7",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 12
+      },
+      "revId": "6bbab5214cb05681b546b1879991352990996a34",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a62bf48e_37dacb32",
         "filename": "docs/docs_vFW_CNF_CDS.rst",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "1d9ee42c_65bf7b35",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2020-05-28T17:40:05Z",
+      "side": 1,
+      "message": "I\u0027ve left here FIXME so it\u0027s visible. It\u0027s general FIXME to whole document to update all names from logs once use-case will be redone on RC2.\n\nAnyway, I\u0027ll remove fixme here as it\u0027s already scattered through entire doc",
+      "parentUuid": "a62bf48e_37dacb32",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 29
+      },
+      "revId": "6bbab5214cb05681b546b1879991352990996a34",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "493b4c6d_10a347b4",
         "filename": "docs/docs_vFW_CNF_CDS.rst",
         "patchSetId": 3
@@ -68,6 +116,30 @@
       "revId": "6bbab5214cb05681b546b1879991352990996a34",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c28a8d01_e165dc12",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2020-05-28T17:40:05Z",
+      "side": 1,
+      "message": "yes, it\u0027s there, but typo was here. Corrected",
+      "parentUuid": "493b4c6d_10a347b4",
+      "range": {
+        "startLine": 31,
+        "startChar": 123,
+        "endLine": 31,
+        "endChar": 138
+      },
+      "revId": "6bbab5214cb05681b546b1879991352990996a34",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -139,6 +211,30 @@
       "revId": "6bbab5214cb05681b546b1879991352990996a34",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8181c29_4035f02d",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2020-05-28T17:40:05Z",
+      "side": 1,
+      "message": "Corrected",
+      "parentUuid": "58076586_7d05337e",
+      "range": {
+        "startLine": 154,
+        "startChar": 246,
+        "endLine": 154,
+        "endChar": 281
+      },
+      "revId": "6bbab5214cb05681b546b1879991352990996a34",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -236,6 +332,30 @@
     },
     {
       "key": {
+        "uuid": "9923738c_0c24094a",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2020-05-28T17:40:05Z",
+      "side": 1,
+      "message": "Updated description",
+      "parentUuid": "0007e63e_a7121326",
+      "range": {
+        "startLine": 591,
+        "startChar": 58,
+        "endLine": 591,
+        "endChar": 113
+      },
+      "revId": "6bbab5214cb05681b546b1879991352990996a34",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "85b366e0_821141ad",
         "filename": "docs/docs_vFW_CNF_CDS.rst",
         "patchSetId": 3
@@ -318,6 +438,30 @@
       "writtenOn": "2020-05-28T09:52:18Z",
       "side": 1,
       "message": "According to policy team we should basically use Policy LCM API instead.",
+      "range": {
+        "startLine": 791,
+        "startChar": 330,
+        "endLine": 791,
+        "endChar": 385
+      },
+      "revId": "6bbab5214cb05681b546b1879991352990996a34",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bdf65ff_f2cece7a",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 791,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2020-05-28T17:40:05Z",
+      "side": 1,
+      "message": "Updated (see comment below)",
+      "parentUuid": "27aab120_3351643c",
       "range": {
         "startLine": 791,
         "startChar": 330,
@@ -425,6 +569,30 @@
     },
     {
       "key": {
+        "uuid": "45c86fc3_6cee0eaf",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2020-05-28T17:40:05Z",
+      "side": 1,
+      "message": "Thanks Samuli for updated URL. I\u0027ve added note and better request in docs, I think can be solved",
+      "parentUuid": "0f0a9895_a1b0ded5",
+      "range": {
+        "startLine": 791,
+        "startChar": 2,
+        "endLine": 793,
+        "endChar": 57
+      },
+      "revId": "6bbab5214cb05681b546b1879991352990996a34",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b310165a_d307471b",
         "filename": "docs/docs_vFW_CNF_CDS.rst",
         "patchSetId": 3
@@ -519,6 +687,30 @@
     },
     {
       "key": {
+        "uuid": "0d890295_66731efb",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2020-05-28T17:40:05Z",
+      "side": 1,
+      "message": "Well, although it\u0027s specific to k8s region, there is only one (out of 6) requests in folder that is really specific (upload of kubeconfig to k8splugin) so I think this generic statement could stay?",
+      "parentUuid": "9baddbba_694fa157",
+      "range": {
+        "startLine": 841,
+        "startChar": 13,
+        "endLine": 841,
+        "endChar": 18
+      },
+      "revId": "6bbab5214cb05681b546b1879991352990996a34",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "13f65c53_6b28ffdd",
         "filename": "docs/docs_vFW_CNF_CDS.rst",
         "patchSetId": 3
@@ -539,6 +731,30 @@
       "revId": "6bbab5214cb05681b546b1879991352990996a34",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7718fdb_41bec957",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 987,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2020-05-28T17:40:05Z",
+      "side": 1,
+      "message": "Fixed",
+      "parentUuid": "13f65c53_6b28ffdd",
+      "range": {
+        "startLine": 987,
+        "startChar": 144,
+        "endLine": 987,
+        "endChar": 150
+      },
+      "revId": "6bbab5214cb05681b546b1879991352990996a34",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -624,6 +840,30 @@
       "writtenOn": "2020-05-28T09:52:18Z",
       "side": 1,
       "message": "fix?",
+      "range": {
+        "startLine": 1026,
+        "startChar": 76,
+        "endLine": 1026,
+        "endChar": 81
+      },
+      "revId": "6bbab5214cb05681b546b1879991352990996a34",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8289dea_6008b185",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 1026,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2020-05-28T17:40:05Z",
+      "side": 1,
+      "message": "As said in several places in doc - to be updated on real use-case re-verification on RC2.",
+      "parentUuid": "516ecd56_76341edf",
       "range": {
         "startLine": 1026,
         "startChar": 76,
