@@ -4,7 +4,7 @@ branch = 'latest'
 master_doc = 'index'
 
 linkcheck_ignore = [
-    r'http://localhost:\d+/',
+    r'http://localhost:.*',
     'http://CONSUL_SERVER_UI:30270/ui/#/dc1/services',
     r'https://.*h=frankfurt',
     r'http.*frankfurt.*',

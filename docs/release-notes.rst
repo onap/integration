@@ -44,7 +44,8 @@ ONAP Maturity Testing Notes
 A Frankfurt daily CI chain has bee put in place after the RC0 milestone. This CI
 chain is used to track the stability of the release from the RC0. it will be
 maintained as the latest stable CI branch and replaces the El Alto branch.
-The daily results can be found in <https://gating-results.onap.eu/results/>
+The daily results can be found in <https://gating-results.onap.eu/results/>.
+A 72 stability test has been executed after RC1.
 
 Verified Use Cases and Functional Requirements
 ----------------------------------------------
@@ -81,7 +82,8 @@ Robot Test Suites
 
 Version: 1.6.2
 
-:Release Date: 2020-06-15
+:Release Date: 2020-06-27
+:sha1: b0407856e24e04126734a176f171afc7274ae2f4
 
 **New Features**
 
