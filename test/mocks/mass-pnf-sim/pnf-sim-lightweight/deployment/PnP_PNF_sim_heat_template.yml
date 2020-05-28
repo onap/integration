@@ -76,7 +76,7 @@ resources:
                 chmod +x /usr/local/bin/docker-compose
             }
             pnf_sim_file_checkout () {
-                cd /root; git clone https://gerrit.onap.org/r/integration
+                cd /root; git clone --depth 1 https://gerrit.onap.org/r/integration
                 printf "{\n  "simulatorParams": {\n    "vesServerUrl": "http://VES-HOST:VES-PORT/eventListener/v7",\n    "testDuration": "10",\n    "messageInterval": "1"\n  },\n  "commonEventHeaderParams": {\n    "eventName": "pnfRegistration_Nokia_5gDu",\n    "nfNamingCode": "gNB",\n    "nfcNamingCode": "oam",\n    "sourceName": "NOK6061ZW3",\n    "sourceId": "val13",\n    "reportingEntityName": "NOK6061ZW3"\n  },\n  "pnfRegistrationParams": {\n    "serialNumber": "6061ZW3",\n    "vendorName": "Nokia",\n    "oamV4IpAddress": "val3",\n    "oamV6IpAddress": "val4",\n    "unitFamily": "BBU",\n    "modelNumber": "val6",\n    "softwareVersion": "val7",\n    "unitType": "val8"\n  }\n}" > integration/test/mocks/pnfsimulator/config/config.json
             }
 
