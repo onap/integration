@@ -7,6 +7,7 @@ from sys import exit
 from os import chdir, getcwd, path
 from shutil import copytree, rmtree
 from json import dumps
+from yaml import load, SafeLoader
 from glob import glob
 from requests import get
 from requests.exceptions import MissingSchema, InvalidSchema, InvalidURL, ConnectionError, ConnectTimeout
@@ -104,6 +105,7 @@ class MassPnfSim:
             return action_decorator
 
     log_lvl = logging.INFO
+    sim_config = 'config/config.yml'
 
     def __init__(self, args):
         self.args = args
@@ -149,6 +151,15 @@ class MassPnfSim:
     def _enum_sim_instances(self):
         '''Helper method that returns bootstraped simulator instances count'''
         return len(glob(f"{self.sim_dirname_pattern}[0-9]*"))
+
+    def _get_sim_instance_data(self, instance_id):
+        '''Helper method that returns specific instance data'''
+        oldpwd = getcwd()
+        chdir(f"{self.sim_dirname_pattern}{instance_id}")
+        with open(self.sim_config) as cfg:
+            yml = load(cfg, Loader=SafeLoader)
+        chdir(oldpwd)
+        return yml['ippnfsim']
 
     def bootstrap(self):
         self.logger.info("Bootstrapping PNF instances")

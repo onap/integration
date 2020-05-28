@@ -187,7 +187,6 @@ EndOfMessage
 }
 
 function get_status(){
-    get_pnfsim_ip
     if [[ $(running_containers) ]]; then
         print_status
     else
