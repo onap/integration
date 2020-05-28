@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3437235_49625d29",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 3957
+      },
+      "writtenOn": "2020-05-28T09:52:18Z",
+      "side": 0,
+      "message": "onap-cds-blueprints-processor",
+      "range": {
+        "startLine": 430,
+        "startChar": 38,
+        "endLine": 430,
+        "endChar": 71
+      },
+      "revId": "c1b4bda513cf2b2422389cd7f93ce40f947cc710",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
