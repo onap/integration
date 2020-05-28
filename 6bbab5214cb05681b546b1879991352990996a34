@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "334089e9_ef36df20",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 2701
+      },
+      "writtenOn": "2020-05-28T18:38:39Z",
+      "side": 1,
+      "message": "This must be related with Levels od chapters we use in this rst. For vFWDT I do not use ...... and TOC is generated ok.",
+      "parentUuid": "73c9d44f_a47b0f32",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 12
+      },
+      "revId": "6bbab5214cb05681b546b1879991352990996a34",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a62bf48e_37dacb32",
         "filename": "docs/docs_vFW_CNF_CDS.rst",
         "patchSetId": 3
@@ -699,6 +723,30 @@
       "side": 1,
       "message": "Well, although it\u0027s specific to k8s region, there is only one (out of 6) requests in folder that is really specific (upload of kubeconfig to k8splugin) so I think this generic statement could stay?",
       "parentUuid": "9baddbba_694fa157",
+      "range": {
+        "startLine": 841,
+        "startChar": 13,
+        "endLine": 841,
+        "endChar": 18
+      },
+      "revId": "6bbab5214cb05681b546b1879991352990996a34",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4c221de_cd532365",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 2701
+      },
+      "writtenOn": "2020-05-28T18:38:39Z",
+      "side": 1,
+      "message": "It is generic, but the point is about adding k8s region in particular. If we want to guide people how to add any region and k8s also one let\u0027s put clear statement the instruction is same for all types of regions, and last command is specific for k8s only.",
+      "parentUuid": "0d890295_66731efb",
       "range": {
         "startLine": 841,
         "startChar": 13,
