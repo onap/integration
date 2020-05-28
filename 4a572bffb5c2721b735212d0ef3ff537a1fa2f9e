@@ -1,0 +1,537 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e363920a_3f2d01eb",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-05-28T15:54:09Z",
+      "side": 1,
+      "message": "remove trailing space",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 1
+      },
+      "revId": "4a572bffb5c2721b735212d0ef3ff537a1fa2f9e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "006a9311_f0801e73",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-05-28T15:54:09Z",
+      "side": 1,
+      "message": "remove trailing space",
+      "revId": "4a572bffb5c2721b735212d0ef3ff537a1fa2f9e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53122200_e639ae7b",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-05-28T15:54:09Z",
+      "side": 1,
+      "message": "remove trailing space",
+      "revId": "4a572bffb5c2721b735212d0ef3ff537a1fa2f9e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22425816_8b715095",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-05-28T15:54:09Z",
+      "side": 1,
+      "message": "not sure to understand the line break here",
+      "revId": "4a572bffb5c2721b735212d0ef3ff537a1fa2f9e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f33e4c7a_f1a7d67d",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-05-28T15:54:09Z",
+      "side": 1,
+      "message": "Nothing in El Alto?",
+      "revId": "4a572bffb5c2721b735212d0ef3ff537a1fa2f9e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "421b7a49_66704e93",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-05-28T15:54:09Z",
+      "side": 1,
+      "message": "remove trailing space",
+      "revId": "4a572bffb5c2721b735212d0ef3ff537a1fa2f9e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11b3072b_0b12d747",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-05-28T15:54:09Z",
+      "side": 1,
+      "message": "remove trailing space",
+      "revId": "4a572bffb5c2721b735212d0ef3ff537a1fa2f9e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6800f668_7200263d",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-05-28T15:54:09Z",
+      "side": 1,
+      "message": "bad line continuation",
+      "revId": "4a572bffb5c2721b735212d0ef3ff537a1fa2f9e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba49b6c4_7dfa03d2",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-05-28T15:54:09Z",
+      "side": 1,
+      "message": "remove trailing space",
+      "revId": "4a572bffb5c2721b735212d0ef3ff537a1fa2f9e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51eee3ab_418cbe74",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-05-28T15:54:09Z",
+      "side": 1,
+      "message": "bad line cut",
+      "revId": "4a572bffb5c2721b735212d0ef3ff537a1fa2f9e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10f89e39_ffcc5c77",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-05-28T15:54:09Z",
+      "side": 1,
+      "message": "remove trailing space",
+      "revId": "4a572bffb5c2721b735212d0ef3ff537a1fa2f9e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77ab5ff6_acde3e22",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-05-28T15:54:09Z",
+      "side": 1,
+      "message": "remove trailing space",
+      "revId": "4a572bffb5c2721b735212d0ef3ff537a1fa2f9e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "190ce684_d95c1d10",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-05-28T15:54:09Z",
+      "side": 1,
+      "message": "remove trailing space",
+      "revId": "4a572bffb5c2721b735212d0ef3ff537a1fa2f9e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57ac394e_b2b279ae",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-05-28T15:54:09Z",
+      "side": 1,
+      "message": "remove trailing space",
+      "revId": "4a572bffb5c2721b735212d0ef3ff537a1fa2f9e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64ca40f1_97581fa6",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-05-28T15:54:09Z",
+      "side": 1,
+      "message": "remove trailing space",
+      "revId": "4a572bffb5c2721b735212d0ef3ff537a1fa2f9e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffdbbe29_62695157",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-05-28T15:54:09Z",
+      "side": 1,
+      "message": "remove trailing space",
+      "revId": "4a572bffb5c2721b735212d0ef3ff537a1fa2f9e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f83f09fd_6ce0d19a",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-05-28T15:54:09Z",
+      "side": 1,
+      "message": "remove trailing space",
+      "revId": "4a572bffb5c2721b735212d0ef3ff537a1fa2f9e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "732b65b1_1669739e",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-05-28T15:54:09Z",
+      "side": 1,
+      "message": "remove trailing space",
+      "revId": "4a572bffb5c2721b735212d0ef3ff537a1fa2f9e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "832e4925_379eeda9",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-05-28T15:54:09Z",
+      "side": 1,
+      "message": "remove trailing space",
+      "revId": "4a572bffb5c2721b735212d0ef3ff537a1fa2f9e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28a99197_759adcdd",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-05-28T15:54:09Z",
+      "side": 1,
+      "message": "remove trailing space",
+      "revId": "4a572bffb5c2721b735212d0ef3ff537a1fa2f9e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9598ab62_24f9ec7b",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-05-28T15:54:09Z",
+      "side": 1,
+      "message": "remove trailing space",
+      "revId": "4a572bffb5c2721b735212d0ef3ff537a1fa2f9e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a5cdef1_36e50991",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-05-28T15:54:09Z",
+      "side": 1,
+      "message": "remove trailing space",
+      "revId": "4a572bffb5c2721b735212d0ef3ff537a1fa2f9e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a326c64c_64fc0a36",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-05-28T15:54:09Z",
+      "side": 1,
+      "message": "remove trailing space",
+      "revId": "4a572bffb5c2721b735212d0ef3ff537a1fa2f9e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd4ad051_b3fc1d9d",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-05-28T15:54:09Z",
+      "side": 1,
+      "message": "remove trailing space",
+      "revId": "4a572bffb5c2721b735212d0ef3ff537a1fa2f9e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9912bdc_50d4d477",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-05-28T15:54:09Z",
+      "side": 1,
+      "message": "remove trailing space",
+      "revId": "4a572bffb5c2721b735212d0ef3ff537a1fa2f9e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c7ecc5b_5c9c4d79",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-05-28T15:54:09Z",
+      "side": 1,
+      "message": "remove trailing space",
+      "revId": "4a572bffb5c2721b735212d0ef3ff537a1fa2f9e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4465c8b_c52f2748",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-05-28T15:54:09Z",
+      "side": 1,
+      "message": "remove trailing space",
+      "revId": "4a572bffb5c2721b735212d0ef3ff537a1fa2f9e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbe44950_becb234a",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-05-28T15:54:09Z",
+      "side": 1,
+      "message": "remove trailing space",
+      "revId": "4a572bffb5c2721b735212d0ef3ff537a1fa2f9e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d42b55a5_b438c040",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-05-28T15:54:09Z",
+      "side": 1,
+      "message": "bad idennt?",
+      "revId": "4a572bffb5c2721b735212d0ef3ff537a1fa2f9e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3680b44_9e3d148b",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-05-28T15:54:09Z",
+      "side": 1,
+      "message": "remove trailing space",
+      "revId": "4a572bffb5c2721b735212d0ef3ff537a1fa2f9e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1841a25_dee62bb1",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-05-28T15:54:09Z",
+      "side": 1,
+      "message": "remove trailing space",
+      "revId": "4a572bffb5c2721b735212d0ef3ff537a1fa2f9e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
