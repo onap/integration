@@ -54,7 +54,7 @@ rm -rf /dockerdata-nfs/dev-*/
 # Clone OOM:
 cd ~
 rm -rf oom/
-git clone -b $OOM_GERRIT_BRANCH https://gerrit.onap.org/r/oom
+git clone --depth 1 -b $OOM_GERRIT_BRANCH https://gerrit.onap.org/r/oom
 cd oom
 git fetch https://gerrit.onap.org/r/oom $OOM_GERRIT_REFSPEC
 git checkout FETCH_HEAD
@@ -64,7 +64,7 @@ git log -1
 # Clone integration
 cd ~
 rm -rf integration/
-git clone -b $INTEGRATION_GERRIT_BRANCH https://gerrit.onap.org/r/integration
+git clone --depth 1 -b $INTEGRATION_GERRIT_BRANCH https://gerrit.onap.org/r/integration
 cd integration
 git fetch https://gerrit.onap.org/r/integration $INTEGRATION_GERRIT_REFSPEC
 git checkout FETCH_HEAD

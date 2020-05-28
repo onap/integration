@@ -49,7 +49,7 @@ EOF
 
 kubectl replace -f "$BUILD_DIR/tmp-sc.yaml" --force
 
-git clone -b "$OOM_BRANCH" http://gerrit.onap.org/r/oom --recurse-submodules
+git clone --depth 1 -b "$OOM_BRANCH" http://gerrit.onap.org/r/oom --recurse-submodules
 
 #mv requirements.yaml oom/kubernetes/onap/
 cd oom/kubernetes
