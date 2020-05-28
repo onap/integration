@@ -278,7 +278,7 @@ Preparation of Workflow Script Environment
 
 ::
 
-    git clone --single-branch --branch frankfurt "https://gerrit.onap.org/r/demo"
+    git clone --depth 1 --single-branch --branch frankfurt "https://gerrit.onap.org/r/demo"
 
 3. Enter vFWDT tutorial directory
 

@@ -59,7 +59,7 @@ ENV LD_LIBRARY_PATH=/opt/lib:/opt/lib64
 # libyang
 COPY patches/libyang/ ./patches/libyang/
 RUN set -eux \
-      && git clone --branch $libyang_version --depth 1 https://github.com/CESNET/libyang.git \
+      && git clone --depth 1 --branch $libyang_version  https://github.com/CESNET/libyang.git \
       && cd libyang \
       && for p in ../patches/libyang/*.patch; do patch -p1 -i $p; done \
       && mkdir build && cd build \
@@ -71,7 +71,7 @@ RUN set -eux \
       && make install
 
 RUN set -eux \
-      && git clone --depth 1 https://github.com/sysrepo/libredblack.git \
+      && git clone --depth 1  https://github.com/sysrepo/libredblack.git \
       && cd libredblack \
       && ./configure --prefix=/opt --without-rbgen \
       && make \
@@ -79,7 +79,7 @@ RUN set -eux \
 
 # zlog
 RUN set -eux \
-      && git clone --branch $zlog_version --depth 1 https://github.com/HardySimpson/zlog \
+      && git clone --depth 1 --branch $zlog_version  https://github.com/HardySimpson/zlog \
       && cd zlog/src \
       && make PREFIX=/opt \
       && make install PREFIX=/opt
@@ -87,7 +87,7 @@ RUN set -eux \
 # sysrepo
 COPY patches/sysrepo/ ./patches/sysrepo/
 RUN set -eux \
-      && git clone --branch $sysrepo_version --depth 1 https://github.com/sysrepo/sysrepo.git \
+      && git clone --depth 1 --branch $sysrepo_version  https://github.com/sysrepo/sysrepo.git \
       && cd sysrepo \
       && for p in ../patches/sysrepo/*.patch; do patch -p1 -i $p; done \
       && mkdir build && cd build \
@@ -105,7 +105,7 @@ RUN set -eux \
 # libnetconf2
 COPY patches/libnetconf2/ ./patches/libnetconf2/
 RUN set -eux \
-      && git clone --branch $libnetconf2_version --depth 1 https://github.com/CESNET/libnetconf2.git \
+      && git clone --depth 1 --branch $libnetconf2_version  https://github.com/CESNET/libnetconf2.git \
       && cd libnetconf2 \
       && for p in ../patches/libnetconf2/*.patch; do patch -p1 -i $p; done \
       && mkdir build && cd build \
@@ -119,7 +119,7 @@ RUN set -eux \
 # keystore
 COPY patches/Netopeer2/ ./patches/Netopeer2/
 RUN set -eux \
-      && git clone --branch $netopeer2_version --depth 1 https://github.com/CESNET/Netopeer2.git \
+      && git clone --depth 1 --branch $netopeer2_version  https://github.com/CESNET/Netopeer2.git \
       && cd Netopeer2 \
       && for p in ../patches/Netopeer2/*.patch; do patch -p1 -i $p; done \
       && cd keystored \

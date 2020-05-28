@@ -200,7 +200,7 @@ TC2XXX is same as TC1XXX but with FTPS
 
 When cloning/fetching from the repository first time:
 
-1. `git clone`
+1. `git clone --depth 1`
 2. `cd "..." ` 		#navigate to this folder
 3. `source setup.sh `	#setting up virtualenv and install requirements
    you'll get a sourced virtualenv shell here, check prompt
@@ -214,7 +214,7 @@ Every time you run the script, you'll need to step into the virtualenv by follow
 
 When cloning/fetching from the repository first time:
 
-1. 'git clone'
+1. 'git clone --depth 1'
 2. then step into the folder
 3. 'pip3 install virtualenv'
 4. 'pip3 install virtualenvwrapper-win'

@@ -73,4 +73,4 @@
           shell-cmd: 'docker build -f ./Dockerfile .'
       - 'portal':
           repo: 'portal'
-          shell-cmd: 'git -C ecompsdkos pull || git clone $GIT_NO_PROJECT/ecompsdkos; git -C dmaapbc pull || git clone $GIT_NO_PROJECT/ui/dmaapbc dmaapbc; cd deliveries; chmod +x *.sh; ./run.sh'
+          shell-cmd: 'git -C ecompsdkos pull || git clone --depth 1 $GIT_NO_PROJECT/ecompsdkos; git -C dmaapbc pull || git clone --depth 1 $GIT_NO_PROJECT/ui/dmaapbc dmaapbc; cd deliveries; chmod +x *.sh; ./run.sh'
