@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "46827e87_fc4a8e83",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2020-05-28T07:39:34Z",
+      "side": 1,
+      "message": "sorry, but I don\u0027t get what do you mean :/",
+      "parentUuid": "170e3712_b79e1d39",
+      "range": {
+        "startLine": 154,
+        "startChar": 246,
+        "endLine": 154,
+        "endChar": 281
+      },
+      "revId": "6bbab5214cb05681b546b1879991352990996a34",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "90739038_1ece259d",
         "filename": "docs/docs_vFW_CNF_CDS.rst",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2020-05-27T16:20:04Z",
       "side": 1,
       "message": "version bump needed",
+      "range": {
+        "startLine": 459,
+        "startChar": 31,
+        "endLine": 459,
+        "endChar": 37
+      },
+      "revId": "6bbab5214cb05681b546b1879991352990996a34",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "404e7222_128bf918",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2020-05-28T07:39:34Z",
+      "side": 1,
+      "message": "it\u0027s UAT part of doc. I didn\u0027t touch it as Samuli will either update it or delete depending on UAT tests status",
+      "parentUuid": "90739038_1ece259d",
       "range": {
         "startLine": 459,
         "startChar": 31,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "bec673e1_c2a976e6",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2020-05-28T07:39:34Z",
+      "side": 1,
+      "message": "corrected",
+      "parentUuid": "85b366e0_821141ad",
+      "range": {
+        "startLine": 716,
+        "startChar": 29,
+        "endLine": 716,
+        "endChar": 30
+      },
+      "revId": "6bbab5214cb05681b546b1879991352990996a34",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2293b674_75a8789a",
         "filename": "docs/docs_vFW_CNF_CDS.rst",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2020-05-27T16:20:04Z",
       "side": 1,
       "message": "let copy paste note like in other sections with passwords used - we need to current password and user with kubectl secrets",
+      "range": {
+        "startLine": 791,
+        "startChar": 2,
+        "endLine": 793,
+        "endChar": 57
+      },
+      "revId": "6bbab5214cb05681b546b1879991352990996a34",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cf51597_f30f316e",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2020-05-28T07:39:34Z",
+      "side": 1,
+      "message": "this password appears yet not to be generated from secret, but hardcoded (as far as I\u0027m aware), so I\u0027d leave it as is",
+      "parentUuid": "2293b674_75a8789a",
       "range": {
         "startLine": 791,
         "startChar": 2,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "efc7ec00_ea687a14",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2020-05-28T07:39:34Z",
+      "side": 1,
+      "message": "Please refer to updated postman in review. Name is correct (I\u0027ve usually skipped numbers, [] and () parts of names intentionally as they\u0027re just \"suggestion\")",
+      "parentUuid": "1256fb8d_1374ad57",
+      "range": {
+        "startLine": 841,
+        "startChar": 13,
+        "endLine": 841,
+        "endChar": 18
+      },
+      "revId": "6bbab5214cb05681b546b1879991352990996a34",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "395f61a1_fa518dd5",
         "filename": "docs/docs_vFW_CNF_CDS.rst",
         "patchSetId": 3
@@ -128,6 +248,30 @@
       "writtenOn": "2020-05-27T16:20:04Z",
       "side": 1,
       "message": "should not be 1.0?",
+      "range": {
+        "startLine": 1018,
+        "startChar": 23,
+        "endLine": 1018,
+        "endChar": 28
+      },
+      "revId": "6bbab5214cb05681b546b1879991352990996a34",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0950e9d7_7c0ad041",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 1018,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2020-05-28T07:39:34Z",
+      "side": 1,
+      "message": "In example these requests were run, service was updated in SDC few times. But you\u0027re right, this needs an updated after latest verification run",
+      "parentUuid": "395f61a1_fa518dd5",
       "range": {
         "startLine": 1018,
         "startChar": 23,
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "e8dd804e_adcd3c03",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 1054,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2020-05-28T07:39:34Z",
+      "side": 1,
+      "message": "yes, needs update (like above)",
+      "parentUuid": "eaef744a_6e09e772",
+      "range": {
+        "startLine": 1054,
+        "startChar": 2060,
+        "endLine": 1054,
+        "endChar": 2088
+      },
+      "revId": "6bbab5214cb05681b546b1879991352990996a34",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "89f3e795_9971acfa",
         "filename": "docs/docs_vFW_CNF_CDS.rst",
         "patchSetId": 3
@@ -174,6 +342,30 @@
       "writtenOn": "2020-05-27T16:20:04Z",
       "side": 1,
       "message": "change version here",
+      "range": {
+        "startLine": 1130,
+        "startChar": 27,
+        "endLine": 1130,
+        "endChar": 33
+      },
+      "revId": "6bbab5214cb05681b546b1879991352990996a34",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0aa63996_a422642c",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 1130,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2020-05-28T07:39:34Z",
+      "side": 1,
+      "message": "needs update (as above)",
+      "parentUuid": "89f3e795_9971acfa",
       "range": {
         "startLine": 1130,
         "startChar": 27,
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "825af3dc_5065d407",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 1134,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2020-05-28T07:39:34Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "413447b4_ed5496aa",
+      "range": {
+        "startLine": 1134,
+        "startChar": 74,
+        "endLine": 1134,
+        "endChar": 75
+      },
+      "revId": "6bbab5214cb05681b546b1879991352990996a34",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "07483551_b0887771",
         "filename": "docs/docs_vFW_CNF_CDS.rst",
         "patchSetId": 3
@@ -220,6 +436,30 @@
       "writtenOn": "2020-05-27T16:20:04Z",
       "side": 1,
       "message": "update model versions",
+      "range": {
+        "startLine": 1149,
+        "startChar": 19,
+        "endLine": 1150,
+        "endChar": 84
+      },
+      "revId": "6bbab5214cb05681b546b1879991352990996a34",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "573e1ec9_a32bb07c",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 1150,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2020-05-28T07:39:34Z",
+      "side": 1,
+      "message": "needs update (as above)",
+      "parentUuid": "07483551_b0887771",
       "range": {
         "startLine": 1149,
         "startChar": 19,
@@ -255,6 +495,30 @@
     },
     {
       "key": {
+        "uuid": "1dad5dbc_1624e400",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 1155,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2020-05-28T07:39:34Z",
+      "side": 1,
+      "message": "well.. that\u0027s an extract from CBA\u0027s metadata, but sure, worth to ask. @Samuli?",
+      "parentUuid": "a72db5b3_f2ace3a7",
+      "range": {
+        "startLine": 1155,
+        "startChar": 46,
+        "endLine": 1155,
+        "endChar": 76
+      },
+      "revId": "6bbab5214cb05681b546b1879991352990996a34",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4425085b_a84d9cc6",
         "filename": "docs/docs_vFW_CNF_CDS.rst",
         "patchSetId": 3
@@ -266,6 +530,30 @@
       "writtenOn": "2020-05-27T16:20:04Z",
       "side": 1,
       "message": "vpgn ssh service missing here - needs to be updated",
+      "range": {
+        "startLine": 1309,
+        "startChar": 0,
+        "endLine": 1309,
+        "endChar": 132
+      },
+      "revId": "6bbab5214cb05681b546b1879991352990996a34",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01a0d539_5d00b176",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 1309,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2020-05-28T07:39:34Z",
+      "side": 1,
+      "message": "yes, needs update (as above)",
+      "parentUuid": "4425085b_a84d9cc6",
       "range": {
         "startLine": 1309,
         "startChar": 0,
