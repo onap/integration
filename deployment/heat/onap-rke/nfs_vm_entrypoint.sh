@@ -146,7 +146,7 @@ popd
 
 # Clone OOM repo
 cd ~
-git clone --recurse-submodules -b __oom_gerrit_branch__ https://gerrit.onap.org/r/oom
+git clone --depth 1 --recurse-submodules -b __oom_gerrit_branch__ https://gerrit.onap.org/r/oom
 cd oom
 if [ ! -z "__oom_gerrit_refspec__" ]; then
     git fetch https://gerrit.onap.org/r/oom __oom_gerrit_refspec__
@@ -157,7 +157,7 @@ git log -1
 
 # Clone integration repo
 cd ~
-git clone -b __integration_gerrit_branch__ https://gerrit.onap.org/r/integration
+git clone --depth 1 -b __integration_gerrit_branch__ https://gerrit.onap.org/r/integration
 cd integration
 if [ ! -z "__integration_gerrit_refspec__" ]; then
     git fetch https://gerrit.onap.org/r/integration __integration_gerrit_refspec__

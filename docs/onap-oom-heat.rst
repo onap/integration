@@ -52,7 +52,7 @@ you need to do to deploy ONAP:
 
 ::
 
-   git clone https://git.onap.org/integration
+   git clone --depth 1 https://git.onap.org/integration
    cd integration/deployment/heat/onap-rke/
    source ./env/windriver/Integration-SB-00-openrc
    ./scripts/deploy.sh ./env/windriver/onap-oom.env
@@ -125,7 +125,7 @@ Exploring the Rancher VM
 The Rancher VM that is spun up by this HEAT template serves the
 following key roles:
 - Hosts the /dockerdata-nfs/ NFS export shared by all the k8s VMs for persistent volumes
-- git clones the oom repo into /root/oom
-- git clones the integration repo into /root/integration
+- git clone --depth 1s the oom repo into /root/oom
+- git clone --depth 1s the integration repo into /root/integration
 - Creates the helm override file at /root/integration-override.yaml
 - Deploys ONAP using helm and OOM

@@ -65,7 +65,7 @@ From your machine, git clone the ONAP Integration project.
 
 ::
 
-  git clone "https://gerrit.onap.org/r/integration"
+  git clone --depth 1 "https://gerrit.onap.org/r/integration"
 
 
 Import ONAP Postman collections
@@ -164,7 +164,7 @@ On a linux server, with Docker installed on it, run those lines:
 
 ::
 
-  git clone https://gitlab.com/Orange-OpenSource/lfn/onap/onap-tests.git
+  git clone --depth 1 https://gitlab.com/Orange-OpenSource/lfn/onap/onap-tests.git
   cd onap-tests/postman
   sudo apt-get -y install zip
   USECASE=$'ubuntu16'

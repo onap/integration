@@ -123,7 +123,7 @@ write_files:
     git add -A
     git commit -m 'Install initial plugins' > /dev/null
 
-    git clone https://github.com/garyiwu/onap-lab-ci.git
+    git clone --depth 1 https://github.com/garyiwu/onap-lab-ci.git
     cd onap-lab-ci
     jenkins-jobs update -r jjb
 

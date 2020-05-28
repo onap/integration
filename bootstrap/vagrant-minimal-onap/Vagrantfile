@@ -74,7 +74,7 @@ SCRIPT
 
 $setup_devstack = <<-SCRIPT
   CONFIG="$1"
-  git clone https://opendev.org/openstack/devstack
+  git clone --depth 1 https://opendev.org/openstack/devstack
   cd devstack
   cp "$CONFIG" .
   ./stack.sh
@@ -154,7 +154,7 @@ $rke_down = "rke remove --force || true" # best effort
 $get_oom = <<-SCRIPT
   BRANCH="${1:-5.0.1-ONAP}"
   REPO="${2:-https://git.onap.org/oom}"
-  git clone -b "$BRANCH" "$REPO" --recurse-submodules
+  git clone --depth 1 -b "$BRANCH" "$REPO" --recurse-submodules
 SCRIPT
 
 $get_helm_plugins = "mkdir -p ${HOME}/.helm && cp -R ${HOME}/oom/kubernetes/helm/plugins/ ${HOME}/.helm"

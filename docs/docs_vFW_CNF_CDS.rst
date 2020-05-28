@@ -890,7 +890,7 @@ Complete content can be packaged to single onboarding package file in the follow
 
 ::
 
-  git clone https://gerrit.onap.org/r/demo
+  git clone --depth 1 https://gerrit.onap.org/r/demo
   cd heat/vFW_CNF_CDS/templates
   make
 

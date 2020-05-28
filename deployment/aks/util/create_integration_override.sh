@@ -28,7 +28,7 @@ MASTER_PASSWORD=$8
 
 export KUBECONFIG=$KUBECONFIG
 
-git clone https://gerrit.onap.org/r/integration "$BUILD_DIR/integration"
+git clone --depth 1 https://gerrit.onap.org/r/integration "$BUILD_DIR/integration"
 
 echo ""
 echo "Looping until openstack is ready."

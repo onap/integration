@@ -19,8 +19,8 @@ pushd .
 
 cd /tmp
 
-git clone http://gerrit.onap.org/r/integration /tmp/integration-repo
-git clone https://github.com/onap/oom.git /tmp/oom-repo
+git clone --depth 1 http://gerrit.onap.org/r/integration /tmp/integration-repo
+git clone --depth 1 https://github.com/onap/oom.git /tmp/oom-repo
 
 cd /tmp/integration-repo/deployment/heat/onap-rke/scripts
 SO_ENCRYPTION_KEY=`cat /tmp/oom-repo/kubernetes/so/resources/config/mso/encryption.key`
