@@ -1,0 +1,108 @@
+# -*- mode: ruby -*-
+# -*- coding: utf-8 -*-
+
+synced_folder_main = "/vagrant"
+synced_folder_config = "#{synced_folder_main}/config"
+os_config = "#{synced_folder_config}/local.conf"
+os_clouds = "#{synced_folder_config}/clouds.yaml"
+os_clouds_dir = "${HOME}/.config/openstack"
+
+vm_cpu = 1
+vm_cpus = 4
+vm_memory = 1 * 1024
+vm_memory_os = 8 * 1024
+vm_disk = 32
+vm_box = "generic/ubuntu1804"
+
+operation = {
+  name: 'operator',
+  hostname: 'operator',
+  ip: '172.17.5.254',
+  cpus: vm_cpu,
+  memory: vm_memory,
+  disk: vm_disk
+}
+devstack = {
+  name: 'devstack',
+  hostname: 'devstack',
+  ip: '172.17.5.200',
+  cpus: vm_cpus,
+  memory: vm_memory_os,
+  disk: vm_disk
+}
+
+all = [] << operation << devstack
+
+$enable_ipv6 = <<-SCRIPT
+  sed -i'' 's/net.ipv6.conf.all.disable_ipv6.*$/net.ipv6.conf.all.disable_ipv6 = 0/' /etc/sysctl.conf
+  sysctl -p
+SCRIPT
+
+$setup_devstack = <<-SCRIPT
+  CONFIG="$1"
+  git clone https://opendev.org/openstack/devstack
+  cd devstack
+  cp "$CONFIG" .
+  ./stack.sh
+SCRIPT
+
+$setup_py = <<-SCRIPT
+  export DEBIAN_FRONTEND=noninteractive
+  sudo -E apt-get update
+  sudo -E apt-get install -yq python3-distutils
+
+  curl -fsSL https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+  sudo -H python3 get-pip.py
+  pip install python-openstackclient
+  mkdir -p #{os_clouds_dir}
+SCRIPT
+
+$link_file = <<-SCRIPT
+  src="$1"
+  dst="$2"
+  echo "Symlinking ${src} to ${dst}"
+  ln -sf "$src" "$dst"
+SCRIPT
+
+Vagrant.configure("2") do |config|
+  all.each do |machine|
+    config.vm.define machine[:name] do |config|
+      config.vm.box = vm_box
+      config.vm.hostname = machine[:hostname]
+
+      config.vm.provider :virtualbox do |v|
+        v.name = machine[:name]
+        v.memory = machine[:memory]
+        v.cpus = machine[:cpus]
+      end
+
+      config.vm.provider :libvirt do |v|
+        v.memory = machine[:memory]
+        v.cpus = machine[:cpus]
+        v.machine_virtual_size = machine[:disk] # set at VM creation
+      end
+
+      config.vm.network :private_network, ip: machine[:ip]
+
+      if machine[:name] == 'devstack'
+        config.vm.network "forwarded_port", guest: 80, host: 8080
+
+        config.vm.synced_folder ".", synced_folder_main, type: "rsync", rsync__exclude: "Vagrantfile"
+
+        config.vm.provision "enable_ipv6", type: :shell, run: "always", inline: $enable_ipv6
+        config.vm.provision "setup_devstack", type: :shell, privileged: false, inline: $setup_devstack, args: os_config
+      end
+
+      if machine[:name] == 'operator'
+        config.vm.synced_folder ".", synced_folder_main, type: "rsync", rsync__exclude: "Vagrantfile"
+
+        config.vm.provision "setup_openstacksdk", type: :shell, privileged: false, inline: $setup_py
+        config.vm.provision "link_os_clouds", type: :shell, run: "always" do |s|
+          s.privileged = false
+          s.inline = $link_file
+          s.args = [os_clouds, os_clouds_dir]
+        end
+      end
+    end
+  end
+end
