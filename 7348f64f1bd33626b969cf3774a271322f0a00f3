@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cbb550a6_8f49094a",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 6
+      },
+      "lineNbr": 1024,
+      "author": {
+        "id": 2701
+      },
+      "writtenOn": "2020-05-29T08:05:21Z",
+      "side": 1,
+      "message": "add please one blank line after, after building now there is a problem here",
+      "range": {
+        "startLine": 1024,
+        "startChar": 0,
+        "endLine": 1024,
+        "endChar": 6
+      },
+      "revId": "7348f64f1bd33626b969cf3774a271322f0a00f3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
