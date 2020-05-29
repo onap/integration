@@ -1,0 +1,11 @@
+clouds:
+  openstack:
+    auth:
+      auth_url: http://172.17.5.200/identity
+      username: "demo"
+      password: "default123456!"
+      project_name: "demo"
+      user_domain_name: "Default"
+    region_name: "RegionOne"
+    interface: "public"
+    identity_api_version: 3
