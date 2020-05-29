@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39b1a7ba_334b9f27",
+        "filename": "bootstrap/jenkins/scripts/pull-all.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4965
+      },
+      "writtenOn": "2020-05-29T13:39:20Z",
+      "side": 1,
+      "message": "I\u0027m not a fan of this at all. Arent\u0027t those scripts intended to by used by developers to setup their working env? If yes then do we rally want to setup the environment without git history?",
+      "revId": "631478b49697abb723f874aad6789f38b8b61d1f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
