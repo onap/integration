@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f218f0c1_f9efb071",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-05-29T09:41:17Z",
+      "side": 1,
+      "message": "still some trailing space\nsorry normally the linter must report it\nI do not know why it does not anymore",
+      "revId": "3622592a0a43f376dbf5b5a8705bbef88b43fe98",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "521384c9_0cf6df0d",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-05-29T09:41:17Z",
+      "side": 1,
+      "message": "trailing spaces",
+      "revId": "3622592a0a43f376dbf5b5a8705bbef88b43fe98",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
