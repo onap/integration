@@ -16,6 +16,24 @@
       "revId": "631478b49697abb723f874aad6789f38b8b61d1f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb1eb0fb_5f842be0",
+        "filename": "bootstrap/jenkins/scripts/pull-all.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6661
+      },
+      "writtenOn": "2020-05-30T08:05:40Z",
+      "side": 1,
+      "message": "yes these scripts intended to by used by developers to setup their \"jenkin build pipeline only\" . \n\nSo, Not being used for any code review or for development purpose in which commit history may be required .\n\nSo, No need to clone or fetch whole commit history",
+      "parentUuid": "39b1a7ba_334b9f27",
+      "revId": "631478b49697abb723f874aad6789f38b8b61d1f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
