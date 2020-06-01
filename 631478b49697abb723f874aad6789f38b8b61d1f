@@ -34,6 +34,24 @@
       "revId": "631478b49697abb723f874aad6789f38b8b61d1f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "220d64ec_92d41189",
+        "filename": "bootstrap/jenkins/scripts/pull-all.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4965
+      },
+      "writtenOn": "2020-06-01T19:34:11Z",
+      "side": 1,
+      "message": "Are you sure about that because I\u0027m not...",
+      "parentUuid": "bb1eb0fb_5f842be0",
+      "revId": "631478b49697abb723f874aad6789f38b8b61d1f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
