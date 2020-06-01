@@ -1705,8 +1705,8 @@ Since Frankfurt release hardcoded passwords were mostly removed and it is possib
 
 ::
 
-    kubectl get secret `kubectl get secrets | grep mariadb-galera-db-root-password | awk {'print $1'}` -o jsonpath="{.data.login}" | base64 --decode
-    kubectl get secret `kubectl get secrets | grep mariadb-galera-db-root-password | awk {'print $1'}` -o jsonpath="{.data.password}" | base64 --decode
+    kubectl get secret `kubectl get secrets | grep mariadb-galera-db-root-password | awk '{print $1}'` -o jsonpath="{.data.login}" | base64 --decode
+    kubectl get secret `kubectl get secrets | grep mariadb-galera-db-root-password | awk '{print $1}'` -o jsonpath="{.data.password}" | base64 --decode
 
 In this case login is empty as the secret is dedicated to root user.
 
@@ -2260,16 +2260,38 @@ The successful reply payload in that query should start like this:
 ::
 
     {
-      "clientRequestId": null,
-      "action": "createInstance",
-      "requestStatus": "COMPLETED",
-      "statusMessage": "Failed to create self-serve assignment for vf-module with vf-module-id=b70112fd-f6b2-44fe-a55c-6928d61843bf with error: Encountered error from self-serve-generate-name with error: Error from NameGenerationNode Assign",
-      "rollbackStatusMessage": null,
-      "flowStatus": "Execution of UnassignVfModuleBB has completed successfully, next invoking UnassignVfModuleBB (Execution Path progress: BBs completed = 1; BBs remaining = 4).",
-      "retryStatusMessage": null,
-    ...
+      "requestStatus": "COMPLETE",
+      "statusMessage": "Macro-Service-createInstance request was executed correctly.",
+      "flowStatus": "Successfully completed all Building Blocks",
+      "progress": 100,
+      "startTime": 1590996766000,
+      "endTime": 1590996945000,
+      "source": "Postman",
+      "vnfId": "93b3350d-ed6f-413b-9cc5-a158c1676eb0",
+      "tenantId": "aaaa",
+      "requestBody": "**REDACTED FOR READABILITY**",
+      "lastModifiedBy": "CamundaBPMN",
+      "modifyTime": "2020-06-01T07:35:45.000+0000",
+      "cloudRegion": "k8sregionfour",
+      "serviceInstanceId": "8ead0480-cf44-428e-a4c2-0e6ed10f7a72",
+      "serviceInstanceName": "vfw-cnf-16",
+      "requestScope": "service",
+      "requestAction": "createInstance",
+      "requestorId": "11c2ddb7-4659-4bf0-a685-a08dcbb5a099",
+      "requestUrl": "http://infra:30277/onap/so/infra/serviceInstantiation/v7/serviceInstances",
+      "tenantName": "k8stenant",
+      "cloudApiRequests": [],
+      "requestURI": "6a369c8e-d492-4ab5-a107-46804eeb7873",
+      "_links": {
+        "self": {
+          "href": "http://infra:30277/infraActiveRequests/6a369c8e-d492-4ab5-a107-46804eeb7873"
+        },
+        "infraActiveRequests": {
+          "href": "http://infra:30277/infraActiveRequests/6a369c8e-d492-4ab5-a107-46804eeb7873"
+        }
+      }
+    }
 
-**FIXME: provide full COMPLETED payload**
 
 Progress can be followed also with `SO Monitoring`_ dashboard.
 
