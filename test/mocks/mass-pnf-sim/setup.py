@@ -32,6 +32,7 @@ setuptools.setup(
         'argparse',
         'ipaddress',
         'requests',
-        'pyyaml'
+        'pyyaml',
+        'docker'
     ]
 )
