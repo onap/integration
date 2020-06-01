@@ -9,6 +9,7 @@ from shutil import copytree, rmtree
 from json import dumps
 from yaml import load, SafeLoader
 from glob import glob
+from docker import from_env
 from requests import get
 from requests.exceptions import MissingSchema, InvalidSchema, InvalidURL, ConnectionError, ConnectTimeout
 
@@ -160,6 +161,14 @@ class MassPnfSim:
             yml = load(cfg, Loader=SafeLoader)
         chdir(oldpwd)
         return yml['ippnfsim']
+
+    def _get_docker_containers(self):
+        '''Returns a list containing 'name' attribute of running docker containers'''
+        dc = from_env()
+        containers = []
+        for container in dc.containers.list():
+            containers.append(container.attrs['Name'][1:])
+        return containers
 
     def bootstrap(self):
         self.logger.info("Bootstrapping PNF instances")
