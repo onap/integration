@@ -10,7 +10,7 @@ from json import dumps
 from yaml import load, SafeLoader
 from glob import glob
 from docker import from_env
-from requests import get
+from requests import get, codes
 from requests.exceptions import MissingSchema, InvalidSchema, InvalidURL, ConnectionError, ConnectTimeout
 
 def validate_url(url):
@@ -107,6 +107,9 @@ class MassPnfSim:
 
     log_lvl = logging.INFO
     sim_config = 'config/config.yml'
+    sim_port = 5000
+    sim_base_url = 'http://{}:' + str(sim_port) + '/simulator'
+    sim_container_name = 'pnf-simulator'
 
     def __init__(self, args):
         self.args = args
@@ -114,6 +117,7 @@ class MassPnfSim:
         self.logger.setLevel(self.log_lvl)
         self.sim_dirname_pattern = "pnf-sim-lw-"
         self.mvn_build_cmd = 'mvn clean package docker:build -Dcheckstyle.skip'
+        self.docker_compose_status_cmd = 'docker-compose ps'
         self.existing_sim_instances = self._enum_sim_instances()
 
         # Validate 'trigger_custom' subcommand options
@@ -250,9 +254,27 @@ class MassPnfSim:
     def start(self):
         pass
 
-    @_MassPnfSim_Decorators.do_action('Getting', './simulator.sh status')
     def status(self):
-        pass
+        if not self.args.count:
+            iter_range = [self.existing_sim_instances]
+        else:
+            iter_range = [self.args.count]
+        for i in range(*iter_range):
+            self.logger.info(f'Getting {self.sim_dirname_pattern}{i} instance status:')
+            if f"{self.sim_container_name}-{i}" in self._get_docker_containers():
+                try:
+                    sim_ip = self._get_sim_instance_data(i)
+                    self.logger.info(f' PNF-Sim IP: {sim_ip}')
+                    self._run_cmd(self.docker_compose_status_cmd, f"{self.sim_dirname_pattern}{i}")
+                    sim_response = get('{}/status'.format(self.sim_base_url).format(sim_ip))
+                    if sim_response.status_code == codes.ok:
+                        self.logger.info(sim_response.text)
+                    else:
+                        self.logger.error(f'Simulator request returned http code {sim_response.status_code}')
+                except KeyError:
+                    self.logger.error(f'Unable to get sim instance IP from {self.sim_config}')
+            else:
+                self.logger.info(' Simulator containers are down')
 
     @_MassPnfSim_Decorators.do_action('Stopping', './simulator.sh stop')
     def stop(self):

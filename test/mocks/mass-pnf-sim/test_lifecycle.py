@@ -60,12 +60,12 @@ def test_bootstrap(args_bootstrap, parser, caplog):
         start_port += 2
         print(yml['ippnfsim'])
 
-def test_bootstrap_status(args_status, capfd):
+def test_bootstrap_status(args_status, caplog):
     MassPnfSim(args_status).status()
-    msg = capfd.readouterr()
     for _ in range(SIM_INSTANCES):
-        assert 'Simulator containers are down' in msg.out
-        assert 'Simulator response' not in msg.out
+        assert 'Simulator containers are down' in caplog.text
+        assert 'Simulator response' not in caplog.text
+    caplog.clear()
 
 def test_start(args_start, caplog, capfd):
     MassPnfSim(args_start).start()
@@ -78,14 +78,14 @@ def test_start(args_start, caplog, capfd):
         assert 'Starting simulator containers' in msg.out
     caplog.clear()
 
-def test_start_status(args_status, docker_containers, capfd):
+def test_start_status(args_status, docker_containers, caplog):
     sleep(5) # Wait for the simulator to settle
     MassPnfSim(args_status).status()
-    msg = capfd.readouterr()
     for instance in range(SIM_INSTANCES):
-        assert '"simulatorStatus":"NOT RUNNING"' in msg.out
-        assert '"simulatorStatus":"RUNNING"' not in msg.out
+        assert '"simulatorStatus":"NOT RUNNING"' in caplog.text
+        assert '"simulatorStatus":"RUNNING"' not in caplog.text
         assert f"{PNF_SIM_CONTAINER_NAME}{instance}" in docker_containers
+    caplog.clear()
 
 def test_start_idempotence(args_start, capfd):
     '''Verify start idempotence'''
@@ -105,14 +105,15 @@ def test_trigger(args_trigger, caplog, capfd):
         assert 'Simulator started' in msg.out
     caplog.clear()
 
-def test_trigger_status(args_status, capfd):
+def test_trigger_status(args_status, capfd, caplog):
     MassPnfSim(args_status).status()
     msg = capfd.readouterr()
     for _ in range(SIM_INSTANCES):
-        assert '"simulatorStatus":"RUNNING"' in msg.out
-        assert '"simulatorStatus":"NOT RUNNING"' not in msg.out
+        assert '"simulatorStatus":"RUNNING"' in caplog.text
+        assert '"simulatorStatus":"NOT RUNNING"' not in caplog.text
         assert 'Up' in msg.out
         assert 'Exit' not in msg.out
+    caplog.clear()
 
 def test_trigger_idempotence(args_trigger, capfd):
     MassPnfSim(args_trigger).trigger()
