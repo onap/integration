@@ -416,11 +416,18 @@ Finally, `Data Dictionary`_ is also included into demo git directory, re-modelin
 UAT
 +++
 
-During testing of the use case **uat.yml** file was recorded according to `CDS UAT Testing`_ instructions. Generated uat.yml is stored within CBA package into **Tests** folder.
 
-Recorded uat.yml is an example run with example values (the values we used when demo was run) and can be used later to test CBA model in isolation (unit test style). This is very useful when changes are made to CBA model and those changes are needed to be tested fast. With uat.yml file only CDS is needed as all external interfaces are mocked. However, note that mocking is possible for REST interfaces only (e.g. Netconf is not supported).
+UAT is a nice concept where CDS CBA can be tested isolated after all external calls it makes are recorded. UAT framework in CDS has spy mode that enables such recording of requets. Recording is initiated with structured yaml file having all CDS requests and spy mode executes all those requests in given yaml file and procuding another yaml file where external requetsts and payloads are recorded.
 
-Another benefit of uat.yml is that it documents the runtime functionality of the CBA.
+During this use case we had several problems with UAT testing and finally we where not able to get it fully working. UAT framework is not taking consideration that of subsequent CDS calls does have affects to external componenets like SDNC MDSAL (particularly the first resource-assignment call comING FROM sdnc stored resolved values to MDSAL and those are needed by subsequent calls by CBA model).
+
+It was possible to record CDS calls with UAT spy after successfull instantition when SDNC was alredy populated with resolved values are re-run of CDS model was able to fetch needed values.
+
+During testing of the use case **uat.yml** file was recorded according to `CDS UAT Testing`_ instructions. Generated uat.yml could be stored (if usable) within CBA package into **Tests** folder.
+
+Recorded uat.yml is an example run with example values (the values we used when demo was run) and can be used later to test CBA model in isolation (unit test style). This could be very useful when changes are made to CBA model and those changes are needed to be tested fast. With uat.yml file only CDS is needed as all external interfaces are mocked. However, note that mocking is possible for REST interfaces only (e.g. Netconf is not supported).
+
+Another benefit of uat.yml is that it documents the runtime functionality of the CBA and that's the main benefit on this use case as the UAT test (verify) part was not really successful.
 
 To verify CBA with uat.yaml and CDS runtime do following:
 
@@ -440,7 +447,7 @@ To verify CBA with uat.yaml and CDS runtime do following:
 
     curl -X POST -u ccsdkapps:ccsdkapps -F cba=@my_cba.zip -F uat=@input_uat.yaml http://<kube-node>:30499/api/v1/uat/spy
 
-where my_cba.zip is the original cba model and input_uat.yml is following in this use case:
+where my_cba.zip is the cba model of this use case and input_uat.yml is following in this use case:
 
 ::
 
@@ -455,7 +462,7 @@ where my_cba.zip is the original cba model and input_uat.yml is following in thi
             subRequestId: "6bfca5dc-993d-48f1-ad27-a7a9ea91836b"
           actionIdentifiers: &actionIdentifiers
             blueprintName: vFW_CNF_CDS
-            blueprintVersion: "1.0.7"
+            blueprintVersion: "1.0.45"
             actionName: resource-assignment
             mode: sync
           payload:
@@ -463,9 +470,9 @@ where my_cba.zip is the original cba model and input_uat.yml is following in thi
               template-prefix:
                 - "vnf"
               resource-assignment-properties:
-                service-instance-id: &service-id "0362acff-38e7-4ecc-8ac0-4780161f3ca0"
-                vnf-model-customization-uuid: &vnf-model-cust-uuid "366c007e-7684-4a0b-a2f4-9815174bec55"
-                vnf-id: &vnf-id "6bfca5dc-993d-48f1-ad27-a7a9ea91836b"
+                service-instance-id: &service-id "8ead0480-cf44-428e-a4c2-0e6ed10f7a72"
+                vnf-model-customization-uuid: &vnf-model-cust-uuid "86dc8af4-aa17-4fc7-9b20-f12160d99718"
+                vnf-id: &vnf-id "93b3350d-ed6f-413b-9cc5-a158c1676eb0"
                 aic-cloud-region: &cloud-region "k8sregionfour"
       - name: resource-assignment for base_template
         request:
@@ -477,12 +484,12 @@ where my_cba.zip is the original cba model and input_uat.yml is following in thi
                 - "base_template"
               resource-assignment-properties:
                 nfc-naming-code: "base_template"
-                k8s-rb-profile-name: &k8s-profile-name "vfw-cnf-cds-base-profile"
+                k8s-rb-profile-name: &k8s-profile-name "default"
                 service-instance-id: *service-id
                 vnf-id: *vnf-id
-                vf-module-model-customization-uuid: "603eadfe-50d6-413a-853c-46f5a8e2ddc7"
+                vf-module-model-customization-uuid: "b27fad11-44da-4840-9256-7ed8a32fbe3e"
                 vnf-model-customization-uuid: *vnf-model-cust-uuid
-                vf-module-id: "34c190c7-e5bc-4e61-a0d9-5fd44416dd96"
+                vf-module-id: "274f4bc9-7679-4767-b34d-1df51cdf2496"
                 aic-cloud-region: *cloud-region
       - name: resource-assignment for vpkg
         request:
@@ -497,9 +504,9 @@ where my_cba.zip is the original cba model and input_uat.yml is following in thi
                 k8s-rb-profile-name: *k8s-profile-name
                 service-instance-id: *service-id
                 vnf-id: *vnf-id
-                vf-module-model-customization-uuid: "32ffad03-d38d-46d5-b4a6-a3b0b6112ffc"
+                vf-module-model-customization-uuid: "4e7028a1-4c80-4d20-a7a2-a1fb3343d5cb"
                 vnf-model-customization-uuid: *vnf-model-cust-uuid
-                vf-module-id: "0b3c70f3-a462-4340-b08f-e39f6baa364e"
+                vf-module-id: "011b5f61-6524-4789-bd9a-44cfbf321463"
                 aic-cloud-region: *cloud-region
       - name: resource-assignment for vsn
         request:
@@ -514,9 +521,9 @@ where my_cba.zip is the original cba model and input_uat.yml is following in thi
                 k8s-rb-profile-name: *k8s-profile-name
                 service-instance-id: *service-id
                 vnf-id: *vnf-id
-                vf-module-model-customization-uuid: "f75c3628-12e9-4c70-be98-d347045a3f70"
+                vf-module-model-customization-uuid: "4cac0584-c0d6-42a7-bdb3-29162792e07f"
                 vnf-model-customization-uuid: *vnf-model-cust-uuid
-                vf-module-id: "960c9189-4a68-49bc-8bef-88e621fef250"
+                vf-module-id: "0cbf558f-5a96-4555-b476-7df8163521aa"
                 aic-cloud-region: *cloud-region
       - name: resource-assignment for vfw
         request:
@@ -531,9 +538,9 @@ where my_cba.zip is the original cba model and input_uat.yml is following in thi
                 k8s-rb-profile-name: *k8s-profile-name
                 service-instance-id: *service-id
                 vnf-id: *vnf-id
-                vf-module-model-customization-uuid: "f9afd9bb-7796-4aff-8f53-681513115742"
+                vf-module-model-customization-uuid: "1e123e43-ba40-4c93-90d7-b9f27407ec03"
                 vnf-model-customization-uuid: *vnf-model-cust-uuid
-                vf-module-id: "1ff35d90-623b-450e-abb2-10a515249fbe"
+                vf-module-id: "0de4ed56-8b4c-4a2d-8ce6-85d5e269204f "
                 aic-cloud-region: *cloud-region
 
 
@@ -542,9 +549,1012 @@ As an output of this call final uat.yml content is received. Final uat.yml in th
 
 ::
 
-    TODO: the content.
+    processes:
+    - name: resource-assignment for vnf
+      request:
+        commonHeader:
+          originatorId: SDNC_DG
+          requestId: 98397f54-fa57-485f-a04e-1e220b7b1779
+          subRequestId: 6bfca5dc-993d-48f1-ad27-a7a9ea91836b
+        actionIdentifiers:
+          blueprintName: vFW_CNF_CDS
+          blueprintVersion: 1.0.45
+          actionName: resource-assignment
+          mode: sync
+        payload:
+          resource-assignment-request:
+            template-prefix:
+            - vnf
+            resource-assignment-properties:
+              service-instance-id: 8ead0480-cf44-428e-a4c2-0e6ed10f7a72
+              vnf-model-customization-uuid: 86dc8af4-aa17-4fc7-9b20-f12160d99718
+              vnf-id: 93b3350d-ed6f-413b-9cc5-a158c1676eb0
+              aic-cloud-region: k8sregionfour
+      expectedResponse:
+        commonHeader:
+          originatorId: SDNC_DG
+          requestId: 98397f54-fa57-485f-a04e-1e220b7b1779
+          subRequestId: 6bfca5dc-993d-48f1-ad27-a7a9ea91836b
+          flags: null
+        actionIdentifiers:
+          blueprintName: vFW_CNF_CDS
+          blueprintVersion: 1.0.45
+          actionName: resource-assignment
+          mode: sync
+        status:
+          code: 200
+          eventType: EVENT_COMPONENT_EXECUTED
+          errorMessage: null
+          message: success
+        payload:
+          resource-assignment-response:
+            meshed-template:
+              vnf: |
+                {
+                    "capability-data": [
+                        {
+                            "capability-name": "generate-name",
+                            "key-mapping": [
+                                {
+                                    "output-key-mapping": [
+                                        {
+                                            "resource-name": "vnf_name",
+                                            "resource-value": "${vnf_name}"
+                                        }
+                                    ],
+                                    "payload": [
+                                        {
+                                            "param-name": "resource-name",
+                                            "param-value": "vnf_name"
+                                        },
+                                        {
+                                            "param-name": "resource-value",
+                                            "param-value": "${vnf_name}"
+                                        },
+                                        {
+                                            "param-name": "external-key",
+                                            "param-value": "93b3350d-ed6f-413b-9cc5-a158c1676eb0_vnf_name"
+                                        },
+                                        {
+                                            "param-name": "policy-instance-name",
+                                            "param-value": "SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP"
+                                        },
+                                        {
+                                            "param-name": "naming-type",
+                                            "param-value": "VNF"
+                                        },
+                                        {
+                                            "param-name": "AIC_CLOUD_REGION",
+                                            "param-value": "k8sregionfour"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "capability-name": "netbox-ip-assign",
+                            "key-mapping": [
+                                {
+                                    "output-key-mapping": [
+                                        {
+                                            "resource-name": "int_private1_gw_ip",
+                                            "resource-value": "${int_private1_gw_ip}"
+                                        }
+                                    ],
+                                    "payload": [
+                                        {
+                                            "param-name": "service-instance-id",
+                                            "param-value": "8ead0480-cf44-428e-a4c2-0e6ed10f7a72"
+                                        },
+                                        {
+                                            "param-name": "prefix-id",
+                                            "param-value": "2"
+                                        },
+                                        {
+                                            "param-name": "vnf-id",
+                                            "param-value": "93b3350d-ed6f-413b-9cc5-a158c1676eb0"
+                                        },
+                                        {
+                                            "param-name": "external_key",
+                                            "param-value": "93b3350d-ed6f-413b-9cc5-a158c1676eb0-int_private1_gw_ip"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "output-key-mapping": [
+                                        {
+                                            "resource-name": "int_private2_gw_ip",
+                                            "resource-value": "${int_private2_gw_ip}"
+                                        }
+                                    ],
+                                    "payload": [
+                                        {
+                                            "param-name": "service-instance-id",
+                                            "param-value": "8ead0480-cf44-428e-a4c2-0e6ed10f7a72"
+                                        },
+                                        {
+                                            "param-name": "prefix-id",
+                                            "param-value": "1"
+                                        },
+                                        {
+                                            "param-name": "vnf-id",
+                                            "param-value": "93b3350d-ed6f-413b-9cc5-a158c1676eb0"
+                                        },
+                                        {
+                                            "param-name": "external_key",
+                                            "param-value": "93b3350d-ed6f-413b-9cc5-a158c1676eb0-int_private2_gw_ip"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "output-key-mapping": [
+                                        {
+                                            "resource-name": "vfw_int_private2_ip_0",
+                                            "resource-value": "${vfw_int_private2_ip_0}"
+                                        }
+                                    ],
+                                    "payload": [
+                                        {
+                                            "param-name": "service-instance-id",
+                                            "param-value": "8ead0480-cf44-428e-a4c2-0e6ed10f7a72"
+                                        },
+                                        {
+                                            "param-name": "prefix-id",
+                                            "param-value": "1"
+                                        },
+                                        {
+                                            "param-name": "vnf-id",
+                                            "param-value": "93b3350d-ed6f-413b-9cc5-a158c1676eb0"
+                                        },
+                                        {
+                                            "param-name": "external_key",
+                                            "param-value": "93b3350d-ed6f-413b-9cc5-a158c1676eb0-vfw_int_private2_ip_0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "output-key-mapping": [
+                                        {
+                                            "resource-name": "vfw_int_private1_ip_0",
+                                            "resource-value": "${vfw_int_private1_ip_0}"
+                                        }
+                                    ],
+                                    "payload": [
+                                        {
+                                            "param-name": "service-instance-id",
+                                            "param-value": "8ead0480-cf44-428e-a4c2-0e6ed10f7a72"
+                                        },
+                                        {
+                                            "param-name": "prefix-id",
+                                            "param-value": "2"
+                                        },
+                                        {
+                                            "param-name": "vnf-id",
+                                            "param-value": "93b3350d-ed6f-413b-9cc5-a158c1676eb0"
+                                        },
+                                        {
+                                            "param-name": "external_key",
+                                            "param-value": "93b3350d-ed6f-413b-9cc5-a158c1676eb0-vfw_int_private1_ip_0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "output-key-mapping": [
+                                        {
+                                            "resource-name": "vsn_int_private2_ip_0",
+                                            "resource-value": "${vsn_int_private2_ip_0}"
+                                        }
+                                    ],
+                                    "payload": [
+                                        {
+                                            "param-name": "service-instance-id",
+                                            "param-value": "8ead0480-cf44-428e-a4c2-0e6ed10f7a72"
+                                        },
+                                        {
+                                            "param-name": "prefix-id",
+                                            "param-value": "1"
+                                        },
+                                        {
+                                            "param-name": "vnf-id",
+                                            "param-value": "93b3350d-ed6f-413b-9cc5-a158c1676eb0"
+                                        },
+                                        {
+                                            "param-name": "external_key",
+                                            "param-value": "93b3350d-ed6f-413b-9cc5-a158c1676eb0-vsn_int_private2_ip_0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "output-key-mapping": [
+                                        {
+                                            "resource-name": "vpg_int_private1_ip_0",
+                                            "resource-value": "${vpg_int_private1_ip_0}"
+                                        }
+                                    ],
+                                    "payload": [
+                                        {
+                                            "param-name": "service-instance-id",
+                                            "param-value": "8ead0480-cf44-428e-a4c2-0e6ed10f7a72"
+                                        },
+                                        {
+                                            "param-name": "prefix-id",
+                                            "param-value": "2"
+                                        },
+                                        {
+                                            "param-name": "vnf-id",
+                                            "param-value": "93b3350d-ed6f-413b-9cc5-a158c1676eb0"
+                                        },
+                                        {
+                                            "param-name": "external_key",
+                                            "param-value": "93b3350d-ed6f-413b-9cc5-a158c1676eb0-vpg_int_private1_ip_0"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "capability-name": "unresolved-composite-data",
+                            "key-mapping": [
+                                {
+                                    "output-key-mapping": [
+                                        {
+                                            "resource-name": "int_private2_net_id",
+                                            "resource-value": "${vnf_name}-protected-network"
+                                        },
+                                        {
+                                            "resource-name": "int_private1_net_id",
+                                            "resource-value": "${vnf_name}-unprotected-network"
+                                        },
+                                        {
+                                            "resource-name": "onap_private_net_id",
+                                            "resource-value": "${vnf_name}-management-network"
+                                        },
+                                        {
+                                            "resource-name": "net_attachment_definition",
+                                            "resource-value": "${vnf_name}-ovn-nat"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "resource-accumulator-resolved-data": [
+                        {
+                            "param-name": "vf-naming-policy",
+                            "param-value": "SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP"
+                        },
+                        {
+                            "param-name": "dcae_collector_ip",
+                            "param-value": "10.0.4.1"
+                        },
+                        {
+                            "param-name": "dcae_collector_port",
+                            "param-value": "30235"
+                        },
+                        {
+                            "param-name": "int_private1_net_cidr",
+                            "param-value": "192.168.10.0/24"
+                        },
+                        {
+                            "param-name": "int_private2_net_cidr",
+                            "param-value": "192.168.20.0/24"
+                        },
+                        {
+                            "param-name": "onap_private_net_cidr",
+                            "param-value": "10.0.101.0/24"
+                        },
+                        {
+                            "param-name": "demo_artifacts_version",
+                            "param-value": "1.5.0"
+                        },
+                        {
+                            "param-name": "k8s-rb-profile-name",
+                            "param-value": "vfw-cnf-cds-base-profile"
+                        },
+                        {
+                            "param-name": "k8s-rb-profile-namespace",
+                            "param-value": "default"
+                        }
+                    ]
+                }
+    - name: resource-assignment for base_template
+      request:
+        commonHeader:
+          originatorId: SDNC_DG
+          requestId: 98397f54-fa57-485f-a04e-1e220b7b1779
+          subRequestId: 6bfca5dc-993d-48f1-ad27-a7a9ea91836b
+        actionIdentifiers:
+          blueprintName: vFW_CNF_CDS
+          blueprintVersion: 1.0.45
+          actionName: resource-assignment
+          mode: sync
+        payload:
+          resource-assignment-request:
+            template-prefix:
+            - base_template
+            resource-assignment-properties:
+              nfc-naming-code: base_template
+              k8s-rb-profile-name: default
+              service-instance-id: 8ead0480-cf44-428e-a4c2-0e6ed10f7a72
+              vnf-id: 93b3350d-ed6f-413b-9cc5-a158c1676eb0
+              vf-module-model-customization-uuid: b27fad11-44da-4840-9256-7ed8a32fbe3e
+              vnf-model-customization-uuid: 86dc8af4-aa17-4fc7-9b20-f12160d99718
+              vf-module-id: 274f4bc9-7679-4767-b34d-1df51cdf2496
+              aic-cloud-region: k8sregionfour
+      expectedResponse:
+        commonHeader:
+          originatorId: SDNC_DG
+          requestId: 98397f54-fa57-485f-a04e-1e220b7b1779
+          subRequestId: 6bfca5dc-993d-48f1-ad27-a7a9ea91836b
+          flags: null
+        actionIdentifiers:
+          blueprintName: vFW_CNF_CDS
+          blueprintVersion: 1.0.45
+          actionName: resource-assignment
+          mode: sync
+        status:
+          code: 200
+          eventType: EVENT_COMPONENT_EXECUTED
+          errorMessage: null
+          message: success
+        payload:
+          resource-assignment-response:
+            meshed-template:
+              base_template: |
+                {
+                    "capability-data": [
+                        {
+                            "capability-name": "netbox-ip-assign",
+                            "key-mapping": [
+                                {
+                                    "output-key-mapping": [
+                                        {
+                                            "resource-name": "onap_private_gw_ip",
+                                            "resource-value": "${onap_private_gw_ip}"
+                                        }
+                                    ],
+                                    "payload": [
+                                        {
+                                            "param-name": "service-instance-id",
+                                            "param-value": "8ead0480-cf44-428e-a4c2-0e6ed10f7a72"
+                                        },
+                                        {
+                                            "param-name": "prefix-id",
+                                            "param-value": "3"
+                                        },
+                                        {
+                                            "param-name": "vnf-id",
+                                            "param-value": "93b3350d-ed6f-413b-9cc5-a158c1676eb0"
+                                        },
+                                        {
+                                            "param-name": "external_key",
+                                            "param-value": "93b3350d-ed6f-413b-9cc5-a158c1676eb0-onap_private_gw_ip"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "capability-name": "generate-name",
+                            "key-mapping": [
+                                {
+                                    "output-key-mapping": [
+                                        {
+                                            "resource-name": "vf_module_name",
+                                            "resource-value": "${vf-module-name}"
+                                        }
+                                    ],
+                                    "payload": [
+                                        {
+                                            "param-name": "resource-name",
+                                            "param-value": "vf_module_name"
+                                        },
+                                        {
+                                            "param-name": "resource-value",
+                                            "param-value": "${vf-module-name}"
+                                        },
+                                        {
+                                            "param-name": "external-key",
+                                            "param-value": "274f4bc9-7679-4767-b34d-1df51cdf2496_vf-module-name"
+                                        },
+                                        {
+                                            "param-name": "policy-instance-name",
+                                            "param-value": "SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP"
+                                        },
+                                        {
+                                            "param-name": "naming-type",
+                                            "param-value": "VF-MODULE"
+                                        },
+                                        {
+                                            "param-name": "VNF_NAME",
+                                            "param-value": "k8sregionfour-onap-nf-20200601t073308018z"
+                                        },
+                                        {
+                                            "param-name": "VF_MODULE_TYPE",
+                                            "param-value": "vfmt"
+                                        },
+                                        {
+                                            "param-name": "VF_MODULE_LABEL",
+                                            "param-value": "base_template"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "capability-name": "aai-vf-module-put",
+                            "key-mapping": [
+                                {
+                                    "output-key-mapping": [
+                                        {
+                                            "resource-name": "aai-vf-module-put",
+                                            "resource-value": ""
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "resource-accumulator-resolved-data": [
+                        {
+                            "param-name": "vf-module-model-invariant-uuid",
+                            "param-value": "52842255-b7be-4a1c-ab3b-2bd3bd4a5423"
+                        },
+                        {
+                            "param-name": "vf-module-model-version",
+                            "param-value": "274f4bc9-7679-4767-b34d-1df51cdf2496"
+                        },
+                        {
+                            "param-name": "k8s-rb-profile-name",
+                            "param-value": "default"
+                        },
+                        {
+                            "param-name": "k8s-rb-profile-namespace",
+                            "param-value": "default"
+                        },
+                        {
+                            "param-name": "int_private1_subnet_id",
+                            "param-value": "unprotected-network-subnet-1"
+                        },
+                        {
+                            "param-name": "int_private2_subnet_id",
+                            "param-value": "protected-network-subnet-1"
+                        },
+                        {
+                            "param-name": "onap_private_subnet_id",
+                            "param-value": "management-network-subnet-1"
+                        }
+                    ]
+                }
+    - name: resource-assignment for vpkg
+      request:
+        commonHeader:
+          originatorId: SDNC_DG
+          requestId: 98397f54-fa57-485f-a04e-1e220b7b1779
+          subRequestId: 6bfca5dc-993d-48f1-ad27-a7a9ea91836b
+        actionIdentifiers:
+          blueprintName: vFW_CNF_CDS
+          blueprintVersion: 1.0.45
+          actionName: resource-assignment
+          mode: sync
+        payload:
+          resource-assignment-request:
+            template-prefix:
+            - vpkg
+            resource-assignment-properties:
+              nfc-naming-code: vpkg
+              k8s-rb-profile-name: default
+              service-instance-id: 8ead0480-cf44-428e-a4c2-0e6ed10f7a72
+              vnf-id: 93b3350d-ed6f-413b-9cc5-a158c1676eb0
+              vf-module-model-customization-uuid: 4e7028a1-4c80-4d20-a7a2-a1fb3343d5cb
+              vnf-model-customization-uuid: 86dc8af4-aa17-4fc7-9b20-f12160d99718
+              vf-module-id: 011b5f61-6524-4789-bd9a-44cfbf321463
+              aic-cloud-region: k8sregionfour
+      expectedResponse:
+        commonHeader:
+          originatorId: SDNC_DG
+          requestId: 98397f54-fa57-485f-a04e-1e220b7b1779
+          subRequestId: 6bfca5dc-993d-48f1-ad27-a7a9ea91836b
+          flags: null
+        actionIdentifiers:
+          blueprintName: vFW_CNF_CDS
+          blueprintVersion: 1.0.45
+          actionName: resource-assignment
+          mode: sync
+        status:
+          code: 200
+          eventType: EVENT_COMPONENT_EXECUTED
+          errorMessage: null
+          message: success
+        payload:
+          resource-assignment-response:
+            meshed-template:
+              vpkg: |
+                {
+                    "capability-data": [
+                        {
+                            "capability-name": "netbox-ip-assign",
+                            "key-mapping": [
+                                {
+                                    "output-key-mapping": [
+                                        {
+                                            "resource-name": "vpg_onap_private_ip_0",
+                                            "resource-value": "${vpg_onap_private_ip_0}"
+                                        }
+                                    ],
+                                    "payload": [
+                                        {
+                                            "param-name": "service-instance-id",
+                                            "param-value": "8ead0480-cf44-428e-a4c2-0e6ed10f7a72"
+                                        },
+                                        {
+                                            "param-name": "prefix-id",
+                                            "param-value": "3"
+                                        },
+                                        {
+                                            "param-name": "vnf-id",
+                                            "param-value": "93b3350d-ed6f-413b-9cc5-a158c1676eb0"
+                                        },
+                                        {
+                                            "param-name": "external_key",
+                                            "param-value": "93b3350d-ed6f-413b-9cc5-a158c1676eb0-vpg_onap_private_ip_0"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "capability-name": "generate-name",
+                            "key-mapping": [
+                                {
+                                    "output-key-mapping": [
+                                        {
+                                            "resource-name": "vf_module_name",
+                                            "resource-value": "${vf-module-name}"
+                                        }
+                                    ],
+                                    "payload": [
+                                        {
+                                            "param-name": "VF_MODULE_TYPE",
+                                            "param-value": "vfmt"
+                                        },
+                                        {
+                                            "param-name": "resource-name",
+                                            "param-value": "vf_module_name"
+                                        },
+                                        {
+                                            "param-name": "resource-value",
+                                            "param-value": "${vf-module-name}"
+                                        },
+                                        {
+                                            "param-name": "external-key",
+                                            "param-value": "011b5f61-6524-4789-bd9a-44cfbf321463_vf-module-name"
+                                        },
+                                        {
+                                            "param-name": "policy-instance-name",
+                                            "param-value": "SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP"
+                                        },
+                                        {
+                                            "param-name": "naming-type",
+                                            "param-value": "VF-MODULE"
+                                        },
+                                        {
+                                            "param-name": "VNF_NAME",
+                                            "param-value": "k8sregionfour-onap-nf-20200601t073308018z"
+                                        },
+                                        {
+                                            "param-name": "VF_MODULE_LABEL",
+                                            "param-value": "vpkg"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "capability-name": "aai-vf-module-put",
+                            "key-mapping": [
+                                {
+                                    "output-key-mapping": [
+                                        {
+                                            "resource-name": "aai-vf-module-put",
+                                            "resource-value": ""
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "capability-name": "unresolved-composite-data",
+                            "key-mapping": [
+                                {
+                                    "output-key-mapping": [
+                                        {
+                                            "resource-name": "vpg_name_0",
+                                            "resource-value": "${vf_module_name}"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "resource-accumulator-resolved-data": [
+                        {
+                            "param-name": "vf-module-model-invariant-uuid",
+                            "param-value": "4e2b9975-5214-48b8-861a-5701c09eedfa"
+                        },
+                        {
+                            "param-name": "vf-module-model-version",
+                            "param-value": "011b5f61-6524-4789-bd9a-44cfbf321463"
+                        },
+                        {
+                            "param-name": "k8s-rb-profile-name",
+                            "param-value": "default"
+                        },
+                        {
+                            "param-name": "k8s-rb-profile-namespace",
+                            "param-value": "default"
+                        }
+                    ]
+                }
+    - name: resource-assignment for vsn
+      request:
+        commonHeader:
+          originatorId: SDNC_DG
+          requestId: 98397f54-fa57-485f-a04e-1e220b7b1779
+          subRequestId: 6bfca5dc-993d-48f1-ad27-a7a9ea91836b
+        actionIdentifiers:
+          blueprintName: vFW_CNF_CDS
+          blueprintVersion: 1.0.45
+          actionName: resource-assignment
+          mode: sync
+        payload:
+          resource-assignment-request:
+            template-prefix:
+            - vsn
+            resource-assignment-properties:
+              nfc-naming-code: vsn
+              k8s-rb-profile-name: default
+              service-instance-id: 8ead0480-cf44-428e-a4c2-0e6ed10f7a72
+              vnf-id: 93b3350d-ed6f-413b-9cc5-a158c1676eb0
+              vf-module-model-customization-uuid: 4cac0584-c0d6-42a7-bdb3-29162792e07f
+              vnf-model-customization-uuid: 86dc8af4-aa17-4fc7-9b20-f12160d99718
+              vf-module-id: 0cbf558f-5a96-4555-b476-7df8163521aa
+              aic-cloud-region: k8sregionfour
+      expectedResponse:
+        commonHeader:
+          originatorId: SDNC_DG
+          requestId: 98397f54-fa57-485f-a04e-1e220b7b1779
+          subRequestId: 6bfca5dc-993d-48f1-ad27-a7a9ea91836b
+          flags: null
+        actionIdentifiers:
+          blueprintName: vFW_CNF_CDS
+          blueprintVersion: 1.0.45
+          actionName: resource-assignment
+          mode: sync
+        status:
+          code: 200
+          eventType: EVENT_COMPONENT_EXECUTED
+          errorMessage: null
+          message: success
+        payload:
+          resource-assignment-response:
+            meshed-template:
+              vsn: |
+                {
+                    "capability-data": [
+                        {
+                            "capability-name": "generate-name",
+                            "key-mapping": [
+                                {
+                                    "output-key-mapping": [
+                                        {
+                                            "resource-name": "vf_module_name",
+                                            "resource-value": "${vf-module-name}"
+                                        }
+                                    ],
+                                    "payload": [
+                                        {
+                                            "param-name": "VF_MODULE_TYPE",
+                                            "param-value": "vfmt"
+                                        },
+                                        {
+                                            "param-name": "resource-name",
+                                            "param-value": "vf_module_name"
+                                        },
+                                        {
+                                            "param-name": "resource-value",
+                                            "param-value": "${vf-module-name}"
+                                        },
+                                        {
+                                            "param-name": "external-key",
+                                            "param-value": "0cbf558f-5a96-4555-b476-7df8163521aa_vf-module-name"
+                                        },
+                                        {
+                                            "param-name": "policy-instance-name",
+                                            "param-value": "SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP"
+                                        },
+                                        {
+                                            "param-name": "naming-type",
+                                            "param-value": "VF-MODULE"
+                                        },
+                                        {
+                                            "param-name": "VNF_NAME",
+                                            "param-value": "k8sregionfour-onap-nf-20200601t073308018z"
+                                        },
+                                        {
+                                            "param-name": "VF_MODULE_LABEL",
+                                            "param-value": "vsn"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "capability-name": "netbox-ip-assign",
+                            "key-mapping": [
+                                {
+                                    "output-key-mapping": [
+                                        {
+                                            "resource-name": "vsn_onap_private_ip_0",
+                                            "resource-value": "${vsn_onap_private_ip_0}"
+                                        }
+                                    ],
+                                    "payload": [
+                                        {
+                                            "param-name": "service-instance-id",
+                                            "param-value": "8ead0480-cf44-428e-a4c2-0e6ed10f7a72"
+                                        },
+                                        {
+                                            "param-name": "prefix-id",
+                                            "param-value": "3"
+                                        },
+                                        {
+                                            "param-name": "vf_module_id",
+                                            "param-value": "0cbf558f-5a96-4555-b476-7df8163521aa"
+                                        },
+                                        {
+                                            "param-name": "external_key",
+                                            "param-value": "0cbf558f-5a96-4555-b476-7df8163521aa-vsn_onap_private_ip_0"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "capability-name": "aai-vf-module-put",
+                            "key-mapping": [
+                                {
+                                    "output-key-mapping": [
+                                        {
+                                            "resource-name": "aai-vf-module-put",
+                                            "resource-value": ""
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "capability-name": "unresolved-composite-data",
+                            "key-mapping": [
+                                {
+                                    "output-key-mapping": [
+                                        {
+                                            "resource-name": "vsn_name_0",
+                                            "resource-value": "${vf_module_name}"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "resource-accumulator-resolved-data": [
+                        {
+                            "param-name": "vf-module-model-invariant-uuid",
+                            "param-value": "36f25e1b-199b-4de2-b656-c870d341cf0e"
+                        },
+                        {
+                            "param-name": "vf-module-model-version",
+                            "param-value": "0cbf558f-5a96-4555-b476-7df8163521aa"
+                        },
+                        {
+                            "param-name": "k8s-rb-profile-name",
+                            "param-value": "default"
+                        },
+                        {
+                            "param-name": "k8s-rb-profile-namespace",
+                            "param-value": "default"
+                        }
+                    ]
+                }
+    - name: resource-assignment for vfw
+      request:
+        commonHeader:
+          originatorId: SDNC_DG
+          requestId: 98397f54-fa57-485f-a04e-1e220b7b1779
+          subRequestId: 6bfca5dc-993d-48f1-ad27-a7a9ea91836b
+        actionIdentifiers:
+          blueprintName: vFW_CNF_CDS
+          blueprintVersion: 1.0.45
+          actionName: resource-assignment
+          mode: sync
+        payload:
+          resource-assignment-request:
+            template-prefix:
+            - vfw
+            resource-assignment-properties:
+              nfc-naming-code: vfw
+              k8s-rb-profile-name: default
+              service-instance-id: 8ead0480-cf44-428e-a4c2-0e6ed10f7a72
+              vnf-id: 93b3350d-ed6f-413b-9cc5-a158c1676eb0
+              vf-module-model-customization-uuid: 1e123e43-ba40-4c93-90d7-b9f27407ec03
+              vnf-model-customization-uuid: 86dc8af4-aa17-4fc7-9b20-f12160d99718
+              vf-module-id: '0de4ed56-8b4c-4a2d-8ce6-85d5e269204f '
+              aic-cloud-region: k8sregionfour
+      expectedResponse:
+        commonHeader:
+          originatorId: SDNC_DG
+          requestId: 98397f54-fa57-485f-a04e-1e220b7b1779
+          subRequestId: 6bfca5dc-993d-48f1-ad27-a7a9ea91836b
+          flags: null
+        actionIdentifiers:
+          blueprintName: vFW_CNF_CDS
+          blueprintVersion: 1.0.45
+          actionName: resource-assignment
+          mode: sync
+        status:
+          code: 200
+          eventType: EVENT_COMPONENT_EXECUTED
+          errorMessage: null
+          message: success
+        payload:
+          resource-assignment-response:
+            meshed-template:
+              vfw: |
+                {
+                    "capability-data": [
+                        {
+                            "capability-name": "generate-name",
+                            "key-mapping": [
+                                {
+                                    "output-key-mapping": [
+                                        {
+                                            "resource-name": "vf_module_name",
+                                            "resource-value": "${vf-module-name}"
+                                        }
+                                    ],
+                                    "payload": [
+                                        {
+                                            "param-name": "VF_MODULE_TYPE",
+                                            "param-value": "vfmt"
+                                        },
+                                        {
+                                            "param-name": "resource-name",
+                                            "param-value": "vf_module_name"
+                                        },
+                                        {
+                                            "param-name": "resource-value",
+                                            "param-value": "${vf-module-name}"
+                                        },
+                                        {
+                                            "param-name": "external-key",
+                                            "param-value": "0de4ed56-8b4c-4a2d-8ce6-85d5e269204f _vf-module-name"
+                                        },
+                                        {
+                                            "param-name": "policy-instance-name",
+                                            "param-value": "SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP"
+                                        },
+                                        {
+                                            "param-name": "naming-type",
+                                            "param-value": "VF-MODULE"
+                                        },
+                                        {
+                                            "param-name": "VNF_NAME",
+                                            "param-value": "k8sregionfour-onap-nf-20200601t073308018z"
+                                        },
+                                        {
+                                            "param-name": "VF_MODULE_LABEL",
+                                            "param-value": "vfw"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "capability-name": "netbox-ip-assign",
+                            "key-mapping": [
+                                {
+                                    "output-key-mapping": [
+                                        {
+                                            "resource-name": "vfw_onap_private_ip_0",
+                                            "resource-value": "${vfw_onap_private_ip_0}"
+                                        }
+                                    ],
+                                    "payload": [
+                                        {
+                                            "param-name": "service-instance-id",
+                                            "param-value": "8ead0480-cf44-428e-a4c2-0e6ed10f7a72"
+                                        },
+                                        {
+                                            "param-name": "prefix-id",
+                                            "param-value": "3"
+                                        },
+                                        {
+                                            "param-name": "vf_module_id",
+                                            "param-value": "0de4ed56-8b4c-4a2d-8ce6-85d5e269204f "
+                                        },
+                                        {
+                                            "param-name": "external_key",
+                                            "param-value": "0de4ed56-8b4c-4a2d-8ce6-85d5e269204f -vfw_onap_private_ip_0"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "capability-name": "aai-vf-module-put",
+                            "key-mapping": [
+                                {
+                                    "output-key-mapping": [
+                                        {
+                                            "resource-name": "aai-vf-module-put",
+                                            "resource-value": ""
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "capability-name": "unresolved-composite-data",
+                            "key-mapping": [
+                                {
+                                    "output-key-mapping": [
+                                        {
+                                            "resource-name": "vfw_name_0",
+                                            "resource-value": "${vf_module_name}"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "resource-accumulator-resolved-data": [
+                        {
+                            "param-name": "vf-module-model-invariant-uuid",
+                            "param-value": "9ffda670-3d77-4f6c-a4ad-fb7a09f19817"
+                        },
+                        {
+                            "param-name": "vf-module-model-version",
+                            "param-value": "0de4ed56-8b4c-4a2d-8ce6-85d5e269204f"
+                        },
+                        {
+                            "param-name": "k8s-rb-profile-name",
+                            "param-value": "default"
+                        },
+                        {
+                            "param-name": "k8s-rb-profile-namespace",
+                            "param-value": "default"
+                        }
+                    ]
+                }
+    externalServices:
+    - selector: sdnc
+      expectations:
+      - request:
+          method: GET
+          path: /restconf/config/GENERIC-RESOURCE-API:services/service/8ead0480-cf44-428e-a4c2-0e6ed10f7a72/service-data/vnfs/vnf/93b3350d-ed6f-413b-9cc5-a158c1676eb0/vnf-data/vnf-topology/vnf-parameters-data/param/vf-naming-policy
+        responses:
+        - status: 200
+          body:
+            param:
+            - name: vf-naming-policy
+              value: SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP
+              resource-resolution-data:
+                capability-name: RA Resolved
+                status: SUCCESS
+          headers:
+            Content-Type: application/json
+        times: '>= 1'
 
-Currently UAT is broken in master `CCSDK-2155`_
 
 - Verify CBA with UAT
 
@@ -554,7 +1564,7 @@ Currently UAT is broken in master `CCSDK-2155`_
 
 where my_cba.zip is the CBA model with uat.yml (generated in spy step) inside Test folder.
 
-**TODO: add UAT POST to postman**
+This verify call failed for us with above uat.yaml file generated in spy. Issue was not investigated further in the scope of this use case.
 
 Instantiation Overview
 ......................
@@ -1023,17 +2033,17 @@ Verify in SDC UI if distribution was successful. In case of any errors (sometime
 
     ::
 
-				{
-						"uuid": "64dd38f3-2307-4e0a-bc98-5c2cbfb260b6",
-						"invariantUUID": "cd1a5c2d-2d4e-4d62-ac10-a5fe05e32a22",
-						"name": "vfw_cnf_cds_svc",
-						"version": "1.0",
-						"toscaModelURL": "/sdc/v1/catalog/services/64dd38f3-2307-4e0a-bc98-5c2cbfb260b6/toscaModel",
-						"category": "Network L4+",
-						"lifecycleState": "CERTIFIED",
-						"lastUpdaterUserId": "cs0008",
-						"distributionStatus": "DISTRIBUTED"
-				}
+                {
+                        "uuid": "64dd38f3-2307-4e0a-bc98-5c2cbfb260b6",
+                        "invariantUUID": "cd1a5c2d-2d4e-4d62-ac10-a5fe05e32a22",
+                        "name": "vfw_cnf_cds_svc",
+                        "version": "1.0",
+                        "toscaModelURL": "/sdc/v1/catalog/services/64dd38f3-2307-4e0a-bc98-5c2cbfb260b6/toscaModel",
+                        "category": "Network L4+",
+                        "lifecycleState": "CERTIFIED",
+                        "lastUpdaterUserId": "cs0008",
+                        "distributionStatus": "DISTRIBUTED"
+                }
 
 
     Listing should contain entry with our service name **vfw_cnf_cds_svc**.
@@ -1048,83 +2058,83 @@ Verify in SDC UI if distribution was successful. In case of any errors (sometime
 
     ::
 
-				{
-					"serviceVnfs": [
-						{
-							"modelInfo": {
-								"modelName": "vfw_cnf_cds_vsp",
-								"modelUuid": "70edaca8-8c79-468a-aa76-8224cfe686d0",
-								"modelInvariantUuid": "7901fc89-a94d-434a-8454-1e27b99dc0e2",
-								"modelVersion": "1.0",
-								"modelCustomizationUuid": "86dc8af4-aa17-4fc7-9b20-f12160d99718",
-								"modelInstanceName": "vfw_cnf_cds_vsp 0"
-							},
-							"toscaNodeType": "org.openecomp.resource.vf.VfwCnfCdsVsp",
-							"nfFunction": null,
-							"nfType": null,
-							"nfRole": null,
-							"nfNamingCode": null,
-							"multiStageDesign": "false",
-							"vnfcInstGroupOrder": null,
-							"resourceInput": "TBD",
-							"vfModules": [
-								{
-									"modelInfo": {
-										"modelName": "VfwCnfCdsVsp..base_template..module-0",
-										"modelUuid": "274f4bc9-7679-4767-b34d-1df51cdf2496",
-										"modelInvariantUuid": "52842255-b7be-4a1c-ab3b-2bd3bd4a5423",
-										"modelVersion": "1",
-										"modelCustomizationUuid": "b27fad11-44da-4840-9256-7ed8a32fbe3e"
-									},
-									"isBase": true,
-									"vfModuleLabel": "base_template",
-									"initialCount": 1,
-									"hasVolumeGroup": false
-								},
-								{
-									"modelInfo": {
-										"modelName": "VfwCnfCdsVsp..vsn..module-1",
-										"modelUuid": "0cbf558f-5a96-4555-b476-7df8163521aa",
-										"modelInvariantUuid": "36f25e1b-199b-4de2-b656-c870d341cf0e",
-										"modelVersion": "1",
-										"modelCustomizationUuid": "4cac0584-c0d6-42a7-bdb3-29162792e07f"
-									},
-									"isBase": false,
-									"vfModuleLabel": "vsn",
-									"initialCount": 0,
-									"hasVolumeGroup": false
-								},
-								{
-									"modelInfo": {
-										"modelName": "VfwCnfCdsVsp..vpkg..module-2",
-										"modelUuid": "011b5f61-6524-4789-bd9a-44cfbf321463",
-										"modelInvariantUuid": "4e2b9975-5214-48b8-861a-5701c09eedfa",
-										"modelVersion": "1",
-										"modelCustomizationUuid": "4e7028a1-4c80-4d20-a7a2-a1fb3343d5cb"
-									},
-									"isBase": false,
-									"vfModuleLabel": "vpkg",
-									"initialCount": 0,
-									"hasVolumeGroup": false
-								},
-								{
-									"modelInfo": {
-										"modelName": "VfwCnfCdsVsp..vfw..module-3",
-										"modelUuid": "0de4ed56-8b4c-4a2d-8ce6-85d5e269204f",
-										"modelInvariantUuid": "9ffda670-3d77-4f6c-a4ad-fb7a09f19817",
-										"modelVersion": "1",
-										"modelCustomizationUuid": "1e123e43-ba40-4c93-90d7-b9f27407ec03"
-									},
-									"isBase": false,
-									"vfModuleLabel": "vfw",
-									"initialCount": 0,
-									"hasVolumeGroup": false
-								}
-							],
-							"groups": []
-						}
-					]
-				}
+                {
+                    "serviceVnfs": [
+                        {
+                            "modelInfo": {
+                                "modelName": "vfw_cnf_cds_vsp",
+                                "modelUuid": "70edaca8-8c79-468a-aa76-8224cfe686d0",
+                                "modelInvariantUuid": "7901fc89-a94d-434a-8454-1e27b99dc0e2",
+                                "modelVersion": "1.0",
+                                "modelCustomizationUuid": "86dc8af4-aa17-4fc7-9b20-f12160d99718",
+                                "modelInstanceName": "vfw_cnf_cds_vsp 0"
+                            },
+                            "toscaNodeType": "org.openecomp.resource.vf.VfwCnfCdsVsp",
+                            "nfFunction": null,
+                            "nfType": null,
+                            "nfRole": null,
+                            "nfNamingCode": null,
+                            "multiStageDesign": "false",
+                            "vnfcInstGroupOrder": null,
+                            "resourceInput": "TBD",
+                            "vfModules": [
+                                {
+                                    "modelInfo": {
+                                        "modelName": "VfwCnfCdsVsp..base_template..module-0",
+                                        "modelUuid": "274f4bc9-7679-4767-b34d-1df51cdf2496",
+                                        "modelInvariantUuid": "52842255-b7be-4a1c-ab3b-2bd3bd4a5423",
+                                        "modelVersion": "1",
+                                        "modelCustomizationUuid": "b27fad11-44da-4840-9256-7ed8a32fbe3e"
+                                    },
+                                    "isBase": true,
+                                    "vfModuleLabel": "base_template",
+                                    "initialCount": 1,
+                                    "hasVolumeGroup": false
+                                },
+                                {
+                                    "modelInfo": {
+                                        "modelName": "VfwCnfCdsVsp..vsn..module-1",
+                                        "modelUuid": "0cbf558f-5a96-4555-b476-7df8163521aa",
+                                        "modelInvariantUuid": "36f25e1b-199b-4de2-b656-c870d341cf0e",
+                                        "modelVersion": "1",
+                                        "modelCustomizationUuid": "4cac0584-c0d6-42a7-bdb3-29162792e07f"
+                                    },
+                                    "isBase": false,
+                                    "vfModuleLabel": "vsn",
+                                    "initialCount": 0,
+                                    "hasVolumeGroup": false
+                                },
+                                {
+                                    "modelInfo": {
+                                        "modelName": "VfwCnfCdsVsp..vpkg..module-2",
+                                        "modelUuid": "011b5f61-6524-4789-bd9a-44cfbf321463",
+                                        "modelInvariantUuid": "4e2b9975-5214-48b8-861a-5701c09eedfa",
+                                        "modelVersion": "1",
+                                        "modelCustomizationUuid": "4e7028a1-4c80-4d20-a7a2-a1fb3343d5cb"
+                                    },
+                                    "isBase": false,
+                                    "vfModuleLabel": "vpkg",
+                                    "initialCount": 0,
+                                    "hasVolumeGroup": false
+                                },
+                                {
+                                    "modelInfo": {
+                                        "modelName": "VfwCnfCdsVsp..vfw..module-3",
+                                        "modelUuid": "0de4ed56-8b4c-4a2d-8ce6-85d5e269204f",
+                                        "modelInvariantUuid": "9ffda670-3d77-4f6c-a4ad-fb7a09f19817",
+                                        "modelVersion": "1",
+                                        "modelCustomizationUuid": "1e123e43-ba40-4c93-90d7-b9f27407ec03"
+                                    },
+                                    "isBase": false,
+                                    "vfModuleLabel": "vfw",
+                                    "initialCount": 0,
+                                    "hasVolumeGroup": false
+                                }
+                            ],
+                            "groups": []
+                        }
+                    ]
+                }
 
 - SDNC:
 
@@ -1136,13 +2146,13 @@ Verify in SDC UI if distribution was successful. In case of any errors (sometime
 
         kubectl -n onap exec onap-mariadb-galera-0 -it -- sh
         mysql -uroot -psecretpassword -D sdnctl
-				MariaDB [sdnctl]> select sdnc_model_name, sdnc_model_version, sdnc_artifact_name from VF_MODEL WHERE customization_uuid = '86dc8af4-aa17-4fc7-9b20-f12160d99718';
-				+-----------------+--------------------+--------------------+
-				| sdnc_model_name | sdnc_model_version | sdnc_artifact_name |
-				+-----------------+--------------------+--------------------+
-				| vFW_CNF_CDS     | 1.0.45             | vnf                |
-				+-----------------+--------------------+--------------------+
-				1 row in set (0.00 sec)
+                MariaDB [sdnctl]> select sdnc_model_name, sdnc_model_version, sdnc_artifact_name from VF_MODEL WHERE customization_uuid = '86dc8af4-aa17-4fc7-9b20-f12160d99718';
+                +-----------------+--------------------+--------------------+
+                | sdnc_model_name | sdnc_model_version | sdnc_artifact_name |
+                +-----------------+--------------------+--------------------+
+                | vFW_CNF_CDS     | 1.0.45             | vnf                |
+                +-----------------+--------------------+--------------------+
+                1 row in set (0.00 sec)
 
 
 .. note:: customization_uuid value is the modelCustomizationUuid of the VNF (serviceVnfs response in 2nd Postman call from SO Catalog DB)
@@ -1155,30 +2165,30 @@ Verify in SDC UI if distribution was successful. In case of any errors (sometime
 
     ::
 
-				[
-						{
-								"blueprintModel": {
-										"id": "c505e516-b35d-4181-b1e2-bcba361cfd0a",
-										"artifactUUId": null,
-										"artifactType": "SDNC_MODEL",
-										"artifactVersion": "1.0.45",
-										"artifactDescription": "Controller Blueprint for vFW_CNF_CDS:1.0.45",
-										"internalVersion": null,
-										"createdDate": "2020-05-29T06:02:20.000Z",
-										"artifactName": "vFW_CNF_CDS",
-										"published": "Y",
-										"updatedBy": "Samuli Silvius <s.silvius@partner.samsung.com>",
-										"tags": "Samuli Silvius, vFW_CNF_CDS"
-								}
-						}
-				]
+                [
+                        {
+                                "blueprintModel": {
+                                        "id": "c505e516-b35d-4181-b1e2-bcba361cfd0a",
+                                        "artifactUUId": null,
+                                        "artifactType": "SDNC_MODEL",
+                                        "artifactVersion": "1.0.45",
+                                        "artifactDescription": "Controller Blueprint for vFW_CNF_CDS:1.0.45",
+                                        "internalVersion": null,
+                                        "createdDate": "2020-05-29T06:02:20.000Z",
+                                        "artifactName": "vFW_CNF_CDS",
+                                        "published": "Y",
+                                        "updatedBy": "Samuli Silvius <s.silvius@partner.samsung.com>",
+                                        "tags": "Samuli Silvius, vFW_CNF_CDS"
+                                }
+                        }
+                ]
 
     The list should have the matching entries with SDNC database:
 
     - sdnc_model_name == artifactName
     - sdnc_model_version == artifactVersion
 
-		You can also use **Postman -> Distribution Verification -> [CDS] CBA Download** to download CBA for further verification but it's fully optional.
+        You can also use **Postman -> Distribution Verification -> [CDS] CBA Download** to download CBA for further verification but it's fully optional.
 
 - K8splugin:
 
@@ -1188,44 +2198,44 @@ Verify in SDC UI if distribution was successful. In case of any errors (sometime
 
     ::
 
-				[
-						{
-								"rb-name": "52842255-b7be-4a1c-ab3b-2bd3bd4a5423",
-								"rb-version": "274f4bc9-7679-4767-b34d-1df51cdf2496",
-								"chart-name": "base_template",
-								"description": "",
-								"labels": {
-										"vnf_customization_uuid": "b27fad11-44da-4840-9256-7ed8a32fbe3e"
-								}
-						},
-						{
-								"rb-name": "36f25e1b-199b-4de2-b656-c870d341cf0e",
-								"rb-version": "0cbf558f-5a96-4555-b476-7df8163521aa",
-								"chart-name": "vsn",
-								"description": "",
-								"labels": {
-										"vnf_customization_uuid": "4cac0584-c0d6-42a7-bdb3-29162792e07f"
-								}
-						},
-						{
-								"rb-name": "4e2b9975-5214-48b8-861a-5701c09eedfa",
-								"rb-version": "011b5f61-6524-4789-bd9a-44cfbf321463",
-								"chart-name": "vpkg",
-								"description": "",
-								"labels": {
-										"vnf_customization_uuid": "4e7028a1-4c80-4d20-a7a2-a1fb3343d5cb"
-								}
-						},
-						{
-								"rb-name": "9ffda670-3d77-4f6c-a4ad-fb7a09f19817",
-								"rb-version": "0de4ed56-8b4c-4a2d-8ce6-85d5e269204f",
-								"chart-name": "vfw",
-								"description": "",
-								"labels": {
-										"vnf_customization_uuid": "1e123e43-ba40-4c93-90d7-b9f27407ec03"
-								}
-						}
-				]
+                [
+                        {
+                                "rb-name": "52842255-b7be-4a1c-ab3b-2bd3bd4a5423",
+                                "rb-version": "274f4bc9-7679-4767-b34d-1df51cdf2496",
+                                "chart-name": "base_template",
+                                "description": "",
+                                "labels": {
+                                        "vnf_customization_uuid": "b27fad11-44da-4840-9256-7ed8a32fbe3e"
+                                }
+                        },
+                        {
+                                "rb-name": "36f25e1b-199b-4de2-b656-c870d341cf0e",
+                                "rb-version": "0cbf558f-5a96-4555-b476-7df8163521aa",
+                                "chart-name": "vsn",
+                                "description": "",
+                                "labels": {
+                                        "vnf_customization_uuid": "4cac0584-c0d6-42a7-bdb3-29162792e07f"
+                                }
+                        },
+                        {
+                                "rb-name": "4e2b9975-5214-48b8-861a-5701c09eedfa",
+                                "rb-version": "011b5f61-6524-4789-bd9a-44cfbf321463",
+                                "chart-name": "vpkg",
+                                "description": "",
+                                "labels": {
+                                        "vnf_customization_uuid": "4e7028a1-4c80-4d20-a7a2-a1fb3343d5cb"
+                                }
+                        },
+                        {
+                                "rb-name": "9ffda670-3d77-4f6c-a4ad-fb7a09f19817",
+                                "rb-version": "0de4ed56-8b4c-4a2d-8ce6-85d5e269204f",
+                                "chart-name": "vfw",
+                                "description": "",
+                                "labels": {
+                                        "vnf_customization_uuid": "1e123e43-ba40-4c93-90d7-b9f27407ec03"
+                                }
+                        }
+                ]
 
 3-2 CNF Instantiation
 ~~~~~~~~~~~~~~~~~~~~~
@@ -1427,7 +2437,7 @@ Future development areas for this use case and in general for CNF support could 
 Multiple lower level bugs/issues were also found during use case development
 
 - Distribution of Helm package directly from onboarding package `SDC-2776`_
-
+- CDS: UAT testing is broken `CCSDK-2155`_
 
 .. _ONAP Deployment Guide: https://docs.onap.org/en/frankfurt/submodules/oom.git/docs/oom_quickstart_guide.html#quick-start-label
 .. _CDS Modeling Concepts: https://wiki.onap.org/display/DW/Modeling+Concepts
