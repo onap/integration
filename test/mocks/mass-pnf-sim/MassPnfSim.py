@@ -174,6 +174,14 @@ class MassPnfSim:
             containers.append(container.attrs['Name'][1:])
         return containers
 
+    def _get_iter_range(self):
+        '''Helper routine to get the iteration range
+        for the lifecycle commands'''
+        if not self.args.count:
+            return [self.existing_sim_instances]
+        else:
+            return [self.args.count]
+
     def bootstrap(self):
         self.logger.info("Bootstrapping PNF instances")
 
@@ -255,11 +263,7 @@ class MassPnfSim:
         pass
 
     def status(self):
-        if not self.args.count:
-            iter_range = [self.existing_sim_instances]
-        else:
-            iter_range = [self.args.count]
-        for i in range(*iter_range):
+        for i in range(*self._get_iter_range()):
             self.logger.info(f'Getting {self.sim_dirname_pattern}{i} instance status:')
             if f"{self.sim_container_name}-{i}" in self._get_docker_containers():
                 try:
