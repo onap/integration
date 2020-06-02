@@ -1,0 +1,8 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Morgan Richomme <morgan.richomme@orange.com>
+Code-Review+2: Bartek Grzybowski <b.grzybowski@partner.samsung.com>
+Submitted-by: Bartek Grzybowski <b.grzybowski@partner.samsung.com>
+Submitted-at: Tue, 02 Jun 2020 13:34:33 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/integration/+/108475
+Project: integration
+Branch: refs/heads/frankfurt
