@@ -133,24 +133,32 @@ def test_trigger_custom(args_trigger_custom, caplog, capfd):
         assert "Cannot start simulator since it's already running" in msg.out
     caplog.clear()
 
-def test_stop(args_stop, caplog, capfd):
+def test_stop(args_stop, caplog):
     MassPnfSim(args_stop).stop()
-    msg = capfd.readouterr()
     for instance in range(SIM_INSTANCES):
         instance_ip_offset = instance * 16
         ip_offset = 2
         assert f'Stopping pnf-sim-lw-{instance} instance:' in caplog.text
-        assert f'PNF-Sim IP:  {str(ip_address(IPSTART) + ip_offset + instance_ip_offset)}' in msg.out
+        assert f'PNF-Sim IP: {str(ip_address(IPSTART) + ip_offset + instance_ip_offset)}' in caplog.text
+        assert f'ROP_file_creator.sh {instance} successfully killed' in caplog.text
         assert f"ROP_file_creator.sh {instance}" not in popen('ps afx').read()
     caplog.clear()
 
-def test_stop_idempotence(args_stop, caplog, capfd):
+def test_stop_status(args_status, docker_containers, caplog):
+    MassPnfSim(args_status).status()
+    for instance in range(SIM_INSTANCES):
+        assert f"{PNF_SIM_CONTAINER_NAME}{instance}" not in docker_containers
+        assert 'Simulator containers are down' in caplog.text
+    caplog.clear()
+
+def test_stop_idempotence(args_stop, caplog, docker_containers):
     MassPnfSim(args_stop).stop()
-    msg = capfd.readouterr()
     for instance in range(SIM_INSTANCES):
         assert f'Stopping pnf-sim-lw-{instance} instance:' in caplog.text
-        assert 'ROP_file_creator.sh already not running' in msg.out
-        assert 'Simulator containers are already down' in msg.out
+        assert f'ROP_file_creator.sh {instance} already not running' in caplog.text
+        assert 'Simulator containers are already down' in caplog.text
+        assert f"ROP_file_creator.sh {instance}" not in popen('ps afx').read()
+        assert f"{PNF_SIM_CONTAINER_NAME}{instance}" not in docker_containers
     caplog.clear()
 
 def test_clean(args_clean):
