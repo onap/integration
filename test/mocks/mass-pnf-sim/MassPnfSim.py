@@ -4,7 +4,7 @@ from subprocess import run, CalledProcessError
 import argparse
 import ipaddress
 from sys import exit
-from os import chdir, getcwd, path
+from os import chdir, getcwd, path, popen, kill
 from shutil import copytree, rmtree
 from json import dumps
 from yaml import load, SafeLoader
@@ -110,6 +110,7 @@ class MassPnfSim:
     sim_port = 5000
     sim_base_url = 'http://{}:' + str(sim_port) + '/simulator'
     sim_container_name = 'pnf-simulator'
+    rop_script_name = 'ROP_file_creator.sh'
 
     def __init__(self, args):
         self.args = args
@@ -280,9 +281,36 @@ class MassPnfSim:
             else:
                 self.logger.info(' Simulator containers are down')
 
-    @_MassPnfSim_Decorators.do_action('Stopping', './simulator.sh stop')
     def stop(self):
-        pass
+        for i in range(*self._get_iter_range()):
+            self.logger.info(f'Stopping {self.sim_dirname_pattern}{i} instance:')
+            self.logger.info(f' PNF-Sim IP: {self._get_sim_instance_data(i)}')
+            # attempt killing ROP script
+            rop_pid = []
+            for ps_line in iter(popen(f'ps --no-headers -C {self.rop_script_name} -o pid,cmd').readline, ''):
+                # try getting ROP script pid
+                try:
+                    ps_line_arr = ps_line.split()
+                    assert self.rop_script_name in ps_line_arr[2]
+                    assert ps_line_arr[3] == str(i)
+                    rop_pid = ps_line_arr[0]
+                except AssertionError:
+                    pass
+                else:
+                    # get rop script childs, kill ROP script and all childs
+                    childs = popen(f'pgrep -P {rop_pid}').read().split()
+                    for pid in [rop_pid] + childs:
+                        kill(int(pid), 15)
+                    self.logger.info(f' ROP_file_creator.sh {i} successfully killed')
+            if not rop_pid:
+                # no process found
+                self.logger.warning(f' ROP_file_creator.sh {i} already not running')
+            # try tearing down docker-compose application
+            if f"{self.sim_container_name}-{i}" in self._get_docker_containers():
+                self._run_cmd('docker-compose down', self.sim_dirname_pattern + str(i))
+                self._run_cmd('docker-compose rm', self.sim_dirname_pattern + str(i))
+            else:
+                self.logger.warning(" Simulator containers are already down")
 
     @_MassPnfSim_Decorators.do_action('Triggering', './simulator.sh trigger-simulator')
     def trigger(self):
