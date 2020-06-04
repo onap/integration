@@ -94,15 +94,14 @@ def test_start_idempotence(args_start, capfd):
     assert 'Simulator containers are already up' in msg.out
     assert 'Starting simulator containers' not in msg.out
 
-def test_trigger(args_trigger, caplog, capfd):
+def test_trigger(args_trigger, caplog):
     MassPnfSim(args_trigger).trigger()
-    msg = capfd.readouterr()
     for instance in range(SIM_INSTANCES):
         instance_ip_offset = instance * 16
         ip_offset = 2
         assert f'Triggering pnf-sim-lw-{instance} instance:' in caplog.text
-        assert f'PNF-Sim IP:  {str(ip_address(IPSTART) + ip_offset + instance_ip_offset)}' in msg.out
-        assert 'Simulator started' in msg.out
+        assert f'PNF-Sim IP: {str(ip_address(IPSTART) + ip_offset + instance_ip_offset)}' in caplog.text
+        assert 'Simulator started' in caplog.text
     caplog.clear()
 
 def test_trigger_status(args_status, capfd, caplog):
@@ -115,11 +114,11 @@ def test_trigger_status(args_status, capfd, caplog):
         assert 'Exit' not in msg.out
     caplog.clear()
 
-def test_trigger_idempotence(args_trigger, capfd):
+def test_trigger_idempotence(args_trigger, caplog):
     MassPnfSim(args_trigger).trigger()
-    msg = capfd.readouterr()
-    assert "Cannot start simulator since it's already running" in msg.out
-    assert 'Simulator started' not in msg.out
+    assert "Cannot start simulator since it's already running" in caplog.text
+    assert 'Simulator started' not in caplog.text
+    caplog.clear()
 
 def test_trigger_custom(args_trigger_custom, caplog, capfd):
     MassPnfSim(args_trigger_custom).trigger_custom()

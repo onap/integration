@@ -33,8 +33,6 @@ function main(){
                exit 1
             fi
             stop $2;;
-        "run-simulator")
-            run_simulator;;
         "trigger-simulator")
             trigger_simulator;;
         "stop-simulator")
@@ -170,14 +168,6 @@ $(curl -s -X POST -H "Content-Type: application/json" -H "X-ONAP-RequestID: 123"
 EndOfMessage
 }
 
-function run_simulator(){
-    get_pnfsim_ip
-    cat << EndOfMessage
-Simulator response:
-$(curl -s -X POST -H "Content-Type: application/json" -H "X-ONAP-RequestID: 123" -H "X-InvocationID: 456" -d @config/$CONFIG_JSON $SIMULATOR_START_URL)
-EndOfMessage
-}
-
 function stop_simulator(){
     get_pnfsim_ip
     cat << EndOfMessage
@@ -210,8 +200,7 @@ Available options:
 build - locally builds simulator image from existing code
 start - starts simulator and netopeer2 containers using remote simulator image and specified model name
 compose - customize the docker-compose and configuration based on arguments
-trigger-simulator - start monitoring the ROP files and report periodically
-run-simulator - starts sending PNF registration messages with parameters specified in config.json
+trigger-simulator - starts sending PNF registration messages with parameters specified in config.json
 stop-simulator - stop sending PNF registration messages
 stop - stops both containers
 status - prints simulator status
@@ -229,10 +218,10 @@ Starting simulation:
 	e.g. ./simulator.sh compose 10.11.0.65 10.11.0.64 3 http://10.11.0.69:10000/eventListener/v7 10.11.0.2 10.11.0.66 ftps 2001 2002 10.11.0.67 10.11.0.68
 
 - Setup environment with "./simulator.sh start". It will download required docker images from the internet and run them on docker machine
-- To start the simulation use "./simulator.sh run-simulator", which will start sending PNF registration messages with parameters specified in config.json    {TODO, might not be needed}
+- To start the simulation use "./simulator.sh trigger-simulator", which will start sending PNF registration messages with parameters specified in config.json
 
 To stop simulation use "./simulator.sh stop-simulator" command. To check simulator's status use "./simulator.sh status".
-If you want to change message parameters simply edit config.json, then start the simulation with "./simulator.sh run-simulator" again
+If you want to change message parameters simply edit config.json, then trigger the simulation with "./simulator.sh trigger-simulator" again
 Logs are written to logs/pnf-simulator.log.
 
 If you change the source code you have to rebuild image with "./simulator.sh build" and run "./simulator.sh start" again
