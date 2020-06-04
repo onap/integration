@@ -177,10 +177,15 @@ class MassPnfSim:
     def _get_iter_range(self):
         '''Helper routine to get the iteration range
         for the lifecycle commands'''
-        if not self.args.count:
-            return [self.existing_sim_instances]
+        if hasattr(self.args, 'count'):
+            if not self.args.count:
+                return [self.existing_sim_instances]
+            else:
+                return [self.args.count]
+        elif hasattr(self.args, 'triggerstart'):
+            return [self.args.triggerstart, self.args.triggerend + 1]
         else:
-            return [self.args.count]
+            return [self.existing_sim_instances]
 
     def bootstrap(self):
         self.logger.info("Bootstrapping PNF instances")
@@ -338,6 +343,5 @@ class MassPnfSim:
             except TypeError:
                 self.logger.error(f' Could not load JSON data from {self.sim_dirname_pattern}{i}/{self.sim_msg_config}')
 
-    @_MassPnfSim_Decorators.do_action('Triggering', './simulator.sh trigger-simulator')
-    def trigger_custom(self):
-        self.logger.info("Triggering VES sending by a range of simulators:")
+    # Make the 'trigger_custom' an alias to the 'trigger' method
+    trigger_custom = trigger
