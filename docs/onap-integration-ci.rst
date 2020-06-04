@@ -1,3 +1,5 @@
+.. _integration-ci:
+
 Integration Continuous Integration Guide
 ----------------------------------------
 

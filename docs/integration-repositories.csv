@@ -1,0 +1,16 @@
+Repository;Description;Link
+integration;Historical main repository including documentation, simulators (e.g. mass PNF simulator), non robot tests (e.g. security tests, vCPE Tosca,..), ...;`link <https://gerrit.onap.org/r/admin/repos/integration>`__
+integration/csit;Repository hosting some tooling to start component functionnal tests in Jenkins (To be deprecated in Guilin as such tests must be reinsourced by the projects);`link <https://gerrit.onap.org/r/admin/repos/integration/csit>`__
+integration/docker/onap-java11;Java11 baseline image conformed to SECCOM recommendations;`link <https://gerrit.onap.org/r/admin/repos/integration/docker/onap-java11>`__
+integration/docker/onap-python;Python baseline image conformed to SECCOM recommendations;`link <https://gerrit.onap.org/r/admin/repos/integration/docker/onap-python>`__
+integration/simulators/dc-simulator;Data Center simulator;`link <https://gerrit.onap.org/r/admin/repos/integration/simulators/dc-simulator>`__
+integration/simulators/pnf-simulator;PNF Simulator;`link <https://gerrit.onap.org/r/admin/repos/integration/simulators/pnf-simulator>`__
+integration/simulators/ran-simulator;RAN simulator;`link <https://gerrit.onap.org/r/admin/repos/integration/simulators/ran-simulator>`__
+integration/usecases/bbs;BBS use case introduced in Dublin and extracted from global repository in frankfurt;`link <https://gerrit.onap.org/r/admin/repos/integration/usecases/bbs>`__
+integration/usecases/mdons;MDONS use case introduced in Frankfurt;`link <https://gerrit.onap.org/r/admin/repos/integration/usecases/mdons>`__
+testsuite;repository hosting the robot test suites;`link <https://gerrit.onap.org/r/admin/repos/testsuite>`__
+testsuite/heatbridge;python utils to manage the heatbridge function to enrich cloud information to AAI (deprecated);`link <https://gerrit.onap.org/r/admin/repos/testsuite/heatbridge>`__
+testsuite/oom;Helm chart for robot pod (to be deprecated in Guilin and moved back to OOM);`link <https://gerrit.onap.org/r/admin/repos/testsuite/oom>`__
+testsuite/python-testing-utils;Python and robot util libraries used for robot tests;`link <https://gerrit.onap.org/r/admin/repos/testsuite/python-testing-utils>`__
+demo;Historical repository ot host use case artifacts (heat templates, json files,..);`link <https://gerrit.onap.org/r/admin/repos/demo>`__
+oparent;Java dependencies for JAVA projects;`link <https://gerrit.onap.org/r/admin/repos/oparent>`__
