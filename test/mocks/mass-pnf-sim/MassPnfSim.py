@@ -6,11 +6,11 @@ import ipaddress
 from sys import exit
 from os import chdir, getcwd, path, popen, kill
 from shutil import copytree, rmtree
-from json import dumps
+from json import loads, dumps
 from yaml import load, SafeLoader
 from glob import glob
 from docker import from_env
-from requests import get, codes
+from requests import get, codes, post
 from requests.exceptions import MissingSchema, InvalidSchema, InvalidURL, ConnectionError, ConnectTimeout
 
 def validate_url(url):
@@ -103,8 +103,11 @@ class MassPnfSim:
 
     log_lvl = logging.INFO
     sim_config = 'config/config.yml'
+    sim_msg_config = 'config/config.json'
     sim_port = 5000
     sim_base_url = 'http://{}:' + str(sim_port) + '/simulator'
+    sim_start_url = sim_base_url + '/start'
+    sim_status_url = sim_base_url + '/status'
     sim_container_name = 'pnf-simulator'
     rop_script_name = 'ROP_file_creator.sh'
 
@@ -267,7 +270,7 @@ class MassPnfSim:
                     sim_ip = self._get_sim_instance_data(i)
                     self.logger.info(f' PNF-Sim IP: {sim_ip}')
                     self._run_cmd(self.docker_compose_status_cmd, f"{self.sim_dirname_pattern}{i}")
-                    sim_response = get('{}/status'.format(self.sim_base_url).format(sim_ip))
+                    sim_response = get('{}'.format(self.sim_status_url).format(sim_ip))
                     if sim_response.status_code == codes.ok:
                         self.logger.info(sim_response.text)
                     else:
@@ -308,9 +311,32 @@ class MassPnfSim:
             else:
                 self.logger.warning(" Simulator containers are already down")
 
-    @_MassPnfSim_Decorators.do_action('Triggering', './simulator.sh trigger-simulator')
     def trigger(self):
         self.logger.info("Triggering VES sending:")
+        for i in range(*self._get_iter_range()):
+            sim_ip = self._get_sim_instance_data(i)
+            self.logger.info(f'Triggering {self.sim_dirname_pattern}{i} instance:')
+            self.logger.info(f' PNF-Sim IP: {sim_ip}')
+            # setup req headers
+            req_headers = {
+                    "Content-Type": "application/json",
+                    "X-ONAP-RequestID": "123",
+                    "X-InvocationID": "456"
+                }
+            self.logger.debug(f' Request headers: {req_headers}')
+            try:
+                # get payload for the request
+                with open(f'{self.sim_dirname_pattern}{i}/{self.sim_msg_config}') as data:
+                    json_data = loads(data.read())
+                    self.logger.debug(f' JSON payload for the simulator:\n{json_data}')
+                    # make a http request to the simulator
+                    sim_response = post('{}'.format(self.sim_start_url).format(sim_ip), headers=req_headers, json=json_data)
+                    if sim_response.status_code == codes.ok:
+                        self.logger.info(' Simulator response: ' + sim_response.text)
+                    else:
+                        self.logger.warning(' Simulator response ' + sim_response.text)
+            except TypeError:
+                self.logger.error(f' Could not load JSON data from {self.sim_dirname_pattern}{i}/{self.sim_msg_config}')
 
     @_MassPnfSim_Decorators.do_action('Triggering', './simulator.sh trigger-simulator')
     def trigger_custom(self):
