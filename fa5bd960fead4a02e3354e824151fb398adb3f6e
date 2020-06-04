@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a473efb6_ddae5e24",
+        "filename": "docs/integration-repositories.csv",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-06-04T10:55:25Z",
+      "side": 1,
+      "message": "single n",
+      "range": {
+        "startLine": 3,
+        "startChar": 68,
+        "endLine": 3,
+        "endChar": 79
+      },
+      "revId": "fa5bd960fead4a02e3354e824151fb398adb3f6e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc5554f1_6714e8f5",
+        "filename": "docs/integration-repositories.csv",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-06-04T10:55:25Z",
+      "side": 1,
+      "message": "to",
+      "range": {
+        "startLine": 15,
+        "startChar": 27,
+        "endLine": 15,
+        "endChar": 29
+      },
+      "revId": "fa5bd960fead4a02e3354e824151fb398adb3f6e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
