@@ -6,7 +6,6 @@
 Integration Release Notes
 =========================
 
-
 Integration Repo
 ----------------
 
@@ -17,7 +16,7 @@ Version: 6.0.0
 
 **New Features**
 
-- provide a new testsuite docker version (1.6.2) including several test updates
+- provide a new testsuite docker version (1.6.3) including several test updates
   for the different tests
 - Creation of new repositories to host the use cases: bbs, mdons
 - Creation of new repositories to host the simulators: dc-simulator, ran-simulator,
@@ -46,6 +45,8 @@ chain is used to track the stability of the release from the RC0. it will be
 maintained as the latest stable CI branch and replaces the El Alto branch.
 The daily results can be found in <https://gating-results.onap.eu/results/>.
 A 72 stability test has been executed after RC1.
+
+See :ref:`S3P page<integration-s3p>` for further details.
 
 Verified Use Cases and Functional Requirements
 ----------------------------------------------
@@ -80,11 +81,12 @@ Version: 3.0.2
 Robot Test Suites
 -----------------
 
-Version: 1.6.2
+Version: 1.6.3
 
-:Release Date: 2020-06-27
-:sha1: b0407856e24e04126734a176f171afc7274ae2f4
+:Release Date: 2020-06-03
+:sha1: 8f4f6f64eb4626433e6f32eeb146a71d3c840935
 
 **New Features**
 
 - bug Fixes(Teardown, control loop, alotteed properties)
+- CI support for hvves, 5GBulkPm and pnf-registrate
