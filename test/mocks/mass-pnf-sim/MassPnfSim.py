@@ -59,6 +59,9 @@ def get_parser():
     # Trigger command parser
     parser_trigger = subparsers.add_parser('trigger', help='Trigger one single VES event from each simulator')
     parser_trigger.add_argument('--count', help='Instance count to trigger', type=int, metavar='INT', default=0)
+    # Stop-simulator command parser
+    parser_stopsimulator = subparsers.add_parser('stop_simulator', help='Stop sending PNF registration messages')
+    parser_stopsimulator.add_argument('--count', help='Instance count to stop', type=int, metavar='INT', default=0)
     # Trigger-custom command parser
     parser_triggerstart = subparsers.add_parser('trigger_custom', help='Trigger one single VES event from specific simulators')
     parser_triggerstart.add_argument('--triggerstart', help='First simulator id to trigger', type=int,
@@ -108,6 +111,7 @@ class MassPnfSim:
     sim_base_url = 'http://{}:' + str(sim_port) + '/simulator'
     sim_start_url = sim_base_url + '/start'
     sim_status_url = sim_base_url + '/status'
+    sim_stop_url = sim_base_url + '/stop'
     sim_container_name = 'pnf-simulator'
     rop_script_name = 'ROP_file_creator.sh'
 
@@ -127,7 +131,7 @@ class MassPnfSim:
                 exit(1)
 
         # Validate --count option for subcommands that support it
-        if self.args.subcommand in ['start', 'stop', 'trigger', 'status']:
+        if self.args.subcommand in ['start', 'stop', 'trigger', 'status', 'stop_simulator']:
             if self.args.count > self.existing_sim_instances:
                 self.logger.error('--count value greater that existing instance count')
                 exit(1)
@@ -345,3 +349,15 @@ class MassPnfSim:
 
     # Make the 'trigger_custom' an alias to the 'trigger' method
     trigger_custom = trigger
+
+    def stop_simulator(self):
+        self.logger.info("Stopping sending PNF registration messages:")
+        for i in range(*self._get_iter_range()):
+            sim_ip = self._get_sim_instance_data(i)
+            self.logger.info(f'Stopping {self.sim_dirname_pattern}{i} instance:')
+            self.logger.info(f' PNF-Sim IP: {sim_ip}')
+            sim_response = post('{}'.format(self.sim_stop_url).format(sim_ip))
+            if sim_response.status_code == codes.ok:
+                self.logger.info(' Simulator response: ' + sim_response.text)
+            else:
+                self.logger.warning(' Simulator response ' + sim_response.text)

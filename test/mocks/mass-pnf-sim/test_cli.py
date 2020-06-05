@@ -36,7 +36,8 @@ def test_validate_trigger_custom(parser, caplog):
     'start',
     'stop',
     'trigger',
-    'status'
+    'status',
+    'stop_simulator'
     ])
 def test_count_option(parser, capsys, subcommand):
     '''Test case where no arg passed to '--count' opt'''
@@ -50,7 +51,8 @@ def test_count_option(parser, capsys, subcommand):
     'start',
     'stop',
     'trigger',
-    'status'
+    'status',
+    'stop_simulator'
     ])
 def test_count_option_bad_value(parser, caplog, subcommand):
     '''Test case where invalid value passed to '--count' opt'''
