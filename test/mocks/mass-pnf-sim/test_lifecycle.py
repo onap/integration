@@ -11,8 +11,8 @@ from time import sleep
 # thus they require that no simulator instances are bootstrapped and running
 # prior to running tests
 
-@pytest.mark.parametrize("action", ['start', 'stop', 'trigger', 'status'])
-def test_not_bootstrapped(action, caplog, args_start, args_stop, args_trigger, args_status): # pylint: disable=W0613
+@pytest.mark.parametrize("action", ['start', 'stop', 'trigger', 'status', 'stop_simulator'])
+def test_not_bootstrapped(action, caplog, args_start, args_stop, args_trigger, args_status, args_stop_simulator): # pylint: disable=W0613
     try:
         m = getattr(MassPnfSim(eval(f'args_{action}')), action)
         m()
@@ -120,6 +120,38 @@ def test_trigger_idempotence(args_trigger, caplog):
     assert 'Simulator started' not in caplog.text
     caplog.clear()
 
+def test_stop_simulator(args_stop_simulator, caplog):
+    MassPnfSim(args_stop_simulator).stop_simulator()
+    for instance in range(SIM_INSTANCES):
+        instance_ip_offset = instance * 16
+        ip_offset = 2
+        assert f'Stopping pnf-sim-lw-{instance} instance:' in caplog.text
+        assert f'PNF-Sim IP: {str(ip_address(IPSTART) + ip_offset + instance_ip_offset)}' in caplog.text
+        assert "Simulator successfully stopped" in caplog.text
+        assert "not running" not in caplog.text
+    caplog.clear()
+
+def test_stop_simulator_status(args_status, capfd, caplog):
+    MassPnfSim(args_status).status()
+    msg = capfd.readouterr()
+    for _ in range(SIM_INSTANCES):
+        assert '"simulatorStatus":"RUNNING"' not in caplog.text
+        assert '"simulatorStatus":"NOT RUNNING"' in caplog.text
+        assert 'Up' in msg.out
+        assert 'Exit' not in msg.out
+    caplog.clear()
+
+def test_stop_simulator_idempotence(args_stop_simulator, caplog):
+    MassPnfSim(args_stop_simulator).stop_simulator()
+    for instance in range(SIM_INSTANCES):
+        instance_ip_offset = instance * 16
+        ip_offset = 2
+        assert f'Stopping pnf-sim-lw-{instance} instance:' in caplog.text
+        assert f'PNF-Sim IP: {str(ip_address(IPSTART) + ip_offset + instance_ip_offset)}' in caplog.text
+        assert "Cannot stop simulator, because it's not running" in caplog.text
+        assert "Simulator successfully stopped" not in caplog.text
+    caplog.clear()
+
 def test_trigger_custom(args_trigger_custom, caplog):
     MassPnfSim(args_trigger_custom).trigger_custom()
     for instance in range(SIM_INSTANCES):
@@ -127,8 +159,8 @@ def test_trigger_custom(args_trigger_custom, caplog):
         ip_offset = 2
         assert f'Triggering pnf-sim-lw-{instance} instance:' in caplog.text
         assert f'PNF-Sim IP: {str(ip_address(IPSTART) + ip_offset + instance_ip_offset)}' in caplog.text
-        assert 'Simulator started' not in caplog.text
-        assert "Cannot start simulator since it's already running" in caplog.text
+        assert 'Simulator started' in caplog.text
+        assert "Cannot start simulator since it's already running" not in caplog.text
     caplog.clear()
 
 def test_stop(args_stop, caplog):
