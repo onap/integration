@@ -39,11 +39,29 @@ def test_validate_trigger_custom(parser, caplog):
     'status'
     ])
 def test_count_option(parser, capsys, subcommand):
+    '''Test case where no arg passed to '--count' opt'''
     try:
         parser.parse_args([subcommand, '--count'])
     except SystemExit:
         pass
     assert f"{subcommand}: error: argument --count: expected one argument" in capsys.readouterr().err
+
+@pytest.mark.parametrize(("subcommand"), [
+    'start',
+    'stop',
+    'trigger',
+    'status'
+    ])
+def test_count_option_bad_value(parser, caplog, subcommand):
+    '''Test case where invalid value passed to '--count' opt'''
+    try:
+        args = parser.parse_args([subcommand, '--count', str(SIM_INSTANCES + 1)])
+        m = getattr(MassPnfSim(args), subcommand)
+        m()
+    except SystemExit:
+        pass
+    assert '--count value greater that existing instance count' in caplog.text
+    caplog.clear()
 
 def test_empty(parser, capsys):
     try:
