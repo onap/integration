@@ -46,7 +46,7 @@ spec:
         apk add musl-dev && \
         apk add libffi-dev && \
         apk add openssl-dev && \
-        pip3 install python-openstackclient && \
+        pip3 install --no-cache-dir python-openstackclient && \
         sh -c 'echo ". /openstack/openstack_rc" >> /root/.profile; while true; do sleep 60; done;'
   restartPolicy: Never
   volumes:

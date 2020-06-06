@@ -36,6 +36,7 @@ setuptools.setup(
         'python-openstackclient',
         'python-heatclient',
         'kubernetes',
-        'netaddr'
+        'netaddr',
+        'queue'
     ]
 )

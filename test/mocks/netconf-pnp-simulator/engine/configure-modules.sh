@@ -81,7 +81,7 @@ create_python_venv()
     cd $env_dir
     # shellcheck disable=SC1091
     . ./bin/activate
-    pip install --requirement "$dir"/requirements.txt
+    pip install --no-cache-dir --requirement "$dir"/requirements.txt
   ) 1>&2
   echo $env_dir
 }

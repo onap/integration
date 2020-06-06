@@ -36,4 +36,4 @@ pip_setup_path="$(dirname $0)/../"
 
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 python get-pip.py
-pip install -I ${pip_setup_path}
+pip install --no-cache-dir -I ${pip_setup_path}
