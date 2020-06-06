@@ -10,7 +10,7 @@ import sys
 import ipaddress
 import mysql.connector
 import requests
-import commands
+import subprocess
 import time
 import yaml
 from novaclient import client as openstackclient
@@ -222,7 +222,7 @@ class VcpeCommon:
         self.logger.info('Adding vServer information to AAI for {0}'.format(openstack_stack_name))
         if not self.oom_mode:
             cmd = '/opt/demo.sh heatbridge {0} {1} vCPE'.format(openstack_stack_name, svc_instance_uuid)
-            ret = commands.getstatusoutput("ssh -i onap_dev root@{0} '{1}'".format(self.hosts['robot'], cmd))
+            ret = subprocess.getstatusoutput("ssh -i onap_dev root@{0} '{1}'".format(self.hosts['robot'], cmd))
             self.logger.debug('%s', ret)
         else:
             print('To add vGMUX vserver info to AAI, do the following:')
