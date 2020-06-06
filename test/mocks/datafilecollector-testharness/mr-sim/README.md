@@ -189,7 +189,7 @@ TC2XXX is same as TC1XXX but with FTPS
 
 1. `sudo apt install python3-venv`
 2. `source .env/bin/activate/`
-3. `pip3 install "anypackage"`      #also include in source code
+3. `pip3 install --no-cache-dir "anypackage"`      #also include in source code
 4. `pip3 freeze | grep -v "pkg-resources" > requirements.txt`  #to create a req file
 5. `FLASK_APP=mr-sim.py flask run`
    or
@@ -216,11 +216,11 @@ When cloning/fetching from the repository first time:
 
 1. 'git clone'
 2. then step into the folder
-3. 'pip3 install virtualenv'
-4. 'pip3 install virtualenvwrapper-win'
+3. 'pip3 install --no-cache-dir virtualenv'
+4. 'pip3 install --no-cache-dir virtualenvwrapper-win'
 5. 'mkvirtualenv env'
 6. 'workon env'
-7. 'pip3 install -r requirements.txt'   #this will install in the local environment then
+7. 'pip3 install --no-cache-dir -r requirements.txt'   #this will install in the local environment then
 8. 'python3 dfc-sim.py'
 
 Every time you run the script, you'll need to step into the virtualenv by step 2+6.

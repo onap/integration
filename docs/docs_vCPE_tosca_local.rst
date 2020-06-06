@@ -145,7 +145,7 @@ The use case has been automated by vcpe_tosca_test scripts. The followings are t
 
       python3 -m unittest vcpe_tosca_test.py
 
-   Before run the command, you should install requests: pip install requests, and update the path of configuration file vcpe_config.json.
+   Before run the command, you should install requests: pip install --no-cache-dir requests, and update the path of configuration file vcpe_config.json.
 
 5) Release of our environment
 

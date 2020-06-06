@@ -53,7 +53,7 @@ write_files:
     git config --global user.name "jenkins"
     apt-get -y install etckeeper
     apt-get -y install curl openjdk-8-jre unzip python3-openstackclient python3-heatclient python3-jenkins-job-builder jq openvpn python3-pip xmlstarlet tree
-    pip3 install robotframework
+    pip3 install --no-cache-dir robotframework
 
     # install Jenkins
     wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -

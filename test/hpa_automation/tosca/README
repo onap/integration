@@ -6,7 +6,7 @@ use cases.
 ## Prerequisites
 
  - Login in your CLI container.
- - Install python mysql.connector in CLI container (pip install mysql-connector-python)
+ - Install python mysql.connector in CLI container (pip install --no-cache-dir mysql-connector-python)
  - Create Nodeport for Policy pdp using the pdp_service_expose.yaml file (copy pdp_service_expose.yaml
    in hpa_automation/tosca to rancher and run kubectl apply -f pdp_expose.yaml)
  - Design vCPE in SDC, you can refer to https://wiki.onap.org/display/DW/vCPE+with+Tosca+VNF+Test+Guide.

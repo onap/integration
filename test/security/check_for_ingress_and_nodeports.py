@@ -27,8 +27,8 @@
 #
 # Dependencies:
 #
-#     pip3 install kubernetes
-#     pip3 install colorama
+#     pip3 install --no-cache-dir kubernetes
+#     pip3 install --no-cache-dir colorama
 #
 # Environment:
 #   This script should be run on the local machine which has network access to the onap K8S cluster.

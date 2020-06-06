@@ -10,4 +10,4 @@ else
 	virtualenv -p python3 .env
 fi
 
-source .env/bin/activate && pip3 install -r requirements.txt
+source .env/bin/activate && pip3 install --no-cache-dir -r requirements.txt

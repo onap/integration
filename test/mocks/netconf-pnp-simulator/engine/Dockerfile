@@ -168,7 +168,7 @@ ENV PYTHONPATH=/opt/lib/python3.7/site-packages
 COPY patches/supervisor/ /usr/src/patches/supervisor/
 
 RUN set -eux \
-      && pip install loguru supervisor supervisor virtualenv \
+      && pip install --no-cache-dir loguru supervisor supervisor virtualenv \
       && cd /usr/local/lib/python3.7/site-packages \
       && for p in /usr/src/patches/supervisor/*.patch; do patch -p1 -i $p; done
 

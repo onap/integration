@@ -209,8 +209,8 @@ or Command Line.
 ::
 
  apt-get install python-dev python-pip
- pip install python-heatclient        # Install heat client
- pip install python-openstackclient   # Install the Openstack client to support multiple services
+ pip install --no-cache-dir python-heatclient        # Install heat client
+ pip install --no-cache-dir python-openstackclient   # Install the Openstack client to support multiple services
 
 -  Create a file (named i.e. ~/openstack/openrc) that sets all the
    environmental variables required to access Rackspace:

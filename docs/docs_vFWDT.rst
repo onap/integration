@@ -302,7 +302,7 @@ what should show following folders
 ::
 
     sudo apt-get install python3-pip
-    pip3 install -r workflow/requirements.txt --user
+    pip3 install --no-cache-dir -r workflow/requirements.txt --user
 
 Gathering Scenario Facts
 ------------------------
