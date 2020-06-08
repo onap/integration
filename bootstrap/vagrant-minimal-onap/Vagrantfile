@@ -13,7 +13,7 @@ os_env = "#{synced_folder_config}/dot_env"
 cluster_yml = "cluster.yml"
 apt_prefs_dir = "/etc/apt/apt.conf.d"
 apt_prefs = "95silent-approval"
-helm_timeout = "900"
+helm_timeout = "1800"
 helm_master_password = "vagrant"
 
 vm_memory = 1 * 1024
