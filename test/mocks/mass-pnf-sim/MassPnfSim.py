@@ -145,11 +145,11 @@ class MassPnfSim:
             exit(1)
 
     def _run_cmd(self, cmd, dir_context='.'):
-        if self.args.verbose == 'debug':
-            cmd='bash -x ' + cmd
         old_pwd = getcwd()
         try:
             chdir(dir_context)
+            self.logger.debug(f'_run_cmd: Current direcotry: {getcwd()}')
+            self.logger.debug(f'_run_cmd: Command string: {cmd}')
             run(cmd, check=True, shell=True)
             chdir(old_pwd)
         except FileNotFoundError:
