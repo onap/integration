@@ -106,7 +106,7 @@ $install_make = <<-SCRIPT
 SCRIPT
 
 $resize_disk = <<-SCRIPT
-  DEV=${1:-sda}
+  DEV=${1:-vda}
   PART=${2:-3}
   echo ", +" | sfdisk -N "$PART" "/dev/$DEV" --no-reread
   partprobe
