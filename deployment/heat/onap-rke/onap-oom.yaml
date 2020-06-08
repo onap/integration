@@ -83,11 +83,11 @@ parameters:
 
   kubectl_version:
     type: string
-    default: "1.15.3"
+    default: "1.15.11"
 
   helm_version:
     type: string
-    default: "2.14.2"
+    default: "2.16.6"
 
   helm_deploy_delay:
     type: string
