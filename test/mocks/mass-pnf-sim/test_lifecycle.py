@@ -1,6 +1,6 @@
 from MassPnfSim import MassPnfSim
 from glob import glob
-from os import popen
+from os import popen, stat
 from yaml import load, SafeLoader
 from ipaddress import ip_address
 from test_settings import *
@@ -59,6 +59,10 @@ def test_bootstrap(args_bootstrap, parser, caplog):
         assert str(ip_address(IPSTART) + ip_offset + instance_ip_offset) == yml['ippnfsim']
         start_port += 2
         print(yml['ippnfsim'])
+
+    # Verify vsftpd config file has proper permissions
+    for cfg in glob(f'{sim_dirname_pattern}*/config/vsftpd_ssl.conf'):
+        assert stat(cfg).st_uid == 0
 
 def test_bootstrap_status(args_status, caplog):
     MassPnfSim(args_status).status()

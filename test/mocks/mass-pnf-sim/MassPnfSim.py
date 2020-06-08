@@ -4,7 +4,7 @@ from subprocess import run, CalledProcessError
 import argparse
 import ipaddress
 from sys import exit
-from os import chdir, getcwd, path, popen, kill, mkdir
+from os import chdir, getcwd, path, popen, kill, getuid, stat, mkdir
 from shutil import copytree, rmtree, move
 from json import loads, dumps
 from yaml import load, SafeLoader
@@ -275,6 +275,11 @@ class MassPnfSim:
 
             ftps_pasv_port_start += ftps_pasv_port_num_of_ports + 1
             ftps_pasv_port_end += ftps_pasv_port_num_of_ports + 1
+
+            # ugly hack to chown vsftpd config file to root
+            if getuid():
+                self._run_cmd('sudo chown root config/vsftpd_ssl.conf', f'{self.sim_dirname_pattern}{i}')
+                self.logger.debug(f"vsftpd_ssl.conf file owner UID: {stat(self.sim_dirname_pattern + str(i) + '/config/vsftpd_ssl.conf').st_uid}")
 
             self.logger.info(f'Done setting up instance #{i}')
 
