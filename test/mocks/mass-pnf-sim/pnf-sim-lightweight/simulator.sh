@@ -128,7 +128,6 @@ function start(){
         set_vsftpd_file_owner
         archive_logs
         docker-compose -f $1 up -d
-        RUNNING_COMPOSE_CONFIG=$1
     fi
 }
 
