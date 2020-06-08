@@ -296,9 +296,18 @@ class MassPnfSim:
         for sim_id in range(self.existing_sim_instances):
             rmtree(f"{self.sim_dirname_pattern}{sim_id}")
 
-    @_MassPnfSim_Decorators.do_action('Starting', './simulator.sh start')
     def start(self):
-        pass
+        for i in range(*self._get_iter_range()):
+            # If container is not running
+            if f"{self.sim_container_name}-{i}" not in self._get_docker_containers():
+                self.logger.info(f'Starting {self.sim_dirname_pattern}{i} instance:')
+                self.logger.info(f' PNF-Sim IP: {self._get_sim_instance_data(i)}')
+                #Move logs to archive
+                self._archive_logs(self.sim_dirname_pattern + str(i))
+                self.logger.info(' Starting simulator containers using netconf model specified in config/netconf.env')
+                self._run_cmd('docker-compose up -d', self.sim_dirname_pattern + str(i))
+            else:
+                self.logger.warning(f'Instance {self.sim_dirname_pattern}{i} containers are already up')
 
     def status(self):
         for i in range(*self._get_iter_range()):
