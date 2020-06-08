@@ -81,30 +81,6 @@ def get_parser():
 
 class MassPnfSim:
 
-    # MassPnfSim class actions decorator
-    class _MassPnfSim_Decorators:
-
-        @staticmethod
-        def do_action(action_string, cmd):
-            def action_decorator(method):
-                def action_wrap(self):
-                    # Alter looping range if action is 'tigger_custom'
-                    if method.__name__ == 'trigger_custom':
-                        iter_range = [self.args.triggerstart, self.args.triggerend+1]
-                    else:
-                        if not self.args.count:
-                            # If no instance count set explicitly via --count
-                            # option
-                            iter_range = [self.existing_sim_instances]
-                        else:
-                            iter_range = [self.args.count]
-                    method(self)
-                    for i in range(*iter_range):
-                        self.logger.info(f'{action_string} {self.sim_dirname_pattern}{i} instance:')
-                        self._run_cmd(cmd, f"{self.sim_dirname_pattern}{i}")
-                return action_wrap
-            return action_decorator
-
     log_lvl = logging.INFO
     sim_config = 'config/config.yml'
     sim_msg_config = 'config/config.json'
