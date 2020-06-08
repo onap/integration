@@ -4,11 +4,12 @@ from subprocess import run, CalledProcessError
 import argparse
 import ipaddress
 from sys import exit
-from os import chdir, getcwd, path, popen, kill
-from shutil import copytree, rmtree
+from os import chdir, getcwd, path, popen, kill, mkdir
+from shutil import copytree, rmtree, move
 from json import loads, dumps
 from yaml import load, SafeLoader
 from glob import glob
+from time import strftime
 from docker import from_env
 from requests import get, codes, post
 from requests.exceptions import MissingSchema, InvalidSchema, InvalidURL, ConnectionError, ConnectTimeout
@@ -190,6 +191,29 @@ class MassPnfSim:
             return [self.args.triggerstart, self.args.triggerend + 1]
         else:
             return [self.existing_sim_instances]
+
+    def _archive_logs(self, sim_dir):
+        '''Helper function to archive simulator logs or create the log dir'''
+        old_pwd = getcwd()
+        try:
+            chdir(sim_dir)
+            if path.isdir('logs'):
+                arch_dir = f"logs/archive_{strftime('%Y-%m-%d_%T')}"
+                mkdir(arch_dir)
+                self.logger.debug(f'Created {arch_dir}')
+                # Collect file list to move
+                self.logger.debug('Archiving log files')
+                for fpattern in ['*.log', '*.xml']:
+                    for f in glob('logs/' + fpattern):
+                        # Move files from list to arch dir
+                        move(f, arch_dir)
+                        self.logger.debug(f'Moving {f} to {arch_dir}')
+            else:
+                mkdir('logs')
+                self.logger.debug("Logs dir didn't exist, created")
+            chdir(old_pwd)
+        except FileNotFoundError:
+            self.logger.error(f"Directory {sim_dir} not found")
 
     def bootstrap(self):
         self.logger.info("Bootstrapping PNF instances")
