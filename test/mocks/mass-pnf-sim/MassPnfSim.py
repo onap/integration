@@ -7,7 +7,7 @@ from sys import exit
 from os import chdir, getcwd, path, popen, kill, getuid, stat, mkdir
 from shutil import copytree, rmtree, move
 from json import loads, dumps
-from yaml import load, SafeLoader
+from yaml import load, SafeLoader, dump
 from glob import glob
 from time import strftime
 from docker import from_env
@@ -191,6 +191,18 @@ class MassPnfSim:
         except FileNotFoundError:
             self.logger.error(f"Directory {sim_dir} not found")
 
+    def _generate_pnf_sim_config(self, i, port_sftp, port_ftps, pnf_sim_ip):
+        '''Writes a yaml formatted configuration file for Java simulator app'''
+        yml = {}
+        yml['urlves'] = self.args.urlves
+        yml['urlsftp'] = f'sftp://onap:pano@{self.args.ipfileserver}:{port_sftp}'
+        yml['urlftps'] = f'ftps://onap:pano@{self.args.ipfileserver}:{port_ftps}'
+        yml['ippnfsim'] = pnf_sim_ip
+        yml['typefileserver'] = self.args.typefileserver
+        self.logger.debug(f'Generated simulator config:\n{dump(yml)}')
+        with open(f'{self.sim_dirname_pattern}{i}/{self.sim_config}', 'w') as fout:
+            fout.write(dump(yml))
+
     def bootstrap(self):
         self.logger.info("Bootstrapping PNF instances")
 
@@ -247,6 +259,7 @@ class MassPnfSim:
                 ])
             self.logger.debug(f"Script cmdline: {composercmd}")
             self.logger.info(f"\tCreating instance #{i} configuration ")
+            self._generate_pnf_sim_config(i, PortSftp, PortFtps, ip['PnfSim'])
             self._run_cmd(composercmd, f"{self.sim_dirname_pattern}{i}")
 
             ftps_pasv_port_start += ftps_pasv_port_num_of_ports + 1
