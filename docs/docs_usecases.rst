@@ -42,7 +42,6 @@ Functional Requirements
     :widths: 60,20,20
     :header-rows: 1
 
-
 .. csv-table:: 5G functional requirements table
     :file: functional-requirements-5g.csv
     :widths: 60,20,20
@@ -58,11 +57,20 @@ Some use cases have been integrated in ONAP gates. It means the tests are run on
 each daily or gating CI chain. The goal is to detect any regression as soon as
 possible and demonstrate the ability to automate the use cases.
 
-The frankfurt use cases integrated in gates are:
+.. csv-table:: automated use cases table
+    :file: automated-usecases.csv
+    :widths: 10,80,10
+    :delim: ;
+    :header-rows: 1
 
-- pnf-regitrate
-- 5gbulkpm
-- hv-ves
+The robot scripts can be found in ONAP testsuite repository, an execution
+run-time is provided through the robot pod.
+
+The python onap_tests framework is hosted on
+https://gitlab.com/Orange-OpenSource/lfn/onap/onap-tests. Please not that this
+framework is valid up to Frankfurk and will be deprecated in Guilin. It will
+be replaced by scenarios leveraging python-onapsdk
+https://gitlab.com/Orange-OpenSource/lfn/onap/python-onapsdk.
 
 Deprecated Use Cases
 ~~~~~~~~~~~~~~~~~~~~

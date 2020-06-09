@@ -1,0 +1,7 @@
+Use Case;Description;Test Framework
+basic_vm;Onboard, distribute and instantiate a simple Ubuntu VM based on its heat template.;`onap-tests <https://gitlab.com/Orange-OpenSource/lfn/onap/onap-tests/-/blob/master/onap_tests/xtesting/basic_vm.py>`__
+clearwater_ims;Onboard, distribute and instantiate a clearwater vIMS (6 VMs).;`onap-tests <https://gitlab.com/Orange-OpenSource/lfn/onap/onap-tests/-/blob/master/onap_tests/xtesting/clearwater_ims.py>`__
+freeradius_nbi;Onboard, distribute and instantiate a simple VM including freeradius, the instantiation is realized through the external API module (not direct call to SO);`onap-tests <https://gitlab.com/Orange-OpenSource/lfn/onap/onap-tests/-/blob/master/onap_tests/xtesting/freeradius_nbi.py>`__
+hv-ves;Automation of 5G Realtime PM and High Volume Stream Data Collection;`robot <https://git.onap.org/testsuite/tree/robot/testsuites/hvves-ci.robot>`__
+5GBulkPm;Automation of 5G Bulk PM;`robot <https://git.onap.org/testsuite/tree/robot/testsuites/usecases/5gbulkpm.robot>`__
+pnf-registrate;Automation of 5G - PNF PnP;`robot <https://git.onap.org/testsuite/tree/robot/testsuites/pnf-registration.robot>`__
