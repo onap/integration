@@ -13,6 +13,7 @@ os_env = "#{synced_folder_config}/dot_env"
 cluster_yml = "cluster.yml"
 apt_prefs_dir = "/etc/apt/apt.conf.d"
 apt_prefs = "95silent-approval"
+helm_timeout = "900"
 
 vm_memory = 1 * 1024
 vm_memory_os = 4 * 1024
@@ -183,6 +184,8 @@ $deploy_onap = <<-SCRIPT
   ENV="${2:-#{os_env}}"
   export $(cat "$ENV" | xargs)
 
+  TIMEOUT="${3:-#{helm_timeout}}"
+
   encrypt () {
     KEY="${HOME}/oom/kubernetes/so/resources/config/mso/encryption.key"
     echo -n "$1" \
@@ -194,7 +197,7 @@ $deploy_onap = <<-SCRIPT
 
   export KUBECONFIG="${HOME}/.kube/config.onap"
 
-  helm deploy core local/onap --namespace onap -f "$OVERRIDE" --verbose --timeout 900
+  helm deploy core local/onap --namespace onap -f "$OVERRIDE" --verbose --timeout "$TIMEOUT"
 SCRIPT
 
 Vagrant.configure('2') do |config|
