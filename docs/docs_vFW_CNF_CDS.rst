@@ -545,7 +545,7 @@ where my_cba.zip is the cba model of this use case and input_uat.yml is followin
 
 
 .. note::  This call will run all the calls (given in input_uat.yml) towards CDS and records the functionality, so there needs to be working environment (SDNC, AAI, Naming, Netbox, etc.) to record valid final uat.yml.
-As an output of this call final uat.yml content is received. Final uat.yml in this use case looks like this:
+           As an output of this call final uat.yml content is received. Final uat.yml in this use case looks like this:
 
 ::
 
@@ -2009,14 +2009,16 @@ Service Creation with SDC
 Service Creation in SDC is composed of the same steps that are performed by most other use-cases. For reference, you can relate to `vLB use-case`_
 
 Onboard VSP
-    - Remember during VSP onboard to choose "Network Package" Onboarding procedure
+
+- Remember during VSP onboard to choose "Network Package" Onboarding procedure
 
 Create VF and Service
 Service -> Properties Assignment -> Choose VF (at right box):
-    - skip_post_instantiation_configuration - True
-    - sdnc_artifact_name - vnf
-    - sdnc_model_name - vFW_CNF_CDS
-    - sdnc_model_version - K8s 1.0.45
+
+- skip_post_instantiation_configuration - True
+- sdnc_artifact_name - vnf
+- sdnc_model_name - vFW_CNF_CDS
+- sdnc_model_version - K8s 1.0.45
 
 Distribution Of Service
 .......................
