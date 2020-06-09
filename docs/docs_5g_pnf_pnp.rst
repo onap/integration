@@ -22,6 +22,7 @@ The PNF Plug and Play is a procedure that is executed between a PNF and ONAP. In
 - `5G - PNF Plug and Play - Integration Test Cases <https://wiki.onap.org/display/DW/5G+-+PNF+PnP+-+Integration+Test+Cases>`_
 - `Instruction how to setup and use PnP PNF Simulator <https://gerrit.onap.org/r/gitweb?p=integration/simulators/pnf-simulator.git;a=blob_plain;f=pnfsimulator/README.md;hb=refs/heads/master>`_
 - `PnP PNF Simulator git repository <https://gerrit.onap.org/r/gitweb?p=integration/simulators/pnf-simulator.git;a=summary>`_
+
 How to Use
 ~~~~~~~~~~
 
