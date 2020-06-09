@@ -4,7 +4,7 @@
 .. _docs_pnf_onboarding_preonboarding:
 
 5G - PNF Pre-Onboarding & Onboarding
-----------------------
+------------------------------------
 
 Description
 ~~~~~~~~~~~
