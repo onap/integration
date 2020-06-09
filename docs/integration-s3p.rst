@@ -28,13 +28,15 @@ functional after running for an extended amounts of time.
 This is done by repeated running tests against an ONAP instance for a period of
 72 hours.
 
-The 72 hour stability run result was **PASS**.
+::
 
-The onboard and instantiate tests ran for over 115 hours before environment
+  **The 72 hour stability run result was PASS**
+
+The onboard and instantiate tests ran for over **115 hours** before environment
 issues stopped the test. There were errors due to both tooling and environment
 errors.
 
-The overall memory utilization only grew about 2% on the work nodes despite
+The overall memory utilization only grew about **2%** on the work nodes despite
 the environment issues. Interestingly the kubernetes ochestration node memory
 grew more which could mean we are over driving the API's in some fashion.
 
@@ -84,10 +86,15 @@ The jenkins job needs a couple of updates for each release:
 The path for robot logs on dockerdata-nfs  changed in Frankfurt so the
 /dev-robot/ becomes /dev/robot
 
-The stability tests used robot container image  **1.6.1-STAGING-20200519T201214Z**.
-
-robot container updates: API_TYPE was set to GRA_API since we have deprecated
-VNF_API.
+.. note::
+   For Frankfurt release, the  stability test has been executed on an
+   kubernetes infrastructure based on El Alto recommendations. The kubernetes
+   version was 1.15.3 (frankfurt 1.15.11) and the helm version was 2.14.2
+   (frankfurt 2.16.6). However the ONAP dockers were updated to Frankfurt RC2
+   candidate versions. The results are informative and can be compared with
+   previous campaigns. The stability tests used robot container image
+   **1.6.1-STAGING-20200519T201214Z**. Robot container was patched to use GRA_API
+   since VNF_API has been deprecated.
 
 Shakedown consists of creating some temporary tags for stability72hrvLB,
 stability72hrvVG,stability72hrVFWCL to make sure each sub test ran successfully
