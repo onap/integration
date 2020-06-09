@@ -38,18 +38,16 @@ Stop/start will not re-launch it.
 sudo nc -vv -l -k -p 10000
 ```
 
-### Start
-
-Define the amount of simulators to be launched
+### Start all bootstrapped instances
 
 ```
-./mass-pnf-sim.py start --count 2
+./mass-pnf-sim.py start
 ```
 
 ### Trigger
 
 ```
-./mass-pnf-sim.py trigger --count 2
+./mass-pnf-sim.py trigger
 ```
 
 ### Trigger only a subset of the simulators
@@ -66,10 +64,16 @@ The following command will trigger 4 and 5:
 ./mass-pnf-sim.py trigger-custom --triggerstart 4 --triggerend 5
 ```
 
-### Stop and clean
+### Stop sending PNF registration messages from simulators
 
 ```
-./mass-pnf-sim.py stop --count 2
+./mass-pnf-sim.py stop_simulator
+```
+
+### Stop docker containers and clean bootstrapped simulators
+
+```
+./mass-pnf-sim.py stop
 ./mass-pnf-sim.py clean
 ```
 
