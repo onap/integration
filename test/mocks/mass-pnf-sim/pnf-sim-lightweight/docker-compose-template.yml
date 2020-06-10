@@ -1,6 +1,6 @@
 version: '2'
 networks:
-  front-${I}:
+  front:
     driver: bridge
     ipam:
       config:
@@ -12,7 +12,7 @@ services:
     container_name: pnf-simulator-${I}
     image: nexus3.onap.org:10003/onap/masspnf-simulator:1.0.0-SNAPSHOT
     networks:
-      front-${I}:
+      front:
         ipv4_address: "${IPPNFSIM}"
     volumes:
       - ./logs:/var/log
@@ -29,7 +29,7 @@ services:
     container_name: sftp-server-$I
     image: atmoz/sftp:alpine
     networks:
-      front-${I}:
+      front:
         ipv4_address: "${IPSFTP}"
     ports:
       - "${PORTSFTP}:22"
@@ -43,7 +43,7 @@ services:
     container_name: ftpes-server-vsftpd-$I
     image: docker.io/panubo/vsftpd
     networks:
-      front-${I}:
+      front:
         ipv4_address: "${IPFTPS}"
     ports:
       - "${PORTFTPS}:21"
