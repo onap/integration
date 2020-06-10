@@ -9,7 +9,7 @@ from shutil import copytree, rmtree, move
 from json import loads, dumps
 from yaml import load, SafeLoader, dump
 from glob import glob
-from time import strftime
+from time import strftime, tzname, daylight
 from docker import from_env
 from requests import get, codes, post
 from requests.exceptions import MissingSchema, InvalidSchema, InvalidURL, ConnectionError, ConnectTimeout
@@ -82,6 +82,7 @@ def get_parser():
 class MassPnfSim:
 
     log_lvl = logging.INFO
+    sim_compose_template = 'docker-compose-template.yml'
     sim_config = 'config/config.yml'
     sim_msg_config = 'config/config.json'
     sim_port = 5000
@@ -203,6 +204,22 @@ class MassPnfSim:
         with open(f'{self.sim_dirname_pattern}{i}/{self.sim_config}', 'w') as fout:
             fout.write(dump(yml))
 
+    def _generate_docker_compose_file(self, **kwargs):
+        '''Helper private method to generate the Docker Compose file
+        for a given simulator instance'''
+        old_pwd = getcwd()
+        chdir(self.sim_dirname_pattern + str(kwargs['I']))
+        # Read the docker compose template file
+        with open(self.sim_compose_template, 'r') as f:
+            template = f.read()
+        # Replace all occurences of env like variable with it's
+        # relevant value from a corresponding key form kwargs
+        for (k,v) in kwargs.items():
+            template = template.replace('${' + k + '}', str(v))
+        with open('docker-compose.yml', 'w') as f:
+            f.write(template)
+        chdir(old_pwd)
+
     def bootstrap(self):
         self.logger.info("Bootstrapping PNF instances")
 
@@ -259,8 +276,16 @@ class MassPnfSim:
                 ])
             self.logger.debug(f"Script cmdline: {composercmd}")
             self.logger.info(f"\tCreating instance #{i} configuration ")
-            self._generate_pnf_sim_config(i, PortSftp, PortFtps, ip['PnfSim'])
             self._run_cmd(composercmd, f"{self.sim_dirname_pattern}{i}")
+            self._generate_pnf_sim_config(i, PortSftp, PortFtps, ip['PnfSim'])
+            self._generate_docker_compose_file(IPGW = ip['gw'], IPSUBNET = ip['subnet'],
+                                               I = i, IPPNFSIM = ip['PnfSim'],
+                                               PORTSFTP = str(PortSftp),
+                                               PORTFTPS = str(PortFtps),
+                                               IPFTPS = ip['ftps'], IPSFTP = ip['sftp'],
+                                               FTPS_PASV_MIN = str(ftps_pasv_port_start),
+                                               FTPS_PASV_MAX = str(ftps_pasv_port_end),
+                                               TIMEZONE = tzname[daylight])
 
             ftps_pasv_port_start += ftps_pasv_port_num_of_ports + 1
             ftps_pasv_port_end += ftps_pasv_port_num_of_ports + 1

@@ -26,7 +26,7 @@ services:
     restart: on-failure
 
   sftp-server-${I}:
-    container_name: sftp-server-$I
+    container_name: sftp-server-${I}
     image: atmoz/sftp:alpine
     networks:
       front:
@@ -40,7 +40,7 @@ services:
     command: onap:pano:1001
 
   ftpes-server-vsftpd-${I}:
-    container_name: ftpes-server-vsftpd-$I
+    container_name: ftpes-server-vsftpd-${I}
     image: docker.io/panubo/vsftpd
     networks:
       front:
