@@ -77,6 +77,20 @@ Version: 3.0.2
 - Uprev to 3.0.0 for Java 11
 - qos logback to 1.2.3
 
+Demo Artifacts (HEAT Templates)
+-------------------------------
+
+Version: 1.6.0
+..............
+
+:Release Date: 2020-06-12
+
+**New Features**
+
+* Update POM and heat env to use 1.6.0
+* Helm chart for visualization operator
+* bug fixes
+* Robot enhancements for various use cases
 
 Robot Test Suites
 -----------------
