@@ -4,7 +4,7 @@ from subprocess import run, CalledProcessError
 import argparse
 import ipaddress
 from sys import exit
-from os import chdir, getcwd, path, popen, kill, getuid, stat, mkdir
+from os import chdir, getcwd, path, popen, kill, getuid, stat, mkdir, getlogin
 from shutil import copytree, rmtree, move
 from json import loads, dumps
 from yaml import load, SafeLoader, dump
@@ -83,6 +83,8 @@ class MassPnfSim:
 
     log_lvl = logging.INFO
     sim_compose_template = 'docker-compose-template.yml'
+    sim_vsftpd_template = 'config/vsftpd_ssl-TEMPLATE.conf'
+    sim_vsftpd_config = 'config/vsftpd_ssl.conf'
     sim_config = 'config/config.yml'
     sim_msg_config = 'config/config.json'
     sim_port = 5000
@@ -287,14 +289,20 @@ class MassPnfSim:
                                        FTPS_PASV_MIN = str(ftps_pasv_port_start),
                                        FTPS_PASV_MAX = str(ftps_pasv_port_end),
                                        TIMEZONE = tzname[daylight])
+            # generate vsftpd config file for the simulator instance
+            self._generate_config_file(self.sim_vsftpd_template, self.sim_vsftpd_config,
+                                       I = i, USER = getlogin(),
+                                       FTPS_PASV_MIN = str(ftps_pasv_port_start),
+                                       FTPS_PASV_MAX = str(ftps_pasv_port_end),
+                                       IPFILESERVER = str(self.args.ipfileserver))
 
             ftps_pasv_port_start += ftps_pasv_port_num_of_ports + 1
             ftps_pasv_port_end += ftps_pasv_port_num_of_ports + 1
 
             # ugly hack to chown vsftpd config file to root
             if getuid():
-                self._run_cmd('sudo chown root config/vsftpd_ssl.conf', f'{self.sim_dirname_pattern}{i}')
-                self.logger.debug(f"vsftpd_ssl.conf file owner UID: {stat(self.sim_dirname_pattern + str(i) + '/config/vsftpd_ssl.conf').st_uid}")
+                self._run_cmd(f'sudo chown root {self.sim_vsftpd_config}', f'{self.sim_dirname_pattern}{i}')
+                self.logger.debug(f"vsftpd config file owner UID: {stat(self.sim_dirname_pattern + str(i) + '/' + self.sim_vsftpd_config).st_uid}")
 
             self.logger.info(f'Done setting up instance #{i}')
 
