@@ -40,7 +40,24 @@ In Frankfurt release, the following are the main enhancements:
   during PCI optimization) are considered during the PCI optimization.
 - In addition, the first step towards O-RAN alignment is being taken with SDN-C (R) being able to receive a DMaaP
   message containing configuration updates (which would be triggered when a neighbor-list-change occurs in the RAN
-  and is communicated to ONAP over VES).
+  and is communicated to ONAP over VES). Details of this implementation is available at:
+    https://wiki.onap.org/display/DW/CM+Notification+Support+in+ONAP
+
+
+  The end-to-end setup for the use case requires a Config DB which stores the cell related details of the RAN.
+
+  This is updated by SDN-C (R), and is accessed by SON-Handler MS and OOF for fetching, e.g., neighbor list, PNF id, etc.
+ 
+
+  The Config DB implementation is available at:
+
+  https://github.com/onap-oof-pci-poc/sdnc/tree/master/ConfigDB/Dublin.
+
+
+
+  Swagger JSON API documentation can be found at:
+
+  https://github.com/onap-oof-pci-poc/sdnc/blob/master/ConfigDB/Dublin/SDNC_ConfigDB_API_v3.0.0.json.
 
 
 As part of this use case work, a RAN Simulator providing a simulated Radio Access Network
@@ -73,7 +90,7 @@ This page includes instructions for access to the lab. Setup and testing is done
 
 For all instructions about installing the components, please see:
 
-Installation: https://wiki.onap.org/display/DW/Demo+setup+steps
+Installation: https://wiki.onap.org/display/DW/Demo+setup+steps+for+Frankfurt
 
 
 Son-Handler installation:
