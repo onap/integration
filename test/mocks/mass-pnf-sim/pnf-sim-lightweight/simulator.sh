@@ -51,7 +51,7 @@ function get_pnfsim_ip() {
 
 	export IPPNFSIM=$(cat ./config/config.yml | grep ippnfsim | awk -F'[ ]' '{print $2}')
 	echo "PNF-Sim IP: " $IPPNFSIM
-	
+
 	export SIMULATOR_BASE=http://$IPPNFSIM:$SIMULATOR_PORT/simulator/
 	export SIMULATOR_START_URL=$SIMULATOR_BASE/start
 	export SIMULATOR_STOP_URL=$SIMULATOR_BASE/stop
@@ -60,8 +60,8 @@ function get_pnfsim_ip() {
 
 function compose(){
 	#creating custom docker-compose based on IP arguments
-	#creting config.json by injecting the same IP
-	
+	#creting config.yml by injecting the same IP
+
 	export IPGW=$1
 	export IPSUBNET=$2
 	export I=$3
