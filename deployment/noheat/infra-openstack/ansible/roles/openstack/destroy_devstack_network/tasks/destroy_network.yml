@@ -1,0 +1,10 @@
+---
+- name: "Destroy {{ net.name }} router"
+  os_router:
+    name: "{{ net.name }}_router"
+    state: absent
+
+- name: "Destroy {{ net.name }} network and its subnets"
+  os_network:
+    name: "{{ net.name }}"
+    state: absent

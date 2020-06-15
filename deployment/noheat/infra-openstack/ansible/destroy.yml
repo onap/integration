@@ -1,0 +1,7 @@
+---
+- name: Destroy infrastructure
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  roles:
+    - openstack/destroy_devstack_network

@@ -1,0 +1,20 @@
+---
+- name: "Create {{ net.name }} network"
+  os_network:
+    name: "{{ net.name }}"
+    state: present
+
+- name: "Create {{ net.name }} subnet"
+  os_subnet:
+    name: "{{ net.name }}_subnet"
+    network_name: "{{ net.name }}"
+    cidr: "{{ net.cidr }}"
+    state: present
+
+- name: "Create {{ net.name }} router"
+  os_router:
+    name: "{{ net.name }}_router"
+    network: public
+    interfaces:
+      - "{{ net.name }}_subnet"
+    state: present
