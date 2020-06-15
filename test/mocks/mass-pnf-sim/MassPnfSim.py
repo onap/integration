@@ -295,6 +295,8 @@ class MassPnfSim:
                                        FTPS_PASV_MIN = str(ftps_pasv_port_start),
                                        FTPS_PASV_MAX = str(ftps_pasv_port_end),
                                        IPFILESERVER = str(self.args.ipfileserver))
+            # Run the 3GPP measurements file generator
+            self._run_cmd(f'./ROP_file_creator.sh {i} &', f"{self.sim_dirname_pattern}{i}")
 
             ftps_pasv_port_start += ftps_pasv_port_num_of_ports + 1
             ftps_pasv_port_end += ftps_pasv_port_num_of_ports + 1
