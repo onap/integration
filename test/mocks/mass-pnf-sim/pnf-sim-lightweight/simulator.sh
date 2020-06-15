@@ -60,7 +60,7 @@ function get_pnfsim_ip() {
 
 function compose(){
 	#creating custom docker-compose based on IP arguments
-	#creting config.json by injecting the same IP
+	#creting config.yml by injecting the same IP
 	
 	export IPGW=$1
 	export IPSUBNET=$2
