@@ -1,0 +1,4 @@
+---
+network:
+  name: "onap_ci_lab"
+  cidr: "192.168.1.0/24"

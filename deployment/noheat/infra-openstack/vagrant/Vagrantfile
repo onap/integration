@@ -1,6 +1,8 @@
 # -*- mode: ruby -*-
 # -*- coding: utf-8 -*-
 
+host_folder_ansible = "../ansible"
+synced_folder_ansible = "/ansible"
 synced_folder_main = "/vagrant"
 synced_folder_config = "#{synced_folder_main}/config"
 os_config = "#{synced_folder_config}/local.conf"
@@ -33,6 +35,8 @@ devstack = {
 
 all = [] << operation << devstack
 
+operation_post_msg = "Run: \"vagrant provision #{operation[:name]} --provision-with=run_playbook_create\" to complete infrastructure deployment"
+
 $enable_ipv6 = <<-SCRIPT
   sed -i'' 's/net.ipv6.conf.all.disable_ipv6.*$/net.ipv6.conf.all.disable_ipv6 = 0/' /etc/sysctl.conf
   sysctl -p
@@ -53,7 +57,7 @@ $setup_py = <<-SCRIPT
 
   curl -fsSL https://bootstrap.pypa.io/get-pip.py -o get-pip.py
   sudo -H python3 get-pip.py
-  pip install python-openstackclient
+  pip install ansible python-openstackclient
   mkdir -p #{os_clouds_dir}
 SCRIPT
 
@@ -62,6 +66,13 @@ $link_file = <<-SCRIPT
   dst="$2"
   echo "Symlinking ${src} to ${dst}"
   ln -sf "$src" "$dst"
+SCRIPT
+
+$run_playbook = <<-SCRIPT
+  PLAYBOOK="$1"
+  export OS_CLOUD=openstack
+  cd #{synced_folder_ansible}
+  ansible-playbook "$PLAYBOOK"
 SCRIPT
 
 Vagrant.configure("2") do |config|
@@ -95,12 +106,25 @@ Vagrant.configure("2") do |config|
 
       if machine[:name] == 'operator'
         config.vm.synced_folder ".", synced_folder_main, type: "rsync", rsync__exclude: "Vagrantfile"
+        config.vm.synced_folder host_folder_ansible, synced_folder_ansible, type: "rsync"
 
         config.vm.provision "setup_openstacksdk", type: :shell, privileged: false, inline: $setup_py
         config.vm.provision "link_os_clouds", type: :shell, run: "always" do |s|
           s.privileged = false
           s.inline = $link_file
           s.args = [os_clouds, os_clouds_dir]
+        end
+
+        config.vm.post_up_message = operation_post_msg
+        config.vm.provision "run_playbook_create", type: :shell, run: "never" do |s|
+          s.privileged = false
+          s.inline = $run_playbook
+          s.args = "create.yml"
+        end
+        config.vm.provision "run_playbook_destroy", type: :shell, run: "never" do |s|
+          s.privileged = false
+          s.inline = $run_playbook
+          s.args = "destroy.yml"
         end
       end
     end
