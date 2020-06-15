@@ -258,26 +258,7 @@ class MassPnfSim:
 
             self.logger.info(f'\tCreating {self.sim_dirname_pattern}{i}')
             copytree('pnf-sim-lightweight', f'{self.sim_dirname_pattern}{i}')
-
-            composercmd = " ".join([
-                    "./simulator.sh compose",
-                    ip['gw'],
-                    ip['subnet'],
-                    str(i),
-                    self.args.urlves,
-                    ip['PnfSim'],
-                    str(self.args.ipfileserver),
-                    self.args.typefileserver,
-                    str(PortSftp),
-                    str(PortFtps),
-                    ip['ftps'],
-                    ip['sftp'],
-                    str(ftps_pasv_port_start),
-                    str(ftps_pasv_port_end)
-                ])
-            self.logger.debug(f"Script cmdline: {composercmd}")
             self.logger.info(f"\tCreating instance #{i} configuration ")
-            self._run_cmd(composercmd, f"{self.sim_dirname_pattern}{i}")
             self._generate_pnf_sim_config(i, PortSftp, PortFtps, ip['PnfSim'])
             # generate docker-compose for the simulator instance
             self._generate_config_file(self.sim_compose_template, 'docker-compose.yml',
