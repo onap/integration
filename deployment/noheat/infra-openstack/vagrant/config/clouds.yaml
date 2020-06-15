@@ -5,6 +5,7 @@ clouds:
       username: "demo"
       password: "default123456!"
       project_name: "demo"
+      project_domain_name: "Default"
       user_domain_name: "Default"
     region_name: "RegionOne"
     interface: "public"
