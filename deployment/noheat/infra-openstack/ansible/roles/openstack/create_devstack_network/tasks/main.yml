@@ -1,0 +1,4 @@
+---
+- include: create_network.yml net={{ item }}
+  with_items:
+    - "{{ network }}"

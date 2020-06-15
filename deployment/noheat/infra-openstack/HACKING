@@ -23,6 +23,7 @@ Summary of changes:
 - Added password from ``local.conf`` file (used in DevStack instance setup)
 - Removed ``project_id`` which might change on a new DevStack instance
 - Replaced ``auth_url`` based on machine's dynamic IP with the static private address
+- Added ``project_domain_name`` needed to run Ansible playbooks
 
 Installed Python package ``python-openstackclient`` includes key package ``openstacksdk`` as
 a dependency and provides additional CLI tools. Tool ``pip`` for Python 3 was used for installing

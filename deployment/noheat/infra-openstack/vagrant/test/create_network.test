@@ -1,0 +1,20 @@
+#!/bin/sh
+
+export NETWORK_NAME='onap_ci_lab'
+
+export VAGRANT_CWD='..'
+
+set_up() {
+    vagrant up --provision-with=run_playbook_create
+}
+
+check() {
+    local net="$1"
+    vagrant ssh operator --no-tty -c \
+        "export OS_CLOUD=openstack; openstack network list -fcsv" \
+        | grep "$net" \
+        | cut -d',' -f2
+}
+
+set_up >/dev/null # drop provisioning output
+check "$NETWORK_NAME"

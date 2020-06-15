@@ -1,0 +1,7 @@
+---
+- name: Create infrastructure
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  roles:
+    - openstack/create_devstack_network
