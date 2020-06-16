@@ -1,0 +1,4 @@
+---
+- include: destroy_host.yml host={{ item }}
+  with_items:
+    - "{{ hosts }}"
