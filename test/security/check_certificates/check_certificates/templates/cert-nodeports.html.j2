@@ -1,0 +1,129 @@
+{% extends "base.html.j2" %}
+{% block title %}ONAP Certificates expiration page{% endblock %}
+
+{% block content %}
+<h1 class="title is-1">ONAP Certificates</h1>
+<section class="section">
+ <div class="container">
+ <h3 class="subtitle">Node ports</h3>
+
+<table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Port</th>
+      <th>Expected Expiration Date</th>
+      <th>Remaining Days</th>
+      <th>Root CA</th>
+      <th>Root CA Validity</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for cert in node_ports_list %}
+    <tr {% if cert.remaining_days < 0 %} class="has-background-danger" {%elif cert.remaining_days < 30 %}  class="has-background-warning" {%elif cert.remaining_days < 60 %} class="has-background-warning-light " {%elif cert.remaining_days > 389 %} class="has-background-warning-light" {%elif cert.remaining_days == 364 and cert.validity %} class="has-background-success-light" {% endif %}>
+         <td>{{ cert.pod_name }}</td>
+         <td>{{ cert.pod_port }}</td>
+         <td>{{ cert.expiration_date }}</td>
+         <td>{{ cert.remaining_days }}</td>
+         <td>{{ cert.issuer }}</td>
+         <td>{% if cert.validity %}
+          <span class="icon is-large has-text-success">
+            <i class="fas fa-check-square"></i>
+          </span>
+           {% else %}
+           <span class="icon is-large has-text-danger">
+             <i class="fas fa-ban"></i>
+           </span>
+            {% endif %}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+  {% if node_ports_ssl_error_list|length > 0 %}
+    <h3 class="subtitle">Node ports SSL errors</h3>
+    <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+      <thead>
+        <tr>
+          <th>Component</th>
+          <th>Port</th>
+          <th>Error Details</th>
+      </tr>
+      </thead>
+      <tbody>
+    {% for cert in node_ports_ssl_error_list %}
+         <td>{{ cert.pod_name }}</td>
+         <td>{{ cert.pod_port }}</td>
+         <td>{{ cert.error_details }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+
+{% if node_ports_connection_error_list|length > 0 %}
+    <h3 class="subtitle">Node ports Connection errors</h3>
+    <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+      <thead>
+        <tr>
+          <th>Component</th>
+          <th>Port</th>
+          <th>Error Details</th>
+        </tr>
+      </thead>
+      <tbody>
+    {% for cert in node_ports_connection_error_list %}
+         <td>{{ cert.pod_name }}</td>
+         <td>{{ cert.pod_port }}</td>
+         <td>{{ cert.error_details }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+
+{% if node_ports_list_type_error_list|length > 0 %}
+    <h3 class="subtitle">Node ports Type Error</h3>
+    <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+      <thead>
+        <tr>
+          <th>Component</th>
+          <th>Port</th>
+          <th>Error Details</th>
+        </tr>
+      </thead>
+      <tbody>
+    {% for cert in node_ports_list_type_error_list %}
+         <td>{{ cert.pod_name }}</td>
+         <td>{{ cert.pod_port }}</td>
+         <td>{{ cert.error_details }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+
+{% if node_ports_reset_error_list|length > 0 %}
+  <h3 class="subtitle">Node ports Connections Error</h3>
+  <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+    <thead>
+      <tr>
+        <th>Component</th>
+        <th>Port</th>
+          <th>Error Details</th>
+      </tr>
+    </thead>
+    <tbody>
+  {% for cert in node_ports_reset_error_list %}
+       <td>{{ cert.pod_name }}</td>
+       <td>{{ cert.pod_port }}</td>
+       <td>{{ cert.error_details }}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+
+{% endblock %}
+</div>
+</section>
