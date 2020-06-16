@@ -1,0 +1,19 @@
+- name: Create keypair
+  os_keypair:
+    state: present
+    name: "{{ keypair.name }}"
+  register: keypair
+
+- name: Create local public key
+  local_action:
+    module: copy
+    content: "{{ keypair.key.public_key }}"
+    dest: "~/.ssh/{{ keypair.key.name }}.pub"
+    mode: 0600
+
+- name: Create local private key
+  local_action:
+    module: copy
+    content: "{{ keypair.key.private_key }}"
+    dest: "~/.ssh/{{ keypair.key.name }}"
+    mode: 0600
