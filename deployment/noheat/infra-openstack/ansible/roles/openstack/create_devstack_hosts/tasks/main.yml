@@ -1,0 +1,4 @@
+---
+- include: create_host.yml host={{ item }}
+  with_items:
+    - "{{ hosts }}"

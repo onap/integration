@@ -5,3 +5,5 @@
   gather_facts: False
   roles:
     - openstack/create_devstack_network
+    - openstack/create_devstack_keypair
+    - openstack/create_devstack_hosts

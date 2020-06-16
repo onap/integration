@@ -1,0 +1,5 @@
+---
+- name: Destroy host
+  os_server:
+    name: "{{ host.name }}"
+    state: absent

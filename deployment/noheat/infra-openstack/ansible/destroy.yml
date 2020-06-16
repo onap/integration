@@ -4,4 +4,6 @@
   connection: local
   gather_facts: False
   roles:
+    - openstack/destroy_devstack_hosts
+    - openstack/destroy_devstack_keypair
     - openstack/destroy_devstack_network

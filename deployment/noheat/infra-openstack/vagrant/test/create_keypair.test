@@ -1,0 +1,20 @@
+#!/bin/sh
+
+export KEYPAIR_NAME='onap_ci_lab'
+
+export VAGRANT_CWD='..'
+
+set_up() {
+    vagrant up --provision-with=run_playbook_create
+}
+
+check() {
+    local key="$1"
+    vagrant ssh operator --no-tty -c \
+        "export OS_CLOUD=openstack; openstack keypair list -fcsv" \
+        | grep "$key" \
+        | cut -d',' -f1
+}
+
+set_up >/dev/null # drop provisioning output
+check "$KEYPAIR_NAME"
