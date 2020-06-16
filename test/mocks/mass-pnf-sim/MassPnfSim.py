@@ -4,7 +4,7 @@ from subprocess import run, CalledProcessError
 import argparse
 import ipaddress
 from sys import exit
-from os import chdir, getcwd, path, popen, kill, getuid, stat, mkdir, getlogin
+from os import chdir, getcwd, path, popen, kill, getuid, stat, mkdir, getlogin, chmod
 from shutil import copytree, rmtree, move
 from json import loads, dumps
 from yaml import load, SafeLoader, dump
@@ -50,6 +50,8 @@ def get_parser():
                                   type=validate_ip, metavar='IP', required=True)
     parser_bootstrap.add_argument('--typefileserver', help='Type of the file server (SFTP/FTPS) to be included in the VES event',
                                   type=str, choices=['sftp', 'ftps'], required=True)
+    parser_bootstrap.add_argument('--user', help='File server username', type=str, metavar='USERNAME', required=True)
+    parser_bootstrap.add_argument('--password', help='File server password', type=str, metavar='PASSWORD', required=True)
     parser_bootstrap.add_argument('--ipstart', help='IP address range beginning', type=validate_ip, metavar='IP', required=True)
     # Start command parser
     parser_start = subparsers.add_parser('start', help='Start instances')
@@ -85,6 +87,8 @@ class MassPnfSim:
     sim_compose_template = 'docker-compose-template.yml'
     sim_vsftpd_template = 'config/vsftpd_ssl-TEMPLATE.conf'
     sim_vsftpd_config = 'config/vsftpd_ssl.conf'
+    sim_sftp_script = 'fix-sftp-perms.sh'
+    sim_sftp_script_template = 'fix-sftp-perms-template.sh'
     sim_config = 'config/config.yml'
     sim_msg_config = 'config/config.json'
     sim_port = 5000
@@ -198,8 +202,8 @@ class MassPnfSim:
         '''Writes a yaml formatted configuration file for Java simulator app'''
         yml = {}
         yml['urlves'] = self.args.urlves
-        yml['urlsftp'] = f'sftp://onap:pano@{self.args.ipfileserver}:{port_sftp}'
-        yml['urlftps'] = f'ftps://onap:pano@{self.args.ipfileserver}:{port_ftps}'
+        yml['urlsftp'] = f'sftp://{self.args.user}:{self.args.password}@{self.args.ipfileserver}:{port_sftp}'
+        yml['urlftps'] = f'ftps://{self.args.user}:{self.args.password}@{self.args.ipfileserver}:{port_ftps}'
         yml['ippnfsim'] = pnf_sim_ip
         yml['typefileserver'] = self.args.typefileserver
         self.logger.debug(f'Generated simulator config:\n{dump(yml)}')
@@ -269,13 +273,19 @@ class MassPnfSim:
                                        IPFTPS = ip['ftps'], IPSFTP = ip['sftp'],
                                        FTPS_PASV_MIN = str(ftps_pasv_port_start),
                                        FTPS_PASV_MAX = str(ftps_pasv_port_end),
-                                       TIMEZONE = tzname[daylight])
+                                       TIMEZONE = tzname[daylight],
+                                       FILESERV_USER = self.args.user,
+                                       FILESERV_PASS = self.args.password)
             # generate vsftpd config file for the simulator instance
             self._generate_config_file(self.sim_vsftpd_template, self.sim_vsftpd_config,
                                        I = i, USER = getlogin(),
                                        FTPS_PASV_MIN = str(ftps_pasv_port_start),
                                        FTPS_PASV_MAX = str(ftps_pasv_port_end),
                                        IPFILESERVER = str(self.args.ipfileserver))
+            # generate sftp permission fix script
+            self._generate_config_file(self.sim_sftp_script_template, self.sim_sftp_script,
+                                       I = i, FILESERV_USER = self.args.user)
+            chmod(f'{self.sim_dirname_pattern}{i}/{self.sim_sftp_script}', 0o755)
             # Run the 3GPP measurements file generator
             self._run_cmd(f'./ROP_file_creator.sh {i} &', f"{self.sim_dirname_pattern}{i}")
 

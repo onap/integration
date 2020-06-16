@@ -12,7 +12,8 @@ def args_bootstrap(parser):
     return parser.parse_args(['bootstrap', '--count', str(SIM_INSTANCES),
                              '--urlves', URLVES, '--ipfileserver', IPFILESERVER,
                              '--typefileserver', TYPEFILESERVER, '--ipstart',
-                             IPSTART])
+                             IPSTART, '--user', FILESERVER_USER, '--password',
+                             FILESERVER_PASSWORD])
 
 @pytest.fixture(scope="module")
 def args_start(parser):
