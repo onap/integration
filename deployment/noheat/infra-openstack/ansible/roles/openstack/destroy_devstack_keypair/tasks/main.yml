@@ -1,0 +1,12 @@
+- name: Destroy keypair
+  os_keypair:
+    state: absent
+    name: "{{ keypair.name }}"
+
+- name: Destroy local keypair
+  file:
+    state: absent
+    path: "{{ item }}"
+  with_items:
+    - "~/.ssh/{{ keypair.name }}.pub"
+    - "~/.ssh/{{ keypair.name }}"
