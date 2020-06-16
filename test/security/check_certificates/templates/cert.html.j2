@@ -1,0 +1,28 @@
+{% extends "base.html.j2" %}
+{% block title %}ONAP Certificates expiration page{% endblock %}
+
+{% block content %}
+<h1 class="title is-1">ONAP Certificates</h1>
+<table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Port</th>
+      <th>Expiration date</th>
+      <th>Remaining days</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+    {% for cert in certificate_list %}
+    <tr {% if cert.remaining_days < 30 %} class="is-selected" style="background-color:#FF0000" {%elif cert.remaining_days < 60 %} class="is-selected" style="background-color:#FFA500"{% endif %}>
+         <td>{{ cert.pod_name }}</td>
+         <td>{{ cert.pod_node }}</td>
+         <td>{{ cert.expiration_date }}</td>
+         <td>{{ cert.remaining_days }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
+
