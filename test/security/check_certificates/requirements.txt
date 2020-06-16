@@ -1,0 +1,3 @@
+pyopenssl
+kubernetes
+jinja2

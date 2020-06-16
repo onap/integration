@@ -1,0 +1,110 @@
+{% extends "base.html.j2" %}
+{% block title %}ONAP Certificates expiration page{% endblock %}
+
+{% block content %}
+<h1 class="title is-1">ONAP Certificates</h1>
+<h2 class="subtitle">Node ports</h2>
+<section class="section">
+ <div class="container">
+ <h3 class="subtitle">Node ports</h3>
+
+<table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Port</th>
+      <th>Expiration date</th>
+      <th>Remaining days</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for cert in node_ports_list %}
+    <tr {% if cert.remaining_days < 30 %} class="has-background-danger has-text-light"  {%elif cert.remaining_days < 60 %} class="has-background-warning"{% endif %}>
+         <td>{{ cert.pod_name }}</td>
+         <td>{{ cert.pod_node }}</td>
+         <td>{{ cert.expiration_date }}</td>
+         <td>{{ cert.remaining_days }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+  {% if len(node_ports_ssl_error_list) > 0 %}
+    <h3 class="subtitle">Node ports SSL errors</h3>
+    <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+      <thead>
+        <tr>
+          <th>Component</th>
+          <th>Port</th>
+        </tr>
+      </thead>
+      <tbody>
+    {% for cert in node_ports_ssl_error_list %}
+         <td>{{ cert.pod_name }}</td>
+         <td>{{ cert.pod_node }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+
+{% if len(node_ports_connection_error_list) > 0 %}
+    <h3 class="subtitle">Node ports Connection errors</h3>
+    <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+      <thead>
+        <tr>
+          <th>Component</th>
+          <th>Port</th>
+        </tr>
+      </thead>
+      <tbody>
+    {% for cert in node_ports_connection_error_list %}
+         <td>{{ cert.pod_name }}</td>
+         <td>{{ cert.pod_node }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+
+{% if len(node_ports_list_type_error_list) > 0 %}
+    <h3 class="subtitle">Node ports Type Error</h3>
+    <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+      <thead>
+        <tr>
+          <th>Component</th>
+          <th>Port</th>
+        </tr>
+      </thead>
+      <tbody>
+    {% for cert in node_ports_list_type_error_list %}
+         <td>{{ cert.pod_name }}</td>
+         <td>{{ cert.pod_node }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+
+{% if len(node_ports_reset_error_list) > 0 %}
+  <h3 class="subtitle">Node ports Connections Error</h3>
+  <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+    <thead>
+      <tr>
+        <th>Component</th>
+        <th>Port</th>
+      </tr>
+    </thead>
+    <tbody>
+  {% for cert in node_ports_reset_error_list %}
+       <td>{{ cert.pod_name }}</td>
+       <td>{{ cert.pod_node }}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+
+{% endblock %}
+</div>
+</section>
