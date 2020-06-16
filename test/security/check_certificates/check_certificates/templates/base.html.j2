@@ -1,0 +1,231 @@
+{%  macro color(failing, total) %}
+{%   if failing == 0 %}
+is-success
+{%   else %}
+{%     if (failing / total) <= 0.1 %}
+is-warning
+{%     else %}
+is-danger
+{%     endif %}
+{%   endif %}
+{% endmacro %}
+
+{%  macro percentage(failing, total) %}
+{{ ((total - failing) / total) | round }}
+{% endmacro %}
+
+{% macro statistic(resource_name, failing, total) %}
+{% set success = total - failing %}
+<div class="level-item has-text-centered">
+    <div>
+      <p class="heading">{{ resource_name | capitalize }}</p>
+      <p class="title">{{ success }}/{{ total }}</p>
+      <progress class="progress {{ color(failing, total) }}" value="{{ success }}" max="{{ total }}">{{ percentage(failing, total) }}</progress>
+    </div>
+  </div>
+{% endmacro %}
+
+{% macro pods_table(pods) %}
+<div id="pods" class="table-container">
+  <table class="table is-fullwidth is-striped is-hoverable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Ready</th>
+        <th>Status</th>
+        <th>Reason</th>
+        <th>Restarts</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for pod in pods %}
+      <tr>
+        <td><a href="./pod-{{ pod.name }}.html" title="{{ pod.name }}">{{ pod.k8s.metadata.name }}</a></td>
+        {% if pod.init_done %}
+        <td>{{ pod.running_containers }}/{{ (pod.containers | length) }}</td>
+        {% else %}
+        <td>Init:{{ pod.runned_init_containers }}/{{ (pod.init_containers | length) }}</td>
+        {% endif %}
+        <td>{{ pod.k8s.status.phase }}</td>
+        <td>{{ pod.k8s.status.reason }}</td>
+        {% if pod.init_done %}
+        <td>{{ pod.restart_count }}</td>
+        {% else %}
+        <td>{{ pod.init_restart_count }}</td>
+        {% endif %}
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endmacro %}
+
+{% macro key_value_description_list(title, dict) %}
+<dt><strong>{{ title | capitalize }}:</strong></dt>
+<dd>
+  {% if dict %}
+  {%   for key, value in dict.items() %}
+  {%     if loop.first %}
+    <dl>
+  {%     endif %}
+      <dt>{{ key }}:</dt>
+      <dd>{{ value }}</dd>
+  {%     if loop.last %}
+    </dl>
+  {%     endif %}
+  {%   endfor %}
+  {% endif %}
+</dd>
+{% endmacro %}
+
+{% macro description(k8s) %}
+<div class="container">
+  <h1 class="title is-1">Description</h1>
+  <div class="content">
+    <dl>
+      {% if k8s.spec.type %}
+      <dt><strong>Type:</strong></dt>
+      <dd>{{ k8s.spec.type }}</dd>
+      {% if (k8s.spec.type | lower) == "clusterip" %}
+      <dt><strong>Headless:</strong></dt>
+      <dd>{% if (k8s.spec.cluster_ip | lower) == "none" %}Yes{% else %}No{% endif %}</dd>
+      {% endif %}
+      {% endif %}
+      {{ key_value_description_list('Labels', k8s.metadata.labels) | indent(width=6) }}
+      {{ key_value_description_list('Annotations', k8s.metadata.annotations) | indent(width=6) }}
+      {% if k8s.spec.selector %}
+      {% if k8s.spec.selector.match_labels %}
+      {{ key_value_description_list('Selector', k8s.spec.selector.match_labels) | indent(width=6) }}
+      {% else %}
+      {{ key_value_description_list('Selector', k8s.spec.selector) | indent(width=6) }}
+      {% endif %}
+      {% endif %}
+      {% if k8s.phase %}
+      <dt><strong>Status:</strong></dt>
+      <dd>{{ k8s.phase }}</dd>
+      {% endif %}
+      {% if k8s.metadata.owner_references %}
+      <dt><strong>Controlled By:</strong></dt>
+      <dd>{{ k8s.metadata.owner_references[0].kind }}/{{ k8s.metadata.owner_references[0].name }}</dd>
+      {% endif %}
+    </dl>
+  </div>
+</div>
+{% endmacro %}
+
+{% macro pods_container(pods, parent, has_title=True) %}
+<div class="container">
+  {% if has_title %}
+  <h1 class="title is-1">Pods</h1>
+  {% endif %}
+  {% if (pods | length) > 0 %}
+  {{ pods_table(pods) | indent(width=2) }}
+  {% else %}
+  <div class="notification is-warning">{{ parent }} has no pods!</div>
+  {% endif %}
+</div>
+{% endmacro %}
+
+{% macro two_level_breadcrumb(title, name) %}
+<section class="section">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="breadcrumbs">
+      <ul>
+        <li><a href="./index.html">Summary</a></li>
+        <li class="is-active"><a href="#" aria-current="page">{{ title | capitalize }} {{ name }}</a></li>
+      </ul>
+    </nav>
+  </div>
+</section>
+{% endmacro %}
+
+{% macro pod_parent_summary(title, name, failed_pods, pods) %}
+{{ summary(title, name, [{'title': 'Pod', 'failing': failed_pods, 'total': (pods | length)}]) }}
+{% endmacro %}
+
+{% macro number_ok(number, none_value, total=None) %}
+{% if number %}
+{%   if total and number < total %}
+<span class="tag is-warning">{{ number }}</span>
+{%   else %}
+{{ number }}
+{%   endif %}
+{% else %}
+<span class="tag is-warning">{{ none_value }}</span>
+{% endif %}
+{% endmacro %}
+
+{% macro summary(title, name, statistics) %}
+<section class="hero is-light">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title is-1">
+        {{ title | capitalize }} {{ name }} Summary
+      </h1>
+      <nav class="level">
+        {% for stat in statistics %}
+        {% if stat.total > 0 %}
+        {{ statistic(stat.title, stat.failing, stat.total) | indent(width=8) }}
+        {% endif %}
+        {% endfor %}
+      </nav>
+    </div>
+  </div>
+</section>
+{% endmacro %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tests results - {% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    {% block more_head %}{% endblock %}
+  </head>
+  <body>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="https://www.onap.org">
+          <img src="https://www.onap.org/wp-content/uploads/sites/20/2017/02/logo_onap_2017.png" width="234" height="50">
+        </a>
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+
+      <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item">
+            Summary
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    {% block content %}{% endblock %}
+
+    <footer class="footer">
+      <div class="container">
+        <div class="columns">
+          <div class="column">
+        <p class="has-text-grey-light">
+          <a href="https://bulma.io/made-with-bulma/">
+            <img src="https://bulma.io/images/made-with-bulma.png" alt="Made with Bulma" width="128" height="24">
+          </a>
+        </div>
+        <div class="column">
+          <a class="has-text-grey" href="https://gitlab.com/Orange-OpenSource/lfn/tools/kubernetes-status" style="border-bottom: 1px solid currentColor;">
+            Improve this page on Gitlab
+          </a>
+        </p>
+      </div>
+      </div>
+      </div>
+    </footer>
+  </body>
+</html>
