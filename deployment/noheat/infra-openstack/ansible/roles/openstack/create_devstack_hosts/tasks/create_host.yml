@@ -1,0 +1,9 @@
+---
+- name: Create host
+  os_server:
+    state: present
+    name: "{{ host.name }}"
+    image: "{{ host.image }}"
+    flavor: "{{ host.flavor }}"
+    key_name: "{{ host.keypair }}"
+    network: "{{ host.network }}"
