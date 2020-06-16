@@ -3,7 +3,8 @@ from MassPnfSim import MassPnfSim
 from test_settings import SIM_INSTANCES
 
 @pytest.mark.parametrize(('expect_string, cli_opts'), [
-    ("bootstrap: error: the following arguments are required: --urlves, --ipfileserver, --typefileserver, --ipstart",
+    ("bootstrap: error: the following arguments are required: --urlves, --ipfileserver, --typefileserver, " +\
+     "--user, --password, --ipstart",
      ['bootstrap']),
     ("bootstrap: error: argument --typefileserver: invalid choice: 'dummy' (choose from 'sftp', 'ftps')",
      ['bootstrap', '--typefileserver', 'dummy']),

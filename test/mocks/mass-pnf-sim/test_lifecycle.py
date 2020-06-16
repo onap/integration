@@ -54,8 +54,8 @@ def test_bootstrap(args_bootstrap, parser, caplog):
             yml = load(f, Loader=SafeLoader)
         assert URLVES == yml['urlves']
         assert TYPEFILESERVER == yml['typefileserver']
-        assert f'sftp://onap:pano@{IPFILESERVER}:{start_port + 1}' in yml['urlsftp']
-        assert f'ftps://onap:pano@{IPFILESERVER}:{start_port + 2}' in yml['urlftps']
+        assert f'sftp://{FILESERVER_USER}:{FILESERVER_PASSWORD}@{IPFILESERVER}:{start_port + 1}' in yml['urlsftp']
+        assert f'ftps://{FILESERVER_USER}:{FILESERVER_PASSWORD}@{IPFILESERVER}:{start_port + 2}' in yml['urlftps']
         assert str(ip_address(IPSTART) + ip_offset + instance_ip_offset) == yml['ippnfsim']
         start_port += 2
         print(yml['ippnfsim'])
