@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4139e84_adc79839",
+        "filename": "test/security/check_certificates/requirements.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-06-17T07:13:30Z",
+      "side": 0,
+      "message": "Empty?",
+      "revId": "08d234170898e95096277e22b4dbbf82f576c915",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}

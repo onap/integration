@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a554b03d_450a2500",
+        "filename": "test/security/check_certificates/check_certificates_validity.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-06-17T07:13:30Z",
+      "side": 1,
+      "message": "Setuptools can be used to automatically manage the dependencies (python native way)",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 28
+      },
+      "revId": "f96322ec2a3f9e2b3590f3c7db377dec0824dff6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25d16288_6da6da48",
+        "filename": "test/security/check_certificates/check_certificates_validity.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-06-17T07:13:30Z",
+      "side": 1,
+      "message": "You can leverage \u0027get\u0027 attribute here:\n\nonap_namespace \u003d os.environ.get(\u0027ONAP_NAMESPACE\u0027, \u0027onap\u0027)",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 27
+      },
+      "revId": "f96322ec2a3f9e2b3590f3c7db377dec0824dff6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76374ed7_5d23aa27",
+        "filename": "test/security/check_certificates/check_certificates_validity.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-06-17T07:13:30Z",
+      "side": 1,
+      "message": "Which exception are you ignoring here?",
+      "revId": "f96322ec2a3f9e2b3590f3c7db377dec0824dff6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
