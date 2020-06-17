@@ -14,8 +14,8 @@ from time import sleep
 @pytest.mark.parametrize("action", ['start', 'stop', 'trigger', 'status', 'stop_simulator'])
 def test_not_bootstrapped(action, caplog, args_start, args_stop, args_trigger, args_status, args_stop_simulator): # pylint: disable=W0613
     try:
-        m = getattr(MassPnfSim(eval(f'args_{action}')), action)
-        m()
+        m = getattr(MassPnfSim(), action)
+        m(eval(f'args_{action}'))
     except SystemExit as e:
         assert e.code == 1
     assert 'No bootstrapped instance found' in caplog.text
@@ -23,7 +23,7 @@ def test_not_bootstrapped(action, caplog, args_start, args_stop, args_trigger, a
 
 def test_bootstrap(args_bootstrap, parser, caplog):
     # Initial bootstrap
-    MassPnfSim(args_bootstrap).bootstrap()
+    MassPnfSim().bootstrap(args_bootstrap)
     for instance in range(SIM_INSTANCES):
         assert f'Creating pnf-sim-lw-{instance}' in caplog.text
         assert f'Done setting up instance #{instance}' in caplog.text
@@ -31,14 +31,14 @@ def test_bootstrap(args_bootstrap, parser, caplog):
 
     # Verify bootstrap idempotence
     try:
-        MassPnfSim(args_bootstrap).bootstrap()
+        MassPnfSim().bootstrap(args_bootstrap)
     except SystemExit as e:
         assert e.code == 1
     assert 'Bootstrapped instances detected, not overwiriting, clean first' in caplog.text
     caplog.clear()
 
     # Verify simulator dirs created
-    sim_dirname_pattern = MassPnfSim(parser.parse_args([])).sim_dirname_pattern
+    sim_dirname_pattern = MassPnfSim().sim_dirname_pattern
     assert len(glob(f"{sim_dirname_pattern}*")) == SIM_INSTANCES
 
     # Verify ROP_file_creator.sh running
@@ -65,14 +65,14 @@ def test_bootstrap(args_bootstrap, parser, caplog):
         assert stat(cfg).st_uid == 0
 
 def test_bootstrap_status(args_status, caplog):
-    MassPnfSim(args_status).status()
+    MassPnfSim().status(args_status)
     for _ in range(SIM_INSTANCES):
         assert 'Simulator containers are down' in caplog.text
         assert 'Simulator response' not in caplog.text
     caplog.clear()
 
 def test_start(args_start, caplog):
-    MassPnfSim(args_start).start()
+    MassPnfSim().start(args_start)
     for instance in range(SIM_INSTANCES):
         instance_ip_offset = instance * 16
         ip_offset = 2
@@ -83,7 +83,7 @@ def test_start(args_start, caplog):
 
 def test_start_status(args_status, docker_containers, caplog):
     sleep(5) # Wait for the simulator to settle
-    MassPnfSim(args_status).status()
+    MassPnfSim().status(args_status)
     for instance in range(SIM_INSTANCES):
         assert '"simulatorStatus":"NOT RUNNING"' in caplog.text
         assert '"simulatorStatus":"RUNNING"' not in caplog.text
@@ -92,13 +92,13 @@ def test_start_status(args_status, docker_containers, caplog):
 
 def test_start_idempotence(args_start, caplog):
     '''Verify start idempotence'''
-    MassPnfSim(args_start).start()
+    MassPnfSim().start(args_start)
     assert 'containers are already up' in caplog.text
     assert 'Starting simulator containers' not in caplog.text
     caplog.clear()
 
 def test_trigger(args_trigger, caplog):
-    MassPnfSim(args_trigger).trigger()
+    MassPnfSim().trigger(args_trigger)
     for instance in range(SIM_INSTANCES):
         instance_ip_offset = instance * 16
         ip_offset = 2
@@ -108,7 +108,7 @@ def test_trigger(args_trigger, caplog):
     caplog.clear()
 
 def test_trigger_status(args_status, capfd, caplog):
-    MassPnfSim(args_status).status()
+    MassPnfSim().status(args_status)
     msg = capfd.readouterr()
     for _ in range(SIM_INSTANCES):
         assert '"simulatorStatus":"RUNNING"' in caplog.text
@@ -118,13 +118,13 @@ def test_trigger_status(args_status, capfd, caplog):
     caplog.clear()
 
 def test_trigger_idempotence(args_trigger, caplog):
-    MassPnfSim(args_trigger).trigger()
+    MassPnfSim().trigger(args_trigger)
     assert "Cannot start simulator since it's already running" in caplog.text
     assert 'Simulator started' not in caplog.text
     caplog.clear()
 
 def test_stop_simulator(args_stop_simulator, caplog):
-    MassPnfSim(args_stop_simulator).stop_simulator()
+    MassPnfSim().stop_simulator(args_stop_simulator)
     for instance in range(SIM_INSTANCES):
         instance_ip_offset = instance * 16
         ip_offset = 2
@@ -135,7 +135,7 @@ def test_stop_simulator(args_stop_simulator, caplog):
     caplog.clear()
 
 def test_stop_simulator_status(args_status, capfd, caplog):
-    MassPnfSim(args_status).status()
+    MassPnfSim().status(args_status)
     msg = capfd.readouterr()
     for _ in range(SIM_INSTANCES):
         assert '"simulatorStatus":"RUNNING"' not in caplog.text
@@ -145,7 +145,7 @@ def test_stop_simulator_status(args_status, capfd, caplog):
     caplog.clear()
 
 def test_stop_simulator_idempotence(args_stop_simulator, caplog):
-    MassPnfSim(args_stop_simulator).stop_simulator()
+    MassPnfSim().stop_simulator(args_stop_simulator)
     for instance in range(SIM_INSTANCES):
         instance_ip_offset = instance * 16
         ip_offset = 2
@@ -156,7 +156,7 @@ def test_stop_simulator_idempotence(args_stop_simulator, caplog):
     caplog.clear()
 
 def test_trigger_custom(args_trigger_custom, caplog):
-    MassPnfSim(args_trigger_custom).trigger_custom()
+    MassPnfSim().trigger_custom(args_trigger_custom)
     for instance in range(SIM_INSTANCES):
         instance_ip_offset = instance * 16
         ip_offset = 2
@@ -167,7 +167,7 @@ def test_trigger_custom(args_trigger_custom, caplog):
     caplog.clear()
 
 def test_stop(args_stop, caplog):
-    MassPnfSim(args_stop).stop()
+    MassPnfSim().stop(args_stop)
     for instance in range(SIM_INSTANCES):
         instance_ip_offset = instance * 16
         ip_offset = 2
@@ -178,14 +178,14 @@ def test_stop(args_stop, caplog):
     caplog.clear()
 
 def test_stop_status(args_status, docker_containers, caplog):
-    MassPnfSim(args_status).status()
+    MassPnfSim().status(args_status)
     for instance in range(SIM_INSTANCES):
         assert f"{PNF_SIM_CONTAINER_NAME}{instance}" not in docker_containers
         assert 'Simulator containers are down' in caplog.text
     caplog.clear()
 
 def test_stop_idempotence(args_stop, caplog, docker_containers):
-    MassPnfSim(args_stop).stop()
+    MassPnfSim().stop(args_stop)
     for instance in range(SIM_INSTANCES):
         assert f'Stopping pnf-sim-lw-{instance} instance:' in caplog.text
         assert f'ROP_file_creator.sh {instance} already not running' in caplog.text
@@ -195,6 +195,6 @@ def test_stop_idempotence(args_stop, caplog, docker_containers):
     caplog.clear()
 
 def test_clean(args_clean):
-    m = MassPnfSim(args_clean)
-    m.clean()
+    m = MassPnfSim()
+    m.clean(args_clean)
     assert not glob(f"{m.sim_dirname_pattern}*")

@@ -26,7 +26,7 @@ def test_validate_trigger_custom(parser, caplog):
     args = parser.parse_args(['trigger_custom', '--triggerstart', '0',
                              '--triggerend', str(SIM_INSTANCES)])
     try:
-        MassPnfSim(args).trigger_custom()
+        MassPnfSim().trigger_custom(args)
     except SystemExit as e:
         assert e.code == 1
     assert "--triggerend value greater than existing instance count" in caplog.text
@@ -59,8 +59,8 @@ def test_count_option_bad_value(parser, caplog, subcommand):
     '''Test case where invalid value passed to '--count' opt'''
     try:
         args = parser.parse_args([subcommand, '--count', str(SIM_INSTANCES + 1)])
-        m = getattr(MassPnfSim(args), subcommand)
-        m()
+        m = getattr(MassPnfSim(), subcommand)
+        m(args)
     except SystemExit:
         pass
     assert '--count value greater that existing instance count' in caplog.text

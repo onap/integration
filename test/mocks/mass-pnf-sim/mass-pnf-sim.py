@@ -18,7 +18,7 @@ if __name__ == '__main__':
     MassPnfSim.log_lvl = log_lvl
 
     if args.subcommand is not None:
-        sim_routine = getattr(MassPnfSim(args), args.subcommand)
-        sim_routine()
+        sim_routine = getattr(MassPnfSim(), args.subcommand)
+        sim_routine(args)
     else:
         parser.print_usage()
