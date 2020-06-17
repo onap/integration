@@ -106,25 +106,24 @@ class MassPnfSim:
         self.sim_dirname_pattern = "pnf-sim-lw-"
         self.mvn_build_cmd = 'mvn clean package docker:build -Dcheckstyle.skip'
         self.docker_compose_status_cmd = 'docker-compose ps'
-        self.existing_sim_instances = self._enum_sim_instances()
 
         # Validate 'trigger_custom' subcommand options
         if self.args.subcommand == 'trigger_custom':
-            if (self.args.triggerend + 1) > self.existing_sim_instances:
+            if (self.args.triggerend + 1) > self._enum_sim_instances():
                 self.logger.error('--triggerend value greater than existing instance count.')
                 exit(1)
 
         # Validate --count option for subcommands that support it
         if self.args.subcommand in ['start', 'stop', 'trigger', 'status', 'stop_simulator']:
-            if self.args.count > self.existing_sim_instances:
+            if self.args.count > self._enum_sim_instances():
                 self.logger.error('--count value greater that existing instance count')
                 exit(1)
-            if not self.existing_sim_instances:
+            if not self._enum_sim_instances():
                 self.logger.error('No bootstrapped instance found')
                 exit(1)
 
         # Validate 'bootstrap' subcommand
-        if (self.args.subcommand == 'bootstrap') and self.existing_sim_instances:
+        if (self.args.subcommand == 'bootstrap') and self._enum_sim_instances():
             self.logger.error('Bootstrapped instances detected, not overwiriting, clean first')
             exit(1)
 
@@ -167,13 +166,13 @@ class MassPnfSim:
         for the lifecycle commands'''
         if hasattr(self.args, 'count'):
             if not self.args.count:
-                return [self.existing_sim_instances]
+                return [self._enum_sim_instances()]
             else:
                 return [self.args.count]
         elif hasattr(self.args, 'triggerstart'):
             return [self.args.triggerstart, self.args.triggerend + 1]
         else:
-            return [self.existing_sim_instances]
+            return [self._enum_sim_instances()]
 
     def _archive_logs(self, sim_dir):
         '''Helper function to archive simulator logs or create the log dir'''
@@ -309,7 +308,7 @@ class MassPnfSim:
 
     def clean(self):
         self.logger.info('Cleaning simulators workdirs')
-        for sim_id in range(self.existing_sim_instances):
+        for sim_id in range(self._enum_sim_instances()):
             rmtree(f"{self.sim_dirname_pattern}{sim_id}")
 
     def start(self):
