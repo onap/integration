@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0596201c_4542a4d2",
+        "filename": "test/security/check_certificates/check_certificates/check_certificates_validity.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 2319
+      },
+      "writtenOn": "2020-06-17T11:01:25Z",
+      "side": 1,
+      "message": "It still would put the service here for reference with \"SSL error\" on expiration date and N/A on remaining_days (watch out your test in jinja ;) )",
+      "revId": "c1ef683cedd29062b914f2aebb147a5b5572b644",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84151857_d1097f35",
+        "filename": "test/security/check_certificates/check_certificates/check_certificates_validity.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 2319
+      },
+      "writtenOn": "2020-06-17T11:01:25Z",
+      "side": 1,
+      "message": "It still would put the service here for reference with \"Connection Refused\" on expiration date and N/A on remaining_days (watch out your test in jinja ;) )",
+      "revId": "c1ef683cedd29062b914f2aebb147a5b5572b644",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "215ccad6_378f7d90",
+        "filename": "test/security/check_certificates/check_certificates/check_certificates_validity.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 2319
+      },
+      "writtenOn": "2020-06-17T11:01:25Z",
+      "side": 1,
+      "message": "It still would put the service here for reference with \"Type error\" on expiration date and N/A on remaining_days (watch out your test in jinja ;) )",
+      "revId": "c1ef683cedd29062b914f2aebb147a5b5572b644",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
