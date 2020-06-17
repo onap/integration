@@ -87,7 +87,7 @@ class MassPnfSim:
     class _MassPnfSim_Decorators:
         @staticmethod
         def validate_subcommand(method):
-            def wrapper(self):
+            def wrapper(self, args): # pylint: disable=W0613
                 # Validate 'trigger_custom' subcommand options
                 if self.args.subcommand == 'trigger_custom':
                     if (self.args.triggerend + 1) > self._enum_sim_instances():
@@ -107,7 +107,14 @@ class MassPnfSim:
                 if (self.args.subcommand == 'bootstrap') and self._enum_sim_instances():
                     self.logger.error('Bootstrapped instances detected, not overwiriting, clean first')
                     exit(1)
-                method(self)
+                method(self, args)
+            return wrapper
+
+        @staticmethod
+        def substitute_instance_args(method):
+            def wrapper(self, args):
+                self.args = args
+                method(self, args)
             return wrapper
 
     log_lvl = logging.INFO
@@ -126,8 +133,7 @@ class MassPnfSim:
     sim_container_name = 'pnf-simulator'
     rop_script_name = 'ROP_file_creator.sh'
 
-    def __init__(self, args):
-        self.args = args
+    def __init__(self):
         self.logger = logging.getLogger(__name__)
         self.logger.setLevel(self.log_lvl)
         self.sim_dirname_pattern = "pnf-sim-lw-"
@@ -231,8 +237,9 @@ class MassPnfSim:
             f.write(template)
         chdir(old_pwd)
 
+    @_MassPnfSim_Decorators.substitute_instance_args
     @_MassPnfSim_Decorators.validate_subcommand
-    def bootstrap(self):
+    def bootstrap(self, args): # pylint: disable=W0613
         self.logger.info("Bootstrapping PNF instances")
 
         start_port = 2000
@@ -306,7 +313,8 @@ class MassPnfSim:
 
             self.logger.info(f'Done setting up instance #{i}')
 
-    def build(self):
+    @_MassPnfSim_Decorators.substitute_instance_args
+    def build(self, args): # pylint: disable=W0613
         self.logger.info("Building simulator image")
         if path.isfile('pnf-sim-lightweight/pom.xml'):
             self._run_cmd(self.mvn_build_cmd, 'pnf-sim-lightweight')
@@ -314,13 +322,15 @@ class MassPnfSim:
             self.logger.error('POM file was not found, Maven cannot run')
             exit(1)
 
-    def clean(self):
+    @_MassPnfSim_Decorators.substitute_instance_args
+    def clean(self, args): # pylint: disable=W0613
         self.logger.info('Cleaning simulators workdirs')
         for sim_id in range(self._enum_sim_instances()):
             rmtree(f"{self.sim_dirname_pattern}{sim_id}")
 
+    @_MassPnfSim_Decorators.substitute_instance_args
     @_MassPnfSim_Decorators.validate_subcommand
-    def start(self):
+    def start(self, args): # pylint: disable=W0613
         for i in range(*self._get_iter_range()):
             # If container is not running
             if f"{self.sim_container_name}-{i}" not in self._get_docker_containers():
@@ -333,8 +343,9 @@ class MassPnfSim:
             else:
                 self.logger.warning(f'Instance {self.sim_dirname_pattern}{i} containers are already up')
 
+    @_MassPnfSim_Decorators.substitute_instance_args
     @_MassPnfSim_Decorators.validate_subcommand
-    def status(self):
+    def status(self, args): # pylint: disable=W0613
         for i in range(*self._get_iter_range()):
             self.logger.info(f'Getting {self.sim_dirname_pattern}{i} instance status:')
             if f"{self.sim_container_name}-{i}" in self._get_docker_containers():
@@ -352,8 +363,9 @@ class MassPnfSim:
             else:
                 self.logger.info(' Simulator containers are down')
 
+    @_MassPnfSim_Decorators.substitute_instance_args
     @_MassPnfSim_Decorators.validate_subcommand
-    def stop(self):
+    def stop(self, args): # pylint: disable=W0613
         for i in range(*self._get_iter_range()):
             self.logger.info(f'Stopping {self.sim_dirname_pattern}{i} instance:')
             self.logger.info(f' PNF-Sim IP: {self._get_sim_instance_data(i)}')
@@ -384,8 +396,9 @@ class MassPnfSim:
             else:
                 self.logger.warning(" Simulator containers are already down")
 
+    @_MassPnfSim_Decorators.substitute_instance_args
     @_MassPnfSim_Decorators.validate_subcommand
-    def trigger(self):
+    def trigger(self, args): # pylint: disable=W0613
         self.logger.info("Triggering VES sending:")
         for i in range(*self._get_iter_range()):
             sim_ip = self._get_sim_instance_data(i)
@@ -415,8 +428,9 @@ class MassPnfSim:
     # Make the 'trigger_custom' an alias to the 'trigger' method
     trigger_custom = trigger
 
+    @_MassPnfSim_Decorators.substitute_instance_args
     @_MassPnfSim_Decorators.validate_subcommand
-    def stop_simulator(self):
+    def stop_simulator(self, args): # pylint: disable=W0613
         self.logger.info("Stopping sending PNF registration messages:")
         for i in range(*self._get_iter_range()):
             sim_ip = self._get_sim_instance_data(i)
