@@ -1,14 +1,1 @@
----
-network:
-  name: &network_name "onap_ci_lab"
-  cidr: "192.168.1.0/24"
-
-keypair:
-  name: &keypair_name "onap_ci_lab"
-
-hosts:
-  - name: "operator0"
-    image: "cirros-0.5.1-x86_64-disk"
-    flavor: "cirros256"
-    keypair: *keypair_name
-    network: *network_name
+all.yml.sample
