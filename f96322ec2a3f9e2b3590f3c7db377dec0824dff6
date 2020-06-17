@@ -49,6 +49,23 @@
     },
     {
       "key": {
+        "uuid": "c0f4cd38_0006a459",
+        "filename": "test/security/check_certificates/check_certificates_validity.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 2319
+      },
+      "writtenOn": "2020-06-17T10:58:43Z",
+      "side": 1,
+      "message": "if we\u0027re in cluster, we don\u0027t need it",
+      "revId": "f96322ec2a3f9e2b3590f3c7db377dec0824dff6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "25d16288_6da6da48",
         "filename": "test/security/check_certificates/check_certificates_validity.py",
         "patchSetId": 2
@@ -96,6 +113,40 @@
     },
     {
       "key": {
+        "uuid": "1fca9434_2c6eae35",
+        "filename": "test/security/check_certificates/check_certificates_validity.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 2319
+      },
+      "writtenOn": "2020-06-17T10:58:43Z",
+      "side": 1,
+      "message": "maybe a try/catch here if the port has no certs (HTTP, raw TCP, ...)?",
+      "revId": "f96322ec2a3f9e2b3590f3c7db377dec0824dff6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73b97c21_200127de",
+        "filename": "test/security/check_certificates/check_certificates_validity.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 2319
+      },
+      "writtenOn": "2020-06-17T10:58:43Z",
+      "side": 1,
+      "message": "and here we append with \"N/A\" if not SSL",
+      "revId": "f96322ec2a3f9e2b3590f3c7db377dec0824dff6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "76374ed7_5d23aa27",
         "filename": "test/security/check_certificates/check_certificates_validity.py",
         "patchSetId": 2
@@ -125,6 +176,109 @@
       "side": 1,
       "message": "As you can see it is not very subtil..\nI retrieve all the service from my k8s client, then I try to get the certificates, and I use the node_port of the service\nbut some of the services do not have node port..so the attempt will fail\nI could test if the none port is not empty before trying to retrieve the cert\n\nIt is also a good question - shall I consider only node port, I am not sure\nnode port are mandatory but are maybe not the only ones to take into account.\n\nIf the test is run from out of the cluster then I cannot give a try on internal port and I may miss certificates\nBut I could execute the test from inside the cluster as a k8s job and would have access to the internal address.\nneed to discuss with OOM team..",
       "parentUuid": "76374ed7_5d23aa27",
+      "revId": "f96322ec2a3f9e2b3590f3c7db377dec0824dff6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2887b2a4_4b524de8",
+        "filename": "test/security/check_certificates/check_certificates_validity.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 2319
+      },
+      "writtenOn": "2020-06-17T10:58:43Z",
+      "side": 1,
+      "message": "I think that if we can test all ports from ONAP, it would be nice.\nMost of internal ones are HTTP or TCP (like mariadb, cassandra, ...) so we also have to take care of that",
+      "parentUuid": "a090e5f8_4db45ea6",
+      "revId": "f96322ec2a3f9e2b3590f3c7db377dec0824dff6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39717a50_25a9d441",
+        "filename": "test/security/check_certificates/templates/base.html.j2",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 2319
+      },
+      "writtenOn": "2020-06-17T10:58:43Z",
+      "side": 1,
+      "message": "no_need up to line 156",
+      "revId": "f96322ec2a3f9e2b3590f3c7db377dec0824dff6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19650376_74ab53be",
+        "filename": "test/security/check_certificates/templates/base.html.j2",
+        "patchSetId": 2
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 2319
+      },
+      "writtenOn": "2020-06-17T10:58:43Z",
+      "side": 1,
+      "message": "no need",
+      "revId": "f96322ec2a3f9e2b3590f3c7db377dec0824dff6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77a1188d_42eb47b0",
+        "filename": "test/security/check_certificates/templates/base.html.j2",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 2319
+      },
+      "writtenOn": "2020-06-17T10:58:43Z",
+      "side": 1,
+      "message": "bad link",
+      "revId": "f96322ec2a3f9e2b3590f3c7db377dec0824dff6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d30e06c_9d57d655",
+        "filename": "test/security/check_certificates/templates/base.html.j2",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 2319
+      },
+      "writtenOn": "2020-06-17T10:58:43Z",
+      "side": 1,
+      "message": "gerrit here, not gitlab",
+      "revId": "f96322ec2a3f9e2b3590f3c7db377dec0824dff6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "486f8228_4f92a8a4",
+        "filename": "test/security/check_certificates/templates/cert.html.j2",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 2319
+      },
+      "writtenOn": "2020-06-17T10:58:43Z",
+      "side": 1,
+      "message": "you can use bulma colors, it would be better:\n\u003ctr {% if cert.remaining_days \u003c 30 %} class\u003d\"has-background-danger has-text-light\" {%elif cert.remaining_days \u003c 60 %} class\u003d\"has-background-warning\"{% endif %}\u003e",
       "revId": "f96322ec2a3f9e2b3590f3c7db377dec0824dff6",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
