@@ -1,0 +1,43 @@
+---
+network:
+  name: &network_name "onap_ci_lab"
+  cidr: "192.168.1.0/24"
+
+keypair:
+  name: &keypair_name "onap_ci_lab"
+
+hosts:
+  - name: "operator0"
+    image: "Ubuntu_18.04"
+    flavor: "m1.xlarge"
+    keypair: *keypair_name
+    network: *network_name
+  - name: "control0"
+    image: "Ubuntu_18.04"
+    flavor: "m1.xlarge"
+    keypair: *keypair_name
+    network: *network_name
+  - name: "worker0a"
+    image: "Ubuntu_18.04"
+    flavor: "m1.2xlarge"
+    keypair: *keypair_name
+    network: *network_name
+    auto_ip: false
+  - name: "worker0b"
+    image: "Ubuntu_18.04"
+    flavor: "m1.2xlarge"
+    keypair: *keypair_name
+    network: *network_name
+    auto_ip: false
+  - name: "worker0c"
+    image: "Ubuntu_18.04"
+    flavor: "m1.2xlarge"
+    keypair: *keypair_name
+    network: *network_name
+    auto_ip: false
+  - name: "nfs0"
+    image: "Ubuntu_18.04"
+    flavor: "m1.large"
+    keypair: *keypair_name
+    network: *network_name
+    auto_ip: false
