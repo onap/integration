@@ -9,3 +9,4 @@
     network: "{{ host.network }}"
     security_groups:
       - "{{ host.securitygroup }}"
+    auto_ip: "{{ host.auto_ip | default(true) }}"
