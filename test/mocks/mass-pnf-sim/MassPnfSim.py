@@ -300,8 +300,6 @@ class MassPnfSim:
             self._generate_config_file(self.sim_sftp_script_template, self.sim_sftp_script,
                                        I = i, FILESERV_USER = self.args.user)
             chmod(f'{self.sim_dirname_pattern}{i}/{self.sim_sftp_script}', 0o755)
-            # Run the 3GPP measurements file generator
-            self._run_cmd(f'./ROP_file_creator.sh {i} &', f"{self.sim_dirname_pattern}{i}")
 
             ftps_pasv_port_start += ftps_pasv_port_num_of_ports + 1
             ftps_pasv_port_end += ftps_pasv_port_num_of_ports + 1
@@ -332,6 +330,22 @@ class MassPnfSim:
     @_MassPnfSim_Decorators.validate_subcommand
     def start(self, args): # pylint: disable=W0613
         for i in range(*self._get_iter_range()):
+            # Start measurements file generator if not running
+            rop_running = False
+            for ps_line in iter(popen(f'ps --no-headers -C {self.rop_script_name} -o pid,cmd').readline, ''):
+                # try getting ROP script pid
+                try:
+                    ps_line_arr = ps_line.split()
+                    assert self.rop_script_name in ps_line_arr[2]
+                    assert ps_line_arr[3] == str(i)
+                except AssertionError:
+                    pass
+                else:
+                    self.logger.warning(f'3GPP measurements file generator for instance {i} is already running')
+                    rop_running = True
+            if not rop_running:
+                self._run_cmd(f'./ROP_file_creator.sh {i} &', f"{self.sim_dirname_pattern}{i}")
+                self.logger.info(f'ROP_file_creator.sh {i} successfully started')
             # If container is not running
             if f"{self.sim_container_name}-{i}" not in self._get_docker_containers():
                 self.logger.info(f'Starting {self.sim_dirname_pattern}{i} instance:')

@@ -41,10 +41,6 @@ def test_bootstrap(args_bootstrap, caplog):
     sim_dirname_pattern = MassPnfSim().sim_dirname_pattern
     assert len(glob(f"{sim_dirname_pattern}*")) == SIM_INSTANCES
 
-    # Verify ROP_file_creator.sh running
-    for instance in range(SIM_INSTANCES):
-        assert f"ROP_file_creator.sh {instance}" in popen('ps afx').read()
-
     # Verify simulators configs content is valid
     start_port = 2000
     for instance in range(SIM_INSTANCES):
@@ -79,6 +75,10 @@ def test_start(args_start, caplog):
         assert f'Starting pnf-sim-lw-{instance} instance:' in caplog.text
         assert f'PNF-Sim IP: {str(ip_address(IPSTART) + ip_offset + instance_ip_offset)}' in caplog.text
         assert 'Starting simulator containers' in caplog.text
+        assert f"ROP_file_creator.sh {instance} successfully started" in caplog.text
+        assert f"3GPP measurements file generator for instance {instance} is already running" not in caplog.text
+        # Verify ROP_file_creator.sh running
+        assert f"ROP_file_creator.sh {instance}" in popen('ps afx').read()
     caplog.clear()
 
 def test_start_status(args_status, docker_containers, caplog):
@@ -95,6 +95,7 @@ def test_start_idempotence(args_start, caplog):
     MassPnfSim().start(args_start)
     assert 'containers are already up' in caplog.text
     assert 'Starting simulator containers' not in caplog.text
+    assert f"is already running" in caplog.text
     caplog.clear()
 
 def test_trigger(args_trigger, caplog):
