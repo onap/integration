@@ -17,3 +17,4 @@ hosts:
     keypair: *keypair_name
     network: *network_name
     securitygroup: *securitygroup_name
+    volume_size: 5
