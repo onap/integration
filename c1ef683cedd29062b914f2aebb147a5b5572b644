@@ -50,6 +50,24 @@
       "revId": "c1ef683cedd29062b914f2aebb147a5b5572b644",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe571b58_1042a423",
+        "filename": "test/security/check_certificates/check_certificates/check_certificates_validity.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 2319
+      },
+      "writtenOn": "2020-06-19T16:38:32Z",
+      "side": 1,
+      "message": "The way you solved it (several tables) is better than my proposal!",
+      "parentUuid": "215ccad6_378f7d90",
+      "revId": "c1ef683cedd29062b914f2aebb147a5b5572b644",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
