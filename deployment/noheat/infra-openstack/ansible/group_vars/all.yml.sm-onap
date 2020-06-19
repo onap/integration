@@ -17,12 +17,14 @@ hosts:
     keypair: *keypair_name
     network: *network_name
     securitygroup: *securitygroup_name
+    volume_size: 20
   - name: "control0"
     image: "Ubuntu_18.04"
     flavor: "m1.xlarge"
     keypair: *keypair_name
     network: *network_name
     securitygroup: *securitygroup_name
+    volume_size: 50
   - name: "worker0a"
     image: "Ubuntu_18.04"
     flavor: "m1.2xlarge"
@@ -30,6 +32,7 @@ hosts:
     network: *network_name
     auto_ip: false
     securitygroup: *securitygroup_name
+    volume_size: 80
   - name: "worker0b"
     image: "Ubuntu_18.04"
     flavor: "m1.2xlarge"
@@ -37,6 +40,7 @@ hosts:
     network: *network_name
     auto_ip: false
     securitygroup: *securitygroup_name
+    volume_size: 80
   - name: "worker0c"
     image: "Ubuntu_18.04"
     flavor: "m1.2xlarge"
@@ -44,6 +48,7 @@ hosts:
     network: *network_name
     auto_ip: false
     securitygroup: *securitygroup_name
+    volume_size: 80
   - name: "nfs0"
     image: "Ubuntu_18.04"
     flavor: "m1.large"
@@ -51,3 +56,4 @@ hosts:
     network: *network_name
     auto_ip: false
     securitygroup: *securitygroup_name
+    volume_size: 150
