@@ -10,3 +10,6 @@
     security_groups:
       - "{{ host.securitygroup }}"
     auto_ip: "{{ host.auto_ip | default(true) }}"
+    boot_from_volume: true
+    terminate_volume: true
+    volume_size: "{{ host.volume_size | default(10) }}"
