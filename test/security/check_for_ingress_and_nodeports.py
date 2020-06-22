@@ -75,8 +75,8 @@ class ScanMode(Enum):
 #Read the ingress controller http and https ports from the kubernetes config
 def find_ingress_ports(v1):
     svc = v1.list_namespaced_service(K8S_INGRESS_NS)
-    http_port = 0
-    https_port = 0
+    http_port = 80
+    https_port = 443
     for item in svc.items:
         if item.metadata.name == K8S_INGRESS_NS:
             for pinfo in item.spec.ports:
