@@ -20,6 +20,7 @@ operation = {
   name: 'operator',
   hostname: 'operator',
   ip: '172.17.5.254',
+  ip_os: '172.24.4.254',
   cpus: vm_cpu,
   memory: vm_memory,
   disk: vm_disk
@@ -28,6 +29,7 @@ devstack = {
   name: 'devstack',
   hostname: 'devstack',
   ip: '172.17.5.200',
+  ip_os: '172.24.4.2',
   cpus: vm_cpus,
   memory: vm_memory_os,
   disk: vm_disk
@@ -94,6 +96,7 @@ Vagrant.configure("2") do |config|
       end
 
       config.vm.network :private_network, ip: machine[:ip]
+      config.vm.network :private_network, ip: machine[:ip_os]
 
       if machine[:name] == 'devstack'
         config.vm.network "forwarded_port", guest: 80, host: 8080
