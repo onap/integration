@@ -6,9 +6,14 @@ network:
 keypair:
   name: &keypair_name "onap_ci_lab"
 
+securitygroup:
+  name: &securitygroup_name "onap_ci_lab"
+  remote_ip_prefix: "172.24.4.0/24"
+
 hosts:
   - name: "operator0"
     image: "cirros-0.5.1-x86_64-disk"
     flavor: "cirros256"
     keypair: *keypair_name
     network: *network_name
+    securitygroup: *securitygroup_name
