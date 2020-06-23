@@ -7,3 +7,5 @@
     flavor: "{{ host.flavor }}"
     key_name: "{{ host.keypair }}"
     network: "{{ host.network }}"
+    security_groups:
+      - "{{ host.securitygroup }}"

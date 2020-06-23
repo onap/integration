@@ -1,0 +1,5 @@
+---
+- name: "Destroy {{ secgrp.name }} security group"
+  os_security_group:
+    state: absent
+    name: "{{ secgrp.name }}"

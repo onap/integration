@@ -1,0 +1,4 @@
+---
+- include: create_securitygroup.yml secgrp={{ item }}
+  with_items:
+    - "{{ securitygroup }}"

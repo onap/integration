@@ -1,0 +1,4 @@
+---
+- include: destroy_securitygroup.yml secgrp={{ item }}
+  with_items:
+    - "{{ securitygroup }}"
