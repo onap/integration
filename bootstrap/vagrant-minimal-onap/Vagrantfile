@@ -22,6 +22,7 @@ vm_memory_onap = 64 * 1024
 vm_cpu = 1
 vm_cpus = 8
 vm_box = "generic/ubuntu1804"
+vm_box_op = "generic/ubuntu2004"
 vm_disk = 32
 vm_disk_onap = 64
 vm_storage_pool = "default"
@@ -30,6 +31,7 @@ operation = {
   name: 'operator',
   hostname: 'operator',
   ip: '172.17.4.254',
+  box: vm_box_op,
   cpus: vm_cpu,
   memory: vm_memory,
   disk: vm_disk,
@@ -39,6 +41,7 @@ devstack = {
   name: 'devstack',
   hostname: 'devstack',
   ip: '172.17.4.200',
+  box: vm_box,
   cpus: vm_cpu,
   memory: vm_memory_os,
   disk: vm_disk,
@@ -48,6 +51,7 @@ control = {
   name: 'control',
   hostname: 'control',
   ip: '172.17.4.100',
+  box: vm_box,
   cpus: vm_cpu,
   memory: vm_memory,
   disk: vm_disk,
@@ -57,6 +61,7 @@ worker = {
   name: 'worker',
   hostname: 'worker',
   ip: '172.17.4.101',
+  box: vm_box,
   cpus: vm_cpus,
   memory: vm_memory_onap,
   disk: vm_disk_onap,
@@ -212,7 +217,7 @@ SCRIPT
 Vagrant.configure('2') do |config|
   all.each do |machine|
     config.vm.define machine[:name] do |config|
-      config.vm.box = vm_box
+      config.vm.box = machine[:box]
       config.vm.hostname = machine[:hostname]
 
       config.vm.provider :virtualbox do |v|
