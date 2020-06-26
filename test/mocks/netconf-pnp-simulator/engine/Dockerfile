@@ -168,7 +168,8 @@ ENV PYTHONPATH=/opt/lib/python3.7/site-packages
 COPY patches/supervisor/ /usr/src/patches/supervisor/
 
 RUN set -eux \
-      && pip install --no-cache-dir loguru supervisor supervisor virtualenv \
+      # the patches for supervisor package only work for 4.1 release
+      && pip install --no-cache-dir loguru supervisor==4.1.0 virtualenv \
       && cd /usr/local/lib/python3.7/site-packages \
       && for p in /usr/src/patches/supervisor/*.patch; do patch -p1 -i $p; done
 
