@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6f817fc_6d3e79db",
+        "filename": "test/security/check_for_ingress_and_nodeports.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-06-30T12:50:01Z",
+      "side": 1,
+      "message": "From kubernetes config or from kubernetes cluster?",
+      "range": {
+        "startLine": 75,
+        "startChar": 50,
+        "endLine": 75,
+        "endChar": 76
+      },
+      "revId": "43080d0601a6aecfdb6b29981c2db6fa8cf35a9d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d0c5edd_9f1eb153",
+        "filename": "test/security/check_for_ingress_and_nodeports.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-06-30T12:50:01Z",
+      "side": 1,
+      "message": "If this kube api endpoint returns empty list is the assumption of http and https 80 and 443 still valid?\n\nIf yes then I would deobfuscate the below code to a more readable:\n\nif svc:\n for item ...\n   if item.metadata...\n     return http_port,https_port\n else:\n   return (80,443)\n\nOther issue is with the logic of the \u0027for\u0027 statement: if \"if item.metadata.name \u003d\u003d K8S_INGRESS_NS\" evaluates to \u0027true\u0027 only once then it should contain loop braking statement, otherwise http{s}_port returns it\u0027s values from the last evaluation of this statement to \u0027true\u0027 which is either side effect or somehow obfuscated logic.",
+      "revId": "43080d0601a6aecfdb6b29981c2db6fa8cf35a9d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
