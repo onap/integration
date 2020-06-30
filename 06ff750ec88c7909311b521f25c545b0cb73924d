@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73de8b9d_3bccde17",
+        "filename": "test/security/check_for_ingress_and_nodeports.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-06-30T12:35:45Z",
+      "side": 1,
+      "message": "Why print instead of just using logging module? Logging can setup different colors for different logging levels globally.",
+      "range": {
+        "startLine": 190,
+        "startChar": 0,
+        "endLine": 190,
+        "endChar": 29
+      },
+      "revId": "06ff750ec88c7909311b521f25c545b0cb73924d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39449f39_5b370880",
+        "filename": "test/security/check_for_ingress_and_nodeports.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-06-30T12:35:45Z",
+      "side": 1,
+      "message": "Either script usage description or arguments handling here is broken; this conditional shows that those three options are meant to be mutually exclusive while usage synopsis shows otherwise:\n\noptional arguments:\n  -h, --help            show this help message and exit\n  --scan-nodeport       Scan onap for node services (default: False)\n  --scan-ingress        Scan onap for ingress services (default: False)\n  --scan-and-compare    Scan nodeports and ingress and compare results\n                        (default: False)\n\nSo according to synopsis all those three can be used at the same time which is false.\nThose should not be script options but script subcommands, please see argparse subprasers: https://docs.python.org/3.6/library/argparse.html#sub-commands",
+      "range": {
+        "startLine": 329,
+        "startChar": 0,
+        "endLine": 332,
+        "endChar": 25
+      },
+      "revId": "06ff750ec88c7909311b521f25c545b0cb73924d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
