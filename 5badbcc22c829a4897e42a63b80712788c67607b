@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "403dbdff_3ec57f3c",
+        "filename": "test/mocks/netconf-pnp-simulator/engine/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-06-30T11:36:13Z",
+      "side": 1,
+      "message": "The patches look really trivial, wouldn\u0027t it be more elegant to rebase them on supervisor version that get\u0027s installed by default instead of pinning it\u0027s version for good? At some point the 4.1.0 version will get obsoleted and build of this dockerfile will fail for good.",
+      "revId": "5badbcc22c829a4897e42a63b80712788c67607b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
