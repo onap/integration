@@ -1,0 +1,49 @@
+description: Heat template for deploying Mass PNF Simulator
+heat_template_version: '2017-02-24'
+parameters:
+  flavor_name:
+    description: Flavor name of the simulator instance. This should depend on the requested amount of simulator instances
+    type: string
+  image_name:
+    description: Name or id of the image (Debian family only)
+    type: string
+  key_name:
+    label: Key pair name for passwordless login to instance
+    type: string
+  float_net_id:
+    description: ID of the network with a pool of floating IPs
+    label: Floating IP network
+    type: string
+  instance_net_id:
+    type: string
+    description: Id of a private network for instance interface
+resources:
+  simulator_floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network:
+        get_param: float_net_id
+      port_id:
+        get_attr: [simulator, addresses, get_param: instance_net_id, 0, port]
+  simulator:
+    type: OS::Nova::Server
+    properties:
+      name: mass-pnf-simulator
+      key_name:
+        get_param: key_name
+      image:
+        get_param: image_name
+      flavor:
+        get_param: flavor_name
+      networks:
+        - network:
+            get_param: instance_net_id
+outputs:
+  simulator_instance_id:
+    description: ID of the simulator instance
+    value:
+      get_resource: simulator
+  simulator_instance_fip:
+    description: Floating IP address of the simulator instance
+    value:
+      get_attr: [simulator_floating_ip, floating_ip_address]
