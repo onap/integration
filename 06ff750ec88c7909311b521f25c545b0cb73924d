@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2546b615_cb9f501d",
+        "filename": "test/security/check_for_ingress_and_nodeports.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 5446
+      },
+      "writtenOn": "2020-07-01T11:41:11Z",
+      "side": 1,
+      "message": "Because I don\u0027t need any fancy logging features. I need a simple colored console output only.",
+      "parentUuid": "73de8b9d_3bccde17",
+      "range": {
+        "startLine": 190,
+        "startChar": 0,
+        "endLine": 190,
+        "endChar": 29
+      },
+      "revId": "06ff750ec88c7909311b521f25c545b0cb73924d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "39449f39_5b370880",
         "filename": "test/security/check_for_ingress_and_nodeports.py",
         "patchSetId": 4
