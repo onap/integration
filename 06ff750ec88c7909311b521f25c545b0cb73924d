@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "f322061d_63f68061",
+        "filename": "test/security/check_for_ingress_and_nodeports.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-07-01T12:07:59Z",
+      "side": 1,
+      "message": "Correct, in console you will get simple colored output. But in CI where the script will be run there is no TTY attached and the output will be obscured i.e.:\n\n$ cat doit.py  \n#!/usr/bin/python3\nfrom colorama import Fore\nprint(Fore.YELLOW,\u0027test msg\u0027)\nprint(Fore.RESET)\n\nInteractive console output:\ntest msg (in color, not visible here)\n\nNon interactive run without TTY attached:\nESC[33m test msg\nESC[39m\n\nSo if you still don\u0027t want to use logging where this can be simply avoided you should IMO at least detect that there is no TTY attached and not print in color (control characters effectively)",
+      "parentUuid": "2546b615_cb9f501d",
+      "range": {
+        "startLine": 190,
+        "startChar": 0,
+        "endLine": 190,
+        "endChar": 29
+      },
+      "revId": "06ff750ec88c7909311b521f25c545b0cb73924d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "39449f39_5b370880",
         "filename": "test/security/check_for_ingress_and_nodeports.py",
         "patchSetId": 4
