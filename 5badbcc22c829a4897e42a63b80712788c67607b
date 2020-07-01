@@ -16,6 +16,24 @@
       "revId": "5badbcc22c829a4897e42a63b80712788c67607b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72ab4394_3b0c246b",
+        "filename": "test/mocks/netconf-pnp-simulator/engine/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 5447
+      },
+      "writtenOn": "2020-07-01T13:10:36Z",
+      "side": 1,
+      "message": "I tried to update the patch to the newest v4.2.0 but I couldn\u0027t find a way to preserve the patch\u0027s main purpose: to make the supervisor messages distinguisable from other logging messages.\nI also checked that all supervisor versions since 2009 are still available at PyPi, so I think sticking to v4.1.0 (released 19-Oct-19) won\u0027t be an issue for the next 5y, at least.",
+      "parentUuid": "403dbdff_3ec57f3c",
+      "revId": "5badbcc22c829a4897e42a63b80712788c67607b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
