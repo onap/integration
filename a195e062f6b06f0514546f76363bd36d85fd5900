@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f3d2ff0c_76e70b7f",
+        "filename": "test/security/check_certificates/check_certificates/check_certificates_validity.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-07-02T17:45:35Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f5da0f6d_703efea0",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 17
+      },
+      "revId": "a195e062f6b06f0514546f76363bd36d85fd5900",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e92bc158_06527ca8",
         "filename": "test/security/check_certificates/check_certificates/check_certificates_validity.py",
         "patchSetId": 9
@@ -45,6 +69,30 @@
       "revId": "a195e062f6b06f0514546f76363bd36d85fd5900",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de589ffd_f5c8803f",
+        "filename": "test/security/check_certificates/check_certificates/check_certificates_validity.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-07-02T17:45:35Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e92bc158_06527ca8",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 78
+      },
+      "revId": "a195e062f6b06f0514546f76363bd36d85fd5900",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "c4503256_44e2fb04",
+        "filename": "test/security/check_certificates/check_certificates/check_certificates_validity.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-07-02T17:45:35Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "712e8245_9f912e0f",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 46
+      },
+      "revId": "a195e062f6b06f0514546f76363bd36d85fd5900",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "457380c4_240c28ce",
         "filename": "test/security/check_certificates/check_certificates/check_certificates_validity.py",
         "patchSetId": 9
@@ -91,6 +163,30 @@
       "revId": "a195e062f6b06f0514546f76363bd36d85fd5900",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e779d986_e0a077c0",
+        "filename": "test/security/check_certificates/check_certificates/check_certificates_validity.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-07-02T17:45:35Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "457380c4_240c28ce",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 28
+      },
+      "revId": "a195e062f6b06f0514546f76363bd36d85fd5900",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "f324e336_74813183",
+        "filename": "test/security/check_certificates/check_certificates/check_certificates_validity.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-07-02T17:45:35Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "02497477_3568625f",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 1
+      },
+      "revId": "a195e062f6b06f0514546f76363bd36d85fd5900",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "280e8a16_23ca9822",
         "filename": "test/security/check_certificates/check_certificates/check_certificates_validity.py",
         "patchSetId": 9
@@ -137,6 +257,30 @@
       "revId": "a195e062f6b06f0514546f76363bd36d85fd5900",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d8576c7_8135e0ba",
+        "filename": "test/security/check_certificates/check_certificates/check_certificates_validity.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-07-02T17:45:35Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "280e8a16_23ca9822",
+      "range": {
+        "startLine": 87,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 26
+      },
+      "revId": "a195e062f6b06f0514546f76363bd36d85fd5900",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -232,6 +376,30 @@
     },
     {
       "key": {
+        "uuid": "fbc92389_4d9f2cd2",
+        "filename": "test/security/check_certificates/tox.ini",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-07-02T17:45:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "083519ed_3422ea16",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 47
+      },
+      "revId": "a195e062f6b06f0514546f76363bd36d85fd5900",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2103fe04_50e70266",
         "filename": "test/security/check_certificates/tox.ini",
         "patchSetId": 9
@@ -243,6 +411,30 @@
       "writtenOn": "2020-07-02T08:20:36Z",
       "side": 1,
       "message": "We do already have linters for python in Integration repo, why reintroducing them here? Is there a job in CI for these?",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 99
+      },
+      "revId": "a195e062f6b06f0514546f76363bd36d85fd5900",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa7c7820_62751aa7",
+        "filename": "test/security/check_certificates/tox.ini",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-07-02T17:45:35Z",
+      "side": 1,
+      "message": "local use but not needed, I delete the sections (redundant)",
+      "parentUuid": "2103fe04_50e70266",
       "range": {
         "startLine": 12,
         "startChar": 0,
@@ -275,6 +467,30 @@
       "revId": "a195e062f6b06f0514546f76363bd36d85fd5900",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26cf056b_d7f094a0",
+        "filename": "test/security/check_certificates/tox.ini",
+        "patchSetId": 9
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-07-02T17:45:35Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b3672926_9c3905dd",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 49
+      },
+      "revId": "a195e062f6b06f0514546f76363bd36d85fd5900",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
