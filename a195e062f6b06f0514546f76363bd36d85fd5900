@@ -1,0 +1,280 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f5da0f6d_703efea0",
+        "filename": "test/security/check_certificates/check_certificates/check_certificates_validity.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-07-02T08:20:36Z",
+      "side": 1,
+      "message": "This should go as \"default\u003d\u0027nodeport\u0027\" in \"--mode\" arg definition.",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 17
+      },
+      "revId": "a195e062f6b06f0514546f76363bd36d85fd5900",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e92bc158_06527ca8",
+        "filename": "test/security/check_certificates/check_certificates/check_certificates_validity.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-07-02T08:20:36Z",
+      "side": 1,
+      "message": "Available choices are defined in CERT_MODES so this argument definition should contain \"choices\" key:\nchoices \u003d CERT_MODES\n\nThen the code starting line 91 is not needed.",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 78
+      },
+      "revId": "a195e062f6b06f0514546f76363bd36d85fd5900",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "712e8245_9f912e0f",
+        "filename": "test/security/check_certificates/check_certificates/check_certificates_validity.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-07-02T08:20:36Z",
+      "side": 1,
+      "message": "According to synopsis it\u0027s mandatory so should have \"required\" key. Also \u0027onap\u0027 is the default value so should have \"default\u003d\u0027onap\u0027\" key.\n\nAs for getting it\u0027s value from env variables argparse allows setting \"type\" key which value can be a callable so more native way to get the argument value from env is to create a function e.g. \"def get_ip()\" which will get ip from relevant env variable if not provided as argument, and then \"type\u003dget_ip\"",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 46
+      },
+      "revId": "a195e062f6b06f0514546f76363bd36d85fd5900",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "457380c4_240c28ce",
+        "filename": "test/security/check_certificates/check_certificates/check_certificates_validity.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-07-02T08:20:36Z",
+      "side": 1,
+      "message": "This should have \"default\u003dRESULT_PATH\" and then remove code in line 88.",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 28
+      },
+      "revId": "a195e062f6b06f0514546f76363bd36d85fd5900",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02497477_3568625f",
+        "filename": "test/security/check_certificates/check_certificates/check_certificates_validity.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-07-02T08:20:36Z",
+      "side": 1,
+      "message": "IMO variable names should go lowercase, in python uppercase is by convention reserved for constants.",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 1
+      },
+      "revId": "a195e062f6b06f0514546f76363bd36d85fd5900",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "280e8a16_23ca9822",
+        "filename": "test/security/check_certificates/check_certificates/check_certificates_validity.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-07-02T08:20:36Z",
+      "side": 1,
+      "message": "Please see \"-d\" argument comments.",
+      "range": {
+        "startLine": 87,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 26
+      },
+      "revId": "a195e062f6b06f0514546f76363bd36d85fd5900",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e35f0e91_b22fe4d4",
+        "filename": "test/security/check_certificates/check_certificates/check_certificates_validity.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-07-02T08:20:36Z",
+      "side": 1,
+      "message": "This code is in fact not needed, can be implemented directly in argparse. In mode setup in line 61 just add \"default\" argument with \"nodeport\" as value.",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 21
+      },
+      "revId": "a195e062f6b06f0514546f76363bd36d85fd5900",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f6f99d0_089c28a3",
+        "filename": "test/security/check_certificates/check_certificates/check_certificates_validity.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-07-02T08:20:36Z",
+      "side": 1,
+      "message": "Personally I would print it only in \"debug\".",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 3
+      },
+      "revId": "a195e062f6b06f0514546f76363bd36d85fd5900",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3acce7f0_ff4bb219",
+        "filename": "test/security/check_certificates/check_certificates/check_certificates_validity.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-07-02T08:20:36Z",
+      "side": 1,
+      "message": "Please see comments in line 68.",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 44
+      },
+      "revId": "a195e062f6b06f0514546f76363bd36d85fd5900",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "083519ed_3422ea16",
+        "filename": "test/security/check_certificates/tox.ini",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-07-02T08:20:36Z",
+      "side": 1,
+      "message": "Is the custom command needed here?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 47
+      },
+      "revId": "a195e062f6b06f0514546f76363bd36d85fd5900",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2103fe04_50e70266",
+        "filename": "test/security/check_certificates/tox.ini",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-07-02T08:20:36Z",
+      "side": 1,
+      "message": "We do already have linters for python in Integration repo, why reintroducing them here? Is there a job in CI for these?",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 99
+      },
+      "revId": "a195e062f6b06f0514546f76363bd36d85fd5900",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3672926_9c3905dd",
+        "filename": "test/security/check_certificates/tox.ini",
+        "patchSetId": 9
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-07-02T08:20:36Z",
+      "side": 1,
+      "message": "I can\u0027t see any test defined, this is needed at all?",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 49
+      },
+      "revId": "a195e062f6b06f0514546f76363bd36d85fd5900",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
