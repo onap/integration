@@ -284,7 +284,13 @@ def compare_nodeports_and_ingress():
         console_compare_visualisation(scan_key,s1,s2)
     return num_failures
 
-
+def kube_config_exists(conf):
+    try:
+        assert path.exists(conf)
+    except AssertionError:
+        raise argparse.ArgumentTypeError(f'Fatal! K8S config {conf} does not exist')
+    else:
+        return conf
 
 if __name__ == "__main__":
     colorama.init()
@@ -312,7 +318,8 @@ if __name__ == "__main__":
     )
     parser.add_argument( "--conf",
         default='~/.kube/config', action='store',
-        help = 'kubernetes config file'
+        help = 'kubernetes config file',
+        type = kube_config_exists
     )
     parser.add_argument("--verbose",
        default=False, action='store_true',
@@ -322,11 +329,6 @@ if __name__ == "__main__":
     K8S_NAMESPACE = args.namespace
     K8S_INGRESS_NS  = args.ingress_namespace
     VERBOSE = args.verbose
-    try:
-        assert path.exists(args.conf)
-    except AssertionError:
-        print('Fatal! K8S config',args.conf, 'does not exist',file=sys.stderr)
-        sys.exit(-1)
     config.load_kube_config(config_file=args.conf)
     v1 = client.CoreV1Api()
     v1b = client.ExtensionsV1beta1Api()
