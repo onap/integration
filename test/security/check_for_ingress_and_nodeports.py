@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #   COPYRIGHT NOTICE STARTS HERE
 #
-#   Copyright 2019 Samsung Electronics Co., Ltd.
+#   Copyright 2020 Samsung Electronics Co., Ltd.
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -25,13 +25,13 @@
 # with self signed certificate (HTTPU).
 # Verbose option retrives HTTP header and prints it for each service
 #
-# Dependencies:
+# To setup runtime environment execute:
 #
-#     pip3 install kubernetes
-#     pip3 install colorama
+#   $ tox
+#   $ source .tox/security/bin/activate
 #
 # Environment:
-#   This script should be run on the local machine which has network access to the onap K8S cluster.
+#   This script should be run on on a host with access to the Onap K8S cluster API.
 #   It requires k8s cluster config file on local machine.
 #
 # Example usage:
