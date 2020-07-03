@@ -18,6 +18,11 @@ parameters:
     type: string
     description: Id of a private network for instance interface
 resources:
+  config:
+    type: OS::Heat::SoftwareConfig
+    properties:
+      config:
+        get_file: cloud-config.yaml
   simulator_floating_ip:
     type: OS::Neutron::FloatingIP
     properties:
@@ -38,6 +43,9 @@ resources:
       networks:
         - network:
             get_param: instance_net_id
+      user_data_format: RAW
+      user_data:
+        get_resource: config
 outputs:
   simulator_instance_id:
     description: ID of the simulator instance

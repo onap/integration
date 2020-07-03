@@ -1,0 +1,19 @@
+#cloud-config
+package_upgrade: true
+packages:
+  - apt-transport-https
+  - ca-certificates
+  - gnupg-agent
+  - software-properties-common
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
+# Docker's apt key needs to be injected early in the boot as 'apt' cloud-init
+#  module doesn't support configuring key from file
+bootcmd:
+  - [curl, "https://download.docker.com/linux/ubuntu/gpg", -o, /run/docker.key]
+  - [apt-key, add, /run/docker.key]
+apt:
+  sources:
+    docker:
+      source: "deb [arch=amd64] https://download.docker.com/linux/ubuntu $RELEASE stable"
