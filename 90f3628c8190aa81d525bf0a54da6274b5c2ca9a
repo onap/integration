@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "8fd84417_c64e8df2",
+        "filename": "test/security/check_certificates/check_certificates/check_certificates_validity.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-07-03T10:21:44Z",
+      "side": 1,
+      "message": "yep forgot to remove it",
+      "parentUuid": "f38ca429_4b7d6960",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 44
+      },
+      "revId": "90f3628c8190aa81d525bf0a54da6274b5c2ca9a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f4e6e528_0e3ab3a7",
         "filename": "test/security/check_certificates/check_certificates/check_certificates_validity.py",
         "patchSetId": 10
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "06a8f96f_fee8c3f7",
+        "filename": "test/security/check_certificates/check_certificates/check_certificates_validity.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-07-03T10:21:44Z",
+      "side": 1,
+      "message": "hmm well no\nbecause this param is needed only in 1 mode, not for the other\nIf I put required, then it will be required for ingress and internal mode where I do not need this value",
+      "parentUuid": "f4e6e528_0e3ab3a7",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 19
+      },
+      "revId": "90f3628c8190aa81d525bf0a54da6274b5c2ca9a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ff65c09e_0c37ec0e",
         "filename": "test/security/check_certificates/check_certificates/check_certificates_validity.py",
         "patchSetId": 10
@@ -82,6 +130,30 @@
       "writtenOn": "2020-07-03T08:08:30Z",
       "side": 1,
       "message": "I think it can be further simplified to:\n\nif args.mode \u003d\u003d \"ingress\":\n  test_routine \u003d test_ingress\nelse:\n  test_routine \u003d test_services\n\nLOGGER.info(\"\u003e\u003e\u003e\u003e Test certificates: mode \u003d %s\", args.mode)\nif test_routine(k8s_services, args.mode):\n    LOGGER.warning(\"\u003e\u003e\u003e\u003e Test PASS\")\nelse:\n    LOGGER.warning(\"\u003e\u003e\u003e\u003e Test FAIL\")\n    test_status \u003d False",
+      "range": {
+        "startLine": 276,
+        "startChar": 0,
+        "endLine": 289,
+        "endChar": 27
+      },
+      "revId": "90f3628c8190aa81d525bf0a54da6274b5c2ca9a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b47bfeac_8d0ecb62",
+        "filename": "test/security/check_certificates/check_certificates/check_certificates_validity.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-07-03T10:21:44Z",
+      "side": 1,
+      "message": "hmm\nthe routine change but the param also\nfor the service I provide the service parameter and for the ingress another kubernetes objects.\nBut I can simplify as you mention, I need also to distinguish the param and add a fake mode for the ingress",
+      "parentUuid": "ff65c09e_0c37ec0e",
       "range": {
         "startLine": 276,
         "startChar": 0,
