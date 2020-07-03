@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bcaa05eb_bee28af5",
+        "filename": "test/security/check_certificates/check_certificates/check_certificates_validity.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-07-03T08:08:30Z",
+      "side": 1,
+      "message": "Please have a look at examples how to correctly implement such function - in this implementation you\u0027re always overriding what user has passed with \u0027-i\u0027 option with ONAP_IP env value.\n\nBeside that there is some issue:\n\ncode/integration/test/security/check_certificates/check_certificates$ ./check_certificates_validity.py  -i 1.2.3.4\nusage: check_certificates_validity.py [-h] [-m {nodeport,ingress,internal}]\n                                      [-i IP] [-n NAMESPACE] [-d DIR]\ncheck_certificates_validity.py: error: argument -i/--ip: invalid get_ip_for_nodeports value: \u00271.2.3.4\u0027",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 49
+      },
+      "revId": "90f3628c8190aa81d525bf0a54da6274b5c2ca9a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f38ca429_4b7d6960",
+        "filename": "test/security/check_certificates/check_certificates/check_certificates_validity.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-07-03T08:08:30Z",
+      "side": 1,
+      "message": "Isn\u0027t it redundant to what\u0027s happening in get_ip_for_nodeports()?",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 44
+      },
+      "revId": "90f3628c8190aa81d525bf0a54da6274b5c2ca9a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4e6e528_0e3ab3a7",
+        "filename": "test/security/check_certificates/check_certificates/check_certificates_validity.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-07-03T08:08:30Z",
+      "side": 1,
+      "message": "Add \"required\" key for \"-i\" opt in argparse and it will ensure this is set automatically.",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 19
+      },
+      "revId": "90f3628c8190aa81d525bf0a54da6274b5c2ca9a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff65c09e_0c37ec0e",
+        "filename": "test/security/check_certificates/check_certificates/check_certificates_validity.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-07-03T08:08:30Z",
+      "side": 1,
+      "message": "I think it can be further simplified to:\n\nif args.mode \u003d\u003d \"ingress\":\n  test_routine \u003d test_ingress\nelse:\n  test_routine \u003d test_services\n\nLOGGER.info(\"\u003e\u003e\u003e\u003e Test certificates: mode \u003d %s\", args.mode)\nif test_routine(k8s_services, args.mode):\n    LOGGER.warning(\"\u003e\u003e\u003e\u003e Test PASS\")\nelse:\n    LOGGER.warning(\"\u003e\u003e\u003e\u003e Test FAIL\")\n    test_status \u003d False",
+      "range": {
+        "startLine": 276,
+        "startChar": 0,
+        "endLine": 289,
+        "endChar": 27
+      },
+      "revId": "90f3628c8190aa81d525bf0a54da6274b5c2ca9a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67d1fdf0_d271d83c",
+        "filename": "test/security/check_certificates/tox.ini",
+        "patchSetId": 10
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-07-03T08:08:30Z",
+      "side": 1,
+      "message": "You\u0027re referencing non existent testenvs here and not referencing the py3.",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "90f3628c8190aa81d525bf0a54da6274b5c2ca9a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69646752_8508370d",
+        "filename": "test/security/check_certificates/tox.ini",
+        "patchSetId": 10
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-07-03T08:08:30Z",
+      "side": 1,
+      "message": "Is this required to use this mode? This creates a package which I\u0027m not sure is needed here, I\u0027d just use \"skipsdist \u003d True\" in main section.",
+      "revId": "90f3628c8190aa81d525bf0a54da6274b5c2ca9a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cfce35c_4dea8e32",
+        "filename": "test/security/check_certificates/tox.ini",
+        "patchSetId": 10
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-07-03T08:08:30Z",
+      "side": 1,
+      "message": "Does it work for you? Fails for me, it looks for setup.cfg inside check_certificates dir probably due to  \"changedir\".",
+      "revId": "90f3628c8190aa81d525bf0a54da6274b5c2ca9a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
