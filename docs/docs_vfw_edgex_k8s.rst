@@ -280,7 +280,7 @@ the service-subscription can be added to that object.
 
 An example is shown below for K8s cloud but following the steps 1,2,3
 from
-`here <https://onap.readthedocs.io/en/latest/submodules/multicloud/framework.git/docs/multicloud-plugin-windriver/UserGuide-MultiCloud-WindRiver-TitaniumCloud.html#tutorial-onboard-instance-of-wind-river-titanium-cloud>`__.
+`here <https://docs.onap.org/projects/onap-multicloud-framework/en/latest/multicloud-plugin-windriver/UserGuide-MultiCloud-WindRiver-TitaniumCloud.html?highlight=multicloud>`__.
 The sample input below is for k8s cloud type.
 
 **Step 1**: Cloud Registration/ Create a cloud region to represent the instance

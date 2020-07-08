@@ -95,7 +95,7 @@ Installation: https://wiki.onap.org/display/DW/Demo+setup+steps+for+Frankfurt
 
 Son-Handler installation:
 
-https://onap.readthedocs.io/en/latest/submodules/dcaegen2.git/docs/sections/services/son-handler/installation.html
+https://docs.onap.org/projects/onap-dcaegen2/en/frankfurt/sections/services/son-handler/installation.html?highlight=dcaegen2
 
 
 Test Status and Plans

@@ -190,21 +190,21 @@ Changes done:
 - Instantiation broker
 
     The broker implements `infra_workload`_ API used to handle vf-module instantiation request comming from the SO. User directives were changed by SDNC directives what impacts also the way how a'la carte instantiation method works from the VID. There is no need to specify the user directives delivered from the separate file. Instead SDNC directives are delivered through SDNC preloading (a'la carte instantiation) or through the resource assignment performed by the CDS (Macro flow instantiation).
-    
-    
+
+
     For helm package instantiation following parameters have to be delivered in the SDNC directives:
-    
-    
+
+
     ======================== ==============================================
-    
+
     Variable                 Description
-    
+
     ------------------------ ----------------------------------------------
-    
-    k8s-rb-profile-name      Name of the override profile 
-    
+
+    k8s-rb-profile-name      Name of the override profile
+
     k8s-rb-profile-namespace Name of the namespace for created helm package
-    
+
     ======================== ==============================================
 
 - Default profile support was added to the plugin
@@ -293,7 +293,7 @@ modify existing k8s helm templates for each create CNF instance. It opens anothe
         chartpath: templates/deployment.yaml
 
 
-Above we have exemplary manifest file of the RB profile. Since Frankfurt *override_values.yaml* file does not need to be used as instantiation values are passed to the plugin over Instance API of k8s plugin. In the example profile contains additional k8s helm template which will be added on demand 
+Above we have exemplary manifest file of the RB profile. Since Frankfurt *override_values.yaml* file does not need to be used as instantiation values are passed to the plugin over Instance API of k8s plugin. In the example profile contains additional k8s helm template which will be added on demand
 to the helm package during its installation. In our case, depending on the SO instantiation request input parameters, vPGN helm package can be enriched with additional ssh service. Such service will be dynamically added to the profile by CDS and later on CDS will upload whole custom RB profile to multicloud/k8s plugin.
 
 In order to support generation and upload of profile, our vFW CBA model has enhanced **resource-assignment** workflow which contains additional steps, **profile-modification** and **profile-upload**. For the last step custom Kotlin script included in the CBA is used to upload K8S profile into multicloud/k8s plugin.
@@ -337,7 +337,7 @@ In order to support generation and upload of profile, our vFW CBA model has enha
             }
         },
 
-Profile generation step uses embedded into CDS functionality of templates processing and on its basis ssh port number (specified in the SO request as vpg-management-port) is included in the ssh service helm template. 
+Profile generation step uses embedded into CDS functionality of templates processing and on its basis ssh port number (specified in the SO request as vpg-management-port) is included in the ssh service helm template.
 
 ::
 
@@ -361,7 +361,7 @@ Profile generation step uses embedded into CDS functionality of templates proces
       chart: {{ .Chart.Name }}
 
 To upload of the profile is conducted with the CDS capability to execute Kotlin scripts. It allows to define any required controller logic. In our case we use to implement decision point and mechanisms of profile generation and upload.
-During the generation CDS extracts the RB profile template included in the CBA, includes there generated ssh service helm template, modifies the manifest of RB template by adding there ssh service and after its archivisation sends the profile to 
+During the generation CDS extracts the RB profile template included in the CBA, includes there generated ssh service helm template, modifies the manifest of RB template by adding there ssh service and after its archivisation sends the profile to
 k8s plugin.
 
 ::
@@ -2489,7 +2489,7 @@ Multiple lower level bugs/issues were also found during use case development
 .. _SDC-2776: https://jira.onap.org/browse/SDC-2776
 .. _MULTICLOUD-941: https://jira.onap.org/browse/MULTICLOUD-941
 .. _CCSDK-2155: https://jira.onap.org/browse/CCSDK-2155
-.. _infra_workload: https://docs.onap.org/en/latest/submodules/multicloud/framework.git/docs/specs/multicloud_infra_workload.html
+.. _infra_workload: https://docs.onap.org/projects/onap-multicloud-framework/en/latest/specs/multicloud_infra_workload.html?highlight=multicloud
 .. _SDNC-1116: https://jira.onap.org/browse/SDNC-1116
 .. _SO-2727: https://jira.onap.org/browse/SO-2727
 .. _SDNC-1109: https://jira.onap.org/browse/SDNC-1109

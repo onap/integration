@@ -219,7 +219,7 @@ If an update is needed, the update can be done via rest using curl or postman
 
         }'
 
-9. Register new cloud regions. This can be done using instructions (Step 1 to Step 3) on this `page <https://onap.readthedocs.io/en/latest/submodules/multicloud/framework.git/docs/multicloud-plugin-windriver/UserGuide-MultiCloud-WindRiver-TitaniumCloud.html#tutorial-onboard-instance-of-wind-river-titanium-cloud>`_. The already existing CloudOwner and cloud complex can be used. If step 3 does not work using the k8s ip and external port. It can be done using the internal ip address and port. Exec into any pod and run the command from the pod.
+9. Register new cloud regions. This can be done using instructions (Step 1 to Step 3) on this `page <https://docs.onap.org/projects/onap-multicloud-framework/en/latest/multicloud-plugin-windriver/UserGuide-MultiCloud-WindRiver-TitaniumCloud.html?highlight=multicloud>`_. The already existing CloudOwner and cloud complex can be used. If step 3 does not work using the k8s ip and external port. It can be done using the internal ip address and port. Exec into any pod and run the command from the pod.
 
 - Get msb-iag internal ip address and port
 
