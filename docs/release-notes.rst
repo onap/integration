@@ -97,12 +97,14 @@ https://nexus.onap.org/content/repositories/releases/org/onap/demo/vnf/
 Robot Test Suites
 -----------------
 
-Version: 1.6.3
+Version: 1.6.4
+..............
 
-:Release Date: 2020-06-03
-:sha1: 8f4f6f64eb4626433e6f32eeb146a71d3c840935
+:Release Date: 2020-07-07
+:sha1: f863e0060b9e0b13822074d0180cab11aed87ad5
+
 
 **New Features**
 
-- bug Fixes(Teardown, control loop, alotteed properties)
-- CI support for hvves, 5GBulkPm and pnf-registrate
+- Some corrections for vLB CDS
+- Change owning-entity-id from hard coded to variable

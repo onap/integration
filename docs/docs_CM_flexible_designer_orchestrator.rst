@@ -287,4 +287,4 @@ part of the Dublin release. The others were not part of the release but
 are available to test with your vNF. Please refer to the Scale out
 release notes for further information.
 
-https://onap.readthedocs.io/en/latest/submodules/integration.git/docs/docs_scaleout.html#docs-scaleout
+https://docs.onap.org/projects/onap-integration/en/frankfurt/docs_scaleout.html

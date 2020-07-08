@@ -41,7 +41,7 @@ In Frankfurt release, the following are the main enhancements:
 - In addition, the first step towards O-RAN alignment is being taken with SDN-C (R) being able to receive a DMaaP
   message containing configuration updates (which would be triggered when a neighbor-list-change occurs in the RAN
   and is communicated to ONAP over VES). Details of this implementation is available at:
-    https://wiki.onap.org/display/DW/CM+Notification+Support+in+ONAP
+  https://wiki.onap.org/display/DW/CM+Notification+Support+in+ONAP
 
 
   The end-to-end setup for the use case requires a Config DB which stores the cell related details of the RAN.
@@ -95,7 +95,7 @@ Installation: https://wiki.onap.org/display/DW/Demo+setup+steps+for+Frankfurt
 
 Son-Handler installation:
 
-https://onap.readthedocs.io/en/latest/submodules/dcaegen2.git/docs/sections/services/son-handler/installation.html
+https://docs.onap.org/projects/onap-dcaegen2/en/frankfurt/sections/services/son-handler/installation.html?highlight=dcaegen2
 
 
 Test Status and Plans

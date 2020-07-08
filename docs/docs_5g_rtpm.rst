@@ -18,8 +18,8 @@ The Real-Time Performance Measurements support allows for a PNF to send streamin
 
 Component and API descriptions can be found under:
 
-- `High Volume VNF Event Streaming (HV-VES) Collector <https://onap.readthedocs.io/en/latest/submodules/dcaegen2.git/docs/sections/services/ves-hv/index.html>`_
-- `HV-VES (High Volume VES) <https://onap.readthedocs.io/en/latest/submodules/dcaegen2.git/docs/sections/apis/ves-hv/index.html#hv-ves-high-volume-ves>`_
+- `High Volume VNF Event Streaming (HV-VES) Collector <https://docs.onap.org/projects/onap-dcaegen2/en/frankfurt/sections/services/ves-hv/index.html>`_
+- `HV-VES (High Volume VES) <https://docs.onap.org/projects/onap-dcaegen2/en/frankfurt/sections/apis/ves-hv/index.html#hv-ves-high-volume-ves>`_
 
 How to verify
 ~~~~~~~~~~~~~

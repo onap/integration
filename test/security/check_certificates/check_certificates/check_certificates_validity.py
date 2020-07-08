@@ -186,8 +186,15 @@ def test_services(k8s_services, mode):
                     if test_port in nodeports_xfail_list:
                         error_waiver = True
                 else:  # internal mode
-                    test_url = service.spec.selector.app
                     test_port = port.port
+                    test_url = ''
+                    # in Internal mode there are 2 types
+                    # app
+                    # app.kubernetes.io/name
+                    try:
+                        test_url = service.spec.selector['app']
+                    except KeyError:
+                        test_url = service.spec.selector['app.kubernetes.io/name']
 
                 if test_port is not None:
                     LOGGER.info(
@@ -259,6 +266,15 @@ def test_services(k8s_services, mode):
             node_ports_type_error_list=node_ports_type_error_list,
             node_ports_reset_error_list=node_ports_reset_error_list).dump(
             '{}/certificates.html'.format(args.dir))
+    else:
+        jinja_env.get_template('cert-internal.html.j2').stream(
+            node_ports_list=node_ports_list,
+            node_ports_ssl_error_list=node_ports_ssl_error_list,
+            node_ports_connection_error_list=node_ports_connection_error_list,
+            node_ports_type_error_list=node_ports_type_error_list,
+            node_ports_reset_error_list=node_ports_reset_error_list).dump(
+            '{}/certificates.html'.format(args.dir))
+
     return success_criteria
 
 
