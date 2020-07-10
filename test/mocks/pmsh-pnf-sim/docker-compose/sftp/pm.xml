@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <measCollecFile xmlns="http://www.3gpp.org/ftp/specs/archive/32_series/32.435#measCollec" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.3gpp.org/ftp/specs/archive/32_series/32.435#measCollec http://www.3gpp.org/ftp/specs/archive/32_series/32.435#measCollec">
-    <fileHeader fileFormatVersion="32.435 V7.0" vendorName="Company NN" dnPrefix="DC=a1.companyNN.com,SubNetwork=1,IRPAgent=1">
-        <fileSender localDn="SubNetwork=CountryNN,MeContext=MEC-Gbg-1,ManagedElement=RNC-Gbg-1" elementType="RNC" />
+    <fileHeader dnPrefix="DC=a1.companyNN.com,SubNetwork=1,IRPAgent=1" fileFormatVersion="32.435 V7.0" vendorName="Company NN">
+        <fileSender elementType="RNC" localDn="SubNetwork=CountryNN,MeContext=MEC-Gbg-1,ManagedElement=RNC-Gbg-1" />
         <measCollec beginTime="2000-03-01T14:00:00+02:00" />
     </fileHeader>
     <measData>

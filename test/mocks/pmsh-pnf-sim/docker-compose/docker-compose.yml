@@ -2,7 +2,7 @@ version: '3'
 
 services:
   netopeer2:
-    image: nexus3.onap.org:10001/onap/integration/simulators/netconf-pnp-simulator:2.8.2
+    image: nexus3.onap.org:10001/onap/integration/simulators/netconf-pnp-simulator:2.8.6
     container_name: netconf-pnp-pmsh
     restart: always
     ports:
@@ -10,6 +10,7 @@ services:
       - "6513:6513"
     volumes:
       - ./:/config/modules/pnf-subscriptions
+
   sftp:
     container_name: sftpserver
     image: atmoz/sftp
@@ -18,3 +19,15 @@ services:
     volumes:
       - /host/upload:/home/admin
     command: admin:admin:1001
+
+  opendaylight:
+    image: blueonap/opendaylight:v0.12.1-1
+    container_name: opendaylight
+    ports:
+      - "8101:8101"
+      - "8181:8181"
+      - "6666:6666"
+    environment:
+      - KARAF_FEATURES_BOOT=odl-restconf-all,odl-netconf-connector-all
+    volumes:
+      - ./app_config/tls:/config/tls
