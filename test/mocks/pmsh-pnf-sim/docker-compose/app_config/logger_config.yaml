@@ -1,0 +1,27 @@
+version: 1
+
+disable_existing_loggers: false
+
+loggers:
+  dev:
+    level: DEBUG
+    handlers: [console, file_handler]
+    propagate: false
+
+handlers:
+  console:
+    class: logging.StreamHandler
+    formatter: simple
+  file_handler:
+    class: logging.handlers.RotatingFileHandler
+    filename: config/modules/pnf-subscriptions/pmsh_sim.log
+    mode: a
+    maxBytes: 10000000
+    backupCount: 5
+    formatter: extended
+
+formatters:
+  simple:
+    format: "%(asctime)s %(name)s: %(message)s"
+  extended:
+    format: "%(asctime)s %(name)s %(levelname)s: %(message)s"
