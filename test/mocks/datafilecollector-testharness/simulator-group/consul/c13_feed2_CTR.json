@@ -8,6 +8,7 @@
   "dmaap.security.keyStorePath": "/opt/app/datafile/etc/cert/cert.jks",
   "dmaap.security.keyStorePasswordPath": "/opt/app/datafile/etc/cert/jks.pass",
   "dmaap.security.enableDmaapCertAuth": "false",
+  "sftp.security.strictHostKeyChecking": "true",
   "streams_publishes": {
     "CTR_MEAS_FILES": {
       "type": "data_router",
