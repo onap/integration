@@ -1,0 +1,6 @@
+cerberus
+dataclasses
+kubernetes
+pyyaml
+tabulate
+
