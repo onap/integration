@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cda3e496_cc4b756a",
+        "filename": "deployment/noheat/README",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2020-07-20T13:23:36Z",
+      "side": 1,
+      "message": "I prefer to keep READMEs, HACKINGs and similar extension-agnostic.\n\nThis way even if selected markup changes (e.g. from reStructuredText to Markdown) track of changes to these files is kept continuously (without a patch `git mv`-ing file to the new extension).\n\nRendering on GitHub mirror and in Sphinx is done with a symlink (like in:\n- https://github.com/onap/integration/tree/master/test/security/k8s\n- https://github.com/onap/integration/tree/master/test/security/sslendpoints)",
+      "parentUuid": "9d24da9f_b30e6a0b",
+      "revId": "3046b607c753c66a944fa6aa33091a788186c88d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3cd6dae5_dccfa35e",
         "filename": "deployment/noheat/README.rst",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2020-07-20T08:55:03Z",
       "side": 1,
       "message": "What is the meaning of this file? Saw this in your several other commits.",
+      "revId": "3046b607c753c66a944fa6aa33091a788186c88d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00dac356_d8d102db",
+        "filename": "deployment/noheat/README.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2020-07-20T13:23:36Z",
+      "side": 1,
+      "message": "It\u0027s a symlink indicating markup which is used in corresponding file (like in e.g. https://gerrit.onap.org/r/c/integration/+/88797/1/test/security/k8s/README.rst#1)",
+      "parentUuid": "3cd6dae5_dccfa35e",
       "revId": "3046b607c753c66a944fa6aa33091a788186c88d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
