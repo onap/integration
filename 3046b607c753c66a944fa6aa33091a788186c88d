@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d24da9f_b30e6a0b",
+        "filename": "deployment/noheat/README",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-07-20T08:55:03Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this file be named README.rst?",
+      "revId": "3046b607c753c66a944fa6aa33091a788186c88d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cd6dae5_dccfa35e",
+        "filename": "deployment/noheat/README.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-07-20T08:55:03Z",
+      "side": 1,
+      "message": "What is the meaning of this file? Saw this in your several other commits.",
+      "revId": "3046b607c753c66a944fa6aa33091a788186c88d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
