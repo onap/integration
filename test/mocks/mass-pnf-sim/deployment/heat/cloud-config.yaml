@@ -11,6 +11,8 @@ packages:
   - docker-compose
   - python3-virtualenv
   - python3-pip
+  - maven
+  - openjdk-8-jdk-headless
 # Docker's apt key needs to be injected early in the boot as 'apt' cloud-init
 # module doesn't support configuring key from file
 bootcmd:
@@ -22,4 +24,7 @@ apt:
       source: "deb [arch=amd64] https://download.docker.com/linux/ubuntu $RELEASE stable"
 runcmd:
   - [pip3, install, tox]
+  - [mkdir, /root/.m2]
+  - [curl, "https://git.onap.org/oparent/plain/settings.xml", -o, /root/.m2/settings.xml]
+  - [update-java-alternatives, -s, java-1.8.0-openjdk-amd64]
   - [bash, /root/mass-pnf-sim_run.sh]
