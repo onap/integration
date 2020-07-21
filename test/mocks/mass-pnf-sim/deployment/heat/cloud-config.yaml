@@ -8,8 +8,11 @@ packages:
   - docker-ce
   - docker-ce-cli
   - containerd.io
+  - docker-compose
+  - python3-virtualenv
+  - python3-pip
 # Docker's apt key needs to be injected early in the boot as 'apt' cloud-init
-#  module doesn't support configuring key from file
+# module doesn't support configuring key from file
 bootcmd:
   - [curl, "https://download.docker.com/linux/ubuntu/gpg", -o, /run/docker.key]
   - [apt-key, add, /run/docker.key]
@@ -17,3 +20,6 @@ apt:
   sources:
     docker:
       source: "deb [arch=amd64] https://download.docker.com/linux/ubuntu $RELEASE stable"
+runcmd:
+  - [pip3, install, tox]
+  - [bash, /root/mass-pnf-sim_run.sh]
