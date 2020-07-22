@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3da80ab0_e5792393",
+        "filename": "deployment/noheat/infra-openstack/README",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-07-22T14:06:05Z",
+      "side": 1,
+      "message": "Could you add here minimal required versions of ansible and SDK? Or at least those that you are testing on. That could help ruling out some users complaints in basic cases like using too old tool/lib release. Or too new:)",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 15
+      },
+      "revId": "8d5b9d68f117f05ec99e0f746a1cdae4b2d84eb1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
