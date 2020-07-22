@@ -4,7 +4,7 @@ from subprocess import run, CalledProcessError
 import argparse
 import ipaddress
 from sys import exit
-from os import chdir, getcwd, path, popen, kill, getuid, stat, mkdir, getlogin, chmod
+from os import chdir, getcwd, path, popen, kill, getuid, stat, mkdir, chmod
 from shutil import copytree, rmtree, move
 from json import loads, dumps
 from yaml import load, SafeLoader, dump
@@ -292,7 +292,7 @@ class MassPnfSim:
                                        FILESERV_PASS = self.args.password)
             # generate vsftpd config file for the simulator instance
             self._generate_config_file(self.sim_vsftpd_template, self.sim_vsftpd_config,
-                                       I = i, USER = getlogin(),
+                                       I = i,
                                        FTPS_PASV_MIN = str(ftps_pasv_port_start),
                                        FTPS_PASV_MAX = str(ftps_pasv_port_end),
                                        IPFILESERVER = str(self.args.ipfileserver))
