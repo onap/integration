@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0bbd451f_2adb9030",
+        "filename": "test/security/check_versions/src/k8s_bin_versions_inspector.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4965
+      },
+      "writtenOn": "2020-07-22T10:42:16Z",
+      "side": 1,
+      "message": "Add license header",
+      "revId": "c54a2cacd4b06beb09d898109ed97aceb1c835e2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbba936a_b7b861fb",
+        "filename": "test/security/check_versions/src/k8s_bin_versions_inspector.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 4965
+      },
+      "writtenOn": "2020-07-22T10:42:16Z",
+      "side": 1,
+      "message": "fill in those 2 fields",
+      "revId": "c54a2cacd4b06beb09d898109ed97aceb1c835e2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
