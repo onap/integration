@@ -17,6 +17,18 @@ parameters:
   instance_net_id:
     type: string
     description: Id of a private network for instance interface
+  simulator_instances:
+    type: number
+    description: Number of simulator instances to run on cloud instance
+  ves_url:
+    type: string
+    description: VES Collector url
+  ftp_user:
+    type: string
+    description: Username for the ftp server
+  ftp_password:
+    type: string
+    description: Password for the ftp server
 resources:
   config:
     type: OS::Heat::SoftwareConfig
@@ -27,7 +39,15 @@ resources:
     type: OS::Heat::SoftwareConfig
     properties:
       config:
-        get_file: mass-pnf-sim_run.sh
+        str_replace:
+          template:
+            get_file: mass-pnf-sim_run.sh
+          params:
+            $SIMULATOR_INSTANCES: { get_param: simulator_instances }
+            $VES_URL: { get_param: ves_url }
+            $FILE_SERVER: { get_attr: [simulator_floating_ip, floating_ip_address] }
+            $FTP_USER: { get_param: ftp_user }
+            $FTP_PASSWORD: { get_param: ftp_password }
   sim_script_file:
     type: OS::Heat::CloudConfig
     properties:
@@ -36,13 +56,18 @@ resources:
           - path: /root/mass-pnf-sim_run.sh
             content:
               get_attr: [sim_script, config]
+  simulator_port:
+    type: OS::Neutron::Port
+    properties:
+      network:
+        get_param: instance_net_id
   simulator_floating_ip:
     type: OS::Neutron::FloatingIP
     properties:
       floating_network:
         get_param: float_net_id
       port_id:
-        get_attr: [simulator, addresses, get_param: instance_net_id, 0, port]
+        get_resource: simulator_port
   cloud_config:
     type: OS::Heat::MultipartMime
     properties:
@@ -62,8 +87,8 @@ resources:
       flavor:
         get_param: flavor_name
       networks:
-        - network:
-            get_param: instance_net_id
+        - port:
+            get_resource: simulator_port
       user_data_format: RAW
       user_data:
         get_resource: cloud_config
