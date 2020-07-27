@@ -30,6 +30,6 @@ services:
       - ./tls/dfc.crt:/etc/ssl/private/dfc.crt:ro
       - ./configuration/vsftpd_ssl.conf:/etc/vsftpd_ssl.conf:ro
 
-      - ./files/onap/ftps/:/srv/
+      - ./files/onap/ftpes/:/srv/
     restart: on-failure
     command: vsftpd /etc/vsftpd_ssl.conf
