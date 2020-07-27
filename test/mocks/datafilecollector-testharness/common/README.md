@@ -52,14 +52,14 @@ Stop a SFTP container with the supplied instance id (0-5).
 **start_sftp <sftp-instance-id>**</br>
 Start a previously stopped SFTP container with the supplied instance id (0-5).
 
-**kill_ftps <ftps-instance-id>**</br>
-Stop and remove a FTPS container with the supplied instance id (0-5).
+**kill_ftpes <ftpes-instance-id>**</br>
+Stop and remove a FTPES container with the supplied instance id (0-5).
 
-**stop_ftps <ftps-instance-id>**</br>
-Stop a FTPS container with the supplied instance id (0-5).
+**stop_ftpes <ftpes-instance-id>**</br>
+Stop a FTPES container with the supplied instance id (0-5).
 
-**start_ftps <ftps-instance-id>**</br>
-Start a previously stopped FTPS container with the supplied instance id (0-5).
+**start_ftpes <ftpes-instance-id>**</br>
+Start a previously stopped FTPES container with the supplied instance id (0-5).
 
 **mr_print <vaiable-name>**</br>
 Print a variable value from the MR simulator.
