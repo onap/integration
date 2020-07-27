@@ -24,7 +24,7 @@ server_check_https() {
 	echo "Simulator " $1 " on https://localhost:$2$3 - no response"
 }
 
-ftps_server_check() {
+ftpes_server_check() {
 	for i in {1..10}; do
 		res=$(curl --silent --max-time 3 localhost:$2 2>&1 | grep vsFTPd)
 		if ! [ -z "$res" ]; then
@@ -63,7 +63,7 @@ sudo chown $(id -u):$(id -g) consul
 sudo chown $(id -u):$(id -g) consul/consul/
 
 declare -a SFTP_SIM
-declare -a FTPS_SIM
+declare -a FTPES_SIM
 
 DR_SIM="$(docker ps -q --filter='name=dfc_dr-sim')"
 DR_RD_SIM="$(docker ps -q --filter='name=dfc_dr-redir-sim')"
@@ -73,11 +73,11 @@ SFTP_SIM[1]="$(docker ps -q --filter='name=dfc_sftp-server1')"
 SFTP_SIM[2]="$(docker ps -q --filter='name=dfc_sftp-server2')"
 SFTP_SIM[3]="$(docker ps -q --filter='name=dfc_sftp-server3')"
 SFTP_SIM[4]="$(docker ps -q --filter='name=dfc_sftp-server4')"
-FTPS_SIM[0]="$(docker ps -q --filter='name=dfc_ftpes-server-vsftpd0')"
-FTPS_SIM[1]="$(docker ps -q --filter='name=dfc_ftpes-server-vsftpd1')"
-FTPS_SIM[2]="$(docker ps -q --filter='name=dfc_ftpes-server-vsftpd2')"
-FTPS_SIM[3]="$(docker ps -q --filter='name=dfc_ftpes-server-vsftpd3')"
-FTPS_SIM[4]="$(docker ps -q --filter='name=dfc_ftpes-server-vsftpd4')"
+FTPES_SIM[0]="$(docker ps -q --filter='name=dfc_ftpes-server-vsftpd0')"
+FTPES_SIM[1]="$(docker ps -q --filter='name=dfc_ftpes-server-vsftpd1')"
+FTPES_SIM[2]="$(docker ps -q --filter='name=dfc_ftpes-server-vsftpd2')"
+FTPES_SIM[3]="$(docker ps -q --filter='name=dfc_ftpes-server-vsftpd3')"
+FTPES_SIM[4]="$(docker ps -q --filter='name=dfc_ftpes-server-vsftpd4')"
 CBS_SIM="$(docker ps -q --filter='name=dfc_cbs')"
 CONSUL_SIM="$(docker ps -q --filter='name=dfc_consul')"
 
@@ -91,11 +91,11 @@ if [ $(docker inspect --format '{{ .State.Running }}' $DR_SIM) ] && \
 [ $(docker inspect --format '{{ .State.Running }}' ${SFTP_SIM[2]}) ] && \
 [ $(docker inspect --format '{{ .State.Running }}' ${SFTP_SIM[3]}) ] && \
 [ $(docker inspect --format '{{ .State.Running }}' ${SFTP_SIM[4]}) ] && \
-[ $(docker inspect --format '{{ .State.Running }}' ${FTPS_SIM[0]}) ] && \
-[ $(docker inspect --format '{{ .State.Running }}' ${FTPS_SIM[1]}) ] && \
-[ $(docker inspect --format '{{ .State.Running }}' ${FTPS_SIM[2]}) ] && \
-[ $(docker inspect --format '{{ .State.Running }}' ${FTPS_SIM[3]}) ] && \
-[ $(docker inspect --format '{{ .State.Running }}' ${FTPS_SIM[4]}) ] && \
+[ $(docker inspect --format '{{ .State.Running }}' ${FTPES_SIM[0]}) ] && \
+[ $(docker inspect --format '{{ .State.Running }}' ${FTPES_SIM[1]}) ] && \
+[ $(docker inspect --format '{{ .State.Running }}' ${FTPES_SIM[2]}) ] && \
+[ $(docker inspect --format '{{ .State.Running }}' ${FTPES_SIM[3]}) ] && \
+[ $(docker inspect --format '{{ .State.Running }}' ${FTPES_SIM[4]}) ] && \
 [ $(docker inspect --format '{{ .State.Running }}' $CBS_SIM) ] && \
 [ $(docker inspect --format '{{ .State.Running }}' $CONSUL_SIM) ]
  then
@@ -115,11 +115,11 @@ server_check      "MR sim       " 2222 "/"
 server_check_https "DR sim https      " 3907 "/"
 server_check_https "DR redir sim https" 3909 "/"
 server_check_https "MR sim https      " 2223 "/"
-ftps_server_check "FTPS server 0" 1032
-ftps_server_check "FTPS server 1" 1033
-ftps_server_check "FTPS server 2" 1034
-ftps_server_check "FTPS server 3" 1035
-ftps_server_check "FTPS server 4" 1036
+ftpes_server_check "FTPES server 0" 1032
+ftpes_server_check "FTPES server 1" 1033
+ftpes_server_check "FTPES server 2" 1034
+ftpes_server_check "FTPES server 3" 1035
+ftpes_server_check "FTPES server 4" 1036
 sftp_server_check "SFTP server 0" 1022
 sftp_server_check "SFTP server 1" 1023
 sftp_server_check "SFTP server 2" 1024
@@ -166,13 +166,13 @@ if [ $FTP_TYPE = "ALL" ] || [ $FTP_TYPE = "SFTP" ]; then
 		let p=p+1
 	done
 fi
-if [ $FTP_TYPE = "ALL" ] || [ $FTP_TYPE = "FTPS" ]; then
-	echo "Creating files for FTPS server, may take time...."
+if [ $FTP_TYPE = "ALL" ] || [ $FTP_TYPE = "FTPES" ]; then
+	echo "Creating files for FTPES server, may take time...."
 	p=0
 	while [ $p -lt $NUM_FTP_SERVERS ]; do
-		docker cp setup-ftp-files-for-image.sh ${FTPS_SIM[$p]}:/tmp/setup-ftp-files-for-image.sh
+		docker cp setup-ftp-files-for-image.sh ${FTPES_SIM[$p]}:/tmp/setup-ftp-files-for-image.sh
 		#Double slash needed for docker on win...
-		docker exec -w //srv ${FTPS_SIM[$p]} //tmp/setup-ftp-files-for-image.sh $NUM_FTPFILES $NUM_PNFS $FILE_SIZE $FTP_FILE_PREFIXES $NUM_FTP_SERVERS $p #>/dev/null 2>&1
+		docker exec -w //srv ${FTPES_SIM[$p]} //tmp/setup-ftp-files-for-image.sh $NUM_FTPFILES $NUM_PNFS $FILE_SIZE $FTP_FILE_PREFIXES $NUM_FTP_SERVERS $p #>/dev/null 2>&1
 		let p=p+1
 	done
 fi

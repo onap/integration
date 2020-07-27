@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TC_ONELINE_DESCR="Simulating a 25h backlog of events for 700 PNF with decreasing number of missing files, then continues with 15 min events from all PNFs using FTPS."
+TC_ONELINE_DESCR="Simulating a 25h backlog of events for 700 PNF with decreasing number of missing files, then continues with 15 min events from all PNFs using FTPES."
 
 . ../common/testcase_common.sh $1 $2
 
@@ -21,7 +21,7 @@ export DR_REDIR_FEEDS="2:A"
 export NUM_FTPFILES="300"
 export NUM_PNFS="700"
 export FILE_SIZE="1MB"
-export FTP_TYPE="FTPS"
+export FTP_TYPE="FTPES"
 export FTP_FILE_PREFIXES="A"
 export NUM_FTP_SERVERS=5
 

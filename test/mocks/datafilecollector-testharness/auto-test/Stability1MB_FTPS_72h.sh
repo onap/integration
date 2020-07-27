@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TC_ONELINE_DESCR="Stabilty over 72hours, 700 PNFs over FTPS. All new files (100) in first event from PNF, then one new 1 new file per event."
+TC_ONELINE_DESCR="Stabilty over 72hours, 700 PNFs over FTPES. All new files (100) in first event from PNF, then one new 1 new file per event."
 
 . ../common/testcase_common.sh $1 $2
 
@@ -21,7 +21,7 @@ export DR_REDIR_FEEDS="2:A"
 export NUM_FTPFILES="1000"
 export NUM_PNFS="700"
 export FILE_SIZE="1MB"
-export FTP_TYPE="FTPS"
+export FTP_TYPE="FTPES"
 export FTP_FILE_PREFIXES="A"
 export NUM_FTP_SERVERS=5
 

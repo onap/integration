@@ -30,7 +30,7 @@ The simulator listens to port 2222.
 
 The following envrionment vaiables are used:
 
-- **FTPS_SIMS** - A comma-separated list of hostname:port for the FTP servers to generate ftps file urls for. If not set MR sim will assume 'localhost:21'. Minimum 1 and maximum 5 host-port pairs can be given.
+- **FTPES_SIMS** - A comma-separated list of hostname:port for the FTP servers to generate ftpes file urls for. If not set MR sim will assume 'localhost:21'. Minimum 1 and maximum 5 host-port pairs can be given.
 - **SFTP_SIMS** - A comma-separated list of hostname:port for the FTP servers to generate sftp file urls for. If not set MR sim will assume 'localhost:1022'. Minimum 1 and maximum 5 host-port pairs can be given.
 - **NUM_FTP_SERVERS** - Number of FTP servers to use out of those specified in the envrioment variables above. The number shall be in the range 1-5.
 - **MR_GROUPS** - A comma-separated list of consummer-group:changeId[:changeId]\*. Defines which change identifier that should be used for each consumer gropu. If not set the MR-sim will assume 'OpenDcae-c12:PM_MEAS_FILES'.
@@ -175,15 +175,15 @@ TC1302 - 700 ME, SFTP, 50MB files, 100 files per event, endless number of events
 
 TC1500 - 700 ME, SFTP, 1MB files, 100 files per event, 35 events per poll, simulating 25h backlog of decreasing number of outdated files and then 20 event polls every 15min for 1h
 
-Changing the first digit in tc number will change the test case to run FTPS instead. Eg. TC201 is FTPS version of TC101.
+Changing the first digit in tc number will change the test case to run FTPES instead. Eg. TC201 is FTPES version of TC101.
 
-TC2XX is same as TC1XX but with FTPS
+TC2XX is same as TC1XX but with FTPES
 
-TC6XX is same as TC5XX but with FTPS
+TC6XX is same as TC5XX but with FTPES
 
-TC8XX is same as TC7XX but with FTPS
+TC8XX is same as TC7XX but with FTPES
 
-TC2XXX is same as TC1XXX but with FTPS
+TC2XXX is same as TC1XXX but with FTPES
 
 ## Developer workflow
 

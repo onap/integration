@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TC_ONELINE_DESCR="DFC file retention (files with SFTP and then same files over FTPS). 1MB, 5MB and 50MB using first SFTP and thenSFTP with restart of MR between each file."
+TC_ONELINE_DESCR="DFC file retention (files with SFTP and then same files over FTPES). 1MB, 5MB and 50MB using first SFTP and thenSFTP with restart of MR between each file."
 
 . ../common/testcase_common.sh $1 $2
 

@@ -23,7 +23,7 @@ symbolic links to these files to simulate PM files. The files names maches the f
 the events produced by the MR simulator. The dirs with the files will be mounted
 by the ftp containers, defined in the docker-compse file, when started
 
-# Starting/stopping the FTPS/SFTP server(s)
+# Starting/stopping the FTPES/SFTP server(s)
 
 Start: `docker-compose up`
 
