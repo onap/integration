@@ -17,8 +17,8 @@ HOST_PORT_TLS = 2223
 
 sftp_hosts=[]
 sftp_ports=[]
-ftps_hosts=[]
-ftps_ports=[]
+ftpes_hosts=[]
+ftpes_ports=[]
 num_ftp_servers=1
 
 def sumList(ctrArray):
@@ -423,69 +423,69 @@ def MR_reply(consumerGroup, consumerId):
 
 
     elif args.tc200:
-      return tc100(groupIndex, changeId, filePrefix, "ftps", "1MB")
+      return tc100(groupIndex, changeId, filePrefix, "ftpes", "1MB")
     elif args.tc201:
-      return tc100(groupIndex, changeId, filePrefix, "ftps", "5MB")
+      return tc100(groupIndex, changeId, filePrefix, "ftpes", "5MB")
     elif args.tc202:
-      return tc100(groupIndex, changeId, filePrefix, "ftps", "50MB")
+      return tc100(groupIndex, changeId, filePrefix, "ftpes", "50MB")
 
     elif args.tc210:
-      return tc110(groupIndex, changeId, filePrefix, "ftps")
+      return tc110(groupIndex, changeId, filePrefix, "ftpes")
     elif args.tc211:
-      return tc111(groupIndex, changeId, filePrefix, "ftps")
+      return tc111(groupIndex, changeId, filePrefix, "ftpes")
     elif args.tc212:
-      return tc112(groupIndex, changeId, filePrefix, "ftps")
+      return tc112(groupIndex, changeId, filePrefix, "ftpes")
     elif args.tc213:
-      return tc113(groupIndex, changeId, filePrefix, "ftps")
+      return tc113(groupIndex, changeId, filePrefix, "ftpes")
 
     elif args.tc220:
-      return tc120(groupIndex, changeId, filePrefix, "ftps")
+      return tc120(groupIndex, changeId, filePrefix, "ftpes")
     elif args.tc221:
-      return tc121(groupIndex, changeId, filePrefix, "ftps")
+      return tc121(groupIndex, changeId, filePrefix, "ftpes")
     elif args.tc222:
-      return tc122(groupIndex, changeId, filePrefix, "ftps")
+      return tc122(groupIndex, changeId, filePrefix, "ftpes")
 
     elif args.tc2000:
-      return tc1000(groupIndex, changeId, filePrefix, "ftps")
+      return tc1000(groupIndex, changeId, filePrefix, "ftpes")
     elif args.tc2001:
-      return tc1001(groupIndex, changeId, filePrefix, "ftps")
+      return tc1001(groupIndex, changeId, filePrefix, "ftpes")
 
     elif args.tc2100:
-      return tc1100(groupIndex, changeId, filePrefix, "ftps","1MB")
+      return tc1100(groupIndex, changeId, filePrefix, "ftpes","1MB")
     elif args.tc2101:
-      return tc1100(groupIndex, changeId, filePrefix, "ftps","50MB")
+      return tc1100(groupIndex, changeId, filePrefix, "ftpes","50MB")
     elif args.tc2102:
-      return tc1100(groupIndex, changeId, filePrefix, "ftps","50MB")
+      return tc1100(groupIndex, changeId, filePrefix, "ftpes","50MB")
     elif args.tc2200:
-      return tc1200(groupIndex, changeId, filePrefix, "ftps","1MB")
+      return tc1200(groupIndex, changeId, filePrefix, "ftpes","1MB")
     elif args.tc2201:
-      return tc1200(groupIndex, changeId, filePrefix, "ftps","5MB")
+      return tc1200(groupIndex, changeId, filePrefix, "ftpes","5MB")
     elif args.tc2202:
-      return tc1200(groupIndex, changeId, filePrefix, "ftps","50MB")
+      return tc1200(groupIndex, changeId, filePrefix, "ftpes","50MB")
     elif args.tc2300:
-      return tc1300(groupIndex, changeId, filePrefix, "ftps","1MB")
+      return tc1300(groupIndex, changeId, filePrefix, "ftpes","1MB")
     elif args.tc2301:
-      return tc1300(groupIndex, changeId, filePrefix, "ftps","5MB")
+      return tc1300(groupIndex, changeId, filePrefix, "ftpes","5MB")
     elif args.tc2302:
-      return tc1300(groupIndex, changeId, filePrefix, "ftps","50MB")
+      return tc1300(groupIndex, changeId, filePrefix, "ftpes","50MB")
 
     elif args.tc2500:
-      return tc1500(groupIndex, changeId, filePrefix, "ftps","1MB")
+      return tc1500(groupIndex, changeId, filePrefix, "ftpes","1MB")
 
     elif args.tc600:
-      return tc500(groupIndex, changeId, filePrefix, "ftps","1MB")
+      return tc500(groupIndex, changeId, filePrefix, "ftpes","1MB")
     elif args.tc601:
-      return tc500(groupIndex, changeId, filePrefix, "ftps","5MB")
+      return tc500(groupIndex, changeId, filePrefix, "ftpes","5MB")
     elif args.tc602:
-      return tc500(groupIndex, changeId, filePrefix, "ftps","50MB")
+      return tc500(groupIndex, changeId, filePrefix, "ftpes","50MB")
     elif args.tc610:
-      return tc510(groupIndex, changeId, filePrefix, "ftps", "1MB")
+      return tc510(groupIndex, changeId, filePrefix, "ftpes", "1MB")
     elif args.tc611:
-      return tc511(groupIndex, changeId, filePrefix, "ftps", "1KB")
+      return tc511(groupIndex, changeId, filePrefix, "ftpes", "1KB")
     elif args.tc650:
-      return tc510(groupIndex, changeId, filePrefix, "ftps", "50MB")
+      return tc510(groupIndex, changeId, filePrefix, "ftpes", "50MB")
     elif args.tc810:
-      return tc710(groupIndex, changeId, filePrefix, "ftps")
+      return tc710(groupIndex, changeId, filePrefix, "ftpes")
 
 
 #### Test case functions
@@ -1153,9 +1153,9 @@ def getEventName(fn,type,user,passwd, nodeIndex):
     nodeIndex=nodeIndex%num_ftp_servers
     port = sftp_ports[nodeIndex]
     ip = sftp_hosts[nodeIndex]
-    if (type == "ftps"):
-        port = ftps_ports[nodeIndex]
-        ip = ftps_hosts[nodeIndex]
+    if (type == "ftpes"):
+        port = ftpes_ports[nodeIndex]
+        ip = ftpes_hosts[nodeIndex]
 
     nameStr =        """{
                   "name": \"""" + fn + """",
@@ -1199,11 +1199,11 @@ if __name__ == "__main__":
 
     # IP addresses to use for ftp servers, using localhost if not env var is set
     sftp_sims = os.environ.get('SFTP_SIMS', 'localhost:1022')
-    ftps_sims = os.environ.get('FTPS_SIMS', 'localhost:21')
+    ftpes_sims = os.environ.get('FTPES_SIMS', 'localhost:21')
     num_ftp_servers = int(os.environ.get('NUM_FTP_SERVERS', 1))
 
     print("Configured sftp sims: " + sftp_sims)
-    print("Configured ftps sims: " + ftps_sims)
+    print("Configured ftpes sims: " + ftpes_sims)
     print("Configured number of ftp servers: " + str(num_ftp_servers))
 
     tmp=sftp_sims.split(',')
@@ -1212,11 +1212,11 @@ if __name__ == "__main__":
         sftp_hosts.append(hp[0])
         sftp_ports.append(hp[1])
 
-    tmp=ftps_sims.split(',')
+    tmp=ftpes_sims.split(',')
     for i in range(len(tmp)):
         hp=tmp[i].split(':')
-        ftps_hosts.append(hp[0])
-        ftps_ports.append(hp[1])
+        ftpes_hosts.append(hp[0])
+        ftpes_ports.append(hp[1])
 
     groups = os.environ.get('MR_GROUPS', 'OpenDcae-c12:PM_MEAS_FILES')
     print("Groups detected: " + groups )
@@ -1434,138 +1434,138 @@ if __name__ == "__main__":
         action='store_true',
         help='TC1500 - 700 ME, SFTP, 1MB files, 100 files per event, 35 events per poll, simulating 25h backlog of decreasing number of outdated files and then 20 event polls every 15min for 1h')
 
-# FTPS TCs with single ME
+# FTPES TCs with single ME
     parser.add_argument(
         '--tc200',
         action='store_true',
-        help='TC200 - One ME, FTPS, 1 1MB file, 1 event')
+        help='TC200 - One ME, FTPES, 1 1MB file, 1 event')
     parser.add_argument(
         '--tc201',
         action='store_true',
-        help='TC201 - One ME, FTPS, 1 5MB file, 1 event')
+        help='TC201 - One ME, FTPES, 1 5MB file, 1 event')
     parser.add_argument(
         '--tc202',
         action='store_true',
-        help='TC202 - One ME, FTPS, 1 50MB file, 1 event')
+        help='TC202 - One ME, FTPES, 1 50MB file, 1 event')
 
     parser.add_argument(
         '--tc210',
         action='store_true',
-        help='TC210 - One ME, FTPS, 1MB files, 1 file per event, 100 events, 1 event per poll.')
+        help='TC210 - One ME, FTPES, 1MB files, 1 file per event, 100 events, 1 event per poll.')
     parser.add_argument(
         '--tc211',
         action='store_true',
-        help='TC211 - One ME, FTPS, 1MB files, 100 files per event, 100 events, 1 event per poll.')
+        help='TC211 - One ME, FTPES, 1MB files, 100 files per event, 100 events, 1 event per poll.')
     parser.add_argument(
         '--tc212',
         action='store_true',
-        help='TC212 - One ME, FTPS, 5MB files, 100 files per event, 100 events, 1 event per poll.')
+        help='TC212 - One ME, FTPES, 5MB files, 100 files per event, 100 events, 1 event per poll.')
     parser.add_argument(
         '--tc213',
         action='store_true',
-        help='TC213 - One ME, FTPS, 1MB files, 100 files per event, 100 events. All events in one poll.')
+        help='TC213 - One ME, FTPES, 1MB files, 100 files per event, 100 events. All events in one poll.')
 
     parser.add_argument(
         '--tc220',
         action='store_true',
-        help='TC220 - One ME, FTPS, 1MB files, 100 files per event, 100 events, 1 event per poll. 10% of replies each: no response, empty message, slow response, 404-error, malformed json')
+        help='TC220 - One ME, FTPES, 1MB files, 100 files per event, 100 events, 1 event per poll. 10% of replies each: no response, empty message, slow response, 404-error, malformed json')
     parser.add_argument(
         '--tc221',
         action='store_true',
-        help='TC221 - One ME, FTPS, 1MB files, 100 files per event, 100 events, 1 event per poll. 10% missing files')
+        help='TC221 - One ME, FTPES, 1MB files, 100 files per event, 100 events, 1 event per poll. 10% missing files')
     parser.add_argument(
         '--tc222',
         action='store_true',
-        help='TC222 - One ME, FTPS, 1MB files, 100 files per event, 100 events. 1 event per poll. All files with identical name. ')
+        help='TC222 - One ME, FTPES, 1MB files, 100 files per event, 100 events. 1 event per poll. All files with identical name. ')
 
     parser.add_argument(
         '--tc2000',
         action='store_true',
-        help='TC2000 - One ME, FTPS, 1MB files, 100 files per event, endless number of events, 1 event per poll')
+        help='TC2000 - One ME, FTPES, 1MB files, 100 files per event, endless number of events, 1 event per poll')
     parser.add_argument(
         '--tc2001',
         action='store_true',
-        help='TC2001 - One ME, FTPS, 5MB files, 100 files per event, endless number of events, 1 event per poll')
+        help='TC2001 - One ME, FTPES, 5MB files, 100 files per event, endless number of events, 1 event per poll')
 
 
     parser.add_argument(
         '--tc2100',
         action='store_true',
-        help='TC2100 - 700 ME, FTPS, 1MB files, 100 files per event, endless number of events, 35 event per poll')
+        help='TC2100 - 700 ME, FTPES, 1MB files, 100 files per event, endless number of events, 35 event per poll')
     parser.add_argument(
         '--tc2101',
         action='store_true',
-        help='TC2101 - 700 ME, FTPS, 5MB files, 100 files per event, endless number of events, 35 event per poll')
+        help='TC2101 - 700 ME, FTPES, 5MB files, 100 files per event, endless number of events, 35 event per poll')
     parser.add_argument(
         '--tc2102',
         action='store_true',
-        help='TC2102 - 700 ME, FTPS, 50MB files, 100 files per event, endless number of events, 35 event per poll')
+        help='TC2102 - 700 ME, FTPES, 50MB files, 100 files per event, endless number of events, 35 event per poll')
 
     parser.add_argument(
         '--tc2200',
         action='store_true',
-        help='TC2200 - 700 ME, FTPS, 1MB files, 100 new files per event, endless number of events, 35 event per poll')
+        help='TC2200 - 700 ME, FTPES, 1MB files, 100 new files per event, endless number of events, 35 event per poll')
     parser.add_argument(
         '--tc2201',
         action='store_true',
-        help='TC2201 - 700 ME, FTPS, 5MB files, 100 new files per event, endless number of events, 35 event per poll')
+        help='TC2201 - 700 ME, FTPES, 5MB files, 100 new files per event, endless number of events, 35 event per poll')
     parser.add_argument(
         '--tc2202',
         action='store_true',
-        help='TC2202 - 700 ME, FTPS, 50MB files, 100 new files per event, endless number of events, 35 event per poll')
+        help='TC2202 - 700 ME, FTPES, 50MB files, 100 new files per event, endless number of events, 35 event per poll')
 
     parser.add_argument(
         '--tc2300',
         action='store_true',
-        help='TC2300 - 700 ME, FTPS, 1MB files, 100 files per event, endless number of events, 35 event per poll, 20 event polls every 15min')
+        help='TC2300 - 700 ME, FTPES, 1MB files, 100 files per event, endless number of events, 35 event per poll, 20 event polls every 15min')
     parser.add_argument(
         '--tc2301',
         action='store_true',
-        help='TC2301 - 700 ME, FTPS, 5MB files, 100 files per event, endless number of events, 35 event per poll, 20 event polls every 15min')
+        help='TC2301 - 700 ME, FTPES, 5MB files, 100 files per event, endless number of events, 35 event per poll, 20 event polls every 15min')
     parser.add_argument(
         '--tc2302',
         action='store_true',
-        help='TC2302 - 700 ME, FTPS, 50MB files, 100 files per event, endless number of events, 35 event per poll, 20 event polls every 15min')
+        help='TC2302 - 700 ME, FTPES, 50MB files, 100 files per event, endless number of events, 35 event per poll, 20 event polls every 15min')
 
     parser.add_argument(
         '--tc2500',
         action='store_true',
-        help='TC2500 - 700 ME, FTPS, 1MB files, 100 files per event, 35 events per poll, simulating 25h backlog of decreasing number of outdated files and then 20 event polls every 15min for 1h')
+        help='TC2500 - 700 ME, FTPES, 1MB files, 100 files per event, 35 events per poll, simulating 25h backlog of decreasing number of outdated files and then 20 event polls every 15min for 1h')
 
     parser.add_argument(
         '--tc600',
         action='store_true',
-        help='TC600 - 700 MEs, FTPS, 1MB files, 2 new files per event, 700 events, all event in one poll.')
+        help='TC600 - 700 MEs, FTPES, 1MB files, 2 new files per event, 700 events, all event in one poll.')
 
     parser.add_argument(
         '--tc601',
         action='store_true',
-        help='TC601 - 700 MEs, FTPS, 5MB files, 2 new files per event, 700 events, all event in one poll.')
+        help='TC601 - 700 MEs, FTPES, 5MB files, 2 new files per event, 700 events, all event in one poll.')
 
     parser.add_argument(
         '--tc602',
         action='store_true',
-        help='TC602 - 700 MEs, FTPS, 50MB files, 2 new files per event, 700 events, all event in one poll.')
+        help='TC602 - 700 MEs, FTPES, 50MB files, 2 new files per event, 700 events, all event in one poll.')
 
     parser.add_argument(
         '--tc610',
         action='store_true',
-        help='TC610 - 700 MEs, FTPS, 1MB files, 1 file per event, 3500 events, 700 event per poll.')
+        help='TC610 - 700 MEs, FTPES, 1MB files, 1 file per event, 3500 events, 700 event per poll.')
 
     parser.add_argument(
         '--tc611',
         action='store_true',
-        help='TC611 - 700 MEs, FTPS, 1KB files, 1 file per event, 3500 events, 700 event per poll.')
+        help='TC611 - 700 MEs, FTPES, 1KB files, 1 file per event, 3500 events, 700 event per poll.')
 
     parser.add_argument(
         '--tc650',
         action='store_true',
-        help='TC610 - 700 MEs, FTPS, 50MB files, 1 file per event, 3500 events, 700 event per poll.')
+        help='TC610 - 700 MEs, FTPES, 50MB files, 1 file per event, 3500 events, 700 event per poll.')
 
     parser.add_argument(
         '--tc810',
         action='store_true',
-        help='TC810 - 700 MEs, FTPS, 1MB files, 100 files per event, 3500 events, 35 event per poll.')
+        help='TC810 - 700 MEs, FTPES, 1MB files, 100 files per event, 3500 events, 35 event per poll.')
 
     args = parser.parse_args()
 
@@ -1713,8 +1713,8 @@ if __name__ == "__main__":
     for i in range(len(sftp_hosts)):
         print("Using " + str(sftp_hosts[i]) + ":" + str(sftp_ports[i]) + " for sftp server with index " + str(i) + " for sftp server address and port in file urls.")
 
-    for i in range(len(ftps_hosts)):
-        print("Using " + str(ftps_hosts[i]) + ":" + str(ftps_ports[i]) + " for ftps server with index " + str(i) + " for ftps server address and port in file urls.")
+    for i in range(len(ftpes_hosts)):
+        print("Using " + str(ftpes_hosts[i]) + ":" + str(ftpes_ports[i]) + " for ftpes server with index " + str(i) + " for ftpes server address and port in file urls.")
 
     print("Using up to " + str(num_ftp_servers) + " ftp servers, for each protocol for PNFs.")
 

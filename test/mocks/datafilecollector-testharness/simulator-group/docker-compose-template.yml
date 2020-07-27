@@ -76,7 +76,7 @@ services:
       - dfcnet
     environment:
       SFTP_SIMS: ${SFTP_SIMS}
-      FTPS_SIMS: ${FTPS_SIMS}
+      FTPES_SIMS: ${FTPES_SIMS}
       NUM_FTP_SERVERS: ${NUM_FTP_SERVERS}
       MR_GROUPS: ${MR_GROUPS}
       MR_FILE_PREFIX_MAPPING: ${MR_FILE_PREFIX_MAPPING}
@@ -145,7 +145,7 @@ services:
     networks:
       - dfcnet
     container_name: dfc_ftpes-server-vsftpd0
-    image: ftps_vsftpd:latest
+    image: ftpes_vsftpd:latest
     ports:
       - "1032:21"
     environment:
@@ -162,7 +162,7 @@ services:
     networks:
       - dfcnet
     container_name: dfc_ftpes-server-vsftpd1
-    image: ftps_vsftpd:latest
+    image: ftpes_vsftpd:latest
     ports:
       - "1033:21"
     environment:
@@ -179,7 +179,7 @@ services:
     networks:
       - dfcnet
     container_name: dfc_ftpes-server-vsftpd2
-    image: ftps_vsftpd:latest
+    image: ftpes_vsftpd:latest
     ports:
       - "1034:21"
     environment:
@@ -196,7 +196,7 @@ services:
     networks:
       - dfcnet
     container_name: dfc_ftpes-server-vsftpd3
-    image: ftps_vsftpd:latest
+    image: ftpes_vsftpd:latest
     ports:
       - "1035:21"
     environment:
@@ -213,7 +213,7 @@ services:
     networks:
       - dfcnet
     container_name: dfc_ftpes-server-vsftpd4
-    image: ftps_vsftpd:latest
+    image: ftpes_vsftpd:latest
     ports:
       - "1036:21"
     environment:
