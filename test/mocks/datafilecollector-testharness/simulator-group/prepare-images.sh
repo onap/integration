@@ -12,8 +12,8 @@ cd ../dr-sim
 
 docker build -t drsim_common:latest .
 
-#Build image for ftps server
-cd ../ftps-sftp-server
+#Build image for ftpes server
+cd ../ftpes-sftp-server
 
-docker build -t ftps_vsftpd:latest -f Dockerfile-ftps .
+docker build -t ftpes_vsftpd:latest -f Dockerfile-ftpes .
 

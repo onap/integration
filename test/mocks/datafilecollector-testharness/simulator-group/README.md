@@ -33,11 +33,11 @@ There are 5 different types of simulators. For futher details, see the README.md
 4. The SFTP simulator(s) handles the ftp download requests. 5 of these simulators are always started and in the MR sim it is
    possible to configure the distrubution of files over these 5 servers (from 1 up to 5 severs). At start of the server, the server is
    populated with files to download.
-5. The FTPS simulator(s) is the same as the SFTP except that it using the FTPS protocol.
+5. The FTPES simulator(s) is the same as the SFTP except that it using the FTPES protocol.
 
 # Build the simulator images
 
-Run the script `prepare-images.sh` to build the docker images for MR, DR and FTPS servers.
+Run the script `prepare-images.sh` to build the docker images for MR, DR and FTPES servers.
 
 # Edit simulator env variables
 
@@ -63,9 +63,9 @@ Do the manual steps to prepare the simulator images:
 - Run the docker build command to build the image for the MR simulator: 'docker build -t mrsim:latest .'
 - cd ../dr-sim
 - Run the docker build command to build the image for the DR simulators: \`docker build -t drsim_common:latest .'
-- cd ../ftps-sftp-server
-- Check the README.md in ftps-sftp-server dir in case the cert need to be updated.
-- Run the docker build command to build the image for the DR simulators: \`docker build -t ftps_vsftpd:latest -f Dockerfile-ftps .'
+- cd ../ftpes-sftp-server
+- Check the README.md in ftpes-sftp-server dir in case the cert need to be updated.
+- Run the docker build command to build the image for the DR simulators: \`docker build -t ftpes_vsftpd:latest -f Dockerfile-ftpes .'
 
 ## Execution
 
@@ -91,16 +91,16 @@ NUM_PNFS="2"                  #Two PNFs
 
 To minimize the number of ftp file creation, the following two variables can be configured in the same file.
 FILE_SIZE="1MB"               #File size for FTP file (1KB, 1MB, 5MB, 50MB or ALL)
-FTP_TYPE="SFTP"               #Type of FTP files to generate (SFTP, FTPS or ALL)
+FTP_TYPE="SFTP"               #Type of FTP files to generate (SFTP, FTPES or ALL)
 
-If `FTP_TYPE` is set to `ALL`, both ftp servers will be populated with the same files. If set to `SFTP` or `FTPS` then only the server serving that protocol will be populated with files.
+If `FTP_TYPE` is set to `ALL`, both ftp servers will be populated with the same files. If set to `SFTP` or `FTPES` then only the server serving that protocol will be populated with files.
 
 Run the script `docker-compose-setup.sh`to create a docker-compose with the desired settings. The desired setting
 in the script need to be manually adapted to for each specific simulator behavior according to the above. Check each simulator for available
 parameters.
 All simulators will be started with the generated docker-compose.yml file
 
-To generate ftp url with IP different from localhost, set SFTP_SIM_IP and/or FTPS_SIM_IP env variables to the addreses of the ftp servers before starting. 
+To generate ftp url with IP different from localhost, set SFTP_SIM_IP and/or FTPES_SIM_IP env variables to the addreses of the ftp servers before starting. 
 So farm, this only works when the simulator python script is started from the command line.
 
 Kill all the containers with `simulators-kill.se`

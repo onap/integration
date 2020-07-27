@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TC_ONELINE_DESCR="3500 50MB files from 700 PNFs in 3500 events in 5 polls using FTPS, from poll to publish."
+TC_ONELINE_DESCR="3500 50MB files from 700 PNFs in 3500 events in 5 polls using FTPES, from poll to publish."
 
 . ../common/testcase_common.sh $1 $2
 
@@ -21,7 +21,7 @@ export DR_REDIR_FEEDS="2:A"
 export NUM_FTPFILES="5"
 export NUM_PNFS="700"
 export FILE_SIZE="50MB"
-export FTP_TYPE="FTPS"
+export FTP_TYPE="FTPES"
 export FTP_FILE_PREFIXES="A"
 export NUM_FTP_SERVERS=5
 

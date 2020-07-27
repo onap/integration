@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TC_ONELINE_DESCR="Maximum number of 1MB FTPS files during 24h, 700 PNFs. 100 new files per event."
+TC_ONELINE_DESCR="Maximum number of 1MB FTPES files during 24h, 700 PNFs. 100 new files per event."
 
 . ../common/testcase_common.sh $1 $2
 
@@ -21,7 +21,7 @@ export DR_REDIR_FEEDS="2:A"
 export NUM_FTPFILES="4000"
 export NUM_PNFS="700"
 export FILE_SIZE="1MB"
-export FTP_TYPE="FTPS"
+export FTP_TYPE="FTPES"
 export FTP_FILE_PREFIXES="A"
 export NUM_FTP_SERVERS=5
 
