@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TC_ONELINE_DESCR="One 1MB file from one PNF in one event using FTPS, from poll to publish"
+TC_ONELINE_DESCR="One 1MB file from one PNF in one event using FTPES, from poll to publish"
 
 . ../common/testcase_common.sh $1 $2
 
@@ -21,7 +21,7 @@ export DR_REDIR_FEEDS="1:A"
 export NUM_FTPFILES="10"
 export NUM_PNFS="1"
 export FILE_SIZE="1MB"
-export FTP_TYPE="FTPS"
+export FTP_TYPE="FTPES"
 export FTP_FILE_PREFIXES="A"
 export NUM_FTP_SERVERS=1
 

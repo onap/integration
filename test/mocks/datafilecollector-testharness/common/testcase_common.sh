@@ -151,15 +151,15 @@ fi
 
 echo ""
 
-echo "Building images for the simulators if needed, MR, DR, DR Redir and FTPS simulators"
+echo "Building images for the simulators if needed, MR, DR, DR Redir and FTPES simulators"
 curdir=$PWD
 cd $SIM_GROUP
 cd ../dr-sim
 docker build -t drsim_common:latest . &> /dev/null
 cd ../mr-sim
 docker build -t mrsim:latest . &> /dev/null
-cd ../ftps-sftp-server
-docker build -t ftps_vsftpd:latest -f Dockerfile-ftps . &> /dev/null
+cd ../ftpes-sftp-server
+docker build -t ftpes_vsftpd:latest -f Dockerfile-ftpes . &> /dev/null
 cd $curdir
 
 echo ""
@@ -169,7 +169,7 @@ echo "MR simulator        " $(docker images | grep mrsim)
 echo "DR simulator:       " $(docker images | grep drsim_common)
 echo "DR redir simulator: " $(docker images | grep drsim_common)
 echo "SFTP:               " $(docker images | grep atmoz/sftp)
-echo "FTPS:               " $(docker images | grep ftps_vsftpd)
+echo "FTPES:               " $(docker images | grep ftpes_vsftpd)
 echo "Consul:             " $(docker images | grep consul)
 echo "CBS:                " $(docker images | grep platform.configbinding.app)
 echo ""
@@ -178,12 +178,12 @@ echo ""
 #Configure DR sim with correct address for DR redirect simulator
 if [ $START_ARG == "manual-app" ]; then
 	export SFTP_SIMS=$SFTP_SIMS_LOCALHOST
-	export FTPS_SIMS=$FTPS_SIMS_LOCALHOST
+	export FTPES_SIMS=$FTPES_SIMS_LOCALHOST
 	export DR_REDIR_SIM="localhost"
 fi
 #else
 #	export SFTP_SIMS=$SFTP_SIMS_CONTAINER
-#	export FTPS_SIMS=$FTPS_SIMS_CONTAINER
+#	export FTPES_SIMS=$FTPES_SIMS_CONTAINER
 #	export DR_REDIR_SIM="drsim_redir"
 #fi
 
@@ -507,7 +507,7 @@ log_sim_settings() {
 	echo "FTP_FILE_PREFIXES=     "$FTP_FILE_PREFIXES
 	echo "NUM_FTP_SERVERS=       "$NUM_FTP_SERVERS
 	echo "SFTP_SIMS=             "$SFTP_SIMS
-	echo "FTPS_SIMS=             "$FTPS_SIMS
+	echo "FTPES_SIMS=             "$FTPES_SIMS
 	echo ""
 }
 
@@ -699,11 +699,11 @@ start_sftp() {
 	__docker_start $appname
 }
 
-# Stop and remove the FTPS container, arg: <ftps-instance-id>
-kill_ftps() {
+# Stop and remove the FTPES container, arg: <ftpes-instance-id>
+kill_ftpes() {
 
 	if [ $# != 1 ]; then
-    	__print_err "need one arg, <ftpS-instance-id>"
+    	__print_err "need one arg, <ftpes-instance-id>"
 		exit 1
 	fi
 
@@ -711,19 +711,19 @@ kill_ftps() {
 		__print_err "arg should be 0.."$FTP_MAX_IDX
 		exit 1
 	fi
-	appname=$FTPS_BASE$1
+	appname=$FTPES_BASE$1
 
-	echo "Killing FTPS, instance id: "$1
+	echo "Killing FTPES, instance id: "$1
 
 	__docker_stop $appname
 	__docker_rm $appname
 }
 
-# Stop FTPS container, arg: <ftps-instance-id>
-stop_ftps() {
+# Stop FTPES container, arg: <ftpes-instance-id>
+stop_ftpes() {
 
 	if [ $# != 1 ]; then
-    	__print_err "need one arg, <ftps-instance-id>"
+    	__print_err "need one arg, <ftpes-instance-id>"
 		exit 1
 	fi
 
@@ -731,18 +731,18 @@ stop_ftps() {
 		__print_err "arg should be 0.."$FTP_MAX_IDX
 		exit 1
 	fi
-	appname=$FTPS_BASE$1
+	appname=$FTPES_BASE$1
 
-	echo "Stopping FTPS, instance id: "$1
+	echo "Stopping FTPES, instance id: "$1
 
 	__docker_stop $appname
 }
 
-# Starts a stopped FTPS container, arg: <ftps-instance-id>
-start_ftps() {
+# Starts a stopped FTPES container, arg: <ftpes-instance-id>
+start_ftpes() {
 
 	if [ $# != 1 ]; then
-    	__print_err "need one arg, <ftps-instance-id>"
+    	__print_err "need one arg, <ftpes-instance-id>"
 		exit 1
 	fi
 
@@ -750,9 +750,9 @@ start_ftps() {
 		__print_err "arg should be 0.."$FTP_MAX_IDX
 		exit 1
 	fi
-	appname=$FTPS_BASE$1
+	appname=$FTPES_BASE$1
 
-	echo "Starting FTPS, instance id: "$1
+	echo "Starting FTPES, instance id: "$1
 
 	__docker_start $appname
 }
@@ -1128,7 +1128,7 @@ store_logs() {
 	for (( i=0; i<=$FTP_MAX_IDX; i++ )); do
 		appname=$SFTP_BASE$i
 		docker logs $appname > $TESTLOGS/$ATC/${1}_${appname}.log 2>&1
-		appname=$FTPS_BASE$i
+		appname=$FTPES_BASE$i
 		docker logs $appname > $TESTLOGS/$ATC/${1}_${appname}.log 2>&1
 	done
 

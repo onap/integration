@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TC_ONELINE_DESCR="Kill FTPS sever for 10+ sec during download"
+TC_ONELINE_DESCR="Kill FTPES sever for 10+ sec during download"
 
 . ../common/testcase_common.sh $1 $2
 
@@ -21,7 +21,7 @@ export DR_REDIR_FEEDS="2:A"
 export NUM_FTPFILES="2"
 export NUM_PNFS="700"
 export FILE_SIZE="1MB"
-export FTP_TYPE="FTPS"
+export FTP_TYPE="FTPES"
 export FTP_FILE_PREFIXES="A"
 export NUM_FTP_SERVERS=1
 
@@ -42,9 +42,9 @@ start_dfc           0
 
 dr_greater          ctr_published_files                  100 200
 
-stop_ftps           0
+stop_ftpes           0
 sleep_wait          30
-start_ftps          0
+start_ftpes          0
 
 dr_equal            ctr_published_files                  1400 400
 
