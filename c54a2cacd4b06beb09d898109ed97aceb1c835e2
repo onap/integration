@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "315b3cc0_7a914b7f",
+        "filename": "test/security/check_versions/src/k8s_bin_versions_inspector.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2020-07-28T13:06:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0bbd451f_2adb9030",
+      "revId": "c54a2cacd4b06beb09d898109ed97aceb1c835e2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fbba936a_b7b861fb",
         "filename": "test/security/check_versions/src/k8s_bin_versions_inspector.py",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "c54a2cacd4b06beb09d898109ed97aceb1c835e2",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "863a79f2_1ad63710",
+        "filename": "test/security/check_versions/src/k8s_bin_versions_inspector.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2020-07-28T13:06:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbba936a_b7b861fb",
+      "revId": "c54a2cacd4b06beb09d898109ed97aceb1c835e2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
