@@ -7,6 +7,6 @@
   file:
     state: absent
     path: "{{ item }}"
-  with_items:
+  loop:
     - "~/.ssh/{{ keypair.name }}.pub"
     - "~/.ssh/{{ keypair.name }}"
