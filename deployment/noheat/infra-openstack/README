@@ -22,8 +22,8 @@ Configuration
 Dependencies
 ~~~~~~~~~~~~
 
-- Ansible
-- openstacksdk_
+- Ansible: tested on 2.9.9 (using Python 3.5.2)
+- openstacksdk_: tested on 0.46.0 (using Python 3.5.2)
 
 .. _openstacksdk: https://pypi.org/project/openstacksdk
 
