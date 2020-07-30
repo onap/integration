@@ -10,8 +10,8 @@ Prerequisites
 Dependencies
 ~~~~~~~~~~~~
 
-- make
-- git
+- make: tested on 4.1
+- git: tested on 2.17.1
 
 
 Running
