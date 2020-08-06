@@ -267,7 +267,7 @@ ssh_agent_auth: false
 authorization:
   mode: rbac
 ignore_docker_version: false
-kubernetes_version: "v1.15.11-rancher1-1"
+kubernetes_version: "v1.15.3-rancher1-1"
 private_registries:
 - url: $DOCKER_PROXY
   is_default: true
