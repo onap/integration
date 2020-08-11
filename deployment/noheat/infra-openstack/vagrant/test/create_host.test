@@ -5,8 +5,13 @@ export HOST_NAME='operator0'
 export VAGRANT_CWD='..'
 
 set_up() {
-    vagrant up --provision-with=run_playbook_destroy
-    vagrant up --provision-with=run_playbook_create
+    vagrant up
+    vagrant provision --provision-with=run_playbook_destroy
+    vagrant provision --provision-with=run_playbook_create
+}
+
+tear_down() {
+    vagrant provision --provision-with=run_playbook_destroy
 }
 
 check() {
@@ -19,3 +24,4 @@ check() {
 
 set_up >/dev/null # drop provisioning output
 check "$HOST_NAME"
+tear_down >/dev/null # drop provisioning output
