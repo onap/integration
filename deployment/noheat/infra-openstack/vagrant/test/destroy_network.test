@@ -5,8 +5,9 @@ export NETWORK_NAME='onap_ci_lab'
 export VAGRANT_CWD='..'
 
 set_up() {
-    vagrant up --provision-with=run_playbook_create
-    vagrant up --provision-with=run_playbook_destroy
+    vagrant up
+    vagrant provision --provision-with=run_playbook_create
+    vagrant provision --provision-with=run_playbook_destroy
 }
 
 check() {
