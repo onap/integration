@@ -8,9 +8,8 @@ BINARIES := $(addprefix ${BUILD_DIR}/, ${BINARIES})
 all: docker-build
 
 .PHONY: build
-build:
-	mkdir -p "${BUILD_DIR}"
-	go build -o "${BUILD_DIR}/${BINARIES}"
+build: ${BUILD_DIR}
+	go build -o "${BINARIES}"
 
 .PHONY: clean
 clean: clean-docker-build clean-build
