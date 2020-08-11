@@ -55,24 +55,24 @@ var _ = Describe("Ports", func() {
 
 	BeforeEach(func() {
 		csvSomeUnparsable = [][]string{
-			[]string{serviceR, strconv.Itoa(nodePortO)},
-			[]string{serviceL, strconv.Itoa(nodePortN)},
-			[]string{serviceZ, notParsablePort1},
+			{serviceR, strconv.Itoa(nodePortO)},
+			{serviceL, strconv.Itoa(nodePortN)},
+			{serviceZ, notParsablePort1},
 		}
 		csvAllUnparsable = [][]string{
-			[]string{serviceR, notParsablePort1},
-			[]string{serviceL, notParsablePort2},
-			[]string{serviceZ, notParsablePort3},
+			{serviceR, notParsablePort1},
+			{serviceL, notParsablePort2},
+			{serviceZ, notParsablePort3},
 		}
 
 		servicesEmpty = &v1.ServiceList{}
 		servicesSingleWithNodePort = &v1.ServiceList{
 			Items: []v1.Service{
-				v1.Service{
+				{
 					ObjectMeta: metav1.ObjectMeta{Name: serviceR},
 					Spec: v1.ServiceSpec{
 						Ports: []v1.ServicePort{
-							v1.ServicePort{NodePort: nodePortO},
+							{NodePort: nodePortO},
 						},
 					},
 				},
@@ -80,12 +80,12 @@ var _ = Describe("Ports", func() {
 		}
 		servicesSingleWithMultipleNodePorts = &v1.ServiceList{
 			Items: []v1.Service{
-				v1.Service{
+				{
 					ObjectMeta: metav1.ObjectMeta{Name: serviceR},
 					Spec: v1.ServiceSpec{
 						Ports: []v1.ServicePort{
-							v1.ServicePort{NodePort: nodePortO},
-							v1.ServicePort{NodePort: nodePortN},
+							{NodePort: nodePortO},
+							{NodePort: nodePortN},
 						},
 					},
 				},
@@ -93,17 +93,17 @@ var _ = Describe("Ports", func() {
 		}
 		servicesManyWithoutNodePorts = &v1.ServiceList{
 			Items: []v1.Service{
-				v1.Service{
+				{
 					Spec: v1.ServiceSpec{
 						Ports: []v1.ServicePort{
-							v1.ServicePort{NodePort: notNodePort},
+							{NodePort: notNodePort},
 						},
 					},
 				},
-				v1.Service{
+				{
 					Spec: v1.ServiceSpec{
 						Ports: []v1.ServicePort{
-							v1.ServicePort{NodePort: notNodePort},
+							{NodePort: notNodePort},
 						},
 					},
 				},
@@ -111,19 +111,19 @@ var _ = Describe("Ports", func() {
 		}
 		servicesManyWithNodePort = &v1.ServiceList{
 			Items: []v1.Service{
-				v1.Service{
+				{
 					ObjectMeta: metav1.ObjectMeta{Name: serviceR},
 					Spec: v1.ServiceSpec{
 						Ports: []v1.ServicePort{
-							v1.ServicePort{NodePort: nodePortO},
+							{NodePort: nodePortO},
 						},
 					},
 				},
-				v1.Service{
+				{
 					ObjectMeta: metav1.ObjectMeta{Name: serviceL},
 					Spec: v1.ServiceSpec{
 						Ports: []v1.ServicePort{
-							v1.ServicePort{NodePort: nodePortN},
+							{NodePort: nodePortN},
 						},
 					},
 				},
@@ -131,21 +131,21 @@ var _ = Describe("Ports", func() {
 		}
 		servicesManyWithMultipleNodePorts = &v1.ServiceList{
 			Items: []v1.Service{
-				v1.Service{
+				{
 					ObjectMeta: metav1.ObjectMeta{Name: serviceR},
 					Spec: v1.ServiceSpec{
 						Ports: []v1.ServicePort{
-							v1.ServicePort{NodePort: nodePortO},
-							v1.ServicePort{NodePort: nodePortN},
+							{NodePort: nodePortO},
+							{NodePort: nodePortN},
 						},
 					},
 				},
-				v1.Service{
+				{
 					ObjectMeta: metav1.ObjectMeta{Name: serviceL},
 					Spec: v1.ServiceSpec{
 						Ports: []v1.ServicePort{
-							v1.ServicePort{NodePort: nodePortA},
-							v1.ServicePort{NodePort: nodePortP},
+							{NodePort: nodePortA},
+							{NodePort: nodePortP},
 						},
 					},
 				},
@@ -153,28 +153,28 @@ var _ = Describe("Ports", func() {
 		}
 		servicesManyMixedNodePorts = &v1.ServiceList{
 			Items: []v1.Service{
-				v1.Service{
+				{
 					ObjectMeta: metav1.ObjectMeta{Name: serviceR},
 					Spec: v1.ServiceSpec{
 						Ports: []v1.ServicePort{
-							v1.ServicePort{NodePort: notNodePort},
+							{NodePort: notNodePort},
 						},
 					},
 				},
-				v1.Service{
+				{
 					ObjectMeta: metav1.ObjectMeta{Name: serviceL},
 					Spec: v1.ServiceSpec{
 						Ports: []v1.ServicePort{
-							v1.ServicePort{NodePort: nodePortO},
+							{NodePort: nodePortO},
 						},
 					},
 				},
-				v1.Service{
+				{
 					ObjectMeta: metav1.ObjectMeta{Name: serviceZ},
 					Spec: v1.ServiceSpec{
 						Ports: []v1.ServicePort{
-							v1.ServicePort{NodePort: nodePortN},
-							v1.ServicePort{NodePort: nodePortA},
+							{NodePort: nodePortN},
+							{NodePort: nodePortA},
 						},
 					},
 				},
@@ -184,11 +184,11 @@ var _ = Describe("Ports", func() {
 		nodesEmpty = &v1.NodeList{}
 		nodesSingleWithIP = &v1.NodeList{
 			Items: []v1.Node{
-				v1.Node{
+				{
 					Status: v1.NodeStatus{
 						Addresses: []v1.NodeAddress{
-							v1.NodeAddress{Type: "InternalIP", Address: internalIpControl},
-							v1.NodeAddress{Type: "Hostname", Address: hostnameControl},
+							{Type: "InternalIP", Address: internalIpControl},
+							{Type: "Hostname", Address: hostnameControl},
 						},
 					},
 				},
@@ -196,12 +196,12 @@ var _ = Describe("Ports", func() {
 		}
 		nodesSingleWithBothIPs = &v1.NodeList{
 			Items: []v1.Node{
-				v1.Node{
+				{
 					Status: v1.NodeStatus{
 						Addresses: []v1.NodeAddress{
-							v1.NodeAddress{Type: "ExternalIP", Address: externalIpControl},
-							v1.NodeAddress{Type: "InternalIP", Address: internalIpControl},
-							v1.NodeAddress{Type: "Hostname", Address: hostnameControl},
+							{Type: "ExternalIP", Address: externalIpControl},
+							{Type: "InternalIP", Address: internalIpControl},
+							{Type: "Hostname", Address: hostnameControl},
 						},
 					},
 				},
@@ -209,17 +209,17 @@ var _ = Describe("Ports", func() {
 		}
 		nodesManyWithHostnames = &v1.NodeList{
 			Items: []v1.Node{
-				v1.Node{
+				{
 					Status: v1.NodeStatus{
 						Addresses: []v1.NodeAddress{
-							v1.NodeAddress{Type: "Hostname", Address: hostnameControl},
+							{Type: "Hostname", Address: hostnameControl},
 						},
 					},
 				},
-				v1.Node{
+				{
 					Status: v1.NodeStatus{
 						Addresses: []v1.NodeAddress{
-							v1.NodeAddress{Type: "Hostname", Address: hostnameWorker},
+							{Type: "Hostname", Address: hostnameWorker},
 						},
 					},
 				},
@@ -227,20 +227,20 @@ var _ = Describe("Ports", func() {
 		}
 		nodesManyWithMixedIPs = &v1.NodeList{
 			Items: []v1.Node{
-				v1.Node{
+				{
 					Status: v1.NodeStatus{
 						Addresses: []v1.NodeAddress{
-							v1.NodeAddress{Type: "ExternalIP", Address: externalIpControl},
-							v1.NodeAddress{Type: "InternalIP", Address: internalIpControl},
-							v1.NodeAddress{Type: "Hostname", Address: hostnameControl},
+							{Type: "ExternalIP", Address: externalIpControl},
+							{Type: "InternalIP", Address: internalIpControl},
+							{Type: "Hostname", Address: hostnameControl},
 						},
 					},
 				},
-				v1.Node{
+				{
 					Status: v1.NodeStatus{
 						Addresses: []v1.NodeAddress{
-							v1.NodeAddress{Type: "InternalIP", Address: internalIpWorker},
-							v1.NodeAddress{Type: "Hostname", Address: hostnameWorker},
+							{Type: "InternalIP", Address: internalIpWorker},
+							{Type: "Hostname", Address: hostnameWorker},
 						},
 					},
 				},
