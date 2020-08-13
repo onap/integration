@@ -381,10 +381,12 @@ def determine_versions_abstraction(
     """
 
     commands = ([binary, "--version"] for binary in binaries)
+    commands_old = ([binary, "-version"] for binary in binaries)
+    commands_all = itertools.chain(commands, commands_old)
 
     # TODO: This list comprehension should be parallelized
     results = (
-        sync_post_namespaced_pod_exec(api, container, command) for command in commands
+        sync_post_namespaced_pod_exec(api, container, command) for command in commands_all
     )
 
     successes = (
@@ -439,7 +441,7 @@ def determine_versions_of_java(
         List of installed OpenJDK versions.
     """
 
-    extractor = re.compile("openjdk ([0-9.]+)")
+    extractor = re.compile("openjdk [version\" ]*([0-9._]+)")
 
     binaries = generate_java_binaries()
 
