@@ -24,7 +24,7 @@ How to Use
 The use case has been automated by vcpe_tosca_test scripts. The followings are the main steps to run the use case in Integration lab environment:
 
 1) Install ONAP CLI environment, open_cli_product is onap-dublin.
-
+   Use https://git.onap.org/integration/tree/test/vcpe_tosca/local/scripts/install-alpine.sh to install ONAP CLI.
 
 2) Prepare openstack test environment.
 
@@ -82,15 +82,17 @@ The use case has been automated by vcpe_tosca_test scripts. The followings are t
    Secondly, update the values according to your environment.
 
    ::
-
+      "open_cli_product": set to CLI product you installed, onap-dublin is OK for this test.
       "open_cli_home": set to the oclip home path,
       "aai_url": set to msb ip and port you used,
       "msb_url": set to msb ip and port you used,
       "multicloud_url": set to msb ip and port you used,
 
+      "complex_name": set to any complex name you want to use, the name must be unique
+
       "cloud_region_data": {
            "RegionOne":(update to your Region name) {
-               "cloud-region-version": the cloud region version of your Cloud region,
+               "cloud-region-version": the cloud region version of your Cloud region, you can keep "titanium_cloud"
                 "esr-system-info-id": "1111ce1f-aa78-4ebf-8d6f-4b62773e9b01",
                 "service-url": the ip change to your openstack ip address,
                 "user-name": the user name you created on openstack,
@@ -105,22 +107,48 @@ The use case has been automated by vcpe_tosca_test scripts. The followings are t
                 "system-status": "active"
            }
       }
+
+      "cloud-owner": set to any cloud name you want to use, , the name must be unique
+      "service_name": set to any service name you want to use, the name must be unique
+      "customer_name": set to any customer name you want to use, the name must be unique
+      "subscriber_name": set to any subscriber name you want to use, the name must be unique
+
       "vfc-url": set to msb ip and port you used,
       "vnfs": {
-           "vgw": {
-               "path": "vgw.csar", set to your vnf csar file path
-                "key": "key2",
-                "value": "value2"
-           }
-        },
-       "ns": {
+          "vgw": {
+              "path": "/csar/vgw.csar", set to you vgw csar file path
+              "key": "key2",
+              "value": "value2"
+          },
+          "infra": {
+              "path": "/csar/infra.csar", set to you infra csar file path
+              "key": "key2",
+              "value": "value2"
+          },
+          "vbng": {
+              "path": "/csar/vbng.csar", set to you vbng csar file path
+              "key": "key2",
+              "value": "value2"
+          },
+          "vbrgemu": {
+              "path": "/csar/vbrgemu.csar", set to you vbrgemu csar file path
+              "key": "key2",
+              "value": "value2"
+          },
+          "vgmux": {
+              "path": "/csar/vgmux.csar", set to you vgmux csar file path
+              "key": "key2",
+              "value": "value2"
+          }
+      },
+      "ns": {
            "key": "key1",
            "value": "value1",
            "path": "ns_vgw.csar", set to you ns csar file path
            "name": "vcpe11"
-       },
+      },
       "location": "VCPE22_RegionOne", set to CloudOwner_CloudRegion
-       "vnfm_params": {
+      "vnfm_params": {
            "GVNFMDRIVER": {
                "type": "gvnfmdriver",
                "vendor": "vfc",
@@ -130,8 +158,8 @@ The use case has been automated by vcpe_tosca_test scripts. The followings are t
                 "user-name": "admin",
                 "user-password": "admin",
                 "vnfm-version": "v1.0"
-            }
-        }
+           }
+      }
 
 
 4) The vnf csar file include Infra, vGW, vBNG, vBRGEMU and vGMUX, and the ns csar file is ns. https://git.onap.org/integration/tree/test/vcpe_tosca/local/csar
@@ -162,9 +190,11 @@ The use case has been automated by vcpe_tosca_test scripts. The followings are t
 
 Note
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-1) You should create an image named image before running the test script, the name must be the same with image which is defined in vnf csar file.
+1) You must authorize admin to vcpe_case when managing project members in openstack.
 
-2) You should install ONAP CLI before running the script.
+2) You should create an image named image before running the test script, the name must be the same with image which is defined in vnf csar file.
+
+3) You should install ONAP CLI before running the script.
 
 
 Known Issues and Workaround

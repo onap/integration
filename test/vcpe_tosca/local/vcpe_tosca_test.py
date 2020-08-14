@@ -38,6 +38,17 @@ class VcpeToscaTest(unittest.TestCase):
         os.environ["OPEN_CLI_HOME"] = self.config_params["open_cli_home"]
         print("Set cli command environment--successful")
 
+        self.complex_version = None
+        self.cloud_version = None
+        self.service_type_version = None
+        self.customer_version = None
+        self.tenant_id = None
+        self.subscription_version = None
+        self.esr_vnfm_version = self.esr_vnfm_id = None
+        self.ns_instance_id = None
+        self.ns_package_id = None
+        self.vnf_package_list = []
+
         print("Create cloud complex--beginning")
         self.create_complex()
         print("Create cloud complex--successful")
@@ -47,16 +58,16 @@ class VcpeToscaTest(unittest.TestCase):
         print("Register all clouds--successful")
         time.sleep(30)
 
-        print("create vCPE service")
+        print("Create vCPE service")
         self.create_service_type()
 
-        print("create customer")
+        print("Create customer")
         self.create_customer()
 
         print("Get tenant id")
         self.get_tenant_id()
 
-        print("add customer and subscription")
+        print("Add customer and subscription")
         self.add_customer_subscription()
 
         print("Register vnfm")
@@ -107,7 +118,6 @@ class VcpeToscaTest(unittest.TestCase):
         return out_list
 
     def create_complex(self):
-        self.complex_version = None
         complex_create_string = "oclip complex-create -j {} -r {} -x {} -y {} -lt {} -l {} -i {} -lo {} \
                              -S {} -la {} -g {} -w {} -z {} -k {} -o {} -q {} -m {} -u {} -p {}".format(
             self.config_params["street2"], self.config_params["physical_location"],
@@ -145,7 +155,6 @@ class VcpeToscaTest(unittest.TestCase):
 
     def register_cloud_helper(self, cloud_region, values):
         print("Create Cloud--beginning")
-        self.cloud_version = None
         cloud_create_string = 'oclip cloud-create -e {} -b {} ' \
                               '-x {} -y {} -j {} -w {} -l {} -url {} -n {} -q {} -r {} -Q {} -i {} -g {} \
                               -z {} -k {} -c {} -m {} -u {} -p {}' \
@@ -220,7 +229,6 @@ class VcpeToscaTest(unittest.TestCase):
         self.cloud_version = None
 
     def create_service_type(self):
-        self.service_type_version = None
         create_string = "oclip service-type-create -x {} -y {} -m {} -u {} -p {}".format(
             self.config_params["service_name"], self.config_params["service_name"], self.config_params["aai_url"],
             self.config_params["aai_username"], self.config_params["aai_password"])
@@ -245,7 +253,6 @@ class VcpeToscaTest(unittest.TestCase):
         self.service_type_version = None
 
     def create_customer(self):
-        self.customer_version = None
         create_string = "oclip customer-create -x {} -y {} -m {} -u {} -p {}".format(
             self.config_params["customer_name"],
             self.config_params["subscriber_name"],
@@ -274,7 +281,6 @@ class VcpeToscaTest(unittest.TestCase):
 
     def get_tenant_id(self):
         print("Get tenant id--beginning")
-        self.tenant_id = None
         cloud_dictionary = self.config_params["cloud_region_data"]
         cloud_region = list(self.config_params["cloud_region_data"].keys())[0]
 
@@ -291,7 +297,6 @@ class VcpeToscaTest(unittest.TestCase):
                     print("Tenant id is %s ." % self.tenant_id)
 
     def add_customer_subscription(self):
-        self.subscription_version = None
         subscription_check = 0
         for cloud_region, cloud_region_values in (self.config_params["cloud_region_data"]).items():
             if subscription_check == 0:
@@ -336,7 +341,6 @@ class VcpeToscaTest(unittest.TestCase):
 
     def register_vnfm_helper(self, vnfm_key, values):
         print("Create vnfm--beginning")
-        self.esr_vnfm_version = None
         self.esr_vnfm_id = str(uuid.uuid4())
         vnfm_create_string = 'oclip vnfm-create -b {} -c {} -e {} -v {} -g {} -x {} ' \
                              '-y {} -i {} -j {} -q {} -m {} -u {} -p {}' \
@@ -432,7 +436,7 @@ class VcpeToscaTest(unittest.TestCase):
                   % (ns_package_reps.json()["id"]))
             return ns_package_reps.json()["id"]
         else:
-            raise Exception("ICreate ns package failed.")
+            raise Exception("Create ns package failed.")
 
     def delete_ns_package(self):
         print("Delete ns package %s is beginning" % self.ns_package_id)
@@ -446,7 +450,6 @@ class VcpeToscaTest(unittest.TestCase):
 
     def create_upload_vnf_package(self):
         print("Create vnf package is beginning")
-        package_list = []
         vnfs = self.config_params["vnfs"]
         vnf_url = self.base_url + "/api/vnfpkgm/v1/vnf_packages"
         header = {'content-type': 'application/json', 'accept': 'application/json'}
@@ -457,7 +460,7 @@ class VcpeToscaTest(unittest.TestCase):
                 print("Create vnf package successful, the vnf package id is %s"
                       % (vnf_package_reps.json()["id"]))
                 package_id = vnf_package_reps.json()["id"]
-                package_list.append(package_id)
+                self.vnf_package_list.append(package_id)
                 vnf_upload_url = '{}/api/vnfpkgm/v1/vnf_packages/{}/package_content' \
                     .format(self.config_params["vfc-url"], package_id)
                 file_path = os.path.dirname(os.path.abspath(__file__))
@@ -467,9 +470,12 @@ class VcpeToscaTest(unittest.TestCase):
                         resp = requests.put(vnf_upload_url, files={'file': vnf_file}, verify=False)
                         if 202 == resp.status_code:
                             break
+                        if 500 == resp.status_code:
+                            raise Exception("Upload vnf package failed. %s" % resp.json())
                         else:
                             time.sleep(i)
-        return package_list
+            else:
+                print("Create vnf package failed.")
 
     def delete_vnf_package(self):
         print("Delete vnf package is beginning")
@@ -480,6 +486,7 @@ class VcpeToscaTest(unittest.TestCase):
                 print("Delete vnf package %s successfully." % vnf_package_id)
             else:
                 print("Delete vnf package %s failed." % vnf_package_id)
+        self.vnf_package_list = []
 
     def upload_ns_package(self):
         ns = self.config_params["ns"]
@@ -492,6 +499,8 @@ class VcpeToscaTest(unittest.TestCase):
                 resp = requests.put(ns_upload_url, files={'file': ns_file}, verify=False)
                 if 204 == resp.status_code:
                     break
+                if 500 == resp.status_code:
+                    raise Exception("Upload ns package failed.")
                 else:
                     time.sleep(i)
 
@@ -549,7 +558,7 @@ class VcpeToscaTest(unittest.TestCase):
                     if 100 != progress_rep:
                         if 255 == progress_rep:
                             print("Ns %s %s failed." % (self.ns_instance_id, action))
-                            break
+                            raise Exception("%s ns failed." % action)
                         elif progress_rep != progress:
                             progress = progress_rep
                             print("Ns %s %s process is %s." % (self.ns_instance_id, action, progress))
@@ -566,11 +575,16 @@ class VcpeToscaTest(unittest.TestCase):
             "gracefulTerminationTimeout": 600,
             "terminationType": "FORCEFUL"
         }
-        res = requests.post(url=ns_url + "/terminate", data=d, verify=False)
-        self.assertEqual(202, res.status_code)
-        terminate_ns_job_id = res.json()["jobId"]
-        print("Terminate job is %s" % terminate_ns_job_id)
-        self.waitProcessFinished(terminate_ns_job_id, "terminate")
+        try:
+            res = requests.post(url=ns_url + "/terminate", data=d, verify=False)
+            if 202 == res.status_code:
+                terminate_ns_job_id = res.json()["jobId"]
+                print("Terminate job is %s" % terminate_ns_job_id)
+            else:
+                raise Exception("Instantiate ns failed.")
+            self.waitProcessFinished(terminate_ns_job_id, "terminate")
+        except Exception as e:
+            print(e.args[0])
 
     def deleteNs(self):
         print("Delete ns %s --beginning" % self.ns_instance_id)
@@ -582,32 +596,33 @@ class VcpeToscaTest(unittest.TestCase):
 
     def testNs(self):
         print("Use csar file is uploaded by local")
-        self.vnf_package_list = self.create_upload_vnf_package()
-        self.assertIsNotNone(self.vnf_package_list)
-
-        self.ns_package_id = self.create_ns_package()
-        self.assertIsNotNone(self.ns_package_id)
-
-        print("Get vnfdId list.")
-        self.vnfdId_list = self.get_vnf_package()
-
-        print("Upload ns package from csar beginning")
-        self.upload_ns_package()
-        print("Upload ns package from csar successfully")
-
-        print("Create ns beginning")
         try:
-            self.ns_instance_id = None
+            self.create_upload_vnf_package()
+            self.ns_package_id = self.create_ns_package()
+            print("Get vnfdId list.")
+            self.vnfdId_list = self.get_vnf_package()
+            if len(self.vnfdId_list) < 5:
+                raise Exception("Upload vnf package failed. "
+                                "Please check vnf package(b1bb0ce7-1111-4fa7-95ed-4840d70a1177, "
+                                "b1bb0ce7-2222-4fa7-95ed-4840d70a1177, "
+                                "b1bb0ce7-3333-4fa7-95ed-4840d70a1177, "
+                                "b1bb0ce7-4444-4fa7-95ed-4840d70a1177, "
+                                "b1bb0ce7-5555-4fa7-95ed-4840d70a1177) "
+                                "and delete them and then upload again.")
+            print("Upload ns package from csar beginning")
+            self.upload_ns_package()
+            print("Upload ns package from csar successfully")
+
+            print("Create ns beginning")
+
             self.ns_instance_id = self.create_ns()
             self.assertIsNotNone(self.ns_instance_id)
             self.ns_instance_jod_id = self.instantiate_ns()
+            print("NS %s instantiate job is %s" % (self.ns_instance_id, self.ns_instance_jod_id))
+            self.assertIsNotNone(self.ns_instance_jod_id)
+            self.waitProcessFinished(self.ns_instance_jod_id, "instantiate")
         except Exception as e:
             print(e.args[0])
-
-        print("NS %s instantiate job is %s" % (self.ns_instance_id, self.ns_instance_jod_id))
-        self.assertIsNotNone(self.ns_instance_jod_id)
-
-        self.waitProcessFinished(self.ns_instance_jod_id, "instantiate")
 
         vnf_aai_url = self.base_url + "/aai/v11/network/generic-vnfs"
         vnf_resp = requests.get(url=vnf_aai_url, headers=self.aai_header, verify=False)
