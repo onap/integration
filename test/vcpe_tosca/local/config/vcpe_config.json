@@ -1,13 +1,11 @@
 {
-  "open_cli_product": "onap-elalto",
+  "open_cli_product": "onap-dublin",
   "open_cli_home": "/opt/oclip",
   "msb_url": "https://192.168.235.77:30283",
   "aai_url": "https://192.168.235.77:30283",
   "aai_username": "AAI",
   "aai_password": "AAI",
   "multicloud_url": "https://192.168.235.77:30283",
-  "//": "#Parameters to vfc",
-  "temp_resource_module_name": "resource_name",
   "complex_name": "clli_liping",
   "street1": "street1",
   "street2": "street2",
@@ -23,7 +21,6 @@
   "postal-code": "00000",
   "country": "USA",
   "identity_url": "example-identity-url-val-56898",
-  "service-model-name": "vcpe-hpa1",
   "cloud_region_data": {
     "RegionOne": {
       "cloud-region-version": "titanium_cloud",
