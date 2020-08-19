@@ -9,6 +9,16 @@ Integration Release Notes
 Integration Repo
 ----------------
 
+Version: 6.0.1
+..............
+
+:Release Date: 2020-07-07
+
+
+**New Features**
+
+- Update of CDS robot files (new testsuite 1.6.4)
+
 Version: 6.0.0
 ..............
 
