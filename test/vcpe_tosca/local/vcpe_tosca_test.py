@@ -2,7 +2,7 @@
 
 # Prerequisites for machine to run this
 # Put in required parameters in vcpe_config.json
-# Install python-pip (apt install python-pip)
+# Install python-pip (apt-get install -y -qq --no-install-recommends python-pip)
 # Install requests
 # Install ONAP CLI
 # Must have connectivity to the ONAP, openstack is already configured.

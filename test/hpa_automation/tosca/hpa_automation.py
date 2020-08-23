@@ -2,7 +2,7 @@
 
 #Prerequisites for machine to run this
 #Put in required parameters in hpa_automation_config.json
-#Install python-pip (apt install python-pip)
+#Install python-pip (apt-get install -y -qq --no-install-recommends python-pip)
 #Install python mysql.connector (pip install mysql-connector-python)
 #Install ONAP CLI
 #Must have connectivity to the ONAP, a k8s vm already running is recommended
