@@ -29,7 +29,7 @@ apt-mark hold docker-ce
 
 docker login -u docker -p docker nexus3.onap.org:10001
 
-sudo apt-get install make -y
+sudo apt-get install -y -qq --no-install-recommends make -y
 
 sudo curl -LO https://storage.googleapis.com/kubernetes-release/release/v$KUBECTL_VERSION/bin/linux/amd64/kubectl
 sudo chmod +x ./kubectl
@@ -40,7 +40,7 @@ sudo tar -zxvf helm-v${HELM_VERSION}-linux-amd64.tar.gz
 sudo mv linux-amd64/helm /usr/local/bin/helm
 
 # install nfs
-sudo apt-get install nfs-common -y
+sudo apt-get install -y -qq --no-install-recommends nfs-common -y
 
 MASTER_IP=$1
 

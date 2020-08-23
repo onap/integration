@@ -32,7 +32,7 @@ apt-mark hold docker-ce
 
 docker login -u docker -p docker nexus3.onap.org:10001
 
-sudo apt-get install make -y
+sudo apt-get install -y -qq --no-install-recommends make -y
 
 sudo docker run -d --restart=unless-stopped -p 8080:8080 --name rancher_server rancher/server:v$RANCHER_VERSION
 sudo curl -LO https://storage.googleapis.com/kubernetes-release/release/v$KUBECTL_VERSION/bin/linux/amd64/kubectl
@@ -44,7 +44,7 @@ sudo tar -zxvf helm-v${HELM_VERSION}-linux-amd64.tar.gz
 sudo mv linux-amd64/helm /usr/local/bin/helm
 
 # nfs server
-sudo apt-get install nfs-kernel-server -y
+sudo apt-get install -y -qq --no-install-recommends nfs-kernel-server -y
 
 sudo mkdir -p /nfs_share
 sudo chown nobody:nogroup /nfs_share/
@@ -74,7 +74,7 @@ echo "SERVER: ${SERVER}"
 echo "PRIVATE_IP: ${PRIVATE_IP}"
 echo "NODE_COUNT: ${NODE_COUNT}"
 #install sshpass to login to the k8s nodes to run rancher agent
-sudo apt-get install sshpass
+sudo apt-get install -y -qq --no-install-recommends sshpass
 
 # create kubernetes environment on rancher using cli
 RANCHER_CLI_VER=0.6.7
@@ -84,7 +84,7 @@ sudo tar -zxvf rancher-linux-amd64-v${RANCHER_CLI_VER}.tar.gz
 sudo cp rancher-v${RANCHER_CLI_VER}/rancher .
 sudo chmod +x ./rancher
 
-sudo apt install jq -y
+sudo apt-get install -y -qq --no-install-recommends jq -y
 echo "wait for rancher server container to finish - 3 min"
 sleep 60
 echo "2 more min"

@@ -74,7 +74,7 @@ resources:
                         }
 
                         protobuf_install () {
-                            apt-get install -y unzip
+                            apt-get install -y -qq --no-install-recommends unzip
                             cd ~;curl -OL "https://github.com/google/protobuf/releases/download/v$PROTOBUF_VERSION/protoc-$PROTOBUF_VERSION-linux-x86_64.zip"
                             unzip ~/protoc-$PROTOBUF_VERSION-linux-x86_64.zip -d ~/protoc3
                             mv ~/protoc3/bin/* /usr/local/bin/

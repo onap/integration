@@ -106,13 +106,13 @@ SCRIPT
 $install_sshpass = <<-SCRIPT
   apt-get update
   echo "Installing 'sshpass'"
-  apt-get install sshpass
+  apt-get install -y -qq --no-install-recommends sshpass
 SCRIPT
 
 $install_make = <<-SCRIPT
   apt-get update
   echo "Installing 'make'"
-  apt-get install make
+  apt-get install -y -qq --no-install-recommends make
 SCRIPT
 
 $resize_disk = <<-SCRIPT

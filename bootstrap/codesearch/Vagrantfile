@@ -50,7 +50,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "dependencies", type: :shell, inline: <<-SHELL
     export DEBIAN_FRONTEND=noninteractive
     apt-get update
-    apt-get install --assume-yes --quiet golang tmux
+    apt-get install -y -qq --no-install-recommends golang tmux
   SHELL
   config.vm.provision "binaries", type: :shell, privileged: false, inline: <<-SHELL
     export GOPATH="${HOME}/go"
