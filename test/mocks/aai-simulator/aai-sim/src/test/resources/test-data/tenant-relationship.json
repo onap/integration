@@ -1,0 +1,25 @@
+{
+    "related-to": "tenant",
+    "relationship-label": "org.onap.relationships.inventory.BelongsTo",
+    "related-link": "/aai/v15/cloud-infrastructure/cloud-regions/cloud-region/CloudOwner/PnfSwUCloudRegion/tenants/tenant/693c7729b2364a26a3ca602e6f66187d",
+    "relationship-data": [
+        {
+            "relationship-key": "cloud-region.cloud-owner",
+            "relationship-value": "CloudOwner"
+        },
+        {
+            "relationship-key": "cloud-region.cloud-region-id",
+            "relationship-value": "PnfSwUCloudRegion"
+        },
+        {
+            "relationship-key": "tenant.tenant-id",
+            "relationship-value": "693c7729b2364a26a3ca602e6f66187d"
+        }
+    ],
+    "related-to-property": [
+        {
+            "property-key": "tenant.tenant-name",
+            "property-value": "admin"
+        }
+    ]
+}
