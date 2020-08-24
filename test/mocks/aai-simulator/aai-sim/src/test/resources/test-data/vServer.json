@@ -1,0 +1,26 @@
+{
+    "vserver-id":"f84fdb9b-ad7c-49db-a08f-e443b4cbd033",
+    "vserver-name":"CsitVServer",
+    "prov-status":"active",
+    "relationship-list":{
+        "relationship":[
+            {
+                "related-to":"generic-vnf",
+                "relationship-label":"tosca.relationships.HostedOn",
+                "related-link":"/aai/v15/network/generic-vnfs/generic-vnf/dfd02fb5-d7fb-4aac-b3c4-cd6b60058701",
+                "relationship-data":[
+                    {
+                        "relationship-key":"generic-vnf.vnf-id",
+                        "relationship-value":"58157d7e-d50d-4a7d-aebe-ae6e41ca1d9f"
+                    }
+                ],
+                "related-to-property":[
+                    {
+                        "property-key":"generic-vnf.vnf-name",
+                        "property-value":"Test"
+                    }
+                ]
+            }
+        ]
+    }
+}

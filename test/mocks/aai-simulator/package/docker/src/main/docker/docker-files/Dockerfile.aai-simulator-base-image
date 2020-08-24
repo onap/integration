@@ -1,0 +1,34 @@
+FROM openjdk:8-jdk-alpine
+
+ARG http_proxy
+ARG https_proxy
+ENV HTTP_PROXY=$http_proxy
+ENV HTTPS_PROXY=$https_proxy
+ENV http_proxy=$HTTP_PROXY
+ENV https_proxy=$HTTPS_PROXY
+
+# Update the package list and upgrade installed packages
+RUN apk update && apk upgrade
+
+# Install commonly needed tools
+RUN apk --no-cache add curl netcat-openbsd sudo nss
+
+# Create 'so' user
+RUN addgroup -g 1000 so && adduser -S -u 1000 -G so -s /bin/sh so
+
+RUN mkdir /app && mkdir /app/config  && mkdir /app/logs && mkdir /app/ca-certificates
+
+COPY maven/app.jar /app
+COPY configs/logging/logback-spring.xml /app
+COPY scripts/start-app.sh /app
+
+RUN chown -R so:so /app && chmod 700 /app/*.sh
+
+# Springboot configuration (required)
+VOLUME /app/config
+
+#  CA certificates 
+VOLUME /app/ca-certificates
+
+WORKDIR /app
+CMD ["/app/start-app.sh"]

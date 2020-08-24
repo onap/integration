@@ -1,0 +1,9 @@
+{
+    "service-instance-id":"ccece8fe-13da-456a-baf6-41b3a4a2bc2b",
+    "service-instance-name":"ServiceTest",
+    "environment-context":"General_Revenue-Bearing",
+    "workload-context":"Production",
+    "model-invariant-id":"e9acd081-9c89-4b4d-bcb3-e0e2b9715b2a",
+    "model-version-id":"c112a499-6148-488b-ba82-3f5938cf26d2",
+    "orchestration-status":"Inventoried"
+}

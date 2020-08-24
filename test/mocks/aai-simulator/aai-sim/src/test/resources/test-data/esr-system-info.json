@@ -1,0 +1,12 @@
+{
+    "esr-system-info-id":"5c067098-f2e3-40f7-a7ba-155e7c61e916",
+    "system-name":"vnfmSimulator",
+    "type":"simulator",
+    "vendor":"EST",
+    "version":"V1.0",
+    "service-url":"https://so-vnfm-simulator.onap:9095/vnflcm/v1",
+    "user-name":"vnfmadapter",
+    "password":"123456",
+    "system-type":"VNFM",
+    "resource-version":"1564774459055"
+}
