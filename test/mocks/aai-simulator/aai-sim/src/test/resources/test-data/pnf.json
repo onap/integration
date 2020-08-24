@@ -1,0 +1,16 @@
+{
+  "pnf-name2":"example-pnf-name2-val-78244",
+  "pnf-name2-source":"example-pnf-name2-source-val-99275",
+  "equip-type":"example-equip-type-val-20348",
+  "equip-vendor":"example-equip-vendor-val-52182",
+  "equip-model":"example-equip-model-val-8370",
+  "management-option":"example-management-option-val-72881",
+  "ipaddress-v4-oam":"10.12.25.73",
+  "ipaddress-v6-oam":"x:x:x:x:x:X",
+  "target-software-version":"xxxxXXX",
+  "pnf-name":"test-008",
+  "pnf-id":"5f2602dc-f647-4535-8f1d-9ec079e68a49",
+  "in-maint":false,
+  "resource-version":"1570117118905",
+  "selflink": "http://localhost:9921/pnf/test-008"
+}

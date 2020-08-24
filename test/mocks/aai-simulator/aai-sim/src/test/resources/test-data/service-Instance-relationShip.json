@@ -1,0 +1,13 @@
+{
+    "related-to": "generic-vnf",
+    "relationship-label": "org.onap.relationships.inventory.ComposedOf",
+    "related-link": "/aai/v15/network/generic-vnfs/generic-vnf/dfd02fb5-d7fb-4aac-b3c4-cd6b60058701",
+    "relationship-data": [{
+        "relationship-key": "generic-vnf.vnf-id",
+        "relationship-value": "dfd02fb5-d7fb-4aac-b3c4-cd6b60058701"
+    }],
+    "related-to-property": [{
+        "property-key": "generic-vnf.vnf-name",
+        "property-value": "EsyVnfInstantiationTest2"
+    }]
+}
