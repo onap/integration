@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<model-vers xmlns="http://org.onap.aai.inventory/v11">
+    <model-ver>
+        <model-version-id>c0818142-324d-4a8c-8065-45a61df247a5</model-version-id>
+        <model-name>EricService</model-name>
+        <model-version>1.0</model-version>
+        <model-description>blah</model-description>
+        <resource-version>1594657102313</resource-version>
+    </model-ver>
+    <model-ver>
+        <model-version-id>4442dfc1-0d2d-46b4-b0bc-a2ac10448269</model-version-id>
+        <model-name>EricService</model-name>
+        <model-version>2.0</model-version>
+        <model-description>blahhhh</model-description>
+        <resource-version>1594707742646</resource-version>
+    </model-ver>
+</model-vers>

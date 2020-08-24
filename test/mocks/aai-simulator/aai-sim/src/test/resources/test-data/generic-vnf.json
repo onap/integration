@@ -1,0 +1,14 @@
+{
+  "vnf-id": "dfd02fb5-d7fb-4aac-b3c4-cd6b60058701",
+  "vnf-name": "EsyVnfInstantiationTest2",
+  "vnf-type": "Sol004Zip4Service/Sol004Zip3VSP 0",
+  "service-id": "f13844f4-dbf8-4d0e-a979-45204f3ddb4e",
+  "prov-status": "PREPROV",
+  "orchestration-status": "Inventoried",
+  "model-invariant-id": "b0f14066-2b65-40d2-b5a4-c8f2116fb5fc",
+  "model-version-id": "84b9649a-4eb9-4967-9abe-e8702f55518b",
+  "model-customization-id": "50a90cd7-a84e-4ee1-b5ba-bfa5a26f5e15",
+  "nf-type": "vnflcm",
+  "nf-role": "vnflcm",
+  "selflink": "http://localhost:9921/generic-vnf/dfd02fb5-d7fb-4aac-b3c4-cd6b60058701"
+}
