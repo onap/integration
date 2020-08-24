@@ -1,0 +1,10 @@
+{
+  "cloud-owner": "CloudOwner",
+  "cloud-region-id": "PnfSwUCloudRegion",
+  "cloud-type": "openstack",
+  "owner-defined-type": "OwnerType",
+  "cloud-region-version": "1.0",
+  "cloud-zone": "CloudZone",
+  "complex-name": "clli1",
+  "cloud-extra-info": ""
+}

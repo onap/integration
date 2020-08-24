@@ -1,0 +1,25 @@
+server:
+   port: 9993
+   tomcat:
+      max-threads: 4
+   ssl:
+      key-store: classpath:keystore/keystore.p12
+      key-store-password: mYHC98!qX}7h?W}jRv}MIXTJ
+      keyStoreType: PKCS12
+ssl-enable: true
+spring:
+   security:
+      users:
+      - username: aai
+        #password: aai.onap.org:demo123456!
+        password: $2a$04$crRntT01fAF4kb48mxlvgu68/silcLg.czC1LxQsKTdWuDBPpO3YO
+        role: VID
+      - username: aai@aai.onap.org
+        #password: demo123456!
+        password: $2a$04$06VCpDvW5ztE7WOvhhvAtOx7JHLghECyZIzOShIbXLWpnshMva8T6
+        role: VID
+http:
+   client:
+      ssl:
+         trust-store: classpath:truststore/truststore.jks
+         trust-store-password: '*TQH?Lnszprs4LmlAj38yds('
