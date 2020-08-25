@@ -8,6 +8,9 @@
   "dmaap.security.keyStorePath": "/opt/app/datafile/etc/cert/cert.jks",
   "dmaap.security.keyStorePasswordPath": "/opt/app/datafile/etc/cert/jks.pass",
   "dmaap.security.enableDmaapCertAuth": "false",
+  "dmaap.dmaapConsumerConfiguration.consumerGroup": "OpenDcae-c12",
+  "dmaap.dmaapConsumerConfiguration.consumerId": "C12",
+  "dmaap.dmaapConsumerConfiguration.timeoutMs": -1,
   "sftp.security.strictHostKeyChecking": "true",
   "streams_publishes": {
     "PM_MEAS_FILES": {
@@ -25,7 +28,7 @@
   "streams_subscribes": {
     "dmaap_subscriber": {
       "dmaap_info": {
-        "topic_url": "https://dradmin:dradmin@mrsim:2223/events/unauthenticated.VES_NOTIFICATION_OUTPUT/OpenDcae-c12/C12"
+        "topic_url": "http://mrsim:2222/events/unauthenticated.VES_NOTIFICATION_OUTPUT"
       },
       "type": "message_router"
     }
