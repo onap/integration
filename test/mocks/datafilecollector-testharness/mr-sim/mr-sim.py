@@ -1147,7 +1147,7 @@ def getEventHead(groupIndex, changeId, nodename):
     global pnfMap
     pnfMap[groupIndex].add(nodename)
     headStr = """
-        {
+        '{
           "event": {
             "commonEventHeader": {
               "startEpochMicrosec": 8745745764578,
@@ -1203,7 +1203,7 @@ def getEventEnd():
               ]
             }
           }
-        }
+        }'
         """
     return endStr
 

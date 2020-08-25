@@ -25,6 +25,7 @@ DOCKER_SIM_NWNAME="dfcnet"             #Name of docker private network
 CONSUL_HOST="consul-server"            #Host name of consul
 CONSUL_PORT=8500                       #Port number of consul
 CONFIG_BINDING_SERVICE="config-binding-service"  #Host name of CBS
+CONFIG_BINDING_SERVICE_SERVICE_PORT=10000  #CBS port
 MR_PORT=2222                           #MR simulator port number http
 DR_PORT=3906                           #DR simulator port number http
 DR_PORT_SECURE=3907                    #DR simulator port number for https

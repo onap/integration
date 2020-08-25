@@ -375,7 +375,7 @@ __start_dfc_image() {
 	docker network ls| grep $DOCKER_SIM_NWNAME > /dev/null || docker network create $DOCKER_SIM_NWNAME
 
 	echo "Starting DFC: " $appname " with ports mapped to " $localport " and " $localport_secure " in docker network "$DOCKER_SIM_NWNAME
-	docker run -d --volume $(pwd)/../simulator-group/tls/:/opt/app/datafile/etc/cert/ -p $localport":8100" -p $localport_secure":8433" --network=$DOCKER_SIM_NWNAME -e CONSUL_HOST=$CONSUL_HOST -e CONSUL_PORT=$CONSUL_PORT -e CONFIG_BINDING_SERVICE=$CONFIG_BINDING_SERVICE -e HOSTNAME=$appname --name $appname $DFC_IMAGE
+	docker run -d --volume $(pwd)/../simulator-group/tls/:/opt/app/datafile/etc/cert/ -p $localport":8100" -p $localport_secure":8433" --network=$DOCKER_SIM_NWNAME -e CONSUL_HOST=$CONSUL_HOST -e CONSUL_PORT=$CONSUL_PORT -e CONFIG_BINDING_SERVICE=$CONFIG_BINDING_SERVICE -e CONFIG_BINDING_SERVICE_SERVICE_PORT=$CONFIG_BINDING_SERVICE_SERVICE_PORT -e HOSTNAME=$appname --name $appname $DFC_IMAGE
 	sleep 3
 	set +x
 	dfc_started=false
