@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c31e101_ace595ed",
+        "filename": "docs/docs_vCPE_tosca_local.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-08-31T08:45:36Z",
+      "side": 1,
+      "message": "is it not linked whether you use multicloud or not?\nif multicloud titanium_cloud is fine\nif not \u003d\u003e openstack",
+      "revId": "63308a19aab42726b24bb5f84d75663a62603d7c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
