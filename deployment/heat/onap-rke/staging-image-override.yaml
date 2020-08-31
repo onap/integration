@@ -45,23 +45,18 @@ dcaegen2:
 nbi:
   image: onap/externalapi/nbi:6.0.0
 policy:
-  image: onap/policy-pe:1.6-SNAPSHOT-latest
-  pap:
-    image: onap/policy-pap:2.2-SNAPSHOT-latest
-  brmsgw:
-    image: onap/policy-pe:1.6-SNAPSHOT-latest
+  policy-pap:
+    image: onap/policy-pap:2.3-SNAPSHOT-latest
   policy-xacml-pdp:
-    image: onap/policy-xacml-pdp:2.2-SNAPSHOT-latest
-  drools:
-    image: onap/policy-pdpd-cl:1.6-SNAPSHOT-latest
-  pdp:
-    image: onap/policy-pe:1.6-SNAPSHOT-latest
+    image: onap/policy-xacml-pdp:2.3-SNAPSHOT-latest
+  policy-drools-pdp:
+    image: onap/policy-pdpd-cl:1.7-SNAPSHOT-latest
   policy-apex-pdp:
-    image: onap/policy-apex-pdp:2.3-SNAPSHOT-latest
+    image: onap/policy-apex-pdp:2.4-SNAPSHOT-latest
   policy-api:
-    image: onap/policy-api:2.2-SNAPSHOT-latest
+    image: onap/policy-api:2.3-SNAPSHOT-latest
   policy-distribution:
-    image: onap/policy-distribution:2.3-SNAPSHOT-latest
+    image: onap/policy-distribution:2.4-SNAPSHOT-latest
 sdc:
   sdc-onboarding-be:
     image: onap/sdc-onboard-backend:1.6.3

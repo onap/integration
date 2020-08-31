@@ -1,11 +1,10 @@
 ---
 policy:
-  image: onap/policy-pe:1.7-SNAPSHOT-latest
-  pap:
+  policy-pap:
     image: onap/policy-pap:2.3-SNAPSHOT-latest
   policy-xacml-pdp:
     image: onap/policy-xacml-pdp:2.3-SNAPSHOT-latest
-  drools:
+  policy-drools-pdp:
     image: onap/policy-pdpd-cl:1.7-SNAPSHOT-latest
   policy-apex-pdp:
     image: onap/policy-apex-pdp:2.4-SNAPSHOT-latest
