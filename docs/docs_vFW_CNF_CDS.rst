@@ -2018,7 +2018,7 @@ Service -> Properties Assignment -> Choose VF (at right box):
 - skip_post_instantiation_configuration - True
 - sdnc_artifact_name - vnf
 - sdnc_model_name - vFW_CNF_CDS
-- sdnc_model_version - K8s 1.0.45
+- sdnc_model_version - 1.0.45
 
 Distribution Of Service
 .......................
