@@ -1,2 +1,1 @@
-include check_certificates/nodeports_xfail.txt
 include check_certificates/templates/*.j2
