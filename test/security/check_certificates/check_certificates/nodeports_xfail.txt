@@ -1,2 +1,0 @@
-# Expected failure list for certificates associated to nodeports
-666 # foo example nodeport
