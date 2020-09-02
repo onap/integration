@@ -89,6 +89,13 @@ args = parser.parse_args()
 onap_namespace = args.namespace
 LOGGER.info("Verification of the %s certificates started", onap_namespace)
 
+# Create the target dir (in case it does not exist)
+try:
+    os.makedirs(args.dir)
+except OSError as e:
+    if e.errno != errno.EEXIST:
+        raise
+
 # Nodeport specific section
 # Retrieve the kubernetes IP for mode nodeport
 if args.mode == "nodeport":
