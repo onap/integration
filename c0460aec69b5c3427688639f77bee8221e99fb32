@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1a6a7b8_944e8b7d",
+        "filename": "test/security/check_certificates/check_certificates/check_certificates_validity.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-09-02T09:10:41Z",
+      "side": 1,
+      "message": "os.makedirs has an optional parameter \"exist_ok\" which you can leverage here to simplify the code, I believe all that you\u0027d want is:\n\nos.makedirs(args.dir, exist_ok\u003dTrue)",
+      "range": {
+        "startLine": 93,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 13
+      },
+      "revId": "c0460aec69b5c3427688639f77bee8221e99fb32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
