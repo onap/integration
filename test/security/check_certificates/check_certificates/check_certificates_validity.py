@@ -46,6 +46,10 @@ import OpenSSL
 from datetime import datetime
 from kubernetes import client, config
 from jinja2 import Environment, FileSystemLoader, select_autoescape
+from socket import *
+
+# Set SSL timeout
+setdefaulttimeout(10)
 
 # Logger
 LOG_LEVEL = 'INFO'
@@ -257,6 +261,8 @@ def test_services(k8s_services, mode):
                 {'pod_name': test_name,
                  'pod_port': test_port,
                  'error_details': str(e)})
+        except:
+            LOGGER.error("Unknown error")
 
     # Create html summary
     jinja_env = Environment(
