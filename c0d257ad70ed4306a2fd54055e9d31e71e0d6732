@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a70e128a_6dc45868",
+        "filename": "test/mocks/ran-nssmf-simulator/ran_nssmf/run.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-09-18T10:07:43Z",
+      "side": 1,
+      "message": "Is this bash wrapper needed at all? Provided it\u0027s a Python project this looks kind of awkward.",
+      "revId": "c0d257ad70ed4306a2fd54055e9d31e71e0d6732",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afd0426c_3ae053b6",
+        "filename": "test/mocks/ran-nssmf-simulator/requirements.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-09-18T10:07:43Z",
+      "side": 1,
+      "message": "Could you please also add setup.py for Python project setup? It\u0027s more Pythonic to leverage setuptools to setup runtime env.",
+      "revId": "c0d257ad70ed4306a2fd54055e9d31e71e0d6732",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
