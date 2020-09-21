@@ -29,6 +29,7 @@ setup(
     ],
     install_requires=[
         'Flask',
-        'schematics'
+        'schematics',
+        'cryptography'
     ]
 )
