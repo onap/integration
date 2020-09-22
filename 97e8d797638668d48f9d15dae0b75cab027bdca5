@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "553f288b_ebccf062",
+        "filename": "INFO.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 481
+      },
+      "writtenOn": "2020-09-22T16:48:36Z",
+      "side": 1,
+      "message": "I think the issue is because of these last lines\n\n136:1     error    too many blank lines (1 \u003e 0)  (empty-lines)",
+      "range": {
+        "startLine": 136,
+        "startChar": 0,
+        "endLine": 136,
+        "endChar": 0
+      },
+      "revId": "97e8d797638668d48f9d15dae0b75cab027bdca5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
