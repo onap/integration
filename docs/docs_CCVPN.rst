@@ -6,6 +6,37 @@
 CCVPN (Cross Domain and Cross Layer VPN)
 ----------------------------------------
 
+Update for Guilin Release
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In Guilin Release, MDONS Extension feature is introduced. 
+
+
+Guilin Scope and Impacted modules
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+MDONS Extension implementation for the Frankfurt release will incorporate the following:
+
+- Support Asynchronous OpenRoadM OTN service activation notification handling
+- Add OOF support for inter domain link/path selection
+- Support Closed Loop sub-use case
+Impacted ONAP modules include: OOF, SDN-C, SO and Holmes
+
+Wiki link reference: https://wiki.onap.org/display/DW/MDONS+Extension+in+R7
+
+Functional/Integration Test Cases
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+For integration test case and description, refer to this following wiki-page:
+https://wiki.onap.org/display/DW/Integration+Test+Cases+-+MDONS+Extension
+
+Installation Procedure
+~~~~~~~~~~~~~~~~~~~~~~
+The integration test environment is established to have ONAP instance with Guilin release interfacing to 3rd party transport domain controllers. One controller instance manages OpenROADM OTN topology and the other 2 instances manage TAPI OTN topology. L0 infrastructure and WDM services are pre-provisioned to support L1 topology discovery and OTN service orchestration from ONAP. 
+
+Testing Procedure
+~~~~~~~~~~~~~~~~~
+https://wiki.onap.org/display/DW/Integration+Test+Cases+-+MDONS+Extension
+
+
 Update for Frankfurt release
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 In Frankfurt, we introduced two extensions in CCVPN use case. One is E-LINE service over OTN NNI handover, another is the
