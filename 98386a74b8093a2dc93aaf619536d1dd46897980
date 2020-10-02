@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a8596ac_b8f54554",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-10-02T06:40:11Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "98386a74b8093a2dc93aaf619536d1dd46897980",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "360647e5_696d092b",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-10-02T06:40:11Z",
+      "side": 1,
+      "message": "\"will\" incorporate?  if it was for frankfurt it is past not future?",
+      "revId": "98386a74b8093a2dc93aaf619536d1dd46897980",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44725eca_4dcb88e1",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-10-02T06:40:11Z",
+      "side": 1,
+      "message": "empry line needed between the : and the bullets",
+      "revId": "98386a74b8093a2dc93aaf619536d1dd46897980",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "423abcc6_fc50ff1e",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-10-02T06:40:11Z",
+      "side": 1,
+      "message": "trailing spaces",
+      "revId": "98386a74b8093a2dc93aaf619536d1dd46897980",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78df0af4_f2b7e2da",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-10-02T06:40:11Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "98386a74b8093a2dc93aaf619536d1dd46897980",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
