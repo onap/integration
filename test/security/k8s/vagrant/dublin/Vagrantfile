@@ -45,7 +45,7 @@ SCRIPT
 $install_sshpass = <<-SCRIPT
   apt-get update
   echo "Installing 'sshpass'"
-  apt-get install sshpass
+  apt-get install -y -qq --no-install-recommends sshpass
 SCRIPT
 
 $generate_key = <<-SCRIPT

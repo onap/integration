@@ -47,7 +47,7 @@ spec:
       - -c
       - apk update && \
         apk add openssh-client && \
-        sh -c "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /aks-key/id_rsa $ADMIN_USER@\$IP_ADDRESS \"sudo apt-get update; sudo apt-get install nfs-common; sudo rm -rf /dockerdata-nfs; sudo mkdir /dockerdata-nfs; sudo mount -t nfs \$NFS_IP:/dockerdata-nfs /dockerdata-nfs/\""
+        sh -c "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /aks-key/id_rsa $ADMIN_USER@\$IP_ADDRESS \"sudo apt-get update; sudo apt-get install -y -qq --no-install-recommends nfs-common; sudo rm -rf /dockerdata-nfs; sudo mkdir /dockerdata-nfs; sudo mount -t nfs \$NFS_IP:/dockerdata-nfs /dockerdata-nfs/\""
   restartPolicy: Never
   volumes:
     - name: aks-key
