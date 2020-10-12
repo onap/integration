@@ -55,7 +55,7 @@ SCRIPT
 $setup_py = <<-SCRIPT
   export DEBIAN_FRONTEND=noninteractive
   sudo -E apt-get update
-  sudo -E apt-get install -yq python3-distutils
+  sudo -E apt-get install -y -qq --no-install-recommendsq python3-distutils
 
   curl -fsSL https://bootstrap.pypa.io/get-pip.py -o get-pip.py
   sudo -H python3 get-pip.py

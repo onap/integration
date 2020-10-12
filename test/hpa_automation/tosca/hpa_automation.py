@@ -223,16 +223,16 @@ def create_customer(parameters):
 def add_customer_subscription(parameters):
     subscription_check = 0
     for cloud_region, cloud_region_values in (parameters["cloud_region_data"]).iteritems():
-      if subscription_check == 0 :
-        subscription_string = "oclip subscription-create -x {} -c {} -z {} -e {} -y {} -r {} -m {} -u {} -p {}".format(\
-          parameters["customer_name"], cloud_region_values.get("tenant-id"), parameters["cloud-owner"], parameters["service_name"],\
-          cloud_region_values.get("default-tenant"), cloud_region, parameters["aai_url"], parameters["aai_username"], parameters["aai_password"] )
-      else:
-        subscription_string = "oclip subscription-cloud-add -x {} -c {} -z {} -e {} -y {} -r {} -m {} -u {} -p {}".format(\
-          parameters["customer_name"], cloud_region_values.get("tenant-id"), parameters["cloud-owner"], parameters["service_name"],\
-          cloud_region_values.get("default-tenant"), cloud_region, parameters["aai_url"], parameters["aai_username"], parameters["aai_password"] )
-      os.system(subscription_string)
-      subscription_check+=1
+        if subscription_check == 0 :
+            subscription_string = "oclip subscription-create -x {} -c {} -z {} -e {} -y {} -r {} -m {} -u {} -p {}".format(\
+            parameters["customer_name"], cloud_region_values.get("tenant-id"), parameters["cloud-owner"], parameters["service_name"],\
+            cloud_region_values.get("default-tenant"), cloud_region, parameters["aai_url"], parameters["aai_username"], parameters["aai_password"] )
+        else:
+            subscription_string = "oclip subscription-cloud-add -x {} -c {} -z {} -e {} -y {} -r {} -m {} -u {} -p {}".format(\
+            parameters["customer_name"], cloud_region_values.get("tenant-id"), parameters["cloud-owner"], parameters["service_name"],\
+            cloud_region_values.get("default-tenant"), cloud_region, parameters["aai_url"], parameters["aai_username"], parameters["aai_password"] )
+        os.system(subscription_string)
+        subscription_check+=1
 
 def register_vnfm_helper(vnfm_key, values, parameters):
     #Create vnfm
@@ -249,7 +249,7 @@ def register_vnfm(parameters):
     for vnfm_key, vnfm_values in vnfm_params.iteritems():
         register_vnfm_helper(vnfm_key, vnfm_values, parameters)
 
-def add_policy_models(parameters):
+def add_policy_models():
     mydb = mysql.connector.connect(
       host="policydb",
       user="policy_user",
@@ -361,17 +361,17 @@ def add_policy_models(parameters):
 def add_policies(parameters):
     #Loop through policy, put in resource_model_name and create policies
     for policy in os.listdir(parameters["policy_directory"]):
-      policy_name = "{}.{}".format(parameters["policy_scope"], os.path.splitext(policy)[0])
-      policy_file = (os.path.join(parameters["policy_directory"], policy))
-      #Create policy
-      os.system("oclip policy-create-outdated -m {} -u {} -p {} -x {} -S {} -T {} -o {} -b $(cat {})".format(parameters["policy_url"],\
-      parameters["policy_username"], parameters["policy_password"], policy_name, parameters["policy_scope"], \
-      parameters["policy_config_type"], parameters["policy_onapName"], policy_file))
+        policy_name = "{}.{}".format(parameters["policy_scope"], os.path.splitext(policy)[0])
+        policy_file = (os.path.join(parameters["policy_directory"], policy))
+        #Create policy
+        os.system("oclip policy-create-outdated -m {} -u {} -p {} -x {} -S {} -T {} -o {} -b $(cat {})".format(parameters["policy_url"],\
+        parameters["policy_username"], parameters["policy_password"], policy_name, parameters["policy_scope"], \
+        parameters["policy_config_type"], parameters["policy_onapName"], policy_file))
 
-      #Push policy
-      os.system("oclip policy-push-outdated -m {} -u {} -p {} -x {} -b {} -c {}".format(parameters["policy_url"], \
-        parameters["policy_username"], parameters["policy_password"], policy_name, parameters["policy_config_type"],\
-        parameters["policy_pdp_group"]))
+        #Push policy
+        os.system("oclip policy-push-outdated -m {} -u {} -p {} -x {} -b {} -c {}".format(parameters["policy_url"], \
+          parameters["policy_username"], parameters["policy_password"], policy_name, parameters["policy_config_type"],\
+          parameters["policy_pdp_group"]))
 
 def onboard_vnf(parameters):
     vnfs = parameters["vnfs"]
@@ -521,7 +521,7 @@ else:
     print(ns_out)
 
 # 6.add_policies function not currently working, using curl commands
-add_policy_models(parameters)
+add_policy_models()
 add_policies(parameters)
 
 # 7. VFC part
