@@ -6,6 +6,6 @@ VSP Compliance and Validation Check within SDC,`wiki page <https://wiki.onap.org
 Enable PNF software version at onboarding,`wiki page <https://jira.onap.org/browse/REQ-88?src=confmacro>`__,A.Schmid
 xNF communication security enhancements, `wiki page <https://wiki.onap.org/display/DW/xNF+communication+security+enhancements+-+Tests+Description+and+Status>`__,M.Przybysz
 ETSI Alignment SO plugin to support SOL003 to connect to an external VNFM,`wiki page <https://wiki.onap.org/display/DW/ETSI+Alignment+Support>`__,F.Oliveira Byung-Woo Jun
-Integration of CDS as an Actor, `wiki page <https://docs.onap.org/projects/onap-ccsdk-cds/en/latest/ui/designer.html>`__, B.Sakoto R.K.Verma Y.Malakov
+Integration of CDS as an Actor, `official doc <https://docs.onap.org/projects/onap-ccsdk-cds/en/latest/ui/designer.html>`__, B.Sakoto R.K.Verma Y.Malakov
 3rd Party Operational Domain Manager, `wiki page <https://wiki.onap.org/display/DW/Third-party+Operational+Domain+Manager>`__, D.Patel
 Configuration & persistency, `wiki page <https://wiki.onap.org/pages/viewpage.action?pageId=64003184>`__,Reshmasree c Swaminathan S
