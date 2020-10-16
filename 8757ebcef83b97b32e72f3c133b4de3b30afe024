@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7d4deeb_2d41ffc1",
+        "filename": "docs/docs_BBS.rst",
+        "patchSetId": 7
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 2679
+      },
+      "writtenOn": "2020-10-16T12:16:00Z",
+      "side": 1,
+      "message": "Instead of HTTP Links there should be \"Intersphinx\" links used",
+      "range": {
+        "startLine": 169,
+        "startChar": 25,
+        "endLine": 169,
+        "endChar": 148
+      },
+      "revId": "8757ebcef83b97b32e72f3c133b4de3b30afe024",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f224ca1_7e0db8c5",
+        "filename": "docs/docs_BBS.rst",
+        "patchSetId": 7
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 2679
+      },
+      "writtenOn": "2020-10-16T12:16:00Z",
+      "side": 1,
+      "message": "Intersphinx links, as above",
+      "range": {
+        "startLine": 194,
+        "startChar": 38,
+        "endLine": 194,
+        "endChar": 135
+      },
+      "revId": "8757ebcef83b97b32e72f3c133b4de3b30afe024",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af29feba_b66abb78",
+        "filename": "docs/docs_BBS.rst",
+        "patchSetId": 7
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 2679
+      },
+      "writtenOn": "2020-10-16T12:16:00Z",
+      "side": 1,
+      "message": "Intersphinx links, as above",
+      "range": {
+        "startLine": 212,
+        "startChar": 30,
+        "endLine": 212,
+        "endChar": 125
+      },
+      "revId": "8757ebcef83b97b32e72f3c133b4de3b30afe024",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8514fd7_6dcd6db7",
+        "filename": "docs/functional-requirements.csv",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 2679
+      },
+      "writtenOn": "2020-10-16T12:16:00Z",
+      "side": 1,
+      "message": "This is no Wiki page, but an official doc. \nIt should not link to a Web-Page, but instead a \"intershinx\" link must be used",
+      "range": {
+        "startLine": 9,
+        "startChar": 33,
+        "endLine": 9,
+        "endChar": 117
+      },
+      "revId": "8757ebcef83b97b32e72f3c133b4de3b30afe024",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
