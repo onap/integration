@@ -27,7 +27,8 @@ Vagrant.configure("2") do |config|
 	end
 	config.vm.provision :reload;
 	config.vm.provision "shell", privileged: false, inline: <<-end
-		microk8s reset &&\
+		microk8s start &&\
+		microk8s status --wait-ready &&\
 		microk8s config > /home/vagrant/.kube/config &&\
 		microk8s kubectl apply -f /home/vagrant/k8s_bin_versions_inspector/env/configuration
 	end
