@@ -94,6 +94,16 @@ get_open_ports_on_pod() {
   done
 }
 
+echo "------------------------------------------------------------------------"
+# Display the waivers
+if[ -f $WL_FILE_PATH ];then
+  echo  -e "--------------------\e[0;31m WARNING \e[0;m White List    ----------------------------"
+  cat $WL_FILE_PATH
+  echo "------------------------------------------------------------------------"
+fi
+
+
+
 N_PORTS=0
 
 # go through all pods
