@@ -75,6 +75,14 @@ do
 	esac
 done
 
+echo "------------------------------------------------------------------------"
+# Display the waivers
+if [ -s $XL_FILE_PATH ]; then
+  echo  -e "--------------------\e[0;31m WARNING \e[0;m XFail List    ----------------------------"
+  cat $XL_FILE_PATH
+  echo "------------------------------------------------------------------------"
+fi
+
 # Get both values on single call as this may get slow
 PORTS_SVCS=`kubectl get svc --namespace=$K8S_NAMESPACE -o go-template='{{range $item := .items}}{{range $port := $item.spec.ports}}{{if .nodePort}}{{.nodePort}}{{"\t"}}{{$item.metadata.name}}{{"\n"}}{{end}}{{end}}{{end}}' | column -t | sort -n`
 
