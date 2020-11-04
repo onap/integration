@@ -36,6 +36,40 @@
     },
     {
       "key": {
+        "uuid": "f2fcf9d7_377fc2b0",
+        "filename": "test/security/check_for_jdwp.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-11-04T10:25:06Z",
+      "side": 1,
+      "message": "space between IF and [",
+      "revId": "9ebc32b273458a91896f5e7dccbcb9290383490b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0dca884_143d1a5d",
+        "filename": "test/security/check_for_jdwp.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-11-04T10:25:06Z",
+      "side": 1,
+      "message": "use XFail List rather than White/black list",
+      "revId": "9ebc32b273458a91896f5e7dccbcb9290383490b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "801dafed_fa210298",
         "filename": "test/security/check_for_jdwp.sh",
         "patchSetId": 1
