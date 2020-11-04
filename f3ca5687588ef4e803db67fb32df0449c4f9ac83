@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7dc0d6a_a8459c0e",
+        "filename": "test/security/check_for_jdwp.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-11-04T15:00:35Z",
+      "side": 1,
+      "message": "-s shall be enough",
+      "revId": "f3ca5687588ef4e803db67fb32df0449c4f9ac83",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b67bc7f8_21b7b4ac",
+        "filename": "test/security/check_for_nonssl_endpoints.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-11-04T15:00:35Z",
+      "side": 1,
+      "message": "-s shall be enough",
+      "revId": "f3ca5687588ef4e803db67fb32df0449c4f9ac83",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
