@@ -7,7 +7,7 @@ INTEGRATION
 The Integration project is in charge of:
 
 - Providing testing environment and support for the release use cases
-- Executing Cross-project Continuous System Integration Testing (CSIT)
+- Executing project-specific Continuous System Integration Testing (CSIT)
 - Managing full ONAP CI chains (daily master, staging, stable) to ensure the
   stability of the integration
 - Developing and performing tests within full ONAP context (healthcheck, End to
@@ -20,8 +20,8 @@ For each release, the integration team provides the following artifacts:
 - Use-case documentation and artifacts
 - a testsuite docker included in ONAP cluster to execute the tests
 - baseline JAVA and Python images, as well as a docker managing Java libraries
-- Configuration fiales and Heat templates to simplify the creation of the virtual
-  ressources needed for the ONAP deployment and the use cases.
+- Configuration files and Heat templates to simplify the creation of the virtual
+  resources needed for the ONAP deployment and the use cases.
 
 The integration team manages several official ONAP repositories:
 
