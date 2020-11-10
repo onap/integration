@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "249ea1cf_a99d738d",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-11-10T16:49:40Z",
+      "side": 1,
+      "message": "looks like there are lots of blank lines\ncould be linked to the editor...\nI am surprised that the rst linter did not raise error",
+      "revId": "e7a123e762c9b2de923473f4144d20193094a75f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60c6f222_2ca6f2d7",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-11-10T16:49:40Z",
+      "side": 1,
+      "message": "2 blank lines \u003d\u003e only one needed",
+      "revId": "e7a123e762c9b2de923473f4144d20193094a75f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "262d3dce_9c63dfe7",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-11-10T16:49:40Z",
+      "side": 1,
+      "message": "it would have been good to have official documents rather than link to the wiki (that we know are ephemeral most of the time)",
+      "revId": "e7a123e762c9b2de923473f4144d20193094a75f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
