@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e16a88fd_3b4ff08b",
+        "filename": "docs/docs_5G_PNF_Software_Upgrade_With_Schema_Update.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-11-12T17:21:31Z",
+      "side": 1,
+      "message": "as it is a link to a wiki (non official doc) I would have put it at the end under a ref section",
+      "revId": "d20515ab1c670c1648ef218aaa67d09864340ebc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
