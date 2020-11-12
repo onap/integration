@@ -1,0 +1,49 @@
+﻿API,Service level workflow retrieving API,Service level workflow execution API
+Name,RetrieveServiceLevelWorkflow,ExecuteServiceLevelWorkflow
+Type,Get,Post
+URL,/onap/so/infra/workflowSpecifications/v1/workflows?resourceTarget=service,/onap/so/infra/instanceManagement/v1/serviceInstances/{serviceInstanceId}/workflows/{workflow_UUID}
+Request,"Headers: application/json
+
+Path parameters: resourceTarget=service
+
+Body={
+
+}
+
+
+
+","Headers: application/json
+
+Path parameters: serviceInstances; workflow_UUID
+
+Body={
+
+      ""modelInfo"":{                 #targetServiceModelVersionId
+
+        ""modelType"":""service"",
+
+        ""modelInvariantUuid"":""fe41489e-1563-46a3-b90a-1db629e4375b"",
+
+        ""modelVersionId"" : ""cd4decf6-4f27-4775-9561-0e683ed43635"",
+
+        ""modelVersion"":""1.0""
+
+      }
+
+}"
+Response,"200​ – Successful retrieval of workflows
+
+400 - Bad Request
+
+500 - Internal Server Error
+
+
+
+
+","202​ - Request has been accepted for processing
+
+400 - Bad Request
+
+500 - Internal Server Error"
+,,
+,,

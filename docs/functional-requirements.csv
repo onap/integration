@@ -2,6 +2,7 @@ Functional requirement,Link,Contacts
 PNF Software Upgrade using direct Netconf Yang interface with PNF,:ref:`official doc <docs_5g_pnf_software_upgrade>`,R.Gumma R.Tyagi
 PNF Software Upgrade with EM with Ansible,:ref:`official doc <docs_5G_PNF_Software_Upgrade_ansible_with_EM>`, Y.Wang E.Wang
 PNF Software Upgrade with EM with Netconf, :ref:`official doc <docs_5g_pnf_software_upgrade_netconf_with_EM>`, Y.Wang E.Wang
+PNF Software Upgrade in association to schema updates, :ref:`official doc <docs_5G_PNF_Software_Upgrade_With_Schema_Update>`, ZU Qiang
 VSP Compliance and Validation Check within SDC,`wiki page <https://wiki.onap.org/display/DW/VSP+Compliance+and+Validation+Check+within+SDC+%28Frankfurt%29+-+Phase+2#VSPComplianceandValidationCheckwithinSDC(Frankfurt)Phase2-VSPComplianceCheckwithinSDC-IntegrationTestPlan>`__,P.Balan
 Enable PNF software version at onboarding,`wiki page <https://jira.onap.org/browse/REQ-88?src=confmacro>`__,A.Schmid
 xNF communication security enhancements, `wiki page <https://wiki.onap.org/display/DW/xNF+communication+security+enhancements+-+Tests+Description+and+Status>`__,M.Przybysz
