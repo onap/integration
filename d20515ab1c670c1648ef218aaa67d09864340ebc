@@ -16,6 +16,24 @@
       "revId": "d20515ab1c670c1648ef218aaa67d09864340ebc",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90303dc2_5ec49249",
+        "filename": "docs/docs_5G_PNF_Software_Upgrade_With_Schema_Update.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2020-11-13T12:30:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e16a88fd_3b4ff08b",
+      "revId": "d20515ab1c670c1648ef218aaa67d09864340ebc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
