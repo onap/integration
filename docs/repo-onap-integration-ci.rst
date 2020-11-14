@@ -3,12 +3,13 @@
 Integration Continuous Integration Guide
 ----------------------------------------
 
-Continuous Integration is key due to the complexity of the ONAP projects.
-Several chains have been created:
+.. important::
+   Continuous Integration is key due to the complexity of the ONAP projects.
+   Several chains have been created:
 
-- Daily stable chain
-- Daily master chain
-- Gating: On demand deployment of a full ONAP solution to validate patchsets
+  - Daily stable chain
+  - Daily master chain
+  - Gating: On demand deployment of a full ONAP solution to validate patchsets
 
 They are run on different environments (Orange labs, DT labs, Azure Cloud).
 
@@ -77,9 +78,6 @@ can be used to visualize them.
 
 A web site has been created to centralize the links on http://testresults.opnfv.org/onap-integration/index.html
 
-.. figure:: files/CI/ONAP_CI_3.png
-   :align: center
-
 For Gating and gitlab.com based CI chains, the pipelines consist in pipelines of
 pipelines managed through the chaining of .gitlab-ci.yml file thanks to an Open
 Source deployment called chained-ci (https://gitlab.com/Orange-OpenSource/lfn/ci_cd/chained-ci).
@@ -88,6 +86,7 @@ figure below:
 
 .. figure:: files/CI/ONAP_CI_1.png
    :align: center
+   :width: 10in
 
 If you click on any element of the chain, you will open a new window:
 
@@ -99,12 +98,14 @@ created to summarize the tests and grant access to their associated logs:
 
 .. figure:: files/CI/ONAP_CI_8.png
    :align: center
+   :width: 6.5in
 
 Additionnaly, for the daily chain, another page displays the results as time
 series, allowing to see the evolution of the tests over time.
 
 .. figure:: files/CI/ONAP_CI_9.png
    :align: center
+   :width: 6.5in
 
 
 Setup Your Own CI Chains
@@ -126,44 +127,3 @@ You should be able to chain your automation projects:
 If you want to report your results to the community, do not hesitate to contact
 the integration team. The Test database is public but the pods must be declared
 to be allowed to report results from third party labs.
-
-
-ONAP Integration Testing Gate
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-5 categories have been defined for the ONAP integration testing gate:
-
-* infrastructure healthcheck: verify ONAP from a k8S perspective. It includes
-  2 tests: onap-k8s (all the deployments, jobs, statefulste,..must be OK at
-  the end of an installation), onap-helm (all the helm chart must be
-  completed at the end of the installation)
-* healthcheck: the traditionnal robot tests run from the cluster to perform
-  tests on the different components.
-* smoke-usecases: End to end tests
-* candidate-usecases: New end to end tests introduced in the automation chain
-  for the release
-* security tests (security of kubernetes (CVE, CIS tests) and ONAP (exposed
-  ports, check the containers run as root,...))
-* benchmarking (robustness, stress tests): not yet available
-
-All these tests have been packaged thanks to the OPNFV Open Source tool xtesting.
-Xtesting is a python package allowing to unify the way to declare, run tests. It
-also ensures a consistent way to get the test results whatever the test framework
-used (python, robotframework, bash, ...). It includes the mechanism to
-automatically push the results to the test database using the test API.
-It simplifies the integration in CI.
-
-The package can be found here https://pypi.org/project/xtesting/.
-
-The different ONAP xtesting dockers can be found on https://gitlab.com/Orange-OpenSource/lfn/onap/integration/xtesting/container_registry
-
-As an illustration, you can run the infrastructure healthcheck by typing the
-following command::
-
-    docker run -v <the kube config>:/root/.kube/config -v <result directory>:
-    /var/lib/xtesting/results registry.gitlab.com/orange-opensource/lfn/onap/integration/xtesting/infra-healthcheck:latest
-
-All the xtesting tests are included in Daily and gating chains.
-Please note that you can build your own onap-xtesting docker if you want to
-include your tests. See https://wiki.onap.org/pages/viewpage.action?pageId=79202765
-for details.

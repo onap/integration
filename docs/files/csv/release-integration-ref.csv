@@ -1,0 +1,22 @@
+Repository;Revision
+demo;
+integration;
+integration/csit;e50b1f4517d353e31626d06fa3a5bea079a07c44
+integration/docker/onap-java11;1508c9d6e2afa05808e50bb835c48669b1cf9b03
+integration/docker/onap-python;b2f19c061037bbf899330f5394972fb6a2ab1ed1
+integration/seccom;a8a3e4197944e10d162173cea355c567823fe723
+integration/simulators/5G-core-nf-simulator;
+integration/simulators/dc-simulator;
+integration/simulators/ran-simulator;
+integration/terraform;
+integration/terragrunt;
+integration/usecases/BBS;
+integration/usecases/mdons;
+integration/xtesting;
+oparent;a03c1fa9ec368a4352c1e2c3853747133be3aa29
+testsuite;
+testsuite/cds;
+testsuite/heatbridge;
+testsuite/oom; 	f3afcb0e60f54840d386084ee3ee2e364b2650f1
+testsuite/python-testing-utilestestsuite/pythonsdk-tests;
+testsuite/robot-utils;

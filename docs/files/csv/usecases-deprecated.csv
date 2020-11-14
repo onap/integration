@@ -1,0 +1,15 @@
+Use Case,Link,Last Valid Version, Comments
+vCPE Use Case,:ref:`link <docs_vcpe>` ,El Alto, No resources to test on Frankfurt
+vIPsec with HPA Use Case ,:ref:`link<docs_vipsec_hpa>` ,El Alto, No resources to test on Frankfurt
+Change Management Schedule Optimization,:ref:`link<docs_CM_schedule_optimizer>` ,El Alto, No resources to test on Frankfurt
+Change Management Flexible Designer and Orchestrator ,:ref:`link<docs_CM_flexible_designer_orchestrator>` ,El Alto, No resources to test on Frankfurt
+vFirewall with closed loop,:ref:`official doc <docs_vfw>` , Frankfurt, No resources to test on Guilin but it shall still work
+vFirewall/vDNS with HPA ,:ref:`official doc <docs_vfw_hpa>`,Frankfurt, No resources to test on Guilin
+Scale Out,:ref:`official doc <docs_scaleout>`,Frankfurt, No resources to test on Guilin
+BBS (Broadband Service),:ref:`official doc <docs_bbs>`,Frankfurt, No resources to test on Guilin
+vFirewall CNF with multicloud k8s plugin,:ref:`official doc  <docs_vfw_edgex_multicloud_k8s>`, Frankfurt,No resources to test on Guilin
+EdgeXFoundry CNF with multicloud k8s plugin,:ref:`official doc <docs_vfw_edgex_multicloud_k8s>`,Frankfurt, No resources to test on Guilin
+vCPE with Tosca,:ref:`official doc <docs_vcpe_tosca_local>`, Frankfurt, No resources to test on Guilin
+E2E Automation vLB with CDS,`wiki page <https://wiki.onap.org/pages/viewpage.action?pageId=71838891>`__, Frankfurt, No resources to test on Guilin
+vFirewall In-Place Software Upgrade with Traffic Distribution,:ref:`official doc <docs_vfw_traffic>`, Frankfurt, No resources to test on Guilin
+vFirewall CNF With CDS,:ref:`official doc <docs_vFW_CNF_CDS>`, Frankfurt, No resources to test on Guilin

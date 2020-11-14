@@ -12,6 +12,7 @@ E2E Network Slicing Use Case
 
 Overall Blueprint
 -----------------
+
 The objective of this use case is to realize End-to-End 5G Network
 Slicing using ONAP. An End-to-End Network Slice consists of RAN (Radio
 Access Network), Transport Network (TN) and Core Network (CN) slice
@@ -82,190 +83,246 @@ Abbreviations
 +---------------+--------------------------------------------+
 
 
-Recap of Frankfurt functionality
---------------------------------
-In Frankfurt release, CSMF and NSMF within ONAP was implemented, while connecting to an external Core NSSMF.
-From the NSI Life Cycle perspective, the scope for Frankfurt included NSI design and pre-provision, NSI instantiation
-and configuration, and NSI activation and deactivation. In particular:
+Scope for Frankfurt
+-------------------
 
-- CSMF: Functions of slice service creation, slice service activation and deactivation were implemented.
+To realize the three layers of the slice management function, we need to decide whether to implement CSMF, NSMF or NSMF within ONAP, or use the external CSMF, NSMF or NSSMF. This implies that for ONAP-based network slice management, we have different choices from an architectural perspective. For Frankfurt release, our scope is to implement CSMF and NSMF within ONAP, while connecting to an external Core NSSMF.
 
-- NSMF: Functions of NSI instantiation, NSI activation and deactivation were implemented. In addition, manual
-  intervention is also provided in NSMF slice task management portal to ensure the selected NSI/NSSI as well as
-  Service Profile and Slice Profile are OK or need adjustment.
+From the NSI Life Cycle perspective, the scope for Frankfurt includes NSI design and pre-provision, NSI instantiation and configuration, and NSI activation and deactivation. In particular:
 
-- Design of CST, NST and onboarding NSST that are required to support the run-time orchestration functions
+- CSMF: Functions of slice service creation, slice service activation and deactivation are implemented.
 
-- To connect to the external (core) NSSMF, an adaptor was implemented to provide interface between ONAP and 3rd party
-  core NSSMF.
+- NSMF: Functions of NSI instantiation, NSI activation and deactivation are
+  implemented. In addition, manual intervention is also provided in NSMF slice task
+  management portal to ensure the selected NSI/NSSI as well as ServiceProfile and
+  SliceProfile are fine or need adjustment.
 
-To support the above functions, code impacts in U-UI, SO, OOF and ExtAPI components, and schema change in A&AI
-were implemented. For further details, see https://wiki.onap.org/display/DW/Proposed+Functions+for+R6+and+Impacted+Modules
+- Design of CST, NST and onboarding NSST that are required to support the run-time   orchestration functions is also provided.
 
-As part of Frankfurt release work, we supported the minimum-scope installation of ONAP to reduce the resource requirements.
-From the module perspective, 5G E2E Slicing use case involves SDC, SO, A&AI, UUI, EXT-API, OOF and Policy modules of ONAP.
-So we will configure these required modules along with the mandatory common modules such as DMaaP. Further, for each module,
-the use case also does not use all of the charts，so we removed the not needed Charts under those modules to optimize the
-resources required for setting up the use case. This approach will help to install a minimum-scope version ONAP for the
-E2E Slicing use case.
+- To connect to the external (core) NSSMF, an adaptor is implemented to provide
+  interface between ONAP and 3rd party core NSSMF.
 
-Further details of the installation steps are available at:
-https://wiki.onap.org/display/DW/Install+Minimum+Scope+ONAP+for+5G+Network+Slicing
+To support the above functions, code impacts in U-UI, SO, OOF and ExtAPI components, and schema change in A&AI are implemented.
 
-Scope of Guilin release
------------------------
-From the architecture point of view, in Guilin release, besides the continuation of NSMF which was implemented in
-Frankfurt release, the RAN NSSMF, TN NSSMF, CORE NSSMF have been implemented within ONAP, apart from interacting with
-ezternal RAN NSSMF and external CORE NSSMF.
-
-The following provides an overview of the enhancements done in Guilin release:
-
-- **Enhancements in NSMF**: Service Profile decomposition into Slice Profiles for 3 domains, NSI selection enhancement,
-  E2E slice instance creation including RAN, TN and CN slice sub-net instance creation/reuse, activation/deactivation
-  of E2E slice, and deciding whether to terminate E2E slice or not.
-
-- **RAN NSSMF, TN NSSMF, CN NSSMF within ONAP**: Basic logic for all 3 NSSMFs to support NSSI allocation, activation,
-  deactivation, deletion and modification (in case of reuse of NSSI).
-
-- **Enable NSMF interaction with RAN NSSMF, TN NSSMF, CN NSSMF**: Implement generic NSSMF adaptor for three domain NSSMFs,
-  alignment with standard intefaces (3GPP, IETF), enable the connection to external RAN NSSMF.
-
-- **Design of RAN NSST, TN NSST, CN NSST and Slice Profiles, TN information models**: Basic E2E Slicing model was provided
-  all the related templates designed from SDC, TN related information models.
-
-- **TMF 641 support**: Extension of the TMF 641 based interface from NB of ExtAPI to support service activation,
-  deactivation and termination.
-
-- **RAN and CN NFs set up and initial configurations**: CN NF simulators was developed: AMF, SMF, UPF and configure the
-  S-NSSAI on CN NFs; RAN NF Simulator was enhanced for PM data reporting, CU and Near-RT RIC configuration.
-
-- **KPI monitoring**: Implementation to request details of a KPI via UUI to ONAP DCAE. Providing the requested data to UUI
-  by DCAE using a new microservice (Data Exposure Service - DES). Enhancements in PM-Mapper to do KPI computation is
-  in progress, and will be completed in Honolulu release.
-
-- **Closed Loop**: First steps to realizing a simple Closed Loop in the RAN using PM data collected from the RAN was
-  implemented - update the allowed throughput for a S-NSSAI per Near-RT RIC coverage area based on DL/UL PRB for data
-  traffic that was reported from the RAN. The analysis of the PM data was done using a new Slice Analysis MS in DCAE,
-  and the Policy-based Control Loop framework was applied to trigger the updates in the RAN.
-
-- **Intelligent Slicing**: First steps to realizing a simple ML-based Closed Loop action in the RAN using PM data collected
-  from the RAN was implemented - update the maxNumberofConns for a S-NSSAI in each cell based on PDU session related
-  PM data that was reported from the RAN (PDU sessions requested, successfully setup and failed to be set up). The
-  training was done offline, and the ML model is onboarded as a micro-service to ONAP for demo purpose alone (it is
-  not part of ONAP code/repos). The ML model provides updates to the Slice Analysis MS, which then uses the
-  Policy-based Control Loop framework to trigger the updates in the RAN.
-
-- **Modeling enhancements**: Necessary modeling enhancements to support all the above functionalities.
-
-The base use case page for Guilin release is https://wiki.onap.org/display/DW/E2E+Network+Slicing+Use+Case+in+R7+Guilin.
-
-Important Remarks
-~~~~~~~~~~~~~~~~~
-(a) 2 deployment scenarios for RAN NSSI are supported. In the first scenario, the RAN NSSI comprises also of
-    TN Fronthaul (FH) and TN Midhaul (FH) NSSIs, and RAN NSSMF shall trigger TN NSSMF for TN FH and MH NSSI
-    related actions. In the second scenario, the RAN NSSI comprises only of RAN NFs. TN NSSMF shall be triggered by
-    NSMF for TN FH and MH NSSI related actions. This part is not yet implemented in NSMF, and will be realized in
-    Honolulu release.
-
-(b) The Guilin release scope focused on enhancing NSMF and implementing basic functionality of all 3 NSSMFs within
-    ONAP with the objective of realizing a simple E2E network slice using standard interfaces. So, further enhancements
-    and refinement will continue in Honolulu release and beyond.
-
-(c) Details of the assumptions in Guilin release are documented at:
-    https://wiki.onap.org/display/DW/Assumptions+for+Guilin+release
-
-(d) Sequence/flow diagrams related to this use case are available at:
-    https://wiki.onap.org/display/DW/Use+case+flows
-
-(e) Details of the Modeling aspects are available at:
-    https://wiki.onap.org/display/DW/Modeling+enhancements?src=contextnavpagetreemode
+Further details can be obtained from:
+https://wiki.onap.org/display/DW/Proposed+Functions+for+R6+and+Impacted+Modules
 
 
-Impacted Modules for Guilin
----------------------------
-The code-impacted modules of E2E Network Slicing in Guilin release are:
+Impacted Modules for Frankfurt
+------------------------------
 
-- **SO**: Enhancements in NSMF explained above, NSSMF adaptor, workflows for RAN, Core and TN NSSMFs, Closed Loop
-  trigger handling.
+SO
+~~
 
-- **OOF**: Enhancements for NSI selection, NSSI selection, Slice Profile generation, and NSI/NSSI termination
-  determination
+CSMF and NSMF are implemented using SO BPMN workflows to support 5G
+network slicing use case. CSMF workflow will process the user input
+(service request) that comes from CSMF portal (UUI) and save the order
+information into a communication service instance in AAI. Then CSMF will
+send network slice request to NSMF workflow, and NSMF will then create
+service profile, NSI and NSSI. Service profile is a logical concept
+which exists only in AAI - it contains two AAI instances, one is a
+profile instance that will hold the slice parameters, and the other is a
+service instance which will be used to organize the NSI. NSI is also a
+service instance in AAI which will be used to organize NSSI. NSSI is the
+actual entity which will be created by NSSMF and an AAI service instance
+will also be created to represent NSSI in ONAP context. NSI and NSSI can
+both be shared.
 
-- **DCAE**: 2 new MS were introduced:
-  (a) **Data Exposure Service (DES)** for querying database/datalake for PM/KPI data by any entity
-  (b) **Slice Analysis MS** for analyzing slice related PM/KPI data and determining necessary closed loop actions
+SO queries OOF for slice template selection and then slice instance
+selection. In response to slice instance selection query, OOF may return
+an existing slice instance or may recommend SO to create a new slice
+instance. A new process called Orchestration Task is created to manage
+recalibration of NSI&NSSI selection with manual intervention from the
+portal. A new SO adapter is created to be the adapter of NSSMF which
+will interact with external NSSMF for NSSI management.
 
-- **AAI**: Updates for Slice Profile, NSST, Service Profile, TN slice models
+Further details can be obtained from:
+https://wiki.onap.org/display/DW/SO%3A+Impacts+and+Interfaces
 
-- **SDN-C**: TN NSSMF related functionality (allocation, activation/deactivation and termination of TN NSSI/S-NSSAI)
+U-UI
+~~~~
 
-- **CCSDK/SDN-R**: RAN NSSMF related functionality related to allocation, activation/deactivation and termination of RAN
-  NSSI/S-NSSAI, mainly the configuration of CUs, DUs and Near-RT RICs over O1 interface to the RAN NFs. In addition,
-  configuration updates related to Closed Loop and Intelligent Slicing shall also be sent over O1 interface.
-  
-- **U-UI**: Enhancements related to configuration/selection of end-points.
+Usecase-UI (UUI) has added CSMF and NSMF portal components to ONAP to
+support this use case.
 
-- **ExtAPI**: Enhancements to support service activation/deactivation and termination using TMF 641 APIs
+CSMF component includes the functions of creating network slicing, as
+well as displaying and processing all the created network slices. The
+customers need to fill the create communication service form to create a
+network slice and then they can see the created network slice in the
+list and execute operations of activating, deactivating or terminating
+the network slice.
 
-- **Policy**: Minor updates to support the new Control Loop for Network Slicing.
+NSMF component mainly includes two modules: slicing task management and
+slice resource management which provides the functions of displaying and
+processing all the slicing tasks and slice resources. In slicing task
+management module, network operators can find all the slicing tasks
+created by customers in CSMF component and executing proper operations
+according to different task status. In slice resource management module,
+there are three sub-modules which provide the functions of displaying
+and processing the existing NS, NSI and NSSI. In addition, the NSMF
+component provides the monitoring function so that users can check the
+statistics of network slices. In this page, the statistics of slice
+usage (traffic), online users and total bandwidth can be monitored and
+displayed in the form of pi-charts and lines.
 
-Apart from the above, the following modules had test-only impact:
+Further details can be obtained from:
+https://wiki.onap.org/display/DW/UUI%3A+Impacts
 
-- **SDC**: Test of the supported functionality through creation of NST, NSST for all 3 domains, templates for Service
-  Profile and Slice Profile.
+OOF
+~~~
 
-- **CDS**: Support for configuration of S-NSSAI in the Core NFs.
+For this use case OOF introduced two APIs which are used by SO, one for
+slice template selection, and another for NSI/NSSI selection. Within
+OOF, both the OSDF and HAS sub-components were enhanced for this use
+case. OSDF maps the new API request contents to the appropriate format
+for HAS to perform the optimization. After the optimization is done by
+HAS, OSDF maps the response in the API response format as expected by
+SO. Further, HAS always returns NSSI info (when existing NSSIs can be
+reused) and OSDF then determines whether it refers to reuse of an
+existing NSI or creation of a new NSI, and then prepares sends the
+response to SO.
 
-In addition:
+HAS sub-component of OOF has been enhanced to use a couple of new policy
+types, the AAI plug-in within HAS was enhanced to fetch the slice and
+slice sub-net related details from AAI. Two new plug-ins were developed
+in HAS – one for fetching slice templates and another for generating
+slice profile candidates. Existing policies were reused and suitably
+adapted for constraints and optimal selection of slice template and
+slice instance. In case of new NSSI creation, HAS returns appropriate
+slice profile for the sub-net for which a new NSSI has to be created.
 
-- **Config DB** is enhanced to support storing and retrieval of RAN-related configuration data. This is not an official
-  ONAP component, and its functionality is expected to be performed by the Configuration Persistence Service in
-  Honolulu release.
+Further details can be obtained from:
+https://wiki.onap.org/display/DW/OOF%3A+Impacts+and+Interfaces
 
-- **Core NF simulators** have been developed for instantiating as part of Core NSSI creation/configuration, and also
-  to report PM data.
+EXT-API
+~~~~~~~
 
-- **RAN-Sim** has been enhanced to include CU and Near-RT RIC functionality, apart from enhancements to DU functionality.
+The EXT-API has undergone some minimal enhancements for this use case in
+Frankfurt release. A new value “CST” for the serviceType attribute in
+the Service Order API has been introduced.
 
-Details of the impacts/APIs of some of the modules listed above are available in the child pages of:
-https://wiki.onap.org/display/DW/Impacted+Modules--Design+Details
+The CSMF Portal in UUI captures the values for the requested
+serviceCharacteristics that are required as inputs to CST Service model.
+The relatedParty attribute in the Service Order is set according to the
+Customer, where relatedParty.id will map to the AAI "global-customer-id“
+in the “customer” object. The serviceSpecification.id is to be set to
+the UUID of the CST from SDC (i.e., this is the template for the Service
+we are ordering from CSMF). The action field will be set to “add” to
+indicate creation of a new service instance. CSMF Portal in UUI then
+sends POST with the JSON body to /{api_url}/nbi/api/v4/serviceOrder/.
+ExtAPI will generate a Service Order ID and send it in the response –
+this ID can be used to track the order. ExtAPI will then invoke SO’s API
+for creating the service.
+
+As can be seen from above explanation, the existing constructs of ExtAPI
+has been reused with minor enhancements.
+
+Further details can be obtained from:
+https://wiki.onap.org/display/DW/ExtAPI%3A+Impacts+and+Interfaces
+
+A&AI
+~~~~
+
+To support this use case，A&AI module has added 3 new nodes
+(Communication-service-profile, Service-profile and
+Slice-profile)，modified service-instance nodes, added 3 new nodes as
+new attributes of service-instance node. To map to SDC templates
+(Communication Service Template/Service Profile
+Template/NST/NSST)，run-time instances of this use case have
+Communication Service Instance/Service Profile Instance/NSI/NSSI. To
+align with ONAP’s model-driven approach, this use case reuses
+"service-instance" for all run-time instances. The relationship between
+service-instances use the existing attribute "relationship-list" or
+"allotted-resources". Communication-service-profile means the original
+requirement of Communication-service-instance, such as latency,
+data-rate, mobility-level and so on. Service-profile means the slice
+parameter info of Service-profile-instance. Slice-profile holds the
+slice sub-net parameter info of different network domain NSSIs, such as
+(Radio) Access Network (AN), Transport Network (TN) and Core Network
+(CN) NSSI.
+
+A&AI provides query APIs to CSMF and NSMF, such as:
+
+-  Query
+   Communication-service-instances/Service-profile-instances/NSI/NSSI
+
+-  Query Service-profile-instance by specified
+   Communication-service-instance
+
+-  Query NSI by specified Service-profile-instance, query NSSI by
+   specified NSSI.
+
+A&AI also supply creation APIs to SO, such as:
+
+-  Create Communication-service-profile/Service-profile/Slice-profile,
+   and
+
+-  Create relationship between service-instances.
+
+Further details can be obtained from:
+https://wiki.onap.org/pages/viewpage.action?pageId=76875989
 
 
 Functional Test Cases
 ---------------------
-The functional testing of this use case shall cover creation and activation of a service with an E2E Network Slice
-Instance which contains RAN, Transport and Core Slice Sub-net instances. It also addresses the termination of an
-E2E Network Slice Instance. We classify the test cases into 7 tracks: CSMF, NSMF, Common NSMMF/RAN NSSMF/TN NSSMF/
-Core NSSMF/KPI Monitoring/Close loop/Intelligent Slicing. Details of the test cases can be found at:
-https://wiki.onap.org/display/DW/Track-wise+test+cases
+
+The functional testing of this use case shall cover creation and
+activation of a service with an E2E Network Slice Instance which
+contains a Core Slice Sub-net instance. It also addresses the
+termination of an E2E Network Slice Instance. It covers the following
+aspects:
+
+-  Creation of a new customer service via CSMF portal in UUI resulting
+   in creation of a new NSI
+
+-  Creation of a new customer service via CSMF portal in UUI resulting
+   in re-use of an existing NSI
+
+-  Activation of a customer service via CSMF portal in UUI
+
+-  Creation of a new customer service via postman request to EXT-API
+   resulting in creation of a new NSI
+
+-  Creation of a new customer service via via postman request to ExtAPI
+   resulting in re-use of an existing NSI
+
+-  Manual intervention via NSMF portal during NSI selection (NSI
+   selection adjustment)
+
+-  Termination of a NSI and associated NSSI
+
+-  Interaction between ONAP and external NSSMF for new core NSSI
+   creation
+
+-  Checking inventory updates in AAI for NSIs, service and slice
+   profiles and NSSIs.
+
+Further details can be obtained from:
+https://wiki.onap.org/display/DW/Functional+Test+Cases
 
 
 Operation Guidance
 ------------------
-The Guilin release setup details for the E2E Network Slicing use case will be available at the following page and its
-sub-pages:
-https://wiki.onap.org/display/DW/Demo+setup+steps+for+Guilin
+
+How to install 5G E2E Slicing Minimum Scope
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+For 5G E2E Slicing use case, we support the minimum-scope installation
+of ONAP to reduce the resource requirements. From the module
+perspective, 5G E2E Slicing use case involves SDC, SO, A&AI, UUI,
+EXT-API, OOF and Policy modules of ONAP. So we will configure these
+required modules along with the mandatory common modules such as DMaaP.
+Further, for each module, the use case also does not use all of the
+charts，so we removed the not needed Charts under those modules to
+optimize the resources required for setting up the use case. This
+approach will help to install a minimum-scope version ONAP for 5G E2E
+Slicing use case.
+
+Further details of the installation steps are available at:
+https://wiki.onap.org/display/DW/Install+Minimum+Scope+ONAP+for+5G+Network+Slicing
 
 
-Known Issues and Resolutions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-(a) A limited testing of the supported scenarios is being carried out in Guilin. For example, for NSI allocation, only
-    a sub-set of combinations of NSI reuse, creation using existing or new NSSIs (RAN, Core, TN) is being tested. However,
-    since the remaining functionality will be activated only when triggered with the appropriate inputs, this limitation
-    shall not affect the stability of the components or other existing functionality.
-
-(b) The configuration updates for Closed Loop and Intelligent Slicing to the RAN is sent over O1 interface to Near-RT RIC.
-    It should be sent over A1 interface - this will be taken up in Honolulu release.
-
-(c) Coverage area to TA list is not performed. Based on the coverage area provided as input, a set of cells are assumed to
-    be impacted.
-
-(d) NST selection requires a file to be stored corresponding to the templates created in SDC. In Honolulu release, OOF
-    functionality will be enhanced to fetch the NSTs from SDC.
-
-(e) RAN/Core NSSI endpoint determination, configuration and use is limited in Guilin release.
-
-(f) Only creation of new TN NSSI is supported, reuse of existing TN NSSI is not yet supported.
-
-(g) KPI computation functionality enhancements in PM-Mapper in DCAE is not part of Guilin release, though the functionality
-    is implemented and available.
+Configuration aspects
+~~~~~~~~~~~~~~~~~~~~~
+The template design, UI configuration, as well as manual configurations for some
+of the components are all described in the following wiki page and its sub-pages:
+https://wiki.onap.org/display/DW/Operation+Guidance+for+5G+Network+Slicing+Use+Case

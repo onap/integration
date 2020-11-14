@@ -6,115 +6,134 @@
 Integration Release Notes
 =========================
 
+.. csv-table:: Integration Releases
+    :file: ./files/csv/release-integration-ref.csv
+    :widths: 50,50
+    :delim: ;
+    :header-rows: 1
+
+.. highlight:: rst
+
+    - New use cases (cmpv2, ves-collector)
+    - New smoke tests based on pythonsdk-tests (replace onap_tests)
+    - Bug fixes
+    - New Daily Guilin CI chain
+
+    Quick Links:
+
+      - `Guilin Integration page <https://wiki.onap.org/display/DW/Integration+G+Release>`_
+      - `Guilin Integration JIRA follow-up <https://wiki.onap.org/display/DW/Guilin+Docker+version+follow-up>`_
+      - `Guilin use case testing status page <https://wiki.onap.org/display/DW/Guilin+Integration+blocking+points>`
+      - `Guilin Integration weather Board <https://wiki.onap.org/display/DW/0%3A+Integration+Weather+Board+for+Guilin+Release>`_
+
+
+Code changes
+------------
+
 Integration Repo
-----------------
+.................
 
-Version: 6.0.1
-..............
+Version: 7.0.0 (aka Guilin)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-:Release Date: 2020-07-07
+:Release Date: 2020-11-xx
+
+.. csv-table:: Integration Changes
+    :file: ./files/csv/release-integration-features.csv
+    :widths: 30,70
+    :delim: ;
+    :header-rows: 1
 
 
-**New Features**
+Robot (Testsuite)
+.................
 
-- Update of CDS robot files (new testsuite 1.6.4)
+Version: 1.7.2
+^^^^^^^^^^^^^^
 
-Version: 6.0.0
-..............
+:Release Date: 2020-11-xx
 
-:Release Date: 2020-06-15
+.. csv-table:: Testsuite Changes
+    :file: ./files/csv/release-testsuite-features.csv
+    :widths: 30,70
+    :delim: ;
+    :header-rows: 1
 
-**New Features**
 
-- provide a new testsuite docker version (1.6.3) including several test updates
-  for the different tests
-- Creation of new repositories to host the use cases: bbs, mdons
-- Creation of new repositories to host the simulators: dc-simulator, ran-simulator,
-  pnf-simulator
-- Creation of new repositories to host baseline images: java11, python
-- Update oparent library to fix security Vulnerabilities
-- Support new use cases (mdons, vCPE_tosca,..)
-- Creation of a web page to host CI daily results
-- Creation and Integration in CI of new security tests (http public end points,
-  rooted pods, kubernetes CIS verification, jdpw ports)
-- Update of the onap-k8s use case to report the full status of the cluster after
-  the installation and provide a dashboard
-- Include healthdist and postinstall robot tests in healthcheck tests
-- Add new smoke use cases in CI (pnf-registrate, 5gbulkpm,...)
+O-Parent
+........
 
-Quick Links:
+Version: 3.0.2
+^^^^^^^^^^^^^^
 
-  - `Integration project page <https://wiki.onap.org/display/DW/Integration+Project>`_
-  - ` Frankfurt use testing status page <https://wiki.onap.org/display/DW/2%3A+Frankfurt+Release+Integration+Testing+Status>`
+:Release Date: 2020-11-xx
 
-ONAP Maturity Testing Notes
----------------------------
+.. csv-table:: Oparent Changes
+    :file: ./files/csv/release-oparent-features.csv
+    :widths: 30,70
+    :delim: ;
+    :header-rows: 1
 
-A Frankfurt daily CI chain has bee put in place after the RC0 milestone. This CI
-chain is used to track the stability of the release from the RC0. it will be
-maintained as the latest stable CI branch and replaces the El Alto branch.
-The daily results can be found in <https://gating-results.onap.eu/results/>.
-A 72 stability test has been executed after RC1.
+Demo Artifacts (HEAT Templates)
+...............................
 
-See :ref:`S3P page<integration-s3p>` for further details.
+Version: 1.7.0
+^^^^^^^^^^^^^^
+
+:Release Date: 2020-11-**
+
+.. csv-table:: Demo Changes
+    :file: ./files/csv/release-demo-features.csv
+    :widths: 30,70
+    :delim: ;
+    :header-rows: 1
+
+The demo artifacts are pushed to https://nexus.onap.org/content/repositories/releases/org/onap/demo/vnf
+
+Other Repositories
+..................
+
+New Guilin repositories:
+
+- 5G-core-nf-simulator
+- terraform
+- terragrunt
+- testsuite/cds
+- pythonsdk-test
+- robot-utils
+
 
 Verified Use Cases and Functional Requirements
 ----------------------------------------------
 
-The Integration team verified 31 use cases.
-The details can be found at
-:ref:`Verified Use Cases and Functional Requirements <docs_usecases>` session.
+:ref:`Use Cases page <docs_usecases>`
 
-O-Parent
---------
+ONAP Maturity Testing Notes
+---------------------------
 
-Version: 3.0.2
-..............
+:ref:`Maturity testing page <integration-s3p>`
 
-:Release Date: 2020-05-08
+Open JIRAs/Known issues
+-----------------------
 
-**New Features**
+Integration
+...........
 
-- Update tomcat 9.0.30
-- Update latest security dependencies
-- Update settings.xml to use https maven
-- Update sonar configuration
-- Update checkstyle rules to exclude methods
-- Upgrade oparent to checkstyle 8.27
-- Revert "update version of checkstyle for latest google style and jdk 8"
-- update version of checkstyle for latest google style and jdk 8
-- Add compiler-plugin example
-- Uprev to 3.0.0 for Java 11
-- qos logback to 1.2.3
+.. csv-table:: Integration Known Issues
+    :file: ./files/csv/issues-integration.csv
+    :widths: 10,10,40,10,10,20
+    :delim: ;
+    :header-rows: 1
 
-Demo Artifacts (HEAT Templates)
--------------------------------
+`Integration JIRA page <https://jira.onap.org/issues/?jql=project%20%3D%20Integration%20>`_
 
-Version: 1.6.0
-..............
+Testsuite
+.........
 
-:Release Date: 2020-06-15
+.. csv-table:: Testsuite Known Issues
+    :file: ./files/csv/issues-testsuite.csv
+    :widths: 10,10,40,10,10,20
+    :delim: ;
+    :header-rows: 1
 
-https://nexus.onap.org/content/repositories/releases/org/onap/demo/vnf/
-
-**New Features**
-
-* Update POM and heat env to use 1.6.0
-* Helm chart for visualization operator
-* bug fixes
-* Robot enhancements for various use cases
-
-Robot Test Suites
------------------
-
-Version: 1.6.4
-..............
-
-:Release Date: 2020-07-07
-:sha1: f863e0060b9e0b13822074d0180cab11aed87ad5
-
-
-**New Features**
-
-- Some corrections for vLB CDS
-- Change owning-entity-id from hard coded to variable
+`Testsuite JIRA page <https://jira.onap.org/issues/?jql=project%20%3D%20Test>`_

@@ -1,0 +1,21 @@
+Issue key;Summary;Priority;Status;Created
+REQ-324;Support xNF Software Upgrade in association to schema updates;High;In Review;08/May/20 8:46 PM
+REQ-335;Support for Test Topology Auto Design （NFV Testing Automatic Platform）;High;To Do;27/May/20 3:28 AM
+REQ-336;Support for Test Environment Auto Deploy（NFV Testing Automatic Platform）;High;To Do;27/May/20 3:37 AM
+REQ-337;Support for Test Task Auto Execution （NFV Testing Automatic Platform）;High;To Do;27/May/20 3:37 AM
+REQ-338;Support for Test Result Auto Analysis & Certification （NFV Testing Automatic Platform）;High;To Do;27/May/20 3:38 AM
+REQ-352;Extend ORAN A1 Adapter and add A1 Policy Management;High;In Review;27/May/20 2:21 PM
+REQ-339;Container Network Function Test Platform (CNTP): OVP 2.0 support and Enable Network Service testing;High;To Do;27/May/20 4:06 AM
+REQ-388;Interactive documentation aligned with a deployment;High;To Do;02/Jun/20 7:05 AM
+REQ-329;Guilin-R7 - Support for Intent-based Network;High;To Do;20/May/20 2:29 AM
+REQ-334;ETSI-Alignment for Guilin and Honolulu;Medium;In Review;27/May/20 2:08 AM
+REQ-384;Define and prove the concept of model driven in the context of CPS;Medium;To Do;28/May/20 1:35 PM
+REQ-353;"xNF License Management, Guilin R7";Medium;To Do;27/May/20 2:38 PM
+REQ-320;5G Service Modeling in R7;Medium;To Do;07/May/20 6:01 PM
+REQ-327;ONAP/3GPP & O-RAN Alignment-Standards Defined Notifications over VES (Guilin);Medium;In Progress;19/May/20 8:43 PM
+REQ-322;Configuration & Persistency Service in R7;Medium;To Do;07/May/20 6:15 PM
+REQ-321;CMPv2 Enhancements for R7;Medium;In Progress;07/May/20 6:06 PM
+REQ-318;PNF Plug & Play in R7;Medium;To Do;07/May/20 5:36 PM
+REQ-319;PNF PreOnboarding in R7;Medium;To Do;07/May/20 5:50 PM
+REQ-417;Epic task for all logging fix tasks;Medium;To Do;10/Aug/20 12:59 PM
+REQ-326;Self Serve Control Loops;Medium;To Do;11/May/20 4:18 PM
