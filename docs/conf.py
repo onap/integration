@@ -13,7 +13,8 @@ linkcheck_ignore = [
     'http://so-monitoring:30224',
     r'http://SINK_IP_ADDRESS:667.*',
     r'http.*K8S_HOST:30227.*',
-    r'http.*K8S_NODE_IP.*'
+    r'http.*K8S_NODE_IP.*',
+    'http://team.onap.eu'
 ]
 
 intersphinx_mapping = {}
