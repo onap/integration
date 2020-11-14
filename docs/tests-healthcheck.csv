@@ -1,0 +1,5 @@
+Tests;Description;Code;Comments
+core;Robot healthcheck tests of the core components (AA&I, DMAAP, Portal, SDC, SDNC, SO);`robot tests <https://git.onap.org/testsuite/tree/robot/testsuites/health-check.robot>`__;`robotframework <https://robotframework.org/>`__
+full;Robot healthcheck tests for all the components;`robot tests <https://git.onap.org/testsuite/tree/robot/testsuites/health-check.robot>`__;`robotframework <https://robotframework.org/>`__
+healthdist;Check the onboarding and distribution of the vFW;`robot tests <https://git.onap.org/testsuite/tree/robot/testsuites/health-check.robot>`__;`robotframework <https://robotframework.org/>`__
+postinstall;Check dmaap and AA&I Design model DB tests;`robot tests <https://git.onap.org/testsuite/tree/robot/testsuites/post-install-tests.robot>`__;`robotframework <https://robotframework.org/>`__
