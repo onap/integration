@@ -1,0 +1,8 @@
+Repository;Description;Link
+testsuite;repository hosting the robot test suites;`link <https://gerrit.onap.org/r/admin/repos/testsuite>`__
+**testsuite/cds**;**Repository hosting (standalone) CDS test suites shared by Bell Canada team, not yet integrated in CI/CD**;`link <https://gerrit.onap.org/r/admin/repos/testsuite/cds>`__
+testsuite/heatbridge;python utils to manage the heatbridge function to enrich cloud information to AAI (deprecated);`link <https://gerrit.onap.org/r/admin/repos/testsuite/heatbridge>`__
+testsuite/oom;Helm chart for robot pod (to be deprecated in Honolulu and moved back to OOM);`link <https://gerrit.onap.org/r/admin/repos/testsuite/oom>`__
+testsuite/python-testing-utils;Python and robot util libraries used for robot tests;`link <https://gerrit.onap.org/r/admin/repos/testsuite/python-testing-utils>`__
+**testsuite/pythonsdk-tests**;**Repository hosting the test scenarios leveraging python-onapsdk for end to end smoke tests**;`link <https://gerrit.onap.org/r/admin/repos/testsuite/pythonsdk-tests>`__
+**testsuite/robot-utils**;**Repository aiming to provide a robot wrapper for python-onapsdk**;`link <https://gerrit.onap.org/r/admin/repos/testsuite/robot-utils>`__

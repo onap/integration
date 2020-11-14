@@ -61,15 +61,12 @@ At the end you shall see that logs and reporting are automatically generated
 by robot and stored on the pod under /share/logs/.
 You can retrieve the logs directly from the pods or through the web interface
 integrated in the robot pod by typing
-http://portal.api.simpledemo.onap.org:30209/logs/
-
-.. note::
-  Login credentials: (test/test)
+http://portal.api.simpledemo.onap.org:30209/logs/ (test/test)
 
 .. figure:: files/robot/robot_logs.png
    :align: center
 
-In every test directory, You shall see 3 files:
+You shall see 3 files:
 
 * log.html
 * output.xml
@@ -160,8 +157,8 @@ Onboard and Instantiate VNF/PNF with Robot
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Robot scripts have been also created to provision components and perform end
 to end tests.
-All the robot scripts are hosted on the tesuite repository (https://git.onap.org/testsuite/tree/robot/testsuites)
-and deal with various test cases and/or components.
+All the robot scripts are hosted on the tesuite repository and deal with various
+test cases and/or components.
 
 ::
 
@@ -194,47 +191,6 @@ the SDC by running the command:
 ::
 
   $ ete-k8s.sh onap healthdist
-  ++ export NAMESPACE=onap
-  ++ NAMESPACE=onap
-  +++ kubectl --namespace onap get pods
-  +++ sed 's/ .*//'
-  +++ grep robot
-  ++ POD=dev-robot-robot-6d444f4cdd-n7vg5
-  ++ TAGS='-i healthdist'
-  +++ dirname ./ete-k8s.sh
-  ++ DIR=.
-  ++ SCRIPTDIR=scripts/etescript
-  ++ ETEHOME=/var/opt/ONAP
-  ++ [[ healthdist == \e\x\e\c\s\c\r\i\p\t ]]
-  +++ kubectl --namespace onap exec dev-robot-robot-6d444f4cdd-n7vg5 -- bash -c 'ls -1q /share/logs/ | wc -l'
-  ++ export GLOBAL_BUILD_NUMBER=5
-  ++ GLOBAL_BUILD_NUMBER=5
-  +++ printf %04d 5
-  ++ OUTPUT_FOLDER=0005_ete_healthdist
-  ++ DISPLAY_NUM=95
-  ++ VARIABLEFILES='-V /share/config/robot_properties.py'
-  ++ VARIABLES='-v GLOBAL_BUILD_NUMBER:32515'
-  ++ kubectl --namespace onap exec dev-robot-robot-6d444f4cdd-n7vg5 -- /var/opt/ONAP/runTags.sh -V /share/config/robot_properties.py -v GLOBAL_BUILD_NUMBER:32515 -d /share/logs/0005_ete_healthdist -i healthdist --display 95
-  Starting Xvfb on display :95 with res 1280x1024x24
-  Executing robot tests at log level TRACE
-  ==============================================================================
-  Testsuites
-  ==============================================================================
-  Testsuites.Health-Check :: Test that ONAP components are available via basi...
-  ==============================================================================
-  Health Distribution Test                                              | PASS |
-  ------------------------------------------------------------------------------
-  Testsuites.Health-Check :: Test that ONAP components are available... | PASS |
-  1 critical test, 1 passed, 0 failed
-  1 test total, 1 passed, 0 failed
-  ==============================================================================
-  Testsuites                                                            | PASS |
-  1 critical test, 1 passed, 0 failed
-  1 test total, 1 passed, 0 failed
-  ==============================================================================
-  Output:  /share/logs/0005_ete_healthdist/output.xml
-  Log:     /share/logs/0005_ete_healthdist/log.html
-  Report:  /share/logs/0005_ete_healthdist/report.html
 
 If you consider the ete-k8s.sh script, the following testsuites are referenced:
 
@@ -248,13 +204,11 @@ If you consider the ete-k8s.sh script, the following testsuites are referenced:
 * oof-cmso.robot, oof-homing.robot, oof-has.robot: oof related tests
 * pnf-registration.robot: ete, pnf_registrate
 * post-install-tests.robot dmaapacl, postinstall
-* sdc-dcae-d.robot: sdc-dcae-d
-* security.robot: security
 * update_onap_page.robot: UpdateWebPage
 * vnf-orchestration-direct-so.robot: instantiateVFWdirectso
 * vnf-orchestration.robot: instantiate, instantiateNoDelete, stability72hr
 
-If you use the demo-k8s.sh script, you may see the following options:
+If you use the demo-k8s.s script, you may see the following options:
 
 * init_robot
 * init
@@ -264,7 +218,6 @@ If you use the demo-k8s.sh script, you may see the following options:
 * appc
 * instantiateVFW
 * instantiateVFWdirectso
-* instantiateVLB_CDS
 * deleteVNF
 * heatbridge
 * cds
@@ -272,53 +225,6 @@ If you use the demo-k8s.sh script, you may see the following options:
 * distributeDemoVFWDT
 * instantiateDemoVFWDT
 * vfwclosedloop
-
-Below is the sample output for init execution with demo-k8s.sh script
-
-::
-
-  $ ./demo-k8s.sh onap init
-  Number of parameters: 2
-  KEY: init
-  ++ kubectl --namespace onap get pods
-  ++ sed 's/ .*//'
-  ++ grep robot
-  + POD=dev-robot-robot-6d444f4cdd-6t77j
-  ++ dirname ./demo-k8s.sh
-  + DIR=.
-  + SCRIPTDIR=scripts/demoscript
-  + ETEHOME=/var/opt/ONAP
-  + '[' ']'
-  ++ kubectl --namespace onap exec dev-robot-robot-6d444f4cdd-6t77j -- bash -c 'ls -1q /share/logs/ | wc -l'
-  + export GLOBAL_BUILD_NUMBER=4
-  + GLOBAL_BUILD_NUMBER=4
-  ++ printf %04d 4
-  + OUTPUT_FOLDER=0004_demo_init
-  + DISPLAY_NUM=94
-  + VARIABLEFILES='-V /share/config/robot_properties.py'
-  + kubectl --namespace onap exec dev-robot-robot-6d444f4cdd-6t77j -- /var/opt/ONAP/runTags.sh -V /share/config/robot_properties.py -d /share/logs/0004_demo_init -i InitDemo --display 94
-  Starting Xvfb on display :94 with res 1280x1024x24
-  Executing robot tests at log level TRACE
-  ==============================================================================
-  Testsuites
-  ==============================================================================
-  Testsuites.Demo :: Executes the VNF Orchestration Test cases including setu...
-  ==============================================================================
-  Initialize Customer And Models                                        | PASS |
-  ------------------------------------------------------------------------------
-  Initialize SO Openstack Identity For V3                               | PASS |
-  ------------------------------------------------------------------------------
-  Testsuites.Demo :: Executes the VNF Orchestration Test cases inclu... | PASS |
-  2 critical tests, 2 passed, 0 failed
-  2 tests total, 2 passed, 0 failed
-  ==============================================================================
-  Testsuites                                                            | PASS |
-  2 critical tests, 2 passed, 0 failed
-  2 tests total, 2 passed, 0 failed
-  ==============================================================================
-  Output:  /share/logs/0004_demo_init/output.xml
-  Log:     /share/logs/0004_demo_init/log.html
-  Report:  /share/logs/0004_demo_init/report.html
 
 See :ref:`Verified Use Cases and Functional Requirements <docs_usecases>` to see
 how to use these scripts. Some of them may need specific prerequisites on the
