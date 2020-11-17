@@ -9,8 +9,13 @@ CCVPN (Cross Domain and Cross Layer VPN)
 Update for Guilin Release
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In Guilin Release, MDONS Extension feature is introduced.
+In Guilin Release, MDONS Extension feature is introduced. 
 
+In addition to the MDONS extension, CCVPN has also developed an 
+IETF/ACTN-based Transport Slicing solution (REQ-347). This development 
+enabled ONAP to offer the TN NSSMF functionality, which was used by 
+the E2E Network Slicing use case (REQ-342).  The solution was built 
+upon the existing IETF/ACTN E-LINE over OTN NNI feature developed in Frankfurt release. 
 
 Guilin Scope and Impacted modules
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -23,23 +28,54 @@ Impacted ONAP modules include: OOF, SDN-C, SO and Holmes
 
 Wiki link reference: https://wiki.onap.org/display/DW/MDONS+Extension+in+R7
 
+Transport Slicing in Guilin release has implemented the following TN NSSMF functionality:
+
+- Allocate TN NSSI
+- Deallocate TN NSSI
+- Activate TN NSSI
+- Deactivate TN NSSI
+
+The Tranport Slicing implementaion has made code changes in the following modules:
+
+- AAI (Schema changes only)
+- UUI
+- SO
+- OOF
+- SDN-C
+- CCSDK
+- Modelling
+
 Functional/Integration Test Cases
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-For integration test case and description, refer to this following wiki-page:
+For integration test case and description of MDONS extension, refer to this following
+wiki-page:
 https://wiki.onap.org/display/DW/Integration+Test+Cases+-+MDONS+Extension
+
+For integration test case and description of Transport Slicing, refer to this following
+wiki-pages:
+https://wiki.onap.org/display/DW/CCVPN+-+Transport+Slicing+integration+test+plan+for+Guilin+release
+https://wiki.onap.org/display/DW/E2E+Network+Slicing+Use+Case+in+R7+Guilin
 
 Installation Procedure
 ~~~~~~~~~~~~~~~~~~~~~~
-The integration test environment is established to have ONAP instance with Guilin
+For MDONS extention, The integration test environment is established to have ONAP instance with Guilin
 release interfacing to 3rd party transport domain controllers. One controller
 instance manages OpenROADM OTN topology and the other 2 instances manage TAPI
 OTN topology. L0 infrastructure and WDM services are pre-provisioned to support
 L1 topology discovery and OTN service orchestration from ONAP.
 
+For Transport Slicing, the installation procedure is similiar to that of the E2E
+Network Slicing use case. In other words, we need to bring up the required modules
+including SDC, SO, A&AI, UUI and OOF. We also need to configure these modules along
+with the mandatory common modules such as DMaaP.
+
 Testing Procedure
 ~~~~~~~~~~~~~~~~~
+Testing procedure for MDONS extention:
 https://wiki.onap.org/display/DW/Integration+Test+Cases+-+MDONS+Extension
 
+Testing procedure for Transport Slicing:
+https://wiki.onap.org/display/DW/CCVPN+-+Transport+Slicing+integration+test+plan+for+Guilin+release
 
 Update for Frankfurt release
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
