@@ -34,9 +34,9 @@ class PerfReqUrllc(Model):
 
 
 class PerfReq(Model):
-    perfReqEmbb = ModelType(PerfReqEmbb)
-    # perfReqUrllc = ModelType(PerfReqUrllc)
-    perfReqUrllc = DictType(BaseType)
+    perfReqEmbbList = ListType(ModelType(PerfReqEmbb))
+    # perfReqUrllcList = ListType(ModelType(PerfReqUrllc))
+    perfReqUrllcList = ListType(DictType(BaseType))
 
 
 class SliceProfile(Model):
