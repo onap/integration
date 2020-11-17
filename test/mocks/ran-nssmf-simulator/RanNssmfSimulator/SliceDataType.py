@@ -20,6 +20,7 @@ from schematics.models import Model
 
 
 class PerfReqEmbb(Model):
+    """Reference 3GPP TS 28.541 V16.5.0, Section 6.4.1."""
     expDataRateDL = IntType()
     expDataRateUL = IntType()
     areaTrafficCapDL = IntType()
@@ -34,12 +35,14 @@ class PerfReqUrllc(Model):
 
 
 class PerfReq(Model):
-    perfReqEmbb = ModelType(PerfReqEmbb)
-    # perfReqUrllc = ModelType(PerfReqUrllc)
-    perfReqUrllc = DictType(BaseType)
+    """Reference 3GPP TS 28.541 V16.5.0."""
+    perfReqEmbbList = ListType(ModelType(PerfReqEmbb))
+    # perfReqUrllcList = ListType(ModelType(PerfReqUrllc))
+    perfReqUrllcList = ListType(DictType(BaseType))
 
 
 class SliceProfile(Model):
+    """Reference 3GPP TS 28.541 V16.5.0, Section 6.3.4."""
     sliceProfileId = StringType(required=True)
     sNSSAIList = ListType(StringType(required=True))
     pLMNIdList = ListType(StringType(required=True))
@@ -52,8 +55,10 @@ class SliceProfile(Model):
 
 
 class AllocateNssi(Model):
+    """Reference 3GPP TS 28.531 V16.6.0."""
     attributeListIn = ModelType(SliceProfile)
 
 
 class DeAllocateNssi(Model):
+    """Reference 3GPP TS 28.531 V16.6.0."""
     nSSId = StringType(required=True)
