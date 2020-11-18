@@ -33,7 +33,7 @@ Integration Test database
 -------------------------
 
 The integration team shares a Test Result Database with the OPNFV project. All
-the test results of the CD are automatically pushed in this database.
+the test results of the CD are automatically pushed to this database.
 It is possible to retrieve the results through the Test API associated with this
 test Database.
 
@@ -51,14 +51,14 @@ lab, period, last, CI id,..)
 See the `OPNFV test API documentation <https://wiki.opnfv.org/pages/viewpage.action?pageId=2926452>`__.
 
 Any company running ONAP Integration tests can be referenced to push their results
-in this database.
+to this database.
 This Database is hosted on a LF OPNFV server. Results are backuped daily.
 Integration committers can have access to this server.
 
 VNF demo Artifacts
 ------------------
 
-They are hosted in the demo repositories and published in
+VNF demo artifacts are hosted in the demo repositories and published in
 https://nexus.onap.org/content/repositories/releases/org/onap/demo/vnf/.
 
 Simulators

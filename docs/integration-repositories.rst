@@ -49,7 +49,7 @@ Integration
 -----------
 
 The integration repository is the historical repository.
-As a consequence it includes several elements in the same reppository:
+As a consequence it includes several elements in the same repository:
 
 - Deployment scripts (deployment directory)
 - Tests: the first non robot tests (security, vCPE,..)
@@ -79,10 +79,10 @@ rather than systematically re-inventing the wheel.
 Testsuite
 ---------
 
-The testsuite repository and it sub repositories deal excelusively with tests.
+The testsuite repository and its sub repositories deal exclusively with tests.
 
 The testsuite repository includes all the robotframework scripts.
-The robot pod that can be installed as part of the ONAP cluster is build from
+The robot pod that can be installed as part of the ONAP cluster is built from
 this repository.
 
 Several tooling repositories are associated with the robot tests (heatbridge,
@@ -126,7 +126,7 @@ Oparent
 External repositories
 ---------------------
 
-Additionnaly, the Integration team also deals with external gitlab.com
+Additionally, the Integration team also deals with external gitlab.com
 repositories.
 
 .. csv-table:: Integration external repositories table
@@ -135,8 +135,8 @@ repositories.
     :delim: ;
     :header-rows: 1
 
-The python-onapsdk has been developped out of ONAP as gitlab provided more
-enhanced built-in features for this kind of developments.
+The python-onapsdk has been developed outside of ONAP as gitlab provided more
+enhanced built-in features for this kind of development.
 
 The xtesting-onap repository is also hosted in gitlab.com as the CD part of
 Integration work is based on public gitlab-ci chains.

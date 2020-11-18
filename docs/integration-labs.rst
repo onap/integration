@@ -15,7 +15,7 @@ ONAP Integration Labs
    - The Continuous Deployment (CD) Labs
    - The Orange openlab
 
-Additionnaly integration contributors may deal with their own lab pushing results
+Additionally integration contributors may deal with their own lab pushing results
 in the integration portal (See DT http://testresults.opnfv.org/onap-integration/dt/dt.html)
 
 Windriver/Intel lab
@@ -38,8 +38,8 @@ resources (April 2020).
 In order to avoid disturbing the projects, the reinstallation has been postponed
 after Guilin.
 A huge cleanup has been done in order to save the resources.
-The historical CI/CD chains based on a stand alone jenkins VM hosted in Windriver
-have been stopped.For guilin only SB-00 has been kept and re-installed for the
+The historical CI/CD chains based on a stand-alone Jenkins VM hosted in Windriver
+have been stopped. For Guilin only SB-00 has been kept and re-installed for the
 use case support.
 
 If you want to use this lab, you need a VPN access. The procedure is described in
@@ -48,10 +48,10 @@ the `wiki <https://wiki.onap.org/pages/viewpage.action?pageId=29787070>`__.
 Environment Installation Scripts
 ................................
 
-In addition of the official OOM scripts, Integration used to provide some
-exwtra scripts/guidelines to install your OpenStack infrastructure thanks to a
+In addition to the official OOM scripts, Integration used to provide some
+extra scripts/guidelines to install your OpenStack infrastructure thanks to a
 heat template. See :ref:`Integration heat guideline <integration-installation>`
-for details. This scripts were used mainly in windriver labs but are not actively
+for details. These scripts were used mainly in Windriver labs but are not actively
 maintained.
 
 .. caution:
@@ -67,8 +67,8 @@ Contact the Integration team to get an access.
 Orange Openlab
 --------------
 
-This lab is a community use lab. It is always provided the last stable version,
-so the frankfurt release during Guilin release time.
+This lab is for community use. It is always provided with the last stable version,
+i.e. Frankfurt release during Guilin development time.
 Please note that such labs do not provide admin rights and is shared with all
 the users. It can be used to discover ONAP.
 

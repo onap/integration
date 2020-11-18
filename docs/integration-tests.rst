@@ -6,21 +6,21 @@ Tests
 =====
 
 .. important::
-   Integration is in charged of several types of tests:
+   Integration is in charge of several types of tests:
 
-   - Use Cases: developped by use case teams, usually complex, demonstrating high value capabilities ofr ONAP. They may be partially automated and even
+   - Use Cases: developed by use case teams, usually complex, demonstrating high value capabilities of ONAP. They may be partially automated and even
      integrated in CD.
    - CSIT Tests: functional tests created by the projects, partially hosted in CSIT repository
-   - Automatic Test Cases: these use cases are usually more simple and aims to validate that ONAP is working properly.
+   - Automatic Test Cases: these use cases are usually more simple and aim to validate that ONAP is working properly.
      These tests have been developed to validate ONAP as a software solution.
-     In theory all the main function shall be covered by such tests in order to have more robust CI/CD and then avoid regressions.
+     In theory all the main functions shall be covered by such tests in order to have more robust CI/CD and then avoid regressions.
      These tests are usually developed and maintained by the integration team.
 
-We may also indicate that when the development of the test framework python-onapsk
-follows standard developement quality rules and imposes the creation of
+We may also indicate that when the development of the test framework python-onapsdk
+follows standard development quality rules and imposes the creation of
 unit/functional/integration tests.
 As an example python-onapsdk requires a unit test coverage of 98% before merging
-a new feature, which is far above the project criteria in SonarCLoud today.
+a new feature, which is far above the project criteria in SonarCloud today.
 
 Use Cases
 ---------
@@ -31,16 +31,16 @@ CSIT Tests
 ----------
 
 The CSIT tests are functional tests executed by the projects on mocked
-environement to validate their components.
+environment to validate their components.
 Historically it was hosted in a CSIT repository.
 
-Integration team invited the projects to bring back such tests bacdk to home
+Integration team invited the projects to bring back such tests back to home
 repository for 2 main reasons:
 
 - integration cannot be a bottleneck: +2/merge from integration needed for each
   project
-- most of the tests are abandonned and not maintained when hosted in a third party
-  repository leading to  CI/CD time waste and misleading test reporting
+- most of the tests are abandoned and not maintained when hosted in a third party
+  repository leading to CI/CD resource waste and misleading test reporting
 
 In Guilin a PoC to help the project to re-insource their functional tests have
 been initiated.
@@ -58,7 +58,7 @@ They are all embedded in `xtesting <https://pypi.org/project/xtesting/>`__ docke
 .. hint::
    Automatic tests are currently divided in 4 different categories:
 
-   - infrastructure-healthcheck: tests from OOM checking the ONAP namespace, certificates,..
+   - infrastructure-healthcheck: tests from OOM checking the ONAP namespace, certificates...
    - healthcheck: basic tests on components
    - smoke tests: end to end tests
    - security tests
@@ -94,7 +94,7 @@ in order to collect the logs of the different components during the test executi
 
 .. figure:: files/tests/test-onap-k8s.png
 
-Healhcheck Tests
+Healthcheck Tests
 ................
 
 .. csv-table:: Healthcheck Tests

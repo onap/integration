@@ -19,7 +19,7 @@ Continuous Integration
 The CI part provides the following features:
 
 - Repository Verification (format of the INFO.yaml)
-- Patchset verification thank to json/yaml/python/go/rst/md linters. These jenkins
+- Patchset verification thank to json/yaml/python/go/rst/md linters. These Jenkins
   verification jobs are hosted in the ci-management repository. They can vote
   +1/-1 on patchset submission. Integration team systematically enables linters
   on any new repository
@@ -45,24 +45,24 @@ There are 2 Continuous Deployment architectures.
 Jenkins CD on Windriver/Intel lab
 ..................................
 
-The CD part on windriver/Intel is based on jenkins.
+The CD part on Windriver/Intel is based on Jenkins.
 
-It is based on a standalone VM hosting a jenkins server.
-The credentials of this VM as well as the jenkins server have been provided to
+It is based on a standalone VM hosting a Jenkins server.
+The credentials of this VM as well as the Jenkins server have been provided to
 integration committers.
 
-Several jobs can be triggered from this jenkins interface.
+Several jobs can be triggered from this Jenkins interface.
 Historically several chains were run daily (staging/release) but due to
 performance issues, they have all been stopped.
 Only SB-00 has been kept for use case support.
-The jenkins interface was however used to launch the installation of SB-00.
+The Jenkins interface was however used to launch the installation of SB-00.
 
-This jenkins script is leveraging resources available in OOM and integration
+This Jenkins script is leveraging resources available in OOM and integration
 repositories.
 
-It was planned to replaced this CD by a gitlab runner based CD to unify the CD
-management. But due to performance issue in the DC it was not possible to
-finalize the operation in Guilin.
+The replacement of this CD by a gitlab runner based CD to unify the CD
+management was planned, but finalizing the operation in Guilin was not possible
+due to performance issues.
 
 Gitlab CD
 .........
