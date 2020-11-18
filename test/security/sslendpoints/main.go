@@ -28,6 +28,7 @@ const (
 
 var (
 	kubeconfig *string
+	namespace  *string
 	xfailName  *string
 )
 
@@ -37,8 +38,14 @@ func main() {
 	} else {
 		kubeconfig = flag.String("kubeconfig", "", "absolute path to the kubeconfig file")
 	}
+	namespace = flag.String("namespace", "", "(optional) name of specific namespace to scan")
 	xfailName = flag.String("xfail", "", "(optional) absolute path to the expected failures file")
 	flag.Parse()
+
+	var listOptions metav1.ListOptions
+	if *namespace != "" {
+		listOptions = metav1.ListOptions{FieldSelector: "metadata.namespace=" + *namespace}
+	}
 
 	xfails := make(map[uint16]string)
 	if *xfailName != "" {
@@ -94,7 +101,7 @@ func main() {
 	}
 
 	// get list of services to extract nodeport information
-	services, err := clientset.CoreV1().Services("").List(metav1.ListOptions{})
+	services, err := clientset.CoreV1().Services("").List(listOptions)
 	if err != nil {
 		log.Panicf("Unable to get list of services: %v", err)
 	}
