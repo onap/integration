@@ -47,7 +47,7 @@ func main() {
 		listOptions = metav1.ListOptions{FieldSelector: "metadata.namespace=" + *namespace}
 	}
 
-	xfails := make(map[uint16]string)
+	var xfails map[uint16]string
 	if *xfailName != "" {
 		xfailFile, err := os.Open(*xfailName)
 		if err != nil {
