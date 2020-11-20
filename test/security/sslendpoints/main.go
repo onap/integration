@@ -40,7 +40,13 @@ func main() {
 	xfailName = flag.String("xfail", "", "(optional) absolute path to the expected failures file")
 	flag.Parse()
 
-	xfails := make(map[uint16]string)
+	var listOptions metav1.ListOptions
+	if *namespace != "" {
+		listOptions = metav1.ListOptions{FieldSelector: "metadata.namespace=" + *namespace}
+	}
+
+	var xfails map[uint16]string
+
 	if *xfailName != "" {
 		xfailFile, err := os.Open(*xfailName)
 		if err != nil {
