@@ -36,7 +36,7 @@ Integration Repo
 Version: 7.0.0 (aka Guilin)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-:Release Date: 2020-11-xx
+:Release Date: 2020-11-24
 
 .. csv-table:: Integration Changes
     :file: ./files/csv/release-integration-features.csv
@@ -48,7 +48,7 @@ Version: 7.0.0 (aka Guilin)
 Robot (Testsuite)
 .................
 
-Version: 1.7.2
+Version: 1.7.3
 ^^^^^^^^^^^^^^
 
 :Release Date: 2020-11-xx
@@ -66,7 +66,7 @@ O-Parent
 Version: 3.0.2
 ^^^^^^^^^^^^^^
 
-:Release Date: 2020-11-xx
+:Release Date: 2020-11-24
 
 .. csv-table:: Oparent Changes
     :file: ./files/csv/release-oparent-features.csv
@@ -80,7 +80,7 @@ Demo Artifacts (HEAT Templates)
 Version: 1.7.0
 ^^^^^^^^^^^^^^
 
-:Release Date: 2020-11-**
+:Release Date: 2020-11-24
 
 .. csv-table:: Demo Changes
     :file: ./files/csv/release-demo-features.csv
@@ -106,7 +106,7 @@ New Guilin repositories:
 Verified Use Cases and Functional Requirements
 ----------------------------------------------
 
-:ref:`Use Cases page <docs_usecases>`
+:ref:`Use Cases page <docs_usecases_release>`
 
 ONAP Maturity Testing Notes
 ---------------------------

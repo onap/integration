@@ -1,5 +1,7 @@
 Issue-ID;Description
-NT-1658;vFW CNF CDS scripts update for native Helm support
+INT-1788;Add Lasse as Integration committer
+INT-1785;Create demo 1.7.0 for guilin
+INT-1658;vFW CNF CDS scripts update for native Helm support
 INT-1240;ROBOT e2e test cases improvements for csar/zip tosca package validation in VNFSDK and SDC Onbarding
 INT-1658;vFW CDS CNF CBA with native k8s profile upload
 INT-1724;Update INFO.yaml

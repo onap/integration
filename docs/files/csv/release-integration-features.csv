@@ -1,5 +1,10 @@
 Issue-ID;Description
-NT-1736;Refactor Integration official documentation
+INT-1736;Update branch references
+INT-1788;Add Lasse as Integration committer
+INT-1690;Release Docs Update for CCVPN - Transport Slicing in Guilin
+INT-1736;Correct typos and grammar
+INT-1707;Fix Data Type of External RAN NSSMF simulator
+INT-1736;Refactor Integration official documentation
 INT-1777;Updated docs_E2E_network_slicing.rst
 INT-1776;[DOC] Adding few notes and sample outputs to the robot framework documentation
 INT-1772;Update OOF PCI document
