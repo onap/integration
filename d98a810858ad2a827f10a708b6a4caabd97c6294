@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f9550962_c663fa54",
+        "filename": "docs/docs_usecases.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-11-24T11:31:44Z",
+      "side": 1,
+      "message": "through",
+      "range": {
+        "startLine": 19,
+        "startChar": 53,
+        "endLine": 19,
+        "endChar": 59
+      },
+      "revId": "d98a810858ad2a827f10a708b6a4caabd97c6294",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47af0399_4f8b7f07",
+        "filename": "docs/docs_usecases.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-11-24T11:31:44Z",
+      "side": 1,
+      "message": "might be",
+      "range": {
+        "startLine": 19,
+        "startChar": 20,
+        "endLine": 19,
+        "endChar": 25
+      },
+      "revId": "d98a810858ad2a827f10a708b6a4caabd97c6294",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ffc7ca8_a9256198",
+        "filename": "docs/integration-s3p.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-11-24T11:31:44Z",
+      "side": 1,
+      "message": "\"the chain has been unstable\" I believe you meant?",
+      "range": {
+        "startLine": 16,
+        "startChar": 49,
+        "endLine": 17,
+        "endChar": 9
+      },
+      "revId": "d98a810858ad2a827f10a708b6a4caabd97c6294",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
