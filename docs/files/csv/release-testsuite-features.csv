@@ -1,4 +1,5 @@
 Issue-ID;Description
+INT-1788;Add Lasse as Integration committer
 INT-1770;PNF registarte - prevent test case fail at general step Submit SDC Software Product
 INT-1768;Create testsuite:1.7.2 for RC1
 INT-1240;ROBOT e2e test cases improvements for csar/zip tosca package validation in VNFSDK and SDC Onbarding

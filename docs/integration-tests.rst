@@ -25,7 +25,11 @@ a new feature, which is far above the project criteria in SonarCloud today.
 Use Cases
 ---------
 
-The use cases are described in :ref:`Verified Use cases <docs_usecases>`.
+The use cases of the last release are described in
+:ref:`Verified Use cases <docs_usecases_release>`.
+
+The history of the different use cases accross the different releases can be
+found in :ref:`Use Cases page <docs_usecases>`.
 
 CSIT Tests
 ----------
