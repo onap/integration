@@ -3,76 +3,21 @@
 
 .. _docs_usecases:
 
-Verified Use Cases and Functional Requirements
-==============================================
+Deprecated Use Cases and Functional Requirements
+================================================
 
-Description
------------
-This session includes use cases and functional requirements which have been
-officially verified in Frankfurt release by the ONAP community.
+Each ONAP release deals with lots of use cases and functional requirements.
+When possible, it is strongly recommended to automate the use cases.
+In this case Integration team can take over the maintenance part of the use case.
+If not automated, the use cases are fully under the responsibility of the use
+case team and usually valid for the release the team was involved in.
+However, these use cases, their artifacts remain in the repository.
+Anyone can give a try even if the use cases are no more supported.
 
-For each use case or functional requirement, you can find contact names and a
-link to the associated documentation.
-
-This documentation deals with
-
-  1. What has been implemented
-  2. Step by step instructions to deploy and execute the tests, including the
-     links to download the related assets and resources
-  3. Known issues and workarounds
-
-Use cases
-~~~~~~~~~
-
-.. csv-table:: use case table
-   :file: ./files/csv/usecases.csv
-   :widths: 10,40,20,30
-   :delim: ;
-   :header-rows: 1
-
-Functional Requirements
-~~~~~~~~~~~~~~~~~~~~~~~
-
-.. csv-table:: functional requirements table
-    :file: ./files/csv/usecases-functional-requirements.csv
-    :widths: 10,40,10,10,30
-    :delim: ;
-    :header-rows: 1
-
-Automated Use Cases
-~~~~~~~~~~~~~~~~~~~
-
-.. csv-table:: Infrastructure Healthcheck Tests
-    :file: ./files/csv/tests-infrastructure-healthcheck.csv
-    :widths: 20,40,20,20
-    :delim: ;
-    :header-rows: 1
-
-.. csv-table:: Healthcheck Tests
-    :file: ./files/csv/tests-healthcheck.csv
-    :widths: 20,40,20,20
-    :delim: ;
-    :header-rows: 1
-
-.. csv-table:: Smoke Tests
-    :file: ./files/csv/tests-smoke.csv
-    :widths: 20,40,20,20
-    :delim: ;
-    :header-rows: 1
-
-.. csv-table:: Security Tests
-    :file: ./files/csv/tests-security.csv
-    :widths: 20,40,20,20
-    :delim: ;
-    :header-rows: 1
-
-Deprecated Use Cases
-~~~~~~~~~~~~~~~~~~~~
-
-The following use cases were included in Frankfurt or previous release but have
-not been tested in Frankfurt, usually due to a lack of resources.
-The resources are still available in previous branches, some adaptations may
-however be needed for Frankfurt.
+This section deals with such use cases.
+These use cases have been part of one release but have not been tested on the
+last releases. They maybe fully deprecated or usable though minor adaptations.
+The entry points are the use case owners.
 
 .. csv-table:: deprecated use case table
     :file: ./files/csv/usecases-deprecated.csv
