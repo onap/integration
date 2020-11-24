@@ -78,3 +78,4 @@ however be needed for Frankfurt.
     :file: ./files/csv/usecases-deprecated.csv
     :widths: 50,20,10,20
     :header-rows: 1
+    :delim: ;
