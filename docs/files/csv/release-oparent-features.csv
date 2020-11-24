@@ -1,4 +1,5 @@
 Issue-ID;Description
+INT-1766;Upgrade latest dependencies
 INT-1756;Set default to guilin
 INT-1486;Bump oparent to version 3.1.1-SNAPSHOT
 INT-1486;Release oparent version 3.1.0
