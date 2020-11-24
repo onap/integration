@@ -22,6 +22,30 @@
       "revId": "831dc786eaaef09b2bc50ca2939e401486b00c96",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68c53215_fd586243",
+        "filename": "docs/files/csv/usecases-old-valid.csv",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-11-24T16:59:22Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4cb379ba_898e2ce3",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 111
+      },
+      "revId": "831dc786eaaef09b2bc50ca2939e401486b00c96",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
