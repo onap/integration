@@ -55,4 +55,4 @@ To instantiate the Heat template run from *openstack* CLI:
 
 ::
 
-  stack create -t integration/test/mocks/mass-pnf-sim/deployment/heat/heat.yaml -e integration/test/mocks/mass-pnf-sim/deployment/heat/heat.env
+  stack create -t integration/test/mocks/masspnfsim/deployment/heat/heat.yaml -e integration/test/mocks/masspnfsim/deployment/heat/heat.env
