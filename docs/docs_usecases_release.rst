@@ -8,6 +8,7 @@ Guilin Use Cases and Functional Requirements
 
 Description
 -----------
+
 This session includes use cases and functional requirements which have been
 officially verified in Guilin release by the ONAP community.
 
@@ -21,9 +22,8 @@ This documentation deals with
      links to download the related assets and resources
   3. Known issues and workarounds
 
-
 Use cases
------------
+---------
 
 Guilin New Use Cases
 ~~~~~~~~~~~~~~~~~~~~
@@ -35,14 +35,13 @@ Guilin New Use Cases
    :header-rows: 1
 
 Old Use Cases Tested in Guilin
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. csv-table:: use case table
    :file: ./files/csv/usecases-old-valid.csv
    :widths: 50,20,30
    :delim: ;
    :header-rows: 1
-
 
 Functional Requirements
 -----------------------
@@ -52,7 +51,6 @@ Functional Requirements
     :widths: 10,40,20,30
     :delim: ;
     :header-rows: 1
-
 
 Automated Use Cases
 -------------------
