@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a07f8c77_a65c610e",
+        "filename": "docs/files/csv/usecases-deprecated.csv",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5622
+      },
+      "writtenOn": "2020-11-25T17:08:34Z",
+      "side": 1,
+      "message": "This line is visible in the final doc and so the table of deprecated usecases is not well displayed. A previous merge is not finalized!",
+      "revId": "27e858b90642a342d9d90bd5fbf486c15dbf92e0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17f58bff_9f1906b9",
+        "filename": "docs/files/csv/usecases-deprecated.csv",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 5622
+      },
+      "writtenOn": "2020-11-25T17:08:34Z",
+      "side": 1,
+      "message": "Separator shall be ;",
+      "range": {
+        "startLine": 2,
+        "startChar": 8,
+        "endLine": 2,
+        "endChar": 9
+      },
+      "revId": "27e858b90642a342d9d90bd5fbf486c15dbf92e0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
