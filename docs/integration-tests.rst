@@ -1,6 +1,6 @@
 .. This work is licensed under a
    Creative Commons Attribution 4.0 International License.
-.. integration-tests:
+.. _integration-tests:
 
 Tests
 =====
@@ -99,7 +99,7 @@ in order to collect the logs of the different components during the test executi
 .. figure:: files/tests/test-onap-k8s.png
 
 Healthcheck Tests
-................
+.................
 
 .. csv-table:: Healthcheck Tests
     :file: ./files/csv/tests-healthcheck.csv

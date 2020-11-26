@@ -14,3 +14,4 @@ INTEGRATION
    integration-labs.rst
    integration-CICD.rst
    integration-tests.rst
+   integration-tooling.rst
