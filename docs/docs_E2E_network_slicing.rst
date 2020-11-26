@@ -1,9 +1,6 @@
 .. This file is licensed under the CREATIVE COMMONS ATTRIBUTION 4.0 INTERNATIONAL LICENSE
 .. Full license text at https://creativecommons.org/licenses/by/4.0/legalcode
 
-.. contents::
-   :depth: 3
-..
 .. _docs_E2E_network_slicing:
 
 
@@ -13,8 +10,8 @@ E2E Network Slicing Use Case
 Overall Blueprint
 -----------------
 
-The objective of this use case is to realize End-to-End 5G Network
-Slicing using ONAP. An End-to-End Network Slice consists of RAN (Radio
+The objective of this use case is to realize **End-to-End 5G Network
+Slicing** using ONAP. An End-to-End Network Slice consists of RAN (Radio
 Access Network), Transport Network (TN) and Core Network (CN) slice
 sub-nets. This use case intends to demonstrate the modeling,
 orchestration (life cycle and resources) and assurance of a network
@@ -46,16 +43,15 @@ key highlights of this use case include:
    integrators thereby taking into consideration different perspectives
    and requirements.
 
-This use case is a multi-release effort in ONAP with the first steps
+This use case is a multi-releases effort in ONAP with the first steps
 taken in Frankfurt release. It will continue to expand in scope both in
 breadth and depth, and along the journey it shall also align with
 updates to the relevant standards which are also currently evolving.
 This use case shall also collaborate with other open initiatives such as
 O-RAN to enable wider adoption and use.
 
-Further details can be obtained from:
-https://wiki.onap.org/display/DW/Use+Case+Description+and+Blueprint
-
+See the `wiki <https://wiki.onap.org/display/DW/Use+Case+Description+and+Blueprint>`__
+for details.
 
 Abbreviations
 -------------
@@ -82,13 +78,13 @@ Abbreviations
 | NSST          | Network Slice Sub-net Template             |
 +---------------+--------------------------------------------+
 
+Scope
+-----
 
-Scope for Frankfurt
--------------------
+To realize the three layers of the slice management function, we need to decide whether to implement CSMF, NSMF or NSMF within ONAP, or use the external CSMF, NSMF or NSSMF. This implies that for ONAP-based network slice management, we have different choices from an architectural perspective.
+Our scope was to implement first the CSMF and NSMF functions within ONAP, while connecting to an external Core NSSMF.
 
-To realize the three layers of the slice management function, we need to decide whether to implement CSMF, NSMF or NSMF within ONAP, or use the external CSMF, NSMF or NSSMF. This implies that for ONAP-based network slice management, we have different choices from an architectural perspective. For Frankfurt release, our scope is to implement CSMF and NSMF within ONAP, while connecting to an external Core NSSMF.
-
-From the NSI Life Cycle perspective, the scope for Frankfurt includes NSI design and pre-provision, NSI instantiation and configuration, and NSI activation and deactivation. In particular:
+From the NSI Life Cycle perspective, the scope includes NSI design and pre-provision, NSI instantiation and configuration, and NSI activation and deactivation. In particular:
 
 - CSMF: Functions of slice service creation, slice service activation and deactivation are implemented.
 
@@ -104,12 +100,11 @@ From the NSI Life Cycle perspective, the scope for Frankfurt includes NSI design
 
 To support the above functions, code impacts in U-UI, SO, OOF and ExtAPI components, and schema change in A&AI are implemented.
 
-Further details can be obtained from:
-https://wiki.onap.org/display/DW/Proposed+Functions+for+R6+and+Impacted+Modules
+See the `wiki <https://wiki.onap.org/display/DW/Proposed+Functions+for+R6+and+Impacted+Modules>`__
+for details.
 
-
-Impacted Modules for Frankfurt
-------------------------------
+Impacted Modules
+----------------
 
 SO
 ~~
@@ -136,8 +131,8 @@ recalibration of NSI&NSSI selection with manual intervention from the
 portal. A new SO adapter is created to be the adapter of NSSMF which
 will interact with external NSSMF for NSSI management.
 
-Further details can be obtained from:
-https://wiki.onap.org/display/DW/SO%3A+Impacts+and+Interfaces
+See the `wiki <https://wiki.onap.org/display/DW/SO%3A+Impacts+and+Interfaces>`__
+for details.
 
 U-UI
 ~~~~
@@ -165,8 +160,7 @@ statistics of network slices. In this page, the statistics of slice
 usage (traffic), online users and total bandwidth can be monitored and
 displayed in the form of pi-charts and lines.
 
-Further details can be obtained from:
-https://wiki.onap.org/display/DW/UUI%3A+Impacts
+See the `wiki <https://wiki.onap.org/display/DW/UUI%3A+Impacts>`__ for details.
 
 OOF
 ~~~
@@ -191,15 +185,15 @@ adapted for constraints and optimal selection of slice template and
 slice instance. In case of new NSSI creation, HAS returns appropriate
 slice profile for the sub-net for which a new NSSI has to be created.
 
-Further details can be obtained from:
-https://wiki.onap.org/display/DW/OOF%3A+Impacts+and+Interfaces
+See the `wiki <https://wiki.onap.org/display/DW/OOF%3A+Impacts+and+Interfaces>`__
+for details
 
 EXT-API
 ~~~~~~~
 
-The EXT-API has undergone some minimal enhancements for this use case in
-Frankfurt release. A new value “CST” for the serviceType attribute in
-the Service Order API has been introduced.
+The EXT-API has undergone some minimal enhancements for this use case.
+A new value “CST” for the serviceType attribute in the Service Order API has
+been introduced.
 
 The CSMF Portal in UUI captures the values for the requested
 serviceCharacteristics that are required as inputs to CST Service model.
@@ -217,8 +211,8 @@ for creating the service.
 As can be seen from above explanation, the existing constructs of ExtAPI
 has been reused with minor enhancements.
 
-Further details can be obtained from:
-https://wiki.onap.org/display/DW/ExtAPI%3A+Impacts+and+Interfaces
+See the `wiki <https://wiki.onap.org/display/DW/ExtAPI%3A+Impacts+and+Interfaces>`__
+for details.
 
 A&AI
 ~~~~
@@ -245,10 +239,8 @@ A&AI provides query APIs to CSMF and NSMF, such as:
 
 -  Query
    Communication-service-instances/Service-profile-instances/NSI/NSSI
-
 -  Query Service-profile-instance by specified
    Communication-service-instance
-
 -  Query NSI by specified Service-profile-instance, query NSSI by
    specified NSSI.
 
@@ -256,12 +248,10 @@ A&AI also supply creation APIs to SO, such as:
 
 -  Create Communication-service-profile/Service-profile/Slice-profile,
    and
-
 -  Create relationship between service-instances.
 
-Further details can be obtained from:
-https://wiki.onap.org/pages/viewpage.action?pageId=76875989
-
+See the `wiki <https://wiki.onap.org/pages/viewpage.action?pageId=76875989>`__
+for details.
 
 Functional Test Cases
 ---------------------
@@ -274,32 +264,23 @@ aspects:
 
 -  Creation of a new customer service via CSMF portal in UUI resulting
    in creation of a new NSI
-
 -  Creation of a new customer service via CSMF portal in UUI resulting
    in re-use of an existing NSI
-
 -  Activation of a customer service via CSMF portal in UUI
-
 -  Creation of a new customer service via postman request to EXT-API
    resulting in creation of a new NSI
-
 -  Creation of a new customer service via via postman request to ExtAPI
    resulting in re-use of an existing NSI
-
 -  Manual intervention via NSMF portal during NSI selection (NSI
    selection adjustment)
-
 -  Termination of a NSI and associated NSSI
-
 -  Interaction between ONAP and external NSSMF for new core NSSI
    creation
-
 -  Checking inventory updates in AAI for NSIs, service and slice
    profiles and NSSIs.
 
-Further details can be obtained from:
-https://wiki.onap.org/display/DW/Functional+Test+Cases
-
+See the `wiki <https://wiki.onap.org/display/DW/Functional+Test+Cases>`__ for
+details.
 
 Operation Guidance
 ------------------
@@ -317,12 +298,12 @@ optimize the resources required for setting up the use case. This
 approach will help to install a minimum-scope version ONAP for 5G E2E
 Slicing use case.
 
-Further details of the installation steps are available at:
-https://wiki.onap.org/display/DW/Install+Minimum+Scope+ONAP+for+5G+Network+Slicing
-
+See the `wiki <https://wiki.onap.org/display/DW/Install+Minimum+Scope+ONAP+for+5G+Network+Slicing>`__
+for details.
 
 Configuration aspects
 ~~~~~~~~~~~~~~~~~~~~~
+
 The template design, UI configuration, as well as manual configurations for some
-of the components are all described in the following wiki page and its sub-pages:
-https://wiki.onap.org/display/DW/Operation+Guidance+for+5G+Network+Slicing+Use+Case
+of the components are all described in the following
+`wiki page and its sub-pages <https://wiki.onap.org/display/DW/Operation+Guidance+for+5G+Network+Slicing+Use+Case>`__

@@ -12,7 +12,7 @@ Integration Release Notes
     :delim: ;
     :header-rows: 1
 
-.. highlight:: rst
+.. important::
 
     - New use cases (cmpv2, ves-collector)
     - New smoke tests based on pythonsdk-tests (replace onap_tests)
