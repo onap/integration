@@ -109,7 +109,7 @@ At the end of the test , robot sets the streams back to Medium so that it is
 setup for the next test.
 
 For documentation about running the use case manually for previous releases,
-please look at the videos and the material available at this `wiki page`__.
+please look at the videos and the material available at this `wiki page`_.
 
 __ https://wiki.onap.org/display/DW/Running+the+ONAP+Demos
 

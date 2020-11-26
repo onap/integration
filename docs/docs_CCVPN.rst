@@ -9,13 +9,13 @@ CCVPN (Cross Domain and Cross Layer VPN)
 Update for Guilin Release
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In Guilin Release, MDONS Extension feature is introduced. 
+In Guilin Release, **MDONS** Extension feature is introduced.
 
-In addition to the MDONS extension, CCVPN has also developed an 
-IETF/ACTN-based Transport Slicing solution (REQ-347). This development 
-enabled ONAP to offer the TN NSSMF functionality, which was used by 
-the E2E Network Slicing use case (REQ-342).  The solution was built 
-upon the existing IETF/ACTN E-LINE over OTN NNI feature developed in Frankfurt release. 
+In addition to the MDONS extension, CCVPN has also developed an
+IETF/ACTN-based Transport Slicing solution (REQ-347). This development
+enabled ONAP to offer the TN NSSMF functionality, which was used by
+the E2E Network Slicing use case (REQ-342).  The solution was built
+upon the existing IETF/ACTN E-LINE over OTN NNI feature developed in Frankfurt release.
 
 Guilin Scope and Impacted modules
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -26,7 +26,7 @@ MDONS Extension implementation for the Frankfurt release will incorporate the fo
 - Support Closed Loop sub-use case
 Impacted ONAP modules include: OOF, SDN-C, SO and Holmes
 
-Wiki link reference: https://wiki.onap.org/display/DW/MDONS+Extension+in+R7
+`Wiki link reference <https://wiki.onap.org/display/DW/MDONS+Extension+in+R7>`_
 
 Transport Slicing in Guilin release has implemented the following TN NSSMF functionality:
 
@@ -35,7 +35,7 @@ Transport Slicing in Guilin release has implemented the following TN NSSMF funct
 - Activate TN NSSI
 - Deactivate TN NSSI
 
-The Tranport Slicing implementaion has made code changes in the following modules:
+The Tranport Slicing implementation has made code changes in the following modules:
 
 - AAI (Schema changes only)
 - UUI
@@ -47,49 +47,53 @@ The Tranport Slicing implementaion has made code changes in the following module
 
 Functional/Integration Test Cases
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-For integration test case and description of MDONS extension, refer to this following
-wiki-page:
-https://wiki.onap.org/display/DW/Integration+Test+Cases+-+MDONS+Extension
 
-For integration test case and description of Transport Slicing, refer to this following
-wiki-pages:
-https://wiki.onap.org/display/DW/CCVPN+-+Transport+Slicing+integration+test+plan+for+Guilin+release
-https://wiki.onap.org/display/DW/E2E+Network+Slicing+Use+Case+in+R7+Guilin
+For integration test case and description of MDONS extension, refer to this
+`following wiki-page <https://wiki.onap.org/display/DW/Integration+Test+Cases+-+MDONS+Extension>`_.
+
+For integration test case and description of Transport Slicing:
+
+- `Guilin Test plan <https://wiki.onap.org/display/DW/CCVPN+-+Transport+Slicing+integration+test+plan+for+Guilin+release>`_
+- `Guilin E2E Network Slicing <https://wiki.onap.org/display/DW/E2E+Network+Slicing+Use+Case+in+R7+Guilin>`_
 
 Installation Procedure
 ~~~~~~~~~~~~~~~~~~~~~~
-For MDONS extention, The integration test environment is established to have ONAP instance with Guilin
+
+For MDONS extension, the integration test environment is established to have ONAP instance with Guilin
 release interfacing to 3rd party transport domain controllers. One controller
 instance manages OpenROADM OTN topology and the other 2 instances manage TAPI
 OTN topology. L0 infrastructure and WDM services are pre-provisioned to support
 L1 topology discovery and OTN service orchestration from ONAP.
 
-For Transport Slicing, the installation procedure is similiar to that of the E2E
+For Transport Slicing, the installation procedure is similar to that of the E2E
 Network Slicing use case. In other words, we need to bring up the required modules
 including SDC, SO, A&AI, UUI and OOF. We also need to configure these modules along
 with the mandatory common modules such as DMaaP.
 
-Testing Procedure
-~~~~~~~~~~~~~~~~~
-Testing procedure for MDONS extention:
-https://wiki.onap.org/display/DW/Integration+Test+Cases+-+MDONS+Extension
+Testing Procedures
+~~~~~~~~~~~~~~~~~~
 
-Testing procedure for Transport Slicing:
-https://wiki.onap.org/display/DW/CCVPN+-+Transport+Slicing+integration+test+plan+for+Guilin+release
+The testing procedure is described in:
+
+- `Testing procedure for MDONS extension <https://wiki.onap.org/display/DW/Integration+Test+Cases+-+MDONS+Extension>`_
+- `Testing procedure for Transport Slicing <https://wiki.onap.org/display/DW/CCVPN+-+Transport+Slicing+integration+test+plan+for+Guilin+release>`_
 
 Update for Frankfurt release
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 In Frankfurt, we introduced two extensions in CCVPN use case. One is E-LINE service over OTN NNI handover, another is the
 multi domain optical service which aims to provide end to end layer 1 service.
 
 E-LINE over OTN NNI
 ~~~~~~~~~~~~~~~~~~~
+
 Description
 ~~~~~~~~~~~
+
 It is considered a typical scenario for operators to use OTN to interconnect its multiple transport network domains. Hence
 the capabilities of orchestrating end-to-end E-LINE services across the domains over OTN is important for ONAP.  When operating
 with multiple domains with multi vendor solutions, it is also important to define and use standard and open
-interfaces, such as the IETF ACTN-based transport YANG models(https://tools.ietf.org/html/rfc8345), as the southbound interface
+interfaces, such as the IETF ACTN-based transport `YANG models <https://tools.ietf.org/html/rfc8345>`_, as the southbound interface
 of ONAP, in order to ensure interoperability. The SOTN NNI use-case aims to automate the design, service provision by independent
 operational entities within a service provider network by delivering E-Line over OTN orchestration capabilities into ONAP. SOTN NNI
 extends upon the CCVPN use-case by incorporating support for L1/L2 network management capabilities leveraging open standards & common
@@ -97,6 +101,7 @@ data models.
 
 Frankfurt Scope and Impacted modules
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 The Frankfurt demonstration includes L1(OTN) and L2(ETH) Topology discovery from multiple domains controllers with in an operator
 and provide VPN service provision in OTN and ETH network.
 
@@ -104,10 +109,11 @@ The ONAP components involved in this use case are: SDC, A&AI, UUI, SO, SDNC, OOF
 
 Functional Test Cases
 ~~~~~~~~~~~~~~~~~~~~~
+
 Usecase specific developments have been realized in SO, OOF, AAI, SDNC and UUI ONAP components..
 
-All test case covered by this use case:
-https://wiki.onap.org/display/DW/E-LINE+over+OTN+Inter+Domain+Test+Cases
+See the `wiki <https://wiki.onap.org/display/DW/E-LINE+over+OTN+Inter+Domain+Test+Cases>`_
+for details.
 
 Testing Procedure
 ~~~~~~~~~~~~~~~~~
@@ -115,22 +121,24 @@ Design time
 SOTNVPNInfraService service design in SDC and distribute to AAI and SO.
 
 Run Time:
-All operation will be triggered by UUI, including service creation and termination, link management and topology network display.
+All operation will be triggered by UUI, including service creation and termination,
+link management and topology network display:
 
-More details can be found here:
-https://wiki.onap.org/display/DW/E-LINE+over+OTN+Inter+Domain+Test+Cases
-
-Test status can be found here:
-https://wiki.onap.org/display/DW/2%3A+Frankfurt+Release+Integration+Testing+Status
+- `E-LINE over OTN Inter Doamin Test Cases <https://wiki.onap.org/display/DW/E-LINE+over+OTN+Inter+Domain+Test+Cases>`_
+- `Testing status <https://wiki.onap.org/display/DW/2%3A+Frankfurt+Release+Integration+Testing+Status>`_
 
 MDONS (Multi-Domain Optical Network Services)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Overall Description
 ~~~~~~~~~~~~~~~~~~~
-The MDONS use-case aims to automate the design, activation & operations resulting from an optical transport (L0/L1) service request exchange between service providers and/or independent operational entities within a service provider network by delivering E2E optical orchestration capabilities into ONAP. MDONS extends upon the CCVPN use-case by incorporating support for L0/L1 network management capabilities leveraging open standards & common data models defined by OpenROADM, Transport-API & MEF.
+
+The MDONS use-case aims to automate the design, activation & operations resulting
+from an optical transport (L0/L1) service request exchange between service providers and/or independent operational entities within a service provider network by delivering E2E optical orchestration capabilities into ONAP. MDONS extends upon the CCVPN use-case by incorporating support for L0/L1 network management capabilities leveraging open standards & common data models defined by OpenROADM, Transport-API & MEF.
 
 Frankfurt Scope and Impacted modules
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 MDONS implementation for the Frankfurt release will incorporate the following:
 - Design & modelling of optical services based on MEF L1 subscriber & operator properties
 - E2E optical service workflow definitions for service instantiation & deletion
@@ -138,23 +146,32 @@ MDONS implementation for the Frankfurt release will incorporate the following:
 - Optical Transport domain management (topology, resource onboarding) through standard models / APIs - OpenROADM, T-API
 Impacted ONAP modules include: A&AI, SDC, SDN-C, SO, UUI
 
-OpenROADM reference: https://github.com/OpenROADM/OpenROADM_MSA_Public
-ONF Transport-API (TAPI): https://github.com/OpenNetworkingFoundation/TAPI
-MEF: https://wiki.mef.net/display/CESG/MEF+63+-+Subscriber+Layer+1+Service+Attributes
+References:
+
+- `OpenROADM reference <https://github.com/OpenROADM/OpenROADM_MSA_Public>`_
+- `ONF Transport-API (TAPI) <https://github.com/OpenNetworkingFoundation/TAPI>`_
+- `MEF <https://wiki.mef.net/display/CESG/MEF+63+-+Subscriber+Layer+1+Service+Attributes>`_
 
 Functional/Integration Test Cases
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-For integration test case and description, refer to this following wiki-page:
-https://wiki.onap.org/display/DW/MDONS+Integration+Test+Case
+
+For integration test case and description, refer to this following
+`wiki-page <https://wiki.onap.org/display/DW/MDONS+Integration+Test+Case>`_.
 
 Installation Procedure
 ~~~~~~~~~~~~~~~~~~~~~~
-The integration test environment is established to have ONAP instance with Frankfurt release interfacing to 3rd party transport domain controllers. One controller instance manages OpenROADM OTN topology and the other 2 instances manage TAPI OTN topology. L0 infrastructure and WDM services are pre-provisioned to support L1 topology discovery and OTN service orchestration from ONAP.
+
+The integration test environment is established to have ONAP instance with
+Frankfurt release interfacing to 3rd party transport domain controllers.
+One controller instance manages OpenROADM OTN topology and the other 2 instances
+manage TAPI OTN topology. L0 infrastructure and WDM services are pre-provisioned
+to support L1 topology discovery and OTN service orchestration from ONAP.
 
 Testing Procedure
 ~~~~~~~~~~~~~~~~~
-Test environment is described in Installation Procedure section and test procedure is described in https://wiki.onap.org/display/DW/MDONS+Integration+Test+Case.
 
+Test environment is described in
+`Installation and Test Procedure <https://wiki.onap.org/display/DW/MDONS+Integration+Test+Case>`_.
 
 Update for Dublin release
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -164,9 +181,9 @@ Update for Dublin release
 In Dublin release,the design of CCVPN was optimized by having support of List type of Input in SDC.
 During onboarding and design phase, one end to end service is created using SDC. This service is
 composed of these two kinds of resources:
-• VPN resource
-• Site resource
-You can see the details from here https://wiki.onap.org/display/DW/Details+of+Targeted+Service+Template
+  • VPN resource
+  • Site resource
+  See the `wiki <https://wiki.onap.org/display/DW/Details+of+Targeted+Service+Template>`_ for details.
 
 2. Closed Loop in bandwidth adjustment
 Simulate alarm at the edge site branch and ONAP will execute close-loop automatically and trigger bandwidth to change higher.
@@ -174,52 +191,68 @@ Simulate alarm at the edge site branch and ONAP will execute close-loop automati
 3. Site Change
 Site can be add or delete according to the requirements
 
+More information about:
 
-More information about CCVPN in Dublin release:https://wiki.onap.org/pages/viewpage.action?pageId=45296665
-and the test case in Dublin can be found:https://wiki.onap.org/display/DW/CCVPN+Test+Cases+for+Dublin+Release
-And test status:https://wiki.onap.org/display/DW/CCVPN+Test+Status
+- `CCVPN in Dublin release <https://wiki.onap.org/pages/viewpage.action?pageId=45296665>`_
+- `Dublin test cases <https://wiki.onap.org/display/DW/CCVPN+Test+Cases+for+Dublin+Release>`_
+- `test status <https://wiki.onap.org/display/DW/CCVPN+Test+Status>`_
 
-Note: CCVPN integration testing coversed service design, service creation and closed-loop bandwidth adjustments in Dublin release.
-The service termination and service change will continue to be tested in E release.
-During the integration testing, SDC, SO, SDC master branch are used which include the enhanced features for CCVPN use case.
+.. note::
+    CCVPN integration testing coversed service design, service creation and
+    closed-loop bandwidth adjustments in Dublin release.
 
+    The service termination and service change will continue to be tested in E release.
+    During the integration testing, SDC, SO, SDC master branch are used which
+    includes the enhanced features for CCVPN use case.
 
 Service used for CCVPN
 ~~~~~~~~~~~~~~~~~~~~~~
 
-- SOTNVPNInfraService, SDWANVPNInfraService and SIteService: https://wiki.onap.org/display/DW/CCVPN+Service+Design
-- WanConnectionService ( Another way to describe CCVPN in a single service form which based on ONF CIM ): https://wiki.onap.org/display/DW/CCVPN+Wan+Connection+Service+Design
+- `SOTNVPNInfraService, SDWANVPNInfraService and SIteService <https://wiki.onap.org/display/DW/CCVPN+Service+Design>`_
+- `WanConnectionService (Another way to describe CCVPN in a single service form which based on ONF CIM <https://wiki.onap.org/display/DW/CCVPN+Wan+Connection+Service+Design>`_
 
 Description
 ~~~~~~~~~~~
-Cross-domain, cross-layer VPN (CCVPN) is one of the use cases of the ONAP Casablanca release. This release demonstrates cross-operator ONAP orchestration and interoperability with third party SDN controllers and enables cross-domain, cross-layer and cross-operator service creation and assurance.
 
-The demonstration includes two ONAP instances, one deployed by Vodafone and one by China Mobile, both of which orchestrate the respective operator underlay OTN networks and overlay SD-WAN networks and peer to each other for cross-operator VPN service delivery.
+Cross-domain, cross-layer VPN (CCVPN) is one of the use cases of the ONAP
+Casablanca release. This release demonstrates cross-operator ONAP orchestration
+and interoperability with third party SDN controllers and enables cross-domain,
+cross-layer and cross-operator service creation and assurance.
 
-The CCVPN Use Case Wiki Page can be found here: https://wiki.onap.org/display/DW/CCVPN%28Cross+Domain+and+Cross+Layer+VPN%29+USE+CASE.
+The demonstration includes two ONAP instances, one deployed by Vodafone and one
+by China Mobile, both of which orchestrate the respective operator underlay OTN
+networks and overlay SD-WAN networks and peer to each other for cross-operator
+VPN service delivery.
+
+`CCVPN Use Case Wiki Page <https://wiki.onap.org/display/DW/CCVPN%28Cross+Domain+and+Cross+Layer+VPN%29+USE+CASE>`_
 
 The projects covered by this use case include: SDC, A&AI, UUI, SO, SDNC, OOF, Policy, DCAE(Holmes), External API, MSB
 
 How to Use
 ~~~~~~~~~~
-Design time
-SOTNVPNInfraService, SDWANVPNInfraService and SIteService service Design steps can be found here: https://wiki.onap.org/display/DW/CCVPN+Service+Design
-WanConnectionService ( Another way to describe CCVPN in a single service form which based on ONF CIM ): https://wiki.onap.org/display/DW/CCVPN+Wan+Connection+Service+Design
+
+Design time:
+
+- `SOTNVPNInfraService, SDWANVPNInfraService and SIteService service Design steps <https://wiki.onap.org/display/DW/CCVPN+Service+Design>`_
+- `WanConnectionService ( Another way to describe CCVPN in a single service form which based on ONF CIM ) <https://wiki.onap.org/display/DW/CCVPN+Wan+Connection+Service+Design>`_
 
 Run Time:
-All opertion will be triggerd by UUI, inlcuding service creation and termination, link management and topology network display.
+
+- All operations will be triggered by UUI, including service creation and termination,
+  link management and topology network display.
 
 
-More details can be fonud here: https://wiki.onap.org/display/DW/CCVPN+Test+Guide
+See the `wiki <https://wiki.onap.org/display/DW/CCVPN+Test+Guide>`_ for details.
 
 Test Status and Plans
 ~~~~~~~~~~~~~~~~~~~~~
-All test case covered by this use case: https://wiki.onap.org/display/DW/CCVPN+Integration+Test+Case
 
-And the test status can be found: https://wiki.onap.org/display/DW/CCVPN++-Test+Status
+- `All test case covered by this use case <https://wiki.onap.org/display/DW/CCVPN+Integration+Test+Case>`_
+- `Test status <https://wiki.onap.org/display/DW/CCVPN++-Test+Status>`_
 
 Known Issues and Resolutions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 1) AAI-1923. Link Management, UUI can't delete the link to external onap otn domain.
 
 For the manual steps provided by A&AI team, we should follow the steps as follow
@@ -260,7 +293,7 @@ From the above, remove the YOUR_ID_ANY_VALUE and VERTEX_ID with your info.
 2) SDC-1955. Site service Distribution
 
 To overcome the Service distribution, the SO catalog has to be populated with the model information of the services and resources.
-a) Refering to the Csar that is generated in the SDC designed as per the detailes mentioned in the below link: https://wiki.onap.org/display/DW/CCVPN+Service+Design
+a) Refering to the Csar that is generated in the SDC designed as per the details mentioned in the below link: https://wiki.onap.org/display/DW/CCVPN+Service+Design
 b) Download the Csar from SDC thus generated.
 c) copy the csar to SO sdc controller pod and bpmn pod
 
@@ -279,9 +312,9 @@ d) populate model information to SO db: the db script example can be seen in
 The same would also be applicable for the integration of the client to create the service and get the details.
 Currently the testing has been performed using the postman calls to the corresponding APIs.
 
-3) SDC-1955 & SDC-1958. Site serivce parsing Error
+3) SDC-1955 & SDC-1958. Site service parsing Error
 
-UUI: stored the csar which created based on beijing release under a fixed directory, If site serive can't parsed by SDC tosca parser, UUI will parse this default csar and get the input parameter
+UUI: stored the csar which created based on beijing release under a fixed directory, If site servive can't parsed by SDC tosca parser, UUI will parse this default csar and get the input parameter
 a) Make an available csar file for CCVPN use case.
 b) Replace uuid of available files with what existing in SDC.
 c) Put available csar files in UUI local path (/home/uui).
@@ -299,6 +332,6 @@ After SDC distribution success, copy all csar files from so-sdc-controller:
 Copy csar files, which got from so-sdc-controller, to so-bpmn-infra:
 
 - connect to so-bpmn-infra ( eg: kubectl.exe -n onap exec -it dev-so-so-bpmn-infra-54db5cd955-h7f5s -c so-bpmn-infra /bin/sh )
-- check the /app/ASDC deretory, if doesn't exist, create it ( eg: mkdir /app/ASDC -p )
+- check the /app/ASDC directory, if doesn't exist, create it ( eg: mkdir /app/ASDC -p )
 - exit from the so-bpmn-infra ( eg: exit )
 - copy all csar files to so-bpmn-infra ( eg: kubectl.exe cp service-Siteservice-csar.csar onap/dev-so-so-bpmn-infra-54db5cd955-h7f5s:/app/ASDC/1/service-Siteservice-csar.csar )
