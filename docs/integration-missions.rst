@@ -34,5 +34,5 @@ For each release, the integration team provides the following artifacts:
   and testing ONAP
 - Wiki release follow-up tables (blocking points, docker versions,...)
 
-Please see the `integration wiki page <https://wiki.onap.org/display/DW/Integration+Project>`__
+Please see the `integration wiki page <https://wiki.onap.org/display/DW/Integration+Project>`_
 for details.

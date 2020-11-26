@@ -202,7 +202,7 @@ Onboard the CSAR
 ----------------
 
 For onboarding instructions please refer to steps 4-9 from the document
-`here <https://wiki.onap.org/display/DW/vFWCL+instantiation%2C+testing%2C+and+debuging>`__.
+`here <https://wiki.onap.org/display/DW/vFWCL+instantiation%2C+testing%2C+and+debuging>`_.
 
 Steps for installing KUD Cloud
 ------------------------------
@@ -273,14 +273,14 @@ the lab where we tested).
 
 This will cause multicloud to add the tenant to the k8s cloud region and
 then, similarly to #10 in the documentation
-`here <https://onap.readthedocs.io/en/casablanca/submodules/integration.git/docs/docs_vfwHPA.html#docs-vfw-hpa>`__,
+`here <https://onap.readthedocs.io/en/casablanca/submodules/integration.git/docs/docs_vfwHPA.html#docs-vfw-hpa>`_,
 the service-subscription can be added to that object.
 
 **NOTE:** use same name cloud-region and cloud-owner name
 
 An example is shown below for K8s cloud but following the steps 1,2,3
 from
-`here <https://docs.onap.org/projects/onap-multicloud-framework/en/latest/multicloud-plugin-windriver/UserGuide-MultiCloud-WindRiver-TitaniumCloud.html?highlight=multicloud>`__.
+`here <https://docs.onap.org/projects/onap-multicloud-framework/en/latest/multicloud-plugin-windriver/UserGuide-MultiCloud-WindRiver-TitaniumCloud.html?highlight=multicloud>`_.
 The sample input below is for k8s cloud type.
 
 **Step 1**: Cloud Registration/ Create a cloud region to represent the instance
@@ -647,7 +647,7 @@ using the Kubernetes API.
  curl -X GET http://MSB_NODE_IP:30280/api/multicloud-k8s/v1/v1/instance/ZKMTSaxv
 
 
-`*\ https://github.com/onap/oom/blob/master/kubernetes/multicloud/resources/config/provider-plugin.json <https://github.com/onap/oom/blob/master/kubernetes/multicloud/resources/config/provider-plugin.json>`__
+`*\ https://github.com/onap/oom/blob/master/kubernetes/multicloud/resources/config/provider-plugin.json <https://github.com/onap/oom/blob/master/kubernetes/multicloud/resources/config/provider-plugin.json>`_
 
 Create User parameters
 ~~~~~~~~~~~~~~~~~~~~~~

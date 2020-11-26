@@ -43,7 +43,7 @@ have been stopped. For Guilin only SB-00 has been kept and re-installed for the
 use case support.
 
 If you want to use this lab, you need a VPN access. The procedure is described in
-the `wiki <https://wiki.onap.org/pages/viewpage.action?pageId=29787070>`__.
+the `wiki <https://wiki.onap.org/pages/viewpage.action?pageId=29787070>`_.
 
 Environment Installation Scripts
 ................................
@@ -72,5 +72,5 @@ i.e. Frankfurt release during Guilin development time.
 Please note that such labs do not provide admin rights and is shared with all
 the users. It can be used to discover ONAP.
 
-See `Orange Openlab access procedure <https://wiki.onap.org/display/DW/Orange+OpenLab>`__
+See `Orange Openlab access procedure <https://wiki.onap.org/display/DW/Orange+OpenLab>`_
 for details.

@@ -48,7 +48,7 @@ The following information are available:
 
 It is possible to get results according to several criteria (version, case name,
 lab, period, last, CI id,..)
-See the `OPNFV test API documentation <https://wiki.opnfv.org/pages/viewpage.action?pageId=2926452>`__.
+See the `OPNFV test API documentation <https://wiki.opnfv.org/pages/viewpage.action?pageId=2926452>`_.
 
 Any company running ONAP Integration tests can be referenced to push their results
 to this database.
