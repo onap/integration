@@ -16,6 +16,24 @@
       "revId": "ba5f6fef3e5d3bd53c760c5386096c698f83edaf",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cb1dd4f_88901d08",
+        "filename": "docs/integration-tooling.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-11-27T09:52:25Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "cb22eb91_4eadc8a6",
+      "revId": "ba5f6fef3e5d3bd53c760c5386096c698f83edaf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
