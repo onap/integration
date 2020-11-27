@@ -1,0 +1,373 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08343290_b502ecee",
+        "filename": "docs/docs_5G_oof_pci.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-11-27T21:05:23Z",
+      "side": 1,
+      "message": "limitations",
+      "revId": "aa91a87576a3f6396b5831b59ae58db82ff6c237",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d04898f2_f5ace374",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-11-27T21:05:23Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "aa91a87576a3f6396b5831b59ae58db82ff6c237",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0eea6e63_b6552f8b",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-11-27T21:05:23Z",
+      "side": 1,
+      "message": "Transport \nimplementation",
+      "revId": "aa91a87576a3f6396b5831b59ae58db82ff6c237",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3a276c8_ead30d45",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-11-27T21:05:23Z",
+      "side": 1,
+      "message": "Network",
+      "revId": "aa91a87576a3f6396b5831b59ae58db82ff6c237",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f11009a5_40cb1f5f",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-11-27T21:05:23Z",
+      "side": 1,
+      "message": "extension",
+      "revId": "aa91a87576a3f6396b5831b59ae58db82ff6c237",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d2a3eb9_79f710ca",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-11-27T21:05:23Z",
+      "side": 1,
+      "message": "similar",
+      "revId": "aa91a87576a3f6396b5831b59ae58db82ff6c237",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a444805_d4138574",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-11-27T21:05:23Z",
+      "side": 1,
+      "message": "extension",
+      "revId": "aa91a87576a3f6396b5831b59ae58db82ff6c237",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12507149_f736ebb3",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-11-27T21:05:23Z",
+      "side": 1,
+      "message": "triggered\nincluding",
+      "revId": "aa91a87576a3f6396b5831b59ae58db82ff6c237",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ea8e745_9373cca4",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-11-27T21:05:23Z",
+      "side": 1,
+      "message": "details",
+      "revId": "aa91a87576a3f6396b5831b59ae58db82ff6c237",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "692d66db_55cc1e5d",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-11-27T21:05:23Z",
+      "side": 1,
+      "message": "service",
+      "revId": "aa91a87576a3f6396b5831b59ae58db82ff6c237",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b2e13c0_c5548811",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-11-27T21:05:23Z",
+      "side": 1,
+      "message": "service",
+      "revId": "aa91a87576a3f6396b5831b59ae58db82ff6c237",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7834fb9_c0489ce6",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-11-27T21:05:23Z",
+      "side": 1,
+      "message": "directory",
+      "range": {
+        "startLine": 335,
+        "startChar": 17,
+        "endLine": 335,
+        "endChar": 21
+      },
+      "revId": "aa91a87576a3f6396b5831b59ae58db82ff6c237",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d815eb74_b441892d",
+        "filename": "docs/integration-tests.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-11-27T21:05:23Z",
+      "side": 1,
+      "message": "across",
+      "revId": "aa91a87576a3f6396b5831b59ae58db82ff6c237",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eca169e2_385afd1b",
+        "filename": "docs/integration-tooling.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-11-27T21:05:23Z",
+      "side": 1,
+      "message": "developed",
+      "revId": "aa91a87576a3f6396b5831b59ae58db82ff6c237",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ebe4a4c_d7419e4b",
+        "filename": "docs/integration-tooling.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-11-27T21:05:23Z",
+      "side": 1,
+      "message": "developers",
+      "revId": "aa91a87576a3f6396b5831b59ae58db82ff6c237",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b82f293_1b97dff0",
+        "filename": "docs/integration-tooling.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-11-27T21:05:23Z",
+      "side": 1,
+      "message": "developed",
+      "revId": "aa91a87576a3f6396b5831b59ae58db82ff6c237",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98280220_ed6f594b",
+        "filename": "docs/integration-tooling.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-11-27T21:05:23Z",
+      "side": 1,
+      "message": "developed",
+      "revId": "aa91a87576a3f6396b5831b59ae58db82ff6c237",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fed154df_c8163787",
+        "filename": "docs/integration-tooling.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-11-27T21:05:23Z",
+      "side": 1,
+      "message": "created",
+      "revId": "aa91a87576a3f6396b5831b59ae58db82ff6c237",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8f47460_5df65e5c",
+        "filename": "docs/integration-tooling.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-11-27T21:05:23Z",
+      "side": 1,
+      "message": "deployment",
+      "revId": "aa91a87576a3f6396b5831b59ae58db82ff6c237",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f64f9b8_a39b9799",
+        "filename": "docs/integration-tooling.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-11-27T21:05:23Z",
+      "side": 1,
+      "message": "funvtional",
+      "range": {
+        "startLine": 151,
+        "startChar": 0,
+        "endLine": 151,
+        "endChar": 11
+      },
+      "revId": "aa91a87576a3f6396b5831b59ae58db82ff6c237",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b98da099_4837343a",
+        "filename": "docs/integration-tooling.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-11-27T21:05:23Z",
+      "side": 1,
+      "message": "Bad subtitle: use ~~~~~~~~~~~",
+      "revId": "aa91a87576a3f6396b5831b59ae58db82ff6c237",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
