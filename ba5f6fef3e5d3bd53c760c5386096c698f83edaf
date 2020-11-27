@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb22eb91_4eadc8a6",
+        "filename": "docs/integration-tooling.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2020-11-27T08:25:26Z",
+      "side": 1,
+      "message": "Some steps missing\nOnboardClampStep [CLAMP]\nExposeCDSBlueprintprocessorNodePortStep [CDS]\nBootstrapBlueprintprocessor [CDS]\nDataDictionaryUploadStep [CDS]\nCbaEnrichStep [CDS]",
+      "revId": "ba5f6fef3e5d3bd53c760c5386096c698f83edaf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
