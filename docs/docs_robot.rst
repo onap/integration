@@ -3,6 +3,8 @@
 
 .. _docs_robot:
 
+:orphan:
+
 Robot
 -----
 

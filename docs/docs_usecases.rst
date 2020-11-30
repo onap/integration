@@ -3,6 +3,8 @@
 
 .. _docs_usecases:
 
+:orphan:
+
 Deprecated Use Cases and Functional Requirements
 ================================================
 

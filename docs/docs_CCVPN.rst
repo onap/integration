@@ -3,6 +3,8 @@
 
 .. _docs_ccvpn:
 
+:orphan:
+
 CCVPN (Cross Domain and Cross Layer VPN)
 ----------------------------------------
 
@@ -24,7 +26,8 @@ MDONS Extension implementation for the Frankfurt release will incorporate the fo
 - Support Asynchronous OpenRoadM OTN service activation notification handling
 - Add OOF support for inter domain link/path selection
 - Support Closed Loop sub-use case
-Impacted ONAP modules include: OOF, SDN-C, SO and Holmes
+
+Impacted ONAP modules include: OOF, SDN-C, SO and Holmes.
 
 `Wiki link reference <https://wiki.onap.org/display/DW/MDONS+Extension+in+R7>`_
 
@@ -112,9 +115,6 @@ Functional Test Cases
 
 Usecase specific developments have been realized in SO, OOF, AAI, SDNC and UUI ONAP components..
 
-See the `wiki <https://wiki.onap.org/display/DW/E-LINE+over+OTN+Inter+Domain+Test+Cases>`_
-for details.
-
 Testing Procedure
 ~~~~~~~~~~~~~~~~~
 Design time
@@ -124,7 +124,7 @@ Run Time:
 All operation will be triggered by UUI, including service creation and termination,
 link management and topology network display:
 
-- `E-LINE over OTN Inter Doamin Test Cases <https://wiki.onap.org/display/DW/E-LINE+over+OTN+Inter+Domain+Test+Cases>`_
+- `E-LINE over OTN Inter Domain Test Cases <https://wiki.onap.org/display/DW/E-LINE+over+OTN+Inter+Domain+Test+Cases>`_
 - `Testing status <https://wiki.onap.org/display/DW/2%3A+Frankfurt+Release+Integration+Testing+Status>`_
 
 MDONS (Multi-Domain Optical Network Services)
@@ -179,11 +179,14 @@ Update for Dublin release
 1. Service model optimization
 
 In Dublin release,the design of CCVPN was optimized by having support of List type of Input in SDC.
-During onboarding and design phase, one end to end service is created using SDC. This service is
-composed of these two kinds of resources:
-  • VPN resource
-  • Site resource
-  See the `wiki <https://wiki.onap.org/display/DW/Details+of+Targeted+Service+Template>`_ for details.
+During onboarding and design phase, one end to end service is created using SDC.
+This service is composed of these two kinds of resources:
+
+- VPN resource
+- Site resource
+
+See the `Details of Targeted Service Template wiki page <https://wiki.onap.org/display/DW/Details+of+Targeted+Service+Template>`_
+for details.
 
 2. Closed Loop in bandwidth adjustment
 Simulate alarm at the edge site branch and ONAP will execute close-loop automatically and trigger bandwidth to change higher.
@@ -195,7 +198,7 @@ More information about:
 
 - `CCVPN in Dublin release <https://wiki.onap.org/pages/viewpage.action?pageId=45296665>`_
 - `Dublin test cases <https://wiki.onap.org/display/DW/CCVPN+Test+Cases+for+Dublin+Release>`_
-- `test status <https://wiki.onap.org/display/DW/CCVPN+Test+Status>`_
+- `CCVPN Test Status wiki page <https://wiki.onap.org/display/DW/CCVPN+Test+Status>`_
 
 .. note::
     CCVPN integration testing coversed service design, service creation and
@@ -242,7 +245,8 @@ Run Time:
   link management and topology network display.
 
 
-See the `wiki <https://wiki.onap.org/display/DW/CCVPN+Test+Guide>`_ for details.
+See the `CCVPN Test Guide wiki page <https://wiki.onap.org/display/DW/CCVPN+Test+Guide>`_
+for details.
 
 Test Status and Plans
 ~~~~~~~~~~~~~~~~~~~~~

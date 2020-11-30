@@ -23,7 +23,7 @@ Integration Release Notes
 
       - `Guilin Integration page <https://wiki.onap.org/display/DW/Integration+G+Release>`_
       - `Guilin Integration JIRA follow-up <https://wiki.onap.org/display/DW/Guilin+Docker+version+follow-up>`_
-      - `Guilin use case testing status page <https://wiki.onap.org/display/DW/Guilin+Integration+blocking+points>`
+      - `Guilin use case testing status page <https://wiki.onap.org/display/DW/Guilin+Integration+blocking+points>`_
       - `Guilin Integration weather Board <https://wiki.onap.org/display/DW/0%3A+Integration+Weather+Board+for+Guilin+Release>`_
 
 

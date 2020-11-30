@@ -4,8 +4,10 @@
 
 .. _docs_vcpe:
 
+:orphan:
+
 vCPE Use Case
-----------------------------
+-------------
 
 Description
 ~~~~~~~~~~~

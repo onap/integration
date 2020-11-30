@@ -1,7 +1,9 @@
 .. _docs_vcpe_tosca:
 
+:orphan:
+
 vCPE with Tosca VNF
-----------------------------
+-------------------
 
 VNF Packages and NS Packages
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -19,8 +21,8 @@ How to Use
 ~~~~~~~~~~
 
 
-Configuration:
-~~~~~~~~~~~~~~
+Configuration
+~~~~~~~~~~~~~
 1) VIM Configuration
 
    Prepare openstack test environment.
@@ -51,15 +53,15 @@ Configuration:
 
    .. image:: files/vcpe_tosca/vnfm.png
 
-Design Time:
-~~~~~~~~~~~~
+Design Time
+~~~~~~~~~~~
 1) We put the real ETSI aligned package as package artifact.
 2) When design Network service in SDC, should assign "gvnfmdriver" as the value of nf_type in Properties Assignment. so that VF-C can know will use gvnfm to manage VNF life cycle.
 
    .. image:: files/vcpe_tosca/sdc.png
 
-Run Time:
-~~~~~~~~~
+Run Time
+~~~~~~~~
 1) First onboard VNF/NS package from SDC to modeling etsicatalog in sequence.
 2) Trigger the NS operation via UUI guide
 
