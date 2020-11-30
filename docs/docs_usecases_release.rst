@@ -3,6 +3,8 @@
 
 .. _docs_usecases_release:
 
+:orphan:
+
 Guilin Use Cases and Functional Requirements
 =============================================
 

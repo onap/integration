@@ -3,6 +3,8 @@
 
 .. _docs_realtime_pm:
 
+:orphan:
+
 5G - Real Time PM and High Stream Data Collection
 -------------------------------------------------
 

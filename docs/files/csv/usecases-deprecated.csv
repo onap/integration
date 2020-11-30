@@ -10,3 +10,21 @@ EdgeXFoundry CNF with multicloud k8s plugin;:ref:`official doc <docs_vfw_edgex_m
 vCPE with Tosca;:ref:`official doc <docs_vcpe_tosca_local>`;Frankfurt;No resources to test on Guilin
 E2E Automation vLB with CDS;`wiki page <https://wiki.onap.org/pages/viewpage.action?pageId=71838891>`__; Frankfurt;No resources to test on Guilin
 vFirewall In-Place Software Upgrade with Traffic Distribution;:ref:`official doc <docs_vfw_traffic>`;Frankfurt;APPC in maintenance mode
+5G Bulk PM; :ref:`official doc <docs_5g_bulk_pm>`;Frankfurt;No tested in Guilin
+5G OOF and PCI;:ref:`official doc <docs_5G_oof_pci>`;Frankfurt;No tested in Guilin
+5G NRM Network Resource Model (Configuration management);:ref:`official doc <docs_5G_NRM_Configuration>`;Frankfurt;No tested in Guilin
+5G NETCONF configuration;:ref:`official doc <docs_5G_Configuration_over_NETCONF>`;Frankfurt;No tested in Guilin
+5G OOF SON;:ref:`official doc <docs_5G_oof_pci>`;Frankfurt;No tested in Guilin
+5G E2E Network Slicing ;:ref:`official doc<docs_E2E_network_slicing>`;Frankfurt;No tested in Guilin
+5G ORAN A1 Adapter (SDNR);:ref:`official doc <docs_5g_a1_adaptor>`;Frankfurt;No tested in Guilin
+PNF Software Upgrade using direct Netconf Yang interface with PNF;:ref:`official doc <docs_5g_pnf_software_upgrade>`;Frankfurt;No tested in Guilin
+PNF Software Upgrade with EM with Ansible;:ref:`official doc <docs_5G_PNF_Software_Upgrade_ansible_with_EM>`;Frankfurt;No tested in Guilin
+PNF Software Upgrade with EM with Netconf; :ref:`official doc <docs_5g_pnf_software_upgrade_netconf_with_EM>`;Frankfurt;No tested in Guilin
+PNF Software Upgrade in association to schema updates; :ref:`official doc <docs_5G_PNF_Software_Upgrade_With_Schema_Update>`;Frankfurt;No tested in Guilin
+VSP Compliance and Validation Check within SDC;`wiki page <https://wiki.onap.org/display/DW/VSP+Compliance+and+Validation+Check+within+SDC+%28Frankfurt%29+-+Phase+2#VSPComplianceandValidationCheckwithinSDC(Frankfurt)Phase2-VSPComplianceCheckwithinSDC-IntegrationTestPlan>`_;Frankfurt;No tested in Guilin
+Enable PNF software version at onboarding;`wiki page <https://jira.onap.org/browse/REQ-88?src=confmacro>`__;Frankfurt;No tested in Guilin
+xNF communication security enhancements; `wiki page <https://wiki.onap.org/display/DW/xNF+communication+security+enhancements+-+Tests+Description+and+Status>`__;Frankfurt;No tested in Guilin
+ETSI Alignment SO plugin to support SOL003 to connect to an external VNFM;`wiki page <https://wiki.onap.org/display/DW/ETSI+Alignment+Support>`__;Frankfurt;No tested in Guilin
+Integration of CDS as an Actor; `official doc <https://docs.onap.org/projects/onap-ccsdk-cds/en/latest/ui/designer.html>`_;Frankfurt;No tested in Guilin
+3rd Party Operational Domain Manager; `wiki page <https://wiki.onap.org/display/DW/Third-party+Operational+Domain+Manager>`__;Frankfurt;No tested in Guilin
+Configuration & persistency; `wiki page <https://wiki.onap.org/pages/viewpage.action?pageId=64003184>`__;Frankfurt;No tested in Guilin

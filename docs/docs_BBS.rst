@@ -1,5 +1,7 @@
 .. _docs_bbs:
 
+:orphan:
+
 BBS (Broadband Service)
 -----------------------
 
@@ -166,7 +168,7 @@ Create the required topics in DMaaP
 DCAE: BBS Event Processor (BBS-ep)
 ==================================
 
-Description: :doc:`BBS-ep <https://docs.onap.org/projects/onap-dcaegen2/en/frankfurt/sections/services/bbs-event-processor/index.html?highlight=BBS>`
+Description: `BBS-ep <https://docs.onap.org/projects/onap-dcaegen2/en/frankfurt/sections/services/bbs-event-processor/index.html?highlight=BBS>`_
 
 The following BBS event processor blueprint will be used:
 
@@ -191,7 +193,7 @@ IMPORTANT: Make sure that the configuration of BBS-ep in Consul contains the fol
 DCAE: RESTCONF Collector
 ========================
 
-Description: :doc:`RESTCONF Collector <https://docs.onap.org/projects/onap-dcaegen2/en/frankfurt/sections/services/restconf/index.html>`
+Description: `RESTCONF Collector <https://docs.onap.org/projects/onap-dcaegen2/en/frankfurt/sections/services/restconf/index.html>`_
 
 The following RESTCONF collector blueprint will be used:
 
@@ -209,7 +211,7 @@ RESTCONF Collector deployment procedure:
 DCAE: VES mapper
 ================
 
-Description: :doc:`VES Mapper <https://docs.onap.org/projects/onap-dcaegen2/en/frankfurt/sections/services/mapper/index.html>`
+Description: `VES Mapper <https://docs.onap.org/projects/onap-dcaegen2/en/frankfurt/sections/services/mapper/index.html>`_
 
 The following VES mapper blueprint will be used:
 

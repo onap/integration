@@ -1,5 +1,7 @@
 .. _integration-ci:
 
+:orphan:
+
 Integration Continuous Integration Guide
 ----------------------------------------
 

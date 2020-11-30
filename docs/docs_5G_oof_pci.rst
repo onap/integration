@@ -3,6 +3,8 @@
 
 .. _docs_5G_oof_pci:
 
+:orphan:
+
 OOF-PCI
 --------
 

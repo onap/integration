@@ -1,5 +1,7 @@
 .. _integration-s3p:
 
+:orphan:
+
 ONAP Maturity Testing Notes
 ---------------------------
 

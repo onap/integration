@@ -3,6 +3,7 @@
 
 .. _docs_E2E_network_slicing:
 
+:orphan:
 
 E2E Network Slicing Use Case
 ============================
@@ -50,7 +51,7 @@ updates to the relevant standards which are also currently evolving.
 This use case shall also collaborate with other open initiatives such as
 O-RAN to enable wider adoption and use.
 
-See the `wiki <https://wiki.onap.org/display/DW/Use+Case+Description+and+Blueprint>`_
+See the `Use Case Description and Blueprint wiki page <https://wiki.onap.org/display/DW/Use+Case+Description+and+Blueprint>`_
 for details.
 
 Abbreviations
@@ -100,7 +101,7 @@ From the NSI Life Cycle perspective, the scope includes NSI design and pre-provi
 
 To support the above functions, code impacts in U-UI, SO, OOF and ExtAPI components, and schema change in A&AI are implemented.
 
-See the `wiki <https://wiki.onap.org/display/DW/Proposed+Functions+for+R6+and+Impacted+Modules>`_
+See the `Proposed Functions for R6 and Impacted Modules wiki page <https://wiki.onap.org/display/DW/Proposed+Functions+for+R6+and+Impacted+Modules>`_
 for details.
 
 Impacted Modules
@@ -131,7 +132,7 @@ recalibration of NSI&NSSI selection with manual intervention from the
 portal. A new SO adapter is created to be the adapter of NSSMF which
 will interact with external NSSMF for NSSI management.
 
-See the `wiki <https://wiki.onap.org/display/DW/SO%3A+Impacts+and+Interfaces>`_
+See the `SO Impacts and Interfaces wiki page <https://wiki.onap.org/display/DW/SO%3A+Impacts+and+Interfaces>`_
 for details.
 
 U-UI
@@ -160,7 +161,8 @@ statistics of network slices. In this page, the statistics of slice
 usage (traffic), online users and total bandwidth can be monitored and
 displayed in the form of pi-charts and lines.
 
-See the `wiki <https://wiki.onap.org/display/DW/UUI%3A+Impacts>`_ for details.
+See the `UUI Impacts wiki page <https://wiki.onap.org/display/DW/UUI%3A+Impacts>`
+_ for details.
 
 OOF
 ~~~
@@ -185,7 +187,7 @@ adapted for constraints and optimal selection of slice template and
 slice instance. In case of new NSSI creation, HAS returns appropriate
 slice profile for the sub-net for which a new NSSI has to be created.
 
-See the `wiki <https://wiki.onap.org/display/DW/OOF%3A+Impacts+and+Interfaces>`_
+See the `OOF Impacts and Interfaces wiki page <https://wiki.onap.org/display/DW/OOF%3A+Impacts+and+Interfaces>`_
 for details
 
 EXT-API
@@ -211,7 +213,7 @@ for creating the service.
 As can be seen from above explanation, the existing constructs of ExtAPI
 has been reused with minor enhancements.
 
-See the `wiki <https://wiki.onap.org/display/DW/ExtAPI%3A+Impacts+and+Interfaces>`_
+See the `ExtAPI Impacts and Interfaces wiki page <https://wiki.onap.org/display/DW/ExtAPI%3A+Impacts+and+Interfaces>`_
 for details.
 
 A&AI
@@ -250,7 +252,7 @@ A&AI also supply creation APIs to SO, such as:
    and
 -  Create relationship between service-instances.
 
-See the `wiki <https://wiki.onap.org/pages/viewpage.action?pageId=76875989>`_
+See the `AAI Impacts wiki page <https://wiki.onap.org/pages/viewpage.action?pageId=76875989>`_
 for details.
 
 Functional Test Cases
@@ -279,8 +281,8 @@ aspects:
 -  Checking inventory updates in AAI for NSIs, service and slice
    profiles and NSSIs.
 
-See the `wiki <https://wiki.onap.org/display/DW/Functional+Test+Cases>`_ for
-details.
+See the `Functional Test Cases wiki page <https://wiki.onap.org/display/DW/Functional+Test+Cases>`_
+for details.
 
 Operation Guidance
 ------------------
@@ -298,7 +300,7 @@ optimize the resources required for setting up the use case. This
 approach will help to install a minimum-scope version ONAP for 5G E2E
 Slicing use case.
 
-See the `wiki <https://wiki.onap.org/display/DW/Install+Minimum+Scope+ONAP+for+5G+Network+Slicing>`_
+See the `Install Minimum Scope ONAP for 5G Network Slicing wiki page <https://wiki.onap.org/display/DW/Install+Minimum+Scope+ONAP+for+5G+Network+Slicing>`_
 for details.
 
 Configuration aspects

@@ -3,6 +3,8 @@
 
 .. _docs_5g_bulk_pm:
 
+:orphan:
+
 5G Bulk PM
 ----------
 
