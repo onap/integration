@@ -14,16 +14,28 @@ Integration Release Notes
 
 .. important::
 
-    - New use cases (cmpv2, ves-collector)
-    - New smoke tests based on pythonsdk-tests (replace onap_tests)
+
+    - Creation of a Guilin Daily CI/CD chain
+    - Setup of a staging lab on Azure
+    - Setup of a staging lab on Windriver/Intel lab (with performance audit of the Windriver/Intel labs)
+    - Creation of java and python baseline images
+    - Update of oparent (java dependencies)
+    - Update of Seccom waivers and version recommendations
+    - New security tests (versions, pod limits, nonssl, nodeport certificate verification)
+    - New automated smoke tests (basic_vm, basic_network, basic_cnf)
+    - New requirement automated tests (ves-collector, cmpv2)
+    - Development of a new test framework pythonsdk
+    - onap_tests framework is now deprecated
+    - Heavy refactory of CSIT initiated
+    - Documentation refactoring (official documentation and wiki)
+    - New repositories (see dedicated section)
     - Bug fixes
-    - New Daily Guilin CI chain
 
     Quick Links:
 
       - `Guilin Integration page <https://wiki.onap.org/display/DW/Integration+G+Release>`_
       - `Guilin Integration JIRA follow-up <https://wiki.onap.org/display/DW/Guilin+Docker+version+follow-up>`_
-      - `Guilin use case testing status page <https://wiki.onap.org/display/DW/Guilin+Integration+blocking+points>`
+      - `Guilin use case testing status page <https://wiki.onap.org/display/DW/Guilin+Integration+blocking+points>`_
       - `Guilin Integration weather Board <https://wiki.onap.org/display/DW/0%3A+Integration+Weather+Board+for+Guilin+Release>`_
 
 

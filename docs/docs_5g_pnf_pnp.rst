@@ -3,6 +3,8 @@
 
 .. _docs_5g_pnf_pnp:
 
+:orphan:
+
 5G - PNF Plug and Play
 ----------------------
 

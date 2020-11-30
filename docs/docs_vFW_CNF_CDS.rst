@@ -4,11 +4,8 @@
 
 .. _docs_vFW_CNF_CDS:
 
-.. contents::
-   :depth: 4
-..
+:orphan:
 
-----------------------
 vFirewall CNF Use Case
 ----------------------
 
@@ -1567,7 +1564,7 @@ where my_cba.zip is the CBA model with uat.yml (generated in spy step) inside Te
 This verify call failed for us with above uat.yaml file generated in spy. Issue was not investigated further in the scope of this use case.
 
 Instantiation Overview
-......................
+----------------------
 
 The figure below shows all the interactions that take place during vFW CNF instantiation. It's not describing flow of actions (ordered steps) but rather component dependencies.
 
@@ -1576,11 +1573,11 @@ The figure below shows all the interactions that take place during vFW CNF insta
 
    vFW CNF CDS Use Case Runtime interactions.
 
---------------------------
 PART 1 - ONAP Installation
---------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 1-1 Deployment components
-~~~~~~~~~~~~~~~~~~~~~~~~~
+.........................
 
 In order to run the vFW_CNF_CDS use case, we need ONAP Frankfurt Release (or later) and at least following components:
 
@@ -1605,7 +1602,7 @@ Shared Maria DB                                           Used as a shared stora
 =======================================================   ===========
 
 1-2 Deployment
-~~~~~~~~~~~~~~
+..............
 
 In order to deploy such an instance, follow the `ONAP Deployment Guide`_
 
@@ -1692,14 +1689,14 @@ And check status of pods, deployments, jobs etc.
 
 
 1-3 Post Deployment
-~~~~~~~~~~~~~~~~~~~
+...................
 
 After completing the first part above, we should have a functional ONAP deployment for the Frankfurt Release.
 
 We will need to apply a few modifications to the deployed ONAP Frankfurt instance in order to run the use case.
 
 Retrieving logins and passwords of ONAP components
-..................................................
+++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Since Frankfurt release hardcoded passwords were mostly removed and it is possible to configure passwords of ONAP components in time of their installation. In order to retrieve these passwords with associated logins it is required to get them with kubectl. Below is the procedure on mariadb-galera DB component example.
 
@@ -1711,7 +1708,7 @@ Since Frankfurt release hardcoded passwords were mostly removed and it is possib
 In this case login is empty as the secret is dedicated to root user.
 
 Postman collection setup
-........................
+++++++++++++++++++++++++
 
 In this demo we have on purpose created all manual ONAP preparation steps (which in real life are automated) by using Postman so it will be clear what exactly is needed. Some of the steps like AAI population is automated by Robot scripts in other ONAP demos (**./demo-k8s.sh onap init**) and Robot script could be used for many parts also in this demo. Later when this demo is fully automated we probably update also Robot scripts to support this demo.
 
@@ -1788,7 +1785,7 @@ Create all these entries into AAI in this order. Postman collection provided in 
 Corresponding GET operations in "Check" folder in Postman can be used to verify entries created. Postman collection also includes some code that tests/verifies some basic issues e.g. gives error if entry already exists.
 
 SO BPMN endpoint fix for VNF adapter requests (v1 -> v2)
-........................................................
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 SO Openstack adapter needs to be updated to use newer version. Here is also possible improvement area in SO. OpenStack adapter is confusing in context of this use case as VIM is not Openstack but Kubernetes cloud region. In this use case we did not used Openstack at all.
 
@@ -1800,7 +1797,7 @@ SO Openstack adapter needs to be updated to use newer version. Here is also poss
     kubectl -n onap delete pod -l app=so-bpmn-infra
 
 Naming Policy
-.............
++++++++++++++
 
 Naming policy is needed to generate unique names for all instance time resources that are wanted to be modeled in the way naming policy is used. Those are normally VNF, VNFC and VF-module names, network names etc. Naming is general ONAP feature and not limited to this use case.
 
@@ -1813,8 +1810,7 @@ To check that the naming policy is created and pushed OK, we can run the command
 
 .. note:: Please change credentials respectively to your installation. The required credentials can be retrieved with instruction `Retrieving logins and passwords of ONAP components`_
 
-Network Naming mS
-+++++++++++++++++
+**Network Naming mS**
 
 FIXME - Verify if on RC2 this still needs to be performed
 
@@ -1831,14 +1827,13 @@ There's a strange feature or bug in naming service still at ONAP Frankfurt and f
     delete from EXTERNAL_INTERFACE;
     select * from EXTERNAL_INTERFACE;
 
----------------------------------------------------
 PART 2 - Installation of managed Kubernetes cluster
----------------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In this demo the target cloud region is a Kubernetes cluster of your choice basically just like with Openstack. ONAP platform is a bit too much hard wired to Openstack and it's visible in many demos.
 
 2-1 Installation of Managed Kubernetes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+......................................
 
 In this demo we use Kubernetes deployment used by ONAP multicloud/k8s team to test their plugin features see `KUD readthedocs`_. There's also some outdated instructions in ONAP wiki `KUD in Wiki`_.
 
@@ -1853,7 +1848,7 @@ See `KUD subproject in github`_ for a list of additional plugins this Kubernetes
 Follow instructions in `KUD readthedocs`_ and install target Kubernetes cluster in your favorite machine(s), simplest being just one machine. Your cluster nodes(s) needs to be accessible from ONAP Kuberenetes nodes.
 
 2-2 Cloud Registration
-~~~~~~~~~~~~~~~~~~~~~~
+......................
 
 Managed Kubernetes cluster is registered here into ONAP as one cloud region. This obviously is done just one time for this particular cloud. Cloud registration information is kept in AAI.
 
@@ -1889,9 +1884,8 @@ It's possible improvement place in SO to rather get this information directly fr
         select * from cloud_sites;
         exit
 
-----------------------------------
 PART 3 - Execution of the Use Case
-----------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This part contains all the steps to run the use case by using ONAP GUIs and Postman.
 
@@ -1903,10 +1897,10 @@ Following picture describes the overall sequential flow of the use case.
    vFW CNF CDS Use Case sequence flow.
 
 3-1 Onboarding
-~~~~~~~~~~~~~~
+..............
 
 Creating Onboarding Package
-...........................
++++++++++++++++++++++++++++
 
 Whole content of this use case is stored into single git repository and ONAP user content package of onboarding package can be created with provided Makefile.
 
@@ -2004,7 +1998,7 @@ and package **vfw_k8s_demo.zip** file is created containing all sub-models.
 Import this package into SDC and follow onboarding steps.
 
 Service Creation with SDC
-.........................
++++++++++++++++++++++++++
 
 Service Creation in SDC is composed of the same steps that are performed by most other use-cases. For reference, you can relate to `vLB use-case`_
 
@@ -2021,7 +2015,7 @@ Service -> Properties Assignment -> Choose VF (at right box):
 - sdnc_model_version - 1.0.45
 
 Distribution Of Service
-.......................
++++++++++++++++++++++++
 
 Distribute service.
 
@@ -2240,7 +2234,7 @@ Verify in SDC UI if distribution was successful. In case of any errors (sometime
                 ]
 
 3-2 CNF Instantiation
-~~~~~~~~~~~~~~~~~~~~~
+.....................
 
 This is the whole beef of the use case and furthermore the core of it is that we can instantiate any amount of instances of the same CNF each running and working completely of their own. Very basic functionality in VM (VNF) side but for Kubernetes and ONAP integration this is the first milestone towards other normal use cases familiar for VNFs.
 
@@ -2304,8 +2298,8 @@ You can finally terminate this instance (now or later) with another call:
 
 **Postman -> LCM -> 5. [SO] Service Delete**
 
-Second instance Instantion
-..........................
+Second instance Instantiation
++++++++++++++++++++++++++++++
 
 To finally verify that all the work done within this demo, it should be possible to instantiate second vFW instance successfully.
 
@@ -2314,7 +2308,7 @@ Trigger new instance createion. You can use previous call or a separate one that
 **Postman -> LCM -> 6. [SO] Self-Serve Service Assign & Activate - Second**
 
 3-3 Results and Logs
-~~~~~~~~~~~~~~~~~~~~
+....................
 
 Now multiple instances of Kubernetes variant of vFW are running in target VIM (KUD deployment).
 
@@ -2392,7 +2386,7 @@ FIXME - needs updated output with newest naming policy
 
 
 Component Logs From The Execution
-.................................
++++++++++++++++++++++++++++++++++
 
 All logs from the use case execution are here:
 
@@ -2410,8 +2404,7 @@ All logs from the use case execution are here:
 - `multicloud-k8s_multicloud-k8s_POD_LOG.log`
 - network naming
 
-Debug log
-+++++++++
+**Debug log**
 
 In case more detailed logging is needed, here's instructions how to setup DEBUG logging for few components.
 
@@ -2437,9 +2430,8 @@ In case more detailed logging is needed, here's instructions how to setup DEBUG 
     # Delete the Pods to make changes effective
     kubectl -n onap delete pods -l app=cds-blueprints-processor
 
------------------------------------------------
 PART 4 - Summary and Future improvements needed
------------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This use case made CNFs onboarding and instantiation a little bit easier and closer to "normal" VNF way. Also CDS resource resolution capabilities were taken into use (compared to earlier demos) together with SO's MACRO workflow.
 

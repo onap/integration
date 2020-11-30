@@ -1,5 +1,7 @@
 .. _docs_vfw:
 
+:orphan:
+
 vFirewall Use Case
 ------------------
 
@@ -109,9 +111,8 @@ At the end of the test , robot sets the streams back to Medium so that it is
 setup for the next test.
 
 For documentation about running the use case manually for previous releases,
-please look at the videos and the material available at this `wiki page`_.
-
-__ https://wiki.onap.org/display/DW/Running+the+ONAP+Demos
+please look at the videos and the material available in
+`Running the ONAP Demos wiki page <https://wiki.onap.org/display/DW/Running+the+ONAP+Demos>`_
 
 Although videos are still valid, users are encouraged to use the Heat templates
 linked at the top of this page rather than the old Heat templates in that wiki page.

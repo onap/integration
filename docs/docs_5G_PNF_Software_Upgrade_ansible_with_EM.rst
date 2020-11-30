@@ -3,6 +3,8 @@
 
 .. _docs_5g_pnf_software_upgrade_ansible_with_EM:
 
+:orphan:
+
 PNF Software Upgrade Scenario: Using Ansible protocol with EM
 -------------------------------------------------------------
 

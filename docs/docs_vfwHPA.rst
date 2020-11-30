@@ -4,6 +4,8 @@
 
 .. _docs_vfw_hpa:
 
+:orphan:
+
 vFW/vDNS with HPA Tutorial: Setting Up and Configuration
 --------------------------------------------------------
 

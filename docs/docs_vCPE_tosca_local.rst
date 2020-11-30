@@ -4,6 +4,8 @@
 
 .. _docs_vcpe_tosca_local:
 
+:orphan:
+
 vCPE Tosca Local Mode Use Case
 ------------------------------
 
@@ -82,6 +84,7 @@ The use case has been automated by vcpe_tosca_test scripts. The followings are t
    Secondly, update the values according to your environment.
 
    ::
+
       "open_cli_product": set to CLI product you installed, onap-dublin is OK for this test.
       "open_cli_home": set to the oclip home path,
       "aai_url": set to msb ip and port you used,
@@ -107,7 +110,6 @@ The use case has been automated by vcpe_tosca_test scripts. The followings are t
                 "system-status": "active"
            }
       }
-
       "cloud-owner": set to any cloud name you want to use, , the name must be unique
       "service_name": set to any service name you want to use, the name must be unique
       "customer_name": set to any customer name you want to use, the name must be unique

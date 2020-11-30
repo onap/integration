@@ -3,6 +3,7 @@
 
 .. _docs_5g_pnf_software_upgrade:
 
+:orphan:
 
 5G PNF Software Upgrade
 -----------------------

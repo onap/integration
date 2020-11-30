@@ -3,6 +3,8 @@
 
 .. _docs_5G_Configuration_over_NETCONF:
 
+:orphan:
+
 5G - Configuration over NETCONF
 -------------------------------
 

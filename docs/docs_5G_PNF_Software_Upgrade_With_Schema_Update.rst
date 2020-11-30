@@ -3,6 +3,7 @@
 
 .. _docs_5g_pnf_software_upgrade_with_schema_update:
 
+:orphan:
 
 Support xNF Software Upgrade in association to schema updates
 -------------------------------------------------------------
@@ -50,7 +51,9 @@ Function limitations in Release G
 * When operator updating a service template, the updated service template must be upgradable from any previous versions:
     - Within the service template, the resource instance name and network topology are unchanged.
     - The new resource template of a given resource instance (within the service template) must be upgradeable from any previous resource template versions.
-Note: This is to avoid adding possible upgrade paths info and upgrade sequence info into SDC model
+
+.. note::
+    This is to avoid adding possible upgrade paths info and upgrade sequence info into SDC model
 
 Update a xNF resource template from a new onboarding package
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

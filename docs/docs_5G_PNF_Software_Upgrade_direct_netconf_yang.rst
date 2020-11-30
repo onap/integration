@@ -3,11 +3,13 @@
 
 .. _docs_5g_pnf_software_upgrade_direct_netconf_yang:
 
-===========================================================================
+:orphan:
+
 PNF Software Upgrade Scenario: Using Direct Netconf/Yang interface with PNF
 ===========================================================================
+
 Software Upgrade Procedure
-------------------------------------
+---------------------------
 
 With this scenario, the pre-conditions are:
 
@@ -28,9 +30,8 @@ c. Repeat above two steps for each SO building blocks.
 
 
 Test Status and Plans
-------------------------------------
+---------------------
 
 To see information on the status of the test cases please follow the link below:
 
 `PNF Software Upgrade Test Status <https://wiki.onap.org/display/DW/PNF+software+upgrade+in+R6+Frankfurt#PNFsoftwareupgradeinR6Frankfurt-TestStatus>`_
-
