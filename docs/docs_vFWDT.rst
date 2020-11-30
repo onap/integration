@@ -3,12 +3,11 @@
 
 .. _docs_vfw_traffic:
 
-.. contents::
-   :depth: 3
-..
+:orphan:
 
 vFW In-Place Software Upgrade with Traffic Distribution Use Case
 ----------------------------------------------------------------
+
 Description
 ~~~~~~~~~~~
 
@@ -488,7 +487,7 @@ Configuration of VNF in the APPC CDT tool
 
 .. note:: Automated procedure can be found at the end of the section
 
-Following steps aim to configure DistributeTraffic LCM action for our vPKG and vFW-SINK VNFs in APPC CDT tool. 
+Following steps aim to configure DistributeTraffic LCM action for our vPKG and vFW-SINK VNFs in APPC CDT tool.
 
 1. Enter the Controller Design Tool portal
 
@@ -799,7 +798,7 @@ the execution of APPC LCM actions with configuration resolved before by Optimiza
 Workflow Execution
 ~~~~~~~~~~~~~~~~~~
 
-In order to run workflows execute following commands from the vFWDT tutorial directory `Preparation of Workflow Script Environment`_ on Rancher server. 
+In order to run workflows execute following commands from the vFWDT tutorial directory `Preparation of Workflow Script Environment`_ on Rancher server.
 
 For Traffic Distribution workflow run
 
@@ -839,8 +838,8 @@ The order of executed LCM actions for In-Place Software Upgrade with Traffic Dis
 5. DistributeTraffic on vPKG VM - ansible playbook reconfigures vPKG in order to send traffic to destination specified before by OOF.
 6. DistributeTrafficCheck on vFW-1 VM - ansible playbook checks if traffic is not present on vFW from which traffic should be migrated out. If traffic is still present after 30 seconds playbook fails
 7. DistributeTrafficCheck on vFW-2 VM - ansible playbook checks if traffic is present on vFW from which traffic should be migrated out. If traffic is still not present after 30 seconds playbook fails
-8. UpgradeSoftware on vFW-1 VM - ansible playbook modifies the software on the vFW instance and sets the version of the software to the specified one in the request 
-9. UpgradePostCheck on vFW-1 VM - ansible playbook checks if the software of vFW is the same like the one specified in the workflows input. 
+8. UpgradeSoftware on vFW-1 VM - ansible playbook modifies the software on the vFW instance and sets the version of the software to the specified one in the request
+9. UpgradePostCheck on vFW-1 VM - ansible playbook checks if the software of vFW is the same like the one specified in the workflows input.
 10. DistributeTraffic on vPKG VM - ansible playbook reconfigures vPKG in order to send traffic to destination specified before by OOF (reverse configuration).
 11. DistributeTrafficCheck on vFW-2 VM - ansible playbook checks if traffic is not present on vFW from which traffic should be migrated out. If traffic is still present after 30 seconds playbook fails
 12. DistributeTrafficCheck on vFW-1 VM - ansible playbook checks if traffic is present on vFW from which traffic should be migrated out. If traffic is still not present after 30 seconds playbook fails

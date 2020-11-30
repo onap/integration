@@ -1,5 +1,7 @@
 .. _docs_scaleout:
 
+:orphan:
+
 VF Module Scale Out Use Case
 ----------------------------
 

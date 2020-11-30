@@ -3,6 +3,8 @@
 
 .. _docs_5g_pnf_software_upgrade_netconf_with_EM:
 
+:orphan:
+
 PNF Software Upgrade Scenario: Using Netconf/Yang interface with EM
 -------------------------------------------------------------------
 

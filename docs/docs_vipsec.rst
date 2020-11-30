@@ -4,6 +4,8 @@
 
 .. _docs_vipsec_hpa:
 
+:orphan:
+
 vIPsec with HPA Tutorial: Setting Up and Configuration
 --------------------------------------------------------
 
