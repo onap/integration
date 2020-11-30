@@ -3,6 +3,8 @@
 
 .. _docs_5G_NRM_Configuration:
 
+:orphan:
+
 5G NRM (Network Resource Model) Configuration
 ---------------------------------------------
 
@@ -38,4 +40,3 @@ Test Status and Plans
 To see information on the status of the test cases, please follow the link below:
 
 `5G NRM Configuration Test Status <https://wiki.onap.org/display/DW/5G+Network+Resource+Model+%28NRM%29+Configuration+in+R6+Frankfurt#id-5GNetworkResourceModel(NRM)ConfigurationinR6Frankfurt-TestStatus>`_
-

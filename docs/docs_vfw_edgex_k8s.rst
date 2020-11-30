@@ -4,6 +4,8 @@
 
 .. _docs_vfw_edgex_multicloud_k8s:
 
+:orphan:
+
 vFW/Edgex with Multicloud Kubernetes Plugin: Setting Up and Configuration
 -------------------------------------------------------------------------
 
@@ -201,8 +203,8 @@ It is an example of the minimal HEAT template.
 Onboard the CSAR
 ----------------
 
-For onboarding instructions please refer to steps 4-9 from the document
-`here <https://wiki.onap.org/display/DW/vFWCL+instantiation%2C+testing%2C+and+debuging>`_.
+For onboarding instructions please refer to steps 4-9 from
+`vFWCL instantiation, testing and debuging wiki page <https://wiki.onap.org/display/DW/vFWCL+instantiation%2C+testing%2C+and+debuging>`_.
 
 Steps for installing KUD Cloud
 ------------------------------
@@ -210,9 +212,8 @@ Steps for installing KUD Cloud
 Follow the link to install KUD Kubernetes Deployment. KUD contains all the
 packages required for running vfw use case.
 
-Kubernetes Baremetal deployment instructions can be found here_
-
-.. _here: https://wiki.onap.org/display/DW/Kubernetes+Baremetal+deployment+setup+instructions/
+Kubernetes Baremetal deployment instructions can be found in
+`Kubernetes Baremetal deployment setup instructions wiki page <https://wiki.onap.org/display/DW/Kubernetes+Baremetal+deployment+setup+instructions>`_
 
 REGISTER KUD CLOUD REGION with K8s-Plugin
 -----------------------------------------
@@ -272,15 +273,15 @@ registration) pointing to a real OpenStack tenant (e.g. the OOF tenant in
 the lab where we tested).
 
 This will cause multicloud to add the tenant to the k8s cloud region and
-then, similarly to #10 in the documentation
-`here <https://onap.readthedocs.io/en/casablanca/submodules/integration.git/docs/docs_vfwHPA.html#docs-vfw-hpa>`_,
+then, similarly to #10 in the
+`vFW HPA casablanca official documentation <https://onap.readthedocs.io/en/casablanca/submodules/integration.git/docs/docs_vfwHPA.html#docs-vfw-hpa>`_,
 the service-subscription can be added to that object.
 
 **NOTE:** use same name cloud-region and cloud-owner name
 
 An example is shown below for K8s cloud but following the steps 1,2,3
 from
-`here <https://docs.onap.org/projects/onap-multicloud-framework/en/latest/multicloud-plugin-windriver/UserGuide-MultiCloud-WindRiver-TitaniumCloud.html?highlight=multicloud>`_.
+`Multicloud Windriver Plugin documentation <https://docs.onap.org/projects/onap-multicloud-framework/en/latest/multicloud-plugin-windriver/UserGuide-MultiCloud-WindRiver-TitaniumCloud.html?highlight=multicloud>`_.
 The sample input below is for k8s cloud type.
 
 **Step 1**: Cloud Registration/ Create a cloud region to represent the instance

@@ -3,8 +3,10 @@
 
 .. _docs_CM_flexible_designer_orchestrator:
 
+:orphan:
+
 Dublin Workflow Designer Release Notes
--------------------------------------------------------------
+--------------------------------------
 
 The Workflow Editor was developed in the Beijing release by Amdocs and
 is available in SDC for users to create workflows.

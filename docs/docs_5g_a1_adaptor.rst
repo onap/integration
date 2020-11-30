@@ -3,6 +3,8 @@
 
 .. _docs_5g_a1_adaptor:
 
+:orphan:
+
 5G - A1 Adaptor
 ---------------
 
