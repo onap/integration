@@ -35,7 +35,7 @@ Heat Template Description
 
 The ONAP Integration Project provides a sample HEAT template that
 fully automates the deployment of ONAP using OOM as described in
-OOM documentation, see :ref:`OOM<onap-oom:oom_quickstart_guide>` for details.
+OOM documentation, see :ref:`OOM <onap-oom:oom_quickstart_guide>` for details.
 
 The ONAP OOM HEAT template deploys the entire ONAP platform.  It spins
 up an HA-enabled Kubernetes cluster, and deploys ONAP using OOM onto
