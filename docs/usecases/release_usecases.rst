@@ -1,12 +1,12 @@
 .. This work is licensed under a Creative Commons Attribution 4.0
    International License. http://creativecommons.org/licenses/by/4.0
 
-.. _docs_usecases_release:
+.. _release_usecases:
 
 :orphan:
 
-Guilin Use Cases and Requirements
-=================================
+Guilin Use Cases
+================
 
 Description
 -----------
@@ -24,10 +24,23 @@ This documentation deals with
      links to download the related assets and resources
   3. Known issues and workarounds
 
-.. toctree::
-   :maxdepth: 1
+Use cases
+---------
 
-   usecases/release_usecases.rst
-   usecases/release_automated_usecases.rst
-   usecases/release_requirements.rst
-   usecases/release_non_functional_requirements.rst
+Guilin New Use Cases
+~~~~~~~~~~~~~~~~~~~~
+
+.. csv-table::
+   :file: ../files/csv/usecases.csv
+   :widths: 10,40,20,30
+   :delim: ;
+   :header-rows: 1
+
+Old Use Cases Tested in Guilin
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. csv-table::
+   :file: ../files/csv/usecases-old-valid.csv
+   :widths: 50,20,30
+   :delim: ;
+   :header-rows: 1

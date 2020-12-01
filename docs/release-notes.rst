@@ -14,7 +14,6 @@ Integration Release Notes
 
 .. important::
 
-
     - Creation of a Guilin Daily CI/CD chain
     - Setup of a staging lab on Azure
     - Setup of a staging lab on Windriver/Intel lab (with performance audit of the Windriver/Intel labs)
@@ -115,10 +114,10 @@ New Guilin repositories:
 - robot-utils
 
 
-Verified Use Cases and Functional Requirements
-----------------------------------------------
+Use Cases and Requirements
+--------------------------
 
-:ref:`Use Cases page <docs_usecases_release>`
+See dedicated :ref:`Guilin Use Cases and requirements page <docs_usecases_release>`
 
 ONAP Maturity Testing Notes
 ---------------------------
