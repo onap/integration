@@ -1,28 +1,18 @@
-Issue key;Issue id;Summary;Priority;Status;Created
-REQ-402;53055;PoC - TOSCA Defined Control Loop ;High;To Do;01/Jul/20 9:46 AM
-REQ-350;52019;Each ONAP project shall improve its CII Badging score by improving input validation and documenting it in their CII Badging site. ;High;To Do;27/May/20 1:56 PM
-REQ-358;52034;No root (superuser) access to database from application container;High;To Do;27/May/20 4:09 PM
-REQ-376;52056;Flow management must be activated for ONAP.;High;To Do;27/May/20 5:16 PM
-REQ-379;52059;ONAP projects must use only approved and verified base images for their containers;High;To Do;27/May/20 6:41 PM
-REQ-380;52060;ONAP container repository (nexus) must not contain upstream docker images;High;To Do;27/May/20 6:44 PM
-REQ-360;52036;Application config should be fully prepared before starting the application container;High;To Do;27/May/20 4:11 PM
-REQ-361;52037;Continue hardcoded passwords removal;High;To Do;27/May/20 4:12 PM
-REQ-362;52038;All containers must run as non-root user;High;To Do;27/May/20 4:12 PM
-REQ-365;52041;Containers must have no more than one main process;High;To Do;27/May/20 4:14 PM
-REQ-366;52042;Containers must crash properly when a failure occurs;High;To Do;27/May/20 4:14 PM
-REQ-369;52045;Replace nfs share with storage class as a default deployment option;High;To Do;27/May/20 4:15 PM
-REQ-373;52053;ONAP must complete update of the Python language (from 2.7 -> 3.8);High;In Progress;27/May/20 5:07 PM
-REQ-374;52054;ONAP shall use STDOUT for logs collection;High;To Do;27/May/20 5:09 PM
-REQ-382;52069;"Support Pylog repository used by VF-C, Modeling, MultiCloud and OOF";High;To Do;27/May/20 11:22 PM
-REQ-385;52108;IPv4/IPv6 dual stack support in ONAP (Guilin);High;In Progress;28/May/20 2:49 PM
-REQ-351;52020;ONAP must complete update of the java language (from v8 -> v11) ;High;In Progress;27/May/20 1:59 PM
-REQ-359;52035;Container rootfs must be mounted readOnly;High;To Do;27/May/20 4:11 PM
-REQ-364;52040;Replace NodePorts with ingress controller as a default deployment option;High;To Do;27/May/20 4:13 PM
-REQ-377;52057;ONAP must implement IAM solutions.;High;In Progress;27/May/20 5:18 PM
-REQ-363;52039;ONAP components should be able to run without AAF and MSB;High;To Do;27/May/20 4:13 PM
-REQ-370;52046;Components may use HTTP as server and client;High;To Do;27/May/20 4:16 PM
-REQ-348;52017;Requirements about ONAP installation result for Guilin release;High;To Do;27/May/20 1:48 PM
-REQ-368;52044;Service mesh PoC;High;To Do;27/May/20 4:15 PM
-REQ-340;51957;ONAP to support Multi - tenancy ;Medium;To Do;27/May/20 8:08 AM
-REQ-386;52109;Apply common Swagger style and documentation generation tools to create robust ONAP API documentation;Medium;To Do;28/May/20 3:01 PM
-REQ-416;54263;Harbor POC with LNF Team;Medium;To Do;31/Jul/20 7:57 AM
+Issue key;Summary;Contact;Comment
+REQ-386;Apply common Swagger style and documentation generation tools to create robust ONAP API documentation;Andy Mayer;
+REQ-385;IPv4/IPv6 dual stack support in ONAP (Guilin);Damian Nowak;
+REQ-376;Flow management must be activated for ONAP.;Fabian Rouzaut;
+REQ-374;ONAP shall use STDOUT for logs collection;Krzysztof Opasiak;
+REQ-373;ONAP must complete update of the Python language (from 2.7 -> 3.8);Pawel Pawlak;Significant progress done in Guilin tracked by weekly version test integrated in CI/CD
+REQ-366;Containers must crash properly when a failure occurs;Sylvain Desbureaux;Good progress to be completed in Honolulu
+REQ-365;Containers must have no more than one main process;Sylvain Desbureaux;
+REQ-362;All containers must run as non-root user;Krzysztof Opasiak;The list of waivers has been significantly reduced in Guilin, progress tracker with root test integrated in all CI/CD chains
+REQ-361;Continue hardcoded passwords removal;Krzysztof Opasiak;
+REQ-360;Application config should be fully prepared before starting the application container;Sylvain Desbureaux;
+REQ-358;No root (superuser) access to database from application container;Krzysztof Opasiak;
+REQ-357;ONAP shall increase the number of Docker Benchmark tests;Sylvain Desbureaux;More tests integrated in CI/CD but enhancements expected in Honolulu
+REQ-351;ONAP must complete update of the java language (from v8 -> v11) ;Pawel Pawlak;Significant progress done in Guilin tracked by weekly version test integrated in CI/CD
+REQ-350;Each ONAP project shall improve its CII Badging score by improving input validation and documenting it in their CII Badging site ;Tony L Hansen;
+REQ-349;Each ONAP project shall define code coverage improvements and achieve at least 55% code coverage;Amy Zwarico;
+REQ-340;ONAP to support Multi - tenancy ;Olivier Phenix;
+REQ-323;Each project will update the vulnerable direct dependencies in their code base;Amy Zwarico;
