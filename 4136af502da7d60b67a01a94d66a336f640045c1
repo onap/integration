@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56048299_b22a1a6b",
+        "filename": "docs/onap-oom-heat.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-12-01T21:00:46Z",
+      "side": 1,
+      "message": "_oom_quickstart_guide not recognized.\n\nNeed to add in conf.py the 2 lines \ndoc_url \u003d \u0027https://docs.onap.org/projects\u0027\n\nintersphinx_mapping[\u0027onap-oom\u0027] \u003d (\u0027{}/onap-oom/en/%s\u0027.format(doc_url) % branch, None)",
+      "revId": "4136af502da7d60b67a01a94d66a336f640045c1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
