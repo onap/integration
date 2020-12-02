@@ -7,12 +7,19 @@ VF Module Scale Out Use Case
 
 Source files
 ~~~~~~~~~~~~
-- Heat templates directory: https://git.onap.org/demo/tree/heat/vLB_CDS?h=elalto
+- Heat templates directory: https://git.onap.org/demo/tree/heat/vLB_CDS?h=guilin
 
 Additional files
 ~~~~~~~~~~~~~~~~
 - TOSCA model template: https://git.onap.org/integration/tree/docs/files/scaleout/service-Vloadbalancercds-template.yml
 - Naming policy script: https://git.onap.org/integration/tree/docs/files/scaleout/push_naming_policy.sh
+- Controller Blueprint Archive (to use with CDS) : https://git.onap.org/ccsdk/cds/tree/components/model-catalog/blueprint-model/service-blueprint/vLB_CDS_Kotlin?h=guilin
+- TCA blueprint : https://git.onap.org/integration/tree/docs/files/scaleout/latest-tca-guilin.yaml
+
+Useful tool
+~~~~~~~~~~~
+
+- Postman collection that can be used to simulate all inter process queries : https://www.getpostman.com/collections/878061d291f9efe55463
 
 Description
 ~~~~~~~~~~~
@@ -104,6 +111,7 @@ Users can model this configuration at VNF design time and onboard the blueprint 
 
 Please look at the CDS documentation for details about how to create configuration models, blueprints, and use the CDS tool: https://wiki.onap.org/display/DW/Modeling+Concepts. For running the use case, users can use the standard model package that CDS provides out of the box, which can be found here: https://wiki.onap.org/pages/viewpage.action?pageId=64007442
 
+The provided CBA blueprint (see top of this documentation) can also be loaded to CDS using the sample POSTMAN collection
 
 1-2 VNF Onboarding and Service Creation with SDC
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -141,7 +149,7 @@ To upload a DCAE blueprint, from the "Composition" tab in the service menu, sele
 .. figure:: files/scaleout/1.png
    :align: center
 
-Upload the DCAE blueprint linked at the top of the page using the pop-up window.
+Upload the DCAE blueprint (choose the one depending on your ONAP release, as the orginal TCA was depecrated in Guilin a new one is available to use) linked at the top of the page using the pop-up window.
 
 .. figure:: files/scaleout/2.png
    :align: center
@@ -176,6 +184,7 @@ In order to instantiate the VNF using CDS features, users need to deploy the nam
     kubectl exec -it dev-policy-drools-0
     ./push_naming_policy.sh
 
+Note that in Guilin, the default naming policy is already deployed in policy so this step is optional
 
 1-4 Closed Loop Design with CLAMP
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -350,6 +359,8 @@ To create the VNF template in CDT, the following steps are required:
 - Click "Template Tab" and upload API template (.yaml) file
 - Click "Reference Data" Tab
 - Click "Save All to APPC"
+
+Note, if a user gets an error when saving to Appc (cannot connect to AppC network), he should open a browser to http://ANY_K8S_IP:30211 to accept AppC proxy certificate
 
 For health check operation, we just need to specify the protocol, the port number and username of the VNF (REST, 8183, and "admin" respectively, in the case of vLB/vDNS) and the API. For the vLB/vDNS, the API is:
 ::
@@ -898,6 +909,8 @@ In future releases, we plan to leverage CDS to model post scaling VNF reconfigur
 
 PART 2 - Scale Out Use Case Instantiation
 -----------------------------------------
+Note that the postman collection linked at the top of this page, does provide some level of automatic scripting that will automatically get values between request and provision the following queries
+
 This step is only required if CDS is used.
 
 GET information from SDC catalogdb
@@ -2078,3 +2091,6 @@ Resolution: Change TCA configuration for the old vLB/vDNS use case
 - Change "eventName" in the vLB default policy to something different, for example "vLB" instead of the default value "vLoadBalancer"
 - Change "subscriberConsumerGroup" in the TCA configuration to something different, for example "OpenDCAE-c13" instead of the default value "OpenDCAE-c12"
 - Click "UPDATE" to upload the new TCA configuration
+
+2) During Guilin testing, it has been noticed that there is an issue between SO and APPC for Healthcheck queries, this does not prevent the use case to proceed but limit APPC capabilities
+
