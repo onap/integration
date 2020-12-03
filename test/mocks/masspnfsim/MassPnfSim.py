@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import logging
+import base64
 from subprocess import run, CalledProcessError
 import argparse
 import ipaddress
@@ -34,6 +35,14 @@ def validate_ip(ip):
         raise argparse.ArgumentTypeError(f'{ip} is not a valid IP address')
     else:
         return ip_valid
+
+def get_auth_token_base64(plain):
+    '''Converts user:password to Base64.'''
+    basic_auth_plain = plain
+    basic_auth_bytes = basic_auth_plain.encode('ascii')
+    basic_auth_base64_bytes = base64.b64encode(basic_auth_bytes)
+    basic_auth_base64 = basic_auth_base64_bytes.decode('ascii')
+    return basic_auth_base64
 
 def get_parser():
     '''Process input arguments'''
@@ -137,7 +146,7 @@ class MassPnfSim:
         self.logger = logging.getLogger(__name__)
         self.logger.setLevel(self.log_lvl)
         self.sim_dirname_pattern = "pnf-sim-lw-"
-        self.mvn_build_cmd = 'mvn clean package docker:build -Dcheckstyle.skip'
+        self.mvn_build_cmd = 'mvn clean package docker:build -Dcheckstyle.skip '
         self.docker_compose_status_cmd = 'docker-compose ps'
 
     def _run_cmd(self, cmd, dir_context='.'):
@@ -418,11 +427,17 @@ class MassPnfSim:
             sim_ip = self._get_sim_instance_data(i)
             self.logger.info(f'Triggering {self.sim_dirname_pattern}{i} instance:')
             self.logger.info(f' PNF-Sim IP: {sim_ip}')
+            # create a Basic auth token
+            plaintext_auth = f"{args.user}:{args.password}"
+            basic_auth_base64 = get_auth_token_base64(plaintext_auth)
+            basic_auth_token = f"Basic {basic_auth_base64}"
+            self.logger.info((basic_auth_base64))
             # setup req headers
             req_headers = {
                     "Content-Type": "application/json",
                     "X-ONAP-RequestID": "123",
-                    "X-InvocationID": "456"
+                    "X-InvocationID": "456",
+                    "Authorization": basic_auth_token
                 }
             self.logger.debug(f' Request headers: {req_headers}')
             try:
