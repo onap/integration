@@ -46,7 +46,7 @@ import org.mockito.MockitoAnnotations;
 import org.onap.pnfsimulator.FileProvider;
 import org.onap.pnfsimulator.simulator.Simulator;
 import org.onap.pnfsimulator.simulator.SimulatorFactory;
-import org.onap.pnfsimulator.simulator.client.HttpClientAdapter;
+import org.onap.pnfsimulator.simulator.client.RestTemplateAdapter;
 import org.onap.pnfsimulator.simulator.validation.JSONValidator;
 import org.onap.pnfsimulator.simulator.validation.NoRopFilesException;
 import org.onap.pnfsimulator.simulator.validation.ValidationException;
@@ -137,7 +137,7 @@ class SimulatorControllerTest {
 
     private Simulator createEndlessSimulator() {
         return spy(Simulator.builder()
-            .withCustomHttpClientAdapter(mock(HttpClientAdapter.class))
+            .withCustomRestTemplateAdapter(mock(RestTemplateAdapter.class))
             .withCommonEventHeaderParams(VALID_COMMON_EVENT_HEADER_PARAMS)
             .withPnfRegistrationParams(Optional.empty())
             .withNotificationParams(VALID_NOTIFICATION_PARAMS)

@@ -23,6 +23,7 @@ import static org.onap.pnfsimulator.logging.MDCVariables.REQUEST_ID;
 import static org.onap.pnfsimulator.logging.MDCVariables.RESPONSE_CODE;
 import static org.onap.pnfsimulator.logging.MDCVariables.SERVICE_NAME;
 import static org.onap.pnfsimulator.logging.MDCVariables.X_INVOCATION_ID;
+import static org.onap.pnfsimulator.logging.MDCVariables.AUTHORIZATION;
 import static org.onap.pnfsimulator.logging.MDCVariables.X_ONAP_REQUEST_ID;
 import static org.onap.pnfsimulator.message.MessageConstants.COMMON_EVENT_HEADER_PARAMS;
 import static org.onap.pnfsimulator.message.MessageConstants.SIMULATOR_PARAMS;
@@ -84,6 +85,7 @@ public class SimulatorController {
     public ResponseEntity start(@RequestHeader HttpHeaders headers, @RequestBody String message) {
         MDC.put(REQUEST_ID, headers.getFirst(X_ONAP_REQUEST_ID));
         MDC.put(INVOCATION_ID, headers.getFirst(X_INVOCATION_ID));
+        MDC.put(AUTHORIZATION, headers.getFirst(AUTHORIZATION));
         MDC.put(INSTANCE_UUID, UUID.randomUUID().toString());
         MDC.put(SERVICE_NAME, "/simulator/start");
         LOGGER.info(ENTRY, "Simulator starting");
@@ -142,6 +144,7 @@ public class SimulatorController {
     public ResponseEntity startmassmode(@RequestHeader HttpHeaders headers, @RequestBody String message) {
         MDC.put(REQUEST_ID, headers.getFirst(X_ONAP_REQUEST_ID));
         MDC.put(INVOCATION_ID, headers.getFirst(X_INVOCATION_ID));
+        MDC.put(AUTHORIZATION, headers.getFirst(AUTHORIZATION));
         MDC.put(INSTANCE_UUID, UUID.randomUUID().toString());
         MDC.put(SERVICE_NAME, "/simulator/start");
         LOGGER.info(ENTRY, "Simulator starting");

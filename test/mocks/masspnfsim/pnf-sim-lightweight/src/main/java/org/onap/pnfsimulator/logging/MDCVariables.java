@@ -29,6 +29,7 @@ public final class MDCVariables {
     public static final String INSTANCE_UUID = "InstanceUUID";
     public static final String RESPONSE_CODE = "ResponseCode";
     public static final String SERVICE_NAME = "ServiceName";
+    public static final String AUTHORIZATION = "Authorization";
 
     private MDCVariables() {
     }

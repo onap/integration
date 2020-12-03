@@ -45,7 +45,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 import org.onap.pnfsimulator.FileProvider;
-import org.onap.pnfsimulator.simulator.client.HttpClientAdapter;
+import org.onap.pnfsimulator.simulator.client.RestTemplateAdapter;
 import org.onap.pnfsimulator.simulator.validation.NoRopFilesException;
 import org.onap.pnfsimulator.simulator.validation.ValidationException;
 
@@ -87,16 +87,16 @@ public class SimulatorTest {
     void simulator_should_stop_when_interrupted() {
         createSampleFileList();
 
-        HttpClientAdapter httpClientMock = Mockito.mock(HttpClientAdapter.class);
+        RestTemplateAdapter httpClientMock = Mockito.mock(RestTemplateAdapter.class);
         Simulator simulator = Simulator.builder()
             .withInterval(Duration.ofSeconds(1))
-            .withCustomHttpClientAdapter(httpClientMock)
+            .withCustomRestTemplateAdapter(httpClientMock)
             .withCommonEventHeaderParams(VALID_COMMON_EVENT_HEADER_PARAMS)
             .withPnfRegistrationParams(Optional.empty())
             .withNotificationParams(VALID_NOTIFICATION_PARAMS)
             .withVesUrl(TEST_VES_URL)
             .withXnfUrl(TEST_XNF_URL)
-            .withCustomHttpClientAdapter(httpClientMock)
+            .withCustomRestTemplateAdapter(httpClientMock)
             .withFileProvider(fileProvider).build();
 
         simulator.start();
@@ -182,7 +182,7 @@ public class SimulatorTest {
     void simulator_should_send_fileready_message() {
         createSampleFileList();
 
-        HttpClientAdapter httpClientMock = Mockito.mock(HttpClientAdapter.class);
+        RestTemplateAdapter httpClientMock = Mockito.mock(RestTemplateAdapter.class);
         Simulator simulator = Simulator.builder()
                 .withDuration(Duration.ofMillis(100))
                 .withInterval(Duration.ofMillis(100))
@@ -191,7 +191,7 @@ public class SimulatorTest {
                 .withNotificationParams(VALID_NOTIFICATION_PARAMS)
                 .withVesUrl(TEST_VES_URL)
                 .withXnfUrl(TEST_XNF_URL)
-                .withCustomHttpClientAdapter(httpClientMock)
+                .withCustomRestTemplateAdapter(httpClientMock)
                 .withFileProvider(fileProvider).build();
         simulator.run();
         Exception e = simulator.getThrownException();

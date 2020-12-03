@@ -12,8 +12,8 @@ def args_bootstrap(parser):
     return parser.parse_args(['bootstrap', '--count', str(SIM_INSTANCES),
                              '--urlves', URLVES, '--ipfileserver', IPFILESERVER,
                              '--typefileserver', TYPEFILESERVER, '--ipstart',
-                             IPSTART, '--user', FILESERVER_USER, '--password',
-                             FILESERVER_PASSWORD])
+                             IPSTART, '--user', USER, '--password',
+                             PASSWORD])
 
 @pytest.fixture(scope="module")
 def args_start(parser):
@@ -29,11 +29,16 @@ def args_status(parser):
 
 @pytest.fixture(scope="module")
 def args_trigger(parser):
-    return parser.parse_args(['trigger'])
+    return parser.parse_args(['trigger', '--user', USER, '--password', PASSWORD])
 
 @pytest.fixture(scope="module")
 def args_trigger_custom(parser):
-    return parser.parse_args(['trigger_custom', '--triggerstart', '0', '--triggerend', str(SIM_INSTANCES-1)])
+    return parser.parse_args([
+        'trigger_custom',
+        '--triggerstart', '0',
+        '--triggerend', str(SIM_INSTANCES-1),
+        '--user', USER,
+        '--password', PASSWORD])
 
 @pytest.fixture(scope="module")
 def args_stop_simulator(parser):

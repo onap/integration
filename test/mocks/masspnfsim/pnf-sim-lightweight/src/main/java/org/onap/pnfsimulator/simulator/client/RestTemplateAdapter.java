@@ -20,7 +20,7 @@
 
 package org.onap.pnfsimulator.simulator.client;
 
-public interface HttpClientAdapter {
+public interface RestTemplateAdapter {
 
     void send(String content, String url);
 }
