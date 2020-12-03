@@ -27,8 +27,8 @@ import java.util.Optional;
 import org.json.JSONObject;
 import org.onap.pnfsimulator.FileProvider;
 import org.onap.pnfsimulator.message.MessageProvider;
-import org.onap.pnfsimulator.simulator.client.HttpClientAdapter;
-import org.onap.pnfsimulator.simulator.client.HttpClientAdapterImpl;
+import org.onap.pnfsimulator.simulator.client.RestTemplateAdapter;
+import org.onap.pnfsimulator.simulator.client.RestTemplateAdapterImpl;
 import org.onap.pnfsimulator.simulator.validation.JSONValidator;
 import org.onap.pnfsimulator.simulator.validation.NoRopFilesException;
 import org.onap.pnfsimulator.simulator.validation.ValidationException;
@@ -45,7 +45,7 @@ public class Simulator extends Thread {
     private Map<String, String> contextMap = MDC.getCopyOfContextMap();
     private boolean isEndless;
     private String vesUrl;
-    private HttpClientAdapter httpClient;
+    private RestTemplateAdapter httpClient;
     private JSONObject messageBody;
     private Duration duration;
     private Duration interval;
@@ -124,7 +124,7 @@ public class Simulator extends Thread {
     public static class Builder {
 
         private String vesUrl;
-        private HttpClientAdapter httpClient;
+        private RestTemplateAdapter httpClient;
         //private JSONObject messageBody;
         private Duration duration;
         private Duration interval;
@@ -136,7 +136,7 @@ public class Simulator extends Thread {
 
         private Builder() {
             this.vesUrl = "";
-            this.httpClient = new HttpClientAdapterImpl();
+            this.httpClient = new RestTemplateAdapterImpl();
             //this.messageBody = new JSONObject();
             this.duration = Duration.ZERO;
             this.interval = Duration.ZERO;
@@ -148,7 +148,7 @@ public class Simulator extends Thread {
             return this;
         }
 
-        public Builder withCustomHttpClientAdapter(HttpClientAdapter httpClient) {
+        public Builder withCustomRestTemplateAdapter(RestTemplateAdapter httpClient) {
             this.httpClient = httpClient;
             return this;
         }
