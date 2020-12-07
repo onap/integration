@@ -22,6 +22,30 @@
       "revId": "a579a48948f0b61bb9d98e1591d1fe727a550dbb",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd7373c0_f63dc479",
+        "filename": "test/mocks/masspnfsim/MassPnfSim.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 6868
+      },
+      "writtenOn": "2020-12-07T13:30:48Z",
+      "side": 1,
+      "message": "It is a typo. Fixed in another commit.",
+      "parentUuid": "1a83cd16_b97ba1eb",
+      "range": {
+        "startLine": 153,
+        "startChar": 78,
+        "endLine": 153,
+        "endChar": 79
+      },
+      "revId": "a579a48948f0b61bb9d98e1591d1fe727a550dbb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
