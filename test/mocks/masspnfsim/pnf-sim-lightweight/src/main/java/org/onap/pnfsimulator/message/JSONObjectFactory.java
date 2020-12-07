@@ -50,6 +50,7 @@ import static org.onap.pnfsimulator.message.MessageConstants.VERSION;
 import static org.onap.pnfsimulator.message.MessageConstants.VERSION_NUMBER;
 import static org.onap.pnfsimulator.message.MessageConstants.VES_EVENT_LISTENER_VERSION;
 import static org.onap.pnfsimulator.message.MessageConstants.VES_EVENT_LISTENER_VERSION_NUMBER;
+import java.util.Calendar;
 import java.io.File;
 import java.util.List;
 import java.util.TimeZone;
@@ -61,6 +62,7 @@ final class JSONObjectFactory {
     static JSONObject generateConstantCommonEventHeader() {
         JSONObject commonEventHeader = new JSONObject();
         long timestamp = System.currentTimeMillis();
+        String nodeName = generateDefaultName();
         commonEventHeader.put(EVENT_ID, generateEventId());
         commonEventHeader.put(TIME_ZONE_OFFSET, generateTimeZone(timestamp));
         commonEventHeader.put(LAST_EPOCH_MICROSEC, timestamp);
@@ -70,8 +72,6 @@ final class JSONObjectFactory {
         commonEventHeader.put(INTERNAL_HEADER_FIELDS, new JSONObject());
         commonEventHeader.put(VERSION, VERSION_NUMBER);
         commonEventHeader.put(VES_EVENT_LISTENER_VERSION, VES_EVENT_LISTENER_VERSION_NUMBER);
-        String absPath = new File("").getAbsolutePath();
-        String nodeName = absPath.substring(absPath.lastIndexOf(File.separator)+1);
         commonEventHeader.put(SOURCE_NAME, nodeName);
         commonEventHeader.put(REPORTING_ENTITY_NAME, nodeName);
         return commonEventHeader;
@@ -116,6 +116,15 @@ final class JSONObjectFactory {
     static String generateEventId() {
         String timeAsString = String.valueOf(System.currentTimeMillis());
         return String.format("FileReady_%s", timeAsString);
+    }
+
+    static String generateDefaultName() {
+        String defaultName = "default";
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        int month = Calendar.getInstance().get(Calendar.MONTH);
+        int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+
+        return defaultName + "-" + year + month + day;
     }
 
     static String generateTimeZone(long timestamp) {
