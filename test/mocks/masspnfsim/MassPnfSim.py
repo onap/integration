@@ -27,6 +27,15 @@ def validate_url(url):
         pass
     return url
 
+def merge_dictionaries(origin, custom):
+    '''Combine 2 dictionaries based on common keys.'''
+    return {
+            key: dict(
+                origin.get(key, {}),
+                **custom.get(key, {}))
+            for key in origin.keys() | custom.keys()
+        }
+
 def validate_ip(ip):
     '''Helper function to validate input param is a vaild IP address'''
     try:
@@ -84,6 +93,7 @@ def get_parser():
                                      metavar='INT', required=True)
     parser_triggerstart.add_argument('--user', help='VES auth username', type=str, metavar='USERNAME')
     parser_triggerstart.add_argument('--password', help='VES auth password', type=str, metavar='PASSWORD')
+    parser_triggerstart.add_argument('--data', help='Custom data to override default values', type=dict, metavar='DATA')
     # Status command parser
     parser_status = subparsers.add_parser('status', help='Status')
     parser_status.add_argument('--count', help='Instance count to show status for', type=int, metavar='INT', default=0)
@@ -150,7 +160,7 @@ class MassPnfSim:
         self.logger = logging.getLogger(__name__)
         self.logger.setLevel(self.log_lvl)
         self.sim_dirname_pattern = "pnf-sim-lw-"
-        self.mvn_build_cmd = 'mvn clean package docker:build -Dcheckstyle.skip '
+        self.mvn_build_cmd = 'mvn clean package docker:build -Dcheckstyle.skip'
         self.docker_compose_status_cmd = 'docker-compose ps'
 
     def _run_cmd(self, cmd, dir_context='.'):
@@ -427,15 +437,19 @@ class MassPnfSim:
     @_MassPnfSim_Decorators.validate_subcommand
     def trigger(self, args): # pylint: disable=W0613
         self.logger.info("Triggering VES sending:")
+
         for i in range(*self._get_iter_range()):
+
             sim_ip = self._get_sim_instance_data(i)
             self.logger.info(f'Triggering {self.sim_dirname_pattern}{i} instance:')
             self.logger.info(f' PNF-Sim IP: {sim_ip}')
+
             # create a Basic auth token
             plaintext_auth = f"{args.user}:{args.password}"
             basic_auth_base64 = get_auth_token_base64(plaintext_auth)
             basic_auth_token = f"Basic {basic_auth_base64}"
             self.logger.info((basic_auth_base64))
+
             # setup req headers
             req_headers = {
                     "Content-Type": "application/json",
@@ -444,17 +458,28 @@ class MassPnfSim:
                     "Authorization": basic_auth_token
                 }
             self.logger.debug(f' Request headers: {req_headers}')
+
             try:
+
                 # get payload for the request
                 with open(f'{self.sim_dirname_pattern}{i}/{self.sim_msg_config}') as data:
+
                     json_data = loads(data.read())
+                    try:
+                        json_data = merge_dictionaries(json_data, args.data)
+                    except AttributeError:
+                        self.logger.debug('The request will be sent without customization.')
+
                     self.logger.debug(f' JSON payload for the simulator:\n{json_data}')
+
                     # make a http request to the simulator
                     sim_response = post('{}'.format(self.sim_start_url).format(sim_ip), headers=req_headers, json=json_data)
+
                     if sim_response.status_code == codes.ok:
                         self.logger.info(' Simulator response: ' + sim_response.text)
                     else:
                         self.logger.warning(' Simulator response ' + sim_response.text)
+
             except TypeError:
                 self.logger.error(f' Could not load JSON data from {self.sim_dirname_pattern}{i}/{self.sim_msg_config}')
 
