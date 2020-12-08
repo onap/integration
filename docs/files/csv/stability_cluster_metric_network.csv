@@ -1,0 +1,2 @@
+Namespace;Current Receive Bandwidth;Current Transmit Bandwidth;Rate of Received Packets;Rate of Transmitted Packets;Rate of Received Packets Dropped;Rate of Transmitted Packets Dropped
+onap; 1.03 MBs; 1.07 MBs;5.08 kpps;5.02 kpps;0 pps;0 pps
