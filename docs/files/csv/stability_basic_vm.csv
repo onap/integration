@@ -1,0 +1,11 @@
+Basic_vm metric;Value
+Number of PASS occurences;557
+Number of Raw FAIL Occurences;174
+Raw Success rate; 76%
+Corrected success rate; 86%
+Average duration of the test;549s (9m9s)
+Min duration;188s (3m8s)
+Max duration;2161 (36m1s)
+Median duration;271s (4m34s)
+% of Duration < 282s; 50%
+% of duration > 660s; 29%
