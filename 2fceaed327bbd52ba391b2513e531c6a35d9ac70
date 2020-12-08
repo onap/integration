@@ -1,0 +1,259 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51a3462c_495175c8",
+        "filename": "docs/integration-s3p.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-12-08T15:52:58Z",
+      "side": 1,
+      "message": "DockerHub",
+      "revId": "2fceaed327bbd52ba391b2513e531c6a35d9ac70",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9ddbeaa_58a45b7f",
+        "filename": "docs/integration-s3p.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-12-08T15:52:58Z",
+      "side": 1,
+      "message": "DockerHub",
+      "revId": "2fceaed327bbd52ba391b2513e531c6a35d9ac70",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7fd40a3_5b8e0647",
+        "filename": "docs/integration-s3p.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-12-08T15:52:58Z",
+      "side": 1,
+      "message": "Jenkins",
+      "revId": "2fceaed327bbd52ba391b2513e531c6a35d9ac70",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e39d8346_4916aa0a",
+        "filename": "docs/integration-s3p.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-12-08T15:52:58Z",
+      "side": 1,
+      "message": "Jenkins",
+      "revId": "2fceaed327bbd52ba391b2513e531c6a35d9ac70",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "edc2571d_d1775229",
+        "filename": "docs/integration-s3p.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-12-08T15:52:58Z",
+      "side": 1,
+      "message": "Frankfurt",
+      "revId": "2fceaed327bbd52ba391b2513e531c6a35d9ac70",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b396699c_3604b565",
+        "filename": "docs/integration-s3p.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-12-08T15:52:58Z",
+      "side": 1,
+      "message": "GitLab.com Docker",
+      "revId": "2fceaed327bbd52ba391b2513e531c6a35d9ac70",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90028149_cc419d39",
+        "filename": "docs/integration-s3p.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-12-08T15:52:58Z",
+      "side": 1,
+      "message": "results",
+      "revId": "2fceaed327bbd52ba391b2513e531c6a35d9ac70",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0edec65_2292308f",
+        "filename": "docs/integration-s3p.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-12-08T15:52:58Z",
+      "side": 1,
+      "message": "Helm v2  Helm v3",
+      "revId": "2fceaed327bbd52ba391b2513e531c6a35d9ac70",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "942a4803_c8ec972d",
+        "filename": "docs/integration-s3p.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-12-08T15:52:58Z",
+      "side": 1,
+      "message": "Kubernetes/Helm",
+      "revId": "2fceaed327bbd52ba391b2513e531c6a35d9ac70",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02f5afe0_03d8858f",
+        "filename": "docs/integration-s3p.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-12-08T15:52:58Z",
+      "side": 1,
+      "message": "Helm",
+      "revId": "2fceaed327bbd52ba391b2513e531c6a35d9ac70",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36ec1912_9cab49db",
+        "filename": "docs/integration-s3p.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-12-08T15:52:58Z",
+      "side": 1,
+      "message": "generated",
+      "revId": "2fceaed327bbd52ba391b2513e531c6a35d9ac70",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1647d077_baa13cac",
+        "filename": "docs/integration-s3p.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-12-08T15:52:58Z",
+      "side": 1,
+      "message": "missing point . at the end",
+      "revId": "2fceaed327bbd52ba391b2513e531c6a35d9ac70",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6ce79dc_bdefa398",
+        "filename": "docs/integration-s3p.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-12-08T15:52:58Z",
+      "side": 1,
+      "message": "Frankfurt",
+      "revId": "2fceaed327bbd52ba391b2513e531c6a35d9ac70",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08edd4c7_fe1e0a45",
+        "filename": "docs/integration-s3p.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-12-08T15:52:58Z",
+      "side": 1,
+      "message": "computation",
+      "revId": "2fceaed327bbd52ba391b2513e531c6a35d9ac70",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "719b7d51_cedd3dcb",
+        "filename": "docs/integration-s3p.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2020-12-08T15:52:58Z",
+      "side": 1,
+      "message": ". at the end",
+      "revId": "2fceaed327bbd52ba391b2513e531c6a35d9ac70",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
