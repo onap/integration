@@ -7,19 +7,91 @@ VF Module Scale Out Use Case
 
 Source files
 ~~~~~~~~~~~~
-- Heat templates directory: https://git.onap.org/demo/tree/heat/vLB_CDS?h=guilin
+- Heat templates directory: https://git.onap.org/demo/tree/heat?h=guilin
+- Heat templates directory (vLB_CDS use case): https://git.onap.org/demo/tree/heat/vLB_CDS?h=guilin
 
 Additional files
 ~~~~~~~~~~~~~~~~
 - TOSCA model template: https://git.onap.org/integration/tree/docs/files/scaleout/service-Vloadbalancercds-template.yml
 - Naming policy script: :download:`push_naming_poliy.sh <files/scaleout/push_naming_policy.sh>`
 - Controller Blueprint Archive (to use with CDS) : https://git.onap.org/ccsdk/cds/tree/components/model-catalog/blueprint-model/service-blueprint/vLB_CDS_Kotlin?h=guilin
-- TCA blueprint : :download:`guilin-tca.yaml <files/scaleout/latest-tca-guilin.yaml>`
+- TCA blueprint: :download:`guilin-tca.yaml <files/scaleout/latest-tca-guilin.yaml>`
 
 Useful tool
 ~~~~~~~~~~~
+POSTMAN collection that can be used to simulate all inter process queries : https://www.getpostman.com/collections/878061d291f9efe55463
+To be able to use this postman collection, you may need to expose some ports that are not exposed in OOM by default.
+These commands may help for exposing the ports:
+::
 
-- Postman collection that can be used to simulate all inter process queries : https://www.getpostman.com/collections/878061d291f9efe55463
+    kubectl port-forward service/cds-blueprints-processor-http --address 0.0.0.0 32749:8080 -n onap &
+    kubectl port-forward service/so-catalog-db-adapter --address 0.0.0.0 30845:8082 -n onap &
+    kubectl port-forward service/so-request-db-adapter --address 0.0.0.0 32223:8083 -n onap &
+
+OOM Installation
+~~~~~~~~~~~~~~~~
+Before doing the OOM installation, take care to the following steps:
+
+- Set the right Openstack values for Robot and SO:
+The config for robot must be set in an OOM override file before the OOM installation, this will initialize the robot framework & SO with all the required openstack info.
+A section like that is required in that override file
+::
+    robot:
+      enabled: true
+      flavor: small
+      appcUsername: "appc@appc.onap.org"
+      appcPassword: "demo123456!"
+      openStackKeyStoneUrl: "http://10.12.25.2:5000"
+      openStackKeystoneAPIVersion: "v3"
+      openStackPublicNetId: "5771462c-9582-421c-b2dc-ee6a04ec9bde"
+      openStackTenantId: "c9ef9a6345b440b7a96d906a0f48c6b1"
+      openStackUserName: "openstack_user"
+      openStackUserDomain: "default"
+      openStackProjectName: "CLAMP"
+      ubuntu14Image: "trusty-server-cloudimg-amd64-disk1"
+      ubuntu16Image: "xenial-server-cloudimg-amd64-disk1"
+      openStackPrivateNetCidr: "10.0.0.0/16"
+      openStackPrivateNetId: "fd05c1ab-3f43-4f6f-8a8c-76aee04ef293"
+      openStackPrivateSubnetId: "fd05c1ab-3f43-4f6f-8a8c-76aee04ef293"
+      openStackSecurityGroup: "f05e9cbf-d40f-4d1f-9f91-d673ba591a3a"
+      openStackOamNetworkCidrPrefix: "10.0"
+      dcaeCollectorIp: "10.12.6.10"
+      vnfPubKey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDKXDgoo3+WOqcUG8/5uUbk81+yczgwC4Y8ywTmuQqbNxlY1oQ0YxdMUqUnhitSXs5S/yRuAVOYHwGg2mCs20oAINrP+mxBI544AMIb9itPjCtgqtE2EWo6MmnFGbHB4Sx3XioE7F4VPsh7japsIwzOjbrQe+Mua1TGQ5d4nfEOQaaglXLLPFfuc7WbhbJbK6Q7rHqZfRcOwAMXgDoBqlyqKeiKwnumddo2RyNT8ljYmvB6buz7KnMinzo7qB0uktVT05FH9Rg0CTWH5norlG5qXgP2aukL0gk1ph8iAt7uYLf1ktp+LJI2gaF6L0/qli9EmVCSLr1uJ38Q8CBflhkh"
+      demoArtifactsVersion: "1.6.0"
+      demoArtifactsRepoUrl: "https://nexus.onap.org/content/repositories/releases"
+      scriptVersion: "1.6.0"
+      nfsIpAddress: "10.12.6.10"
+      config:
+        openStackEncryptedPasswordHere: "e10c86aa13e692020233d18f0ef6d527"
+        openStackSoEncryptedPassword: "1DD1B3B4477FBAFAFEA617C575639C6F09E95446B5AE1F46C72B8FD960219ABB0DBA997790FCBB12"
+    so:
+      enabled: true
+      so-catalog-db-adapter:
+        config:
+          openStackUserName: "opesntack_user"
+          openStackKeyStoneUrl: "http://10.12.25.2:5000/v3"
+          openStackEncryptedPasswordHere: "1DD1B3B4477FBAFAFEA617C575639C6F09E95446B5AE1F46C72B8FD960219ABB0DBA997790FCBB12"
+          openStackKeystoneVersion: "KEYSTONE_V3"
+
+The values that must be changed according to your lab are all "openStack******" parameters +  dcaeCollectorIp + nfsIpAddress
+To  know how to encrypt the openstack passwords, please look at these guides:
+https://docs.onap.org/en/dublin/submodules/oom.git/docs/oom_quickstart_guide.html
+https://docs.onap.org/en/elalto/submodules/oom.git/docs/oom_quickstart_guide.html
+
+- Initialize the Customer and Owning entities:
+The robot script can be helpful to initialize the customer and owning entity that will be used later to instantiate the VNF (PART 2 - Scale Out Use Case Instantiation)
+::
+ In the oom_folder/kubernetes/robot/ execute the following command:
+./demo-k8s.sh onap init_customer
+
+If this command is unsuccessful it means that the parameters provided to the OOM installation were not correct.
+
+- Verify and Get the tenant/owning entity/cloud-regions defined in AAI by Robot script:
+These values will be required by the POSTMAN collection when instantiating the Service/vnf ...
+To get them some POSTMAN collection queries are useful to use:
+- GET "AAI Owning Entities"
+- GET "AAI Cloud-regions"
+- GET "AAI Cloud-regions/tenant"
 
 Description
 ~~~~~~~~~~~
@@ -102,8 +174,7 @@ PART 1 - Service Definition and Onboarding
 ------------------------------------------
 This use-case requires operations on several ONAP components to perform service definition and onboarding.
 
-
-1-1 VNF Configuration Modeling and Upload with CDS
+1-1 VNF Configuration Modeling and Upload with CDS (Recommended way)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Since Dublin, the scale out use case integrates with the Controller Design Studio (CDS) ONAP component to automate the generation of cloud configuration at VNF instantiation time. The user interested in running the use case only with manual preload can skip this section and start from Section 1-2. The description of the use case with manual preload is provided in Section5.
 
@@ -111,7 +182,32 @@ Users can model this configuration at VNF design time and onboard the blueprint 
 
 Please look at the CDS documentation for details about how to create configuration models, blueprints, and use the CDS tool: https://wiki.onap.org/display/DW/Modeling+Concepts. For running the use case, users can use the standard model package that CDS provides out of the box, which can be found here: https://wiki.onap.org/pages/viewpage.action?pageId=64007442
 
-The provided CBA blueprint (see top of this documentation) can also be loaded to CDS using the sample POSTMAN collection
+::
+
+For the current use case you can also follow these steps (Do not use the SDC flow to deploy the CBA when importing a VSP, this is not going to work anymore since Guilin):
+1. You must first bootstrap CDS by using the query in the POSTMAN collection query named POST "CDS Bootstrap"
+2. You must upload the attached CBA by using the POSTMAN collection named POST "CDS Save without Validation", the CBA zip file can be attached in the POSTMAN query
+Controller Blueprint Archive (to use with CDS) : https://git.onap.org/ccsdk/cds/tree/components/model-catalog/blueprint-model/service-blueprint/vLB_CDS_Kotlin?h=guilin
+3. Create a zip file with the HEAT files located here:  https://git.onap.org/demo/tree/heat/vLB_CDS?h=guilin
+4. Create the VSP & Service in the SDC onboarding and SDC Catalog + Distribute the service
+   To know the right values that must be set in the SDC Service properties assignment you must open the CBA zip and look at the TOSCA-Metadata/TOSCA.meta file
+    This file looks like that:
+        TOSCA-Meta-File-Version: 1.0.0
+        CSAR-Version: 1.0
+        Created-By: Seaudi, Abdelmuhaimen <abdelmuhaimen.seaudi@orange.com>
+        Entry-Definitions: Definitions/vLB_CDS.json
+        Template-Tags: vLB_CDS
+        Template-Name: vLB_CDS
+        Template-Version: 1.0.0
+        Template-Type: DEFAULT
+
+    - The sdnc_model_version is the Template-Version
+    - The sdnc_model_name is the Template-Name
+    - The sdnc_artifact_name is the prefix of the file you want to use in the Templates folder, in our CBA example it's vnf (that is supposed to reference the /Templates/vnf-mapping.json file)
+
+    Follow this guide for the VSP onboarding + service creation + properties assignment + distribution part (just skip the CBA attachment part as the CBA should have been pushed manually with the REST command): https://wiki.onap.org/pages/viewpage.action?pageId=64007442
+
+    Note that in case of issues with the AAI distribution, this may help : https://jira.onap.org/browse/AAI-1759
 
 1-2 VNF Onboarding and Service Creation with SDC
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -176,6 +272,7 @@ At this point, users can complete the service creation in SDC by testing, accept
 1-3 Deploy Naming Policy
 ~~~~~~~~~~~~~~~~~~~~~~~~
 This step is only required if CDS is used.
+Note that in Guilin, the default naming policy is already deployed in policy so this step is optional
 
 In order to instantiate the VNF using CDS features, users need to deploy the naming policy that CDS uses for resource name generation to the Policy Engine. User can copy and run the script at the top of the page from any ONAP pod, for example Robot or Drools. The script uses the Policy endpoint defined in the Kubernetes domain, so the execution has to be triggered from some pod in the Kubernetes space.
 
@@ -184,11 +281,94 @@ In order to instantiate the VNF using CDS features, users need to deploy the nam
     kubectl exec -it dev-policy-drools-0
     ./push_naming_policy.sh
 
-Note that in Guilin, the default naming policy is already deployed in policy so this step is optional
+
 
 1-4 Closed Loop Design with CLAMP
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This step is only required if closed loop is used.
+This step is only required if closed loop is used, for manual scaleout this section can be skipped.
+
+Here are Json examples that can be copy pasted in each policy configuration by clicking on the button EDIT JSON, just replace the value "LOOP_test_vLB_CDS" by your loop ID:
+For TCA config:
+::
+
+    {
+      "tca.policy": {
+        "domain": "measurementsForVfScaling",
+        "metricsPerEventName": [
+          {
+            "policyScope": "DCAE",
+            "thresholds": [
+              {
+                "version": "1.0.2",
+                "severity": "MAJOR",
+                "thresholdValue": 200,
+                "closedLoopEventStatus": "ONSET",
+                "closedLoopControlName": "LOOP_test_vLB_CDS",
+                "direction": "LESS_OR_EQUAL",
+                "fieldPath": "$.event.measurementsForVfScalingFields.vNicPerformanceArray[*].receivedTotalPacketsDelta"
+              }
+            ],
+            "eventName": "vLoadBalancer",
+            "policyVersion": "v0.0.1",
+            "controlLoopSchemaType": "VM",
+            "policyName": "DCAE.Config_tca-hi-lo"
+          }
+        ]
+      }
+    }
+
+For Drools config:
+::
+    {
+      "abatement": false,
+      "operations": [
+        {
+          "failure_retries": "final_failure_retries",
+          "id": "policy-1-vfmodule-create",
+          "failure_timeout": "final_failure_timeout",
+          "failure": "final_failure",
+          "operation": {
+            "payload": {
+              "requestParameters": "{\"usePreload\":false,\"userParams\":[]}",
+              "configurationParameters": "[{\"ip-addr\":\"$.vf-module-topology.vf-module-parameters.param[16].value\",\"oam-ip-addr\":\"$.vf-module-topology.vf-module-parameters.param[30].value\"}]"
+            },
+            "target": {
+              "entityIds": {
+                "resourceID": "Vlbcds..vdns..module-3",
+                "modelInvariantId": "e95a2949-8ba5-433d-a88f-587a6244b4ea",
+                "modelVersionId": "4a6ceddc-147e-471c-ae6f-907a0df76040",
+                "modelName": "Vlbcds..vdns..module-3",
+                "modelVersion": "1",
+                "modelCustomizationId": "7806ed67-a826-4b0e-b474-9ca4fa052a10"
+              },
+              "targetType": "VFMODULE"
+            },
+            "actor": "SO",
+            "operation": "VF Module Create"
+          },
+          "failure_guard": "final_failure_guard",
+          "retries": 1,
+          "timeout": 300,
+          "failure_exception": "final_failure_exception",
+          "description": "test",
+          "success": "final_success"
+        }
+      ],
+      "trigger": "policy-1-vfmodule-create",
+      "timeout": 650,
+      "id": "LOOP_test_vLB_CDS"
+    }
+
+For Frequency Limiter config:
+::
+    {
+      "id": "LOOP_test_vLB_CDS",
+      "actor": "SO",
+      "operation": "VF Module Create",
+      "limit": 1,
+      "timeWindow": 10,
+      "timeUnits": "minute"
+    }
 
 Once the service model is distributed, users can design the closed loop from CLAMP, using the GUI at https://clamp.api.simpledemo.onap.org:30258
 
@@ -390,7 +570,7 @@ To do so:
 
     mysql -ucataloguser -pcatalog123
 
-- Use catalogdb databalse
+- Use catalogdb database
 
 ::
 
@@ -909,10 +1089,29 @@ In future releases, we plan to leverage CDS to model post scaling VNF reconfigur
 
 PART 2 - Scale Out Use Case Instantiation
 -----------------------------------------
-Note that the postman collection linked at the top of this page, does provide some level of automatic scripting that will automatically get values between request and provision the following queries
+Manual queries with POSTMAN
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This step is only required if CDS is used.
+This step is only required if CDS is used, otherwise you can use VID to instantiate the service and the VNF.
+Note that the POSTMAN collection linked at the top of this page, does provide some level of automatic scripting that will automatically get values between requests and provision the following queries
 
+You must enter in the postman config different variables:
+- "k8s" -> The k8s loadBalancer cluster node
+- "cds-service-model" -> The SDC service name distributed
+- "cds-instance-name" -> A name of your choice for the vnf instance (This must be changed each time you launch the instantiation)
+
+These useful requests are:
+CDS#1 - SDC Catalog Service -> This gets the Sdc service and provision some variables
+CDS#2 - SO Catalog DB Service VNFs - CDS -> This gets info in SO and provision some variables for the instantiation
+CDS#3 - SO Self-Serve Service Assign & Activate -> This starts the Service/vnf instantiation
+Open the body and replace the values like tenantId, Owning entity, region, and all the openstack values everywhere in the payload
+
+Note that you may have to add "onap_private_net_cidr":"10.0.0.0/16" in the "instanceParams" array depending of your openstack network configuration.
+
+CDS#4 - SO infra Active Request -> Used to get the status of the previous query
+
+Manual queries without POSTMAN
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 GET information from SDC catalogdb
 
 ::
@@ -1212,8 +1411,23 @@ Note that "vlb_onap_private_ip_0" used in the heatbridge call is the actual para
 
 PART 4 - Triggering Scale Out Manually
 --------------------------------------
+For scale out with manual trigger, VID is not supported at this time.
 
-For scale out with manual trigger, VID is not supported at this time. Users can run the use case by directly calling SO APIs:
+Manual queries with POSTMAN
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Note that the POSTMAN collection linked at the top of this page, does provide some level of automatic scripting that will automatically get values between requests and provision the following queries
+
+You must enter in the postman config different variables:
+- "k8s" -> The k8s loadBalancer cluster node
+- "cds-service-model" -> The SDC service name distributed
+- "cds-instance-name" -> A name of your choice for the vnf instance (This must be changed each time you launch the instantiation)
+
+CDS#5 - SO ScaleOut -> This will initiate a Scaleout manually
+CDS#7 - SO ScaleIn -> This will initiate a ScaleIn manually
+
+Manual queries without POSTMAN
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Users can run the use case by directly calling SO APIs:
 
 ::
 
