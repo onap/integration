@@ -186,7 +186,6 @@ $setup_helm_repo = <<-SCRIPT
   sleep 3
   helm repo add local http://127.0.0.1:8879
   make -e SKIP_LINT=TRUE -C ${HOME}/oom/kubernetes all
-  make -e SKIP_LINT=TRUE -C ${HOME}/oom/kubernetes onap
 SCRIPT
 
 $deploy_onap = <<-SCRIPT
