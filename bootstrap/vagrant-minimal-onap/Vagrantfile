@@ -115,6 +115,26 @@ $install_make = <<-SCRIPT
   apt-get install make
 SCRIPT
 
+$install_docker = <<-SCRIPT
+  apt-get update
+  echo "Setting up 'docker' repository"
+  apt-get install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg-agent \
+    software-properties-common
+  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+  add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable"
+  apt-get update
+
+  echo "Installing 'docker'"
+  apt-get install docker-ce docker-ce-cli containerd.io
+SCRIPT
+
 $resize_disk = <<-SCRIPT
   DEV=${1:-vda}
   PART=${2:-3}
@@ -249,7 +269,7 @@ Vagrant.configure('2') do |config|
 
       if machine[:name] == 'worker'
         config.vm.provision "customize_worker", type: :shell, path: "tools/imported/openstack-k8s-workernode.sh"
-        config.vm.provision "fix_group_worker", type: :shell, inline: $add_to_docker_group, args: vagrant_user
+        config.vm.provision "fix_groups_worker", type: :shell, inline: $add_to_docker_group, args: vagrant_user
         config.vm.provision "resize_disk", type: :shell, inline: $resize_disk
       end
 
@@ -273,6 +293,8 @@ Vagrant.configure('2') do |config|
           s.args = synced_folder_tools_config
         end
 
+        config.vm.provision "install_docker", type: :shell, inline: $install_docker
+        config.vm.provision "fix_groups_operator", type: :shell, inline: $add_to_docker_group, args: vagrant_user
         config.vm.provision "install_sshpass", type: :shell, inline: $install_sshpass
         config.vm.provision "generate_key", type: :shell, privileged: false, inline: $generate_key, args: operator_key
 
