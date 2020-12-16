@@ -1,6 +1,0 @@
-pnf-sim-lw-*
-.env/
-pnf-sim-lightweight/logs/*
-files/onap/*
-__pycache__
-MassPnfSim.egg-info/
