@@ -1,0 +1,101 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VM_MEMORY = 2 * 1024
+VM_CPUS = 2
+VM_DISK = 128
+VM_STORAGE_POOL = "default"
+VM_USER = "vagrant"
+
+$install_docker= <<-SCRIPT
+  apt-get update
+  apt-get install --yes \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg-agent \
+    software-properties-common
+  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable"
+  apt-get update
+  apt-get install --yes \
+    docker-ce docker-ce-cli containerd.io
+  groupadd -f docker
+  usermod -a -G docker $USER
+SCRIPT
+
+$install_python = <<-SCRIPT
+  # TODO: currently scancode locks us to python3.6, they are currently
+  # (10 Dec 2020) updating so check in a while
+  add-apt-repository ppa:deadsnakes/ppa
+  apt-get update
+  apt-get install --yes \
+    python3.6 libpython3.6-dev python3-pip python3.6-venv python3-setuptools\
+    python3-apt \
+    attr bzip2 xz-utils zlib1g libxml2-dev libxslt1-dev \
+    findutils git gnupg2 tar util-linux
+  update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 1
+  update-alternatives --set python3 /usr/bin/python3.6
+  pip3 install --upgrade pip
+SCRIPT
+
+$install_tern = <<-SCRIPT
+  python3 -m venv ternenv
+  cd ternenv
+  source bin/activate
+  pip3 install --upgrade pip
+  pip3 install --no-cache-dir tern scancode-toolkit[full]
+SCRIPT
+
+$analysis = <<-SCRIPT
+  cd ternenv
+  source bin/activate
+  newgrp docker
+  tern report -f json -o /dev/null -i "$IMAGE" # need to populate cache: https://github.com/tern-tools/tern/issues/818
+  tern report -f json -o report-scancode.json -x scancode -i "$IMAGE"
+SCRIPT
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "generic/ubuntu2004"
+  config.vm.hostname = "vagrant"
+
+  config.vm.provider :virtualbox do |v|
+    v.name = config.vm.hostname
+    v.memory = VM_MEMORY
+    v.cpus = VM_CPUS
+  end
+
+  config.vm.provider :libvirt do |v|
+    v.memory = VM_MEMORY
+    v.cpus = VM_CPUS
+    v.machine_virtual_size = VM_DISK
+    v.storage_pool_name = VM_STORAGE_POOL
+  end
+
+  config.vm.provision "install_docker", type: "shell" do |s|
+    s.privileged = true
+    s.env = {"DEBIAN_FRONTEND" => "noninteractive", "USER":VM_USER}
+    s.inline = $install_docker
+    s.reset = true
+  end
+
+  config.vm.provision "install_python", type: "shell" do |s|
+    s.privileged = true
+    s.env = {"DEBIAN_FRONTEND" => "noninteractive"}
+    s.inline = $install_python
+  end
+
+  config.vm.provision "install_tern", type: "shell" do |s|
+    s.privileged = false
+    s.inline = $install_tern
+  end
+
+  config.vm.provision "license_analysis", type: "shell" do |s|
+    s.privileged = false
+    s.env = {"IMAGE":ENV['DOCKER_IMG_FOR_ANALYSIS']}
+    s.inline = $analysis
+  end
+end
