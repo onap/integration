@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ec391e38_a9b6f4ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 7352
+      },
+      "writtenOn": "2020-12-18T14:38:05Z",
+      "side": 1,
+      "message": "I\u0027ll push README soon",
+      "parentUuid": "f7f9fb7b_14688a82",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 60
+      },
+      "revId": "d3d3780ce6fe96d53f6c842682df41283742a30c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "32124a91_80290003",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2020-12-18T11:55:36Z",
       "side": 1,
       "message": "Both ways are fine to me\n\nSCP is tool agnostic: you can use dedicated plugin or generate config with \"vagrant ssh-config \u003e ssh-config\" and then \"scp -F ssh-config $hostname:~/ternenv...\"\n\nSynced folders would also work but remember that it should support guest to host synchronization (e.g. rsync requires additional plugin: vagrant-rsync-back)",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 75
+      },
+      "revId": "d3d3780ce6fe96d53f6c842682df41283742a30c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b912dee_c4d030b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 7352
+      },
+      "writtenOn": "2020-12-18T14:38:05Z",
+      "side": 1,
+      "message": "+ mounting volumes might add additional security issues, scp seems like best bet.",
+      "parentUuid": "32124a91_80290003",
       "range": {
         "startLine": 15,
         "startChar": 0,
@@ -65,6 +113,47 @@
     },
     {
       "key": {
+        "uuid": "90af4304_280ccc07",
+        "filename": "test/security/docker_license_analysis/Vagrantfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7352
+      },
+      "writtenOn": "2020-12-18T14:38:05Z",
+      "side": 1,
+      "message": "I\u0027ve only seen ansible used inside Vagrantfiles in this repository, would rather not introduce another tool required on host (even though popular), especially as this is intended to be run in CI.",
+      "parentUuid": "bd90a68d_6ee3a8f7",
+      "revId": "d3d3780ce6fe96d53f6c842682df41283742a30c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1aa0fbf6_3a3a3e80",
+        "filename": "test/security/docker_license_analysis/Vagrantfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 7352
+      },
+      "writtenOn": "2020-12-18T14:38:05Z",
+      "side": 1,
+      "message": "minimal size when using libvirt provider",
+      "range": {
+        "startLine": 6,
+        "startChar": 10,
+        "endLine": 6,
+        "endChar": 13
+      },
+      "revId": "d3d3780ce6fe96d53f6c842682df41283742a30c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "62e2bbd9_f16e6ea5",
         "filename": "test/security/docker_license_analysis/Vagrantfile",
         "patchSetId": 1
@@ -76,6 +165,24 @@
       "writtenOn": "2020-12-18T07:30:04Z",
       "side": 1,
       "message": "you run it two times in a raw on the same image?",
+      "revId": "d3d3780ce6fe96d53f6c842682df41283742a30c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "845121ab_1820cd5c",
+        "filename": "test/security/docker_license_analysis/Vagrantfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 7352
+      },
+      "writtenOn": "2020-12-18T14:38:05Z",
+      "side": 1,
+      "message": "Needs to populate cache: https://github.com/tern-tools/tern/issues/818 .\nI\u0027ve directed it to /dev/null to indicate that we are not interested in results and added a comment in the file linking the issue.",
+      "parentUuid": "62e2bbd9_f16e6ea5",
       "revId": "d3d3780ce6fe96d53f6c842682df41283742a30c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
@@ -99,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "c3e29c60_44ba39ac",
+        "filename": "test/security/docker_license_analysis/Vagrantfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 7352
+      },
+      "writtenOn": "2020-12-18T14:38:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d77edf1_f34e6f89",
+      "revId": "d3d3780ce6fe96d53f6c842682df41283742a30c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a9dc8b8_60d3b208",
         "filename": "test/security/docker_license_analysis/Vagrantfile",
         "patchSetId": 1
@@ -113,6 +238,24 @@
       "revId": "d3d3780ce6fe96d53f6c842682df41283742a30c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d190cc23_110586e3",
+        "filename": "test/security/docker_license_analysis/Vagrantfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 7352
+      },
+      "writtenOn": "2020-12-18T14:38:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a9dc8b8_60d3b208",
+      "revId": "d3d3780ce6fe96d53f6c842682df41283742a30c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -133,6 +276,24 @@
     },
     {
       "key": {
+        "uuid": "39b70642_8bb7f385",
+        "filename": "test/security/docker_license_analysis/Vagrantfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 7352
+      },
+      "writtenOn": "2020-12-18T14:38:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18f3b1f3_1ea5adff",
+      "revId": "d3d3780ce6fe96d53f6c842682df41283742a30c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "761dd52e_1f4e812b",
         "filename": "test/security/docker_license_analysis/Vagrantfile",
         "patchSetId": 1
@@ -150,6 +311,24 @@
     },
     {
       "key": {
+        "uuid": "433966a8_f5146dd1",
+        "filename": "test/security/docker_license_analysis/Vagrantfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 7352
+      },
+      "writtenOn": "2020-12-18T14:38:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "761dd52e_1f4e812b",
+      "revId": "d3d3780ce6fe96d53f6c842682df41283742a30c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c62566dc_0fa91135",
         "filename": "test/security/docker_license_analysis/tools/analysis.sh",
         "patchSetId": 1
@@ -161,6 +340,24 @@
       "writtenOn": "2020-12-18T11:55:36Z",
       "side": 1,
       "message": "Works for PoC purposes. Please consider adding basic checks (if directory is present, if argument is non-empty) in future",
+      "revId": "d3d3780ce6fe96d53f6c842682df41283742a30c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65131255_283b6505",
+        "filename": "test/security/docker_license_analysis/tools/analysis.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7352
+      },
+      "writtenOn": "2020-12-18T14:38:05Z",
+      "side": 1,
+      "message": "Removed this file in PS#2 but guess I\u0027ll bring it back, I will also change it so it takes Dockerfile (tern will call docker to build it and will analyze the results) as this is meant to be used for checking uncommited changes rather than containers ready to download which I feel dumb I didnt do it in the first place.\n\nI\u0027ll add sanity checks as well with the transition to passing Dockerfile.",
+      "parentUuid": "c62566dc_0fa91135",
       "revId": "d3d3780ce6fe96d53f6c842682df41283742a30c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
