@@ -2,6 +2,69 @@
   "comments": [
     {
       "key": {
+        "uuid": "f7f9fb7b_14688a82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2020-12-18T11:55:36Z",
+      "side": 1,
+      "message": "Please add these as a README.rst as well - this way it will be available when reading the whole repo contents (instead of having to go patch by patch)",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 60
+      },
+      "revId": "d3d3780ce6fe96d53f6c842682df41283742a30c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32124a91_80290003",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2020-12-18T11:55:36Z",
+      "side": 1,
+      "message": "Both ways are fine to me\n\nSCP is tool agnostic: you can use dedicated plugin or generate config with \"vagrant ssh-config \u003e ssh-config\" and then \"scp -F ssh-config $hostname:~/ternenv...\"\n\nSynced folders would also work but remember that it should support guest to host synchronization (e.g. rsync requires additional plugin: vagrant-rsync-back)",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 75
+      },
+      "revId": "d3d3780ce6fe96d53f6c842682df41283742a30c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd90a68d_6ee3a8f7",
+        "filename": "test/security/docker_license_analysis/Vagrantfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2020-12-18T11:55:36Z",
+      "side": 1,
+      "message": "Works for PoC purposes. It might be useful to make Ansible roles from these inline script provisioners in future (just a suggestion - I know I use script provisioners a lot as well)",
+      "revId": "d3d3780ce6fe96d53f6c842682df41283742a30c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "62e2bbd9_f16e6ea5",
         "filename": "test/security/docker_license_analysis/Vagrantfile",
         "patchSetId": 1
@@ -81,6 +144,23 @@
       "writtenOn": "2020-12-18T07:30:04Z",
       "side": 1,
       "message": "trailing space",
+      "revId": "d3d3780ce6fe96d53f6c842682df41283742a30c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c62566dc_0fa91135",
+        "filename": "test/security/docker_license_analysis/tools/analysis.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2020-12-18T11:55:36Z",
+      "side": 1,
+      "message": "Works for PoC purposes. Please consider adding basic checks (if directory is present, if argument is non-empty) in future",
       "revId": "d3d3780ce6fe96d53f6c842682df41283742a30c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
