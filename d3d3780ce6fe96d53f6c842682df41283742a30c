@@ -154,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "7184ceb2_088875f7",
+        "filename": "test/security/docker_license_analysis/Vagrantfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2020-12-18T14:54:21Z",
+      "side": 1,
+      "message": "Right, 3.x update of \"generic\" boxes changed that\n\nYou can safely drop it entirely - its purpose in VMO was to double the storage size (32GB -\u003e 64GB), but it is no longer needed",
+      "parentUuid": "1aa0fbf6_3a3a3e80",
+      "range": {
+        "startLine": 6,
+        "startChar": 10,
+        "endLine": 6,
+        "endChar": 13
+      },
+      "revId": "d3d3780ce6fe96d53f6c842682df41283742a30c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "62e2bbd9_f16e6ea5",
         "filename": "test/security/docker_license_analysis/Vagrantfile",
         "patchSetId": 1
