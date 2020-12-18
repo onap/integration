@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62e2bbd9_f16e6ea5",
+        "filename": "test/security/docker_license_analysis/Vagrantfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-12-18T07:30:04Z",
+      "side": 1,
+      "message": "you run it two times in a raw on the same image?",
+      "revId": "d3d3780ce6fe96d53f6c842682df41283742a30c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d77edf1_f34e6f89",
+        "filename": "test/security/docker_license_analysis/Vagrantfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-12-18T07:30:04Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "d3d3780ce6fe96d53f6c842682df41283742a30c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a9dc8b8_60d3b208",
+        "filename": "test/security/docker_license_analysis/Vagrantfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-12-18T07:30:04Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "d3d3780ce6fe96d53f6c842682df41283742a30c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18f3b1f3_1ea5adff",
+        "filename": "test/security/docker_license_analysis/Vagrantfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-12-18T07:30:04Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "d3d3780ce6fe96d53f6c842682df41283742a30c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "761dd52e_1f4e812b",
+        "filename": "test/security/docker_license_analysis/Vagrantfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-12-18T07:30:04Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "d3d3780ce6fe96d53f6c842682df41283742a30c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
