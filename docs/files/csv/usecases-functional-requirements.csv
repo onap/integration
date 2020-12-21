@@ -1,7 +1,7 @@
 Issue key;Summary;Contact;Comment
 REQ-381;Bulk PM / PM Data Control Extension;Mark Scott;
 REQ-352;Extend ORAN A1 Adapter and add A1 Policy Management;John Keeney;
-REQ-341;ONAP CNF orchestration - Enhancements;Lukasz Rajewski;
+REQ-341;ONAP CNF orchestration - Enhancements;Lukasz Rajewski;Changes of this feature are described in :ref:`vFW CNF use case <docs_vFW_CNF_CDS>`
 REQ-338;Support for Test Result Auto Analysis & Certification （NFV Testing Automatic Platform）;Lei Huang;
 REQ-337;Support for Test Task Auto Execution （NFV Testing Automatic Platform）;Lei Huang;
 REQ-336;Support for Test Environment Auto Deploy（NFV Testing Automatic Platform）;Lei Huang;
