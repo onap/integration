@@ -12,27 +12,31 @@ vFirewall CNF Use Case
 Source files
 ~~~~~~~~~~~~
 - Heat/Helm/CDS models: `vFW_CNF_CDS Model`_
+- Automation Scripts: `vFW_CNF_CDS Automation`_
 
 Description
 ~~~~~~~~~~~
 This use case is a combination of `vFW CDS Dublin`_ and `vFW EDGEX K8S`_ use cases. The aim is to continue improving Kubernetes based Network Functions (a.k.a CNF) support in ONAP. Use case continues where `vFW EDGEX K8S`_ left and brings CDS support into picture like `vFW CDS Dublin`_ did for the old vFW Use case. Predecessor use case is also documented here `vFW EDGEX K8S In ONAP Wiki`_.
 
-In a higher level this use case brings only two improvements yet important ones i.e. the ability to instantiate more than single CNF instance of same type (with same Helm package) and ability to embed into singular onboarding package more than one helm package what brings more service design options.
+This use case shows how to onboard helm packages and to instantiate them with help of ONAP. Following improvements were made in the vFW CNF Use Case:
 
-Following improvements were made in the Use Case or related ONAP components:
-
-- Changed vFW Kubernetes Helm charts to support overrides (previously mostly hardcoded values)
-- Combined all models (Heat, Helm, CBA) in to same git repo and a creating single onboarding package `vFW_CNF_CDS Model`_
-- Compared to `vFW EDGEX K8S`_ use case **MACRO** workflow in SO is used instead of VNF a'la carte workflow. (this is general requirement to utilize CDS as part of instantiation flow)
+- vFW Kubernetes Helm charts support overrides (previously mostly hardcoded values)
 - SDC accepts Onboarding Package with many helm packages what allows to keep decomposition of service instance similar to `vFW CDS Dublin`_
-- CDS is used to resolve instantiation time parameters (Helm override)
+- Compared to `vFW EDGEX K8S`_ use case **MACRO** workflow in SO is used instead of VNF a'la carte workflow
+- No VNF data preloading used, instead resource-assignment feature of CDS is used
+- CDS is used to resolve instantiation time parameters (Helm overrides)
   - Ip addresses with IPAM
   - Unique names for resources with ONAP naming service
-- Multicloud/k8s plugin changed to support identifiers of vf-module concept
-- **multicloud/k8s** creates automatically default empty RB profile and profile upload becomes optional for instantiation of CNF
-- CDS is used to create **multicloud/k8s profile** as part of instantiation flow (previously manual step)
+  - CDS is used to create and upload **multicloud/k8s profile** as part of instantiation flow
+- Combined all models (Heat, Helm, CBA) in to same git repo and a created single onboarding package `vFW_CNF_CDS Model`_
+- Use case does not contain Closed Loop part of the vFW demo.
 
-Use case does not contain Closed Loop part of the vFW demo.
+All changes to related ONAP components and Use Case can be found in the following tickets:
+
+- `REQ-182`_
+- `REQ-341`_
+
+**Since Guilin ONAP supports Helm packages as a native onboarding artifacts and SO natively orchestrates Helm packages what brings significant advantages in the future. Also since this release ONAP has first mechanisms for monitoring of the status of deployed CNF resources**.
 
 The vFW CNF Use Case
 ~~~~~~~~~~~~~~~~~~~~
@@ -54,16 +58,16 @@ Helm             `vFW_Helm Model`_       Helm templates used in `vFW EDGEX K8S`_
 CDS model        `vFW CBA Model`_        CDS CBA model used in `vFW CDS Dublin`_ demo
 ===============  =================       ===========
 
-All changes to related ONAP components and Use Case can be found from this `Jira Epic`_ ticket.
+.. note::  Since the Guilin release `vFW_CNF_CDS Model`_ contains sources that allow to model and instantiate CNF with VNF/Heat orchestration approach (Frankfurt) and with native Helm orchestration approach. Please follow README.txt description and further documentation here to generate and select appropriate onboarding package which will leverage appropriate SO orchestration path.
 
 Modeling Onboarding Package/Helm
 ................................
 
 The starting point for this demo was Helm package containing one Kubernetes application, see `vFW_Helm Model`_. In this demo we decided to follow SDC/SO vf-module concept the same way as original vFW demo was split into multiple vf-modules instead of one (`vFW_NextGen`_). The same way we splitted Helm version of vFW into multiple Helm packages each matching one dedicated vf-module.
 
-Produced onboarding package has following MANIFEST file (package/MANIFEST.json) having all Helm packages modeled as dummy Heat resources matching to vf-module concept (that is originated from Heat), so basically each Helm application is visible to ONAP as own vf-module. Actual Helm package is delivered as CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT package through SDC and SO. Dummy heat templates are matched to helm packages by the same prefix of the file name.
+The Guilin version of the `vFW_CNF_CDS Model`_ contains files required to create **VSP onboarding packages in two formats**: the **Dummy Heat** (available in Frankfurt release already) one that considers association of each Helm package with dummy heat templates and the **Native Helm** one where each Helm package is standalone and is natively understood in consequence by SO. For both variants of VSP Helm packages are matched to the vf-module concept, so basically each Helm application after instantiation is visible to ONAP as a separate vf-module. The chosen format for onboarding has **crucial** role in the further orchestration approach applied for Helm package instantiation. The **Dummy Heat** will result with orchestration through the **Openstack Adapter** component of SO while **Native Helm** will result with **CNF Adapter**. Both approaches will result with instantiation of the same CNF, however the **Native Helm** approach will be enhanced in the future releases while **Dummy Heat** approach will become deprecated in the future.
 
-CDS model (CBA package) is delivered as SDC supported own type CONTROLLER_BLUEPRINT_ARCHIVE.
+Produced **Dummy Heat** VSP onboarding package `Creating Onboarding Package`_ format has following MANIFEST file (package_dummy/MANIFEST.json). The Helm package is delivered as CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT package through SDC and SO. Dummy heat templates are matched to Helm packages by the same prefix <vf_module_label> of the file name that for both dummy Heat teamplate and for CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT must be the same, like i.e. *vpg* vf-module in the manifest file below. The name of the CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT artifact is predefined and needs to match the pattern: <vf_module_label>_cloudtech_k8s_charts.tgz. More examples can be found in `Modeling Onboarding Package/Helm`_ section.
 
 ::
 
@@ -72,7 +76,7 @@ CDS model (CBA package) is delivered as SDC supported own type CONTROLLER_BLUEPR
         "description": "",
         "data": [
             {
-                "file": "vFW_CDS_CNF.zip",
+                "file": "CBA.zip",
                 "type": "CONTROLLER_BLUEPRINT_ARCHIVE"
             },
             {
@@ -138,95 +142,51 @@ CDS model (CBA package) is delivered as SDC supported own type CONTROLLER_BLUEPR
         ]
     }
 
-Multicloud/k8s
-..............
+Produced **Native Helm** VSP onboarding package `Creating Onboarding Package`_ format has following MANIFEST file (package_native/MANIFEST.json). The Helm package is delivered as HELM package through SDC and SO. The *isBase* flag of HELM artifact is ignored by SDC but in the manifest one HELM or HEAT artifacts must be defined as isBase = true. If both HEAT and HELM are present in the same manifest file the base one must be always one of HELM artifacts. Moreover, the name of HELM type artifact must match the specified pattern: *helm_<some_name>* and the HEAT type artifacts, if present in the same manifest, cannot contain keyword *helm*. These limitations are a consequence of current limitations of the SDC onboarding and VSP validation engine and will be adresssed in the future releases.
 
-K8s plugin was changed to support new way to identify k8s application and related multicloud/k8s profile.
+::
 
-Changes done:
+    {
+        "name": "virtualFirewall",
+        "description": "",
+        "data": [
+            {
+                "file": "CBA.zip",
+                "type": "CONTROLLER_BLUEPRINT_ARCHIVE"
+            },
+            {
+                "file": "helm_base_template.tgz",
+                "type": "HELM",
+                "isBase": "true"
+            },
+            {
+                "file": "helm_vfw.tgz",
+                "type": "HELM",
+                "isBase": "false"
+            },
+            {
+                "file": "helm_vpkg.tgz",
+                "type": "HELM",
+                "isBase": "false"
+            },
+            {
+                "file": "helm_vsn.tgz",
+                "type": "HELM",
+                "isBase": "false"
+            }
+        ]
+    }
 
-- SDC distribution broker
-
-    SDC distribution broker is responsible for transformation of the CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT into *Definition* object holding the helm package. The change for Frankfurt release considers that singular onboarding package can have many CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT, each one for dedicated vf-module associated with dummy heat template. The mapping between vf-module and CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT is done on file prefixes. In example, *vfw.yaml* Heat template will result with creation of *vfw* vf-module and its Definition will be created from CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT file of name vfw_cloudtech_k8s_charts.tgz. More examples can be found in `Modeling Onboarding Package/Helm`_ section.
-
-- K8S plugin APIs changed to use VF Module Model Identifiers
-
-    Previously K8S plugin's used user given values in to identify object created/modified. Names were basing on VF-Module's "model-name"/"model-version" like "VfwLetsHopeLastOne..vfw..module-3" and "1". SO request has user_directives from where values was taken.
-
-    **VF Module Model Invariant ID** and **VF Module Model Version ID** is now used to identify artifact in SO request to Multicloud/k8s plugin. This does not require user to give extra parameters for the SO request as vf-module related parameters are there already by default. `MULTICLOUD-941`_
-    Note that API endpoints are not changed but only the semantics.
-
-    *Examples:*
-
-      Definition
-
-      ::
-
-          /api/multicloud-k8s/v1/v1/rb/definition/{VF Module Model Invariant ID}/{VF Module Model Version ID}/content
-
-
-      Profile creation API
-
-      ::
-
-          curl -i -d @create_rbprofile.json -X POST http://${K8S_NODE_IP}:30280/api/multicloud-k8s/v1/v1/rb/definition/{VF Module Model Invariant ID}/{VF Module Model Version ID}/profile
-          {    "rb-name": “{VF Module Model Invariant ID}",
-               "rb-version": "{VF Module Model Version ID}",
-               "profile-name": "p1",
-               "release-name": "r1",
-               "namespace": "testns1",
-               "kubernetes-version": "1.13.5"
-          }
-
-      Upload Profile content API
-
-      ::
-
-          curl -i --data-binary @profile.tar.gz -X POST http://${K8S_NODE_IP}:30280/api/multicloud-k8s/v1/v1/rb/definition/{VF Module Model Invariant ID}/{VF Module Model Version ID}/profile/p1/content
-
-- Instantiation broker
-
-    The broker implements `infra_workload`_ API used to handle vf-module instantiation request comming from the SO. User directives were changed by SDNC directives what impacts also the way how a'la carte instantiation method works from the VID. There is no need to specify the user directives delivered from the separate file. Instead SDNC directives are delivered through SDNC preloading (a'la carte instantiation) or through the resource assignment performed by the CDS (Macro flow instantiation).
-
-
-    For helm package instantiation following parameters have to be delivered in the SDNC directives:
-
-
-    ======================== ==============================================
-
-    Variable                 Description
-
-    ------------------------ ----------------------------------------------
-
-    k8s-rb-profile-name      Name of the override profile
-
-    k8s-rb-profile-namespace Name of the namespace for created helm package
-
-    ======================== ==============================================
-
-- Default profile support was added to the plugin
-
-    K8splugin now creates dummy "default" profile on each resource bundle registration. Such profile doesn't contain any content inside and allows instantiation of CNF without the need to define additional profile, however this is still possible. In this use-case, CBA has been defined in a way, that it can template some simple profile that can be later put by CDS during resource-assignment instantiation phase and later picked up for instantiation. This happens when using second prepared instantiation call for instantiation: **Postman -> LCM -> 6. [SO] Self-Serve Service Assign & Activate - Second**
-
-- Instantiation time override support was added to the plugin
-
-    K8splugin allows now specifying override parameters (similar to --set behavior of helm client) to instantiated resource bundles. This allows for providing dynamic parameters to instantiated resources without the need to create new profiles for this purpose.
-
+.. note::  CDS model (CBA package) is delivered as SDC supported own type CONTROLLER_BLUEPRINT_ARCHIVE but the current limitation of VSP onbarding forces to use the artifact name *CBA.zip* to automaticaly recognize CBA as a CONTROLLER_BLUEPRINT_ARCHIVE.
 
 CDS Model (CBA)
 ...............
 
-Creating CDS model was the core of the use case work and also the most difficult and time consuming part. There are many reasons for this e.g.
-
-- CDS documentation (even being new component) is inadequate or non-existent for service modeler user. One would need to be CDS developer to be able to do something with it.
-- CDS documentation what exists is non-versioned (in ONAP wiki when should be in git) so it's mostly impossible to know what features are for what release.
-- Our little experience of CDS (not CDS developers)
-
-Although initial development of template wasn't easy, current template used by use-case should be easily reusable for anyone. Once CDS GUI will be fully working, we think that CBA development should be much easier. For CBA structure reference, please visit it's documentation page `CDS Modeling Concepts`_.
+Creating CDS model was the core of the use case work and also the most difficult and time consuming part. Current template used by use-case should be easily reusable for anyone. Once CDS GUI will be fully working, we think that CBA development should be much easier. For CBA structure reference, please visit it's documentation page `CDS Documentation`_.
 
 At first the target was to keep CDS model as close as possible to `vFW_CNF_CDS Model`_ use case model and only add smallest possible changes to enable also k8s usage. That is still the target but in practice model deviated from the original one already and time pressure pushed us to not care about sync. Basically the end result could be possible much streamlined if wanted to be smallest possible to working only for K8S based network functions.
 
-As K8S application was split into multiple Helm packages to match vf-modules, CBA modeling follows the same and for each vf-module there's own template in CBA package.
+As K8S application was split into multiple Helm packages to match vf-modules, CBA modeling follows the same and for each vf-module there's own template in CBA package. The list of artifact with the templates is different for **Dummy Heat** and **Native Helm** approach. The second one has artifact names starting with *helm_* prefiks, in the same way like names of artifacts in the MANIFEST file of VSP differs. The **Dummy Heat** artifacts' list is following:
 
 ::
 
@@ -273,11 +233,58 @@ As K8S application was split into multiple Helm packages to match vf-modules, CB
       }
     }
 
+The **Native Helm** artifacts' list is following:
+
+::
+
+    "artifacts" : {
+      "helm_base_template-template" : {
+        "type" : "artifact-template-velocity",
+        "file" : "Templates/base_template-template.vtl"
+      },
+      "helm_base_template-mapping" : {
+        "type" : "artifact-mapping-resource",
+        "file" : "Templates/base_template-mapping.json"
+      },
+      "helm_vpkg-template" : {
+        "type" : "artifact-template-velocity",
+        "file" : "Templates/vpkg-template.vtl"
+      },
+      "helm_vpkg-mapping" : {
+        "type" : "artifact-mapping-resource",
+        "file" : "Templates/vpkg-mapping.json"
+      },
+      "helm_vfw-template" : {
+        "type" : "artifact-template-velocity",
+        "file" : "Templates/vfw-template.vtl"
+      },
+      "helm_vfw-mapping" : {
+        "type" : "artifact-mapping-resource",
+        "file" : "Templates/vfw-mapping.json"
+      },
+      "vnf-template" : {
+        "type" : "artifact-template-velocity",
+        "file" : "Templates/vnf-template.vtl"
+      },
+      "vnf-mapping" : {
+        "type" : "artifact-mapping-resource",
+        "file" : "Templates/vnf-mapping.json"
+      },
+      "helm_vsn-template" : {
+        "type" : "artifact-template-velocity",
+        "file" : "Templates/vsn-template.vtl"
+      },
+      "helm_vsn-mapping" : {
+        "type" : "artifact-mapping-resource",
+        "file" : "Templates/vsn-mapping.json"
+      }
+    }
+
 Only **resource-assignment** workflow of the CBA model is utilized in this demo. If final CBA model contains also **config-deploy** workflow it's there just to keep parity with original vFW CBA (for VMs). Same applies for the related template *Templates/nf-params-template.vtl* and it's mapping file.
 
 Another advance of the presented use case over solution presented in the Dublin release is possibility of the automatic generation and upload to multicloud/k8s plugin the RB profile content.
 RB profile can be used to enrich or to modify the content of the original helm package. Profile can be also used to add additional k8s helm templates for helm installation or can be used to
-modify existing k8s helm templates for each create CNF instance. It opens another level of CNF customization, much more than customization og helm package with override values.
+modify existing k8s helm templates for each create CNF instance. It opens another level of CNF customization, much more than customization of helm package with override values.
 
 ::
 
@@ -290,10 +297,9 @@ modify existing k8s helm templates for each create CNF instance. It opens anothe
         chartpath: templates/deployment.yaml
 
 
-Above we have exemplary manifest file of the RB profile. Since Frankfurt *override_values.yaml* file does not need to be used as instantiation values are passed to the plugin over Instance API of k8s plugin. In the example profile contains additional k8s helm template which will be added on demand
-to the helm package during its installation. In our case, depending on the SO instantiation request input parameters, vPGN helm package can be enriched with additional ssh service. Such service will be dynamically added to the profile by CDS and later on CDS will upload whole custom RB profile to multicloud/k8s plugin.
+Above we have exemplary manifest file of the RB profile. Since Frankfurt *override_values.yaml* file does not need to be used as instantiation values are passed to the plugin over Instance API of k8s plugin. In the example, profile contains additional k8s helm template which will be added on demand to the helm package during its installation. In our case, depending on the SO instantiation request input parameters, vPGN helm package can be enriched with additional ssh service. Such service will be dynamically added to the profile by CDS and later on CDS will upload whole custom RB profile to multicloud/k8s plugin.
 
-In order to support generation and upload of profile, our vFW CBA model has enhanced **resource-assignment** workflow which contains additional steps, **profile-modification** and **profile-upload**. For the last step custom Kotlin script included in the CBA is used to upload K8S profile into multicloud/k8s plugin.
+In order to support generation and upload of profile, our vFW CBA model has enhanced **resource-assignment** workflow which contains additional step: **profile-upload**. It leverages dedicated functionality introduced in Guilin release that can be used to upload predefined profile or to generate and upload content of the profile with Velocity templating mechanism.
 
 ::
 
@@ -308,24 +314,12 @@ In order to support generation and upload of profile, our vFW CBA model has enha
                     }
                 ],
                 "on_success": [
-                    "profile-modification"
-                ]
-            },
-            "profile-modification": {
-                "description": "Profile Modification Resources",
-                "target": "profile-modification",
-                "activities": [
-                    {
-                        "call_operation": "ResourceResolutionComponent.process"
-                    }
-                ],
-                "on_success": [
                     "profile-upload"
                 ]
             },
             "profile-upload": {
-                "description": "Upload K8s Profile",
-                "target": "profile-upload",
+                "description": "Generate and upload K8s Profile",
+                "target": "k8s-profile-upload",
                 "activities": [
                     {
                         "call_operation": "ComponentScriptExecutor.process"
@@ -334,7 +328,26 @@ In order to support generation and upload of profile, our vFW CBA model has enha
             }
         },
 
-Profile generation step uses embedded into CDS functionality of templates processing and on its basis ssh port number (specified in the SO request as vpg-management-port) is included in the ssh service helm template.
+.. note:: In the Frankfurt reelase profile upload was implementes as a custom Kotlin script included into the CBA. It was responsible for upload of K8S profile into multicloud/k8s plugin. It is still a good example of  the integration of Kotlin scripting into the CBA. For those interested in this functionaliy we recommend to look into the `Frankfurt CBA Definition`_ and `Frankfurt CBA Script`_.
+
+In our example for vPKG helm package we may select *vfw-cnf-cds-vpkg-profile* profile that is included into CBA as a folder. Profile generation step uses embedded into CDS functionality of Velocity templates processing and on its basis ssh port number (specified in the SO request as *vpg-management-port*).
+
+::
+
+    {
+        "name": "vpg-management-port",
+        "property": {
+            "description": "The number of node port for ssh service of vpg",
+            "type": "integer",
+            "default": "0"
+        },
+        "input-param": false,
+        "dictionary-name": "vpg-management-port",
+        "dictionary-source": "default",
+        "dependencies": []
+    }
+
+*vpg-management-port* can be included directly into the helm template and such template will be included into vPKG helm package in time of its instantiation.
 
 ::
 
@@ -357,1214 +370,82 @@ Profile generation step uses embedded into CDS functionality of templates proces
       release: {{ .Release.Name }}
       chart: {{ .Chart.Name }}
 
-To upload of the profile is conducted with the CDS capability to execute Kotlin scripts. It allows to define any required controller logic. In our case we use to implement decision point and mechanisms of profile generation and upload.
-During the generation CDS extracts the RB profile template included in the CBA, includes there generated ssh service helm template, modifies the manifest of RB template by adding there ssh service and after its archivisation sends the profile to
-k8s plugin.
+
+The mechanism of profile generation and upload requires specific node teamplate in the CBA definition. In our case it comes with the declaration of two profiles: one static *vfw-cnf-cds-base-profile* in a form of an archive and the second complex *vfw-cnf-cds-vpkg-profile* in a form of a folder for processing and profile generation.
 
 ::
 
-    "profile-modification": {
-        "type": "component-resource-resolution",
+    "k8s-profile-upload": {
+        "type": "component-k8s-profile-upload",
         "interfaces": {
-            "ResourceResolutionComponent": {
+            "K8sProfileUploadComponent": {
                 "operations": {
                     "process": {
                         "inputs": {
-                            "artifact-prefix-names": [
-                                "ssh-service"
-                            ]
+                            "artifact-prefix-names": {
+                                "get_input": "template-prefix"
+                            },
+                            "resource-assignment-map": {
+                                "get_attribute": [
+                                    "resource-assignment",
+                                    "assignment-map"
+                                ]
+                            }
                         }
                     }
                 }
             }
         },
         "artifacts": {
-            "ssh-service-template": {
-                "type": "artifact-template-velocity",
-                "file": "Templates/k8s-profiles/ssh-service-template.vtl"
+            "vfw-cnf-cds-base-profile": {
+                "type": "artifact-k8sprofile-content",
+                "file": "Templates/k8s-profiles/vfw-cnf-cds-base-profile.tar.gz"
             },
-            "ssh-service-mapping": {
+            "vfw-cnf-cds-vpkg-profile": {
+                "type": "artifact-k8sprofile-content",
+                "file": "Templates/k8s-profiles/vfw-cnf-cds-vpkg-profile"
+            },
+            "vfw-cnf-cds-vpkg-profile-mapping": {
                 "type": "artifact-mapping-resource",
-                "file": "Templates/k8s-profiles/ssh-service-mapping.json"
-            }
-        }
-    },
-    "profile-upload": {
-        "type": "component-script-executor",
-        "interfaces": {
-            "ComponentScriptExecutor": {
-                "operations": {
-                    "process": {
-                        "inputs": {
-                            "script-type": "kotlin",
-                            "script-class-reference": "org.onap.ccsdk.cds.blueprintsprocessor.services.execution.scripts.K8sProfileUpload",
-                            "dynamic-properties": "*profile-upload-properties"
-                        }
-                    }
-                }
+                "file": "Templates/k8s-profiles/vfw-cnf-cds-vpkg-profile/ssh-service-mapping.json"
             }
         }
     }
 
-Kotlin script expects that K8S profile template named like "k8s-rb-profile-name".tar.gz is present in CBA "Templates/k8s-profiles" directory where **k8s-rb-profile-name** is one of the CDS resolved parameters (user provides as input parameter) and in our case it has a value **vfw-cnf-cds-base-profile**.
+Artifact file determines a place of the static profile or the content of the complex profile. In the latter case we need a pair of profile folder and mappimng file with a declaration of the parameters that CDS needs to resolve first, before the Velocity templating is applied to the .vtl files present in the profile content. After Velovity templating the .vtl extensions will be ropped from the file names. The embedded mechanism will include in the profile only files present in the profile MANIFEST file that needs to contain the list of final names of the files to be included into the profile. Th figure below shows the idea of profile templating.
 
-Finally, `Data Dictionary`_ is also included into demo git directory, re-modeling and making changes into model utilizing CDS model time / runtime is easier as used DD is also known.
+.. figure:: files/vFW_CNF_CDS/profile-templating.png
+   :align: center
 
-UAT
-+++
+   K8s Profile Templating
 
+SO requires for instantiation name of the profile in the parameter: *k8s-rb-profile-name*. The *component-k8s-profile-upload* that stands behind the profile uploading mechanism has input parameters that can be passed directly (checked in the first order) or can be taken from the *resource-assignment-map* parameter which can be a result of associated *component-resource-resolution* result, like in our case their values are resolved on vf-module level resource assignment. The *component-k8s-profile-upload* inputs are following:
 
-UAT is a nice concept where CDS CBA can be tested isolated after all external calls it makes are recorded. UAT framework in CDS has spy mode that enables such recording of requets. Recording is initiated with structured yaml file having all CDS requests and spy mode executes all those requests in given yaml file and procuding another yaml file where external requetsts and payloads are recorded.
+- k8s-rb-profile-name – (mandatory) the name of the profile under which it will be created in k8s plugin. Other parameters are required only when profile must be uploaded
+- k8s-rb-definition-name – the name under which RB definition was created - **VF Module Model Invariant ID** in ONAP
+- k8s-rb-definition-version – the version of created RB definition name - **VF Module Model Version ID**  in ONAP
+- k8s-rb-profile-namespace – the k8s namespace name associated with profile being created
+- k8s-rb-profile-source – the source of profile content - name of the artifact of the profile
+- resource-assignment-map – result of the associated resource assignment step
+- artifact-prefix-names – (mandatory) the list of artifact prefixes like for resource-assigment step
 
-During this use case we had several problems with UAT testing and finally we where not able to get it fully working. UAT framework is not taking consideration that of subsequent CDS calls does have affects to external componenets like SDNC MDSAL (particularly the first resource-assignment call comING FROM sdnc stored resolved values to MDSAL and those are needed by subsequent calls by CBA model).
+In the SO request user can pass parameter of name *k8s-rb-profile-name* which in our case may have value: *vfw-cnf-cds-base-profile*, *vfw-cnf-cds-vpkg-profile* or *default*. The *default* profile doesn’t contain any content inside and allows instantiation of CNF without the need to define and upload any additional profiles. *vfw-cnf-cds-vpkg-profile* has been prepard to test instantiation of the second modified vFW CNF instance `Second Service Instance Instantiation`_.
 
-It was possible to record CDS calls with UAT spy after successfull instantition when SDNC was alredy populated with resolved values are re-run of CDS model was able to fetch needed values.
+K8splugin allows to specify override parameters (similar to --set behavior of helm client) to instantiated resource bundles. This allows for providing dynamic parameters to instantiated resources without the need to create new profiles for this purpose and should be used with *default* profile but may be used also with custom profiles. The overall flow of helm overrides parameters processing is visible on following figure.
 
-During testing of the use case **uat.yml** file was recorded according to `CDS UAT Testing`_ instructions. Generated uat.yml could be stored (if usable) within CBA package into **Tests** folder.
+.. figure:: files/vFW_CNF_CDS/helm-overrides.png
+   :align: center
 
-Recorded uat.yml is an example run with example values (the values we used when demo was run) and can be used later to test CBA model in isolation (unit test style). This could be very useful when changes are made to CBA model and those changes are needed to be tested fast. With uat.yml file only CDS is needed as all external interfaces are mocked. However, note that mocking is possible for REST interfaces only (e.g. Netconf is not supported).
+   The overall flow of helm overrides
 
-Another benefit of uat.yml is that it documents the runtime functionality of the CBA and that's the main benefit on this use case as the UAT test (verify) part was not really successful.
+Finally, `Data Dictionary`_ is also included into demo git directory, re-modeling and making changes into model utilizing CDS model time / runtime is easier as used DD is also known. 
 
-To verify CBA with uat.yaml and CDS runtime do following:
-
-- Enable UAT testing for CDS runtime
-
-  ::
-
-      kubectl -n onap edit deployment onap-cds-blueprints-processor
-
-      # add env variable for cds-blueprints-processor container:
-                name: spring_profiles_active
-                value: uat
-
-- Spy CBA functionality with UAT initial seed file
-
-::
-
-    curl -X POST -u ccsdkapps:ccsdkapps -F cba=@my_cba.zip -F uat=@input_uat.yaml http://<kube-node>:30499/api/v1/uat/spy
-
-where my_cba.zip is the cba model of this use case and input_uat.yml is following in this use case:
-
-::
-
-    %YAML 1.1
-    ---
-    processes:
-      - name: resource-assignment for vnf
-        request:
-          commonHeader: &commonHeader
-            originatorId: SDNC_DG
-            requestId: "98397f54-fa57-485f-a04e-1e220b7b1779"
-            subRequestId: "6bfca5dc-993d-48f1-ad27-a7a9ea91836b"
-          actionIdentifiers: &actionIdentifiers
-            blueprintName: vFW_CNF_CDS
-            blueprintVersion: "1.0.45"
-            actionName: resource-assignment
-            mode: sync
-          payload:
-            resource-assignment-request:
-              template-prefix:
-                - "vnf"
-              resource-assignment-properties:
-                service-instance-id: &service-id "8ead0480-cf44-428e-a4c2-0e6ed10f7a72"
-                vnf-model-customization-uuid: &vnf-model-cust-uuid "86dc8af4-aa17-4fc7-9b20-f12160d99718"
-                vnf-id: &vnf-id "93b3350d-ed6f-413b-9cc5-a158c1676eb0"
-                aic-cloud-region: &cloud-region "k8sregionfour"
-      - name: resource-assignment for base_template
-        request:
-          commonHeader: *commonHeader
-          actionIdentifiers: *actionIdentifiers
-          payload:
-            resource-assignment-request:
-              template-prefix:
-                - "base_template"
-              resource-assignment-properties:
-                nfc-naming-code: "base_template"
-                k8s-rb-profile-name: &k8s-profile-name "default"
-                service-instance-id: *service-id
-                vnf-id: *vnf-id
-                vf-module-model-customization-uuid: "b27fad11-44da-4840-9256-7ed8a32fbe3e"
-                vnf-model-customization-uuid: *vnf-model-cust-uuid
-                vf-module-id: "274f4bc9-7679-4767-b34d-1df51cdf2496"
-                aic-cloud-region: *cloud-region
-      - name: resource-assignment for vpkg
-        request:
-          commonHeader: *commonHeader
-          actionIdentifiers: *actionIdentifiers
-          payload:
-            resource-assignment-request:
-              template-prefix:
-                - "vpkg"
-              resource-assignment-properties:
-                nfc-naming-code: "vpkg"
-                k8s-rb-profile-name: *k8s-profile-name
-                service-instance-id: *service-id
-                vnf-id: *vnf-id
-                vf-module-model-customization-uuid: "4e7028a1-4c80-4d20-a7a2-a1fb3343d5cb"
-                vnf-model-customization-uuid: *vnf-model-cust-uuid
-                vf-module-id: "011b5f61-6524-4789-bd9a-44cfbf321463"
-                aic-cloud-region: *cloud-region
-      - name: resource-assignment for vsn
-        request:
-          commonHeader: *commonHeader
-          actionIdentifiers: *actionIdentifiers
-          payload:
-            resource-assignment-request:
-              template-prefix:
-                - "vsn"
-              resource-assignment-properties:
-                nfc-naming-code: "vsn"
-                k8s-rb-profile-name: *k8s-profile-name
-                service-instance-id: *service-id
-                vnf-id: *vnf-id
-                vf-module-model-customization-uuid: "4cac0584-c0d6-42a7-bdb3-29162792e07f"
-                vnf-model-customization-uuid: *vnf-model-cust-uuid
-                vf-module-id: "0cbf558f-5a96-4555-b476-7df8163521aa"
-                aic-cloud-region: *cloud-region
-      - name: resource-assignment for vfw
-        request:
-          commonHeader: *commonHeader
-          actionIdentifiers: *actionIdentifiers
-          payload:
-            resource-assignment-request:
-              template-prefix:
-                - "vfw"
-              resource-assignment-properties:
-                nfc-naming-code: "vfw"
-                k8s-rb-profile-name: *k8s-profile-name
-                service-instance-id: *service-id
-                vnf-id: *vnf-id
-                vf-module-model-customization-uuid: "1e123e43-ba40-4c93-90d7-b9f27407ec03"
-                vnf-model-customization-uuid: *vnf-model-cust-uuid
-                vf-module-id: "0de4ed56-8b4c-4a2d-8ce6-85d5e269204f "
-                aic-cloud-region: *cloud-region
-
-
-.. note::  This call will run all the calls (given in input_uat.yml) towards CDS and records the functionality, so there needs to be working environment (SDNC, AAI, Naming, Netbox, etc.) to record valid final uat.yml.
-           As an output of this call final uat.yml content is received. Final uat.yml in this use case looks like this:
-
-::
-
-    processes:
-    - name: resource-assignment for vnf
-      request:
-        commonHeader:
-          originatorId: SDNC_DG
-          requestId: 98397f54-fa57-485f-a04e-1e220b7b1779
-          subRequestId: 6bfca5dc-993d-48f1-ad27-a7a9ea91836b
-        actionIdentifiers:
-          blueprintName: vFW_CNF_CDS
-          blueprintVersion: 1.0.45
-          actionName: resource-assignment
-          mode: sync
-        payload:
-          resource-assignment-request:
-            template-prefix:
-            - vnf
-            resource-assignment-properties:
-              service-instance-id: 8ead0480-cf44-428e-a4c2-0e6ed10f7a72
-              vnf-model-customization-uuid: 86dc8af4-aa17-4fc7-9b20-f12160d99718
-              vnf-id: 93b3350d-ed6f-413b-9cc5-a158c1676eb0
-              aic-cloud-region: k8sregionfour
-      expectedResponse:
-        commonHeader:
-          originatorId: SDNC_DG
-          requestId: 98397f54-fa57-485f-a04e-1e220b7b1779
-          subRequestId: 6bfca5dc-993d-48f1-ad27-a7a9ea91836b
-          flags: null
-        actionIdentifiers:
-          blueprintName: vFW_CNF_CDS
-          blueprintVersion: 1.0.45
-          actionName: resource-assignment
-          mode: sync
-        status:
-          code: 200
-          eventType: EVENT_COMPONENT_EXECUTED
-          errorMessage: null
-          message: success
-        payload:
-          resource-assignment-response:
-            meshed-template:
-              vnf: |
-                {
-                    "capability-data": [
-                        {
-                            "capability-name": "generate-name",
-                            "key-mapping": [
-                                {
-                                    "output-key-mapping": [
-                                        {
-                                            "resource-name": "vnf_name",
-                                            "resource-value": "${vnf_name}"
-                                        }
-                                    ],
-                                    "payload": [
-                                        {
-                                            "param-name": "resource-name",
-                                            "param-value": "vnf_name"
-                                        },
-                                        {
-                                            "param-name": "resource-value",
-                                            "param-value": "${vnf_name}"
-                                        },
-                                        {
-                                            "param-name": "external-key",
-                                            "param-value": "93b3350d-ed6f-413b-9cc5-a158c1676eb0_vnf_name"
-                                        },
-                                        {
-                                            "param-name": "policy-instance-name",
-                                            "param-value": "SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP"
-                                        },
-                                        {
-                                            "param-name": "naming-type",
-                                            "param-value": "VNF"
-                                        },
-                                        {
-                                            "param-name": "AIC_CLOUD_REGION",
-                                            "param-value": "k8sregionfour"
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            "capability-name": "netbox-ip-assign",
-                            "key-mapping": [
-                                {
-                                    "output-key-mapping": [
-                                        {
-                                            "resource-name": "int_private1_gw_ip",
-                                            "resource-value": "${int_private1_gw_ip}"
-                                        }
-                                    ],
-                                    "payload": [
-                                        {
-                                            "param-name": "service-instance-id",
-                                            "param-value": "8ead0480-cf44-428e-a4c2-0e6ed10f7a72"
-                                        },
-                                        {
-                                            "param-name": "prefix-id",
-                                            "param-value": "2"
-                                        },
-                                        {
-                                            "param-name": "vnf-id",
-                                            "param-value": "93b3350d-ed6f-413b-9cc5-a158c1676eb0"
-                                        },
-                                        {
-                                            "param-name": "external_key",
-                                            "param-value": "93b3350d-ed6f-413b-9cc5-a158c1676eb0-int_private1_gw_ip"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "output-key-mapping": [
-                                        {
-                                            "resource-name": "int_private2_gw_ip",
-                                            "resource-value": "${int_private2_gw_ip}"
-                                        }
-                                    ],
-                                    "payload": [
-                                        {
-                                            "param-name": "service-instance-id",
-                                            "param-value": "8ead0480-cf44-428e-a4c2-0e6ed10f7a72"
-                                        },
-                                        {
-                                            "param-name": "prefix-id",
-                                            "param-value": "1"
-                                        },
-                                        {
-                                            "param-name": "vnf-id",
-                                            "param-value": "93b3350d-ed6f-413b-9cc5-a158c1676eb0"
-                                        },
-                                        {
-                                            "param-name": "external_key",
-                                            "param-value": "93b3350d-ed6f-413b-9cc5-a158c1676eb0-int_private2_gw_ip"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "output-key-mapping": [
-                                        {
-                                            "resource-name": "vfw_int_private2_ip_0",
-                                            "resource-value": "${vfw_int_private2_ip_0}"
-                                        }
-                                    ],
-                                    "payload": [
-                                        {
-                                            "param-name": "service-instance-id",
-                                            "param-value": "8ead0480-cf44-428e-a4c2-0e6ed10f7a72"
-                                        },
-                                        {
-                                            "param-name": "prefix-id",
-                                            "param-value": "1"
-                                        },
-                                        {
-                                            "param-name": "vnf-id",
-                                            "param-value": "93b3350d-ed6f-413b-9cc5-a158c1676eb0"
-                                        },
-                                        {
-                                            "param-name": "external_key",
-                                            "param-value": "93b3350d-ed6f-413b-9cc5-a158c1676eb0-vfw_int_private2_ip_0"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "output-key-mapping": [
-                                        {
-                                            "resource-name": "vfw_int_private1_ip_0",
-                                            "resource-value": "${vfw_int_private1_ip_0}"
-                                        }
-                                    ],
-                                    "payload": [
-                                        {
-                                            "param-name": "service-instance-id",
-                                            "param-value": "8ead0480-cf44-428e-a4c2-0e6ed10f7a72"
-                                        },
-                                        {
-                                            "param-name": "prefix-id",
-                                            "param-value": "2"
-                                        },
-                                        {
-                                            "param-name": "vnf-id",
-                                            "param-value": "93b3350d-ed6f-413b-9cc5-a158c1676eb0"
-                                        },
-                                        {
-                                            "param-name": "external_key",
-                                            "param-value": "93b3350d-ed6f-413b-9cc5-a158c1676eb0-vfw_int_private1_ip_0"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "output-key-mapping": [
-                                        {
-                                            "resource-name": "vsn_int_private2_ip_0",
-                                            "resource-value": "${vsn_int_private2_ip_0}"
-                                        }
-                                    ],
-                                    "payload": [
-                                        {
-                                            "param-name": "service-instance-id",
-                                            "param-value": "8ead0480-cf44-428e-a4c2-0e6ed10f7a72"
-                                        },
-                                        {
-                                            "param-name": "prefix-id",
-                                            "param-value": "1"
-                                        },
-                                        {
-                                            "param-name": "vnf-id",
-                                            "param-value": "93b3350d-ed6f-413b-9cc5-a158c1676eb0"
-                                        },
-                                        {
-                                            "param-name": "external_key",
-                                            "param-value": "93b3350d-ed6f-413b-9cc5-a158c1676eb0-vsn_int_private2_ip_0"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "output-key-mapping": [
-                                        {
-                                            "resource-name": "vpg_int_private1_ip_0",
-                                            "resource-value": "${vpg_int_private1_ip_0}"
-                                        }
-                                    ],
-                                    "payload": [
-                                        {
-                                            "param-name": "service-instance-id",
-                                            "param-value": "8ead0480-cf44-428e-a4c2-0e6ed10f7a72"
-                                        },
-                                        {
-                                            "param-name": "prefix-id",
-                                            "param-value": "2"
-                                        },
-                                        {
-                                            "param-name": "vnf-id",
-                                            "param-value": "93b3350d-ed6f-413b-9cc5-a158c1676eb0"
-                                        },
-                                        {
-                                            "param-name": "external_key",
-                                            "param-value": "93b3350d-ed6f-413b-9cc5-a158c1676eb0-vpg_int_private1_ip_0"
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            "capability-name": "unresolved-composite-data",
-                            "key-mapping": [
-                                {
-                                    "output-key-mapping": [
-                                        {
-                                            "resource-name": "int_private2_net_id",
-                                            "resource-value": "${vnf_name}-protected-network"
-                                        },
-                                        {
-                                            "resource-name": "int_private1_net_id",
-                                            "resource-value": "${vnf_name}-unprotected-network"
-                                        },
-                                        {
-                                            "resource-name": "onap_private_net_id",
-                                            "resource-value": "${vnf_name}-management-network"
-                                        },
-                                        {
-                                            "resource-name": "net_attachment_definition",
-                                            "resource-value": "${vnf_name}-ovn-nat"
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ],
-                    "resource-accumulator-resolved-data": [
-                        {
-                            "param-name": "vf-naming-policy",
-                            "param-value": "SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP"
-                        },
-                        {
-                            "param-name": "dcae_collector_ip",
-                            "param-value": "10.0.4.1"
-                        },
-                        {
-                            "param-name": "dcae_collector_port",
-                            "param-value": "30235"
-                        },
-                        {
-                            "param-name": "int_private1_net_cidr",
-                            "param-value": "192.168.10.0/24"
-                        },
-                        {
-                            "param-name": "int_private2_net_cidr",
-                            "param-value": "192.168.20.0/24"
-                        },
-                        {
-                            "param-name": "onap_private_net_cidr",
-                            "param-value": "10.0.101.0/24"
-                        },
-                        {
-                            "param-name": "demo_artifacts_version",
-                            "param-value": "1.5.0"
-                        },
-                        {
-                            "param-name": "k8s-rb-profile-name",
-                            "param-value": "vfw-cnf-cds-base-profile"
-                        },
-                        {
-                            "param-name": "k8s-rb-profile-namespace",
-                            "param-value": "default"
-                        }
-                    ]
-                }
-    - name: resource-assignment for base_template
-      request:
-        commonHeader:
-          originatorId: SDNC_DG
-          requestId: 98397f54-fa57-485f-a04e-1e220b7b1779
-          subRequestId: 6bfca5dc-993d-48f1-ad27-a7a9ea91836b
-        actionIdentifiers:
-          blueprintName: vFW_CNF_CDS
-          blueprintVersion: 1.0.45
-          actionName: resource-assignment
-          mode: sync
-        payload:
-          resource-assignment-request:
-            template-prefix:
-            - base_template
-            resource-assignment-properties:
-              nfc-naming-code: base_template
-              k8s-rb-profile-name: default
-              service-instance-id: 8ead0480-cf44-428e-a4c2-0e6ed10f7a72
-              vnf-id: 93b3350d-ed6f-413b-9cc5-a158c1676eb0
-              vf-module-model-customization-uuid: b27fad11-44da-4840-9256-7ed8a32fbe3e
-              vnf-model-customization-uuid: 86dc8af4-aa17-4fc7-9b20-f12160d99718
-              vf-module-id: 274f4bc9-7679-4767-b34d-1df51cdf2496
-              aic-cloud-region: k8sregionfour
-      expectedResponse:
-        commonHeader:
-          originatorId: SDNC_DG
-          requestId: 98397f54-fa57-485f-a04e-1e220b7b1779
-          subRequestId: 6bfca5dc-993d-48f1-ad27-a7a9ea91836b
-          flags: null
-        actionIdentifiers:
-          blueprintName: vFW_CNF_CDS
-          blueprintVersion: 1.0.45
-          actionName: resource-assignment
-          mode: sync
-        status:
-          code: 200
-          eventType: EVENT_COMPONENT_EXECUTED
-          errorMessage: null
-          message: success
-        payload:
-          resource-assignment-response:
-            meshed-template:
-              base_template: |
-                {
-                    "capability-data": [
-                        {
-                            "capability-name": "netbox-ip-assign",
-                            "key-mapping": [
-                                {
-                                    "output-key-mapping": [
-                                        {
-                                            "resource-name": "onap_private_gw_ip",
-                                            "resource-value": "${onap_private_gw_ip}"
-                                        }
-                                    ],
-                                    "payload": [
-                                        {
-                                            "param-name": "service-instance-id",
-                                            "param-value": "8ead0480-cf44-428e-a4c2-0e6ed10f7a72"
-                                        },
-                                        {
-                                            "param-name": "prefix-id",
-                                            "param-value": "3"
-                                        },
-                                        {
-                                            "param-name": "vnf-id",
-                                            "param-value": "93b3350d-ed6f-413b-9cc5-a158c1676eb0"
-                                        },
-                                        {
-                                            "param-name": "external_key",
-                                            "param-value": "93b3350d-ed6f-413b-9cc5-a158c1676eb0-onap_private_gw_ip"
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            "capability-name": "generate-name",
-                            "key-mapping": [
-                                {
-                                    "output-key-mapping": [
-                                        {
-                                            "resource-name": "vf_module_name",
-                                            "resource-value": "${vf-module-name}"
-                                        }
-                                    ],
-                                    "payload": [
-                                        {
-                                            "param-name": "resource-name",
-                                            "param-value": "vf_module_name"
-                                        },
-                                        {
-                                            "param-name": "resource-value",
-                                            "param-value": "${vf-module-name}"
-                                        },
-                                        {
-                                            "param-name": "external-key",
-                                            "param-value": "274f4bc9-7679-4767-b34d-1df51cdf2496_vf-module-name"
-                                        },
-                                        {
-                                            "param-name": "policy-instance-name",
-                                            "param-value": "SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP"
-                                        },
-                                        {
-                                            "param-name": "naming-type",
-                                            "param-value": "VF-MODULE"
-                                        },
-                                        {
-                                            "param-name": "VNF_NAME",
-                                            "param-value": "k8sregionfour-onap-nf-20200601t073308018z"
-                                        },
-                                        {
-                                            "param-name": "VF_MODULE_TYPE",
-                                            "param-value": "vfmt"
-                                        },
-                                        {
-                                            "param-name": "VF_MODULE_LABEL",
-                                            "param-value": "base_template"
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            "capability-name": "aai-vf-module-put",
-                            "key-mapping": [
-                                {
-                                    "output-key-mapping": [
-                                        {
-                                            "resource-name": "aai-vf-module-put",
-                                            "resource-value": ""
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ],
-                    "resource-accumulator-resolved-data": [
-                        {
-                            "param-name": "vf-module-model-invariant-uuid",
-                            "param-value": "52842255-b7be-4a1c-ab3b-2bd3bd4a5423"
-                        },
-                        {
-                            "param-name": "vf-module-model-version",
-                            "param-value": "274f4bc9-7679-4767-b34d-1df51cdf2496"
-                        },
-                        {
-                            "param-name": "k8s-rb-profile-name",
-                            "param-value": "default"
-                        },
-                        {
-                            "param-name": "k8s-rb-profile-namespace",
-                            "param-value": "default"
-                        },
-                        {
-                            "param-name": "int_private1_subnet_id",
-                            "param-value": "unprotected-network-subnet-1"
-                        },
-                        {
-                            "param-name": "int_private2_subnet_id",
-                            "param-value": "protected-network-subnet-1"
-                        },
-                        {
-                            "param-name": "onap_private_subnet_id",
-                            "param-value": "management-network-subnet-1"
-                        }
-                    ]
-                }
-    - name: resource-assignment for vpkg
-      request:
-        commonHeader:
-          originatorId: SDNC_DG
-          requestId: 98397f54-fa57-485f-a04e-1e220b7b1779
-          subRequestId: 6bfca5dc-993d-48f1-ad27-a7a9ea91836b
-        actionIdentifiers:
-          blueprintName: vFW_CNF_CDS
-          blueprintVersion: 1.0.45
-          actionName: resource-assignment
-          mode: sync
-        payload:
-          resource-assignment-request:
-            template-prefix:
-            - vpkg
-            resource-assignment-properties:
-              nfc-naming-code: vpkg
-              k8s-rb-profile-name: default
-              service-instance-id: 8ead0480-cf44-428e-a4c2-0e6ed10f7a72
-              vnf-id: 93b3350d-ed6f-413b-9cc5-a158c1676eb0
-              vf-module-model-customization-uuid: 4e7028a1-4c80-4d20-a7a2-a1fb3343d5cb
-              vnf-model-customization-uuid: 86dc8af4-aa17-4fc7-9b20-f12160d99718
-              vf-module-id: 011b5f61-6524-4789-bd9a-44cfbf321463
-              aic-cloud-region: k8sregionfour
-      expectedResponse:
-        commonHeader:
-          originatorId: SDNC_DG
-          requestId: 98397f54-fa57-485f-a04e-1e220b7b1779
-          subRequestId: 6bfca5dc-993d-48f1-ad27-a7a9ea91836b
-          flags: null
-        actionIdentifiers:
-          blueprintName: vFW_CNF_CDS
-          blueprintVersion: 1.0.45
-          actionName: resource-assignment
-          mode: sync
-        status:
-          code: 200
-          eventType: EVENT_COMPONENT_EXECUTED
-          errorMessage: null
-          message: success
-        payload:
-          resource-assignment-response:
-            meshed-template:
-              vpkg: |
-                {
-                    "capability-data": [
-                        {
-                            "capability-name": "netbox-ip-assign",
-                            "key-mapping": [
-                                {
-                                    "output-key-mapping": [
-                                        {
-                                            "resource-name": "vpg_onap_private_ip_0",
-                                            "resource-value": "${vpg_onap_private_ip_0}"
-                                        }
-                                    ],
-                                    "payload": [
-                                        {
-                                            "param-name": "service-instance-id",
-                                            "param-value": "8ead0480-cf44-428e-a4c2-0e6ed10f7a72"
-                                        },
-                                        {
-                                            "param-name": "prefix-id",
-                                            "param-value": "3"
-                                        },
-                                        {
-                                            "param-name": "vnf-id",
-                                            "param-value": "93b3350d-ed6f-413b-9cc5-a158c1676eb0"
-                                        },
-                                        {
-                                            "param-name": "external_key",
-                                            "param-value": "93b3350d-ed6f-413b-9cc5-a158c1676eb0-vpg_onap_private_ip_0"
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            "capability-name": "generate-name",
-                            "key-mapping": [
-                                {
-                                    "output-key-mapping": [
-                                        {
-                                            "resource-name": "vf_module_name",
-                                            "resource-value": "${vf-module-name}"
-                                        }
-                                    ],
-                                    "payload": [
-                                        {
-                                            "param-name": "VF_MODULE_TYPE",
-                                            "param-value": "vfmt"
-                                        },
-                                        {
-                                            "param-name": "resource-name",
-                                            "param-value": "vf_module_name"
-                                        },
-                                        {
-                                            "param-name": "resource-value",
-                                            "param-value": "${vf-module-name}"
-                                        },
-                                        {
-                                            "param-name": "external-key",
-                                            "param-value": "011b5f61-6524-4789-bd9a-44cfbf321463_vf-module-name"
-                                        },
-                                        {
-                                            "param-name": "policy-instance-name",
-                                            "param-value": "SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP"
-                                        },
-                                        {
-                                            "param-name": "naming-type",
-                                            "param-value": "VF-MODULE"
-                                        },
-                                        {
-                                            "param-name": "VNF_NAME",
-                                            "param-value": "k8sregionfour-onap-nf-20200601t073308018z"
-                                        },
-                                        {
-                                            "param-name": "VF_MODULE_LABEL",
-                                            "param-value": "vpkg"
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            "capability-name": "aai-vf-module-put",
-                            "key-mapping": [
-                                {
-                                    "output-key-mapping": [
-                                        {
-                                            "resource-name": "aai-vf-module-put",
-                                            "resource-value": ""
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            "capability-name": "unresolved-composite-data",
-                            "key-mapping": [
-                                {
-                                    "output-key-mapping": [
-                                        {
-                                            "resource-name": "vpg_name_0",
-                                            "resource-value": "${vf_module_name}"
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ],
-                    "resource-accumulator-resolved-data": [
-                        {
-                            "param-name": "vf-module-model-invariant-uuid",
-                            "param-value": "4e2b9975-5214-48b8-861a-5701c09eedfa"
-                        },
-                        {
-                            "param-name": "vf-module-model-version",
-                            "param-value": "011b5f61-6524-4789-bd9a-44cfbf321463"
-                        },
-                        {
-                            "param-name": "k8s-rb-profile-name",
-                            "param-value": "default"
-                        },
-                        {
-                            "param-name": "k8s-rb-profile-namespace",
-                            "param-value": "default"
-                        }
-                    ]
-                }
-    - name: resource-assignment for vsn
-      request:
-        commonHeader:
-          originatorId: SDNC_DG
-          requestId: 98397f54-fa57-485f-a04e-1e220b7b1779
-          subRequestId: 6bfca5dc-993d-48f1-ad27-a7a9ea91836b
-        actionIdentifiers:
-          blueprintName: vFW_CNF_CDS
-          blueprintVersion: 1.0.45
-          actionName: resource-assignment
-          mode: sync
-        payload:
-          resource-assignment-request:
-            template-prefix:
-            - vsn
-            resource-assignment-properties:
-              nfc-naming-code: vsn
-              k8s-rb-profile-name: default
-              service-instance-id: 8ead0480-cf44-428e-a4c2-0e6ed10f7a72
-              vnf-id: 93b3350d-ed6f-413b-9cc5-a158c1676eb0
-              vf-module-model-customization-uuid: 4cac0584-c0d6-42a7-bdb3-29162792e07f
-              vnf-model-customization-uuid: 86dc8af4-aa17-4fc7-9b20-f12160d99718
-              vf-module-id: 0cbf558f-5a96-4555-b476-7df8163521aa
-              aic-cloud-region: k8sregionfour
-      expectedResponse:
-        commonHeader:
-          originatorId: SDNC_DG
-          requestId: 98397f54-fa57-485f-a04e-1e220b7b1779
-          subRequestId: 6bfca5dc-993d-48f1-ad27-a7a9ea91836b
-          flags: null
-        actionIdentifiers:
-          blueprintName: vFW_CNF_CDS
-          blueprintVersion: 1.0.45
-          actionName: resource-assignment
-          mode: sync
-        status:
-          code: 200
-          eventType: EVENT_COMPONENT_EXECUTED
-          errorMessage: null
-          message: success
-        payload:
-          resource-assignment-response:
-            meshed-template:
-              vsn: |
-                {
-                    "capability-data": [
-                        {
-                            "capability-name": "generate-name",
-                            "key-mapping": [
-                                {
-                                    "output-key-mapping": [
-                                        {
-                                            "resource-name": "vf_module_name",
-                                            "resource-value": "${vf-module-name}"
-                                        }
-                                    ],
-                                    "payload": [
-                                        {
-                                            "param-name": "VF_MODULE_TYPE",
-                                            "param-value": "vfmt"
-                                        },
-                                        {
-                                            "param-name": "resource-name",
-                                            "param-value": "vf_module_name"
-                                        },
-                                        {
-                                            "param-name": "resource-value",
-                                            "param-value": "${vf-module-name}"
-                                        },
-                                        {
-                                            "param-name": "external-key",
-                                            "param-value": "0cbf558f-5a96-4555-b476-7df8163521aa_vf-module-name"
-                                        },
-                                        {
-                                            "param-name": "policy-instance-name",
-                                            "param-value": "SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP"
-                                        },
-                                        {
-                                            "param-name": "naming-type",
-                                            "param-value": "VF-MODULE"
-                                        },
-                                        {
-                                            "param-name": "VNF_NAME",
-                                            "param-value": "k8sregionfour-onap-nf-20200601t073308018z"
-                                        },
-                                        {
-                                            "param-name": "VF_MODULE_LABEL",
-                                            "param-value": "vsn"
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            "capability-name": "netbox-ip-assign",
-                            "key-mapping": [
-                                {
-                                    "output-key-mapping": [
-                                        {
-                                            "resource-name": "vsn_onap_private_ip_0",
-                                            "resource-value": "${vsn_onap_private_ip_0}"
-                                        }
-                                    ],
-                                    "payload": [
-                                        {
-                                            "param-name": "service-instance-id",
-                                            "param-value": "8ead0480-cf44-428e-a4c2-0e6ed10f7a72"
-                                        },
-                                        {
-                                            "param-name": "prefix-id",
-                                            "param-value": "3"
-                                        },
-                                        {
-                                            "param-name": "vf_module_id",
-                                            "param-value": "0cbf558f-5a96-4555-b476-7df8163521aa"
-                                        },
-                                        {
-                                            "param-name": "external_key",
-                                            "param-value": "0cbf558f-5a96-4555-b476-7df8163521aa-vsn_onap_private_ip_0"
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            "capability-name": "aai-vf-module-put",
-                            "key-mapping": [
-                                {
-                                    "output-key-mapping": [
-                                        {
-                                            "resource-name": "aai-vf-module-put",
-                                            "resource-value": ""
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            "capability-name": "unresolved-composite-data",
-                            "key-mapping": [
-                                {
-                                    "output-key-mapping": [
-                                        {
-                                            "resource-name": "vsn_name_0",
-                                            "resource-value": "${vf_module_name}"
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ],
-                    "resource-accumulator-resolved-data": [
-                        {
-                            "param-name": "vf-module-model-invariant-uuid",
-                            "param-value": "36f25e1b-199b-4de2-b656-c870d341cf0e"
-                        },
-                        {
-                            "param-name": "vf-module-model-version",
-                            "param-value": "0cbf558f-5a96-4555-b476-7df8163521aa"
-                        },
-                        {
-                            "param-name": "k8s-rb-profile-name",
-                            "param-value": "default"
-                        },
-                        {
-                            "param-name": "k8s-rb-profile-namespace",
-                            "param-value": "default"
-                        }
-                    ]
-                }
-    - name: resource-assignment for vfw
-      request:
-        commonHeader:
-          originatorId: SDNC_DG
-          requestId: 98397f54-fa57-485f-a04e-1e220b7b1779
-          subRequestId: 6bfca5dc-993d-48f1-ad27-a7a9ea91836b
-        actionIdentifiers:
-          blueprintName: vFW_CNF_CDS
-          blueprintVersion: 1.0.45
-          actionName: resource-assignment
-          mode: sync
-        payload:
-          resource-assignment-request:
-            template-prefix:
-            - vfw
-            resource-assignment-properties:
-              nfc-naming-code: vfw
-              k8s-rb-profile-name: default
-              service-instance-id: 8ead0480-cf44-428e-a4c2-0e6ed10f7a72
-              vnf-id: 93b3350d-ed6f-413b-9cc5-a158c1676eb0
-              vf-module-model-customization-uuid: 1e123e43-ba40-4c93-90d7-b9f27407ec03
-              vnf-model-customization-uuid: 86dc8af4-aa17-4fc7-9b20-f12160d99718
-              vf-module-id: '0de4ed56-8b4c-4a2d-8ce6-85d5e269204f '
-              aic-cloud-region: k8sregionfour
-      expectedResponse:
-        commonHeader:
-          originatorId: SDNC_DG
-          requestId: 98397f54-fa57-485f-a04e-1e220b7b1779
-          subRequestId: 6bfca5dc-993d-48f1-ad27-a7a9ea91836b
-          flags: null
-        actionIdentifiers:
-          blueprintName: vFW_CNF_CDS
-          blueprintVersion: 1.0.45
-          actionName: resource-assignment
-          mode: sync
-        status:
-          code: 200
-          eventType: EVENT_COMPONENT_EXECUTED
-          errorMessage: null
-          message: success
-        payload:
-          resource-assignment-response:
-            meshed-template:
-              vfw: |
-                {
-                    "capability-data": [
-                        {
-                            "capability-name": "generate-name",
-                            "key-mapping": [
-                                {
-                                    "output-key-mapping": [
-                                        {
-                                            "resource-name": "vf_module_name",
-                                            "resource-value": "${vf-module-name}"
-                                        }
-                                    ],
-                                    "payload": [
-                                        {
-                                            "param-name": "VF_MODULE_TYPE",
-                                            "param-value": "vfmt"
-                                        },
-                                        {
-                                            "param-name": "resource-name",
-                                            "param-value": "vf_module_name"
-                                        },
-                                        {
-                                            "param-name": "resource-value",
-                                            "param-value": "${vf-module-name}"
-                                        },
-                                        {
-                                            "param-name": "external-key",
-                                            "param-value": "0de4ed56-8b4c-4a2d-8ce6-85d5e269204f _vf-module-name"
-                                        },
-                                        {
-                                            "param-name": "policy-instance-name",
-                                            "param-value": "SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP"
-                                        },
-                                        {
-                                            "param-name": "naming-type",
-                                            "param-value": "VF-MODULE"
-                                        },
-                                        {
-                                            "param-name": "VNF_NAME",
-                                            "param-value": "k8sregionfour-onap-nf-20200601t073308018z"
-                                        },
-                                        {
-                                            "param-name": "VF_MODULE_LABEL",
-                                            "param-value": "vfw"
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            "capability-name": "netbox-ip-assign",
-                            "key-mapping": [
-                                {
-                                    "output-key-mapping": [
-                                        {
-                                            "resource-name": "vfw_onap_private_ip_0",
-                                            "resource-value": "${vfw_onap_private_ip_0}"
-                                        }
-                                    ],
-                                    "payload": [
-                                        {
-                                            "param-name": "service-instance-id",
-                                            "param-value": "8ead0480-cf44-428e-a4c2-0e6ed10f7a72"
-                                        },
-                                        {
-                                            "param-name": "prefix-id",
-                                            "param-value": "3"
-                                        },
-                                        {
-                                            "param-name": "vf_module_id",
-                                            "param-value": "0de4ed56-8b4c-4a2d-8ce6-85d5e269204f "
-                                        },
-                                        {
-                                            "param-name": "external_key",
-                                            "param-value": "0de4ed56-8b4c-4a2d-8ce6-85d5e269204f -vfw_onap_private_ip_0"
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            "capability-name": "aai-vf-module-put",
-                            "key-mapping": [
-                                {
-                                    "output-key-mapping": [
-                                        {
-                                            "resource-name": "aai-vf-module-put",
-                                            "resource-value": ""
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            "capability-name": "unresolved-composite-data",
-                            "key-mapping": [
-                                {
-                                    "output-key-mapping": [
-                                        {
-                                            "resource-name": "vfw_name_0",
-                                            "resource-value": "${vf_module_name}"
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ],
-                    "resource-accumulator-resolved-data": [
-                        {
-                            "param-name": "vf-module-model-invariant-uuid",
-                            "param-value": "9ffda670-3d77-4f6c-a4ad-fb7a09f19817"
-                        },
-                        {
-                            "param-name": "vf-module-model-version",
-                            "param-value": "0de4ed56-8b4c-4a2d-8ce6-85d5e269204f"
-                        },
-                        {
-                            "param-name": "k8s-rb-profile-name",
-                            "param-value": "default"
-                        },
-                        {
-                            "param-name": "k8s-rb-profile-namespace",
-                            "param-value": "default"
-                        }
-                    ]
-                }
-    externalServices:
-    - selector: sdnc
-      expectations:
-      - request:
-          method: GET
-          path: /restconf/config/GENERIC-RESOURCE-API:services/service/8ead0480-cf44-428e-a4c2-0e6ed10f7a72/service-data/vnfs/vnf/93b3350d-ed6f-413b-9cc5-a158c1676eb0/vnf-data/vnf-topology/vnf-parameters-data/param/vf-naming-policy
-        responses:
-        - status: 200
-          body:
-            param:
-            - name: vf-naming-policy
-              value: SDNC_Policy.ONAP_NF_NAMING_TIMESTAMP
-              resource-resolution-data:
-                capability-name: RA Resolved
-                status: SUCCESS
-          headers:
-            Content-Type: application/json
-        times: '>= 1'
-
-
-- Verify CBA with UAT
-
-  ::
-
-      curl -X POST -u ccsdkapps:ccsdkapps -F cba=@my_cba.zip http://<kube-node>:30499/api/v1/uat/verify
-
-where my_cba.zip is the CBA model with uat.yml (generated in spy step) inside Test folder.
-
-This verify call failed for us with above uat.yaml file generated in spy. Issue was not investigated further in the scope of this use case.
+.. note:: The CBA for this use case is already enriched and there is no need to perform enrichment process for it. It is also automatically uploaded into CDS in time of the model distribution from the SDC.
 
 Instantiation Overview
 ----------------------
+
+.. note:: Since Guilin release use case is equipped with automated method **<AUTOMATED>** with python scripts to replace Postman method **<MANUAL>** used in Frankfurt. Nevertheless, Postman collection is good to understand the entire process but should be used **separably** with automation scripts. **For the entire process use only scripts or only Postman collection**. Both options are described in the further steps of this instruction.
 
 The figure below shows all the interactions that take place during vFW CNF instantiation. It's not describing flow of actions (ordered steps) but rather component dependencies.
 
@@ -1579,7 +460,7 @@ PART 1 - ONAP Installation
 1-1 Deployment components
 .........................
 
-In order to run the vFW_CNF_CDS use case, we need ONAP Frankfurt Release (or later) and at least following components:
+In order to run the vFW_CNF_CDS use case, we need ONAP Guilin Release (or later) with at least following components:
 
 =======================================================   ===========
 ONAP Component name                                       Describtion
@@ -1691,9 +572,9 @@ And check status of pods, deployments, jobs etc.
 1-3 Post Deployment
 ...................
 
-After completing the first part above, we should have a functional ONAP deployment for the Frankfurt Release.
+After completing the first part above, we should have a functional ONAP deployment for the Guilin Release.
 
-We will need to apply a few modifications to the deployed ONAP Frankfurt instance in order to run the use case.
+We will need to apply a few modifications to the deployed ONAP Guilin instance in order to run the use case.
 
 Retrieving logins and passwords of ONAP components
 ++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1707,10 +588,11 @@ Since Frankfurt release hardcoded passwords were mostly removed and it is possib
 
 In this case login is empty as the secret is dedicated to root user.
 
+
 Postman collection setup
 ++++++++++++++++++++++++
 
-In this demo we have on purpose created all manual ONAP preparation steps (which in real life are automated) by using Postman so it will be clear what exactly is needed. Some of the steps like AAI population is automated by Robot scripts in other ONAP demos (**./demo-k8s.sh onap init**) and Robot script could be used for many parts also in this demo. Later when this demo is fully automated we probably update also Robot scripts to support this demo.
+In this demo we have on purpose created all manual ONAP preparation steps (which in real life are automated) by using Postman so it will be clear what exactly is needed. Some of the steps like AAI population is automated by Robot scripts in other ONAP demos (**./demo-k8s.sh onap init**) and Robot script could be used for many parts also in this demo.
 
 Postman collection is used also to trigger instantiation using SO APIs.
 
@@ -1766,6 +648,52 @@ You can get the sdnc_port value with
 
     kubectl -n onap get svc sdnc -o json | jq '.spec.ports[]|select(.port==8282).nodePort'
 
+Automation Environment Setup
+............................
+
+Whole content of this use case is stored into single git repository and it contains both the required onboarding information as well as automation scripts for onboarding and instantiation of the use case.
+
+::
+
+  git clone --single-branch --branch guilin "https://gerrit.onap.org/r/demo"
+  cd demo/heat/vFW_CNF_CDS/templates
+
+In order to prepare environment for onboarding and instantiation of the use case make sure you have *git*, *make*, *helm* and *pipenv* applications installed.
+
+The automation scripts are based on `Python SDK`_ and are adopted to automate process of service onboarding, instantiation, deletion and cloud region registration. To configure them for further use:
+
+::
+
+  cd demo/heat/vFW_CNF_CDS/automation
+
+1. Install required packages with
+::
+
+    pipenv pipenv install
+
+2. Run virtual python environment
+::
+
+    pipenv shell --fancy
+
+3. Add kubeconfig files, one for ONAP cluster, and one for k8s cluster that will host vFW
+
+.. note:: Both files can be configured after creation of k8s cluster for vFW instance `2-1 Installation of Managed Kubernetes`_. Make sure that they have configured external IP address properly. If any cluster uses self signed certificates set also *insecure-skip-tls-verify* flag in the config file.
+
+- artifacts/cluster_kubeconfig - IP address must be reachable by ONAP pods, especially *mutlicloud-k8s* pod
+
+- artifacts/onap_kubeconfig - IP address must be reachable by automation scripts
+
+4. Modify config.py file
+
+- NATIVE - when enabled **Native Helm** path will be used, otherwise **Dummy Heat** path will be used
+- CLOUD_REGION - name of your k8s cluster from ONAP perspective
+- GLOBAL_CUSTOMER_ID - identifier of customer in ONAP
+- VENDOR - name of the Vendor in ONAP
+- SERVICENAME - **Name of your service model in SDC**
+- CUSTOMER_RESOURCE_DEFINITIONS - add list of CRDs to be installed on non KUD k8s cluster - should be used ony to use some non-KUD cluster like i.e. ONAP one to test instantiation of Helm package. For KUD should be empty list
+
+.. note:: For automation script it is necessary to modify only NATIVE and SERVICENAME constants. Other constants may be modified if needed.
 
 AAI
 ...
@@ -1774,7 +702,10 @@ Some basic entries are needed in ONAP AAI. These entries are needed ones per ona
 
 Create all these entries into AAI in this order. Postman collection provided in this demo can be used for creating each entry.
 
-**Postman -> Initial ONAP setup -> Create**
+**<MANUAL>**
+::
+
+    Postman -> Initial ONAP setup -> Create
 
 - Create Customer
 - Create Owning-entity
@@ -1784,17 +715,9 @@ Create all these entries into AAI in this order. Postman collection provided in 
 
 Corresponding GET operations in "Check" folder in Postman can be used to verify entries created. Postman collection also includes some code that tests/verifies some basic issues e.g. gives error if entry already exists.
 
-SO BPMN endpoint fix for VNF adapter requests (v1 -> v2)
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+**<AUTOMATED>**
 
-SO Openstack adapter needs to be updated to use newer version. Here is also possible improvement area in SO. OpenStack adapter is confusing in context of this use case as VIM is not Openstack but Kubernetes cloud region. In this use case we did not used Openstack at all.
-
-::
-
-    kubectl -n onap edit configmap onap-so-bpmn-infra-app-configmap
-      - .data."override.yaml".mso.adapters.vnf.rest.endpoint: http://so-openstack-adapter.onap:8087/services/rest/v1/vnfs
-      + .data."override.yaml".mso.adapters.vnf.rest.endpoint: http://so-openstack-adapter.onap:8087/services/rest/v2/vnfs
-    kubectl -n onap delete pod -l app=so-bpmn-infra
+This step is performed jointly with onboarding step `3-1 Onboarding`_
 
 Naming Policy
 +++++++++++++
@@ -1810,23 +733,6 @@ To check that the naming policy is created and pushed OK, we can run the command
 
 .. note:: Please change credentials respectively to your installation. The required credentials can be retrieved with instruction `Retrieving logins and passwords of ONAP components`_
 
-**Network Naming mS**
-
-FIXME - Verify if on RC2 this still needs to be performed
-
-There's a strange feature or bug in naming service still at ONAP Frankfurt and following hack needs to be done to make it work.
-
-.. note:: Please change credentials respectively to your installation. The required credentials can be retrieved with instruction `Retrieving logins and passwords of ONAP components`_
-
-::
-
-  # Go into naming service database
-  kubectl -n onap exec onap-mariadb-galera-0 -it -- mysql -uroot -psecretpassword -D nengdb
-    select * from EXTERNAL_INTERFACE;
-    # Delete entries from EXTERNAL_INTERFACE table
-    delete from EXTERNAL_INTERFACE;
-    select * from EXTERNAL_INTERFACE;
-
 PART 2 - Installation of managed Kubernetes cluster
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -1835,7 +741,7 @@ In this demo the target cloud region is a Kubernetes cluster of your choice basi
 2-1 Installation of Managed Kubernetes
 ......................................
 
-In this demo we use Kubernetes deployment used by ONAP multicloud/k8s team to test their plugin features see `KUD readthedocs`_. There's also some outdated instructions in ONAP wiki `KUD in Wiki`_.
+In this demo we use Kubernetes deployment used by ONAP multicloud/k8s team to test their plugin features see `KUD github`_. There's also some outdated instructions in ONAP wiki `KUD in Wiki`_.
 
 KUD deployment is fully automated and also used in ONAP's CI/CD to automatically verify all `Multicloud k8s gerrit`_ commits (see `KUD Jenkins ci/cd verification`_) and that's quite good (and rare) level of automated integration testing in ONAP. KUD deployemnt is used as it's installation is automated and it also includes bunch of Kubernetes plugins used to tests various k8s plugin features. In addition to deployement, KUD repository also contains test scripts to automatically test multicloud/k8s plugin features. Those scripts are run in CI/CD.
 
@@ -1845,16 +751,22 @@ See `KUD subproject in github`_ for a list of additional plugins this Kubernetes
 - Multus
 - Virtlet
 
-Follow instructions in `KUD readthedocs`_ and install target Kubernetes cluster in your favorite machine(s), simplest being just one machine. Your cluster nodes(s) needs to be accessible from ONAP Kuberenetes nodes.
+Follow instructions in `KUD github`_ and install target Kubernetes cluster in your favorite machine(s), simplest being just one machine. Your cluster nodes(s) needs to be accessible from ONAP Kuberenetes nodes. Make sure your installed *pip* is of **version < 21.0**. Version 21 do not support python 2.7 that is used in *aio.sh* script. Also to avoid performance problems of your k8s cluster make sure you install only necessary plugins and before running *aio.sh* script execute following command
+::
+
+    export KUD_ADDONS="virtlet ovn4nfv"
 
 2-2 Cloud Registration
 ......................
 
 Managed Kubernetes cluster is registered here into ONAP as one cloud region. This obviously is done just one time for this particular cloud. Cloud registration information is kept in AAI.
 
-Postman collection have folder/entry for each step. Execute in this order.
+**<MANUAL>**
 
-**Postman -> K8s Cloud Region Registration -> Create**
+Postman collection have folder/entry for each step. Execute in this order.
+::
+
+    Postman -> K8s Cloud Region Registration -> Create
 
 - Create Complex
 - Create Cloud Region
@@ -1865,14 +777,9 @@ Postman collection have folder/entry for each step. Execute in this order.
 - Create Availability Zone
 - Upload Connectivity Info
 
-.. note:: For "Upload Connectivity Info" call you need to provide kubeconfig file of existing KUD cluster. You can find that kubeconfig on deployed KUD in directory `~/.kube/config` and can be easily retrieved e.g. via SCP. Please ensure that kubeconfig contains external IP of K8s cluster in kubeconfig and correct it, if it's not.
-
-**SO Cloud region configuration**
+.. note:: For "Upload Connectivity Info" call you need to provide kubeconfig file of existing KUD cluster. You can find that kubeconfig on deployed KUD in the directory `~/.kube/config` and this file can be easily copied e.g. via SCP. Please ensure that kubeconfig contains external IP of K8s cluster in kubeconfig and correct it, if it's not.
 
 SO database needs to be (manually) modified for SO to know that this particular cloud region is to be handled by multicloud. Values we insert needs to obviously match to the ones we populated into AAI.
-
-The related code part in SO is here: `SO Cloud Region Selection`_
-It's possible improvement place in SO to rather get this information directly from AAI.
 
 .. note:: Please change credentials respectively to your installation. The required credentials can be retrieved with instruction `Retrieving logins and passwords of ONAP components`_
 
@@ -1884,121 +791,214 @@ It's possible improvement place in SO to rather get this information directly fr
         select * from cloud_sites;
         exit
 
+.. note:: The configuration of the new k8s cloud site is documented also here `K8s cloud site config`_
+
+**<AUTOMATED>**
+
+Please copy the kubeconfig file of existing KUD cluster to automation/artifacts/cluster_kubeconfig location `Automation Environment Setup`_ - step **3**. You can find that kubeconfig on deployed KUD in the directory `~/.kube/config` and this file can be easily copied e.g. via SCP. Please ensure that kubeconfig contains external IP of K8s cluster in kubeconfig and correct it, if it's not.
+
+::
+
+    python create_k8s_region.py
+
 PART 3 - Execution of the Use Case
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This part contains all the steps to run the use case by using ONAP GUIs and Postman.
+This part contains all the steps to run the use case by using ONAP GUIs, Postman or Python automation scripts.
 
-Following picture describes the overall sequential flow of the use case.
+Following pictures describe the overall sequential flow of the use case in two scenarios: **Dummy Heat** path (with OpenStack adapter) and **Native Helm** path (with CNF Adapter)
 
-.. figure:: files/vFW_CNF_CDS/vFW_CNF_CDS_Flow.png
+.. figure:: files/vFW_CNF_CDS/Dummy_Heat_Flow.png
    :align: center
 
-   vFW CNF CDS Use Case sequence flow.
+   vFW CNF CDS Use Case sequence flow for *Dummy Heat* (Frankfurt) path.
+
+.. figure:: files/vFW_CNF_CDS/Native_Helm_Flow.png
+   :align: center
+
+   vFW CNF CDS Use Case sequence flow for *Native Helm* (Guilin) path.
+
+.. note:: The **Native Helm** path has identified defects in the instantiation process and requires SO images of version 1.7.11 for successfull instantiation of the CNF. Please monitor `SO-3403`_ and `SO-3404`_ tickets to make sure that necessary fixes have been delivered and 1.7.11 SO images are avaialble in your Guilin ONAP instance.
+
 
 3-1 Onboarding
 ..............
 
+.. note:: Make sure you have performed `Automation Environment Setup`_ steps before following actions here.
+
 Creating Onboarding Package
 +++++++++++++++++++++++++++
 
-Whole content of this use case is stored into single git repository and ONAP user content package of onboarding package can be created with provided Makefile.
+Content of the onboarding package can be created with provided Makefile in the *template* folder.
 
-Complete content can be packaged to single onboarding package file in the following way:
+Complete content of both Onboarding Packages for **Dummy Heat**  and **Native Helm** is packaged to the following VSP onboarding package files:
 
-.. note::  Requires Helm installed
+- **Dummy Heat** path: **vfw_k8s_demo.zip**
+
+- **Native Helm** path: **native_vfw_k8s_demo.zip**
+
+.. note::  Procedure requires *make* and *helm* applications installed
 
 ::
 
-  git clone https://gerrit.onap.org/r/demo
-  cd heat/vFW_CNF_CDS/templates
+  git clone --single-branch --branch guilin "https://gerrit.onap.org/r/demo"
+  cd demo/heat/vFW_CNF_CDS/templates
   make
 
-The output looks like:
+The result of make operation execution is following:
 ::
 
-  mkdir package/
-  make -C helm
-  make[1]: Entering directory '/home/samuli/onapCode/demo/heat/vFW_CNF_CDS/templates/helm'
-  rm -f base_template-*.tgz
-  rm -f base_template_cloudtech_k8s_charts.tgz
-  helm package base_template
-  Successfully packaged chart and saved it to: /home/samuli/onapCode/demo/heat/vFW_CNF_CDS/templates/helm/base_template-0.2.0.tgz
-  mv base_template-*.tgz base_template_cloudtech_k8s_charts.tgz
-  rm -f vpkg-*.tgz
-  rm -f vpkg_cloudtech_k8s_charts.tgz
-  helm package vpkg
-  Successfully packaged chart and saved it to: /home/samuli/onapCode/demo/heat/vFW_CNF_CDS/templates/helm/vpkg-0.2.0.tgz
-  mv vpkg-*.tgz vpkg_cloudtech_k8s_charts.tgz
-  rm -f vfw-*.tgz
-  rm -f vfw_cloudtech_k8s_charts.tgz
-  helm package vfw
-  Successfully packaged chart and saved it to: /home/samuli/onapCode/demo/heat/vFW_CNF_CDS/templates/helm/vfw-0.2.0.tgz
-  mv vfw-*.tgz vfw_cloudtech_k8s_charts.tgz
-  rm -f vsn-*.tgz
-  rm -f vsn_cloudtech_k8s_charts.tgz
-  helm package vsn
-  Successfully packaged chart and saved it to: /home/samuli/onapCode/demo/heat/vFW_CNF_CDS/templates/helm/vsn-0.2.0.tgz
-  mv vsn-*.tgz vsn_cloudtech_k8s_charts.tgz
-  make[1]: Leaving directory '/home/samuli/onapCode/demo/heat/vFW_CNF_CDS/templates/helm'
-  mv helm/*.tgz package/
-  cp base/* package/
-  cd cba/ && zip -r vFW_CDS_CNF.zip .
-    adding: TOSCA-Metadata/ (stored 0%)
-    adding: TOSCA-Metadata/TOSCA.meta (deflated 38%)
-    adding: Templates/ (stored 0%)
-    adding: Templates/base_template-mapping.json (deflated 92%)
-    adding: Templates/vfw-template.vtl (deflated 87%)
-    adding: Templates/nf-params-mapping.json (deflated 86%)
-    adding: Templates/vsn-mapping.json (deflated 94%)
-    adding: Templates/vnf-template.vtl (deflated 90%)
-    adding: Templates/vpkg-mapping.json (deflated 94%)
-    adding: Templates/vsn-template.vtl (deflated 87%)
-    adding: Templates/nf-params-template.vtl (deflated 44%)
-    adding: Templates/base_template-template.vtl (deflated 85%)
-    adding: Templates/vfw-mapping.json (deflated 94%)
-    adding: Templates/vnf-mapping.json (deflated 92%)
-    adding: Templates/vpkg-template.vtl (deflated 86%)
-    adding: Templates/k8s-profiles/ (stored 0%)
-    adding: Templates/k8s-profiles/vfw-cnf-cds-base-profile.tar.gz (stored 0%)
+    make clean
+    make[1]: Entering directory '/mnt/c/Users/advnet/Desktop/SOURCES/demo/heat/vFW_CNF_CDS/templates'
+    rm -rf package_dummy/
+    rm -rf package_native/
+    rm -rf cba_dummy
+    rm -f vfw_k8s_demo.zip
+    rm -f native_vfw_k8s_demo.zip
+    make[1]: Leaving directory '/mnt/c/Users/advnet/Desktop/SOURCES/demo/heat/vFW_CNF_CDS/templates'
+    make all
+    make[1]: Entering directory '/mnt/c/Users/advnet/Desktop/SOURCES/demo/heat/vFW_CNF_CDS/templates'
+    mkdir package_dummy/
+    mkdir package_native/
+    make -C helm
+    make[2]: Entering directory '/mnt/c/Users/advnet/Desktop/SOURCES/demo/heat/vFW_CNF_CDS/templates/helm'
+    rm -f base_template-*.tgz
+    rm -f helm_base_template.tgz
+    rm -f base_template_cloudtech_k8s_charts.tgz
+    helm package base_template
+    Successfully packaged chart and saved it to: /mnt/c/Users/advnet/Desktop/SOURCES/demo/heat/vFW_CNF_CDS/templates/helm/base_template-0.2.0.tgz
+    mv base_template-*.tgz helm_base_template.tgz
+    cp helm_base_template.tgz base_template_cloudtech_k8s_charts.tgz
+    rm -f vpkg-*.tgz
+    rm -f helm_vpkg.tgz
+    rm -f vpkg_cloudtech_k8s_charts.tgz
+    helm package vpkg
+    Successfully packaged chart and saved it to: /mnt/c/Users/advnet/Desktop/SOURCES/demo/heat/vFW_CNF_CDS/templates/helm/vpkg-0.2.0.tgz
+    mv vpkg-*.tgz helm_vpkg.tgz
+    cp helm_vpkg.tgz vpkg_cloudtech_k8s_charts.tgz
+    rm -f vfw-*.tgz
+    rm -f helm_vfw.tgz
+    rm -f vfw_cloudtech_k8s_charts.tgz
+    helm package vfw
+    Successfully packaged chart and saved it to: /mnt/c/Users/advnet/Desktop/SOURCES/demo/heat/vFW_CNF_CDS/templates/helm/vfw-0.2.0.tgz
+    mv vfw-*.tgz helm_vfw.tgz
+    cp helm_vfw.tgz vfw_cloudtech_k8s_charts.tgz
+    rm -f vsn-*.tgz
+    rm -f helm_vsn.tgz
+    rm -f vsn_cloudtech_k8s_charts.tgz
+    helm package vsn
+    Successfully packaged chart and saved it to: /mnt/c/Users/advnet/Desktop/SOURCES/demo/heat/vFW_CNF_CDS/templates/helm/vsn-0.2.0.tgz
+    mv vsn-*.tgz helm_vsn.tgz
+    cp helm_vsn.tgz vsn_cloudtech_k8s_charts.tgz
+    make[2]: Leaving directory '/mnt/c/Users/advnet/Desktop/SOURCES/demo/heat/vFW_CNF_CDS/templates/helm'
+    mv helm/helm_*.tgz package_native/
+    mv helm/*.tgz package_dummy/
+    cp base_dummy/* package_dummy/
+    cp base_native/* package_native/
+    cp -r cba cba_dummy
+    sed -i 's/"helm_/"/g' cba_dummy/Definitions/vFW_CNF_CDS.json
+    cd cba_dummy/ && zip -r CBA.zip . -x pom.xml .idea/\* target/\*
+    adding: Definitions/ (stored 0%)
+    adding: Definitions/artifact_types.json (deflated 69%)
+    adding: Definitions/data_types.json (deflated 88%)
+    adding: Definitions/node_types.json (deflated 90%)
+    adding: Definitions/policy_types.json (stored 0%)
+    adding: Definitions/relationship_types.json (stored 0%)
+    adding: Definitions/resources_definition_types.json (deflated 94%)
+    adding: Definitions/vFW_CNF_CDS.json (deflated 87%)
     adding: Scripts/ (stored 0%)
     adding: Scripts/kotlin/ (stored 0%)
-    adding: Scripts/kotlin/KotlinK8sProfileUpload.kt (deflated 75%)
     adding: Scripts/kotlin/README.md (stored 0%)
+    adding: Templates/ (stored 0%)
+    adding: Templates/base_template-mapping.json (deflated 89%)
+    adding: Templates/base_template-template.vtl (deflated 87%)
+    adding: Templates/k8s-profiles/ (stored 0%)
+    adding: Templates/k8s-profiles/vfw-cnf-cds-base-profile.tar.gz (stored 0%)
+    adding: Templates/k8s-profiles/vfw-cnf-cds-vpkg-profile/ (stored 0%)
+    adding: Templates/k8s-profiles/vfw-cnf-cds-vpkg-profile/manifest.yaml (deflated 35%)
+    adding: Templates/k8s-profiles/vfw-cnf-cds-vpkg-profile/override_values.yaml (stored 0%)
+    adding: Templates/k8s-profiles/vfw-cnf-cds-vpkg-profile/ssh-service-mapping.json (deflated 51%)
+    adding: Templates/k8s-profiles/vfw-cnf-cds-vpkg-profile/ssh-service-template.yaml.vtl (deflated 56%)
+    adding: Templates/nf-params-mapping.json (deflated 88%)
+    adding: Templates/nf-params-template.vtl (deflated 44%)
+    adding: Templates/vfw-mapping.json (deflated 89%)
+    adding: Templates/vfw-template.vtl (deflated 87%)
+    adding: Templates/vnf-mapping.json (deflated 89%)
+    adding: Templates/vnf-template.vtl (deflated 93%)
+    adding: Templates/vpkg-mapping.json (deflated 89%)
+    adding: Templates/vpkg-template.vtl (deflated 87%)
+    adding: Templates/vsn-mapping.json (deflated 89%)
+    adding: Templates/vsn-template.vtl (deflated 87%)
+    adding: TOSCA-Metadata/ (stored 0%)
+    adding: TOSCA-Metadata/TOSCA.meta (deflated 37%)
+    cd cba/ && zip -r CBA.zip . -x pom.xml .idea/\* target/\*
     adding: Definitions/ (stored 0%)
-    adding: Definitions/artifact_types.json (deflated 57%)
-    adding: Definitions/vFW_CNF_CDS.json (deflated 81%)
-    adding: Definitions/node_types.json (deflated 86%)
+    adding: Definitions/artifact_types.json (deflated 69%)
+    adding: Definitions/data_types.json (deflated 88%)
+    adding: Definitions/node_types.json (deflated 90%)
     adding: Definitions/policy_types.json (stored 0%)
-    adding: Definitions/data_types.json (deflated 93%)
-    adding: Definitions/resources_definition_types.json (deflated 95%)
     adding: Definitions/relationship_types.json (stored 0%)
-  mv cba/vFW_CDS_CNF.zip package/
-  #Can't use .package extension or SDC will panic
-  cd package/ && zip -r vfw_k8s_demo.zip .
+    adding: Definitions/resources_definition_types.json (deflated 94%)
+    adding: Definitions/vFW_CNF_CDS.json (deflated 87%)
+    adding: Scripts/ (stored 0%)
+    adding: Scripts/kotlin/ (stored 0%)
+    adding: Scripts/kotlin/README.md (stored 0%)
+    adding: Templates/ (stored 0%)
+    adding: Templates/base_template-mapping.json (deflated 89%)
+    adding: Templates/base_template-template.vtl (deflated 87%)
+    adding: Templates/k8s-profiles/ (stored 0%)
+    adding: Templates/k8s-profiles/vfw-cnf-cds-base-profile.tar.gz (stored 0%)
+    adding: Templates/k8s-profiles/vfw-cnf-cds-vpkg-profile/ (stored 0%)
+    adding: Templates/k8s-profiles/vfw-cnf-cds-vpkg-profile/manifest.yaml (deflated 35%)
+    adding: Templates/k8s-profiles/vfw-cnf-cds-vpkg-profile/override_values.yaml (stored 0%)
+    adding: Templates/k8s-profiles/vfw-cnf-cds-vpkg-profile/ssh-service-mapping.json (deflated 51%)
+    adding: Templates/k8s-profiles/vfw-cnf-cds-vpkg-profile/ssh-service-template.yaml.vtl (deflated 56%)
+    adding: Templates/nf-params-mapping.json (deflated 88%)
+    adding: Templates/nf-params-template.vtl (deflated 44%)
+    adding: Templates/vfw-mapping.json (deflated 89%)
+    adding: Templates/vfw-template.vtl (deflated 87%)
+    adding: Templates/vnf-mapping.json (deflated 89%)
+    adding: Templates/vnf-template.vtl (deflated 93%)
+    adding: Templates/vpkg-mapping.json (deflated 89%)
+    adding: Templates/vpkg-template.vtl (deflated 87%)
+    adding: Templates/vsn-mapping.json (deflated 89%)
+    adding: Templates/vsn-template.vtl (deflated 87%)
+    adding: TOSCA-Metadata/ (stored 0%)
+    adding: TOSCA-Metadata/TOSCA.meta (deflated 37%)
+    mv cba/CBA.zip package_native/
+    mv cba_dummy/CBA.zip package_dummy/
+    cd package_dummy/ && zip -r vfw_k8s_demo.zip .
+    adding: base_template.env (deflated 22%)
+    adding: base_template.yaml (deflated 59%)
     adding: base_template_cloudtech_k8s_charts.tgz (stored 0%)
-    adding: MANIFEST.json (deflated 83%)
-    adding: base_template.yaml (deflated 63%)
-    adding: vsn_cloudtech_k8s_charts.tgz (stored 0%)
+    adding: CBA.zip (stored 0%)
+    adding: MANIFEST.json (deflated 84%)
+    adding: vfw.env (deflated 23%)
+    adding: vfw.yaml (deflated 60%)
     adding: vfw_cloudtech_k8s_charts.tgz (stored 0%)
+    adding: vpkg.env (deflated 13%)
+    adding: vpkg.yaml (deflated 59%)
     adding: vpkg_cloudtech_k8s_charts.tgz (stored 0%)
-    adding: vsn.yaml (deflated 75%)
-    adding: vpkg.yaml (deflated 76%)
-    adding: vfw.yaml (deflated 77%)
-    adding: vFW_CDS_CNF.zip (stored 0%)
-    adding: base_template.env (deflated 23%)
-    adding: vsn.env (deflated 53%)
-    adding: vpkg.env (deflated 55%)
-    adding: vfw.env (deflated 58%)
-  mv package/vfw_k8s_demo.zip .
+    adding: vsn.env (deflated 15%)
+    adding: vsn.yaml (deflated 59%)
+    adding: vsn_cloudtech_k8s_charts.tgz (stored 0%)
+    cd package_native/ && zip -r native_vfw_k8s_demo.zip .
+    adding: CBA.zip (stored 0%)
+    adding: helm_base_template.tgz (stored 0%)
+    adding: helm_vfw.tgz (stored 0%)
+    adding: helm_vpkg.tgz (stored 0%)
+    adding: helm_vsn.tgz (stored 0%)
+    adding: MANIFEST.json (deflated 71%)
+    mv package_dummy/vfw_k8s_demo.zip .
+    mv package_native/native_vfw_k8s_demo.zip .
   $
-
-and package **vfw_k8s_demo.zip** file is created containing all sub-models.
 
 Import this package into SDC and follow onboarding steps.
 
 Service Creation with SDC
 +++++++++++++++++++++++++
+
+**<MANUAL>**
 
 Service Creation in SDC is composed of the same steps that are performed by most other use-cases. For reference, you can relate to `vLB use-case`_
 
@@ -2012,10 +1012,19 @@ Service -> Properties Assignment -> Choose VF (at right box):
 - skip_post_instantiation_configuration - True
 - sdnc_artifact_name - vnf
 - sdnc_model_name - vFW_CNF_CDS
-- sdnc_model_version - 1.0.45
+- sdnc_model_version - 7.0.0
+
+**<AUTOMATED>**
+.. note:: The onboarding packages for **Dummy Heat** and **Native Helm** path contain different CBA packages but with the same version and number. In consequence, when one VSP is distributed it replaces the CBA package of the other one and you can instantiate service only for the vFW CNF service service model distributed as a last one. If you want to instantiate vFW CNF service, make sure you have fresh distribution of vFW CNF service model.
+
+::
+
+    python onboarding.py
 
 Distribution Of Service
 +++++++++++++++++++++++
+
+**<MANUAL>**
 
 Distribute service.
 
@@ -2025,22 +1034,23 @@ Verify in SDC UI if distribution was successful. In case of any errors (sometime
 
     SDC Catalog database should have our service now defined.
 
-    **Postman -> LCM -> [SDC] Catalog Service**
+    ::
+
+        Postman -> LCM -> [SDC] Catalog Service
 
     ::
 
-                {
-                        "uuid": "64dd38f3-2307-4e0a-bc98-5c2cbfb260b6",
-                        "invariantUUID": "cd1a5c2d-2d4e-4d62-ac10-a5fe05e32a22",
-                        "name": "vfw_cnf_cds_svc",
-                        "version": "1.0",
-                        "toscaModelURL": "/sdc/v1/catalog/services/64dd38f3-2307-4e0a-bc98-5c2cbfb260b6/toscaModel",
-                        "category": "Network L4+",
-                        "lifecycleState": "CERTIFIED",
-                        "lastUpdaterUserId": "cs0008",
-                        "distributionStatus": "DISTRIBUTED"
-                }
-
+        {
+            "uuid": "64dd38f3-2307-4e0a-bc98-5c2cbfb260b6",
+            "invariantUUID": "cd1a5c2d-2d4e-4d62-ac10-a5fe05e32a22",
+            "name": "vfw_cnf_cds_svc",
+            "version": "1.0",
+            "toscaModelURL": "/sdc/v1/catalog/services/64dd38f3-2307-4e0a-bc98-5c2cbfb260b6/toscaModel",
+            "category": "Network L4+",
+            "lifecycleState": "CERTIFIED",
+            "lastUpdaterUserId": "cs0008",
+            "distributionStatus": "DISTRIBUTED"
+        }
 
     Listing should contain entry with our service name **vfw_cnf_cds_svc**.
 
@@ -2050,105 +1060,110 @@ Verify in SDC UI if distribution was successful. In case of any errors (sometime
 
     SO Catalog database should have our service NFs defined now.
 
-    **Postman -> LCM -> [SO] Catalog DB Service xNFs**
+    ::
+
+        Postman -> LCM -> [SO] Catalog DB Service xNFs
 
     ::
 
+        {
+            "serviceVnfs": [
                 {
-                    "serviceVnfs": [
+                    "modelInfo": {
+                        "modelName": "vfw_cnf_cds_vsp",
+                        "modelUuid": "70edaca8-8c79-468a-aa76-8224cfe686d0",
+                        "modelInvariantUuid": "7901fc89-a94d-434a-8454-1e27b99dc0e2",
+                        "modelVersion": "1.0",
+                        "modelCustomizationUuid": "86dc8af4-aa17-4fc7-9b20-f12160d99718",
+                        "modelInstanceName": "vfw_cnf_cds_vsp 0"
+                    },
+                    "toscaNodeType": "org.openecomp.resource.vf.VfwCnfCdsVsp",
+                    "nfFunction": null,
+                    "nfType": null,
+                    "nfRole": null,
+                    "nfNamingCode": null,
+                    "multiStageDesign": "false",
+                    "vnfcInstGroupOrder": null,
+                    "resourceInput": "TBD",
+                    "vfModules": [
                         {
                             "modelInfo": {
-                                "modelName": "vfw_cnf_cds_vsp",
-                                "modelUuid": "70edaca8-8c79-468a-aa76-8224cfe686d0",
-                                "modelInvariantUuid": "7901fc89-a94d-434a-8454-1e27b99dc0e2",
-                                "modelVersion": "1.0",
-                                "modelCustomizationUuid": "86dc8af4-aa17-4fc7-9b20-f12160d99718",
-                                "modelInstanceName": "vfw_cnf_cds_vsp 0"
+                                "modelName": "VfwCnfCdsVsp..base_template..module-0",
+                                "modelUuid": "274f4bc9-7679-4767-b34d-1df51cdf2496",
+                                "modelInvariantUuid": "52842255-b7be-4a1c-ab3b-2bd3bd4a5423",
+                                "modelVersion": "1",
+                                "modelCustomizationUuid": "b27fad11-44da-4840-9256-7ed8a32fbe3e"
                             },
-                            "toscaNodeType": "org.openecomp.resource.vf.VfwCnfCdsVsp",
-                            "nfFunction": null,
-                            "nfType": null,
-                            "nfRole": null,
-                            "nfNamingCode": null,
-                            "multiStageDesign": "false",
-                            "vnfcInstGroupOrder": null,
-                            "resourceInput": "TBD",
-                            "vfModules": [
-                                {
-                                    "modelInfo": {
-                                        "modelName": "VfwCnfCdsVsp..base_template..module-0",
-                                        "modelUuid": "274f4bc9-7679-4767-b34d-1df51cdf2496",
-                                        "modelInvariantUuid": "52842255-b7be-4a1c-ab3b-2bd3bd4a5423",
-                                        "modelVersion": "1",
-                                        "modelCustomizationUuid": "b27fad11-44da-4840-9256-7ed8a32fbe3e"
-                                    },
-                                    "isBase": true,
-                                    "vfModuleLabel": "base_template",
-                                    "initialCount": 1,
-                                    "hasVolumeGroup": false
-                                },
-                                {
-                                    "modelInfo": {
-                                        "modelName": "VfwCnfCdsVsp..vsn..module-1",
-                                        "modelUuid": "0cbf558f-5a96-4555-b476-7df8163521aa",
-                                        "modelInvariantUuid": "36f25e1b-199b-4de2-b656-c870d341cf0e",
-                                        "modelVersion": "1",
-                                        "modelCustomizationUuid": "4cac0584-c0d6-42a7-bdb3-29162792e07f"
-                                    },
-                                    "isBase": false,
-                                    "vfModuleLabel": "vsn",
-                                    "initialCount": 0,
-                                    "hasVolumeGroup": false
-                                },
-                                {
-                                    "modelInfo": {
-                                        "modelName": "VfwCnfCdsVsp..vpkg..module-2",
-                                        "modelUuid": "011b5f61-6524-4789-bd9a-44cfbf321463",
-                                        "modelInvariantUuid": "4e2b9975-5214-48b8-861a-5701c09eedfa",
-                                        "modelVersion": "1",
-                                        "modelCustomizationUuid": "4e7028a1-4c80-4d20-a7a2-a1fb3343d5cb"
-                                    },
-                                    "isBase": false,
-                                    "vfModuleLabel": "vpkg",
-                                    "initialCount": 0,
-                                    "hasVolumeGroup": false
-                                },
-                                {
-                                    "modelInfo": {
-                                        "modelName": "VfwCnfCdsVsp..vfw..module-3",
-                                        "modelUuid": "0de4ed56-8b4c-4a2d-8ce6-85d5e269204f",
-                                        "modelInvariantUuid": "9ffda670-3d77-4f6c-a4ad-fb7a09f19817",
-                                        "modelVersion": "1",
-                                        "modelCustomizationUuid": "1e123e43-ba40-4c93-90d7-b9f27407ec03"
-                                    },
-                                    "isBase": false,
-                                    "vfModuleLabel": "vfw",
-                                    "initialCount": 0,
-                                    "hasVolumeGroup": false
-                                }
-                            ],
-                            "groups": []
+                            "isBase": true,
+                            "vfModuleLabel": "base_template",
+                            "initialCount": 1,
+                            "hasVolumeGroup": false
+                        },
+                        {
+                            "modelInfo": {
+                                "modelName": "VfwCnfCdsVsp..vsn..module-1",
+                                "modelUuid": "0cbf558f-5a96-4555-b476-7df8163521aa",
+                                "modelInvariantUuid": "36f25e1b-199b-4de2-b656-c870d341cf0e",
+                                "modelVersion": "1",
+                                "modelCustomizationUuid": "4cac0584-c0d6-42a7-bdb3-29162792e07f"
+                            },
+                            "isBase": false,
+                            "vfModuleLabel": "vsn",
+                            "initialCount": 0,
+                            "hasVolumeGroup": false
+                        },
+                        {
+                            "modelInfo": {
+                                "modelName": "VfwCnfCdsVsp..vpkg..module-2",
+                                "modelUuid": "011b5f61-6524-4789-bd9a-44cfbf321463",
+                                "modelInvariantUuid": "4e2b9975-5214-48b8-861a-5701c09eedfa",
+                                "modelVersion": "1",
+                                "modelCustomizationUuid": "4e7028a1-4c80-4d20-a7a2-a1fb3343d5cb"
+                            },
+                            "isBase": false,
+                            "vfModuleLabel": "vpkg",
+                            "initialCount": 0,
+                            "hasVolumeGroup": false
+                        },
+                        {
+                            "modelInfo": {
+                                "modelName": "VfwCnfCdsVsp..vfw..module-3",
+                                "modelUuid": "0de4ed56-8b4c-4a2d-8ce6-85d5e269204f",
+                                "modelInvariantUuid": "9ffda670-3d77-4f6c-a4ad-fb7a09f19817",
+                                "modelVersion": "1",
+                                "modelCustomizationUuid": "1e123e43-ba40-4c93-90d7-b9f27407ec03"
+                            },
+                            "isBase": false,
+                            "vfModuleLabel": "vfw",
+                            "initialCount": 0,
+                            "hasVolumeGroup": false
                         }
-                    ]
+                    ],
+                    "groups": []
                 }
+            ]
+        }
+
+.. note:: For **Native Helm** path both modelName will have prefix *helm_* i.e. *helm_vfw* and vfModuleLabel will have *helm_* keyword inside i.e. *VfwCnfCdsVsp..helm_vfw..module-3*
 
 - SDNC:
 
-    SDNC should have it's database updated with sdnc_* properties that were set during service modeling.
+    SDNC should have it's database updated with *sdnc_* properties that were set during service modeling.
 
 .. note:: Please change credentials respectively to your installation. The required credentials can be retrieved with instruction `Retrieving logins and passwords of ONAP components`_
 
-    ::
 
-        kubectl -n onap exec onap-mariadb-galera-0 -it -- sh
-        mysql -uroot -psecretpassword -D sdnctl
-                MariaDB [sdnctl]> select sdnc_model_name, sdnc_model_version, sdnc_artifact_name from VF_MODEL WHERE customization_uuid = '86dc8af4-aa17-4fc7-9b20-f12160d99718';
-                +-----------------+--------------------+--------------------+
-                | sdnc_model_name | sdnc_model_version | sdnc_artifact_name |
-                +-----------------+--------------------+--------------------+
-                | vFW_CNF_CDS     | 1.0.45             | vnf                |
-                +-----------------+--------------------+--------------------+
-                1 row in set (0.00 sec)
+::
+
+    kubectl -n onap exec onap-mariadb-galera-0 -it -- sh
+    mysql -uroot -psecretpassword -D sdnctl
+            MariaDB [sdnctl]> select sdnc_model_name, sdnc_model_version, sdnc_artifact_name from VF_MODEL WHERE customization_uuid = '86dc8af4-aa17-4fc7-9b20-f12160d99718';
+            +-----------------+--------------------+--------------------+
+            | sdnc_model_name | sdnc_model_version | sdnc_artifact_name |
+            +-----------------+--------------------+--------------------+
+            | vFW_CNF_CDS     | 7.0.0              | vnf                |
+            +-----------------+--------------------+--------------------+
+            1 row in set (0.00 sec)
 
 
 .. note:: customization_uuid value is the modelCustomizationUuid of the VNF (serviceVnfs response in 2nd Postman call from SO Catalog DB)
@@ -2157,7 +1172,9 @@ Verify in SDC UI if distribution was successful. In case of any errors (sometime
 
     CDS should onboard CBA uploaded as part of VF.
 
-    **Postman -> Distribution Verification -> [CDS] List CBAs**
+    ::
+
+        Postman -> Distribution Verification -> [CDS] List CBAs
 
     ::
 
@@ -2167,14 +1184,14 @@ Verify in SDC UI if distribution was successful. In case of any errors (sometime
                                         "id": "c505e516-b35d-4181-b1e2-bcba361cfd0a",
                                         "artifactUUId": null,
                                         "artifactType": "SDNC_MODEL",
-                                        "artifactVersion": "1.0.45",
-                                        "artifactDescription": "Controller Blueprint for vFW_CNF_CDS:1.0.45",
+                                        "artifactVersion": "7.0.0",
+                                        "artifactDescription": "Controller Blueprint for vFW_CNF_CDS:7.0.0",
                                         "internalVersion": null,
                                         "createdDate": "2020-05-29T06:02:20.000Z",
                                         "artifactName": "vFW_CNF_CDS",
-                                        "published": "Y",
+                                        "published": "N",
                                         "updatedBy": "Samuli Silvius <s.silvius@partner.samsung.com>",
-                                        "tags": "Samuli Silvius, vFW_CNF_CDS"
+                                        "tags": "Samuli Silvius, Lukasz Rajewski, vFW_CNF_CDS"
                                 }
                         }
                 ]
@@ -2184,13 +1201,19 @@ Verify in SDC UI if distribution was successful. In case of any errors (sometime
     - sdnc_model_name == artifactName
     - sdnc_model_version == artifactVersion
 
-        You can also use **Postman -> Distribution Verification -> [CDS] CBA Download** to download CBA for further verification but it's fully optional.
+    You can also use Postman to download CBA for further verification but it's fully optional.
+
+    ::
+
+        Postman -> Distribution Verification -> [CDS] CBA Download
 
 - K8splugin:
 
     K8splugin should onboard 4 resource bundles related to helm resources:
 
-    **Postman -> Distribution Verification -> [K8splugin] List Resource Bundle Definitions**
+    ::
+
+        Postman -> Distribution Verification -> [K8splugin] List Resource Bundle Definitions
 
     ::
 
@@ -2233,23 +1256,48 @@ Verify in SDC UI if distribution was successful. In case of any errors (sometime
                         }
                 ]
 
+**<AUTOMATED>**
+
+Distribution is a part of the onboarding step and at this stage is performed
+
 3-2 CNF Instantiation
 .....................
 
 This is the whole beef of the use case and furthermore the core of it is that we can instantiate any amount of instances of the same CNF each running and working completely of their own. Very basic functionality in VM (VNF) side but for Kubernetes and ONAP integration this is the first milestone towards other normal use cases familiar for VNFs.
 
-Use again Postman to trigger instantion from SO interface. Postman collection is automated to populate needed parameters when queries are run in correct order. If you did not already run following 2 queries after distribution (to verify distribution), run those now:
+**<MANUAL>**
 
-- **Postman -> LCM -> 1.[SDC] Catalog Service**
-- **Postman -> LCM -> 2. [SO] Catalog DB Service xNFs**
+Postman collection is automated to populate needed parameters when queries are run in correct order. If you did not already run following 2 queries after distribution (to verify distribution), run those now:
+
+::
+
+    Postman -> LCM -> 1.[SDC] Catalog Service
+
+::
+
+    Postman -> LCM -> 2. [SO] Catalog DB Service xNFs
 
 Now actual instantiation can be triggered with:
 
-**Postman -> LCM -> 3. [SO] Self-Serve Service Assign & Activate**
+::
 
-Follow progress with SO's GET request:
+    Postman -> LCM -> 3. [SO] Self-Serve Service Assign & Activate
 
-**Postman -> LCM -> 4. [SO] Infra Active Requests**
+**<AUTOMATED>**
+
+Required inputs for instantiation process are taken from the *config.py* file.
+::
+
+    python instantiation.py
+
+
+Finally, to follow the progress of instantiation request with SO's GET request:
+
+**<MANUAL>**
+
+::
+
+    Postman -> LCM -> 4. [SO] Infra Active Requests
 
 The successful reply payload in that query should start like this:
 
@@ -2289,23 +1337,44 @@ The successful reply payload in that query should start like this:
     }
 
 
-Progress can be followed also with `SO Monitoring`_ dashboard.
+Progress can be also followed also with `SO Monitoring`_ dashboard.
 
-.. note::  In Frankfurt release *SO Monitoring* dashboard was removed from officail release and before it can be used it must be exposed and default user credentials must be configured
+Service Instance Termination
+++++++++++++++++++++++++++++
 
+Service instance can be terminated with the following postman call:
 
-You can finally terminate this instance (now or later) with another call:
+**<MANUAL>**
+::
 
-**Postman -> LCM -> 5. [SO] Service Delete**
+    Postman -> LCM -> 5. [SO] Service Delete
 
-Second instance Instantiation
-+++++++++++++++++++++++++++++
+**<AUTOMATED>**
+::
+
+    python delete.py
+
+.. note:: Automated service deletion mecvhanism takes information about the instantiated service instance from the *config.py* file and *SERVICE_INSTANCE_NAME* variable. If you modify this value before the deletion of existing service instance then you will loose opportunity to easy delete already created service instance.
+
+Second Service Instance Instantiation
++++++++++++++++++++++++++++++++++++++
 
 To finally verify that all the work done within this demo, it should be possible to instantiate second vFW instance successfully.
 
 Trigger new instance createion. You can use previous call or a separate one that will utilize profile templating mechanism implemented in CBA:
 
-**Postman -> LCM -> 6. [SO] Self-Serve Service Assign & Activate - Second**
+**<MANUAL>**
+::
+
+    Postman -> LCM -> 6. [SO] Self-Serve Service Assign & Activate - Second
+
+**<AUTOMATED>**
+
+Before second instance of service is created you need to modify *config.py* file changing the *SERVICENAME* and *SERVICE_INSTANCE_NAME* to different values and by changing the value or *k8s-rb-profile-name* parameter for *vpg* module from value *default* or *vfw-cnf-cds-base-profile* to *vfw-cnf-cds-vpkg-profile* what will result with instantiation of additional ssh service for *vpg* module. Second onboarding in automated case is required due to the existing limitations of *python-sdk* librarier that create vf-module instance name base on the vf-module model name. For manual Postman option vf-module instance name is set on service instance name basis what makes it unique.
+::
+
+    python onboarding.py
+    python instantiation.py
 
 3-3 Results and Logs
 ....................
@@ -2317,9 +1386,13 @@ Now multiple instances of Kubernetes variant of vFW are running in target VIM (K
 
    vFW Instance In Kubernetes
 
+**<MANUAL>**
+
 To review situation after instantiation from different ONAP components, most of the info can be found using Postman queries provided. For each query, example response payload(s) is/are saved and can be found from top right corner of the Postman window.
 
-**Postman -> Instantiation verification**
+::
+
+    Postman -> Instantiation verification**
 
 Execute example Postman queries and check example section to see the valid results.
 
@@ -2335,8 +1408,6 @@ K8S Instances in KUD          **Postman -> Instantiation verification -> [K8splu
 
 
 Query also directly from VIM:
-
-FIXME - needs updated output with newest naming policy
 
 ::
 
@@ -2388,21 +1459,28 @@ FIXME - needs updated output with newest naming policy
 Component Logs From The Execution
 +++++++++++++++++++++++++++++++++
 
-All logs from the use case execution are here:
+**<MANUAL>**
 
-  :download:`logs <files/vFW_CNF_CDS/logs.zip>`
+All logs from the use case execution can be retrieved with following
 
-- `so-bpmn-infra_so-bpmn-infra_debug.log`
-- SO openstack adapter
-- `sdnc_sdnc_karaf.log`
+::
+
+    kubectl -n onap logs `kubectl -n onap get pods -o go-template --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}' | grep -m1 <COMPONENT_NAME>` -c <CONTAINER>
+
+where <COMPONENT_NAME> and <CONTAINER> should be replaced with following keywords respectively:
+
+- so-bpmn-infra, so-bpmn-infra
+- so-openstack-adapter, so-openstack-adapter
+- so-cnf-adapter, so-cnf-adapter
+- sdnc-0, sdnc
 
   From karaf.log all requests (payloads) to CDS can be found by searching following string:
 
   ``'Sending request below to url http://cds-blueprints-processor-http:8080/api/v1/execution-service/process'``
 
-- `cds-blueprints-processor_cds-blueprints-processor_POD_LOG.log`
-- `multicloud-k8s_multicloud-k8s_POD_LOG.log`
-- network naming
+- cds-blueprints-processor, cds-blueprints-processor
+- multicloud-k8s, multicloud-k8s
+- network-name-gen, network-name-gen, 
 
 **Debug log**
 
@@ -2430,61 +1508,625 @@ In case more detailed logging is needed, here's instructions how to setup DEBUG 
     # Delete the Pods to make changes effective
     kubectl -n onap delete pods -l app=cds-blueprints-processor
 
-PART 4 - Summary and Future improvements needed
+3-4 Verification of the CNF Status
+..................................
+
+**<MANUAL>**
+
+The Guilin introduces new API for verification of the status of instantiated resouces in k8s cluster. The API gives result similar to *kubectl describe* operation for all the resources created for particular *rb-definition*. Status API can be used to verify the k8s resources after instantiation but also can be used leveraged for synchronization of the information with external components, like AAI in the future. To use Status API call
+
+::
+
+    curl -i http://${K8S_NODE_IP}:30280/api/multicloud-k8s/v1/v1/instance/{rb-instance-id}/status
+
+where {rb-instance-id} can be taken from the list of instances resolved the following call
+
+::
+
+    curl -i http://${K8S_NODE_IP}:30280/api/multicloud-k8s/v1/v1/instance/
+
+or from AAI *heat-stack-id* property of created *vf-module* associated with each Helm package from onboarded VSP which holds the *rb-instance-id* value.
+
+Examplary output of Status API is shown below (result of test vFW CNF helm package). It shows the list of GVK resources created for requested *rb-instance* (Helm and vf-module in the same time) with assocated describe result for all of them.
+
+.. note:: The example of how the Stauts API could be integrated into CDS can be found in the Frankfurt version of k8s profile upload mechanism `Frankfurt CBA Definition`_ (*profile-upload* TOSCA node template), implemented in inside of the Kotlin script `Frankfurt CBA Script`_ for profile upload. This method shows how to integrate mutlicloud-k8s API endpoint into Kotlin script executed by CDS. For more details please take a look into Definition file of 1.0.45 version of the CBA and also the kotlin script used there for uploading the profile. 
+
+::
+
+    {
+        "request": {
+            "rb-name": "vfw",
+            "rb-version": "plugin_test",
+            "profile-name": "test_profile",
+            "release-name": "",
+            "cloud-region": "kud",
+            "labels": {
+                "testCaseName": "plugin_fw.sh"
+            },
+            "override-values": {
+                "global.onapPrivateNetworkName": "onap-private-net-test"
+            }
+        },
+        "ready": false,
+        "resourceCount": 7,
+        "resourcesStatus": [
+            {
+                "name": "sink-configmap",
+                "GVK": {
+                    "Group": "",
+                    "Version": "v1",
+                    "Kind": "ConfigMap"
+                },
+                "status": {
+                    "apiVersion": "v1",
+                    "data": {
+                        "protected_net_gw": "192.168.20.100",
+                        "protected_private_net_cidr": "192.168.10.0/24"
+                    },
+                    "kind": "ConfigMap",
+                    "metadata": {
+                        "creationTimestamp": "2020-09-29T13:36:25Z",
+                        "labels": {
+                            "k8splugin.io/rb-instance-id": "practical_nobel"
+                        },
+                        "name": "sink-configmap",
+                        "namespace": "plugin-tests-namespace",
+                        "resourceVersion": "10720771",
+                        "selfLink": "/api/v1/namespaces/plugin-tests-namespace/configmaps/sink-configmap",
+                        "uid": "46c8bec4-980c-455b-9eb0-fb84ac8cc450"
+                    }
+                }
+            },
+            {
+                "name": "sink-service",
+                "GVK": {
+                    "Group": "",
+                    "Version": "v1",
+                    "Kind": "Service"
+                },
+                "status": {
+                    "apiVersion": "v1",
+                    "kind": "Service",
+                    "metadata": {
+                        "creationTimestamp": "2020-09-29T13:36:25Z",
+                        "labels": {
+                            "app": "sink",
+                            "chart": "sink",
+                            "k8splugin.io/rb-instance-id": "practical_nobel",
+                            "release": "test-release"
+                        },
+                        "name": "sink-service",
+                        "namespace": "plugin-tests-namespace",
+                        "resourceVersion": "10720780",
+                        "selfLink": "/api/v1/namespaces/plugin-tests-namespace/services/sink-service",
+                        "uid": "789a14fe-1246-4cdd-ba9a-359240ba614f"
+                    },
+                    "spec": {
+                        "clusterIP": "10.244.2.4",
+                        "externalTrafficPolicy": "Cluster",
+                        "ports": [
+                            {
+                                "nodePort": 30667,
+                                "port": 667,
+                                "protocol": "TCP",
+                                "targetPort": 667
+                            }
+                        ],
+                        "selector": {
+                            "app": "sink",
+                            "release": "test-release"
+                        },
+                        "sessionAffinity": "None",
+                        "type": "NodePort"
+                    },
+                    "status": {
+                        "loadBalancer": {}
+                    }
+                }
+            },
+            {
+                "name": "test-release-sink",
+                "GVK": {
+                    "Group": "apps",
+                    "Version": "v1",
+                    "Kind": "Deployment"
+                },
+                "status": {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "annotations": {
+                            "deployment.kubernetes.io/revision": "1"
+                        },
+                        "creationTimestamp": "2020-09-29T13:36:25Z",
+                        "generation": 1,
+                        "labels": {
+                            "app": "sink",
+                            "chart": "sink",
+                            "k8splugin.io/rb-instance-id": "practical_nobel",
+                            "release": "test-release"
+                        },
+                        "name": "test-release-sink",
+                        "namespace": "plugin-tests-namespace",
+                        "resourceVersion": "10720857",
+                        "selfLink": "/apis/apps/v1/namespaces/plugin-tests-namespace/deployments/test-release-sink",
+                        "uid": "1f50eecf-c924-4434-be87-daf7c64b6506"
+                    },
+                    "spec": {
+                        "progressDeadlineSeconds": 600,
+                        "replicas": 1,
+                        "revisionHistoryLimit": 10,
+                        "selector": {
+                            "matchLabels": {
+                                "app": "sink",
+                                "release": "test-release"
+                            }
+                        },
+                        "strategy": {
+                            "rollingUpdate": {
+                                "maxSurge": "25%",
+                                "maxUnavailable": "25%"
+                            },
+                            "type": "RollingUpdate"
+                        },
+                        "template": {
+                            "metadata": {
+                                "annotations": {
+                                    "k8s.plugin.opnfv.org/nfn-network": "{ \"type\": \"ovn4nfv\", \"interface\": [ { \"name\": \"protected-private-net\", \"ipAddress\": \"192.168.20.3\", \"interface\": \"eth1\", \"defaultGateway\": \"false\" }, { \"name\": \"onap-private-net-test\", \"ipAddress\": \"10.10.100.4\", \"interface\": \"eth2\" , \"defaultGateway\": \"false\"} ]}",
+                                    "k8s.v1.cni.cncf.io/networks": "[{\"name\": \"ovn-networkobj\", \"namespace\": \"default\"}]"
+                                },
+                                "creationTimestamp": null,
+                                "labels": {
+                                    "app": "sink",
+                                    "k8splugin.io/rb-instance-id": "practical_nobel",
+                                    "release": "test-release"
+                                }
+                            },
+                            "spec": {
+                                "containers": [
+                                    {
+                                        "envFrom": [
+                                            {
+                                                "configMapRef": {
+                                                    "name": "sink-configmap"
+                                                }
+                                            }
+                                        ],
+                                        "image": "rtsood/onap-vfw-demo-sink:0.2.0",
+                                        "imagePullPolicy": "IfNotPresent",
+                                        "name": "sink",
+                                        "resources": {},
+                                        "securityContext": {
+                                            "privileged": true
+                                        },
+                                        "stdin": true,
+                                        "terminationMessagePath": "/dev/termination-log",
+                                        "terminationMessagePolicy": "File",
+                                        "tty": true
+                                    },
+                                    {
+                                        "image": "electrocucaracha/darkstat:latest",
+                                        "imagePullPolicy": "IfNotPresent",
+                                        "name": "darkstat",
+                                        "ports": [
+                                            {
+                                                "containerPort": 667,
+                                                "protocol": "TCP"
+                                            }
+                                        ],
+                                        "resources": {},
+                                        "stdin": true,
+                                        "terminationMessagePath": "/dev/termination-log",
+                                        "terminationMessagePolicy": "File",
+                                        "tty": true
+                                    }
+                                ],
+                                "dnsPolicy": "ClusterFirst",
+                                "restartPolicy": "Always",
+                                "schedulerName": "default-scheduler",
+                                "securityContext": {},
+                                "terminationGracePeriodSeconds": 30
+                            }
+                        }
+                    },
+                    "status": {
+                        "availableReplicas": 1,
+                        "conditions": [
+                            {
+                                "lastTransitionTime": "2020-09-29T13:36:33Z",
+                                "lastUpdateTime": "2020-09-29T13:36:33Z",
+                                "message": "Deployment has minimum availability.",
+                                "reason": "MinimumReplicasAvailable",
+                                "status": "True",
+                                "type": "Available"
+                            },
+                            {
+                                "lastTransitionTime": "2020-09-29T13:36:25Z",
+                                "lastUpdateTime": "2020-09-29T13:36:33Z",
+                                "message": "ReplicaSet \"test-release-sink-6546c4f698\" has successfully progressed.",
+                                "reason": "NewReplicaSetAvailable",
+                                "status": "True",
+                                "type": "Progressing"
+                            }
+                        ],
+                        "observedGeneration": 1,
+                        "readyReplicas": 1,
+                        "replicas": 1,
+                        "updatedReplicas": 1
+                    }
+                }
+            },
+            {
+                "name": "onap-private-net-test",
+                "GVK": {
+                    "Group": "k8s.plugin.opnfv.org",
+                    "Version": "v1alpha1",
+                    "Kind": "Network"
+                },
+                "status": {
+                    "apiVersion": "k8s.plugin.opnfv.org/v1alpha1",
+                    "kind": "Network",
+                    "metadata": {
+                        "creationTimestamp": "2020-09-29T13:36:25Z",
+                        "finalizers": [
+                            "nfnCleanUpNetwork"
+                        ],
+                        "generation": 2,
+                        "labels": {
+                            "k8splugin.io/rb-instance-id": "practical_nobel"
+                        },
+                        "name": "onap-private-net-test",
+                        "namespace": "plugin-tests-namespace",
+                        "resourceVersion": "10720825",
+                        "selfLink": "/apis/k8s.plugin.opnfv.org/v1alpha1/namespaces/plugin-tests-namespace/networks/onap-private-net-test",
+                        "uid": "43d413f1-f222-4d98-9ddd-b209d3ade106"
+                    },
+                    "spec": {
+                        "cniType": "ovn4nfv",
+                        "dns": {},
+                        "ipv4Subnets": [
+                            {
+                                "gateway": "10.10.0.1/16",
+                                "name": "subnet1",
+                                "subnet": "10.10.0.0/16"
+                            }
+                        ]
+                    },
+                    "status": {
+                        "state": "Created"
+                    }
+                }
+            },
+            {
+                "name": "protected-private-net",
+                "GVK": {
+                    "Group": "k8s.plugin.opnfv.org",
+                    "Version": "v1alpha1",
+                    "Kind": "Network"
+                },
+                "status": {
+                    "apiVersion": "k8s.plugin.opnfv.org/v1alpha1",
+                    "kind": "Network",
+                    "metadata": {
+                        "creationTimestamp": "2020-09-29T13:36:25Z",
+                        "finalizers": [
+                            "nfnCleanUpNetwork"
+                        ],
+                        "generation": 2,
+                        "labels": {
+                            "k8splugin.io/rb-instance-id": "practical_nobel"
+                        },
+                        "name": "protected-private-net",
+                        "namespace": "plugin-tests-namespace",
+                        "resourceVersion": "10720827",
+                        "selfLink": "/apis/k8s.plugin.opnfv.org/v1alpha1/namespaces/plugin-tests-namespace/networks/protected-private-net",
+                        "uid": "75c98944-80b6-4158-afed-8efa7a1075e2"
+                    },
+                    "spec": {
+                        "cniType": "ovn4nfv",
+                        "dns": {},
+                        "ipv4Subnets": [
+                            {
+                                "gateway": "192.168.20.100/24",
+                                "name": "subnet1",
+                                "subnet": "192.168.20.0/24"
+                            }
+                        ]
+                    },
+                    "status": {
+                        "state": "Created"
+                    }
+                }
+            },
+            {
+                "name": "unprotected-private-net",
+                "GVK": {
+                    "Group": "k8s.plugin.opnfv.org",
+                    "Version": "v1alpha1",
+                    "Kind": "Network"
+                },
+                "status": {
+                    "apiVersion": "k8s.plugin.opnfv.org/v1alpha1",
+                    "kind": "Network",
+                    "metadata": {
+                        "creationTimestamp": "2020-09-29T13:36:25Z",
+                        "finalizers": [
+                            "nfnCleanUpNetwork"
+                        ],
+                        "generation": 2,
+                        "labels": {
+                            "k8splugin.io/rb-instance-id": "practical_nobel"
+                        },
+                        "name": "unprotected-private-net",
+                        "namespace": "plugin-tests-namespace",
+                        "resourceVersion": "10720829",
+                        "selfLink": "/apis/k8s.plugin.opnfv.org/v1alpha1/namespaces/plugin-tests-namespace/networks/unprotected-private-net",
+                        "uid": "54995c10-bffd-4bb2-bbab-5de266af9456"
+                    },
+                    "spec": {
+                        "cniType": "ovn4nfv",
+                        "dns": {},
+                        "ipv4Subnets": [
+                            {
+                                "gateway": "192.168.10.1/24",
+                                "name": "subnet1",
+                                "subnet": "192.168.10.0/24"
+                            }
+                        ]
+                    },
+                    "status": {
+                        "state": "Created"
+                    }
+                }
+            },
+            {
+                "name": "test-release-sink-6546c4f698-dv529",
+                "GVK": {
+                    "Group": "",
+                    "Version": "v1",
+                    "Kind": "Pod"
+                },
+                "status": {
+                    "metadata": {
+                        "annotations": {
+                            "k8s.plugin.opnfv.org/nfn-network": "{ \"type\": \"ovn4nfv\", \"interface\": [ { \"name\": \"protected-private-net\", \"ipAddress\": \"192.168.20.3\", \"interface\": \"eth1\", \"defaultGateway\": \"false\" }, { \"name\": \"onap-private-net-test\", \"ipAddress\": \"10.10.100.4\", \"interface\": \"eth2\" , \"defaultGateway\": \"false\"} ]}",
+                            "k8s.plugin.opnfv.org/ovnInterfaces": "[{\"ip_address\":\"192.168.20.3/24\", \"mac_address\":\"00:00:00:13:40:87\", \"gateway_ip\": \"192.168.20.100\",\"defaultGateway\":\"false\",\"interface\":\"eth1\"},{\"ip_address\":\"10.10.100.4/16\", \"mac_address\":\"00:00:00:49:de:fc\", \"gateway_ip\": \"10.10.0.1\",\"defaultGateway\":\"false\",\"interface\":\"eth2\"}]",
+                            "k8s.v1.cni.cncf.io/networks": "[{\"name\": \"ovn-networkobj\", \"namespace\": \"default\"}]",
+                            "k8s.v1.cni.cncf.io/networks-status": "[{\n    \"name\": \"cni0\",\n    \"interface\": \"eth0\",\n    \"ips\": [\n        \"10.244.64.46\"\n    ],\n    \"mac\": \"0a:58:0a:f4:40:2e\",\n    \"default\": true,\n    \"dns\": {}\n},{\n    \"name\": \"ovn4nfv-k8s-plugin\",\n    \"interface\": \"eth2\",\n    \"ips\": [\n        \"192.168.20.3\",\n        \"10.10.100.4\"\n    ],\n    \"mac\": \"00:00:00:49:de:fc\",\n    \"dns\": {}\n}]"
+                        },
+                        "creationTimestamp": "2020-09-29T13:36:25Z",
+                        "generateName": "test-release-sink-6546c4f698-",
+                        "labels": {
+                            "app": "sink",
+                            "k8splugin.io/rb-instance-id": "practical_nobel",
+                            "pod-template-hash": "6546c4f698",
+                            "release": "test-release"
+                        },
+                        "name": "test-release-sink-6546c4f698-dv529",
+                        "namespace": "plugin-tests-namespace",
+                        "ownerReferences": [
+                            {
+                                "apiVersion": "apps/v1",
+                                "blockOwnerDeletion": true,
+                                "controller": true,
+                                "kind": "ReplicaSet",
+                                "name": "test-release-sink-6546c4f698",
+                                "uid": "72c9da29-af3b-4b5c-a90b-06285ae83429"
+                            }
+                        ],
+                        "resourceVersion": "10720854",
+                        "selfLink": "/api/v1/namespaces/plugin-tests-namespace/pods/test-release-sink-6546c4f698-dv529",
+                        "uid": "a4e24041-65c9-4b86-8f10-a27a4dba26bb"
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "envFrom": [
+                                    {
+                                        "configMapRef": {
+                                            "name": "sink-configmap"
+                                        }
+                                    }
+                                ],
+                                "image": "rtsood/onap-vfw-demo-sink:0.2.0",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "sink",
+                                "resources": {},
+                                "securityContext": {
+                                    "privileged": true
+                                },
+                                "stdin": true,
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File",
+                                "tty": true,
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                        "name": "default-token-gsh95",
+                                        "readOnly": true
+                                    }
+                                ]
+                            },
+                            {
+                                "image": "electrocucaracha/darkstat:latest",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "darkstat",
+                                "ports": [
+                                    {
+                                        "containerPort": 667,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {},
+                                "stdin": true,
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File",
+                                "tty": true,
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                        "name": "default-token-gsh95",
+                                        "readOnly": true
+                                    }
+                                ]
+                            }
+                        ],
+                        "dnsPolicy": "ClusterFirst",
+                        "enableServiceLinks": true,
+                        "nodeName": "localhost",
+                        "priority": 0,
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {},
+                        "serviceAccount": "default",
+                        "serviceAccountName": "default",
+                        "terminationGracePeriodSeconds": 30,
+                        "tolerations": [
+                            {
+                                "effect": "NoExecute",
+                                "key": "node.kubernetes.io/not-ready",
+                                "operator": "Exists",
+                                "tolerationSeconds": 300
+                            },
+                            {
+                                "effect": "NoExecute",
+                                "key": "node.kubernetes.io/unreachable",
+                                "operator": "Exists",
+                                "tolerationSeconds": 300
+                            }
+                        ],
+                        "volumes": [
+                            {
+                                "name": "default-token-gsh95",
+                                "secret": {
+                                    "defaultMode": 420,
+                                    "secretName": "default-token-gsh95"
+                                }
+                            }
+                        ]
+                    },
+                    "status": {
+                        "conditions": [
+                            {
+                                "lastProbeTime": null,
+                                "lastTransitionTime": "2020-09-29T13:36:25Z",
+                                "status": "True",
+                                "type": "Initialized"
+                            },
+                            {
+                                "lastProbeTime": null,
+                                "lastTransitionTime": "2020-09-29T13:36:33Z",
+                                "status": "True",
+                                "type": "Ready"
+                            },
+                            {
+                                "lastProbeTime": null,
+                                "lastTransitionTime": "2020-09-29T13:36:33Z",
+                                "status": "True",
+                                "type": "ContainersReady"
+                            },
+                            {
+                                "lastProbeTime": null,
+                                "lastTransitionTime": "2020-09-29T13:36:25Z",
+                                "status": "True",
+                                "type": "PodScheduled"
+                            }
+                        ],
+                        "containerStatuses": [
+                            {
+                                "containerID": "docker://87c9af78735400606d70ccd9cd85e2545e43cb3be9c30d4b4fe173da0062dda9",
+                                "image": "electrocucaracha/darkstat:latest",
+                                "imageID": "docker-pullable://electrocucaracha/darkstat@sha256:a6764fcc2e15f6156ac0e56f1d220b98970f2d4da9005bae99fb518cfd2f9c25",
+                                "lastState": {},
+                                "name": "darkstat",
+                                "ready": true,
+                                "restartCount": 0,
+                                "started": true,
+                                "state": {
+                                    "running": {
+                                        "startedAt": "2020-09-29T13:36:33Z"
+                                    }
+                                }
+                            },
+                            {
+                                "containerID": "docker://a004f95e7c7a681c7f400852aade096e3ffd75b7efc64e12e65b4ce1fe326577",
+                                "image": "rtsood/onap-vfw-demo-sink:0.2.0",
+                                "imageID": "docker-pullable://rtsood/onap-vfw-demo-sink@sha256:15b7abb0b67a3804ea5f954254633f996fc99c680b09d86a6cf15c3d7b14ab16",
+                                "lastState": {},
+                                "name": "sink",
+                                "ready": true,
+                                "restartCount": 0,
+                                "started": true,
+                                "state": {
+                                    "running": {
+                                        "startedAt": "2020-09-29T13:36:32Z"
+                                    }
+                                }
+                            }
+                        ],
+                        "hostIP": "192.168.255.3",
+                        "phase": "Running",
+                        "podIP": "10.244.64.46",
+                        "podIPs": [
+                            {
+                                "ip": "10.244.64.46"
+                            }
+                        ],
+                        "qosClass": "BestEffort",
+                        "startTime": "2020-09-29T13:36:25Z"
+                    }
+                }
+            }
+        ]
+    }
+
+PART 4 - Future improvements needed
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This use case made CNFs onboarding and instantiation a little bit easier and closer to "normal" VNF way. Also CDS resource resolution capabilities were taken into use (compared to earlier demos) together with SO's MACRO workflow.
+Future development areas for this use case:
 
-CNF application in vFW (Helm charts) were divided to multiple Helm charts comply with vf-module structure of a Heat based VNF.
-
-Future development areas for this use case and in general for CNF support could be:
-
-- Automate manual initialization steps in to Robot init. Now all was done with Postman or manual step on command line.
-- Automate use case in ONAP daily CI
+- Automated smoke use case.
 - Include Closed Loop part of the vFW demo.
-- Use multicloud/k8S API v2. Also consider profile concept future.
-- Sync CDS model with `vFW_CNF_CDS Model`_ use case i.e. try to keep only single model regardless of xNF being Openstack or Kubernetes based.
-- TOSCA based service and xNF models instead of dummy Heat wrapper. Won't work directly with current vf-module oriented SO workflows.
 - vFW service with Openstack VNF and Kubernetes CNF
-- Post instantiation configuration with Day 2 configuration APIs of multicloud/k8S API
-- Auto generation of instantiation specific helm resources in CDS and their population through profiles
+
+Future development areas for CNF support:
+
+- Validation of Helm package and extraction of override values in time of the package onboarding.
+- Post instantiation configuration with Day 2 configuration APIs of multicloud/k8S API.
+- Synchroinzation of information about CNF between AAI and K8s.
+- Validation of status and health of CNF.
+- Use multicloud/k8S API v2.
+
+Many features from the list above are covered by the Honolulu roadmap described in `REQ-458`_. 
 
 
-Multiple lower level bugs/issues were also found during use case development
-
-- Distribution of Helm package directly from onboarding package `SDC-2776`_
-- CDS: UAT testing is broken `CCSDK-2155`_
-
-.. _ONAP Deployment Guide: https://docs.onap.org/en/frankfurt/submodules/oom.git/docs/oom_quickstart_guide.html#quick-start-label
-.. _CDS Modeling Concepts: https://wiki.onap.org/display/DW/Modeling+Concepts
+.. _ONAP Deployment Guide: https://docs.onap.org/projects/onap-oom/en/guilin/oom_quickstart_guide.html
+.. _CDS Documentation: https://docs.onap.org/projects/onap-ccsdk-cds/en/guilin/index.html
 .. _vLB use-case: https://wiki.onap.org/pages/viewpage.action?pageId=71838898
-.. _vFW_CNF_CDS Model: https://git.onap.org/demo/tree/heat/vFW_CNF_CDS?h=frankfurt
+.. _vFW_CNF_CDS Model: https://git.onap.org/demo/tree/heat/vFW_CNF_CDS/templates?h=guilin
+.. _vFW_CNF_CDS Automation: https://git.onap.org/demo/tree/heat/vFW_CNF_CDS/automation?h=guilin
 .. _vFW CDS Dublin: https://wiki.onap.org/display/DW/vFW+CDS+Dublin
-.. _vFW CBA Model: https://git.onap.org/ccsdk/cds/tree/components/model-catalog/blueprint-model/service-blueprint/vFW?h=frankfurt
+.. _vFW CBA Model: https://git.onap.org/ccsdk/cds/tree/components/model-catalog/blueprint-model/service-blueprint/vFW?h=elalto
 .. _vFW_Helm Model: https://git.onap.org/multicloud/k8s/tree/kud/demo/firewall?h=elalto
 .. _vFW_NextGen: https://git.onap.org/demo/tree/heat/vFW_NextGen?h=elalto
-.. _vFW EDGEX K8S: https://onap.readthedocs.io/en/elalto/submodules/integration.git/docs/docs_vfw_edgex_k8s.html
+.. _vFW EDGEX K8S: https://docs.onap.org/en/elalto/submodules/integration.git/docs/docs_vfw_edgex_k8s.html
 .. _vFW EDGEX K8S In ONAP Wiki: https://wiki.onap.org/display/DW/Deploying+vFw+and+EdgeXFoundry+Services+on+Kubernets+Cluster+with+ONAP
-.. _KUD readthedocs: https://docs.onap.org/en/frankfurt/submodules/multicloud/k8s.git/docs
+.. _KUD github: https://github.com/onap/multicloud-k8s/tree/master/kud/hosting_providers/baremetal
 .. _KUD in Wiki: https://wiki.onap.org/display/DW/Kubernetes+Baremetal+deployment+setup+instructions
-.. _Multicloud k8s gerrit: https://gerrit.onap.org/r/q/status:open+project:+multicloud/k8
+.. _Multicloud k8s gerrit: https://gerrit.onap.org/r/q/status:open+project:+multicloud/k8s
 .. _KUD subproject in github: https://github.com/onap/multicloud-k8s/tree/master/kud
+.. _Frankfurt CBA Definition: https://git.onap.org/demo/tree/heat/vFW_CNF_CDS/templates/cba/Definitions/vFW_CNF_CDS.json?h=frankfurt
+.. _Frankfurt CBA Script: https://git.onap.org/demo/tree/heat/vFW_CNF_CDS/templates/cba/Scripts/kotlin/KotlinK8sProfileUpload.kt?h=frankfurt
+.. _SO-3403: https://jira.onap.org/browse/SO-3403
+.. _SO-3404: https://jira.onap.org/browse/SO-3404
+.. _REQ-182: https://jira.onap.org/browse/REQ-182
+.. _REQ-341: https://jira.onap.org/browse/REQ-341
+.. _REQ-458: https://jira.onap.org/browse/REQ-458
+.. _Python SDK: https://docs.onap.org/projects/onap-integration/en/guilin/integration-tooling.html?highlight=python-sdk#python-onapsdk
 .. _KUD Jenkins ci/cd verification: https://jenkins.onap.org/job/multicloud-k8s-master-kud-deployment-verify-shell/
-.. _SO Cloud Region Selection: https://git.onap.org/so/tree/adapters/mso-openstack-adapters/src/main/java/org/onap/so/adapters/vnf/MsoVnfPluginAdapterImpl.java?h=elalto#n1149
-.. _SO Monitoring: https://wiki.onap.org/display/DW/SO+Monitoring+User+Guide
-.. _Jira Epic: https://jira.onap.org/browse/INT-1184
-.. _Data Dictionary: https://git.onap.org/demo/tree/heat/vFW_CNF_CDS/templates/cba-dd.json?h=frankfurt
-.. _Helm Healer: https://git.onap.org/oom/offline-installer/tree/tools/helm-healer.sh
+.. _K8s cloud site config: https://docs.onap.org/en/guilin/guides/onap-operator/cloud_site/k8s/index.html
+.. _SO Monitoring: https://docs.onap.org/projects/onap-so/en/guilin/developer_info/Working_with_so_monitoring.html
+.. _Data Dictionary: https://git.onap.org/demo/tree/heat/vFW_CNF_CDS/templates/cba-dd.json?h=guilin
+.. _Helm Healer: https://git.onap.org/oom/offline-installer/tree/tools/helm-healer.sh?h=frankfurt
 .. _CDS UAT Testing: https://wiki.onap.org/display/DW/Modeling+Concepts
-.. _postman.zip: files/vFW_CNF_CDS/postman.zip
-.. _logs.zip: files/vFW_CNF_CDS/logs.zip
-.. _SDC-2776: https://jira.onap.org/browse/SDC-2776
-.. _MULTICLOUD-941: https://jira.onap.org/browse/MULTICLOUD-941
-.. _CCSDK-2155: https://jira.onap.org/browse/CCSDK-2155
 .. _infra_workload: https://docs.onap.org/projects/onap-multicloud-framework/en/latest/specs/multicloud_infra_workload.html?highlight=multicloud
-.. _SDNC-1116: https://jira.onap.org/browse/SDNC-1116
-.. _SO-2727: https://jira.onap.org/browse/SO-2727
-.. _SDNC-1109: https://jira.onap.org/browse/SDNC-1109
-.. _SDC-2776: https://jira.onap.org/browse/SDC-2776
-.. _INT-1255: https://jira.onap.org/browse/INT-1255
-.. _SDNC-1130: https://jira.onap.org/browse/SDNC-1130
