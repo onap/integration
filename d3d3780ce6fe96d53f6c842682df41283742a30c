@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "ce960b30_a49d9f77",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 7352
+      },
+      "writtenOn": "2020-12-21T15:21:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec391e38_a9b6f4ea",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 60
+      },
+      "revId": "d3d3780ce6fe96d53f6c842682df41283742a30c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "32124a91_80290003",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -93,6 +117,30 @@
       "revId": "d3d3780ce6fe96d53f6c842682df41283742a30c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f924170_65312532",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 7352
+      },
+      "writtenOn": "2020-12-21T15:21:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b912dee_c4d030b8",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 75
+      },
+      "revId": "d3d3780ce6fe96d53f6c842682df41283742a30c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -210,6 +258,24 @@
       "revId": "d3d3780ce6fe96d53f6c842682df41283742a30c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0e455b6_e37b2fe2",
+        "filename": "test/security/docker_license_analysis/Vagrantfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 7352
+      },
+      "writtenOn": "2020-12-21T15:21:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "845121ab_1820cd5c",
+      "revId": "d3d3780ce6fe96d53f6c842682df41283742a30c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -385,6 +451,24 @@
       "revId": "d3d3780ce6fe96d53f6c842682df41283742a30c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e22fc146_ae0d436c",
+        "filename": "test/security/docker_license_analysis/tools/analysis.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7352
+      },
+      "writtenOn": "2020-12-21T15:21:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65131255_283b6505",
+      "revId": "d3d3780ce6fe96d53f6c842682df41283742a30c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
