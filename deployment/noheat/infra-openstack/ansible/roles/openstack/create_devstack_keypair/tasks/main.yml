@@ -11,9 +11,15 @@
     dest: "~/.ssh/{{ keypair.key.name }}.pub"
     mode: 0600
 
+- name: Check if local private key exists
+  stat:
+    path: "~/.ssh/{{ keypair.key.name }}"
+  register: local_private_key
+
 - name: Create local private key
   local_action:
     module: copy
     content: "{{ keypair.key.private_key }}"
     dest: "~/.ssh/{{ keypair.key.name }}"
     mode: 0600
+  when: local_private_key.stat.exists == False
