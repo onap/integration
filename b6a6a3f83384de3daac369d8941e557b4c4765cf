@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "838f4bb8_f097eadf",
+        "filename": "test/legal/docker_license_analysis/README.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2020-12-22T16:09:59Z",
+      "side": 1,
+      "message": "Missing empty line - this will not be rendered as unordered list.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 1
+      },
+      "revId": "b6a6a3f83384de3daac369d8941e557b4c4765cf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "461e4031_801780ef",
+        "filename": "test/legal/docker_license_analysis/README.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2020-12-22T16:09:59Z",
+      "side": 1,
+      "message": "Was additional indent intentional?",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 2
+      },
+      "revId": "b6a6a3f83384de3daac369d8941e557b4c4765cf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1c8ebfb_5c14e1d3",
+        "filename": "test/legal/docker_license_analysis/README.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2020-12-22T16:09:59Z",
+      "side": 1,
+      "message": "Was additional indent intentional?",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 2
+      },
+      "revId": "b6a6a3f83384de3daac369d8941e557b4c4765cf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14081e22_682d71b2",
+        "filename": "test/legal/docker_license_analysis/README.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2020-12-22T16:09:59Z",
+      "side": 1,
+      "message": "True. How about adding dummy \"Dockerfile.sample\":\n\n FROM scratch\n COPY . /opt/legal\n\nand patching Vagrant file to use it unless ENV is set:\n\n diff --git a/test/legal/docker_license_analysis/Vagrantfile b/test/legal/docker_license_analysis/Vagrantfile\n index e6d47bad..c27e1a96 100644\n --- a/test/legal/docker_license_analysis/Vagrantfile\n +++ b/test/legal/docker_license_analysis/Vagrantfile\n @@ -7,6 +7,8 @@ VM_DISK \u003d 128\n  VM_STORAGE_POOL \u003d \"default\"\n  VM_USER \u003d \"vagrant\"\n  \n +DOCKER_IMAGE \u003d ENV[\"DOCKER_FILE_ANALYSE\"] || \"Dockerfile.sample\"\n +\n  $install_docker\u003d \u003c\u003c-SCRIPT\n    apt-get update\n    apt-get install --yes \\\n @@ -88,11 +90,11 @@ Vagrant.configure(\"2\") do |config|\n    end\n  \n    # Add the Dockerfile for analysis to the Vagrant box\n -  config.vm.provision \"file\", source: ENV[\u0027DOCKER_FILE_ANALYSE\u0027], destination: \"/home/vagrant/ternvenv/Dockerfile\"\n +  config.vm.provision \"file\", source: DOCKER_IMAGE, destination: \"/home/vagrant/ternvenv/Dockerfile\"\n  \n    config.vm.provision \"license_analysis\", type: \"shell\" do |s|\n      s.privileged \u003d false\n -    s.env \u003d {\"IMAGE\":ENV[\u0027DOCKER_IMAGE_ANALYSE\u0027]}\n +    s.env \u003d {\"IMAGE\":DOCKER_IMAGE}\n      s.path \u003d \"tools/analysis.sh\"\n    end\n  end\n\nLet me know what you think",
+      "range": {
+        "startLine": 78,
+        "startChar": 63,
+        "endLine": 79,
+        "endChar": 51
+      },
+      "revId": "b6a6a3f83384de3daac369d8941e557b4c4765cf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9acfa22c_5052d86b",
+        "filename": "test/legal/docker_license_analysis/tools/analysis.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2020-12-22T16:09:59Z",
+      "side": 1,
+      "message": "Or even better: \"$TERNENV\"",
+      "range": {
+        "startLine": 8,
+        "startChar": 5,
+        "endLine": 8,
+        "endChar": 13
+      },
+      "revId": "b6a6a3f83384de3daac369d8941e557b4c4765cf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3786e763_a91f2feb",
+        "filename": "test/legal/docker_license_analysis/tools/analysis.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2020-12-22T16:09:59Z",
+      "side": 1,
+      "message": "Shouldn\u0027t it be the opposite (! -z or -n)?",
+      "range": {
+        "startLine": 20,
+        "startChar": 5,
+        "endLine": 20,
+        "endChar": 7
+      },
+      "revId": "b6a6a3f83384de3daac369d8941e557b4c4765cf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}

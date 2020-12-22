@@ -144,6 +144,24 @@
     },
     {
       "key": {
+        "uuid": "2f755754_62f582cf",
+        "filename": "test/legal/docker_license_analysis/Vagrantfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2020-12-22T16:09:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "90af4304_280ccc07",
+      "revId": "d3d3780ce6fe96d53f6c842682df41283742a30c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd90a68d_6ee3a8f7",
         "filename": "test/security/docker_license_analysis/Vagrantfile",
         "patchSetId": 1
