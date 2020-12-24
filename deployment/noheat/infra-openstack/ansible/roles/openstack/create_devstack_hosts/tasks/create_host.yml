@@ -13,3 +13,13 @@
     boot_from_volume: true
     terminate_volume: true
     volume_size: "{{ host.volume_size | default(10) }}"
+  register: new_host
+
+- name: Add host to inventory
+  add_host:
+    hostname: "{{ new_host.server.name }}"
+    groups: "{{ cluster.name }}"
+    ansible_ssh_host: "{{ new_host.server.public_v4 }}"
+    ansible_ssh_user: "{{ image.user }}"
+    ansible_ssh_extra_args: "-o StrictHostKeyChecking=no"
+    ansible_ssh_private_key_file: "~/.ssh/{{ keypair.key.name }}"
