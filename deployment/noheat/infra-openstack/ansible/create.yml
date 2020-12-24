@@ -8,3 +8,24 @@
     - openstack/create_devstack_securitygroup
     - openstack/create_devstack_keypair
     - openstack/create_devstack_hosts
+- name: Create cluster operator access keypair
+  hosts: "operator0"
+  gather_facts: False
+  tasks:
+    - name: Wait for system to become reachable
+      wait_for_connection:
+    - name: Generate an OpenSSH keypair with the default values (4096 bits, rsa)
+      community.crypto.openssh_keypair:
+        path: "~/.ssh/{{ keypair.name }}"
+      register: key
+- name: Deploy cluster operator public key
+  hosts: "cluster0"
+  gather_facts: False
+  tasks:
+    - name: Wait for system to become reachable
+      wait_for_connection:
+    - name: Add authorized key
+      ansible.posix.authorized_key:
+        user: "{{ image.user }}"
+        state: present
+        key: "{{ hostvars['operator0']['key']['public_key'] }}"

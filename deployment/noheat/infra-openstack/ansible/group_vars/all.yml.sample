@@ -10,11 +10,24 @@ securitygroup:
   name: &securitygroup_name "onap_ci_lab"
   remote_ip_prefix: "172.24.4.0/24"
 
-hosts:
-  - name: "operator0"
-    image: "Ubuntu_18.04"
-    flavor: "m1.tiny"
-    keypair: *keypair_name
-    network: *network_name
-    securitygroup: *securitygroup_name
-    volume_size: 5
+image:
+  name: &image_name "Ubuntu_18.04"
+  user: "ubuntu"
+
+cluster:
+  name: "cluster0"
+  hosts:
+    - name: "operator0"
+      image: *image_name
+      flavor: "m1.tiny"
+      keypair: *keypair_name
+      network: *network_name
+      securitygroup: *securitygroup_name
+      volume_size: 5
+    - name: "worker0"
+      image: *image_name
+      flavor: "m1.tiny"
+      keypair: *keypair_name
+      network: *network_name
+      securitygroup: *securitygroup_name
+      volume_size: 5
