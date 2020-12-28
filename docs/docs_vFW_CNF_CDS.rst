@@ -25,9 +25,9 @@ This use case shows how to onboard helm packages and to instantiate them with he
 - Compared to `vFW EDGEX K8S`_ use case **MACRO** workflow in SO is used instead of VNF a'la carte workflow
 - No VNF data preloading used, instead resource-assignment feature of CDS is used
 - CDS is used to resolve instantiation time parameters (Helm overrides)
-  - Ip addresses with IPAM
-  - Unique names for resources with ONAP naming service
-  - CDS is used to create and upload **multicloud/k8s profile** as part of instantiation flow
+  * IP addresses with IPAM
+  * Unique names for resources with ONAP naming service
+  * CDS is used to create and upload **multicloud/k8s profile** as part of instantiation flow
 - Combined all models (Heat, Helm, CBA) in to same git repo and a created single onboarding package `vFW_CNF_CDS Model`_
 - Use case does not contain Closed Loop part of the vFW demo.
 
@@ -186,7 +186,7 @@ Creating CDS model was the core of the use case work and also the most difficult
 
 At first the target was to keep CDS model as close as possible to `vFW_CNF_CDS Model`_ use case model and only add smallest possible changes to enable also k8s usage. That is still the target but in practice model deviated from the original one already and time pressure pushed us to not care about sync. Basically the end result could be possible much streamlined if wanted to be smallest possible to working only for K8S based network functions.
 
-As K8S application was split into multiple Helm packages to match vf-modules, CBA modeling follows the same and for each vf-module there's own template in CBA package. The list of artifact with the templates is different for **Dummy Heat** and **Native Helm** approach. The second one has artifact names starting with *helm_* prefiks, in the same way like names of artifacts in the MANIFEST file of VSP differs. The **Dummy Heat** artifacts' list is following:
+As K8S application was split into multiple Helm packages to match vf-modules, CBA modeling follows the same and for each vf-module there's own template in CBA package. The list of artifact with the templates is different for **Dummy Heat** and **Native Helm** approach. The second one has artifact names starting with *helm_* prefix, in the same way like names of artifacts in the MANIFEST file of VSP differs. The **Dummy Heat** artifacts' list is following:
 
 ::
 
@@ -330,7 +330,7 @@ In order to support generation and upload of profile, our vFW CBA model has enha
 
 .. note:: In the Frankfurt reelase profile upload was implementes as a custom Kotlin script included into the CBA. It was responsible for upload of K8S profile into multicloud/k8s plugin. It is still a good example of  the integration of Kotlin scripting into the CBA. For those interested in this functionaliy we recommend to look into the `Frankfurt CBA Definition`_ and `Frankfurt CBA Script`_.
 
-In our example for vPKG helm package we may select *vfw-cnf-cds-vpkg-profile* profile that is included into CBA as a folder. Profile generation step uses embedded into CDS functionality of Velocity templates processing and on its basis ssh port number (specified in the SO request as *vpg-management-port*).
+In our example for vPKG helm package we may select *vfw-cnf-cds-vpkg-profile* profile that is included into CBA as a folder. Profile generation step uses Velocity templates processing embedded CDS functionality on its basis ssh port number (specified in the SO request as *vpg-management-port*).
 
 ::
 
@@ -412,7 +412,7 @@ The mechanism of profile generation and upload requires specific node teamplate 
         }
     }
 
-Artifact file determines a place of the static profile or the content of the complex profile. In the latter case we need a pair of profile folder and mappimng file with a declaration of the parameters that CDS needs to resolve first, before the Velocity templating is applied to the .vtl files present in the profile content. After Velovity templating the .vtl extensions will be ropped from the file names. The embedded mechanism will include in the profile only files present in the profile MANIFEST file that needs to contain the list of final names of the files to be included into the profile. Th figure below shows the idea of profile templating.
+Artifact file determines a place of the static profile or the content of the complex profile. In the latter case we need a pair of profile folder and mappimng file with a declaration of the parameters that CDS needs to resolve first, before the Velocity templating is applied to the .vtl files present in the profile content. After Velocity templating the .vtl extensions will be dropped from the file names. The embedded mechanism will include in the profile only files present in the profile MANIFEST file that needs to contain the list of final names of the files to be included into the profile. The figure below shows the idea of profile templating.
 
 .. figure:: files/vFW_CNF_CDS/profile-templating.png
    :align: center
@@ -429,7 +429,7 @@ SO requires for instantiation name of the profile in the parameter: *k8s-rb-prof
 - resource-assignment-map – result of the associated resource assignment step
 - artifact-prefix-names – (mandatory) the list of artifact prefixes like for resource-assigment step
 
-In the SO request user can pass parameter of name *k8s-rb-profile-name* which in our case may have value: *vfw-cnf-cds-base-profile*, *vfw-cnf-cds-vpkg-profile* or *default*. The *default* profile doesn’t contain any content inside and allows instantiation of CNF without the need to define and upload any additional profiles. *vfw-cnf-cds-vpkg-profile* has been prepard to test instantiation of the second modified vFW CNF instance `Second Service Instance Instantiation`_.
+In the SO request user can pass parameter of name *k8s-rb-profile-name* which in our case may have value: *vfw-cnf-cds-base-profile*, *vfw-cnf-cds-vpkg-profile* or *default*. The *default* profile doesn’t contain any content inside and allows instantiation of CNF without the need to define and upload any additional profiles. *vfw-cnf-cds-vpkg-profile* has been prepared to test instantiation of the second modified vFW CNF instance `Second Service Instance Instantiation`_.
 
 K8splugin allows to specify override parameters (similar to --set behavior of helm client) to instantiated resource bundles. This allows for providing dynamic parameters to instantiated resources without the need to create new profiles for this purpose and should be used with *default* profile but may be used also with custom profiles. The overall flow of helm overrides parameters processing is visible on following figure.
 
@@ -445,7 +445,7 @@ Finally, `Data Dictionary`_ is also included into demo git directory, re-modelin
 Instantiation Overview
 ----------------------
 
-.. note:: Since Guilin release use case is equipped with automated method **<AUTOMATED>** with python scripts to replace Postman method **<MANUAL>** used in Frankfurt. Nevertheless, Postman collection is good to understand the entire process but should be used **separably** with automation scripts. **For the entire process use only scripts or only Postman collection**. Both options are described in the further steps of this instruction.
+.. note:: Since Guilin release use case is equipped with automated method **<AUTOMATED>** with python scripts to replace Postman method **<MANUAL>** used in Frankfurt. Nevertheless, Postman collection is good to understand the entire process. If a user selects to follow Postman collection, then automation scripts **must not** be used. **For the entire process use only scripts or only Postman collection**. Both options are described in the further steps of this instruction.
 
 The figure below shows all the interactions that take place during vFW CNF instantiation. It's not describing flow of actions (ordered steps) but rather component dependencies.
 
@@ -818,7 +818,7 @@ Following pictures describe the overall sequential flow of the use case in two s
 
    vFW CNF CDS Use Case sequence flow for *Native Helm* (Guilin) path.
 
-.. note:: The **Native Helm** path has identified defects in the instantiation process and requires SO images of version 1.7.11 for successfull instantiation of the CNF. Please monitor `SO-3403`_ and `SO-3404`_ tickets to make sure that necessary fixes have been delivered and 1.7.11 SO images are avaialble in your Guilin ONAP instance.
+.. warning:: The **Native Helm** path has identified defects in the instantiation process and requires SO images of version 1.7.11 for successfull instantiation of the CNF. Please monitor `SO-3403`_ and `SO-3404`_ tickets to make sure that necessary fixes have been delivered. SO 1.7.11 images were released Dec 24th 2020. Make sure to use then in You ONAP/Guilin installation.
 
 
 3-1 Onboarding
