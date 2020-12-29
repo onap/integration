@@ -308,4 +308,4 @@ Configuration aspects
 
 The template design, UI configuration, as well as manual configurations for some
 of the components are all described in the following
-`wiki page and its sub-pages <https://wiki.onap.org/display/DW/Operation+Guidance+for+5G+Network+Slicing+Use+Case>`_
+`wiki page and its sub-pages <https://wiki.onap.org/display/DW/User+Operation+Guidance+in+R7+Guilin>`_
