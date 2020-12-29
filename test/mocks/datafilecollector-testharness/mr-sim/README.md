@@ -10,7 +10,7 @@ This readme contains:
 
 The MR-sim is a python script delivering batches of events including one or more fileReady for one or more PNFs.
 It is possible to configure number of events, PNFs, consumer groups, exising or missing files, file prefixes and change identifier.
-In addition, MR sim can be configured to deliver file url for up to 5 FTP servers (simulating the PNFs).
+In addition, MR sim can be configured to deliver file url for up to 5 FTP and 5 HTTP servers (simulating the PNFs).
 
 ## Building and running
 
@@ -32,8 +32,10 @@ The following envrionment vaiables are used:
 
 - **FTPES_SIMS** - A comma-separated list of hostname:port for the FTP servers to generate ftpes file urls for. If not set MR sim will assume 'localhost:21'. Minimum 1 and maximum 5 host-port pairs can be given.
 - **SFTP_SIMS** - A comma-separated list of hostname:port for the FTP servers to generate sftp file urls for. If not set MR sim will assume 'localhost:1022'. Minimum 1 and maximum 5 host-port pairs can be given.
+- **HTTP_SIMS** - A comma-separated list of hostname:port for the HTTP servers to generate http file urls for. If not set MR sim will assume 'localhost:81'. Minimum 1 and maximum 5 host-port pairs can be given.
 - **NUM_FTP_SERVERS** - Number of FTP servers to use out of those specified in the envrioment variables above. The number shall be in the range 1-5.
-- **MR_GROUPS** - A comma-separated list of consummer-group:changeId[:changeId]\*. Defines which change identifier that should be used for each consumer gropu. If not set the MR-sim will assume 'OpenDcae-c12:PM_MEAS_FILES'.
+- **NUM_HTTP_SERVERS** - Number of HTTP servers to use out of those specified in the envrioment variables above. The number shall be in the range 1-5.
+- **MR_GROUPS** - A comma-separated list of consummer-group:changeId\[:changeId]\*. Defines which change identifier that should be used for each consumer group. If not set the MR-sim will assume 'OpenDcae-c12:PM_MEAS_FILES'.not set the MR-sim will assume 'OpenDcae-c12:PM_MEAS_FILES'.
 - **MR_FILE_PREFIX_MAPPING** - A comma-separated list of changeId:filePrefix. Defines which file prefix to use for each change identifier, needed to distinguish files for each change identifiers. If not set the MR-sim will assume 'PM_MEAS_FILES:A
 
 ## Statistics read-out and commands
@@ -109,7 +111,7 @@ The simulator can be queried for statistics  and  started/stopped (use curl from
 ## Common TC info
 
 File names for 1MB, 5MB and 50MB files
-Files in the format: <size-in-mb>MB\_<sequence-number>.tar.gz    Ex. for 5MB file with sequence number 12:  5MB_12.tar.gz
+Files in the format: <size-in-mb>MB\_<sequence-number>.tar.gz    Ex. for 5MB file with sequence number 12:  5MB\_12.tar.gz
 The sequence numbers are stepped so that all files have unique names
 Missing files (files that are not expected to be found in the ftp server. Format: MissingFile\*<sequence-number>.tar.gz
 
@@ -175,9 +177,9 @@ TC1302 - 700 ME, SFTP, 50MB files, 100 files per event, endless number of events
 
 TC1500 - 700 ME, SFTP, 1MB files, 100 files per event, 35 events per poll, simulating 25h backlog of decreasing number of outdated files and then 20 event polls every 15min for 1h
 
-Changing the first digit in tc number will change the test case to run FTPES instead. Eg. TC201 is FTPES version of TC101.
+Changing the first digit in tc number will change the test case to run FTPES or HTTP instead. Eg. TC201 is FTPES version of TC101.
 
-TC2XX is same as TC1XX but with FTPES
+TC2XX is same as TC1XX but with FTPES, TC3XX is same as TC1XX but with HTTP
 
 TC6XX is same as TC5XX but with FTPES
 
@@ -193,7 +195,7 @@ TC2XXX is same as TC1XXX but with FTPES
 4. `pip3 freeze | grep -v "pkg-resources" > requirements.txt`  #to create a req file
 5. `FLASK_APP=mr-sim.py flask run`
    or
-   `python3 mr-sim.py `
+   ` python3 mr-sim.py  `
 6. Check/lint/format the code before commit/amed by `autopep8 --in-place --aggressive --aggressive mr-sim.py`
 
 ## User workflow on \*NIX
@@ -201,8 +203,8 @@ TC2XXX is same as TC1XXX but with FTPES
 When cloning/fetching from the repository first time:
 
 1. `git clone`
-2. `cd "..." ` 		#navigate to this folder
-3. `source setup.sh `	#setting up virtualenv and install requirements
+2. ` cd "..."  ` 		#navigate to this folder
+3. ` source setup.sh  `	#setting up virtualenv and install requirements
    you'll get a sourced virtualenv shell here, check prompt
 4. `(env) $ python3 mr-sim.py --help`
    alternatively

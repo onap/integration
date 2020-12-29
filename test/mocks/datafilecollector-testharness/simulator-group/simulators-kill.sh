@@ -16,6 +16,11 @@ docker kill dfc_ftpes-server-vsftpd1
 docker kill dfc_ftpes-server-vsftpd2
 docker kill dfc_ftpes-server-vsftpd3
 docker kill dfc_ftpes-server-vsftpd4
+docker kill dfc_http-server0
+docker kill dfc_http-server1
+docker kill dfc_http-server2
+docker kill dfc_http-server3
+docker kill dfc_http-server4
 docker kill dfc_cbs
 docker kill dfc_consul
 
@@ -33,6 +38,11 @@ docker rm dfc_ftpes-server-vsftpd1
 docker rm dfc_ftpes-server-vsftpd2
 docker rm dfc_ftpes-server-vsftpd3
 docker rm dfc_ftpes-server-vsftpd4
+docker rm dfc_http-server0
+docker rm dfc_http-server1
+docker rm dfc_http-server2
+docker rm dfc_http-server3
+docker rm dfc_http-server4
 docker rm dfc_cbs
 docker rm dfc_consul
 

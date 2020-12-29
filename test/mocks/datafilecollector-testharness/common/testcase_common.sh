@@ -151,7 +151,7 @@ fi
 
 echo ""
 
-echo "Building images for the simulators if needed, MR, DR, DR Redir and FTPES simulators"
+echo "Building images for the simulators if needed, MR, DR, DR Redir, FTPES and HTTP simulators"
 curdir=$PWD
 cd $SIM_GROUP
 cd ../dr-sim
@@ -160,6 +160,8 @@ cd ../mr-sim
 docker build -t mrsim:latest . &> /dev/null
 cd ../ftpes-sftp-server
 docker build -t ftpes_vsftpd:latest -f Dockerfile-ftpes . &> /dev/null
+cd ../http-https-server
+docker build -t http_httpd:latest -f Dockerfile-http . &> /dev/null
 cd $curdir
 
 echo ""
@@ -170,6 +172,7 @@ echo "DR simulator:       " $(docker images | grep drsim_common)
 echo "DR redir simulator: " $(docker images | grep drsim_common)
 echo "SFTP:               " $(docker images | grep atmoz/sftp)
 echo "FTPES:               " $(docker images | grep ftpes_vsftpd)
+echo "HTTP:               " $(docker images | grep http_httpd)
 echo "Consul:             " $(docker images | grep consul)
 echo "CBS:                " $(docker images | grep platform.configbinding.app)
 echo ""
@@ -179,6 +182,7 @@ echo ""
 if [ $START_ARG == "manual-app" ]; then
 	export SFTP_SIMS=$SFTP_SIMS_LOCALHOST
 	export FTPES_SIMS=$FTPES_SIMS_LOCALHOST
+	export HTTP_SIMS=$HTTP_SIMS_LOCALHOST
 	export DR_REDIR_SIM="localhost"
 fi
 #else
@@ -501,13 +505,18 @@ log_sim_settings() {
 	echo "DR_REDIR_FEEDS=        "$DR_REDIR_FEEDS
 
 	echo "NUM_FTPFILES=          "$NUM_FTPFILES
+	echo "NUM_HTTPFILES=         "$NUM_HTTPFILES
 	echo "NUM_PNFS=              "$NUM_PNFS
 	echo "FILE_SIZE=             "$FILE_SIZE
 	echo "FTP_TYPE=              "$FTP_TYPE
+	echo "HTTP_TYPE=             "$HTTP_TYPE
 	echo "FTP_FILE_PREFIXES=     "$FTP_FILE_PREFIXES
+	echo "HTTP_FILE_PREFIXES=    "$HTTP_FILE_PREFIXES
 	echo "NUM_FTP_SERVERS=       "$NUM_FTP_SERVERS
+	echo "NUM_HTTP_SERVERS=      "$NUM_HTTP_SERVERS
 	echo "SFTP_SIMS=             "$SFTP_SIMS
 	echo "FTPES_SIMS=             "$FTPES_SIMS
+	echo "HTTP_SIMS=             "$HTTP_SIMS
 	echo ""
 }
 
@@ -753,6 +762,64 @@ start_ftpes() {
 	appname=$FTPES_BASE$1
 
 	echo "Starting FTPES, instance id: "$1
+
+	__docker_start $appname
+}
+
+# Stop and remove the HTTP container, arg: <http-instance-id>
+kill_http() {
+
+	if [ $# != 1 ]; then
+    	__print_err "need one arg, <http-instance-id>"
+		exit 1
+	fi
+
+	if [ $1 -lt 0 ] || [ $1 -gt $HTTP_MAX_IDX ]; then
+		__print_err "arg should be 0.."$HTTP_MAX_IDX
+		exit 1
+	fi
+	appname=$HTTP_BASE$1
+
+	echo "Killing HTTP, instance id: "$1
+
+	__docker_stop $appname
+	__docker_rm $appname
+}
+
+# Stop HTTP container, arg: <http-instance-id>
+stop_http() {
+
+	if [ $# != 1 ]; then
+    	__print_err "need one arg, <http-instance-id>"
+		exit 1
+	fi
+
+	if [ $1 -lt 0 ] || [ $1 -gt $HTTP_MAX_IDX ]; then
+		__print_err "arg should be 0.."$HTTP_MAX_IDX
+		exit 1
+	fi
+	appname=$HTTP_BASE$1
+
+	echo "Stopping HTTP, instance id: "$1
+
+	__docker_stop $appname
+}
+
+# Starts a stopped HTTP container, arg: <http-instance-id>
+start_http() {
+
+	if [ $# != 1 ]; then
+    	__print_err "need one arg, <http-instance-id>"
+		exit 1
+	fi
+
+	if [ $1 -lt 0 ] || [ $1 -gt $HTTP_MAX_IDX ]; then
+		__print_err "arg should be 0.."$HTTP_MAX_IDX
+		exit 1
+	fi
+	appname=$HTTP_BASE$1
+
+	echo "Starting HTTP, instance id: "$1
 
 	__docker_start $appname
 }
@@ -1129,6 +1196,11 @@ store_logs() {
 		appname=$SFTP_BASE$i
 		docker logs $appname > $TESTLOGS/$ATC/${1}_${appname}.log 2>&1
 		appname=$FTPES_BASE$i
+		docker logs $appname > $TESTLOGS/$ATC/${1}_${appname}.log 2>&1
+	done
+
+	for (( i=0; i<=$HTTP_MAX_IDX; i++ )); do
+		appname=$HTTP_BASE$i
 		docker logs $appname > $TESTLOGS/$ATC/${1}_${appname}.log 2>&1
 	done
 
