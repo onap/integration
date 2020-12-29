@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+
+  http-server:
+    container_name: http-server-httpd
+    image: httpd:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./configuration/htpasswd:/usr/local/apache2/conf/.htpasswd:ro
+      - ./configuration/httpd.conf:/usr/local/apache/conf/httpd.conf:ro
+
+      - ./files/onap/http/:/usr/local/apache2/htdocs
+    restart: on-failure

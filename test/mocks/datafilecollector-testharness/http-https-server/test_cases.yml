@@ -1,0 +1,16 @@
+# EXAMPLE: TC1 generates (i) 10 files of 1 MB in http directory,
+# (ii) 30 files of 5 MB in sftp directory, and (iii) 10 files of 10 MB in http directory
+TC1:
+  size_files: 1 5 10
+  number_files: 10 30 10
+  directory_files: http
+
+TC2:
+  size_files: 0.5 1 5
+  number_files: 2 3 1
+  directory_files: http
+
+TC_10000:
+  size_files: 1 1 5 5 50 50
+  number_files: 10000 10000 10000 10000 1 1
+  directory_files: http
