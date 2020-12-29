@@ -1,0 +1,8 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+2: Lukasz Rajewski <lukasz.rajewski@orange.com>
+Code-Review+1: Damian Nowak <damian.nowak@nokia.com>
+Submitted-by: Lukasz Rajewski <lukasz.rajewski@orange.com>
+Submitted-at: Tue, 29 Dec 2020 11:43:34 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/integration/+/116525
+Project: integration
+Branch: refs/heads/master
