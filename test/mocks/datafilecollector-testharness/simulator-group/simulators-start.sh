@@ -12,6 +12,18 @@ server_check() {
 	echo "Simulator " $1 " on localhost:$2$3 - no response"
 }
 
+basic_auth_server_check() {
+	for i in {1..10}; do
+		res=$(curl  -s -o /dev/null -w "%{http_code}" http://$BASIC_AUTH_LOGIN:$BASIC_AUTH_PASSWORD@localhost:$2$3)
+		if [ $res -gt 199 ] && [ $res -lt 300 ]; then
+			echo "Simulator " $1 " on localhost:$2$3 responded ok"
+			return
+		fi
+		sleep 1
+	done
+	echo "Simulator " $1 " on localhost:$2$3 - no response"
+}
+
 server_check_https() {
 	for i in {1..10}; do
 		res=$(curl  -k -s -o /dev/null -w "%{http_code}" https://localhost:$2$3)
@@ -55,6 +67,16 @@ DOCKER_SIM_NWNAME="dfcnet"
 echo "Creating docker network $DOCKER_SIM_NWNAME, if needed"
 docker network ls| grep $DOCKER_SIM_NWNAME > /dev/null || docker network create $DOCKER_SIM_NWNAME
 
+if [ -z "$NUM_FTP_SERVERS" ]
+ then
+ export NUM_FTP_SERVERS=1
+fi
+
+if [ -z "$NUM_HTTP_SERVERS" ]
+ then
+ export NUM_HTTP_SERVERS=1
+fi
+
 docker-compose -f docker-compose-template.yml config > docker-compose.yml
 
 docker-compose up -d
@@ -64,6 +86,7 @@ sudo chown $(id -u):$(id -g) consul/consul/
 
 declare -a SFTP_SIM
 declare -a FTPES_SIM
+declare -a HTTP_SIM
 
 DR_SIM="$(docker ps -q --filter='name=dfc_dr-sim')"
 DR_RD_SIM="$(docker ps -q --filter='name=dfc_dr-redir-sim')"
@@ -78,6 +101,11 @@ FTPES_SIM[1]="$(docker ps -q --filter='name=dfc_ftpes-server-vsftpd1')"
 FTPES_SIM[2]="$(docker ps -q --filter='name=dfc_ftpes-server-vsftpd2')"
 FTPES_SIM[3]="$(docker ps -q --filter='name=dfc_ftpes-server-vsftpd3')"
 FTPES_SIM[4]="$(docker ps -q --filter='name=dfc_ftpes-server-vsftpd4')"
+HTTP_SIM[0]="$(docker ps -q --filter='name=dfc_http-server0')"
+HTTP_SIM[1]="$(docker ps -q --filter='name=dfc_http-server1')"
+HTTP_SIM[2]="$(docker ps -q --filter='name=dfc_http-server2')"
+HTTP_SIM[3]="$(docker ps -q --filter='name=dfc_http-server3')"
+HTTP_SIM[4]="$(docker ps -q --filter='name=dfc_http-server4')"
 CBS_SIM="$(docker ps -q --filter='name=dfc_cbs')"
 CONSUL_SIM="$(docker ps -q --filter='name=dfc_consul')"
 
@@ -96,6 +124,11 @@ if [ $(docker inspect --format '{{ .State.Running }}' $DR_SIM) ] && \
 [ $(docker inspect --format '{{ .State.Running }}' ${FTPES_SIM[2]}) ] && \
 [ $(docker inspect --format '{{ .State.Running }}' ${FTPES_SIM[3]}) ] && \
 [ $(docker inspect --format '{{ .State.Running }}' ${FTPES_SIM[4]}) ] && \
+[ $(docker inspect --format '{{ .State.Running }}' ${HTTP_SIM[0]}) ] && \
+[ $(docker inspect --format '{{ .State.Running }}' ${HTTP_SIM[1]}) ] && \
+[ $(docker inspect --format '{{ .State.Running }}' ${HTTP_SIM[2]}) ] && \
+[ $(docker inspect --format '{{ .State.Running }}' ${HTTP_SIM[3]}) ] && \
+[ $(docker inspect --format '{{ .State.Running }}' ${HTTP_SIM[4]}) ] && \
 [ $(docker inspect --format '{{ .State.Running }}' $CBS_SIM) ] && \
 [ $(docker inspect --format '{{ .State.Running }}' $CONSUL_SIM) ]
  then
@@ -106,6 +139,16 @@ if [ $(docker inspect --format '{{ .State.Running }}' $DR_SIM) ] && \
    sleep $i
  fi
 done
+
+if [ -z "$BASIC_AUTH_LOGIN" ]
+ then
+ BASIC_AUTH_LOGIN=demo
+fi
+
+if [ -z "$BASIC_AUTH_PASSWORD" ]
+ then
+ BASIC_AUTH_PASSWORD=demo123456!
+fi
 
 server_check      "cbs          " 10000 "/healthcheck"
 server_check      "consul       " 8500 "/v1/catalog/service/agent"
@@ -125,6 +168,11 @@ sftp_server_check "SFTP server 1" 1023
 sftp_server_check "SFTP server 2" 1024
 sftp_server_check "SFTP server 3" 1025
 sftp_server_check "SFTP server 4" 1026
+basic_auth_server_check "HTTP server 0" 81
+basic_auth_server_check "HTTP server 1" 82
+basic_auth_server_check "HTTP server 2" 83
+basic_auth_server_check "HTTP server 3" 84
+basic_auth_server_check "HTTP server 4" 85
 
 echo ""
 
@@ -150,10 +198,6 @@ if [ -z "$FTP_FILE_PREFIXES" ]
  FTP_FILE_PREFIXES="A"
 fi
 
-if [ -z "$NUM_FTP_SERVERS" ]
- then
- NUM_FTP_SERVERS=1
-fi
 
 
 if [ $FTP_TYPE = "ALL" ] || [ $FTP_TYPE = "SFTP" ]; then
@@ -173,6 +217,31 @@ if [ $FTP_TYPE = "ALL" ] || [ $FTP_TYPE = "FTPES" ]; then
 		docker cp setup-ftp-files-for-image.sh ${FTPES_SIM[$p]}:/tmp/setup-ftp-files-for-image.sh
 		#Double slash needed for docker on win...
 		docker exec -w //srv ${FTPES_SIM[$p]} //tmp/setup-ftp-files-for-image.sh $NUM_FTPFILES $NUM_PNFS $FILE_SIZE $FTP_FILE_PREFIXES $NUM_FTP_SERVERS $p #>/dev/null 2>&1
+		let p=p+1
+	done
+fi
+
+#Populate the http server with files. Note some common variables with ftp files!
+if [ -z "$NUM_HTTPFILES" ]
+ then
+ NUM_HTTPFILES=200
+fi
+if [ -z "$HTTP_TYPE" ]
+ then
+ HTTP_TYPE="ALL"
+fi
+if [ -z "$HTTP_FILE_PREFIXES" ]
+ then
+ HTTP_FILE_PREFIXES="A"
+fi
+
+if [ $HTTP_TYPE = "ALL" ] || [ $HTTP_TYPE = "HTTP" ]; then
+	echo "Creating files for HTTP server, may take time...."
+	p=0
+	while [ $p -lt $NUM_HTTP_SERVERS ]; do
+		docker cp setup-http-files-for-image.sh ${HTTP_SIM[$p]}:/tmp/setup-http-files-for-image.sh
+		#Double slash needed for docker on win...
+		docker exec -w //usr//local//apache2//htdocs ${HTTP_SIM[$p]} //tmp/setup-http-files-for-image.sh $NUM_HTTPFILES $NUM_PNFS $FILE_SIZE $HTTP_FILE_PREFIXES $NUM_HTTP_SERVERS $p #>/dev/null 2>&1
 		let p=p+1
 	done
 fi

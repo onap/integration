@@ -77,7 +77,9 @@ services:
     environment:
       SFTP_SIMS: ${SFTP_SIMS}
       FTPES_SIMS: ${FTPES_SIMS}
+      HTTP_SIMS: ${HTTP_SIMS}
       NUM_FTP_SERVERS: ${NUM_FTP_SERVERS}
+      NUM_HTTP_SERVERS: ${NUM_HTTP_SERVERS}
       MR_GROUPS: ${MR_GROUPS}
       MR_FILE_PREFIX_MAPPING: ${MR_FILE_PREFIX_MAPPING}
     image: mrsim:latest
@@ -225,3 +227,48 @@ services:
       - ./tls:/etc/ssl/private/:rw
     depends_on:
       - tls-init-container
+
+  http-server0:
+    networks:
+      - dfcnet
+    container_name: dfc_http-server0
+    image: http_httpd:latest
+    ports:
+      - "81:80"
+    restart: on-failure
+
+  http-server1:
+    networks:
+      - dfcnet
+    container_name: dfc_http-server1
+    image: http_httpd:latest
+    ports:
+      - "82:80"
+    restart: on-failure
+
+  http-server2:
+    networks:
+      - dfcnet
+    container_name: dfc_http-server2
+    image: http_httpd:latest
+    ports:
+      - "83:80"
+    restart: on-failure
+
+  http-server3:
+    networks:
+      - dfcnet
+    container_name: dfc_http-server3
+    image: http_httpd:latest
+    ports:
+      - "84:80"
+    restart: on-failure
+
+  http-server4:
+    networks:
+      - dfcnet
+    container_name: dfc_http-server4
+    image: http_httpd:latest
+    ports:
+      - "85:80"
+    restart: on-failure

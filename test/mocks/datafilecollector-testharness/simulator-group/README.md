@@ -16,7 +16,7 @@ In general these steps are needed to run the simulator group and dfc
 
 # Overview of the simulators.
 
-There are 5 different types of simulators. For futher details, see the README.md in each simulator dir.
+There are 6 different types of simulators. For futher details, see the README.md in each simulator dir.
 
 1. The MR simulator emits fileready events, upon poll requests, with new and historice file references
    It is possible to configire the change identifier and file prefixes for these identifiers and for which consumer groups
@@ -34,6 +34,7 @@ There are 5 different types of simulators. For futher details, see the README.md
    possible to configure the distrubution of files over these 5 servers (from 1 up to 5 severs). At start of the server, the server is
    populated with files to download.
 5. The FTPES simulator(s) is the same as the SFTP except that it using the FTPES protocol.
+6. The HTTP simulator(s) is the same as SFTP except that it using the HTTP protocol.
 
 # Build the simulator images
 
@@ -72,8 +73,8 @@ Do the manual steps to prepare the simulator images:
 Edit the `docker-compose-setup.sh` (or create a copy) to setup the env variables to the desired test behavior for each simulators.
 See each simulator to find a description of the available settings (DR_TC, DR_REDIR_TC and MR_TC).
 The following env variables shall be set (example values).
-Note that NUM_FTPFILES and NUM_PNFS controls the number of ftp files created in the ftp servers.
-A total of NUM_FTPFILES \* NUM_PNFS ftp files will be created in each ftp server (4 files in the below example).
+Note that NUM_FTPFILES, NUM_HTTPFILES and NUM_PNFS controls the number of ftp/http files created in the ftp/http servers.
+A total of NUM_FTPFILES \* NUM_PNFS (or NUM_HTTPFILES \* NUM_PNFS) ftp/http files will be created in each ftp/http server (4 files in the below example for ftp server).
 Large settings will be time consuming at start of the servers.
 Note that the number of files must match the number of file references emitted from the MR sim.
 
@@ -94,23 +95,24 @@ FILE_SIZE="1MB"               #File size for FTP file (1KB, 1MB, 5MB, 50MB or AL
 FTP_TYPE="SFTP"               #Type of FTP files to generate (SFTP, FTPES or ALL)
 
 If `FTP_TYPE` is set to `ALL`, both ftp servers will be populated with the same files. If set to `SFTP` or `FTPES` then only the server serving that protocol will be populated with files.
+`HTTP_TYPE` for now is only prepared for `HTTP` protocol. `HTTPS` protocol will be served in the future
 
 Run the script `docker-compose-setup.sh`to create a docker-compose with the desired settings. The desired setting
 in the script need to be manually adapted to for each specific simulator behavior according to the above. Check each simulator for available
 parameters.
 All simulators will be started with the generated docker-compose.yml file
 
-To generate ftp url with IP different from localhost, set SFTP_SIM_IP and/or FTPES_SIM_IP env variables to the addreses of the ftp servers before starting. 
+To generate ftp/http url with IP different from localhost, set SFTP_SIM_IP and/or FTPES_SIM_IP and/or HTTP_SIM_IP env variables to the addreses of the ftp servers before starting.
 So farm, this only works when the simulator python script is started from the command line.
 
 Kill all the containers with `simulators-kill.se`
 
 `simulators_start.sh` is for CSIT test and requires the env variables for test setting to be present in the shell.
 
-`setup-ftp-files.for-image.sh` is for CSIT and executed when the ftp servers are started from the docker-compose-setup.sh\`.
+`setup-ftp-files.for-image.sh` and `setup-http-files-for-image.sh` is for CSIT and executed when the ftp/http servers are started from the docker-compose-setup.sh\`.
 
 To make DFC to be able to connect to the simulator containers, DFC need to run in host mode.
-Start DFC by the following cmd: `docker run -d --network="host" --name dfc_app <dfc-image> `
+Start DFC by the following cmd: ` docker run -d --network="host" --name dfc_app <dfc-image>  `
 
 `<dfc-image>` could be either the locally built image `onap/org.onap.dcaegen2.collectors.datafile.datafile-app-server`
 or the one in nexus `nexus3.onap.org:10001/onap/org.onap.dcaegen2.collectors.datafile.datafile-app-server`.
