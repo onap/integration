@@ -17,7 +17,10 @@ sftp_hosts = []
 sftp_ports = []
 ftpes_hosts = []
 ftpes_ports = []
+http_hosts = []
+http_ports = []
 num_ftp_servers = 1
+num_http_servers = 1
 
 
 def sumList(ctrArray):
@@ -515,11 +518,17 @@ def MR_reply(consumerGroup, consumerId):
     elif args.tc810:
         return tc710(groupIndex, changeId, filePrefix, "ftpes")
 
+    elif args.tc300:
+        return tc100(groupIndex, changeId, filePrefix, "http", "1MB")
+    elif args.tc301:
+        return tc100(groupIndex, changeId, filePrefix, "http", "5MB")
+    elif args.tc302:
+        return tc100(groupIndex, changeId, filePrefix, "http", "50MB")
 
 #### Test case functions
 
 
-def tc100(groupIndex, changeId, filePrefix, ftpType, fileSize):
+def tc100(groupIndex, changeId, filePrefix, schemeType, fileSize):
     global ctr_responses
     global ctr_events
 
@@ -532,8 +541,11 @@ def tc100(groupIndex, changeId, filePrefix, ftpType, fileSize):
     nodeIndex = 0
     nodeName = createNodeName(nodeIndex)
     fileName = createFileName(groupIndex, filePrefix, nodeName, seqNr, fileSize)
-    msg = getEventHead(groupIndex, changeId, nodeName) + getEventName(fileName, ftpType, "onap", "pano",
+    msg = getEventHead(groupIndex, changeId, nodeName) + getEventName(fileName, schemeType, "onap", "pano",
                                                                       nodeIndex) + getEventEnd()
+    if schemeType == "http":
+        msg = getEventHead(groupIndex, changeId, nodeName) + getEventName(fileName, schemeType, "demo", "demo123456!",
+                                                                          nodeIndex) + getEventEnd()
     fileMap[groupIndex][seqNr * hash(filePrefix)] = seqNr
     ctr_events[groupIndex] = ctr_events[groupIndex] + 1
     return buildOkResponse("[" + msg + "]")
@@ -1183,6 +1195,10 @@ def getEventName(fn, type, user, passwd, nodeIndex):
     if (type == "ftpes"):
         port = ftpes_ports[nodeIndex]
         ip = ftpes_hosts[nodeIndex]
+    elif (type == "http"):
+        nodeIndex = nodeIndex % num_http_servers
+        port = http_ports[nodeIndex]
+        ip = http_hosts[nodeIndex]
 
     nameStr = """{
                   "name": \"""" + fn + """",
@@ -1231,11 +1247,15 @@ if __name__ == "__main__":
     # IP addresses to use for ftp servers, using localhost if not env var is set
     sftp_sims = os.environ.get('SFTP_SIMS', 'localhost:1022')
     ftpes_sims = os.environ.get('FTPES_SIMS', 'localhost:21')
+    http_sims = os.environ.get('HTTP_SIMS', 'localhost:81')
     num_ftp_servers = int(os.environ.get('NUM_FTP_SERVERS', 1))
+    num_http_servers = int(os.environ.get('NUM_HTTP_SERVERS', 1))
 
     print("Configured sftp sims: " + sftp_sims)
     print("Configured ftpes sims: " + ftpes_sims)
+    print("Configured http sims: " + http_sims)
     print("Configured number of ftp servers: " + str(num_ftp_servers))
+    print("Configured number of http servers: " + str(num_http_servers))
 
     tmp = sftp_sims.split(',')
     for i in range(len(tmp)):
@@ -1248,6 +1268,12 @@ if __name__ == "__main__":
         hp = tmp[i].split(':')
         ftpes_hosts.append(hp[0])
         ftpes_ports.append(hp[1])
+
+    tmp = http_sims.split(',')
+    for i in range(len(tmp)):
+        hp = tmp[i].split(':')
+        http_hosts.append(hp[0])
+        http_ports.append(hp[1])
 
     groups = os.environ.get('MR_GROUPS', 'OpenDcae-c12:PM_MEAS_FILES')
     print("Groups detected: " + groups)
@@ -1597,6 +1623,20 @@ if __name__ == "__main__":
         action='store_true',
         help='TC810 - 700 MEs, FTPES, 1MB files, 100 files per event, 3500 events, 35 event per poll.')
 
+    # HTTP TCs with single ME
+    parser.add_argument(
+        '--tc300',
+        action='store_true',
+        help='TC300 - One ME, HTTP, 1 1MB file, 1 event')
+    parser.add_argument(
+        '--tc301',
+        action='store_true',
+        help='TC301 - One ME, HTTP, 1 5MB file, 1 event')
+    parser.add_argument(
+        '--tc302',
+        action='store_true',
+        help='TC302 - One ME, HTTP, 1 50MB file, 1 event')
+
     args = parser.parse_args()
 
     if args.tc100:
@@ -1731,6 +1771,13 @@ if __name__ == "__main__":
     elif args.tc810:
         tc_num = "TC# 810"
 
+    elif args.tc300:
+        tc_num = "TC# 300"
+    elif args.tc301:
+        tc_num = "TC# 301"
+    elif args.tc302:
+        tc_num = "TC# 302"
+
     else:
         print("No TC was defined")
         print("use --help for usage info")
@@ -1746,7 +1793,12 @@ if __name__ == "__main__":
         print("Using " + str(ftpes_hosts[i]) + ":" + str(ftpes_ports[i]) + " for ftpes server with index " + str(
             i) + " for ftpes server address and port in file urls.")
 
+    for i in range(len(http_hosts)):
+        print("Using " + str(http_hosts[i]) + ":" + str(http_ports[i]) + " for http server with index " + str(
+            i) + " for http server address and port in file urls.")
+
     print("Using up to " + str(num_ftp_servers) + " ftp servers, for each protocol for PNFs.")
+    print("Using up to " + str(num_http_servers) + " http servers, for each protocol for PNFs.")
 
 
     def https_app(**kwargs):
