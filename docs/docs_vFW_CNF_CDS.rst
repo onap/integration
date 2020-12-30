@@ -431,12 +431,19 @@ SO requires for instantiation name of the profile in the parameter: *k8s-rb-prof
 
 In the SO request user can pass parameter of name *k8s-rb-profile-name* which in our case may have value: *vfw-cnf-cds-base-profile*, *vfw-cnf-cds-vpkg-profile* or *default*. The *default* profile doesn’t contain any content inside and allows instantiation of CNF without the need to define and upload any additional profiles. *vfw-cnf-cds-vpkg-profile* has been prepared to test instantiation of the second modified vFW CNF instance `Second Service Instance Instantiation`_.
 
-K8splugin allows to specify override parameters (similar to --set behavior of helm client) to instantiated resource bundles. This allows for providing dynamic parameters to instantiated resources without the need to create new profiles for this purpose and should be used with *default* profile but may be used also with custom profiles. The overall flow of helm overrides parameters processing is visible on following figure.
+K8splugin allows to specify override parameters (similar to --set behavior of helm client) to instantiated resource bundles. This allows for providing dynamic parameters to instantiated resources without the need to create new profiles for this purpose and should be used with *default* profile but may be used also with custom profiles. The overall flow of helm overrides parameters processing is visible on following figure. When *rb definition* (helm package) is being instantiated for specified *rb profile* K8splugin combines override values from the helm pakage, *rb profile* and from the instantiation request - in the respective order. It means that the some from instantiation request (SO request input or CDS resource assignement result) has a precedence over the value from the *rb profile* and value from the *rb profile* has a precedence over the helm package default override value. Similarly, profile can contain resource files that may extend or ammend the existing files for the original helm package content.
 
 .. figure:: files/vFW_CNF_CDS/helm-overrides.png
    :align: center
 
-   The overall flow of helm overrides
+   The overall flow of helm data processing
+
+Both profile content (4) like the instantiation request values (5) can be generated during the resource assignment process according to its definition for CBA associated with helm package. CBA may generate i.e. names, IP addresses, ports and can use this information to produce the *rb-profile* (3) content. Finally, all three sources of override values, temnplates and additional resources files are merged together (6) by K8splugin in the order exaplained before.
+
+.. figure:: files/vFW_CNF_CDS/helm-overrides-steps.png
+   :align: center
+
+   The steps of processing of helm data with help of CDS
 
 Finally, `Data Dictionary`_ is also included into demo git directory, re-modeling and making changes into model utilizing CDS model time / runtime is easier as used DD is also known. 
 
@@ -808,17 +815,27 @@ This part contains all the steps to run the use case by using ONAP GUIs, Postman
 
 Following pictures describe the overall sequential flow of the use case in two scenarios: **Dummy Heat** path (with OpenStack adapter) and **Native Helm** path (with CNF Adapter)
 
+Dummy Heat CNF Orchestration
+............................
+
+This orchestration method stands on the grounds of Heat template orchestration mechanisms. In SDC onboarding package needs to contains simple Heat templates that are associated with additional Cloud artifacts. SDC distributes Heat templates to SO and Helm packages to K8sPlugin directly. SO orchestrates the Heat templates without any knowledge about their existence, however the OpenStack adater in SO understands k8s region type for which communication over MSB/Mutlicloud is provided - it handles interaction with K8sPlugin for CNF instantiation.
+
 .. figure:: files/vFW_CNF_CDS/Dummy_Heat_Flow.png
    :align: center
 
    vFW CNF CDS Use Case sequence flow for *Dummy Heat* (Frankfurt) path.
+
+Native Helm CNF Orchestration
+.............................
+
+Introduced in the Guilin release CNF orchestration method brings native distribution of Helm packages from SDC and native orchestration of CNFs (Helm packages) with SO. SO leverages CNF adapter to interact with K8sPlugin that takes resposnibility for the communication with k8s clusters. Heat templates are not required in the SDC onboarding package and thanks to the fact that SO knows about Helm package orchestration future synchronization of data between k8s clusters and AAI is possible.
 
 .. figure:: files/vFW_CNF_CDS/Native_Helm_Flow.png
    :align: center
 
    vFW CNF CDS Use Case sequence flow for *Native Helm* (Guilin) path.
 
-.. warning:: The **Native Helm** path has identified defects in the instantiation process and requires SO images of version 1.7.11 for successfull instantiation of the CNF. Please monitor `SO-3403`_ and `SO-3404`_ tickets to make sure that necessary fixes have been delivered. SO 1.7.11 images were released Dec 24th 2020. Make sure to use then in You ONAP/Guilin installation.
+.. warning:: The **Native Helm** path has identified defects in the instantiation process and requires SO images of version 1.7.11 for successfull instantiation of the CNF. Please monitor `SO-3403`_ and `SO-3404`_ tickets to make sure that necessary fixes have been delivered. SO 1.7.11 images were released Dec 24th 2020. Make sure to use them in Your ONAP/Guilin installation.
 
 
 3-1 Onboarding
@@ -1527,9 +1544,9 @@ where {rb-instance-id} can be taken from the list of instances resolved the foll
 
 or from AAI *heat-stack-id* property of created *vf-module* associated with each Helm package from onboarded VSP which holds the *rb-instance-id* value.
 
-Examplary output of Status API is shown below (result of test vFW CNF helm package). It shows the list of GVK resources created for requested *rb-instance* (Helm and vf-module in the same time) with assocated describe result for all of them.
+Examplary output of Status API is shown below (full result of test vFW CNF helm package in the attached file). It shows the list of GVK resources created for requested *rb-instance* (Helm and vf-module in the same time) with assocated describe result for all of them.
 
-.. note:: The example of how the Stauts API could be integrated into CDS can be found in the Frankfurt version of k8s profile upload mechanism `Frankfurt CBA Definition`_ (*profile-upload* TOSCA node template), implemented in inside of the Kotlin script `Frankfurt CBA Script`_ for profile upload. This method shows how to integrate mutlicloud-k8s API endpoint into Kotlin script executed by CDS. For more details please take a look into Definition file of 1.0.45 version of the CBA and also the kotlin script used there for uploading the profile. 
+  :download:`Full Status API Result <files/vFW_CNF_CDS/status-response.json>`
 
 ::
 
@@ -1548,7 +1565,7 @@ Examplary output of Status API is shown below (result of test vFW CNF helm packa
             }
         },
         "ready": false,
-        "resourceCount": 7,
+        "resourceCount": 1,
         "resourcesStatus": [
             {
                 "name": "sink-configmap",
@@ -1576,512 +1593,14 @@ Examplary output of Status API is shown below (result of test vFW CNF helm packa
                         "uid": "46c8bec4-980c-455b-9eb0-fb84ac8cc450"
                     }
                 }
-            },
-            {
-                "name": "sink-service",
-                "GVK": {
-                    "Group": "",
-                    "Version": "v1",
-                    "Kind": "Service"
-                },
-                "status": {
-                    "apiVersion": "v1",
-                    "kind": "Service",
-                    "metadata": {
-                        "creationTimestamp": "2020-09-29T13:36:25Z",
-                        "labels": {
-                            "app": "sink",
-                            "chart": "sink",
-                            "k8splugin.io/rb-instance-id": "practical_nobel",
-                            "release": "test-release"
-                        },
-                        "name": "sink-service",
-                        "namespace": "plugin-tests-namespace",
-                        "resourceVersion": "10720780",
-                        "selfLink": "/api/v1/namespaces/plugin-tests-namespace/services/sink-service",
-                        "uid": "789a14fe-1246-4cdd-ba9a-359240ba614f"
-                    },
-                    "spec": {
-                        "clusterIP": "10.244.2.4",
-                        "externalTrafficPolicy": "Cluster",
-                        "ports": [
-                            {
-                                "nodePort": 30667,
-                                "port": 667,
-                                "protocol": "TCP",
-                                "targetPort": 667
-                            }
-                        ],
-                        "selector": {
-                            "app": "sink",
-                            "release": "test-release"
-                        },
-                        "sessionAffinity": "None",
-                        "type": "NodePort"
-                    },
-                    "status": {
-                        "loadBalancer": {}
-                    }
-                }
-            },
-            {
-                "name": "test-release-sink",
-                "GVK": {
-                    "Group": "apps",
-                    "Version": "v1",
-                    "Kind": "Deployment"
-                },
-                "status": {
-                    "apiVersion": "apps/v1",
-                    "kind": "Deployment",
-                    "metadata": {
-                        "annotations": {
-                            "deployment.kubernetes.io/revision": "1"
-                        },
-                        "creationTimestamp": "2020-09-29T13:36:25Z",
-                        "generation": 1,
-                        "labels": {
-                            "app": "sink",
-                            "chart": "sink",
-                            "k8splugin.io/rb-instance-id": "practical_nobel",
-                            "release": "test-release"
-                        },
-                        "name": "test-release-sink",
-                        "namespace": "plugin-tests-namespace",
-                        "resourceVersion": "10720857",
-                        "selfLink": "/apis/apps/v1/namespaces/plugin-tests-namespace/deployments/test-release-sink",
-                        "uid": "1f50eecf-c924-4434-be87-daf7c64b6506"
-                    },
-                    "spec": {
-                        "progressDeadlineSeconds": 600,
-                        "replicas": 1,
-                        "revisionHistoryLimit": 10,
-                        "selector": {
-                            "matchLabels": {
-                                "app": "sink",
-                                "release": "test-release"
-                            }
-                        },
-                        "strategy": {
-                            "rollingUpdate": {
-                                "maxSurge": "25%",
-                                "maxUnavailable": "25%"
-                            },
-                            "type": "RollingUpdate"
-                        },
-                        "template": {
-                            "metadata": {
-                                "annotations": {
-                                    "k8s.plugin.opnfv.org/nfn-network": "{ \"type\": \"ovn4nfv\", \"interface\": [ { \"name\": \"protected-private-net\", \"ipAddress\": \"192.168.20.3\", \"interface\": \"eth1\", \"defaultGateway\": \"false\" }, { \"name\": \"onap-private-net-test\", \"ipAddress\": \"10.10.100.4\", \"interface\": \"eth2\" , \"defaultGateway\": \"false\"} ]}",
-                                    "k8s.v1.cni.cncf.io/networks": "[{\"name\": \"ovn-networkobj\", \"namespace\": \"default\"}]"
-                                },
-                                "creationTimestamp": null,
-                                "labels": {
-                                    "app": "sink",
-                                    "k8splugin.io/rb-instance-id": "practical_nobel",
-                                    "release": "test-release"
-                                }
-                            },
-                            "spec": {
-                                "containers": [
-                                    {
-                                        "envFrom": [
-                                            {
-                                                "configMapRef": {
-                                                    "name": "sink-configmap"
-                                                }
-                                            }
-                                        ],
-                                        "image": "rtsood/onap-vfw-demo-sink:0.2.0",
-                                        "imagePullPolicy": "IfNotPresent",
-                                        "name": "sink",
-                                        "resources": {},
-                                        "securityContext": {
-                                            "privileged": true
-                                        },
-                                        "stdin": true,
-                                        "terminationMessagePath": "/dev/termination-log",
-                                        "terminationMessagePolicy": "File",
-                                        "tty": true
-                                    },
-                                    {
-                                        "image": "electrocucaracha/darkstat:latest",
-                                        "imagePullPolicy": "IfNotPresent",
-                                        "name": "darkstat",
-                                        "ports": [
-                                            {
-                                                "containerPort": 667,
-                                                "protocol": "TCP"
-                                            }
-                                        ],
-                                        "resources": {},
-                                        "stdin": true,
-                                        "terminationMessagePath": "/dev/termination-log",
-                                        "terminationMessagePolicy": "File",
-                                        "tty": true
-                                    }
-                                ],
-                                "dnsPolicy": "ClusterFirst",
-                                "restartPolicy": "Always",
-                                "schedulerName": "default-scheduler",
-                                "securityContext": {},
-                                "terminationGracePeriodSeconds": 30
-                            }
-                        }
-                    },
-                    "status": {
-                        "availableReplicas": 1,
-                        "conditions": [
-                            {
-                                "lastTransitionTime": "2020-09-29T13:36:33Z",
-                                "lastUpdateTime": "2020-09-29T13:36:33Z",
-                                "message": "Deployment has minimum availability.",
-                                "reason": "MinimumReplicasAvailable",
-                                "status": "True",
-                                "type": "Available"
-                            },
-                            {
-                                "lastTransitionTime": "2020-09-29T13:36:25Z",
-                                "lastUpdateTime": "2020-09-29T13:36:33Z",
-                                "message": "ReplicaSet \"test-release-sink-6546c4f698\" has successfully progressed.",
-                                "reason": "NewReplicaSetAvailable",
-                                "status": "True",
-                                "type": "Progressing"
-                            }
-                        ],
-                        "observedGeneration": 1,
-                        "readyReplicas": 1,
-                        "replicas": 1,
-                        "updatedReplicas": 1
-                    }
-                }
-            },
-            {
-                "name": "onap-private-net-test",
-                "GVK": {
-                    "Group": "k8s.plugin.opnfv.org",
-                    "Version": "v1alpha1",
-                    "Kind": "Network"
-                },
-                "status": {
-                    "apiVersion": "k8s.plugin.opnfv.org/v1alpha1",
-                    "kind": "Network",
-                    "metadata": {
-                        "creationTimestamp": "2020-09-29T13:36:25Z",
-                        "finalizers": [
-                            "nfnCleanUpNetwork"
-                        ],
-                        "generation": 2,
-                        "labels": {
-                            "k8splugin.io/rb-instance-id": "practical_nobel"
-                        },
-                        "name": "onap-private-net-test",
-                        "namespace": "plugin-tests-namespace",
-                        "resourceVersion": "10720825",
-                        "selfLink": "/apis/k8s.plugin.opnfv.org/v1alpha1/namespaces/plugin-tests-namespace/networks/onap-private-net-test",
-                        "uid": "43d413f1-f222-4d98-9ddd-b209d3ade106"
-                    },
-                    "spec": {
-                        "cniType": "ovn4nfv",
-                        "dns": {},
-                        "ipv4Subnets": [
-                            {
-                                "gateway": "10.10.0.1/16",
-                                "name": "subnet1",
-                                "subnet": "10.10.0.0/16"
-                            }
-                        ]
-                    },
-                    "status": {
-                        "state": "Created"
-                    }
-                }
-            },
-            {
-                "name": "protected-private-net",
-                "GVK": {
-                    "Group": "k8s.plugin.opnfv.org",
-                    "Version": "v1alpha1",
-                    "Kind": "Network"
-                },
-                "status": {
-                    "apiVersion": "k8s.plugin.opnfv.org/v1alpha1",
-                    "kind": "Network",
-                    "metadata": {
-                        "creationTimestamp": "2020-09-29T13:36:25Z",
-                        "finalizers": [
-                            "nfnCleanUpNetwork"
-                        ],
-                        "generation": 2,
-                        "labels": {
-                            "k8splugin.io/rb-instance-id": "practical_nobel"
-                        },
-                        "name": "protected-private-net",
-                        "namespace": "plugin-tests-namespace",
-                        "resourceVersion": "10720827",
-                        "selfLink": "/apis/k8s.plugin.opnfv.org/v1alpha1/namespaces/plugin-tests-namespace/networks/protected-private-net",
-                        "uid": "75c98944-80b6-4158-afed-8efa7a1075e2"
-                    },
-                    "spec": {
-                        "cniType": "ovn4nfv",
-                        "dns": {},
-                        "ipv4Subnets": [
-                            {
-                                "gateway": "192.168.20.100/24",
-                                "name": "subnet1",
-                                "subnet": "192.168.20.0/24"
-                            }
-                        ]
-                    },
-                    "status": {
-                        "state": "Created"
-                    }
-                }
-            },
-            {
-                "name": "unprotected-private-net",
-                "GVK": {
-                    "Group": "k8s.plugin.opnfv.org",
-                    "Version": "v1alpha1",
-                    "Kind": "Network"
-                },
-                "status": {
-                    "apiVersion": "k8s.plugin.opnfv.org/v1alpha1",
-                    "kind": "Network",
-                    "metadata": {
-                        "creationTimestamp": "2020-09-29T13:36:25Z",
-                        "finalizers": [
-                            "nfnCleanUpNetwork"
-                        ],
-                        "generation": 2,
-                        "labels": {
-                            "k8splugin.io/rb-instance-id": "practical_nobel"
-                        },
-                        "name": "unprotected-private-net",
-                        "namespace": "plugin-tests-namespace",
-                        "resourceVersion": "10720829",
-                        "selfLink": "/apis/k8s.plugin.opnfv.org/v1alpha1/namespaces/plugin-tests-namespace/networks/unprotected-private-net",
-                        "uid": "54995c10-bffd-4bb2-bbab-5de266af9456"
-                    },
-                    "spec": {
-                        "cniType": "ovn4nfv",
-                        "dns": {},
-                        "ipv4Subnets": [
-                            {
-                                "gateway": "192.168.10.1/24",
-                                "name": "subnet1",
-                                "subnet": "192.168.10.0/24"
-                            }
-                        ]
-                    },
-                    "status": {
-                        "state": "Created"
-                    }
-                }
-            },
-            {
-                "name": "test-release-sink-6546c4f698-dv529",
-                "GVK": {
-                    "Group": "",
-                    "Version": "v1",
-                    "Kind": "Pod"
-                },
-                "status": {
-                    "metadata": {
-                        "annotations": {
-                            "k8s.plugin.opnfv.org/nfn-network": "{ \"type\": \"ovn4nfv\", \"interface\": [ { \"name\": \"protected-private-net\", \"ipAddress\": \"192.168.20.3\", \"interface\": \"eth1\", \"defaultGateway\": \"false\" }, { \"name\": \"onap-private-net-test\", \"ipAddress\": \"10.10.100.4\", \"interface\": \"eth2\" , \"defaultGateway\": \"false\"} ]}",
-                            "k8s.plugin.opnfv.org/ovnInterfaces": "[{\"ip_address\":\"192.168.20.3/24\", \"mac_address\":\"00:00:00:13:40:87\", \"gateway_ip\": \"192.168.20.100\",\"defaultGateway\":\"false\",\"interface\":\"eth1\"},{\"ip_address\":\"10.10.100.4/16\", \"mac_address\":\"00:00:00:49:de:fc\", \"gateway_ip\": \"10.10.0.1\",\"defaultGateway\":\"false\",\"interface\":\"eth2\"}]",
-                            "k8s.v1.cni.cncf.io/networks": "[{\"name\": \"ovn-networkobj\", \"namespace\": \"default\"}]",
-                            "k8s.v1.cni.cncf.io/networks-status": "[{\n    \"name\": \"cni0\",\n    \"interface\": \"eth0\",\n    \"ips\": [\n        \"10.244.64.46\"\n    ],\n    \"mac\": \"0a:58:0a:f4:40:2e\",\n    \"default\": true,\n    \"dns\": {}\n},{\n    \"name\": \"ovn4nfv-k8s-plugin\",\n    \"interface\": \"eth2\",\n    \"ips\": [\n        \"192.168.20.3\",\n        \"10.10.100.4\"\n    ],\n    \"mac\": \"00:00:00:49:de:fc\",\n    \"dns\": {}\n}]"
-                        },
-                        "creationTimestamp": "2020-09-29T13:36:25Z",
-                        "generateName": "test-release-sink-6546c4f698-",
-                        "labels": {
-                            "app": "sink",
-                            "k8splugin.io/rb-instance-id": "practical_nobel",
-                            "pod-template-hash": "6546c4f698",
-                            "release": "test-release"
-                        },
-                        "name": "test-release-sink-6546c4f698-dv529",
-                        "namespace": "plugin-tests-namespace",
-                        "ownerReferences": [
-                            {
-                                "apiVersion": "apps/v1",
-                                "blockOwnerDeletion": true,
-                                "controller": true,
-                                "kind": "ReplicaSet",
-                                "name": "test-release-sink-6546c4f698",
-                                "uid": "72c9da29-af3b-4b5c-a90b-06285ae83429"
-                            }
-                        ],
-                        "resourceVersion": "10720854",
-                        "selfLink": "/api/v1/namespaces/plugin-tests-namespace/pods/test-release-sink-6546c4f698-dv529",
-                        "uid": "a4e24041-65c9-4b86-8f10-a27a4dba26bb"
-                    },
-                    "spec": {
-                        "containers": [
-                            {
-                                "envFrom": [
-                                    {
-                                        "configMapRef": {
-                                            "name": "sink-configmap"
-                                        }
-                                    }
-                                ],
-                                "image": "rtsood/onap-vfw-demo-sink:0.2.0",
-                                "imagePullPolicy": "IfNotPresent",
-                                "name": "sink",
-                                "resources": {},
-                                "securityContext": {
-                                    "privileged": true
-                                },
-                                "stdin": true,
-                                "terminationMessagePath": "/dev/termination-log",
-                                "terminationMessagePolicy": "File",
-                                "tty": true,
-                                "volumeMounts": [
-                                    {
-                                        "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
-                                        "name": "default-token-gsh95",
-                                        "readOnly": true
-                                    }
-                                ]
-                            },
-                            {
-                                "image": "electrocucaracha/darkstat:latest",
-                                "imagePullPolicy": "IfNotPresent",
-                                "name": "darkstat",
-                                "ports": [
-                                    {
-                                        "containerPort": 667,
-                                        "protocol": "TCP"
-                                    }
-                                ],
-                                "resources": {},
-                                "stdin": true,
-                                "terminationMessagePath": "/dev/termination-log",
-                                "terminationMessagePolicy": "File",
-                                "tty": true,
-                                "volumeMounts": [
-                                    {
-                                        "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
-                                        "name": "default-token-gsh95",
-                                        "readOnly": true
-                                    }
-                                ]
-                            }
-                        ],
-                        "dnsPolicy": "ClusterFirst",
-                        "enableServiceLinks": true,
-                        "nodeName": "localhost",
-                        "priority": 0,
-                        "restartPolicy": "Always",
-                        "schedulerName": "default-scheduler",
-                        "securityContext": {},
-                        "serviceAccount": "default",
-                        "serviceAccountName": "default",
-                        "terminationGracePeriodSeconds": 30,
-                        "tolerations": [
-                            {
-                                "effect": "NoExecute",
-                                "key": "node.kubernetes.io/not-ready",
-                                "operator": "Exists",
-                                "tolerationSeconds": 300
-                            },
-                            {
-                                "effect": "NoExecute",
-                                "key": "node.kubernetes.io/unreachable",
-                                "operator": "Exists",
-                                "tolerationSeconds": 300
-                            }
-                        ],
-                        "volumes": [
-                            {
-                                "name": "default-token-gsh95",
-                                "secret": {
-                                    "defaultMode": 420,
-                                    "secretName": "default-token-gsh95"
-                                }
-                            }
-                        ]
-                    },
-                    "status": {
-                        "conditions": [
-                            {
-                                "lastProbeTime": null,
-                                "lastTransitionTime": "2020-09-29T13:36:25Z",
-                                "status": "True",
-                                "type": "Initialized"
-                            },
-                            {
-                                "lastProbeTime": null,
-                                "lastTransitionTime": "2020-09-29T13:36:33Z",
-                                "status": "True",
-                                "type": "Ready"
-                            },
-                            {
-                                "lastProbeTime": null,
-                                "lastTransitionTime": "2020-09-29T13:36:33Z",
-                                "status": "True",
-                                "type": "ContainersReady"
-                            },
-                            {
-                                "lastProbeTime": null,
-                                "lastTransitionTime": "2020-09-29T13:36:25Z",
-                                "status": "True",
-                                "type": "PodScheduled"
-                            }
-                        ],
-                        "containerStatuses": [
-                            {
-                                "containerID": "docker://87c9af78735400606d70ccd9cd85e2545e43cb3be9c30d4b4fe173da0062dda9",
-                                "image": "electrocucaracha/darkstat:latest",
-                                "imageID": "docker-pullable://electrocucaracha/darkstat@sha256:a6764fcc2e15f6156ac0e56f1d220b98970f2d4da9005bae99fb518cfd2f9c25",
-                                "lastState": {},
-                                "name": "darkstat",
-                                "ready": true,
-                                "restartCount": 0,
-                                "started": true,
-                                "state": {
-                                    "running": {
-                                        "startedAt": "2020-09-29T13:36:33Z"
-                                    }
-                                }
-                            },
-                            {
-                                "containerID": "docker://a004f95e7c7a681c7f400852aade096e3ffd75b7efc64e12e65b4ce1fe326577",
-                                "image": "rtsood/onap-vfw-demo-sink:0.2.0",
-                                "imageID": "docker-pullable://rtsood/onap-vfw-demo-sink@sha256:15b7abb0b67a3804ea5f954254633f996fc99c680b09d86a6cf15c3d7b14ab16",
-                                "lastState": {},
-                                "name": "sink",
-                                "ready": true,
-                                "restartCount": 0,
-                                "started": true,
-                                "state": {
-                                    "running": {
-                                        "startedAt": "2020-09-29T13:36:32Z"
-                                    }
-                                }
-                            }
-                        ],
-                        "hostIP": "192.168.255.3",
-                        "phase": "Running",
-                        "podIP": "10.244.64.46",
-                        "podIPs": [
-                            {
-                                "ip": "10.244.64.46"
-                            }
-                        ],
-                        "qosClass": "BestEffort",
-                        "startTime": "2020-09-29T13:36:25Z"
-                    }
-                }
             }
         ]
     }
 
+.. note:: The example of how the Stauts API could be integrated into CDS can be found in the Frankfurt version of k8s profile upload mechanism `Frankfurt CBA Definition`_ (*profile-upload* TOSCA node template), implemented in inside of the Kotlin script `Frankfurt CBA Script`_ for profile upload. This method shows how to integrate mutlicloud-k8s API endpoint into Kotlin script executed by CDS. For more details please take a look into Definition file of 1.0.45 version of the CBA and also the kotlin script used there for uploading the profile. 
+
 PART 4 - Future improvements needed
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Future development areas for this use case:
 
