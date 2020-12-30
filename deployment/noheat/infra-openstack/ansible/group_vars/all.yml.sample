@@ -12,8 +12,8 @@ securitygroup:
 
 hosts:
   - name: "operator0"
-    image: "cirros-0.5.1-x86_64-disk"
-    flavor: "cirros256"
+    image: "Ubuntu_18.04"
+    flavor: "m1.tiny"
     keypair: *keypair_name
     network: *network_name
     securitygroup: *securitygroup_name

@@ -11,6 +11,8 @@ os_clouds_dir = "${HOME}/.config/openstack"
 os_clouds_config = "#{os_clouds_dir}/clouds.yaml"
 os_admin = "admin"
 os_user = "demo"
+image_url = "https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img"
+image_name = "Ubuntu_18.04"
 
 vm_cpu = 1
 vm_cpus = 4
@@ -40,7 +42,7 @@ devstack = {
 
 all = [] << operation << devstack
 
-operation_post_msg = "Run: \"vagrant provision #{operation[:name]} --provision-with=run_playbook_create\" to complete infrastructure deployment"
+operation_post_msg = "Run: \"vagrant provision #{operation[:name]} --provision-with=add_os_image,run_playbook_create\" to complete infrastructure deployment"
 
 $enable_ipv6 = <<-SCRIPT
   sed -i'' 's/net.ipv6.conf.all.disable_ipv6.*$/net.ipv6.conf.all.disable_ipv6 = 0/' /etc/sysctl.conf
@@ -79,6 +81,15 @@ $create_os_clouds = <<-SCRIPT
   template="$2"
   config="$3"
   OS_USERNAME="$user" envsubst < "$template" > "$config"
+SCRIPT
+
+$add_os_image = <<-SCRIPT
+  url="$1"
+  name="$2"
+  image="$(mktemp)"
+  wget --quiet --output-document="$image" "$url"
+  export OS_CLOUD=openstack
+  openstack image create "$name" --public --disk-format qcow2 --container-format bare --file "$image"
 SCRIPT
 
 $run_playbook = <<-SCRIPT
@@ -136,6 +147,10 @@ Vagrant.configure("2") do |config|
         end
 
         config.vm.post_up_message = operation_post_msg
+        config.vm.provision "add_os_image", type: :shell, run: "never" do |s|
+          s.inline = $add_os_image
+          s.args = [image_url, image_name]
+        end
         config.vm.provision "run_playbook_create", type: :shell, run: "never" do |s|
           s.privileged = false
           s.inline = $run_playbook
