@@ -1,4 +1,6 @@
 ---
-- include: create_securitygroup.yml secgrp={{ item }}
+- include: create_securitygroup.yml
   loop:
     - "{{ securitygroup }}"
+  loop_control:
+    loop_var: secgrp
