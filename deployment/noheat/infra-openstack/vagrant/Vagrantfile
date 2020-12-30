@@ -6,8 +6,11 @@ synced_folder_ansible = "/ansible"
 synced_folder_main = "/vagrant"
 synced_folder_config = "#{synced_folder_main}/config"
 os_config = "#{synced_folder_config}/local.conf"
-os_clouds = "#{synced_folder_config}/clouds.yaml"
+os_clouds_template = "#{synced_folder_config}/clouds.yaml"
 os_clouds_dir = "${HOME}/.config/openstack"
+os_clouds_config = "#{os_clouds_dir}/clouds.yaml"
+os_admin = "admin"
+os_user = "demo"
 
 vm_cpu = 1
 vm_cpus = 4
@@ -54,20 +57,28 @@ SCRIPT
 
 $setup_py = <<-SCRIPT
   export DEBIAN_FRONTEND=noninteractive
-  sudo -E apt-get update
-  sudo -E apt-get install -yq python3-distutils
+  apt-get update
+  apt-get install -yq python3-distutils
 
   curl -fsSL https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-  sudo -H python3 get-pip.py
-  pip install ansible python-openstackclient
+  python3 get-pip.py
+SCRIPT
+
+$setup_openstackclient = <<-SCRIPT
+  pip install --ignore-installed python-openstackclient
   mkdir -p #{os_clouds_dir}
 SCRIPT
 
-$link_file = <<-SCRIPT
-  src="$1"
-  dst="$2"
-  echo "Symlinking ${src} to ${dst}"
-  ln -sf "$src" "$dst"
+$setup_openstacksdk = <<-SCRIPT
+  pip install ansible openstacksdk
+  mkdir -p #{os_clouds_dir}
+SCRIPT
+
+$create_os_clouds = <<-SCRIPT
+  user="$1"
+  template="$2"
+  config="$3"
+  OS_USERNAME="$user" envsubst < "$template" > "$config"
 SCRIPT
 
 $run_playbook = <<-SCRIPT
@@ -111,11 +122,17 @@ Vagrant.configure("2") do |config|
         config.vm.synced_folder ".", synced_folder_main, type: "rsync", rsync__exclude: "Vagrantfile"
         config.vm.synced_folder host_folder_ansible, synced_folder_ansible, type: "rsync"
 
-        config.vm.provision "setup_openstacksdk", type: :shell, privileged: false, inline: $setup_py
-        config.vm.provision "link_os_clouds", type: :shell, run: "always" do |s|
+        config.vm.provision "setup_py", type: :shell, inline: $setup_py
+        config.vm.provision "setup_openstackclient", type: :shell, inline: $setup_openstackclient
+        config.vm.provision "create_os_clouds_admin", type: :shell, run: "always" do |s|
+          s.inline = $create_os_clouds
+          s.args = [os_admin, os_clouds_template, os_clouds_config]
+        end
+        config.vm.provision "setup_openstacksdk", type: :shell, privileged: false, inline: $setup_openstacksdk
+        config.vm.provision "create_os_clouds", type: :shell, run: "always" do |s|
           s.privileged = false
-          s.inline = $link_file
-          s.args = [os_clouds, os_clouds_dir]
+          s.inline = $create_os_clouds
+          s.args = [os_user, os_clouds_template, os_clouds_config]
         end
 
         config.vm.post_up_message = operation_post_msg

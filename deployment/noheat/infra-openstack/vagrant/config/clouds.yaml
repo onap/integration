@@ -2,7 +2,7 @@ clouds:
   openstack:
     auth:
       auth_url: http://172.17.5.200/identity
-      username: "demo"
+      username: "${OS_USERNAME}"
       password: "default123456!"
       project_name: "demo"
       project_domain_name: "Default"
