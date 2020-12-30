@@ -8,7 +8,8 @@ keypair:
 
 securitygroup:
   name: &securitygroup_name "onap_ci_lab"
-  remote_ip_prefix: "0.0.0.0/0"
+  remote_ip_prefix:
+    - "0.0.0.0/0"
 
 image:
   name: &image_name "Ubuntu_18.04"

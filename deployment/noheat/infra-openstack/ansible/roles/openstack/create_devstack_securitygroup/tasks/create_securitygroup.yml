@@ -8,7 +8,8 @@
   os_security_group_rule:
     security_group: "{{ secgrp.name }}"
     protocol: icmp
-    remote_ip_prefix: "{{ secgrp.remote_ip_prefix }}"
+    remote_ip_prefix: "{{ item }}"
+  loop: "{{ secgrp.remote_ip_prefix }}"
 
 - name: "Create {{ secgrp.name }} security group rule for SSH"
   os_security_group_rule:
@@ -16,4 +17,5 @@
     protocol: tcp
     port_range_min: 22
     port_range_max: 22
-    remote_ip_prefix: "{{ secgrp.remote_ip_prefix }}"
+    remote_ip_prefix: "{{ item }}"
+  loop: "{{ secgrp.remote_ip_prefix }}"
