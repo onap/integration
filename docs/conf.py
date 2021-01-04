@@ -16,11 +16,13 @@ linkcheck_ignore = [
     r'http://SINK_IP_ADDRESS:667.*',
     r'http.*K8S_HOST:30227.*',
     r'http.*K8S_NODE_IP.*',
+    r'http.*REPO_IP.*',
     'http://team.onap.eu'
 ]
 
 intersphinx_mapping = {}
 intersphinx_mapping['onap-oom'] = ('{}/onap-oom/en/%s'.format(doc_url) % branch, None)
+intersphinx_mapping['onap-cli'] = ('{}/onap-cli/en/%s'.format(doc_url) % branch, None)
 
 html_last_updated_fmt = '%d-%b-%y %H:%M'
 

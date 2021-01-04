@@ -22,6 +22,7 @@ Useful tool
 POSTMAN collection that can be used to simulate all inter process queries : https://www.getpostman.com/collections/878061d291f9efe55463
 To be able to use this postman collection, you may need to expose some ports that are not exposed in OOM by default.
 These commands may help for exposing the ports:
+
 ::
 
     kubectl port-forward service/cds-blueprints-processor-http --address 0.0.0.0 32749:8080 -n onap &
@@ -32,10 +33,14 @@ OOM Installation
 ~~~~~~~~~~~~~~~~
 Before doing the OOM installation, take care to the following steps:
 
-- Set the right Openstack values for Robot and SO:
+Set the right Openstack values for Robot and SO
+===============================================
+
 The config for robot must be set in an OOM override file before the OOM installation, this will initialize the robot framework & SO with all the required openstack info.
 A section like that is required in that override file
+
 ::
+
     robot:
       enabled: true
       flavor: small
@@ -78,31 +83,48 @@ To  know how to encrypt the openstack passwords, please look at these guides:
 https://docs.onap.org/en/dublin/submodules/oom.git/docs/oom_quickstart_guide.html
 https://docs.onap.org/en/elalto/submodules/oom.git/docs/oom_quickstart_guide.html
 
-- Initialize the Customer and Owning entities:
-The robot script can be helpful to initialize the customer and owning entity that will be used later to instantiate the VNF (PART 2 - Scale Out Use Case Instantiation)
+Initialize the Customer and Owning entities
+===========================================
+
+The robot script can be helpful to initialize the customer and owning entity that
+will be used later to instantiate the VNF (PART 2 - Scale Out Use Case Instantiation)
+
 ::
- In the oom_folder/kubernetes/robot/ execute the following command:
-./demo-k8s.sh onap init_customer
+
+  In the oom_folder/kubernetes/robot/ execute the following command:
+  ./demo-k8s.sh onap init_customer
 
 If this command is unsuccessful it means that the parameters provided to the OOM installation were not correct.
 
 - Verify and Get the tenant/owning entity/cloud-regions defined in AAI by Robot script:
-These values will be required by the POSTMAN collection when instantiating the Service/vnf ...
+  These values will be required by the POSTMAN collection when instantiating the Service/vnf ...
+
 To get them some POSTMAN collection queries are useful to use:
+
 - GET "AAI Owning Entities"
 - GET "AAI Cloud-regions"
 - GET "AAI Cloud-regions/tenant"
 
 Description
 ~~~~~~~~~~~
-The scale out use case uses a VNF composed of three virtual functions. A traffic generator (vPacketGen), a load balancer (vLB), and a DNS (vDNS). Communication between the vPacketGen and the vLB, and the vLB and the vDNS occurs via two separate private networks. In addition, all virtual functions have an interface to the ONAP OAM private network, as shown in the topology below.
+
+The scale out use case uses a VNF composed of three virtual functions. A traffic
+generator (vPacketGen), a load balancer (vLB), and a DNS (vDNS). Communication
+between the vPacketGen and the vLB, and the vLB and the vDNS occurs via two
+separate private networks. In addition, all virtual functions have an interface
+to the ONAP OAM private network, as shown in the topology below.
 
 .. figure:: files/scaleout/topology.png
    :align: center
 
-The vPacketGen issues DNS lookup queries that reach the DNS server via the vLB. vDNS replies reach the packet generator via the vLB as well. The vLB reports the average amount of traffic per vDNS instances over a given time interval (e.g. 10 seconds) to the DCAE collector via the ONAP OAM private network.
+The vPacketGen issues DNS lookup queries that reach the DNS server via the vLB.
+vDNS replies reach the packet generator via the vLB as well. The vLB reports the
+average amount of traffic per vDNS instances over a given time interval (e.g. 10
+seconds) to the DCAE collector via the ONAP OAM private network.
 
-To run the use case, make sure that the security group in OpenStack has ingress/egress entries for protocol 47 (GRE). Users can test the VNF by running DNS queries from the vPakcketGen:
+To run the use case, make sure that the security group in OpenStack has
+ingress/egress entries for protocol 47 (GRE). Users can test the VNF by running
+DNS queries from the vPakcketGen:
 
 ::
 
@@ -142,7 +164,14 @@ The output below means that the vLB has been set up correctly, has forwarded the
 
 The Scale Out Use Case
 ~~~~~~~~~~~~~~~~~~~~~~
-The Scale Out use case shows how users/network operators can add Virtual Network Function Components (VNFCs) as part of a VF Module that has been instantiated in the Service model, in order to increase capacity of the network. ONAP Frankfurt release supports scale out with manual trigger by directly calling SO APIs and closed-loop-enabled automation from Policy. For Frankfurt, the APPC controller is used to demonstrate post-scaling VNF reconfiguration operations. APPC can handle different VNF types, not only the VNF described in this document.
+
+The Scale Out use case shows how users/network operators can add Virtual Network
+Function Components (VNFCs) as part of a VF Module that has been instantiated in
+the Service model, in order to increase capacity of the network. ONAP Frankfurt
+release supports scale out with manual trigger by directly calling SO APIs and
+closed-loop-enabled automation from Policy. For Frankfurt, the APPC controller is
+used to demonstrate post-scaling VNF reconfiguration operations. APPC can handle
+different VNF types, not only the VNF described in this document.
 
 The figure below shows all the interactions that take place during scale out operations.
 
@@ -155,27 +184,51 @@ There are four different message flows:
   - Red: Closed-loop enabled scale out.
   - Black: Orchestration and VNF lifecycle management (LCM) operations.
 
-The numbers in the figure represent the sequence of steps within a given flow. Note that interactions between the components in the picture and AAI, SDNC, and DMaaP are not shown for clarity's sake.
+The numbers in the figure represent the sequence of steps within a given flow.
+Note that interactions between the components in the picture and AAI, SDNC, and
+DMaaP are not shown for clarity's sake.
 
-Scale out with manual trigger (green flow) and closed-loop-enabled scale out (red flow) are mutually exclusive. When the manual trigger is used, VID directly triggers the appropriate workflow in SO (step 1 of the green flow in the figure above). See Section 4 for more details.
+Scale out with manual trigger (green flow) and closed-loop-enabled scale out
+(red flow) are mutually exclusive. When the manual trigger is used, VID directly
+triggers the appropriate workflow in SO (step 1 of the green flow in the figure
+above). See Section 4 for more details.
 
-When closed-loop enabled scale out is used, Policy triggers the SO workflow. The closed loop starts with the vLB periodically reporting telemetry about traffic patterns to the VES collector in DCAE (step 1 of the red flow). When the amount of traffic exceeds a given threshold (which the user defines during closed loop creation in CLAMP - see Section 1-4), DCAE notifies Policy (step 2), which in turn triggers the appropriate action. For this use case, the action is contacting SO to augment resource capacity in the network (step 3).
+When closed-loop enabled scale out is used, Policy triggers the SO workflow.
+The closed loop starts with the vLB periodically reporting telemetry about traffic
+patterns to the VES collector in DCAE (step 1 of the red flow). When the amount
+of traffic exceeds a given threshold (which the user defines during closed loop
+creation in CLAMP - see Section 1-4), DCAE notifies Policy (step 2), which in turn
+triggers the appropriate action. For this use case, the action is contacting SO to
+augment resource capacity in the network (step 3).
 
-At high level, once SO receives a call for scale out actions, it first creates a new VF module (step 1 of the black flow), then calls APPC to trigger some LCM actions (step 2). APPC runs VNF health check and configuration scale out as part of LCM actions (step 3). At this time, the VNF health check only reports the health status of the vLB, while the configuration scale out operation adds a new vDNS instance to the vLB internal state. As a result of configuration scale out, the vLB opens a connection towards the new vDNS instance.
+At high level, once SO receives a call for scale out actions, it first creates a
+new VF module (step 1 of the black flow), then calls APPC to trigger some LCM
+actions (step 2). APPC runs VNF health check and configuration scale out as part
+of LCM actions (step 3). At this time, the VNF health check only reports the
+health status of the vLB, while the configuration scale out operation adds a new
+vDNS instance to the vLB internal state. As a result of configuration scale out,
+the vLB opens a connection towards the new vDNS instance.
 
 At deeper level, the SO workflow works as depicted below:
 
 .. figure:: files/scaleout/so-blocks.png
    :align: center
 
-SO first contacts APPC to run VNF health check and proceeds on to the next block of the workflow only if the vLB is healthy (not shown in the previous figure for simplicity's sake). Then, SO assigns resources, instantiates, and activates the new VF module. Finally, SO calls APPC again for configuration scale out and VNF health check. The VNF health check at the end of the workflow validates that the vLB health status hasn't been negatively affected by the scale out operation.
+SO first contacts APPC to run VNF health check and proceeds on to the next block
+of the workflow only if the vLB is healthy (not shown in the previous figure for
+simplicity's sake). Then, SO assigns resources, instantiates, and activates the
+new VF module. Finally, SO calls APPC again for configuration scale out and VNF
+health check. The VNF health check at the end of the workflow validates that the
+vLB health status hasn't been negatively affected by the scale out operation.
 
 PART 1 - Service Definition and Onboarding
 ------------------------------------------
+
 This use-case requires operations on several ONAP components to perform service definition and onboarding.
 
 1-1 VNF Configuration Modeling and Upload with CDS (Recommended way)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Since Dublin, the scale out use case integrates with the Controller Design Studio (CDS) ONAP component to automate the generation of cloud configuration at VNF instantiation time. The user interested in running the use case only with manual preload can skip this section and start from Section 1-2. The description of the use case with manual preload is provided in Section5.
 
 Users can model this configuration at VNF design time and onboard the blueprint to CDS via the CDS GUI. The blueprint includes naming policies and network configuration details (e.g. IP address families, network names, etc.) that CDS will use during VNF instantiation to generate resource names and assign network configuration to VMs through the cloud orchestrator.
@@ -184,22 +237,22 @@ Please look at the CDS documentation for details about how to create configurati
 
 ::
 
-For the current use case you can also follow these steps (Do not use the SDC flow to deploy the CBA when importing a VSP, this is not going to work anymore since Guilin):
-1. You must first bootstrap CDS by using the query in the POSTMAN collection query named POST "CDS Bootstrap"
-2. You must upload the attached CBA by using the POSTMAN collection named POST "CDS Save without Validation", the CBA zip file can be attached in the POSTMAN query
-Controller Blueprint Archive (to use with CDS) : https://git.onap.org/ccsdk/cds/tree/components/model-catalog/blueprint-model/service-blueprint/vLB_CDS_Kotlin?h=guilin
-3. Create a zip file with the HEAT files located here:  https://git.onap.org/demo/tree/heat/vLB_CDS?h=guilin
-4. Create the VSP & Service in the SDC onboarding and SDC Catalog + Distribute the service
-   To know the right values that must be set in the SDC Service properties assignment you must open the CBA zip and look at the TOSCA-Metadata/TOSCA.meta file
-    This file looks like that:
-        TOSCA-Meta-File-Version: 1.0.0
-        CSAR-Version: 1.0
-        Created-By: Seaudi, Abdelmuhaimen <abdelmuhaimen.seaudi@orange.com>
-        Entry-Definitions: Definitions/vLB_CDS.json
-        Template-Tags: vLB_CDS
-        Template-Name: vLB_CDS
-        Template-Version: 1.0.0
-        Template-Type: DEFAULT
+  For the current use case you can also follow these steps (Do not use the SDC flow to deploy the CBA when importing a VSP, this is not going to work anymore since Guilin):
+  1. You must first bootstrap CDS by using the query in the POSTMAN collection query named POST "CDS Bootstrap"
+  2. You must upload the attached CBA by using the POSTMAN collection named POST "CDS Save without Validation", the CBA zip file can be attached in the POSTMAN query
+  Controller Blueprint Archive (to use with CDS) : https://git.onap.org/ccsdk/cds/tree/components/model-catalog/blueprint-model/service-blueprint/vLB_CDS_Kotlin?h=guilin
+  3. Create a zip file with the HEAT files located here:  https://git.onap.org/demo/tree/heat/vLB_CDS?h=guilin
+  4. Create the VSP & Service in the SDC onboarding and SDC Catalog + Distribute the service
+     To know the right values that must be set in the SDC Service properties assignment you must open the CBA zip and look at the TOSCA-Metadata/TOSCA.meta file
+      This file looks like that:
+          TOSCA-Meta-File-Version: 1.0.0
+          CSAR-Version: 1.0
+          Created-By: Seaudi, Abdelmuhaimen <abdelmuhaimen.seaudi@orange.com>
+          Entry-Definitions: Definitions/vLB_CDS.json
+          Template-Tags: vLB_CDS
+          Template-Name: vLB_CDS
+          Template-Version: 1.0.0
+          Template-Type: DEFAULT
 
     - The sdnc_model_version is the Template-Version
     - The sdnc_model_name is the Template-Name
@@ -211,6 +264,7 @@ Controller Blueprint Archive (to use with CDS) : https://git.onap.org/ccsdk/cds/
 
 1-2 VNF Onboarding and Service Creation with SDC
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Once the configuration blueprint is uploaded to CDS, users can define and onboard a service using SDC. SDC requires users to onboard a VNF descriptor that contains the definition of all the resources (private networks, compute nodes, keys, etc.) with their parameters that compose a VNF. The VNF used to demonstrate the scale out use case supports Heat templates as VNF descriptor, and hence requires OpenStack as cloud layer. Users can use the Heat templates linked at the top of the page to create a zip file that can be uploaded to SDC during service creation. To create a zip file, the user must be in the same folder that contains the Heat templates and the Manifest file that describes the content of the package. To create a zip file from command line, type:
 ::
 
@@ -268,9 +322,9 @@ This VNF only supports scaling the vDNS, so users should select the vDNS module 
 At this point, users can complete the service creation in SDC by testing, accepting, and distributing the Service Models as described in the SDC user manual.
 
 
-
 1-3 Deploy Naming Policy
 ~~~~~~~~~~~~~~~~~~~~~~~~
+
 This step is only required if CDS is used.
 Note that in Guilin, the default naming policy is already deployed in policy so this step is optional
 
@@ -285,6 +339,7 @@ In order to instantiate the VNF using CDS features, users need to deploy the nam
 
 1-4 Closed Loop Design with CLAMP
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This step is only required if closed loop is used, for manual scaleout this section can be skipped.
 
 Here are Json examples that can be copy pasted in each policy configuration by clicking on the button EDIT JSON, just replace the value "LOOP_test_vLB_CDS" by your loop ID:
@@ -318,7 +373,9 @@ For TCA config:
     }
 
 For Drools config:
+
 ::
+
     {
       "abatement": false,
       "operations": [
@@ -360,7 +417,9 @@ For Drools config:
     }
 
 For Frequency Limiter config:
+
 ::
+
     {
       "id": "LOOP_test_vLB_CDS",
       "actor": "SO",
@@ -474,6 +533,7 @@ At this point, the closed loop is deployed to Policy Engine and DCAE, and a new 
 
 1-5 Creating a VNF Template with CDT
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Before running scale out use case, the users need to create a VNF template using the Controller Design Tool (CDT), a design-time tool that allows users to create and on-board VNF templates into APPC. The template describes which control operation can be executed against the VNF (e.g. scale out, health check, modify configuration, etc.), the protocols that the VNF supports, port numbers, VNF APIs, and credentials for authentication. Being VNF agnostic, APPC uses these templates to "learn" about specific VNFs and the supported operations.
 CDT requires two input:
 
@@ -559,6 +619,7 @@ At this time, CDT doesn't allow users to provide VNF password from the GUI. To u
 
 1-6 Setting the Controller Type in SO Database
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Users need to specify which controller to use for the scale out use case. For Dublin, the supported controller is APPC. Users need to create an association between the controller and the VNF type in the SO database.
 
 To do so:
@@ -588,6 +649,7 @@ SO has a default entry for VNF type "vLoadBalancerMS/vLoadBalancerMS 0"
 
 1-7 Determining VNF reconfiguration parameters
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 The post scale out VNF reconfiguration is VNF-independent but the parameters used for VNF reconfiguration depend on the specific use case. For example, the vLB-vDNS-vPacketGenerator VNF described in this documentation use the vLB as "anchor" point. The vLB maintains the state of the VNF, which, for this use case is the list of active vDNS instances. After creating a new vDNS instance, the vLB needs to know the IP addresses (of the internal private network and management network) of the new vDNS. The reconfiguration action is executed by APPC, which receives those IP addresses from SO during the scale out workflow execution. Note that different VNFs may have different reconfiguration actions. A parameter resolution is expressed as JSON path to the SDNC VF module topology parameter array. For each reconfiguration parameter, the user has to specify the array location that contains the corresponding value (IP address in the specific case). For example, the "configurationParameters" section of the input request to SO during scale out with manual trigger (see Section 4) contains the resolution path to "ip-addr" and "oam-ip-addr" parameters used by the VNF.
 
 ::
@@ -1089,8 +1151,9 @@ In future releases, we plan to leverage CDS to model post scaling VNF reconfigur
 
 PART 2 - Scale Out Use Case Instantiation
 -----------------------------------------
+
 Manual queries with POSTMAN
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This step is only required if CDS is used, otherwise you can use VID to instantiate the service and the VNF.
 Note that the POSTMAN collection linked at the top of this page, does provide some level of automatic scripting that will automatically get values between requests and provision the following queries
@@ -1112,6 +1175,7 @@ CDS#4 - SO infra Active Request -> Used to get the status of the previous query
 
 Manual queries without POSTMAN
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 GET information from SDC catalogdb
 
 ::
@@ -1373,6 +1437,7 @@ PART 3 - Post Instantiation Operations
 
 3-1 Post Instantiation VNF configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 CDS executes post-instantiation VNF configuration if the "skip-post-instantiation" flag in the SDC service model is set to false, which is the default behavior. Manual post-instantiation configuration is necessary if the "skip-post-instantiation" flag in the service model is set to true or if the VNF is instantiated using the preload approach, which doesn't include CDS. Regardless, this step is NOT required during scale out operations, as VNF reconfiguration will be triggered by SO and executed by APPC.
 
 If VNF post instantiation is executed manually, in order to change the state of the vLB the users should run the following REST call, replacing the IP addresses in the VNF endpoint and JSON object to match the private IP addresses of their vDNS instance:
@@ -1400,6 +1465,7 @@ At this point, the VNF is fully set up.
 
 3-2 Updating AAI with VNF resources
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 To allow automated scale out via closed loop, the users need to inventory the VNF resources in AAI. This is done by running the heatbridge python script in /root/oom/kubernetes/robot in the Rancher VM in the Kubernetes cluster:
 
 ::
@@ -1411,10 +1477,12 @@ Note that "vlb_onap_private_ip_0" used in the heatbridge call is the actual para
 
 PART 4 - Triggering Scale Out Manually
 --------------------------------------
+
 For scale out with manual trigger, VID is not supported at this time.
 
 Manual queries with POSTMAN
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Note that the POSTMAN collection linked at the top of this page, does provide some level of automatic scripting that will automatically get values between requests and provision the following queries
 
 You must enter in the postman config different variables:
@@ -1427,6 +1495,7 @@ CDS#7 - SO ScaleIn -> This will initiate a ScaleIn manually
 
 Manual queries without POSTMAN
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Users can run the use case by directly calling SO APIs:
 
 ::
@@ -1981,6 +2050,7 @@ Module-1 Preload
 
 Module-2 Preload
 ~~~~~~~~~~~~~~~~
+
 ::
 
 
@@ -2297,7 +2367,8 @@ To instantiate VF modules, please refer to this wiki page: https://wiki.onap.org
 
 PART 6 - Known Issues and Resolutions
 -------------------------------------
-1) When running closed loop-enabled scale out, the closed loop designed in CLAMP conflicts with the default closed loop defined for the old vLB/vDNS use case
+
+   1) When running closed loop-enabled scale out, the closed loop designed in CLAMP conflicts with the default closed loop defined for the old vLB/vDNS use case
 
 Resolution: Change TCA configuration for the old vLB/vDNS use case
 
@@ -2307,4 +2378,3 @@ Resolution: Change TCA configuration for the old vLB/vDNS use case
 - Click "UPDATE" to upload the new TCA configuration
 
 2) During Guilin testing, it has been noticed that there is an issue between SO and APPC for Healthcheck queries, this does not prevent the use case to proceed but limit APPC capabilities
-
