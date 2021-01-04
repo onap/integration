@@ -123,7 +123,10 @@ if args.mode == "nodeport":
 
 # Kubernetes section
 # retrieve the candidate ports first
-k8s_config = config.load_kube_config()
+if args.mode == "internal":
+    k8s_config = config.load_incluster_config()
+else:
+    k8s_config = config.load_kube_config()
 
 core = client.CoreV1Api()
 api_instance = client.ExtensionsV1beta1Api(
