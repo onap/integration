@@ -16,6 +16,7 @@ linkcheck_ignore = [
     r'http://SINK_IP_ADDRESS:667.*',
     r'http.*K8S_HOST:30227.*',
     r'http.*K8S_NODE_IP.*',
+    r'http.*REPO_IP.*',
     'http://team.onap.eu'
 ]
 
