@@ -104,3 +104,8 @@ Reference
 ~~~~~~~~~~~
 
 `PNF Software Upgrade with Schema Update Wiki Page <https://wiki.onap.org/pages/viewpage.action?pageId=81400388#SupportxNFSoftwareUpgradeinassociationtoschemaupdates-DevelopmentStatus>`_
+
+Testing Procedure
+~~~~~~~~~~~~~~~~~~
+
+:ref:`Testing 5G PNF Software Upgrade with Schema Update <docs_Testing_5G_PNF_Software_Upgrade_With_Schema_Update>`
