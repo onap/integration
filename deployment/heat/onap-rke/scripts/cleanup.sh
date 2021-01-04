@@ -47,6 +47,12 @@ if [ $COMPONENT == "sdnc" ]; then
         done
 fi
 
+if [ $COMPONENT == "aai" ]; then
+        for keyspace in aaigraph ; do
+                kubectl -n $NAMESPACE exec dev-cassandra-cassandra-0 -- cqlsh -u cassandra -p cassandra --request-timeout=30 -e "drop keyspace ${keyspace}"
+        done
+fi
+
 for op in secrets configmaps pvc pv deployments statefulsets clusterrolebinding jobs; do
 	ARRAY=(`kubectl get $op -n $NAMESPACE | grep $DEPLOYMENT-$COMPONENT | awk '{print $1}'`)
 	for i in ${ARRAY[*]}; do
