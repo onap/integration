@@ -67,11 +67,11 @@ kubernetes are expected to be PASS but two tests are expected to fail:
   and be valid for the 364 days after the installation. It is still not the case.
   However, for the first time, no certificate was expired. Next certificates to
   renew are:
-    - Music (2021-02-03)
-    - VID (2021-03-17)
-    - Message-router-external (2021-03-25)
-    - CDS-UI (2021-02-18)
-    - AAI and AAI-SPARKY-BE (2021-03-17)
+  - Music (2021-02-03)
+  - VID (2021-03-17)
+  - Message-router-external (2021-03-25)
+  - CDS-UI (2021-02-18)
+  - AAI and AAI-SPARKY-BE (2021-03-17)
 
 .. image:: files/s3p/guilin_daily_infrastructure_healthcheck.png
    :align: center
