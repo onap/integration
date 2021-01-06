@@ -2,10 +2,18 @@
 
 ## Description
 
-Responsible for the integration framework / automated tools, code and scripts, best practice guidance related to cross-project Continuous System Integration Testing (CSIT), and delivery of the ONAP project.
+Responsible for:
 
-See <https://wiki.onap.org/display/DW/Integration+Project> for additional details.
+- the integration repositories (integration, testsuite, demo)
+- automated tools
+- tests, code and scripts
+- baseline images
+- best practice guidance for usecases
+- Continuous System Integration Testing (CSIT)
+- CI/CD
 
-## Sub-projects
+## References
 
-See respective directories for additional details about each sub-project.
+Wiki page:  <https://wiki.onap.org/display/DW/Integration+Project>
+
+Official documentation: <https://docs.onap.org/projects/onap-integration/en/guilin/index.html?highlight=integration>
