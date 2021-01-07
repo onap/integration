@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2fc230a_c512d599",
+        "filename": "deployment/noheat/infra-openstack/vagrant/Vagrantfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2021-01-07T10:33:08Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this snippet be idempotent? Image will be retrieved each time this provisioner is run.",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 6
+      },
+      "revId": "a2a02463445ee785e7d8bb72f322a0c508102e70",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
