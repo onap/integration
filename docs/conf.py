@@ -17,7 +17,8 @@ linkcheck_ignore = [
     r'http.*K8S_HOST:30227.*',
     r'http.*K8S_NODE_IP.*',
     r'http.*REPO_IP.*',
-    'http://team.onap.eu'
+    'http://team.onap.eu',
+    'https://tools.ietf.org/html/rfc8345'
 ]
 
 intersphinx_mapping = {}

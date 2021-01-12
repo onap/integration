@@ -3,6 +3,15 @@
 .. This work is licensed under a Creative Commons Attribution 4.0
    International License. http://creativecommons.org/licenses/by/4.0
 
+Integration Maintenance Release Notes
+=====================================
+
+.. important::
+
+    The testsuite 1.7.3 image has been produced for the Guilin maintenance release.
+    This new version includes bug fixes for test cases and healthcheck tests.
+    See Robot (testsuite) section for details.
+
 Integration Release Notes
 =========================
 
@@ -62,7 +71,28 @@ Robot (Testsuite)
 Version: 1.7.3
 ^^^^^^^^^^^^^^
 
-:Release Date: 2020-11-xx
+:Release Date: 2021-01-11
+
+Changes for the maintenance release:
+
+- 2020-12-16	[BUGFIX] Rename the renamed Undeploy Policy Keyword1.7.3
+- 2020-12-15	Add testcases for SON use case
+- 2020-12-15	Setup robot linter
+- 2020-12-11	Fix undeploye/delete operational policy
+- 2020-12-08	Fixes for tcagen2 and repush vFWCL policies
+- 2020-12-03	Eliminate man-in-the-middle attack in DFC/SFTP protocol - E2E tests
+- 2020-12-01	Change to tcagen2 consul
+- 2020-12-01	Update CMPv2 test to use comma as SANs delimiter
+- 2020-12-01	Remove Heatbridge for testing
+- 2020-11-26	Update k8splugin import declaration in cmpv2 and 5gbulkpm blueprints
+- 2020-11-23	Set API_TYPE default to GRA_API
+- 2020-11-20	Add Lasse as Integration committer
+- 2020-11-05	PNF registarte - prevent test case fail at general step Submit SDC Software Product
+
+Version: 1.7.2
+^^^^^^^^^^^^^^
+
+:Release Date: 2020-11-03
 
 .. csv-table:: Testsuite Changes
     :file: ./files/csv/release-testsuite-features.csv
