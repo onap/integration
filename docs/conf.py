@@ -16,7 +16,13 @@ linkcheck_ignore = [
     r'http://SINK_IP_ADDRESS:667.*',
     r'http.*K8S_HOST:30227.*',
     r'http.*K8S_NODE_IP.*',
+<<<<<<< HEAD   (36b394 [vFW_CNF_CDS] Minor updates after review)
     'http://team.onap.eu'
+=======
+    r'http.*REPO_IP.*',
+    'http://team.onap.eu',
+    'https://tools.ietf.org/html/rfc8345'
+>>>>>>> CHANGE (a00402 [RELEASE] Update release note for Guilin maintenance release)
 ]
 
 intersphinx_mapping = {}
