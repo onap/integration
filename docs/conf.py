@@ -16,7 +16,9 @@ linkcheck_ignore = [
     r'http://SINK_IP_ADDRESS:667.*',
     r'http.*K8S_HOST:30227.*',
     r'http.*K8S_NODE_IP.*',
-    'http://team.onap.eu'
+    r'http.*REPO_IP.*',
+    'http://team.onap.eu',
+    'https://tools.ietf.org/html/rfc8345'
 ]
 
 intersphinx_mapping = {}
