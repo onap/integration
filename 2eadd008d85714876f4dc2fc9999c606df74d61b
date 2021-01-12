@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8ba6c1a_9055aba8",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2021-01-12T22:32:15Z",
+      "side": 1,
+      "message": "Typo (undeploy)",
+      "range": {
+        "startLine": 81,
+        "startChar": 18,
+        "endLine": 81,
+        "endChar": 27
+      },
+      "revId": "2eadd008d85714876f4dc2fc9999c606df74d61b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b639ac14_72081846",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2021-01-12T22:32:15Z",
+      "side": 1,
+      "message": "Typo (registrate)",
+      "range": {
+        "startLine": 90,
+        "startChar": 18,
+        "endLine": 90,
+        "endChar": 28
+      },
+      "revId": "2eadd008d85714876f4dc2fc9999c606df74d61b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
