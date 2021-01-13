@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d5c41449_dd9959f3",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-01-13T06:33:50Z",
+      "side": 1,
+      "message": "I directly extract the title of the patches from gerrit\nso if there is a typo in the patch, I did not correct it in the release note..",
+      "parentUuid": "a8ba6c1a_9055aba8",
+      "range": {
+        "startLine": 81,
+        "startChar": 18,
+        "endLine": 81,
+        "endChar": 27
+      },
+      "revId": "2eadd008d85714876f4dc2fc9999c606df74d61b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b639ac14_72081846",
         "filename": "docs/release-notes.rst",
         "patchSetId": 3
