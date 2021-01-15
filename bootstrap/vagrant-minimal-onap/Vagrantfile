@@ -184,7 +184,7 @@ $rke_up = "rke up"
 $rke_down = "rke remove --force || true" # best effort
 
 $get_oom = <<-SCRIPT
-  BRANCH="${1:-5.0.1-ONAP}"
+  BRANCH="${1:-7.0.0-ONAP}"
   REPO="${2:-https://git.onap.org/oom}"
   git clone -b "$BRANCH" "$REPO" --recurse-submodules
 SCRIPT

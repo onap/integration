@@ -18,7 +18,7 @@
 #
 
 # Constants
-DEFAULT_VERSION='v0.2.1'
+DEFAULT_VERSION='v1.0.6'
 DEFAULT_ARCH='amd64'
 DEFAULT_SYSTEM='linux'
 
