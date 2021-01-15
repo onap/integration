@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ad4069e_fdad9fa3",
+        "filename": "bootstrap/vagrant-minimal-onap/Vagrantfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2021-01-15T11:25:49Z",
+      "side": 1,
+      "message": "If you want you can make it even faster by skipping refreshing the stable repo since you don\u0027t need it at all; check diff in my PR for details: https://gerrit.onap.org/r/c/oom/offline-installer/+/116504",
+      "revId": "2c2326a13c9867ec1cbf0e64e127ff28c7149404",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
