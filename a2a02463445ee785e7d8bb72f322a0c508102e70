@@ -22,6 +22,30 @@
       "revId": "a2a02463445ee785e7d8bb72f322a0c508102e70",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86b45e4b_fe959b1b",
+        "filename": "deployment/noheat/infra-openstack/vagrant/Vagrantfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2021-01-15T10:12:46Z",
+      "side": 1,
+      "message": "I agree that it would be beneficial to keep such scripts idempotent.\n\nThis one is set to never run (L150) unless directly requested (as recommended in post-up message L45) - typically once per environment lifetime. Use case I had in mind (and use mostly) is to \"vagrant up\" -\u003e run \"post-up msg\" recommendation -\u003e \"vagrant halt/up\" (when environment is needed). This way I download the image once, store it in DevStack and clean it from /tmp on next boot.\n\nLet me know which location you think would be good for such images (maybe \"/root/os_images\"?) - I\u0027ll patch this snippet with proper location and \"continue download\" flag for wget",
+      "parentUuid": "b2fc230a_c512d599",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 6
+      },
+      "revId": "a2a02463445ee785e7d8bb72f322a0c508102e70",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
