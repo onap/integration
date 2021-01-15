@@ -46,6 +46,30 @@
       "revId": "a2a02463445ee785e7d8bb72f322a0c508102e70",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95586398_10a4d9c0",
+        "filename": "deployment/noheat/infra-openstack/vagrant/Vagrantfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2021-01-15T11:34:17Z",
+      "side": 1,
+      "message": "Ok sorry, I didn\u0027t tackle the fact that the policy in L150 is actually \"never\"; in that context my remark is irrelevant.\n\n/root/ dir should work ok I suppose.",
+      "parentUuid": "86b45e4b_fe959b1b",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 6
+      },
+      "revId": "a2a02463445ee785e7d8bb72f322a0c508102e70",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
