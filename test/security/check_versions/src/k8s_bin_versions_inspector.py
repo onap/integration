@@ -305,13 +305,17 @@ def sync_post_namespaced_pod_exec(
 
     # TODO: Is there really no better way, to check
     # execution exit code in python k8s API client?
-    code = (
-        0
-        if error["status"] == "Success"
-        else -2
-        if error["reason"] != "NonZeroExitCode"
-        else int(error["details"]["causes"][0]["message"])
-    )
+    code=-2
+    try:
+        code = (
+            0
+            if error["status"] == "Success"
+            else -2
+            if error["reason"] != "NonZeroExitCode"
+            else int(error["details"]["causes"][0]["message"])
+        )
+    except:
+        pass
 
     return {
         "stdout": stdout,
