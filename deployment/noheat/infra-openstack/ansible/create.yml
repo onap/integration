@@ -1,5 +1,5 @@
 ---
-- name: Create infrastructure
+- name: Prepare infrastructure and create operation instances
   hosts: localhost
   connection: local
   gather_facts: False
@@ -9,8 +9,7 @@
     - openstack/create_devstack_keypair
     - role: openstack/create_devstack_hosts
       hosts: "{{ operation.hosts }}"
-    - role: openstack/create_devstack_hosts
-      hosts: "{{ cluster.hosts }}"
+      operator_key: "dummy"
 - name: Create cluster operator access keypair
   hosts: "operator0"
   gather_facts: False
@@ -21,14 +20,11 @@
       community.crypto.openssh_keypair:
         path: "~/.ssh/{{ keypair.name }}"
       register: key
-- name: Deploy cluster operator public key
-  hosts: "cluster0"
+- name: Create cluster instances
+  hosts: localhost
+  connection: local
   gather_facts: False
-  tasks:
-    - name: Wait for system to become reachable
-      wait_for_connection:
-    - name: Add authorized key
-      ansible.posix.authorized_key:
-        user: "{{ image.user }}"
-        state: present
-        key: "{{ hostvars['operator0']['key']['public_key'] }}"
+  roles:
+    - role: openstack/create_devstack_hosts
+      hosts: "{{ cluster.hosts }}"
+      operator_key: "{{ hostvars['operator0']['key']['public_key'] }}"

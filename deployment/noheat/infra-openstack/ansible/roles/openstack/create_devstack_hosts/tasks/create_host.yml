@@ -13,6 +13,10 @@
     boot_from_volume: true
     terminate_volume: true
     volume_size: "{{ host.volume_size | default(10) }}"
+    userdata: |
+      #cloud-config
+      ssh_authorized_keys:
+        - "{{ operator_key }}"
   register: new_host
 
 - name: Add host to inventory
