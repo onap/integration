@@ -28,3 +28,13 @@
     - role: openstack/create_devstack_hosts
       hosts: "{{ cluster.hosts }}"
       operator_key: "{{ hostvars['operator0']['key']['public_key'] }}"
+- name: Create cluster operator access information
+  hosts: "operator0"
+  gather_facts: False
+  tasks:
+    - name: Add cluster hostnames to /etc/hosts file
+      lineinfile:
+        path: /etc/hosts
+        line: "{{ item.value + ' ' + item.key }}"
+      become: yes
+      loop: "{{ lookup('dict', hostvars['localhost']['hosts_dict']) }}"
