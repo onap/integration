@@ -15,8 +15,8 @@ image:
   name: &image_name "Ubuntu_18.04"
   user: "ubuntu"
 
-cluster:
-  name: "cluster0"
+operation:
+  name: "operation0"
   hosts:
     - name: "operator0"
       image: *image_name
@@ -25,6 +25,10 @@ cluster:
       network: *network_name
       securitygroup: *securitygroup_name
       volume_size: 20
+
+cluster:
+  name: "cluster0"
+  hosts:
     - name: "control0"
       image: *image_name
       flavor: "m1.xlarge"

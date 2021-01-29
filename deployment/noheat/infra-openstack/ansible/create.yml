@@ -8,6 +8,8 @@
     - openstack/create_devstack_securitygroup
     - openstack/create_devstack_keypair
     - role: openstack/create_devstack_hosts
+      hosts: "{{ operation.hosts }}"
+    - role: openstack/create_devstack_hosts
       hosts: "{{ cluster.hosts }}"
 - name: Create cluster operator access keypair
   hosts: "operator0"
