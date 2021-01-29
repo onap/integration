@@ -86,8 +86,8 @@ SCRIPT
 $add_os_image = <<-SCRIPT
   url="$1"
   name="$2"
-  image="$(mktemp)"
-  wget --quiet --output-document="$image" "$url"
+  image="/root/${name}.img"
+  wget --quiet --continue --output-document="$image" "$url"
   export OS_CLOUD=openstack
   openstack image create "$name" --public --disk-format qcow2 --container-format bare --file "$image"
 SCRIPT
