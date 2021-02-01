@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1aea6f8b_79c3e28c",
+        "filename": "deployment/noheat/infra-openstack/ansible/group_vars/all.yml.sample",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2021-02-01T08:02:03Z",
+      "side": 1,
+      "message": "I\u0027m not sure I\u0027m following but it seems a little bit strange to me to define hosts in group_vars. Should not they be defined in inventory and their properties in relevant group or host vars? There is a dynamic inventory script for ansible which will automatically build host list from cloud orchestrator in runtime so no need to predefine/hardcode them in inventory even.",
+      "revId": "cda6d6036449f37692b7ff6be571dd335689732b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
