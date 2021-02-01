@@ -1,4 +1,13 @@
 #/bin/bash
+#
+# Modifications copyright (C) 2021 Nokia. All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
 
 # Script for manually starting all simulators with test setting below
 # Matching json config is needed in CBS/Consul as well. Use consul_config.sh to add config to consul
@@ -31,6 +40,8 @@ export BASIC_AUTH_PASSWORD=demo123456!
 export SFTP_SIMS="localhost:21,localhost:22,localhost:23,localhost:24,localhost:25"  # Comma separated list for SFTP servers host:port
 export FTPES_SIMS="localhost:1022,localhost:1023,localhost:1024,localhost:1026,localhost:1026" # Comma separated list for FTPES servers host:port
 export HTTP_SIMS="localhost:81,localhost:82,localhost:83,localhost:84,localhost:85"  # Comma separated list for HTTP servers host:port
+export HTTPS_SIMS="localhost:444,localhost:445,localhost:446,localhost:447,localhost:448"  # Comma separated list for HTTPS (enabling client certificate authorization and basic authorization) servers host:port
+export HTTPS_SIMS_NO_AUTH="localhost:8081,localhost:8082,localhost:8083,localhost:8084,localhost:8085"  # Comma separated list for HTTPS (with no authorization) servers host:port
 
 export DR_REDIR_SIM="localhost"                               # Hostname of DR redirect server
 

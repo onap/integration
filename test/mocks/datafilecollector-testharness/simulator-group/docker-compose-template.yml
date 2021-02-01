@@ -78,6 +78,8 @@ services:
       SFTP_SIMS: ${SFTP_SIMS}
       FTPES_SIMS: ${FTPES_SIMS}
       HTTP_SIMS: ${HTTP_SIMS}
+      HTTPS_SIMS: ${HTTPS_SIMS}
+      HTTPS_SIMS_NO_AUTH: ${HTTPS_SIMS_NO_AUTH}
       NUM_FTP_SERVERS: ${NUM_FTP_SERVERS}
       NUM_HTTP_SERVERS: ${NUM_HTTP_SERVERS}
       MR_GROUPS: ${MR_GROUPS}
@@ -228,47 +230,67 @@ services:
     depends_on:
       - tls-init-container
 
-  http-server0:
+  http-https-server0:
     networks:
       - dfcnet
-    container_name: dfc_http-server0
-    image: http_httpd:latest
+    container_name: dfc_http-https-server0
+    image: http_https_httpd:latest
     ports:
       - "81:80"
+      - "444:443"
+      - "8081:8080"
     restart: on-failure
+    volumes:
+      - ./../certservice/generated-certs/apache-pem:/usr/local/apache2/certs/:rw
 
-  http-server1:
+  http-https-server1:
     networks:
       - dfcnet
-    container_name: dfc_http-server1
-    image: http_httpd:latest
+    container_name: dfc_http-https-server1
+    image: http_https_httpd:latest
     ports:
       - "82:80"
+      - "445:443"
+      - "8082:8080"
     restart: on-failure
+    volumes:
+      - ./../certservice/generated-certs/apache-pem:/usr/local/apache2/certs/:rw
 
-  http-server2:
+  http-https-server2:
     networks:
       - dfcnet
-    container_name: dfc_http-server2
-    image: http_httpd:latest
+    container_name: dfc_http-https-server2
+    image: http_https_httpd:latest
     ports:
       - "83:80"
+      - "446:443"
+      - "8083:8080"
     restart: on-failure
+    volumes:
+      - ./../certservice/generated-certs/apache-pem:/usr/local/apache2/certs/:rw
 
-  http-server3:
+  http-https-server3:
     networks:
       - dfcnet
-    container_name: dfc_http-server3
-    image: http_httpd:latest
+    container_name: dfc_http-https-server3
+    image: http_https_httpd:latest
     ports:
       - "84:80"
+      - "447:443"
+      - "8084:8080"
     restart: on-failure
+    volumes:
+      - ./../certservice/generated-certs/apache-pem:/usr/local/apache2/certs/:rw
 
-  http-server4:
+  http-https-server4:
     networks:
       - dfcnet
-    container_name: dfc_http-server4
-    image: http_httpd:latest
+    container_name: dfc_http-https-server4
+    image: http_https_httpd:latest
     ports:
       - "85:80"
+      - "448:443"
+      - "8085:8080"
     restart: on-failure
+    volumes:
+      - ./../certservice/generated-certs/apache-pem:/usr/local/apache2/certs/:rw

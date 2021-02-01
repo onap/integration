@@ -2,14 +2,19 @@ version: '3'
 
 services:
 
-  http-server:
-    container_name: http-server-httpd
+  http-https-server:
+    container_name: http-https-server-httpd
     image: httpd:alpine
+    environment:
+      APACHE_LOG_DIR: /usr/local/apache2/logs
     ports:
       - "80:80"
+      - "443:443"
+      - "8080:8080"
     volumes:
-      - ./configuration/htpasswd:/usr/local/apache2/conf/.htpasswd:ro
-      - ./configuration/httpd.conf:/usr/local/apache/conf/httpd.conf:ro
-
-      - ./files/onap/http/:/usr/local/apache2/htdocs
+      - ./apache2/conf/.htpasswd:/usr/local/apache2/conf/.htpasswd:ro
+      - ./apache2/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
+      - ./apache2/conf/extra/httpd-ssl.conf:/usr/local/apache2/conf/extra/httpd-ssl.conf:ro
+      - ./../certservice/generated-certs/apache-pem:/usr/local/apache2/certs:ro
+      - ./files/onap/http:/usr/local/apache2/htdocs
     restart: on-failure

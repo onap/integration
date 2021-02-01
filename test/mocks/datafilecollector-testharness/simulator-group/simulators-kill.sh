@@ -1,4 +1,13 @@
 #!/bin/bash
+#
+# Modifications copyright (C) 2021 Nokia. All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
 
 #Script to kill and remove all simulators
 docker logs dfc_mr-sim
@@ -21,6 +30,7 @@ docker kill dfc_http-server1
 docker kill dfc_http-server2
 docker kill dfc_http-server3
 docker kill dfc_http-server4
+docker kill oom-certservice-post-processor
 docker kill dfc_cbs
 docker kill dfc_consul
 
@@ -38,11 +48,12 @@ docker rm dfc_ftpes-server-vsftpd1
 docker rm dfc_ftpes-server-vsftpd2
 docker rm dfc_ftpes-server-vsftpd3
 docker rm dfc_ftpes-server-vsftpd4
-docker rm dfc_http-server0
-docker rm dfc_http-server1
-docker rm dfc_http-server2
-docker rm dfc_http-server3
-docker rm dfc_http-server4
+docker rm -f dfc_http-https-server0
+docker rm -f dfc_http-https-server1
+docker rm -f dfc_http-https-server2
+docker rm -f dfc_http-https-server3
+docker rm -f dfc_http-https-server4
+docker rm -f oom-certservice-post-processor
 docker rm dfc_cbs
 docker rm dfc_consul
 

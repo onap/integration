@@ -63,14 +63,14 @@ Stop a FTPES container with the supplied instance id (0-5).
 **start_ftpes \<ftpes-instance-id>**:
 Start a previously stopped FTPES container with the supplied instance id (0-5).
 
-**kill_http \<http-instance-id>**:
-Stop and remove a HTTP container with the supplied instance id (0-5).
+**kill_http_https \<http-instance-id>**:
+Stop and remove a HTTP/HTTPS container with the supplied instance id (0-5).
 
-**stop_http \<http-instance-id>**:
-Stop a HTTP container with the supplied instance id (0-5).
+**stop_http_https \<http-instance-id>**:
+Stop a HTTP/HTTPS container with the supplied instance id (0-5).
 
-**start_http \<http-instance-id>**:
-Start a previously stopped HTTP container with the supplied instance id (0-5).
+**start_http_https \<http-instance-id>**:
+Start a previously stopped HTTP/HTTPS container with the supplied instance id (0-5).
 
 **mr_print \<variable-name>**:
 Print a variable value from the MR simulator.

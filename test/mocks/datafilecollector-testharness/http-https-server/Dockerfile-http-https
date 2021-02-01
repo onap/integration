@@ -1,0 +1,15 @@
+FROM httpd:alpine
+
+RUN apk update
+
+ENV APACHE_LOG_DIR /usr/local/apache2/logs
+
+RUN mkdir /usr/local/apache2/certs
+
+COPY --chown=root:root apache2/certs /usr/local/apache2/certs
+COPY --chown=root:root apache2/conf /usr/local/apache2/conf
+COPY --chown=root:root apache2/conf/extra /usr/local/apache2/conf/extra
+
+RUN chmod 644 /usr/local/apache2/conf/.htpasswd
+RUN chmod 644 /usr/local/apache2/conf/httpd.conf
+RUN chmod 644 /usr/local/apache2/conf/extra/httpd-ssl.conf
