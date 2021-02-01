@@ -95,14 +95,14 @@ FILE_SIZE="1MB"               #File size for FTP file (1KB, 1MB, 5MB, 50MB or AL
 FTP_TYPE="SFTP"               #Type of FTP files to generate (SFTP, FTPES or ALL)
 
 If `FTP_TYPE` is set to `ALL`, both ftp servers will be populated with the same files. If set to `SFTP` or `FTPES` then only the server serving that protocol will be populated with files.
-`HTTP_TYPE` for now is only prepared for `HTTP` protocol. `HTTPS` protocol will be served in the future
+`HTTP_TYPE` is prepared for `HTTP` and `HTTPS` protocol. Note, thanks to configuration of http server, single action populates files for all HTTP/HTTPS server type.
 
 Run the script `docker-compose-setup.sh`to create a docker-compose with the desired settings. The desired setting
 in the script need to be manually adapted to for each specific simulator behavior according to the above. Check each simulator for available
 parameters.
 All simulators will be started with the generated docker-compose.yml file
 
-To generate ftp/http url with IP different from localhost, set SFTP_SIM_IP and/or FTPES_SIM_IP and/or HTTP_SIM_IP env variables to the addreses of the ftp servers before starting.
+To generate ftp/http/https url with IP different from localhost, set SFTP_SIM_IP and/or FTPES_SIM_IP and/or HTTP_SIM_IP and/or HTTPS_SIM_IP and/or HTTPS_SIM_NO_AUTH_IP env variables to the addreses of the ftp/http/https servers before starting.
 So farm, this only works when the simulator python script is started from the command line.
 
 Kill all the containers with `simulators-kill.se`

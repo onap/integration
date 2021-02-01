@@ -1,0 +1,18 @@
+version: "2.1"
+
+networks:
+  dfcnet:
+    external:
+      name: dfcnet
+
+services:
+  dfc_oom-cert-client-dfc-p12:
+    image: nexus3.onap.org:10001/onap/org.onap.oom.platform.cert-service.oom-certservice-client:2.1.0
+    container_name: oomcert-client-dfc-p12
+    env_file: ./../client-configuration/client-dfc-p12.env
+    networks:
+      - dfcnet
+    volumes:
+      - ./../generated/dfc-p12:/var/certs:rw
+      - ./../certservice-certs/truststore.jks:/etc/onap/oom/certservice/certs/truststore.jks
+      - ./../certservice-certs/certServiceClient-keystore.jks:/etc/onap/oom/certservice/certs/certServiceClient-keystore.jks

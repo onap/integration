@@ -10,7 +10,7 @@ This readme contains:
 
 The MR-sim is a python script delivering batches of events including one or more fileReady for one or more PNFs.
 It is possible to configure number of events, PNFs, consumer groups, exising or missing files, file prefixes and change identifier.
-In addition, MR sim can be configured to deliver file url for up to 5 FTP and 5 HTTP servers (simulating the PNFs).
+In addition, MR sim can be configured to deliver file url for up to 5 FTP and 5 HTTP/HTTPS/HTTPS with no auth servers (simulating the PNFs).
 
 ## Building and running
 
@@ -33,8 +33,10 @@ The following envrionment vaiables are used:
 - **FTPES_SIMS** - A comma-separated list of hostname:port for the FTP servers to generate ftpes file urls for. If not set MR sim will assume 'localhost:21'. Minimum 1 and maximum 5 host-port pairs can be given.
 - **SFTP_SIMS** - A comma-separated list of hostname:port for the FTP servers to generate sftp file urls for. If not set MR sim will assume 'localhost:1022'. Minimum 1 and maximum 5 host-port pairs can be given.
 - **HTTP_SIMS** - A comma-separated list of hostname:port for the HTTP servers to generate http file urls for. If not set MR sim will assume 'localhost:81'. Minimum 1 and maximum 5 host-port pairs can be given.
+- **HTTPS_SIMS** - A comma-separated list of hostname:port for the HTTPS servers (configured for client certificate authentication and basic authentication; certificates were obtained using CMPv2 server) to generate http file urls for. If not set MR sim will assume 'localhost:444'. Minimum 1 and maximum 5 host-port pairs can be given.
+- **HTTPS_SIMS_NO_AUTH** - A comma-separated list of hostname:port for the HTTPS servers with no autorization to generate http file urls for. If not set MR sim will assume 'localhost:8081'. Minimum 1 and maximum 5 host-port pairs can be given.
 - **NUM_FTP_SERVERS** - Number of FTP servers to use out of those specified in the envrioment variables above. The number shall be in the range 1-5.
-- **NUM_HTTP_SERVERS** - Number of HTTP servers to use out of those specified in the envrioment variables above. The number shall be in the range 1-5.
+- **NUM_HTTP_SERVERS** - Number of HTTP/HTTPS/HTTPS with no authorization servers to use out of those specified in the envrioment variables above. The number shall be in the range 1-5.
 - **MR_GROUPS** - A comma-separated list of consummer-group:changeId\[:changeId]\*. Defines which change identifier that should be used for each consumer group. If not set the MR-sim will assume 'OpenDcae-c12:PM_MEAS_FILES'.not set the MR-sim will assume 'OpenDcae-c12:PM_MEAS_FILES'.
 - **MR_FILE_PREFIX_MAPPING** - A comma-separated list of changeId:filePrefix. Defines which file prefix to use for each change identifier, needed to distinguish files for each change identifiers. If not set the MR-sim will assume 'PM_MEAS_FILES:A
 
@@ -179,13 +181,19 @@ TC1500 - 700 ME, SFTP, 1MB files, 100 files per event, 35 events per poll, simul
 
 Changing the first digit in tc number will change the test case to run FTPES or HTTP instead. Eg. TC201 is FTPES version of TC101.
 
-TC2XX is same as TC1XX but with FTPES, TC3XX is same as TC1XX but with HTTP
+TC2XX is same as TC1XX but with FTPES, TC3XX is same as TC1XX but with HTTP, TC4XX is same as TC1XX but with HTTPS 
+(with basic authorization). Note, in the case of HTTPS, some tests may not have direct correspondence in FTP tests 
+(TC403, TC404 described in the end of this section).  
 
 TC6XX is same as TC5XX but with FTPES
 
 TC8XX is same as TC7XX but with FTPES
 
 TC2XXX is same as TC1XXX but with FTPES
+
+TC403 - One ME, HTTPS with client certificate authentication, 1 1MB file, 1 event
+
+TC404 - One ME, HTTPS with no client authentication, 1 1MB file, 1 event
 
 ## Developer workflow
 

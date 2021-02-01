@@ -1,0 +1,45 @@
+version: "2.1"
+
+networks:
+  dfcnet:
+    external:
+      name: dfcnet
+
+services:
+  ejbca:
+    image: primekey/ejbca-ce:6.15.2.5
+    hostname: cahostname
+    container_name: oomcert-ejbca
+    ports:
+      - "80:8080"
+      - "443:8443"
+    volumes:
+      - ./ejbca/ejbca-configuration.sh:/opt/primekey/scripts/ejbca-configuration.sh
+      - ./ejbca/certprofile_CUSTOM_ENDUSER-1834889499.xml:/opt/primekey/custom_profiles/certprofile_CUSTOM_ENDUSER-1834889499.xml
+      - ./ejbca/entityprofile_Custom_EndEntity-1356531849.xml:/opt/primekey/custom_profiles/entityprofile_Custom_EndEntity-1356531849.xml
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -kI https://localhost:8443/ejbca/publicweb/healthcheck/ejbcahealth" ]
+      interval: 10s
+      timeout: 3s
+      retries: 15
+    networks:
+      - dfcnet
+
+  oom-cert-service:
+    image: nexus3.onap.org:10001/onap/org.onap.oom.platform.cert-service.oom-certservice-api:2.1.0
+    volumes:
+      - ./config/cmpServers.json:/etc/onap/oom/certservice/cmpServers.json
+      - ./certservice-certs/truststore.jks:/etc/onap/oom/certservice/certs/truststore.jks
+      - ./certservice-certs/root.crt:/etc/onap/oom/certservice/certs/root.crt
+      - ./certservice-certs/certServiceServer-keystore.jks:/etc/onap/oom/certservice/certs/certServiceServer-keystore.jks
+      - ./certservice-certs/certServiceServer-keystore.p12:/etc/onap/oom/certservice/certs/certServiceServer-keystore.p12
+    container_name: oomcert-service
+    ports:
+      - "8443:8443"
+    healthcheck:
+      test: ["CMD-SHELL", "curl https://localhost:8443/actuator/health --cacert /etc/onap/oom/certservice/certs/root.crt --cert-type p12 --cert /etc/onap/oom/certservice/certs/certServiceServer-keystore.p12 --pass secret"]
+      interval: 10s
+      timeout: 3s
+      retries: 15
+    networks:
+      - dfcnet
