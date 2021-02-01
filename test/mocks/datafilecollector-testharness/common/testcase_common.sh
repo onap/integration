@@ -161,20 +161,20 @@ docker build -t mrsim:latest . &> /dev/null
 cd ../ftpes-sftp-server
 docker build -t ftpes_vsftpd:latest -f Dockerfile-ftpes . &> /dev/null
 cd ../http-https-server
-docker build -t http_httpd:latest -f Dockerfile-http . &> /dev/null
+docker build -t http_https_httpd:latest -f Dockerfile-http-https . &> /dev/null
 cd $curdir
 
 echo ""
 
 echo "Local registry images for simulators:"
-echo "MR simulator        " $(docker images | grep mrsim)
-echo "DR simulator:       " $(docker images | grep drsim_common)
-echo "DR redir simulator: " $(docker images | grep drsim_common)
-echo "SFTP:               " $(docker images | grep atmoz/sftp)
-echo "FTPES:               " $(docker images | grep ftpes_vsftpd)
-echo "HTTP:               " $(docker images | grep http_httpd)
-echo "Consul:             " $(docker images | grep consul)
-echo "CBS:                " $(docker images | grep platform.configbinding.app)
+echo "MR simulator              " $(docker images | grep mrsim)
+echo "DR simulator:             " $(docker images | grep drsim_common)
+echo "DR redir simulator:       " $(docker images | grep drsim_common)
+echo "SFTP:                     " $(docker images | grep atmoz/sftp)
+echo "FTPES:                    " $(docker images | grep ftpes_vsftpd)
+echo "HTTP/HTTPS/HTTPS no auth: " $(docker images | grep http_https_httpd)
+echo "Consul:                   " $(docker images | grep consul)
+echo "CBS:                      " $(docker images | grep platform.configbinding.app)
 echo ""
 
 #Configure MR sim to use correct host:port for running dfc as an app or as a container
@@ -183,6 +183,8 @@ if [ $START_ARG == "manual-app" ]; then
 	export SFTP_SIMS=$SFTP_SIMS_LOCALHOST
 	export FTPES_SIMS=$FTPES_SIMS_LOCALHOST
 	export HTTP_SIMS=$HTTP_SIMS_LOCALHOST
+	export HTTPS_SIMS=$HTTPS_SIMS_LOCALHOST
+	export HTTPS_SIMS_NO_AUTH=HTTPS_SIMS_NO_AUTH_LOCALHOST
 	export DR_REDIR_SIM="localhost"
 fi
 #else
@@ -208,7 +210,7 @@ __do_curl() {
   		echo "<no-response-from-server>"
 		return 1
 	else
-		if [ $http_code -lt 200 ] && [ $http_code -gt 299]; then
+		if [ $http_code -lt 200 ] && [ $http_code -gt 299 ]; then
 			echo "<not found, resp:${http_code}>"
 			return 1
 		fi
@@ -379,7 +381,17 @@ __start_dfc_image() {
 	docker network ls| grep $DOCKER_SIM_NWNAME > /dev/null || docker network create $DOCKER_SIM_NWNAME
 
 	echo "Starting DFC: " $appname " with ports mapped to " $localport " and " $localport_secure " in docker network "$DOCKER_SIM_NWNAME
-	docker run -d --volume $(pwd)/../simulator-group/tls/:/opt/app/datafile/etc/cert/ -p $localport":8100" -p $localport_secure":8433" --network=$DOCKER_SIM_NWNAME -e CONSUL_HOST=$CONSUL_HOST -e CONSUL_PORT=$CONSUL_PORT -e CONFIG_BINDING_SERVICE=$CONFIG_BINDING_SERVICE -e CONFIG_BINDING_SERVICE_SERVICE_PORT=$CONFIG_BINDING_SERVICE_SERVICE_PORT -e HOSTNAME=$appname --name $appname $DFC_IMAGE
+	if [ $HTTP_TYPE = "HTTPS" ]
+	  then
+	    mkdir $SIM_GROUP/tls/external
+	    cp $SIM_GROUP/../certservice/generated/dfc-p12/* $SIM_GROUP/tls/external/
+	    docker run \
+        --name oom-certservice-post-processor \
+        --env-file $SIM_GROUP/../certservice/merger/merge-certs.env \
+        --mount type=bind,src=$SIM_GROUP/tls,dst=/opt/app/datafile/etc/cert \
+        nexus3.onap.org:10001/onap/org.onap.oom.platform.cert-service.oom-certservice-post-processor:latest
+	fi
+  docker run -d --volume $(pwd)/../simulator-group/tls/:/opt/app/datafile/etc/cert/ -p $localport":8100" -p $localport_secure":8433" --network=$DOCKER_SIM_NWNAME -e CONSUL_HOST=$CONSUL_HOST -e CONSUL_PORT=$CONSUL_PORT -e CONFIG_BINDING_SERVICE=$CONFIG_BINDING_SERVICE -e CONFIG_BINDING_SERVICE_SERVICE_PORT=$CONFIG_BINDING_SERVICE_SERVICE_PORT -e HOSTNAME=$appname --name $appname $DFC_IMAGE
 	sleep 3
 	set +x
 	dfc_started=false
@@ -517,15 +529,20 @@ log_sim_settings() {
 	echo "SFTP_SIMS=             "$SFTP_SIMS
 	echo "FTPES_SIMS=             "$FTPES_SIMS
 	echo "HTTP_SIMS=             "$HTTP_SIMS
+	echo "HTTPS_SIMS=            "$HTTPS_SIMS
+	echo "HTTPS_SIMS_NO_AUTH=     "$HTTPS_SIMS_NO_AUTH
 	echo ""
 }
 
-# Stop and remove all containers including dfc app and simulators
+# Stop and remove all containers including dfc app and simulators and related sources
 clean_containers() {
-	echo "Stopping all containers, dfc app(s) and simulators with name prefix 'dfc_'"
+	echo "Stopping all containers, dfc app(s) and simulators with name prefix 'dfc_' and 'oomcert'"
 	docker stop $(docker ps -q --filter name=dfc_) &> /dev/null
-	echo "Removing all containers, dfc app and simulators with name prefix 'dfc_'"
+	docker stop $(docker ps -q --filter name=oomcert) &> /dev/null
+	echo "Removing all containers, dfc app and simulators with name prefix 'dfc_' and 'oomcert'"
 	docker rm $(docker ps -a -q --filter name=dfc_) &> /dev/null
+	docker rm $(docker ps -a -q --filter name=oomcert) &> /dev/null
+	docker rm -f $(docker ps -a -q --filter name=oom-certservice-post-processor) &> /dev/null
 	echo "Removing unused docker networks with substring 'dfc' in network name"
 	docker network rm $(docker network ls -q --filter name=dfc)
 	echo ""
@@ -537,6 +554,7 @@ start_simulators() {
 	echo "Starting all simulators"
 	curdir=$PWD
 	cd $SIM_GROUP
+	export SIM_GROUP=$SIM_GROUP
 	$SIM_GROUP/simulators-start.sh
 	cd $curdir
 	echo ""
@@ -767,7 +785,7 @@ start_ftpes() {
 }
 
 # Stop and remove the HTTP container, arg: <http-instance-id>
-kill_http() {
+kill_http_https() {
 
 	if [ $# != 1 ]; then
     	__print_err "need one arg, <http-instance-id>"
@@ -778,16 +796,16 @@ kill_http() {
 		__print_err "arg should be 0.."$HTTP_MAX_IDX
 		exit 1
 	fi
-	appname=$HTTP_BASE$1
+	appname=$HTTP_HTTPS_BASE$1
 
-	echo "Killing HTTP, instance id: "$1
+	echo "Killing HTTP/HTTPS, instance id: "$1
 
 	__docker_stop $appname
 	__docker_rm $appname
 }
 
 # Stop HTTP container, arg: <http-instance-id>
-stop_http() {
+stop_http_https() {
 
 	if [ $# != 1 ]; then
     	__print_err "need one arg, <http-instance-id>"
@@ -798,15 +816,15 @@ stop_http() {
 		__print_err "arg should be 0.."$HTTP_MAX_IDX
 		exit 1
 	fi
-	appname=$HTTP_BASE$1
+	appname=$HTTP_HTTPS_BASE$1
 
-	echo "Stopping HTTP, instance id: "$1
+	echo "Stopping HTTP/HTTPS, instance id: "$1
 
 	__docker_stop $appname
 }
 
 # Starts a stopped HTTP container, arg: <http-instance-id>
-start_http() {
+start_http_https() {
 
 	if [ $# != 1 ]; then
     	__print_err "need one arg, <http-instance-id>"
@@ -817,9 +835,9 @@ start_http() {
 		__print_err "arg should be 0.."$HTTP_MAX_IDX
 		exit 1
 	fi
-	appname=$HTTP_BASE$1
+	appname=$HTTP_HTTPS_BASE$1
 
-	echo "Starting HTTP, instance id: "$1
+	echo "Starting HTTP/HTTPS, instance id: "$1
 
 	__docker_start $appname
 }
@@ -1200,7 +1218,7 @@ store_logs() {
 	done
 
 	for (( i=0; i<=$HTTP_MAX_IDX; i++ )); do
-		appname=$HTTP_BASE$i
+		appname=$HTTP_HTTPS_BASE$i
 		docker logs $appname > $TESTLOGS/$ATC/${1}_${appname}.log 2>&1
 	done
 

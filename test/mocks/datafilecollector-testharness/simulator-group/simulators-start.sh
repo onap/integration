@@ -12,16 +12,28 @@ server_check() {
 	echo "Simulator " $1 " on localhost:$2$3 - no response"
 }
 
-basic_auth_server_check() {
+http_https_basic_server_check() {
 	for i in {1..10}; do
-		res=$(curl  -s -o /dev/null -w "%{http_code}" http://$BASIC_AUTH_LOGIN:$BASIC_AUTH_PASSWORD@localhost:$2$3)
+		res=$(curl $4 -s -o /dev/null -w "%{http_code}" $3://$BASIC_AUTH_LOGIN:$BASIC_AUTH_PASSWORD@localhost:$2)
 		if [ $res -gt 199 ] && [ $res -lt 300 ]; then
-			echo "Simulator " $1 " on localhost:$2$3 responded ok"
+			echo "Simulator " $1 " on localhost:$2 responded ok"
 			return
 		fi
 		sleep 1
 	done
-	echo "Simulator " $1 " on localhost:$2$3 - no response"
+	echo "Simulator " $1 " on localhost:$2 - no response"
+}
+
+http_https_server_check() {
+	for i in {1..10}; do
+		res=$(curl $4 -s -o /dev/null -w "%{http_code}" $3://localhost:$2)
+		if [ $res -gt 199 ] && [ $res -lt 300 ]; then
+			echo "Simulator " $1 " on localhost:$2 responded ok"
+			return
+		fi
+		sleep 1
+	done
+	echo "Simulator " $1 " on localhost:$2 - no response"
 }
 
 server_check_https() {
@@ -38,7 +50,7 @@ server_check_https() {
 
 ftpes_server_check() {
 	for i in {1..10}; do
-		res=$(curl --silent --max-time 3 localhost:$2 2>&1 | grep vsFTPd)
+		res=$(curl --silent --max-time 3 ftp://localhost:$2 --ftp-ssl -v -k 2>&1 | grep vsFTPd)
 		if ! [ -z "$res" ]; then
 			echo "Simulator " $1 " on localhost:$2 responded ok"
 			return
@@ -50,7 +62,7 @@ ftpes_server_check() {
 
 sftp_server_check() {
 	for i in {1..10}; do
-		res=$(curl --silent --max-time 3 localhost:$2 2>&1 | grep OpenSSH)
+		res=$(curl --silent --max-time 3 sftp://localhost:$2 -v -k 2>&1 | grep Connected)
 		if ! [ -z "$res" ]; then
 			echo "Simulator " $1 " on localhost:"$2" responded ok"
 			return
@@ -66,6 +78,13 @@ sftp_server_check() {
 DOCKER_SIM_NWNAME="dfcnet"
 echo "Creating docker network $DOCKER_SIM_NWNAME, if needed"
 docker network ls| grep $DOCKER_SIM_NWNAME > /dev/null || docker network create $DOCKER_SIM_NWNAME
+
+if [ -z "$SIM_GROUP" ]
+ then
+ export SIM_GROUP="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+fi
+
+../certservice/prepare-environment-for-cert-retrieve.sh
 
 if [ -z "$NUM_FTP_SERVERS" ]
  then
@@ -88,6 +107,8 @@ declare -a SFTP_SIM
 declare -a FTPES_SIM
 declare -a HTTP_SIM
 
+OOMCERT_SERVICE="$(docker ps -q --filter='name=oomcert-service')"
+OOMCERT_EJBCA="$(docker ps -q --filter='name=oomcert-ejbca')"
 DR_SIM="$(docker ps -q --filter='name=dfc_dr-sim')"
 DR_RD_SIM="$(docker ps -q --filter='name=dfc_dr-redir-sim')"
 MR_SIM="$(docker ps -q --filter='name=dfc_mr-sim')"
@@ -101,17 +122,19 @@ FTPES_SIM[1]="$(docker ps -q --filter='name=dfc_ftpes-server-vsftpd1')"
 FTPES_SIM[2]="$(docker ps -q --filter='name=dfc_ftpes-server-vsftpd2')"
 FTPES_SIM[3]="$(docker ps -q --filter='name=dfc_ftpes-server-vsftpd3')"
 FTPES_SIM[4]="$(docker ps -q --filter='name=dfc_ftpes-server-vsftpd4')"
-HTTP_SIM[0]="$(docker ps -q --filter='name=dfc_http-server0')"
-HTTP_SIM[1]="$(docker ps -q --filter='name=dfc_http-server1')"
-HTTP_SIM[2]="$(docker ps -q --filter='name=dfc_http-server2')"
-HTTP_SIM[3]="$(docker ps -q --filter='name=dfc_http-server3')"
-HTTP_SIM[4]="$(docker ps -q --filter='name=dfc_http-server4')"
+HTTP_SIM[0]="$(docker ps -q --filter='name=dfc_http-https-server0')"
+HTTP_SIM[1]="$(docker ps -q --filter='name=dfc_http-https-server1')"
+HTTP_SIM[2]="$(docker ps -q --filter='name=dfc_http-https-server2')"
+HTTP_SIM[3]="$(docker ps -q --filter='name=dfc_http-https-server3')"
+HTTP_SIM[4]="$(docker ps -q --filter='name=dfc_http-https-server4')"
 CBS_SIM="$(docker ps -q --filter='name=dfc_cbs')"
 CONSUL_SIM="$(docker ps -q --filter='name=dfc_consul')"
 
 #Wait for initialization of docker containers for all simulators
 for i in {1..10}; do
-if [ $(docker inspect --format '{{ .State.Running }}' $DR_SIM) ] && \
+if [ $(docker inspect --format '{{ .State.Running }}' $OOMCERT_SERVICE) ] && \
+[ $(docker inspect --format '{{ .State.Running }}' $OOMCERT_EJBCA) ] && \
+[ $(docker inspect --format '{{ .State.Running }}' $DR_SIM) ] && \
 [ $(docker inspect --format '{{ .State.Running }}' $DR_RD_SIM) ] && \
 [ $(docker inspect --format '{{ .State.Running }}' $MR_SIM) ] && \
 [ $(docker inspect --format '{{ .State.Running }}' ${SFTP_SIM[0]}) ] && \
@@ -168,11 +191,26 @@ sftp_server_check "SFTP server 1" 1023
 sftp_server_check "SFTP server 2" 1024
 sftp_server_check "SFTP server 3" 1025
 sftp_server_check "SFTP server 4" 1026
-basic_auth_server_check "HTTP server 0" 81
-basic_auth_server_check "HTTP server 1" 82
-basic_auth_server_check "HTTP server 2" 83
-basic_auth_server_check "HTTP server 3" 84
-basic_auth_server_check "HTTP server 4" 85
+http_https_basic_server_check "HTTP basic auth server 0" 81 http
+http_https_basic_server_check "HTTP basic auth server 1" 82 http
+http_https_basic_server_check "HTTP basic auth server 2" 83 http
+http_https_basic_server_check "HTTP basic auth server 3" 84 http
+http_https_basic_server_check "HTTP basic auth server 4" 85 http
+http_https_basic_server_check "HTTPS basic auth server 0" 444 https -k
+http_https_basic_server_check "HTTPS basic auth server 1" 445 https -k
+http_https_basic_server_check "HTTPS basic auth server 2" 446 https -k
+http_https_basic_server_check "HTTPS basic auth server 3" 447 https -k
+http_https_basic_server_check "HTTPS basic auth server 4" 448 https -k
+http_https_server_check "HTTPS client certificate authentication server 0" 444 https "-k --cert ../certservice/generated/apache-certs/keystore.pem --key ../certservice/generated/apache-certs/key.pem"
+http_https_server_check "HTTPS client certificate authentication server 1" 445 https "-k --cert ../certservice/generated/apache-certs/keystore.pem --key ../certservice/generated/apache-certs/key.pem"
+http_https_server_check "HTTPS client certificate authentication server 2" 446 https "-k --cert ../certservice/generated/apache-certs/keystore.pem --key ../certservice/generated/apache-certs/key.pem"
+http_https_server_check "HTTPS client certificate authentication server 3" 447 https "-k --cert ../certservice/generated/apache-certs/keystore.pem --key ../certservice/generated/apache-certs/key.pem"
+http_https_server_check "HTTPS client certificate authentication server 4" 448 https "-k --cert ../certservice/generated/apache-certs/keystore.pem --key ../certservice/generated/apache-certs/key.pem"
+http_https_server_check "HTTPS no auth server 0" 8081 https -k
+http_https_server_check "HTTPS no auth server 1" 8082 https -k
+http_https_server_check "HTTPS no auth server 2" 8083 https -k
+http_https_server_check "HTTPS no auth server 3" 8084 https -k
+http_https_server_check "HTTPS no auth server 4" 8085 https -k
 
 echo ""
 
@@ -235,7 +273,7 @@ if [ -z "$HTTP_FILE_PREFIXES" ]
  HTTP_FILE_PREFIXES="A"
 fi
 
-if [ $HTTP_TYPE = "ALL" ] || [ $HTTP_TYPE = "HTTP" ]; then
+if [ $HTTP_TYPE = "ALL" ] || [ $HTTP_TYPE = "HTTP" ] || [ $HTTP_TYPE = "HTTPS" ]; then
 	echo "Creating files for HTTP server, may take time...."
 	p=0
 	while [ $p -lt $NUM_HTTP_SERVERS ]; do

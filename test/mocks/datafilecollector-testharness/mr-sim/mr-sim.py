@@ -19,9 +19,12 @@ ftpes_hosts = []
 ftpes_ports = []
 http_hosts = []
 http_ports = []
+https_hosts = []
+https_ports = []
+https_hosts_no_auth = []
+https_ports_no_auth = []
 num_ftp_servers = 1
 num_http_servers = 1
-
 
 def sumList(ctrArray):
     tmp = 0
@@ -525,6 +528,18 @@ def MR_reply(consumerGroup, consumerId):
     elif args.tc302:
         return tc100(groupIndex, changeId, filePrefix, "http", "50MB")
 
+    elif args.tc400:
+        return tc100(groupIndex, changeId, filePrefix, "https", "1MB")
+    elif args.tc401:
+        return tc100(groupIndex, changeId, filePrefix, "https", "5MB")
+    elif args.tc402:
+        return tc100(groupIndex, changeId, filePrefix, "https", "50MB")
+    elif args.tc403:
+        return tc100(groupIndex, changeId, filePrefix, "httpsCAuth", "1MB")
+    elif args.tc404:
+        return tc100(groupIndex, changeId, filePrefix, "httpsNoAuth", "1MB")
+
+
 #### Test case functions
 
 
@@ -543,7 +558,8 @@ def tc100(groupIndex, changeId, filePrefix, schemeType, fileSize):
     fileName = createFileName(groupIndex, filePrefix, nodeName, seqNr, fileSize)
     msg = getEventHead(groupIndex, changeId, nodeName) + getEventName(fileName, schemeType, "onap", "pano",
                                                                       nodeIndex) + getEventEnd()
-    if schemeType == "http":
+    if (schemeType == "http") or (schemeType == "https") \
+            or (schemeType == "httpsCAuth") or (schemeType == "httpsNoAuth"):
         msg = getEventHead(groupIndex, changeId, nodeName) + getEventName(fileName, schemeType, "demo", "demo123456!",
                                                                           nodeIndex) + getEventEnd()
     fileMap[groupIndex][seqNr * hash(filePrefix)] = seqNr
@@ -1192,20 +1208,37 @@ def getEventName(fn, type, user, passwd, nodeIndex):
     nodeIndex = nodeIndex % num_ftp_servers
     port = sftp_ports[nodeIndex]
     ip = sftp_hosts[nodeIndex]
-    if (type == "ftpes"):
+    location_variant = type + """://""" + user + """:""" + passwd + """@""" + ip + """:""" + str(port)
+    if type == "ftpes":
         port = ftpes_ports[nodeIndex]
         ip = ftpes_hosts[nodeIndex]
-    elif (type == "http"):
+        location_variant = type + """://""" + user + """:""" + passwd + """@""" + ip + """:""" + str(port)
+    elif type == "http":
         nodeIndex = nodeIndex % num_http_servers
         port = http_ports[nodeIndex]
         ip = http_hosts[nodeIndex]
+        location_variant = type + """://""" + user + """:""" + passwd + """@""" + ip + """:""" + str(port)
+    elif type == "https":
+        nodeIndex = nodeIndex % num_http_servers
+        port = https_ports[nodeIndex]
+        ip = https_hosts[nodeIndex]
+        location_variant = type + """://""" + user + """:""" + passwd + """@""" + ip + """:""" + str(port)
+    elif type == "httpsCAuth":
+        alt_type = "https"
+        port = https_ports[nodeIndex]
+        ip = https_hosts[nodeIndex]
+        location_variant = alt_type + """://""" + ip + """:""" + str(port)
+    elif type == "httpsNoAuth":
+        alt_type = "https"
+        port = https_ports_no_auth[nodeIndex]
+        ip = https_hosts_no_auth[nodeIndex]
+        location_variant = alt_type + """://""" + ip + """:""" + str(port)
 
     nameStr = """{
                   "name": \"""" + fn + """",
                   "hashMap": {
                     "fileFormatType": "org.3GPP.32.435#measCollec",
-                    "location": \"""" + type + """://""" + user + """:""" + passwd + """@""" + ip + """:""" + str(
-        port) + """/""" + fn + """",
+                    "location": \"""" + location_variant + """/""" + fn + """",
                     "fileFormatVersion": "V10",
                     "compression": "gzip"
                   }
@@ -1248,14 +1281,18 @@ if __name__ == "__main__":
     sftp_sims = os.environ.get('SFTP_SIMS', 'localhost:1022')
     ftpes_sims = os.environ.get('FTPES_SIMS', 'localhost:21')
     http_sims = os.environ.get('HTTP_SIMS', 'localhost:81')
+    https_sims = os.environ.get('HTTPS_SIMS', 'localhost:444')
+    https_sims_no_auth = os.environ.get('HTTPS_SIMS_NO_AUTH', 'localhost:8081')
     num_ftp_servers = int(os.environ.get('NUM_FTP_SERVERS', 1))
     num_http_servers = int(os.environ.get('NUM_HTTP_SERVERS', 1))
 
     print("Configured sftp sims: " + sftp_sims)
     print("Configured ftpes sims: " + ftpes_sims)
     print("Configured http sims: " + http_sims)
+    print("Configured https sims: " + https_sims)
+    print("Configured https with no authorization sims: " + https_sims_no_auth)
     print("Configured number of ftp servers: " + str(num_ftp_servers))
-    print("Configured number of http servers: " + str(num_http_servers))
+    print("Configured number of http/https/https with no auth servers: " + str(num_http_servers) + " each")
 
     tmp = sftp_sims.split(',')
     for i in range(len(tmp)):
@@ -1274,6 +1311,19 @@ if __name__ == "__main__":
         hp = tmp[i].split(':')
         http_hosts.append(hp[0])
         http_ports.append(hp[1])
+
+    tmp = https_sims.split(',')
+    for i in range(len(tmp)):
+        hp = tmp[i].split(':')
+        https_hosts.append(hp[0])
+        https_ports.append(hp[1])
+
+    tmp = https_sims_no_auth.split(',')
+    for i in range(len(tmp)):
+        hp = tmp[i].split(':')
+        https_hosts_no_auth.append(hp[0])
+        https_ports_no_auth.append(hp[1])
+
 
     groups = os.environ.get('MR_GROUPS', 'OpenDcae-c12:PM_MEAS_FILES')
     print("Groups detected: " + groups)
@@ -1637,6 +1687,28 @@ if __name__ == "__main__":
         action='store_true',
         help='TC302 - One ME, HTTP, 1 50MB file, 1 event')
 
+    # HTTPS TCs with single ME
+    parser.add_argument(
+        '--tc400',
+        action='store_true',
+        help='TC400 - One ME, HTTPS, 1 1MB file, 1 event')
+    parser.add_argument(
+        '--tc401',
+        action='store_true',
+        help='TC401 - One ME, HTTPS, 1 5MB file, 1 event')
+    parser.add_argument(
+        '--tc402',
+        action='store_true',
+        help='TC402 - One ME, HTTPS, 1 50MB file, 1 event')
+    parser.add_argument(
+        '--tc403',
+        action='store_true',
+        help='TC403 - One ME, HTTPS client certificare authentication, 1 1MB file, 1 event')
+    parser.add_argument(
+        '--tc404',
+        action='store_true',
+        help='TC404 - One ME, HTTPS no client authentication, 1 1MB file, 1 event')
+
     args = parser.parse_args()
 
     if args.tc100:
@@ -1778,6 +1850,17 @@ if __name__ == "__main__":
     elif args.tc302:
         tc_num = "TC# 302"
 
+    elif args.tc400:
+        tc_num = "TC# 400"
+    elif args.tc401:
+        tc_num = "TC# 401"
+    elif args.tc402:
+        tc_num = "TC# 402"
+    elif args.tc403:
+        tc_num = "TC# 403"
+    elif args.tc404:
+        tc_num = "TC# 404"
+
     else:
         print("No TC was defined")
         print("use --help for usage info")
@@ -1797,8 +1880,18 @@ if __name__ == "__main__":
         print("Using " + str(http_hosts[i]) + ":" + str(http_ports[i]) + " for http server with index " + str(
             i) + " for http server address and port in file urls.")
 
+    for i in range(len(https_hosts)):
+        print("Using " + str(https_hosts[i]) + ":" + str(https_ports[i]) + " for https server with index " + str(
+            i) + " for https server address and port in file urls.")
+
+    for i in range(len(https_hosts_no_auth)):
+        print("Using " + str(https_hosts_no_auth[i]) + ":" + str(https_ports_no_auth[i])
+              + " for https server with no authentication with index " + str(i)
+              + " for https server address and port in file urls.")
+
     print("Using up to " + str(num_ftp_servers) + " ftp servers, for each protocol for PNFs.")
-    print("Using up to " + str(num_http_servers) + " http servers, for each protocol for PNFs.")
+    print("Using up to " + str(num_http_servers)
+          + " http/https/https with no auth servers, for each protocol for PNFs.")
 
 
     def https_app(**kwargs):

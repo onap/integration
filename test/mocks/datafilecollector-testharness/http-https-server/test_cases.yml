@@ -3,14 +3,14 @@
 TC1:
   size_files: 1 5 10
   number_files: 10 30 10
-  directory_files: http
+  directory_files: http http http
 
 TC2:
   size_files: 0.5 1 5
   number_files: 2 3 1
-  directory_files: http
+  directory_files: http http http
 
 TC_10000:
   size_files: 1 1 5 5 50 50
   number_files: 10000 10000 10000 10000 1 1
-  directory_files: http
+  directory_files: http http http http http http
