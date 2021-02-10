@@ -1,0 +1,486 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "edb4b2f4_7e0a7648",
+        "filename": "test/mocks/datafilecollector-testharness/auto-test/FTC400.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 105
+      },
+      "writtenOn": "2021-02-10T02:13:11Z",
+      "side": 1,
+      "message": "copyright \u0026 license\n\nif there are no bashisms used, then change to #!/bin/sh",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fdbb08d8_202ca366",
+        "filename": "test/mocks/datafilecollector-testharness/auto-test/FTC401.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 105
+      },
+      "writtenOn": "2021-02-10T02:13:11Z",
+      "side": 1,
+      "message": "copyright \u0026 license\n\nif there are no bashisms used, then change to #!/bin/sh",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9d54200_d0cc78af",
+        "filename": "test/mocks/datafilecollector-testharness/auto-test/FTC402.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 105
+      },
+      "writtenOn": "2021-02-10T02:13:11Z",
+      "side": 1,
+      "message": "copyright \u0026 license\n\nif there are no bashisms used, then change to #!/bin/sh",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f420bb4_c26e5910",
+        "filename": "test/mocks/datafilecollector-testharness/auto-test/FTC403.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 105
+      },
+      "writtenOn": "2021-02-10T02:13:11Z",
+      "side": 1,
+      "message": "copyright \u0026 license\n\nif there are no bashisms used, then change to #!/bin/sh",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b77a5ed_816ae0bd",
+        "filename": "test/mocks/datafilecollector-testharness/auto-test/FTC404.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 105
+      },
+      "writtenOn": "2021-02-10T02:13:11Z",
+      "side": 1,
+      "message": "copyright \u0026 license\n\nif there are no bashisms used, then change to #!/bin/bsh",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4da3b151_63953517",
+        "filename": "test/mocks/datafilecollector-testharness/auto-test/SingleFileSuite.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 105
+      },
+      "writtenOn": "2021-02-10T02:13:11Z",
+      "side": 1,
+      "message": "copyright \u0026 license",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48f88fa3_4df9cf58",
+        "filename": "test/mocks/datafilecollector-testharness/auto-test/SingleFileSuite.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 105
+      },
+      "writtenOn": "2021-02-10T02:13:11Z",
+      "side": 1,
+      "message": "add \"\" around all variable references, such as \"$1\" and \"$2\"",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a552f089_e05a5961",
+        "filename": "test/mocks/datafilecollector-testharness/certservice/client-configuration/client-dfc-p12.env",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 105
+      },
+      "writtenOn": "2021-02-10T02:13:11Z",
+      "side": 1,
+      "message": "use something like \"sample-secret-goes-here\" for each of the PASSWORD variables here",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d0144de_3432bb6d",
+        "filename": "test/mocks/datafilecollector-testharness/certservice/client-configuration/client-http-https-server.env",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 105
+      },
+      "writtenOn": "2021-02-10T02:13:11Z",
+      "side": 1,
+      "message": "use something like \"sample-secret-goes-here\" for each of the PASSWORD variables here",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2a137eb_46d6e273",
+        "filename": "test/mocks/datafilecollector-testharness/certservice/ejbca/ejbca-configuration.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 105
+      },
+      "writtenOn": "2021-02-10T02:13:11Z",
+      "side": 1,
+      "message": "copyright \u0026 license",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4bcf198_45e00754",
+        "filename": "test/mocks/datafilecollector-testharness/certservice/ejbca/ejbca-configuration.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 105
+      },
+      "writtenOn": "2021-02-10T02:13:11Z",
+      "side": 1,
+      "message": "Why put it into the sole function of the script and then invoke only it?\nWhy not eliminate the function?",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dceb365b_e46d4369",
+        "filename": "test/mocks/datafilecollector-testharness/certservice/prepare-environment-for-cert-retrieve.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 105
+      },
+      "writtenOn": "2021-02-10T02:13:11Z",
+      "side": 1,
+      "message": "add \"\" around all variable references, such as \"$SIM_GROUP/../certservice/certservice-certs\" and other references below",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6711cbb_67a150c8",
+        "filename": "test/mocks/datafilecollector-testharness/common/test_env.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 105
+      },
+      "writtenOn": "2021-02-10T02:13:11Z",
+      "side": 1,
+      "message": "copyright \u0026 license",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db57146c_58b59adc",
+        "filename": "test/mocks/datafilecollector-testharness/common/testcase_common.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 105
+      },
+      "writtenOn": "2021-02-10T02:13:11Z",
+      "side": 1,
+      "message": "copyright \u0026 license",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ce324a0_50b11196",
+        "filename": "test/mocks/datafilecollector-testharness/common/testcase_common.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 105
+      },
+      "writtenOn": "2021-02-10T02:13:11Z",
+      "side": 1,
+      "message": "add \"\" around \"$DOCKER_SIM_NWNAME\"",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8b96ad7_b00510aa",
+        "filename": "test/mocks/datafilecollector-testharness/common/testcase_common.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 105
+      },
+      "writtenOn": "2021-02-10T02:13:11Z",
+      "side": 1,
+      "message": "add \"\" around variable references, such as \"$HTTP_TYPE\" here and \"$SIM_GROUP\" below",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b982fab_185a827f",
+        "filename": "test/mocks/datafilecollector-testharness/http-https-server/Dockerfile-http-https",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 105
+      },
+      "writtenOn": "2021-02-10T02:13:11Z",
+      "side": 1,
+      "message": "license \u0026 copyright?",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47b74b49_c30a81d3",
+        "filename": "test/mocks/datafilecollector-testharness/http-https-server/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 105
+      },
+      "writtenOn": "2021-02-10T02:13:11Z",
+      "side": 1,
+      "message": "To properly run the https server, certificates generated using CMPv2 server are needed.",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 84
+      },
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05354300_104aec36",
+        "filename": "test/mocks/datafilecollector-testharness/mr-sim/mr-sim.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 105
+      },
+      "writtenOn": "2021-02-10T02:13:11Z",
+      "side": 1,
+      "message": "copyright \u0026 license?\n\nfile docstring?",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25203398_4bb889fa",
+        "filename": "test/mocks/datafilecollector-testharness/simulator-group/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 105
+      },
+      "writtenOn": "2021-02-10T02:13:11Z",
+      "side": 1,
+      "message": "To generate an ftp/http/https url with an IP different from localhost, set the SFTP_SIM_IP and/or FTPES_SIM_IP and/or HTTP_SIM_IP and/or HTTPS_SIM_IP and/or HTTPS_SIM_NO_AUTH_IP env variables to the address(es) of the ftp/http/https servers before starting.",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f12a1733_3b06c479",
+        "filename": "test/mocks/datafilecollector-testharness/simulator-group/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 105
+      },
+      "writtenOn": "2021-02-10T02:13:11Z",
+      "side": 1,
+      "message": "\"So far,\" ????",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4666fb21_a1dadbb7",
+        "filename": "test/mocks/datafilecollector-testharness/simulator-group/docker-compose-setup.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 105
+      },
+      "writtenOn": "2021-02-10T02:13:11Z",
+      "side": 1,
+      "message": "copyright \u0026 license",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a343107e_2fe06ef8",
+        "filename": "test/mocks/datafilecollector-testharness/simulator-group/docker-compose-template.yml",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 105
+      },
+      "writtenOn": "2021-02-10T02:13:11Z",
+      "side": 1,
+      "message": "copyright and license?",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fed77b35_be54acc9",
+        "filename": "test/mocks/datafilecollector-testharness/simulator-group/prepare-images.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 105
+      },
+      "writtenOn": "2021-02-10T02:13:11Z",
+      "side": 1,
+      "message": "copyright and license?",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7d34c7a_49e16738",
+        "filename": "test/mocks/datafilecollector-testharness/simulator-group/simulators-kill.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 105
+      },
+      "writtenOn": "2021-02-10T02:13:11Z",
+      "side": 1,
+      "message": "missing license and copyright block",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ce47937_ddb99e0f",
+        "filename": "test/mocks/datafilecollector-testharness/simulator-group/simulators-start.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 105
+      },
+      "writtenOn": "2021-02-10T02:13:11Z",
+      "side": 1,
+      "message": "needs a license and copyright block",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1da216c_920afb5b",
+        "filename": "test/mocks/datafilecollector-testharness/simulator-group/simulators-start.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 105
+      },
+      "writtenOn": "2021-02-10T02:13:11Z",
+      "side": 1,
+      "message": "add \"\" around all variable references, such as \"$res\"",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f75129d_e291ebae",
+        "filename": "test/mocks/datafilecollector-testharness/simulator-group/simulators-start.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 105
+      },
+      "writtenOn": "2021-02-10T02:13:11Z",
+      "side": 1,
+      "message": "add \"\" around all variable references, such as \"$4\" and \"$3://$BASIC_AUTH_LOGIN:$BASIC_AUTH_PASSWORD@localhost:$2\"\n\nsubsequent variable referenences should be dealt with similarly",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
