@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e3feb9e6_ce40a7c2",
+        "filename": "test/mocks/datafilecollector-testharness/auto-test/FTC400.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 6675
+      },
+      "writtenOn": "2021-02-11T18:30:49Z",
+      "side": 1,
+      "message": "I\u0027m wondering to add copyright \u0026 license as there is no such info in datafile scripts.\nNevertheless I see, there are some in another folders.\n\n#!/bin/bash is used in every auto-test and possibly almost all dfc related scripts, so I\u0027ll left it.",
+      "parentUuid": "edb4b2f4_7e0a7648",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fdbb08d8_202ca366",
         "filename": "test/mocks/datafilecollector-testharness/auto-test/FTC401.sh",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3129f5ff_c3d6e482",
+        "filename": "test/mocks/datafilecollector-testharness/auto-test/FTC401.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 6675
+      },
+      "writtenOn": "2021-02-11T18:30:49Z",
+      "side": 1,
+      "message": "the same as FTC400.sh",
+      "parentUuid": "fdbb08d8_202ca366",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "5c548bf9_6642b746",
+        "filename": "test/mocks/datafilecollector-testharness/auto-test/FTC402.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 6675
+      },
+      "writtenOn": "2021-02-11T18:30:49Z",
+      "side": 1,
+      "message": "the same as FTC400.sh",
+      "parentUuid": "b9d54200_d0cc78af",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f420bb4_c26e5910",
         "filename": "test/mocks/datafilecollector-testharness/auto-test/FTC403.sh",
         "patchSetId": 3
@@ -67,6 +121,24 @@
       "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93730a5f_7a427aa4",
+        "filename": "test/mocks/datafilecollector-testharness/auto-test/FTC403.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 6675
+      },
+      "writtenOn": "2021-02-11T18:30:49Z",
+      "side": 1,
+      "message": "the same as FTC400.sh",
+      "parentUuid": "5f420bb4_c26e5910",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "70f4d868_1719d3a8",
+        "filename": "test/mocks/datafilecollector-testharness/auto-test/FTC404.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 6675
+      },
+      "writtenOn": "2021-02-11T18:30:49Z",
+      "side": 1,
+      "message": "the same as FTC400.sh",
+      "parentUuid": "7b77a5ed_816ae0bd",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4da3b151_63953517",
         "filename": "test/mocks/datafilecollector-testharness/auto-test/SingleFileSuite.sh",
         "patchSetId": 3
@@ -101,6 +191,24 @@
       "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "955a84f4_ac096c66",
+        "filename": "test/mocks/datafilecollector-testharness/auto-test/SingleFileSuite.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 6675
+      },
+      "writtenOn": "2021-02-11T18:30:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4da3b151_63953517",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "73a1c937_d7d57112",
+        "filename": "test/mocks/datafilecollector-testharness/auto-test/SingleFileSuite.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6675
+      },
+      "writtenOn": "2021-02-11T18:30:49Z",
+      "side": 1,
+      "message": "See no reason as it is working, but added",
+      "parentUuid": "48f88fa3_4df9cf58",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a552f089_e05a5961",
         "filename": "test/mocks/datafilecollector-testharness/certservice/client-configuration/client-dfc-p12.env",
         "patchSetId": 3
@@ -135,6 +261,24 @@
       "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5179b13b_0f433429",
+        "filename": "test/mocks/datafilecollector-testharness/certservice/client-configuration/client-dfc-p12.env",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 6675
+      },
+      "writtenOn": "2021-02-11T18:30:49Z",
+      "side": 1,
+      "message": "This can\u0027t be done in that way as this is config given directly to the container.\nAlso, this is in format present also in other certservice clients present in ONAP.\nNevertheless this change is not applicable now, as in P4 certservice folder was \ngreately redesigned.",
+      "parentUuid": "a552f089_e05a5961",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "822a96de_468a5861",
+        "filename": "test/mocks/datafilecollector-testharness/certservice/client-configuration/client-http-https-server.env",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 6675
+      },
+      "writtenOn": "2021-02-11T18:30:49Z",
+      "side": 1,
+      "message": "the same as in client-dfc-p12.env",
+      "parentUuid": "2d0144de_3432bb6d",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c2a137eb_46d6e273",
         "filename": "test/mocks/datafilecollector-testharness/certservice/ejbca/ejbca-configuration.sh",
         "patchSetId": 3
@@ -169,6 +331,24 @@
       "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1bd7a74_bac087df",
+        "filename": "test/mocks/datafilecollector-testharness/certservice/ejbca/ejbca-configuration.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 6675
+      },
+      "writtenOn": "2021-02-11T18:30:49Z",
+      "side": 1,
+      "message": "not applicable with P4",
+      "parentUuid": "c2a137eb_46d6e273",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "223312e9_4df450e7",
+        "filename": "test/mocks/datafilecollector-testharness/certservice/ejbca/ejbca-configuration.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 6675
+      },
+      "writtenOn": "2021-02-11T18:30:49Z",
+      "side": 1,
+      "message": "This is an extract used for ejbca configuration - exact copy from cert-service project. For that reason in my opinion this should be keepped as it is now.\nNevertheless, not applicable with P4.",
+      "parentUuid": "a4bcf198_45e00754",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dceb365b_e46d4369",
         "filename": "test/mocks/datafilecollector-testharness/certservice/prepare-environment-for-cert-retrieve.sh",
         "patchSetId": 3
@@ -203,6 +401,24 @@
       "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d1289e9_e50862b5",
+        "filename": "test/mocks/datafilecollector-testharness/certservice/prepare-environment-for-cert-retrieve.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6675
+      },
+      "writtenOn": "2021-02-11T18:30:49Z",
+      "side": 1,
+      "message": "not applicable in P4",
+      "parentUuid": "dceb365b_e46d4369",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -223,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "d30e892a_a0117127",
+        "filename": "test/mocks/datafilecollector-testharness/common/test_env.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 6675
+      },
+      "writtenOn": "2021-02-11T18:30:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6711cbb_67a150c8",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db57146c_58b59adc",
         "filename": "test/mocks/datafilecollector-testharness/common/testcase_common.sh",
         "patchSetId": 3
@@ -237,6 +471,24 @@
       "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9415bec9_80d87eac",
+        "filename": "test/mocks/datafilecollector-testharness/common/testcase_common.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 6675
+      },
+      "writtenOn": "2021-02-11T18:30:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db57146c_58b59adc",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -257,6 +509,24 @@
     },
     {
       "key": {
+        "uuid": "ce66354f_a9c44c62",
+        "filename": "test/mocks/datafilecollector-testharness/common/testcase_common.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 6675
+      },
+      "writtenOn": "2021-02-11T18:30:49Z",
+      "side": 1,
+      "message": "Could you explain why should I change this, especially in untouched part of code?\n\nIf so, such work could be a part of much greater code refactoring as a separate ticket?",
+      "parentUuid": "8ce324a0_50b11196",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8b96ad7_b00510aa",
         "filename": "test/mocks/datafilecollector-testharness/common/testcase_common.sh",
         "patchSetId": 3
@@ -274,6 +544,24 @@
     },
     {
       "key": {
+        "uuid": "67c58597_adaa0d47",
+        "filename": "test/mocks/datafilecollector-testharness/common/testcase_common.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 6675
+      },
+      "writtenOn": "2021-02-11T18:30:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8b96ad7_b00510aa",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b982fab_185a827f",
         "filename": "test/mocks/datafilecollector-testharness/http-https-server/Dockerfile-http-https",
         "patchSetId": 3
@@ -288,6 +576,24 @@
       "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35b3e7be_f0444bef",
+        "filename": "test/mocks/datafilecollector-testharness/http-https-server/Dockerfile-http-https",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6675
+      },
+      "writtenOn": "2021-02-11T18:30:49Z",
+      "side": 1,
+      "message": "See no reason for putting license into dockerfile, but I agree that (nly) one dockerfile in integration contains this.",
+      "parentUuid": "9b982fab_185a827f",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -314,6 +620,30 @@
     },
     {
       "key": {
+        "uuid": "9c438860_5697d0e2",
+        "filename": "test/mocks/datafilecollector-testharness/http-https-server/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 6675
+      },
+      "writtenOn": "2021-02-11T18:30:49Z",
+      "side": 1,
+      "message": "This part of md file was rewritten.",
+      "parentUuid": "47b74b49_c30a81d3",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 84
+      },
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "05354300_104aec36",
         "filename": "test/mocks/datafilecollector-testharness/mr-sim/mr-sim.py",
         "patchSetId": 3
@@ -328,6 +658,24 @@
       "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdc02c26_deec49ed",
+        "filename": "test/mocks/datafilecollector-testharness/mr-sim/mr-sim.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6675
+      },
+      "writtenOn": "2021-02-11T18:30:49Z",
+      "side": 1,
+      "message": "modifications copyright added.\nfile docstrings - no.\nNote, I wasn\u0027t creating any new function - just expanding some of them. \nAdding docstring could be some part of refactoring/improving of code ticket?",
+      "parentUuid": "05354300_104aec36",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -348,6 +696,24 @@
     },
     {
       "key": {
+        "uuid": "d692586d_efb49a4e",
+        "filename": "test/mocks/datafilecollector-testharness/simulator-group/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 6675
+      },
+      "writtenOn": "2021-02-11T18:30:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25203398_4bb889fa",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f12a1733_3b06c479",
         "filename": "test/mocks/datafilecollector-testharness/simulator-group/README.md",
         "patchSetId": 3
@@ -362,6 +728,24 @@
       "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf561d94_01d749ed",
+        "filename": "test/mocks/datafilecollector-testharness/simulator-group/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 6675
+      },
+      "writtenOn": "2021-02-11T18:30:49Z",
+      "side": 1,
+      "message": "Seem yes.",
+      "parentUuid": "f12a1733_3b06c479",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -382,6 +766,24 @@
     },
     {
       "key": {
+        "uuid": "6162d6f6_7c2e596f",
+        "filename": "test/mocks/datafilecollector-testharness/simulator-group/docker-compose-setup.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 6675
+      },
+      "writtenOn": "2021-02-11T18:30:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4666fb21_a1dadbb7",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a343107e_2fe06ef8",
         "filename": "test/mocks/datafilecollector-testharness/simulator-group/docker-compose-template.yml",
         "patchSetId": 3
@@ -396,6 +798,24 @@
       "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb46f1a5_0dfe5957",
+        "filename": "test/mocks/datafilecollector-testharness/simulator-group/docker-compose-template.yml",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6675
+      },
+      "writtenOn": "2021-02-11T18:30:49Z",
+      "side": 1,
+      "message": "The same as in previous dockerfile I will omit here.",
+      "parentUuid": "a343107e_2fe06ef8",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -416,6 +836,24 @@
     },
     {
       "key": {
+        "uuid": "ee29543b_dffd4b28",
+        "filename": "test/mocks/datafilecollector-testharness/simulator-group/prepare-images.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 6675
+      },
+      "writtenOn": "2021-02-11T18:30:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fed77b35_be54acc9",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7d34c7a_49e16738",
         "filename": "test/mocks/datafilecollector-testharness/simulator-group/simulators-kill.sh",
         "patchSetId": 3
@@ -430,6 +868,24 @@
       "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "614dd08c_d585f1ba",
+        "filename": "test/mocks/datafilecollector-testharness/simulator-group/simulators-kill.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 6675
+      },
+      "writtenOn": "2021-02-11T18:30:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7d34c7a_49e16738",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -450,6 +906,24 @@
     },
     {
       "key": {
+        "uuid": "b98f04a5_62d55266",
+        "filename": "test/mocks/datafilecollector-testharness/simulator-group/simulators-start.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6675
+      },
+      "writtenOn": "2021-02-11T18:30:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ce47937_ddb99e0f",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b1da216c_920afb5b",
         "filename": "test/mocks/datafilecollector-testharness/simulator-group/simulators-start.sh",
         "patchSetId": 3
@@ -467,6 +941,24 @@
     },
     {
       "key": {
+        "uuid": "fa0697c4_6d038819",
+        "filename": "test/mocks/datafilecollector-testharness/simulator-group/simulators-start.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 6675
+      },
+      "writtenOn": "2021-02-11T18:30:49Z",
+      "side": 1,
+      "message": "Untouched part of code. Maybe in another refactoring task?",
+      "parentUuid": "b1da216c_920afb5b",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f75129d_e291ebae",
         "filename": "test/mocks/datafilecollector-testharness/simulator-group/simulators-start.sh",
         "patchSetId": 3
@@ -481,6 +973,24 @@
       "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "952a7917_3b1ab00b",
+        "filename": "test/mocks/datafilecollector-testharness/simulator-group/simulators-start.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 6675
+      },
+      "writtenOn": "2021-02-11T18:30:49Z",
+      "side": 1,
+      "message": "Applied partly - if $4 is empty (and there is such case) adding \"\" breaks the code.",
+      "parentUuid": "2f75129d_e291ebae",
+      "revId": "a6382d6e8eb0ef58b7e17b6389e43d00c3ac7a00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
