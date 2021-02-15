@@ -33,8 +33,6 @@ __author__ = "kkkk.k@samsung.com"
 __license__ = "Apache-2.0"
 __copyright__ = "Copyright 2020 Samsung Electronics Co., Ltd."
 
-from typing import Iterable, List, Optional, Pattern, Union
-
 import argparse
 import dataclasses
 import itertools
@@ -44,11 +42,14 @@ import pprint
 import re
 import string
 import sys
+from typing import Iterable, List, Optional, Pattern, Union
 import tabulate
 import yaml
 
 import cerberus
 import kubernetes
+
+import check_versions.reporting as Reporting
 
 
 def parse_argv(argv: Optional[List[str]] = None) -> argparse.Namespace:
@@ -128,6 +129,13 @@ def parse_argv(argv: Optional[List[str]] = None) -> argparse.Namespace:
     )
 
     parser.add_argument(
+        "-w",
+        "--waiver",
+        type=pathlib.Path,
+        help="Path of the waiver xfail file.",
+    )
+
+    parser.add_argument(
         "-V",
         "--version",
         action="version",
@@ -197,7 +205,8 @@ def is_container_running(
 
 
 def list_all_containers(
-    api: kubernetes.client.api.core_v1_api.CoreV1Api, field_selector: str,
+    api: kubernetes.client.api.core_v1_api.CoreV1Api,
+    field_selector: str,
 ) -> Iterable[ContainerInfo]:
     """Get list of all containers names.
 
@@ -305,7 +314,7 @@ def sync_post_namespaced_pod_exec(
 
     # TODO: Is there really no better way, to check
     # execution exit code in python k8s API client?
-    code=-2
+    code = -2
     try:
         code = (
             0
@@ -314,7 +323,7 @@ def sync_post_namespaced_pod_exec(
             if error["reason"] != "NonZeroExitCode"
             else int(error["details"]["causes"][0]["message"])
         )
-    except:
+    except (KeyError, ValueError, IndexError):
         pass
 
     return {
@@ -390,7 +399,8 @@ def determine_versions_abstraction(
 
     # TODO: This list comprehension should be parallelized
     results = (
-        sync_post_namespaced_pod_exec(api, container, command) for command in commands_all
+        sync_post_namespaced_pod_exec(api, container, command)
+        for command in commands_all
     )
 
     successes = (
@@ -445,7 +455,7 @@ def determine_versions_of_java(
         List of installed OpenJDK versions.
     """
 
-    extractor = re.compile("openjdk [version\" ]*([0-9._]+)")
+    extractor = re.compile('openjdk [version" ]*([0-9._]+)')
 
     binaries = generate_java_binaries()
 
@@ -689,6 +699,14 @@ def main(argv: Optional[List[str]] = None) -> str:
     )
 
     code = verify_versions_acceptability(containers, args.acceptable, args.quiet)
+
+    # Generate reporting
+    test = Reporting.OnapVersionsReporting(
+        result_file=args.output_file,
+        waiver_file=args.waiver,
+        recommended_versions_file=args.acceptable,
+    )
+    test.generate_reporting(args.output_file)
 
     return code
 
