@@ -30,8 +30,12 @@ ftpes_hosts = []
 ftpes_ports = []
 http_hosts = []
 http_ports = []
+http_jwt_hosts = []
+http_jwt_ports = []
 https_hosts = []
 https_ports = []
+https_jwt_hosts = []
+https_jwt_ports = []
 https_hosts_no_auth = []
 https_ports_no_auth = []
 num_ftp_servers = 1
@@ -538,6 +542,8 @@ def MR_reply(consumerGroup, consumerId):
         return tc100(groupIndex, changeId, filePrefix, "http", "5MB")
     elif args.tc302:
         return tc100(groupIndex, changeId, filePrefix, "http", "50MB")
+    elif args.tc303:
+        return tc100(groupIndex, changeId, filePrefix, "httpJWT", "1MB")
 
     elif args.tc400:
         return tc100(groupIndex, changeId, filePrefix, "https", "1MB")
@@ -549,6 +555,8 @@ def MR_reply(consumerGroup, consumerId):
         return tc100(groupIndex, changeId, filePrefix, "httpsCAuth", "1MB")
     elif args.tc404:
         return tc100(groupIndex, changeId, filePrefix, "httpsNoAuth", "1MB")
+    elif args.tc405:
+        return tc100(groupIndex, changeId, filePrefix, "httpsJWT", "1MB")
 
 
 #### Test case functions
@@ -572,6 +580,9 @@ def tc100(groupIndex, changeId, filePrefix, schemeType, fileSize):
     if (schemeType == "http") or (schemeType == "https") \
             or (schemeType == "httpsCAuth") or (schemeType == "httpsNoAuth"):
         msg = getEventHead(groupIndex, changeId, nodeName) + getEventName(fileName, schemeType, "demo", "demo123456!",
+                                                                          nodeIndex) + getEventEnd()
+    if (schemeType == "httpJWT") or (schemeType == "httpsJWT"):
+        msg = getEventHead(groupIndex, changeId, nodeName) + getEventName(fileName, schemeType, "", "",
                                                                           nodeIndex) + getEventEnd()
     fileMap[groupIndex][seqNr * hash(filePrefix)] = seqNr
     ctr_events[groupIndex] = ctr_events[groupIndex] + 1
@@ -1220,6 +1231,7 @@ def getEventName(fn, type, user, passwd, nodeIndex):
     port = sftp_ports[nodeIndex]
     ip = sftp_hosts[nodeIndex]
     location_variant = type + """://""" + user + """:""" + passwd + """@""" + ip + """:""" + str(port)
+    token = ""
     if type == "ftpes":
         port = ftpes_ports[nodeIndex]
         ip = ftpes_hosts[nodeIndex]
@@ -1229,11 +1241,25 @@ def getEventName(fn, type, user, passwd, nodeIndex):
         port = http_ports[nodeIndex]
         ip = http_hosts[nodeIndex]
         location_variant = type + """://""" + user + """:""" + passwd + """@""" + ip + """:""" + str(port)
+    elif type == "httpJWT":
+        alt_type = "http"
+        nodeIndex = nodeIndex % num_http_servers
+        port = http_jwt_ports[nodeIndex]
+        ip = http_jwt_hosts[nodeIndex]
+        location_variant = alt_type + """://""" + ip + """:""" + str(port)
+        token = "?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwidXNlciI6Imp3dFVzZXIiLCJpc3MiOiJvbmFwIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjk5OTk5OTk5OTksIm5iZiI6MTUxNjIzOTAyMn0.dZUtnGlr6Z42MehhZTGHYSVFaAggRjob9GyvnGpEc6o"
     elif type == "https":
         nodeIndex = nodeIndex % num_http_servers
         port = https_ports[nodeIndex]
         ip = https_hosts[nodeIndex]
         location_variant = type + """://""" + user + """:""" + passwd + """@""" + ip + """:""" + str(port)
+    elif type == "httpsJWT":
+        alt_type = "https"
+        nodeIndex = nodeIndex % num_http_servers
+        port = https_jwt_ports[nodeIndex]
+        ip = https_jwt_hosts[nodeIndex]
+        location_variant = alt_type + """://""" + ip + """:""" + str(port)
+        token = "?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZW1vIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjk5OTk5OTk5OTksIm5iZiI6MTUxNjIzOTAyMH0.vyktOJyCMVvJXEfImBuZCTaEifrvH0kXeAPpnHakffA"
     elif type == "httpsCAuth":
         alt_type = "https"
         port = https_ports[nodeIndex]
@@ -1249,7 +1275,7 @@ def getEventName(fn, type, user, passwd, nodeIndex):
                   "name": \"""" + fn + """",
                   "hashMap": {
                     "fileFormatType": "org.3GPP.32.435#measCollec",
-                    "location": \"""" + location_variant + """/""" + fn + """",
+                    "location": \"""" + location_variant + """/""" + fn + token + """",
                     "fileFormatVersion": "V10",
                     "compression": "gzip"
                   }
@@ -1292,18 +1318,22 @@ if __name__ == "__main__":
     sftp_sims = os.environ.get('SFTP_SIMS', 'localhost:1022')
     ftpes_sims = os.environ.get('FTPES_SIMS', 'localhost:21')
     http_sims = os.environ.get('HTTP_SIMS', 'localhost:81')
+    http_jwt_sims = os.environ.get('HTTP_JWT_SIMS', 'localhost:32000')
     https_sims = os.environ.get('HTTPS_SIMS', 'localhost:444')
     https_sims_no_auth = os.environ.get('HTTPS_SIMS_NO_AUTH', 'localhost:8081')
+    https_jwt_sims = os.environ.get('HTTPS_JWT_SIMS', 'localhost:32100')
     num_ftp_servers = int(os.environ.get('NUM_FTP_SERVERS', 1))
     num_http_servers = int(os.environ.get('NUM_HTTP_SERVERS', 1))
 
     print("Configured sftp sims: " + sftp_sims)
     print("Configured ftpes sims: " + ftpes_sims)
     print("Configured http sims: " + http_sims)
+    print("Configured http JWT sims: " + http_jwt_sims)
     print("Configured https sims: " + https_sims)
     print("Configured https with no authorization sims: " + https_sims_no_auth)
+    print("Configured https JWT sims: " + https_jwt_sims)
     print("Configured number of ftp servers: " + str(num_ftp_servers))
-    print("Configured number of http/https/https with no auth servers: " + str(num_http_servers) + " each")
+    print("Configured number of http/https/https with no auth/JWT servers: " + str(num_http_servers) + " each")
 
     tmp = sftp_sims.split(',')
     for i in range(len(tmp)):
@@ -1323,11 +1353,23 @@ if __name__ == "__main__":
         http_hosts.append(hp[0])
         http_ports.append(hp[1])
 
+    tmp = http_jwt_sims.split(',')
+    for i in range(len(tmp)):
+        hp = tmp[i].split(':')
+        http_jwt_hosts.append(hp[0])
+        http_jwt_ports.append(hp[1])
+
     tmp = https_sims.split(',')
     for i in range(len(tmp)):
         hp = tmp[i].split(':')
         https_hosts.append(hp[0])
         https_ports.append(hp[1])
+
+    tmp = https_jwt_sims.split(',')
+    for i in range(len(tmp)):
+        hp = tmp[i].split(':')
+        https_jwt_hosts.append(hp[0])
+        https_jwt_ports.append(hp[1])
 
     tmp = https_sims_no_auth.split(',')
     for i in range(len(tmp)):
@@ -1697,6 +1739,10 @@ if __name__ == "__main__":
         '--tc302',
         action='store_true',
         help='TC302 - One ME, HTTP, 1 50MB file, 1 event')
+    parser.add_argument(
+        '--tc303',
+        action='store_true',
+        help='TC303 - One ME, HTTP JWT, 1 1MB file, 1 event')
 
     # HTTPS TCs with single ME
     parser.add_argument(
@@ -1719,6 +1765,10 @@ if __name__ == "__main__":
         '--tc404',
         action='store_true',
         help='TC404 - One ME, HTTPS no client authentication, 1 1MB file, 1 event')
+    parser.add_argument(
+        '--tc405',
+        action='store_true',
+        help='TC405 - One ME, HTTPS JWT, 1 1MB file, 1 event')
 
     args = parser.parse_args()
 
@@ -1860,6 +1910,8 @@ if __name__ == "__main__":
         tc_num = "TC# 301"
     elif args.tc302:
         tc_num = "TC# 302"
+    elif args.tc303:
+        tc_num = "TC# 303"
 
     elif args.tc400:
         tc_num = "TC# 400"
@@ -1871,6 +1923,8 @@ if __name__ == "__main__":
         tc_num = "TC# 403"
     elif args.tc404:
         tc_num = "TC# 404"
+    elif args.tc405:
+        tc_num = "TC# 405"
 
     else:
         print("No TC was defined")
@@ -1891,6 +1945,10 @@ if __name__ == "__main__":
         print("Using " + str(http_hosts[i]) + ":" + str(http_ports[i]) + " for http server with index " + str(
             i) + " for http server address and port in file urls.")
 
+    for i in range(len(http_jwt_hosts)):
+        print("Using " + str(http_jwt_hosts[i]) + ":" + str(http_jwt_ports[i]) + " for http jwt server with index " + str(
+            i) + " for http jwt server address and port in file urls.")
+
     for i in range(len(https_hosts)):
         print("Using " + str(https_hosts[i]) + ":" + str(https_ports[i]) + " for https server with index " + str(
             i) + " for https server address and port in file urls.")
@@ -1900,9 +1958,13 @@ if __name__ == "__main__":
               + " for https server with no authentication with index " + str(i)
               + " for https server address and port in file urls.")
 
+    for i in range(len(https_jwt_hosts)):
+        print("Using " + str(https_jwt_hosts[i]) + ":" + str(https_jwt_ports[i]) + " for https jwt server with index " + str(
+            i) + " for https jwt server address and port in file urls.")
+
     print("Using up to " + str(num_ftp_servers) + " ftp servers, for each protocol for PNFs.")
     print("Using up to " + str(num_http_servers)
-          + " http/https/https with no auth servers, for each protocol for PNFs.")
+          + " http/https/https with no auth/jwt servers, for each protocol for PNFs.")
 
 
     def https_app(**kwargs):

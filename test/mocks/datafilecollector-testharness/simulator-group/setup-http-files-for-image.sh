@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 # Script to create files for the HTTP server to return upon request.
 # The file names matches the files names in the events polled from the MR simulator.

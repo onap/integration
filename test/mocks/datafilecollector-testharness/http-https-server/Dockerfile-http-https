@@ -1,15 +1,19 @@
-FROM httpd:alpine
+FROM httpd:2.4
 
-RUN apk update
+RUN apt-get update
 
 ENV APACHE_LOG_DIR /usr/local/apache2/logs
 
 COPY --chown=root:root apache2/conf /usr/local/apache2/conf
 COPY --chown=root:root apache2/conf/extra /usr/local/apache2/conf/extra
+COPY --chown=root:root ./apache2/lib/libjwt.so.1.7.0 /usr/lib/x86_64-linux-gnu/libjwt.so.1
+COPY --chown=root:root ./apache2/modules/mod_authnz_jwt.so /usr/local/apache2/modules/mod_authnz_jwt.so
 
 RUN chmod 644 /usr/local/apache2/conf/.htpasswd
 RUN chmod 644 /usr/local/apache2/conf/httpd.conf
 RUN chmod 644 /usr/local/apache2/conf/extra/httpd-ssl.conf
+RUN chmod 644 /usr/lib/x86_64-linux-gnu/libjwt.so.1
+RUN chmod 644 /usr/local/apache2/modules/mod_authnz_jwt.so
 
 RUN mkdir /usr/local/apache2/certs
 RUN chown root:root /usr/local/apache2/certs
