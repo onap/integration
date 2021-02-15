@@ -1,0 +1,57 @@
+{% extends "base.html.j2" %}
+{% block title %}ONAPTEST Bench{% endblock %}
+
+{% block content %}
+<h1 class="title is-1">{{ info.title }}</h1>
+
+<div class="container">
+<h2 class="title is-1">JAVA versions</h2>
+
+<table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Versions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for component in data %}
+    <tr {% if component.java_status == 4 %} class="has-background-danger" {%elif component.java_status == 0  %}  class="has-background-success" {%elif component.java_status == 1  %}  class="has-background-success-light" {%elif component.java_status == 2  %}  class="has-background-warning-light" {%elif component.java_status == 3  %}  class="has-background-warning" {% endif %}>
+
+      {% if component.java_version is defined and component.java_version|length > 0 %}
+         <td>{{ component.container }}</td>
+         <td>{{ component.java_version}}</td>
+      {% endif %}
+        </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+<br>
+
+<div class="container">
+<h2 class="title is-1">Python versions</h2>
+
+<table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Versions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for component in data %}
+    <tr {% if component.python_status == 4 %} class="has-background-danger" {%elif component.python_status == 0  %}  class="has-background-success" {%elif component.python_status == 1  %}  class="has-background-success-light" {%elif component.python_status == 2  %}  class="has-background-warning-light" {%elif component.python_status == 3  %}  class="has-background-warning" {% endif %}>
+      {% if component.python_version is defined and component.python_version|length > 0 %}
+         <td>{{ component.container }}</td>
+         <td>{{ component.python_version}}</td>
+         {% endif %}
+           </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}
+</div>
+</section>
