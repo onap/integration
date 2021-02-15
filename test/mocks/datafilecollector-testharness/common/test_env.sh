@@ -57,10 +57,12 @@ SFTP_SIMS_CONTAINER="sftp-server0:22,sftp-server1:22,sftp-server2:22,sftp-server
 #List of sftp server name and port number, used by MR sim to produce file urls. Theses server names and ports are used when running dfc and the simulators in a private docker network
 FTPES_SIMS_CONTAINER="ftpes-server-vsftpd0:21,ftpes-server-vsftpd1:21,ftpes-server-vsftpd2:21,ftpes-server-vsftpd3:21,ftpes-server-vsftpd4:21"
 
-#List of http/https/https with no authorization server name and port number, used by MR sim to produce file urls. Theses server names and ports are used when running dfc and the simulators in a private docker network
+#List of http/https/https with no authorization/with jwt token server name and port number, used by MR sim to produce file urls. Theses server names and ports are used when running dfc and the simulators in a private docker network
 HTTP_SIMS_CONTAINER="http-https-server0:80,http-https-server1:80,http-https-server2:80,http-https-server3:80,http-https-server4:80"
+HTTP_JWT_SIMS_CONTAINER="http-https-server0:32000,http-https-server1:32000,http-https-server2:32000,http-https-server3:32000,http-https-server4:32000"
 HTTPS_SIMS_CONTAINER="http-https-server0:443,http-https-server1:443,http-https-server2:443,http-https-server3:443,http-https-server4:443"
 HTTPS_SIMS_NO_AUTH_CONTAINER="http-https-server0:8080,http-https-server1:8080,http-https-server2:8080,http-https-server3:8080,http-https-server4:8080"
+HTTPS_JWT_SIMS_CONTAINER="http-https-server0:32100,http-https-server1:32100,http-https-server2:32100,http-https-server3:32100,http-https-server4:32100"
 
 #List of sftp server name and port number, used by MR sim to produce file urls. Theses server names and ports are used when running dfc as stand along app and the simulators in a private docker network
 SFTP_SIMS_LOCALHOST="localhost:1022,localhost:1023,localhost:1024,localhost:1025,localhost:1026"
@@ -68,16 +70,20 @@ SFTP_SIMS_LOCALHOST="localhost:1022,localhost:1023,localhost:1024,localhost:1025
 #List of ftpes server name and port number, used by MR sim to produce file urls. Theses server names and ports are used when running dfc as stand along app and the simulators in a private docker network
 FTPES_SIMS_LOCALHOST="localhost:1032,localhost:1033,localhost:1034,localhost:1035,localhost:1036"
 
-#List of http/https/https with no authorization server name and port number, used by MR sim to produce file urls. Theses server names and ports are used when running dfc as stand along app and the simulators in a private docker network
+#List of http/https/https with no authorization/with jwt token server name and port number, used by MR sim to produce file urls. Theses server names and ports are used when running dfc as stand along app and the simulators in a private docker network
 HTTP_SIMS_LOCALHOST="localhost:81,localhost:82,localhost:83,localhost:84,localhost:85"
+HTTP_JWT_SIMS_LOCALHOST="localhost:32001,localhost:32002,localhost:32003,localhost:32004,localhost:32005"
 HTTPS_SIMS_LOCALHOST="localhost:444,localhost:445,localhost:446,localhost:447,localhost:448"
 HTTPS_SIMS_NO_AUTH_LOCALHOST="localhost:8081,localhost:8082,localhost:8083,localhost:8084,localhost:8085"
+HTTPS_JWT_SIMS_LOCALHOST="localhost:32101,localhost:32102,localhost:32103,localhost:32104,localhost:32105"
 
 export SFTP_SIMS=$SFTP_SIMS_CONTAINER   #This env will be set to SFTP_SIMS_LOCALHOST if auto test is executed with 'manual-app'
 export FTPES_SIMS=$FTPES_SIMS_CONTAINER   #This env will be set to FTPES_SIMS_LOCALHOST if auto test is executed with 'manual-app'
 export HTTP_SIMS=$HTTP_SIMS_CONTAINER   #This env will be set to HTTP_SIMS_LOCALHOST if auto test is executed with 'manual-app'
+export HTTP_JWT_SIMS=$HTTP_JWT_SIMS_CONTAINER #This env will be set to HTTP_JWT_SIMS_LOCALHOST if auto test is executed with 'manual-app'
 export HTTPS_SIMS=$HTTPS_SIMS_CONTAINER   #This env will be set to HTTPS_SIMS_LOCALHOST if auto test is executed with 'manual-app'
 export HTTPS_SIMS_NO_AUTH=$HTTPS_SIMS_NO_AUTH_CONTAINER   #This env will be set to HTTPS_SIMS_NO_AUTH_LOCALHOST if auto test is executed with 'manual-app'
+export HTTPS_JWT_SIMS=$HTTPS_JWT_SIMS_CONTAINER   #This env will be set to HTTPS_JWT_SIMS_LOCALHOST if auto test is executed with 'manual-app'
 
 #Host name of the DR redirect simulator
 export DR_REDIR_SIM="drsim_redir"       #This env will be set to 'localhost' if auto test is executed with arg 'manual-app'

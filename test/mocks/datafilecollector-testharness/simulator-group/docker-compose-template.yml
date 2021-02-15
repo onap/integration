@@ -78,8 +78,10 @@ services:
       SFTP_SIMS: ${SFTP_SIMS}
       FTPES_SIMS: ${FTPES_SIMS}
       HTTP_SIMS: ${HTTP_SIMS}
+      HTTP_JWT_SIMS: ${HTTP_JWT_SIMS}
       HTTPS_SIMS: ${HTTPS_SIMS}
       HTTPS_SIMS_NO_AUTH: ${HTTPS_SIMS_NO_AUTH}
+      HTTPS_JWT_SIMS: ${HTTPS_JWT_SIMS}
       NUM_FTP_SERVERS: ${NUM_FTP_SERVERS}
       NUM_HTTP_SERVERS: ${NUM_HTTP_SERVERS}
       MR_GROUPS: ${MR_GROUPS}
@@ -239,6 +241,8 @@ services:
       - "81:80"
       - "444:443"
       - "8081:8080"
+      - "32001:32000"
+      - "32101:32100"
     restart: on-failure
     volumes:
       - ./../certservice/generated-certs/apache-pem:/usr/local/apache2/certs/:rw
@@ -252,6 +256,8 @@ services:
       - "82:80"
       - "445:443"
       - "8082:8080"
+      - "32002:32000"
+      - "32102:32100"
     restart: on-failure
     volumes:
       - ./../certservice/generated-certs/apache-pem:/usr/local/apache2/certs/:rw
@@ -265,6 +271,8 @@ services:
       - "83:80"
       - "446:443"
       - "8083:8080"
+      - "32003:32000"
+      - "32103:32100"
     restart: on-failure
     volumes:
       - ./../certservice/generated-certs/apache-pem:/usr/local/apache2/certs/:rw
@@ -278,6 +286,8 @@ services:
       - "84:80"
       - "447:443"
       - "8084:8080"
+      - "32004:32000"
+      - "32104:32100"
     restart: on-failure
     volumes:
       - ./../certservice/generated-certs/apache-pem:/usr/local/apache2/certs/:rw
@@ -291,6 +301,8 @@ services:
       - "85:80"
       - "448:443"
       - "8085:8080"
+      - "32005:32000"
+      - "32105:32100"
     restart: on-failure
     volumes:
       - ./../certservice/generated-certs/apache-pem:/usr/local/apache2/certs/:rw

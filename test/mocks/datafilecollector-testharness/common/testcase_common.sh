@@ -192,8 +192,10 @@ if [ $START_ARG == "manual-app" ]; then
 	export SFTP_SIMS=$SFTP_SIMS_LOCALHOST
 	export FTPES_SIMS=$FTPES_SIMS_LOCALHOST
 	export HTTP_SIMS=$HTTP_SIMS_LOCALHOST
+	export HTTP_JWT_SIMS=$HTTP_JWT_SIMS_LOCALHOST
 	export HTTPS_SIMS=$HTTPS_SIMS_LOCALHOST
 	export HTTPS_SIMS_NO_AUTH=HTTPS_SIMS_NO_AUTH_LOCALHOST
+	export HTTPS_JWT_SIMS=$HTTPS_JWT_SIMS_LOCALHOST
 	export DR_REDIR_SIM="localhost"
 fi
 #else
@@ -537,8 +539,10 @@ log_sim_settings() {
 	echo "SFTP_SIMS=             "$SFTP_SIMS
 	echo "FTPES_SIMS=             "$FTPES_SIMS
 	echo "HTTP_SIMS=             "$HTTP_SIMS
+	echo "HTTP_JWT_SIMS=         "$HTTP_JWT_SIMS
 	echo "HTTPS_SIMS=            "$HTTPS_SIMS
 	echo "HTTPS_SIMS_NO_AUTH=     "$HTTPS_SIMS_NO_AUTH
+	echo "HTTPS_JWT_SIMS=         "$HTTPS_JWT_SIMS
 	echo ""
 }
 

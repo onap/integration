@@ -4,17 +4,21 @@ services:
 
   http-https-server:
     container_name: http-https-server-httpd
-    image: httpd:alpine
+    image: httpd:2.4
     environment:
       APACHE_LOG_DIR: /usr/local/apache2/logs
     ports:
       - "80:80"
       - "443:443"
       - "8080:8080"
+      - "32000:32000"
+      - "32100:32100"
     volumes:
       - ./apache2/conf/.htpasswd:/usr/local/apache2/conf/.htpasswd:ro
       - ./apache2/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
       - ./apache2/conf/extra/httpd-ssl.conf:/usr/local/apache2/conf/extra/httpd-ssl.conf:ro
+      - ./apache2/lib/libjwt.so.1.7.0:/usr/lib/x86_64-linux-gnu/libjwt.so.1:ro
+      - ./apache2/modules/mod_authnz_jwt.so:/usr/local/apache2/modules/mod_authnz_jwt.so:ro
       - ./../certservice/generated-certs/apache-pem:/usr/local/apache2/certs:ro
       - ./files/onap/http:/usr/local/apache2/htdocs
     restart: on-failure

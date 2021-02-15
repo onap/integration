@@ -102,7 +102,7 @@ in the script need to be manually adapted to for each specific simulator behavio
 parameters.
 All simulators will be started with the generated docker-compose.yml file
 
-To generate an ftp/http/https url with an IP different from localhost, set the SFTP_SIM_IP and/or FTPES_SIM_IP and/or HTTP_SIM_IP and/or HTTPS_SIM_IP and/or HTTPS_SIM_NO_AUTH_IP env variables to the address(es) of the ftp/http/https servers before starting.
+To generate an ftp/http/https url with an IP different from localhost, set the SFTP_SIM_IP and/or FTPES_SIM_IP and/or HTTP_SIM_IP and/or HTTPS_SIM_IP and/or HTTPS_SIM_NO_AUTH_IP and/or HTTP_JWT_SIM_IP and/or HTTPS_JWT_SIM_IP env variables to the address(es) of the ftp/http/https servers before starting.
 So far, this only works when the simulator python script is started from the command line.
 
 Kill all the containers with `simulators-kill.se`

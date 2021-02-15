@@ -45,6 +45,18 @@ http_https_server_check() {
 	echo "Simulator " $1 " on localhost:$2 - no response"
 }
 
+http_https_jwt_server_check() {
+	for i in {1..10}; do
+		res=$(curl $4 -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZW1vIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjk5OTk5OTk5OTksIm5iZiI6MTUxNjIzOTAyMH0.vyktOJyCMVvJXEfImBuZCTaEifrvH0kXeAPpnHakffA' -s -o /dev/null -w "%{http_code}" $3://localhost:$2)
+		if [ $res -gt 199 ] && [ $res -lt 300 ]; then
+			echo "Simulator " $1 " on localhost:$2 responded ok"
+			return
+		fi
+		sleep 1
+	done
+	echo "Simulator " $1 " on localhost:$2 - no response"
+}
+
 server_check_https() {
 	for i in {1..10}; do
 		res=$(curl  -k -s -o /dev/null -w "%{http_code}" https://localhost:$2$3)
@@ -199,6 +211,11 @@ http_https_basic_server_check "HTTP basic auth server 1" 82 http
 http_https_basic_server_check "HTTP basic auth server 2" 83 http
 http_https_basic_server_check "HTTP basic auth server 3" 84 http
 http_https_basic_server_check "HTTP basic auth server 4" 85 http
+http_https_jwt_server_check "HTTP JWT server 0" 32001 http
+http_https_jwt_server_check "HTTP JWT server 1" 32002 http
+http_https_jwt_server_check "HTTP JWT server 2" 32003 http
+http_https_jwt_server_check "HTTP JWT server 3" 32004 http
+http_https_jwt_server_check "HTTP JWT server 4" 32005 http
 http_https_basic_server_check "HTTPS basic auth server 0" 444 https -k
 http_https_basic_server_check "HTTPS basic auth server 1" 445 https -k
 http_https_basic_server_check "HTTPS basic auth server 2" 446 https -k
@@ -214,6 +231,11 @@ http_https_server_check "HTTPS no auth server 1" 8082 https -k
 http_https_server_check "HTTPS no auth server 2" 8083 https -k
 http_https_server_check "HTTPS no auth server 3" 8084 https -k
 http_https_server_check "HTTPS no auth server 4" 8085 https -k
+http_https_jwt_server_check "HTTPS JWT server 0" 32101 https -k
+http_https_jwt_server_check "HTTPS JWT server 1" 32102 https -k
+http_https_jwt_server_check "HTTPS JWT server 2" 32103 https -k
+http_https_jwt_server_check "HTTPS JWT server 3" 32104 https -k
+http_https_jwt_server_check "HTTPS JWT server 4" 32105 https -k
 
 echo ""
 
