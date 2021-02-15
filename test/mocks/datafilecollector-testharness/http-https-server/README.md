@@ -30,3 +30,8 @@ by using 'docker ps' and stop them if necessary.
 # Cleaning docker structure
 
 Deep cleaning: `docker system prune`
+
+# mod_authnz_jwt.so
+
+External library `mod_authnz_jwt.so` was added to the Apache server. This library wasn't changed in any way.
+This library is supplied under the Apache License, Version 2.0 (the "License").
