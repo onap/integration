@@ -33,8 +33,6 @@ __author__ = "kkkk.k@samsung.com"
 __license__ = "Apache-2.0"
 __copyright__ = "Copyright 2020 Samsung Electronics Co., Ltd."
 
-from typing import Iterable, List, Optional, Pattern, Union
-
 import argparse
 import dataclasses
 import itertools
@@ -44,11 +42,14 @@ import pprint
 import re
 import string
 import sys
+from typing import Iterable, List, Optional, Pattern, Union
 import tabulate
 import yaml
 
 import cerberus
 import kubernetes
+
+import check_versions.reporting as Reporting
 
 
 def parse_argv(argv: Optional[List[str]] = None) -> argparse.Namespace:
@@ -125,6 +126,13 @@ def parse_argv(argv: Optional[List[str]] = None) -> argparse.Namespace:
         "--quiet",
         action="store_true",
         help="Suppress printing text on standard output.",
+    )
+
+    parser.add_argument(
+        "-w",
+        "--waiver",
+        type=pathlib.Path,
+        help="Path of the waiver xfail file.",
     )
 
     parser.add_argument(
@@ -317,7 +325,7 @@ def sync_post_namespaced_pod_exec(
             if error["reason"] != "NonZeroExitCode"
             else int(error["details"]["causes"][0]["message"])
         )
-    except:
+    except (KeyError, ValueError, IndexError):
         pass
 
     return {
@@ -693,6 +701,14 @@ def main(argv: Optional[List[str]] = None) -> str:
     )
 
     code = verify_versions_acceptability(containers, args.acceptable, args.quiet)
+
+    # Generate reporting
+    test = Reporting.OnapVersionsReporting(
+        result_file=args.output_file,
+        waiver_file=args.waiver,
+        recommended_versions_file=args.acceptable,
+    )
+    test.generate_reporting(args.output_file)
 
     return code
 
