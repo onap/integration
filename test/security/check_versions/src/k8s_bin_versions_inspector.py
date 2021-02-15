@@ -197,7 +197,8 @@ def is_container_running(
 
 
 def list_all_containers(
-    api: kubernetes.client.api.core_v1_api.CoreV1Api, field_selector: str,
+    api: kubernetes.client.api.core_v1_api.CoreV1Api,
+    field_selector: str,
 ) -> Iterable[ContainerInfo]:
     """Get list of all containers names.
 
@@ -305,7 +306,7 @@ def sync_post_namespaced_pod_exec(
 
     # TODO: Is there really no better way, to check
     # execution exit code in python k8s API client?
-    code=-2
+    code = -2
     try:
         code = (
             0
@@ -390,7 +391,8 @@ def determine_versions_abstraction(
 
     # TODO: This list comprehension should be parallelized
     results = (
-        sync_post_namespaced_pod_exec(api, container, command) for command in commands_all
+        sync_post_namespaced_pod_exec(api, container, command)
+        for command in commands_all
     )
 
     successes = (
@@ -445,7 +447,7 @@ def determine_versions_of_java(
         List of installed OpenJDK versions.
     """
 
-    extractor = re.compile("openjdk [version\" ]*([0-9._]+)")
+    extractor = re.compile('openjdk [version" ]*([0-9._]+)')
 
     binaries = generate_java_binaries()
 
