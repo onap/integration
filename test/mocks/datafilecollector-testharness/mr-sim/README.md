@@ -33,7 +33,9 @@ The following envrionment vaiables are used:
 - **FTPES_SIMS** - A comma-separated list of hostname:port for the FTP servers to generate ftpes file urls for. If not set MR sim will assume 'localhost:21'. Minimum 1 and maximum 5 host-port pairs can be given.
 - **SFTP_SIMS** - A comma-separated list of hostname:port for the FTP servers to generate sftp file urls for. If not set MR sim will assume 'localhost:1022'. Minimum 1 and maximum 5 host-port pairs can be given.
 - **HTTP_SIMS** - A comma-separated list of hostname:port for the HTTP servers to generate http file urls for. If not set MR sim will assume 'localhost:81'. Minimum 1 and maximum 5 host-port pairs can be given.
+- **HTTP_JWT_SIMS** - A comma-separated list of hostname:port for the HTTP servers (using JWT token for authentication) to generate http file urls for. If not set MR sim will assume 'localhost:32000'. Minimum 1 and maximum 5 host-port pairs can be given.
 - **HTTPS_SIMS** - A comma-separated list of hostname:port for the HTTPS servers (configured for client certificate authentication and basic authentication; certificates were obtained using CMPv2 server) to generate http file urls for. If not set MR sim will assume 'localhost:444'. Minimum 1 and maximum 5 host-port pairs can be given.
+- **HTTPS_JWT_SIMS** - A comma-separated list of hostname:port for the HTTPS servers (using JWT token for authentication) to generate http file urls for. If not set MR sim will assume 'localhost:32100'. Minimum 1 and maximum 5 host-port pairs can be given.
 - **HTTPS_SIMS_NO_AUTH** - A comma-separated list of hostname:port for the HTTPS servers with no autorization to generate http file urls for. If not set MR sim will assume 'localhost:8081'. Minimum 1 and maximum 5 host-port pairs can be given.
 - **NUM_FTP_SERVERS** - Number of FTP servers to use out of those specified in the envrioment variables above. The number shall be in the range 1-5.
 - **NUM_HTTP_SERVERS** - Number of HTTP/HTTPS/HTTPS with no authorization servers to use out of those specified in the envrioment variables above. The number shall be in the range 1-5.
@@ -183,7 +185,7 @@ Changing the first digit in tc number will change the test case to run FTPES or 
 
 TC2XX is same as TC1XX but with FTPES, TC3XX is same as TC1XX but with HTTP, TC4XX is same as TC1XX but with HTTPS
 (with basic authorization). Note, in the case of HTTPS, some tests may not have direct correspondence in FTP tests
-(TC403, TC404 described in the end of this section).
+(TC303, TC403, TC404, TC405 described in the end of this section).
 
 TC6XX is same as TC5XX but with FTPES
 
@@ -191,9 +193,13 @@ TC8XX is same as TC7XX but with FTPES
 
 TC2XXX is same as TC1XXX but with FTPES
 
+TC303 - One ME, HTTP with JWT authentication, 1 1MB file, 1 event
+
 TC403 - One ME, HTTPS with client certificate authentication, 1 1MB file, 1 event
 
 TC404 - One ME, HTTPS with no client authentication, 1 1MB file, 1 event
+
+TC303 - One ME, HTTPS with JWT authentication, 1 1MB file, 1 event
 
 ## Developer workflow
 
