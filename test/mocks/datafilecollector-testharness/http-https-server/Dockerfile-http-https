@@ -12,4 +12,4 @@ RUN chmod 644 /usr/local/apache2/conf/httpd.conf
 RUN chmod 644 /usr/local/apache2/conf/extra/httpd-ssl.conf
 
 RUN mkdir /usr/local/apache2/certs
-COPY --chown=root:root apache2/certs /usr/local/apache2/certs
+RUN chown root:root /usr/local/apache2/certs

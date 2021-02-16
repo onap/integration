@@ -52,7 +52,10 @@ docker rm -f dfc_http-https-server1
 docker rm -f dfc_http-https-server2
 docker rm -f dfc_http-https-server3
 docker rm -f dfc_http-https-server4
-docker rm -f oom-certservice-post-processor
+if [ "$HTTP_TYPE" = "HTTPS" ]
+  then
+	docker rm -f oom-certservice-post-processor
+fi
 docker rm dfc_cbs
 docker rm dfc_consul
 
