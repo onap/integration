@@ -392,12 +392,11 @@ __start_dfc_image() {
 	echo "Starting DFC: " $appname " with ports mapped to " $localport " and " $localport_secure " in docker network "$DOCKER_SIM_NWNAME
 	if [ "$HTTP_TYPE" = "HTTPS" ]
 	  then
-	    mkdir "$SIM_GROUP"/tls/external
-	    cp "$SIM_GROUP"/../certservice/generated-certs/dfc-p12/* "$SIM_GROUP"/tls/external/
 	    docker run \
         --name oom-certservice-post-processor \
         --env-file "$SIM_GROUP"/../certservice/merger/merge-certs.env \
         --mount type=bind,src="$SIM_GROUP"/tls,dst=/opt/app/datafile/etc/cert \
+        --mount type=bind,src="$SIM_GROUP"/../certservice/generated-certs/dfc-p12,dst=/opt/app/datafile/etc/ \
         nexus3.onap.org:10001/onap/org.onap.oom.platform.cert-service.oom-certservice-post-processor:latest
 	fi
   docker run -d --volume $(pwd)/../simulator-group/tls/:/opt/app/datafile/etc/cert/ -p $localport":8100" -p $localport_secure":8433" --network=$DOCKER_SIM_NWNAME -e CONSUL_HOST=$CONSUL_HOST -e CONSUL_PORT=$CONSUL_PORT -e CONFIG_BINDING_SERVICE=$CONFIG_BINDING_SERVICE -e CONFIG_BINDING_SERVICE_SERVICE_PORT=$CONFIG_BINDING_SERVICE_SERVICE_PORT -e HOSTNAME=$appname --name $appname $DFC_IMAGE
