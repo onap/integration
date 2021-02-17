@@ -71,7 +71,7 @@ ftpes_server_check() {
 
 sftp_server_check() {
 	for i in {1..10}; do
-		res=$(curl --silent --max-time 3 sftp://localhost:$2 -v -k 2>&1 | grep Connected)
+		res=$(curl --silent --max-time 3 localhost:$2 2>&1 | grep OpenSSH)
 		if ! [ -z "$res" ]; then
 			echo "Simulator " $1 " on localhost:"$2" responded ok"
 			return
