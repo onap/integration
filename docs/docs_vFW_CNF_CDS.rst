@@ -1,6 +1,6 @@
 .. This work is licensed under a Creative Commons Attribution 4.0 International License.
 .. http://creativecommons.org/licenses/by/4.0
-.. Copyright 2020 ONAP
+.. Copyright 2021 ONAP
 
 .. _docs_vFW_CNF_CDS:
 
@@ -29,14 +29,17 @@ This use case shows how to onboard helm packages and to instantiate them with he
   * Unique names for resources with ONAP naming service
   * CDS is used to create and upload **multicloud/k8s profile** as part of instantiation flow
 - Combined all models (Heat, Helm, CBA) in to same git repo and a created single onboarding package `vFW_CNF_CDS Model`_
+- vFW CNF status is monitored prior to the completion of the instantiation process.
+- It is possible to not only provide overrides for Helm packages but we can modify Helm packages before instantiation or we can modify CNF after its deployment
 - Use case does not contain Closed Loop part of the vFW demo.
 
 All changes to related ONAP components and Use Case can be found in the following tickets:
 
 - `REQ-182`_
 - `REQ-341`_
+- `REQ-458`_
 
-**Since Guilin ONAP supports Helm packages as a native onboarding artifacts and SO natively orchestrates Helm packages what brings significant advantages in the future. Also since this release ONAP has first mechanisms for monitoring of the status of deployed CNF resources**.
+**Since Guilin ONAP supports Helm packages as a native onboarding artifacts and SO natively orchestrates Helm packages what brings significant advantages in the future. Also since Guilin release ONAP has first mechanisms for monitoring of the status of deployed CNF resources. Since Honolulu release native CNF testing capability was enabled that allows for execution of the dedicated test jobs for each helm package**.
 
 The vFW CNF Use Case
 ~~~~~~~~~~~~~~~~~~~~
@@ -58,14 +61,14 @@ Helm             `vFW_Helm Model`_       Helm templates used in `vFW EDGEX K8S`_
 CDS model        `vFW CBA Model`_        CDS CBA model used in `vFW CDS Dublin`_ demo
 ===============  =================       ===========
 
-.. note::  Since the Guilin release `vFW_CNF_CDS Model`_ contains sources that allow to model and instantiate CNF with VNF/Heat orchestration approach (Frankfurt) and with native Helm orchestration approach. Please follow README.txt description and further documentation here to generate and select appropriate onboarding package which will leverage appropriate SO orchestration path.
+.. note::  Since the Guilin release `vFW_CNF_CDS Model`_ contains sources that allow to model and instantiate CNF with VNF/Heat orchestration approach (Frankfurt) and with native Helm orchestration approach (Guilin and beyond). VNF/Heat orchestration approach is deprecated and will not be enhanced in the future. Please follow README.txt description and further documentation here to generate and select appropriate onboarding package which will leverage appropriate SO orchestration path.
 
-Modeling Onboarding Package/Helm
-................................
+Modeling of Onboarding Package/Helm
+...................................
 
 The starting point for this demo was Helm package containing one Kubernetes application, see `vFW_Helm Model`_. In this demo we decided to follow SDC/SO vf-module concept the same way as original vFW demo was split into multiple vf-modules instead of one (`vFW_NextGen`_). The same way we splitted Helm version of vFW into multiple Helm packages each matching one dedicated vf-module.
 
-The Guilin version of the `vFW_CNF_CDS Model`_ contains files required to create **VSP onboarding packages in two formats**: the **Dummy Heat** (available in Frankfurt release already) one that considers association of each Helm package with dummy heat templates and the **Native Helm** one where each Helm package is standalone and is natively understood in consequence by SO. For both variants of VSP Helm packages are matched to the vf-module concept, so basically each Helm application after instantiation is visible to ONAP as a separate vf-module. The chosen format for onboarding has **crucial** role in the further orchestration approach applied for Helm package instantiation. The **Dummy Heat** will result with orchestration through the **Openstack Adapter** component of SO while **Native Helm** will result with **CNF Adapter**. Both approaches will result with instantiation of the same CNF, however the **Native Helm** approach will be enhanced in the future releases while **Dummy Heat** approach will become deprecated in the future.
+The Honolulu version of the `vFW_CNF_CDS Model`_ contains files required to create **VSP onboarding packages in two formats**: the **Dummy Heat** (available in Frankfurt release already) one that considers association of each Helm package with dummy heat templates and the **Native Helm** one where each Helm package is standalone and is natively understood in consequence by SO. For both variants of VSP Helm packages are matched to the vf-module concept, so basically each Helm application after instantiation is visible to ONAP as a separate vf-module. The chosen format for onboarding has **crucial** role in the further orchestration approach applied for Helm package instantiation. The **Dummy Heat** will result with orchestration through the **Openstack Adapter** component of SO while **Native Helm** will result with **CNF Adapter**. Both approaches will result with instantiation of the same CNF, however the **Native Helm** approach will be enhanced in the future releases while **Dummy Heat** approach will become deprecated in the future.
 
 Produced **Dummy Heat** VSP onboarding package `Creating Onboarding Package`_ format has following MANIFEST file (package_dummy/MANIFEST.json). The Helm package is delivered as CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT package through SDC and SO. Dummy heat templates are matched to Helm packages by the same prefix <vf_module_label> of the file name that for both dummy Heat teamplate and for CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT must be the same, like i.e. *vpg* vf-module in the manifest file below. The name of the CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT artifact is predefined and needs to match the pattern: <vf_module_label>_cloudtech_k8s_charts.tgz. More examples can be found in `Modeling Onboarding Package/Helm`_ section.
 
@@ -467,7 +470,7 @@ PART 1 - ONAP Installation
 1-1 Deployment components
 .........................
 
-In order to run the vFW_CNF_CDS use case, we need ONAP Guilin Release (or later) with at least following components:
+In order to run the vFW_CNF_CDS use case, we need ONAP Honolulu Release (or later) with at least following components:
 
 =======================================================   ===========
 ONAP Component name                                       Describtion
@@ -475,8 +478,8 @@ ONAP Component name                                       Describtion
 AAI                                                       Required for Inventory Cloud Owner, Customer, Owning Entity, Service, Generic VNF, VF Module
 SDC                                                       VSP, VF and Service Modeling of the CNF
 DMAAP                                                     Distribution of the onboarding package including CBA to all ONAP components
-SO                                                        Requires for Macro Orchestration using the generic building blocks
-CDS                                                       Resolution of cloud parameters including Helm override parameters for the CNF. Creation of the multicloud/k8s profile for CNF instantion.
+SO                                                        Required for Macro Orchestration using the generic building blocks
+CDS                                                       Resolution of cloud parameters including Helm override parameters for the CNF. Creation of the multicloud/k8s profile for CNF instantion. Creation of configuration template and its instantiation
 SDNC (needs to include netbox and Naming Generation mS)   Provides GENERIC-RESOURCE-API for cloud Instantiation orchestration via CDS.
 Policy                                                    Used to Store Naming Policy
 AAF                                                       Used for Authentication and Authorization of requests
@@ -579,9 +582,9 @@ And check status of pods, deployments, jobs etc.
 1-3 Post Deployment
 ...................
 
-After completing the first part above, we should have a functional ONAP deployment for the Guilin Release.
+After completing the first part above, we should have a functional ONAP deployment for the Honolulu Release.
 
-We will need to apply a few modifications to the deployed ONAP Guilin instance in order to run the use case.
+We will need to apply a few modifications to the deployed ONAP Honolulu instance in order to run the use case.
 
 Retrieving logins and passwords of ONAP components
 ++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -662,7 +665,7 @@ Whole content of this use case is stored into single git repository and it conta
 
 ::
 
-  git clone --single-branch --branch guilin "https://gerrit.onap.org/r/demo"
+  git clone --single-branch --branch honolulu "https://gerrit.onap.org/r/demo"
   cd demo/heat/vFW_CNF_CDS/templates
 
 In order to prepare environment for onboarding and instantiation of the use case make sure you have *git*, *make*, *helm* and *pipenv* applications installed.
@@ -833,10 +836,9 @@ Introduced in the Guilin release CNF orchestration method brings native distribu
 .. figure:: files/vFW_CNF_CDS/Native_Helm_Flow.png
    :align: center
 
-   vFW CNF CDS Use Case sequence flow for *Native Helm* (Guilin) path.
+   vFW CNF CDS Use Case sequence flow for *Native Helm* (Guilin+) path.
 
-.. warning:: The **Native Helm** path has identified defects in the instantiation process and requires SO images of version 1.7.11 for successfull instantiation of the CNF. Please monitor `SO-3403`_ and `SO-3404`_ tickets to make sure that necessary fixes have been delivered. SO 1.7.11 images were released Dec 24th 2020. Make sure to use them in Your ONAP/Guilin installation.
-
+.. warning:: K8sPlugin supports only Helm packages that can be validated by Helm 2.14 application. It means that only Chart with apiVersion: v1 or v2 property but without Helm 3 specific features can be instantiated by ONAP. Also the latest features of Helm 2, beyond Helm version 2.14 are not supported currently. Istanbul release will bring native support of Helm 3 packages and also latests features of Helm 2 package format. 
 
 3-1 Onboarding
 ..............
@@ -858,7 +860,7 @@ Complete content of both Onboarding Packages for **Dummy Heat**  and **Native He
 
 ::
 
-  git clone --single-branch --branch guilin "https://gerrit.onap.org/r/demo"
+  git clone --single-branch --branch honolulu "https://gerrit.onap.org/r/demo"
   cd demo/heat/vFW_CNF_CDS/templates
   make
 
@@ -1530,7 +1532,7 @@ In case more detailed logging is needed, here's instructions how to setup DEBUG 
 
 **<MANUAL>**
 
-The Guilin introduces new API for verification of the status of instantiated resouces in k8s cluster. The API gives result similar to *kubectl describe* operation for all the resources created for particular *rb-definition*. Status API can be used to verify the k8s resources after instantiation but also can be used leveraged for synchronization of the information with external components, like AAI in the future. To use Status API call
+The Guilin introduced new API for verification of the status of instantiated resouces in k8s cluster. The API gives result similar to *kubectl describe* operation for all the resources created for particular *rb-definition*. Status API can be used to verify the k8s resources after instantiation but also can be used leveraged for synchronization of the information with external components, like AAI in the future. To use Status API call
 
 ::
 
@@ -1607,16 +1609,16 @@ Future development areas for this use case:
 - Automated smoke use case.
 - Include Closed Loop part of the vFW demo.
 - vFW service with Openstack VNF and Kubernetes CNF
+- On-demand healthcheck workflow of vFW
 
 Future development areas for CNF support:
 
 - Validation of Helm package and extraction of override values in time of the package onboarding.
-- Post instantiation configuration with Day 2 configuration APIs of multicloud/k8S API.
 - Synchroinzation of information about CNF between AAI and K8s.
-- Validation of status and health of CNF.
+- Coordination of the vFW Helm charts instantiation performed by cnf-adapter of SO
 - Use multicloud/k8S API v2.
 
-Many features from the list above are covered by the Honolulu roadmap described in `REQ-458`_. 
+Many features from the list above are covered by the Honolulu roadmap described in `REQ-627`_. 
 
 
 .. _ONAP Deployment Guide: https://docs.onap.org/projects/onap-oom/en/guilin/oom_quickstart_guide.html
@@ -1641,6 +1643,7 @@ Many features from the list above are covered by the Honolulu roadmap described 
 .. _REQ-182: https://jira.onap.org/browse/REQ-182
 .. _REQ-341: https://jira.onap.org/browse/REQ-341
 .. _REQ-458: https://jira.onap.org/browse/REQ-458
+.. _REQ-627: https://jira.onap.org/browse/REQ-627
 .. _Python SDK: https://docs.onap.org/projects/onap-integration/en/guilin/integration-tooling.html?highlight=python-sdk#python-onapsdk
 .. _KUD Jenkins ci/cd verification: https://jenkins.onap.org/job/multicloud-k8s-master-kud-deployment-verify-shell/
 .. _K8s cloud site config: https://docs.onap.org/en/guilin/guides/onap-operator/cloud_site/k8s/index.html
