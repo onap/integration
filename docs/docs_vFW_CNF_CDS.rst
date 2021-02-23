@@ -1,6 +1,6 @@
 .. This work is licensed under a Creative Commons Attribution 4.0 International License.
 .. http://creativecommons.org/licenses/by/4.0
-.. Copyright 2020 ONAP
+.. Copyright 2021 ONAP
 
 .. _docs_vFW_CNF_CDS:
 
@@ -35,6 +35,7 @@ All changes to related ONAP components and Use Case can be found in the followin
 
 - `REQ-182`_
 - `REQ-341`_
+- `REQ-458`_
 
 **Since Guilin ONAP supports Helm packages as a native onboarding artifacts and SO natively orchestrates Helm packages what brings significant advantages in the future. Also since this release ONAP has first mechanisms for monitoring of the status of deployed CNF resources**.
 
@@ -1607,16 +1608,16 @@ Future development areas for this use case:
 - Automated smoke use case.
 - Include Closed Loop part of the vFW demo.
 - vFW service with Openstack VNF and Kubernetes CNF
+- On-demand healthcheck workflow of vFW
 
 Future development areas for CNF support:
 
 - Validation of Helm package and extraction of override values in time of the package onboarding.
-- Post instantiation configuration with Day 2 configuration APIs of multicloud/k8S API.
 - Synchroinzation of information about CNF between AAI and K8s.
-- Validation of status and health of CNF.
+- Coordination of the vFW Helm charts instantiation performed by cnf-adapter of SO
 - Use multicloud/k8S API v2.
 
-Many features from the list above are covered by the Honolulu roadmap described in `REQ-458`_. 
+Many features from the list above are covered by the Honolulu roadmap described in `REQ-627`_. 
 
 
 .. _ONAP Deployment Guide: https://docs.onap.org/projects/onap-oom/en/guilin/oom_quickstart_guide.html
@@ -1641,6 +1642,7 @@ Many features from the list above are covered by the Honolulu roadmap described 
 .. _REQ-182: https://jira.onap.org/browse/REQ-182
 .. _REQ-341: https://jira.onap.org/browse/REQ-341
 .. _REQ-458: https://jira.onap.org/browse/REQ-458
+.. _REQ-627: https://jira.onap.org/browse/REQ-627
 .. _Python SDK: https://docs.onap.org/projects/onap-integration/en/guilin/integration-tooling.html?highlight=python-sdk#python-onapsdk
 .. _KUD Jenkins ci/cd verification: https://jenkins.onap.org/job/multicloud-k8s-master-kud-deployment-verify-shell/
 .. _K8s cloud site config: https://docs.onap.org/en/guilin/guides/onap-operator/cloud_site/k8s/index.html
