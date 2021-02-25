@@ -8,6 +8,19 @@
 CCVPN (Cross Domain and Cross Layer VPN)
 ----------------------------------------
 
+Update for Honolulu Release
+~~~~~~~~~~~~~~~~~~~~~~~~~
+The Honolulu release continued to support and extend the Transport Slicing functionality
+developed in Guilin release. In particular, the support for reuse and modification
+of an existing TN NSSI has been developed.
+
+In addition, the Honolulu release also continuted to support and extend the CCVPN
+use-case. In particular, the support for inter-domain connections of three or more
+network domains has been introduced (CCVPN in previous releases were only be able
+to connect two domains).
+
+TODO: more to be added [REQ-456]
+
 Update for Guilin Release
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
