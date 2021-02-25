@@ -2,6 +2,8 @@
 
 There are needed certificates generated using CMPv2 server to properly run the https server and dfc being able to work with
 https protocol. For that reason, pre-generated certs were prepared and stored in `certservice/generated-certs` directory.
+If HTTP server has to work with standalone ONAP installation, certs has to be obtained directly from CMPv2 server from ONAP
+unit.
 
 # Docker preparations
 
@@ -30,8 +32,3 @@ by using 'docker ps' and stop them if necessary.
 # Cleaning docker structure
 
 Deep cleaning: `docker system prune`
-
-# mod_authnz_jwt.so
-
-External library `mod_authnz_jwt.so` was added to the Apache server. This library wasn't changed in any way.
-This library is supplied under the Apache License, Version 2.0 (the "License").
