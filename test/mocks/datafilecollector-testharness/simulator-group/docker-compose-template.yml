@@ -236,7 +236,7 @@ services:
     networks:
       - dfcnet
     container_name: dfc_http-https-server0
-    image: http_https_httpd:latest
+    image: nexus3.onap.org:10001/onap/org.onap.integration.simulators.httpserver:1.0.5
     ports:
       - "81:80"
       - "444:443"
@@ -245,13 +245,13 @@ services:
       - "32101:32100"
     restart: on-failure
     volumes:
-      - ./../certservice/generated-certs/apache-pem:/usr/local/apache2/certs/:rw
+      - ./../certservice/generated-certs/apache-pem:/etc/apache2/certs/:rw
 
   http-https-server1:
     networks:
       - dfcnet
     container_name: dfc_http-https-server1
-    image: http_https_httpd:latest
+    image: nexus3.onap.org:10001/onap/org.onap.integration.simulators.httpserver:1.0.5
     ports:
       - "82:80"
       - "445:443"
@@ -260,13 +260,13 @@ services:
       - "32102:32100"
     restart: on-failure
     volumes:
-      - ./../certservice/generated-certs/apache-pem:/usr/local/apache2/certs/:rw
+      - ./../certservice/generated-certs/apache-pem:/etc/apache2/certs/:rw
 
   http-https-server2:
     networks:
       - dfcnet
     container_name: dfc_http-https-server2
-    image: http_https_httpd:latest
+    image: nexus3.onap.org:10001/onap/org.onap.integration.simulators.httpserver:1.0.5
     ports:
       - "83:80"
       - "446:443"
@@ -275,13 +275,13 @@ services:
       - "32103:32100"
     restart: on-failure
     volumes:
-      - ./../certservice/generated-certs/apache-pem:/usr/local/apache2/certs/:rw
+      - ./../certservice/generated-certs/apache-pem:/etc/apache2/certs/:rw
 
   http-https-server3:
     networks:
       - dfcnet
     container_name: dfc_http-https-server3
-    image: http_https_httpd:latest
+    image: nexus3.onap.org:10001/onap/org.onap.integration.simulators.httpserver:1.0.5
     ports:
       - "84:80"
       - "447:443"
@@ -290,13 +290,13 @@ services:
       - "32104:32100"
     restart: on-failure
     volumes:
-      - ./../certservice/generated-certs/apache-pem:/usr/local/apache2/certs/:rw
+      - ./../certservice/generated-certs/apache-pem:/etc/apache2/certs/:rw
 
   http-https-server4:
     networks:
       - dfcnet
     container_name: dfc_http-https-server4
-    image: http_https_httpd:latest
+    image: nexus3.onap.org:10001/onap/org.onap.integration.simulators.httpserver:1.0.5
     ports:
       - "85:80"
       - "448:443"
@@ -305,4 +305,4 @@ services:
       - "32105:32100"
     restart: on-failure
     volumes:
-      - ./../certservice/generated-certs/apache-pem:/usr/local/apache2/certs/:rw
+      - ./../certservice/generated-certs/apache-pem:/etc/apache2/certs/:rw

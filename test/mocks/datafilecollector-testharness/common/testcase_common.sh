@@ -160,7 +160,8 @@ fi
 
 echo ""
 
-echo "Building images for the simulators if needed, MR, DR, DR Redir, FTPES and HTTP simulators"
+echo "Building images for the simulators if needed, MR, DR, DR Redir and FTPES."
+echo "For HTTP simulator prebuilt containers exist in nexus repo."
 curdir=$PWD
 cd $SIM_GROUP
 cd ../dr-sim
@@ -169,8 +170,6 @@ cd ../mr-sim
 docker build -t mrsim:latest . &> /dev/null
 cd ../ftpes-sftp-server
 docker build -t ftpes_vsftpd:latest -f Dockerfile-ftpes . &> /dev/null
-cd ../http-https-server
-docker build -t http_https_httpd:latest -f Dockerfile-http-https . &> /dev/null
 cd $curdir
 
 echo ""

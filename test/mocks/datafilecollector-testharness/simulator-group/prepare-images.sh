@@ -25,8 +25,3 @@ docker build -t drsim_common:latest .
 cd ../ftpes-sftp-server
 
 docker build -t ftpes_vsftpd:latest -f Dockerfile-ftpes .
-
-#Build image for http server
-cd ../http-https-server
-
-docker build -t http_https_httpd:latest -f Dockerfile-http-https .
