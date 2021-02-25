@@ -49,8 +49,8 @@ This use case is a multi-releases effort in ONAP with the first steps
 taken in Frankfurt release. It will continue to expand in scope both in
 breadth and depth, and along the journey it shall also align with
 updates to the relevant standards which are also currently evolving.
-This use case shall also collaborate with other open initiatives such as
-O-RAN to enable wider adoption and use.
+This use case shall also collaborate with SDOs such as
+O-RAN and ETSI to enable wider adoption and use.
 
 See the `Use Case Description and Blueprint wiki page <https://wiki.onap.org/display/DW/Use+Case+Description+and+Blueprint>`_
 for details.
@@ -112,8 +112,8 @@ E2E Slicing use case.
 Further details of the installation steps are available at: `Install Minimum Scope ONAP for 5G Network Slicing wiki page
 <https://wiki.onap.org/display/DW/Install+Minimum+Scope+ONAP+for+5G+Network+Slicing>`_
 
-Scope of Guilin release
------------------------
+Recap of Guilin functionality
+-----------------------------
 From the architecture point of view, in Guilin release, besides the continuation of NSMF which was implemented in
 Frankfurt release, the RAN NSSMF, TN NSSMF, CORE NSSMF have been implemented within ONAP, apart from interacting with
 ezternal RAN NSSMF and external CORE NSSMF.
@@ -159,112 +159,86 @@ The following provides an overview of the enhancements done in Guilin release:
 
 The base use case page for Guilin release is `E2E Network Slicing Use Case in R7 Guilin <https://wiki.onap.org/display/DW/E2E+Network+Slicing+Use+Case+in+R7+Guilin>`_.
 
+The child wiki pages of the above page contains details of the assumptions, flows and other relevant details.
+
+Honolulu release updates
+------------------------
+<To be completed>
+- Completion of end-to-end testing, fixing bugs
+- Enhancements in NSMF and NSSMFs
+- Introduction of CPS
+
 Important Remarks
 ~~~~~~~~~~~~~~~~~
 (a) 2 deployment scenarios for RAN NSSI are supported. In the first scenario, the RAN NSSI comprises also of
     TN Fronthaul (FH) and TN Midhaul (FH) NSSIs, and RAN NSSMF shall trigger TN NSSMF for TN FH and MH NSSI
     related actions. In the second scenario, the RAN NSSI comprises only of RAN NFs. TN NSSMF shall be triggered by
     NSMF for TN FH and MH NSSI related actions. This part is not yet implemented in NSMF, and will be realized in
-    Honolulu release.
+    Istanbul release.
 
-(b) The Guilin release scope focused on enhancing NSMF and implementing basic functionality of all 3 NSSMFs within
-    ONAP with the objective of realizing a simple E2E network slice using standard interfaces. So, further enhancements
-    and refinement will continue in Honolulu release and beyond.
-
-(c) Details of the assumptions in Guilin release are documented at:
-    `Assumptions <https://wiki.onap.org/display/DW/Assumptions+for+Guilin+release>`_
-
-(d) Sequence/flow diagrams related to this use case are available at:
-    `Use Case Flows <https://wiki.onap.org/display/DW/Use+case+flows>`_
-
-(e) Details of the Modeling aspects are available at:
-    `Modeling Enhancements <https://wiki.onap.org/display/DW/Modeling+enhancements?src=contextnavpagetreemode>`_
+(b) Details of the modeling aspects, flows and other relevant info about the use case are available in: `R8 E2E Network Slicing Usecase
+    https://wiki.onap.org/display/DW/R8+E2E+Network+Slicing+use+case`_ and its child wiki pages.
 
 
-Impacted Modules for Guilin
----------------------------
-The code-impacted modules of E2E Network Slicing in Guilin release are:
+Impacted Modules for Honolulu
+-----------------------------
+The code-impacted modules of E2E Network Slicing in Honolulu release are:
 
-- **SO**: Enhancements in NSMF explained above, NSSMF adaptor, workflows for RAN, Core and TN NSSMFs, Closed Loop
-  trigger handling.
+<To be completed>
 
-- **OOF**: Enhancements for NSI selection, NSSI selection, Slice Profile generation, and NSI/NSSI termination
-  determination
+- **OOF**: NST selection is enhanced by fetching the templates from SDC directly. coverageArea to
+   coverageAreaTAList mapping is done by OOF (as part of Slice Profile generation) by accessing CPS.
 
-- **DCAE**: 2 new MS were introduced:
-  (a) **Data Exposure Service (DES)** for querying database/datalake for PM/KPI data by any entity
-  (b) **Slice Analysis MS** for analyzing slice related PM/KPI data and determining necessary closed loop actions
+- **UUI**: The user is asked to enter the coverageArea as grid numbers for which a sample map is also
+  displayed.
 
-- **AAI**: Updates for Slice Profile, NSST, Service Profile, TN slice models
+- **AAI**:
 
-- **SDN-C**: TN NSSMF related functionality (allocation, activation/deactivation and termination of TN NSSI/S-NSSAI)
+- **CPS**: 2 APIs required for the use case are supported. The remaining yang models are also onboarded,
+  however, the API work as well as further enhancements to CPS Core, NF Proxy and Template-Based Data
+  Model Transformer Service shall continue beyond Honolulu.
 
-- **CCSDK/SDN-R**: RAN NSSMF related functionality related to allocation, activation/deactivation and termination of RAN
-  NSSI/S-NSSAI, mainly the configuration of CUs, DUs and Near-RT RICs over O1 interface to the RAN NFs. In addition,
-  configuration updates related to Closed Loop and Intelligent Slicing shall also be sent over O1 interface.
-  
-- **U-UI**: Enhancements related to configuration/selection of end-points.
+- **SDN-R**: RRMP Policy updates, enhancements for updating the RAN configuration during slice reuse,
+  closed loop and intelligent slicing.
 
-- **ExtAPI**: Enhancements to support service activation/deactivation and termination using TMF 641 APIs
+- **DCAE**:
+  (a) KPI Computation MS was introduced newly for computation of slice related KPIs.
+  (b) Minor enhancements were done for the Slice Analysis MS.
 
-- **Policy**: Minor updates to support the new Control Loop for Network Slicing.
 
 Apart from the above, the following modules had test-only impact:
 
-- **SDC**: Test of the supported functionality through creation of NST, NSST for all 3 domains, templates for Service
-  Profile and Slice Profile.
-
-- **CDS**: Support for configuration of S-NSSAI in the Core NFs.
+<To be filled>
+Policy
+SDC
 
 In addition:
 
 - **Config DB** is enhanced to support storing and retrieval of RAN-related configuration data. This is not an official
-  ONAP component, and its functionality is expected to be performed by the Configuration Persistence Service in
-  Honolulu release.
+  ONAP component, and its functionality is expected to be performed fully by the Configuration Persistence Service in
+  Istanbul release.
 
-- **Core NF simulators** have been developed for instantiating as part of Core NSSI creation/configuration, and also
-  to report PM data.
+- **Core NF simulators** have been enhanced for instantiating as part of Core NSSI creation/configuration, and also
+  to report PM data. It is now part of the Integration repos.
 
 - **RAN-Sim** has been enhanced to include CU and Near-RT RIC functionality, apart from enhancements to DU functionality.
 
-Details of the impacts/APIs of some of the modules listed above are available in the child pages of: `Impacted Modules - Design Details 
-<https://wiki.onap.org/display/DW/Impacted+Modules--Design+Details>`_
+Details of the impacts/APIs of some of the modules listed above are available in the child pages of: `Impacted Modules - Design Details <https://wiki.onap.org/display/DW/Impacted+Modules--Design+Details>`_
 
 
 Functional Test Cases
 ---------------------
-The functional testing of this use case shall cover creation and activation of a service with an E2E Network Slice
-Instance which contains RAN, Transport and Core Slice Sub-net instances. It also addresses the termination of an
-E2E Network Slice Instance. We classify the test cases into 7 tracks: CSMF, NSMF, Common NSMMF/RAN NSSMF/TN NSSMF/
-Core NSSMF/KPI Monitoring/Close loop/Intelligent Slicing. Details of the test cases can be found at: `Track-wise test cases
+The functional testing of this use case shall cover CSMF/NSMF, the 3 NSSMFs and Closed Loop functionality. We classify the
+test cases into 5 tracks: CSMF/NSMF, RAN NSSMF, Core NSSMF, TN NSSMF and Closed Loop.
+Details of the test cases can be found at: Details of the test cases can be found at: `Track-wise test cases
 <https://wiki.onap.org/display/DW/Track-wise+test+cases>`_
-
 
 Operation Guidance
 ------------------
-The Guilin release setup details for the E2E Network Slicing use case will be available at the following page and its
+The Honolulu release setup details for the E2E Network Slicing use case will be available at the following page and its
 sub-pages: `<https://wiki.onap.org/display/DW/User+Operation+Guidance+in+R7+Guilin>`_
 
 
 Known Issues and Resolutions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-(a) A limited testing of the supported scenarios is being carried out in Guilin. For example, for NSI allocation, only
-    a sub-set of combinations of NSI reuse, creation using existing or new NSSIs (RAN, Core, TN) is being tested. However,
-    since the remaining functionality will be activated only when triggered with the appropriate inputs, this limitation
-    shall not affect the stability of the components or other existing functionality.
-
-(b) The configuration updates for Closed Loop and Intelligent Slicing to the RAN is sent over O1 interface to Near-RT RIC.
-    It should be sent over A1 interface - this will be taken up in Honolulu release.
-
-(c) Coverage area to TA list is not performed. Based on the coverage area provided as input, a set of cells are assumed to
-    be impacted.
-
-(d) NST selection requires a file to be stored corresponding to the templates created in SDC. In Honolulu release, OOF
-    functionality will be enhanced to fetch the NSTs from SDC.
-
-(e) RAN/Core NSSI endpoint determination, configuration and use is limited in Guilin release.
-
-(f) Only creation of new TN NSSI is supported, reuse of existing TN NSSI is not yet supported.
-
-(g) KPI computation functionality enhancements in PM-Mapper in DCAE is not part of Guilin release, though the functionality
-    is implemented and available.
+<To be updated>
