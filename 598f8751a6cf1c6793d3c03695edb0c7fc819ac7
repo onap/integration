@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f179205_7c608161",
+        "filename": "docs/docs_E2E_network_slicing.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-03-01T09:13:20Z",
+      "side": 1,
+      "message": "?? to be completed?",
+      "revId": "598f8751a6cf1c6793d3c03695edb0c7fc819ac7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "486c334b_52c6f5b9",
+        "filename": "docs/docs_E2E_network_slicing.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-03-01T09:13:20Z",
+      "side": 1,
+      "message": "??",
+      "revId": "598f8751a6cf1c6793d3c03695edb0c7fc819ac7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc8ad6da_7af57e68",
+        "filename": "docs/docs_E2E_network_slicing.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-03-01T09:13:20Z",
+      "side": 1,
+      "message": "bad return carriage",
+      "revId": "598f8751a6cf1c6793d3c03695edb0c7fc819ac7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "787353cd_db601c2c",
+        "filename": "docs/docs_E2E_network_slicing.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-03-01T09:13:20Z",
+      "side": 1,
+      "message": "weird carriage returns",
+      "revId": "598f8751a6cf1c6793d3c03695edb0c7fc819ac7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "990603e1_97f18a32",
+        "filename": "docs/docs_E2E_network_slicing.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-03-01T09:13:20Z",
+      "side": 1,
+      "message": "??",
+      "revId": "598f8751a6cf1c6793d3c03695edb0c7fc819ac7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0a97bda_0eb182d1",
+        "filename": "docs/docs_E2E_network_slicing.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-03-01T09:13:20Z",
+      "side": 1,
+      "message": "??",
+      "revId": "598f8751a6cf1c6793d3c03695edb0c7fc819ac7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
