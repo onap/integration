@@ -282,8 +282,7 @@ def sync_post_namespaced_pod_exec(
             _request_timeout=1.0,
             _preload_content=False,
         )
-
-    except kubernetes.client.rest.ApiException:
+    except (kubernetes.client.rest.ApiException, kubernetes.client.exceptions.ApiException):
 
         if container.extra.running:
             raise
