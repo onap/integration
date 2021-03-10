@@ -3,6 +3,7 @@
   "dmaap.certificateConfig.keyPasswordPath": "/opt/app/datafile/etc/cert/p12.pass",
   "dmaap.certificateConfig.trustedCa": "/opt/app/datafile/etc/cert/trust.jks",
   "dmaap.certificateConfig.trustedCaPasswordPath": "/opt/app/datafile/etc/cert/trust.pass",
+  "dmaap.certificateConfig.httpsHostnameVerify": false,
   "dmaap.security.trustStorePath": "/opt/app/datafile/etc/cert/trust.jks",
   "dmaap.security.trustStorePasswordPath": "/opt/app/datafile/etc/cert/trust.pass",
   "dmaap.security.keyStorePath": "/opt/app/datafile/etc/cert/cert.jks",
