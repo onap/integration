@@ -10,16 +10,63 @@ CCVPN (Cross Domain and Cross Layer VPN)
 
 Update for Honolulu Release
 ~~~~~~~~~~~~~~~~~~~~~~~~~
+
 The Honolulu release continued to support and extend the Transport Slicing functionality
-developed in Guilin release. In particular, the support for reuse and modification
-of an existing TN NSSI has been developed.
+developed in Guilin release. Two main features were aded in Honolulu release (REQ-456):
 
-In addition, the Honolulu release also continuted to support and extend the CCVPN
-use-case. In particular, the support for inter-domain connections of three or more
-network domains has been introduced (CCVPN in previous releases were only be able
-to connect two domains).
+1) The support for reuse and modification of an existing TN NSSI has been developed.
+2) In addition, the Honolulu release also continuted to support and extend the CCVPN
+use-case and in particular, the support for inter-domain connections of three or more
+network domains has been introduced in Honolulu release. (CCVPN in previous releases were
+only be able to connect two domains).
 
-TODO: more to be added [REQ-456]
+Honolulu Scope and Impacted modules
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For feature #1 mentioned above, the user should be able to "modify" a Transport Slice.
+The modification operation is able to support the following three scenarios:
+
+a) A user may "Add" one or more new service(s)/connections link(s) to a given slice (TN NSSI)
+that is already created.
+b) A user may need to change or modify the maximum bandwidth attribute (i.e. the SLA agreement)
+using which a given slice is created.
+c) Both of the above operations.
+
+For feature #2 mentioned above, now in H release, we can have and support an artibrary
+number of domains inter-connected to each other and we can support a cross-layer
+cross-domain VPN connectivity and transport slicing for these kinds of scenarios as well.
+
+Impacted ONAP modules include: SO, SDN-C, CCSDK, A&AI.
+
+In CCSDk, a path computation engine (PCE) mechanism is introduced to support a graph-based
+path computation in a multi-domain network topologies. This PCE system is implemented as
+a SLI plugin to be called and used by Directed Graphs (DGs).
+
+For A&AI, additional attributes were introduced to the connectivity node and vpn-binding node.
+
+In SDN-C, additional Directed Graphs (DGs) were implemented to support the above-mentioned two features.
+
+Installation Procedure
+~~~~~~~~~~~~~~~~~~~~~~
+
+For Honolulu new features, the integration test environment is similar to that of the Guilin
+release: an ONAP instance with Honolulu release interfacing to 3rd party transport domain
+controllers should be established.
+
+For Transport Slicing, the installation procedure is similar to that of the E2E
+Network Slicing use case. In other words, we need to bring up the required modules
+including SDC, SO, A&AI, UUI and OOF. We also need to configure these modules along
+with the mandatory common modules such as DMaaP.
+
+Functional/Integration Test Cases
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The testing procedure is described in:
+
+- `Integration Testing procedure for Transport NSSMF in Honolulu <https://wiki.onap.org/display
+/DW/Integration+Test+of+Transport+NSSMF+in+Honolulu>`_
+
+
 
 Update for Guilin Release
 ~~~~~~~~~~~~~~~~~~~~~~~~~
