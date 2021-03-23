@@ -11,9 +11,10 @@ services:
     networks:
       - dfcnet
     container_name: dfc_consul
-    image: docker.io/consul:1.4.4
+    image: nexus3.onap.org:10001/onap/oom/consul:2.1.0
     ports:
       - "8500:8500"
+    entrypoint: /usr/local/bin/docker-entrypoint.sh agent -dev -client 0.0.0.0
     volumes:
       - ./consul/consul/:/consul/config
 
@@ -21,9 +22,13 @@ services:
     networks:
       - dfcnet
     container_name: dfc_cbs
-    image: nexus3.onap.org:10001/onap/org.onap.dcaegen2.platform.configbinding.app-app:2.3.0
+    image: nexus3.onap.org:10001/onap/org.onap.dcaegen2.platform.configbinding:2.5.3
     ports:
       - "10000:10000"
+    command: sh -c "
+      unset PROD_LOGGING;
+      /usr/local/bin/run.py;
+      "
     environment:
       - CONSUL_HOST=consul-server
     depends_on:
@@ -36,6 +41,17 @@ services:
       - dfcnet
     volumes:
       - ./tls:/opt/tls/shared:rw
+
+  cmpv2-postprocessor:
+    container_name: dfc_cmpv2-postprocessor
+    image: nexus3.onap.org:10001/onap/org.onap.oom.platform.cert-service.oom-certservice-post-processor:2.3.3
+    env_file:
+      - ../certservice/merger/merge-certs.env
+    volumes:
+      - ${SIM_GROUP}/tls:/opt/app/datafile/etc/cert
+      - ${SIM_GROUP}/../certservice/generated-certs/dfc-p12:/opt/app/datafile/etc/
+    depends_on:
+      - tls-init-container
 
   drsim:
     networks:
@@ -236,7 +252,7 @@ services:
     networks:
       - dfcnet
     container_name: dfc_http-https-server0
-    image: nexus3.onap.org:10001/onap/org.onap.integration.simulators.httpserver:1.0.5
+    image: nexus3.onap.org:10001/onap/org.onap.integration.nfsimulator.pmhttpsserver:1.0.0
     ports:
       - "81:80"
       - "444:443"
@@ -251,7 +267,7 @@ services:
     networks:
       - dfcnet
     container_name: dfc_http-https-server1
-    image: nexus3.onap.org:10001/onap/org.onap.integration.simulators.httpserver:1.0.5
+    image: nexus3.onap.org:10001/onap/org.onap.integration.nfsimulator.pmhttpsserver:1.0.0
     ports:
       - "82:80"
       - "445:443"
@@ -266,7 +282,7 @@ services:
     networks:
       - dfcnet
     container_name: dfc_http-https-server2
-    image: nexus3.onap.org:10001/onap/org.onap.integration.simulators.httpserver:1.0.5
+    image: nexus3.onap.org:10001/onap/org.onap.integration.nfsimulator.pmhttpsserver:1.0.0
     ports:
       - "83:80"
       - "446:443"
@@ -281,7 +297,7 @@ services:
     networks:
       - dfcnet
     container_name: dfc_http-https-server3
-    image: nexus3.onap.org:10001/onap/org.onap.integration.simulators.httpserver:1.0.5
+    image: nexus3.onap.org:10001/onap/org.onap.integration.nfsimulator.pmhttpsserver:1.0.0
     ports:
       - "84:80"
       - "447:443"
@@ -296,7 +312,7 @@ services:
     networks:
       - dfcnet
     container_name: dfc_http-https-server4
-    image: nexus3.onap.org:10001/onap/org.onap.integration.simulators.httpserver:1.0.5
+    image: nexus3.onap.org:10001/onap/org.onap.integration.nfsimulator.pmhttpsserver:1.0.0
     ports:
       - "85:80"
       - "448:443"
