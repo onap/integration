@@ -1,4 +1,4 @@
-FROM python:3.6-alpine
+FROM nexus3.onap.org:10001/onap/integration-python:8.0.0
 
 COPY . /app
 
