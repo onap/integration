@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be451705_b46ccd7f",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-03-24T07:12:35Z",
+      "side": 1,
+      "message": "thanks for the update\n\nin official doc, we encourage projects to limit the reference to the wiki (useful working place but hard to version and to know if the current page is the good one + anybody can amend the page/move it/... ) Would it be possible to put the doc in the rst, it would avoid the inconvenients linked to the wiki.",
+      "revId": "bfff6b7e5522f6aecfdec08968c7784f1137398d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
