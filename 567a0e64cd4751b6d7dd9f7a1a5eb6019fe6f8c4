@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "269383c4_84833bb6",
+        "filename": "docs/docs_E2E_network_slicing.rst",
+        "patchSetId": 7
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-03-26T06:56:56Z",
+      "side": 1,
+      "message": "for an hyperlink you shall use See `installation steps \u003chttps://wiki.onap.org/display/DW/Install+Minimum+Scope+ONAP+for+5G+Network+Slicing\u003e`_ for futher details",
+      "revId": "567a0e64cd4751b6d7dd9f7a1a5eb6019fe6f8c4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a95120b0_93564eab",
+        "filename": "docs/docs_E2E_network_slicing.rst",
+        "patchSetId": 7
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-03-26T06:56:56Z",
+      "side": 1,
+      "message": "keep hyperlinks?",
+      "revId": "567a0e64cd4751b6d7dd9f7a1a5eb6019fe6f8c4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7572f1ea_408474eb",
+        "filename": "docs/docs_E2E_network_slicing.rst",
+        "patchSetId": 7
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-03-26T06:56:56Z",
+      "side": 1,
+      "message": "a \":\" is missing, no?",
+      "revId": "567a0e64cd4751b6d7dd9f7a1a5eb6019fe6f8c4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}

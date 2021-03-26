@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3465c5c0_27a794bf",
+        "filename": "docs/docs_E2E_network_slicing.rst",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-03-26T06:56:56Z",
+      "side": 0,
+      "message": "just to mention that the **whatever** is just a mkdown format to put the whatever test in bold, so it is to highlight End-To-End 5G Network Slicing\na temp render is provided in Ci at https://logs.onap.org/production/vex-yul-ecomp-jenkins-1/rtdv3-global-verify-master/3778/docs/docs_E2E_network_slicing.html#docs-e2e-network-slicing\nso up to you for the style",
+      "revId": "c0b6b6cfc2448e9c513107940fba7b46fc6362ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e35ba55_aa097e8d",
+        "filename": "docs/docs_E2E_network_slicing.rst",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-03-26T06:56:56Z",
+      "side": 0,
+      "message": "we recommend when it is possible to exclude reference to wiki in the official documentation.\nin fact wiki is not versioned and everybody can amend it, so it is dangerous for an official documentation to point to such unstable support",
+      "revId": "c0b6b6cfc2448e9c513107940fba7b46fc6362ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "417376f6_dd062a87",
+        "filename": "docs/docs_E2E_network_slicing.rst",
+        "patchSetId": 7
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-03-26T06:56:56Z",
+      "side": 0,
+      "message": "I think you should not remove this rst format for links",
+      "revId": "c0b6b6cfc2448e9c513107940fba7b46fc6362ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a2207a6_15bd7858",
+        "filename": "docs/docs_E2E_network_slicing.rst",
+        "patchSetId": 7
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-03-26T06:56:56Z",
+      "side": 0,
+      "message": "same `text \u003clink\u003e`_ is the way to include hyperlinks in rst doc",
+      "revId": "c0b6b6cfc2448e9c513107940fba7b46fc6362ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
