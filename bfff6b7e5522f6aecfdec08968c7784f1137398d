@@ -16,6 +16,24 @@
       "revId": "bfff6b7e5522f6aecfdec08968c7784f1137398d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70fd24c7_4b2aa191",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 6200
+      },
+      "writtenOn": "2021-03-30T15:56:42Z",
+      "side": 1,
+      "message": "Thanks very much for your time reviewing this and thanks for your good feedback. I addressed your comment and submitted a new patchset 2 with the fix. Please kindly review.",
+      "parentUuid": "be451705_b46ccd7f",
+      "revId": "bfff6b7e5522f6aecfdec08968c7784f1137398d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
