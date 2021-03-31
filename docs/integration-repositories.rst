@@ -76,6 +76,13 @@ rather than systematically re-inventing the wheel.
     :delim: ;
     :header-rows: 1
 
+.. csv-table:: Integration Simulators
+    :file: ./files/csv/repo-simulators.csv
+    :widths: 30,50,20
+    :delim: ;
+    :header-rows: 1
+
+
 Testsuite
 ---------
 

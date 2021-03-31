@@ -61,13 +61,6 @@ VNF demo Artifacts
 VNF demo artifacts are hosted in the demo repositories and published in
 https://nexus.onap.org/content/repositories/releases/org/onap/demo/vnf/.
 
-Simulators
-----------
-
-There is a list of `available simulators <https://wiki.onap.org/pages/viewpage.action?pageId=81399210>`_.
-Please consider any of them (they are open source and can be modified,
-updated...) before creating a new one.
-
 Communication channels
 ----------------------
 

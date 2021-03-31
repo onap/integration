@@ -4,10 +4,6 @@ integration/csit;Repository hosting some tooling to start component functional t
 integration/docker/onap-java11;Java11 baseline image conformed to SECCOM recommendations;`link <https://gerrit.onap.org/r/admin/repos/integration/docker/onap-java11>`__
 integration/docker/onap-python;Python baseline image conformed to SECCOM recommendations;`link <https://gerrit.onap.org/r/admin/repos/integration/docker/onap-python>`__
 integration/seccom;Repory hosting seccom recommended versions and security test waivers;`link <https://gerrit.onap.org/r/admin/repos/integration/seccom>`__
-**integration/simulators/5G-core-nf-simulator**;**5G core nf simulator**;`link <https://gerrit.onap.org/r/admin/repos/integration/simulators/5G-core-nf-simulator>`__
-integration/simulators/dc-simulator;Data Center simulator;`link <https://gerrit.onap.org/r/admin/repos/integration/simulators/dc-simulator>`__
-integration/simulators/pnf-simulator;PNF Simulator;`link <https://gerrit.onap.org/r/admin/repos/integration/simulators/pnf-simulator>`__
-integration/simulators/ran-simulator;RAN simulator;`link <https://gerrit.onap.org/r/admin/repos/integration/simulators/ran-simulator>`__
 **integration/terraform**;**Terraform based alternative infrastructure installation**;`link <https://gerrit.onap.org/r/admin/repos/integration/terraform>`__
 **integration/terragrunt**;**Compagnon repository of terraform**;`link <https://gerrit.onap.org/r/admin/repos/integration/terragrunt>`__
 integration/usecases/bbs;BBS use case introduced in Dublin and extracted from global repository in frankfurt;`link <https://gerrit.onap.org/r/admin/repos/integration/usecases/bbs>`__
