@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e8f44e1_9ae96ff6",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-03-31T06:11:12Z",
+      "side": 1,
+      "message": "you have issue with bullets\nsee the doc: https://logs.onap.org/production/vex-yul-ecomp-jenkins-1/rtdv3-global-verify-master/3859/docs/docs_CCVPN.html#docs-ccvpn\n\n1) and 2) and later a), b) are not displayed as you expected\n\nin rst for ordered bullet you shall follow the syntax https://docutils.sourceforge.io/docs/user/rst/quickref.html#enumerated-lists\n\nwhatever:\n\n1. this is the first bullet\n2. this is the second which is very long I need to cut\n   it at the right place\n3. another bullet",
+      "revId": "4de782533479109b8693e902633b978efd57fe52",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89f0ab94_73610f14",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-03-31T06:11:12Z",
+      "side": 1,
+      "message": "same I assume the issue is that you do not cut properly\n\na) A user may \"Add\" one or more new service(s)/connections link(s) to a given slice (TN NSSI)\n   that is already created.",
+      "revId": "4de782533479109b8693e902633b978efd57fe52",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
