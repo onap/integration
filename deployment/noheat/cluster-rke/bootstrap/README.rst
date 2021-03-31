@@ -12,3 +12,6 @@ Run order
 ---------
 
 #. ``infra-node.sh``
+#. ``installer-server.sh``
+
+(on respective nodes)
