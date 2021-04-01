@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aef89824_89f2aa7e",
+        "filename": "docs/files/csv/repo-simulators.csv",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2021-04-01T06:49:11Z",
+      "side": 1,
+      "message": "Shouldn\u0027t the newly published A1-policy-enforcement-simulator be placed here as well?\nI can also see some other sims not mentioned here, like core-nssmf-simulator, nf-simulator, ran-nssmf-simulator",
+      "revId": "52870422a4722451d0bc71c58bf6c33e49604381",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
