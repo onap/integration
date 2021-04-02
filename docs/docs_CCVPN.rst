@@ -9,7 +9,7 @@ CCVPN (Cross Domain and Cross Layer VPN)
 ----------------------------------------
 
 Update for Honolulu Release
-~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The Honolulu release continued to support and extend the Transport Slicing functionality
 developed in Guilin release. Two main features were aded in Honolulu release (REQ-456):
