@@ -1,5 +1,5 @@
 Repository;Description;Link
-**integration/simulators/5G-core-nf-simulator**;**5G core nf simulator**;`link <https://gerrit.onap.org/r/admin/repos/integration/simulators/5G-core-nf-simulator>`__
-integration/simulators/dc-simulator;Data Center simulator;`link <https://gerrit.onap.org/r/admin/repos/integration/simulators/dc-simulator>`__
-integration/simulators/pnf-simulator;PNF Simulator;`link <https://gerrit.onap.org/r/admin/repos/integration/simulators/pnf-simulator>`__
-integration/simulators/ran-simulator;RAN simulator;`link <https://gerrit.onap.org/r/admin/repos/integration/simulators/ran-simulator>`__
+**integration/simulators/5G-core-nf-simulator**;**5G core nf simulator**;`link <https://git.onap.org/integration/simulators/5G-core-nf-simulator>`__
+integration/simulators/dc-simulator;Data Center simulator;`link <https://git.onap.org/integration/simulators/dc-simulator>`__
+integration/simulators/pnf-simulator;PNF Simulator;`link <https://git.onap.org/integration/simulators/pnf-simulator>`__
+integration/simulators/ran-simulator;RAN simulator;`link <https://git.onap.org/integration/simulators/ran-simulator>`__
