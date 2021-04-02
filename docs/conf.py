@@ -27,5 +27,7 @@ intersphinx_mapping['onap-cli'] = ('{}/onap-cli/en/%s'.format(doc_url) % branch,
 
 html_last_updated_fmt = '%d-%b-%y %H:%M'
 
+exclude_patterns = ['.tox/**']
+
 def setup(app):
     app.add_css_file("css/ribbon.css")
