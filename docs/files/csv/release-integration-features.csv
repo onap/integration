@@ -1,117 +1,30 @@
 Issue-ID;Description
-INT-1736;Update branch references
-INT-1788;Add Lasse as Integration committer
-INT-1690;Release Docs Update for CCVPN - Transport Slicing in Guilin
-INT-1736;Correct typos and grammar
-INT-1707;Fix Data Type of External RAN NSSMF simulator
-INT-1736;Refactor Integration official documentation
-INT-1777;Updated docs_E2E_network_slicing.rst
-INT-1776;[DOC] Adding few notes and sample outputs to the robot framework documentation
-INT-1772;Update OOF PCI document
-INT-1740;PNF Software Upgrade documentation
-INT-1759;Minor corrections to doc index
-INT-1764;Display waiver content for the security tests
-INT-1764;Display waiver content for the security tests
-INT-1763;Update rke config for windriver deployment
-INT-1690;Update for MDONS Extersion in Guilin
-INT-1616;optimize size and time using "--no-cache-dir"
-INT-1723;Setup basic functional test of NSSMF RAN simulator
-INT-1601;Set up and tear down test environment properly
-INT-1724;Update INFO.yaml
-INT-1723;Add missing dependency for the werkzeug module in setooptools as well
-INT-1723;Add missing dependency for the werkzeug module
-INT-1707;Add an External RAN NSSMF simulator
-INT-1570;Add timeout on SSL internal cert retrieval
-INT-1710;Remove old SECCOM waiver lists source
-INT-1570;check_certificates: create result dir if needed
-TEST-239;update vcpe case
-TEST-259;Fixed CBA sdnc_model_version into vFW_CDS_CNF documentation
-POLICY-2794;update policy staging images
-INT-1601;Add support for detecting Java 8
-INT-1704;AAI-Simulator: Pulling from PNF-SW-UP CSIT to Integration repo
-DCAEGEN2-2267;Update tests for Datafile Collector (DCAE SDK update)
-INT-1570;Add MANIFEST.in to include j2 file in the python package
-POLICY-2794;update policy staging images
-INT-1695;Reset security xfail list for Guilin
-INT-1696;Update release note for Frankfurt maintenance release
-INT-1672;Drop using symlinks for documentation markup rendering
-INT-1601;Replace deprecated "with_items" with loops
-INT-1601;Add versions of tools used during verification
-INT-1677;Manual revert of kubernetes version in rke scripts
-INT-1677;Update Kubernetes rke version
-INT-1601;Use external volumes for OpenStack virtual machines
-INT-1601;Add hosts configuration for Service Mesh ONAP
-INT-1601;Make Vagrant-based environment safe defaults
-INT-1601;Add separate NICs to access OpenStack virtual machines
-INT-1601;Add Ansible roles for OpenStack security groups
-INT-1601;Add Ansible roles for OpenStack hosts
-INT-1601;Add Ansible roles for OpenStack network
-INT-1601;Add Vagrant-based development environment
-INT-1601;Introduce ONAP CI Lab infrastructure setup guide
-INT-1601;Introduce ONAP CI Lab setup guide
-DCAEGEN2-2367;Adjust DFC test files to use FTPES instead of FTPS
-INT-1571;Import upstream component version inspection tool
-INT-1662;Fix vsftpd config setup
-INT-1663;Add README file
-INT-1662;Add HOT parameters for the simulator
-INT-1661;Setup build env on instance
-INT-1661;Setup runner script for the simulator in HOT
-DCAEGEN2-2367;Update tls-init-container
-INT-1657;[PMSHSIM] Refactoring pmsh-pnf-sim
-DCAEGEN2-2219;Add sftp strict host key checking to DFC consul configs
-INT-1652;Update release notes for Frankfurt Maintenance release
-INT-1570;Fix check certification python pakaging
-INT-1649;Add basic cloud-init setup for the simulator instance
-INT-1641;Create basic Heat template
-INT-1570;Initiate check certificate validity test
-INT-1571;Update Operation box in Vagrant environment
-INT-1639;netconf-pnp-simulator: fix supervisor patching failure
-INT-1642;Create runtime setup for the script
-INT-1643;Fix --conf option validation
-OOM-2437;Add compare NodePort and Ingress scan
-OOM-2434;Fix ingress default http and https ports
-INT-1630;Start/stop the 3GPP measurements file generator at simulator start/stop
-INT-1629;Pass options to each lifecycle method separately
-INT-1629;Validate the subcommands on each instance method invocation
-INT-1629;Remove the existing_sim_instances instance attribute
-INT-1627;Support setting custom username/password for the file server service
-INT-1623;Drop shell wrapper for docker compose operations
-INT-1623;Run the 3GPP measurements file generator in bootstrap phase
-INT-1621;Generate vsftpd config file in bootstrap phase
-INT-1621;Make the config generation private method more generic
-INT-1625;Update release note to include demo artifacts
-INT-1626;OUpdate OOF_SON use case documentation
-ONAPARC-551;Allow using separate storage pool for Vagrant-based minimal ONAP deployment
-ONAPARC-551;Adjust default storage device argument on Vagrant-based minimal ONAP deployment
-ONAPARC-551;Increase Helm timeout on Vagrant-based minimal ONAP deployment
-ONAPARC-551;Set masterPassword on Vagrant-based minimal ONAP deployment
-ONAPARC-551;Disable Helm charts linting on Vagrant-based minimal ONAP deployment
-ONAPARC-551;Make Helm timeout adjustable on Vagrant-based minimal ONAP deployment
-INT-1551;Update stability test documentation
-INT-1619;Add a helper method to generate docker compose file
-INT-1619;Simplify network name in Compose template
-INT-1618;Add helper method to generate simulator config
-INT-1617;Update Mass PNF simulator documentation
-INT-1617;Drop action methods decorator
-INT-1617;Setup and start docker-compose simulator app directly in Python module
-INT-1617;Chown vsftpd config file to root while bootstrapping
-INT-1617;Add internal routine for logs archiving
-INT-1617;Remove useless RUNNING_COMPOSE_CONFIG assignment
-INT-1617;Drop shell debug mode in command wrapper method
-OOM-2331;Update helm and kubectl versions
-INT-1615;Correct ReadTheDoc theme
-INT-1457;[vFW_CNF_CDS] Fix typo in Postman collection request
-INT-1613;Support stopping sending PNF registration messages in Python module
-INT-1613;Add test case for invalid '--count' option value
-INT-1611;Drop shell wrapper for 'trigger_custom' action as well
-INT-1611;Support triggering simulator app directly from MassPnfSim module
-INT-1610;Drop shell wrapper for stopping simulator instances
-INT-1531;[vFW_CNF_CDS] UAT testing doc update
-INT-1551;Update doc to reference 1.6.3 RC2 frankfurt image
-INT-1468;Update E2E_network_slicing doc
-INT-1610;Add helper routine for getting iter range in lifecycle methods
-INT-1606;Drop shell wrapper for getting simulators status
-INT-1606;Add helper method to get running docker containers names list
-INT-1606;Add helper method to get simulator instance data
-INT-1466;Update OOF_SON use case documentation
-INT-1608;Remove postman subdirectory
+INT-1874;E2E_network_slicing-H-release known issues update
+INT-1601;Flatten Ansible role structure
+INT-1906;Add instructions for the simulator wrapper
+INT-1869;Update 5G PNF PnP test documentation about information on how to use NF Simulator
+INT-1869;[INTEGRATION] NF simulator documentation - fix indents and bullet points
+INT-1908;[INT] Fix netconf-pnp-simulator Python dependencies version
+INT-1867;vFW CNF use case changes for CNFO
+INT-1869;[INTEGRATION] Add NF simulator documentation in read the docs
+INT-1888;[DOC] Honolulu documentation
+INT-1900;Update the simulators list and description
+INT-1900;Update the simulators repository list
+INT-1900;Fix repositories links
+INT-1875;Updating release notes for CCVPN - Transport Slicing (REQ-456).
+INT-1874;E2E_network_slicing - Honolulu updates
+INT-1888;[DOCUMENTATION] Add a simulator section in documentation
+INT-1877;Fix Integration-netconf-pnp-simulator-docker-merge-master jenkins build
+INT-1875;Documentation update for CCVPN - Transport Slicing (REQ-456)
+INT-1872;G-release docs_E2E_network_slicing.rst- Reverting the overwrites
+TEST-289;[DOC] Improve automated tests doc section
+DCAEGEN2-2528;Add HTTPS to DFC tests
+INT-1601;Make adding Ubuntu Bionic image to the DevStack idempotent
+INT-1601;Create cluster operator access information
+INT-1601;Inject operator key when launching cluster instances
+INT-1601;Divide host group into cluster and operation instances
+INT-1601;Accept host group as an argument to allow reusing roles
+INT-1834;Fix version test in CI
+ONAPARC-551;Force new location of default Helm chart repository
+ONAPARC-551;Update Vagrant-based minimal ONAP deployment to Guilin
+DCAEGEN2-2527;Add HTTP to DFC tests
