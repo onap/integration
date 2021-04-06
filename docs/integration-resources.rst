@@ -13,8 +13,8 @@ Integration resources
       - Public Portal: http://testresults.opnfv.org/onap-integration/
       - Test Database & API: http://testresults.opnfv.org/onap/api/v1/projects
       - CI/CD logs & artifacts: https://logs.onap.org/onap-integration
-      - VNF demo artifacts:https://nexus.onap.org/content/repositories/releases/org/onap/demo/vnf/
-      - Simulators
+      - VNF demo artifacts: https://nexus.onap.org/content/repositories/releases/org/onap/demo/vnf/
+      - :ref:`Simulators <integration-simulators>`
       - Test frameworks (e.g. python-onapsdk)
 
 Integration portal

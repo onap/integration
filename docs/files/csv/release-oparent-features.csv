@@ -1,15 +1,5 @@
 Issue-ID;Description
+INT-1711;Bump oparent 3.2.1-SNAPSHOT
+INT-1711;Release 3.2.0 oparent
 INT-1766;Upgrade latest dependencies
-INT-1756;Set default to guilin
-INT-1486;Bump oparent to version 3.1.1-SNAPSHOT
-INT-1486;Release oparent version 3.1.0
-INT-1489;Add CVE Profile
-POLICY-2387;Updating jetty and including jetty-security
-INT-1488;Add formatter plugin
-INT-1271;Upgrade checkstyle to version 8.32 Google style
-INT-1486;Upgrade latest dependencies - part 2
-INT-1575;Upgrade to latest dependencies
-INT-1464;Add jetty-servlets as a dependency
-INT-1574;Do not use alpha version of logback
-INT-1540;Bump oparent master to 3.1.0
-INT-1539;Update INFO.yaml
+INT-1756;Bump master to 3.2.0-SNAPSHOT

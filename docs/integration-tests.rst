@@ -73,9 +73,11 @@ tests.
 
 .. figure:: files/tests/test-dashboard.png
 
+   Test dashboard (Guilin version)
+
 All the pages and artifacts are pushed to LF backend:
 
-- Daily chaines: https://logs.onap.org/onap-integration/daily
+- Daily chains: https://logs.onap.org/onap-integration/daily
 - Weekly chains: https://logs.onap.org/onap-integration/weekly
 - Gating chains: https://logs.onap.org/onap-integration/gating
 

@@ -4,16 +4,17 @@
 
 .. integration_main-doc:
 
-ONAP Integration Labs
-=====================
+Integration Labs
+================
 
 .. important::
    The Integration team deals with several community labs:
 
    - The Windriver/Intel lab
    - The Azure staging lab
-   - The Continuous Deployment (CD) Labs
    - The Orange openlab
+   - The DT lab
+   - The Nokia dualstack lab
 
 Additionally integration contributors may deal with their own lab pushing results
 in the integration portal (See DT http://testresults.opnfv.org/onap-integration/dt/dt.html)
@@ -74,3 +75,15 @@ the users. It can be used to discover ONAP.
 
 See `Orange Openlab access procedure <https://wiki.onap.org/display/DW/Orange+OpenLab>`_
 for details.
+
+DT lab
+------
+
+The DT lab reported Master daily results in addition of guilin daily results.
+
+Nokia lab
+---------
+
+Nokia setup a lab to support the dual stack IPv4/IPv6 tests. Results are shared
+with the community in
+`<https://logs.onap.org/onap-integration/daily/onap_daily_nokia_dualstack_master/>`_
