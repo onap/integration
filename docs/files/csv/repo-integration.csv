@@ -3,9 +3,12 @@ integration;Historical main repository including documentation, simulators (e.g.
 integration/csit;Repository hosting some tooling to start component functional tests in Jenkins (To be deprecated in Guilin as such tests must be reinsourced by the projects);`link <https://git.onap.org/integration/csit>`__
 integration/docker/onap-java11;Java11 baseline image conformed to SECCOM recommendations;`link <https://git.onap.org/integration/docker/onap-java11>`__
 integration/docker/onap-python;Python baseline image conformed to SECCOM recommendations;`link <https://git.onap.org/integration/docker/onap-python>`__
+**integration/ietf-actn-tools**;IETF ACTN tools introduced in Honolulu);`link <https://git.onap.org/integration/ietf-actn-tools>`__
 integration/seccom;Repory hosting seccom recommended versions and security test waivers;`link <https://git.onap.org/integration/seccom>`__
-**integration/terraform**;**Terraform based alternative infrastructure installation**;`link <https://git.onap.org/integration/terraform>`__
-**integration/terragrunt**;**Compagnon repository of terraform**;`link <https://git.onap.org/integration/terragrunt>`__
+integration/terraform;Terraform based alternative infrastructure installation;`link <https://git.onap.org/integration/terraform>`__
+integration/terragrunt;Compagnon repository of terraform;`link <https://git.onap.org/integration/terragrunt>`__
 integration/usecases/bbs;BBS use case introduced in Dublin and extracted from global repository in frankfurt;`link <https://git.onap.org/integration/usecases/bbs>`__
 integration/usecases/mdons;MDONS use case introduced in Frankfurt;`link <https://git.onap.org/integration/usecases/mdons>`__
+**integration/usecases/A1-policy-enforcement**;A1 policy enforcement introduced in Honolulu;`link <https://git.onap.org/integration/usecases/A1-policy-enforcement>`__
+**integration/usecases/A1-policy-enforcement-r-apps**;A1 policy enforcement (analyticis part) introduced in Honolulu;`link <https://git.onap.org/integration/usecases/A1-policy-enforcement-r-apps>`__
 integration/xtesting;Repository in charge to build th xtesting dockers used in CI/CD chains;`link <https://git.onap.org/integration/xtesting>`__

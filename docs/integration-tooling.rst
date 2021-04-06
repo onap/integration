@@ -10,11 +10,37 @@ Tooling
    of this section is to highlight some of them and redirect to their official
    documentation. These tools can be used for CI/CD, Testing or platform management.
 
-   **Upstream tools** are priviledged but when needed specific developments can be done.
+   **Upstream tools** are privileged but when needed specific developments can be done.
 
    Please note that none of these tools are imposed to test developers, in other
    words, any kind of test is accepted and can be integrated, the list of tools
    is just indicative.
+
+Integration Project
+-------------------
+
+Integration portal
+..................
+
+A portal is built to report the status of the different labs collaborating in
+Integration, see http://testresults.opnfv.org/onap-integration/
+
+.. figure:: files/CI/ONAP_CI_3.png
+   :align: center
+   :width: 6.5in
+
+The code of this web site is shared on a public gitlab project.
+
+
+Communication channels
+......................
+
+The main communication channel for real time support is the official ONAP
+Slack #integration-team chan (https://onapproject.slack.com/).
+
+You can also send a mail to onap-discuss AT lists.onap.org
+with [ONAP] [Integration] prefix in the title.
+
 
 Testing
 -------
@@ -32,7 +58,7 @@ modules) were created especially to deal with OpenStack (see
 `python-testing-utils project <https://git.onap.org/testsuite/python-testing-utils/>`_).
 
 Some GUI tests (using Robotframework Selenium extension) had been initiated but
-not maintained, as a consequence there are not integrated in CI/CD.
+not maintained, as a consequence they are not integrated in CI/CD.
 
 
 Python-onapsdk
@@ -108,41 +134,6 @@ if it is not supported yet.
 
 The procedure to start a test is described in `pythonsdk-test README <https://git.onap.org/testsuite/pythonsdk-tests/tree/README.md>`_
 
-Simulators
-~~~~~~~~~~
-
-Several simulators are created to support the use cases.
-
-.. important::
-    Before starting the development of a new simulator, please consider the existing
-    ones, you may fine a simulator that already partially fulfills your needs..
-    if so priviledge contributing to the simulator than creating a new one.
-
-pnf simulator
-.............
-
-The `pnf-simulator <https://git.onap.org/integration/simulators/pnf-simulator/>`_
-can be used for several tasks:
-
-- Simulate PNF and interact with CDS (reconfiguration, template update)
-- Send VES event to the VES collector and trigger closed loops
-
-A Rest API has been integrated in Guilin, allowing a http control interface of
-the simulator.
-
-See 'README.md <https://gerrit.onap.org/r/gitweb?p=integration/simulators/pnf-simulator.git;a=blob_plain;f=pnfsimulator/README.md;hb=43d113d683ab082f8e2b7ce062e9601e74ffde3a>'__
-for details.
-
-Please note that this simulator has optional python CLI, see
-'README.md <https://gerrit.onap.org/r/gitweb?p=integration/simulators/pnf-simulator.git;a=blob_plain;f=simulator-cli/README.md;hb=43d113d683ab082f8e2b7ce062e9601e74ffde3a>'__
-for details.
-
-.. note::
-    There are several pnf-simulators. This simulator is a legacy simulator. It
-    was forked and one of the fork is known as Mass PNF simulator (hosted in
-    integration repository).
-
-
 CI/CD
 -----
 
@@ -183,3 +174,36 @@ of the test suites in any CI/CD systems and harmonize the inputs and the outputs
 
 The official documentation can be found on
 `xtesting official web site <https://xtesting.readthedocs.io/en/latest/>`_
+
+Integration Test database
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The integration team shares a Test Result Database with the OPNFV project. All
+the test results of the CD are automatically pushed to this database.
+It is possible to retrieve the results through the Test API associated with this
+test Database.
+
+The following information are available:
+
+- List of pods allowed to push results: http://testresults.opnfv.org/onap/api/v1/pods
+- List of projects that declared test cases for CI/CD: http://testresults.opnfv.org/onap/api/v1/projects
+- List of integration test cases:
+  http://testresults.opnfv.org/onap/api/v1/projects/integration/cases
+- List of security test cases:
+  http://testresults.opnfv.org/onap/api/v1/projects/security/cases
+- Results with lots of possible filter combinations: http://testresults.opnfv.org/onap/api/v1/results?last=3
+
+It is possible to get results according to several criteria (version, case name,
+lab, period, last, CI id,..)
+See the `OPNFV test API documentation <https://wiki.opnfv.org/pages/viewpage.action?pageId=2926452>`_.
+
+Any company running ONAP Integration tests can be referenced to push their results
+to this database.
+This Database is hosted on a LF OPNFV server. Results are backuped daily.
+Integration committers can have access to this server.
+
+VNF demo Artifacts
+~~~~~~~~~~~~~~~~~~
+
+VNF demo artifacts are hosted in the demo repositories and published in
+https://nexus.onap.org/content/repositories/releases/org/onap/demo/vnf/.

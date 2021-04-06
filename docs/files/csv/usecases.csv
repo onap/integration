@@ -1,5 +1,4 @@
 Ref;Summary;Link;Contacts
-REQ-342;E2E Network Slicing;:ref:`official doc <docs_E2E_network_slicing>`;Swaminathan S
-REQ-345;5G OOF SON;:ref:`official doc <docs_5G_oof_pci>`;Reshmasree c
-REQ-347;CCVPN-Transport Slicing;:ref:`official doc <docs_ccvpn>`;X.Miao,G.Agrawal,Shashikanth VH
-REQ-325;MDONS extension;:ref:`official doc <docs_CCVPN>`;X.Miao
+REQ-440;E2E Network Slicing;:ref:`official doc <docs_E2E_network_slicing>`;Lin Meng
+REQ-429;5G OOF SON;:ref:`official doc <docs_5G_oof_pci>`;Swaminathan Seetharaman
+REQ-459;CCVPN-Transport Slicing;:ref:`official doc <docs_ccvpn>`;Henry Yu

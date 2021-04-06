@@ -1,0 +1,11 @@
+Pod;CPU Usage;CPU Requests;CPU Request %;CPU Limits;CPU Limits %
+onap-robot;0.92;1;92%;4;23%
+onap-cassandra-0;0.4;0.4;101%;1.6;25%
+onap-cassandra-2;0.36;0.4;83%;1.6;22%
+onap-ejbca;0.35;0.02;1771%;3;11%
+onap-aws;0.35;6;6%;;
+onap-cassandra-1;0.33;0.4;83%;1.6;21%
+onap-oof-has-api;0.12;2;6%;8;1%
+onap-music-cassandra-2;0.12;0.32;32%;1;12%
+onap-dcae-cloudify-manager;0.11;2;6%;4;3%
+onap-music-cassandra-1;0.09;0.32;29%;1;9%
