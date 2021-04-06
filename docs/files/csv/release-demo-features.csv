@@ -1,10 +1,8 @@
 Issue-ID;Description
-INT-1788;Add Lasse as Integration committer
-INT-1785;Create demo 1.7.0 for guilin
-INT-1658;vFW CNF CDS scripts update for native Helm support
-INT-1240;ROBOT e2e test cases improvements for csar/zip tosca package validation in VNFSDK and SDC Onbarding
-INT-1658;vFW CDS CNF CBA with native k8s profile upload
-INT-1724;Update INFO.yaml
-INT-1600;VNF Software Version parameter added to CDS Heat templates
-INT-1625;Update pom files in master to 1.7.0-SNAPSHOT
-SO-2983;Fix for missing VNFC rel information
+INT-1868;vFW CNF fix for issue with config-deploy operation
+INT-1868;vFW CNF updates after integration tests
+INT-1868;Real vFW CNF config-assign and config-deploy
+INT-1868;Implementation of config-assign and config-deploy actions
+INT-1868;Add cofig-assign and config-deploy to cds workflow
+INT-1658;Check orchestration status during instantiation and deletion vFW_CNF_CDS usecase
+INT-1658;Automation scripts for vFW_CNF_CDS usecase
