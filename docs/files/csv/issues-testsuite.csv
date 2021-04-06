@@ -1,2 +1,5 @@
 Issue key;Issue id;Summary;Priority;Status;Created
-TEST-277;56680;Issues with basic_clamp test;Medium;Open;12/Nov/20 9:24 AM
+TEST-306,58636,Resiliency testing;Medium;In progress;17/Feb/21
+TEST-290,57341,R>efactor setting management inf pythonsdk_test;Medium;In progress;18/Dec/20
+TEST-285,57075,Create initial robot suite for SON use case;Medium;In progress;07/Dec/20
+TEST-273,56369,Investigate parameter passing options in ci-management;Medium;Open;29/Oct/20

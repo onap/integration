@@ -1,16 +1,9 @@
 Issue key;Summary;Contact;Comment
-REQ-381;Bulk PM / PM Data Control Extension;Mark Scott;
-REQ-352;Extend ORAN A1 Adapter and add A1 Policy Management;John Keeney;
-REQ-341;ONAP CNF orchestration - Enhancements;Lukasz Rajewski;Changes of this feature are described in :ref:`vFW CNF use case <docs_vFW_CNF_CDS>`
-REQ-338;Support for Test Result Auto Analysis & Certification （NFV Testing Automatic Platform）;Lei Huang;
-REQ-337;Support for Test Task Auto Execution （NFV Testing Automatic Platform）;Lei Huang;
-REQ-336;Support for Test Environment Auto Deploy（NFV Testing Automatic Platform）;Lei Huang;
-REQ-335;Support for Test Topology Auto Design （NFV Testing Automatic Platform）;Lei Huang;
-REQ-334;ETSI-Alignment for Guilin and Honolulu;Byung-Woo Jun;
-REQ-331;Policy Based Filtering;Pam Dragosh;
-REQ-327;ONAP/3GPP & O-RAN Alignment-Standards Defined Notifications over VES (Guilin);Marge Hillis;
-REQ-324;Support xNF Software Upgrade in association to schema updates;Zu Qiang;
-REQ-322;Configuration & Persistency Service in R7;Tony Finnerty;
-REQ-321;CMPv2 Enhancements for R7;Pawel Baniewski;cmpv2 automated test integrated in CI/CD, see :ref:`automated test page <release_automated_usecases>`
-REQ-319;PNF PreOnboarding in R7;Ben Cheung;
-REQ-318;PNF Plug & Play in R7;Ben Cheung;
+REQ-463;ONAP to support Multi Tenancy (part 2);Olivier Phénix ;
+REQ-457;Extend ORAN A1 Adapter and add A1 Policy Management;John Keeney;
+REQ-458;ONAP CNF orchestration - Enhancements;Lukasz Rajewski;Changes of this feature are described in :ref:`vFW CNF use case <docs_vFW_CNF_CDS>`
+REQ-446;NF Software Upgrade enhancement;Zu Qiang;
+REQ-433;ONAP/3GPP & O-RAN Alignment-Standards Defined Notifications over VES (Honolulu);Damian Nowak;
+REQ-432;IPv4/IPv6 dual stack support in ONAP (Honolulu);Damian Nowak,
+REQ-431;CMPv2 Enhancements for R7;Pawel Baniewski;cmpv2 automated test integrated in CI/CD, see :ref:`automated test page <release_automated_usecases>`
+REQ-400;ETSI-Alignment for Guilin and Honolulu;Byung-Woo Jun;
