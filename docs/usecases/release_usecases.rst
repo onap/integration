@@ -5,14 +5,14 @@
 
 :orphan:
 
-Guilin Use Cases
-================
+Honolulu Use Cases
+==================
 
 Description
 -----------
 
 This session includes use cases and functional requirements which have been
-officially verified in Guilin release by the ONAP community.
+officially verified in Honolulu release by the ONAP community.
 
 For each use case or functional requirement, you can find contact names and a
 link to the associated documentation.
@@ -27,8 +27,8 @@ This documentation deals with
 Use cases
 ---------
 
-Guilin New Use Cases
-~~~~~~~~~~~~~~~~~~~~
+Honolulu Official Use Cases
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. csv-table::
    :file: ../files/csv/usecases.csv
@@ -36,8 +36,8 @@ Guilin New Use Cases
    :delim: ;
    :header-rows: 1
 
-Old Use Cases Tested in Guilin
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Old Use Cases Tested in Honolulu
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. csv-table::
    :file: ../files/csv/usecases-old-valid.csv

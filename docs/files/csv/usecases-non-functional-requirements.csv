@@ -1,18 +1,5 @@
 Issue key;Summary;Contact;Comment
-REQ-386;Apply common Swagger style and documentation generation tools to create robust ONAP API documentation;Andy Mayer;
-REQ-385;IPv4/IPv6 dual stack support in ONAP (Guilin);Damian Nowak;
-REQ-376;Flow management must be activated for ONAP.;Fabian Rouzaut;Marginal progress, it was not possible to collect the flow to setup a matrix flow
-REQ-374;ONAP shall use STDOUT for logs collection;Krzysztof Opasiak; Most components (that are not in maintenance mode) are using now stdout for logs collection. We hope to finish this in next release.
-REQ-373;ONAP must complete update of the Python language (from 2.7 -> 3.8);Pawel Pawlak;Significant progress done in Guilin tracked by weekly version test integrated in CI/CD
-REQ-366;Containers must crash properly when a failure occurs;Sylvain Desbureaux;Good progress to be completed in Honolulu
-REQ-365;Containers must have no more than one main process;Sylvain Desbureaux;
-REQ-362;All containers must run as non-root user;Krzysztof Opasiak;The list of waivers has been significantly reduced in Guilin, progress tracker with root test integrated in all CI/CD chains
-REQ-361;Continue hardcoded passwords removal;Krzysztof Opasiak; Majority of projects use certInitializer for certificate generation. Next subset of passwords removed.
-REQ-360;Application config should be fully prepared before starting the application container;Sylvain Desbureaux;
-REQ-358;No root (superuser) access to database from application container;Krzysztof Opasiak; Nice progress but still some of projects access DB as root.
-REQ-357;ONAP shall increase the number of Docker Benchmark tests;Sylvain Desbureaux;More tests integrated in CI/CD but enhancements expected in Honolulu
-REQ-351;ONAP must complete update of the java language (from v8 -> v11) ;Pawel Pawlak;Significant progress done in Guilin tracked by weekly version test integrated in CI/CD
-REQ-350;Each ONAP project shall improve its CII Badging score by improving input validation and documenting it in their CII Badging site ;Tony L Hansen;
-REQ-349;Each ONAP project shall define code coverage improvements and achieve at least 55% code coverage;Amy Zwarico;
-REQ-340;ONAP to support Multi - tenancy ;Olivier Phenix;
-REQ-323;Each project will update the vulnerable direct dependencies in their code base;Amy Zwarico;
+REQ-453;Smart Operator Intent Translation in UUI based on IBN - R8 5G Slicing Support;Dong Wang;
+REQ-430;PNF Plug & Play in R8;Damian Nowak;
+REQ-428;5G Service Modeling in R8 - Modeling Work;Benjamin Cheung;
+REQ-427;Configuration Persistence Service in R8;Toine Siebelink;
