@@ -5,14 +5,14 @@
 
 :orphan:
 
-Guilin Use Cases and Requirements
-=================================
+Honolulu Use Cases and Requirements
+===================================
 
 Description
 -----------
 
 This session includes use cases and functional requirements which have been
-officially verified in Guilin release by the ONAP community.
+officially verified in Honolulu release by the ONAP community.
 
 For each use case or functional requirement, you can find contact names and a
 link to the associated documentation.
@@ -31,3 +31,4 @@ This documentation deals with
    usecases/release_automated_usecases.rst
    usecases/release_requirements.rst
    usecases/release_non_functional_requirements.rst
+   usecases/deprecated_usecases.rst

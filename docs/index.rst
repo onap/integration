@@ -7,12 +7,7 @@ INTEGRATION
 .. toctree::
    :maxdepth: 1
 
-   integration-missions.rst
    release-notes.rst
-   integration-repositories.rst
+   docs_usecases_release.rst
    integration-resources.rst
-   integration-labs.rst
-   integration-CICD.rst
-   integration-tests.rst
-   integration-simulators.rst
-   integration-tooling.rst
+   integration-missions.rst
