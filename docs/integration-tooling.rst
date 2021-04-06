@@ -108,41 +108,6 @@ if it is not supported yet.
 
 The procedure to start a test is described in `pythonsdk-test README <https://git.onap.org/testsuite/pythonsdk-tests/tree/README.md>`_
 
-Simulators
-~~~~~~~~~~
-
-Several simulators are created to support the use cases.
-
-.. important::
-    Before starting the development of a new simulator, please consider the existing
-    ones, you may fine a simulator that already partially fulfills your needs..
-    if so priviledge contributing to the simulator than creating a new one.
-
-pnf simulator
-.............
-
-The `pnf-simulator <https://git.onap.org/integration/simulators/pnf-simulator/>`_
-can be used for several tasks:
-
-- Simulate PNF and interact with CDS (reconfiguration, template update)
-- Send VES event to the VES collector and trigger closed loops
-
-A Rest API has been integrated in Guilin, allowing a http control interface of
-the simulator.
-
-See 'README.md <https://gerrit.onap.org/r/gitweb?p=integration/simulators/pnf-simulator.git;a=blob_plain;f=pnfsimulator/README.md;hb=43d113d683ab082f8e2b7ce062e9601e74ffde3a>'__
-for details.
-
-Please note that this simulator has optional python CLI, see
-'README.md <https://gerrit.onap.org/r/gitweb?p=integration/simulators/pnf-simulator.git;a=blob_plain;f=simulator-cli/README.md;hb=43d113d683ab082f8e2b7ce062e9601e74ffde3a>'__
-for details.
-
-.. note::
-    There are several pnf-simulators. This simulator is a legacy simulator. It
-    was forked and one of the fork is known as Mass PNF simulator (hosted in
-    integration repository).
-
-
 CI/CD
 -----
 

@@ -1,50 +1,13 @@
 Issue-ID;Description
-INT-1788;Add Lasse as Integration committer
-INT-1770;PNF registarte - prevent test case fail at general step Submit SDC Software Product
-INT-1768;Create testsuite:1.7.2 for RC1
-INT-1240;ROBOT e2e test cases improvements for csar/zip tosca package validation in VNFSDK and SDC Onbarding
-INT-1258;Adapt suite setup to wait until topic is created
-INT-1761;Bump Guilin 1.7.1 testcase docker
-INT-1258;Adapt events to have the newest 3GPP path in schemaReference
-INT-1754;5gbulkpm k8splugin version update for sftp component
-INT-1731;Add man in the middle CMPv2 E2E test case in robot test suite certificate SANs verification
-INT-1258;Fix resource paths for xtesting purposes
-INT-1258;Add Suite Setup to Ves Test Suite
-INT-1258;Add E2E integration tests to cover new stndDefined VES events
-INT-1716;Fix Docker file
-SO-3295;Revert "Adding NSSMF adapter healthcheck in SO"
-INT-1731;Add CMPv2 E2E test case in robot test suite
-CCSDK-2768;Improved CDS Health Check
-SO-3295;Adding NSSMF adapter healthcheck in SO
-SDC-3287;Enhanced SDC Healthcheck
-TEST-266;Self release 1.7.0
-INT-1727;Fix docker staging build
-INT-1637;Synch csar download path for vCPE
-INT-1726;Add entitlement pool type to entitlement_pool.jinja
-INT-1636;Add customer to Load vCPE Models
-INT-1724;Update INFO.yaml
-SDNC-1349;SDNC new Healthcheck TC
-OPTFRA-851;Modify healthcheck for OOF-OSDF
-INT-1668;fix Get Service Id  issue in pnf registartion test case in xtesting gating and master
-AAI-3123;A&AI health check improvement:
-INT-1668;Remove from CI PNF registration test that uses deprecated vnf api
-POLICY-2817;fix delete policy test in new policy healthcheck
-POLICY-2817;Missing Variable Added
-POLICY-2817;Improved Policy Health Check
-INT-1668;Remove from CI PNF registration test that uses deprecated vnf api
-POLICY-2003;Remove deprecated Policy Component Tests
-INT-1702;Add tcagen2 blueprint
-INT-1702;Update dcaegen2 tca policy type
-INT-1675;hv-ves bad certificate
-INT-1678;5gBulkPm sftp bp fix
-INT-1668;Fix randomly failing test case for pnf refgstarte
-INT-1668;Fix randomly failing test case for pnf refgstarte in xtetsting daily
-VFC-1712;Remove health-check related to components which are not in Guilin Release
-TEST-248;run cds bootstrap before vlb_cds instantiation
-INT-1652;Self release testsuite 1.6.4
-VFC-1689;[VFC]Remove ems driver health check
-TEST-247;Some corrections for VLB CDS
-TEST-234;change owning-entity-id from hard coded to variable
-INT-1553;Release testsuite 1.6.3 for Frankfurt RC2
-INT-1521;Fix 5g_bulk_PM and pnf_registrate test case errors
-INT-1604;Fix problem with SSL in HV-Ves automated test case
+INT-1907;Close all browsers at healthcheck suite teardown
+TEST-329;[HEALTCHECK] Exclude appc healthcheck test from CI
+INT-1815;[ROBOT] Add new E2E test for 5G BulkPM usecase from HTTP server to ONAP gating
+HOLMES-416;Re-introduced Holmes Health Check Tasks
+DCAEGEN2-2660;Add DCAE Microservice Health Check
+INT-1855 DCAEGEN2-2548;[ROBOT] Add DCAEMOD usecase test to xtestnig image
+POLICY-3118;invalid controllerName in policies robot tests
+INT-1855;Update DCAE MOD smoke/verification test using simple app
+POLICY-2526;Updates to check for 202 response during Policy-PAP Deployment
+INT-1855;Add DCAE MOD smoke/verification test using simple app
+INT-1804;Fix CMPv2 test cases after pnf-simulator changes
+INT-1801;Extend 5g bulk pm test suite in order to have possibility to test custom PM FILES
