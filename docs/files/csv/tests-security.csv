@@ -7,3 +7,4 @@ http_public_endpoints;check that there is no public http endpoints exposed in ON
 jdpw_ports;check that there are no internal java ports;`bash script <https://git.onap.org/integration/plain/test/security/check_for_jdwp.sh>`__;kubectl, procfs
 kube_hunter;security suite to search k8s vulnerabilities (upstream src aquasecurity);`kube-Hunter <https://github.com/aquasecurity/kube-hunter>`__; `kube-Hunter <https://github.com/aquasecurity/kube-hunter>`__
 versions;check that Java and Python are available only in versions recommended by SECCOM. This test is long and run only in Weekly CI chains;`python module <https://git.onap.org/integration/tree/test/security/check_versions>`__;cerberus, kubernetes python lib,
+**tern**;Check the component licenses within the ONAP dockers;`bash script <https://gitlab.com/Orange-OpenSource/lfn/onap/xtesting-onap/-/blob/master/scripts/run_tern.sh>`__;kubectl

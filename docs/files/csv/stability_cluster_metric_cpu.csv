@@ -1,2 +1,2 @@
-Namespace;Pods;Workloads;Memory Usage;CPU Requests;CPU Requests %;CPU Limits;CPU Limits %
-onap;242;181;10.31;79.93;13%;247.2;4%
+Namespace;CPU Utilisation (from requests);CPU utilisation (from limits);Memory Utilisation (from requests);Memory Utilisation (from limits)
+onap;2.22%;0.816%;19%;7.4%

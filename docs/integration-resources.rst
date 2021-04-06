@@ -13,8 +13,8 @@ Integration resources
       - Public Portal: http://testresults.opnfv.org/onap-integration/
       - Test Database & API: http://testresults.opnfv.org/onap/api/v1/projects
       - CI/CD logs & artifacts: https://logs.onap.org/onap-integration
-      - VNF demo artifacts:https://nexus.onap.org/content/repositories/releases/org/onap/demo/vnf/
-      - Simulators
+      - VNF demo artifacts: https://nexus.onap.org/content/repositories/releases/org/onap/demo/vnf/
+      - :ref:`Simulators <integration-simulators>`
       - Test frameworks (e.g. python-onapsdk)
 
 Integration portal
@@ -41,8 +41,9 @@ The following information are available:
 
 - List of pods allowed to push results: http://testresults.opnfv.org/onap/api/v1/pods
 - List of projects that declared test cases for CI/CD: http://testresults.opnfv.org/onap/api/v1/projects
-- List of test cases per projects:
+- List of integration test cases:
   http://testresults.opnfv.org/onap/api/v1/projects/integration/cases
+- List of security test cases:
   http://testresults.opnfv.org/onap/api/v1/projects/security/cases
 - Results with lots of possible filter combinations: http://testresults.opnfv.org/onap/api/v1/results?last=3
 
