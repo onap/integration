@@ -1,7 +1,6 @@
 Summary;Link;Contacts
 vFirewall CNF With CDS;:ref:`official doc <docs_vFW_CNF_CDS>`;L.Rajewski, K.Banka
-vFirewall with closed loop;:ref:`official doc <docs_vfw>`;B.Freeman, C.Closet, S.Déterme
-Scale Out;:ref:`official doc <docs_scaleout>`;B.Freeman, C.Closet, S.Déterme
 5G Realtime PM and High Volume Stream Data Collection; :ref:`official doc <docs_realtime_pm>`;M.Przybysz
 5G PNF Plug and Play; :ref:`official doc <docs_5g_pnf_pnp>`; M.Przybysz K.Kuzmicki
 5G PNF Pre-Onboarding & Onboarding;:ref:`official doc <docs_pnf_onboarding_preonboarding>`;M.Przybysz K.Kuzmicki D.Melia A.Walshe
+MDONS extension;:ref:`official doc <docs_CCVPN>`;X.Miao

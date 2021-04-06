@@ -1,11 +1,11 @@
 Pod;Memory Usage;Memory Requests;Memory Requests %;Memory Limits;Memory Limits %
-onap-sdnc-0;5.56 GiB;2 Gi;278%;4 GiB;139%
-onap-portal-cassandra;5.5 GiB;2.8 GiB;160%;3.75 GiB;146%
-onap-appc;5.28 GiB;2 GiB;264%;4 GiB; 132%
-onap-cassandra-1;4.7 GiB;2.5 GiB;188%;4 GiB;117%
-onap-cassandra-2;4.7 GiB;2.5 GiB;188%;4 GiB;117%
-onap-cassandra-3;4.7 GiB;2.5 GiB;188%;4 GiB;117%
+onap-portal-cassandra;3.34 GiB;6.2 GiB;53.8%;7.5 GiB;45%
+onap-cassandra-2;2.6 GiB;5 GiB;52%;8 GiB;32%
+onap-cassandra-0;2.6 GiB;5 GiB;52%;8 GiB;32%
+onap-cassandra-1;2.54 GiB;5 GiB;51%;8 GiB;32%
+onap-appc;2.46 GiB;4 GiB;62%;8 GiB; 32%
+onap-sdnc;2.43 GiB;4 GiB;61%;8 GiB; 30%
+onap-policy-mariadb-0;2.4 GiB;1.96 GiB;122%;5.5 GiB;44%
 onap-dcae-cloudify-manager;4.7 GiB;2 GiB;233%;4 GiB;115%
-onap-clamp-dash-es;3.57 GiB; 2.5 GiB;143%;4 GiB;89%
-onap-so-bpmn-infra;3.51 GiB;1 GiB; 351%;4 GiB;88%
-onap-awx;3.21 GiB;6 GiB;53%;;
+onap-awx;1.72 GiB;12 GiB;14%;;
+onap-aaf-cass;1.45 GiB;2.5 GiB;58%;3.5 GiB;41.4%

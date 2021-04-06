@@ -8,8 +8,9 @@
 Automated Use Cases
 -------------------
 
-These use cases have been run on the Daily Guilin CI chains and are used to
+These use cases have been run on the Daily Honolulu CI chains and are used to
 validate the integration of any new dockers in OOM.
+New tests are indicated in **bold**.
 
 .. csv-table:: Infrastructure Healthcheck Tests
     :file: ../files/csv/tests-infrastructure-healthcheck.csv
