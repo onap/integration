@@ -8,7 +8,7 @@ ONAP Maturity Testing Notes
 .. important::
     The Release stability has been evaluated by:
 
-    - The Daily Guilin CI/CD chain
+    - The Daily Honolulu CI/CD chain
     - A simple 24h healthcheck verification
     - A 7 days stability test
 
