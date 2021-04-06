@@ -1,11 +1,6 @@
 Issue key;Issue id;Summary;Priority;Status;Created
-INT-1770;56498;PNF registarte test case very offen fails at general step Submit SDC Software Product;Medium;Open;05/Nov/20 7:32 PM
-INT-1755;56342;[PMSH] Wrong AAI api version in CSITs;Medium;Open;28/Oct/20 11:20 AM
-INT-1738;55962;SO CSIT failing due to invalid syntax;Medium;Open;09/Oct/20 2:54 PM
-INT-1726;55683;SDC intitlement pool creation is failing;Medium;Open;24/Sep/20 2:44 PM
-INT-1720;55314;Robot certificates is too long and has bad owner;Medium;Open;14/Sep/20 6:57 AM
-INT-1717;55218;Robot has python 2.7 pods;High;Open;10/Sep/20 7:31 AM
-INT-1716;55175;robot pod is launched as root;High;Open;09/Sep/20 4:32 PM
-INT-1660;53648;Fix 5g bulkpm CSITs for pm-mapper java 11;Medium;Open;16/Jul/20 5:28 AM
-INT-1659;53599;MDONS Extnesion: Integration Test;Medium;In Progress;15/Jul/20 2:58 AM
-INT-1655;53455;SDNC CSIT failing for test plan sdnc_netconf_tls_post_deploy.;Medium;Delivered;08/Jul/20 5:24 PM
+INT-1883;59237;Reccurent various errors in smoke tests;High;In progress;12/Mar/21
+INT-1880;59163;Xtesting - basic_vm - values from basic_vm-service.yaml not applied;Low;In progress;11/Mar/21
+INT-1873;58953;Race condition between  cmpv2 and Basic DCAE health check;Medium;In progress;24/Feb/21
+INT-1843;57940;Upload 5G-core-nf-simulator code;Medium;In progress;25/Jan/21
+INT-1828;57751;Update Transport simu documentation;Medium;In progress;11/Jan/21

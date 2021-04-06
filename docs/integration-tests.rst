@@ -28,9 +28,6 @@ Use Cases
 The use cases of the last release are described in
 :ref:`Verified Use cases <docs_usecases_release>`.
 
-The history of the different use cases across the different releases can be
-found in :ref:`Use Cases page <docs_usecases>`.
-
 CSIT Tests
 ----------
 
@@ -46,15 +43,10 @@ repository for 2 main reasons:
 - most of the tests are abandoned and not maintained when hosted in a third party
   repository leading to CI/CD resource waste and misleading test reporting
 
-In Guilin a PoC to help the project to re-insource their functional tests have
-been initiated.
-See `CSIT wiki page <https://wiki.onap.org/display/DW/Maximizing+Benefits+of+CSIT+in+ONAP+Development>`_
-for details.
-
-Automatic Tests
+Automated Tests
 ---------------
 
-These tests are run daily/weekly on each new gate (new patchset in OOM, clamp
+These tests are run daily/weekly on each new gate (new patchset in OOM, CLAMP
 or SO). They can be in any language (bash, go, python,...), leveraging any test
 framework (robotframework, MTS, python-onapsdk).
 They are all embedded in `xtesting <https://pypi.org/project/xtesting/>`_ dockers.
@@ -73,9 +65,11 @@ tests.
 
 .. figure:: files/tests/test-dashboard.png
 
+   Test dashboard (Guilin version)
+
 All the pages and artifacts are pushed to LF backend:
 
-- Daily chaines: https://logs.onap.org/onap-integration/daily
+- Daily chains: https://logs.onap.org/onap-integration/daily
 - Weekly chains: https://logs.onap.org/onap-integration/weekly
 - Gating chains: https://logs.onap.org/onap-integration/gating
 
@@ -157,8 +151,8 @@ to adapt then run the security tests on your own system.
 Note for security tests, integration team follows `SECCOM recommendations and
 apply waivers granted by SECCOM if needed through xfail lists <https://git.onap.org/integration/seccom/tree/>`_.
 
-Stability Testing
------------------
+Stability/Resiliency tests
+--------------------------
 
 Ensuring the stability of ONAP is one of the missions of the Integration team.
 CI chains and stability tests are performed to help stabilising the release.
