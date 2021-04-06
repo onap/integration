@@ -1,0 +1,11 @@
+Pod;Current Receive Bandwidth;Current Transmit Bandwidth;Rate of Received Packets;Rate of Transmitted Packets, Rate of Received Packets Dropped;Rate of Transmitted Packets Dropped
+onap-oof-has-api;372 kB/s;670 B/s;9.21 p/s;5.4 p/s;0 p/s;0 p/s
+onap-cassandra-2;231 kB/s;155 kB/s;90.35 p/s;69.84 p/s;0 p/s;0 p/s
+onap-cassandra-1;228 kB/s;156 kB/s;87 p/s;82 p/s;0 p/s;0 p/s
+onap-cassandra-0;144 kB/s;245 kB/s;63 p/s;75 p/s;0 p/s;0 p/s
+onap-message-router-0;17 kB/s;18 kB/s;187 p/s;188 p/s;0 p/s;0 p/s
+onap-portal-app;15 kB/s;4.7 kB/s;187 p/s;188 p/s;0 p/s;0 p/s
+onap-consul;14 kB/s;3.9 kB/s;38 p/s;40 p/s;0 p/s;0 p/s
+onap-message-router-kafka-010kB/s;10 kB/s;112 p/s;115 p/s;0 p/s;0 p/s
+onap-dcaemodul-onboarding-apt_install;6.7 kB/s;6.1 kB/s;45 p/s;47 p/s;0 p/s;0 p/s
+onap-message-router-kafka-2;6.3 kB/s;6.1 kB/s;70 p/s;72 p/s;0 p/s;0 p/s

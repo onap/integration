@@ -1,4 +1,6 @@
 Use Case;Link;Last Valid Version;Comments
+vFirewall with closed loop;:ref:`official doc <docs_vfw>`;Guilin;Shall still be OK in Honolulu but not tested yet
+Scale Out;:ref:`official doc <docs_scaleout>`;Guilin;Shall still be OK in Honolulu but not tested yet
 vCPE Use Case;:ref:`official doc <docs_vcpe>`;El Alto;No resources to test on Frankfurt
 vIPsec with HPA Use Case;:ref:`official doc<docs_vipsec_hpa>`;El Alto;No resources to test on Frankfurt
 Change Management Schedule Optimization;:ref:`official doc<docs_CM_schedule_optimizer>`;El Alto;No resources to test on Frankfurt
