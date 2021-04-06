@@ -71,10 +71,11 @@ This CD is leveraging public gitlab-ci mechanism and used to deploy several ONAP
 labs:
 
 - Daily Master: daily run using OOM Master
-- Daily Frankfurt: daily run using the last stable version during Guilin Release
+- Daily Guilin: daily run using the last stable version during Honolulu Release
   processing
-- Daily Guilin: daily run setup at RC0 (candidate dockers available for integration)
+- Daily Honolulu: daily run setup at RC0 (candidate dockers available for integration)
 - Weekly Master: run once a week with longer tests
+- Weekly Honolulu: run once a week with longer tests
 - Gating: run on OOM, clamp or SO patchset submission. It means a full ONAP
   deployment on demand based on new patchset declared in gerrit.
 

@@ -19,22 +19,37 @@ Most of the repositories are internal ONAP repositories.
    │   ├── docker
    │   │   ├── onap-java11
    │   │   └── onap-python
+   │   ├── ietf-actn-tools
    │   ├── integration
    │   ├── seccom
    │   ├── simulators
-   │   │   ├── 5G-core-nf-simulator
-   │   │   ├── dc-simulator
-   │   │   ├── pnf-simulator
-   │   │   └── ran-simulator
+   │   │   ├──5G-core-nf-simulator
+   │   │   ├──A1-policy-enforcement-simulator
+   │   │   ├──avcn-manager
+   │   │   ├──core-nssmf-simulator
+   │   │   ├──dc-simulator
+   │   │   ├──masspnf-simulator
+   │   │   ├──netconf-server
+   │   │   ├──nf-simulator
+   │   │   ├──pm-https-server
+   │   │   ├──pnf-simulator
+   │   │   ├──ran-nssmf-simulator
+   │   │   ├──ran-simulator
+   │   │   └── ves-client
    │   ├── terraform
    │   ├── terragrunt
    │   ├── usecases
+   │   │   ├── A1-policy-enforcement
+   │   │   ├── A1-policy-enforcement-r-apps
    │   │   ├── bbs
    │   │   └── mdons
    │   └── xtesting
    ├── oparent
    └── testsuite
       ├── cds
+      ├── cds-mock-odl
+      ├── cds-mock-server
+      ├── cds-mock-ssh
       ├── heatbridge
       ├── oom
       ├── pythonsdk-tests
@@ -64,11 +79,8 @@ It shall also help identifying, leveraging and adopting existing simulators
 rather than systematically re-inventing the wheel.
 
 .. attention::
-   The **new integration sub-repositories** introduced for Guilin are:
-
-  - 5G-core-nf-simulator
-  - terraform
-  - terragrunt
+   The **new integration sub-repositories** introduced for Honolulu are
+   indicated in **bold**.
 
 .. csv-table:: Integration Repositories
     :file: ./files/csv/repo-integration.csv
@@ -96,11 +108,7 @@ Several tooling repositories are associated with the robot tests (heatbridge,
 robot-python-testing-utils).
 
 .. attention::
-   For Guilin, 3 new sub repositories have been created:
-
-   - testsuite/cds
-   - pythonsdk-test
-   - robot-utils
+   Honolulu new sub repositories are indicated in **bold**.
 
 .. csv-table:: Testsuite Repositories
     :file: ./files/csv/repo-testsuite.csv

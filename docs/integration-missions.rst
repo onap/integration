@@ -17,8 +17,14 @@ Integration missions
 
 The different activities may be summarized as follows (proportions are indicative):
 
-.. figure:: files/integration-project.png
-
+- Community support
+- Lab support
+- Use case support
+- Test development
+- Management of daily/weekly CI chains
+- Build baseline images
+- Automate tests
+- Validate the release
 
 For each release, the integration team provides the following artifacts:
 
