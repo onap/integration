@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d5cac29e_c045d9fe",
+        "filename": "docs/integration-simulators.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-04-12T16:36:56Z",
+      "side": 0,
+      "message": "it would be nice to illustrate it with a real example ~ sample and integrate this example in CI later.",
+      "revId": "dfb08e2fa824957ff8fbd19b0a8510f11079f897",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
