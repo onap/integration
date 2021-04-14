@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "53335995_b4b8784c",
+        "filename": "docs/simulators/nf_simulator.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2021-04-14T13:15:18Z",
+      "side": 1,
+      "message": "Could you put links to the actual repo tree instead of repo admin panel? https://gerrit.onap.org/r/admin/repos/integration/simulators/nf-simulator -\u003e https://gerrit.onap.org/r/q/integration/simulators/nf-simulator (or even better on git.onap.org)",
+      "revId": "d7a211fca212e6650bcfa98948079e03ab877506",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e612fa87_d8af5312",
+        "filename": "docs/simulators/nf_simulator.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2021-04-14T13:15:18Z",
+      "side": 1,
+      "message": "\"docker images have been prepared\"",
+      "revId": "d7a211fca212e6650bcfa98948079e03ab877506",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f27adb3_edabab14",
+        "filename": "docs/simulators/nf_simulator.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2021-04-14T13:15:18Z",
+      "side": 1,
+      "message": "depending on needs",
+      "range": {
+        "startLine": 36,
+        "startChar": 85,
+        "endLine": 36,
+        "endChar": 105
+      },
+      "revId": "d7a211fca212e6650bcfa98948079e03ab877506",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "642b1dba_58a05c94",
+        "filename": "docs/simulators/nf_simulator.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2021-04-14T13:15:18Z",
+      "side": 1,
+      "message": "based on",
+      "range": {
+        "startLine": 66,
+        "startChar": 9,
+        "endLine": 66,
+        "endChar": 16
+      },
+      "revId": "d7a211fca212e6650bcfa98948079e03ab877506",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
