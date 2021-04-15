@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2bbbe541_bd71d111",
+        "filename": "docs/simulators/nf_simulator.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5098
+      },
+      "writtenOn": "2021-04-15T10:30:49Z",
+      "side": 1,
+      "message": "I would avoid using \"Simulator\" here, \"Application\" or \"Client\" would be more suitable. Sorry I missed that one in previous comments.",
+      "range": {
+        "startLine": 48,
+        "startChar": 3,
+        "endLine": 48,
+        "endChar": 12
+      },
+      "revId": "94d5e013cdcb40dac4b36e1052874a4533df0600",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
