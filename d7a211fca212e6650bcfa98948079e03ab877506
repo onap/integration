@@ -79,6 +79,98 @@
       "revId": "d7a211fca212e6650bcfa98948079e03ab877506",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12eada55_6965a570",
+        "filename": "docs/simulators/nf_simulator.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5098
+      },
+      "writtenOn": "2021-04-15T06:25:20Z",
+      "side": 1,
+      "message": "I think REST endpoint should have also request methods given, like GET,POST,PUT etc.",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 69
+      },
+      "revId": "d7a211fca212e6650bcfa98948079e03ab877506",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10cdf3a5_1f7a6f40",
+        "filename": "docs/simulators/nf_simulator.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5098
+      },
+      "writtenOn": "2021-04-15T06:25:20Z",
+      "side": 1,
+      "message": "I would avoid using \"Simulator\" here, \"Application\" or \"Manager\" would be more suitable",
+      "range": {
+        "startLine": 87,
+        "startChar": 3,
+        "endLine": 87,
+        "endChar": 12
+      },
+      "revId": "d7a211fca212e6650bcfa98948079e03ab877506",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2113e8b4_a800c859",
+        "filename": "docs/simulators/nf_simulator.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 5098
+      },
+      "writtenOn": "2021-04-15T06:25:20Z",
+      "side": 1,
+      "message": "Same as above",
+      "range": {
+        "startLine": 91,
+        "startChar": 7,
+        "endLine": 91,
+        "endChar": 16
+      },
+      "revId": "d7a211fca212e6650bcfa98948079e03ab877506",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3840043e_59e33855",
+        "filename": "docs/simulators/nf_simulator.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5098
+      },
+      "writtenOn": "2021-04-15T06:25:20Z",
+      "side": 1,
+      "message": "I would avoid using \"Simulator\" here, \"Server\" would be more suitable",
+      "range": {
+        "startLine": 97,
+        "startChar": 3,
+        "endLine": 97,
+        "endChar": 12
+      },
+      "revId": "d7a211fca212e6650bcfa98948079e03ab877506",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
