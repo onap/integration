@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06365fe4_6da40a3e",
+        "filename": "docs/simulators/nf_simulator.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-04-19T13:57:43Z",
+      "side": 1,
+      "message": "sometimes you put s at the end sometimes not\nsometimes you start with a capital letter, sometimes not\nI would suggest to align :) \nalways without s and starts with a capital letter",
+      "revId": "0c257011855da7b6fb6af970b34e3301d00af077",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
