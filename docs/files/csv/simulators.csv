@@ -1,7 +1,6 @@
 Name;Description;Link;Contacts
-NS Simulator;Evolution of the pnf simulator, the Network service simulator;:ref:`official doc <ns_simulator>`;K.Kuzmicki
+NF Simulator;Evolution of the pnf simulator, the Network service simulator;:ref:`official doc <nf_simulator>`;K.Kuzmicki
 A1 Policy Enforcement Simulator;Simulator that supports the A1-P OSC_2.1.0 interface and also provides internal API to manage the RAN elements (Cells, Ues) and allows to customize and send VES Events;`official readme <https://git.onap.org/integration/simulators/A1-policy-enforcement-simulator/tree/README.md>`__;Krystian Kędroń
-PNF simulator;Core PNF simulator, Netconf simulator, simulator-cli;`official readme <https://git.onap.org/integration/simulators/pnf-simulator/tree/README.md>`__;K.Kuzmicki
 Mass PNF Simulator;Mimic the PNF for benchmark purposes;`official readme <https://git.onap.org/integration/simulators/masspnf-simulator/tree/README.md>`__;Tamas Bakai
 Ran simulator;RAN-SIM is a Radio Access Network Simulator, it is used to simulate the various functionalities of an eNodeB;`official readme <https://git.onap.org/integration/simulators/ran-simulator/tree/README.md>`__;Priyadharshini B
 DC simulator;Data Center simulator;`official readme <https://git.onap.org/integration/simulators/dc-simulator/tree/README.md>`__;Xin Miao
