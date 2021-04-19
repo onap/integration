@@ -52,6 +52,24 @@
       "revId": "dfb08e2fa824957ff8fbd19b0a8510f11079f897",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70caa228_5f989510",
+        "filename": "docs/integration-simulators.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 4481
+      },
+      "writtenOn": "2021-04-19T10:40:56Z",
+      "side": 0,
+      "message": "Soon we will have some example helm charts related for whole simulator and each independent component from NF simulator.\nhttps://github.com/onap/integration-simulators-nf-simulator/tree/master/helm\n\nhttps://docs.onap.org/projects/onap-integration/en/latest/simulators/nf_simulator.html#nf-simulator\n\nAlso I will look ahead in order to prepare helm chart that will obtain certs from local CMPv2 (ONAP EJBCA server)",
+      "parentUuid": "1f8d74df_ea5482d0",
+      "revId": "dfb08e2fa824957ff8fbd19b0a8510f11079f897",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
