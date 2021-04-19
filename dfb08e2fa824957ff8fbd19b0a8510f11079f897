@@ -34,6 +34,24 @@
       "revId": "dfb08e2fa824957ff8fbd19b0a8510f11079f897",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f8d74df_ea5482d0",
+        "filename": "docs/integration-simulators.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 6868
+      },
+      "writtenOn": "2021-04-19T09:09:20Z",
+      "side": 0,
+      "message": "It is possible to demonstrate it with a random Helm chart that has nothing to do with the integration project maybe, will that work?",
+      "parentUuid": "2e05285e_b9ed0330",
+      "revId": "dfb08e2fa824957ff8fbd19b0a8510f11079f897",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
