@@ -16,6 +16,24 @@
       "revId": "dfb08e2fa824957ff8fbd19b0a8510f11079f897",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e05285e_b9ed0330",
+        "filename": "docs/integration-simulators.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 6868
+      },
+      "writtenOn": "2021-04-19T09:02:33Z",
+      "side": 0,
+      "message": "Are there any simulators available as Helm charts to demonstrate it in the instructions? Because as far as I remember simulators were not used as Helm charts before. \n\nAnyways, if they exist then a real example will be possible since there would be all specifications of that chart available to illustrate the example",
+      "parentUuid": "d5cac29e_c045d9fe",
+      "revId": "dfb08e2fa824957ff8fbd19b0a8510f11079f897",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
