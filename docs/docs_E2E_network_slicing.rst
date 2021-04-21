@@ -271,3 +271,17 @@ Known Issues and Resolutions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Details of manual configurations, work-arounds and known issues will be documented in the child wiki pages of:
 `User Operation Guide for Honolulu release <https://wiki.onap.org/display/DW/User+Operation+Guide+for+Honolulu+release>`_
+
+The foll. integration tests are carried over to Istanbul release: see `REQ-721 <https://jira.onap.org/browse/REQ-721>`_
+- NSMF: Option 2 testing, remaining regression testing and service termination testing for NSMF
+- RAN NSSMF: RAN NSSI termination, interactions with TN NSSMF for FH/BH NSSI reuse and some minor aspects
+  related to SDN-R <-> RAN interaction
+- TN NSSMF: Checking some minor aspects in SO for modifying TN NSSI.
+- Core NSSMF: Modifying and deallocating a Core NSSI, reusing an existing Core NSSI
+- KPI Computation, Closed Loop & Intelligent Slicing: Some minor aspects on SDN-R <-> RAN-Sim interface
+  needs to be addressed.
+
+Further details of these test cases can be found in REQ jiras for integration testing for Honolulu, and in the
+use case wiki. This means that the functionality associated with these test cases may require updated versions
+of the relevant components - the User Operation Guide will also be updated with details of any bug fixes
+beyond Honolulu as the testing is anyhow continuing as part of Istanbul release.
