@@ -4,10 +4,10 @@
   connection: local
   gather_facts: False
   roles:
-    - openstack/create_devstack_network
-    - openstack/create_devstack_securitygroup
-    - openstack/create_devstack_keypair
-    - role: openstack/create_devstack_hosts
+    - create_network
+    - create_securitygroup
+    - create_keypair
+    - role: create_hosts
       hosts: "{{ operation.hosts }}"
       operator_key: "dummy"
 - name: Create cluster operator access keypair
@@ -25,7 +25,7 @@
   connection: local
   gather_facts: False
   roles:
-    - role: openstack/create_devstack_hosts
+    - role: create_hosts
       hosts: "{{ cluster.hosts }}"
       operator_key: "{{ hostvars['operator0']['key']['public_key'] }}"
 - name: Create cluster operator access information
