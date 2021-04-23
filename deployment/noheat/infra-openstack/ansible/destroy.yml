@@ -4,10 +4,10 @@
   connection: local
   gather_facts: False
   roles:
-    - role: openstack/destroy_devstack_hosts
+    - role: destroy_hosts
       hosts: "{{ cluster.hosts }}"
-    - role: openstack/destroy_devstack_hosts
+    - role: destroy_hosts
       hosts: "{{ operation.hosts }}"
-    - openstack/destroy_devstack_keypair
-    - openstack/destroy_devstack_network
-    - openstack/destroy_devstack_securitygroup
+    - destroy_keypair
+    - destroy_network
+    - destroy_securitygroup
