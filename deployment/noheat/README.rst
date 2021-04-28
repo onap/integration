@@ -25,6 +25,11 @@ Dependencies
 ~~~~~~~~~~~~
 
 - Ansible: tested on 2.9.9 (using Python 3.5.2)
+    - Collections
+        - community.crypto: tested on 1.3.0
+        - ansible.posix: tested on 1.1.1
+    - Roles
+        - geerlingguy.ansible: tested on 2.1.0
 - openstacksdk_: tested on 0.46.0 (using Python 3.5.2)
 
 .. _openstacksdk: https://pypi.org/project/openstacksdk
