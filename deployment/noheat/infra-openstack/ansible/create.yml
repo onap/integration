@@ -30,7 +30,9 @@
       operator_key: "{{ hostvars['operator0']['key']['public_key'] }}"
 - name: Create cluster operator access information
   hosts: "operator0"
-  gather_facts: False
+  roles:
+    - role: geerlingguy.ansible
+      become: yes
   tasks:
     - name: Add cluster hostnames to /etc/hosts file
       lineinfile:
@@ -38,3 +40,9 @@
         line: "{{ item.value + ' ' + item.key }}"
       become: yes
       loop: "{{ lookup('dict', hostvars['localhost']['hosts_dict']) }}"
+    - name: Create inventory for in-cluster deployment stage
+      template:
+        src: templates/inventory.ini.j2
+        dest: "{{ operation.inventory }}"
+      vars:
+        hosts: "{{ lookup('dict', hostvars['localhost']['hosts_dict']) }}"

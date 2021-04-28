@@ -17,6 +17,7 @@ image:
 
 operation:
   name: "operation0"
+  inventory: "~/inventory.ini"
   hosts:
     - name: "operator0"
       image: *image_name
