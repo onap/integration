@@ -11,6 +11,8 @@ securitygroup:
   remote_ip_prefix:
     - "172.24.4.0/24"
     - "192.168.1.0/24"
+  local_ip_prefix:
+    - "192.168.1.0/24"
 
 image:
   name: &image_name "Ubuntu_18.04"

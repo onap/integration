@@ -1,0 +1,35 @@
+- name: Add cluster hostnames to /etc/hosts file
+  lineinfile:
+    path: /etc/hosts
+    line: "{{ ansible_default_ipv4.address + ' ' + ansible_hostname }}"
+
+- name: Enable IP forwarding
+  ansible.posix.sysctl:
+    name: net.ipv4.ip_forward
+    value: '1'
+    sysctl_set: yes
+
+- name: Create PREROUTING rule
+  ansible.builtin.iptables:
+    table: nat
+    chain: PREROUTING
+    protocol: tcp
+    destination_port: "{{ destination.port }}"
+    jump: DNAT
+    to_destination: "{{ destination.address }}:{{ destination.port }}"
+
+- name: Create OUTPUT rule
+  ansible.builtin.iptables:
+    table: nat
+    chain: OUTPUT
+    protocol: tcp
+    destination: "{{ ansible_default_ipv4.address }}"
+    destination_port: "{{ destination.port }}"
+    jump: DNAT
+    to_destination: "{{ destination.address }}"
+
+- name: Enable masquerading
+  ansible.builtin.iptables:
+    table: nat
+    chain: POSTROUTING
+    jump: MASQUERADE
