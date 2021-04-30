@@ -46,3 +46,9 @@
         dest: "{{ operation.inventory }}"
       vars:
         hosts: "{{ lookup('dict', hostvars['localhost']['hosts_dict']) }}"
+    - name: Push in-cluster deployment stage description to the next Ansible control host
+      ansible.posix.synchronize:
+        src: ../../cluster-rke
+        dest: ~/deploy
+    - name: Add Ansible collection dependencies
+      command: "ansible-galaxy collection install ansible.posix"
