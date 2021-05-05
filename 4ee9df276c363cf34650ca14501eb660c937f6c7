@@ -295,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "df7b8b55_11b6a3c6",
+        "filename": "docs/integration-tests.rst",
+        "patchSetId": 10
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-05-05T12:14:29Z",
+      "side": 1,
+      "message": "no I did not plan to make a new video, the principle remains similar, only the list of possible tests changed. The list is documented in the section.\n\nthe url are pointing to all the daily /weekly\nso only the video + the picture are referencing guilin but it is just an illustration",
+      "parentUuid": "899d3d00_aa42323e",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 87
+      },
+      "revId": "4ee9df276c363cf34650ca14501eb660c937f6c7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "41ef5391_4f93be73",
         "filename": "docs/integration-tooling.rst",
         "patchSetId": 10
@@ -315,6 +339,30 @@
       "revId": "4ee9df276c363cf34650ca14501eb660c937f6c7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76e6cae1_fcc58f5c",
+        "filename": "docs/integration-tooling.rst",
+        "patchSetId": 10
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-05-05T12:14:29Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "41ef5391_4f93be73",
+      "range": {
+        "startLine": 13,
+        "startChar": 26,
+        "endLine": 13,
+        "endChar": 37
+      },
+      "revId": "4ee9df276c363cf34650ca14501eb660c937f6c7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -341,6 +389,30 @@
     },
     {
       "key": {
+        "uuid": "805acad0_0a0d9721",
+        "filename": "docs/integration-tooling.rst",
+        "patchSetId": 10
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-05-05T12:14:29Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "96c75cad_0bf6e195",
+      "range": {
+        "startLine": 61,
+        "startChar": 33,
+        "endLine": 61,
+        "endChar": 38
+      },
+      "revId": "4ee9df276c363cf34650ca14501eb660c937f6c7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "85b9ab8e_6a00bcf9",
         "filename": "docs/release-notes.rst",
         "patchSetId": 10
@@ -361,6 +433,30 @@
       "revId": "4ee9df276c363cf34650ca14501eb660c937f6c7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "378fa2c2_95990ba5",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 10
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-05-05T12:14:29Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "85b9ab8e_6a00bcf9",
+      "range": {
+        "startLine": 26,
+        "startChar": 12,
+        "endLine": 26,
+        "endChar": 21
+      },
+      "revId": "4ee9df276c363cf34650ca14501eb660c937f6c7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
