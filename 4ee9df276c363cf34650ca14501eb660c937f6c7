@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d65e6b2a_ba2745d8",
+        "filename": "docs/files/csv/repo-integration.csv",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2021-05-05T06:59:42Z",
+      "side": 1,
+      "message": "Are you rolling back my changes done in https://gerrit.onap.org/r/c/integration/+/120124 ?",
+      "revId": "4ee9df276c363cf34650ca14501eb660c937f6c7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e35c801_0d0275cf",
+        "filename": "docs/integration-s3p.rst",
+        "patchSetId": 10
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2021-05-05T06:59:42Z",
+      "side": 1,
+      "message": "(...) to survive a stop (...)",
+      "range": {
+        "startLine": 103,
+        "startChar": 22,
+        "endLine": 103,
+        "endChar": 38
+      },
+      "revId": "4ee9df276c363cf34650ca14501eb660c937f6c7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5f2b752_37018f8a",
+        "filename": "docs/integration-s3p.rst",
+        "patchSetId": 10
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2021-05-05T06:59:42Z",
+      "side": 1,
+      "message": "moved?",
+      "range": {
+        "startLine": 126,
+        "startChar": 46,
+        "endLine": 126,
+        "endChar": 50
+      },
+      "revId": "4ee9df276c363cf34650ca14501eb660c937f6c7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d70bb6ac_7a3b3588",
+        "filename": "docs/integration-s3p.rst",
+        "patchSetId": 10
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2021-05-05T06:59:42Z",
+      "side": 1,
+      "message": "required",
+      "range": {
+        "startLine": 264,
+        "startChar": 66,
+        "endLine": 264,
+        "endChar": 75
+      },
+      "revId": "4ee9df276c363cf34650ca14501eb660c937f6c7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03d4a47f_05bffee5",
+        "filename": "docs/integration-s3p.rst",
+        "patchSetId": 10
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2021-05-05T06:59:42Z",
+      "side": 1,
+      "message": "Once",
+      "range": {
+        "startLine": 289,
+        "startChar": 0,
+        "endLine": 289,
+        "endChar": 3
+      },
+      "revId": "4ee9df276c363cf34650ca14501eb660c937f6c7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "239639b1_80e0f8df",
+        "filename": "docs/integration-s3p.rst",
+        "patchSetId": 10
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2021-05-05T06:59:42Z",
+      "side": 1,
+      "message": "statefulsets are",
+      "range": {
+        "startLine": 289,
+        "startChar": 12,
+        "endLine": 289,
+        "endChar": 23
+      },
+      "revId": "4ee9df276c363cf34650ca14501eb660c937f6c7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
