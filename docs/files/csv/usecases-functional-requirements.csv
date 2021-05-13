@@ -3,7 +3,7 @@ REQ-463;ONAP to support Multi Tenancy (part 2);Olivier Phénix ;
 REQ-457;Extend ORAN A1 Adapter and add A1 Policy Management;John Keeney;
 REQ-458;ONAP CNF orchestration - Enhancements;Lukasz Rajewski;Changes of this feature are described in :ref:`vFW CNF use case <docs_vFW_CNF_CDS>`
 REQ-446;NF Software Upgrade enhancement;Zu Qiang;
-REQ-433;ONAP/3GPP & O-RAN Alignment-Standards Defined Notifications over VES (Honolulu);Damian Nowak;
-REQ-432;IPv4/IPv6 dual stack support in ONAP (Honolulu);Damian Nowak,
+REQ-433;ONAP/3GPP & O-RAN Alignment-Standards Defined Notifications over VES (Honolulu);Damian Nowak;Description how to configure :ref:`Standards Defined Notifications in VES <docs_StndDefined_Events_Collection_Mechanism>`
+REQ-432;IPv4/IPv6 dual stack support in ONAP (Honolulu);Damian Nowak;
 REQ-431;CMPv2 Enhancements for R7;Pawel Baniewski;cmpv2 automated test integrated in CI/CD, see :ref:`automated test page <release_automated_usecases>`
 REQ-400;ETSI-Alignment for Guilin and Honolulu;Byung-Woo Jun;
