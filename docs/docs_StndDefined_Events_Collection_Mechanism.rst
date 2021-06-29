@@ -31,7 +31,7 @@ and providing them for consumption by analytics applications running on top of D
 How to Configure VES Collector
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-By default config maps containing schema files are defined in the `OOM <https://gerrit.onap.org/r/gitweb?p=oom.git;a=tree;f=kubernetes/dcaegen2/resources/external>`_ repository and installed with dcaegen2 module.
+By default config maps containing schema files are defined in the `OOM <https://github.com/onap/oom/tree/honolulu/kubernetes/dcaegen2/resources/external>`_ repository and installed with dcaegen2 module.
 In Honolulu release in OOM are used schema files from https://forge.3gpp.org/rep/sa5/MnS/blob/SA88-Rel16/OpenAPI/.
 The newest schema files can be found in https://forge.3gpp.org/rep/sa5/MnS/tree/Rel-16-SA-91/OpenAPI
 If for production/test purpose are required different or newest schema files please follow procedure for `config map update <https://docs.onap.org/projects/onap-dcaegen2/en/latest/sections/configuration.html#config-maps>`_.
