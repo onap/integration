@@ -18,6 +18,7 @@ CODE_LOCATION = "{path}{anchor}"
 GITWEB_ANCHOR = "#l{line}"
 GIT_ANCHOR = "#n{line}"
 
+DEFAULT_POLL = 3600
 
 def get_projects_list(gerrit):
     """Request list of all available projects from ONAP Gerrit."""
@@ -31,7 +32,7 @@ def get_projects_list(gerrit):
     return projects.keys()
 
 
-def create_repos_list(projects, gerrit, ssh, git):
+def create_repos_list(projects, gerrit, ssh, git, poll):
     """Create a map of all projects to their repositories' URLs."""
     gerrit_url = "https://{}{}".format(gerrit, API_PREFIX)
     gerrit_project_url_base = "{}/{{}}.git".format(gerrit_url)
@@ -54,7 +55,8 @@ def create_repos_list(projects, gerrit, ssh, git):
             "url": project_url,
             "url-pattern": {
                 "base-url": code_url,
-                "anchor": anchor
+                "anchor": anchor,
+                "ms-between-poll": poll * 1000
             }
         }
 
@@ -67,6 +69,7 @@ def parse_arguments():
     parser.add_argument('--gerrit', help='Gerrit address', default=DEFAULT_GERRIT)
     parser.add_argument('--ssh', help='SSH information: user, port', nargs=2)
     parser.add_argument('--git', help='external git address')
+    parser.add_argument('--poll-interval', help='repositories polling interval in seconds', type=int, default=DEFAULT_POLL)
 
     return parser.parse_args()
 
@@ -76,7 +79,7 @@ def main():
     arguments = parse_arguments()
 
     projects = get_projects_list(arguments.gerrit)
-    repos = create_repos_list(projects, arguments.gerrit, arguments.ssh, arguments.git)
+    repos = create_repos_list(projects, arguments.gerrit, arguments.ssh, arguments.git, arguments.poll_interval)
     config = {
         "max-concurrent-indexers": 2,
         "dbpath": "data",
