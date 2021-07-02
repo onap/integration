@@ -35,8 +35,10 @@ def get_projects_list(gerrit):
 def create_repos_list(projects, gerrit, ssh, git, poll):
     """Create a map of all projects to their repositories' URLs."""
     gerrit_url = "https://{}{}".format(gerrit, API_PREFIX)
+    git_url = "git://{}".format(git)
     gerrit_project_url_base = "{}/{{}}.git".format(gerrit_url)
     gitweb_code_url_base = "{}/gitweb?p={{}}.git;hb=HEAD;a=blob;f=".format(gerrit_url)
+    git_project_url_base = "{}/{{}}.git".format(git_url)
 
     repos_list = {}
     for project in projects:
@@ -49,6 +51,7 @@ def create_repos_list(projects, gerrit, ssh, git, poll):
             project_url = "ssh://{}@{}:{}/{}.git".format(user, gerrit, port, project)
         if git:
             code_url = "https://{}/{}/tree/".format(git, project) + CODE_LOCATION
+            project_url = git_project_url_base.format(project)
             anchor = GIT_ANCHOR
 
         repos_list[project] = {
@@ -66,10 +69,11 @@ def create_repos_list(projects, gerrit, ssh, git, poll):
 def parse_arguments():
     """Return parsed command-line arguments."""
     parser = argparse.ArgumentParser(description=__doc__)
+    group = parser.add_mutually_exclusive_group()
     parser.add_argument('--gerrit', help='Gerrit address', default=DEFAULT_GERRIT)
-    parser.add_argument('--ssh', help='SSH information: user, port', nargs=2)
-    parser.add_argument('--git', help='external git address')
-    parser.add_argument('--poll-interval', help='repositories polling interval in seconds', type=int, default=DEFAULT_POLL)
+    group.add_argument('--ssh', help='SSH information for Gerrit access: user, port', nargs=2)
+    group.add_argument('--git', help='External git address. Does not support --ssh')
+    parser.add_argument('--poll-interval', help='Repositories polling interval in seconds', type=int, default=DEFAULT_POLL)
 
     return parser.parse_args()
 
