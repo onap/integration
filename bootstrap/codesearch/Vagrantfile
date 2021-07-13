@@ -1,23 +1,25 @@
 # -*- mode: ruby -*-
 # -*- coding: utf-8 -*-
 
-host_ip = "192.168.121.1"
+nameserver = "8.8.8.8"
 synced_folder = "/vagrant"
 houndd_bin = "${HOME}/go/bin/houndd"
 houndd_config = "${HOME}/config.json"
 onap_git = "git.onap.org"
 
 $replace_dns = <<-SCRIPT
-  HOST_IP="$1"
-  rm -f /etc/resolv.conf # drop its dynamic management by systemd-resolved
-  echo nameserver "$HOST_IP" | tee /etc/resolv.conf
+  ns="$1"
+  # persist resolver settings
+  sed -i "s/addresses:.*/addresses: [${ns}]/" /etc/netplan/01-netcfg.yaml
+  # setup resolver for current boot session
+  resolvectl dns eth0 ${ns}
 SCRIPT
 
 Vagrant.configure("2") do |config|
   config.vm.box = "generic/ubuntu2004"
   config.vm.synced_folder ".", synced_folder, type: "rsync", rsync__exclude: "Vagrantfile"
   config.vm.network "forwarded_port", guest: 6080, host: 6080
-  config.vm.provision "replace_dns", type: :shell, run: "always", inline: $replace_dns, args: host_ip
+  config.vm.provision "replace_dns", type: :shell, inline: $replace_dns, args: nameserver
   config.vm.provision "dependencies", type: :shell, inline: <<-SHELL
     export DEBIAN_FRONTEND=noninteractive
     apt-get update
