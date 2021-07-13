@@ -34,7 +34,7 @@ Vagrant.configure("2") do |config|
     s.inline = "python3 #{synced_folder}/create_config.py --git ${1} > #{houndd_config}"
     s.args = [onap_git]
   end
-  config.vm.provision "run_codesearch", type: :shell, privileged: false, inline: <<-SHELL
+  config.vm.provision "run_codesearch", type: :shell, run: "always", privileged: false, inline: <<-SHELL
     tmux new -d -s codesearch #{houndd_bin} -conf #{houndd_config}
   SHELL
 end
