@@ -11,20 +11,13 @@
     remote_ip_prefix: "{{ item }}"
   loop: "{{ secgrp.remote_ip_prefix }}"
 
-- name: "Create {{ secgrp.name }} security group rule for SSH"
+- name: "Create {{ secgrp.name }} security group rule for all TCP"
   os_security_group_rule:
     security_group: "{{ secgrp.name }}"
     protocol: tcp
-    port_range_min: 22
-    port_range_max: 22
-    remote_ip_prefix: "{{ item }}"
-  loop: "{{ secgrp.remote_ip_prefix }}"
+    remote_ip_prefix: "0.0.0.0/0"
 
-- name: "Create {{ secgrp.name }} security group rule for ONAP Docker registry"
+- name: "Create {{ secgrp.name }} security group rule for all UDP"
   os_security_group_rule:
     security_group: "{{ secgrp.name }}"
-    protocol: tcp
-    port_range_min: 10001
-    port_range_max: 10001
-    remote_ip_prefix: "{{ item }}"
-  loop: "{{ secgrp.local_ip_prefix }}"
+    protocol: udp
