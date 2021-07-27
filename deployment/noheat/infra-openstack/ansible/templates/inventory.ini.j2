@@ -3,6 +3,43 @@
 {{ item.key }} ansible_host={{ item.value }}
 {% endfor %}
 
+[operator]
+{% for item in hosts %}
+{% if "operator" in item.key %}
+{{ item.key }}
+{% endif %}
+{% endfor %}
+
+[control]
+{% for item in hosts %}
+{% if "control" in item.key %}
+{{ item.key }}
+{% endif %}
+{% endfor %}
+
+[workers]
+{% for item in hosts %}
+{% if "worker" in item.key %}
+{{ item.key }}
+{% endif %}
+{% endfor %}
+
+[nfs]
+{% for item in hosts %}
+{% if "nfs" in item.key %}
+{{ item.key }}
+{% endif %}
+{% endfor %}
+
+[nfs:vars]
+nfs_role="server"
+
+[control:vars]
+nfs_role="client"
+
+[workers:vars]
+nfs_role="client"
+
 [all:vars]
 ansible_ssh_private_key_file="~/.ssh/{{ keypair.name }}"
 ansible_ssh_common_args='-o StrictHostKeyChecking=no'
