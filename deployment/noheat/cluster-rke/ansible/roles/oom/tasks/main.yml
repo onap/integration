@@ -1,0 +1,10 @@
+- name: Build OOM charts
+  make:
+    chdir: "{{ oom_dir }}/kubernetes"
+    target: all
+    params:
+      SKIP_LINT: "TRUE"
+
+- name: Deploy sm-onap
+  command:
+    cmd: "helm deploy onap local/onap --namespace onap --create-namespace --set global.masterPassword=scrtPasswd -f {{ oom_dir }}/kubernetes/onap/resources/overrides/sm-onap.yaml"
