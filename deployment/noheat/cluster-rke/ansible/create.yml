@@ -46,3 +46,7 @@
   hosts: operator0
   roles:
     - role: deps
+- name: Deploy sm-onap
+  hosts: operator0
+  roles:
+    - role: oom
