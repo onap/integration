@@ -1,4 +1,10 @@
 ---
+- hosts: all
+- name: Install NFS
+  hosts: all
+  become: yes
+  roles:
+    - role: setup_nfs
 - name: Set up bastion node for ONAP Docker registry
   hosts: "control0"
   become: yes
