@@ -1,0 +1,13 @@
+[Unit]
+Description=chartmuseum
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+ExecStart=/usr/local/bin/chartmuseum --port "{{ chartmuseum_port }}" --storage local --storage-local-rootdir "{{ chartmuseum_dir }}"
+ExecStop=/usr/local/bin/chartmuseum step-down
+User={{ local_user }}
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
