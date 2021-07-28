@@ -46,3 +46,8 @@
   gather_facts: false
   roles:
     - role: deps
+- name: Deploy sm-onap
+  hosts: operator0
+  gather_facts: false
+  roles:
+    - role: oom
