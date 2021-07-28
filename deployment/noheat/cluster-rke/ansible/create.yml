@@ -42,3 +42,7 @@
   hosts: operator0
   roles:
     - role: setup_helm
+- name: Install cert-manager and prometheus
+  hosts: operator0
+  roles:
+    - role: deps
