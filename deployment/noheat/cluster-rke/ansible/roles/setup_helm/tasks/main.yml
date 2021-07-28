@@ -1,0 +1,72 @@
+- name: Download helm
+  get_url:
+    url: "https://get.helm.sh/helm-v{{ helm_version }}-linux-amd64.tar.gz"
+    dest: "/tmp"
+    mode: '0400'
+
+- name: Unarchive helm
+  unarchive:
+    src: "/tmp/helm-v{{ helm_version }}-linux-amd64.tar.gz"
+    dest: "/tmp/"
+    mode: '0500'
+
+- name: Copy helm binary to $PATH
+  become: yes
+  copy:
+    src: "/tmp/linux-amd64/helm"
+    dest: "/usr/local/bin/"
+    mode: '0555'
+
+- name: Install Helm Push plugin
+  kubernetes.core.helm_plugin:
+    plugin_path: "https://github.com/chartmuseum/helm-push.git"
+    state: present
+
+- name: Install Helm OOM Deploy plugin
+  kubernetes.core.helm_plugin:
+    plugin_path: "{{ oom_dir }}/kubernetes/helm/plugins/deploy"
+    state: present
+
+- name: Install Helm OOM Undeploy plugin
+  kubernetes.core.helm_plugin:
+    plugin_path: "{{ oom_dir }}/kubernetes/helm/plugins/undeploy"
+    state: present
+
+- name: Download chartmuseum install script
+  get_url:
+    url: "https://raw.githubusercontent.com/helm/chartmuseum/v{{ chartmuseum_version }}/scripts/get-chartmuseum"
+    dest: "/tmp/"
+    mode: '0500'
+
+- name: Install chartmuseum
+  become: yes
+  command:
+    cmd: "./get-chartmuseum -v v{{ chartmuseum_version }}"
+    chdir: "/tmp/"
+
+- name: Create chartmuseum local storage
+  file:
+    name: "{{ chartmuseum_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Install chartmuseum service file
+  become: yes
+  template:
+    src: "chartmuseum.service.j2"
+    dest: "/etc/systemd/system/chartmuseum.service"
+    mode: '0444'
+  notify: Reload systemd
+
+- name: Start and enable chartmuseum
+  become: yes
+  service:
+    name: "chartmuseum"
+    state: started
+    enabled: yes
+
+- name: Add local Helm repository
+  kubernetes.core.helm_repository:
+    name: "local"
+    repo_url: "http://127.0.0.1:{{ chartmuseum_port }}"
+    state: present

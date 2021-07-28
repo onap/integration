@@ -38,3 +38,7 @@
         repo: "https://git.onap.org/oom"
         dest: "{{ oom_dir }}"
         version: "master"
+- name: Install Helm
+  hosts: operator0
+  roles:
+    - role: setup_helm
