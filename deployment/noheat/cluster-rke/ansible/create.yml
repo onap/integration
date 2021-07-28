@@ -25,3 +25,7 @@
   hosts: control,workers
   roles:
     - role: setup_docker
+- name: Deploy k8s
+  hosts: operator0
+  roles:
+    - role: setup_k8s
