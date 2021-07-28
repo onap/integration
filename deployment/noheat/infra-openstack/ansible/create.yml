@@ -55,5 +55,21 @@
       ansible.posix.synchronize:
         src: ../../cluster-rke
         dest: ~/deploy
+    - name: Install python dependencies
+      become: yes
+      package:
+        name:
+          - python3-pip
+          - python3-setuptools
+        state: present
+    - name: Install community.kubernetes.k8s Ansible collection dependencies
+      pip:
+        name:
+          - openshift
+          - pyyaml
+          - kubernetes
+      become: yes
     - name: Add Ansible collection dependencies
       command: "ansible-galaxy collection install ansible.posix"
+    - name: Add community.kubernetes Ansible collection
+      command: "ansible-galaxy collection install community.kubernetes"
