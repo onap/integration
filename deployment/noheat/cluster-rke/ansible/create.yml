@@ -41,3 +41,8 @@
   hosts: operator0
   roles:
     - role: setup_helm
+- name: Install metallb, cert-manager and prometheus
+  hosts: operator0
+  gather_facts: false
+  roles:
+    - role: deps
