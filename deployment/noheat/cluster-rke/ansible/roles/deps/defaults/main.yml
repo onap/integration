@@ -1,0 +1,6 @@
+---
+cert_manager_version: "1.2.0"
+prometheus_version: "13.13.1"
+metallb_version: "0.10.2"
+metallb_protocol: "layer2"
+metallb_addresses: "192.168.1.240-192.168.1.255"
