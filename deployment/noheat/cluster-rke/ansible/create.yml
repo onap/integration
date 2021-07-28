@@ -29,3 +29,11 @@
   hosts: operator0
   roles:
     - role: setup_k8s
+- name: Download OOM
+  hosts: operator0
+  tasks:
+    - name: Clone OOM
+      git:
+        repo: "https://git.onap.org/oom"
+        dest: "{{ oom_dir }}"
+        version: "master"
