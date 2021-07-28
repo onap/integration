@@ -37,6 +37,7 @@ cluster:
       flavor: "m1.xlarge"
       keypair: *keypair_name
       network: *network_name
+      auto_ip: false
       securitygroup: *securitygroup_name
       volume_size: 50
     - name: "worker0a"
@@ -68,6 +69,5 @@ cluster:
       flavor: "m1.large"
       keypair: *keypair_name
       network: *network_name
-      auto_ip: false
       securitygroup: *securitygroup_name
       volume_size: 150
