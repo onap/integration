@@ -1,0 +1,53 @@
+- name: Install NFS common
+  apt:
+    name: nfs-common
+    state: present
+  when: nfs_role is defined
+
+- name: Install NFS server
+  apt:
+    name: nfs-kernel-server
+    state: present
+  when: nfs_role is defined and nfs_role == "server"
+
+- name: Remove leftovers
+  file:
+    path: "{{ nfs_mountpoint }}"
+    state: absent
+  when: nfs_role is defined
+
+- name: Create dockerdata directory
+  file:
+    path: "{{ nfs_mountpoint }}"
+    state: directory
+    mode: '0777'
+    owner: nobody
+    group: nogroup
+  when: nfs_role is defined
+
+- name: Configure NFS server
+  template:
+    src: "exports.j2"
+    dest: "/etc/exports"
+    owner: root
+    group: root
+    mode: '0644'
+  when: nfs_role is defined and nfs_role == "server"
+
+- name: Restart NFS server
+  service:
+    name: nfs-kernel-server
+    state: restarted
+    enabled: yes
+  when: nfs_role is defined and nfs_role == "server"
+
+- name: Configure NFS clients
+  mount:
+    path: "{{ nfs_mountpoint }}"
+    src: "{{ hostvars[groups['nfs'][0]]['ansible_default_ipv4']['address'] }}:{{ nfs_mountpoint }}"
+    fstype: nfs
+    opts: auto,nofail,noatime,nolock,intr,tcp,actimeo=1800
+    dump: 0
+    passno: 0
+    state: mounted
+  when: nfs_role is defined and nfs_role == "client"

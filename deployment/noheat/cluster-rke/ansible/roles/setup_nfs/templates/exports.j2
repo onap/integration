@@ -1,0 +1,1 @@
+{{ nfs_mountpoint }} {% for host in (groups['control'] | union(groups['workers'])) %} {{ hostvars[host]['ansible_default_ipv4']['address'] }}{% endfor %}(rw,sync,no_root_squash,no_subtree_check)
