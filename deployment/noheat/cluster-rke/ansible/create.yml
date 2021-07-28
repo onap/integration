@@ -21,3 +21,8 @@
         line: "{{ hostvars['nfs0']['ansible_default_ipv4']['address'] }} {{ item }}"
       loop:
         - "nexus3.onap.org"
+- name: Install Docker
+  become: yes
+  hosts: control,workers
+  roles:
+    - role: setup_docker

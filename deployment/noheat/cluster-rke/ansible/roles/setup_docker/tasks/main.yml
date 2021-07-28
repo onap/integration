@@ -1,0 +1,48 @@
+- name: Install deps
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - software-properties-common
+
+- name: Add Docker repo key
+  apt_key:
+    url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
+    state: present
+
+- name: Add Docker repo
+  apt_repository:
+    repo: "deb https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release | lower }} stable"
+    state: present
+    update_cache: yes
+
+- name: Find exact Docker version
+  shell: "apt-cache madison docker-ce | grep {{ docker_version }} | head -n 1 | cut -d ' ' -f 4"
+  register: docker_pkg_version
+
+- name: install Docker
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "docker-ce={{ docker_pkg_version.stdout }}"
+    - "docker-ce-cli={{ docker_pkg_version.stdout }}"
+
+- name: Lock docker version
+  command: apt-mark hold docker-ce docker-ce-cli
+
+- name: Add user to docker group
+  user:
+    name: "{{ local_user }}"
+    groups: docker
+    append: yes
+  when: local_user is defined
+
+- name: Make sure Docker is started and enabled
+  service:
+    name: docker
+    state: started
+    enabled: yes
