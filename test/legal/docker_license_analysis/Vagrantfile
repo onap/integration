@@ -35,17 +35,12 @@ $install_docker= <<-SCRIPT
 SCRIPT
 
 $install_python = <<-SCRIPT
-  # TODO: currently scancode locks us to python3.6, they are currently
-  # (10 Dec 2020) updating so check in a while
-  add-apt-repository ppa:deadsnakes/ppa
   apt-get update
   apt-get install --yes \
-    python3.6 libpython3.6-dev python3-pip python3.6-venv python3-setuptools\
+    python3.8 libpython3.8-dev python3-pip python3.8-venv python3-setuptools\
     python3-apt \
     attr bzip2 xz-utils zlib1g libxml2-dev libxslt1-dev \
     findutils git gnupg2 tar util-linux
-  update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 1
-  update-alternatives --set python3 /usr/bin/python3.6
   pip3 install --upgrade pip
 SCRIPT
 
