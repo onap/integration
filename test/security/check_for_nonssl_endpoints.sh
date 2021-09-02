@@ -77,9 +77,9 @@ done
 
 echo "------------------------------------------------------------------------"
 # Display the waivers
-if [ -s $XL_FILE_PATH ]; then
+if [ -s $XF_FILE_PATH ]; then
   echo "-------------------- *** WARNING XFail List *** ------------------------"
-  cat $XL_FILE_PATH
+  cat $XF_FILE_PATH
   echo "------------------------------------------------------------------------"
 fi
 
