@@ -119,8 +119,7 @@ docker-compose -f docker-compose-template.yml config > docker-compose.yml
 
 docker-compose up -d
 
-sudo chown $(id -u):$(id -g) consul
-sudo chown $(id -u):$(id -g) consul/consul/
+sudo chown $(id -u):$(id -g) dfc_configs
 
 declare -a SFTP_SIM
 declare -a FTPES_SIM
@@ -144,8 +143,6 @@ HTTP_SIM[1]="$(docker ps -q --filter='name=dfc_http-https-server1')"
 HTTP_SIM[2]="$(docker ps -q --filter='name=dfc_http-https-server2')"
 HTTP_SIM[3]="$(docker ps -q --filter='name=dfc_http-https-server3')"
 HTTP_SIM[4]="$(docker ps -q --filter='name=dfc_http-https-server4')"
-CBS_SIM="$(docker ps -q --filter='name=dfc_cbs')"
-CONSUL_SIM="$(docker ps -q --filter='name=dfc_consul')"
 
 #Wait for initialization of docker containers for all simulators
 for i in {1..10}; do
@@ -166,9 +163,7 @@ if [ $(docker inspect --format '{{ .State.Running }}' $DR_SIM) ] && \
 [ $(docker inspect --format '{{ .State.Running }}' ${HTTP_SIM[1]}) ] && \
 [ $(docker inspect --format '{{ .State.Running }}' ${HTTP_SIM[2]}) ] && \
 [ $(docker inspect --format '{{ .State.Running }}' ${HTTP_SIM[3]}) ] && \
-[ $(docker inspect --format '{{ .State.Running }}' ${HTTP_SIM[4]}) ] && \
-[ $(docker inspect --format '{{ .State.Running }}' $CBS_SIM) ] && \
-[ $(docker inspect --format '{{ .State.Running }}' $CONSUL_SIM) ]
+[ $(docker inspect --format '{{ .State.Running }}' ${HTTP_SIM[4]}) ]
  then
    echo "All simulators Started"
    break
@@ -188,8 +183,6 @@ if [ -z "$BASIC_AUTH_PASSWORD" ]
  BASIC_AUTH_PASSWORD=demo123456!
 fi
 
-server_check      "cbs          " 10000 "/healthcheck"
-server_check      "consul       " 8500 "/v1/catalog/service/agent"
 server_check      "DR sim       " 3906 "/"
 server_check      "DR redir sim " 3908 "/"
 server_check      "MR sim       " 2222 "/"
