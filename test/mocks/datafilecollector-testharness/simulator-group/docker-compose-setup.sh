@@ -10,7 +10,6 @@
 #
 
 # Script for manually starting all simulators with test setting below
-# Matching json config is needed in CBS/Consul as well. Use consul_config.sh to add config to consul
 
 export MR_TC="--tc710"                                 # Test behaviour for MR sim
 export MR_GROUPS="OpenDcae-c12:PM_MEAS_FILES"          # Comma-separated list of <consumer-group>:<change-identifier>
