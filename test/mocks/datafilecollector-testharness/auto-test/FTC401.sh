@@ -38,7 +38,7 @@ log_sim_settings
 
 start_simulators
 
-consul_config_app   0                                    "../simulator-group/consul/c12_feed2_PM_HTTPS.json"
+dfc_config_app   0                                    "../simulator-group/dfc_configs/c12_feed2_PM_HTTPS.yaml"
 
 mr_equal            ctr_requests                         0 60
 dr_equal            ctr_published_files                  0 60

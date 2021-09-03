@@ -9,10 +9,9 @@ In general these steps are needed to run the simulator group and dfc
 
 1. Build the simulator images
 2. Edit simulator env variables (to adapt the behavior of simulators)
-3. Configure consul
-4. Start the simulator monitor (to view the simulator stats)
-5. Start the simulators
-6. Start dfc
+3. Start the simulator monitor (to view the simulator stats)
+4. Start the simulators
+5. Start dfc
 
 # Overview of the simulators.
 
@@ -44,7 +43,6 @@ Run the script `prepare-images.sh` to build the docker images for MR, DR and FTP
 
 ## Summary of scripts and files
 
-- `consul_config.sh` - Convert a json config file to work with dfc when manually started as java-app or container and then add that json to Consul.
 - `dfc-internal-stats.sh` - Periodically extract jvm data and dfc internal data and print to console/file.
 - `docker-compose-setup.sh` - Sets environment variables for the simulators and start the simulators with that settings.
 - `docker-compose-template.yml` - A docker compose template with environment variables setting. Used for producing a docker-compose file to defined the simulator containers.

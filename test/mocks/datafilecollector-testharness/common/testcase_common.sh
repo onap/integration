@@ -181,8 +181,6 @@ echo "DR redir simulator:       " $(docker images | grep drsim_common)
 echo "SFTP:                     " $(docker images | grep atmoz/sftp)
 echo "FTPES:                    " $(docker images | grep ftpes_vsftpd)
 echo "HTTP/HTTPS/HTTPS no auth: " $(docker images | grep http_https_httpd)
-echo "Consul:                   " $(docker images | grep consul)
-echo "CBS:                      " $(docker images | grep platform.configbinding)
 echo ""
 
 #Configure MR sim to use correct host:port for running dfc as an app or as a container
@@ -391,7 +389,7 @@ __start_dfc_image() {
 	docker network ls| grep "$DOCKER_SIM_NWNAME" > /dev/null || docker network create "$DOCKER_SIM_NWNAME"
 
 	echo "Starting DFC: " $appname " with ports mapped to " $localport " and " $localport_secure " in docker network "$DOCKER_SIM_NWNAME
-  docker run -d --volume $(pwd)/../simulator-group/tls/:/opt/app/datafile/etc/cert/ -p $localport":8100" -p $localport_secure":8433" --network=$DOCKER_SIM_NWNAME -e CONSUL_HOST=$CONSUL_HOST -e CONSUL_PORT=$CONSUL_PORT -e CONFIG_BINDING_SERVICE=$CONFIG_BINDING_SERVICE -e CONFIG_BINDING_SERVICE_SERVICE_PORT=$CONFIG_BINDING_SERVICE_SERVICE_PORT -e HOSTNAME=$appname --name $appname $DFC_IMAGE
+  docker run -d --volume $(pwd)/../simulator-group/tls/:/opt/app/datafile/etc/cert/ --volume $(pwd)/../simulator-group/dfc_config_volume/:/app-config/ -p $localport":8100" -p $localport_secure":8433" --network=$DOCKER_SIM_NWNAME -e HOSTNAME=$appname --name $appname $DFC_IMAGE
 	sleep 3
 	set +x
 	dfc_started=false
@@ -489,8 +487,6 @@ __wait_for_dfc() {
 	http=$(($DFC_PORT+$2))
 	https=$((DFC_PORT_SECURE+$2))
 	echo "The app is expected to listen to http port ${http} and https port ${https}"
-	echo "The app shall use 'localhost' and '8500' for CONSUL_HOST and CONSUL_PORT."
-	echo "The app shale use 'config-binding-service-localhost' for CONFIG_BINDING_SERVICE"
 	echo "The app shall use ${1} for HOSTNAME."
 	read -p "Press enter to continue when app mapping to ${1} has been manually started"
 }
@@ -584,12 +580,12 @@ start_dfc() {
 	fi
 }
 
-# Configure consul with dfc config, args <dfc-instance-id> <json-file-path>
+# Configure volume with dfc config, args <dfc-instance-id> <yaml-file-path>
 # Not intended to be called directly by test scripts.
-__consul_config() {
+__dfc_config() {
 
 	if [ $# != 2 ]; then
-    	__print_err "need two args, <dfc-instance-id> <json-file-path>"
+    	__print_err "need two args, <dfc-instance-id> <yaml-file-path>"
 		exit 1
 	fi
 
@@ -598,26 +594,26 @@ __consul_config() {
 		exit 1
 	fi
 	if ! [ -f $2 ]; then
-		__print_err "json file does not extis: "$2
+		__print_err "yaml file does not exist: "$2
 		exit 1
 	fi
 
 	appname=$DFC_APP_BASE$1
 
-	echo "Configuring consul for " $appname " from " $2
-	curl -s http://127.0.0.1:${CONSUL_PORT}/v1/kv/${appname}?dc=dc1 -X PUT -H 'Accept: application/json' -H 'Content-Type: application/json' -H 'X-Requested-With: XMLHttpRequest' --data-binary "@"$2 >/dev/null
+	echo "Applying configuration for " $appname " from " $2
+	cp $2 $(pwd)/../simulator-group/dfc_config_volume/application_config.yaml
 }
 
-# Configure consul with dfc app config, args <dfc-instance-id> <json-file-path>
-consul_config_app() {
+# Configure volume with dfc app config, args <dfc-instance-id> <yaml-file-path>
+dfc_config_app() {
 	if [ $START_ARG == "manual-app" ]; then
-		echo "Replacing 'mrsim' with 'localhost' in json app config for consul"
-		sed 's/mrsim/localhost/g' $2 > .tmp_app.json
-		echo "Replacing 'drsim' with 'localhost' in json dmaap config for consul"
-		sed 's/drsim/localhost/g' .tmp_app.json > .app.json
-		__consul_config $1 .app.json
+		echo "Replacing 'mrsim' with 'localhost' in yaml app config"
+		sed 's/mrsim/localhost/g' $2 > .tmp_app.yaml
+		echo "Replacing 'drsim' with 'localhost' in yaml dmaap config"
+		sed 's/drsim/localhost/g' .tmp_app.yaml > .app.yaml
+		__dfc_config $1 .app.yaml
 	else
-		__consul_config $1 $2
+		__dfc_config $1 $2
 	fi
 }
 
@@ -1222,8 +1218,6 @@ store_logs() {
 		docker logs $appname > $TESTLOGS/$ATC/${1}_${appname}.log 2>&1
 	done
 
-	docker logs dfc_consul > $TESTLOGS/$ATC/$1_consul.log 2>&1
-	docker logs dfc_cbs > $TESTLOGS/$ATC/$1_cbs.log 2>&1
 }
 # Check the dfc application log, for all dfc instances, for WARN and ERR messages and print the count.
 check_dfc_logs() {
