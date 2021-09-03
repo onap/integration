@@ -31,15 +31,15 @@ log_sim_settings
 
 start_simulators
 
-consul_config_app   0 "../simulator-group/consul/c12_feed1_PM_feed2_CTR.json"
+dfc_config_app   0 "../simulator-group/dfc_configs/c12_feed1_PM_feed2_CTR.yaml"
 
-consul_config_app   1 "../simulator-group/consul/c13_feed2_CTR.json"
+dfc_config_app   1 "../simulator-group/dfc_configs/c13_feed2_CTR.yaml"
 
-consul_config_app   2 "../simulator-group/consul/c14_feed3_LOG.json"
+dfc_config_app   2 "../simulator-group/dfc_configs/c14_feed3_LOG.yaml"
 
-consul_config_app   3 "../simulator-group/consul/c15_feed1_PM_feed4_TEST.json"
+dfc_config_app   3 "../simulator-group/dfc_configs/c15_feed1_PM_feed4_TEST.yaml"
 
-consul_config_app   2 "../simulator-group/consul/c16_feed4_TEST_feed5_TEMP.json"
+dfc_config_app   2 "../simulator-group/dfc_configs/c16_feed4_TEST_feed5_TEMP.yaml"
 
 
 mr_print			""
