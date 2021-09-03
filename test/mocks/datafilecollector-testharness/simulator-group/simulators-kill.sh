@@ -30,8 +30,6 @@ docker kill dfc_http-https-server1
 docker kill dfc_http-https-server2
 docker kill dfc_http-https-server3
 docker kill dfc_http-https-server4
-docker kill dfc_cbs
-docker kill dfc_consul
 
 echo "Removing simulator containers"
 docker rm dfc_dr-sim
@@ -56,7 +54,5 @@ if [ "$HTTP_TYPE" = "HTTPS" ]
   then
 	docker rm -f oom-certservice-post-processor
 fi
-docker rm dfc_cbs
-docker rm dfc_consul
 
 echo "done"
