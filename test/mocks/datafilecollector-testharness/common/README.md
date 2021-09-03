@@ -28,13 +28,9 @@ dfc instance to start. DFC app will get a name like 'dfc_app0' to 'dfc_app4'.
 **kill_dfc \<dfc-instance-id>**:
 Stop and remove the dfc app container with the instance id.
 
-**consul_config_app \<dfc-instance-id> \<json-file-path>**:
-Configure consul with json file with app config for a dfc instance using the dfc
-instance id and the json file.
-
-**consul_config_dmaap \<dfc-instance-id> \<json-file-path>**:
-Configure consul with json file with dmaap config for a dfc instance using the dfc
-instance id and the json file.
+**dfc_config_app \<dfc-instance-id> \<yaml-file-path>**:
+Apply app configuration for a dfc instance using the dfc
+instance id and the yaml file.
 
 **kill_dr**:
 Stop and remove the DR simulator container
