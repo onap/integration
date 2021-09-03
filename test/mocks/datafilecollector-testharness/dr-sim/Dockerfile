@@ -7,7 +7,8 @@ WORKDIR /app
 COPY dmaapDR.js ./
 COPY dmaapDR_redir.js ./
 COPY package*.json ./
-
+ARG HTTP_PROXY=http://10.144.1.10:8080
+ARG HTTPS_PROXY=http://10.144.1.10:8080
 RUN npm install express
 RUN npm install argparse
 

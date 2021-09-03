@@ -7,32 +7,6 @@ networks:
 
 services:
 
-  consul-server:
-    networks:
-      - dfcnet
-    container_name: dfc_consul
-    image: nexus3.onap.org:10001/onap/oom/consul:2.1.0
-    ports:
-      - "8500:8500"
-    entrypoint: /usr/local/bin/docker-entrypoint.sh agent -dev -client 0.0.0.0
-    volumes:
-      - ./consul/consul/:/consul/config
-
-  config-binding-service:
-    networks:
-      - dfcnet
-    container_name: dfc_cbs
-    image: nexus3.onap.org:10001/onap/org.onap.dcaegen2.platform.configbinding:2.5.3
-    ports:
-      - "10000:10000"
-    command: sh -c "
-      unset PROD_LOGGING;
-      /usr/local/bin/run.py;
-      "
-    environment:
-      - CONSUL_HOST=consul-server
-    depends_on:
-      - consul-server
 
   tls-init-container:
     container_name: dfc_tls-init-container

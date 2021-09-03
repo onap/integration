@@ -13,7 +13,7 @@
 # Change '<local-path>' to your path to the integration repo. In addition to the auto-test, the 'common' dir is needed if not executed in the
 # integration repo.
 #
-#export SIM_GROUP=<local-path>/integration/test/mocks/datafilecollector-testharness/simulator-group/
+export SIM_GROUP=/home/piotr/ONAP/integration/test/mocks/datafilecollector-testharness/simulator-group/
 
 
 # Set the images for the DFC app to use for the auto tests. Do not add the image tag.
@@ -31,10 +31,6 @@ DFC_PORT=8100                          #Up to five dfc apps can be used, dfc_app
 DFC_PORT_SECURE=8433                   #Up to five dfc apps can be used, dfc_app0 will be mapped to 8433 on local machine for hhtps, dfc_app1 mapped to 8434 etc
 DFC_LOGPATH="/var/log/ONAP/application.log"  #Path the application log in the dfc container
 DOCKER_SIM_NWNAME="dfcnet"             #Name of docker private network
-CONSUL_HOST="consul-server"            #Host name of consul
-CONSUL_PORT=8500                       #Port number of consul
-CONFIG_BINDING_SERVICE="config-binding-service"  #Host name of CBS
-CONFIG_BINDING_SERVICE_SERVICE_PORT=10000  #CBS port
 MR_PORT=2222                           #MR simulator port number http
 DR_PORT=3906                           #DR simulator port number http
 DR_PORT_SECURE=3907                    #DR simulator port number for https
