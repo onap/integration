@@ -7,14 +7,6 @@ networks:
 
 services:
 
-  tls-init-container:
-    container_name: dfc_tls-init-container
-    image: nexus3.onap.org:10001/onap/org.onap.dcaegen2.deployments.tls-init-container:1.0.4
-    networks:
-      - dfcnet
-    volumes:
-      - ./tls:/opt/tls/shared:rw
-
   cmpv2-postprocessor:
     container_name: dfc_cmpv2-postprocessor
     image: nexus3.onap.org:10001/onap/org.onap.oom.platform.cert-service.oom-certservice-post-processor:2.3.3
@@ -23,8 +15,6 @@ services:
     volumes:
       - ${SIM_GROUP}/tls:/opt/app/datafile/etc/cert
       - ${SIM_GROUP}/../certservice/generated-certs/dfc-p12:/opt/app/datafile/etc/
-    depends_on:
-      - tls-init-container
 
   drsim:
     networks:
@@ -40,8 +30,6 @@ services:
     command: node dmaapDR.js ${DR_TC}
     volumes:
       - ./tls:/app/cert/:rw
-    depends_on:
-      - tls-init-container
 
   drsim_redir:
     networks:
@@ -57,8 +45,6 @@ services:
     command: node dmaapDR_redir.js ${DR_REDIR_TC}
     volumes:
       - ./tls:/app/cert/:rw
-    depends_on:
-      - tls-init-container
 
   mrsim:
     networks:
@@ -83,8 +69,6 @@ services:
     command: python mr-sim.py ${MR_TC}
     volumes:
       - ./tls:/app/cert/:rw
-    depends_on:
-      - tls-init-container
 
   sftp-server0:
     networks:
@@ -150,8 +134,6 @@ services:
     command: vsftpd /etc/vsftpd_ssl.conf
     volumes:
       - ./tls:/etc/ssl/private/:rw
-    depends_on:
-      - tls-init-container
 
   ftpes-server-vsftpd1:
     networks:
@@ -167,8 +149,6 @@ services:
     command: vsftpd /etc/vsftpd_ssl.conf
     volumes:
       - ./tls:/etc/ssl/private/:rw
-    depends_on:
-      - tls-init-container
 
   ftpes-server-vsftpd2:
     networks:
@@ -184,8 +164,6 @@ services:
     command: vsftpd /etc/vsftpd_ssl.conf
     volumes:
       - ./tls:/etc/ssl/private/:rw
-    depends_on:
-      - tls-init-container
 
   ftpes-server-vsftpd3:
     networks:
@@ -201,8 +179,6 @@ services:
     command: vsftpd /etc/vsftpd_ssl.conf
     volumes:
       - ./tls:/etc/ssl/private/:rw
-    depends_on:
-      - tls-init-container
 
   ftpes-server-vsftpd4:
     networks:
@@ -218,8 +194,6 @@ services:
     command: vsftpd /etc/vsftpd_ssl.conf
     volumes:
       - ./tls:/etc/ssl/private/:rw
-    depends_on:
-      - tls-init-container
 
   http-https-server0:
     networks:

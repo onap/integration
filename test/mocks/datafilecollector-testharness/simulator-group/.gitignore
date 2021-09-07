@@ -3,4 +3,5 @@ node_modules
 package.json
 package-lock.json
 .tmp*
-/tls
+/tls/*.bak
+/dfc_config_volume
