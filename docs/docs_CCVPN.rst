@@ -7,6 +7,73 @@
 
 CCVPN (Cross Domain and Cross Layer VPN)
 ----------------------------------------
+Update for Istanbul Release
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Istanbul release introduces a new functionality for the CCVPN use-case:
+Cloud Lease Line (CLL) service support. The following three main operations were
+added in Istanbul release (REQ-719):
+
+1. The support for creating an E-Tree service, which has one ROOT (Cloud POP) and may have
+   one or more LEAFs (i.e. ONUs) as its branches.
+2. The support for modifying the maximum bandwidth supported by a given E-Tree.
+3. The support for deleting an E-Tree service.
+
+Istanbul Scope and Impacted modules
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For operation #1 mentioned above, the user should be able to "create" an E-Tree service.
+The modification operation is able to support the following scenarios:
+
+a. An E-Tree can have one or more branches (LEAFs) located in one or multiple (different)
+   domains.
+b. When multiple LEAFs are physically located in a single OLT node, those LEAFs
+   should re-use or share the same OTN tunnels, therefore the path computation
+   mechanism should only be called once.
+
+By operation #2 mentioned above, a user can change/modify the maximum bandwidth supported
+by a given E-Tree.
+
+And by operation #3 mentioned above, a user can delete a given E-Tree.
+
+The impacted ONAP modules are: SO, SDN-C, and A&AI.
+
+For A&AI, additional edge-rules were introduced between two connectivity nodes as well as
+between a connectivity and a uni node.
+
+In SDN-C, additional Directed Graphs (DGs) were implemented to support the above-mentioned
+features. These new DGs are placed under the generic-resource-api folder in SDNC.
+
+Installation Procedure
+~~~~~~~~~~~~~~~~~~~~~~
+
+For Istanbul new features, the integration test environment is similar to that of
+the Honolulu release: an ONAP instance with Istanbul release interfacing with 3rd party
+transport domain controllers should be established.
+
+For E-Tree support, the installation procedure is similar to that of the E2E
+Network Slicing use case. In other words, we need to bring up the required modules
+including SO, ADNS, A&AI, and UUI. We also need to configure these modules along
+with the mandatory common modules such as DMaaP.
+
+Functional/Integration Test Cases
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The testing procedure is described in the following few test cases:
+
+- create an E-Tree with one ROOT and one or multiple LEAF(s) in a multi-domain topology
+- modify the maximum bw of a given E-Tree or add a new connection link to a given E-Tree
+- delete a given E-Tree
+
+To run such test cases, the user must first add (register) the domain controllers as the ESR
+3rd party controllers. As a result of this registration, a round of topology discovery gets
+triggered. After that, network-routes or UNI Endpoints have to be created in A&AI. This step
+is similar to that of Guilin release, and is described in the following link:
+https://wiki.onap.org/display/DW/Transport+Slicing+Configuration+and+Operation+Guidance
+
+Then an E-Tree creation, modification and deletion can be triggered from SO APIs.
+
+
 
 Update for Honolulu Release
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
