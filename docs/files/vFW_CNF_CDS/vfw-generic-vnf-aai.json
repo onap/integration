@@ -1,0 +1,167 @@
+{
+  "vnf-id": "d4af22f0-70e6-47ac-8d5b-4d645fc25757",
+  "vnf-name": "VF_vfw_k8s_demo_CNF_LR_1",
+  "vnf-type": "vfw_k8s_demo_CNF_LR_1/null",
+  "service-id": "vfw_k8s_demo_CNF_LR_1",
+  "prov-status": "NVTPROV",
+  "orchestration-status": "Active",
+  "in-maint": false,
+  "is-closed-loop-disabled": false,
+  "resource-version": "1635943409675",
+  "model-invariant-id": "a5c188d5-7f0a-44e9-bd92-4a60781cb2cf",
+  "model-version-id": "033d9730-549a-4ff8-b166-1581fb73aa08",
+  "model-customization-id": "f107d24c-0a2f-4eb9-96d3-7a631c973cfd",
+  "relationship-list": {
+    "relationship": [
+      {
+        "related-to": "tenant",
+        "relationship-label": "org.onap.relationships.inventory.BelongsTo",
+        "related-link": "/aai/v21/cloud-infrastructure/cloud-regions/cloud-region/K8sCloudOwner/kud-lr/tenants/tenant/3444a566-2717-4d85-83bd-45c104657173",
+        "relationship-data": [
+          {
+            "relationship-key": "cloud-region.cloud-owner",
+            "relationship-value": "K8sCloudOwner"
+          },
+          {
+            "relationship-key": "cloud-region.cloud-region-id",
+            "relationship-value": "kud-lr"
+          },
+          {
+            "relationship-key": "tenant.tenant-id",
+            "relationship-value": "3444a566-2717-4d85-83bd-45c104657173"
+          }
+        ],
+        "related-to-property": [
+          {
+            "property-key": "tenant.tenant-name",
+            "property-value": "kud-lr-tenant"
+          }
+        ]
+      },
+      {
+        "related-to": "cloud-region",
+        "relationship-label": "org.onap.relationships.inventory.LocatedIn",
+        "related-link": "/aai/v21/cloud-infrastructure/cloud-regions/cloud-region/K8sCloudOwner/kud-lr",
+        "relationship-data": [
+          {
+            "relationship-key": "cloud-region.cloud-owner",
+            "relationship-value": "K8sCloudOwner"
+          },
+          {
+            "relationship-key": "cloud-region.cloud-region-id",
+            "relationship-value": "kud-lr"
+          }
+        ],
+        "related-to-property": [
+          {
+            "property-key": "cloud-region.owner-defined-type",
+            "property-value": "t1"
+          }
+        ]
+      },
+      {
+        "related-to": "service-instance",
+        "relationship-label": "org.onap.relationships.inventory.ComposedOf",
+        "related-link": "/aai/v21/business/customers/customer/customer_cnf/service-subscriptions/service-subscription/vfw_k8s_demo_CNF_LR_1/service-instances/service-instance/93b89241-104b-40a7-8030-32e3b6eff459",
+        "relationship-data": [
+          {
+            "relationship-key": "customer.global-customer-id",
+            "relationship-value": "customer_cnf"
+          },
+          {
+            "relationship-key": "service-subscription.service-type",
+            "relationship-value": "vfw_k8s_demo_CNF_LR_1"
+          },
+          {
+            "relationship-key": "service-instance.service-instance-id",
+            "relationship-value": "93b89241-104b-40a7-8030-32e3b6eff459"
+          }
+        ],
+        "related-to-property": [
+          {
+            "property-key": "service-instance.service-instance-name",
+            "property-value": "INSTANCE_vfw_k8s_demo_CNF_LR_1"
+          }
+        ]
+      },
+      {
+        "related-to": "platform",
+        "relationship-label": "org.onap.relationships.inventory.Uses",
+        "related-link": "/aai/v21/business/platforms/platform/%3Conapsdk.vid.vid.Platform%20object%20at%200x7f48eddc2c40%3E",
+        "relationship-data": [
+          {
+            "relationship-key": "platform.platform-name",
+            "relationship-value": "<onapsdk.vid.vid.Platform object at 0x7f48eddc2c40>"
+          }
+        ]
+      },
+      {
+        "related-to": "line-of-business",
+        "relationship-label": "org.onap.relationships.inventory.Uses",
+        "related-link": "/aai/v21/business/lines-of-business/line-of-business/%3Conapsdk.vid.vid.LineOfBusiness%20object%20at%200x7f48eddc2040%3E",
+        "relationship-data": [
+          {
+            "relationship-key": "line-of-business.line-of-business-name",
+            "relationship-value": "<onapsdk.vid.vid.LineOfBusiness object at 0x7f48eddc2040>"
+          }
+        ]
+      }
+    ]
+  },
+  "vf-modules": {
+    "vf-module": [
+      {
+        "vf-module-id": "abb282c8-c932-45dc-9c62-01938eab32fa",
+        "vf-module-name": "INSTANCE_vfw_k8s_demo_CNF_LR_1_vf_vfw_k8s_demo_cnf_lr_10..VfVfwK8sDemoCnfLr1..helm_base_template..module-4",
+        "heat-stack-id": "nifty_lichterman",
+        "orchestration-status": "Active",
+        "is-base-vf-module": false,
+        "automated-assignment": false,
+        "resource-version": "1635943380124",
+        "model-invariant-id": "7b0bcafb-6437-461c-bb48-7240f67ee718",
+        "model-version-id": "5cc1eda3-24e2-4e5e-a4a0-cb18477834f6",
+        "model-customization-id": "b80dedcd-902e-4c75-939a-310a68acb440",
+        "module-index": 0
+      },
+      {
+        "vf-module-id": "314795d7-6005-4462-a9fe-7006538e3ff9",
+        "vf-module-name": "INSTANCE_vfw_k8s_demo_CNF_LR_1_vf_vfw_k8s_demo_cnf_lr_10..VfVfwK8sDemoCnfLr1..helm_vpkg..module-2",
+        "heat-stack-id": "dazzling_nightingale",
+        "orchestration-status": "Active",
+        "is-base-vf-module": false,
+        "automated-assignment": false,
+        "resource-version": "1635943396304",
+        "model-invariant-id": "8f3652a6-af23-4d8c-9aa2-3e8d6f1a5b6e",
+        "model-version-id": "f4e54571-7cc7-4a67-b973-1851b8e540a7",
+        "model-customization-id": "5f1445b0-9ef2-4eb3-8051-a445fa35f877",
+        "module-index": 0
+      },
+      {
+        "vf-module-id": "56f3d02b-5a32-4a97-9e7b-d3c0094c07e8",
+        "vf-module-name": "INSTANCE_vfw_k8s_demo_CNF_LR_1_vf_vfw_k8s_demo_cnf_lr_10..VfVfwK8sDemoCnfLr1..helm_vsn..module-1",
+        "heat-stack-id": "sharp_torvalds",
+        "orchestration-status": "Active",
+        "is-base-vf-module": false,
+        "automated-assignment": false,
+        "resource-version": "1635943404667",
+        "model-invariant-id": "46a8e556-6c5f-4acd-9cfc-ea29b51c919e",
+        "model-version-id": "aa1ecbc5-990e-4ed0-a03e-a135f21763d3",
+        "model-customization-id": "0e61ce72-5eef-4fd7-b790-2107b67044f6",
+        "module-index": 0
+      },
+      {
+        "vf-module-id": "d56c54b9-40cc-4b7a-abce-50454571e39d",
+        "vf-module-name": "INSTANCE_vfw_k8s_demo_CNF_LR_1_vf_vfw_k8s_demo_cnf_lr_10..VfVfwK8sDemoCnfLr1..helm_vfw..module-3",
+        "heat-stack-id": "brave_brattain",
+        "orchestration-status": "Active",
+        "is-base-vf-module": false,
+        "automated-assignment": false,
+        "resource-version": "1635943387739",
+        "model-invariant-id": "89f47572-1d25-44b4-a6e0-52d0421a0980",
+        "model-version-id": "12a89df1-9fad-4045-a90e-dcb64264eed4",
+        "model-customization-id": "c81f3c71-3f42-4831-b3b2-7ceffb567795",
+        "module-index": 0
+      }
+    ]
+  }
+}
