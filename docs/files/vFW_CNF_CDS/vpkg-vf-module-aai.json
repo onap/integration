@@ -1,0 +1,133 @@
+{
+  "vf-module-id": "314795d7-6005-4462-a9fe-7006538e3ff9",
+  "vf-module-name": "INSTANCE_vfw_k8s_demo_CNF_LR_1_vf_vfw_k8s_demo_cnf_lr_10..VfVfwK8sDemoCnfLr1..helm_vpkg..module-2",
+  "heat-stack-id": "dazzling_nightingale",
+  "orchestration-status": "Active",
+  "is-base-vf-module": false,
+  "automated-assignment": false,
+  "resource-version": "1635943396304",
+  "model-invariant-id": "8f3652a6-af23-4d8c-9aa2-3e8d6f1a5b6e",
+  "model-version-id": "f4e54571-7cc7-4a67-b973-1851b8e540a7",
+  "model-customization-id": "5f1445b0-9ef2-4eb3-8051-a445fa35f877",
+  "module-index": 0,
+  "relationship-list": {
+    "relationship": [
+      {
+        "related-to": "k8s-resource",
+        "relationship-label": "org.onap.relationships.inventory.Uses",
+        "related-link": "/aai/v24/cloud-infrastructure/cloud-regions/cloud-region/K8sCloudOwner/kud-lr/tenants/tenant/3444a566-2717-4d85-83bd-45c104657173/k8s-resources/k8s-resource/e73732351195c8c10d28413ddff1d968bd53b0b0e395c24b3b0fcd39f46ea730",
+        "relationship-data": [
+          {
+            "relationship-key": "cloud-region.cloud-owner",
+            "relationship-value": "K8sCloudOwner"
+          },
+          {
+            "relationship-key": "cloud-region.cloud-region-id",
+            "relationship-value": "kud-lr"
+          },
+          {
+            "relationship-key": "tenant.tenant-id",
+            "relationship-value": "3444a566-2717-4d85-83bd-45c104657173"
+          },
+          {
+            "relationship-key": "k8s-resource.id",
+            "relationship-value": "e73732351195c8c10d28413ddff1d968bd53b0b0e395c24b3b0fcd39f46ea730"
+          }
+        ],
+        "related-to-property": [
+          {
+            "property-key": "k8s-resource.name",
+            "property-value": "vfw-1-vpkg-mgmt"
+          }
+        ]
+      },
+      {
+        "related-to": "k8s-resource",
+        "relationship-label": "org.onap.relationships.inventory.Uses",
+        "related-link": "/aai/v24/cloud-infrastructure/cloud-regions/cloud-region/K8sCloudOwner/kud-lr/tenants/tenant/3444a566-2717-4d85-83bd-45c104657173/k8s-resources/k8s-resource/f65235da9cb098588b2db0c9e7da1ccb00954268fba6bd621bb9ef0b48cd717f",
+        "relationship-data": [
+          {
+            "relationship-key": "cloud-region.cloud-owner",
+            "relationship-value": "K8sCloudOwner"
+          },
+          {
+            "relationship-key": "cloud-region.cloud-region-id",
+            "relationship-value": "kud-lr"
+          },
+          {
+            "relationship-key": "tenant.tenant-id",
+            "relationship-value": "3444a566-2717-4d85-83bd-45c104657173"
+          },
+          {
+            "relationship-key": "k8s-resource.id",
+            "relationship-value": "f65235da9cb098588b2db0c9e7da1ccb00954268fba6bd621bb9ef0b48cd717f"
+          }
+        ],
+        "related-to-property": [
+          {
+            "property-key": "k8s-resource.name",
+            "property-value": "vfw-1-vpkg"
+          }
+        ]
+      },
+      {
+        "related-to": "k8s-resource",
+        "relationship-label": "org.onap.relationships.inventory.Uses",
+        "related-link": "/aai/v24/cloud-infrastructure/cloud-regions/cloud-region/K8sCloudOwner/kud-lr/tenants/tenant/3444a566-2717-4d85-83bd-45c104657173/k8s-resources/k8s-resource/87cbdb83bf436703bdb9823e07e1498a7b3ec7fb12ba14193aadd4630649e0ae",
+        "relationship-data": [
+          {
+            "relationship-key": "cloud-region.cloud-owner",
+            "relationship-value": "K8sCloudOwner"
+          },
+          {
+            "relationship-key": "cloud-region.cloud-region-id",
+            "relationship-value": "kud-lr"
+          },
+          {
+            "relationship-key": "tenant.tenant-id",
+            "relationship-value": "3444a566-2717-4d85-83bd-45c104657173"
+          },
+          {
+            "relationship-key": "k8s-resource.id",
+            "relationship-value": "87cbdb83bf436703bdb9823e07e1498a7b3ec7fb12ba14193aadd4630649e0ae"
+          }
+        ],
+        "related-to-property": [
+          {
+            "property-key": "k8s-resource.name",
+            "property-value": "vfw-1-vpkg-c6bdb954c-mlpz9"
+          }
+        ]
+      },
+      {
+        "related-to": "k8s-resource",
+        "relationship-label": "org.onap.relationships.inventory.Uses",
+        "related-link": "/aai/v24/cloud-infrastructure/cloud-regions/cloud-region/K8sCloudOwner/kud-lr/tenants/tenant/3444a566-2717-4d85-83bd-45c104657173/k8s-resources/k8s-resource/5538b19871da1fd05b82366c38cbbe88bae4d3444b6a21018f83787327958617",
+        "relationship-data": [
+          {
+            "relationship-key": "cloud-region.cloud-owner",
+            "relationship-value": "K8sCloudOwner"
+          },
+          {
+            "relationship-key": "cloud-region.cloud-region-id",
+            "relationship-value": "kud-lr"
+          },
+          {
+            "relationship-key": "tenant.tenant-id",
+            "relationship-value": "3444a566-2717-4d85-83bd-45c104657173"
+          },
+          {
+            "relationship-key": "k8s-resource.id",
+            "relationship-value": "5538b19871da1fd05b82366c38cbbe88bae4d3444b6a21018f83787327958617"
+          }
+        ],
+        "related-to-property": [
+          {
+            "property-key": "k8s-resource.name",
+            "property-value": "vfw-1-vpkg-configmap"
+          }
+        ]
+      }
+    ]
+  }
+}
