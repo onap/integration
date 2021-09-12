@@ -38,6 +38,7 @@ All changes to related ONAP components and Use Case can be found in the followin
 - `REQ-182`_
 - `REQ-341`_
 - `REQ-458`_
+- `REQ-627`_
 
 **Since Guilin ONAP supports Helm packages as a native onboarding artifacts and SO natively orchestrates Helm packages what brings significant advantages in the future. Also since Guilin release ONAP has first mechanisms for monitoring of the status of deployed CNF resources. Since Honolulu release native CNF testing capability was enabled that allows for execution of the dedicated test jobs for each helm package**.
 
