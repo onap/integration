@@ -16,7 +16,7 @@ Source files
 
 Description
 ~~~~~~~~~~~
-This use case is a combination of `vFW CDS Dublin`_ and `vFW EDGEX K8S`_ use cases. The aim is to continue improving Kubernetes based Network Functions (a.k.a CNF) support in ONAP. Use case continues where `vFW EDGEX K8S`_ left and brings CDS support into picture like `vFW CDS Dublin`_ did for the old vFW Use case. Predecessor use case is also documented here `vFW EDGEX K8S In ONAP Wiki`_.
+This use case is a combination of `vFW CDS Dublin`_ and `vFW EDGEX K8S`_ use cases and it is continously improved since Frankfurt release. The aim is to continue improving Kubernetes based Network Functions (a.k.a CNF) support in ONAP. Use case continues where `vFW EDGEX K8S`_ left and brings CDS support into picture like `vFW CDS Dublin`_ did for the old vFW Use case. Predecessor use case is also documented here `vFW EDGEX K8S In ONAP Wiki`_.
 
 This use case shows how to onboard helm packages and to instantiate them with help of ONAP. Following improvements were made in the vFW CNF Use Case:
 
@@ -38,6 +38,7 @@ All changes to related ONAP components and Use Case can be found in the followin
 - `REQ-182`_
 - `REQ-341`_
 - `REQ-458`_
+- `REQ-627`_
 
 **Since Guilin ONAP supports Helm packages as a native onboarding artifacts and SO natively orchestrates Helm packages what brings significant advantages in the future. Also since Guilin release ONAP has first mechanisms for monitoring of the status of deployed CNF resources. Since Honolulu release native CNF testing capability was enabled that allows for execution of the dedicated test jobs for each helm package**.
 
@@ -63,14 +64,28 @@ CDS model        `vFW CBA Model`_        CDS CBA model used in `vFW CDS Dublin`_
 
 .. note::  Since the Guilin release `vFW_CNF_CDS Model`_ contains sources that allow to model and instantiate CNF with VNF/Heat orchestration approach (Frankfurt) and with native Helm orchestration approach (Guilin and beyond). VNF/Heat orchestration approach is deprecated and will not be enhanced in the future. Please follow README.txt description and further documentation here to generate and select appropriate onboarding package which will leverage appropriate SO orchestration path.
 
+Since Honolulu release vFW CNF use case supports three different scenarios where different capabilities of CNF Orchestration in ONAP can be experimented:
+
+.. figure:: files/vFW_CNF_CDS/scenarios.png
+   :scale: 60 %
+   :align: center
+
+   vFW CNF Scenarios
+
+- Scenario 1: simple deployment of vFW CNF instance
+- Scenario 2: deployment of vFW CNF instance with enrichment of the Helm deployment with profiling mechanism
+- Scenario 3: deployment of vFW CNF instance with Day2 configuration applied and CNF status checked as a prt of config-deploy operation 
+
+The 3rd scenarios present the most comprehensive way of managing the CNF in ONAP, including Day 0/1/2 operations. It shows also how to combine in the Day2 operation information for the AAI and SDNC MDSAL. All scenarios can be supported by execution of the dedicated Healthcheck workflow `3-5 Verification of the CNF Status`_. 
+
 Modeling of Onboarding Package/Helm
 ...................................
 
 The starting point for this demo was Helm package containing one Kubernetes application, see `vFW_Helm Model`_. In this demo we decided to follow SDC/SO vf-module concept the same way as original vFW demo was split into multiple vf-modules instead of one (`vFW_NextGen`_). The same way we splitted Helm version of vFW into multiple Helm packages each matching one dedicated vf-module.
 
-The Honolulu version of the `vFW_CNF_CDS Model`_ contains files required to create **VSP onboarding packages in two formats**: the **Dummy Heat** (available in Frankfurt release already) one that considers association of each Helm package with dummy heat templates and the **Native Helm** one where each Helm package is standalone and is natively understood in consequence by SO. For both variants of VSP Helm packages are matched to the vf-module concept, so basically each Helm application after instantiation is visible to ONAP as a separate vf-module. The chosen format for onboarding has **crucial** role in the further orchestration approach applied for Helm package instantiation. The **Dummy Heat** will result with orchestration through the **Openstack Adapter** component of SO while **Native Helm** will result with **CNF Adapter**. Both approaches will result with instantiation of the same CNF, however the **Native Helm** approach will be enhanced in the future releases while **Dummy Heat** approach will become deprecated in the future.
+The Istanbul version of the `vFW_CNF_CDS Model`_ contains files required to create **VSP onboarding packages in two formats**: the **Dummy Heat** (available in Frankfurt release already) one that considers association of each Helm package with dummy heat templates and the **Native Helm** one where each Helm package is standalone and is natively understood in consequence by SO. For both variants of VSP Helm packages are matched to the vf-module concept, so basically each Helm application after instantiation is visible to ONAP as a separate vf-module. The chosen format for onboarding has **crucial** role in the further orchestration approach applied for Helm package instantiation. The **Dummy Heat** will result with orchestration through the **Openstack Adapter** component of SO while **Native Helm** will result with **CNF Adapter**. Both approaches will result with instantiation of the same CNF, however the **Native Helm** approach will be enhanced in the future releases while **Dummy Heat** approach will become deprecated in the future. Read more in `3-1 CNF Orchestration Paths in ONAP`_
 
-Produced **Dummy Heat** VSP onboarding package `Creating Onboarding Package`_ format has following MANIFEST file (package_dummy/MANIFEST.json). The Helm package is delivered as CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT package through SDC and SO. Dummy heat templates are matched to Helm packages by the same prefix <vf_module_label> of the file name that for both dummy Heat teamplate and for CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT must be the same, like i.e. *vpg* vf-module in the manifest file below. The name of the CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT artifact is predefined and needs to match the pattern: <vf_module_label>_cloudtech_k8s_charts.tgz. More examples can be found in `Modeling Onboarding Package/Helm`_ section.
+Produced **Dummy Heat** VSP onboarding package `Creating Onboarding Package`_ format has following MANIFEST file (package_dummy/MANIFEST.json). The Helm package is delivered as CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT package through SDC and SO. Dummy heat templates are matched to Helm packages by the same prefix <vf_module_label> of the file name that for both dummy Heat template and for CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT must be the same, like i.e. *vpg* vf-module in the manifest file below. The name of the CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT artifact is predefined and needs to match the pattern: <vf_module_label>_cloudtech_k8s_charts.tgz.
 
 ::
 
@@ -450,7 +465,7 @@ Artifact file determines a place of the static profile or the content of the com
 SO requires for instantiation name of the profile in the parameter: *k8s-rb-profile-name*. The *component-k8s-profile-upload* that stands behind the profile uploading mechanism has input parameters that can be passed directly (checked in the first order) or can be taken from the *resource-assignment-map* parameter which can be a result of associated *component-resource-resolution* result, like in our case their values are resolved on vf-module level resource assignment. The *component-k8s-profile-upload* inputs are following:
 
 - k8s-rb-definition-name - the name under which RB definition was created - **VF Module Model Invariant ID** in ONAP
-- k8s-rb-definition-version - the version of created RB definition name - **VF Module Model Version ID**  in ONAP
+- k8s-rb-definition-version - the version of created RB definition name - **VF Module Model Customization ID**  in ONAP
 - k8s-rb-profile-name - (mandatory) the name of the profile under which it will be created in k8s plugin. Other parameters are required only when profile must be uploaded because it does not exist yet
 - k8s-rb-profile-source - the source of profile content - name of the artifact of the profile. If missing *k8s-rb-profile-name* is treated as a source
 - k8s-rb-profile-namespace - the k8s namespace name associated with profile being created
@@ -545,7 +560,7 @@ vFW CNF config-deploy workflow is following:
 
 In our example configuration template for vFW CNF is a helm package that contains the same resource that we can find in the vPKG *vfw-cnf-cds-vpkg-profile* profile - extra ssh service. This helm package contains Helm encapsulation for ssh-service and the values.yaml file with declaration of all the inputs that may parametrize the ssh-service. The configuration templating step leverages the *component-k8s-config-template* component that prepares the configuration template and uploads it to k8splugin. In consequence, it may be used later on for instatiation of the configuration.
 
-In this use case we have two options with *ssh-service-config* and *ssh-service-config-customizable* as a source of the same configuration template. In consequence, or we take a complete template or we have have the templatefolder with the content of the helm package and CDS may perform dedicated resource resolution for it with templating of all the files with .vtl extensions. The process is very similar to the one describe for profile upload functionality.
+In this use case we have two options with *ssh-service-config* and *ssh-service-config-customizable* as a source of the same configuration template. In consequence, or we take a complete template or we have have the template folder with the content of the helm package and CDS may perform dedicated resource resolution for it with templating of all the files with .vtl extensions. The process is very similar to the one describe for profile upload functionality.
 
 ::
 
@@ -592,7 +607,7 @@ In this use case we have two options with *ssh-service-config* and *ssh-service-
 The *component-k8s-config-template* that stands behind creation of configuration template has input parameters that can be passed directly (checked in the first order) or can be taken from the *resource-assignment-map* parameter which can be a result of associated *component-resource-resolution* result, like in vFW CNF use case their values are resolved on vf-module level dedicated for config-assign and config-deploy resource assignment step. The *component-k8s-config-template* inputs are following:
 
 - k8s-rb-definition-name - the name under which RB definition was created - **VF Module Model Invariant ID** in ONAP
-- k8s-rb-definition-version - the version of created RB definition name - **VF Module Model Version ID**  in ONAP
+- k8s-rb-definition-version - the version of created RB definition name - **VF Module Model Customization ID**  in ONAP
 - k8s-rb-config-template-name - (mandatory) the name of the configuration template under which it will be created in k8s plugin. Other parameters are required only when configuration template must be uploaded because it does not exist yet
 - k8s-rb-config-template-source - the source of config template content - name of the artifact of the configuration template. If missing *k8s-rb-config-template-name* is treated as a source
 - resource-assignment-map - result of the associated resource assignment step - it may deliver values of inputs if they are not specified directly
@@ -678,7 +693,7 @@ PART 1 - ONAP Installation
 1-1 Deployment components
 .........................
 
-In order to run the vFW_CNF_CDS use case, we need ONAP Honolulu Release (or later) with at least following components:
+In order to run the vFW_CNF_CDS use case, we need ONAP Istanbul Release (or later) with at least following components:
 
 =======================================================   ===========
 ONAP Component name                                       Describtion
@@ -790,9 +805,9 @@ And check status of pods, deployments, jobs etc.
 1-3 Post Deployment
 ...................
 
-After completing the first part above, we should have a functional ONAP deployment for the Honolulu Release.
+After completing the first part above, we should have a functional ONAP deployment for the Istanbul Release.
 
-We will need to apply a few modifications to the deployed ONAP Honolulu instance in order to run the use case.
+We will need to apply a few modifications to the deployed ONAP Istanbul instance in order to run the use case.
 
 Retrieving logins and passwords of ONAP components
 ++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -873,7 +888,7 @@ Whole content of this use case is stored into single git repository and it conta
 
 ::
 
-  git clone --single-branch --branch honolulu "https://gerrit.onap.org/r/demo"
+  git clone --single-branch --branch istanbul "https://gerrit.onap.org/r/demo"
   cd demo/heat/vFW_CNF_CDS/templates
 
 In order to prepare environment for onboarding and instantiation of the use case make sure you have *git*, *make*, *helm* and *pipenv* applications installed.
@@ -904,14 +919,21 @@ The automation scripts are based on `Python SDK`_ and are adopted to automate pr
 
 4. Modify config.py file
 
-- NATIVE - when enabled **Native Helm** path will be used, otherwise **Dummy Heat** path will be used
-- CLOUD_REGION - name of your k8s cluster from ONAP perspective
+- SCENARIO - like described in the `The vFW CNF Use Case`_ section
+- NATIVE - when enabled (default) **Native Helm** path will be used, otherwise **Dummy Heat** path will be used (deprecated)
+- MACRO_INSTANTIATION - instantiation method used: macro (default) or a'la carte. A'la carte only for the purpose of use with other sue cases
+- K8S_NAMESPACE - k8s namespace to use for deployment of CNF (vfirewall by default)
+- K8S_VERSION - version of the k8s cluster
+- K8S_REGION - name of the k8s region from the CLOUD_REGIONS (kud by default)
+- CLOUD_REGIONS - configuration of k8s or Openstack regions
 - GLOBAL_CUSTOMER_ID - identifier of customer in ONAP
 - VENDOR - name of the Vendor in ONAP
 - SERVICENAME - **Name of your service model in SDC**
-- CUSTOMER_RESOURCE_DEFINITIONS - add list of CRDs to be installed on non KUD k8s cluster - should be used ony to use some non-KUD cluster like i.e. ONAP one to test instantiation of Helm package. For KUD should be empty list
+- SKIP_POST_INSTANTIATION - whether post instantiation configuration should be run (it is set indirectly by *SCENARIO*)
+- VNF_PARAM_LIST - list of parameters to pass for VNF creation process
+- VF_MODULE_PARAM_LIST - list of parameters to pass for VF Module creation
 
-.. note:: For automation script it is necessary to modify only NATIVE and SERVICENAME constants. Other constants may be modified if needed.
+.. note:: For automation script it is necessary to modify only SCENARIO constant. Other constants may be modified if needed.
 
 AAI
 ...
@@ -935,7 +957,7 @@ Corresponding GET operations in "Check" folder in Postman can be used to verify 
 
 **<AUTOMATED>**
 
-This step is performed jointly with onboarding step `3-1 Onboarding`_
+This step is performed jointly with onboarding step `3-2 Onboarding`_
 
 Naming Policy
 +++++++++++++
@@ -973,6 +995,8 @@ Follow instructions in `KUD github`_ and install target Kubernetes cluster in yo
 ::
 
     export KUD_ADDONS="virtlet ovn4nfv"
+
+.. warning:: In order to run vFW CNF Use Case deployment test please make sure that this workaround does not have to be applied as well. `KUD Interface Permission`_
 
 2-2 Cloud Registration
 ......................
@@ -1024,10 +1048,15 @@ PART 3 - Execution of the Use Case
 
 This part contains all the steps to run the use case by using ONAP GUIs, Postman or Python automation scripts.
 
+3-1 CNF Orchestration Paths in ONAP
+...................................
+
 Following pictures describe the overall sequential flow of the use case in two scenarios: **Dummy Heat** path (with OpenStack adapter) and **Native Helm** path (with CNF Adapter)
 
-Dummy Heat CNF Orchestration
-............................
+Dummy Heat CNF Orchestration (Obsolete)
+.......................................
+
+.. warning:: This path is not developed in ONAP since Honolulu release, however ONAP OOM gating process with basic_cnf use case makes sure that basic CNF instantiation with Dummy Heat approach still works. New features from `_REQ-458` and `REQ-627` are integrated and tested only in the Native path.
 
 This orchestration method stands on the grounds of Heat template orchestration mechanisms. In SDC onboarding package needs to contains simple Heat templates that are associated with additional Cloud artifacts. SDC distributes Heat templates to SO and Helm packages to K8sPlugin directly. SO orchestrates the Heat templates without any knowledge about their existence, however the OpenStack adater in SO understands k8s region type for which communication over MSB/Mutlicloud is provided - it handles interaction with K8sPlugin for CNF instantiation.
 
@@ -1039,16 +1068,22 @@ This orchestration method stands on the grounds of Heat template orchestration m
 Native Helm CNF Orchestration
 .............................
 
-Introduced in the Guilin release CNF orchestration method brings native distribution of Helm packages from SDC and native orchestration of CNFs (Helm packages) with SO. SO leverages CNF adapter to interact with K8sPlugin that takes resposnibility for the communication with k8s clusters. Heat templates are not required in the SDC onboarding package and thanks to the fact that SO knows about Helm package orchestration future synchronization of data between k8s clusters and AAI is possible.
+Introduced in the Guilin release CNF orchestration method brings native distribution of Helm packages from SDC and native orchestration of CNFs (Helm packages) with SO. SO leverages CNF adapter to interact with K8sPlugin that takes resposnibility for the communication with k8s clusters. Heat templates are not required in the SDC onboarding package and thanks to the fact that SO knows about Helm package orchestration synchronization of data between k8s clusters and AAI is possible. Only in this path since Istanbul release k8s-resource object is created in relation to tenantm vf-module and generic-vnf objects in AAI. SO Cnf adapter is resposobile for synchronization of data between AAI and k8s cluster, however currently it happens only once - after creation of CNF by SO, so any further changes (like new pods) will not be synchronized into AAI.
 
 .. figure:: files/vFW_CNF_CDS/Native_Helm_Flow.png
    :align: center
 
    vFW CNF CDS Use Case sequence flow for *Native Helm* (Guilin+) path.
 
-.. warning:: K8sPlugin supports only Helm packages that can be validated by Helm 2.14 application. It means that only Chart with apiVersion: v1 or v2 property but without Helm 3 specific features can be instantiated by ONAP. Also the latest features of Helm 2, beyond Helm version 2.14 are not supported currently. Istanbul release will bring native support of Helm 3 packages and also latests features of Helm 2 package format. 
 
-3-1 Onboarding
+Kubernetes and Helm Compatibility
+.................................
+
+K8sPlugin in Istanbul release supports Helm packages that can be validated by Helm 3.5 application. It means that new Helm fetures introduced after Helm 3.5 version are not supported currently. Moreover, K8sPlugin implementation of Helm does not support upgrade operation and such flow is not supported in ONAP orxhestration workflows. 
+
+K8sPlugin Utilizes also v0.19.4 version of K8s client and its compatibility matrix with k8s clusters can be found here `K8s Client Compatibility`_, Compatibility Matrix section.
+
+3-2 Onboarding
 ..............
 
 .. note:: Make sure you have performed `Automation Environment Setup`_ steps before following actions here.
@@ -1068,7 +1103,7 @@ Complete content of both Onboarding Packages for **Dummy Heat**  and **Native He
 
 ::
 
-  git clone --single-branch --branch honolulu "https://gerrit.onap.org/r/demo"
+  git clone --single-branch --branch istanbul "https://gerrit.onap.org/r/demo"
   cd demo/heat/vFW_CNF_CDS/templates
   make
 
@@ -1299,7 +1334,7 @@ Verify in SDC UI if distribution was successful. In case of any errors (sometime
             "serviceVnfs": [
                 {
                     "modelInfo": {
-                        "modelName": "vfw_cnf_cds_vsp",
+                        "modelName": "VfVfwK8sDemoCnfMc202109231",
                         "modelUuid": "70edaca8-8c79-468a-aa76-8224cfe686d0",
                         "modelInvariantUuid": "7901fc89-a94d-434a-8454-1e27b99dc0e2",
                         "modelVersion": "1.0",
@@ -1317,24 +1352,24 @@ Verify in SDC UI if distribution was successful. In case of any errors (sometime
                     "vfModules": [
                         {
                             "modelInfo": {
-                                "modelName": "VfwCnfCdsVsp..base_template..module-0",
-                                "modelUuid": "274f4bc9-7679-4767-b34d-1df51cdf2496",
-                                "modelInvariantUuid": "52842255-b7be-4a1c-ab3b-2bd3bd4a5423",
+                                "modelName": "VfVfwK8sDemoCnfMc202109231..helm_base_template..module-4",
+                                "modelUuid": "a9f5d65f-20c3-485c-8cf9-eda9ea94300e",
+                                "modelInvariantUuid": "7888f606-3ee8-4edb-b96d-467fead6ee4f",
                                 "modelVersion": "1",
-                                "modelCustomizationUuid": "b27fad11-44da-4840-9256-7ed8a32fbe3e"
+                                "modelCustomizationUuid": "b9faba47-d03d-4ba1-a117-4c19632b2136"
                             },
-                            "isBase": true,
+                            "isBase": false,
                             "vfModuleLabel": "base_template",
                             "initialCount": 1,
                             "hasVolumeGroup": false
                         },
                         {
                             "modelInfo": {
-                                "modelName": "VfwCnfCdsVsp..vsn..module-1",
-                                "modelUuid": "0cbf558f-5a96-4555-b476-7df8163521aa",
-                                "modelInvariantUuid": "36f25e1b-199b-4de2-b656-c870d341cf0e",
+                                "modelName": "VfVfwK8sDemoCnfMc202109293..helm_vsn..module-1",
+                                "modelUuid": "8e72ed23-4842-471a-ad83-6a4d285c48e1",
+                                "modelInvariantUuid": "4f5a8a02-0dc6-4387-b86e-bd352f711e18",
                                 "modelVersion": "1",
-                                "modelCustomizationUuid": "4cac0584-c0d6-42a7-bdb3-29162792e07f"
+                                "modelCustomizationUuid": "ab5614d6-25c2-4863-bad3-93e354b4d5ba"
                             },
                             "isBase": false,
                             "vfModuleLabel": "vsn",
@@ -1343,11 +1378,11 @@ Verify in SDC UI if distribution was successful. In case of any errors (sometime
                         },
                         {
                             "modelInfo": {
-                                "modelName": "VfwCnfCdsVsp..vpkg..module-2",
-                                "modelUuid": "011b5f61-6524-4789-bd9a-44cfbf321463",
-                                "modelInvariantUuid": "4e2b9975-5214-48b8-861a-5701c09eedfa",
+                                "modelName": "VfVfwK8sDemoCnfMc202109293..helm_vpkg..module-2",
+                                "modelUuid": "64f9d622-a8c1-4992-ba35-abdc13f87660",
+                                "modelInvariantUuid": "88d8d71a-30c9-4e00-a6b9-bd86bae7ed37",
                                 "modelVersion": "1",
-                                "modelCustomizationUuid": "4e7028a1-4c80-4d20-a7a2-a1fb3343d5cb"
+                                "modelCustomizationUuid": "37ab4199-19aa-4f63-9a11-d31b8c25ce46"
                             },
                             "isBase": false,
                             "vfModuleLabel": "vpkg",
@@ -1356,11 +1391,11 @@ Verify in SDC UI if distribution was successful. In case of any errors (sometime
                         },
                         {
                             "modelInfo": {
-                                "modelName": "VfwCnfCdsVsp..vfw..module-3",
-                                "modelUuid": "0de4ed56-8b4c-4a2d-8ce6-85d5e269204f",
-                                "modelInvariantUuid": "9ffda670-3d77-4f6c-a4ad-fb7a09f19817",
+                                "modelName": "VfVfwK8sDemoCnfMc202109293..helm_vfw..module-3",
+                                "modelUuid": "f6f62096-d5cc-474e-82c7-655e7d6628b2",
+                                "modelInvariantUuid": "6077ce70-3a1d-47e6-87a0-6aed6a29b089",
                                 "modelVersion": "1",
-                                "modelCustomizationUuid": "1e123e43-ba40-4c93-90d7-b9f27407ec03"
+                                "modelCustomizationUuid": "879cda5e-7af9-43d2-bd6c-50e330ab328e"
                             },
                             "isBase": false,
                             "vfModuleLabel": "vfw",
@@ -1373,7 +1408,7 @@ Verify in SDC UI if distribution was successful. In case of any errors (sometime
             ]
         }
 
-.. note:: For **Native Helm** path both modelName will have prefix *helm_* i.e. *helm_vfw* and vfModuleLabel will have *helm_* keyword inside i.e. *VfwCnfCdsVsp..helm_vfw..module-3*
+.. note:: For **Native Helm** path both modelName will have prefix *helm_* i.e. *helm_vfw* and vfModuleLabel will have *helm_* keyword inside i.e. *VfVfwK8sDemoCnfMc202109293..helm_vfw..module-3*
 
 - SDNC:
 
@@ -1447,49 +1482,53 @@ Verify in SDC UI if distribution was successful. In case of any errors (sometime
     ::
 
                 [
-                        {
-                                "rb-name": "52842255-b7be-4a1c-ab3b-2bd3bd4a5423",
-                                "rb-version": "274f4bc9-7679-4767-b34d-1df51cdf2496",
-                                "chart-name": "base_template",
-                                "description": "",
-                                "labels": {
-                                        "vnf_customization_uuid": "b27fad11-44da-4840-9256-7ed8a32fbe3e"
-                                }
-                        },
-                        {
-                                "rb-name": "36f25e1b-199b-4de2-b656-c870d341cf0e",
-                                "rb-version": "0cbf558f-5a96-4555-b476-7df8163521aa",
-                                "chart-name": "vsn",
-                                "description": "",
-                                "labels": {
-                                        "vnf_customization_uuid": "4cac0584-c0d6-42a7-bdb3-29162792e07f"
-                                }
-                        },
-                        {
-                                "rb-name": "4e2b9975-5214-48b8-861a-5701c09eedfa",
-                                "rb-version": "011b5f61-6524-4789-bd9a-44cfbf321463",
-                                "chart-name": "vpkg",
-                                "description": "",
-                                "labels": {
-                                        "vnf_customization_uuid": "4e7028a1-4c80-4d20-a7a2-a1fb3343d5cb"
-                                }
-                        },
-                        {
-                                "rb-name": "9ffda670-3d77-4f6c-a4ad-fb7a09f19817",
-                                "rb-version": "0de4ed56-8b4c-4a2d-8ce6-85d5e269204f",
-                                "chart-name": "vfw",
-                                "description": "",
-                                "labels": {
-                                        "vnf_customization_uuid": "1e123e43-ba40-4c93-90d7-b9f27407ec03"
-                                }
+                    {
+                        "rb-name": "a9f5d65f-20c3-485c-8cf9-eda9ea94300e",
+                        "rb-version": "b9faba47-d03d-4ba1-a117-4c19632b2136",
+                        "chart-name": "base_template",
+                        "description": "",
+                        "labels": {
+                            "vf_module_model_name": "VfVfwK8sDemoCnfMc202109231..helm_base_template..module-4",
+                            "vf_module_model_uuid": "7888f606-3ee8-4edb-b96d-467fead6ee4f"
                         }
+                    },
+                    {
+                        "rb-name": "f6f62096-d5cc-474e-82c7-655e7d6628b2",
+                        "rb-version": "879cda5e-7af9-43d2-bd6c-50e330ab328e",
+                        "chart-name": "vfw",
+                        "description": "",
+                        "labels": {
+                            "vf_module_model_name": "VfVfwK8sDemoCnfMc202109293..helm_vfw..module-3",
+                            "vf_module_model_uuid": "6077ce70-3a1d-47e6-87a0-6aed6a29b089"
+                        }
+                    },
+                    {
+                        "rb-name": "8e72ed23-4842-471a-ad83-6a4d285c48e1",
+                        "rb-version": "ab5614d6-25c2-4863-bad3-93e354b4d5ba",
+                        "chart-name": "vsn",
+                        "description": "",
+                        "labels": {
+                            "vf_module_model_name": "VfVfwK8sDemoCnfMc202109293..helm_vsn..module-1",
+                            "vf_module_model_uuid": "4f5a8a02-0dc6-4387-b86e-bd352f711e18"
+                        }
+                    },
+                    {
+                        "rb-name": "64f9d622-a8c1-4992-ba35-abdc13f87660",
+                        "rb-version": "37ab4199-19aa-4f63-9a11-d31b8c25ce46",
+                        "chart-name": "vpkg",
+                        "description": "",
+                        "labels": {
+                            "vf_module_model_name": "VfVfwK8sDemoCnfMc202109293..helm_vpkg..module-2",
+                            "vf_module_model_uuid": "88d8d71a-30c9-4e00-a6b9-bd86bae7ed37"
+                        }
+                    }
                 ]
 
 **<AUTOMATED>**
 
 Distribution is a part of the onboarding step and at this stage is performed
 
-3-2 CNF Instantiation
+3-3 CNF Instantiation
 .....................
 
 This is the whole beef of the use case and furthermore the core of it is that we can instantiate any amount of instances of the same CNF each running and working completely of their own. Very basic functionality in VM (VNF) side but for Kubernetes and ONAP integration this is the first milestone towards other normal use cases familiar for VNFs.
@@ -1605,7 +1644,7 @@ Before second instance of service is created you need to modify *config.py* file
     python onboarding.py
     python instantiation.py
 
-3-3 Results and Logs
+3-4 Results and Logs
 ....................
 
 Now multiple instances of Kubernetes variant of vFW are running in target VIM (KUD deployment).
@@ -1737,24 +1776,37 @@ In case more detailed logging is needed, here's instructions how to setup DEBUG 
     # Delete the Pods to make changes effective
     kubectl -n onap delete pods -l app=cds-blueprints-processor
 
-3-4 Verification of the CNF Status
+3-5 Verification of the CNF Status
 ..................................
 
 **<MANUAL>**
 
-The Guilin introduced new API for verification of the status of instantiated resouces in k8s cluster. The API gives result similar to *kubectl describe* operation for all the resources created for particular *rb-definition*. Status API can be used to verify the k8s resources after instantiation but also can be used leveraged for synchronization of the information with external components, like AAI in the future. To use Status API call
+The Guilin introduced new API for verification of the status of instantiated resouces in k8s cluster. The API gives result similar to *kubectl describe* operation for all the resources created for particular *rb-definition*. Status API can be used to verify the k8s resources after instantiation but also can be used leveraged for synchronization of the information with external components, like AAI. To use Status API call
 
 ::
 
     curl -i http://${K8S_NODE_IP}:30280/api/multicloud-k8s/v1/v1/instance/{rb-instance-id}/status
 
-where {rb-instance-id} can be taken from the list of instances resolved the following call
+where {rb-instance-id} can be taken from the list of instances resolved the following call or from AAI *heat-stack-id* property of created *vf-module* associated with each Helm package from onboarded VSP which holds the *rb-instance-id* value.
+
+The same API can be accessed over cnf-adapter endpoint (ClusterIP):
 
 ::
 
-    curl -i http://${K8S_NODE_IP}:30280/api/multicloud-k8s/v1/v1/instance/
+    curl -i http://${K8S_NODE_IP}:30280/api/multicloud-k8s/v1/v1/instance/{rb-instance-id}/status
 
-or from AAI *heat-stack-id* property of created *vf-module* associated with each Helm package from onboarded VSP which holds the *rb-instance-id* value.
+The similar to Status API is Query API, avaialble since Honolulu, that allows to fetch specific resources that belong to the created instance. The Query API allows to filter resources by Name, Kind, APiVersion, Namespace and Labels. The k8splugin endpoint is:
+
+::
+
+    curl -i http://${K8S_NODE_IP}:30280/api/multicloud-k8s/v1/v1/instance/{rb-instance-id}/query?ApiVersion=v1&Kind=Deployment&Name=vfw-1-vfw&Namespace=vfirewall
+
+and cnf-adapter endpoint is:
+
+::
+
+    curl -i http://${K8S_NODE_IP}:8090/api/cnf-adapter/v1/instance/{rb-instance-id}/query?ApiVersion=v1&Kind=Deployment&Name=vfw-1-vfw&Namespace=vfirewall
+
 
 Examplary output of Status API is shown below (full result of test vFW CNF helm package in the attached file). It shows the list of GVK resources created for requested *rb-instance* (Helm and vf-module in the same time) with assocated describe result for all of them.
 
@@ -1776,7 +1828,7 @@ Examplary output of Status API is shown below (full result of test vFW CNF helm 
                 "global.onapPrivateNetworkName": "onap-private-net-test"
             }
         },
-        "ready": false,
+        "ready": true,
         "resourceCount": 1,
         "resourcesStatus": [
             {
@@ -1809,26 +1861,137 @@ Examplary output of Status API is shown below (full result of test vFW CNF helm 
         ]
     }
 
-.. note:: The example of how the Stauts API could be integrated into CDS can be found in the Frankfurt version of k8s profile upload mechanism `Frankfurt CBA Definition`_ (*profile-upload* TOSCA node template), implemented in inside of the Kotlin script `Frankfurt CBA Script`_ for profile upload. This method shows how to integrate mutlicloud-k8s API endpoint into Kotlin script executed by CDS. For more details please take a look into Definition file of 1.0.45 version of the CBA and also the kotlin script used there for uploading the profile. 
+**<AUTOMATED>**
+
+Since Honolulu release vFW CNF Use Case is equipped with dedicated mechanisms for verification of the CNF status automatically, during the instantiation. The process utilizes the k8sPlugin Status and Healtcheck APIs that both are natively exposed in the CDS and can be executed from the script execution functionality in the CDS. 
+
+.. figure:: files/vFW_CNF_CDS/healthcheck.png
+   :scale: 60 %
+   :align: center
+
+   vFW CNF Healthcheck flow concept
+
+There is exposed a dedicated workflow in CBA, where Status API result verification is run with *status-verification-script* step and execution of the healthcheck job is run with *health-check-process*. The first one verifies if all pods have *Running* state. If yes, then verification of the health is started by execution of the dedicated Helm tests which are a jobs that verify connectivity in each component.
+
+::
+
+    "health-check": {
+        "steps": {
+            "config-setup": {
+                "description": "Gather necessary input for config init and status verification",
+                "target": "config-setup-process",
+                "activities": [
+                    {
+                        "call_operation": "ResourceResolutionComponent.process"
+                    }
+                ],
+                "on_success": [
+                    "config-apply"
+                ],
+                "on_failure": [
+                    "handle_error"
+                ]
+            },
+            "status-verification-script": {
+                "description": "Simple status verification script",
+                "target": "simple-status-check",
+                "activities": [
+                    {
+                        "call_operation": "ComponentScriptExecutor.process"
+                    }
+                ],
+                "on_success": [
+                    "health-check-process"
+                ],
+                "on_failure": [
+                    "handle_error"
+                ]
+            },
+            "health-check-process": {
+                "description": "Start health check script",
+                "target": "health-check-script",
+                "activities": [
+                    {
+                        "call_operation": "ComponentScriptExecutor.process"
+                    }
+                ],
+                "on_success": [
+                    "collect-results"
+                ],
+                "on_failure": [
+                    "handle_error"
+                ]
+            },
+            "handle_error": {
+                "description": "Simple error verification script",
+                "target": "simple-error-check",
+                "activities": [
+                    {
+                        "call_operation": "ComponentScriptExecutor.process"
+                    }
+                ],
+                "on_success": [
+                    "collect-results"
+                ]
+            },
+            "collect-results": {
+                "description": "Final collection of results",
+                "target": "collect-results"
+            }
+        },
+
+
+Since Istanbul release, SO is equipped with dedicated workflow for verification of the CNF status. It works similarly to the workflow introduced in Honolulu, however basic CNF Status Verification step utilizes "Ready" flag of the StatusAPI response to check if k8s resources created from Helm package are up and running. Ready flag works properly in k8splugin 0.9.1 or higher. Both operations are performed by ControllerExecutionBB in SO and are realized by cnf-adapter component in SO. This workflow can be triggered by dedicated endpoint documented here: `CNF Health Check`_. This workflow is not yet integrated into automation scripts.
+
+3-6 Synchronization of created k8s resources into AAI
+.....................................................
+
+Since Istanbul release `AAI v24 schema`_ version is used to store basic information about k8s resources deployed from each helm package. The AAI change is described in `K8s Resource in AAI`_. The information stored in AAI lets to identify all the deployed k8s resoureces but the details about them have to be fetched from the k8s cluster on demand. Such design is motivated by high frequency of k8s resource status change and the plethora of resource types avaialble in k8s - including the CRDs that extend the predefined resource typs available in k8s. In consequence, there was no sense to store in AAI full runtime picture of the k8s resources as the synchronization of them would be impossible.
+
+K8s-Resource object is stored in the cloud-infrastructure set of AAI APIs and it belongs to the tenant, and is related with both generic-vnf and vf-module. Each k8s-resource object created in AAI has selflink for cnf-adapter Query API, described in `3-5 Verification of the CNF Status`_, that allows to fetch actual information about the resource in k8s. The examplary set of k8s-resources with related generic-vnf and vf-modules for vFW CNF use case is in the files attached below.
+
+  :download:`List of K8s Resources <files/vFW_CNF_CDS/k8s-resources-response.json>`
+
+  :download:`Generic VNF with modules <files/vFW_CNF_CDS/status-response.json>`
+
+  :download:`vPKG VF-Module with related k8s-resource relations <files/vFW_CNF_CDS/vpkg-vf-module-aai.json>`
+
+Currently AAI synchronization is run just after creation  of the vf-module by SO. If any changes occurs after, like new Pods created or some deleted, we do not have this information in AAI by default. In order to force the update of AAI information about the concrete Helm package, the following API can be used with properly modified body (all except the callbackUrl).
+
+::
+
+    curl -i -X POST http://${K8S_NODE_IP}:8090/api/cnf-adapter/v1/aai-update
+
+
+::
+
+    {
+        "instanceId": "keen_darwin",
+        "cloudRegion": "kud",
+        "cloudOwner": "K8sCloudOwner",
+        "tenantId": "dca807fa-0d3e-4fb1-85eb-b9e1c03108a3",
+        "callbackUrl": "http://example",
+        "genericVnfId": "8b3af2e0-fd66-460d-b928-22f5dac517a6",
+        "vfModuleId": "a0161551-9d13-47c2-ba4f-896d4ee401d4"
+    }
+
 
 PART 4 - Future improvements needed
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Future development areas for this use case:
 
-- Automated smoke use case.
-- Include Closed Loop part of the vFW demo.
-- vFW service with Openstack VNF and Kubernetes CNF
-- On-demand healthcheck workflow of vFW
+- Include Closed Loop part of the vFW CNF demo.
+- vFW service with Openstack VNF (KUD) and Kubernetes CNF
 
 Future development areas for CNF support:
 
-- Validation of Helm package and extraction of override values in time of the package onboarding.
-- Synchroinzation of information about CNF between AAI and K8s.
-- Coordination of the vFW Helm charts instantiation performed by cnf-adapter of SO
-- Use multicloud/k8S API v2.
+- Extraction of override values in time of the package onboarding.
+- Update of the information in AAI after creation
+- Upgrade of the vFW CNF similar to Helm Upgrade through the SDC and SO
+- Use multicloud/k8S API v2 (EMCO)
 
-Many features from the list above are covered by the Honolulu roadmap described in `REQ-627`_. 
+Some of the features from the list above are covered by the Jakarta roadmap described in `REQ-890`_. 
 
 
 .. _ONAP Deployment Guide: https://docs.onap.org/projects/onap-oom/en/guilin/oom_quickstart_guide.html
@@ -1842,10 +2005,11 @@ Many features from the list above are covered by the Honolulu roadmap described 
 .. _vFW_NextGen: https://git.onap.org/demo/tree/heat/vFW_NextGen?h=elalto
 .. _vFW EDGEX K8S: https://docs.onap.org/en/elalto/submodules/integration.git/docs/docs_vfw_edgex_k8s.html
 .. _vFW EDGEX K8S In ONAP Wiki: https://wiki.onap.org/display/DW/Deploying+vFw+and+EdgeXFoundry+Services+on+Kubernets+Cluster+with+ONAP
-.. _KUD github: https://github.com/onap/multicloud-k8s/tree/master/kud/hosting_providers/baremetal
+.. _KUD github: https://github.com/onap/multicloud-k8s/tree/honolulu/kud/hosting_providers/baremetal
 .. _KUD in Wiki: https://wiki.onap.org/display/DW/Kubernetes+Baremetal+deployment+setup+instructions
 .. _Multicloud k8s gerrit: https://gerrit.onap.org/r/q/status:open+project:+multicloud/k8s
-.. _KUD subproject in github: https://github.com/onap/multicloud-k8s/tree/master/kud
+.. _KUD subproject in github: https://github.com/onap/multicloud-k8s/tree/honolulu/kud
+.. _KUD Interface Permission: https://jira.onap.org/browse/MULTICLOUD-1310
 .. _Frankfurt CBA Definition: https://git.onap.org/demo/tree/heat/vFW_CNF_CDS/templates/cba/Definitions/vFW_CNF_CDS.json?h=frankfurt
 .. _Frankfurt CBA Script: https://git.onap.org/demo/tree/heat/vFW_CNF_CDS/templates/cba/Scripts/kotlin/KotlinK8sProfileUpload.kt?h=frankfurt
 .. _SO-3403: https://jira.onap.org/browse/SO-3403
@@ -1854,11 +2018,15 @@ Many features from the list above are covered by the Honolulu roadmap described 
 .. _REQ-341: https://jira.onap.org/browse/REQ-341
 .. _REQ-458: https://jira.onap.org/browse/REQ-458
 .. _REQ-627: https://jira.onap.org/browse/REQ-627
+.. _REQ-890: https://jira.onap.org/browse/REQ-890
 .. _Python SDK: https://docs.onap.org/projects/onap-integration/en/guilin/integration-tooling.html?highlight=python-sdk#python-onapsdk
 .. _KUD Jenkins ci/cd verification: https://jenkins.onap.org/job/multicloud-k8s-master-kud-deployment-verify-shell/
 .. _K8s cloud site config: https://docs.onap.org/en/guilin/guides/onap-operator/cloud_site/k8s/index.html
 .. _SO Monitoring: https://docs.onap.org/projects/onap-so/en/guilin/developer_info/Working_with_so_monitoring.html
 .. _Data Dictionary: https://git.onap.org/demo/tree/heat/vFW_CNF_CDS/templates/cba-dd.json?h=guilin
 .. _Helm Healer: https://git.onap.org/oom/offline-installer/tree/tools/helm-healer.sh?h=frankfurt
-.. _CDS UAT Testing: https://wiki.onap.org/display/DW/Modeling+Concepts
 .. _infra_workload: https://docs.onap.org/projects/onap-multicloud-framework/en/latest/specs/multicloud_infra_workload.html?highlight=multicloud
+.. _K8s Client Compatibility: https://github.com/kubernetes/client-go
+.. _CNF Health Check: https://docs.onap.org/projects/onap-so/en/latest/api/apis/serviceInstances-api.html#healthcheck
+.. _K8s Resource in AAI: https://jira.onap.org/browse/ONAPMODEL-37
+.. _AAI v24 schema: https://nexus.onap.org/service/local/repositories/releases/archive/org/onap/aai/schema-service/aai-schema/1.9.2/aai-schema-1.9.2.jar/!/onap/aai_swagger_html/aai_swagger_v24.html
