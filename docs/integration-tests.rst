@@ -71,7 +71,7 @@ All the pages and artifacts are pushed to LF backend:
 
 - Daily chains: https://logs.onap.org/onap-integration/daily
 - Weekly chains: https://logs.onap.org/onap-integration/weekly
-- Gating chains: https://logs.onap.org/onap-integration/gating
+- Gating chains: the result link is indicated in gerrit 
 
 A video has been recorded to help launching some of the automated tests on ONAP Guilin.
 See `Running ONAP tests in Guilin Video <https://www.youtube.com/watch?v=ABvuJfyGDmw>`_
