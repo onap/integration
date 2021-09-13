@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3010d058_fbc308fa",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-09-13T06:37:28Z",
+      "side": 1,
+      "message": "suggestion\nThe Istanbul release introduces a new functionality for the CCVPN use-case:  Cloud Lease Line (CLL) service support. The following....",
+      "revId": "e12bda3bb93df0be5de0c86cdbe5c4fc05a83fb6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70095682_eee46a9e",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-09-13T06:37:28Z",
+      "side": 1,
+      "message": "for deleting an E-Tree service \nor \nfor the deletion of an E-Tree service",
+      "revId": "e12bda3bb93df0be5de0c86cdbe5c4fc05a83fb6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28655ce4_213f0f73",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-09-13T06:37:28Z",
+      "side": 1,
+      "message": "suggestion\nThe impacted ONAP modules are SO SDNC and A\u0026AI.",
+      "revId": "e12bda3bb93df0be5de0c86cdbe5c4fc05a83fb6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78081552_5147b29c",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-09-13T06:37:28Z",
+      "side": 1,
+      "message": "maybe precise the DG\nI wonder if SDNC maintain the list of DG provided with ONAP but it would make sense..",
+      "revId": "e12bda3bb93df0be5de0c86cdbe5c4fc05a83fb6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a5a4139_075a1dda",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-09-13T06:37:28Z",
+      "side": 1,
+      "message": "interfacing with",
+      "revId": "e12bda3bb93df0be5de0c86cdbe5c4fc05a83fb6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e14dab63_07e48765",
+        "filename": "docs/docs_CCVPN.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-09-13T06:37:28Z",
+      "side": 1,
+      "message": "would it be possible to add the procedure to run such tests\nwould it make sense to add them in CI as part of a CCVPN regression test?",
+      "revId": "e12bda3bb93df0be5de0c86cdbe5c4fc05a83fb6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
