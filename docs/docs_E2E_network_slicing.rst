@@ -52,8 +52,54 @@ updates to the relevant standards which are also currently evolving.
 This use case shall also collaborate with SDOs such as
 O-RAN and ETSI to enable wider adoption and use.
 
-See the `Use Case Description and Blueprint wiki page <https://wiki.onap.org/display/DW/Use+Case+Description+and+Blueprint>`_
+Architecture Choice
+-------------------
+3GPP(TS 28.801) defines three layer slice management functions which include:
 
+CSMF(Communication Service Management Function):
+
+• Responsible for translating the communication service related requirement to network slice related requirements.
+
+• Communicate with Network Slice Management Function (NSMF).
+
+NSMF(Network Slice Management Function):
+
+• Responsible for management and orchestration of NSI.
+• Derive network slice subnet related requirements from network slice related requirements.
+• Communicate with the Network Slice Subnet Management Function (NSSMF) and Communication Service Management Function.
+
+NSSMF(Network Slice Subnet Management Function):
+
+• Responsible for management and orchestration of NSSI.
+• Communicate with the NSMF.
+
+To realize the three layers of the slice management function, we need to decide whether to implement CSMF, NSMF or NSMF within ONAP, or use the external CSMF, NSMF or NSSMF. This implies that for ONAP-based network slice management, we have different choices from an architectural perspective:
+
+1) Implement CSMF, NSMF, NSSMF all within ONAP;
+
+2) Connect an external CSMF from the Northbound, Implement NSMF and NSSMF within ONAP;
+
+3) Connect an external CSMF from the Northbound, Implement NSMF within ONAP, Connect a 3rd party NSSMF from the Southbound;
+
+4) Implement CSMF, NSMF within ONAP, Connect a 3rd party NSSMF from then Southbound.
+
+5) Use external CSMF and NSMF, only implement NSSMF within ONAP.
+
+External Interfaces
+-------------------
+The guiding principle is when a Slice Management function is outside ONAP, standard interfaces/APIs (3GPP, IETF, ETSI, TM Forum, etc.) can be supported by default, while any customization of such interfaces shall also be supported by ONAP using suitable plug-ins/adaptors. This would enable easier interoperability of slice management functions realized within ONAP with 3rd party slice management functions, as well as northbound and southbound systems.
+
+Another key point would be that  both internal and external interface mechanisms should be supported by the corresponding ONAP modules. To be more specific, communication between Slice Management Functions within ONAP (e.g., CSMF and NSMF) shall use ONAP internal mechanisms such as workflow calls, DMaaPmessages, etc. or standard APIs as appropriate. For example, SO acting as NSMF should support API call directly from CSMF in ONAP, as well as API trigger from an external CSMF via EXT-API.
+
+Network Slice Instance (NSI) Life Cycle View
+--------------------------------------------
+3GPP Specification (3GPP TS 28.530) describes management aspects of a Network Slice Instance, which can be described by the four phases:
+
+Preparation: The preparation phase includes network slice design, network slice capacity planning, on-boarding and evaluation of the network functions, preparing the network environment and other necessary preparations required to be done before the creation of an NSI
+Commisioning: NSI provisioning in the commissioning phase includes creation of the NSI. During NSI creation all needed resources are allocated and configured to satisfy the network slice requirements. The creation of an NSI can include creation and/or modification of the NSI constituents
+Operation:The Operation phase includes the activation, supervision, performance reporting (e.g. for KPI monitoring), resource capacity planning, modification,and de-activation of an NSI.
+Decommissioning: Network slice instance provisioning in the decommissioning phase includes decommissioning of non-shared constituents if required and removing the NSI specific configuration from the shared constituents. After the decommissioning phase, the NSI is terminated and does not exist anymore.
+The ONAP-based NSI lifecycle management will finally provide the demonstration of all these phases.
 
 Abbreviations
 -------------
@@ -285,3 +331,75 @@ Further details of these test cases can be found in REQ jiras for integration te
 use case wiki. This means that the functionality associated with these test cases may require updated versions
 of the relevant components - the User Operation Guide will also be updated with details of any bug fixes
 beyond Honolulu as the testing is anyhow continuing as part of Istanbul release.
+
+Istanbul release updates
+------------------------
+Below aspects are covered in Istanbul release:
+
+1. **CPS-TBDMT Enhancements** - This service shall be used to map the erstwhile Config-DB-like REST APIs to appropriate CPS API calls. The purpose of this service is to abstract the details of (possibly multiple, and complex) XPath queries from the users of CPS. It enables CPS-users to continue using simple REST API calls that are intuitive and easy-to-understand and implement. The mapping to appropriate queries to CPS (including mapping of one API call to many Xpath queries) shall be done in a generic way by the CPS-TBDMT service.
+
+In Istanbul release, the following are the main enhancements:
+-	Support edit query ie. post, put and patch requests to CPS.
+-   Support Output Transformation
+	(a) Extract desired output from the data returned from CPS.
+	(b) If 'transformParam' is not defined in the template no transformation takes place.      
+-	Support Multiple query
+	(a) Make multiple queries to CPS in single request.
+	(b) If 'multipleQueryTemplateId' is mentioned in the template, it will execute this template first  and insert the result to the current template to make multiple queries to CPS.
+-	Support Delete data requests to CPS
+    (a) Process delete request type.
+-	Support dynamic anchor
+    (a)Accept anchors at run time and execute query.
+
+2. **CPS Integration**
+-   Config DB is replaced with the CPS component to read, write, update and delete the RAN Slice details. CPS APIs are accessed via CPS-TBDMT component. CPS integration with DCAE - Slice Analysis MS and OOF are completed. SDN-R integration with CPS is completed for the shared RAN Slice flow, activateRANslice and terminateRANSlice implementations are in progress.
+-   A new SDN-C karaf feature is introduced to register the cm-handle (anchor) with CPS. The integration with CPS-DMI plugin will be done in Jakarta release.
+
+3. **NSMF based TN Slices** - Support for interacting with TN NSSMF directly from NSMF for front haul and mid haul slice subnets. There will be separate SDC template for this scenario. NST will have 5 NSSTs - CN NSST, AN NSST, TN FH NSST, TN MH NSST, TN BH NSST.
+
+4. **KPI Monitoring** - Implementation is done in KPI Computation MS to configure the required KPIs and the KPI computaion formula based on policies.
+
+5. **Closed Loop** - Closed Loop updates are sent over A1 interface to NearRT-RIC. This is done at the POC level. This will be further enhanced in Jakarta release to make use of the A1-Policy Management Service in CCSDK.
+
+6. **Intelligent Slicing** - End to end intelligent slicing - closed loop flow is tested with the initial version of Machine Learning MS.
+
+7. **Carry-over Testing from Honolulu Release** 
+-   RAN NSSMF Testing
+    (a) Testing completed for the allocation, modification, activation and deactivation of the RAN slice to support option 1
+    (b) Integration Testing of AN NSSMF with SDNR interactions for allocate and modify flow is completed
+-   E2E Testing
+    (a) Service instantiation for non-shared and shared scenario and fixes to support option1 are done
+    (b) NSI selection process support for shared NSI is tested
+
+Impacted Modules for Istanbul Release
+-------------------------------------
+- **SO**: 
+    (a) Option1 Support (CSMF, NSMF and NSSMFs are within ONAP & TN-FH, TN-MH are created by RAN NSSMF)
+        1. Bug fixes
+        2. Slice Profile alignement with NSSMF
+    (b)  NSMF based TN Slices (TN-FH, TN-MH are created by NSMF)   - Work flow changes to support this approach
+        
+- **OOF**
+    (a) Integration with CPS for coverage area to coverage area TA list
+    (b) Bug fixes in NxI termination
+
+- **DCAE**
+    (a) Minor changes in Slice Analysis MS to support CPS integration
+    (b) KPI Computation MS in enhanced to support policy based KPIs and formula
+
+- **SDN-R** 
+    (a) Bug fixes in instantiateRANSliceAllocate, instantiateRANSliceAllocateModify, activateRANSlice, terminateRANSlice Directed Graphs
+    (b) CPS integration for the instantiateRANSliceAllocateModify, activateRANSlice, terminateRANSlice Directed Graphs
+    (c) A new karaf feature is introduced to register the cm-handle with CPS
+
+- **CPS-TBDMT** - This component is enhanced to support different type of queries based on templates
+    
+- **CPS** - Bug fixes and support for GET, POST, PATCH and DELETE type of queries. 
+
+**Test cases**
+
+Integration testing to test the CPS integration, closed loop and intelligent slicing are listed in ONAP wiki `Integration Testing in Instanbul Release <https://wiki.onap.org/display/DW/R9+Integration+Testing>`_
+
+**Operation Guidance** - To be updated
+
+**Known issues and Solutions** - To be updated
