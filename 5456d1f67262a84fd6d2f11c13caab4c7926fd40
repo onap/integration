@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e1e14635_49a0a2f7",
+        "filename": "docs/docs_E2E_network_slicing.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2021-09-20T10:07:53Z",
+      "side": 1,
+      "message": "nit: too much spaces",
+      "range": {
+        "startLine": 92,
+        "startChar": 32,
+        "endLine": 92,
+        "endChar": 33
+      },
+      "revId": "5456d1f67262a84fd6d2f11c13caab4c7926fd40",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b5a4637_dace1ebe",
+        "filename": "docs/docs_E2E_network_slicing.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2021-09-20T10:07:53Z",
+      "side": 1,
+      "message": "it\u0027s not correctly displayed (no bullet point)",
+      "range": {
+        "startLine": 342,
+        "startChar": 0,
+        "endLine": 342,
+        "endChar": 61
+      },
+      "revId": "5456d1f67262a84fd6d2f11c13caab4c7926fd40",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67f1b882_4d6dbfee",
+        "filename": "docs/docs_E2E_network_slicing.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2021-09-20T10:07:53Z",
+      "side": 1,
+      "message": "that\u0027s also in the same line as previously point",
+      "range": {
+        "startLine": 343,
+        "startChar": 0,
+        "endLine": 343,
+        "endChar": 33
+      },
+      "revId": "5456d1f67262a84fd6d2f11c13caab4c7926fd40",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "081826c6_eabf1f11",
+        "filename": "docs/docs_E2E_network_slicing.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2021-09-20T10:07:53Z",
+      "side": 1,
+      "message": "I believe the space after that is missing",
+      "range": {
+        "startLine": 352,
+        "startChar": 4,
+        "endLine": 352,
+        "endChar": 7
+      },
+      "revId": "5456d1f67262a84fd6d2f11c13caab4c7926fd40",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fe2fab0_b13bc81f",
+        "filename": "docs/docs_E2E_network_slicing.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2021-09-20T10:07:53Z",
+      "side": 1,
+      "message": "these two are not displayed as list - was that an intention?",
+      "range": {
+        "startLine": 355,
+        "startChar": 0,
+        "endLine": 355,
+        "endChar": 1
+      },
+      "revId": "5456d1f67262a84fd6d2f11c13caab4c7926fd40",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "621e1dbe_e24631c0",
+        "filename": "docs/docs_E2E_network_slicing.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2021-09-20T10:07:53Z",
+      "side": 1,
+      "message": "it\u0027s on the same line as the line above",
+      "range": {
+        "startLine": 367,
+        "startChar": 0,
+        "endLine": 367,
+        "endChar": 21
+      },
+      "revId": "5456d1f67262a84fd6d2f11c13caab4c7926fd40",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
