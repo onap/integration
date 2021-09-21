@@ -89,7 +89,7 @@ External Interfaces
 -------------------
 The guiding principle is when a Slice Management function is outside ONAP, standard interfaces/APIs (3GPP, IETF, ETSI, TM Forum, etc.) can be supported by default, while any customization of such interfaces shall also be supported by ONAP using suitable plug-ins/adaptors. This would enable easier interoperability of slice management functions realized within ONAP with 3rd party slice management functions, as well as northbound and southbound systems.
 
-Another key point would be that  both internal and external interface mechanisms should be supported by the corresponding ONAP modules. To be more specific, communication between Slice Management Functions within ONAP (e.g., CSMF and NSMF) shall use ONAP internal mechanisms such as workflow calls, DMaaPmessages, etc. or standard APIs as appropriate. For example, SO acting as NSMF should support API call directly from CSMF in ONAP, as well as API trigger from an external CSMF via EXT-API.
+Another key point would be that both internal and external interface mechanisms should be supported by the corresponding ONAP modules. To be more specific, communication between Slice Management Functions within ONAP (e.g., CSMF and NSMF) shall use ONAP internal mechanisms such as workflow calls, DMaaPmessages, etc. or standard APIs as appropriate. For example, SO acting as NSMF should support API call directly from CSMF in ONAP, as well as API trigger from an external CSMF via EXT-API.
 
 Network Slice Instance (NSI) Life Cycle View
 --------------------------------------------
@@ -226,7 +226,7 @@ In Honolulu release, the following aspects were realized:
   Continuing with integration tests deferred in Guilin release, and associated bug-fixing
 
 Important Remarks
-~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~
 (a) 2 deployment scenarios for RAN NSSI are supported. In the first scenario, the RAN NSSI comprises also of
     TN Fronthaul (FH) and TN Midhaul (FH) NSSIs, and RAN NSSMF shall trigger TN NSSMF for TN FH and MH NSSI
     related actions. In the second scenario, the RAN NSSI comprises only of RAN NFs. TN NSSMF shall be triggered by
@@ -314,18 +314,16 @@ sub-pages:
 
 
 Known Issues and Resolutions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Details of manual configurations, work-arounds and known issues will be documented in the child wiki pages of:
 `User Operation Guide for Honolulu release <https://wiki.onap.org/display/DW/User+Operation+Guide+for+Honolulu+release>`_
 
 The foll. integration tests are carried over to Istanbul release: see `REQ-721 <https://jira.onap.org/browse/REQ-721>`_
 - NSMF: Option 2 testing, remaining regression testing and service termination testing for NSMF
-- RAN NSSMF: RAN NSSI termination, interactions with TN NSSMF for FH/BH NSSI reuse and some minor aspects
-  related to SDN-R <-> RAN interaction
+- RAN NSSMF: RAN NSSI termination, interactions with TN NSSMF for FH/BH NSSI reuse and some minor aspects related to SDN-R <-> RAN interaction
 - TN NSSMF: Checking some minor aspects in SO for modifying TN NSSI.
 - Core NSSMF: Modifying and deallocating a Core NSSI, reusing an existing Core NSSI
-- KPI Computation, Closed Loop & Intelligent Slicing: Some minor aspects on SDN-R <-> RAN-Sim interface
-  needs to be addressed.
+- KPI Computation, Closed Loop & Intelligent Slicing: Some minor aspects on SDN-R <-> RAN-Sim interface needs to be addressed.
 
 Further details of these test cases can be found in REQ jiras for integration testing for Honolulu, and in the
 use case wiki. This means that the functionality associated with these test cases may require updated versions
@@ -336,24 +334,27 @@ Istanbul release updates
 ------------------------
 Below aspects are covered in Istanbul release:
 
-1. **CPS-TBDMT Enhancements** - This service shall be used to map the erstwhile Config-DB-like REST APIs to appropriate CPS API calls. The purpose of this service is to abstract the details of (possibly multiple, and complex) XPath queries from the users of CPS. It enables CPS-users to continue using simple REST API calls that are intuitive and easy-to-understand and implement. The mapping to appropriate queries to CPS (including mapping of one API call to many Xpath queries) shall be done in a generic way by the CPS-TBDMT service.
+1. **CPS-TBDMT Enhancements** - This service shall be used to map the erstwhile Config-DB-like REST APIs to appropriate CPS API calls. The purpose of this service is to abstract the details of (possibly multiple, and complex) XPath queries from the users of CPS. It enables CPS-users to continue using simple REST API calls that are intuitive and easy-to-understand and implement. The mapping to appropriate queries to CPS (including mapping of one API call to many Xpath queries) shall be done in a generic way by the CPS-TBDMT service. In Istanbul release, following are the main enhancements done:
 
-In Istanbul release, the following are the main enhancements:
--	Support edit query ie. post, put and patch requests to CPS.
--   Support Output Transformation
-	(a) Extract desired output from the data returned from CPS.
-	(b) If 'transformParam' is not defined in the template no transformation takes place.      
--	Support Multiple query
-	(a) Make multiple queries to CPS in single request.
-	(b) If 'multipleQueryTemplateId' is mentioned in the template, it will execute this template first  and insert the result to the current template to make multiple queries to CPS.
--	Support Delete data requests to CPS
-    (a) Process delete request type.
--	Support dynamic anchor
-    (a)Accept anchors at run time and execute query.
+    - Support edit query ie. post, put and patch requests to CPS
+
+    - Support Output Transformation
+
+      (a) Extract desired output from the data returned from CPS.
+      (b) If 'transformParam' is not defined in the template no transformation takes place.      
+    - Support Multiple query
+
+      (a) Make multiple queries to CPS in single request.
+      (b) If 'multipleQueryTemplateId' is mentioned in the template, it will execute this template first  and insert the result to the current template to make multiple queries to CPS.
+    - Support Delete data requests to CPS
+
+      (a) Process delete request type.
+    - Support for dynamic anchor - Accept anchors at run time and execute query
 
 2. **CPS Integration**
--   Config DB is replaced with the CPS component to read, write, update and delete the RAN Slice details. CPS APIs are accessed via CPS-TBDMT component. CPS integration with DCAE - Slice Analysis MS and OOF are completed. SDN-R integration with CPS is completed for the shared RAN Slice flow, activateRANslice and terminateRANSlice implementations are in progress.
--   A new SDN-C karaf feature is introduced to register the cm-handle (anchor) with CPS. The integration with CPS-DMI plugin will be done in Jakarta release.
+
+    - Config DB is replaced with the CPS component to read, write, update and delete the RAN Slice details. CPS APIs are accessed via CPS-TBDMT component. CPS integration with DCAE - Slice Analysis MS and OOF are completed. SDN-R integration with CPS is completed for the shared RAN Slice flow, activateRANslice and terminateRANSlice implementations are in progress.
+    - A new SDN-C karaf feature is introduced to register the cm-handle (anchor) with CPS. The integration with CPS-DMI plugin will be done in Jakarta release.
 
 3. **NSMF based TN Slices** - Support for interacting with TN NSSMF directly from NSMF for front haul and mid haul slice subnets. There will be separate SDC template for this scenario. NST will have 5 NSSTs - CN NSST, AN NSST, TN FH NSST, TN MH NSST, TN BH NSST.
 
@@ -363,22 +364,32 @@ In Istanbul release, the following are the main enhancements:
 
 6. **Intelligent Slicing** - End to end intelligent slicing - closed loop flow is tested with the initial version of Machine Learning MS.
 
-7. **Carry-over Testing from Honolulu Release** 
--   RAN NSSMF Testing
-    (a) Testing completed for the allocation, modification, activation and deactivation of the RAN slice to support option 1
-    (b) Integration Testing of AN NSSMF with SDNR interactions for allocate and modify flow is completed
--   E2E Testing
-    (a) Service instantiation for non-shared and shared scenario and fixes to support option1 are done
-    (b) NSI selection process support for shared NSI is tested
+7. **Carry-over Testing from Honolulu Release**
 
+    - RAN NSSMF Testing
+
+      (a) Testing completed for the allocation, modification, activation and deactivation of the RAN slice to support option1
+      (b) Integration Testing of AN NSSMF with SDNR interactions for allocate and modify flow is completed
+    - E2E Testing
+
+      (a) Service instantiation for non-shared and shared scenario and fixes to support option 1 are done
+      (b) NSI selection process support for shared NSI is tested
+ 
 Impacted Modules for Istanbul Release
 -------------------------------------
 - **SO**: 
-    (a) Option1 Support (CSMF, NSMF and NSSMFs are within ONAP & TN-FH, TN-MH are created by RAN NSSMF)
-        1. Bug fixes
-        2. Slice Profile alignement with NSSMF
-    (b)  NSMF based TN Slices (TN-FH, TN-MH are created by NSMF)   - Work flow changes to support this approach
-        
+
+  (a) Support of NSI termination by enhancing the interaction with OOF, AAI and UUI
+  (b) RAN NSSI Termination support with OOF & SDN-R interactions
+  (c) Bug fixes in Option 1 (CSMF, NSMF and NSSMFs are within ONAP & TN-FH, TN-MH are created by RAN NSSMF)
+  
+    - **CSMF**: Fixed sNSSAI format and updated authentication for NSMF invocation
+    - **NSMF**: Fixes in NSI termination issues to support OOF interaction for NSI termination query and added subnet Type support for respective TN Domain
+    - **AN NSSMF**: Fixes for different termination scenarios in Option 1
+    - **CN NSSMF**: Bug fixes in shared allocate flow, modify flow and terminate flow
+    - Slice Profile alignement with NSSMF
+  (d) NSMF based TN Slices (TN-FH, TN-MH are created by NSMF) - Work flow changes to support this approach
+  
 - **OOF**
     (a) Integration with CPS for coverage area to coverage area TA list
     (b) Bug fixes in NxI termination
