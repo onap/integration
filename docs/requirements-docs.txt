@@ -1,8 +1,6 @@
-tox
 Sphinx
 doc8
 docutils
-setuptools
 six
 sphinx_rtd_theme>=0.4.3
 sphinxcontrib-blockdiag
