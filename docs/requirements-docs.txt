@@ -4,10 +4,12 @@ docutils
 six
 sphinx_rtd_theme
 sphinxcontrib-blockdiag  # BSD
-sphinxcontrib-needs
+sphinxcontrib-needs<=0.5.6
 sphinxcontrib-nwdiag  # BSD
 sphinxcontrib-seqdiag # BSD
 sphinxcontrib-swaggerdoc
 sphinxcontrib-plantuml
 sphinx_bootstrap_theme
 lfdocs-conf
+# remove this once lfdocs-conf is fixed
+funcparserlib>=1.0.0a0
