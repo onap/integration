@@ -31,3 +31,4 @@ csit/
 *.csar
 benchmark/
 .tox/
+build/
