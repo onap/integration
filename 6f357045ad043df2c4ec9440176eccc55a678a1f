@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "390c812b_a2f6394d",
+        "filename": "docs/tox.ini",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2021-09-30T07:09:51Z",
+      "side": 1,
+      "message": "Do we really need all of those numerous deps? In offline-installer repo while fixing the same issue I just set up what is in requirements-docs.txt and git.onap.org/doc/plain/etc/upper-constraints.os.txt and it\u0027s working fine. So much deps makes the verify process much longer.",
+      "revId": "6f357045ad043df2c4ec9440176eccc55a678a1f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
