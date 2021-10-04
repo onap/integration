@@ -1,10 +1,9 @@
 Repository;Description;Link
 testsuite;repository hosting the robot test suites;`link <https://git.onap.org/testsuite>`__
 testsuite/cds;Repository hosting (standalone) CDS test suites shared by Bell Canada team, not yet integrated in CI/CD;`link <https://git.onap.org/testsuite/cds>`__
-**testsuite/cds-mock-odl**;needed for cds regression tests;`link <https://git.onap.org/testsuite/cds-mock-odl>`__
-**testsuite/cds-mock-server**;needed for cds regression tests;`link <https://git.onap.org/testsuite/cds-mock-server>`__
-**testsuite/cds-mock-ssh**;needed for cds regression tests;`link <https://git.onap.org/testsuite/cds-mock-ssh>`__
-testsuite/heatbridge;python utils to manage the heatbridge function to enrich cloud information to AAI (deprecated);`link <https://git.onap.org/testsuite/heatbridge>`__
+testsuite/cds-mock-odl;needed for cds regression tests;`link <https://git.onap.org/testsuite/cds-mock-odl>`__
+testsuite/cds-mock-server;needed for cds regression tests;`link <https://git.onap.org/testsuite/cds-mock-server>`__
+testsuite/cds-mock-ssh;needed for cds regression tests;`link <https://git.onap.org/testsuite/cds-mock-ssh>`__
 testsuite/oom;Helm chart for robot pod (to be deprecated in Honolulu and moved back to OOM);`link <https://git.onap.org/testsuite/oom>`__
 testsuite/python-testing-utils;Python and robot util libraries used for robot tests;`link <https://git.onap.org/testsuite/python-testing-utils>`__
 testsuite/pythonsdk-tests;Repository hosting the test scenarios leveraging python-onapsdk for end to end smoke tests;`link <https://git.onap.org/testsuite/pythonsdk-tests>`__

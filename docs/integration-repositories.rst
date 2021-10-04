@@ -13,9 +13,9 @@ Most of the repositories are internal ONAP repositories.
 
 .. code-block:: bash
 
-   ├── csit
    ├── demo
    ├── integration
+   │   ├── csit
    │   ├── docker
    │   │   ├── onap-java11
    │   │   └── onap-python
@@ -25,37 +25,30 @@ Most of the repositories are internal ONAP repositories.
    │   ├── simulators
    │   │   ├──5G-core-nf-simulator
    │   │   ├──A1-policy-enforcement-simulator
-   │   │   ├──avcn-manager
    │   │   ├──core-nssmf-simulator
-   │   │   ├──dc-simulator
-   │   │   ├──masspnf-simulator
-   │   │   ├──netconf-server
    │   │   ├──nf-simulator
-   │   │   ├──pm-https-server
+   │   │   │  ├──avcn-manager
+   │   │   │  ├──netconf-server
+   │   │   │  ├──pm-https-server
+   │   │   │  └──ves-client
    │   │   ├──pnf-simulator
    │   │   ├──ran-nssmf-simulator
-   │   │   ├──ran-simulator
-   │   │   └── ves-client
-   │   ├── terraform
-   │   ├── terragrunt
+   │   │   └──ran-simulator
    │   ├── usecases
    │   │   ├── A1-policy-enforcement
    │   │   ├── A1-policy-enforcement-r-apps
-   │   │   ├── bbs
-   │   │   └── mdons
    │   └── xtesting
    ├── oparent
+   │   └── cia
    └── testsuite
       ├── cds
       ├── cds-mock-odl
       ├── cds-mock-server
       ├── cds-mock-ssh
-      ├── heatbridge
       ├── oom
-      ├── pythonsdk-tests
       ├── python-testing-utils
-      ├── robot-utils
-      └── testsuite
+      ├── pythonsdk-tests
+      └── robot-utils
 
 Please note that integration and teststuite are repositories and groups hosting
 several sub-repositories.
@@ -77,10 +70,6 @@ cases and the simulators.
 It shall help improving the maintenance of the different elements.
 It shall also help identifying, leveraging and adopting existing simulators
 rather than systematically re-inventing the wheel.
-
-.. attention::
-   The **new integration sub-repositories** introduced for Honolulu are
-   indicated in **bold**.
 
 .. csv-table:: Integration Repositories
     :file: ./files/csv/repo-integration.csv
@@ -106,9 +95,6 @@ this repository.
 
 Several tooling repositories are associated with the robot tests (heatbridge,
 robot-python-testing-utils).
-
-.. attention::
-   Honolulu new sub repositories are indicated in **bold**.
 
 .. csv-table:: Testsuite Repositories
     :file: ./files/csv/repo-testsuite.csv
