@@ -1,2 +1,3 @@
 Repository;Description;Link
 oparent;Java dependencies for JAVA projects;`link <https://git.onap.org/oparent>`__
+oparent/cia;Dockerfile optimization and best practices;`link <https://git.onap.org/oparent/cia>`__
