@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab23c816_60a5dd9e",
+        "filename": "docs/files/csv/repo-oparent.csv",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-10-04T09:29:23Z",
+      "side": 1,
+      "message": "I think oparent/cia was never really used",
+      "revId": "1c592a3ec14f0989607dbe2badc12685d6d6c3a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
