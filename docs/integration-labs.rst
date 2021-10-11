@@ -62,9 +62,7 @@ Orange Openlab
 --------------
 
 This lab is for community use. It is always provided with the last stable version,
-i.e. Guilin release during Honolulu development time.
-Please note that such labs do not provide admin rights and is shared with all
-the users. It can be used to discover ONAP.
+i.e. Honolulu release during Istanbul development time.
 
 See `Orange Openlab access procedure <https://wiki.onap.org/display/DW/Orange+OpenLab>`_
 for details.
@@ -72,7 +70,9 @@ for details.
 DT lab
 ------
 
-The DT lab reported Master daily results in addition of Guilin daily results.
+The DT lab reported Master daily results in addition of Istanbul daily results.
+Results are shared with the community in
+`<https://logs.onap.org/onap-integration/daily/onap-master-daily-dell/>`_
 
 Nokia lab
 ---------

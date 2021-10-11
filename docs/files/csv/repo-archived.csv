@@ -1,0 +1,10 @@
+Repository;Description;Link
+integration/benchmark;Benchmark project;`link <https://git.onap.org/integration/benchmark>`__
+integration/devtool;Devtool project;`link <https://git.onap.org/integration/devtool>`__
+integration/simulators/dc-simulator;Data Center simulator;`link <https://git.onap.org/integration/simulators/dc-simulator>`__
+integration/simulators/masspnf-simulator;Mass PNF Simulator;`link <https://git.onap.org/integration/simulators/masspnf-simulator>`__
+integration/terraform;Terraform based alternative infrastructure installation;`link <https://git.onap.org/integration/terraform>`__
+integration/terragrunt;Compagnon repository of terraform;`link <https://git.onap.org/integration/terragrunt>`__
+integration/usecases/bbs;BBS use case introduced in Dublin and extracted from global repository in frankfurt;`link <https://git.onap.org/integration/usecases/bbs>`__
+integration/usecases/mdons;MDONS use case introduced in Frankfurt;`link <https://git.onap.org/integration/usecases/mdons>`__
+testsuite/heatbridge;python utils to manage the heatbridge function to enrich cloud information to AAI (deprecated);`link <https://git.onap.org/testsuite/heatbridge>`__
