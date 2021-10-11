@@ -1,6 +1,0 @@
-Issue key;Issue id;Summary;Priority;Status;Created
-INT-1883;59237;Reccurent various errors in smoke tests;High;In progress;12/Mar/21
-INT-1880;59163;Xtesting - basic_vm - values from basic_vm-service.yaml not applied;Low;In progress;11/Mar/21
-INT-1873;58953;Race condition between  cmpv2 and Basic DCAE health check;Medium;In progress;24/Feb/21
-INT-1843;57940;Upload 5G-core-nf-simulator code;Medium;In progress;25/Jan/21
-INT-1828;57751;Update Transport simu documentation;Medium;In progress;11/Jan/21

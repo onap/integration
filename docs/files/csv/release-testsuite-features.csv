@@ -1,13 +1,10 @@
 Issue-ID;Description
-INT-1907;Close all browsers at healthcheck suite teardown
-TEST-329;[HEALTCHECK] Exclude appc healthcheck test from CI
-INT-1815;[ROBOT] Add new E2E test for 5G BulkPM usecase from HTTP server to ONAP gating
-HOLMES-416;Re-introduced Holmes Health Check Tasks
-DCAEGEN2-2660;Add DCAE Microservice Health Check
-INT-1855 DCAEGEN2-2548;[ROBOT] Add DCAEMOD usecase test to xtestnig image
-POLICY-3118;invalid controllerName in policies robot tests
-INT-1855;Update DCAE MOD smoke/verification test using simple app
-POLICY-2526;Updates to check for 202 response during Policy-PAP Deployment
-INT-1855;Add DCAE MOD smoke/verification test using simple app
-INT-1804;Fix CMPv2 test cases after pnf-simulator changes
-INT-1801;Extend 5g bulk pm test suite in order to have possibility to test custom PM FILES
+TEST-364;[TEST] Do not use VID API in pnf-registrate test
+TEST-365;[HEALTHCHECK] Remove VID from healthcheck
+DCAEGEN2-2718;Use configMap instead of Consul to configure hv-ves
+TEST-353;Cmpv2 robot testcase fails when using proxy
+MULTICLOUD-1362;[MULTICLOUD] Exclude  multicloud healthcheck tests
+OPTFRA-969;[OOF] Remove CMSO related test cases
+TEST-346;CMPv2 test case fails with error No keyword with name
+TEST-345;Refactor ves client and mongo db host name usage in CMPv2 test
+TEST-339;[POLICY] Increase Timeout for Enhanced Policy Healthcheck Test
