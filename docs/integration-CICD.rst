@@ -74,8 +74,9 @@ labs:
 - Daily Guilin: daily run using the last stable version during Honolulu Release
   processing
 - Daily Honolulu: daily run setup at RC0 (candidate dockers available for integration)
+- Daily Istanbul: daily run setup at RC0 (candidate dockers available for integration)
 - Weekly Master: run once a week with longer tests
-- Weekly Honolulu: run once a week with longer tests
+- Weekly Istanbul: run once a week with longer tests
 - Gating: run on OOM, clamp or SO patchset submission. It means a full ONAP
   deployment on demand based on new patchset declared in gerrit.
 
