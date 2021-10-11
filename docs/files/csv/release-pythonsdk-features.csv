@@ -1,27 +1,20 @@
 Issue-ID;Description
-INT-1894;[VMMACRO] Do not use multicloud when running basic_vm_macro
-INT-1819;[CLAMP] raise exception in case of Policy or DCAE errors
-INT-1842;Remove masspnfsimulator as a git submodule.
-TEST-316;Basic VM macro
-INT-1822;[CLAMP] Integrate basic_clamp
-TEST-315;[SDC] Add a timer before certifying
-INT-1822;Nodeport cleanup in basic_cds test
-INT-1819;Wait 15 minutes for orchestration requests
-INT-1822;Timeout on orchestration requests
-INT-1829;[PNF] Extend timer before sending request to simulator
-TEST-305;[SDC] Certify only when needed
-TEST-303;Remove pvc from pnf simulator helm chart
-TEST-302;Remove cert authent in basic_clamp
-TEST-299;[SDC] Add manifest to basic packages
-INT-1822;Add missing logger for Pnf Scenario
-TEST-288;Wrapper for simulators
-TEST-288;[TEST] Collect steps cleanup reports
-TEST-292;[INT] Catch all onaptests and onapsdk exceptions for scenarios
-TEST-280;Consider settings custom exceptions for reporting
-TEST-278;Python SDK 7.4.0 compatibility
-TEST-277;[TESTS] cleanup tests and remove reference to ubuntu16
-TEST-245;PNF simulator CNF instantiation and registation steps
-TEST-245;Add basic_pnf entry point
-INT-1796;[TESTCASE] fix basic_onboard scenario
-TEST-245;[PythonSDK-tests] Add basic_onboard testcase
-TEST-279;Fix steps time measurement
+TEST-364;[TEST] Do not use VID API in tests
+INT-1978;[BASIC_CLAMP] Adapt tca clamp plugin
+TEST-361;Update HEAT-file for ubuntu20 used for basic_vm_macro test
+TEST-357;[TEST] Get cleanup reports from substeps also if parent step has no cleanup report
+MULTICLOUD-1377;Change rb-definition-version identifier
+TEST-352;[TEST] Use the newest ONAP SDK version
+TEST-349;[TEST] Basic macro stability scenario
+TEST-347;[TEST] Check if cds blueprintsprocessor service type is 'NodePort'
+TEST-341;[TEST] Wait for instantiated simulator longer
+TEST-341;[TEST] Create "pnf-macro-test-simulator" resources
+TEST-341;[TEST] Use nf-simulator/vesclient
+TEST-315;[OPTIM] Tune SDC delay before certification
+INT-1894;[TEST] Patch ip values in pnf-simulator event
+TEST-333;[TEST] Do not try to recreate already created SDC resources
+TEST-338;[CLAMP] Fix Policy exception in basic_clamp
+TEST-337;[TEST] Catch ConnectionError exception during pnf simulator startup
+TEST-336;[TEST] Catch k8s connection exceptions
+TEST-334;[CLAMP] Update clamp to allow re-play of the test
+TEST-332;[EXCEPTIONS] Distinguish onaptests and onapsdk exception

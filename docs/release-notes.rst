@@ -3,7 +3,7 @@
 .. This work is licensed under a Creative Commons Attribution 4.0
    International License. http://creativecommons.org/licenses/by/4.0
 
-Integration Honolulu Release Notes
+Integration Istanbul Release Notes
 ==================================
 
 .. csv-table:: Integration Releases
@@ -14,24 +14,20 @@ Integration Honolulu Release Notes
 
 .. important::
 
-    - Creation of an Honolulu Daily CI/CD chain
-    - Creation of a dual stack IPv4/Ipv6 chain
-    - Creation of Java and Python baseline images for Honolulu
-    - Update of oparent (java dependencies)
+    - Creation of an Istanbul Daily CI/CD chain
+    - Creation of Java and Python baseline images for Istanbul
     - Update of Seccom waivers and version recommendations
-    - New security test (tern, internal port certificate verification)
-    - New automated smoke tests (basic_onboard, basic_cds, dcaemod, basic_clamp,
-      pnf_macro, basic_vm_macro)
-    - Update of existing automated tests (5gbulkpm, cmpv2, full)
-    - Heavy refactoring of CSIT
+    - Stability tests (basic_onboard, basic_vm)
+    - New tests (cps-healthcheck)
     - New repositories (see dedicated section)
     - Bug fixes
+    - ONAP tests library gating tests
 
     Quick Links:
 
-      - `Honolulu Integration page <https://wiki.onap.org/display/DW/Integration+H+Release>`_
-      - `Honolulu Integration JIRA follow-up <https://wiki.onap.org/display/DW/Honolulu+Integration+Blocking+Points>`_
-      - `Honolulu Integration weather Board <https://wiki.onap.org/display/DW/0%3A+Integration+Weather+Board+for+Honolulu+Release>`_
+      - `Istanbul Integration page <https://wiki.onap.org/display/DW/Integration+Istanbul>`_
+      - `Istanbul Integration JIRA follow-up <https://wiki.onap.org/display/DW/Istanbul+Integration+Blocking+points>`_
+      - `Istanbul Integration weather Board <https://wiki.onap.org/display/DW/0%3A+Integration+Weather+Board+for+Istanbul+Release>`_
 
 Code changes
 ------------
@@ -39,10 +35,10 @@ Code changes
 Integration Repo
 .................
 
-:Release Date: 2021-04-28
+:Release Date: 2021-10-14
 
 
-Version: 8.0.0 (aka Honolulu)
+Version: 9.0.0 (aka Istanbul)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. csv-table:: Integration Changes
@@ -66,7 +62,7 @@ Main changes:
 Robot (Testsuite)
 .................
 
-Version: 1.8.0
+Version: 1.9.0
 ^^^^^^^^^^^^^^
 
 Main changes:
@@ -81,7 +77,7 @@ Main changes:
 O-Parent
 ........
 
-Version: 3.2.0
+Version: 3.2.2
 ^^^^^^^^^^^^^^
 
 .. csv-table:: Oparent Changes
@@ -93,7 +89,7 @@ Version: 3.2.0
 Demo Artifacts (Heat Templates)
 ...............................
 
-Version: 1.8.0
+Version: 1.9.0
 ^^^^^^^^^^^^^^
 
 .. csv-table:: Demo Changes
@@ -104,31 +100,11 @@ Version: 1.8.0
 
 The demo artifacts are pushed to https://nexus.onap.org/content/repositories/releases/org/onap/demo/vnf
 
-Other Repositories
-..................
-
-New Honolulu repositories:
-
-- integration/ietf-actn-tools
-- integration/usecases/A1-policy-enforcement
-- integration/usecases/A1-policy-enforcement-r-apps
-- integration/simulators/5G-core-nf-simulator
-- integration/simulators/A1-policy-enforcement-simulator
-- integration/simulators/core-nssmf-simulator;Core NSSMF Simulator
-- integration/simulators/nf-simulator
-- integration/simulators/nf-simulator/avcn-manager
-- integration/simulators/nf-simulator/netconf-server
-- integration/simulators/nf-simulator/pm-https-server
-- integration/simulators/nf-simulator/ves-client
-- testsuite/cds
-- testsuite/pythonsdk-tests
-- testsuite/robot-utils
-
 
 Use Cases and Requirements
 --------------------------
 
-See dedicated :ref:`Honolulu Use Cases and requirements page <docs_usecases_release>`
+See dedicated :ref:`Istanbul Use Cases and requirements page <docs_usecases_release>`
 
 Maturity Testing Notes
 ----------------------
@@ -141,21 +117,9 @@ Open JIRAs/Known issues
 Integration
 ...........
 
-.. csv-table:: Integration Known Issues
-    :file: ./files/csv/issues-integration.csv
-    :widths: 10,10,40,10,10,20
-    :delim: ;
-    :header-rows: 1
-
 `Integration JIRA page <https://jira.onap.org/issues/?jql=project%20%3D%20Integration%20>`_
 
 Testsuite
 .........
-
-.. csv-table:: Testsuite Known Issues
-    :file: ./files/csv/issues-testsuite.csv
-    :widths: 10,10,40,10,10,20
-    :delim: ;
-    :header-rows: 1
 
 `Testsuite JIRA page <https://jira.onap.org/issues/?jql=project%20%3D%20Test>`_
