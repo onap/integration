@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b7594e7_b12926b2",
+        "filename": "docs/docs_usecases_release.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-10-11T11:57:01Z",
+      "side": 1,
+      "message": "s/Integration/Istanbul",
+      "revId": "9458ea07eab641099dcfc4ddcb29ce2d3a4e7244",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "403ee323_d57955c7",
+        "filename": "docs/integration-labs.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-10-11T11:57:01Z",
+      "side": 1,
+      "message": "you can remove the section from Please note... for details, as the Orange labs are used for the daily/weekly/gating but no more openlab\nthe community lab is the Azure staging lab",
+      "revId": "9458ea07eab641099dcfc4ddcb29ce2d3a4e7244",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fec8ea51_b062bfd8",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-10-11T11:57:01Z",
+      "side": 1,
+      "message": "s/pnf/cps",
+      "revId": "9458ea07eab641099dcfc4ddcb29ce2d3a4e7244",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df93e296_c3bc5952",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-10-11T11:57:01Z",
+      "side": 1,
+      "message": "we probably need to release a new version of testsuite and inlcude it in OOM\nso it shall be a 1.9.0 but we need to check with Krysztof if he is OK to produce it now\n\nor we can decide to deprecate it..\nfor the tests we use xtesting that build the tets baed on testsuite repo (master branch) so up to date\nbut robot pod that is based on this image is possibly no more up to date \u003d\u003e we need to regenerate time to time..",
+      "revId": "9458ea07eab641099dcfc4ddcb29ce2d3a4e7244",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
