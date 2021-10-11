@@ -1,30 +1,38 @@
 Issue-ID;Description
-INT-1874;E2E_network_slicing-H-release known issues update
-INT-1601;Flatten Ansible role structure
-INT-1906;Add instructions for the simulator wrapper
-INT-1869;Update 5G PNF PnP test documentation about information on how to use NF Simulator
-INT-1869;[INTEGRATION] NF simulator documentation - fix indents and bullet points
-INT-1908;[INT] Fix netconf-pnp-simulator Python dependencies version
-INT-1867;vFW CNF use case changes for CNFO
-INT-1869;[INTEGRATION] Add NF simulator documentation in read the docs
-INT-1888;[DOC] Honolulu documentation
-INT-1900;Update the simulators list and description
-INT-1900;Update the simulators repository list
-INT-1900;Fix repositories links
-INT-1875;Updating release notes for CCVPN - Transport Slicing (REQ-456).
-INT-1874;E2E_network_slicing - Honolulu updates
-INT-1888;[DOCUMENTATION] Add a simulator section in documentation
-INT-1877;Fix Integration-netconf-pnp-simulator-docker-merge-master jenkins build
-INT-1875;Documentation update for CCVPN - Transport Slicing (REQ-456)
-INT-1872;G-release docs_E2E_network_slicing.rst- Reverting the overwrites
-TEST-289;[DOC] Improve automated tests doc section
-DCAEGEN2-2528;Add HTTPS to DFC tests
-INT-1601;Make adding Ubuntu Bionic image to the DevStack idempotent
-INT-1601;Create cluster operator access information
-INT-1601;Inject operator key when launching cluster instances
-INT-1601;Divide host group into cluster and operation instances
-INT-1601;Accept host group as an argument to allow reusing roles
-INT-1834;Fix version test in CI
-ONAPARC-551;Force new location of default Helm chart repository
-ONAPARC-551;Update Vagrant-based minimal ONAP deployment to Guilin
-DCAEGEN2-2527;Add HTTP to DFC tests
+INT-1979;E2E Network slicing - Istanbul Release Documentation
+INT-1976;Updating release notes for CCVPN - Intent Based Networking and Cloud Leased Line Service.
+DOC-765;Remove indirect deps
+DOC-765;Make funcparserlib + lfdocs-conf work on RTD
+DOC-765;Adds 2 upper-constraints to pin all the dependencies.
+REQ-910;Update docs for OOF-SON use case
+INT-1966;[DOC] Remove direct gating link
+DCAEGEN2-2692;Fix problem with expired certs in FTPES tests
+DCAEGEN2-2692;Update DFC tests to use file based conifg
+TEST-360;[SECURITY] Fix waiver management of check_for_nonssl_ports test
+INT-1735;Update Vagrantfile for tern
+INT-1601;Enable VID
+INT-1601;noheat: deploy ONAP
+INT-1601;noheat: deploy MetalLB, cert-manager and prometheus
+INT-1601;noheat: deploy helm with plugins & chartmuseum
+INT-1601;noheat: install Ansible kubernetes collection
+INT-1601;noheat: use Python 3 as Ansible interpreter
+INT-1601;noheat: clone OOM repository
+INT-1601;noheat: deploy kubernetes
+INT-1601;noheat: deploy Docker
+INT-1601;noheat deployment: use nfs0 as nexus3 bastion
+INT-1601;noheat deployment: setup NFS server and clients
+INT-1601;noheat deployment: add operator0 key to itself
+INT-1601;noheat deployment: loosen security groups constraints
+INT-1601;noheat deployment: Add groups to dynamic inventory
+INT-1601;Update requirements of OpenStack noheat deployment
+INT-1940;[CODESEARCH] Update documentation
+INT-1940;[CODESEARCH] Always run the 'run_codesearch' provisioner
+INT-1940;[CODESEARCH] Rework the nameserver provisioning
+INT-1940;[CODESEARCH] Drop ssh authentication for Gerrit endpoint
+INT-1940;[CODESEARCH] Rework how --git option works
+INT-1942;[CODESEARCH] Add option to define custom polling interval
+INT-1941;[CODESEARCH] Upgrade Vagrant box to utilise newest 20.04 LTS
+INT-1922;Standard defined schema files in VES Collector
+INT-1601;Set up network for in-cluster deployment stage
+INT-1601;Add missing dependencies and artifacts for in-cluster deployment stage
+INT-1601;Prepare operation machine for in-cluster deployment stage

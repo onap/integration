@@ -8,7 +8,7 @@ Stability/Resiliency
 .. important::
     The Release stability has been evaluated by:
 
-    - The daily Honolulu CI/CD chain
+    - The daily Istanbul CI/CD chain
     - Stability tests
     - Resiliency tests
 

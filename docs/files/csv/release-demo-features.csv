@@ -1,8 +1,9 @@
 Issue-ID;Description
-INT-1868;vFW CNF fix for issue with config-deploy operation
-INT-1868;vFW CNF updates after integration tests
-INT-1868;Real vFW CNF config-assign and config-deploy
-INT-1868;Implementation of config-assign and config-deploy actions
-INT-1868;Add cofig-assign and config-deploy to cds workflow
-INT-1658;Check orchestration status during instantiation and deletion vFW_CNF_CDS usecase
-INT-1658;Automation scripts for vFW_CNF_CDS usecase
+INT-1960;vFW CNF CDS Change Blueprint to BluePrint
+INT-1960;vFW CNF CDS usecase automation scripts update
+INT-1899;[vFW_CNF_CDS] Improve logging and fix tests typo
+INT-1899;[vFW_CNF_CDS] Add workflow health-check and K8sHealthCheck.kt script
+INT-1899;[vFW_CNF_CDS] Sort generated json files
+INT-1899;[vFW_CNF_CDS] Add Healthcheck automation
+INT-1899;[vFW_CNF_CDS] Provide Helm Tests for CNF
+INT-1899;[vFW_CNF_CDS] Correct Makefile target
