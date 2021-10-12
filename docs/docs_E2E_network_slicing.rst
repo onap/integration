@@ -407,10 +407,26 @@ Impacted Modules for Istanbul Release
     
 - **CPS** - Bug fixes and support for GET, POST, PATCH and DELETE type of queries. 
 
-**Test cases**
+Functional Test cases
+----------------------
+**Honolulu release carry-over test cases** 
+    (a) Different possible scenarios of E2E Slice (eMBB) creation are tested in I-release
+    (b) RAN slice Termination testing completed
+    (c) Test cases to validate slice reuse and terminate using Option 2 (Core NSSMF and RAN NSSMF external) are completed
+    
 
-Integration testing to test the CPS integration, closed loop and intelligent slicing are listed in ONAP wiki `Integration Testing in Instanbul Release <https://wiki.onap.org/display/DW/R9+Integration+Testing>`_
+**R9 Integration Testing** 
+    (a) RAN NSSMF integration with CPS is covered for RANSlice modification, activation, deactivation and termination
+    (b) NSMF driven TN-FH and TN-MH slices creation is tested
+    (c) CPS impacts in closed loop scenario is validated and few test cases are deferred to Jakarta release
+    
+    Integration test plan is available at `Integration Testing in Instanbul Release <https://wiki.onap.org/display/DW/R9+Integration+Test+for+E2E+Network+Slicing>`_
 
-**Operation Guidance** - To be updated
 
-**Known issues and Solutions** - To be updated
+Operation Guidance
+--------------------
+The steps for E2E network slicing use case will be available at `User Operation Guidance - Istanbul Release <https://wiki.onap.org/pages/viewpage.action?pageId=111118867>`_. It is an update to the user manual created in Honolulu release.
+
+Known issues and Solutions
+---------------------------
+Issue occured during the deployment and integration testing will be listed in `Network Slicing - Issues and Solutions <https://wiki.onap.org/display/DW/Network+Slicing+-+Issues+and+Solutions>`_
