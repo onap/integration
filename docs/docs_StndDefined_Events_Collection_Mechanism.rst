@@ -32,13 +32,13 @@ How to Configure VES Collector
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 By default config maps containing schema files are defined in the `OOM <https://github.com/onap/oom/tree/honolulu/kubernetes/dcaegen2/resources/external>`_ repository and installed with dcaegen2 module.
-In Honolulu release in OOM are used schema files from https://forge.3gpp.org/rep/sa5/MnS/blob/SA88-Rel16/OpenAPI/.
+In Istanbul release in OOM are used schema files from https://forge.3gpp.org/rep/sa5/MnS/blob/SA88-Rel16/OpenAPI/.
 The newest schema files can be found in https://forge.3gpp.org/rep/sa5/MnS/tree/Rel-16-SA-91/OpenAPI
 If for production/test purpose are required different or newest schema files please follow procedure for `config map update <https://docs.onap.org/projects/onap-dcaegen2/en/latest/sections/configuration.html#config-maps>`_.
 
 In order to prepare second instance of VES Collector please follow below procedure:
 
-1. (Optional step) If VES Collector should obtaining X.509 certificates from CMP v2 server for secure xNF connections please follow below steps:
+1. (Optional step) If VES Collector should obtaining X.509 certificates from CMPv2 server for secure xNF connections please follow below steps:
 
    - Install `Cert Manager <https://docs.onap.org/projects/onap-oom/en/latest/oom_setup_paas.html#cert-manager>`_
    - Configure `Cert Service <https://docs.onap.org/projects/onap-oom-platform-cert-service/en/honolulu/sections/configuration.html>`_ if external CMP v2 server is in use.
@@ -49,7 +49,7 @@ In order to prepare second instance of VES Collector please follow below procedu
 
    As new instance of VES Collector will be introduced to ONAP namespace there is need to modify parameters from ``/inputs/k8s-ves-inputs-tls.yaml`` in Bootstrap POD
 
-   - external_port - set here ``node port`` from range ``30000-32767`` not used in ONAP instance
+   - external_port - set here ``node port`` from range ``30000-32767`` not used in ONAP instance for example ``30519``
    - ``service_component_type``, ``service_id``, ``service_component_name_override`` - set here custom service name e.g. ``dcae-ves-collector-std-def-evnents``
 
    (Optional step) If VES Collector should also obtaining X.509 certificates from CMP v2 and its clients should successfully validate its hostname then following parameters need to modified in ``/inputs/k8s-ves-inputs-tls.yaml`` file.
@@ -66,7 +66,7 @@ In order to prepare second instance of VES Collector please follow below procedu
 
 3. (Optional step) If ONAP is installed in Dual Stack and VES Collector should listen in IPv6 network
 
-   - on RKE node prepare file ``ves-ipv6.yaml`` with following content (an example for ``dcae-ves-collector-std-def-evnents`` service name and node port set to ``30519`` )
+   - on RKE node prepare file ``ves-ipv6.yaml`` with following content (below is an example of file for ``dcae-ves-collector-std-def-evnents`` service name created in section 2,  in  ``node port`` set once again value from range ``30000-32767`` not used in ONAP instance for example ``30619`` )
        .. code-block:: bash
 
          apiVersion: v1
@@ -79,7 +79,7 @@ In order to prepare second instance of VES Collector please follow below procedu
            ipFamily: IPv6
            ports:
            - name: xdcae-ves-collector-std-def-evnents
-             nodePort: 30519
+             nodePort: 30619
              port: 8443
              protocol: TCP
              targetPort: 8443
@@ -94,4 +94,4 @@ In order to prepare second instance of VES Collector please follow below procedu
          kubectl -n onap apply -f ves-ipv6.yaml
 
          kubectl -n onap get svc | grep collector-std-def-evnents
-         xdcae-ves-collector-std-def-evnents                        NodePort       fd00:101::6ad    <none>                                 8443:30519/TCP                                           28h
+         xdcae-ves-collector-std-def-evnents                        NodePort       fd00:101::6ad    <none>                                 8443:30619/TCP
