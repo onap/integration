@@ -1,4 +1,4 @@
 Ref;Summary;Link;Contacts
 REQ-440;E2E Network Slicing;:ref:`official doc <docs_E2E_network_slicing>`;Lin Meng
-REQ-429;5G OOF SON;:ref:`official doc <docs_5G_oof_pci>`;Swaminathan Seetharaman
+REQ-429;5G OOF SON;:ref:`official doc <docs_5G_oof_son>`;Swaminathan Seetharaman
 REQ-459;CCVPN-Transport Slicing;:ref:`official doc <docs_ccvpn>`;Henry Yu
