@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34800194_1ee3ba23",
+        "filename": "docs/docs_E2E_network_slicing.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2021-10-18T08:38:10Z",
+      "side": 1,
+      "message": "Please remove this and other superfluous whitespaces.",
+      "revId": "7309cf3dfbed45c254d6ef062814afe245806884",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fafaea32_b40492fa",
+        "filename": "docs/docs_E2E_network_slicing.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2021-10-18T08:38:10Z",
+      "side": 1,
+      "message": "Please fix the chapter underlines (this and others) - by rst format it should have same length as underlined chapter title.",
+      "revId": "7309cf3dfbed45c254d6ef062814afe245806884",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
