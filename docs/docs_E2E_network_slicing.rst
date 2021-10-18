@@ -377,18 +377,16 @@ Below aspects are covered in Istanbul release:
  
 Impacted Modules for Istanbul Release
 -------------------------------------
-- **SO**: 
-
-  (a) Support of NSI termination by enhancing the interaction with OOF, AAI and UUI
-  (b) RAN NSSI Termination support with OOF & SDN-R interactions
-  (c) Bug fixes in Option 1 (CSMF, NSMF and NSSMFs are within ONAP & TN-FH, TN-MH are created by RAN NSSMF)
-  
-    - **CSMF**: Fixed sNSSAI format and updated authentication for NSMF invocation
-    - **NSMF**: Fixes in NSI termination issues to support OOF interaction for NSI termination query and added subnet Type support for respective TN Domain
-    - **AN NSSMF**: Fixes for different termination scenarios in Option 1
-    - **CN NSSMF**: Bug fixes in shared allocate flow, modify flow and terminate flow
-    - Slice Profile alignement with NSSMF
-  (d) NSMF based TN Slices (TN-FH, TN-MH are created by NSMF) - Work flow changes to support this approach
+- **SO**
+    (a) Support of NSI termination by enhancing the interaction with OOF, AAI and UUI
+    (b) RAN NSSI Termination support with OOF & SDN-R interactions
+    (c) Bug fixes in Option 1 (CSMF, NSMF and NSSMFs are within ONAP & TN-FH, TN-MH are created by RAN NSSMF)      
+        - **CSMF**: Fixed sNSSAI format and updated authentication for NSMF invocation
+        - **NSMF**: Fixes in NSI termination issues to support OOF interaction for NSI termination query and added subnet Type support for respective TN Domain
+        - **AN NSSMF**: Fixes for different termination scenarios in Option 1
+        - **CN NSSMF**: Bug fixes in shared allocate flow, modify flow and terminate flow
+        - Slice Profile alignement with NSSMF
+    (d) NSMF based TN Slices (TN-FH, TN-MH are created by NSMF) - Work flow changes to support this approach
   
 - **OOF**
     (a) Integration with CPS for coverage area to coverage area TA list
@@ -403,17 +401,18 @@ Impacted Modules for Istanbul Release
     (b) CPS integration for the instantiateRANSliceAllocateModify, activateRANSlice, terminateRANSlice Directed Graphs
     (c) A new karaf feature is introduced to register the cm-handle with CPS
 
-- **CPS-TBDMT** - This component is enhanced to support different type of queries based on templates
+- **CPS-TBDMT**
+    (a) This component is enhanced to support different type of queries based on templates
     
-- **CPS** - Bug fixes and support for GET, POST, PATCH and DELETE type of queries. 
+- **CPS**
+    (a) Bug fixes and support for GET, POST, PATCH and DELETE type of queries. 
 
-Functional Test cases
-----------------------
+Istanbul Release - Functional Test cases
+----------------------------------------
 **Honolulu release carry-over test cases** 
     (a) Different possible scenarios of E2E Slice (eMBB) creation are tested in I-release
     (b) RAN slice Termination testing completed
-    (c) Test cases to validate slice reuse and terminate using Option 2 (Core NSSMF and RAN NSSMF external) are completed
-    
+    (c) Test cases to validate slice reuse and terminate using Option 2 (Core NSSMF and RAN NSSMF external) are completed    
 
 **R9 Integration Testing** 
     (a) RAN NSSMF integration with CPS is covered for RANSlice modification, activation, deactivation and termination
@@ -422,11 +421,10 @@ Functional Test cases
     
     Integration test plan is available at `Integration Testing in Instanbul Release <https://wiki.onap.org/display/DW/R9+Integration+Test+for+E2E+Network+Slicing>`_
 
-
-Operation Guidance
---------------------
+Istanbul Release - Operation Guidance
+-------------------------------------
 The steps for E2E network slicing use case will be available at `User Operation Guidance - Istanbul Release <https://wiki.onap.org/pages/viewpage.action?pageId=111118867>`_. It is an update to the user manual created in Honolulu release.
 
-Known issues and Solutions
----------------------------
+Istanbul Release - Known issues and Solutions
+---------------------------------------------
 Issue occured during the deployment and integration testing will be listed in `Network Slicing - Issues and Solutions <https://wiki.onap.org/display/DW/Network+Slicing+-+Issues+and+Solutions>`_
