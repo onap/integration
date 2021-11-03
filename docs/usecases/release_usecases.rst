@@ -5,14 +5,14 @@
 
 :orphan:
 
-Honolulu Use Cases
+Istanbul Use Cases
 ==================
 
 Description
 -----------
 
 This session includes use cases and functional requirements which have been
-officially verified in Honolulu release by the ONAP community.
+officially verified in Istanbul release by the ONAP community.
 
 For each use case or functional requirement, you can find contact names and a
 link to the associated documentation.
@@ -27,7 +27,7 @@ This documentation deals with
 Use cases
 ---------
 
-Honolulu Official Use Cases
+Istanbul Official Use Cases
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. csv-table::
@@ -36,7 +36,7 @@ Honolulu Official Use Cases
    :delim: ;
    :header-rows: 1
 
-Old Use Cases Tested in Honolulu
+Old Use Cases Tested in Istanbul
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. csv-table::
