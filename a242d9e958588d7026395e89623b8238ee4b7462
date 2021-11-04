@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "171be842_7f1b19d0",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2021-11-04T13:38:42Z",
+      "side": 1,
+      "message": "part?",
+      "range": {
+        "startLine": 77,
+        "startChar": 105,
+        "endLine": 77,
+        "endChar": 109
+      },
+      "revId": "a242d9e958588d7026395e89623b8238ee4b7462",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a6f1644_627a4334",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2021-11-04T13:38:42Z",
+      "side": 1,
+      "message": "scenario presents",
+      "range": {
+        "startLine": 79,
+        "startChar": 8,
+        "endLine": 79,
+        "endChar": 25
+      },
+      "revId": "a242d9e958588d7026395e89623b8238ee4b7462",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "baacaf98_f38a27e8",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 924,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2021-11-04T13:38:42Z",
+      "side": 1,
+      "message": "use",
+      "range": {
+        "startLine": 924,
+        "startChar": 132,
+        "endLine": 924,
+        "endChar": 136
+      },
+      "revId": "a242d9e958588d7026395e89623b8238ee4b7462",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "080e9a6a_fd488321",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 1071,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2021-11-04T13:38:42Z",
+      "side": 1,
+      "message": "tenant",
+      "range": {
+        "startLine": 1071,
+        "startChar": 573,
+        "endLine": 1071,
+        "endChar": 580
+      },
+      "revId": "a242d9e958588d7026395e89623b8238ee4b7462",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b029fbc9_160ff30f",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 1071,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2021-11-04T13:38:42Z",
+      "side": 1,
+      "message": "CNF",
+      "range": {
+        "startLine": 1071,
+        "startChar": 626,
+        "endLine": 1071,
+        "endChar": 630
+      },
+      "revId": "a242d9e958588d7026395e89623b8238ee4b7462",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4119932_e07430c2",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 1082,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2021-11-04T13:38:42Z",
+      "side": 1,
+      "message": "orchestration",
+      "range": {
+        "startLine": 1082,
+        "startChar": 311,
+        "endLine": 1082,
+        "endChar": 324
+      },
+      "revId": "a242d9e958588d7026395e89623b8238ee4b7462",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae7dd81c_c7c8ff87",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 1784,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2021-11-04T13:38:42Z",
+      "side": 1,
+      "message": "resources",
+      "range": {
+        "startLine": 1784,
+        "startChar": 77,
+        "endLine": 1784,
+        "endChar": 86
+      },
+      "revId": "a242d9e958588d7026395e89623b8238ee4b7462",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "951cc314_faf33246",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 1949,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2021-11-04T13:38:42Z",
+      "side": 1,
+      "message": "types",
+      "range": {
+        "startLine": 1949,
+        "startChar": 531,
+        "endLine": 1949,
+        "endChar": 536
+      },
+      "revId": "a242d9e958588d7026395e89623b8238ee4b7462",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
