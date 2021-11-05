@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62468607_68361eb2",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-11-05T14:09:44Z",
+      "side": 1,
+      "message": "In jakarta it will be cool to refactor the doc (remove ref to wiki and simplify history)",
+      "revId": "6653fd85b8076aac8bab3c2f46ce089fb699817b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d045f79_fd856a3a",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-11-05T14:09:44Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "6653fd85b8076aac8bab3c2f46ce089fb699817b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94589d42_fbe31615",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-11-05T14:09:44Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "6653fd85b8076aac8bab3c2f46ce089fb699817b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa79e0d7_9e640395",
+        "filename": "docs/docs_vFW_CNF_CDS.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 1994,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-11-05T14:09:44Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "6653fd85b8076aac8bab3c2f46ce089fb699817b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
