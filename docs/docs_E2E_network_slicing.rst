@@ -427,4 +427,66 @@ The steps for E2E network slicing use case will be available at `User Operation 
 
 Istanbul Release - Known issues and Solutions
 ---------------------------------------------
-Issue occured during the deployment and integration testing will be listed in `Network Slicing - Issues and Solutions <https://wiki.onap.org/display/DW/Network+Slicing+-+Issues+and+Solutions>`_
+
+**REGISTER 3RD PARTY CONTROLLERS**
+
+Solution provided by Hesam Rahimi (Huawei), 2021-11-15
+
+The community has decided to exclude ESR GUI module from ONAP, but this does
+not mean that the “external system registration” mechanism is excluded; i.e.
+only the GUI is not available anymore.
+
+Therefore, in order to register the 3rd party controllers (like it is done in
+E2E network slicing use case and recently in Cloud Leased Line “CLL” use case
+as part of Intent-Based Networking), you now have to manually invoke AAI’s API
+for that.
+
+To do so, please send the following CURL command (PUT) to your AAI, with the
+attached xml payload. In the payload, please adjust the controller name (in
+this case sdnc1) and the controller ip address accordingly based on your
+environment:
+
+CURL COMMAND:
+
+.. code-block:: bash
+
+   curl -k -X PUT https://{{your-onap-ip-address}}:30233/aai/v16/external-system/esr-thirdparty-sdnc-list/esr-thirdparty-sdnc/sdnc1 -u "AAI:AAI" -H "X-FromAppId:postman" -H "Content-Type:application/xml" -H "Accept: application/xml" -H "X-TransactionId:9999" -d @/home/onap/esr-registration-controller-1.xml
+
+
+PAYLOAD (esr-registration-controller-1.xml):
+
+.. code-block:: xml
+
+  <?xml version="1.0" encoding="UTF-8"?>
+  <esr-thirdparty-sdnc xmlns="http://org.onap.aai.inventory/v16">
+      <thirdparty-sdnc-id>sdnc1</thirdparty-sdnc-id>
+      <location>Core</location>
+      <product-name>TSDN</product-name>
+      <esr-system-info-list>
+          <esr-system-info>
+              <esr-system-info-id>sdnc1</esr-system-info-id>
+              <system-name>sdnc1</system-name>
+              <type>WAN</type>
+              <vendor>Huawei</vendor>
+              <version>V3R1</version>
+              <service-url>http://192.168.198.10:18181</service-url>
+              <user-name>onos</user-name>
+              <password>rocks</password>
+              <system-type>nce-t-controller</system-type>
+              <protocol>RESTCONF</protocol>
+              <ssl-cacert>example-ssl-cacert-val-20589</ssl-cacert>
+              <ssl-insecure>true</ssl-insecure>
+              <ip-address>192.168.198.10</ip-address>
+              <port>26335</port>
+              <cloud-domain>example-cloud-domain-val-76077</cloud-domain>
+              <default-tenant>example-default-tenant-val-71148</default-tenant>
+              <passive>true</passive>
+              <remote-path>example-remotepath-val-5833</remote-path>
+              <system-status>example-system-status-val-23435</system-status>
+          </esr-system-info>
+      </esr-system-info-list>
+  </esr-thirdparty-sdnc>
+
+
+Additional issues occured during the deployment and integration testing will be
+listed in the ONAP Developer Wiki at `Network Slicing - Issues and Solutions <https://wiki.onap.org/display/DW/Network+Slicing+-+Issues+and+Solutions>`_
