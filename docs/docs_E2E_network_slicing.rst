@@ -430,16 +430,17 @@ Istanbul Release - Known issues and Solutions
 
 **REGISTER 3RD PARTY CONTROLLERS**
 
-Solution provided by Hesam Rahimi (Huawei), 2021-11-15
+The ONAP TSC approved on July 9th, 2020 to change the status of ESR GUI Module
+to an 'unmaintained' project. Further information about 'Unmaintained Projects'
+can be found in the `ONAP Developer Wiki. <https://wiki.onap.org/x/Pw_LBQ>`__
 
-The community has decided to exclude ESR GUI module from ONAP, but this does
-not mean that the “external system registration” mechanism is excluded; i.e.
-only the GUI is not available anymore.
+But excluding the ESR GUI module from ONAP does not mean that the “external
+system registration” mechanism is excluded; i.e. only the GUI is not available
+anymore.
 
-Therefore, in order to register the 3rd party controllers (like it is done in
-E2E network slicing use case and recently in Cloud Leased Line “CLL” use case
-as part of Intent-Based Networking), you now have to manually invoke AAI’s API
-for that.
+Nevertheless, in order to register the 3rd party controllers (like it is done
+in E2E network slicing use case and recently in Cloud Leased Line “CLL” use
+case as part of Intent-Based Networking), AAI’s API are invoked manually.
 
 To do so, please send the following CURL command (PUT) to your AAI, with the
 attached xml payload. In the payload, please adjust the controller name (in
