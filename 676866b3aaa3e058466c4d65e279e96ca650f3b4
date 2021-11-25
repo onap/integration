@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8c009ae1_90e4e404",
+        "filename": "edit_commiters_info/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-11-25T13:20:34Z",
+      "side": 1,
+      "message": "s/opertions/operations",
+      "revId": "676866b3aaa3e058466c4d65e279e96ca650f3b4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ec68ebb_af309521",
+        "filename": "edit_commiters_info/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-11-25T13:20:34Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "676866b3aaa3e058466c4d65e279e96ca650f3b4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
