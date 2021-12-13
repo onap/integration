@@ -1,4 +1,5 @@
 Issue-ID;Description
+INT-2010;Release data-provider
 INT-1979;E2E Network slicing - Istanbul Release Documentation
 INT-1976;Updating release notes for CCVPN - Intent Based Networking and Cloud Leased Line Service.
 DOC-765;Remove indirect deps
