@@ -4,11 +4,17 @@
     name: "{{ net.name }}"
     state: present
 
+- name: Set nameservers list fact
+  set_fact:
+    dns_ips: "{{ network.dns_servers | list }}"
+  when: network.dns_servers[0] is defined
+
 - name: "Create {{ net.name }} subnet"
   os_subnet:
     name: "{{ net.name }}_subnet"
     network_name: "{{ net.name }}"
     cidr: "{{ net.cidr }}"
+    dns_nameservers: "{{ dns_ips if dns_ips is defined else omit }}"
     state: present
 
 - name: "Create {{ net.name }} router"

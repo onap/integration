@@ -2,6 +2,9 @@
 network:
   name: &network_name "onap_ci_lab"
   cidr: "192.168.1.0/24"
+  dns_servers:
+    # - x.x.x.x
+    # - y.y.y.y
 
 keypair:
   name: &keypair_name "onap_ci_lab"
@@ -28,6 +31,8 @@ operation:
       keypair: *keypair_name
       network: *network_name
       securitygroup: *securitygroup_name
+      boot_from_volume: true
+      terminate_volume: true
       volume_size: 5
 
 cluster:
@@ -39,4 +44,6 @@ cluster:
       keypair: *keypair_name
       network: *network_name
       securitygroup: *securitygroup_name
+      boot_from_volume: true
+      terminate_volume: true
       volume_size: 5

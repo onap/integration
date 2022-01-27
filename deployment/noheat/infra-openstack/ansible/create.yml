@@ -68,6 +68,7 @@
           - openshift
           - pyyaml
           - kubernetes
+        executable: pip3
       become: yes
     - name: Add Ansible collection dependencies
       command: "ansible-galaxy collection install ansible.posix"
