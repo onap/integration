@@ -10,6 +10,12 @@
     state: present
   when: nfs_role is defined and nfs_role == "server"
 
+- name: Umount
+  ansible.posix.mount:
+    path: "{{ nfs_mountpoint }}"
+    state: unmounted
+  ignore_errors: yes
+
 - name: Remove leftovers
   file:
     path: "{{ nfs_mountpoint }}"
