@@ -18,9 +18,7 @@
     mode: '0555'
 
 - name: Install Helm Push plugin
-  kubernetes.core.helm_plugin:
-    plugin_path: "https://github.com/chartmuseum/helm-push.git"
-    state: present
+  command: helm plugin install --version 0.9.0 https://github.com/chartmuseum/helm-push.git
 
 - name: Install Helm OOM Deploy plugin
   kubernetes.core.helm_plugin:
