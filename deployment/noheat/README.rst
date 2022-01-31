@@ -25,14 +25,9 @@ Dependencies
 ~~~~~~~~~~~~
 
 - Required python packages (including Ansible) can be found in ``requirements.txt`` pip file.
-  Tested on Python 3.6.9.
-- Ansible:
-    - Collections
-        - community.crypto: tested on 1.7.1
-        - ansible.posix: tested on 1.2.0
-        - openstack.cloud: tested on 1.5.0
-    - Roles
-        - geerlingguy.ansible: tested on 2.1.0
+  Tested on Python 3.8.10.
+- Ansible required collections & roles can be found in ``requirements.yml`` file for installation
+  with ansible-galaxy tool.
 
 Expected output
 ---------------

@@ -55,22 +55,26 @@
       ansible.posix.synchronize:
         src: ../../cluster-rke
         dest: ~/deploy
-    - name: Install python dependencies
-      become: yes
-      package:
-        name:
-          - python3-pip
-          - python3-setuptools
-        state: present
-    - name: Install community.kubernetes.k8s Ansible collection dependencies
-      pip:
-        name:
-          - openshift
-          - pyyaml
-          - kubernetes
-        executable: pip3
-      become: yes
-    - name: Add Ansible collection dependencies
-      command: "ansible-galaxy collection install ansible.posix"
-    - name: Add community.kubernetes Ansible collection
-      command: "ansible-galaxy collection install community.kubernetes"
+    - block:
+      - name: Install python dependencies
+        become: yes
+        package:
+          name:
+            - python3-pip
+            - python3-setuptools
+          state: present
+      - name: Install community.kubernetes.k8s Ansible collection dependencies
+        pip:
+          name:
+            - openshift==0.12.1
+            - pyyaml==6.0
+            - kubernetes==21.7.0
+          executable: pip3
+        become: yes
+      - name: Copy ansible-galaxy requirements file
+        copy:
+          src: operator-requirements.yml
+          dest: ~/requirements.yml
+          mode: '0444'
+      - name: Install ansible-galaxy dependencies
+        command: "ansible-galaxy collection install -r ~/requirements.yml"
