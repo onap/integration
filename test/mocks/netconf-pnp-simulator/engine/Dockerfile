@@ -202,3 +202,5 @@ ENV LOGURU_COLORIZE=True
 COPY entrypoint.sh common.sh configure-*.sh reconfigure-*.sh generic_subscriber.py /opt/bin/
 
 CMD /opt/bin/entrypoint.sh
+
+RUN pip install tox --force-reinstall -U
