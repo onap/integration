@@ -129,7 +129,7 @@ else:
     k8s_config = config.load_kube_config()
 
 core = client.CoreV1Api()
-api_instance = client.ExtensionsV1beta1Api(
+api_instance = client.NetworkingV1Api(
     client.ApiClient(k8s_config))
 k8s_services = core.list_namespaced_service(onap_namespace).items
 k8s_ingress = api_instance.list_namespaced_ingress(onap_namespace).items
