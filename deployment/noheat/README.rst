@@ -25,16 +25,24 @@ Dependencies
 ~~~~~~~~~~~~
 
 - Required python packages (including Ansible) can be found in ``requirements.txt`` pip file.
-  Tested on Python 3.6.9.
-- Ansible:
-    - Collections
-        - community.crypto: tested on 1.7.1
-        - ansible.posix: tested on 1.2.0
-        - openstack.cloud: tested on 1.5.0
-    - Roles
-        - geerlingguy.ansible: tested on 2.1.0
+  Tested on Python 3.8.10.
+- Ansible required collections & roles can be found in ``requirements.yml`` file for installation
+  with ansible-galaxy tool.
 
 Expected output
 ---------------
 
 Ephemeral (disposable) ONAP instance.
+
+Running
+-------
+
+There are 4 playbooks available:
+
+- infa-openstack/ansible/create.yml: creates and prepares OpenStack VMs, generates inventory.
+  Must be run as a first playbook. Run on your machine.
+- devstack/ansible/create.yml: deploys Devstack on appropriate VM. Run on jumphost VM (operator0).
+- cluster-rke/ansible/create.yml: deploys NFS, k8s, helm charts and ONAP. Run on jumphost VM.
+- deploy-all.yml: runs above playbooks. Run on your machine.
+
+User may run deploy-all.yml or manually run infra-openstack, devstack and cluster-rke playbooks.

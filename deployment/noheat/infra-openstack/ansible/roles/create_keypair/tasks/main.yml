@@ -5,11 +5,11 @@
   register: keypair
 
 - name: Create local public key
-  local_action:
-    module: copy
+  copy:
     content: "{{ keypair.key.public_key }}"
     dest: "~/.ssh/{{ keypair.key.name }}.pub"
     mode: 0600
+  delegate_to: localhost
 
 - name: Check if local private key exists
   stat:
@@ -17,9 +17,9 @@
   register: local_private_key
 
 - name: Create local private key
-  local_action:
-    module: copy
+  copy:
     content: "{{ keypair.key.private_key }}"
     dest: "~/.ssh/{{ keypair.key.name }}"
     mode: 0600
-  when: local_private_key.stat.exists == False
+  delegate_to: localhost
+  when: not local_private_key.stat.exists

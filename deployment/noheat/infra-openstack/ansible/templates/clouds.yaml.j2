@@ -1,0 +1,11 @@
+clouds:
+  openstack:
+    auth:
+      auth_url: "https://{{ hostvars['localhost']['hosts_dict']['openstack0'] }}:5000/v3"
+      project_name: "{{ openstack_tenant }}""
+      username: "{{ openstack_username }}"
+      user_domain_name: "{{ openstack_domain }}"
+      password: "{{ openstack_passwd }}"
+    region_name: "{{ openstack_region }}"
+    interface: "public"
+    identity_api_version: 3

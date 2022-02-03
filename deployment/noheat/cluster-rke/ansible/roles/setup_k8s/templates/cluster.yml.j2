@@ -40,7 +40,7 @@ ssh_agent_auth: false
 authorization:
   mode: rbac
 ignore_docker_version: false
-kubernetes_version: "{{ k8s_version }}"
+kubernetes_version: "{{ rke_k8s_version }}"
 private_registries:
 - url: nexus3.onap.org:10001
   user: docker

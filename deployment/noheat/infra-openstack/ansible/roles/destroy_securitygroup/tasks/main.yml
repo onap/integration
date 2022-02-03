@@ -1,4 +1,6 @@
 ---
-- include: destroy_securitygroup.yml secgrp={{ item }}
+- include_tasks: destroy_securitygroup.yml
   loop:
     - "{{ securitygroup }}"
+  loop_control:
+    loop_var: secgrp

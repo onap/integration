@@ -18,8 +18,22 @@ securitygroup:
     - "192.168.1.0/24"
 
 image:
-  name: &image_name "Ubuntu_18.04"
+  name: &image_name "Ubuntu_20.04"
   user: "ubuntu"
+
+openstack:
+  name: "vnf0"
+  inventory: "~/inventory.ini"
+  hosts:
+    - name: "openstack0"
+      image: *image_name
+      flavor: "m1.large"
+      keypair: *keypair_name
+      network: *network_name
+      securitygroup: *securitygroup_name
+      boot_from_volume: true
+      terminate_volume: true
+      volume_size: 100
 
 operation:
   name: "operation0"

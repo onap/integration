@@ -3,3 +3,9 @@ nexus:
   address: 199.204.45.137
   port: 10001
 oom_dir: "{{ ansible_user_dir }}/oom"
+onap_branch: "master"
+override_file: "{{ oom_dir }}/kubernetes/onap/resources/overrides/sm-onap.yaml"
+integration_dir: "{{ ansible_user_dir }}/integration"
+prometheus_enabled: true
+metallb_enabled: true
+istio_enabled: true

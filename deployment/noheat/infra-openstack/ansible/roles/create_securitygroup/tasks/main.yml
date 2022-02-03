@@ -1,5 +1,5 @@
 ---
-- include: create_securitygroup.yml
+- include_tasks: create_securitygroup.yml
   loop:
     - "{{ securitygroup }}"
   loop_control:

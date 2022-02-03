@@ -1,4 +1,12 @@
 ---
+- name: Update packages
+  hosts: operator
+  become: true
+  tasks:
+    - name: Update ca-certificates
+      package:
+        name: ca-certificates
+        state: latest
 - name: Install NFS
   hosts: all
   become: yes
@@ -11,7 +19,7 @@
     - role: create_bastion
       destination: "{{ nexus }}"
 - name: Add bastion information to the cluster nodes
-  hosts: all
+  hosts: control,workers
   become: yes
   tasks:
     - name: Add cluster hostnames to /etc/hosts file
@@ -22,11 +30,13 @@
         - "nexus3.onap.org"
 - name: Install Docker
   become: yes
-  hosts: control,workers
+  hosts: operator,control,workers
   roles:
     - role: setup_docker
 - name: Deploy k8s
   hosts: operator0
+  vars_files:
+    - ~/common-vars.yml
   roles:
     - role: setup_k8s
 - name: Download OOM
@@ -36,7 +46,7 @@
       git:
         repo: "https://git.onap.org/oom"
         dest: "{{ oom_dir }}"
-        version: "master"
+        version: "{{ onap_branch }}"
 - name: Install Helm
   hosts: operator0
   roles:

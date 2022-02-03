@@ -11,15 +11,15 @@ os_clouds_dir = "${HOME}/.config/openstack"
 os_clouds_config = "#{os_clouds_dir}/clouds.yaml"
 os_admin = "admin"
 os_user = "demo"
-image_url = "https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img"
-image_name = "Ubuntu_18.04"
+image_url = "https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.img"
+image_name = "Ubuntu_20.04"
 
 vm_cpu = 1
 vm_cpus = 4
 vm_memory = 1 * 1024
 vm_memory_os = 8 * 1024
 vm_disk = 32
-vm_box = "generic/ubuntu1804"
+vm_box = "generic/ubuntu2004"
 
 operation = {
   name: 'operator',

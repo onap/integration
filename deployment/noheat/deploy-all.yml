@@ -1,0 +1,9 @@
+---
+- name: Create infastructure
+  import_playbook: infra-openstack/ansible/create.yml
+- hosts: operator0
+  tasks:
+  - name: Deploy Devstack
+    ansible.builtin.command: ansible-playbook -i {{ ansible_user_dir }}/inventory.ini {{ ansible_user_dir }}/devstack/ansible/create.yml
+  - name: Deploy k8s & ONAP
+    ansible.builtin.command: ansible-playbook -i {{ ansible_user_dir }}/inventory.ini {{ ansible_user_dir }}/deploy/cluster-rke/ansible/create.yml

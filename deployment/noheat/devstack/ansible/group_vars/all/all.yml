@@ -1,0 +1,3 @@
+---
+devstack_dir: "{{ ansible_user_dir }}/devstack"
+devstack_version: "stable/yoga"
