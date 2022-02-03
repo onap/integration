@@ -17,8 +17,14 @@
     remote_src: yes
     mode: '0555'
 
+- name: Check if Helm Push plugin is installed
+  kubernetes.core.helm_plugin_info:
+    plugin_name: push
+  register: push_plugin_info
+
 - name: Install Helm Push plugin
   command: helm plugin install --version 0.9.0 https://github.com/chartmuseum/helm-push.git
+  when: push_plugin_info.plugin_list | length == 0
 
 - name: Install Helm OOM Deploy plugin
   kubernetes.core.helm_plugin:
