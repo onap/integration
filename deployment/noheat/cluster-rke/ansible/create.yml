@@ -1,4 +1,12 @@
 ---
+- name: Update packages
+  hosts: operator
+  become: true
+  tasks:
+    - name: Update ca-certificates
+      package:
+        name: ca-certificates
+        state: latest
 - name: Install NFS
   hosts: all
   become: yes
