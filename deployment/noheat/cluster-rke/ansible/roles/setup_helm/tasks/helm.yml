@@ -1,0 +1,35 @@
+---
+- name: Download helm
+  get_url:
+    url: "https://get.helm.sh/helm-v{{ helm_version }}-linux-amd64.tar.gz"
+    dest: "/tmp"
+
+- name: Unarchive helm
+  unarchive:
+    src: "/tmp/helm-v{{ helm_version }}-linux-amd64.tar.gz"
+    dest: "/tmp/"
+    remote_src: yes
+
+- name: Copy helm binary to $PATH
+  become: yes
+  copy:
+    src: "/tmp/linux-amd64/helm"
+    dest: "/usr/local/bin/"
+    remote_src: yes
+    mode: '0555'
+
+- name: Install Helm Push plugin
+  kubernetes.core.helm_plugin:
+    plugin_path: "https://github.com/chartmuseum/helm-push.git"
+    plugin_version: "{{ helm_cm_push_version }}"
+    state: present
+
+- name: Install Helm OOM Deploy plugin
+  kubernetes.core.helm_plugin:
+    plugin_path: "{{ oom_dir }}/kubernetes/helm/plugins/deploy"
+    state: present
+
+- name: Install Helm OOM Undeploy plugin
+  kubernetes.core.helm_plugin:
+    plugin_path: "{{ oom_dir }}/kubernetes/helm/plugins/undeploy"
+    state: present

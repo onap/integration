@@ -8,6 +8,8 @@
       hosts: "{{ cluster.hosts }}"
     - role: destroy_hosts
       hosts: "{{ operation.hosts }}"
+    - role: destroy_hosts
+      hosts: "{{ openstack.hosts }}"
     - destroy_keypair
     - destroy_network
     - destroy_securitygroup

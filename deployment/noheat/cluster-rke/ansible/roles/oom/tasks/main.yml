@@ -1,3 +1,4 @@
+---
 - name: Build OOM charts
   make:
     chdir: "{{ oom_dir }}/kubernetes"
@@ -5,6 +6,61 @@
     params:
       SKIP_LINT: "TRUE"
 
+- name: Build ONAP charts
+  make:
+    chdir: "{{ oom_dir }}/kubernetes"
+    target: onap
+    params:
+      SKIP_LINT: "TRUE"
+
+- name: Create ONAP namespace
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: onap
+        labels:
+          istio-injection: enabled
+  when: istio_enabled
+
+- name: Create ONAP namespace
+  kubernetes.core.k8s:
+    name: onap
+    api_version: v1
+    kind: Namespace
+    state: present
+  when: not istio_enabled
+
+- name: Get encryption key
+  command: cat  "{{ oom_dir }}/kubernetes/so/resources/config/mso/encryption.key"
+  register: encryption_key
+  when: encryption_key is undefined
+- name: Clone integration project
+  git:
+    repo: "https://git.onap.org/integration"
+    dest: "{{ integration_dir }}"
+    version: "{{ onap_branch }}"
+- name: Compile encryption tool
+  command:
+    cmd: javac Crypto.java
+    chdir: "{{ integration_dir }}/deployment/heat/onap-rke/scripts"
+    creates: "{{ integration_dir }}/deployment/heat/onap-rke/scripts/Crypto.class"
+- name: Encrypt password
+  command:
+    cmd: java Crypto "{{ openstack_passwd }}" "{{ encryption_key.stdout }}"
+    chdir: "{{ integration_dir }}/deployment/heat/onap-rke/scripts"
+  register: encrypted_password
+  when: encrypted_password is undefined
+
 - name: Deploy sm-onap
   command:
-    cmd: "helm deploy onap local/onap --namespace onap --create-namespace --set global.masterPassword=scrtPasswd --set vid.enabled=true -f {{ oom_dir }}/kubernetes/onap/resources/overrides/sm-onap.yaml"
+    cmd: "helm deploy onap local/onap --namespace onap --set global.masterPassword=scrtPasswd -f {{ override_file }}"
+  environment:
+    OPENSTACK_USER_NAME: "{{ openstack_username }}"
+    OPENSTACK_REGION: "{{ openstack_region }}"
+    OPENSTACK_KEYSTONE_URL: "http://{{ hostvars['openstack0']['ansible_default_ipv4']['address'] }}:5000/3.0"
+    OPENSTACK_TENANT_NAME: "{{ openstack_tenant }}"
+    OPENSTACK_ENCTYPTED_PASSWORD: "{{ encrypted_password.stdout }}"
+  changed_when: false

@@ -10,6 +10,21 @@
     - role: create_hosts
       hosts: "{{ operation.hosts }}"
       operator_key: "dummy"
+  tasks:
+    - name: Get operator Openstack info
+      openstack.cloud.server_info:
+        server: "operator0"
+      register: operator_info
+    - name: Create directory for artifacts
+      ansible.builtin.file:
+        name: "artifacts"
+        state: directory
+        mode: '0755'
+    - name: Save operator access information
+      ansible.builtin.copy:
+        content: "{{ operator_info['openstack_servers'][0]['public_v4'] }},{{ image['user'] }},~/.ssh/{{ keypair['key']['name'] }}"
+        dest: "artifacts/operator.csv"
+        mode: "0644"
 - name: Create cluster operator access keypair
   hosts: "operator0"
   gather_facts: False
@@ -21,10 +36,18 @@
         path: "~/.ssh/{{ keypair.name }}"
       register: key
     - name: Add operator0 public key to it's authorized keys
-      authorized_key:
+      ansible.posix.authorized_key:
         key: "{{ key['public_key'] }}"
         state: present
         user: "{{ ansible_user }}"
+- name: Create OpenStack instances
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  roles:
+    - role: create_hosts
+      hosts: "{{ openstack.hosts }}"
+      operator_key: "{{ hostvars['operator0']['key']['public_key'] }}"
 - name: Create cluster instances
   hosts: localhost
   connection: local
@@ -35,9 +58,6 @@
       operator_key: "{{ hostvars['operator0']['key']['public_key'] }}"
 - name: Create cluster operator access information
   hosts: "operator0"
-  roles:
-    - role: geerlingguy.ansible
-      become: yes
   tasks:
     - name: Add cluster hostnames to /etc/hosts file
       lineinfile:
@@ -52,25 +72,58 @@
       vars:
         hosts: "{{ lookup('dict', hostvars['localhost']['hosts_dict']) }}"
     - name: Push in-cluster deployment stage description to the next Ansible control host
-      ansible.posix.synchronize:
+      copy:
         src: ../../cluster-rke
         dest: ~/deploy
-    - name: Install python dependencies
-      become: yes
-      package:
-        name:
-          - python3-pip
-          - python3-setuptools
-        state: present
-    - name: Install community.kubernetes.k8s Ansible collection dependencies
-      pip:
-        name:
-          - openshift
-          - pyyaml
-          - kubernetes
-        executable: pip3
-      become: yes
-    - name: Add Ansible collection dependencies
-      command: "ansible-galaxy collection install ansible.posix"
-    - name: Add community.kubernetes Ansible collection
-      command: "ansible-galaxy collection install community.kubernetes"
+    - name: Push Devstack deployment stage description to the next Ansible control host
+      copy:
+        src: ../../devstack
+        dest: ~/
+    - name: Push Devstack vars to the next Ansible control host (for Devstack stage)
+      template:
+        src: "templates/openstack.yml.j2"
+        dest: ~/devstack/ansible/group_vars/all/openstack.yml
+        mode: '0644'
+    - name: Push Devstack vars to the next Ansible control host (for cluster-rke stage)
+      template:
+        src: "templates/openstack.yml.j2"
+        dest: ~/deploy/cluster-rke/ansible/group_vars/all/openstack.yml
+        mode: '0644'
+    - name: Create Devstack config directory
+      file:
+        path: ~/.config/openstack/
+        state: directory
+        mode: '0755'
+    - name: Generate Devstack clouds.yml file
+      template:
+        src: "templates/clouds.yaml.j2"
+        dest: ~/.config/openstack/clouds.yml
+        mode: '0644'
+    - block:
+      - name: Install python dependencies
+        become: yes
+        apt:
+          name:
+            - python3-pip
+            - python3-setuptools
+            - default-jdk-headless
+          state: present
+          update_cache: true
+      - name: Install community.kubernetes.k8s Ansible collection dependencies
+        pip:
+          name:
+            - ansible-core==2.13.4
+            - openshift==0.13.1
+            - pyyaml==6.0
+            - kubernetes==22.6.0
+          executable: pip3
+        become: yes
+      - name: Copy ansible-galaxy requirements file
+        copy:
+          src: operator-requirements.yml
+          dest: ~/requirements.yml
+          mode: '0444'
+      - name: Install ansible-galaxy collections
+        community.general.ansible_galaxy_install:
+          requirements_file: ~/requirements.yml
+          type: both

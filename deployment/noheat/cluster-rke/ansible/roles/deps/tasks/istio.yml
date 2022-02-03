@@ -1,0 +1,40 @@
+---
+- name: Add Istio Helm repository
+  kubernetes.core.helm_repository:
+    name: istio
+    repo_url: https://istio-release.storage.googleapis.com/charts
+
+- name: Deploy Istio base chart
+  kubernetes.core.helm:
+    name: istio-base
+    chart_version: "{{ istio_version }}"
+    chart_ref: istio/base
+    release_namespace: istio-system
+    create_namespace: true
+
+- name: Deploy Istio discovery chart
+  kubernetes.core.helm:
+    name: istiod
+    chart_version: "{{ istio_version }}"
+    chart_ref: istio/istiod
+    release_namespace: istio-system
+    wait: true
+
+- name: Create Istio ingress gateway namespace
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: istio-ingress
+        labels:
+          istio-injection: enabled
+
+- name: Deploy Istio ingress gateway chart
+  kubernetes.core.helm:
+    name: istio-ingress
+    chart_version: "{{ istio_version }}"
+    chart_ref: istio/gateway
+    release_namespace: istio-ingress
+    wait: true

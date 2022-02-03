@@ -3,6 +3,13 @@
 {{ item.key }} ansible_host={{ item.value }}
 {% endfor %}
 
+[openstack]
+{% for item in hosts %}
+{% if "openstack" in item.key %}
+{{ item.key }}
+{% endif %}
+{% endfor %}
+
 [operator]
 {% for item in hosts %}
 {% if "operator" in item.key %}

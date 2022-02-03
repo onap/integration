@@ -1,0 +1,15 @@
+---
+- name: Add Strimzi Helm repository
+  kubernetes.core.helm_repository:
+    name: strimzi
+    repo_url: https://strimzi.io/charts
+
+- name: Deploy Strimzi chart
+  kubernetes.core.helm:
+    name: strimzi-kafka-operator
+    chart_version: "{{ strimzi_version }}"
+    chart_ref: strimzi/strimzi-kafka-operator
+    release_namespace: strimzi-system
+    create_namespace: true
+    values:
+      watchAnyNamespace: true

@@ -1,0 +1,25 @@
+---
+- name: Check if RKE is available
+  stat:
+    path: "{{ ansible_user_dir }}/rke"
+  register: rke_bin
+
+- name: Download RKE
+  get_url:
+    url: "https://github.com/rancher/rke/releases/download/v{{ rke_version }}/rke_linux-amd64"
+    dest: "{{ ansible_user_dir }}/rke"
+    mode: '0700'
+  when: not rke_bin.stat.exists
+
+- name: Prepare RKE configuration
+  template:
+    src: "cluster.yml.j2"
+    dest: "{{ ansible_user_dir }}/cluster.yml"
+    mode: '0400'
+
+- name: Run RKE
+  command:
+    cmd: "./rke up"
+    chdir: "{{ ansible_user_dir }}"
+    creates: "{{ ansible_user_dir }}/kube_config_cluster.yml"
+  register: rke_run

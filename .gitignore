@@ -32,3 +32,4 @@ csit/
 benchmark/
 .tox/
 build/
+deployment/noheat/**/artifacts/*

@@ -1,0 +1,8 @@
+---
+# docker_config will be converted to json and placed as a /etc/docker/daemon.json
+#docker_config:
+#  insecure-registries:
+#    - "192.168.1.1:5000"
+#    - "192.168.1.2:5000"
+#  registry-mirrors:
+#    - "http://192.168.1.1:5000"
