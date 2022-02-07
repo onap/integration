@@ -46,3 +46,13 @@
     name: docker
     state: started
     enabled: yes
+
+- name: Configure Docker
+  copy:
+    dest: /etc/docker/daemon.json
+    content: "{{ docker_config | to_nice_json }}"
+    mode: 0600
+    backup: true
+  when: docker_config is defined
+  notify:
+    - restart docker
