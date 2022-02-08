@@ -18,7 +18,7 @@ securitygroup:
     - "192.168.1.0/24"
 
 image:
-  name: &image_name "Ubuntu_18.04"
+  name: &image_name "Ubuntu_20.04"
   user: "ubuntu"
 
 operation:
