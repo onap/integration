@@ -21,6 +21,12 @@
     repo_url: https://prometheus-community.github.io/helm-charts
   when: prometheus_enabled
 
+- name: Add Istio Helm repository
+  kubernetes.core.helm_repository:
+    name: istio
+    repo_url: https://istio-release.storage.googleapis.com/charts
+  when: istio_enabled
+
 - name: Copy MetalLB override file
   template:
     src: "metallb-values.yaml.j2"
@@ -47,3 +53,42 @@
     release_namespace: prometheus
     create_namespace: true
   when: prometheus_enabled
+
+- name: Deploy Istio base chart
+  kubernetes.core.helm:
+    name: istio-base
+    chart_version: "{{ istio_version }}"
+    chart_ref: istio/base
+    release_namespace: istio-system
+    create_namespace: true
+  when: istio_enabled
+
+- name: Deploy Istio discovery chart
+  kubernetes.core.helm:
+    name: istiod
+    chart_version: "{{ istio_version }}"
+    chart_ref: istio/istiod
+    release_namespace: istio-system
+    wait: true
+  when: istio_enabled
+
+- name: Create Istio ingress gateway namespace
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: istio-ingress
+        labels:
+          istio-injection: enabled
+  when: istio_enabled
+
+- name: Deploy Istio ingress gateway chart
+  kubernetes.core.helm:
+    name: istio-ingress
+    chart_version: "{{ istio_version }}"
+    chart_ref: istio/gateway
+    release_namespace: istio-ingress
+    wait: true
+  when: istio_enabled
