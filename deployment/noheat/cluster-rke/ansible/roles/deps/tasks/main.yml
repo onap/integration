@@ -13,17 +13,20 @@
   kubernetes.core.helm_repository:
     name: metallb
     repo_url: https://metallb.github.io/metallb
+  when: metallb_enabled
 
 - name: Add prometheus Helm repository
   kubernetes.core.helm_repository:
     name: prometheus
     repo_url: https://prometheus-community.github.io/helm-charts
+  when: prometheus_enabled
 
 - name: Copy MetalLB override file
   template:
     src: "metallb-values.yaml.j2"
     dest: "/tmp/metallb-values.yaml"
     mode: '0400'
+  when: metallb_enabled
 
 - name: Deploy MetalLB charts
   kubernetes.core.helm:
@@ -34,6 +37,7 @@
     create_namespace: true
     values_files:
       - /tmp/metallb-values.yaml
+  when: metallb_enabled
 
 - name: Deploy Prometheus charts
   kubernetes.core.helm:
@@ -42,3 +46,4 @@
     chart_ref: prometheus/kube-prometheus-stack
     release_namespace: prometheus
     create_namespace: true
+  when: prometheus_enabled
