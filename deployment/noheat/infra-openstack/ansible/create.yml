@@ -21,7 +21,7 @@
         path: "~/.ssh/{{ keypair.name }}"
       register: key
     - name: Add operator0 public key to it's authorized keys
-      authorized_key:
+      ansible.posix.authorized_key:
         key: "{{ key['public_key'] }}"
         state: present
         user: "{{ ansible_user }}"
@@ -52,7 +52,7 @@
       vars:
         hosts: "{{ lookup('dict', hostvars['localhost']['hosts_dict']) }}"
     - name: Push in-cluster deployment stage description to the next Ansible control host
-      ansible.posix.synchronize:
+      copy:
         src: ../../cluster-rke
         dest: ~/deploy
     - block:
