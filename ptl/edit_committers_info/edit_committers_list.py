@@ -49,10 +49,10 @@ class CommitterChange:
         name: str,
         action: CommitterActions,
         link: str,
-        email: str = None,
-        company: str = None,
-        committer_id: str = None,
-        timezone: str = None,
+        email: str = "",
+        company: str = "",
+        committer_id: str = "",
+        timezone: str = "",
     ) -> None:
         """Initialize the change object.
 
@@ -61,17 +61,22 @@ class CommitterChange:
             action (CommitterActions): Action to be done
             link (str): Link to the TSC confirmation
             email (str, optional): Committer's e-mail. Needed only for addition.
-                Defaults to None.
+                Defaults to "".
             company (str, optional): Committer's company name. Needed only for addition.
-                Defaults to None.
+                Defaults to "".
             committer_id (str, optional): Committer's LF ID. Needed only for addition.
-                Defaults to None.
+                Defaults to "".
             timezone (str, optional): Committer's timezone. Needed only for addition.
-                Defaults to None.
+                Defaults to "".
+
         """
         self._committer_name: str = name
         self._action: CommitterActions = action
         self._link: str = link
+        self._email: str = email
+        self._company: str = company
+        self._commiter_id: str = committer_id
+        self._timezone: str = timezone
 
     @property
     def action(self) -> CommitterActions:
@@ -94,52 +99,99 @@ class CommitterChange:
         return self._committer_name
 
     @property
-    def tsc_change(self) -> Dict[str, str]:
-        """TSC change.
-
-        Dictionary which is going to be added into
-            INFO.yaml file 'tsc' section.
-        Values are different for Addition and Deletion
-            actions.
+    def email(self) -> str:
+        """Committer email property.
 
         Returns:
-            Dict[str, str]: TSC section entry
+            str: Email provided during initialization.
 
         """
-        # Start ignoring PyLintBear
-        match self.action:
-            case CommitterActions.ADDITION:
-                return self.tsc_change_addition
-            case CommitterActions.DELETION:
-                return self.tsc_change_deletion
-        # Stop ignoring
+        return self._email
 
     @property
-    def tsc_change_addition(self) -> Dict[str, str]:
-        """Addition tsc section entry value.
-
-        Value which is going to be added into 'tsc' section
-
-        Raises:
-            NotImplementedError: That method is not implemented yet
+    def company(self) -> str:
+        """Committer company property.
 
         Returns:
-            Dict[str, str]: TSC section value
+            str: Company name provided during initialization
+
         """
-        raise NotImplementedError
+        return self._company
 
     @property
-    def tsc_change_deletion(self) -> Dict[str, str]:
-        """Addition tsc section entry value.
-
-        Value which is going to be added into 'tsc' section
+    def committer_id(self) -> str:
+        """Committer id property.
 
         Returns:
-            Dict[str, str]: TSC section value
+            str: Committer ID provided during initialization
+
+        """
+        return self._commiter_id
+
+    @property
+    def timezone(self) -> str:
+        """Committer timezone property.
+
+        Returns:
+            str: Committer timezone provided during initialization
+
+        """
+        return self._timezone
+
+    @property
+    def addition_change(self) -> Dict[str, str]:
+        """Addition change property.
+
+        Returns:
+            Dict[str, str]: Values which are going to be added into committers section
+
         """
         return {
-            "type": self.action.value,
             "name": self.committer_name,
+            "email": self.email,
+            "company": self.company,
+            "id": self.committer_id,
+            "timezone": self.timezone,
+        }
+
+
+class TscChange:
+    """TSC section change class."""
+
+    def __init__(self, action: CommitterActions, link: str) -> None:
+        """Initialize tsc change class instance.
+
+        Args:
+            action (CommitterActions): TSC section change action.
+            link (str): Link to the TSC confirmation
+
+        """
+        self._action: CommitterActions = action
+        self._link: str = link
+        self._names: List[str] = []
+
+    def add_name(self, name: str) -> None:
+        """Add committer name into tsc change.
+
+        For both actions: deletion and addition there is an option to add multiple names
+            for each. That method adds name into the list which will be used then.
+
+        Args:
+            name (str): Committer name to be added to the list of the names in tsc section change.
+        """
+        self._names.append(name)
+
+    @property
+    def tsc_change(self) -> Dict[str, str]:
+        """Tsc section change property.
+
+        Returns:
+            Dict[str, str]: Dictionary with values to be added into TSC section.
+
+        """
+        return {
+            "type": self._action.value,
+            "name": ", ".join(self._names),
             "link": self._link,
         }
 
@@ -208,7 +260,15 @@ class YamlConfig:
             # Start ignoring PyLintBear
             match action := CommitterActions(committer_change["action"]):
                 case CommitterActions.ADDITION:
-                    continue  # TODO: Add addition support
+                    yield CommitterChange(
+                        name=committer_change["name"],
+                        action=action,
+                        link=committer_change["link"],
+                        email=committer_change["email"],
+                        company=committer_change["company"],
+                        committer_id=committer_change["id"],
+                        timezone=committer_change["timezone"],
+                    )
                 case CommitterActions.DELETION:
                     yield CommitterChange(
                         name=committer_change["name"],
@@ -216,6 +276,39 @@ class YamlConfig:
                         link=committer_change["link"],
                     )
             # Stop ignoring
+
+    @property
+    def tsc_changes(self) -> Iterator[TscChange]:
+        """Iterate through tsc section changes.
+
+        Instead of create TSC for every committers change that method
+            groups them.
+
+        Yields:
+            Iterator[TscChange]: TSC section change which is going to be added into INFO.yaml file
+
+        """
+        deletion_tsc_change: Optional[TscChange] = None
+        addition_tsc_change: Optional[TscChange] = None
+        for committer_change in self._yaml["committers"]:
+            # Start ignoring PyLintBear
+            match action := CommitterActions(committer_change["action"]):
+                case CommitterActions.ADDITION:
+                    if not addition_tsc_change:
+                        addition_tsc_change = TscChange(
+                            action, committer_change["link"]
+                        )
+                    addition_tsc_change.add_name(committer_change["name"])
+                case CommitterActions.DELETION:
+                    if not deletion_tsc_change:
+                        deletion_tsc_change = TscChange(
+                            action, committer_change["link"]
+                        )
+                    deletion_tsc_change.add_name(committer_change["name"])
+            # Stop ignoring
+        return (
+            change for change in [deletion_tsc_change, addition_tsc_change] if change
+        )
 
     @property
     def issue_id(self) -> str:
@@ -413,10 +506,10 @@ class InfoYamlFile:
         """
         match committer_change.action:
             case CommitterActions.ADDITION:
-                raise ValueError("Addition action not supported")
+                self.add_committer(committer_change)
             case CommitterActions.DELETION:
                 self.delete_committer(committer_change.committer_name)
-        self.add_tsc_change(committer_change)
+        # self.add_tsc_change(committer_change)
 
     def delete_committer(self, name: str) -> None:
         """Delete commiter action execution.
@@ -436,7 +529,23 @@ class InfoYamlFile:
                 return
         raise ValueError(f"Committer {name} is not on the committer list")
 
-    def add_tsc_change(self, committer_change: CommitterChange) -> None:
+    def add_committer(self, commiter_change: CommitterChange) -> None:
+        """Add committer action.
+
+        All provided data are going to be formatted properly and added into INFO.yaml file 'committers' section.
+
+        Args:
+            commiter_change (CommitterChange): Change to be added
+
+        """
+        self._info["committers"].append(
+            {
+                key: SingleQuotedScalarString(value)
+                for key, value in commiter_change.addition_change.items()
+            }
+        )
+
+    def add_tsc_change(self, tsc_change: TscChange) -> None:
         """Add Technical Steering Committee entry.
 
         All actions need to be confirmed by the TSC. That entry proves that
@@ -449,7 +558,7 @@ class InfoYamlFile:
         self._info["tsc"]["changes"].append(
             {
                 key: SingleQuotedScalarString(value)
-                for key, value in committer_change.tsc_change.items()
+                for key, value in tsc_change.tsc_change.items()
             }
         )
 
@@ -470,6 +579,8 @@ def update_infos(changes_yaml_file_path):
         with InfoYamlFile(onap_repo.info_file_path_abs) as info:
             for committer_change in yaml_config.committers_changes:
                 info.perform_committer_change(committer_change)
+            for tsc_change in yaml_config.tsc_changes:
+                info.add_tsc_change(tsc_change)
         onap_repo.push_the_change(yaml_config.issue_id, yaml_config.commit_msg)
 
 
