@@ -1,5 +1,6 @@
 #  ============LICENSE_START=======================================================
 #  Copyright (C) 2020 Huawei Technologies Co., Ltd. All rights reserved.
+#  Contribution (C) 2022 Aarna Networks, Inc. All rights reserved.
 #  ================================================================================
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -45,4 +46,18 @@ def deallocateNssi(sliceProfileId, requestBody):
     nSSId = requestBody["nSSId"]
 
     logger.info("Deallocate NSSI for sliceProfileId %s success, nSSId: %s" % (sliceProfileId, nSSId))
+    return ""
+
+def activateNssi(snssai, requestBody):
+    nssiId = requestBody["nssiId"]
+    #nsiId  = requestBody["nsiId"]
+
+    logger.info("Activate NSSI for snssai %s successful, nssiId: %s" % (snssai, nssiId))
+    return ""
+
+def deactivateNssi(snssai, requestBody):
+    nssiId = requestBody["nssiId"]
+    #nsiId  = requestBody["nsiId"]
+
+    logger.info("DeActivate NSSI for snssai %s successful, nssiId: %s" % (snssai, nssiId))
     return ""

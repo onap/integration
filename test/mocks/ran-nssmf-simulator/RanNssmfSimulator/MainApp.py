@@ -2,6 +2,7 @@
 
 #  ============LICENSE_START=======================================================
 #  Copyright (C) 2020 Huawei Technologies Co., Ltd. All rights reserved.
+#  Contribution (C) 2022 Aarna Networks, Inc. All rights reserved.
 #  ================================================================================
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -21,7 +22,7 @@ from flask import Flask, request, Response
 from schematics.exceptions import DataError
 
 from .utils import REST_PORT, LOGGING_LEVEL
-from .SliceDataType import AllocateNssi, DeAllocateNssi
+from .SliceDataType import AllocateNssi, DeAllocateNssi, ActivateNssi, DeActivateNssi
 from . import AuthManager
 from . import NssManager
 
@@ -97,6 +98,27 @@ def handleDeallocateNssi(sliceProfileId):
 
     return NssManager.deallocateNssi(sliceProfileId, request.json), 200
 
+@app.route("/api/rest/provMns/v1/an/NSS/<string:snssai>/activations", methods=['PUT'])
+def handleActivateNssi(snssai):
+    AuthManager.checkAuthToken(request.headers)
+
+    app.logger.info("Receive ActivateNssi request for snssai:%s\n%s"
+                    % (snssai, json.dumps(request.json, indent=2)))
+
+    ActivateNssi(request.json).validate()
+
+    return NssManager.activateNssi(snssai, request.json), 200
+
+@app.route("/api/rest/provMns/v1/an/NSS/<string:snssai>/deactivation", methods=['PUT'])
+def handleDeActivateNssi(snssai):
+    AuthManager.checkAuthToken(request.headers)
+
+    app.logger.info("Receive DeActivateNssi request for snssai:%s\n%s"
+                    % (snssai, json.dumps(request.json, indent=2)))
+
+    DeActivateNssi(request.json).validate()
+
+    return NssManager.deactivateNssi(snssai, request.json), 200
 
 def main():
     AuthManager.startAuthManagerJob()
