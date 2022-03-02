@@ -1,5 +1,6 @@
 #  ============LICENSE_START=======================================================
 #  Copyright (C) 2020 Huawei Technologies Co., Ltd. All rights reserved.
+#  Contribution (C) 2022 Aarna Networks, Inc. All rights reserved.
 #  ================================================================================
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -62,3 +63,13 @@ class AllocateNssi(Model):
 class DeAllocateNssi(Model):
     """Reference 3GPP TS 28.531 V16.6.0."""
     nSSId = StringType(required=True)
+
+class ActivateNssi(Model):
+    """Reference 3GPP TS 28.531 V16.6.0."""
+    nsiId = StringType(required=True)
+    nssiId = StringType(required=True)
+
+class DeActivateNssi(Model):
+    """Reference 3GPP TS 28.531 V16.6.0."""
+    nsiId = StringType(required=True)
+    nssiId = StringType(required=True)
