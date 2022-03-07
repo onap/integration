@@ -27,6 +27,7 @@
   apt:
     name: "{{ item }}"
     state: present
+    allow_downgrade: true
   with_items:
     - "docker-ce={{ docker_pkg_version.stdout }}"
     - "docker-ce-cli={{ docker_pkg_version.stdout }}"

@@ -66,9 +66,9 @@
       - name: Install community.kubernetes.k8s Ansible collection dependencies
         pip:
           name:
-            - openshift==0.12.1
+            - openshift==0.13.1
             - pyyaml==6.0
-            - kubernetes==21.7.0
+            - kubernetes==22.6.0
           executable: pip3
         become: yes
       - name: Copy ansible-galaxy requirements file

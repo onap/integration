@@ -3,8 +3,8 @@ cert_manager_version: "1.5.5"
 prometheus_enabled: true
 prometheus_version: "19.3.0"
 metallb_enabled: true
-metallb_version: "0.11.0"
+metallb_version: "0.12.1"
 metallb_protocol: "layer2"
 metallb_addresses: "192.168.1.129-192.168.1.255"
 istio_enabled: true
-istio_version: "1.12.3"
+istio_version: "1.12.5"
