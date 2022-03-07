@@ -15,6 +15,8 @@
     network_name: "{{ net.name }}"
     cidr: "{{ net.cidr }}"
     dns_nameservers: "{{ dns_ips if dns_ips is defined else omit }}"
+    allocation_pool_start: '{{ net.allocation_pool_start | default("") }}'
+    allocation_pool_end: '{{ net.allocation_pool_end | default ("") }}'
     state: present
 
 - name: "Create {{ net.name }} router"
