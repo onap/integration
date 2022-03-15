@@ -1,6 +1,6 @@
 .. This work is licensed under a Creative Commons Attribution 4.0 International License.
 .. http://creativecommons.org/licenses/by/4.0
-.. Copyright 2021 ONAP
+.. Copyright 2022 ONAP
 
 .. _docs_vFW_CNF_CDS:
 
@@ -39,8 +39,7 @@ All changes to related ONAP components and Use Case can be found in the followin
 - `REQ-341`_
 - `REQ-458`_
 - `REQ-627`_
-
-**Since Guilin ONAP supports Helm packages as a native onboarding artifacts and SO natively orchestrates Helm packages what brings significant advantages in the future. Also since Guilin release ONAP has first mechanisms for monitoring of the status of deployed CNF resources. Since Honolulu release native CNF testing capability was enabled that allows for execution of the dedicated test jobs for each helm package**.
+- `REQ-890`_
 
 The vFW CNF Use Case
 ~~~~~~~~~~~~~~~~~~~~
@@ -83,84 +82,9 @@ Modeling of Onboarding Package/Helm
 
 The starting point for this demo was Helm package containing one Kubernetes application, see `vFW_Helm Model`_. In this demo we decided to follow SDC/SO vf-module concept the same way as original vFW demo was split into multiple vf-modules instead of one (`vFW_NextGen`_). The same way we splitted Helm version of vFW into multiple Helm packages each matching one dedicated vf-module.
 
-The Istanbul version of the `vFW_CNF_CDS Model`_ contains files required to create **VSP onboarding packages in two formats**: the **Dummy Heat** (available in Frankfurt release already) one that considers association of each Helm package with dummy heat templates and the **Native Helm** one where each Helm package is standalone and is natively understood in consequence by SO. For both variants of VSP Helm packages are matched to the vf-module concept, so basically each Helm application after instantiation is visible to ONAP as a separate vf-module. The chosen format for onboarding has **crucial** role in the further orchestration approach applied for Helm package instantiation. The **Dummy Heat** will result with orchestration through the **Openstack Adapter** component of SO while **Native Helm** will result with **CNF Adapter**. Both approaches will result with instantiation of the same CNF, however the **Native Helm** approach will be enhanced in the future releases while **Dummy Heat** approach will become deprecated in the future. Read more in `3-1 CNF Orchestration Paths in ONAP`_
+The Jakarta version of the `vFW_CNF_CDS Model`_ contains files required to create **VSP onboarding packages in Helm Native format** where each Helm package is standalone and is natively understood in consequence by SO. The **Dummy Heat** (available in Frankfurt release already) one that considers association of each Helm package with dummy heat templates since Jakarta is not a prt of the vFW CNF demo. If you are interested to see how to onboard and orchestrate the CNF using the **Dummy Heat** approach, please open the Istanbul version of the documentation. The VSP Helm packages are matched to the vf-module concept, so basically each Helm application after instantiation is visible to ONAP as a separate vf-module. The **Native Helm** format for onboarding has **crucial** role in the further orchestration approach applied for Helm package instantiation as it leverages the **CNF Adapter** and it populates k8s resource information to AAI what plays significant role in the Day operation for CNFs, including closed-loop automation with Prometheus. Read more in `3-1 CNF Orchestration Paths in ONAP`_
 
-Produced **Dummy Heat** VSP onboarding package `Creating Onboarding Package`_ format has following MANIFEST file (package_dummy/MANIFEST.json). The Helm package is delivered as CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT package through SDC and SO. Dummy heat templates are matched to Helm packages by the same prefix <vf_module_label> of the file name that for both dummy Heat template and for CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT must be the same, like i.e. *vpg* vf-module in the manifest file below. The name of the CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT artifact is predefined and needs to match the pattern: <vf_module_label>_cloudtech_k8s_charts.tgz.
-
-::
-
-    {
-        "name": "virtualFirewall",
-        "description": "",
-        "data": [
-            {
-                "file": "CBA.zip",
-                "type": "CONTROLLER_BLUEPRINT_ARCHIVE"
-            },
-            {
-                "file": "base_template.yaml",
-                "type": "HEAT",
-                "isBase": "true",
-                "data": [
-                    {
-                        "file": "base_template.env",
-                        "type": "HEAT_ENV"
-                    }
-                ]
-            },
-            {
-                "file": "base_template_cloudtech_k8s_charts.tgz",
-                "type": "CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT"
-            },
-            {
-                "file": "vfw.yaml",
-                "type": "HEAT",
-                "isBase": "false",
-                "data": [
-                    {
-                        "file": "vfw.env",
-                        "type": "HEAT_ENV"
-                    }
-                ]
-            },
-            {
-                "file": "vfw_cloudtech_k8s_charts.tgz",
-                "type": "CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT"
-            },
-            {
-                "file": "vpkg.yaml",
-                "type": "HEAT",
-                "isBase": "false",
-                "data": [
-                    {
-                        "file": "vpkg.env",
-                        "type": "HEAT_ENV"
-                    }
-                ]
-            },
-            {
-                "file": "vpkg_cloudtech_k8s_charts.tgz",
-                "type": "CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT"
-            },
-            {
-                "file": "vsn.yaml",
-                "type": "HEAT",
-                "isBase": "false",
-                "data": [
-                    {
-                        "file": "vsn.env",
-                        "type": "HEAT_ENV"
-                    }
-                ]
-            },
-            {
-                "file": "vsn_cloudtech_k8s_charts.tgz",
-                "type": "CLOUD_TECHNOLOGY_SPECIFIC_ARTIFACT"
-            }
-        ]
-    }
-
-Produced **Native Helm** VSP onboarding package `Creating Onboarding Package`_ format has following MANIFEST file (package_native/MANIFEST.json). The Helm package is delivered as HELM package through SDC and SO. The *isBase* flag of HELM artifact is ignored by SDC but in the manifest one HELM or HEAT artifacts must be defined as isBase = true. If both HEAT and HELM are present in the same manifest file the base one must be always one of HELM artifacts. Moreover, the name of HELM type artifact must match the specified pattern: *helm_<some_name>* and the HEAT type artifacts, if present in the same manifest, cannot contain keyword *helm*. These limitations are a consequence of current limitations of the SDC onboarding and VSP validation engine and will be adresssed in the future releases.
+Produced **Native Helm** VSP onboarding package `Creating Onboarding Package`_ format has following MANIFEST file (package_native/MANIFEST.json). The Helm package is delivered as HELM package through SDC and SO. The *isBase* flag of HELM artifact is ignored by SDC but in the manifest one HELM or HEAT artifacts must be defined as isBase = true. If both HEAT and HELM are present in the same manifest file the base one must be always one of HELM artifacts. Moreover, the name of HELM type artifact **MUST** match the specified pattern: *helm_<some_name>* and the HEAT type artifacts, if present in the same manifest, cannot contain keyword *helm*. These limitations are a consequence of current limitations of the SDC onboarding and VSP validation engine and will be adresssed in the future releases.
 
 ::
 
@@ -227,55 +151,9 @@ The prepared CBA model demonstrates also how to utilize CNF specific features of
 - building and upload of k8s configuration template into k8splugin
 - parametrization and creation of configuration instance from configuration template
 - validation of CNF status with Kotlin script
+- execution of the CNF healtcheck
 
-As K8S application is split into multiple Helm packages to match vf-modules, CBA modeling follows the same and for each vf-module there's own template in CBA package. The list of artifact with the templates is different for **Dummy Heat** and **Native Helm** approach. The second one has artifact names starting with *helm_* prefix, in the same way like names of artifacts in the MANIFEST file of VSP differs. The **Dummy Heat** artifacts' list is following:
-
-::
-
-    "artifacts" : {
-      "base_template-template" : {
-        "type" : "artifact-template-velocity",
-        "file" : "Templates/base_template-template.vtl"
-      },
-      "base_template-mapping" : {
-        "type" : "artifact-mapping-resource",
-        "file" : "Templates/base_template-mapping.json"
-      },
-      "vpkg-template" : {
-        "type" : "artifact-template-velocity",
-        "file" : "Templates/vpkg-template.vtl"
-      },
-      "vpkg-mapping" : {
-        "type" : "artifact-mapping-resource",
-        "file" : "Templates/vpkg-mapping.json"
-      },
-      "vfw-template" : {
-        "type" : "artifact-template-velocity",
-        "file" : "Templates/vfw-template.vtl"
-      },
-      "vfw-mapping" : {
-        "type" : "artifact-mapping-resource",
-        "file" : "Templates/vfw-mapping.json"
-      },
-      "vnf-template" : {
-        "type" : "artifact-template-velocity",
-        "file" : "Templates/vnf-template.vtl"
-      },
-      "vnf-mapping" : {
-        "type" : "artifact-mapping-resource",
-        "file" : "Templates/vnf-mapping.json"
-      },
-      "vsn-template" : {
-        "type" : "artifact-template-velocity",
-        "file" : "Templates/vsn-template.vtl"
-      },
-      "vsn-mapping" : {
-        "type" : "artifact-mapping-resource",
-        "file" : "Templates/vsn-mapping.json"
-      }
-    }
-
-The **Native Helm** artifacts' list is following:
+As K8S application is split into multiple Helm packages to match vf-modules, CBA modeling follows the same and for each vf-module there's own template in CBA package. The **Native Helm** approach, requires the Helm artifact names to star with *helm_* prefix, in the same way like names of artifacts in the MANIFEST file of VSP differs. The **Native Helm** artifacts' list is following:
 
 ::
 
@@ -370,7 +248,7 @@ In order to support generation and upload of profile, our vFW CBA model has enha
             }
         },
 
-.. note:: In the Frankfurt release profile upload was implemented as a custom Kotlin script included into the CBA. It was responsible for upload of K8S profile into multicloud/k8s plugin. It is still a good example of  the integration of Kotlin scripting into the CBA. For those interested in this functionaliy we recommend to look into the `Frankfurt CBA Definition`_ and `Frankfurt CBA Script`_. Since Honolulu we introduce more advanced use of the Kotlin script for verification of the CNF status or custom resolution of complex parameters over Kotlin script - both can be found in the further part of the documentation.
+.. note:: In the Frankfurt release profile upload was implemented as a custom Kotlin script included into the CBA. It was responsible for upload of K8S profile into multicloud/k8s plugin. It is still a good example of the integration of Kotlin scripting into the CBA. For those interested in this functionaliy we recommend to look into the `Frankfurt CBA Definition`_ and `Frankfurt CBA Script`_. Since Honolulu we introduce more advanced use of the Kotlin script for verification of the CNF status or custom resolution of complex parameters over Kotlin script - both can be found in the further part of the documentation.
 
 In our example for vPKG helm package we may select *vfw-cnf-cds-vpkg-profile* profile that is included into CBA as a folder. Profile generation step uses Velocity templates processing embedded CDS functionality on its basis ssh port number (specified in the SO request as *vpg-management-port*).
 
@@ -464,20 +342,22 @@ Artifact file determines a place of the static profile or the content of the com
 
 SO requires for instantiation name of the profile in the parameter: *k8s-rb-profile-name*. The *component-k8s-profile-upload* that stands behind the profile uploading mechanism has input parameters that can be passed directly (checked in the first order) or can be taken from the *resource-assignment-map* parameter which can be a result of associated *component-resource-resolution* result, like in our case their values are resolved on vf-module level resource assignment. The *component-k8s-profile-upload* inputs are following:
 
-- k8s-rb-definition-name - the name under which RB definition was created - **VF Module Model Invariant ID** in ONAP
-- k8s-rb-definition-version - the version of created RB definition name - **VF Module Model Customization ID**  in ONAP
-- k8s-rb-profile-name - (mandatory) the name of the profile under which it will be created in k8s plugin. Other parameters are required only when profile must be uploaded because it does not exist yet
-- k8s-rb-profile-source - the source of profile content - name of the artifact of the profile. If missing *k8s-rb-profile-name* is treated as a source
-- k8s-rb-profile-namespace - the k8s namespace name associated with profile being created
-- k8s-rb-profile-kubernetes-version - the version of the cluster on which application will be deployed - it may impact the helm templating process like selection of the api versions for resources.
-- resource-assignment-map - result of the associated resource assignment step - it may deliver values of inputs if they are not specified directly
-- artifact-prefix-names - (mandatory) the list of artifact prefixes like for resource-assigment step in the resource-assigment workflow or its subset
+- k8s-rb-definition-name [string] - (mandatory) the name under which RB definition was created - **VF Module Model Invariant ID** in ONAP
+- k8s-rb-definition-version [string] - (mandatory) the version of created RB definition name - **VF Module Model Customization ID**  in ONAP
+- k8s-rb-profile-name [string] - (mandatory) the name of the profile under which it will be created in k8s plugin. Other parameters are required only when profile must be uploaded because it does not exist yet
+- k8s-rb-profile-source [string] - the source of profile content - name of the artifact of the profile. If missing *k8s-rb-profile-name* is treated as a source
+- k8s-rb-profile-namespace [string] - (mandatory) the k8s namespace name associated with profile being created
+- k8s-rb-profile-kubernetes-version [string] - the version of the cluster on which application will be deployed - it may impact the helm templating process like selection of the api versions for resources so it should match the version of k8s cluster in which resources are bing deployed.
+- k8s-rb-profile-labels [json] - the extra labels (label-name: label-value) to add for each k8s resource created for CNF in the k8s cluster (since Jakarta release).
+- k8s-rb-profile-extra-types [list<json>] - the list of extra k8s types that should be returned by StatusAPI. It may be usefull when k8s resources associated with CNF instance are created outside of the helm package (i.e. by k8s operator) but should be treated like resources of CNF. To make it hapens such resources should have the instance label *k8splugin.io/rb-instance-id* what may be assured by such tools like *kyverno*. Each extra type json object needs *Group*, *Version* and *Kind* attributes. (since Jakarta release).
+- resource-assignment-map [json] - result of the associated resource assignment step - it may deliver values of inputs if they are not specified directly
+- artifact-prefix-names [list<string>] - (mandatory) the list of artifact prefixes like for resource-assigment step in the resource-assigment workflow or its subset
 
 In the SO request user can pass parameter of name *k8s-rb-profile-name* which in our case may have value: *vfw-cnf-cds-base-profile*, *vfw-cnf-cds-vpkg-profile* or *default*. The *default* profile does not contain any content inside and allows instantiation of CNF without the need to define and upload any additional profiles. *vfw-cnf-cds-vpkg-profile* has been prepared to test instantiation of the second modified vFW CNF instance.
 
 K8splugin allows to specify override parameters (similar to --set behavior of helm client) to instantiated resource bundles. This allows for providing dynamic parameters to instantiated resources without the need to create new profiles for this purpose. This mechanism should be used with *default* profile but may be used also with any custom profile.
 
-The overall flow of helm overrides parameters processing is visible on following figure. When *rb definition* (helm package) is being instantiated for specified *rb profile* K8splugin combines override values from the helm package, *rb profile* and from the instantiation request - in the respective order. It means that the value from the instantiation request (SO request input or CDS resource assignement result) has a precedence over the value from the *rb profile* and value from the *rb profile* has a precedence over the helm package default override value. Similarly, profile can contain resource files that may extend or ammend the existing files for the original helm package content.
+The overall flow of helm overrides parameters processing is visible on following figure. When *rb definition* (helm package) is being instantiated for specified *rb profile* K8splugin combines override values from the helm package, *rb profile* and from the instantiation request - in the respective order. It means that the value from the instantiation request (SO request input or CDS resource assignment result) has a precedence over the value from the *rb profile* and value from the *rb profile* has a precedence over the helm package default override value. Similarly, profile can contain resource files that may extend or ammend the existing files for the original helm package content.
 
 .. figure:: files/vFW_CNF_CDS/helm-overrides.png
    :align: center
@@ -493,11 +373,11 @@ Both profile content (4) like the instantiation request values (5) can be genera
 
 Both profile content (4) like the instantiation request values (5) can be generated during the resource assignment process according to its definition for CBA associated with helm package. CBA may generate i.e. names, IP addresses, ports and can use this information to produce the *rb-profile* (3) content. Finally, all three sources of override values, temnplates and additional resources files are merged together (6) by K8splugin in the order exaplained before.
 
-Beside the deployment of Helm application the CBA of vFW demonstrates also how to use deicated features for config-assign (7) and config-deploy (8) operations. In the use case, config-assign and config-deploy operations deal mainly with creation and instantiation of configuration template for k8s plugin. The configuration template has a form of Helm package. When k8s plugin instantiates configuration, it creates or may replace existing resources deployed on k8s cluster. In our case the configuration template is used to provide alternative way of upload of the additional ssh-service but it coud be used to modify configmap of vfw or vpkg vf-modules.
+Besides the deployment of Helm application the CBA of vFW demonstrates also how to use deicated features for config-assign (7) and config-deploy (8) operations. In the use case, *config-assign* and *config-deploy* operations deal mainly with creation and instantiation of configuration template for k8s plugin. The configuration template has a form of Helm package. When k8s plugin instantiates configuration, it creates or may replace existing resources deployed on k8s cluster. In our case the configuration template is used to provide alternative way of upload of the additional ssh-service but it coud be used to modify configmap of vfw or vpkg vf-modules.
 
-In order to provide configuration instantiation capability standard condfig-assign and config-deploy workflows have been changed into imperative workflows with first step responsible for collection of informatino for configuration templating and configuration instantiation. The source of data for this operations is AAI, MDSAL with data for vnf and vf-modules as config-assign and config-deploy does not receive dedicated input parameters from SO. In consequence both operations need to source from resource-assignent phase and data placed in the AAI and MDSAL.
+In order to provide configuration instantiation capability standard *config-assign* and *config-deploy* workflows have been changed into imperative workflows with first step responsible for collection of information for configuration templating and configuration instantiation. The source of data for this operations is AAI, MDSAL with data for vnf and vf-modules as *config-assign* and *config-deploy* does not receive dedicated input parameters from SO. In consequence both operations need to source from *resource-assignment* phase and data placed in the AAI and MDSAL.
 
-vFW CNF config-assign workflow is following:
+vFW CNF *config-assign* workflow is following:
 
 ::
 
@@ -526,7 +406,7 @@ vFW CNF config-assign workflow is following:
             }
         },
 
-vFW CNF config-deploy workflow is following:
+vFW CNF *config-deploy* workflow is following:
 
 ::
 
@@ -604,14 +484,14 @@ In this use case we have two options with *ssh-service-config* and *ssh-service-
         }
     }
 
-The *component-k8s-config-template* that stands behind creation of configuration template has input parameters that can be passed directly (checked in the first order) or can be taken from the *resource-assignment-map* parameter which can be a result of associated *component-resource-resolution* result, like in vFW CNF use case their values are resolved on vf-module level dedicated for config-assign and config-deploy resource assignment step. The *component-k8s-config-template* inputs are following:
+The *component-k8s-config-template* that stands behind creation of configuration template has input parameters that can be passed directly (checked in the first order) or can be taken from the *resource-assignment-map* parameter which can be a result of associated *component-resource-resolution* result, like in vFW CNF use case their values are resolved on vf-module level dedicated for *config-assign* and *config-deploy* resource assignment step. The *component-k8s-config-template* inputs are following:
 
-- k8s-rb-definition-name - the name under which RB definition was created - **VF Module Model Invariant ID** in ONAP
-- k8s-rb-definition-version - the version of created RB definition name - **VF Module Model Customization ID**  in ONAP
-- k8s-rb-config-template-name - (mandatory) the name of the configuration template under which it will be created in k8s plugin. Other parameters are required only when configuration template must be uploaded because it does not exist yet
-- k8s-rb-config-template-source - the source of config template content - name of the artifact of the configuration template. If missing *k8s-rb-config-template-name* is treated as a source
-- resource-assignment-map - result of the associated resource assignment step - it may deliver values of inputs if they are not specified directly
-- artifact-prefix-names - (mandatory) the list of artifact prefixes like for resource-assigment step in the resource-assigment workflow or its subset
+- k8s-rb-definition-name [string] - (mandatory) the name under which RB definition was created - **VF Module Model Invariant ID** in ONAP
+- k8s-rb-definition-version [string] - (mandatory) the version of created RB definition name - **VF Module Model Customization ID**  in ONAP
+- k8s-rb-config-template-name [string] - (mandatory) the name of the configuration template under which it will be created in k8s plugin. Other parameters are required only when configuration template must be uploaded because it does not exist yet
+- k8s-rb-config-template-source [string] - the source of config template content - name of the artifact of the configuration template. When missing, the main definition helm package will be used as a configuration template source (since Jakarta release).
+- resource-assignment-map [json] - result of the associated resource assignment step - it may deliver values of inputs if they are not specified directly
+- artifact-prefix-names [list<string>] - (mandatory) the list of artifact prefixes like for resource-assigment step in the resource-assigment workflow or its subset
 
 In our case the *component-k8s-config-template* component receives all the inputs from the dedicated resource-assignment process  *config-setup* that is responsible for resolution of all the inputs for configuration templating. This process generates data for *helm_vpkg* prefix and such one is specified in the list of prefixes of the configuration template component. It means that configuration template will be prepared only for vPKG function.
 
@@ -659,15 +539,16 @@ In our case the *component-k8s-config-template* component receives all the input
     }
 
 
-The *component-k8s-config-value* that stands behind creation of configuration instance has input parameters that can be passed directly (checked in the first order) or can be taken from the *resource-assignment-map* parameter which can be a result of associated *component-resource-resolution* result, like in vFW CNF use case their values are resolved on vf-module level dedicated for config-assign and config-deploy resource assignment step. The *component-k8s-config-value* inputs are following:
+The *component-k8s-config-value* that stands behind creation of configuration instance has input parameters that can be passed directly (checked in the first order) or can be taken from the *resource-assignment-map* parameter which can be a result of associated *component-resource-resolution* result, like in vFW CNF use case their values are resolved on vf-module level dedicated for *config-assign* and *config-deploy*'s' resource-assignment step. The *component-k8s-config-value* inputs are following:
 
-- k8s-rb-config-name - (mandatory) the name of the configuration template under which it will be created in k8s plugin. Other parameters are required only when configuration template must be uploaded because it does not exist yet
-- k8s-rb-config-template-name - (mandatory) the name of the configuration template under which it will be created in k8s plugin. Other parameters are required only when configuration template must be uploaded because it does not exist yet
-- k8s-rb-config-value-source - the source of config template content - name of the artifact of the configuration template. If missing *k8s-rb-config-name* is treated as a source
-- k8s-instance-id - (mandatory) the identifier of the rb instance for which the configuration should be applied
-- k8s-config-operation-type - the type of the configuration operation to perform: create, update or delete. By default create operation is performed
-- resource-assignment-map - result of the associated resource assignment step - it may deliver values of inputs if they are not specified directly
-- artifact-prefix-names - (mandatory) the list of artifact prefixes like for resource-assigment step in the resource-assigment workflow or its subset
+- k8s-rb-config-name [string] - (mandatory) the name of the configuration template under which it will be created in k8s plugin. Other parameters are required only when configuration template must be uploaded because it does not exist yet
+- k8s-rb-config-template-name [string] - (mandatory) the name of the configuration template under which it will be created in k8s plugin. Other parameters are required only when configuration template must be uploaded because it does not exist yet
+- k8s-rb-config-value-source [string] - the source of config template content - name of the artifact of the configuration template. If missing *k8s-rb-config-name* is treated as a source
+- k8s-rb-config-version [string] - the version of the configuration to restore during the *rollback* operation. First configuratino after *create* has version *1* and new ones, after *update* will have version of the following numbers. When *rollback* operation is performed all previous versions on the path to the desired one are being restored one, by one. (since Jakarta)
+- k8s-instance-id [string] - (mandatory) the identifier of the rb instance for which the configuration should be applied
+- k8s-config-operation-type [string] - the type of the configuration operation to perform: *create*, *update*, *rollback*, *delete* or *delete_config*. By default *create* operation is performed. *rollback* and *delete_config* types are present since Jakarta release. The *update* operation creates new version of the configuration. *delete* operation creates also new version of configuratino that deletes all the resources in k8s from the cluster. *delete_config* operation aims to delete configuration entirely but it does not delete or update any resources associated with the configuration.
+- resource-assignment-map [json] - result of the associated resource assignment step - it may deliver values of inputs if they are not specified directly
+- artifact-prefix-names [list<string>] - (mandatory) the list of artifact prefixes like for resource-assigment step in the resource-assigment workflow or its subset
 
 Like for the configuration template, the *component-k8s-config-value* component receives all the inputs from the dedicated resource-assignment process *config-setup* that is responsible for resolution of all the inputs for configuration. This process generates data for *helm_vpkg* prefix and such one is specified in the list of prefixes of the configuration values component. It means that configuration instance will be created only for vPKG function (component allows also update or delete of the configuration but in the vFW CNF case it is used only to create configuration instance).
 
@@ -693,7 +574,7 @@ PART 1 - ONAP Installation
 1-1 Deployment components
 .........................
 
-In order to run the vFW_CNF_CDS use case, we need ONAP Istanbul Release (or later) with at least following components:
+In order to run the vFW_CNF_CDS use case, we need ONAP Jakarta Release (or later) with at least following components:
 
 =======================================================   ===========
 ONAP Component name                                       Describtion
@@ -805,9 +686,9 @@ And check status of pods, deployments, jobs etc.
 1-3 Post Deployment
 ...................
 
-After completing the first part above, we should have a functional ONAP deployment for the Istanbul Release.
+After completing the first part above, we should have a functional ONAP deployment for the Jakarta Release.
 
-We will need to apply a few modifications to the deployed ONAP Istanbul instance in order to run the use case.
+We will need to apply a few modifications to the deployed ONAP Jakarta instance in order to run the use case.
 
 Retrieving logins and passwords of ONAP components
 ++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -888,7 +769,7 @@ Whole content of this use case is stored into single git repository and it conta
 
 ::
 
-  git clone --single-branch --branch istanbul "https://gerrit.onap.org/r/demo"
+  git clone --single-branch --branch jakarta "https://gerrit.onap.org/r/demo"
   cd demo/heat/vFW_CNF_CDS/templates
 
 In order to prepare environment for onboarding and instantiation of the use case make sure you have *git*, *make*, *helm* and *pipenv* applications installed.
@@ -1041,7 +922,7 @@ Please copy the kubeconfig file of existing KUD cluster to automation/artifacts/
 
 ::
 
-    python create_k8s_region.py
+    python create_cloud_regions.py
 
 PART 3 - Execution of the Use Case
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1051,19 +932,7 @@ This part contains all the steps to run the use case by using ONAP GUIs, Postman
 3-1 CNF Orchestration Paths in ONAP
 ...................................
 
-Following pictures describe the overall sequential flow of the use case in two scenarios: **Dummy Heat** path (with OpenStack adapter) and **Native Helm** path (with CNF Adapter)
-
-Dummy Heat CNF Orchestration (Obsolete)
-.......................................
-
-.. warning:: This path is not developed in ONAP since Honolulu release, however ONAP OOM gating process with basic_cnf use case makes sure that basic CNF instantiation with Dummy Heat approach still works. New features from `_REQ-458` and `REQ-627` are integrated and tested only in the Native path.
-
-This orchestration method stands on the grounds of Heat template orchestration mechanisms. In SDC onboarding package needs to contains simple Heat templates that are associated with additional Cloud artifacts. SDC distributes Heat templates to SO and Helm packages to K8sPlugin directly. SO orchestrates the Heat templates without any knowledge about their existence, however the OpenStack adater in SO understands k8s region type for which communication over MSB/Mutlicloud is provided - it handles interaction with K8sPlugin for CNF instantiation.
-
-.. figure:: files/vFW_CNF_CDS/Dummy_Heat_Flow.png
-   :align: center
-
-   vFW CNF CDS Use Case sequence flow for *Dummy Heat* (Frankfurt) path.
+Following picture describe the overall sequential flow of the use case for **Native Helm** path (with CNF Adapter)
 
 Native Helm CNF Orchestration
 .............................
@@ -1079,7 +948,11 @@ Introduced in the Guilin release CNF orchestration method brings native distribu
 Kubernetes and Helm Compatibility
 .................................
 
-K8sPlugin, in the Istanbul release, supports Helm packages that can be validated by Helm 3.5 application. It means that new Helm fetures introduced after Helm 3.5 version are not supported currently. Moreover, K8sPlugin implementation of Helm does not support upgrade operation and such flow is not supported in ONAP orchestration workflows. 
+K8sPlugin, in the Istanbul release (0.9.x), supports Helm packages that can be validated by Helm 3.5 application. It means that new Helm fetures introduced after Helm 3.5 version are not supported currently. Moreover, since Jakarta release K8sPlugin 0.10.x implementation supports upgrade operation but CNF Upgrade orchestration workflow is not yet fully supported in SO orchestration workflows. In consequence, new service moel cna e distributed with new Helm package over SDC but the Helm upgrade procedure must be performed by direct call to k8sPlugin. The request payload is almost the same liek for Isnatce create but release-name comes for the already created instance.
+
+::
+
+    curl -i -X POST http://${K8S_NODE_IP}:30280/api/multicloud-k8s/v1/v1/instance/{rb-instance-id}/upgrade
 
 K8sPlugin utilizes also v0.19.4 version of K8s client and its compatibility matrix with k8s clusters can be found here `K8s Client Compatibility`_, Compatibility Matrix section.
 
@@ -1103,7 +976,7 @@ Complete content of both Onboarding Packages for **Dummy Heat**  and **Native He
 
 ::
 
-  git clone --single-branch --branch istanbul "https://gerrit.onap.org/r/demo"
+  git clone --single-branch --branch jakarta "https://gerrit.onap.org/r/demo"
   cd demo/heat/vFW_CNF_CDS/templates
   make
 
@@ -1262,7 +1135,7 @@ Service Creation with SDC
 
 **<MANUAL>**
 
-Service Creation in SDC is composed of the same steps that are performed by most other use-cases. For reference, you can relate to `vLB use-case`_
+Service Creation in SDC is composed of the same steps that are performed by most other use-cases. For reference, you can look at `vLB use-case`_
 
 Onboard VSP
 
@@ -1277,9 +1150,6 @@ Service -> Properties Assignment -> Choose VF (at right box):
 - skip_post_instantiation_configuration - True
 
 .. note:: Since Honolulu skip_post_instantiation_configuration flag can be set to *False* if we want to run config-assign/config-deploy operations.
-
-**<AUTOMATED>**
-.. note:: The onboarding packages for **Dummy Heat** and **Native Helm** path contain different CBA packages but with the same version and number. In consequence, when one VSP is distributed it replaces the CBA package of the other one and you can instantiate service only for the vFW CNF service service model distributed as a last one. If you want to instantiate vFW CNF service, make sure you have fresh distribution of vFW CNF service model.
 
 ::
 
@@ -1863,7 +1733,7 @@ Examplary output of Status API is shown below (full result of test vFW CNF helm 
 
 **<AUTOMATED>**
 
-Since Honolulu release vFW CNF Use Case is equipped with dedicated mechanisms for verification of the CNF status automatically, during the instantiation. The process utilizes the k8sPlugin Status and Healtcheck APIs that both are natively exposed in the CDS and can be executed from the script execution functionality in the CDS. 
+Since Honolulu release vFW CNF Use Case is equipped with dedicated mechanisms for verification of the CNF status automatically, during the instantiation. The process utilizes the k8sPlugin Status and Healthcheck APIs that both are natively exposed in the CDS and can be executed from the script execution functionality in the CDS. 
 
 .. figure:: files/vFW_CNF_CDS/healthcheck.png
    :scale: 60 %
@@ -1941,7 +1811,7 @@ There is exposed a dedicated workflow in CBA, where Status API result verificati
         },
 
 
-Since Istanbul release, SO is equipped with dedicated workflow for verification of the CNF status. It works similarly to the workflow introduced in Honolulu, however basic CNF Status Verification step utilizes "Ready" flag of the StatusAPI response to check if k8s resources created from Helm package are up and running. Ready flag works properly in k8splugin 0.9.1 or higher. Both operations are performed by ControllerExecutionBB in SO and are realized by cnf-adapter component in SO. This workflow can be triggered by dedicated endpoint documented here: `CNF Health Check`_. This workflow is not yet integrated into automation scripts.
+Since Istanbul release, SO is equipped with dedicated workflow for verification of the CNF status. It works similarly to the workflow introduced in Honolulu, however basic CNF Status Verification step utilizes "Ready" flag of the StatusAPI response to check if k8s resources created from Helm package are up and running. Ready flag works properly in k8splugin 0.9.1 or higher. Both operations are performed by ControllerExecutionBB in SO and are realized by cnf-adapter component in SO. This workflow can be triggered by a dedicated endpoint documented here: `CNF Health Check`_. This workflow is not yet integrated into automation scripts.
 
 3-6 Synchronization of created k8s resources into AAI
 .....................................................
@@ -1952,11 +1822,13 @@ K8s-Resource object is stored in the cloud-infrastructure set of AAI APIs and it
 
   :download:`List of K8s Resources <files/vFW_CNF_CDS/k8s-resources-response.json>`
 
-  :download:`Generic VNF with modules <files/vFW_CNF_CDS/status-response.json>`
+  :download:`Generic VNF with modules <files/vFW_CNF_CDS/vfw-generic-vnf-aai.json>`
 
   :download:`vPKG VF-Module with related k8s-resource relations <files/vFW_CNF_CDS/vpkg-vf-module-aai.json>`
 
-Currently AAI synchronization is run just after creation  of the vf-module by SO. If any changes occurs after, like new Pods created or some deleted, we do not have this information in AAI by default. In order to force the update of AAI information about the concrete Helm package, the following API can be used with properly modified body (all except the callbackUrl).
+AAI synchronization is run just after creation of the vf-module by SO. Since Jakarta release, cnf-adapter synchronizes into AAI information about any change on k8s resources performed after their initial creation. For instance, if pod is deleted in k8s cluster, the new one is automatically created. In consequence, K8sPlugin sends notification about the change to cnf-adapter, and the latter one performs update of the information in AAI by removing the old pod and creating the new one in AAI. The update in AAI, after the change in k8s cluster, should by applied with no more than 30s delay.
+
+In order to force an imidiate update of AAI information about the concrete Helm package, the following API can be also used with properly modified body (all except the callbackUrl).
 
 ::
 
@@ -1986,8 +1858,7 @@ Future development areas for this use case:
 
 Future development areas for CNF support:
 
-- Extraction of override values in time of the package onboarding.
-- Update of the information in AAI after creation
+- Extraction of override values in time of the package onboarding
 - Upgrade of the vFW CNF similar to Helm Upgrade through the SDC and SO
 - Use multicloud/k8S API v2 (EMCO)
 
