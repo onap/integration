@@ -36,17 +36,29 @@
     plugin_path: "{{ oom_dir }}/kubernetes/helm/plugins/undeploy"
     state: present
 
+- name: Check if chartmuseum is installed
+  stat:
+    path: /usr/local/bin/chartmuseum
+  register: cm_bin
+
+- name: Check if chartmuseum is installed
+  stat:
+    path: /tmp/get-chartmuseum
+  register: cm_install
+
 - name: Download chartmuseum install script
   get_url:
     url: "https://raw.githubusercontent.com/helm/chartmuseum/v{{ chartmuseum_version }}/scripts/get-chartmuseum"
     dest: "/tmp/"
     mode: '700'
+  when: not cm_install.stat.exists
 
 - name: Install chartmuseum
   become: yes
   command:
     cmd: "./get-chartmuseum -v v{{ chartmuseum_version }}"
     chdir: "/tmp/"
+  when: not cm_bin.stat.exists
 
 - name: Create chartmuseum local storage
   file:

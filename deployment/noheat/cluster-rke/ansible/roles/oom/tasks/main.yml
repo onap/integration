@@ -28,3 +28,4 @@
 - name: Deploy sm-onap
   command:
     cmd: "helm deploy onap local/onap --namespace onap --set global.masterPassword=scrtPasswd -f {{ oom_dir }}/kubernetes/onap/resources/overrides/sm-onap.yaml"
+  changed_when: false

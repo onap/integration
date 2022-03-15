@@ -1,8 +1,14 @@
+- name: Check if cert-manager manifest file is present
+  stat:
+    path: /tmp/cert-manager.yaml
+  register: cm_manifest
+
 - name: Download cert-manager
   get_url:
     url: "https://github.com/jetstack/cert-manager/releases/download/v{{ cert_manager_version }}/cert-manager.yaml"
     dest: "/tmp"
     mode: '0400'
+  when: not cm_manifest.stat.exists
 
 - name: Deploy cert-manager
   kubernetes.core.k8s:

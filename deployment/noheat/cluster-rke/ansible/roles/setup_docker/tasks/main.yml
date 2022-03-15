@@ -20,8 +20,11 @@
     update_cache: yes
 
 - name: Find exact Docker version
-  shell: "apt-cache madison docker-ce | grep {{ docker_version }} | head -n 1 | cut -d ' ' -f 4"
+  shell: "set -o pipefail && apt-cache madison docker-ce | grep {{ docker_version }} | head -n 1 | cut -d ' ' -f 4"
+  args:
+    executable: "/bin/bash"
   register: docker_pkg_version
+  changed_when: false
 
 - name: install Docker
   apt:
@@ -34,6 +37,7 @@
 
 - name: Lock docker version
   command: apt-mark hold docker-ce docker-ce-cli
+  changed_when: false
 
 - name: Add user to docker group
   user:

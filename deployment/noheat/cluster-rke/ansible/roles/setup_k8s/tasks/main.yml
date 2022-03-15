@@ -1,8 +1,19 @@
+- name: Check if RKE is available
+  stat:
+    path: "{{ ansible_user_dir }}/rke"
+  register: rke_bin
+
+- name: Check if kubectl is available
+  stat:
+    path: "/usr/local/bin/kubectl"
+  register: kubectl_bin
+
 - name: Download RKE
   get_url:
     url: "https://github.com/rancher/rke/releases/download/v{{ rke_version }}/rke_linux-amd64"
     dest: "{{ ansible_user_dir }}/rke"
     mode: '0700'
+  when: not rke_bin.stat.exists
 
 - name: Prepare RKE configuration
   template:
@@ -15,6 +26,7 @@
     cmd: "./rke up"
     chdir: "{{ ansible_user_dir }}"
     creates: "{{ ansible_user_dir }}/kube_config_cluster.yml"
+  register: rke_run
 
 - name: Create k8s directory
   file:
@@ -24,6 +36,7 @@
 
 - name: Set k8s config
   command: "mv {{ ansible_user_dir }}/kube_config_cluster.yml {{ ansible_user_dir }}/.kube/config"
+  when: rke_run and rke_run.rc == 0
 
 - name: Get kubectl
   become: yes
@@ -31,3 +44,4 @@
     url: "https://dl.k8s.io/release/{{ k8s_version.split('-')[0] }}/bin/linux/amd64/kubectl"
     dest: "/usr/local/bin/"
     mode: '0555'
+  when: not kubectl_bin.stat.exists
