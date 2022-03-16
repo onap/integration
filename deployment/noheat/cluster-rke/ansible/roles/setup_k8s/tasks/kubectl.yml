@@ -1,0 +1,13 @@
+---
+- name: Check if kubectl is available
+  stat:
+    path: "/usr/local/bin/kubectl"
+  register: kubectl_bin
+
+- name: Get kubectl
+  become: yes
+  get_url:
+    url: "https://dl.k8s.io/release/{{ k8s_version.split('-')[0] }}/bin/linux/amd64/kubectl"
+    dest: "/usr/local/bin/"
+    mode: '0555'
+  when: not kubectl_bin.stat.exists

@@ -1,100 +1,15 @@
-- name: Check if cert-manager manifest file is present
-  stat:
-    path: /tmp/cert-manager.yaml
-  register: cm_manifest
+---
+- name: Setup cert-manager
+  include_tasks: cert-manager.yml
 
-- name: Download cert-manager
-  get_url:
-    url: "https://github.com/jetstack/cert-manager/releases/download/v{{ cert_manager_version }}/cert-manager.yaml"
-    dest: "/tmp"
-    mode: '0400'
-  when: not cm_manifest.stat.exists
-
-- name: Deploy cert-manager
-  kubernetes.core.k8s:
-    src: /tmp/cert-manager.yaml
-    state: present
-
-- name: Add MetalLB Helm repository
-  kubernetes.core.helm_repository:
-    name: metallb
-    repo_url: https://metallb.github.io/metallb
+- name: Setup MetalLB
+  include_tasks: metallb.yml
   when: metallb_enabled
 
-- name: Add prometheus Helm repository
-  kubernetes.core.helm_repository:
-    name: prometheus
-    repo_url: https://prometheus-community.github.io/helm-charts
+- name: Setup Prometheus
+  include_tasks: prometheus.yml
   when: prometheus_enabled
 
-- name: Add Istio Helm repository
-  kubernetes.core.helm_repository:
-    name: istio
-    repo_url: https://istio-release.storage.googleapis.com/charts
-  when: istio_enabled
-
-- name: Copy MetalLB override file
-  template:
-    src: "metallb-values.yaml.j2"
-    dest: "/tmp/metallb-values.yaml"
-    mode: '0400'
-  when: metallb_enabled
-
-- name: Deploy MetalLB charts
-  kubernetes.core.helm:
-    name: metallb
-    chart_version: "{{ metallb_version }}"
-    chart_ref: metallb/metallb
-    release_namespace: metallb
-    create_namespace: true
-    values_files:
-      - /tmp/metallb-values.yaml
-  when: metallb_enabled
-
-- name: Deploy Prometheus charts
-  kubernetes.core.helm:
-    name: prometheus
-    chart_version: "{{ prometheus_version }}"
-    chart_ref: prometheus/kube-prometheus-stack
-    release_namespace: prometheus
-    create_namespace: true
-  when: prometheus_enabled
-
-- name: Deploy Istio base chart
-  kubernetes.core.helm:
-    name: istio-base
-    chart_version: "{{ istio_version }}"
-    chart_ref: istio/base
-    release_namespace: istio-system
-    create_namespace: true
-  when: istio_enabled
-
-- name: Deploy Istio discovery chart
-  kubernetes.core.helm:
-    name: istiod
-    chart_version: "{{ istio_version }}"
-    chart_ref: istio/istiod
-    release_namespace: istio-system
-    wait: true
-  when: istio_enabled
-
-- name: Create Istio ingress gateway namespace
-  kubernetes.core.k8s:
-    state: present
-    definition:
-      apiVersion: v1
-      kind: Namespace
-      metadata:
-        name: istio-ingress
-        labels:
-          istio-injection: enabled
-  when: istio_enabled
-
-- name: Deploy Istio ingress gateway chart
-  kubernetes.core.helm:
-    name: istio-ingress
-    chart_version: "{{ istio_version }}"
-    chart_ref: istio/gateway
-    release_namespace: istio-ingress
-    wait: true
+- name: Setup Istio
+  include_tasks: istio.yml
   when: istio_enabled

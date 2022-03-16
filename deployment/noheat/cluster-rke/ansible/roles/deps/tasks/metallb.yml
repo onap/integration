@@ -1,0 +1,21 @@
+---
+- name: Add MetalLB Helm repository
+  kubernetes.core.helm_repository:
+    name: metallb
+    repo_url: https://metallb.github.io/metallb
+
+- name: Copy MetalLB override file
+  template:
+    src: "metallb-values.yaml.j2"
+    dest: "/tmp/metallb-values.yaml"
+    mode: '0400'
+
+- name: Deploy MetalLB charts
+  kubernetes.core.helm:
+    name: metallb
+    chart_version: "{{ metallb_version }}"
+    chart_ref: metallb/metallb
+    release_namespace: metallb
+    create_namespace: true
+    values_files:
+      - /tmp/metallb-values.yaml
