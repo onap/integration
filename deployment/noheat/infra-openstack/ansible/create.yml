@@ -35,9 +35,6 @@
       operator_key: "{{ hostvars['operator0']['key']['public_key'] }}"
 - name: Create cluster operator access information
   hosts: "operator0"
-  roles:
-    - role: geerlingguy.ansible
-      become: yes
   tasks:
     - name: Add cluster hostnames to /etc/hosts file
       lineinfile:
@@ -58,14 +55,16 @@
     - block:
       - name: Install python dependencies
         become: yes
-        package:
+        apt:
           name:
             - python3-pip
             - python3-setuptools
           state: present
+          update_cache: true
       - name: Install community.kubernetes.k8s Ansible collection dependencies
         pip:
           name:
+            - ansible-core==2.12.3
             - openshift==0.13.1
             - pyyaml==6.0
             - kubernetes==22.6.0

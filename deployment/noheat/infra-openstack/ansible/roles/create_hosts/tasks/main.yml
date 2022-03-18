@@ -1,3 +1,5 @@
 ---
-- include: create_host.yml host={{ item }}
+- include_tasks: create_host.yml
   loop: "{{ hosts }}"
+  loop_control:
+    loop_var: host

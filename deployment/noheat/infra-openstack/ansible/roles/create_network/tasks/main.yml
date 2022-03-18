@@ -1,4 +1,6 @@
 ---
-- include: create_network.yml net={{ item }}
+- include_tasks: create_network.yml
   loop:
     - "{{ network }}"
+  loop_control:
+    loop_var: net

@@ -1,4 +1,6 @@
 ---
-- include: destroy_network.yml net={{ item }}
+- include_tasks: destroy_network.yml
   loop:
     - "{{ network }}"
+  loop_control:
+    loop_var: net
