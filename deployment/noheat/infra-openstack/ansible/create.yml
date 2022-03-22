@@ -25,6 +25,14 @@
         key: "{{ key['public_key'] }}"
         state: present
         user: "{{ ansible_user }}"
+- name: Create OpenStack instances
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  roles:
+    - role: create_hosts
+      hosts: "{{ openstack.hosts }}"
+      operator_key: "{{ hostvars['operator0']['key']['public_key'] }}"
 - name: Create cluster instances
   hosts: localhost
   connection: local
