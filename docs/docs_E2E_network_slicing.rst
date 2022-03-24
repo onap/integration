@@ -95,10 +95,10 @@ Network Slice Instance (NSI) Life Cycle View
 --------------------------------------------
 3GPP Specification (3GPP TS 28.530) describes management aspects of a Network Slice Instance, which can be described by the four phases:
 
-Preparation: The preparation phase includes network slice design, network slice capacity planning, on-boarding and evaluation of the network functions, preparing the network environment and other necessary preparations required to be done before the creation of an NSI
-Commisioning: NSI provisioning in the commissioning phase includes creation of the NSI. During NSI creation all needed resources are allocated and configured to satisfy the network slice requirements. The creation of an NSI can include creation and/or modification of the NSI constituents
-Operation:The Operation phase includes the activation, supervision, performance reporting (e.g. for KPI monitoring), resource capacity planning, modification,and de-activation of an NSI.
-Decommissioning: Network slice instance provisioning in the decommissioning phase includes decommissioning of non-shared constituents if required and removing the NSI specific configuration from the shared constituents. After the decommissioning phase, the NSI is terminated and does not exist anymore.
+- Preparation: The preparation phase includes network slice design, network slice capacity planning, on-boarding and evaluation of the network functions, preparing the network environment and other necessary preparations required to be done before the creation of an NSI.
+- Commissioning: NSI provisioning in the commissioning phase includes creation of the NSI. During NSI creation all needed resources are allocated and configured to satisfy the network slice requirements. The creation of an NSI can include creation and/or modification of the NSI constituents.
+- Operation: The Operation phase includes the activation, supervision, performance reporting (e.g. for KPI monitoring), resource capacity planning, modification and de-activation of an NSI.
+- Decommissioning: Network slice instance provisioning in the decommissioning phase includes decommissioning of non-shared constituents if required and removing the NSI specific configuration from the shared constituents. After the decommissioning phase, the NSI is terminated and does not exist anymore.
 The ONAP-based NSI lifecycle management will finally provide the demonstration of all these phases.
 
 Abbreviations
@@ -161,7 +161,7 @@ Recap of Guilin functionality
 -----------------------------
 From the architecture point of view, in Guilin release, besides the continuation of NSMF which was implemented in
 Frankfurt release, the RAN NSSMF, TN NSSMF, CORE NSSMF have been implemented within ONAP, apart from interacting with
-ezternal RAN NSSMF and external CORE NSSMF.
+external RAN NSSMF and external CORE NSSMF.
 
 The following provides an overview of the enhancements done in Guilin release:
 
@@ -173,7 +173,7 @@ The following provides an overview of the enhancements done in Guilin release:
   deactivation, deletion and modification (in case of reuse of NSSI).
 
 - **Enable NSMF interaction with RAN NSSMF, TN NSSMF, CN NSSMF**: Implement generic NSSMF adaptor for three domain NSSMFs,
-  alignment with standard intefaces (3GPP, IETF), enable the connection to external RAN NSSMF.
+  alignment with standard interfaces (3GPP, IETF), enable the connection to external RAN NSSMF.
 
 - **Design of RAN NSST, TN NSST, CN NSST and Slice Profiles, TN information models**: Basic E2E Slicing model was provided
   all the related templates designed from SDC, TN related information models.
@@ -358,9 +358,9 @@ Below aspects are covered in Istanbul release:
 
 3. **NSMF based TN Slices** - Support for interacting with TN NSSMF directly from NSMF for front haul and mid haul slice subnets. There will be separate SDC template for this scenario. NST will have 5 NSSTs - CN NSST, AN NSST, TN FH NSST, TN MH NSST, TN BH NSST.
 
-4. **KPI Monitoring** - Implementation is done in KPI Computation MS to configure the required KPIs and the KPI computaion formula based on policies.
+4. **KPI Monitoring** - Implementation is done in KPI Computation MS to configure the required KPIs and the KPI computation formula based on policies.
 
-5. **Closed Loop** - Closed Loop updates are sent over A1 interface to NearRT-RIC. This is done at the POC level. This will be further enhanced in Jakarta release to make use of the A1-Policy Management Service in CCSDK.
+5. **Closed Loop** - Closed Loop updates are sent over A1 interface to Near-RT RIC. This is done at the POC level. This will be further enhanced in Jakarta release to make use of the A1-Policy Management Service in CCSDK.
 
 6. **Intelligent Slicing** - End to end intelligent slicing - closed loop flow is tested with the initial version of Machine Learning MS.
 
@@ -385,7 +385,7 @@ Impacted Modules for Istanbul Release
         - **NSMF**: Fixes in NSI termination issues to support OOF interaction for NSI termination query and added subnet Type support for respective TN Domain
         - **AN NSSMF**: Fixes for different termination scenarios in Option 1
         - **CN NSSMF**: Bug fixes in shared allocate flow, modify flow and terminate flow
-        - Slice Profile alignement with NSSMF
+        - Slice Profile alignment with NSSMF
     (d) NSMF based TN Slices (TN-FH, TN-MH are created by NSMF) - Work flow changes to support this approach
 
 - **OOF**
@@ -434,13 +434,13 @@ The ONAP TSC approved on July 9th, 2020 to change the status of ESR GUI Module
 to an 'unmaintained' project. Further information about 'Unmaintained Projects'
 can be found in the `ONAP Developer Wiki. <https://wiki.onap.org/x/Pw_LBQ>`__
 
-But excluding the ESR GUI module from ONAP does not mean that the “external
-system registration” mechanism is excluded; i.e. only the GUI is not available
+But excluding the ESR GUI module from ONAP does not mean that the "external
+system registration" mechanism is excluded; i.e. only the GUI is not available
 anymore.
 
 Nevertheless, in order to register the 3rd party controllers (like it is done
-in E2E network slicing use case and recently in Cloud Leased Line “CLL” use
-case as part of Intent-Based Networking), AAI’s API are invoked manually.
+in E2E network slicing use case and recently in Cloud Leased Line "CLL" use
+case as part of Intent-Based Networking), AAI's API are invoked manually.
 
 To do so, please send the following CURL command (PUT) to your AAI, with the
 attached xml payload. In the payload, please adjust the controller name (in
@@ -489,5 +489,77 @@ PAYLOAD (esr-registration-controller-1.xml):
   </esr-thirdparty-sdnc>
 
 
-Additional issues occured during the deployment and integration testing will be
+Additional issues occurred during the deployment and integration testing will be
 listed in the ONAP Developer Wiki at `Network Slicing - Issues and Solutions <https://wiki.onap.org/display/DW/Network+Slicing+-+Issues+and+Solutions>`_
+
+Jakarta Release Updates
+-----------------------
+In Jakarta release, the following aspects are covered:
+
+1. **E2E Network Slicing Solution**
+    - Slice selection based on resource occupancy level. With this enhancement, NSMF/NSSMF is able to monitor and update resource levels at NSI/NSSI level. OOF returns the solution for NSI/NSSI selection based on the criteria. In case of shared scenario, NSI/NSSI can be shareable only if sufficient resources are available in the network. RAN NSSMF’s resource occupancy is considered for this release. Resource occupancy of Core and TN NSSMFs will be considered in future releases.
+    - Dynamic Discovery of Core & RAN endpoints at NSMF. NSMF discovers the RAN endpoints for back haul dynamically at the time of slice allocation/reuse and feeds them to TN NSSMF. Implementation will continue in the next release. RAN endpoints in backhaul are considered for J-release. Discovery of fronthaul, midhaul and core endpoints will be covered in future releases.
+    - Activate, Deactivate scenarios support in external RAN NSSMF - Option2. Note that instantiation and termination are supported in Istanbul release.
+    - Use case Automation. Test automation for slicing use case in phases for manual configurations. Work will continue beyond Jakarta release.
+
+2. **RAN Slicing**
+    - Optimization of cm-handle registration with CPS-DMI Plugin for RAN NF instances to upload yang model.
+    - CPS integration with SDN-R for RAN slice allocation and reconfiguration scenarios
+    - CPS-TBDMT enhancement to integrate with NCMP, where CPS Core is invoked via NCMP from TBMT for RAN Slice configurations, i.e., NCMP endpoints are used in place of CPS Core. CPS Core is directly invoked from TBDMT in the previous release. This requirement will be implemented once the Caching is enabled in CPS in future releases.
+    - CPS integration stabilization for RAN slice activate/deactivate and terminate scenarios. Validation and bug fix for CPS integration of RAN slice lifecycle.
+    - CSIT for RAN slicing
+3. **Transport Slicing**
+    - TN NSSMF enhancements according to IETF latest specification. The implementation of this enhancement will be deferred to next releases.
+    - OOF involvement in TN slice reuse and terminate scenarios
+       - Implementation of the call to OOF for allocateNSSI to enable TN NSSI reuse in TN NSSMF
+       - Implementation of the call to OOF for terminateNxi API to deallocate TN NSSI (which may not be terminated even when NSI is terminated) in TN NSSMF
+    - Transport slicing enhancement to support IBN based E2E slicing (Covered in CCVPN use case). The implementation of this enhancement will be deferred to next releases.
+    - Closed-loop enhancement in CCVPN to support Transport Slicing’s closed-loop (Covered in CCVPN use case).
+    - CSIT for transport slicing. This requirement will be done in future releases.
+4. **Closed Loop**
+    - IBN based Closed loop for Network Slicing. This enhancement makes use of intents and Machine Learning models for closed loop. ML prediction microservice enhancement is done as a POC work in Jakarta release.
+    - CPS integration stabilization, which validates and enhances CPS integration for closed loop.
+5. **Carryover tests from Istanbul release**
+    - Option-1 (internal NSMF, NSMF and NSSMF)
+       - E2E testing for activate/deactivate scenario
+       - Pending test cases for E2E Slice termination
+    - NSMF driven TN slicing
+       - Pending testing for activate/deactivate and terminate scenarios
+    - Bug fixes and testing for Core slicing
+       - NF instantiation issue with same NSST
+       - Multiple non-share Core slice creation issue
+
+Impacted Modules for Jakarta Release
+------------------------------------
+- **SO**: Requirements below are identified for Jakarta release and have impacts in SO component:
+     (1) Core, RAN Endpoints dynamic discovery at NSMF
+     (2) TN NSSMF model enhancements according to IETF latest specification
+     (3) Use of Optimization solution (OOF) in allocateNSSI, deallocateNSSI in TN NSSMF
+     (4) Bug fixes/enhancements of carryover test cases from Istanbul release
+     (5) Activate, Deactivate flows support in external RAN NSSMF for option 2
+
+- **OOF**: OOF component has an impact for the requirement below:
+     (1) NSI/NSSI Selection enhancements based on resource occupancy levels
+
+- **DCAE**: The requirements below are identified for Jakarta release and have impacts in DCAE component:
+     (1) Slice selection taking into consideration of resource occupancy levels
+     (2) CPS integration in closed loop – This was done in I-release. Expecting minor enhancements in Slice Analysis MS once after the other components impacts w.r.t CPS integration and E2E testing are completed.
+     (3) IBN based Closed loop for Network Slicing - This will have impact in E2E Slicing closed loop and TN Slicing closed loop.
+
+- **CCSDK**: The requirements below are identified for network slicing use case in Jakarta release and have impacts in CCSDK component. Most of these requirements fall under the category of CPS integration.
+      (1) Optimizing cm-handle registration with CPS-DMI Plugin to upload yang model
+      (2) CPS Integration with SDN-R for RAN Slice allocate and reconfigure scenarios
+      (3) CPS Integration Stabilization - RAN Slice activate/deactivate and terminate scenarios
+      (4) CSIT for RAN slicing
+
+Jakarta Release - Functional Test cases
+---------------------------------------
+The functional testing of this use case covers CSMF/NSMF, RAN/CN/TN NSSMFs and Closed Loop functionality. Test cases are classified into 5 tracks: E2E network slicing, RAN NSSMF, TN NSSMF, Closed Loop and carryover testing. Details of the test cases can be found at: `E2E Network Slicing Tests for Jakarta Release <https://wiki.onap.org/display/DW/E2E+Network+Slicing+Integration+Tests+for+Jakarta+Release>`_ and its child wiki pages.
+
+Jakarta Release - Operation Guidance
+------------------------------------
+The setup and operation details for E2E network slicing use case are available at `User Operation Guidance - Jakarta Release <https://wiki.onap.org/display/DW/User+Operation+Guidance+-+Jakarta+Release>`_.
+
+Jakarta Release - Known issues and Solutions
+--------------------------------------------
+Details of up to date manual configurations, known issues, solutions and work-arounds can be found in the following wiki page: `Jakarta Release - Issues and Solutions <https://wiki.onap.org/display/DW/Jakarta+Release+-+Issues+and+Solutions>`_.
