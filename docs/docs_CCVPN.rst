@@ -7,6 +7,49 @@
 
 CCVPN (Cross Domain and Cross Layer VPN)
 ----------------------------------------
+Update for Jakarta Release
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Jakarta release enhances the CCVPN use-case by introducing the following three features (REG-1076):
+1. Support for IBN service discovery by registering Cloud Leased Line (CLL) and Transport Slicing services to MSB
+2. Support for 1+1 protection of Cloud Leased Line (CLL)
+3. Support for closed-loop and user-triggered intent update
+
+Jakarta Scope and Impacted modules
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The "CCVPN closed-loop" feature and the "user-triggered intent update" feature require both a front-end and a back-end system.
+The front-end would be different for IBN and CCVPN, but the two features can share a common back-end.
+As a first step, current bandwidth usage of a CLL should be collected from the physical network. Then VES collector API
+should be called to send this information to DCAE. DCAE would then publish a new DMaaP topic to be consumed by DCAE slice
+analysis micro-service. This module will then send this notification to Policy.
+
+In Jakarta, the goal of both user-triggered intent update and CCVPN closed-loop is to ensure the max-bandwidth of the CLL service
+can satisfy user's intent throughout the intent life cycle. Thus, the modify-CLL operation triggered by DCAE and Policy is
+common to IBN and CCVPN. So a common back-end mechanism is implemented to support both use-cases.
+
+The impacted ONAP modules are: CCSDK, SDN-C, A&AI, DCAE, POLICY, and SO.
+
+Installation Procedure
+~~~~~~~~~~~~~~~~~~~~~~
+
+For Jakarta new features, the integration test environment is similar to that of
+the Istanbul release: an ONAP instance with Istanbul release interfacing with 3rd party
+transport domain controllers should be established.
+
+Functional/Integration Test Cases
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The testing procedure is described in the following few test cases:
+- Create and delete single CLL instance which accesses single cloud, and monitor if the closed-loop call flow is getting triggered.
+- Create and delete single CLL instance which access multiple clouds, and monitor if the closed-loop call flow is getting triggered.
+- Create and delete multiple CLL instances which access single cloud, and monitor if the closed-loop call flow is getting triggered.
+- Create and delete multiple CLL instances which access multiple clouds, and monitor if the closed-loop call flow is getting triggered.
+- Create a CLL instance which have connection links with different bandwidth, and monitor if the closed-loop call flow is getting triggered.
+- Modify the bandwidth of a connection link of an existing CLL instance, and monitor if the closed-loop call flow is getting triggered.
+- Modify an existing CLL instance by add a new connection link, and monitor if the closed-loop call flow is getting triggered.
+
+
 Update for Istanbul Release
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
