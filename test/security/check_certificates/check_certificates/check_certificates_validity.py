@@ -60,6 +60,7 @@ CERT_MODES = ['nodeport', 'ingress', 'internal']
 EXP_CRITERIA_MIN = 30
 EXP_CRITERIA_MAX = 389
 EXPECTED_CERT_STRING = "C=US;O=ONAP;OU=OSAAF;CN=intermediateCA_9"
+EXPECTED_STRIMZI_CA_CERT_STRING = "O=io.strimzi;CN=cluster-ca v0"
 RESULT_PATH = "."
 
 
@@ -156,7 +157,7 @@ def get_certifificate_info(host, port):
         issuer_info += (issuer_info_key.decode('utf-8') + "=" +
                         issuer_info_val.decode('utf-8') + ";")
     cert_validity = False
-    if issuer_info[:-1] == EXPECTED_CERT_STRING:
+    if issuer_info[:-1] in [EXPECTED_CERT_STRING, EXPECTED_STRIMZI_CA_CERT_STRING]:
         cert_validity = True
 
     return {'expiration_date': exp_date,
