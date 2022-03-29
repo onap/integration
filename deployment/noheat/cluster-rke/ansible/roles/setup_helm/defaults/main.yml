@@ -1,6 +1,6 @@
 ---
 helm_version: "3.6.3"
-chartmuseum_version: "0.13.1"
+chartmuseum_version: "0.14.0"
 chartmuseum_port: "8879"
 chartmuseum_dir: "{{ ansible_user_dir }}/helm3-storage"
 local_user: "{{ ansible_user_id }}"
