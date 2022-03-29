@@ -5,6 +5,13 @@
     params:
       SKIP_LINT: "TRUE"
 
+- name: Build ONAP charts
+  make:
+    chdir: "{{ oom_dir }}/kubernetes"
+    target: onap
+    params:
+      SKIP_LINT: "TRUE"
+
 - name: Create ONAP namespace
   kubernetes.core.k8s:
     state: present
