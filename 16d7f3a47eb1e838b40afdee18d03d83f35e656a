@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b018aab8_44be040e",
+        "filename": "test/security/check_certificates/check_certificates/check_certificates_validity.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2022-03-29T06:04:21Z",
+      "side": 1,
+      "message": "strimzi doesn\u0027t use cert-initializer?",
+      "revId": "16d7f3a47eb1e838b40afdee18d03d83f35e656a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a288a286_500eba20",
+        "filename": "test/security/check_certificates/check_certificates/check_certificates_validity.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2022-03-29T06:04:21Z",
+      "side": 1,
+      "message": "that can be:\nif issuer_info[:-1] in [EXPECTED_CERT_STRING, EXPECTED_STRIMZI_CA_CERT_STRING]",
+      "revId": "16d7f3a47eb1e838b40afdee18d03d83f35e656a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
