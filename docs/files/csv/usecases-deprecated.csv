@@ -13,11 +13,8 @@ vCPE with Tosca;:ref:`official doc <docs_vcpe_tosca_local>`;Frankfurt;No resourc
 E2E Automation vLB with CDS;`wiki page <https://wiki.onap.org/pages/viewpage.action?pageId=71838891>`__; Frankfurt;No resources to test on Guilin
 vFirewall In-Place Software Upgrade with Traffic Distribution;:ref:`official doc <docs_vfw_traffic>`;Frankfurt;APPC in maintenance mode
 5G Bulk PM; :ref:`official doc <docs_5g_bulk_pm>`;Frankfurt;No tested in Guilin
-5G OOF and PCI;:ref:`official doc <docs_5G_oof_pci>`;Frankfurt;No tested in Guilin
 5G NRM Network Resource Model (Configuration management);:ref:`official doc <docs_5G_NRM_Configuration>`;Frankfurt;No tested in Guilin
 5G NETCONF configuration;:ref:`official doc <docs_5G_Configuration_over_NETCONF>`;Frankfurt;No tested in Guilin
-5G OOF SON;:ref:`official doc <docs_5G_oof_pci>`;Frankfurt;No tested in Guilin
-5G E2E Network Slicing ;:ref:`official doc<docs_E2E_network_slicing>`;Frankfurt;No tested in Guilin
 PNF Software Upgrade using direct Netconf Yang interface with PNF;:ref:`official doc <docs_5g_pnf_software_upgrade>`;Frankfurt;No tested in Guilin
 PNF Software Upgrade with EM with Ansible;:ref:`official doc <docs_5G_PNF_Software_Upgrade_ansible_with_EM>`;Frankfurt;No tested in Guilin
 PNF Software Upgrade with EM with Netconf; :ref:`official doc <docs_5g_pnf_software_upgrade_netconf_with_EM>`;Frankfurt;No tested in Guilin

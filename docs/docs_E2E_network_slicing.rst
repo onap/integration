@@ -208,7 +208,7 @@ The child wiki pages of the above page contains details of the assumptions, flow
 
 Honolulu release updates
 ------------------------
-In Honolulu release, the following aspects were realized: 
+In Honolulu release, the following aspects were realized:
 
 - **Modeling Enhancements** were made, details can be found at:
   `Modeling enhancements in Honolulu <https://wiki.onap.org/display/DW/Modeling+enhancements+in+Honolulu>`_.
@@ -255,7 +255,7 @@ The code-impacted modules of E2E Network Slicing in Honolulu release are:
   (b) ‘Vpn-binding’is used to store ACTN OTN Tunnel model’s parameters.
 
 - **OOF**: Updates include:
-  
+
   (a) NST selection is enhanced by fetching the templates from SDC directly.
   (b) coverageArea to coverageAreaTAList mapping is done by OOF (as part of Slice Profile generation)
       by accessing CPS.
@@ -341,7 +341,7 @@ Below aspects are covered in Istanbul release:
     - Support Output Transformation
 
       (a) Extract desired output from the data returned from CPS.
-      (b) If 'transformParam' is not defined in the template no transformation takes place.      
+      (b) If 'transformParam' is not defined in the template no transformation takes place.
     - Support Multiple query
 
       (a) Make multiple queries to CPS in single request.
@@ -374,20 +374,20 @@ Below aspects are covered in Istanbul release:
 
       (a) Service instantiation for non-shared and shared scenario and fixes to support option 1 are done
       (b) NSI selection process support for shared NSI is tested
- 
+
 Impacted Modules for Istanbul Release
 -------------------------------------
 - **SO**
     (a) Support of NSI termination by enhancing the interaction with OOF, AAI and UUI
     (b) RAN NSSI Termination support with OOF & SDN-R interactions
-    (c) Bug fixes in Option 1 (CSMF, NSMF and NSSMFs are within ONAP & TN-FH, TN-MH are created by RAN NSSMF)      
+    (c) Bug fixes in Option 1 (CSMF, NSMF and NSSMFs are within ONAP & TN-FH, TN-MH are created by RAN NSSMF)
         - **CSMF**: Fixed sNSSAI format and updated authentication for NSMF invocation
         - **NSMF**: Fixes in NSI termination issues to support OOF interaction for NSI termination query and added subnet Type support for respective TN Domain
         - **AN NSSMF**: Fixes for different termination scenarios in Option 1
         - **CN NSSMF**: Bug fixes in shared allocate flow, modify flow and terminate flow
         - Slice Profile alignement with NSSMF
     (d) NSMF based TN Slices (TN-FH, TN-MH are created by NSMF) - Work flow changes to support this approach
-  
+
 - **OOF**
     (a) Integration with CPS for coverage area to coverage area TA list
     (b) Bug fixes in NxI termination
@@ -396,29 +396,29 @@ Impacted Modules for Istanbul Release
     (a) Minor changes in Slice Analysis MS to support CPS integration
     (b) KPI Computation MS in enhanced to support policy based KPIs and formula
 
-- **SDN-R** 
+- **SDN-R**
     (a) Bug fixes in instantiateRANSliceAllocate, instantiateRANSliceAllocateModify, activateRANSlice, terminateRANSlice Directed Graphs
     (b) CPS integration for the instantiateRANSliceAllocateModify, activateRANSlice, terminateRANSlice Directed Graphs
     (c) A new karaf feature is introduced to register the cm-handle with CPS
 
 - **CPS-TBDMT**
     (a) This component is enhanced to support different type of queries based on templates
-    
+
 - **CPS**
-    (a) Bug fixes and support for GET, POST, PATCH and DELETE type of queries. 
+    (a) Bug fixes and support for GET, POST, PATCH and DELETE type of queries.
 
 Istanbul Release - Functional Test cases
 ----------------------------------------
-**Honolulu release carry-over test cases** 
+**Honolulu release carry-over test cases**
     (a) Different possible scenarios of E2E Slice (eMBB) creation are tested in I-release
     (b) RAN slice Termination testing completed
-    (c) Test cases to validate slice reuse and terminate using Option 2 (Core NSSMF and RAN NSSMF external) are completed    
+    (c) Test cases to validate slice reuse and terminate using Option 2 (Core NSSMF and RAN NSSMF external) are completed
 
-**R9 Integration Testing** 
+**R9 Integration Testing**
     (a) RAN NSSMF integration with CPS is covered for RANSlice modification, activation, deactivation and termination
     (b) NSMF driven TN-FH and TN-MH slices creation is tested
     (c) CPS impacts in closed loop scenario is validated and few test cases are deferred to Jakarta release
-    
+
     Integration test plan is available at `Integration Testing in Instanbul Release <https://wiki.onap.org/display/DW/R9+Integration+Test+for+E2E+Network+Slicing>`_
 
 Istanbul Release - Operation Guidance
