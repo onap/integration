@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "88786f60_b125d5cd",
+        "filename": "docs/docs_E2E_network_slicing.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2022-03-30T09:12:15Z",
+      "side": 1,
+      "message": "add a blank line after that list:\n/home/ubuntu/onap/repos/integration_repos/integration/docs/docs_E2E_network_slicing.rst:102: WARNING: Bullet list ends without a blank line; unexpected unindent.",
+      "revId": "ec71a6bbade712181fa0ca134936728ddf119302",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
