@@ -1,7 +1,3 @@
-Sphinx
-doc8
-docutils
-six
 lfdocs-conf
-# remove this once lfdocs-conf is fixed
-funcparserlib>=1.0.0a0
+sphinx>=4.2.0  # BSD
+sphinx-rtd-theme>=1.0.0  # MIT
