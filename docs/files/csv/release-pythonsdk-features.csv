@@ -1,20 +1,14 @@
 Issue-ID;Description
-TEST-364;[TEST] Do not use VID API in tests
-INT-1978;[BASIC_CLAMP] Adapt tca clamp plugin
-TEST-361;Update HEAT-file for ubuntu20 used for basic_vm_macro test
-TEST-357;[TEST] Get cleanup reports from substeps also if parent step has no cleanup report
-MULTICLOUD-1377;Change rb-definition-version identifier
-TEST-352;[TEST] Use the newest ONAP SDK version
-TEST-349;[TEST] Basic macro stability scenario
-TEST-347;[TEST] Check if cds blueprintsprocessor service type is 'NodePort'
-TEST-341;[TEST] Wait for instantiated simulator longer
-TEST-341;[TEST] Create "pnf-macro-test-simulator" resources
-TEST-341;[TEST] Use nf-simulator/vesclient
-TEST-315;[OPTIM] Tune SDC delay before certification
-INT-1894;[TEST] Patch ip values in pnf-simulator event
-TEST-333;[TEST] Do not try to recreate already created SDC resources
-TEST-338;[CLAMP] Fix Policy exception in basic_clamp
-TEST-337;[TEST] Catch ConnectionError exception during pnf simulator startup
-TEST-336;[TEST] Catch k8s connection exceptions
-TEST-334;[CLAMP] Update clamp to allow re-play of the test
-TEST-332;[EXCEPTIONS] Distinguish onaptests and onapsdk exception
+SDC-3949;Log exception stack trace on test failure
+TEST-384;[TEST] Change of the k8sregion name
+TEST-382;[TEST] Change of the namespace for basic_cnf_macro
+INT-2078;Use Python ONAP SDK 9.4.0
+TEST-354;[TEST] PNF macro nad CDS resource resoulution tests are failing on retry
+INT-2078;[PYTHON] Improve requirement versioning
+TEST-380;[TEST] Add cds resource resolution missing cleanup method call
+TEST-376;[TEST] Basic CNF macro
+TEST-356;[TEST] Do not create simulators in "onap" namespace
+TEST-369;[TEST] Fix cds-resource-resolution test
+TEST-368;[TEST] Do not show "No execution start time..." error log message for skipped substeps
+TEST-358;[TEST] Added support for multi-vnf macro instantiation
+INT-1994;[INTEGRATION] Use the newest onapsdk (9.0.0)

@@ -16,11 +16,11 @@ Most of the repositories are internal ONAP repositories.
    ├── demo
    ├── integration
    │   ├── csit
+   |   ├── data-provider
    │   ├── docker
    │   │   ├── onap-java11
    │   │   └── onap-python
    │   ├── ietf-actn-tools
-   │   ├── integration
    │   ├── seccom
    │   ├── simulators
    │   │   ├──5G-core-nf-simulator

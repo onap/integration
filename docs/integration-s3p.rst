@@ -2,15 +2,14 @@
    Creative Commons Attribution 4.0 International License.
 .. _integration-s3p:
 
-Stability/Resiliency
-====================
+Stability
+=========
 
 .. important::
     The Release stability has been evaluated by:
 
-    - The daily Istanbul CI/CD chain
+    - The daily Jakarta CI/CD chain
     - Stability tests
-    - Resiliency tests
 
 .. note:
     The scope of these tests remains limited and does not provide a full set of
@@ -20,12 +19,12 @@ CI results
 ----------
 
 As usual, a daily CI chain dedicated to the release is created after RC0.
-An Istanbul chain has been created on the 5th of November 2021.
 
-The daily results can be found in `LF daily results web site
-<https://logs.onap.org/onap-integration/daily/onap_daily_pod4_istanbul/>`_.
+The daily results can be found in `LF Orange lab daily results web site
+<https://logs.onap.org/onap-integration/daily/onap_daily_pod4_master/>`_ and
+`LF DT lab daily results web site <https://logs.onap.org/onap-integration/daily/onap-daily-dt-oom-master/>`_.
 
-.. image:: files/s3p/istanbul-dashboard.png
+.. image:: files/s3p/jakarta-dashboard.png
    :align: center
 
 
@@ -34,16 +33,10 @@ Infrastructure Healthcheck Tests
 
 These tests deal with the Kubernetes/Helm tests on ONAP cluster.
 
-The global expected criteria is **75%**.
+The global expected criteria is **100%**.
 
 The onap-k8s and onap-k8s-teardown, providing a snapshop of the onap namespace
 in Kubernetes, as well as the onap-helm tests are expected to be PASS.
-
-nodeport_check_certs test is expected to fail. Even tremendous progress have
-been done in this area, some certificates (unmaintained, upstream or integration
-robot pods) are still not correct due to bad certificate issuers (Root CA
-certificate non valid) or extra long validity. Most of the certificates have
-been installed using cert-manager and will be easily renewable.
 
 .. image:: files/s3p/istanbul_daily_infrastructure_healthcheck.png
    :align: center
@@ -70,11 +63,6 @@ The expectation is **100% OK**.
 .. figure:: files/s3p/istanbul_daily_smoke.png
   :align: center
 
-An error has been reported since Guilin (https://jira.onap.org/browse/SDC-3508) on
-a possible race condition in SDC preventing the completion of the certification in
-SDC and leading to onboarding errors.
-This error may occur in case of parallel processing.
-
 Security Tests
 ~~~~~~~~~~~~~~
 
@@ -83,107 +71,18 @@ See the  :ref:`the Integration Test page <integration-tests>` for details.
 
 Waivers have been granted on different projects for the different tests.
 The list of waivers can be found in
-https://git.onap.org/integration/seccom/tree/waivers?h=istanbul.
+https://git.onap.org/integration/seccom/tree/waivers?h=jakarta.
 
-The expectation is **100% OK**. The criteria is met.
+nodeport_check_certs test is expected to fail. Even tremendous progress have
+been done in this area, some certificates (unmaintained, upstream or integration
+robot pods) are still not correct due to bad certificate issuers (Root CA
+certificate non valid) or extra long validity. Most of the certificates have
+been installed using cert-manager and will be easily renewable.
+
+The expectation is **80% OK**. The criteria is met.
 
 .. figure:: files/s3p/istanbul_daily_security.png
   :align: center
-
-Resiliency tests
-----------------
-
-The goal of the resiliency testing was to evaluate the capability of the
-Istanbul solution to survive a stop or restart of a Kubernetes worker node.
-
-This test has been automated thanks to the
-Litmus chaos framework(https://litmuschaos.io/) and automated in the CI on the
-weekly chains.
-
-2 additional tests based on Litmus chaos scenario have been added but will be tuned
-in Jakarta.
-
-- node cpu hog (temporary increase of CPU on 1 kubernetes node)
-- node memory hog (temporary increase of Memory on 1 kubernetes node)
-
-The main test for Istanbul is node  drain corresponding  to the resiliency scenario
-previously managed manually.
-
-The system under test is defined in OOM.
-The resources are described in the table below:
-
-.. code-block:: shell
-
-   +-------------------------+-------+--------+--------+
-   | Name                    | vCPUs | Memory | Disk   |
-   +-------------------------+-------+--------+--------+
-   | compute12-onap-istanbul |   16  |  24Go  |  10 Go |
-   | compute11-onap-istanbul |   16  |  24Go  |  10 Go |
-   | compute10-onap-istanbul |   16  |  24Go  |  10 Go |
-   | compute09-onap-istanbul |   16  |  24Go  |  10 Go |
-   | compute08-onap-istanbul |   16  |  24Go  |  10 Go |
-   | compute07-onap-istanbul |   16  |  24Go  |  10 Go |
-   | compute06-onap-istanbul |   16  |  24Go  |  10 Go |
-   | compute05-onap-istanbul |   16  |  24Go  |  10 Go |
-   | compute04-onap-istanbul |   16  |  24Go  |  10 Go |
-   | compute03-onap-istanbul |   16  |  24Go  |  10 Go |
-   | compute02-onap-istanbul |   16  |  24Go  |  10 Go |
-   | compute01-onap-istanbul |   16  |  24Go  |  10 Go |
-   | etcd03-onap-istanbul    |    4  |   6Go  |  10 Go |
-   | etcd02-onap-istanbul    |    4  |   6Go  |  10 Go |
-   | etcd01-onap-istanbul    |    4  |   6Go  |  10 Go |
-   | control03-onap-istanbul |    4  |   6Go  |  10 Go |
-   | control02-onap-istanbul |    4  |   6Go  |  10 Go |
-   | control01-onap-istanbul |    4  |   6Go  |  10 Go |
-   +-------------------------+-------+--------+--------+
-
-
-The test sequence can be defined as follows:
-
-- Cordon a compute node (prevent any new scheduling)
-- Launch node drain chaos scenario, all the pods on the given compute node
-  are evicted
-
-Once all the pods have been evicted:
-
-- Uncordon the compute node
-- Replay a basic_vm test
-
-This test has been successfully executed.
-
-.. image:: files/s3p/istanbul_resiliency.png
-   :align: center
-
-.. important::
-
-  Please note that the chaos framework select one compute node (the first one by
-  default).
-  The distribution of the pods is random, on our target architecture about 15
-  pods are scheduled on each node. The chaos therefore affects only a limited
-  number of pods.
-
-For the Istanbul tests, the evicted pods (compute01) were:
-
-
-.. code-block:: shell
-
-    NAME                                          READY STATUS RESTARTS AGE
-    onap-aaf-service-dbd8fc76b-vnmqv               1/1  Running   0    2d19h
-    onap-aai-graphadmin-5799bfc5bb-psfvs           2/2  Running   0    2d19h
-    onap-cassandra-1                               1/1  Running   0    2d19h
-    onap-dcae-ves-collector-856fcb67bd-lb8sz       2/2  Running   0    2d19h
-    onap-dcaemod-distributor-api-85df84df49-zj9zn  1/1  Running   0    2d19h
-    onap-msb-consul-86975585d9-8nfs2               1/1  Running   0    2d19h
-    onap-multicloud-pike-88bb965f4-v2qc8           2/2  Running   0    2d19h
-    onap-netbox-nginx-5b9b57d885-hjv84             1/1  Running   0    2d19h
-    onap-portal-app-66d9f54446-sjhld               2/2  Running   0    2d19h
-    onap-sdnc-ueb-listener-5b6bb95c68-d24xr        1/1  Running   0    2d19h
-    onap-sdnc-web-8f5c9fbcc-2l8sp                  1/1  Running   0    2d19h
-    onap-so-779655cb6b-9tzq4                       2/2  Running   1    2d19h
-    onap-so-oof-adapter-54b5b99788-x7rlk           2/2  Running   0    2d19h
-
-In the future, it would be interesting to elaborate a resiliency testing strategy
-in order to check the eviction of all the critical components.
 
 Stability tests
 ---------------
@@ -231,7 +130,7 @@ The following graphs provides a good view of the SDC stability test.
 
 .. csv-table:: S3P Onboarding stability results
     :file: ./files/csv/s3p-sdc.csv
-    :widths: 60,20,20
+    :widths: 60,20,20,20
     :delim: ;
     :header-rows: 1
 
@@ -281,7 +180,7 @@ The results can be described as follows:
 
 .. csv-table:: S3P Instantiation stability results
     :file: ./files/csv/s3p-instantiation.csv
-    :widths: 60,20,20
+    :widths: 60,20,20,20
     :delim: ;
     :header-rows: 1
 
