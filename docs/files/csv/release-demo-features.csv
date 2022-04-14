@@ -1,9 +1,5 @@
 Issue-ID;Description
-INT-1960;vFW CNF CDS Change Blueprint to BluePrint
-INT-1960;vFW CNF CDS usecase automation scripts update
-INT-1899;[vFW_CNF_CDS] Improve logging and fix tests typo
-INT-1899;[vFW_CNF_CDS] Add workflow health-check and K8sHealthCheck.kt script
-INT-1899;[vFW_CNF_CDS] Sort generated json files
-INT-1899;[vFW_CNF_CDS] Add Healthcheck automation
-INT-1899;[vFW_CNF_CDS] Provide Helm Tests for CNF
-INT-1899;[vFW_CNF_CDS] Correct Makefile target
+INT-2094;[APACHE] Add Apache CNF use case files
+INT-2069;Make Network Slicing usecase more user friendly
+INT-1960;[vFW CNF CDS] Fix issue with multiple tenants creation for k8s region
+INT-1960;[vFW CNF CDS] vf_module and vnf name generation improvment in CBA

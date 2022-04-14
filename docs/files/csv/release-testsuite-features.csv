@@ -1,10 +1,19 @@
 Issue-ID;Description
-TEST-364;[TEST] Do not use VID API in pnf-registrate test
-TEST-365;[HEALTHCHECK] Remove VID from healthcheck
-DCAEGEN2-2718;Use configMap instead of Consul to configure hv-ves
-TEST-353;Cmpv2 robot testcase fails when using proxy
-MULTICLOUD-1362;[MULTICLOUD] Exclude  multicloud healthcheck tests
-OPTFRA-969;[OOF] Remove CMSO related test cases
-TEST-346;CMPv2 test case fails with error No keyword with name
-TEST-345;Refactor ves client and mongo db host name usage in CMPv2 test
-TEST-339;[POLICY] Increase Timeout for Enhanced Policy Healthcheck Test
+INT-1895;[ROBOT] Change performance measurements topic for 5gbulkpm
+INT-1895;[ROBOT] Add timout flag for helm unintsll operation
+INT-1895;[ROBOT] Change pm mapper readiness check to HTTP
+INT-2012;[Healthcheck] Remove clamp Healthcheck
+NT-1895;[ROBOT] Adopt DCAEMOD test cases to helm based deployment
+INT-2093;[DCAE] Deprecate DCAE basic healthcheck
+INT-1895;[ROBOT] Fix failing CMPv2 and 5gbulkpm test cases in CI
+TEST-383;[INTEGRATION] Fix failing HVVES test case in Jakarta release
+OOM-2921;[INT] Remove Portal robot test from full and medium test suite
+INT-1895;[ROBOT] ADD CMPv2 test cases that use helm based components
+POLICY-3887;Add policy cleanup if policy is existing before policy health check execution
+INT-1895;[ROBOT] FIX BULKPM test cases for Jakarta release
+SO-3829;[HEALTCHECK] remove mariadbgalera connectivity tests from core
+SO-3829;[SO] MariaDB Galera connectivity with SO Issue-ID:SO-3829
+INT-1895;[ROBOT] ADD HTTPS based BULKPM test cases that use helm based components
+POLICY-3815;[POLICY] Change API and PAP usernames
+INT-1895;[ROBOT] ADD BULKPM test cases that use helm based component services
+INT-2006;[TIMEOUT] Extend healthcheck timeout value

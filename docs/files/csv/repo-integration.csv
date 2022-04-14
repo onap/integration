@@ -1,6 +1,7 @@
 Repository;Description;Link
 integration;Historical main repository including documentation, simulators (e.g. mass PNF simulator), non robot tests (e.g. security tests, vCPE Tosca,..), ...;`link <https://git.onap.org/integration>`__
 integration/csit;Repository hosting some tooling to start component functional tests in Jenkins (To be deprecated in Guilin as such tests must be reinsourced by the projects);`link <https://git.onap.org/integration/csit>`__
+integration/data-provider;Project that provides a tool to automate common ONAP resource creation;`link <https://git.onap.org/integration/data-provider>`__
 integration/docker/onap-java11;Java11 baseline image conformed to SECCOM recommendations;`link <https://git.onap.org/integration/docker/onap-java11>`__
 integration/docker/onap-python;Python baseline image conformed to SECCOM recommendations;`link <https://git.onap.org/integration/docker/onap-python>`__
 integration/ietf-actn-tools;IETF ACTN tools introduced in Honolulu);`link <https://git.onap.org/integration/ietf-actn-tools>`__
@@ -8,4 +9,3 @@ integration/seccom;Repory hosting seccom recommended versions and security test 
 integration/usecases/A1-policy-enforcement;A1 policy enforcement introduced in Honolulu;`link <https://git.onap.org/integration/usecases/A1-policy-enforcement>`__
 integration/usecases/A1-policy-enforcement-r-apps;A1 policy enforcement (analyticis part) introduced in Honolulu;`link <https://git.onap.org/integration/usecases/A1-policy-enforcement-r-apps>`__
 integration/xtesting;Repository in charge to build th xtesting dockers used in CI/CD chains;`link <https://git.onap.org/integration/xtesting>`__
-integration/data-provider;Project that provides a tool to automate common ONAP resource creation;`link <https://git.onap.org/integration/data-provider>`__
