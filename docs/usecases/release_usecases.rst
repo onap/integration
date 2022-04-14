@@ -5,14 +5,14 @@
 
 :orphan:
 
-Istanbul Use Cases
-==================
+Jakarta Use Cases
+=================
 
 Description
 -----------
 
 This session includes use cases and functional requirements which have been
-officially verified in Istanbul release by the ONAP community.
+officially verified in Jakarta release by the ONAP community.
 
 For each use case or functional requirement, you can find contact names and a
 link to the associated documentation.
@@ -27,20 +27,11 @@ This documentation deals with
 Use cases
 ---------
 
-Istanbul Official Use Cases
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Jakarta Official Use Cases
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. csv-table::
    :file: ../files/csv/usecases.csv
    :widths: 10,40,20,30
-   :delim: ;
-   :header-rows: 1
-
-Old Use Cases Tested in Istanbul
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. csv-table::
-   :file: ../files/csv/usecases-old-valid.csv
-   :widths: 50,20,30
    :delim: ;
    :header-rows: 1

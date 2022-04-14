@@ -1,6 +1,6 @@
-Parameters;Istanbul;Honolulu
-Number of tests;1085;715
-Global success rate;92%;93%
-Min duration;111s;80s
-Max duration;799s;1128s
-mean duration;366s;565s
+Parameters;Jakarta;Istanbul;Honolulu
+Number of tests;1000;1085;715
+Global success rate;92%;92%;93%
+Min duration;119;111s;80s
+Max duration;844;799s;1128s
+mean duration;394s;366s;565s
