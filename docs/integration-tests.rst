@@ -71,7 +71,7 @@ All the pages and artifacts are pushed to LF backend:
 
 - Daily chains: https://logs.onap.org/onap-integration/daily
 - Weekly chains: https://logs.onap.org/onap-integration/weekly
-- Gating chains: the result link is indicated in gerrit 
+- Gating chains: the result link is indicated in gerrit
 
 A video has been recorded to help launching some of the automated tests on ONAP Guilin.
 See `Running ONAP tests in Guilin Video <https://www.youtube.com/watch?v=ABvuJfyGDmw>`_
@@ -151,8 +151,8 @@ to adapt then run the security tests on your own system.
 Note for security tests, integration team follows `SECCOM recommendations and
 apply waivers granted by SECCOM if needed through xfail lists <https://git.onap.org/integration/seccom/tree/>`_.
 
-Stability/Resiliency tests
---------------------------
+Stability tests
+---------------
 
 Ensuring the stability of ONAP is one of the missions of the Integration team.
 CI chains and stability tests are performed to help stabilising the release.

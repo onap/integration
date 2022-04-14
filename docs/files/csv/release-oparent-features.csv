@@ -1,12 +1,2 @@
 Issue-ID;Description
-
-INT-1948;Set default branch in oparent gitreview file
-INT-1948;Bump oparent to 3.2.2
-INT-1948;Release oparent 3.2.1 Istanbul
-INT-1938;Upgrade depenencies for Istanbul
-POLICY-3209; Step version of spring to 5.3.8
-POLICY-3206;Update Checkstyle to version 8.43
-INT-1711;Bump oparent 3.2.1-SNAPSHOT
-INT-1711;Release 3.2.0 oparent
-INT-1766;Upgrade latest dependencies
-INT-1756;Bump master to 3.2.0-SNAPSHOT
+CPS-475;Enable @surpressWarnings for Checkstyle
