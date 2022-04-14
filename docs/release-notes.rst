@@ -3,7 +3,7 @@
 .. This work is licensed under a Creative Commons Attribution 4.0
    International License. http://creativecommons.org/licenses/by/4.0
 
-Integration Istanbul Release Notes
+Integration Jakarta Release Notes
 ==================================
 
 .. csv-table:: Integration Releases
@@ -14,20 +14,22 @@ Integration Istanbul Release Notes
 
 .. important::
 
-    - Creation of an Istanbul Daily CI/CD chain
-    - Creation of Java and Python baseline images for Istanbul
+    - Creation of an Jakarta Daily CI/CD chain
+    - Creation of Java and Python baseline images for Jakarta
     - Update of Seccom waivers and version recommendations
-    - Stability tests (basic_onboard, basic_vm)
-    - New tests (cps-healthcheck)
+    - Adapt robot tests to DCAE project changes
+    - New tests (basic_cnf_macro)
     - New repositories (see dedicated section)
+    - Release ONAP Data Provider tool
+    - Automate repositories INFO.yaml updates
     - Bug fixes
     - ONAP tests library gating tests
 
     Quick Links:
 
-      - `Istanbul Integration page <https://wiki.onap.org/display/DW/Integration+Istanbul>`_
-      - `Istanbul Integration JIRA follow-up <https://wiki.onap.org/display/DW/Istanbul+Integration+Blocking+points>`_
-      - `Istanbul Integration weather Board <https://wiki.onap.org/display/DW/0%3A+Integration+Weather+Board+for+Istanbul+Release>`_
+      - `Jakarta Integration page <https://wiki.onap.org/display/DW/Integration+Jakarta>`_
+      - `Jakarta Integration JIRA follow-up <https://wiki.onap.org/display/DW/Jakarta+Integration+Blocking+points>`_
+      - `Jakarta Integration weather Board <https://wiki.onap.org/display/DW/0%3A+Integration+Weather+Board+for+Jakarta+Release>`_
 
 Code changes
 ------------
@@ -38,8 +40,8 @@ Integration Repo
 :Release Date: 2021-10-14
 
 
-Version: 9.0.0 (aka Istanbul)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Version: 10.0.0 (aka Istanbul)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. csv-table:: Integration Changes
     :file: ./files/csv/release-integration-features.csv
@@ -62,8 +64,8 @@ Main changes:
 Robot (Testsuite)
 .................
 
-Version: 1.9.0
-^^^^^^^^^^^^^^
+Version: 1.10.0
+^^^^^^^^^^^^^^^
 
 Main changes:
 
@@ -77,7 +79,7 @@ Main changes:
 O-Parent
 ........
 
-Version: 3.2.2
+Version: 3.3.1
 ^^^^^^^^^^^^^^
 
 .. csv-table:: Oparent Changes
@@ -89,8 +91,8 @@ Version: 3.2.2
 Demo Artifacts (Heat Templates)
 ...............................
 
-Version: 1.9.0
-^^^^^^^^^^^^^^
+Version: 1.10.0
+^^^^^^^^^^^^^^^
 
 .. csv-table:: Demo Changes
     :file: ./files/csv/release-demo-features.csv
