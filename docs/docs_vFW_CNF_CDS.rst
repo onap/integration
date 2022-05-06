@@ -73,9 +73,9 @@ Since Honolulu release vFW CNF use case supports three different scenarios where
 
 - Scenario 1: simple deployment of vFW CNF instance
 - Scenario 2: deployment of vFW CNF instance with enrichment of the Helm deployment with profiling mechanism
-- Scenario 3: deployment of vFW CNF instance with Day2 configuration applied and CNF status checked as a part of a config-deploy operation 
+- Scenario 3: deployment of vFW CNF instance with Day2 configuration applied and CNF status checked as a part of a config-deploy operation
 
-The 3rd scenario presents the most comprehensive way of managing the CNF in ONAP, including Day 0/1/2 operations. It shows also how to combine in the Day2 operation information for the AAI and SDNC MDSAL. All scenarios can be supported by execution of the dedicated Healthcheck workflow `3-5 Verification of the CNF Status`_. 
+The 3rd scenario presents the most comprehensive way of managing the CNF in ONAP, including Day 0/1/2 operations. It shows also how to combine in the Day2 operation information for the AAI and SDNC MDSAL. All scenarios can be supported by execution of the dedicated Healthcheck workflow `3-5 Verification of the CNF Status`_.
 
 Modeling of Onboarding Package/Helm
 ...................................
@@ -1618,7 +1618,7 @@ where <COMPONENT_NAME> and <CONTAINER> should be replaced with following keyword
 
 - cds-blueprints-processor, cds-blueprints-processor
 - multicloud-k8s, multicloud-k8s
-- network-name-gen, network-name-gen, 
+- network-name-gen, network-name-gen,
 
 **Debug log**
 
@@ -1733,7 +1733,7 @@ Examplary output of Status API is shown below (full result of test vFW CNF helm 
 
 **<AUTOMATED>**
 
-Since Honolulu release vFW CNF Use Case is equipped with dedicated mechanisms for verification of the CNF status automatically, during the instantiation. The process utilizes the k8sPlugin Status and Healthcheck APIs that both are natively exposed in the CDS and can be executed from the script execution functionality in the CDS. 
+Since Honolulu release vFW CNF Use Case is equipped with dedicated mechanisms for verification of the CNF status automatically, during the instantiation. The process utilizes the k8sPlugin Status and Healthcheck APIs that both are natively exposed in the CDS and can be executed from the script execution functionality in the CDS.
 
 .. figure:: files/vFW_CNF_CDS/healthcheck.png
    :scale: 60 %
@@ -1862,11 +1862,11 @@ Future development areas for CNF support:
 - Upgrade of the vFW CNF similar to Helm Upgrade through the SDC and SO
 - Use multicloud/k8S API v2 (EMCO)
 
-Some of the features from the list above are covered by the Jakarta roadmap described in `REQ-890`_. 
+Some of the features from the list above are covered by the Jakarta roadmap described in `REQ-890`_.
 
 
-.. _ONAP Deployment Guide: https://docs.onap.org/projects/onap-oom/en/guilin/oom_quickstart_guide.html
-.. _CDS Documentation: https://docs.onap.org/projects/onap-ccsdk-cds/en/guilin/index.html
+.. _ONAP Deployment Guide: https://docs.onap.org/projects/onap-oom/en/latest/oom_quickstart_guide.html
+.. _CDS Documentation: https://docs.onap.org/projects/onap-ccsdk-cds/en/latest/
 .. _vLB use-case: https://wiki.onap.org/pages/viewpage.action?pageId=71838898
 .. _vFW_CNF_CDS Model: https://git.onap.org/demo/tree/heat/vFW_CNF_CDS/templates?h=guilin
 .. _vFW_CNF_CDS Automation: https://git.onap.org/demo/tree/heat/vFW_CNF_CDS/automation?h=guilin
@@ -1874,7 +1874,7 @@ Some of the features from the list above are covered by the Jakarta roadmap desc
 .. _vFW CBA Model: https://git.onap.org/ccsdk/cds/tree/components/model-catalog/blueprint-model/service-blueprint/vFW?h=elalto
 .. _vFW_Helm Model: https://git.onap.org/multicloud/k8s/tree/kud/demo/firewall?h=elalto
 .. _vFW_NextGen: https://git.onap.org/demo/tree/heat/vFW_NextGen?h=elalto
-.. _vFW EDGEX K8S: https://docs.onap.org/en/elalto/submodules/integration.git/docs/docs_vfw_edgex_k8s.html
+.. _vFW EDGEX K8S: https://docs.onap.org/projects/onap-integration/en/latest/docs_vfw_edgex_k8s.html
 .. _vFW EDGEX K8S In ONAP Wiki: https://wiki.onap.org/display/DW/Deploying+vFw+and+EdgeXFoundry+Services+on+Kubernets+Cluster+with+ONAP
 .. _KUD github: https://github.com/onap/multicloud-k8s/tree/honolulu/kud/hosting_providers/baremetal
 .. _KUD in Wiki: https://wiki.onap.org/display/DW/Kubernetes+Baremetal+deployment+setup+instructions
@@ -1890,10 +1890,10 @@ Some of the features from the list above are covered by the Jakarta roadmap desc
 .. _REQ-458: https://jira.onap.org/browse/REQ-458
 .. _REQ-627: https://jira.onap.org/browse/REQ-627
 .. _REQ-890: https://jira.onap.org/browse/REQ-890
-.. _Python SDK: https://docs.onap.org/projects/onap-integration/en/guilin/integration-tooling.html?highlight=python-sdk#python-onapsdk
+.. _Python SDK: https://docs.onap.org/projects/onap-integration/en/latest/integration-tooling.html#python-onapsdk
 .. _KUD Jenkins ci/cd verification: https://jenkins.onap.org/job/multicloud-k8s-master-kud-deployment-verify-shell/
-.. _K8s cloud site config: https://docs.onap.org/en/guilin/guides/onap-operator/cloud_site/k8s/index.html
-.. _SO Monitoring: https://docs.onap.org/projects/onap-so/en/guilin/developer_info/Working_with_so_monitoring.html
+.. _K8s cloud site config: https://docs.onap.org/en/latest/guides/onap-operator/cloud_site/k8s/index.html
+.. _SO Monitoring: https://docs.onap.org/projects/onap-so/en/latest/developer_info/Working_with_so_monitoring.html
 .. _Data Dictionary: https://git.onap.org/demo/tree/heat/vFW_CNF_CDS/templates/cba-dd.json?h=guilin
 .. _Helm Healer: https://git.onap.org/oom/offline-installer/tree/tools/helm-healer.sh?h=frankfurt
 .. _infra_workload: https://docs.onap.org/projects/onap-multicloud-framework/en/latest/specs/multicloud_infra_workload.html?highlight=multicloud

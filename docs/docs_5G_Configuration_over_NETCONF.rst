@@ -24,7 +24,7 @@ This use case is intended to be applicable for 5G base stations and other nodes 
 How to Use
 ~~~~~~~~~~
 
-Set up certificate in SDNC using <https://docs.onap.org/en/dublin/submodules/sdnc/oam.git/docs/cert_installation.html?highlight=SDNC>
+Set up certificate in SDNC using <https://docs.onap.org/projects/onap-sdnc-oam/en/latest/cert_installation.html>
 
 As this usecase is extention of PnP PNF flow so run PnP usecase following running this usecase follow link <https://wiki.onap.org/display/DW/5G+-+PNF+Plug+and+Play>
 

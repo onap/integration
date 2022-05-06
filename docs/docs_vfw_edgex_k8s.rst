@@ -274,7 +274,7 @@ the lab where we tested).
 
 This will cause multicloud to add the tenant to the k8s cloud region and
 then, similarly to #10 in the
-`vFW HPA casablanca official documentation <https://onap.readthedocs.io/en/casablanca/submodules/integration.git/docs/docs_vfwHPA.html#docs-vfw-hpa>`_,
+`vFW HPA casablanca official documentation <https://docs.onap.org/projects/onap-integration/en/latest/docs_vfwHPA.html>`_,
 the service-subscription can be added to that object.
 
 **NOTE:** use same name cloud-region and cloud-owner name

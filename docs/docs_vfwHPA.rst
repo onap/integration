@@ -29,9 +29,6 @@ This tutorial covers enhancements 1 to 5 in Background of https://wiki.onap.org/
 
 Setting Up and Installation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Some fixes for HPA support were made subsequent to the release of the Casablanca images.  Several updated docker images need to be used to utilize the fixes.  The details of the docker images that need to be used and the issues that are fixed are described at this link https://wiki.onap.org/display/DW/Docker+image+updates+for+HPA+vFW+testing
-
-Instructions for updating the manifest of ONAP docker images can be found here:  https://onap.readthedocs.io/en/casablanca/submodules/integration.git/docs/#deploying-an-updated-docker-manifest
 
 Install OOM ONAP using the deploy script in the integration repo. Instructions for this can be found in this link https://wiki.onap.org/display/DW/OOM+Component. When the installation is complete (all the pods are either in running or completed state) Do the following;
 
