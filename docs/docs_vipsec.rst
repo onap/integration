@@ -24,8 +24,6 @@ The deploy steps look just alike the one for vFW with HPA use case. It is also u
 
 Setting Up and Installation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Instructions for updating the manifest of ONAP docker images can be found here:  https://onap.readthedocs.io/en/casablanca/submodules/integration.git/docs/#deploying-an-updated-docker-manifest
-
 Install OOM ONAP using the deploy script in the integration repo. Instructions for this can be found in this link https://wiki.onap.org/display/DW/OOM+Component. When the installation is complete (all the pods are either in running or completed state) Do the following;
 
 

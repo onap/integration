@@ -79,9 +79,8 @@ A section like that is required in that override file
           openStackKeystoneVersion: "KEYSTONE_V3"
 
 The values that must be changed according to your lab are all "openStack******" parameters +  dcaeCollectorIp + nfsIpAddress
-To  know how to encrypt the openstack passwords, please look at these guides:
-https://docs.onap.org/en/dublin/submodules/oom.git/docs/oom_quickstart_guide.html
-https://docs.onap.org/en/elalto/submodules/oom.git/docs/oom_quickstart_guide.html
+To  know how to encrypt the openstack passwords, please look at the guide here:
+https://docs.onap.org/projects/onap-oom/en/latest/oom_quickstart_guide.html
 
 Initialize the Customer and Owning entities
 ===========================================
