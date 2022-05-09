@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f7e9b78_8981b8a3",
+        "filename": "docs/docs_5G_Configuration_over_NETCONF.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 4405
+      },
+      "writtenOn": "2022-05-09T08:36:18Z",
+      "side": 1,
+      "message": "Is the SDNC ref needed?",
+      "range": {
+        "startLine": 27,
+        "startChar": 109,
+        "endLine": 27,
+        "endChar": 112
+      },
+      "revId": "f2ac1081b5fc48f72250d932fb1bd45d46aa6fad",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47951b80_d531b819",
+        "filename": "docs/docs_scaleout.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 4405
+      },
+      "writtenOn": "2022-05-09T08:36:18Z",
+      "side": 1,
+      "message": "\"the guide here\"",
+      "range": {
+        "startLine": 82,
+        "startChar": 66,
+        "endLine": 82,
+        "endChar": 71
+      },
+      "revId": "f2ac1081b5fc48f72250d932fb1bd45d46aa6fad",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ddeed18_00b8cd42",
+        "filename": "docs/docs_vfwHPA.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 4405
+      },
+      "writtenOn": "2022-05-09T08:36:18Z",
+      "side": 1,
+      "message": "Wiki is down, but is this referenced in the read the docs anywhere?",
+      "range": {
+        "startLine": 33,
+        "startChar": 134,
+        "endLine": 33,
+        "endChar": 150
+      },
+      "revId": "f2ac1081b5fc48f72250d932fb1bd45d46aa6fad",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
