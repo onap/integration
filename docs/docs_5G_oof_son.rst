@@ -65,26 +65,25 @@ As part of Istanbul release work, progress was made towards the goal of transiti
 Jakarta Release
 ~~~~~~~~~~~~~~~~~
 
-In the Jakarta release, the SON Use Case work was impacted by the fact RAN-Sim needed the following enhancements:
-
-- Update of the yang model to the O1 yang models (similar to the models used by the Slicing Use Case)
-- Implementation of an A1 termination with an abstracted xApp and Near-RT RIC which would accept an A1 message and update the CU/DU configuration
-- Planning for a replacement of the Honeycomb netconf engine (project is archived)
-
 The following are the enhancements in the Jakarta release:
 
 - Update of SDN-R netconf code to use the new O1 yang models
 - Update of RAN-Sim to use the new O1 yang models
 
-We have also made progress in the following areas in planning for the Kohn release. 
+In the Jakarta release, the SON Use Case work was impacted by the fact RAN-Sim needed enhancements to implement new features. We have made progress in the following areas in planning for future releases.
 
 - Convergence on the VES message formats to be used for FM/PM/CM
 - Inclusion of A1 based actions for the end-to-end SON Use Case
-- Enhancement of RAN-Sim to include abstraction of xApp and Near-RT RIC which would process an A1 message and update of a CU/DU
+- Enhancement of RAN-Sim to include abstraction of RAN App and A1 Termination which would process an A1 message and update of a CU/DU
+- Planning for replacement of Honeycomb netconf engine (project is archived)
 
-Please see also `OOF (SON) wiki page <https://wiki.onap.org/display/DW/5G+-+OOF+%28ONAP+Optimization+Framework%29+and+PCI+%28Physical+Cell+ID%29+Optimization>`_.
-Additional information are available related to previous releases can be found
-in `El Alto & Frankfurt OOF (SON) wiki page <https://wiki.onap.org/display/DW/OOF+%28SON%29+in+R5+El+Alto%2C+OOF+%28SON%29+in+R6+Frankfurt>`_.
+For more information, please see:
+
+- `OOF-SON Jakarta wiki page <https://wiki.onap.org/display/DW/R10+5G+SON+use+case>`_.
+
+- `OOF-SON Base wiki page <https://wiki.onap.org/display/DW/5G+-+OOF+%28ONAP+Optimization+Framework%29+and+PCI+%28Physical+Cell+ID%29+Optimization>`_.
+
+- `OOD-SON El Alto & Frankfurt OOF (SON) wiki page <https://wiki.onap.org/display/DW/OOF+%28SON%29+in+R5+El+Alto%2C+OOF+%28SON%29+in+R6+Frankfurt>`_.
 
 
 How to Use
@@ -99,14 +98,14 @@ This page includes instructions for access to the lab. Setup and testing is done
 For all instructions about installing the components, please see:
 
 - `Wiki Installation page <https://wiki.onap.org/display/DW/Demo+setup+steps+for+Frankfurt>`_
-- `Son-Handler installation <https://docs.onap.org/projects/onap-dcaegen2/en/frankfurt/sections/services/son-handler/installation.html?highlight=dcaegen2>`_
+
 
 Test Status and Plans
 ~~~~~~~~~~~~~~~~~~~~~
 
 OOF was enhanced with handling cells with fixed PCI values during the optimization, SON-Handler MS was functionally enhanced for adaptive SON functionality, SDN-C (R) was enhanced to include handling of DMaaP message for config changes in the RAN, and Policy was also enhanced with Control Loop Co-ordination function.
 
-See `test plans <https://wiki.onap.org/display/DW/Testing>`_ for details.
+See `test plans <https://wiki.onap.org/display/DW/Integration+Tests>`_ for details.
 
 Known Issues and Resolutions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
