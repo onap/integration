@@ -1,0 +1,44 @@
+---
+- name: Deploy Devstack
+  hosts: "openstack*"
+  tasks:
+  - name: Update Devstack hosts
+    become: true
+    ansible.builtin.apt:
+      upgrade: full
+      update_cache: true
+      autoremove: true
+      autoclean: true
+      #notify: Reboot OS
+
+  - name: Reboot OS
+    become: true
+    ansible.builtin.reboot:
+
+  - name: Clone Devstack
+    ansible.builtin.git:
+      repo: "https://opendev.org/openstack/devstack"
+      dest: "{{ devstack_dir }}"
+      version: "stable/yoga"
+
+  - name: Copy local.conf
+    ansible.builtin.template:
+      src: "local.conf.j2"
+      dest: "{{ devstack_dir }}/local.conf"
+      mode: '0600'
+
+  - name: Run devstack setup script
+    ansible.builtin.command:
+      chdir: "{{ devstack_dir }}"
+      cmd: "./stack.sh"
+      creates: /opt/stack
+
+  - name: Run devstack setup script
+    ansible.builtin.file:
+      path: "{{ devstack_dir }}"
+      state: absent
+
+  handlers:
+  - name: Reboot OS
+    become: true
+    ansible.builtin.reboot:

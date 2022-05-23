@@ -1,0 +1,5 @@
+---
+openstack_username: "admin"
+openstack_passwd: "secret"
+openstack_region: "RegionOne"
+openstack_tenant: "admin"

@@ -60,6 +60,20 @@
       copy:
         src: ../../cluster-rke
         dest: ~/deploy
+    - name: Push Devstack deployment stage description to the next Ansible control host
+      copy:
+        src: ../../devstack
+        dest: ~/
+    - name: Push Openstack vars to the next Ansible control host
+      template:
+        src: "templates/openstack.yml.j2"
+        dest: ~/deploy/cluster-rke/ansible/group_vars/all/openstack.yml
+        mode: '0644'
+    - name: Push Openstack vars to the next Ansible control host
+      template:
+        src: "templates/openstack.yml.j2"
+        dest: ~/devstack/ansible/group_vars/all/openstack.yml
+        mode: '0644'
     - block:
       - name: Install python dependencies
         become: yes
@@ -67,6 +81,7 @@
           name:
             - python3-pip
             - python3-setuptools
+            - default-jdk-headless
           state: present
           update_cache: true
       - name: Install community.kubernetes.k8s Ansible collection dependencies
