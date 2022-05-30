@@ -24,7 +24,7 @@ The daily results can be found in `LF Orange lab daily results web site
 <https://logs.onap.org/onap-integration/daily/onap_daily_pod4_master/>`_ and
 `LF DT lab daily results web site <https://logs.onap.org/onap-integration/daily/onap-daily-dt-oom-master/>`_.
 
-.. image:: files/s3p/istanbul-dashboard.png
+.. image:: files/s3p/jakarta-dashboard.png
    :align: center
 
 
@@ -33,16 +33,10 @@ Infrastructure Healthcheck Tests
 
 These tests deal with the Kubernetes/Helm tests on ONAP cluster.
 
-The global expected criteria is **75%**.
+The global expected criteria is **100%**.
 
 The onap-k8s and onap-k8s-teardown, providing a snapshop of the onap namespace
 in Kubernetes, as well as the onap-helm tests are expected to be PASS.
-
-nodeport_check_certs test is expected to fail. Even tremendous progress have
-been done in this area, some certificates (unmaintained, upstream or integration
-robot pods) are still not correct due to bad certificate issuers (Root CA
-certificate non valid) or extra long validity. Most of the certificates have
-been installed using cert-manager and will be easily renewable.
 
 .. image:: files/s3p/istanbul_daily_infrastructure_healthcheck.png
    :align: center
@@ -77,9 +71,15 @@ See the  :ref:`the Integration Test page <integration-tests>` for details.
 
 Waivers have been granted on different projects for the different tests.
 The list of waivers can be found in
-https://git.onap.org/integration/seccom/tree/waivers?h=istanbul.
+https://git.onap.org/integration/seccom/tree/waivers?h=jakarta.
 
-The expectation is **100% OK**. The criteria is met.
+nodeport_check_certs test is expected to fail. Even tremendous progress have
+been done in this area, some certificates (unmaintained, upstream or integration
+robot pods) are still not correct due to bad certificate issuers (Root CA
+certificate non valid) or extra long validity. Most of the certificates have
+been installed using cert-manager and will be easily renewable.
+
+The expectation is **80% OK**. The criteria is met.
 
 .. figure:: files/s3p/istanbul_daily_security.png
   :align: center
