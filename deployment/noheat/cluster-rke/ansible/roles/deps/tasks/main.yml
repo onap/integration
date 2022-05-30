@@ -2,6 +2,10 @@
 - name: Setup cert-manager
   include_tasks: cert-manager.yml
 
+- name: Setup strimzi
+  include_tasks: strimzi.yml
+  when: strimzi_enabled
+
 - name: Setup MetalLB
   include_tasks: metallb.yml
   when: metallb_enabled
