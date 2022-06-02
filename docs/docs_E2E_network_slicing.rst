@@ -499,13 +499,10 @@ In Jakarta release, the following aspects are covered:
 
 1. **E2E Network Slicing Solution**
     - Slice selection based on resource occupancy level. With this enhancement, NSMF/NSSMF is able to monitor and update resource levels at NSI/NSSI level. OOF returns the solution for NSI/NSSI selection based on the criteria. In case of shared scenario, NSI/NSSI can be shareable only if sufficient resources are available in the network. RAN NSSMF’s resource occupancy is considered for this release. Resource occupancy of Core and TN NSSMFs will be considered in future releases.
-    - Activate, Deactivate scenarios support in external RAN NSSMF - Option2. Note that instantiation and termination are supported in Istanbul release.
-
 2. **RAN Slicing**
     - Optimization of cm-handle registration with CPS-DMI Plugin for RAN NF instances to upload yang model.
     - CPS integration with SDN-R for RAN slice allocation and reconfiguration scenarios
     - CPS integration stabilization for RAN slice activate/deactivate and terminate scenarios. Validation and bug fix for CPS integration of RAN slice lifecycle.
-    - CSIT for RAN slicing
 3. **Transport Slicing**
     - OOF involvement in TN slice reuse and terminate scenarios
        - Implementation of the call to OOF for allocateNSSI to enable TN NSSI reuse in TN NSSMF
@@ -516,10 +513,7 @@ In Jakarta release, the following aspects are covered:
     - CPS integration stabilization, which validates and enhances CPS integration for closed loop.
 5. **Carryover tests from Istanbul release**
     - Option-1 (internal NSMF, NSMF and NSSMF)
-       - E2E testing for activate/deactivate scenario
        - Pending test cases for E2E Slice termination
-    - NSMF driven TN slicing
-       - Pending testing for activate/deactivate and terminate scenarios
     - Bug fixes and testing for Core slicing
        - NF instantiation issue with same NSST
        - Multiple non-share Core slice creation issue
@@ -528,8 +522,7 @@ Impacted Modules for Jakarta Release
 ------------------------------------
 - **SO**: Requirements below are identified for Jakarta release and have impacts in SO component:
      (1) Use of Optimization solution (OOF) in allocateNSSI, deallocateNSSI in TN NSSMF
-     (2) Activate, Deactivate flows support in external RAN NSSMF for option 2
-     (3) Bug fixes/enhancements of carryover test cases from Istanbul release
+     (2) Bug fixes/enhancements of carryover test cases from Istanbul release
 
 - **OOF**: OOF component has an impact for the requirement below:
      (1) NSI/NSSI Selection enhancements based on resource occupancy levels
@@ -543,7 +536,6 @@ Impacted Modules for Jakarta Release
       (1) Optimizing cm-handle registration with CPS-DMI Plugin to upload yang model
       (2) CPS Integration with SDN-R for RAN Slice allocate and reconfigure scenarios
       (3) CPS Integration Stabilization - RAN Slice activate/deactivate and terminate scenarios
-      (4) CSIT for RAN slicing
 
 Jakarta Release - Functional Test cases
 ---------------------------------------
