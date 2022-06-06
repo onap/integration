@@ -30,7 +30,7 @@
         - "nexus3.onap.org"
 - name: Install Docker
   become: yes
-  hosts: control,workers
+  hosts: operator,control,workers
   roles:
     - role: setup_docker
 - name: Deploy k8s
