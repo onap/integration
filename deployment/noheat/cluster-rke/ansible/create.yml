@@ -19,7 +19,7 @@
     - role: create_bastion
       destination: "{{ nexus }}"
 - name: Add bastion information to the cluster nodes
-  hosts: all
+  hosts: control,workers
   become: yes
   tasks:
     - name: Add cluster hostnames to /etc/hosts file
