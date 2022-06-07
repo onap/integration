@@ -3,10 +3,9 @@ cert_manager_version: "1.5.5"
 prometheus_enabled: true
 prometheus_version: "19.3.0"
 metallb_enabled: true
-metallb_version: "0.12.1"
-metallb_protocol: "layer2"
+metallb_version: "0.13.5"
 metallb_addresses: "192.168.1.129-192.168.1.255"
 istio_enabled: true
-istio_version: "1.13.4"
+istio_version: "1.15.1"
 strimzi_enabled: true
 strimzi_version: "0.28.0"

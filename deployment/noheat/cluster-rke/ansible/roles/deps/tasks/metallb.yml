@@ -4,18 +4,48 @@
     name: metallb
     repo_url: https://metallb.github.io/metallb
 
-- name: Copy MetalLB override file
-  template:
-    src: "metallb-values.yaml.j2"
-    dest: "/tmp/metallb-values.yaml"
-    mode: '0400'
-
+- name: Create MetalLB namespace
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: metallb-system
+        labels:
+          pod-security.kubernetes.io/enforce: privileged
+          pod-security.kubernetes.io/audit: privileged
+          pod-security.kubernetes.io/warn: privileged
 - name: Deploy MetalLB charts
   kubernetes.core.helm:
     name: metallb
     chart_version: "{{ metallb_version }}"
     chart_ref: metallb/metallb
-    release_namespace: metallb
-    create_namespace: true
-    values_files:
-      - /tmp/metallb-values.yaml
+    release_namespace: metallb-system
+    wait: true
+
+- name: Create MetalLB IP Address Pool Resource
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: metallb.io/v1beta1
+      kind: IPAddressPool
+      metadata:
+        name: onap-pool
+        namespace: metallb-system
+      spec:
+        addresses:
+          - "{{ metallb_addresses }}"
+  register: result
+  retries: 1
+  until: result['failed'] == false
+
+- name: Create MetalLB L2 Advertisement Resource
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: metallb.io/v1beta1
+      kind: L2Advertisement
+      metadata:
+        name: onap
+        namespace: metallb-system
