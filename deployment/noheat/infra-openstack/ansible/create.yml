@@ -64,15 +64,25 @@
       copy:
         src: ../../devstack
         dest: ~/
-    - name: Push Openstack vars to the next Ansible control host
+    - name: Push Devstack vars to the next Ansible control host (for Devstack stage)
+      template:
+        src: "templates/openstack.yml.j2"
+        dest: ~/devstack/ansible/group_vars/all/openstack.yml
+        mode: '0644'
+    - name: Push Devstack vars to the next Ansible control host (for cluster-rke stage)
       template:
         src: "templates/openstack.yml.j2"
         dest: ~/deploy/cluster-rke/ansible/group_vars/all/openstack.yml
         mode: '0644'
-    - name: Push Openstack vars to the next Ansible control host
+    - name: Create Devstack config directory
+      file:
+        path: ~/.config/openstack/
+        state: directory
+        mode: '0755'
+    - name: Generate Devstack clouds.yml file
       template:
-        src: "templates/openstack.yml.j2"
-        dest: ~/devstack/ansible/group_vars/all/openstack.yml
+        src: "templates/clouds.yaml.j2"
+        dest: ~/.config/openstack/clouds.yml
         mode: '0644'
     - block:
       - name: Install python dependencies
