@@ -9,7 +9,6 @@
       update_cache: true
       autoremove: true
       autoclean: true
-      #notify: Reboot OS
 
   - name: Reboot OS
     become: true
@@ -19,7 +18,7 @@
     ansible.builtin.git:
       repo: "https://opendev.org/openstack/devstack"
       dest: "{{ devstack_dir }}"
-      version: "stable/yoga"
+      version: "{{ devstack_version }}"
 
   - name: Copy local.conf
     ansible.builtin.template:

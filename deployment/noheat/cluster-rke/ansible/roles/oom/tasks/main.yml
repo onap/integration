@@ -41,7 +41,7 @@
   git:
     repo: "https://git.onap.org/integration"
     dest: "{{ integration_dir }}"
-    version: "master"
+    version: "{{ onap_branch }}"
 - name: Compile encryption tool
   command:
     cmd: javac Crypto.java
@@ -56,7 +56,7 @@
 
 - name: Deploy sm-onap
   command:
-    cmd: "helm deploy onap local/onap --namespace onap --set global.masterPassword=scrtPasswd -f {{ oom_dir }}/kubernetes/onap/resources/overrides/sm-onap.yaml"
+    cmd: "helm deploy onap local/onap --namespace onap --set global.masterPassword=scrtPasswd -f {{ override_file }}"
   environment:
     OPENSTACK_USER_NAME: "{{ openstack_username }}"
     OPENSTACK_REGION: "{{ openstack_region }}"

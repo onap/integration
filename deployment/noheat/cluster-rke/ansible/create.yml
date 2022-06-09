@@ -44,7 +44,7 @@
       git:
         repo: "https://git.onap.org/oom"
         dest: "{{ oom_dir }}"
-        version: "master"
+        version: "{{ onap_branch }}"
 - name: Install Helm
   hosts: operator0
   roles:
