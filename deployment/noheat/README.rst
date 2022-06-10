@@ -33,3 +33,16 @@ Expected output
 ---------------
 
 Ephemeral (disposable) ONAP instance.
+
+Running
+-------
+
+There are 4 playbooks available:
+
+- infa-openstack/ansible/create.yml: creates and prepares OpenStack VMs, generates inventory.
+  Must be run as a first playbook. Run on your machine.
+- devstack/ansible/create.yml: deploys Devstack on appropriate VM. Run on jumphost VM (operator0).
+- cluster-rke/ansible/create.yml: deploys NFS, k8s, helm charts and ONAP. Run on jumphost VM.
+- deploy-all.yml: runs above playbooks. Run on your machine.
+
+User may run deploy-all.yml or manually run infra-openstack, devstack and cluster-rke playbooks.
