@@ -52,5 +52,5 @@ with the community in
 University New Hempshire lab
 ----------------------------
 
-Lab for community use. See `ONAP UNH lab <https://wiki.onap.org/display/DW/ONAP+IOL-UNH+Lab>`_
+Lab for community use. See `ONAP UNH lab <https://wiki.onap.org/display/DW/ONAP+UNH-IOL+Lab>`_
 for more information.
