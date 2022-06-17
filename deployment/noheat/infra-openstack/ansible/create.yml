@@ -10,6 +10,21 @@
     - role: create_hosts
       hosts: "{{ operation.hosts }}"
       operator_key: "dummy"
+  tasks:
+    - name: Get operator Openstack info
+      openstack.cloud.server_info:
+        server: "operator0"
+      register: operator_info
+    - name: Create directory for artifacts
+      ansible.builtin.file:
+        name: "artifacts"
+        state: directory
+        mode: '0755'
+    - name: Save operator access information
+      ansible.builtin.copy:
+        content: "{{ operator_info['openstack_servers'][0]['public_v4'] }},{{ image['user'] }},~/.ssh/{{ keypair['key']['name'] }}"
+        dest: "artifacts/operator.csv"
+        mode: "0644"
 - name: Create cluster operator access keypair
   hosts: "operator0"
   gather_facts: False
