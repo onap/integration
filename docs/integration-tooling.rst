@@ -20,7 +20,7 @@ Integration Project
 -------------------
 
 Integration portal
-..................
+~~~~~~~~~~~~~~~~~~
 
 A portal is built to report the status of the different labs collaborating in
 Integration, see http://testresults.opnfv.org/onap-integration/
@@ -33,7 +33,7 @@ The code of this web site is shared on a public gitlab project.
 
 
 Communication channels
-......................
+~~~~~~~~~~~~~~~~~~~~~~
 
 The main communication channel for real time support is the official ONAP
 Slack #integration-team chan (https://onapproject.slack.com/).
@@ -42,7 +42,7 @@ You can also send a mail to onap-discuss AT lists.onap.org
 with [ONAP] [Integration] prefix in the title.
 
 Repository management
-.....................
+~~~~~~~~~~~~~~~~~~~~~
 
 Since Integration team manages few dozens of different repositories a tool was provided to aid the process of mass editing the INFO.yaml files. It can be found `here <https://git.onap.org/integration/tree/ptl/edit_committers_info>`__.
 
