@@ -1,9 +1,9 @@
 .. This work is licensed under a Creative Commons Attribution 4.0
    International License. http://creativecommons.org/licenses/by/4.0
 
-.. _docs_StndDefined_Events_Collection_Mechanism:
-
 :orphan:
+
+.. _docs_StndDefined_Events_Collection_Mechanism:
 
 VES Collector - Standard Defined Events Collection Mechanism
 ------------------------------------------------------------
@@ -24,8 +24,8 @@ and providing them for consumption by analytics applications running on top of D
 
    VES Collector orchestrated using Helm or Cloudify uses standard defined domain schema files bundled within VES collector image during image build.
    Also new Helm based installation mechanism for collectors doesn't support yet certain features available with the traditional Cloudify orchestration based mechanisms:
-      - Obtaining X.509 certificates from external CMP v2 server for secure xNF connections
-      - Exposing the Collector port in Dual Stack IPv4/IPv6 networks.
+   - Obtaining X.509 certificates from external CMP v2 server for secure xNF connections
+   - Exposing the Collector port in Dual Stack IPv4/IPv6 networks.
 
 
 How to Configure VES Collector

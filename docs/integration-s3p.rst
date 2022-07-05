@@ -2,6 +2,8 @@
    Creative Commons Attribution 4.0 International License.
 .. _integration-s3p:
 
+:orphan:
+
 Stability
 =========
 
