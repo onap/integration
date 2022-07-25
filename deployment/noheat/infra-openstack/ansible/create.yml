@@ -123,5 +123,7 @@
           src: operator-requirements.yml
           dest: ~/requirements.yml
           mode: '0444'
-      - name: Install ansible-galaxy dependencies
-        command: "ansible-galaxy collection install -r ~/requirements.yml"
+      - name: Install ansible-galaxy collections
+        community.general.ansible_galaxy_install:
+          requirements_file: ~/requirements.yml
+          type: both
