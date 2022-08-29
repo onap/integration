@@ -4,7 +4,7 @@ services:
 
   sftp-server1:
     container_name: sftp-server1
-    image: atmoz/sftp:alpine
+    image: atmoz/sftp:alpine-3.7
     ports:
       - "1022:22"
     volumes:

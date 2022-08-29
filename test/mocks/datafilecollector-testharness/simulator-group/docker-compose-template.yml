@@ -74,7 +74,7 @@ services:
     networks:
       - dfcnet
     container_name: dfc_sftp-server0
-    image: atmoz/sftp:alpine
+    image: atmoz/sftp:alpine-3.7
     ports:
       - "1022:22"
     restart: on-failure
@@ -84,7 +84,7 @@ services:
     networks:
       - dfcnet
     container_name: dfc_sftp-server1
-    image: atmoz/sftp:alpine
+    image: atmoz/sftp:alpine-3.7
     ports:
       - "1023:22"
     restart: on-failure
@@ -94,7 +94,7 @@ services:
     networks:
       - dfcnet
     container_name: dfc_sftp-server2
-    image: atmoz/sftp:alpine
+    image: atmoz/sftp:alpine-3.7
     ports:
       - "1024:22"
     restart: on-failure
@@ -104,7 +104,7 @@ services:
     networks:
       - dfcnet
     container_name: dfc_sftp-server3
-    image: atmoz/sftp:alpine
+    image: atmoz/sftp:alpine-3.7
     ports:
       - "1025:22"
     restart: on-failure
@@ -114,7 +114,7 @@ services:
     networks:
       - dfcnet
     container_name: dfc_sftp-server4
-    image: atmoz/sftp:alpine
+    image: atmoz/sftp:alpine-3.7
     ports:
       - "1026:22"
     restart: on-failure
