@@ -256,7 +256,7 @@ The code-impacted modules of E2E Network Slicing in Honolulu release are:
   (b) ‘Vpn-binding’is used to store ACTN OTN Tunnel model’s parameters.
 
 - **OOF**: Updates include:
- 
+
   (a) NST selection is enhanced by fetching the templates from SDC directly.
   (b) coverageArea to coverageAreaTAList mapping is done by OOF (as part of Slice Profile generation)
       by accessing CPS.
@@ -375,7 +375,7 @@ Below aspects are covered in Istanbul release:
 
       (a) Service instantiation for non-shared and shared scenario and fixes to support option 1 are done
       (b) NSI selection process support for shared NSI is tested
- 
+
 Impacted Modules for Istanbul Release
 -------------------------------------
 - **SO**
@@ -388,7 +388,7 @@ Impacted Modules for Istanbul Release
         - **CN NSSMF**: Bug fixes in shared allocate flow, modify flow and terminate flow
         - Slice Profile alignment with NSSMF
     (d) NSMF based TN Slices (TN-FH, TN-MH are created by NSMF) - Work flow changes to support this approach
-  
+
 - **OOF**
     (a) Integration with CPS for coverage area to coverage area TA list
     (b) Bug fixes in NxI termination
@@ -404,9 +404,9 @@ Impacted Modules for Istanbul Release
 
 - **CPS-TBDMT**
     (a) This component is enhanced to support different type of queries based on templates
-    
+
 - **CPS**
-    (a) Bug fixes and support for GET, POST, PATCH and DELETE type of queries. 
+    (a) Bug fixes and support for GET, POST, PATCH and DELETE type of queries.
 
 Istanbul Release - Functional Test cases
 ----------------------------------------
@@ -544,6 +544,49 @@ The functional testing of this use case covers CSMF/NSMF, RAN/CN/TN NSSMFs and C
 Jakarta Release - Operation Guidance
 ------------------------------------
 The setup and operation details for E2E network slicing use case are available at `User Operation Guidance - Jakarta Release <https://wiki.onap.org/display/DW/User+Operation+Guidance+-+Jakarta+Release>`_.
+
+Jakarta Release - Automate Network Slicing Option2 preparation step
+-------------------------------------------------------------------
+
+Automation of the Network Slicing Option2 use case is under development. At this moment automation of the preparation step is completed, with the source code under `SMO package repo <https://github.com/sebdet/oran-deployment>`_. The detailed introduction of the framework can be found at `SMO package introduction <https://wiki.o-ran-sc.org/display/IAT/Automated+deployment+and+testing+-+using+SMO+package+and+ONAP+Python+SDK>`_.
+
+The preparation scripts are python scripts, based on the ONAP pythonsdk framework. More libraries are added under SMO package in order to run the preparation scripts.
+
+The preparation scripts locate in folder **test/pythonsdk/src/orantests/network_slicing**. Before running the script, please open **settings.py** under folder **test/pythonsdk/src/orantests/configuration**. Make sure the URL settings for all the components are the good values.
+
+If the settings are good, go to folder **test/pythonsdk/src/orantests/network-slicing** and run the following command to trigger the preparation script:
+
+
+.. code-block:: bash
+
+    cd ./test/pythonsdk/src/orantests/network-slicing
+    tox -e ns-tests
+
+The command will trigger the main script **test_network_slicing.py**, which in turn triggers the preparation script of each component.
+
+The whole preparation process will configure the components and also verifies a bit whether the configuration was done successfully at the end of each step.
+
+The whole process may take about 1 hour to complete. You can monitor the progress using the log file **pythonsdk.debug.log** located in the folder **network_slicing/preparation**.
+
+If everything goes fine, you will see similar logs as shown below in the end.
+
+.. image:: files/ns_automation/ns_automation_suc.png
+
+If things goes wrong, please read the logs to identify which part has go wrong and try to fix that step manually.
+
+Then you can update the **test_network_slicing.py**, disable steps that are already complete, and replay the tox command to complete the rest of the configuration.
+
+
+Please note, when checking **test_network_slicing.py** in details, you will find some of the preparation steps might require extra input parameters, such as **cst_id**, **cst_invariant_id** and **sp_id**. These values could be found in both logs and SDC UI.
+
+.. image:: files/ns_automation/ns_automation_test_class.png
+
+In case it failed in the middle of the SDC template creation, please update the **sdc_template_suffix** variable inside the **test_network_slicing.py** and then rerun the script with tox command.
+
+Since SDC doesn't support creating template with the same name, neither deleting of any templates, you have to add a suffix to the original name to create template with a new name.
+
+.. image:: files/ns_automation/ns_automation_sdc_suffix.png
+
 
 Jakarta Release - Known issues and Solutions
 --------------------------------------------
