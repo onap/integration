@@ -5,7 +5,7 @@
 
 :orphan:
 
-OOF-SON
+5G-SON (earlier name was OOF-SON)
 --------
 
 Description
@@ -26,6 +26,8 @@ As part of this use case work, the SON Use Case team developed RAN-Sim, which is
 - Generation of neighbor-list-update messages
 - Generation of alarms for PCI collision/confusion and
 - Generation of handover metrics for different neighbor pairs (for the ANR use case).
+- Implementation of an O1 interface termination for CU/DU NFs
+- Implementation of an A1 interface termination with A1-Termination and RAN-App (new for Kohn release)
 
 All above functionality are enabled using a simple UI.
 
@@ -77,19 +79,30 @@ In the Jakarta release, the SON Use Case work was impacted by the fact RAN-Sim n
 - Enhancement of RAN-Sim to include abstraction of RAN App and A1 Termination which would process an A1 message and update of a CU/DU
 - Planning for replacement of Honeycomb netconf engine (project is archived)
 
+Kohn Release
+~~~~~~~~~~~~~~~~~
+
+We have introduced a new paradigm in the Kohn release and taken steps to harmonize with O-RAN SC and new approaches for ONAP Control Loops. The following are the enhancements in the Kohn release:
+
+- We introduced a new paradigm of marking SON control flows as being O1-based or A1-based. The PCI control flow is now an O1-based flow which goes to SDN-R for netconf-based configurations over O1 interface to the CU/DU. The ANR control flow is now an A1-based flow which goes to SDN-R/A1-PMS to generate A1 Policy messages over the A1 interface to the Near-RT RIC (simulated in RAN-Sim).
+- The formats of the Control Loop Message between SON Handler MS, Policy, and SDN-R have been updated. Policies in Policy Function have been updated. The PCI flow remains as an O1-based netconf action from SDN-R, while major changes were made for the ANR flow
+- We have introduction a new A1-based SON action flow leveraging the use of A1-PMS in SDN-R and A1-Termination in RAN-Sim. We have achieved this while harmonizing between ONAP and O-RAN SC work, and cross-linked ONAP JIRAs to use O-RAN SC projects.
+- We have major changes for RAN-Sim. There is an A1-Termination modules as well as a new RAN-App module. The RAN-App module abstracts the function of an xApp in the Near-RT RIC. RAN-App processes the A1 policy message payload and sends a message to the RAN-Sim controller to make configuration changes in the RAN NF (CU or DU) in the RAN-Sim.
+
+
 For more information, please see:
 
-- `OOF-SON Jakarta wiki page <https://wiki.onap.org/display/DW/R10+5G+SON+use+case>`_.
+- `5G-SON Jakarta wiki page <https://wiki.onap.org/display/DW/R11+5G+SON+use+case>`_.
 
-- `OOF-SON Base wiki page <https://wiki.onap.org/display/DW/5G+-+OOF+%28ONAP+Optimization+Framework%29+and+PCI+%28Physical+Cell+ID%29+Optimization>`_.
+- `5G-OOF-SON Base wiki page <https://wiki.onap.org/display/DW/5G+-+OOF+%28ONAP+Optimization+Framework%29+and+PCI+%28Physical+Cell+ID%29+Optimization>`_.
 
-- `OOD-SON El Alto & Frankfurt OOF (SON) wiki page <https://wiki.onap.org/display/DW/OOF+%28SON%29+in+R5+El+Alto%2C+OOF+%28SON%29+in+R6+Frankfurt>`_.
+- `OOF-SON El Alto & Frankfurt OOF (SON) wiki page <https://wiki.onap.org/display/DW/OOF+%28SON%29+in+R5+El+Alto%2C+OOF+%28SON%29+in+R6+Frankfurt>`_.
 
 
 How to Use
 ~~~~~~~~~~
 
-The OOF-PCI use case is implemented in the Rutgers University (Winlab) ONAP Wireless Lab (OWL).
+The 5G-SON use case is implemented in the Rutgers University (Winlab) ONAP Wireless Lab (OWL).
 For details, please see
 `lab details <https://wiki.onap.org/pages/viewpage.action?pageId=45298557>`_.
 
@@ -103,13 +116,11 @@ For all instructions about installing the components, please see:
 Test Status and Plans
 ~~~~~~~~~~~~~~~~~~~~~
 
-OOF was enhanced with handling cells with fixed PCI values during the optimization, SON-Handler MS was functionally enhanced for adaptive SON functionality, SDN-C (R) was enhanced to include handling of DMaaP message for config changes in the RAN, and Policy was also enhanced with Control Loop Co-ordination function.
-
-See `test plans <https://wiki.onap.org/display/DW/Integration+Tests>`_ for details.
+See `test plans <https://wiki.onap.org/display/DW/R11+5G+SON+Integration+Tests>`_ for details.
 
 Known Issues and Resolutions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 (a) It is intended to have the RAN Simulator support sufficient Honeycomb netconf server instances to simulate 2000 cells. However, this number may be lower if there are hardware limitations.
 (b) For Control Loop Co-ordination, the denial of a second Control Loop based on Target Lock (i.e., when a second Control Loop tries to operate on the same target (in this case, a PNF) is successfully tested. The CLC is also applied at Control Loop level only. However, some code updates are required in Policy to properly update the Operations History DB entry, and to check the existence of active Control Loops by Policy. This will be addressed in Jakarta release, and tracked via    https://jira.onap.org/browse/POLICY-2484
-(c) Honeycomb netconf server project has been archived. We are planning to migrate to netopeer.
+(c) Honeycomb netconf server project has been archived. The plan is to migrate to netopeer. As an interim step, we have a new ran-app module which interacts with the ran-sim controller.
