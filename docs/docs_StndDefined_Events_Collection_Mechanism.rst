@@ -18,7 +18,7 @@ and providing them for consumption by analytics applications running on top of D
 2. Standards-organization defined events can be included using a dedicated stndDefinedFields.data property
 3. Standards-defined events can be validated using openAPI descriptions provided by standards organizations, and indicated in stndDefinedFields.schemaReference
 
-`Standard Defined Events Collection Mechanism description <https://docs.onap.org/projects/onap-dcaegen2/en/honolulu/sections/services/ves-http/stnd-defined-validation.html>`_
+`Standard Defined Events Collection Mechanism description <https://docs.onap.org/projects/onap-dcaegen2/en/jakarta/sections/services/ves-http/stnd-defined-validation.html>`_
 
 .. note::
 
@@ -31,7 +31,7 @@ and providing them for consumption by analytics applications running on top of D
 How to Configure VES Collector
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-By default config maps containing schema files are defined in the `OOM <https://github.com/onap/oom/tree/honolulu/kubernetes/dcaegen2/resources/external>`_ repository and installed with dcaegen2 module.
+By default config maps containing schema files are defined in the `OOM <https://github.com/onap/oom/tree/jakarta/kubernetes/dcaegen2-services/resources/external>`_ repository and installed with dcaegen2 module.
 In Istanbul release in OOM are used schema files from https://forge.3gpp.org/rep/sa5/MnS/blob/SA88-Rel16/OpenAPI/.
 The newest schema files can be found in https://forge.3gpp.org/rep/sa5/MnS/tree/Rel-16-SA-91/OpenAPI
 If for production/test purpose are required different or newest schema files please follow procedure for `config map update <https://docs.onap.org/projects/onap-dcaegen2/en/latest/sections/configuration.html#config-maps>`_.
@@ -41,10 +41,10 @@ In order to prepare second instance of VES Collector please follow below procedu
 1. (Optional step) If VES Collector should obtaining X.509 certificates from CMPv2 server for secure xNF connections please follow below steps:
 
    - Install `Cert Manager <https://docs.onap.org/projects/onap-oom/en/latest/oom_setup_paas.html#cert-manager>`_
-   - Configure `Cert Service <https://docs.onap.org/projects/onap-oom-platform-cert-service/en/honolulu/sections/configuration.html>`_ if external CMP v2 server is in use.
+   - Configure `Cert Service <https://docs.onap.org/projects/onap-oom-platform-cert-service/en/jakarta/sections/configuration.html>`_ if external CMP v2 server is in use.
 
 2. If usage of config maps from OOM containing schema files is required please follow procedure for
-   `external repo schema files from OOM connection to VES collector <https://docs.onap.org/projects/onap-dcaegen2/en/honolulu/sections/services/ves-http/installation.html#external-repo-schema-files-from-oom-connection-to-ves-collector>`_
+   `external repo schema files from OOM connection to VES collector <https://docs.onap.org/projects/onap-dcaegen2/en/jakarta/sections/services/ves-http/installation.html#external-repo-schema-files-from-oom-connection-to-ves-collector>`_
    with changes described below.
 
    As new instance of VES Collector will be introduced to ONAP namespace there is need to modify parameters from ``/inputs/k8s-ves-inputs-tls.yaml`` in Bootstrap POD
