@@ -7,6 +7,38 @@
 
 CCVPN (Cross Domain and Cross Layer VPN)
 ----------------------------------------
+Update for kohn Release
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The kohn release enhances the CCVPN use-case by introducing the following three features (REQ-1268):
+1. E-LINE (P2P connection) support for the Cloud Leased Line (CLL) service delivery
+2. Enhancing the Closed-Loop Automation of CCVPN services by using DCAE SDK dmaap-client lib in slice analysis MS
+3. Enhancing TN NSSMF NBI to align with the latest IETF specification (SO changes)
+
+Kohn Scope and Impacted modules
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Kohn release is an enhancement release. E-LINE service model (P2P connection) is added to the Cloud Leased Line (CLL) service.
+Also, slice analysis MS is enhanced to use DCAE SDK dmaap-client lib.
+And lastly, TN NSSMF northbound is aligned with the latest IETF transport slice definition model (SO changes).
+
+The impacted ONAP modules are: CCSDK, SDN-C, DCAE, and SO.
+
+Installation Procedure
+~~~~~~~~~~~~~~~~~~~~~~
+
+For Kohn new features, the integration test environment is similar to that of
+the Jakarta release: an ONAP instance with Kohn release interfacing with 3rd party
+transport domain controllers should be established.
+
+Functional/Integration Test Cases
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The testing procedure is described in the following few test cases:
+- Create and delete single CLL instance which accesses single cloud, and monitor if the closed-loop call flow is getting triggered.
+- Modify the bandwidth of a connection link of an existing CLL instance, and monitor if the closed-loop call flow is getting triggered.
+
+
 Update for Jakarta Release
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
