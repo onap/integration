@@ -34,6 +34,24 @@
       "revId": "5ea85531ec762930e6f34dc4240776e43e2b88e7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dff22202_7cc14532",
+        "filename": "deployment/noheat/cluster-rke/ansible/roles/setup_helm/tasks/main.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2022-10-11T11:41:18Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "415ce2c5_0ac1ffc0",
+      "revId": "5ea85531ec762930e6f34dc4240776e43e2b88e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
