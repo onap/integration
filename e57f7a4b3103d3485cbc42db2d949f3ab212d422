@@ -16,6 +16,24 @@
       "revId": "e57f7a4b3103d3485cbc42db2d949f3ab212d422",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f41c2c72_f3522a12",
+        "filename": "deployment/noheat/infra-openstack/ansible/create.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 7705
+      },
+      "writtenOn": "2022-10-11T12:11:52Z",
+      "side": 1,
+      "message": "Sure, I\u0027ll take a look at that.",
+      "parentUuid": "47804d61_993bbc4e",
+      "revId": "e57f7a4b3103d3485cbc42db2d949f3ab212d422",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
