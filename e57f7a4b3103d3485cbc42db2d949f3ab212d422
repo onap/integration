@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47804d61_993bbc4e",
+        "filename": "deployment/noheat/infra-openstack/ansible/create.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2022-10-11T11:15:27Z",
+      "side": 1,
+      "message": "nit: wonder if it can be related with k8s_version from deployment/noheat/cluster-rke/ansible/roles/setup_k8s/defaults/main.yml file, because the version of of pypi package determines the version of k8s API version used by the Python library, so if you install kubectl based on the version of k8s user set on defaults, maybe it\u0027s also possible to install python client using the same API version.\nI know can be tricky, especially you are using 1.22.13 version of k8s and there is no such version of Python library, but in pip you can specify `~\u003d` version, so if you set `~\u003d22.13` it equivalent to `\u003e\u003d22.13, \u003d\u003d22.*`, so the version 22.6 will be installed",
+      "revId": "e57f7a4b3103d3485cbc42db2d949f3ab212d422",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
