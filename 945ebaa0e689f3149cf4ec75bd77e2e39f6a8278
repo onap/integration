@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e5e5b14_259bf826",
+        "filename": "test/mocks/ran-nssmf-simulator/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2022-10-19T06:01:08Z",
+      "side": 1,
+      "message": "Use ONAP integration Python base image: \nnexus3.onap.org:10001/onap/integration-python:10.0.0",
+      "revId": "945ebaa0e689f3149cf4ec75bd77e2e39f6a8278",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
