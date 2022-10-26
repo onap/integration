@@ -84,15 +84,17 @@ Kohn Release
 
 We have introduced a new paradigm in the Kohn release and taken steps to harmonize with O-RAN SC and new approaches for ONAP Control Loops. The following are the enhancements in the Kohn release:
 
-- We introduced a new paradigm of marking SON control flows as being O1-based or A1-based. The PCI control flow is now an O1-based flow which goes to SDN-R for netconf-based configurations over O1 interface to the CU/DU. The ANR control flow is now an A1-based flow which goes to SDN-R/A1-PMS to generate A1 Policy messages over the A1 interface to the Near-RT RIC (simulated in RAN-Sim).
+- We introduced a new paradigm of marking the RAN action SON control flows as being O1-based or A1-based. The PCI control flow is now an O1-based flow which goes to SDN-R for netconf-based configurations over O1 interface to the CU/DU (simulated in RAN-Sim). The ANR control flow is now an A1-based flow which goes to SDN-R/A1-PMS to generate A1 Policy messages over the A1 interface to the xApp/Near-RT RIC (simulated in RAN-Sim).
 - The formats of the Control Loop Message between SON Handler MS, Policy, and SDN-R have been updated. Policies in Policy Function have been updated. The PCI flow remains as an O1-based netconf action from SDN-R, while major changes were made for the ANR flow
-- We have introduction a new A1-based SON action flow leveraging the use of A1-PMS in SDN-R and A1-Termination in RAN-Sim. We have achieved this while harmonizing between ONAP and O-RAN SC work, and cross-linked ONAP JIRAs to use O-RAN SC projects.
-- We have major changes for RAN-Sim. There is an A1-Termination modules as well as a new RAN-App module. The RAN-App module abstracts the function of an xApp in the Near-RT RIC. RAN-App processes the A1 policy message payload and sends a message to the RAN-Sim controller to make configuration changes in the RAN NF (CU or DU) in the RAN-Sim.
+- We have introduce a new A1-based SON action flow leveraging the use of A1-PMS in SDN-R and A1-Termination in RAN-Sim. We have harmonized ONAP and O-RAN SC work, and cross-linked ONAP JIRAs to use O-RAN SC projects.
+- We have major changes for RAN-Sim. There is a new A1-Termination module as well as a new RAN-App module. The RAN-App module abstracts the function of an xApp in the Near-RT RIC. RAN-App processes the A1 policy message payload and sends a message to the RAN-Sim controller to make configuration changes in the RAN NF (CU or DU) in the RAN-Sim.
 
 
 For more information, please see:
 
-- `5G-SON Jakarta wiki page <https://wiki.onap.org/display/DW/R11+5G+SON+use+case>`_.
+- `5G-SON Kohn release wiki page <https://wiki.onap.org/display/DW/R11+5G+SON+use+case>`_.
+
+- `5G-SON Jakarta release wiki page <https://wiki.onap.org/display/DW/R10+5G+SON+use+case>`_.
 
 - `5G-OOF-SON Base wiki page <https://wiki.onap.org/display/DW/5G+-+OOF+%28ONAP+Optimization+Framework%29+and+PCI+%28Physical+Cell+ID%29+Optimization>`_.
 
