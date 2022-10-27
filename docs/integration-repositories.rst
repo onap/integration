@@ -8,51 +8,6 @@ Integration repositories
 .. important::
    The Integration project deals with lots of code repositories.
 
-
-Most of the repositories are internal ONAP repositories.
-
-.. code-block:: bash
-
-   ├── demo
-   ├── integration
-   │   ├── csit
-   |   ├── data-provider
-   │   ├── docker
-   │   │   ├── onap-java11
-   │   │   └── onap-python
-   │   ├── ietf-actn-tools
-   │   ├── seccom
-   │   ├── simulators
-   │   │   ├──5G-core-nf-simulator
-   │   │   ├──A1-policy-enforcement-simulator
-   │   │   ├──core-nssmf-simulator
-   │   │   ├──nf-simulator
-   │   │   │  ├──avcn-manager
-   │   │   │  ├──netconf-server
-   │   │   │  ├──pm-https-server
-   │   │   │  └──ves-client
-   │   │   ├──pnf-simulator
-   │   │   ├──ran-nssmf-simulator
-   │   │   └──ran-simulator
-   │   ├── usecases
-   │   │   ├── A1-policy-enforcement
-   │   │   ├── A1-policy-enforcement-r-apps
-   │   └── xtesting
-   ├── oparent
-   │   └── cia
-   └── testsuite
-      ├── cds
-      ├── cds-mock-odl
-      ├── cds-mock-server
-      ├── cds-mock-ssh
-      ├── oom
-      ├── python-testing-utils
-      ├── pythonsdk-tests
-      └── robot-utils
-
-Please note that integration and teststuite are repositories and groups hosting
-several sub-repositories.
-
 Integration
 -----------
 
@@ -71,6 +26,10 @@ It shall help improving the maintenance of the different elements.
 It shall also help identifying, leveraging and adopting existing simulators
 rather than systematically re-inventing the wheel.
 
+.. note::
+    There is a new section of repositories - pipelines. These repositories are migrated for Orange GitLab project.
+    Code on these repositories is planned to be used to run ONAP tests GitLab CI/CD pipelines on `GitLab ONAP integration group <https://gitlab.com/onap/integration>`__
+
 .. csv-table:: Integration Repositories
     :file: ./files/csv/repo-integration.csv
     :widths: 30,50,20
@@ -83,6 +42,11 @@ rather than systematically re-inventing the wheel.
     :delim: ;
     :header-rows: 1
 
+.. csv-table:: Integration Pipelines
+    :file: ./files/csv/repo-pipelines.csv
+    :widths: 30,50,20
+    :delim: ;
+    :header-rows: 1
 
 Testsuite
 ---------
@@ -141,14 +105,11 @@ External repositories
 Additionally, the Integration team also deals with external gitlab.com
 repositories.
 
+.. important::
+    All of these repositories should be migrated into ONAP's Gerrit
+
 .. csv-table:: Integration external repositories table
     :file: ./files/csv/repo-integration-external.csv
     :widths: 30,50,20
     :delim: ;
     :header-rows: 1
-
-The python-onapsdk has been developed outside of ONAP as gitlab provided more
-enhanced built-in features for this kind of development.
-
-The xtesting-onap repository is also hosted in gitlab.com as the CD part of
-Integration work is based on public gitlab-ci chains.

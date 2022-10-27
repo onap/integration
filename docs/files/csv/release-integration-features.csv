@@ -1,30 +1,5 @@
 Issue-ID;Description
-INT-2097;[STRIMZI-CA] Add strimzi ca to cert checks
-INT-2095;Broken URL to 5gbulkpm test case.
-INT-2094;Upstream Apache use case into demo repository
-INT-2093;Disable healtcheck for DCAE platform components
-TEST-383;Fix HVVES test case in Jakarta release
-INT-2078;smoke tests not more run due to jinja2 upstream lib bug
-INT-2077;Add missing INFO.yaml files in integration/simulators/nf-simulator repository (and related repositories)
-INT-2057;Use the latest Python 3.10.2
-INT-2051;Add cert manager support to netconf simulator
-INT-2049;Release data-provider image
-INT-2043;Update SDK version in data-provider
-TEST-379;Integrate basic_cnf_macro test
-INT-2040;Reset security waivers for jakarta
-INT-2015;Create python baseline image
-INT-2014;Create Java baseline image for Jakarta
-INT-2009;Automate the committers management in INFO.yaml files
-TEST-368;"No execution start time saved for..." error log in tests
-INT-1998;A1 Policy Enforcement PoC documentation improvments
-INT-1980;CNF/CBA - DayOneConfig.kt throw java.io.FileNotFoundException
-INT-1974;Build pythonsdk-tests docker image for every change
-INT-1971;Add gating mechanism on integration test changes
-INT-1956;DT tests results should be available to check to the community
-TEST-356;Create tests resources not in ONAP namespace
-INT-1952;Run gating tests on selected pythonsdk-tests version/change
-TEST-354;PNF macro failing due to: services "pnf-macro-test-simulator-mongo"
-INT-1925;Issues during stability instantiation tests on weekly master
-TEST-297;Include testuite/cds in a xtesting dockers
-TEST-294;Integrate CDS regression tests in End to End CI/CD chain
-INT-1665;Setup CI jobs, functional/unit tests, tests runners to automate Python tools testing
+INT-2070;Automate 5G Slicing use case in CI - Manual configuration step 7 - AAI Configuration
+INT-2164;Update Apache CNF Demo
+INT-2126;Data provider - add relationships into cloud region and tenant
+INT-2135;Add CPS resources into data-provider

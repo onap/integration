@@ -65,8 +65,8 @@ Some GUI tests (using Robotframework Selenium extension) had been initiated but
 not maintained, as a consequence they are not integrated in CI/CD.
 
 
-Python-onapsdk
-..............
+Python ONAP SDK
+...............
 
 The Openstack and Kubernetes python SDK are references widely adopted by the
 developers and the industry. Developing a python ONAP SDK aimed to follow the
@@ -79,7 +79,7 @@ end to end tests) it was decided to develop a new python SDK.
 This SDK has been developed in gitlab.com to benefit from the numerous built-in
 options offered by gitlab and ensure the best possible code quality.
 
-- `python SDK repositoy <https://gitlab.com/Orange-OpenSource/lfn/onap/python-onapsdk>`_
+- `python SDK repositoy <https://gerrit.onap.org/r/admin/repos/integration/python-onapsdk>`_
 - `python SDK documentation <https://python-onapsdk.readthedocs.io/en/latest/?badge=develop>`_
 
 The project is fully Open Source, released under the Apache v2 license.
@@ -96,7 +96,7 @@ Any new feature shall respect the code quality criteria:
     with ONAP. It is a **middleware** that can be used by test projects but it is
     **NOT a test**.
 
-A compagnon project has been created in ONAP:
+A companion project has been created in ONAP:
 `pythonsdk-tests <https://git.onap.org/testsuite/pythonsdk-tests/>`_.
 
 The pythonsdk-test project defines tests based on python-onapsdk.

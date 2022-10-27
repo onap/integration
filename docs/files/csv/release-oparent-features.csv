@@ -1,2 +1,4 @@
 Issue-ID;Description
-CPS-475;Enable @surpressWarnings for Checkstyle
+
+USECASEUI-709;Upgrade dependency versions in oparent
+USECASEUI-709;Update Logback to Version 1.2.10

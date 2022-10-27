@@ -1,5 +1,5 @@
 Issue key;Summary;Contact;Comment
-REQ-453;Smart Operator Intent Translation in UUI based on IBN - R8 5G Slicing Support;Dong Wang;
-REQ-430;PNF Plug & Play in R8;Damian Nowak;
-REQ-428;5G Service Modeling in R8 - Modeling Work;Benjamin Cheung;
-REQ-427;Configuration Persistence Service in R8;Toine Siebelink;
+REQ-1267;General intent model and general intent interface requirements in R11;Keguang He;
+REQ-1214;Maintenance and Enhancement of Intent-driven Closed-loop Autonomous Networks in R11;Dong Wang;
+REQ-1268;CCVPN Kohn Enhancements for Intent-based Cloud Leased Line and Transport Slicing;Henry Yu;
+REQ-1342;Retirement of unmaintained repos;Amy Zwarico;

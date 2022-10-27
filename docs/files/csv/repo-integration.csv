@@ -5,6 +5,8 @@ integration/data-provider;Project that provides a tool to automate common ONAP r
 integration/docker/onap-java11;Java11 baseline image conformed to SECCOM recommendations;`link <https://git.onap.org/integration/docker/onap-java11>`__
 integration/docker/onap-python;Python baseline image conformed to SECCOM recommendations;`link <https://git.onap.org/integration/docker/onap-python>`__
 integration/ietf-actn-tools;IETF ACTN tools introduced in Honolulu);`link <https://git.onap.org/integration/ietf-actn-tools>`__
+integration/onap-component-simulators;ONAP component simulators used for tests;`link <https://git.onap.org/integration/onap-component-simulators/>`__
+integration/python-onapsdk;ONAP Python SDK repository;`link <https://git.onap.org/integration/python-onapsdk/>`__
 integration/seccom;Repory hosting seccom recommended versions and security test waivers;`link <https://git.onap.org/integration/seccom>`__
 integration/usecases/A1-policy-enforcement;A1 policy enforcement introduced in Honolulu;`link <https://git.onap.org/integration/usecases/A1-policy-enforcement>`__
 integration/usecases/A1-policy-enforcement-r-apps;A1 policy enforcement (analyticis part) introduced in Honolulu;`link <https://git.onap.org/integration/usecases/A1-policy-enforcement-r-apps>`__
