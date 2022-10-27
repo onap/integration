@@ -3,8 +3,8 @@
 .. This work is licensed under a Creative Commons Attribution 4.0
    International License. http://creativecommons.org/licenses/by/4.0
 
-Integration Jakarta Release Notes
-==================================
+Integration Kohn Release Notes
+==============================
 
 .. csv-table:: Integration Releases
     :file: ./files/csv/release-integration-ref.csv
@@ -14,22 +14,14 @@ Integration Jakarta Release Notes
 
 .. important::
 
-    - Creation of an Jakarta Daily CI/CD chain
-    - Creation of Java and Python baseline images for Jakarta
-    - Update of Seccom waivers and version recommendations
-    - Adapt robot tests to DCAE project changes
-    - New tests (basic_cnf_macro)
     - New repositories (see dedicated section)
-    - Release ONAP Data Provider tool
-    - Automate repositories INFO.yaml updates
     - Bug fixes
-    - ONAP tests library gating tests
 
     Quick Links:
 
-      - `Jakarta Integration page <https://wiki.onap.org/display/DW/Integration+Jakarta>`_
-      - `Jakarta Integration JIRA follow-up <https://wiki.onap.org/display/DW/Jakarta+Integration+Blocking+points>`_
-      - `Jakarta Integration weather Board <https://wiki.onap.org/display/DW/0%3A+Integration+Weather+Board+for+Jakarta+Release>`_
+      - `Kohn Integration page <https://wiki.onap.org/display/DW/Integration+Kohn>`_
+      - `Kohn Integration JIRA follow-up <https://wiki.onap.org/display/DW/Kohn+Integration+Blocking+points>`_
+      - `Kohn Integration weather Board <https://wiki.onap.org/display/DW/0%3A+Integration+Weather+Board+fo>`_
 
 Code changes
 ------------
@@ -37,11 +29,11 @@ Code changes
 Integration Repo
 .................
 
-:Release Date: 2021-10-14
+:Release Date: 2022-10-27
 
 
-Version: 10.0.0 (aka Jakarta)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Version: 11.0.0 (aka Kohn)
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. csv-table:: Integration Changes
     :file: ./files/csv/release-integration-features.csv
@@ -64,7 +56,7 @@ Main changes:
 Robot (Testsuite)
 .................
 
-Version: 1.10.0
+Version: 1.11.0
 ^^^^^^^^^^^^^^^
 
 Main changes:
@@ -79,7 +71,7 @@ Main changes:
 O-Parent
 ........
 
-Version: 3.3.1
+Version: 3.3.2
 ^^^^^^^^^^^^^^
 
 .. csv-table:: Oparent Changes
@@ -91,7 +83,7 @@ Version: 3.3.1
 Demo Artifacts (Heat Templates)
 ...............................
 
-Version: 1.10.0
+Version: 1.11.0
 ^^^^^^^^^^^^^^^
 
 .. csv-table:: Demo Changes
@@ -106,7 +98,7 @@ The demo artifacts are pushed to https://nexus.onap.org/content/repositories/rel
 Use Cases and Requirements
 --------------------------
 
-See dedicated :ref:`Jakarta Use Cases and requirements page <docs_usecases_release>`
+See dedicated :ref:`Kohn Use Cases and requirements page <docs_usecases_release>`
 
 Maturity Testing Notes
 ----------------------
