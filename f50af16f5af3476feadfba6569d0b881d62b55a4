@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13a11e2c_85cc352a",
+        "filename": "docs/docs_5G_oof_son.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 4405
+      },
+      "writtenOn": "2022-10-27T13:08:47Z",
+      "side": 1,
+      "message": "Should the N-1 releases be cleaned up and removed?",
+      "range": {
+        "startLine": 45,
+        "startChar": 1,
+        "endLine": 45,
+        "endChar": 6
+      },
+      "revId": "f50af16f5af3476feadfba6569d0b881d62b55a4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
