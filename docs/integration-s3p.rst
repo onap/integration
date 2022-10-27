@@ -10,7 +10,7 @@ Stability
 .. important::
     The Release stability has been evaluated by:
 
-    - The daily Jakarta CI/CD chain
+    - The daily CI/CD chain
     - Stability tests
 
 .. note:
@@ -22,9 +22,7 @@ CI results
 
 As usual, a daily CI chain dedicated to the release is created after RC0.
 
-The daily results can be found in `LF Orange lab daily results web site
-<https://logs.onap.org/onap-integration/daily/onap_daily_pod4_master/>`_ and
-`LF DT lab daily results web site <https://logs.onap.org/onap-integration/daily/onap-daily-dt-oom-master/>`_.
+The daily results can be found in `LF DT lab daily results web site <https://logs.onap.org/onap-integration/daily/onap-daily-dt-oom-master/>`_.
 
 .. image:: files/s3p/jakarta-dashboard.png
    :align: center

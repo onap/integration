@@ -6,7 +6,7 @@
 :orphan:
 
 5G-SON (earlier name was OOF-SON)
---------
+---------------------------------
 
 Description
 ~~~~~~~~~~~
@@ -65,7 +65,7 @@ As part of Istanbul release work, progress was made towards the goal of transiti
 
 
 Jakarta Release
-~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~
 
 The following are the enhancements in the Jakarta release:
 
@@ -80,7 +80,7 @@ In the Jakarta release, the SON Use Case work was impacted by the fact RAN-Sim n
 - Planning for replacement of Honeycomb netconf engine (project is archived)
 
 Kohn Release
-~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~
 
 We have introduced a new paradigm in the Kohn release and taken steps to harmonize with O-RAN SC and new approaches for ONAP Control Loops. The following are the enhancements in the Kohn release:
 
