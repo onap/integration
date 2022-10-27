@@ -1,10 +1,5 @@
 Tests;Description;Code;Comments
 root_pods;check that pods are nor using root user or started as root; `bash script <https://git.onap.org/integration/xtesting/tree/security/scripts/check_security_root.sh>`__; kubectl
 unlimitted_pods;check that limits are set for pods;`bash script <https://git.onap.org/integration/xtesting/tree/security/scripts/check_unlimitted_pods.sh>`__;	kubectl
-cis_kubernetes;perform the k8s cis test suite (upstream src aquasecurity);`bash script <https://git.onap.org/integration/xtesting/tree/security/scripts/check_cis_kubernetes.sh>`__;`kube-bench <https://github.com/aquasecurity/kube-bench>`__
 nonssl_endpoints;check that all public HTTP endpoints exposed in ONAP cluster use SSL tunnels;`Go	script <https://git.onap.org/integration/plain/test/security/sslendpoints/main.go>`__;kubetl, nmap
-http_public_endpoints;check that there is no public http endpoints exposed in ONAP cluster;`bash script <https://git.onap.org/integration/plain/test/security/check_for_nonssl_endpoints.sh>`__;kubectl,nmap
-jdpw_ports;check that there are no internal java ports;`bash script <https://git.onap.org/integration/plain/test/security/check_for_jdwp.sh>`__;kubectl, procfs
-kube_hunter;security suite to search k8s vulnerabilities (upstream src aquasecurity);`kube-Hunter <https://github.com/aquasecurity/kube-hunter>`__; `kube-Hunter <https://github.com/aquasecurity/kube-hunter>`__
-versions;check that Java and Python are available only in versions recommended by SECCOM. This test is long and run only in Weekly CI chains;`python module <https://git.onap.org/integration/tree/test/security/check_versions>`__;cerberus, kubernetes python lib,
-tern;Check the component licenses within the ONAP dockers;`bash script <https://gitlab.com/Orange-OpenSource/lfn/onap/xtesting-onap/-/blob/master/scripts/run_tern.sh>`__;kubectl
+nodeport_check_certs;This test list the nodeports and tries to get SSL information to evaluate the validity of the certificates (expiration and issuer) used on the nodeports;`python module <https://git.onap.org/integration/tree/test/security/check_certificates>`__;pyopenssl, kubernetes python libraries

@@ -1,19 +1,2 @@
 Issue-ID;Description
-INT-1895;[ROBOT] Change performance measurements topic for 5gbulkpm
-INT-1895;[ROBOT] Add timout flag for helm unintsll operation
-INT-1895;[ROBOT] Change pm mapper readiness check to HTTP
-INT-2012;[Healthcheck] Remove clamp Healthcheck
-NT-1895;[ROBOT] Adopt DCAEMOD test cases to helm based deployment
-INT-2093;[DCAE] Deprecate DCAE basic healthcheck
-INT-1895;[ROBOT] Fix failing CMPv2 and 5gbulkpm test cases in CI
-TEST-383;[INTEGRATION] Fix failing HVVES test case in Jakarta release
-OOM-2921;[INT] Remove Portal robot test from full and medium test suite
-INT-1895;[ROBOT] ADD CMPv2 test cases that use helm based components
-POLICY-3887;Add policy cleanup if policy is existing before policy health check execution
-INT-1895;[ROBOT] FIX BULKPM test cases for Jakarta release
-SO-3829;[HEALTCHECK] remove mariadbgalera connectivity tests from core
-SO-3829;[SO] MariaDB Galera connectivity with SO Issue-ID:SO-3829
-INT-1895;[ROBOT] ADD HTTPS based BULKPM test cases that use helm based components
-POLICY-3815;[POLICY] Change API and PAP usernames
-INT-1895;[ROBOT] ADD BULKPM test cases that use helm based component services
-INT-2006;[TIMEOUT] Extend healthcheck timeout value
+INT-2160;[ROBOT] Fix the DCAEMOD testcase for ServiceMes

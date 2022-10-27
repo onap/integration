@@ -1,4 +1,2 @@
 Repository;Description;Link
-pythononapsdk;Python SDK for ONAP, used to create use cases;`link <https://gitlab.com/Orange-OpenSource/lfn/onap/python-onapsdk/-/tree/develop/src/onapsdk/cds>`__
-xtesting-onap;Repository in charge of the test section of the CD chains;`link <https://gitlab.com/Orange-OpenSource/lfn/onap/xtesting-onap/>`__
 integration-view;Repository integration hosting the itegration portal including the hosting of the web site;`link <https://gitlab.com/Orange-OpenSource/lfn/onap/integration-view>`__
