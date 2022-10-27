@@ -5,14 +5,14 @@
 
 :orphan:
 
-Jakarta Use Cases and Requirements
-==================================
+Kohn Use Cases and Requirements
+===============================
 
 Description
 -----------
 
 This session includes use cases and functional requirements which have been
-officially verified in Jakarta release by the ONAP community.
+officially verified in Kohn release by the ONAP community.
 
 For each use case or functional requirement, you can find contact names and a
 link to the associated documentation.

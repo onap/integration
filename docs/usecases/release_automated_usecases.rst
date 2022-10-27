@@ -8,7 +8,7 @@
 Automated Use Cases
 -------------------
 
-These use cases have been run on the Daily Jakarta CI chains and are used to
+These use cases have been run on the Daily CI chains and are used to
 validate the integration of any new dockers in OOM.
 New tests are indicated in **bold**.
 
