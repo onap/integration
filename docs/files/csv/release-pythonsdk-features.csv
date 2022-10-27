@@ -1,14 +1,2 @@
 Issue-ID;Description
-SDC-3949;Log exception stack trace on test failure
-TEST-384;[TEST] Change of the k8sregion name
-TEST-382;[TEST] Change of the namespace for basic_cnf_macro
-INT-2078;Use Python ONAP SDK 9.4.0
-TEST-354;[TEST] PNF macro nad CDS resource resoulution tests are failing on retry
-INT-2078;[PYTHON] Improve requirement versioning
-TEST-380;[TEST] Add cds resource resolution missing cleanup method call
-TEST-376;[TEST] Basic CNF macro
-TEST-356;[TEST] Do not create simulators in "onap" namespace
-TEST-369;[TEST] Fix cds-resource-resolution test
-TEST-368;[TEST] Do not show "No execution start time..." error log message for skipped substeps
-TEST-358;[TEST] Added support for multi-vnf macro instantiation
-INT-1994;[INTEGRATION] Use the newest onapsdk (9.0.0)
+INT-2119;Use 10.0.0 version of SDK in tests

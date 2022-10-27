@@ -1,0 +1,4 @@
+Repository;Description;Link
+integration/pipelines/chained-ci;Main pipelines project which holds configuration;`link <https://git.onap.org/integration/pipelines/chained-ci/>`__
+integration/pipelines/oom-automatic-installation;Definition of pipelines to instantiate ONAP;`link <https://git.onap.org/integration/pipelines/oom-automatic-installation/>`__
+integration/pipelines/xtesting-onap;Definition of pipelines to execute tests;`link <https://git.onap.org/integration/pipelines/xtesting-onap/>`__

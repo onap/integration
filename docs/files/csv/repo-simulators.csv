@@ -1,6 +1,6 @@
 Repository;Description;Link
-integration/simulators/A1-policy-enforcement-simulator;A1 Policy Enforcement Simulator;`link <https://git.onap.org/integration/simulators/A1-policy-enforcement-simulator>`__
 integration/simulators/5G-core-nf-simulator;5G core nf simulator;`link <https://git.onap.org/integration/simulators/5G-core-nf-simulator>`__
+integration/simulators/A1-policy-enforcement-simulator;A1 Policy Enforcement Simulator;`link <https://git.onap.org/integration/simulators/A1-policy-enforcement-simulator>`__
 integration/simulators/core-nssmf-simulator;Core NSSMF Simulator;`link <https://git.onap.org/integration/simulators/core-nssmf-simulator>`__
 integration/simulators/nf-simulator;NF simulator;`link <https://git.onap.org/integration/simulators/nf-simulator>`__
 integration/simulators/nf-simulator/avcn-manager;NF simulator avcn manager;`link <https://git.onap.org/integration/simulators/nf-simulator/avcn-manager>`__
@@ -8,5 +8,6 @@ integration/simulators/nf-simulator/netconf-server;NF simulator netconf server;`
 integration/simulators/nf-simulator/pm-https-server;NF simulator pm https server;`link <https://git.onap.org/integration/simulators/nf-simulator/pm-https-server>`__
 integration/simulators/nf-simulator/ves-client;NF simulator ves client;`link <https://git.onap.org/integration/simulators/nf-simulator/ves-client>`__
 integration/simulators/pnf-simulator;PNF Simulator;`link <https://git.onap.org/integration/simulators/pnf-simulator>`__
-integration/simulators/ran-simulator;RAN simulator;`link <https://git.onap.org/integration/simulators/ran-simulator>`__
+integration/simulators/ran-app;RAN App;`link <https://git.onap.org/integration/simulators/ran-app/>`__
 integration/simulators/ran-nssmf-simulator;RAN NSSMF simulator;`link <https://git.onap.org/integration/simulators/ran-nssmf-simulator>`__
+integration/simulators/ran-simulator;RAN simulator;`link <https://git.onap.org/integration/simulators/ran-simulator>`__
