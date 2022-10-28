@@ -46,6 +46,30 @@
       "revId": "f50af16f5af3476feadfba6569d0b881d62b55a4",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c747944_8bedba43",
+        "filename": "docs/docs_5G_oof_son.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 4405
+      },
+      "writtenOn": "2022-10-28T05:48:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a8a6f070_14f0a525",
+      "range": {
+        "startLine": 45,
+        "startChar": 1,
+        "endLine": 45,
+        "endChar": 6
+      },
+      "revId": "f50af16f5af3476feadfba6569d0b881d62b55a4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
