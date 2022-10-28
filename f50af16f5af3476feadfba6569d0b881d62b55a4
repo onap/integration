@@ -22,6 +22,30 @@
       "revId": "f50af16f5af3476feadfba6569d0b881d62b55a4",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8a6f070_14f0a525",
+        "filename": "docs/docs_5G_oof_son.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2022-10-28T05:33:08Z",
+      "side": 1,
+      "message": "well, I agree, the best will be if use case documentation won\u0027t be incremental (so there won\u0027t be any other releases description), but I think it\u0027s a task for use case responsible. So for the next release we can be more strict and don\u0027t allow people to merge changes. Right now if I delete everything before Kohn there is no right context and I don\u0027t feel responsible to fix all use cases doc",
+      "parentUuid": "13a11e2c_85cc352a",
+      "range": {
+        "startLine": 45,
+        "startChar": 1,
+        "endLine": 45,
+        "endChar": 6
+      },
+      "revId": "f50af16f5af3476feadfba6569d0b881d62b55a4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
