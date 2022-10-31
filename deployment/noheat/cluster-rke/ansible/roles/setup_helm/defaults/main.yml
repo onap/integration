@@ -1,5 +1,5 @@
 ---
-helm_version: "3.7.2"
+helm_version: "3.8.2"
 helm_cm_push_version: "0.10.3"
 chartmuseum_version: "0.15.0"
 chartmuseum_port: "8879"
