@@ -4,6 +4,13 @@
     name: istio
     repo_url: https://istio-release.storage.googleapis.com/charts
 
+- name: Create Istio config namespace
+  kubernetes.core.k8s:
+    name: istio-config
+    api_version: v1
+    kind: Namespace
+    state: present
+
 - name: Deploy Istio base chart
   kubernetes.core.helm:
     name: istio-base
@@ -19,6 +26,14 @@
     chart_ref: istio/istiod
     release_namespace: istio-system
     wait: true
+    release_values:
+      meshConfig:
+        rootNamespace: istio-config
+
+- name: Apply workaround for SDC case sensivity issue
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('file', 'envoyfilter-case.yml') | from_yaml }}"
 
 - name: Create Istio ingress gateway namespace
   kubernetes.core.k8s:
