@@ -598,40 +598,22 @@ Kohn Release Updates
 -----------------------
 In Kohn release, the following enhancements are implemented:
 
-- IBN driven E2E Network Slicing support, including integration of ML prediction MS with DCAE, enhancement to Slice Analysis MS to listen to real-time user intents posted by AAI using DCAE SDK dmaap-client lib and and report slice KPI to UUI.
-- KPI computation enhancements including new KPI added and new UUI dispaly design, KPI spanning multiple resources, error handling for missing counters.
-- xNF configuration data update to CPS via ONAP DMI Plugin for RAN slice allocation (CM notification completed, end-to-end implementation is work in progress).
-- Transport slicing enhancement including alignment of TN interface with latest IETF TN slice model.
+- IBN driven E2E Network Slicing support including enhancement to Slice Analysis MS to listen to real-time user intents posted by AAI using DCAE SDK dmaap-client lib and and report slice KPI to UUI.
+- KPI computation enhancements including new KPI added and new UUI display design, KPI spanning multiple resources, error handling for missing counters.
 - DCAE R11 global requirements contribution `(See the wikipage here) <https://wiki.onap.org/display/DW/R11+Global+requirements+Contribution>`_.
-- And some bug fixes and carry-over tests from Jakarta release.
+
+Kohn release also fixed a few critical bugs in Jakarta release.
 
 Impacted Modules for Kohn Release
 ------------------------------------
-- **SO**: Requirements below for Kohn release have impacts on SO component:
-     (1) TN interface with latest IETF TN slicing model
-     (2) Bug fixes of carryover test cases from Jakarta release
-
 - **DCAE**: Requirements below for Kohn release have impacts on DCAE component:
-     (1) Integration of ML prediction MS with DCAE
-     (2) Enhancement to Slice Analysis MS for intent listening and KPI reporting
-     (3) KPI computation enhancements
-     (4) DCAE R11 global requirements and bug fixes
-
-- **CCSDK/SDN-C**: Requirements below for Kohn release have impacts on CCSDK/SDN-C component
-     (1) xNF (RAN functions) configuration data update to CPS
-     (2) Bug fixes of carryover test cases from Jakarta release
+     (1) Enhancement to Slice Analysis MS
+     (2) KPI computation enhancements
+     (3) DCAE R11 global requirements and bug fixes
 
 - **UUI**: Requirements below for Kohn release have impacts on UUI component
-     (1) Slicing KPI monitoring and display for IBN driven slicing
+     (1) Slicing KPI monitoring and display for IBN driven network slicing
 
-Kohn Release - Functional Test Cases
+Kohn Release Functional Test Cases
 ---------------------------------------
 Details of the test cases can be found at: `E2E Network Slicing Tests for Kohn Release <https://wiki.onap.org/display/DW/E2E+Network+Slicing+Integration+Tests+for+Kohn+Release>`_ and its child wiki pages.
-
-Kohn Release - Operation Guidance
-------------------------------------
-The setup and operation details for E2E network slicing use case are available at `User Operation Guidance - Jakarta Release <https://wiki.onap.org/display/DW/User+Operation+Guidance+-+Jakarta+Release>`_.
-
-Kohn Release - Known issues and Solutions
---------------------------------------------
-Details of up to date manual configurations, known issues, solutions and work-arounds can be found in the following wiki page: `Jakarta Release - Issues and Solutions <https://wiki.onap.org/display/DW/Jakarta+Release+-+Issues+and+Solutions>`_.
