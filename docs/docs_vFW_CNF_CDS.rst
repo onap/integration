@@ -1865,7 +1865,7 @@ Future development areas for CNF support:
 Some of the features from the list above are covered by the Jakarta roadmap described in `REQ-890`_.
 
 
-.. _ONAP Deployment Guide: https://docs.onap.org/projects/onap-oom/en/latest/oom_quickstart_guide.html
+.. _ONAP Deployment Guide: https://docs.onap.org/projects/onap-oom/en/latest/sections/guides/deployment_guides/oom_deployment.html
 .. _CDS Documentation: https://docs.onap.org/projects/onap-ccsdk-cds/en/latest/
 .. _vLB use-case: https://wiki.onap.org/pages/viewpage.action?pageId=71838898
 .. _vFW_CNF_CDS Model: https://git.onap.org/demo/tree/heat/vFW_CNF_CDS/templates?h=guilin
@@ -1890,7 +1890,7 @@ Some of the features from the list above are covered by the Jakarta roadmap desc
 .. _REQ-458: https://jira.onap.org/browse/REQ-458
 .. _REQ-627: https://jira.onap.org/browse/REQ-627
 .. _REQ-890: https://jira.onap.org/browse/REQ-890
-.. _Python SDK: https://docs.onap.org/projects/onap-integration/en/latest/integration-tooling.html#python-onapsdk
+.. _Python SDK: https://docs.onap.org/projects/onap-integration/en/latest/integration-tooling.html#python-onap-sdk
 .. _KUD Jenkins ci/cd verification: https://jenkins.onap.org/job/multicloud-k8s-master-kud-deployment-verify-shell/
 .. _K8s cloud site config: https://docs.onap.org/en/latest/guides/onap-operator/cloud_site/k8s/index.html
 .. _SO Monitoring: https://docs.onap.org/projects/onap-so/en/latest/developer_info/Working_with_so_monitoring.html

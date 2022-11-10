@@ -79,8 +79,70 @@ A section like that is required in that override file
           openStackKeystoneVersion: "KEYSTONE_V3"
 
 The values that must be changed according to your lab are all "openStack******" parameters +  dcaeCollectorIp + nfsIpAddress
-To  know how to encrypt the openstack passwords, please look at the guide here:
-https://docs.onap.org/projects/onap-oom/en/latest/oom_quickstart_guide.html
+
+**Generating SO Encrypted Password:**
+
+The SO Encrypted Password uses a java based encryption utility since the
+Java encryption library is not easy to integrate with openssl/python that
+Robot uses in Dublin and upper versions.
+
+.. note::
+  To generate SO ``openStackEncryptedPasswordHere`` and ``openStackSoEncryptedPassword``
+  ensure `default-jdk` is installed::
+
+    apt-get update; apt-get install default-jdk
+
+  Then execute (on oom repository)::
+
+    SO_ENCRYPTION_KEY=`cat ~/oom/kubernetes/so/resources/config/mso/encryption.key`
+    OS_PASSWORD=XXXX_OS_CLEARTESTPASSWORD_XXXX
+
+    git clone http://gerrit.onap.org/r/integration
+    cd integration/deployment/heat/onap-rke/scripts
+
+    javac Crypto.java
+    java Crypto "$OS_PASSWORD" "$SO_ENCRYPTION_KEY"
+
+**Update the OpenStack parameters:**
+
+There are assumptions in the demonstration VNF Heat templates about the
+networking available in the environment. To get the most value out of these
+templates and the automation that can help confirm the setup is correct, please
+observe the following constraints.
+
+
+``openStackPublicNetId:``
+  This network should allow Heat templates to add interfaces.
+  This need not be an external network, floating IPs can be assigned to the
+  ports on the VMs that are created by the heat template but its important that
+  neutron allow ports to be created on them.
+
+``openStackPrivateNetCidr: "10.0.0.0/16"``
+  This ip address block is used to assign OA&M addresses on VNFs to allow ONAP
+  connectivity. The demonstration Heat templates assume that 10.0 prefix can be
+  used by the VNFs and the demonstration ip addressing plan embodied in the
+  preload template prevent conflicts when instantiating the various VNFs. If
+  you need to change this, you will need to modify the preload data in the
+  Robot Helm chart like integration_preload_parameters.py and the
+  demo/heat/preload_data in the Robot container. The size of the CIDR should
+  be sufficient for ONAP and the VMs you expect to create.
+
+``openStackOamNetworkCidrPrefix: "10.0"``
+  This ip prefix mush match the openStackPrivateNetCidr and is a helper
+  variable to some of the Robot scripts for demonstration. A production
+  deployment need not worry about this setting but for the demonstration VNFs
+  the ip asssignment strategy assumes 10.0 ip prefix.
+
+**Generating ROBOT Encrypted Password:**
+
+The Robot encrypted Password uses the same encryption.key as SO but an
+openssl algorithm that works with the python based Robot Framework.
+
+.. note::
+  To generate Robot ``openStackEncryptedPasswordHere`` call on oom respository::
+
+    cd so/resources/config/mso/
+    /oom/kubernetes/so/resources/config/mso# echo -n "<openstack tenant password>" | openssl aes-128-ecb -e -K `cat encryption.key` -nosalt | xxd -c 256 -p``
 
 Initialize the Customer and Owning entities
 ===========================================
