@@ -40,7 +40,7 @@ In order to prepare second instance of VES Collector please follow below procedu
 
 1. (Optional step) If VES Collector should obtaining X.509 certificates from CMPv2 server for secure xNF connections please follow below steps:
 
-   - Install `Cert Manager <https://docs.onap.org/projects/onap-oom/en/latest/oom_setup_paas.html#cert-manager>`_
+   - Install `Cert Manager <https://docs.onap.org/projects/onap-oom/en/latest/sections/guides/infra_guides/oom_base_config_setup.html#install-cert-manager>`_
    - Configure `Cert Service <https://docs.onap.org/projects/onap-oom-platform-cert-service/en/jakarta/sections/configuration.html>`_ if external CMP v2 server is in use.
 
 2. If usage of config maps from OOM containing schema files is required please follow procedure for

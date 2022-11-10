@@ -30,7 +30,7 @@ This tutorial covers enhancements 1 to 5 in Background of https://wiki.onap.org/
 Setting Up and Installation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Install OOM ONAP using the deploy script in the integration repo. Instructions for this can be found in this link https://docs.onap.org/projects/onap-oom/en/latest/oom_quickstart_guide.html. When the installation is complete (all the pods are either in running or completed state) Do the following;
+Install OOM ONAP using the deploy script in the integration repo. Instructions for this can be found in this link https://docs.onap.org/projects/onap-oom/en/latest/sections/guides/deployment_guides/oom_deployment.html. When the installation is complete (all the pods are either in running or completed state) Do the following;
 
 
 1. Check that all the required components were deployed;
