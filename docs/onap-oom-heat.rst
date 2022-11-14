@@ -24,10 +24,10 @@ must be adapted according to your context.
 Source files
 ~~~~~~~~~~~~
 
-- HEAT template files: https://git.onap.org/integration/tree/deployment/heat/onap-rke?h=guilin
-- Sample OpenStack RC file: https://git.onap.org/integration/tree/deployment/heat/onap-rke/env/windriver/Integration-SB-00-openrc?h=guilin
-- Sample environment file: https://git.onap.org/integration/tree/deployment/heat/onap-rke/env/windriver/onap-oom.env?h=guilin
-- Deployment script: https://git.onap.org/integration/tree/deployment/heat/onap-rke/scripts/deploy.sh?h=guilin
+- HEAT template files: https://git.onap.org/integration/tree/deployment/heat/onap-rke
+- Sample OpenStack RC file: https://git.onap.org/integration/tree/deployment/heat/onap-rke/env/windriver/Integration-SB-00-openrc
+- Sample environment file: https://git.onap.org/integration/tree/deployment/heat/onap-rke/env/windriver/onap-oom.env
+- Deployment script: https://git.onap.org/integration/tree/deployment/heat/onap-rke/scripts/deploy.sh
 
 
 Heat Template Description
@@ -35,7 +35,7 @@ Heat Template Description
 
 The ONAP Integration Project provides a sample HEAT template that
 fully automates the deployment of ONAP using OOM as described in
-OOM documentation, see :ref:`OOM <onap-oom:oom_quickstart_guide>` for details.
+OOM documentation.
 
 The ONAP OOM HEAT template deploys the entire ONAP platform.  It spins
 up an HA-enabled Kubernetes cluster, and deploys ONAP using OOM onto
