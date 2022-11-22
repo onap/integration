@@ -1,0 +1,6 @@
+pyopenssl
+kubernetes
+matplotlib
+jinja2
+docker
+xtesting
