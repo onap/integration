@@ -1,0 +1,2 @@
+recursive-include src/onaptests_bench/templates *
+recursive-include src/onaptests_bench/artifacts *

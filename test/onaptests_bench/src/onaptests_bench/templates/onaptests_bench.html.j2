@@ -1,0 +1,79 @@
+{% extends "base.html.j2" %}
+{% block title %}ONAPTEST Bench{% endblock %}
+
+{% block content %}
+<h1 class="title is-1">ONAPTEST Bench</h1>
+<section class="section">
+ <div class="container">
+ <h3 class="subtitle">{{ info.usecase_name }}</h3>
+
+ <div class="block">
+  <div class="box">
+      Number of tests: {{ info.nb_tests }} <br>
+      Global success rate: {{ info.global_success_rate }} % <br>
+      Number of simultaneous tests: {{ info.nb_simu_tests }} <br>
+      Test duration: {{ info.test_duration }} m <br>
+      Number of executed series: {{ info.nb_series }} <br>
+      Min duration: {{ info.min_duration}} <br>
+      Max duration: {{ info.max_duration}} <br>
+      Mean duration: {{ info.mean_duration}} <br>
+  </div>
+</div>
+
+<div class="columns">
+ <div class="column">
+ <figure class="image">
+   <img src="./rate_mygraph.png">
+ </figure>
+ </div>
+  <div class="column">
+  <figure class="image">
+    <img src="./bar_mygraph.png">
+  </figure>
+  </div>
+  <div class="column">
+  <figure class="image">
+    <img src="./mygraph.png">
+  </figure>
+  </div>
+  <div class="column">
+  <figure class="image">
+    <img src="./histo_mygraph.png">
+  </figure>
+  </div>
+</div>
+
+<table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+  <thead>
+    <tr>
+      <th><center>Serie</center></th>
+      <th><center>Success Rate</center></th>
+      <th><center>Min</center></th>
+      <th><center>Max</center></th>
+      <th><center>Mean</center></th>
+      <th><center>Median</center></th>
+    </tr>
+  </thead>
+
+  <tbody>
+
+  {% for serie in data %}
+  <tr {% if serie.success_rate >= 80 %} class="has-background-success-light" {%elif serie.success_rate > 0 %} class="has-background-warning-light"  {% else %} class="has-background-danger-light" {% endif %}>
+    <td><center>{{ serie.serie_id }}</center></td>
+    <td><center>{{ serie.success_rate }}%</center></td>
+    <td><center>{{ serie.min }}</center></td>
+    <td><center>{{ serie.max }}</center></td>
+    <td><center>{{ serie.mean }}</center></td>
+    <td><center>{{ serie.median }}</center></td>
+  <tr>
+  {% endfor %}
+  </tbody>
+  </table>
+
+</div>
+
+</section>
+
+{% endblock %}
+</div>
+</section>
