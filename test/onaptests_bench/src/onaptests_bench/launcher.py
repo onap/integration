@@ -70,8 +70,9 @@ DEFAULT_SIMU_TESTS = 5
 DEFAULT_TEST_DURATION = 180 # duration in minutes
 RESULT_PATH = "/tmp"
 ONAPTEST_BENCH_WAIT_TIMER = 40
-ONAPTESTS_SETTINGS = ("/usr/lib/python3.8/site-packages/onaptests" +
-                      "/configuration/settings.py")
+ONAPTESTS_PATH = "/usr/lib/python3.8/site-packages/onaptests"
+ONAPTESTS_SETTINGS = f"{ONAPTESTS_PATH}/configuration/settings.py"
+ONAPTESTS_SERVICE_DIR = f"{ONAPTESTS_PATH}/templates/vnf-services"
 
 CLUSTER_IP = "127.0.0.1"
 
@@ -179,7 +180,8 @@ def execute_test(serie_number, test_number,
                  f'{HOMEPATH}/.config/openstack/clouds.yaml':{'bind': '/root/.config/openstack/clouds.yaml', 'mode': 'rw'},  # pylint: disable=line-too-long
                  volume_reporting:{'bind':'/var/lib/xtesting/results', 'mode': 'rw'},
                  f'{HOMEPATH}/.kube/config':{'bind':'/root/.kube/config', 'mode': 'rw'},
-                 os.path.dirname(os.path.abspath(__file__)) + '/artifacts/settings.py':{'bind': ONAPTESTS_SETTINGS, 'mode': 'rw'}})  # pylint: disable=line-too-long
+                 os.path.dirname(os.path.abspath(__file__)) + '/artifacts/settings.py':{'bind': ONAPTESTS_SETTINGS, 'mode': 'rw'},  # pylint: disable=line-too-long
+                 f'/tmp/xtesting/smoke-usecases/{ARGS.test}/{ARGS.test}-service.yaml': {'bind': f'{ONAPTESTS_SERVICE_DIR}/{ARGS.test}-service.yaml', 'mode': 'rw'}})  # pylint: disable=line-too-long
 
     return this_container
 
