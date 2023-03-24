@@ -175,7 +175,7 @@ def execute_test(serie_number, test_number,
                      'sdnc-api.simpledemo.onap.org':onap_ip,
                      'sdc.workflow.plugin.simpledemo.onap.org':onap_ip,
                      'sdc.dcae.plugin.simpledemo.onap.org':onap_ip,
-                     'multicloud-k8s-api.simpledemo.onap.org':onap_ip}
+                     'multicloud-k8s-api.simpledemo.onap.org':onap_ip},
         volumes={'/tmp/xtesting/smoke-usecases/' + ARGS.test + '/env':{'bind': '/var/lib/xtesting/conf/env_file', 'mode': 'rw'},  # pylint: disable=line-too-long
                  f'{HOMEPATH}/.config/openstack/clouds.yaml':{'bind': '/root/.config/openstack/clouds.yaml', 'mode': 'rw'},  # pylint: disable=line-too-long
                  volume_reporting:{'bind':'/var/lib/xtesting/results', 'mode': 'rw'},
