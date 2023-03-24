@@ -43,9 +43,9 @@ B. Update and re-distribute the service template:
 
     2. Follow below mentioned procedure to update VSP and Service.
 
-        - `Update VF/PNF <https://docs.onap.org/en/latest/guides/onap-user/design/resource-onboarding/index.html#doc-guide-user-des-res-onb-upd-vsp>`_
+        - `Update VF/PNF <https://docs.onap.org/en/kohn/guides/onap-user/design/resource-onboarding/index.html#update-vfcs-in-a-vsp-optional>`_
 
-        - `Update Service <https://docs.onap.org/en/latest/guides/onap-user/design/service-design/index.html#update-service-optional>`_
+        - `Update Service <https://docs.onap.org/en/kohn/guides/onap-user/design/service-design/index.html#update-service-optional>`_
 
 
 C. Trigger PNF service level software upgrade with schema update:

@@ -15,7 +15,6 @@ Network Resource Model (NRM) configuration management allows service providers t
 Useful Links
 ============
 `5G NRM Configuration in R6 Wiki Page <https://wiki.onap.org/display/DW/5G+Network+Resource+Model+%28NRM%29+Configuration+in+R6+Frankfurt>`_
-`3GPP TS 28541 <https://www.3gpp.org/DynaReport/28541.htm>`_
 
 Current Status in Frankfurt
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~

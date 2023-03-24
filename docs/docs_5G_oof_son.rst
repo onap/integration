@@ -92,7 +92,7 @@ We have introduced a new paradigm in the Kohn release and taken steps to harmoni
 
 For more information, please see:
 
-- `5G-SON Kohn release wiki page <https://wiki.onap.org/display/DW/R11+5G+SON+use+case>`_.
+- `5G-SON Kohn release wiki page <https://wiki.onap.org/pages/viewpage.action?pageId=149029149>`_.
 
 - `5G-SON Jakarta release wiki page <https://wiki.onap.org/display/DW/R10+5G+SON+use+case>`_.
 
