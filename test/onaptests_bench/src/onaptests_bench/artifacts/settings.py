@@ -55,6 +55,7 @@ LOG_CONFIG = {
     }
 }
 CLEANUP_FLAG = False
+SDC_CLEANUP = False
 
 # SOCK_HTTP = "socks5h://127.0.0.1:8080"
 REPORTING_FILE_PATH = "/var/lib/xtesting/results/reporting.html"
