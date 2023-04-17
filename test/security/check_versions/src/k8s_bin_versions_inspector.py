@@ -3,6 +3,7 @@
 #   COPYRIGHT NOTICE STARTS HERE
 #
 #   Copyright 2020 Samsung Electronics Co., Ltd.
+#   Copyright 2023 Deutsche Telekom AG
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -114,6 +115,25 @@ def parse_argv(argv: Optional[List[str]] = None) -> argparse.Namespace:
     )
 
     parser.add_argument(
+        "-n",
+        "--namespace",
+        help="Namespace to use to list pods."
+            "If empty pods are going to be listed from all namespaces"
+    )
+
+    parser.add_argument(
+        "--check-istio-sidecar",
+        action="store_true",
+        help="Add if you want to check istio sidecars also"
+    )
+
+    parser.add_argument(
+        "--istio-sidecar-name",
+        default="istio-proxy",
+        help="Name of istio sidecar to filter out"
+    )
+
+    parser.add_argument(
         "-d",
         "--debug",
         action="store_true",
@@ -199,18 +219,29 @@ def is_container_running(
 def list_all_containers(
     api: kubernetes.client.api.core_v1_api.CoreV1Api,
     field_selector: str,
+    namespace: Union[None, str],
+    check_istio_sidecars: bool,
+    istio_sidecar_name: str
 ) -> Iterable[ContainerInfo]:
     """Get list of all containers names.
 
     Args:
         api: Client of the k8s cluster API.
         field_selector: Kubernetes field selector, to filter out containers objects.
+        namespace: Namespace to limit reading pods from
+        check_istio_sidecars: Flag to enable/disable istio sidecars check.
+            Default to False
+        istio_sidecar_name: If checking istio sidecars is disabled the name to filter
+            containers out
 
     Yields:
         Objects for all containers in k8s cluster.
     """
 
-    pods = api.list_pod_for_all_namespaces(field_selector=field_selector).items
+    if namespace:
+        pods = api.list_namespaced_pod(namespace, field_selector=field_selector).items
+    else:
+        pods = api.list_pod_for_all_namespaces(field_selector=field_selector).items
 
     containers_statuses = (
         (pod.metadata.namespace, pod.metadata.name, pod.status.container_statuses)
@@ -243,6 +274,9 @@ def list_all_containers(
         )
         for namespace, pod, container, running, image, identifier in containers_fields
     )
+
+    if not check_istio_sidecars:
+        container_items = filter(lambda container: container.container != istio_sidecar_name, container_items)
 
     yield from container_items
 
@@ -462,6 +496,9 @@ def gather_containers_informations(
     api: kubernetes.client.api.core_v1_api.CoreV1Api,
     field_selector: str,
     ignore_empty: bool,
+    namespace: Union[None, str],
+    check_istio_sidecars: bool,
+    istio_sidecar_name: str
 ) -> List[ContainerInfo]:
     """Get list of all containers names.
 
@@ -469,12 +506,18 @@ def gather_containers_informations(
         api: Client of the k8s cluster API.
         field_selector: Kubernetes field selector, to filter out containers objects.
         ignore_empty: Determines, if containers with empty versions should be ignored.
+        namespace: Namespace to limit reading pods from
+        check_istio_sidecars: Flag to enable/disable istio sidecars check.
+            Default to False
+        istio_sidecar_name: If checking istio sidecars is disabled the name to filter
+            containers out
 
     Returns:
         List of initialized objects for containers in k8s cluster.
     """
 
-    containers = list(list_all_containers(api, field_selector))
+    containers = list(list_all_containers(api, field_selector, namespace,
+                                          check_istio_sidecars, istio_sidecar_name))
 
     # TODO: This loop should be parallelized
     for container in containers:
@@ -685,7 +728,8 @@ def main(argv: Optional[List[str]] = None) -> str:
     api.api_client.configuration.debug = args.debug
 
     containers = gather_containers_informations(
-        api, args.field_selector, args.ignore_empty
+        api, args.field_selector, args.ignore_empty, args.namespace,
+        args.check_istio_sidecar, args.istio_sidecar_name
     )
 
     generate_and_handle_output(
