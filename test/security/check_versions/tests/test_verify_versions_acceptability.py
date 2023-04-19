@@ -7,7 +7,6 @@ import pathlib
 
 
 def exec_verify_versions_acceptability(containers):
-
     config = {
         "python": ["1.1.1", "2.2.2"],
         "java": ["3.3.3"],
@@ -23,7 +22,6 @@ def exec_verify_versions_acceptability(containers):
 
 
 def test_verify_versions_acceptability():
-
     containers = [
         kbvi.ContainerInfo("a", "b", "c", None, kbvi.ContainerVersions([], [])),
         kbvi.ContainerInfo(
@@ -37,7 +35,6 @@ def test_verify_versions_acceptability():
 
 
 def test_verify_versions_acceptability_neg_1():
-
     containers = [
         kbvi.ContainerInfo("a", "b", "c", None, kbvi.ContainerVersions(["3.3.3"], []))
     ]
@@ -48,7 +45,6 @@ def test_verify_versions_acceptability_neg_1():
 
 
 def test_verify_versions_acceptability_neg_2():
-
     containers = [
         kbvi.ContainerInfo("a", "b", "c", None, kbvi.ContainerVersions([], ["1.1.1"]))
     ]

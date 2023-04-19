@@ -7,9 +7,7 @@ import yaml
 
 
 def exec_main(pod_name_trimmer, acceptable_data):
-
     with tempfile.NamedTemporaryFile() as output_temp, tempfile.NamedTemporaryFile() as acceptable_temp:
-
         with open(acceptable_temp.name, "w") as stream:
             yaml.safe_dump(acceptable_data, stream)
 
@@ -61,7 +59,6 @@ def exec_main(pod_name_trimmer, acceptable_data):
 
 
 def test_main(pod_name_trimmer):
-
     acceptable_data = {
         "python": ["2.7.5", "3.6.6", "3.8.4"],
         "java": ["11.0.5", "11.0.8"],
@@ -73,7 +70,6 @@ def test_main(pod_name_trimmer):
 
 
 def test_main_neg(pod_name_trimmer):
-
     acceptable_data = {
         "python": ["3.6.6", "3.8.4"],
         "java": ["11.0.5", "11.0.8"],

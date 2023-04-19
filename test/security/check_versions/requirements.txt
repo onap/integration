@@ -1,0 +1,7 @@
+kubernetes
+jinja2
+xtesting
+tabulate
+cerberus
+packaging
+wget

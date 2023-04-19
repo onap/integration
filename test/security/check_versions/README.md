@@ -6,25 +6,12 @@ in the kubernetes cluster containers.
 
 ## Commands
 
-### Creating environment
-
-All development and testing process, should be done in prepared virtual machine,
-that is containing development environment for this project. Vagrant plugins,
-that are required to start virtual machine: `vagrant-libvirt`, `vagrant-reload`,
-`vagrant-sshfs`.
-
-```bash
-cd env
-vagrant up
-vagrant ssh
-```
-
 ### Install dependencies
 
 To install dependencies for normal usage of script, run this command.
 
 ```bash
-pip3 install -r env/requirements.txt
+pip3 install -r requirements.txt
 ```
 
 ### Code formatting

@@ -1,0 +1,21 @@
+[project]
+name = "check_versions"
+readme = "README.md"
+version = "1.0"
+requires-python = ">=3.7"
+dependencies = [
+    "kubernetes",
+    "jinja2",
+    "xtesting",
+    "tabulate",
+    "cerberus",
+    "packaging",
+    "wget"
+]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project.entry-points."xtesting.testcase"]
+versions = "versions.k8s_bin_versions_inspector_test_case:Inspector"

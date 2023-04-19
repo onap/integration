@@ -1,9 +1,0 @@
-cerberus
-dataclasses
-kubernetes
-pyyaml
-tabulate
-black
-pylint
-pytest
-

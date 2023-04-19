@@ -40,16 +40,25 @@ import argparse
 import dataclasses
 import itertools
 import json
+import logging
 import pathlib
 import pprint
 import re
 import string
 import sys
+from typing import Iterable, List, Optional, Pattern, Union
 import tabulate
 import yaml
 
-import cerberus
 import kubernetes
+
+RECOMMENDED_VERSIONS_FILE = "/tmp/recommended_versions.yaml"
+WAIVER_LIST_FILE = "/tmp/versions_xfail.txt"
+
+# Logger
+logging.basicConfig()
+LOGGER = logging.getLogger("onap-versions-status-inspector")
+LOGGER.setLevel("INFO")
 
 
 def parse_argv(argv: Optional[List[str]] = None) -> argparse.Namespace:
@@ -118,19 +127,19 @@ def parse_argv(argv: Optional[List[str]] = None) -> argparse.Namespace:
         "-n",
         "--namespace",
         help="Namespace to use to list pods."
-            "If empty pods are going to be listed from all namespaces"
+        "If empty pods are going to be listed from all namespaces",
     )
 
     parser.add_argument(
         "--check-istio-sidecar",
         action="store_true",
-        help="Add if you want to check istio sidecars also"
+        help="Add if you want to check istio sidecars also",
     )
 
     parser.add_argument(
         "--istio-sidecar-name",
         default="istio-proxy",
-        help="Name of istio sidecar to filter out"
+        help="Name of istio sidecar to filter out",
     )
 
     parser.add_argument(
@@ -145,6 +154,13 @@ def parse_argv(argv: Optional[List[str]] = None) -> argparse.Namespace:
         "--quiet",
         action="store_true",
         help="Suppress printing text on standard output.",
+    )
+
+    parser.add_argument(
+        "-w",
+        "--waiver",
+        type=pathlib.Path,
+        help="Path of the waiver xfail file.",
     )
 
     parser.add_argument(
@@ -221,7 +237,7 @@ def list_all_containers(
     field_selector: str,
     namespace: Union[None, str],
     check_istio_sidecars: bool,
-    istio_sidecar_name: str
+    istio_sidecar_name: str,
 ) -> Iterable[ContainerInfo]:
     """Get list of all containers names.
 
@@ -242,6 +258,13 @@ def list_all_containers(
         pods = api.list_namespaced_pod(namespace, field_selector=field_selector).items
     else:
         pods = api.list_pod_for_all_namespaces(field_selector=field_selector).items
+
+    # Filtering to avoid testing integration or replica pods
+    pods = [
+        pod
+        for pod in pods
+        if "replica" not in pod.metadata.name and "integration" not in pod.metadata.name
+    ]
 
     containers_statuses = (
         (pod.metadata.namespace, pod.metadata.name, pod.status.container_statuses)
@@ -276,7 +299,9 @@ def list_all_containers(
     )
 
     if not check_istio_sidecars:
-        container_items = filter(lambda container: container.container != istio_sidecar_name, container_items)
+        container_items = filter(
+            lambda container: container.container != istio_sidecar_name, container_items
+        )
 
     yield from container_items
 
@@ -303,8 +328,13 @@ def sync_post_namespaced_pod_exec(
                    or -2 if other failure occurred.
     """
 
+    stdout = ""
+    stderr = ""
+    error = {}
+    code = -1
+    LOGGER.debug("sync_post_namespaced_pod_exec container= %s", container.pod)
     try:
-        client = kubernetes.stream.stream(
+        client_stream = kubernetes.stream.stream(
             api.connect_post_namespaced_pod_exec,
             namespace=container.namespace,
             name=container.pod,
@@ -317,33 +347,13 @@ def sync_post_namespaced_pod_exec(
             _request_timeout=1.0,
             _preload_content=False,
         )
-    except (
-        kubernetes.client.rest.ApiException,
-        kubernetes.client.exceptions.ApiException,
-    ):
+        client_stream.run_forever(timeout=5)
+        stdout = client_stream.read_stdout()
+        stderr = client_stream.read_stderr()
+        error = yaml.safe_load(
+            client_stream.read_channel(kubernetes.stream.ws_client.ERROR_CHANNEL)
+        )
 
-        if container.extra.running:
-            raise
-
-        return {
-            "stdout": "",
-            "stderr": "",
-            "error": {},
-            "code": -1,
-        }
-
-    client.run_forever(timeout=5)
-
-    stdout = client.read_stdout()
-    stderr = client.read_stderr()
-    error = yaml.safe_load(
-        client.read_channel(kubernetes.stream.ws_client.ERROR_CHANNEL)
-    )
-
-    # TODO: Is there really no better way, to check
-    # execution exit code in python k8s API client?
-    code = -2
-    try:
         code = (
             0
             if error["status"] == "Success"
@@ -351,7 +361,13 @@ def sync_post_namespaced_pod_exec(
             if error["reason"] != "NonZeroExitCode"
             else int(error["details"]["causes"][0]["message"])
         )
-    except:
+    except (
+        kubernetes.client.rest.ApiException,
+        kubernetes.client.exceptions.ApiException,
+    ):
+        LOGGER.debug("Discard unexpected k8s client Error..")
+    except TypeError:
+        LOGGER.debug("Type Error, no error status")
         pass
 
     return {
@@ -498,7 +514,7 @@ def gather_containers_informations(
     ignore_empty: bool,
     namespace: Union[None, str],
     check_istio_sidecars: bool,
-    istio_sidecar_name: str
+    istio_sidecar_name: str,
 ) -> List[ContainerInfo]:
     """Get list of all containers names.
 
@@ -516,14 +532,20 @@ def gather_containers_informations(
         List of initialized objects for containers in k8s cluster.
     """
 
-    containers = list(list_all_containers(api, field_selector, namespace,
-                                          check_istio_sidecars, istio_sidecar_name))
+    containers = list(
+        list_all_containers(
+            api, field_selector, namespace, check_istio_sidecars, istio_sidecar_name
+        )
+    )
+    LOGGER.info("List of containers: %s", containers)
 
     # TODO: This loop should be parallelized
     for container in containers:
+        LOGGER.info("Container -----------------> %s", container)
         python_versions = determine_versions_of_python(api, container)
         java_versions = determine_versions_of_java(api, container)
         container.versions = ContainerVersions(python_versions, java_versions)
+        LOGGER.info("Container versions: %s", container.versions)
 
     if ignore_empty:
         containers = [c for c in containers if c.versions.python or c.versions.java]
@@ -635,14 +657,18 @@ def generate_and_handle_output(
         "pprint": generate_output_pprint,
         "json": generate_output_json,
     }
+    LOGGER.debug("output_generators: %s", output_generators)
 
     output = output_generators[output_format](containers)
 
     if output_file:
-        output_file.write_text(output)
+        try:
+            output_file.write_text(output)
+        except AttributeError:
+            LOGGER.error("Not possible to write_text")
 
     if not quiet:
-        print(output)
+        LOGGER.info(output)
 
 
 def verify_versions_acceptability(
@@ -662,38 +688,32 @@ def verify_versions_acceptability(
     if not acceptable:
         return 0
 
+    try:
+        acceptable.is_file()
+    except AttributeError:
+        LOGGER.error("No acceptable file found")
+        return -1
+
     if not acceptable.is_file():
         raise FileNotFoundError(
             "File with configuration for acceptable does not exists!"
         )
 
-    schema = {
-        "python": {"type": "list", "schema": {"type": "string"}},
-        "java": {"type": "list", "schema": {"type": "string"}},
-    }
-
-    validator = cerberus.Validator(schema)
-
     with open(acceptable) as stream:
         data = yaml.safe_load(stream)
 
-    if not validator.validate(data):
-        raise cerberus.SchemaError(
-            "Schema of file with configuration for acceptable is not valid."
-        )
-
-    python_acceptable = data.get("python", [])
-    java_acceptable = data.get("java", [])
+    python_acceptable = data.get("python3", [])
+    java_acceptable = data.get("java11", [])
 
     python_not_acceptable = [
-        (container, "python", version)
+        (container, "python3", version)
         for container in containers
         for version in container.versions.python
         if version not in python_acceptable
     ]
 
     java_not_acceptable = [
-        (container, "java", version)
+        (container, "java11", version)
         for container in containers
         for version in container.versions.java
         if version not in java_acceptable
@@ -705,7 +725,7 @@ def verify_versions_acceptability(
     if quiet:
         return 1
 
-    print("List of not acceptable versions")
+    LOGGER.error("List of not acceptable versions")
     pprint.pprint(python_not_acceptable)
     pprint.pprint(java_not_acceptable)
 
@@ -728,8 +748,12 @@ def main(argv: Optional[List[str]] = None) -> str:
     api.api_client.configuration.debug = args.debug
 
     containers = gather_containers_informations(
-        api, args.field_selector, args.ignore_empty, args.namespace,
-        args.check_istio_sidecar, args.istio_sidecar_name
+        api,
+        args.field_selector,
+        args.ignore_empty,
+        args.namespace,
+        args.check_istio_sidecar,
+        args.istio_sidecar_name,
     )
 
     generate_and_handle_output(
