@@ -84,7 +84,7 @@ class Inspector(testcase.TestCase):
 
         field_selector = "metadata.namespace==onap"
 
-        containers = gather_containers_informations(api, field_selector, True)
+        containers = gather_containers_informations(api, field_selector, True, None, False, "istio-proxy")
         LOGGER.info("gather_containers_informations")
         LOGGER.info(containers)
         LOGGER.info("---------------------------------")
