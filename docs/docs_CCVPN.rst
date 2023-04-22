@@ -7,6 +7,36 @@
 
 CCVPN (Cross Domain and Cross Layer VPN)
 ----------------------------------------
+Update for London Release
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The London release enhances the CCVPN use-case by introducing the Cloud-Network Convergence support (REQ-1413).
+CCVPN London release will add transport domain support for the Intent-based cloud-network convergence.
+
+London Scope and Impacted modules
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The standardized cloud resource management APIs are still under our investigation.
+In London, we will only support the registration of the Cloud Orchestrator to SNDC,
+whose mechanism is similar to the network controller registration.
+
+The impacted ONAP modules are CCSDK and SDN-C.
+
+Installation Procedure
+~~~~~~~~~~~~~~~~~~~~~~
+
+For London's new features, the integration test environment is similar to that of
+the Kohn release: an ONAP instance with London release interfacing with 3rd party
+cloud orchestrators should be established.
+
+Functional/Integration Test Cases
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The testing procedure is described in the following few test cases:
+- Register a 3rd party cloud orchestrator to SDNC through ESR APIs
+- Create and delete a single CLL instance that accesses a single cloud, and monitor if the closed-loop call flow is getting triggered.
+- Modify the bandwidth of a connection link of an existing CLL instance, and monitor if the closed-loop call flow is getting triggered.
+
 Update for kohn Release
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
