@@ -19,3 +19,6 @@ build-backend = "setuptools.build_meta"
 
 [project.entry-points."xtesting.testcase"]
 versions = "versions.k8s_bin_versions_inspector_test_case:Inspector"
+
+[tool.setuptools.package-data]
+versions = ["templates/*.j2"]

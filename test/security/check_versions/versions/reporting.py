@@ -244,7 +244,7 @@ class OnapVersionsReporting:
         # Create reporting page
         jinja_env = Environment(
             autoescape=select_autoescape(["html"]),
-            loader=PackageLoader("onap_check_versions"),
+            loader=PackageLoader("versions"),
         )
         page_info = {
             "title": "ONAP Integration versions reporting",
