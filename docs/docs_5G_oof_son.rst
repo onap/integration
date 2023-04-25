@@ -90,7 +90,18 @@ We have introduced a new paradigm in the Kohn release and taken steps to harmoni
 - We have major changes for RAN-Sim. There is a new A1-Termination module as well as a new RAN-App module. The RAN-App module abstracts the function of an xApp in the Near-RT RIC. RAN-App processes the A1 policy message payload and sends a message to the RAN-Sim controller to make configuration changes in the RAN NF (CU or DU) in the RAN-Sim.
 
 
+London Release
+~~~~~~~~~~~~~~~
+For the London release, we have converged on an architecture and workflow for generating and processing CM VES messages from the simulated RAN NFs, and updating the network configuration in the ONAP CPS DB which maintains a consistent copy of the network configuration. The solution is aligned with 3GPP/O-RAN and reusable for configuration management of other NFs using a yang-based configuration model.The following are the enhancements in the London release:
+- Define a CM Notification VES format aligned with the latest consensus in O-RAN, OSC, 3GPP
+  (e.g. O1 spec v08.00, 3GPP Rel 18 see OpenAPI/TS28532_ProvMnS.yaml · Rel-18 · SA5 – Management & Orchestration and Charging / Management and Orchestration APIs · GitLab (3gpp.org)ref thanks to Martin Skorupski )
+- Define an efficient, model-driven path to identify the MOI and attribute whose value has been changed (e.g. use notifyMOIAttributeValueChanges or notifyMOIChanges as appropriate)
+- Configuration Management (CM) update notification VES messages from RAN-Sim
+- Processing of CM update notifications to update CPS DB
+
 For more information, please see:
+
+- `5G-SON London release wiki page <https://wiki.onap.org/display/DW/R12+SON+Use+Case>`_.
 
 - `5G-SON Kohn release wiki page <https://wiki.onap.org/pages/viewpage.action?pageId=149029149>`_.
 
