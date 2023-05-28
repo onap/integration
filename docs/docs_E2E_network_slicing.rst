@@ -622,14 +622,10 @@ London Release Updates
 -----------------------
 The following enhancements are added to the London release:
 
-- The ML prediction MS is mainstreamed to DCAE
 - Support of 3GPP 28.532 based APIs for network slicing
 
 Impacted Modules for London Release
 ------------------------------------
-- **DCAE**: Requirements below for London release have impacts on DCAE component:
-     (1) Mainstreaming of ML prediction MS
-
 - **SO**: Requirements below for London release have impacts on SO component:
      (1) Enhancement to SO macro flow to support 3GPP 28.532 based APIs for network slicing
      (2) NSST selection APIs for integration with OOF
