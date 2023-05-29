@@ -1,16 +1,15 @@
+import collections
+import datetime
+import fcntl
+import json
+import os
 import random
 import string
 import time
-import datetime
-import sys
-import collections
-import json
-import tzlocal
-import os
-import fcntl
-import logging
-from locust import HttpLocust, TaskSet, task
 from decimal import Decimal
+
+import tzlocal
+from locust import HttpLocust, TaskSet, task
 
 
 class UserBehavior(TaskSet):
@@ -34,16 +33,16 @@ class UserBehavior(TaskSet):
 
     @task(1)
     def create_service(self):
-	# Post a E2E service instantiation request to SO
+        # Post a E2E service instantiation request to SO
         method = "POST"
         url = self.base
-	service_instance_name = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10))
-	data = self.service_creation_body % service_instance_name
+        service_instance_name = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10))
+        data = self.service_creation_body % service_instance_name
 
-	t1 = datetime.datetime.now(tzlocal.get_localzone())
+        t1 = datetime.datetime.now(tzlocal.get_localzone())
         response = self.client.request(method, url, headers=self.headers, data=data)
-	t2 = datetime.datetime.now(tzlocal.get_localzone())
-	delta = t2 - t1
+        t2 = datetime.datetime.now(tzlocal.get_localzone())
+        delta = t2 - t1
         data = collections.OrderedDict()
         data['datetime'] = datetime.datetime.now(tzlocal.get_localzone()).strftime("%Y-%m-%dT%H:%M:%S%Z")
         data['method'] = method
@@ -55,21 +54,21 @@ class UserBehavior(TaskSet):
         self.transaction_file.flush()
         os.fsync(self.transaction_file)
         fcntl.flock(self.transaction_file, fcntl.LOCK_UN)
-	serviceId = response.json()['service']['serviceId']
-	operationId = response.json()['service']['operationId']
+        serviceId = response.json()['service']['serviceId']
+        operationId = response.json()['service']['operationId']
 
-	# Get the request status
-	method = "GET"
-	url = self.base + "/" + serviceId + "/operations/" + operationId
-	url1 = "/ecomp/mso/infra/e2eServiceInstances/v3/{serviceId}/operations/{operationId}"
-	count = 1
-	while count < 50:
-	    tt1 = datetime.datetime.now()
-	    response = self.client.request(method, url, name=url1, headers=self.headers)
-	    tt2 = datetime.datetime.now()
+        # Get the request status
+        method = "GET"
+        url = self.base + "/" + serviceId + "/operations/" + operationId
+        url1 = "/ecomp/mso/infra/e2eServiceInstances/v3/{serviceId}/operations/{operationId}"
+        count = 1
+        while count < 50:
+            tt1 = datetime.datetime.now()
+            response = self.client.request(method, url, name=url1, headers=self.headers)
+            tt2 = datetime.datetime.now()
             delta = tt2 - tt1
-	    result = response.json()['operationStatus']['result']	    
-	    progress = response.json()['operationStatus']['progress']
+            result = response.json()['operationStatus']['result']            
+            progress = response.json()['operationStatus']['progress']
             data = collections.OrderedDict()
             data['datetime'] = datetime.datetime.now(tzlocal.get_localzone()).strftime("%Y-%m-%dT%H:%M:%S%Z")
             data['method'] = method
@@ -84,18 +83,18 @@ class UserBehavior(TaskSet):
             self.transaction_file.flush()
             os.fsync(self.transaction_file)
             fcntl.flock(self.transaction_file, fcntl.LOCK_UN)
-	    if result == "finished" or result == "error":
+            if result == "finished" or result == "error":
                 break
-	    else:
-		time.sleep(1)
-		count = count + 1
-	
+            else:
+                time.sleep(1)
+                count = count + 1
+        
         if result == "finished":
             result = "success"
         else:
             result = "failure"
-	t3 = datetime.datetime.now(tzlocal.get_localzone())
-	delta = t3 - t1
+        t3 = datetime.datetime.now(tzlocal.get_localzone())
+        delta = t3 - t1
         data = collections.OrderedDict()
         data['datetime'] = t1.strftime("%Y-%m-%dT%H:%M:%S%Z")
         data['operation'] = "volte_create"
@@ -107,16 +106,16 @@ class UserBehavior(TaskSet):
         os.fsync(self.operation_file)
         fcntl.flock(self.operation_file, fcntl.LOCK_UN)
 
-	self.delete_service(serviceId)
+        self.delete_service(serviceId)
 
     def delete_service(self, serviceId):
-	method = "DELETE"
- 	url = self.base + "/" + serviceId
-	data = "{\"globalSubscriberId\":\"Demonstration\", \"serviceType\":\"vIMS\"}" 	
-	t1 = datetime.datetime.now(tzlocal.get_localzone())
+        method = "DELETE"
+        url = self.base + "/" + serviceId
+        data = "{\"globalSubscriberId\":\"Demonstration\", \"serviceType\":\"vIMS\"}"         
+        t1 = datetime.datetime.now(tzlocal.get_localzone())
         response = self.client.request(method, url, name=self.base, headers=self.headers, data=data)
-	t2 = datetime.datetime.now(tzlocal.get_localzone())
-	delta = t2 - t1
+        t2 = datetime.datetime.now(tzlocal.get_localzone())
+        delta = t2 - t1
         data = collections.OrderedDict()
         data['datetime'] = datetime.datetime.now(tzlocal.get_localzone()).strftime("%Y-%m-%dT%H:%M:%S%Z")
         data['method'] = method
@@ -128,20 +127,20 @@ class UserBehavior(TaskSet):
         self.transaction_file.flush()
         os.fsync(self.transaction_file)
         fcntl.flock(self.transaction_file, fcntl.LOCK_UN)
-	operationId = response.json()['operationId']
+        operationId = response.json()['operationId']
 
-	# Get the request status
-	method = "GET"
-	url = self.base + "/" + serviceId + "/operations/" + operationId
-	url1 = "/ecomp/mso/infra/e2eServiceInstances/v3/{serviceId}/operations/{operationId}"
-	count = 1
-	while count < 50:
-	    tt1 = datetime.datetime.now(tzlocal.get_localzone())
-	    response = self.client.request(method, url, name=url1, headers=self.headers)
-	    tt2 = datetime.datetime.now(tzlocal.get_localzone())
+        # Get the request status
+        method = "GET"
+        url = self.base + "/" + serviceId + "/operations/" + operationId
+        url1 = "/ecomp/mso/infra/e2eServiceInstances/v3/{serviceId}/operations/{operationId}"
+        count = 1
+        while count < 50:
+            tt1 = datetime.datetime.now(tzlocal.get_localzone())
+            response = self.client.request(method, url, name=url1, headers=self.headers)
+            tt2 = datetime.datetime.now(tzlocal.get_localzone())
             delta = tt2 - tt1
-	    result = response.json()['operationStatus']['result']	    
-	    progress = response.json()['operationStatus']['progress']
+            result = response.json()['operationStatus']['result']            
+            progress = response.json()['operationStatus']['progress']
             data = collections.OrderedDict()
             data['datetime'] = datetime.datetime.now(tzlocal.get_localzone()).strftime("%Y-%m-%dT%H:%M:%S%Z")
             data['method'] = method
@@ -156,18 +155,18 @@ class UserBehavior(TaskSet):
             self.transaction_file.flush()
             os.fsync(self.transaction_file)
             fcntl.flock(self.transaction_file, fcntl.LOCK_UN)
-	    if result == "finished" or result == "error":
-		break
-	    else:
-		time.sleep(1)
-		count = count + 1
-	
+            if result == "finished" or result == "error":
+                break
+            else:
+                time.sleep(1)
+                count = count + 1
+        
         if result == "finished":
             result = "success"
         else:
             result = "failure"
-	t3 = datetime.datetime.now(tzlocal.get_localzone())
-	delta = t3 - t1
+        t3 = datetime.datetime.now(tzlocal.get_localzone())
+        delta = t3 - t1
         data = collections.OrderedDict()
         data['datetime'] = t1.strftime("%Y-%m-%dT%H:%M:%S%Z")
         data['operation'] = "volte_delete"
