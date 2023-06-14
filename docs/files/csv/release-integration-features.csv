@@ -1,5 +1,12 @@
 Issue-ID;Description
-INT-2070;Automate 5G Slicing use case in CI - Manual configuration step 7 - AAI Configuration
-INT-2164;Update Apache CNF Demo
-INT-2126;Data provider - add relationships into cloud region and tenant
-INT-2135;Add CPS resources into data-provider
+INT-2238;Python Code Updates: Integration (INT)
+INT-2224;RAN SIM Generates CM Update VES Event
+INT-2212;Fix ONAP SDK integration tests for k8s plugin
+INT-2206;Fix vfc-gvnfm-vnflcm-master Jenkins Job failing
+INT-2204;Fix vfc-nfvo-lcm-master-csit
+INT-2202;Fix vnfsdk-refrepo-master-csit-testsuites failing
+INT-2201;oom-platform-cert-service-master-csit-postprocessor jenkins job failing
+INT-2199;Dcaegen2 Jenkins jobs are failing
+INT-2188;Configure ONAP SDK pypi package distribution on release
+INT-2176;Update RANSim GUI to align with the ORAN changes
+INT-2165;Add bandit linter check into Python ONAP SDK

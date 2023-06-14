@@ -3,8 +3,8 @@
 .. This work is licensed under a Creative Commons Attribution 4.0
    International License. http://creativecommons.org/licenses/by/4.0
 
-Integration Kohn Release Notes
-==============================
+Integration London Release Notes
+================================
 
 .. csv-table:: Integration Releases
     :file: ./files/csv/release-integration-ref.csv
@@ -14,26 +14,25 @@ Integration Kohn Release Notes
 
 .. important::
 
-    - New repositories (see dedicated section)
     - Bug fixes
 
     Quick Links:
 
-      - `Kohn Integration page <https://wiki.onap.org/display/DW/Integration+Kohn>`_
-      - `Kohn Integration JIRA follow-up <https://wiki.onap.org/display/DW/Kohn+Integration+Blocking+points>`_
-      - `Kohn Integration weather Board <https://wiki.onap.org/display/DW/0%3A+Integration+Weather+Board+for+Kohn+Release>`_
+      - `London Integration page <https://wiki.onap.org/display/DW/Integration+London>`_
+      - `London Integration JIRA follow-up <https://wiki.onap.org/display/DW/London+Integration+Blocking+points>`_
+      - `London Integration weather Board <https://wiki.onap.org/display/DW/0%3A+Integration+Weather+Board+for+London+Release>`_
 
 Code changes
 ------------
 
 Integration Repo
-.................
+................
 
-:Release Date: 2022-10-27
+:Release Date: 2023-06-29
 
 
-Version: 11.0.0 (aka Kohn)
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+Version: 12.0.0 (aka London)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. csv-table:: Integration Changes
     :file: ./files/csv/release-integration-features.csv
@@ -98,7 +97,7 @@ The demo artifacts are pushed to https://nexus.onap.org/content/repositories/rel
 Use Cases and Requirements
 --------------------------
 
-See dedicated :ref:`Kohn Use Cases and requirements page <docs_usecases_release>`
+See dedicated :ref:`London Use Cases and requirements page <docs_usecases_release>`
 
 Maturity Testing Notes
 ----------------------
