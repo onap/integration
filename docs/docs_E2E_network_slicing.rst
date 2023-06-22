@@ -617,3 +617,22 @@ Impacted Modules for Kohn Release
 Kohn Release Functional Test Cases
 ---------------------------------------
 Details of the test cases can be found at: `E2E Network Slicing Tests for Kohn Release <https://wiki.onap.org/display/DW/E2E+Network+Slicing+Integration+Tests+for+Kohn+Release>`_ and its child wiki pages.
+
+London Release Updates
+-----------------------
+The following enhancements are added to the London release:
+
+- Support of 3GPP 28.532 based APIs for network slicing
+
+Impacted Modules for London Release
+------------------------------------
+- **SO**: Requirements below for London release have impacts on SO component:
+     (1) Enhancement to SO macro flow to support 3GPP 28.532 based APIs for network slicing
+     (2) NSST selection APIs for integration with OOF
+
+- **OOF**: Requirements below for Londond release have impacts on OOF component:
+     (1) NSST selection APIs for integration with SO
+
+London Release Test Cases
+--------------------------
+Details of the test cases can be found at: `E2E Network Slicing Tests for London Release <https://wiki.onap.org/display/DW/E2E+Network+Slicing+Integration+Testing+for+London+Release>`_.
