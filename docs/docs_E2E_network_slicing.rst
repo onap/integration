@@ -634,5 +634,5 @@ Impacted Modules for London Release
      (1) NSST selection APIs for integration with SO
 
 London Release Test Cases
----------------------------------------
+--------------------------
 Details of the test cases can be found at: `E2E Network Slicing Tests for London Release <https://wiki.onap.org/display/DW/E2E+Network+Slicing+Integration+Testing+for+London+Release>`_.
