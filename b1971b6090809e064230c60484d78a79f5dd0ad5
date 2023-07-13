@@ -1,4 +1,22 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c10b942_ce3a9999",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3171
+      },
+      "writtenOn": "2023-07-13T12:38:00Z",
+      "side": 1,
+      "message": "We will raise a revert request for this patch set and will create a patch request for London branch.",
+      "revId": "b1971b6090809e064230c60484d78a79f5dd0ad5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ],
   "submitRequirementResults": []
 }
