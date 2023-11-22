@@ -32,8 +32,9 @@ The different verification chains are defined in https://jenkins.onap.org/:
 - CSIT: https://jenkins.onap.org/view/CSIT/
 - testsuite: https://jenkins.onap.org/view/testsuite/
 - integration: https://jenkins.onap.org/view/integration/
-- integration-terragrunt: https://jenkins.onap.org/view/integration-terragrunt/
 - testsuite-robot-utils: https://jenkins.onap.org/view/testsuite-robot-utils/
+
+.. - integration-terragrunt: https://jenkins.onap.org/view/integration-terragrunt/
 
 The Jenkins jobs (jjb) are hosted in https://git.onap.org/ci-management/.
 
