@@ -16,6 +16,23 @@
       "message": "needs two other onap projects to create a montreal branch - blocked yet",
       "revId": "46e62e47b57ba241e75515851055a69b70737f5a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb891d12_f7447761",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 481
+      },
+      "writtenOn": "2023-11-30T17:36:28Z",
+      "side": 1,
+      "message": "recheck",
+      "revId": "46e62e47b57ba241e75515851055a69b70737f5a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
