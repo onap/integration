@@ -1,0 +1,6 @@
+distribution_type: 'container'
+container_release_tag: '1.0.0'
+project: 'integration'
+containers:
+    - name: 'k8s-toolbox'
+      version: 'latest'
