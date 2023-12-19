@@ -9,7 +9,7 @@ ARG HELM_URL="https://get.helm.sh/${HELM_ARCHIVE}"
 
 WORKDIR /root
 
-RUN apk add --no-cache git curl \
+RUN apk add --no-cache git curl bash \
     && curl -L $KUBECTL_URL -o /usr/local/bin/kubectl \
     && chmod +x /usr/local/bin/kubectl \
     && curl -L $HELM_URL -o $HELM_ARCHIVE \
