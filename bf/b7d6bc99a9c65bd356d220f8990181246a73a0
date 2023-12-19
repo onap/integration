@@ -1,0 +1,9 @@
+Verified+1: Thomas Kulik <thomas.kulik@telekom.de>
+Code-Review+2: Thomas Kulik <thomas.kulik@telekom.de>
+Verified+1: ONAP Required GHA <releng+onap.required.gha@linuxfoundation.org>
+Code-Review+2: Marek Szwa?kiewicz <marek.szwalkiewicz@external.t-mobile.pl>
+Submitted-by: Marek Szwa?kiewicz <marek.szwalkiewicz@external.t-mobile.pl>
+Submitted-at: Tue, 19 Dec 2023 10:53:59 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/integration/+/136633
+Project: integration
+Branch: refs/heads/montreal
