@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM ubuntu:jammy
 
 ARG KUBECTL_VERSION="v1.28.4"
 ARG KUBECTL_URL="https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl"
@@ -9,7 +9,7 @@ ARG HELM_URL="https://get.helm.sh/${HELM_ARCHIVE}"
 
 WORKDIR /root
 
-RUN apk add --no-cache git curl bash make \
+RUN apt-get update && apt-get install -y git curl make \
     && curl -L $KUBECTL_URL -o /usr/local/bin/kubectl \
     && chmod +x /usr/local/bin/kubectl \
     && curl -L $HELM_URL -o $HELM_ARCHIVE \
@@ -17,4 +17,4 @@ RUN apk add --no-cache git curl bash make \
     && mv linux-amd64/helm /usr/local/bin/helm \
     && rm -rf linux-amd64 $HELM_ARCHIVE
 
-CMD ["/bin/sh"]
+CMD ["/bin/bash"]
