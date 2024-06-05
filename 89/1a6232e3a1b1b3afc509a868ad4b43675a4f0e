@@ -1,0 +1,9 @@
+Code-Review+2: Andreas Geissler <andreas-geissler@telekom.de>
+Code-Review+2: Thomas Kulik <thomas.kulik@telekom.de>
+Verified+1: ONAP Required GHA <releng+onap.required.gha@linuxfoundation.org>
+Verified+1: Thomas Kulik <thomas.kulik@telekom.de>
+Submitted-by: Andreas Geissler <andreas-geissler@telekom.de>
+Submitted-at: Wed, 05 Jun 2024 14:28:17 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/integration/+/138137
+Project: integration
+Branch: refs/heads/newdelhi
