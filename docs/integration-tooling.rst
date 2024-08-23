@@ -200,7 +200,7 @@ The following information are available:
 It is possible to get results according to several criteria (version, case name,
 lab, period, last, CI id,..)
 See the `OPNFV test API documentation
-<https://docs.anuket.io/en/stable-lakelse/testing/ecosystem/overview.html#test-api-description>`_.
+<https://docs.anuket.io/en/latest/testing/ecosystem/overview.html#test-api-description>`_.
 
 Any company running ONAP Integration tests can be referenced to push their results
 to this database.
