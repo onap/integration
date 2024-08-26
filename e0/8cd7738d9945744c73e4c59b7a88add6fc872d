@@ -1,0 +1,10 @@
+Verified+1: Thomas Kulik <thomas.kulik@telekom.de>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+2: Thomas Kulik <thomas.kulik@telekom.de>
+Verified+1: ONAP Required GHA <releng+onap.required.gha@linuxfoundation.org>
+Code-Review+2: Marek Szwa?kiewicz <marek.szwalkiewicz@external.t-mobile.pl>
+Submitted-by: Thomas Kulik <thomas.kulik@telekom.de>
+Submitted-at: Mon, 26 Aug 2024 10:25:53 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/integration/+/138839
+Project: integration
+Branch: refs/heads/master
