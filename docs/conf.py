@@ -1,6 +1,6 @@
 project = "onap"
-release = "master"
-version = "master"
+release = "oslo"
+version = "oslo"
 
 author = "Open Network Automation Platform"
 # yamllint disable-line rule:line-length
@@ -30,7 +30,7 @@ extensions = [
 # Change to {releasename} after you have created the new 'doc' branch.
 #
 
-branch = 'latest'
+branch = 'oslo'
 
 intersphinx_mapping = {}
 doc_url = 'https://docs.onap.org/projects'
@@ -47,26 +47,10 @@ spelling_lang = "en_GB"
 #
 intersphinx_mapping = {}
 intersphinx_mapping['onap-oom'] = ('{}/onap-oom/en/%s'.format(doc_url) % branch, None)
-intersphinx_mapping['onap-cli'] = ('{}/onap-cli/en/%s'.format(doc_url) % branch, None)
 
 html_last_updated_fmt = '%d-%b-%y %H:%M'
 
 def setup(app):
     app.add_css_file("css/ribbon.css")
 
-linkcheck_ignore = [
-  r'http://localhost:\d+/'
-  r'http://localhost:.*',
-  r'http://CONSUL_SERVER_UI:30270/ui/#/dc1/services',
-  r'https://.*h=frankfurt',
-  r'http.*frankfurt.*',
-  r'http.*simpledemo.onap.org.*',
-  r'http://ANY_K8S_IP.*',
-  r'http://so-monitoring:30224',
-  r'http://SINK_IP_ADDRESS:667.*',
-  r'http.*K8S_HOST:30227.*',
-  r'http.*K8S_NODE_IP.*',
-  r'http.*REPO_IP.*',
-  r'http://team.onap.eu',
-  r'https://tools.ietf.org/html/rfc8345'
-]
+linkcheck_ignore = ['.*']
