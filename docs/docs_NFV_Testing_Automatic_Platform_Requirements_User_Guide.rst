@@ -117,13 +117,6 @@ VTP New features
    conformance tool in VTP, please refer `the guide <https://gerrit.onap.org/r/gitweb?p=vnfsdk/validation.git;a=blob;f=cnf-conformance/README.md;h=cda3dee762f4dd2873613341f60f6662880f006a;hb=refs/heads/master>`_
 5. New VTP API has been updated: see the `VTP API wiki page <https://wiki.onap.org/display/DW/VTP+REST+API+v1>`_
 
-CLI New features
-----------------
-
-1. Enabled auto discover and registration of products functionalities as commands
-2. Profile management commands are added
-3. For the VTP Command line usage, please refer :ref:`CLI User Guide <onap-cli:cli_user_guide>`
-
 Test Status and Plans
 =====================
 
