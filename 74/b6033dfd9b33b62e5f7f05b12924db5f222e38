@@ -1,0 +1,9 @@
+Verified+1: ONAP Bypass GHA <releng+onap.bypass.gha@linuxfoundation.org>
+Code-Review+2: Micha? Jagie??o <michal.jagiello@t-mobile.pl>
+Verified+1: ONAP Required GHA <releng+onap.required.gha@linuxfoundation.org>
+Verified+1: Micha? Jagie??o <michal.jagiello@t-mobile.pl>
+Submitted-by: Micha? Jagie??o <michal.jagiello@t-mobile.pl>
+Submitted-at: Mon, 21 Jul 2025 10:59:17 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/integration/+/141554
+Project: integration
+Branch: refs/heads/paris
