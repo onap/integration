@@ -269,9 +269,10 @@ def test_services(k8s_services, mode):
             LOGGER.error("Unknown error")
 
     # Create html summary
+    templates_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
     jinja_env = Environment(
         autoescape=select_autoescape(['html']),
-        loader=FileSystemLoader('./templates'))
+        loader=FileSystemLoader(templates_dir))
     if args.mode == 'nodeport':
         jinja_env.get_template('cert-nodeports.html.j2').stream(
             node_ports_list=node_ports_list,
