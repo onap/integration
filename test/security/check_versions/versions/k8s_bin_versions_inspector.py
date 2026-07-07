@@ -37,6 +37,7 @@ __copyright__ = "Copyright 2020 Samsung Electronics Co., Ltd."
 from typing import Iterable, List, Optional, Pattern, Union
 
 import argparse
+import concurrent.futures
 import dataclasses
 import itertools
 import json
@@ -439,13 +440,14 @@ def determine_versions_abstraction(
 
     commands = ([binary, "--version"] for binary in binaries)
     commands_old = ([binary, "-version"] for binary in binaries)
-    commands_all = itertools.chain(commands, commands_old)
+    commands_all = list(itertools.chain(commands, commands_old))
 
-    # TODO: This list comprehension should be parallelized
-    results = (
-        sync_post_namespaced_pod_exec(api, container, command)
-        for command in commands_all
-    )
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        futures = [
+            executor.submit(sync_post_namespaced_pod_exec, api, container, command)
+            for command in commands_all
+        ]
+        results = [future.result() for future in futures]
 
     successes = (
         f"{result['stdout']}{result['stderr']}"
@@ -539,13 +541,16 @@ def gather_containers_informations(
     )
     LOGGER.info("List of containers: %s", containers)
 
-    # TODO: This loop should be parallelized
-    for container in containers:
+    def _process_container(container):
         LOGGER.info("Container -----------------> %s", container)
         python_versions = determine_versions_of_python(api, container)
         java_versions = determine_versions_of_java(api, container)
         container.versions = ContainerVersions(python_versions, java_versions)
         LOGGER.info("Container versions: %s", container.versions)
+        return container
+
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        list(executor.map(_process_container, containers))
 
     if ignore_empty:
         containers = [c for c in containers if c.versions.python or c.versions.java]
