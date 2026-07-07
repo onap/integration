@@ -17,6 +17,7 @@
 """
 Generate result page
 """
+
 import logging
 import pathlib
 import json
