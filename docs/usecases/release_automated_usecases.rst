@@ -30,6 +30,10 @@ New tests are indicated in **bold**.
     :delim: ;
     :header-rows: 1
 
+The two Policy Framework smoke tests, ``basic_policy`` and ``basic_acm``, are
+described in detail in :ref:`Policy Framework End to End Tests
+<docs_policy_e2e>`.
+
 .. csv-table:: Security Tests
     :file: ../files/csv/tests-security.csv
     :widths: 20,40,20,20

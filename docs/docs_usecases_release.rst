@@ -29,6 +29,7 @@ This documentation deals with
 
    usecases/release_usecases.rst
    usecases/release_automated_usecases.rst
+   docs_policy_e2e.rst
    usecases/release_requirements.rst
    usecases/release_non_functional_requirements.rst
    usecases/deprecated_usecases.rst
