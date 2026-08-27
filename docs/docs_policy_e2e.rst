@@ -6,15 +6,21 @@
 Policy Framework End to End Tests
 ---------------------------------
 
-Two automated smoke tests exercise the ONAP Policy Framework end to end:
-``basic_policy`` and ``basic_acm``. Both are pythonsdk-tests scenarios and both
-are listed in the smoke test table of
+Three automated smoke tests exercise the ONAP Policy Framework end to end:
+``basic_policy``, ``basic_acm`` and ``basic_opa``. All three are pythonsdk-tests
+scenarios and all three are listed in the smoke test table of
 :ref:`Automated Use Cases <release_automated_usecases>`.
+
+They cover the two ways a policy reaches an enforcement point - an operator
+deploying it by hand and an automation composition doing it by delegation - and
+the two enforcement points that can then answer a decision request, XACML and
+Open Policy Agent.
 
 This page explains what an operator actually gets out of each test, which
 services each one drives, why they have to run inside the Kubernetes cluster,
 and what has to be true of the deployment before ``basic_acm`` can pass. No
-prior knowledge of Automation Composition Management (ACM) is assumed.
+prior knowledge of Automation Composition Management (ACM) or of Rego, the Open
+Policy Agent policy language, is assumed.
 
 The use cases
 ~~~~~~~~~~~~~
@@ -86,10 +92,42 @@ deployment
    Asking the participants to make the instance real. Ends in ``DEPLOYED``. For
    the Policy participant this is where the policy is created and deployed.
 
+``basic_opa``: the same question, answered by Open Policy Agent
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The Policy Framework has a second enforcement point: policy-opa-pdp embeds Open
+Policy Agent, so a rule can be written in Rego instead of XACML. The operational
+promise is the one from ``basic_policy`` - ask "may I?", get an answer with a
+reason - but the authoring model is different in a way that matters to the test.
+
+A native OPA policy carries two things: a **Rego module**, the rule itself, and a
+**data document**, the values the rule reads. Separating them is what makes the
+model useful: a threshold, a whitelist or a capacity limit can be changed by
+publishing new data, without touching the logic.
+
+The rule used here is a slicing admission check: *deny a slice request for a cell
+whose requested capacity crosses the limit*. The limit lives in the data document
+(70), and the Rego rule reads it from there rather than hard coding it. The test
+then asks two questions:
+
+* A request for 80, above the limit, must be **denied, with the reason the rule
+  builds from the data document** - ``Slicing capacity in cell crosses limit of
+  70``. That exact string is the assertion that carries the most information: the
+  number in it can only be there if the PDP loaded the data document, so a single
+  check covers both halves of the policy.
+* A request for 60 must be **permitted**, falling through to the policy's default
+  decision. Without it a rule that denies everything would pass the first check.
+
+The value added over ``basic_policy`` is not the loop - that is the same loop -
+but the enforcement point. Before this test the OPA PDP was covered only by its
+liveness probe and its registration with policy-pap: a regression in Rego
+evaluation, in loading the data document or in the shape of the decision response
+would have left every job green.
+
 Architecture
 ~~~~~~~~~~~~
 
-Both diagrams show a single test run and the direction of control. Numbers are
+Each diagram shows a single test run and the direction of control. Numbers are
 the order in which the test drives the calls.
 
 ``basic_policy``
@@ -148,6 +186,47 @@ until it is back in ``COMMISSIONED``. The order is undeploy, wait for
 ``UNDEPLOYED``, delete the instance, deprime, wait for ``COMMISSIONED``, delete
 the definition.
 
+``basic_opa``
+^^^^^^^^^^^^^
+
+The shape is ``basic_policy``'s, with two differences that both come from the OPA
+PDP being a separate component rather than another flavour of the same one: it
+listens on its own port, 8282, under its own base path ``/policy/pdpo/v1``, and it
+validates its own credentials rather than the Policy Framework's shared ones.
+
+.. mermaid::
+
+   flowchart LR
+       JOB["xtesting Kubernetes Job<br/>scenario basic_opa"]
+       API["policy-api<br/>authoring and storage"]
+       PAP["policy-pap<br/>deployment and PDP groups"]
+       PDP["policy-opa-pdp<br/>Open Policy Agent, port 8282"]
+       SEC[("Kubernetes secret<br/>onap-policy-opa-pdp-api-creds")]
+
+       JOB -->|"1. store Rego module plus data document, expect 201"| API
+       JOB -->|"2. deploy it to opaGroup"| PAP
+       PAP -.->|"3. distribute over Kafka"| PDP
+       JOB -->|"4. poll status until SUCCESS"| PAP
+       SEC -.->|"5. read the PDP credentials"| JOB
+       JOB -->|"6. decide on 80, expect Deny with the reason from the data"| PDP
+       JOB -->|"7. decide on 60, expect Permit"| PDP
+
+Two details of the payload are worth knowing before reading the fixture, because
+both fail silently rather than loudly:
+
+* The Rego module's ``package`` has to equal the policy name
+  (``onap.policy.test.opa``), and the data document is keyed
+  ``node.<policy name>``. policy-api turns the dotted policy name into the OPA
+  data path, so a mismatch leaves the rule unresolvable.
+* The decision request needs a non-empty ``policyFilter`` naming the rule to
+  evaluate. A filter that matches nothing still answers ``200``, with a
+  ``statusMessage`` listing the valid filters in place of the rule's value - so a
+  test that only inspects the decision content, and not whether the filtered key
+  is present at all, passes against a policy that was never evaluated.
+
+Teardown undeploys the policy through policy-pap and then deletes it through
+policy-api, so a rerun gets its ``201`` from a clean database.
+
 .. note::
    Neither diagram draws the databases. Both the ACM runtime and policy-pap
    persist their state (PostgreSQL or MariaDB, depending on the deployment), so
@@ -157,9 +236,10 @@ the definition.
 Services exercised
 ~~~~~~~~~~~~~~~~~~
 
-Every Policy service is ClusterIP only and listens on port 6969, so the
-addresses below are the only ones the tests can use. Substitute the real
-namespace for ``onap`` if the deployment uses a different one.
+Every Policy service is ClusterIP only, and all of them listen on port 6969
+except the OPA PDP, which listens on 8282, so the addresses below are the only
+ones the tests can use. Substitute the real namespace for ``onap`` if the
+deployment uses a different one.
 
 .. list-table::
    :widths: 22 26 12 40
@@ -171,24 +251,35 @@ namespace for ``onap`` if the deployment uses a different one.
      - What the test proves
    * - policy-api
      - ``http://policy-api.onap:6969``
-     - both
-     - A TOSCA XACML policy can be authored and stored. ``basic_policy`` calls
-       it directly and requires ``201``; a ``200`` would mean the policy was
-       left behind by an earlier run. In ``basic_acm`` the Policy participant
-       calls it on the test's behalf.
+     - all three
+     - A policy can be authored and stored, in two of the three TOSCA policy
+       types the framework supports natively: XACML for ``basic_policy`` and
+       ``onap.policies.native.opa`` for ``basic_opa``. Both call it directly and
+       require ``201``; a ``200`` would mean the policy was left behind by an
+       earlier run. In ``basic_acm`` the Policy participant calls it on the
+       test's behalf.
    * - policy-pap
      - ``http://policy-pap.onap:6969``
-     - both
+     - all three
      - A policy can be deployed to a PDP group, and the deployment converges:
        the status endpoint reaches ``SUCCESS`` rather than staying ``WAITING``
-       or reporting ``FAILURE``. This is also the assertion that closes
-       ``basic_acm``.
+       or reporting ``FAILURE``. ``basic_opa`` additionally shows that policy-pap
+       routes by policy type, reporting ``pdpType: opa`` for the group
+       ``opaGroup``. This is also the assertion that closes ``basic_acm``.
    * - policy-xacml-pdp
      - ``http://policy-xacml-pdp.onap:6969``
      - ``basic_policy``
      - The enforcement point received the policy and applies it. A matching
        request is permitted and carries the policy's advice; a non-matching one
        falls through to the default Deny and carries no advice.
+   * - policy-opa-pdp
+     - ``http://policy-opa-pdp.onap:8282``
+     - ``basic_opa``
+     - The Open Policy Agent enforcement point received both halves of the
+       policy and evaluates them: a request above the threshold is denied with
+       the reason the Rego rule composes from the data document, and one below it
+       falls through to the default Permit. Its base path is
+       ``/policy/pdpo/v1``.
    * - policy-clamp-runtime-acm
      - ``http://policy-clamp-runtime-acm.onap:6969``
      - ``basic_acm``
@@ -215,21 +306,33 @@ Why the tests run as an in-cluster Kubernetes Job
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Most smoke tests run in a Docker container on the jumphost and reach ONAP
-through ingress. These two cannot, for two independent reasons.
+through ingress. These three cannot, for two independent reasons.
 
 **The APIs are not exposed.** Every Policy service the tests call is ClusterIP
-only on port 6969, with no NodePort and no ingress host. The jumphost container
-defines no ``POLICY_*`` URL at all - its only policy adjacent setting points at
-the policy UI, not at the APIs. There is nothing to connect to from outside.
+only - port 6969, or 8282 for the OPA PDP - with no NodePort and no ingress host.
+The jumphost container defines no ``POLICY_*`` URL at all: its only policy
+adjacent setting points at the policy UI, not at the APIs. There is nothing to
+connect to from outside.
 
-**The ACM credential is generated per deployment.** The ACM runtime's
-application user password is generated at install time, so it cannot be baked
-into a settings module or an environment file the way a static demo credential
-can. It is stored in the Kubernetes secret ``onap-policy-app-user-creds``, keys
-``login`` and ``password``, and the test reads it through the Kubernetes API at
-the moment it needs it, then passes it per request. Nothing writes the value to
-a log or an artefact: the scenario logs every setting it holds, so the secret's
-*coordinates* are configuration but the secret's *value* never is.
+**Two of the credentials are generated per deployment.** The ACM runtime's
+application user password and the OPA PDP's REST server password are generated at
+install time, so they cannot be baked into a settings module or an environment
+file the way a static demo credential can. They live in the Kubernetes secrets
+``onap-policy-app-user-creds`` and ``onap-policy-opa-pdp-api-creds``, keys
+``login`` and ``password``, and each test reads the one it needs through the
+Kubernetes API at the moment it needs it, then passes it per request. Nothing
+writes the value to a log or an artefact: the scenarios log every setting they
+hold, so the secret's *coordinates* are configuration but the secret's *value*
+never is.
+
+.. note::
+   The OPA PDP's chart injects two credential pairs into the container,
+   ``API_USER``/``API_PASSWORD`` and
+   ``RESTSERVER_USER``/``RESTSERVER_PASSWORD``, but the component binds the basic
+   auth of its REST server to the first pair only. Authenticating a decision
+   request with the restserver credentials returns ``401``, which is why
+   ``basic_opa`` reads ``onap-policy-opa-pdp-api-creds`` and not the
+   similarly named restserver secret.
 
 Consequences worth knowing when reading or changing the job:
 
@@ -255,9 +358,9 @@ Kubernetes Job and waits for it:
      --extra-vars "run_type=basic_acm run_tiers=smoke-usecases \
      run_timeout=1800 incluster_settings=onaptests.configuration.basic_acm_settings"
 
-Substitute ``run_type=basic_policy`` and
-``incluster_settings=onaptests.configuration.basic_policy_settings`` for the
-other scenario.
+Substitute ``run_type=basic_policy`` or ``run_type=basic_opa``, with the matching
+``incluster_settings=onaptests.configuration.<run_type>_settings``, for the other
+scenarios.
 
 By hand, from a pod running the smoke test image in the ONAP namespace:
 
@@ -307,6 +410,18 @@ than on an exact JSON path, which is robust to key casing and to single versus
 array wrapping, but less precise than it could be. Tightening it requires a
 recorded response body from a real run.
 
-**Both jobs are non-blocking** in the smoke tier, in line with the rest of that
-tier: a flake is reported without turning the pipeline red. That should be
+**A native OPA policy only reaches the OPA PDP through** ``opaGroup``. The group
+name is compiled into policy-opa-pdp, so it is not configurable: deploying such a
+policy to any other group is accepted by policy-pap and then never enforced.
+``basic_opa`` uses ``opaGroup`` for that reason, which also means it shares no PDP
+group with the other two tests and can run beside them.
+
+**basic_opa evaluates one rule, not the OPA feature surface.** It covers the parts
+every native OPA policy depends on - authoring, distribution, data document
+loading, rule evaluation and the response contract. It does not cover Rego
+imports across policies, updating a live policy's data document in place, or the
+PDP's own data API.
+
+**All three jobs are non-blocking** in the smoke tier, in line with the rest of
+that tier: a flake is reported without turning the pipeline red. That should be
 tightened once a stability baseline exists.
