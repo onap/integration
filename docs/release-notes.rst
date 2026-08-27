@@ -98,7 +98,7 @@ The demo artifacts are pushed to https://nexus.onap.org/content/repositories/rel
 Use Cases and Requirements
 --------------------------
 
-See dedicated :ref:`Kohn Use Cases and requirements page <docs_usecases_release>`
+See dedicated :ref:`Use Cases and requirements page <docs_usecases_release>`
 
 Maturity Testing Notes
 ----------------------
