@@ -67,7 +67,7 @@ jobs:
       pull-requests: write  # comment on and close mirrored PRs
       issues: write  # manage PR/issue metadata during mirroring
     # yamllint disable-line rule:line-length
-    uses: lfreleng-actions/github2gerrit-action/.github/workflows/github2gerrit.yaml@bb821bec1b2846cd3ab51bac095495bcf9c9abc6  # v2.4.4
+    uses: lfreleng-actions/github2gerrit-action/.github/workflows/github2gerrit.yaml@b9d68f3d3630d5020f8b89daa95590f05a277403  # v2.4.8
     with:
       USE_PR_AS_COMMIT: true
       GERRIT_KNOWN_HOSTS: ${{ vars.GERRIT_KNOWN_HOSTS }}
